@@ -49,7 +49,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         updateAdapter(true);
 
-        String rankText = rankEnter.getText().toString();
+        String rankText = rankEnter.getText().toString().toUpperCase();
 
         Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, rankText);
         Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, rankText, !listRankName.contains(rankText));
@@ -102,7 +102,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String rankText = rankEnter.getText().toString();
+                String rankText = rankEnter.getText().toString().toUpperCase();
 
                 Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, rankText);
                 Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, rankText, !listRankName.contains(rankText));
@@ -118,7 +118,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
-                    String rankText = rankEnter.getText().toString();
+                    String rankText = rankEnter.getText().toString().toUpperCase();
                     if (!rankText.equals("") && !listRankName.contains(rankText)) {
                         onClick(rankAdd);
                     }
@@ -166,7 +166,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 ItemRank itemRank = new ItemRank(rankId, rankPs, rankNm);
 
                 listRank.add(rankPs, itemRank);
-                listRankName.add(rankPs, rankNm);
+                listRankName.add(rankPs, rankNm.toUpperCase());
 
                 adapterRank.updateAdapter(listRank);
 
@@ -200,7 +200,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         ItemRank itemRank = new ItemRank(rankId, rankPs, rankNm);
 
         listRank.add(rankPs, itemRank);
-        listRankName.add(rankPs, rankNm);
+        listRankName.add(rankPs, rankNm.toUpperCase());
 
         adapterRank.updateAdapter(listRank);
 
@@ -311,7 +311,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                                 noteDB.close();
 
                                 listRank.set(p, itemRank);
-                                listRankName.set(p, itemRank.getName());
+                                listRankName.set(p, itemRank.getName().toUpperCase());
 
                                 adapterRank.updateAdapter(p, itemRank);
                                 adapterRank.notifyItemChanged(p);
@@ -446,7 +446,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
             listRank.remove(oldPs);                             //Удаляем
             listRank.add(newPs, itemRank);                  //И устанавливаем на новое место
             listRankName.remove(oldPs);
-            listRankName.add(newPs, itemRank.getName());
+            listRankName.add(newPs, itemRank.getName().toUpperCase());
 
             adapterRank.updateAdapter(listRank);                //Обновление
             adapterRank.notifyItemMoved(oldPs, newPs);

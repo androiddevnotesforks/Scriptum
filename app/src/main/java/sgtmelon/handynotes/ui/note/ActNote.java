@@ -18,8 +18,6 @@ import sgtmelon.handynotes.model.item.ItemStatus;
 
 public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteClick {
 
-    //TODO: была ошибка при возврате данных после конвертации и автоматического сохранения
-
     //region Variables
     private NoteDB noteDB;
 

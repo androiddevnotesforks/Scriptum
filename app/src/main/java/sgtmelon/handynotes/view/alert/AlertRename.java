@@ -79,7 +79,7 @@ public class AlertRename extends AlertDialog.Builder implements TextWatcher, Tex
     public void afterTextChanged(Editable editable) {
         String newName = getRename();
 
-        if (newName.equals("") || listRankName.contains(newName)) {
+        if (newName.equals("") || listRankName.contains(newName.toUpperCase())) {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
         } else {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);

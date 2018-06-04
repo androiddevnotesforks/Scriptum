@@ -799,8 +799,6 @@ public class NoteDB extends SQLiteOpenHelper {
         return listRank;
     }
 
-    //TODO: привести к правильным типам
-
     private List<String> getRankVisible() {
         Log.i("NoteDB", "getRankVisible");
 
@@ -828,7 +826,7 @@ public class NoteDB extends SQLiteOpenHelper {
         List<String> listRankName = new ArrayList<>();
         for (int i = 0; i < cursor.getCount(); i++) {
             cursor.moveToPosition(i);
-            listRankName.add(cursor.getString(RK_NM));
+            listRankName.add(cursor.getString(RK_NM).toUpperCase());
         }
         cursor.close();
         return listRankName;
