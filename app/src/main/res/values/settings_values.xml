@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Settings values -->
+    <integer name="pref_default_color_create">10</integer>
+    <bool name="pref_default_pause_save">false</bool>
+    <bool name="pref_default_auto_save">false</bool>
+    <integer name="pref_default_auto_save_time">0</integer>
+
+    <integer-array name="pref_value_auto_save_time">
+        <item>60000</item>  <!-- 1 минута -->
+        <item>180000</item> <!-- 3 минуты -->
+        <item>420000</item> <!-- 7 минут -->
+    </integer-array>
+
+</resources>

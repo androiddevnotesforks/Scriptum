@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/inc_toolbar_note" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_frgRoll"
+        style="@style/RecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/layout_frgRoll_enter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View style="@style/Divider.Horizontal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:padding="@dimen/item_layout_small_indent">
+
+            <EditText
+                android:id="@+id/editText_frgRoll_enter"
+                style="@style/EditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/item_layout_small_indent"
+                android:layout_marginLeft="@dimen/item_layout_medium_indent"
+                android:layout_marginRight="@dimen/item_layout_small_indent"
+                android:layout_marginStart="@dimen/item_layout_medium_indent"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="@string/hint_enter_roll"
+                android:imeOptions="flagNoFullscreen"
+                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                android:maxLines="5"
+                android:textSize="@dimen/text_big_size" />
+
+            <ImageButton
+                android:id="@+id/iButton_frgRoll_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="@dimen/item_layout_small_indent"
+                android:layout_marginLeft="@dimen/item_layout_small_indent"
+                android:layout_marginRight="@dimen/item_layout_small_indent"
+                android:layout_marginStart="@dimen/item_layout_small_indent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/item_layout_medium_indent"
+                app:srcCompat="@drawable/ic_button_add" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

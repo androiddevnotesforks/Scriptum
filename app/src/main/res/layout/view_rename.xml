@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/item_layout_huge_indent"
+    android:paddingRight="@dimen/item_layout_huge_indent"
+    android:paddingTop="@dimen/item_layout_big_indent">
+
+    <EditText
+        android:id="@+id/editText_viewRename_enter"
+        style="@style/EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:hint="@string/hint_enter_rank_rename"
+        android:imeOptions="flagNoFullscreen|actionDone"
+        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+        android:maxLength="@integer/length_max_rank_name"
+        android:maxLines="1"
+        android:textSize="@dimen/text_big_size" />
+
+</LinearLayout>

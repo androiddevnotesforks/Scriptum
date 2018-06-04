@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Тема приложения, определение цветов -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorDarkSecond</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.AppBarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/colorDark</item>
+        <item name="android:textColorSecondary">@color/colorDark</item>
+        <item name="actionMenuTextColor">@color/colorDark</item>
+    </style>
+
+    <style name="AppTheme.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:textColorHint">@color/colorDarkSecond</item>
+    </style>
+
+    <style name="RecyclerView">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingBottom">@dimen/item_layout_main_indent</item>
+        <item name="android:paddingTop">@dimen/item_layout_main_indent</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="Divider">
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="Divider.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/item_layout_sub_indent</item>
+    </style>
+
+    <style name="Divider.Vertical">
+        <item name="android:layout_width">@dimen/item_layout_sub_indent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+</resources>

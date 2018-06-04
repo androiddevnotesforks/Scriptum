@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:elevation="@dimen/app_bar_no_elevation">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/AppTheme.AppBarTheme"
+        app:contentInsetEnd="@dimen/item_layout_medium_indent"
+        app:contentInsetLeft="@dimen/item_layout_medium_indent"
+        app:contentInsetRight="@dimen/item_layout_medium_indent"
+        app:contentInsetStart="@dimen/item_layout_medium_indent"
+        app:popupTheme="@style/AppTheme.AppBarTheme">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/editText_toolbarNote_name"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="@string/hint_enter_name"
+                android:imeOptions="actionNext|flagNoFullscreen"
+                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+                android:maxLength="@integer/length_max_note_name"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:textColor="@color/colorDark"
+                android:textColorHint="@color/colorDark" />
+
+            <HorizontalScrollView
+                android:id="@+id/hScrollView_toolbarNote_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tView_toolbarNote_name"
+                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/hint_view_name"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:textColor="@color/colorDark"
+                    android:textColorHint="@color/colorDark"
+                    android:textIsSelectable="true" />
+
+            </HorizontalScrollView>
+
+        </FrameLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <View style="@style/Divider.Horizontal" />
+
+</android.support.design.widget.AppBarLayout>

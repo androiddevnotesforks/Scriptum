@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    app:elevation="@dimen/app_bar_no_elevation">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/AppTheme.AppBarTheme"
+        app:popupTheme="@style/AppTheme.AppBarTheme">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/item_layout_main_indent"
+            android:background="?android:attr/listDivider">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/item_layout_sub_indent"
+                android:background="@color/colorPrimary">
+
+                <ImageButton
+                    android:id="@+id/iButton_toolbarRank_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/item_layout_small_indent"
+                    android:layout_marginLeft="@dimen/item_layout_small_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:layout_marginStart="@dimen/item_layout_small_indent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/item_layout_medium_indent"
+                    app:srcCompat="@drawable/ic_button_cancel" />
+
+                <EditText
+                    android:id="@+id/editText_toolbarRank_enter"
+                    style="@style/EditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/item_layout_medium_indent"
+                    android:layout_marginLeft="@dimen/item_layout_medium_indent"
+                    android:layout_marginRight="@dimen/item_layout_medium_indent"
+                    android:layout_marginStart="@dimen/item_layout_medium_indent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint_enter_rank_new"
+                    android:imeOptions="flagNoFullscreen|actionDone"
+                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+                    android:maxLength="@integer/length_max_rank_name"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_big_size" />
+
+                <ImageButton
+                    android:id="@+id/iButton_toolbarRank_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/item_layout_small_indent"
+                    android:layout_marginLeft="@dimen/item_layout_small_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:layout_marginStart="@dimen/item_layout_small_indent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/item_layout_medium_indent"
+                    app:srcCompat="@drawable/ic_menu_rank" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <View style="@style/Divider.Horizontal" />
+
+</android.support.design.widget.AppBarLayout>

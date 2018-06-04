@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/item_layout_main_indent"
+    android:background="?android:attr/listDivider">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/item_layout_sub_indent"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/checkBox_itemRoll_check"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:clickable="false" />
+
+            <ImageView
+                android:id="@+id/iView_itemRoll_click"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tView_itemRoll_text"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="32dp"
+            android:autoLink="all"
+            android:background="@color/colorWhite"
+            android:gravity="top"
+            android:linksClickable="true"
+            android:padding="@dimen/item_layout_medium_indent"
+            android:textIsSelectable="true"
+            android:textSize="@dimen/text_big_size" />
+
+    </LinearLayout>
+</FrameLayout>

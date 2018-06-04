@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
+
+    <include layout="@layout/inc_toolbar_note" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite"
+        android:fillViewport="true">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/editText_frgText_enter"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="@string/hint_enter_text"
+                android:imeOptions="flagNoFullscreen"
+                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                android:padding="@dimen/item_layout_medium_indent"
+                android:textSize="@dimen/text_big_size"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tView_frgText_text"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="@string/hint_enter_text"
+                android:padding="@dimen/item_layout_medium_indent"
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_big_size"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </ScrollView>
+
+</LinearLayout>

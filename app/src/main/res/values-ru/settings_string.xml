@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Settings -->
+
+    <!-- Sort -->
+    <string name="pref_header_sort">Сортировка</string>
+    <string name="pref_title_sort">Для заметок</string>
+    <string name="pref_summary_sort">Будет применяться по-умолчанию</string>
+    <string name="pref_summary_sort_start">По</string>
+
+    <string-array name="pref_text_sort">
+        <item>По дате и времени создания</item>
+        <item>По дате и времени изменения</item>
+        <item>По категориям</item>
+        <item>По цвету</item>
+    </string-array>
+
+    <!-- Note -->
+    <string name="pref_header_note">Заметки</string>
+
+    <string name="pref_title_color_create">Цвет заметки по-умолчанию</string>
+    <string name="pref_summary_color_create">Будет применяться по-умолчанию</string>
+
+    <string-array name="pref_text_color_create">
+        <item>Красный</item>
+        <item>Фиолетовый</item>
+        <item>Индиго</item>
+        <item>Синий</item>
+        <item>Бирюзовый</item>
+        <item>Зелёный</item>
+        <item>Желтый</item>
+        <item>Оранжевый</item>
+        <item>Коричневый</item>
+        <item>Сине-серый</item>
+        <item>Белый</item>
+    </string-array>
+
+    <string name="pref_title_pause_save">Сохранение при остановке приложения</string>
+    <string name="pref_summary_pause_save">При редактировании заметки</string>
+
+    <string name="pref_title_auto_save">Автоматическое сохранение</string>
+    <string name="pref_summary_auto_save">При редактировании заметки</string>
+
+    <string name="pref_title_auto_save_time">Период</string>
+    <string name="pref_summary_auto_save_time">Количество минут</string>
+
+    <string-array name="pref_text_save_time">
+        <item>1 минута</item>
+        <item>3 минуты</item>
+        <item>7 минут</item>
+    </string-array>
+
+    <!-- Other -->
+    <string name="pref_header_other">Прочее</string>
+
+    <string name="pref_title_about">О приложении</string>
+
+</resources>

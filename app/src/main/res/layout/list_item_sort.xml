@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/item_layout_main_indent"
+    android:background="?android:attr/listDivider">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/item_layout_sub_indent"
+        android:background="@color/noteWhite">
+
+        <LinearLayout
+            android:id="@+id/layout_itemSort_click"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/iView_itemSort_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/item_layout_small_indent"
+                android:layout_marginRight="@dimen/item_layout_small_indent"
+                android:tint="@color/colorDarkSecond"
+                app:srcCompat="@drawable/ic_info_braket_left" />
+
+            <TextView
+                android:id="@+id/tView_itemSort_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="@dimen/item_layout_big_indent"
+                android:layout_marginTop="@dimen/item_layout_big_indent"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="@string/test_item_sort_text"
+                android:textColor="@color/colorDark"
+                android:textSize="@dimen/text_medium_size" />
+
+            <ImageView
+                android:id="@+id/iView_itemSort_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/item_layout_small_indent"
+                android:layout_marginRight="@dimen/item_layout_small_indent"
+                android:tint="@color/colorDarkSecond"
+                app:srcCompat="@drawable/ic_info_braket_right" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+</FrameLayout>

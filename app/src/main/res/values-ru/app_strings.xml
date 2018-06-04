@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Удобные заметки</string>
+
+    <string name="title_frg_rank">Категории</string>
+    <string name="title_frg_notes">Заметки</string>
+    <string name="title_frg_bin">Корзина</string>
+    <string name="title_act_settings">Настройки</string>
+
+    <string name="info_rank_empty">Нет категорий</string>
+    <string name="info_notes_empty">Нет созданных заметок</string>
+    <string name="info_bin_empty">Нет удалённых заметок</string>
+
+
+    <!-- Name of menu items -->
+    <string name="menu_page_notes_settings">Настройки</string>
+    <string name="menu_page_bin_clear">Отчистить корзину</string>
+
+    <string name="menu_note_edit">Изменить</string>
+    <string name="menu_note_save">Сохранить</string>
+    <string name="menu_note_more">Ещё</string>
+
+    <string name="menu_note_check_all">Выполнить всё</string>
+    <string name="menu_note_check_zero">Снять выделения</string>
+    <string name="menu_note_status_bind">Закрепить в статус баре</string>
+    <string name="menu_note_status_unbind">Открепить от статус бара</string>
+    <string name="menu_note_convert_to_roll">Конвертировать в список</string>
+    <string name="menu_note_convert_to_text">Конвертировать в текст</string>
+    <string name="menu_note_delete">Удалить</string>
+
+    <string name="menu_note_rank">Категории</string>
+    <string name="menu_note_color">Цвет</string>
+
+    <string name="menu_note_restore">Восстановить</string>
+    <string name="menu_note_clear">Удалить навсегда</string>
+
+
+    <!-- Toast text -->
+    <string name="toast_note_save_done">Изменения сохранены</string>
+    <string name="toast_note_save_error">Изменения не сохранены</string>
+    <string name="toast_note_save_warning">Заметка пуста</string>
+
+
+    <!-- Name of channels -->
+    <string name="channel_status_bind">Прикрепление заметок</string>
+    <string name="group_status_bind">Заметкие</string>
+
+
+    <!-- Dialog -->
+
+    <!-- Dialog titles and text -->
+    <string name="dialog_title_clear_bin">Отчистить корзину</string>
+    <string name="dialog_text_clear_bin">Вы уверены что хотите безвозвратно удалить все не скрытые заметки из корзины?</string>
+
+    <string name="dialog_title_color">Цвет</string>
+    <string name="dialog_title_rank">Категории</string>
+
+    <string name="dialog_title_convert">Концвертировать</string>
+    <string name="dialog_roll_convert_to_text">Вы уверены что хотите конвертировать заметку? Все отметки в списке будут утеряны.</string>
+    <string name="dialog_text_convert_to_roll">Вы уверены что хотите конвертировать заметку? Все пустые строки будут удалены.</string>
+
+    <string name="dialog_title_sort">Порядок сортировки</string>
+    <string name="dialog_title_add_note">Создать заметку</string>
+
+    <!-- Dialog buttons -->
+    <string name="dialog_btn_accept">Применить</string>
+    <string name="dialog_btn_cancel">Отмена</string>
+    <string name="dialog_btn_reset">Сбросить</string>
+
+    <string name="dialog_btn_yes">Да</string>
+    <string name="dialog_btn_no">Нет</string>
+
+    <!-- Dialog menu buttons -->
+    <string name="dialog_menu_delete">Удалить</string>
+    <string name="dialog_menu_clear">Удалить навсегда</string>
+    <string name="dialog_menu_restore">Восстановить</string>
+    <string name="dialog_menu_copy">Копировать текст</string>
+    <string name="dialog_menu_check_all">Выполнить всё</string>
+    <string name="dialog_menu_check_zero">Снять выделения</string>
+    <string name="dialog_menu_status_bind">Закрепить в статус баре</string>
+    <string name="dialog_menu_status_unbind">Открепить от статус бара</string>
+    <string name="dialog_menu_convert_to_text">Конвертировать в текст</string>
+    <string name="dialog_menu_convert_to_roll">Конвертировать в список</string>
+
+    <string-array name="dialog_menu_add">
+        <item>Текст</item>
+        <item>Список</item>
+    </string-array>
+
+    <!-- About dialog -->
+    <string name="about_app_for">для Андроид</string>
+    <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>
+    <string name="about_app_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
+    <string name="about_app_used_libraries">Используемые библиотеки:</string>
+    <string name="about_app_version">Версия приложения: 1.0</string>
+
+
+    <!-- EditText hint -->
+    <string name="hint_enter_rank_new">Новая категория</string>
+    <string name="hint_enter_rank_rename">Новое имя для категории</string>
+    <string name="hint_enter_name">Название заметки</string>
+    <string name="hint_view_name">Без названия</string>
+    <string name="hint_enter_text">Ваш текст</string>
+    <string name="hint_enter_roll">Ваш пункт</string>
+
+
+    <!-- Items text -->
+    <!-- ItemRank -->
+    <string name="list_item_rank_text_count">Текстов:</string>
+    <string name="list_item_rank_roll_count">Списков:</string>
+    <string name="list_item_rank_roll_check">Выполнено:</string>
+
+</resources>

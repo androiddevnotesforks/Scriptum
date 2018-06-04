@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/item_layout_main_indent"
+    android:background="?android:attr/listDivider">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/item_layout_sub_indent"
+        android:background="@color/colorWhite"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/iButton_itemRoll_drag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:tint="@color/colorDark"
+                app:srcCompat="@drawable/ic_button_move" />
+
+        </FrameLayout>
+
+        <EditText
+            android:id="@+id/editText_itemRoll_enter"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:imeOptions="flagNoFullscreen"
+            android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+            android:padding="@dimen/item_layout_medium_indent"
+            android:textSize="@dimen/text_big_size" />
+
+    </LinearLayout>
+
+</FrameLayout>

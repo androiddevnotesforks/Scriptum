@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="item_layout_main_indent">2dp</dimen>
+    <dimen name="item_layout_sub_indent">0.7dp</dimen>
+
+    <dimen name="item_layout_small_indent">4dp</dimen>
+    <dimen name="item_layout_medium_indent">8dp</dimen>
+    <dimen name="item_layout_big_indent">16dp</dimen>
+    <dimen name="item_layout_huge_indent">24dp</dimen>
+
+    <dimen name="icon_small_size">16dp</dimen>
+    <dimen name="icon_medium_size">24dp</dimen>
+    <dimen name="icon_big_size">48dp</dimen>
+    <dimen name="icon_logo_size">128dp</dimen>
+
+    <dimen name="app_bar_no_elevation">0dp</dimen>
+    <dimen name="app_bar_elevation">4dp</dimen>
+
+    <integer name="alert_recycler_view_padding">24</integer>
+    <integer name="alert_color_column_count">4</integer>
+
+    <dimen name="text_small_size">14sp</dimen>
+    <dimen name="text_medium_size">16sp</dimen>
+    <dimen name="text_big_size">18sp</dimen>
+
+
+    <!-- Text length -->
+    <integer name="length_max_note_name">30</integer>
+    <integer name="length_max_rank_name">30</integer>
+    <integer name="length_max_search_text">50</integer>
+
+</resources>

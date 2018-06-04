@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="AlwaysShowAction">
+
+    <group
+        android:id="@+id/menu_note_grDelete"
+        android:visible="false">
+        <item
+            android:id="@+id/menu_note_restore"
+            android:icon="@drawable/ic_menu_restore"
+            android:title="@string/menu_note_restore"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/menu_note_delete_forever"
+            android:icon="@drawable/ic_menu_clear"
+            android:title="@string/menu_note_clear"
+            app:showAsAction="always" />
+    </group>
+
+    <group
+        android:id="@+id/menu_note_grEdit"
+        android:visible="false">
+        <item
+            android:id="@+id/menu_note_save"
+            android:title="@string/menu_note_save"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/menu_note_editMore"
+            android:icon="@drawable/ic_menu_more"
+            android:title="@string/menu_note_more"
+            app:showAsAction="always">
+            <menu>
+                <item
+                    android:id="@+id/menu_note_rank"
+                    android:icon="@drawable/ic_menu_rank"
+                    android:title="@string/menu_note_rank"
+                    app:showAsAction="always|withText" />
+                <item
+                    android:id="@+id/menu_note_color"
+                    android:icon="@drawable/ic_menu_palette"
+                    android:title="@string/menu_note_color"
+                    app:showAsAction="always|withText" />
+            </menu>
+        </item>
+    </group>
+
+    <group android:id="@+id/menu_note_grRead">
+        <item
+            android:id="@+id/menu_note_edit"
+            android:title="@string/menu_note_edit"
+            app:showAsAction="always" />
+
+        <item
+            android:id="@+id/menu_note_readMore"
+            android:icon="@drawable/ic_menu_more"
+            android:title="@string/menu_note_more"
+            app:showAsAction="always">
+            <menu>
+
+                <item
+                    android:id="@+id/menu_note_check"
+                    android:icon="@drawable/ic_menu_check"
+                    android:title="@string/menu_note_check_all"
+                    app:showAsAction="always|withText"/>
+
+                <item
+                    android:id="@+id/menu_note_status_bind"
+                    android:icon="@drawable/ic_menu_bind_roll"
+                    android:title="@string/menu_note_status_bind"
+                    app:showAsAction="always|withText"/>
+
+                <item
+                    android:id="@+id/menu_note_convert"
+                    android:icon="@drawable/ic_menu_convert"
+                    android:title="@string/menu_note_convert_to_roll"
+                    app:showAsAction="always|withText" />
+
+                <item
+                    android:id="@+id/menu_note_delete"
+                    android:icon="@drawable/ic_menu_bin"
+                    android:title="@string/menu_note_delete"
+                    app:showAsAction="always|withText" />
+            </menu>
+        </item>
+    </group>
+
+</menu>
