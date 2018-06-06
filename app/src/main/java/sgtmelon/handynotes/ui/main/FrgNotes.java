@@ -159,7 +159,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Intent intent = new Intent(context, ActNote.class);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.getRankVisible());
+        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.listRankManager.getVisible());
         intent.putExtra(NoteState.KEY_CREATE, false);
 
         startActivity(intent);
@@ -206,7 +206,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         if (!itemNote.isStatus()){
             itemNote.setStatus(true);
-            activity.listStatusManager.insertItem(itemNote, activity.frgRank.getRankVisible());
+            activity.listStatusManager.insertItem(itemNote, activity.frgRank.listRankManager.getVisible());
         } else {
             itemNote.setStatus(false);
             activity.listStatusManager.removeItem(itemNote);

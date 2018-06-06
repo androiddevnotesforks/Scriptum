@@ -12,29 +12,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRank;
 import sgtmelon.handynotes.interfaces.InfoPageReply;
 import sgtmelon.handynotes.model.item.ItemRank;
+import sgtmelon.handynotes.model.manager.ListRankManager;
 import sgtmelon.handynotes.model.state.DragState;
 import sgtmelon.handynotes.service.NoteDB;
-import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.service.InfoPageEmpty;
 import sgtmelon.handynotes.view.alert.AlertRename;
@@ -49,10 +43,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         updateAdapter(true);
 
-        String rankText = rankEnter.getText().toString().toUpperCase();
-
-        Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, rankText);
-        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, rankText, !listRankName.contains(rankText));
+        listRankManager.tintButton();
     }
 
     //region Variables
@@ -85,8 +76,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         return frgView;
     }
 
-    public EditText rankEnter;
-    private ImageButton rankCancel, rankAdd;
+    public ListRankManager listRankManager;
 
     private void setupToolbar() {
         Log.i("FrgRank", "setupToolbar");
@@ -94,55 +84,21 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_frg_rank));
 
-        final TextWatcher rankTextWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        ImageButton rankCancel = frgView.findViewById(R.id.iButton_toolbarRank_cancel);
+        ImageButton rankAdd = frgView.findViewById(R.id.iButton_toolbarRank_add);
+        EditText rankEnter = frgView.findViewById(R.id.editText_toolbarRank_enter);
 
-            }
+        listRankManager = new ListRankManager(context);
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String rankText = rankEnter.getText().toString().toUpperCase();
+        listRankManager.setOnClickListener(this);
+        listRankManager.setControl(rankCancel, rankAdd, rankEnter);
 
-                Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, rankText);
-                Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, rankText, !listRankName.contains(rankText));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        };
-
-        final TextView.OnEditorActionListener rankTextAction = new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    String rankText = rankEnter.getText().toString().toUpperCase();
-                    if (!rankText.equals("") && !listRankName.contains(rankText)) {
-                        onClick(rankAdd);
-                    }
-                    return true;
-                }
-                return false;
-            }
-        };
-
-        rankCancel = frgView.findViewById(R.id.iButton_toolbarRank_cancel);
-        rankEnter = frgView.findViewById(R.id.editText_toolbarRank_enter);
-        rankAdd = frgView.findViewById(R.id.iButton_toolbarRank_add);
+        rankEnter.addTextChangedListener(listRankManager);
+        rankEnter.setOnEditorActionListener(listRankManager);
 
         rankCancel.setOnClickListener(this);
-
-        rankEnter.addTextChangedListener(rankTextWatcher);
-        rankEnter.setOnEditorActionListener(rankTextAction);
-
         rankAdd.setOnClickListener(this);
         rankAdd.setOnLongClickListener(this);
-    }
-
-    public boolean needClearEnter() {
-        return rankEnter.isFocused() && !rankEnter.getText().toString().equals("");
     }
 
     @Override
@@ -151,26 +107,21 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         switch (view.getId()) {
             case R.id.iButton_toolbarRank_cancel:
-                rankEnter.setText("");
+                listRankManager.clearEnter();
                 break;
             case R.id.iButton_toolbarRank_add:
-                int rankPs = listRank.size();
-
-                String rankNm = rankEnter.getText().toString();
-                rankEnter.setText("");                                              //Сбрасываем поле ввода
+                int rankPs = listRankManager.size();
+                String rankNm = listRankManager.clearEnter();                           //Сбрасываем поле ввода
 
                 noteDB = new NoteDB(context);
-                int rankId = noteDB.insertRank(rankPs, rankNm);                                //Добавляем заметку (с позицией равной количеству элементов)
+                int rankId = noteDB.insertRank(rankPs, rankNm);                         //Добавляем заметку (с позицией равной количеству элементов)
                 noteDB.close();
 
                 ItemRank itemRank = new ItemRank(rankId, rankPs, rankNm);
+                listRankManager.add(rankPs, itemRank);
+                adapterRank.updateAdapter(listRankManager.getListRank());
 
-                listRank.add(rankPs, itemRank);
-                listRankName.add(rankPs, rankNm.toUpperCase());
-
-                adapterRank.updateAdapter(listRank);
-
-                if (listRank.size() == 1) infoPageEmpty.hide();
+                if (listRankManager.size() == 1) infoPageEmpty.hide();
                 else {
                     if (layoutManager.findLastVisibleItemPosition() == rankPs - 1) {    //Если видимая позиция равна позиции куда добавили заметку
                         recyclerView.scrollToPosition(rankPs);                          //Прокручиваем до края, незаметно
@@ -189,22 +140,18 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         Log.i("FrgRank", "onLongClick");
 
         int rankPs = 0;
-        String rankNm = rankEnter.getText().toString();
-        rankEnter.setText("");                                          //Сбрасываем поле ввода
+        String rankNm = listRankManager.clearEnter();                         //Сбрасываем поле ввода
 
         noteDB = new NoteDB(context);
-        int rankId = noteDB.insertRank(rankPs - 1, rankNm);                        //Добавляем заметку (с позицией -1)
-        noteDB.updateRank(rankPs);                                      //Затем обновляем позиции с самого начала
+        int rankId = noteDB.insertRank(rankPs - 1, rankNm);        //Добавляем заметку (с позицией -1)
+        noteDB.updateRank(rankPs);                                          //Затем обновляем позиции с самого начала
         noteDB.close();
 
         ItemRank itemRank = new ItemRank(rankId, rankPs, rankNm);
+        listRankManager.add(rankPs, itemRank);
+        adapterRank.updateAdapter(listRankManager.getListRank());
 
-        listRank.add(rankPs, itemRank);
-        listRankName.add(rankPs, rankNm.toUpperCase());
-
-        adapterRank.updateAdapter(listRank);
-
-        if (listRank.size() == 1) infoPageEmpty.hide();
+        if (listRankManager.size() == 1) infoPageEmpty.hide();
         else {
             if (layoutManager.findFirstVisibleItemPosition() == rankPs) {   //Если видимая позиция равна позиции куда добавили заметку
                 recyclerView.scrollToPosition(rankPs);                      //Прокручиваем до края, незаметно
@@ -223,9 +170,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     private LinearLayoutManager layoutManager;
 
     private AdapterRank adapterRank;
-
-    private List<ItemRank> listRank;
-    private List<String> listRankName;
     //endregion
 
     private void setupRecyclerView() {
@@ -236,7 +180,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                infoPageEmpty.setVisible(true, listRank.size());
+                infoPageEmpty.setVisible(true, listRankManager.size());
             }
         };
 
@@ -245,9 +189,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-
-        listRank = new ArrayList<>();
-        listRankName = new ArrayList<>();
 
         adapterRank = new AdapterRank(context);
         recyclerView.setAdapter(adapterRank);
@@ -262,14 +203,14 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         Log.i("FrgRank", "updateAdapter");
 
         noteDB = new NoteDB(context);
-        listRank = noteDB.getRank();
-        if (updateAll) listRankName = noteDB.getRankName();
+        listRankManager.setListRank(noteDB.getRank());
+        if (updateAll) listRankManager.setListRankName(noteDB.getRankName());
         noteDB.close();
 
-        adapterRank.updateAdapter(listRank);
+        adapterRank.updateAdapter(listRankManager.getListRank());
         adapterRank.notifyDataSetChanged();
 
-        infoPageEmpty.setVisible(false, listRank.size());
+        infoPageEmpty.setVisible(false, listRankManager.size());
     }
 
     @Override
@@ -281,13 +222,13 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     public void onItemClick(View view, final int p) {
         Log.i("FrgRank", "onItemClick");
 
-        final ItemRank itemRank = listRank.get(p);
+        final ItemRank itemRank = listRankManager.get(p);
 
         switch (view.getId()) {
             case R.id.iButton_itemRank_visible:
                 itemRank.setVisible(!itemRank.isVisible());
 
-                listRank.set(p, itemRank);
+                listRankManager.set(p, itemRank);
                 adapterRank.updateAdapter(p, itemRank);
 
                 noteDB = new NoteDB(context);
@@ -310,8 +251,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                                 noteDB.updateRank(itemRank.getId(), itemRank.getName());
                                 noteDB.close();
 
-                                listRank.set(p, itemRank);
-                                listRankName.set(p, itemRank.getName().toUpperCase());
+                                listRankManager.set(p, itemRank);
 
                                 adapterRank.updateAdapter(p, itemRank);
                                 adapterRank.notifyItemChanged(p);
@@ -330,20 +270,19 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 AlertDialog dialog = alert.create();
                 dialog.show();
 
-                alert.setTextChange(dialog, listRankName);
+                alert.setTextChange(dialog, listRankManager.getListRankName());
                 break;
             case R.id.iButton_itemRank_cancel:
                 itemRank.setVisible(true);                  //Чтобы отобразить заметки в статус баре, если были скрыты
 
                 noteDB = new NoteDB(context);
-                noteDB.deleteRank(listRank.get(p).getName());   //Удаляем категорию из БД
+                noteDB.deleteRank(listRankManager.get(p).getName());   //Удаляем категорию из БД
                 noteDB.updateRank(p);                           //Обновление позиций категорий
                 noteDB.close();
 
-                listRank.remove(p);                             //Убираем элемент из массива данных
-                listRankName.remove(p);
+                listRankManager.remove(p);
 
-                adapterRank.updateAdapter(listRank);            //Обновление
+                adapterRank.updateAdapter(listRankManager.getListRank());
                 adapterRank.notifyItemRemoved(p);
 
                 activity.listStatusManager.updateItemVisible(itemRank);
@@ -358,20 +297,22 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         Log.i("FrgRank", "onItemLongClick");
 
         boolean[] iconStartAnim = adapterRank.getIconStartAnim();
-        boolean clickVisible = listRank.get(p).isVisible();
+        boolean clickVisible = listRankManager.get(p).isVisible();
 
-        for (int i = 0; i < listRank.size(); i++) {
+        for (int i = 0; i < listRankManager.size(); i++) {
             if (i != p) {
-                ItemRank itemRank = listRank.get(i);
+                ItemRank itemRank = listRankManager.get(i);
                 boolean isVisible = itemRank.isVisible();
 
                 if (clickVisible == isVisible) {
                     iconStartAnim[i] = true;
                     itemRank.setVisible(!isVisible);
-                    listRank.set(i, itemRank);
+                    listRankManager.set(i, itemRank);
                 }
             }
         }
+
+        List<ItemRank> listRank = listRankManager.getListRank();
 
         adapterRank.updateAdapter(listRank, iconStartAnim);
         adapterRank.notifyDataSetChanged();
@@ -418,12 +359,12 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
             dragEndPs = viewHolder.getAdapterPosition();
             if (dragStartPs != dragEndPs) {
                 noteDB = new NoteDB(context);
-                noteDB.updateRank(dragStartPs, dragEndPs);  //Обновляем позиции категорий от начальной и до конечной
-                listRank = noteDB.getRank();                //И получаем обновлённый массив с категориями
+                noteDB.updateRank(dragStartPs, dragEndPs);      //Обновляем позиции категорий от начальной и до конечной
+                listRankManager.setListRank(noteDB.getRank());  //И получаем обновлённый массив с категориями
                 activity.listStatusManager = noteDB.getListStatusManager();
                 noteDB.close();
 
-                adapterRank.updateAdapter(listRank);
+                adapterRank.updateAdapter(listRankManager.getListRank());
                 adapterRank.notifyDataSetChanged();
 
                 activity.frgNotes.updateAdapter();
@@ -441,30 +382,13 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
             int oldPs = viewHolder.getAdapterPosition();        //Старая позиция (откуда взяли)
             int newPs = target.getAdapterPosition();            //Новая позиция (куда отпустили)
 
-            ItemRank itemRank = listRank.get(oldPs);
+            listRankManager.move(oldPs, newPs);
 
-            listRank.remove(oldPs);                             //Удаляем
-            listRank.add(newPs, itemRank);                  //И устанавливаем на новое место
-            listRankName.remove(oldPs);
-            listRankName.add(newPs, itemRank.getName().toUpperCase());
-
-            adapterRank.updateAdapter(listRank);                //Обновление
+            adapterRank.updateAdapter(listRankManager.getListRank());
             adapterRank.notifyItemMoved(oldPs, newPs);
 
             return true;
         }
     };
-
-    public String[] getRankVisible() {
-        Log.i("FrgRank", "getRankVisible");
-
-        String[] rankVs = new String[0];
-        for (ItemRank itemRank : listRank) {
-            if (itemRank.isVisible()) {
-                rankVs = Help.Array.addStrItem(rankVs, Integer.toString(itemRank.getId()));
-            }
-        }
-        return rankVs;
-    }
 
 }

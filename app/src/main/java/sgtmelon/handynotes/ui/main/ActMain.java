@@ -113,7 +113,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
 
                         intent.putExtra(NoteState.KEY_CREATE, true);
                         intent.putExtra(NoteDB.KEY_NT_TP, item == NoteDB.typeText ? NoteDB.typeText : NoteDB.typeRoll);
-                        intent.putExtra(NoteDB.KEY_RK_VS, frgRank.getRankVisible());
+                        intent.putExtra(NoteDB.KEY_RK_VS, frgRank.listRankManager.getVisible());
 
                         startActivity(intent);
                     }
@@ -161,7 +161,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         if (buttonCurrent != MenuMain.pageNotes) {
             switch (buttonCurrent) {
                 case MenuMain.pageRank:
-                    if (frgRank.needClearEnter()) frgRank.rankEnter.setText("");
+                    if (frgRank.listRankManager.needClearEnter()) frgRank.listRankManager.clearEnter();
                     else menuMain.setPage(MenuMain.pageNotes);
                     break;
                 default:

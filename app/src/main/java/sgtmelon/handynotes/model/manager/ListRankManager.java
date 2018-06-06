@@ -3,69 +3,116 @@ package sgtmelon.handynotes.model.manager;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.item.ItemRank;
+import sgtmelon.handynotes.service.Help;
 
-public class ListRankManager implements TextWatcher{
+public class ListRankManager implements TextWatcher, TextView.OnEditorActionListener {
 
     private Context context;
 
     private List<ItemRank> listRank;
     private List<String> listRankName;
 
-//    private final ImageButton rankCancel, rankAdd;
-
-    public ListRankManager(Context context, ImageButton rankCancel, ImageButton rankAdd) {
+    public ListRankManager(Context context) {
         this.context = context;
+    }
 
-        listRank = new ArrayList<>();
-        listRankName = new ArrayList<>();
+    private View.OnClickListener onClickListener;
 
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    private ImageButton rankCancel, rankAdd;
+    private EditText rankEnter;
+
+    public void setControl(ImageButton rankCancel, ImageButton rankAdd, EditText rankEnter) {
+        this.rankCancel = rankCancel;
+        this.rankAdd = rankAdd;
+        this.rankEnter = rankEnter;
+    }
+
+    public void tintButton() {
+        String rankText = rankEnter.getText().toString().toUpperCase();
+
+        Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, rankText);
+        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, rankText, !listRankName.contains(rankText));
+    }
+
+    public boolean needClearEnter() {
+        return rankEnter.isFocused() && !rankEnter.getText().toString().equals("");
+    }
+
+    public String clearEnter() {
+        String rankNm = rankEnter.getText().toString();
+        rankEnter.setText("");
+        return rankNm;
     }
 
     public List<ItemRank> getListRank() {
         return listRank;
     }
 
-    public ItemRank getListRank(int position){
-        return listRank.get(position);
-    }
-
     public void setListRank(List<ItemRank> listRank) {
         this.listRank = listRank;
-    }
-
-    public void setListRank(int position, ItemRank itemRank){
-        listRank.set(position, itemRank);
     }
 
     public List<String> getListRankName() {
         return listRankName;
     }
 
-    public String getListRankName(int position){
-        return listRankName.get(position);
-    }
-
     public void setListRankName(List<String> listRankName) {
         this.listRankName = listRankName;
     }
 
-    public void setListRankName(int position, String rankName){
-        listRankName.set(position, rankName);
+    public String[] getVisible() {
+        String[] rankVs = new String[0];
+        for (ItemRank itemRank : listRank) {
+            if (itemRank.isVisible()) {
+                rankVs = Help.Array.addStrItem(rankVs, Integer.toString(itemRank.getId()));
+            }
+        }
+        return rankVs;
     }
 
-    public void removeItem(int position){
+    public int size() {
+        return listRank.size();
+    }
+
+    public void add(int position, ItemRank itemRank) {
+        listRank.add(position, itemRank);
+        listRankName.add(position, itemRank.getName().toUpperCase());
+    }
+
+    public void remove(int position){
         listRank.remove(position);
         listRankName.remove(position);
     }
 
-    public int getSize(){
-        return listRank.size();
+    public ItemRank get(int position) {
+        return listRank.get(position);
+    }
+
+    public void set(int position, ItemRank itemRank) {
+        listRank.set(position, itemRank);
+        listRankName.set(position, itemRank.getName().toUpperCase());
+    }
+
+    public void move(int oldPosition, int newPosition){
+        ItemRank itemRank = listRank.get(oldPosition);
+
+        remove(oldPosition);
+        add(newPosition, itemRank);
     }
 
     @Override
@@ -75,11 +122,24 @@ public class ListRankManager implements TextWatcher{
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+        tintButton();
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
 
     }
+
+    @Override
+    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+        if (i == EditorInfo.IME_ACTION_DONE) {
+            String rankText = rankEnter.getText().toString().toUpperCase();
+            if (!rankText.equals("") && !listRankName.contains(rankText)) {
+                onClickListener.onClick(rankAdd);
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -201,7 +201,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Intent intent = new Intent(context, ActNote.class);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.getRankVisible());
+        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.listRankManager.getVisible());
         intent.putExtra(NoteState.KEY_CREATE, false);
 
         startActivity(intent);
