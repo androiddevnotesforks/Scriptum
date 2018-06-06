@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.model.state;
 
-public class NoteState {
+public class StateNote {
 
     public static final String KEY_CREATE = "KEY_CREATE";
 

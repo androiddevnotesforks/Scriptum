@@ -9,8 +9,8 @@ import android.util.Log;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.item.ItemNote;
-import sgtmelon.handynotes.model.state.NoteState;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.model.state.StateNote;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.service.PrefNoteSave;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
@@ -21,7 +21,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     //region Variables
     private NoteDB noteDB;
 
-    public NoteState noteState;
+    public StateNote stateNote;
     public PrefNoteSave prefNoteSave;
     public ItemStatus itemStatus;
 
@@ -41,7 +41,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
         super.onPause();
         Log.i("ActNote", "onPause");
 
-        prefNoteSave.onPauseSave(noteState.isEdit());
+        prefNoteSave.onPauseSave(stateNote.isEdit());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        noteState = new NoteState();
+        stateNote = new StateNote();
         prefNoteSave = new PrefNoteSave(this, pref);
 
         setupListItemNote();
@@ -66,14 +66,14 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            noteState.setCreate(bundle.getBoolean(NoteState.KEY_CREATE));
-            noteState.setEdit();
+            stateNote.setCreate(bundle.getBoolean(StateNote.KEY_CREATE));
+            stateNote.setEdit();
 
-            if (noteState.isCreate()) {
+            if (stateNote.isCreate()) {
                 itemNote = Help.Note.fillCreate(this, bundle.getInt(NoteDB.KEY_NT_TP));
             } else {
                 itemNote = new ItemNote(bundle);
-                noteState.setBin(itemNote.isBin());
+                stateNote.setBin(itemNote.isBin());
             }
             rankVisible = bundle.getStringArray(NoteDB.KEY_RK_VS);
         }
@@ -150,7 +150,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
         prefNoteSave.setNeedSave(false);
 
-        if (noteState.isEdit() && !noteState.isCreate()) {                  //Если это редактирование и не только что созданная заметка
+        if (stateNote.isEdit() && !stateNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             switch (itemNote.getType()) {
                 case NoteDB.typeText:
                     if (!frgText.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
@@ -180,7 +180,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                     }
                     break;
             }
-        } else if (noteState.isCreate()) {                 //Если только что создали заметку
+        } else if (stateNote.isCreate()) {                 //Если только что создали заметку
             switch (itemNote.getType()) {   //Если сохранение не выполнено, выход без сохранения
                 case NoteDB.typeText:
                     if (!frgText.onMenuSaveClick(true)) super.onBackPressed();

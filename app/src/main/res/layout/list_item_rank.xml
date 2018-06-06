@@ -21,7 +21,7 @@
             android:padding="@dimen/item_layout_medium_indent"
             android:weightSum="1">
 
-            <sgtmelon.handynotes.view.VisibleButton
+            <sgtmelon.handynotes.view.ButtonVisible
                 android:id="@+id/iButton_itemRank_visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

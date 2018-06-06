@@ -26,9 +26,9 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterNote;
 import sgtmelon.handynotes.model.item.ItemNote;
-import sgtmelon.handynotes.model.state.NoteState;
+import sgtmelon.handynotes.model.state.StateNote;
 import sgtmelon.handynotes.service.InfoPageEmpty;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
@@ -143,7 +143,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         noteDB.close();
 
         adapterNote.updateAdapter(listNote);
-        adapterNote.setListRollManager(activity.listRollManager);
+        adapterNote.setManagerRoll(activity.managerRoll);
 
         adapterNote.notifyDataSetChanged();
 
@@ -159,8 +159,8 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Intent intent = new Intent(context, ActNote.class);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.listRankManager.getVisible());
-        intent.putExtra(NoteState.KEY_CREATE, false);
+        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);
     }
@@ -186,16 +186,16 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         noteDB.updateNoteText(itemNote);
         noteDB.close();
 
-        activity.listRollManager.updateList(itemNote.getCreate(), rlCheck);
+        activity.managerRoll.updateList(itemNote.getCreate(), rlCheck);
 
         listNote.set(p, itemNote);
 
         adapterNote.updateAdapter(listNote);
-        adapterNote.setListRollManager(activity.listRollManager);
+        adapterNote.setManagerRoll(activity.managerRoll);
 
         adapterNote.notifyItemChanged(p);
 
-        activity.listStatusManager.updateItemBind(itemNote);
+        activity.managerStatus.updateItemBind(itemNote);
 
         activity.frgRank.updateAdapter(false);
     }
@@ -206,10 +206,10 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         if (!itemNote.isStatus()){
             itemNote.setStatus(true);
-            activity.listStatusManager.insertItem(itemNote, activity.frgRank.listRankManager.getVisible());
+            activity.managerStatus.insertItem(itemNote, activity.frgRank.managerRank.getVisible());
         } else {
             itemNote.setStatus(false);
-            activity.listStatusManager.removeItem(itemNote);
+            activity.managerStatus.removeItem(itemNote);
         }
 
         noteDB = new NoteDB(context);
@@ -240,7 +240,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
                 noteDB.updateNoteType(itemNote);     //Обновляем заметку (меняем тип и текст)
 
-                activity.listRollManager.insertList(itemNote.getCreate(), itemRollView);
+                activity.managerRoll.insertList(itemNote.getCreate(), itemRollView);
                 break;
             case NoteDB.typeRoll:
                 String rollToText = noteDB.getRollText(itemNote.getCreate());           //Получаем текст заметки
@@ -251,7 +251,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
                 noteDB.updateNoteType(itemNote);                                        //Обновляем заметку (меняем тип и текст)
                 noteDB.deleteRoll(itemNote.getCreate());                                //Удаляем пункты бывшего списка
 
-                activity.listRollManager.removeList(itemNote.getCreate());
+                activity.managerRoll.removeList(itemNote.getCreate());
                 break;
         }
         noteDB.close();
@@ -259,11 +259,11 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         listNote.set(p, itemNote);
 
         adapterNote.updateAdapter(listNote);
-        adapterNote.setListRollManager(activity.listRollManager);
+        adapterNote.setManagerRoll(activity.managerRoll);
 
         adapterNote.notifyItemChanged(p);
 
-        activity.listStatusManager.updateItemBind(itemNote);
+        activity.managerStatus.updateItemBind(itemNote);
 
         activity.frgRank.updateAdapter(false);
     }
@@ -283,7 +283,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapterNote.updateAdapter(listNote);
         adapterNote.notifyItemRemoved(p);
 
-        activity.listStatusManager.removeItem(itemNote);
+        activity.managerStatus.removeItem(itemNote);
 
         activity.frgBin.updateAdapter();
     }

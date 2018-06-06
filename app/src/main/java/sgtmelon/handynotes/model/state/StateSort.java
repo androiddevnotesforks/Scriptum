@@ -5,7 +5,7 @@ import java.util.List;
 import sgtmelon.handynotes.model.item.ItemSort;
 import sgtmelon.handynotes.service.Help;
 
-public class SortState {
+public class StateSort {
 
     private int end;
 

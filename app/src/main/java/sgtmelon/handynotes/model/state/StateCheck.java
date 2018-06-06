@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.model.state;
 
-public class CheckState {
+public class StateCheck {
 
     private boolean all;
 

@@ -27,9 +27,9 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterNote;
-import sgtmelon.handynotes.model.state.NoteState;
+import sgtmelon.handynotes.model.state.StateNote;
 import sgtmelon.handynotes.service.InfoPageEmpty;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
@@ -119,7 +119,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                                 noteDB.clearBin();
                                 noteDB.close();
 
-                                activity.listRollManager.removeList(listNote);
+                                activity.managerRoll.removeList(listNote);
                                 listNote.clear();
 
                                 adapterNote.updateAdapter(listNote);
@@ -184,7 +184,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         noteDB.close();
 
         adapterNote.updateAdapter(listNote);
-        adapterNote.setListRollManager(activity.listRollManager);
+        adapterNote.setManagerRoll(activity.managerRoll);
 
         adapterNote.notifyDataSetChanged();
 
@@ -201,8 +201,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Intent intent = new Intent(context, ActNote.class);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.listRankManager.getVisible());
-        intent.putExtra(NoteState.KEY_CREATE, false);
+        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);
     }
@@ -241,7 +241,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         noteDB.deleteNote(itemNote.getId());
         noteDB.close();
 
-        activity.listRollManager.removeList(itemNote.getCreate());
+        activity.managerRoll.removeList(itemNote.getCreate());
         listNote.remove(p);
 
         adapterNote.updateAdapter(listNote);

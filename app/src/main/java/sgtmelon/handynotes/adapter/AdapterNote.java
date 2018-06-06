@@ -18,10 +18,10 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
-import sgtmelon.handynotes.model.manager.ListRollManager;
+import sgtmelon.handynotes.model.manager.ManagerRoll;
 
 public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
 
@@ -56,10 +56,10 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         this.longClick = longClick;
     }
 
-    private ListRollManager listRollManager;
+    private ManagerRoll managerRoll;
 
-    public void setListRollManager(ListRollManager listRollManager) {
-        this.listRollManager = listRollManager;
+    public void setManagerRoll(ManagerRoll managerRoll) {
+        this.managerRoll = managerRoll;
     }
 
     public void updateAdapter(List<ItemNote> listNote) {
@@ -102,7 +102,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         holder.ntText.setText(itemNote.getText());
 
         if (itemNote.getType() == NoteDB.typeRoll) {
-            List<ItemRoll> listRoll = listRollManager.getListRoll(itemNote.getCreate());
+            List<ItemRoll> listRoll = managerRoll.getListRoll(itemNote.getCreate());
 
             int size = listRoll.size();
             for (int i = 0; i < size; i++) {

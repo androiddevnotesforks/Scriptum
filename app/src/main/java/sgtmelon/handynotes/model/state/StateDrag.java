@@ -2,7 +2,7 @@ package sgtmelon.handynotes.model.state;
 
 import sgtmelon.handynotes.interfaces.ItemClick;
 
-public class DragState implements ItemClick.Drag {
+public class StateDrag implements ItemClick.Drag {
 
     private boolean drag = false;
 

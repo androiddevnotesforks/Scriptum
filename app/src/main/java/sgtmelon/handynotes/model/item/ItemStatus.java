@@ -10,8 +10,8 @@ import android.support.v4.content.ContextCompat;
 import java.util.Arrays;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.model.state.NoteState;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.model.state.StateNote;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.ui.note.ActNote;
 
@@ -38,7 +38,7 @@ public class ItemStatus {
 
         intent = itemNote.fillIntent(intent);
         intent.putExtra(NoteDB.KEY_RK_VS, rkVisible);
-        intent.putExtra(NoteState.KEY_CREATE, false);
+        intent.putExtra(StateNote.KEY_CREATE, false);
 
         pendingIntent = PendingIntent.getActivity(context, itemNote.getId(), intent, 0);
 

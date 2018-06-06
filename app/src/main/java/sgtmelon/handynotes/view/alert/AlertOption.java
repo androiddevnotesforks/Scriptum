@@ -5,7 +5,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
 import sgtmelon.handynotes.model.item.ItemNote;

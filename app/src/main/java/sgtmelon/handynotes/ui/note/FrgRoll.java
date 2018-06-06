@@ -33,9 +33,9 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRoll;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
-import sgtmelon.handynotes.model.state.CheckState;
-import sgtmelon.handynotes.model.state.DragState;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.model.state.StateCheck;
+import sgtmelon.handynotes.model.state.StateDrag;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.service.menu.MenuNote;
 import sgtmelon.handynotes.interfaces.ItemClick;
@@ -70,7 +70,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         String rollText = rollEnter.getText().toString();
         Help.Icon.tintButton(context, rollAdd, R.drawable.ic_button_add, rollText);
 
-        if (!activity.noteState.isEdit()) updateAdapter();
+        if (!activity.stateNote.isEdit()) updateAdapter();
     }
 
     @Nullable
@@ -87,7 +87,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         setupRecyclerView();
         setupEnter();
 
-        onMenuEditClick(activity.noteState.isEdit());
+        onMenuEditClick(activity.stateNote.isEdit());
 
         return frgView;
     }
@@ -116,7 +116,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onClick(View view) {
         Log.i("FrgRoll", "onClick");
 
-        if (activity.noteState.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
+        if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
             noteDB = new NoteDB(context);
@@ -150,8 +150,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             }
 
             noteDB = new NoteDB(context);
-            if (activity.noteState.isCreate()) {
-                activity.noteState.setCreate(false);    //Теперь у нас заметка уже будет создана
+            if (activity.stateNote.isCreate()) {
+                activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
 
                 int noteId = noteDB.insertNote(itemNote);
                 itemNote.setId(noteId);             //Получаем её id
@@ -281,10 +281,10 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuEditClick(boolean editMode) {
         Log.i("FrgRoll", "onMenuEditClick: " + editMode);
 
-        activity.noteState.setEdit(editMode);
+        activity.stateNote.setEdit(editMode);
 
-        menuNote.setNavigationIcon(activity.noteState.isEdit(), activity.noteState.isCreate());
-        menuNote.setMenuGroupVisible(activity.noteState.isBin(), activity.noteState.isEdit(), !activity.noteState.isBin() && !activity.noteState.isEdit());
+        menuNote.setNavigationIcon(activity.stateNote.isEdit(), activity.stateNote.isCreate());
+        menuNote.setMenuGroupVisible(activity.stateNote.isBin(), activity.stateNote.isEdit(), !activity.stateNote.isBin() && !activity.stateNote.isEdit());
 
         nameEnter.setText(itemNote.getName());          //Установка имени
         nameView.setText(itemNote.getName());
@@ -315,7 +315,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
         noteDB = new NoteDB(context);
-        if (checkState.isAll()) {
+        if (stateCheck.isAll()) {
             itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
             noteDB.updateRoll(itemNote.getCreate(), NoteDB.checkFalse);
@@ -373,8 +373,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     //region RecyclerView Variable
-    private DragState dragState;
-    private CheckState checkState;
+    private StateDrag stateDrag;
+    private StateCheck stateCheck;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -386,8 +386,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void setupRecyclerView() {
         Log.i("FrgRoll", "setupRecyclerView");
 
-        dragState = new DragState();
-        checkState = new CheckState();
+        stateDrag = new StateDrag();
+        stateCheck = new StateCheck();
 
         recyclerView = frgView.findViewById(R.id.recyclerView_frgRoll);
 
@@ -396,9 +396,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         listRoll = new ArrayList<>();
 
-        adapterRoll = new AdapterRoll(context, activity.noteState.isBin(), activity.noteState.isEdit());
+        adapterRoll = new AdapterRoll(context, activity.stateNote.isBin(), activity.stateNote.isEdit());
         recyclerView.setAdapter(adapterRoll);
-        adapterRoll.setCallback(this, dragState, this);
+        adapterRoll.setCallback(this, stateDrag, this);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -411,8 +411,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         listRoll = noteDB.getRoll(itemNote.getCreate());
         noteDB.close();
 
-        checkState.setAll(Help.Note.isAllCheck(listRoll));
-        menuNote.setCheckTitle(checkState.isAll());
+        stateCheck.setAll(Help.Note.isAllCheck(listRoll));
+        menuNote.setCheckTitle(stateCheck.isAll());
 
         adapterRoll.updateAdapter(listRoll);
         adapterRoll.notifyDataSetChanged();
@@ -428,8 +428,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         int checkValue = Help.Note.getCheckValue(listRoll);
 
-        if (checkState.setAll(checkValue, listRoll.size())) {
-            menuNote.setCheckTitle(checkState.isAll());
+        if (stateCheck.setAll(checkValue, listRoll.size())) {
+            menuNote.setCheckTitle(stateCheck.isAll());
         }
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
@@ -466,8 +466,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             int flagsDrag = 0;
             int flagsSwipe = 0;
 
-            if (activity.noteState.isEdit()) {
-                if (dragState.isDrag()) flagsDrag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            if (activity.stateNote.isEdit()) {
+                if (stateDrag.isDrag()) flagsDrag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
                 flagsSwipe = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
             }
             return makeMovementFlags(flagsDrag, flagsSwipe);

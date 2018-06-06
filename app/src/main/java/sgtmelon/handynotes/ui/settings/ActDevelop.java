@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 
 public class ActDevelop extends AppCompatActivity {

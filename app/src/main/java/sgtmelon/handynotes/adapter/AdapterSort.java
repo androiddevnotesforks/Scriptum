@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.model.state.SortState;
+import sgtmelon.handynotes.model.state.StateSort;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.model.item.ItemSort;
 
@@ -25,7 +25,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
     private final LayoutInflater inflater;
 
     private final List<ItemSort> listSort;
-    public final SortState sortState;
+    public final StateSort stateSort;
 
     @ColorInt
     private final int colorDark, colorDarkSecond;
@@ -35,7 +35,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
         this.inflater = LayoutInflater.from(context);
 
         listSort = new ArrayList<>();
-        sortState = new SortState();
+        stateSort = new StateSort();
 
         colorDark = ContextCompat.getColor(context, R.color.colorDark);
         colorDarkSecond = ContextCompat.getColor(context, R.color.colorDarkSecond);
@@ -51,7 +51,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
         this.listSort.clear();
         this.listSort.addAll(listSort);
 
-        sortState.updateEnd(listSort);
+        stateSort.updateEnd(listSort);
     }
 
     public void updateAdapter(int position, ItemSort itemSort) {
@@ -69,7 +69,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
     public void onBindViewHolder(@NonNull SortHolder holder, int position) {
         ItemSort itemSort = listSort.get(position);
 
-        int sortEnd = sortState.getEnd();
+        int sortEnd = stateSort.getEnd();
 
         holder.srChevronLeft.setVisibility(position == sortEnd ? View.VISIBLE : View.GONE);
         holder.srChevronRight.setVisibility(position == sortEnd ? View.VISIBLE : View.GONE);
@@ -103,7 +103,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
         @Override
         public void onClick(View view) {
             int p = getAdapterPosition();
-            if (p == sortState.getEnd()) click.onItemClick(view, p);
+            if (p == stateSort.getEnd()) click.onItemClick(view, p);
         }
 
     }

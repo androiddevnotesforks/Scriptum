@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.service;
+package sgtmelon.handynotes.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,12 +15,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import sgtmelon.handynotes.model.item.ItemRoll;
-import sgtmelon.handynotes.model.manager.ListRollManager;
-import sgtmelon.handynotes.model.manager.ListStatusManager;
+import sgtmelon.handynotes.model.manager.ManagerRoll;
+import sgtmelon.handynotes.model.manager.ManagerStatus;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.item.ItemStatus;
 import sgtmelon.handynotes.model.item.ItemRollView;
+import sgtmelon.handynotes.service.Help;
 
 public class NoteDB extends SQLiteOpenHelper {
 
@@ -277,7 +278,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return listNote;
     }
 
-    public ListStatusManager getListStatusManager() {
+    public ManagerStatus getListStatusManager() {
         Log.i("NoteDB", "getListStatusManager");
 
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM " + NT_TB +
@@ -321,7 +322,7 @@ public class NoteDB extends SQLiteOpenHelper {
 
         cursor.close();
 
-        return new ListStatusManager(context, listNoteCreate, listStatus);
+        return new ManagerStatus(context, listNoteCreate, listStatus);
     }
 
     //Обновление значения заметки в базе (при сохранении результатов изменения)
@@ -573,7 +574,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return listRoll;
     }
 
-    public ListRollManager getListRollManager() { //TODO подумай
+    public ManagerRoll getListRollManager() { //TODO подумай
         Log.i("NoteDB", "getListRollManager");
 
         List<String> listNoteCreate = new ArrayList<>();
@@ -616,7 +617,7 @@ public class NoteDB extends SQLiteOpenHelper {
 
         cursor.close();
 
-        return new ListRollManager(listNoteCreate, listRollView);
+        return new ManagerRoll(listNoteCreate, listRollView);
     }
 
     //Возвращает строку текста собранную из списка

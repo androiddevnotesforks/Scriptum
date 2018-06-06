@@ -16,14 +16,14 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.service.Help;
 
-public class ListRankManager implements TextWatcher, TextView.OnEditorActionListener {
+public class ManagerRank implements TextWatcher, TextView.OnEditorActionListener {
 
     private Context context;
 
     private List<ItemRank> listRank;
     private List<String> listRankName;
 
-    public ListRankManager(Context context) {
+    public ManagerRank(Context context) {
         this.context = context;
     }
 

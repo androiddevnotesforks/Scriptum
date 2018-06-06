@@ -135,7 +135,7 @@ public class AlertSort extends AlertDialog.Builder implements ItemClick.Click {
             adapterSort.updateAdapter(listSort);
             adapterSort.notifyItemMoved(oldPs, newPs);
 
-            if (oldPs == adapterSort.sortState.getEnd()) {
+            if (oldPs == adapterSort.stateSort.getEnd()) {
                 adapterSort.notifyItemChanged(newPs);
             } else adapterSort.notifyItemChanged(oldPs);
 

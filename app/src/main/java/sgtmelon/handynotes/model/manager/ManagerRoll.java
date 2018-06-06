@@ -4,15 +4,15 @@ import java.util.List;
 
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.model.item.ItemRollView;
 
-public class ListRollManager {
+public class ManagerRoll {
 
     private List<String> listNoteCreate;
     private List<ItemRollView> listRollView;
 
-    public ListRollManager(List<String> listNoteCreate, List<ItemRollView> listRollView) {
+    public ManagerRoll(List<String> listNoteCreate, List<ItemRollView> listRollView) {
         this.listNoteCreate = listNoteCreate;
         this.listRollView = listRollView;
     }

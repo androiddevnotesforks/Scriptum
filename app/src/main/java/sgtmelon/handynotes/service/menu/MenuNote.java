@@ -17,7 +17,7 @@ import android.widget.Toast;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.service.Help;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 
 public class MenuNote implements Toolbar.OnMenuItemClickListener {
 

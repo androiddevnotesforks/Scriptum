@@ -13,7 +13,7 @@ import android.os.Handler;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.service.Help;
 
-public class VisibleButton extends android.support.v7.widget.AppCompatImageButton {
+public class ButtonVisible extends android.support.v7.widget.AppCompatImageButton {
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -23,7 +23,7 @@ public class VisibleButton extends android.support.v7.widget.AppCompatImageButto
 
     private Context context;
 
-    public VisibleButton(Context context) {
+    public ButtonVisible(Context context) {
         super(context);
 
         this.context = context;
@@ -31,7 +31,7 @@ public class VisibleButton extends android.support.v7.widget.AppCompatImageButto
         setupDrawable();
     }
 
-    public VisibleButton(Context context, AttributeSet attrs) {
+    public ButtonVisible(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         this.context = context;
@@ -39,7 +39,7 @@ public class VisibleButton extends android.support.v7.widget.AppCompatImageButto
         setupDrawable();
     }
 
-    public VisibleButton(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ButtonVisible(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         this.context = context;

@@ -2,9 +2,8 @@ package sgtmelon.handynotes.model.item;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 
 public class ItemNote {
 

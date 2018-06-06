@@ -8,14 +8,14 @@ import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.item.ItemStatus;
 
-public class ListStatusManager {
+public class ManagerStatus {
 
     private Context context;
 
     private List<String> listNoteCreate;
     private List<ItemStatus> listStatus;
 
-    public ListStatusManager(Context context, List<String> listNoteCreate, List<ItemStatus> listStatus) {
+    public ManagerStatus(Context context, List<String> listNoteCreate, List<ItemStatus> listStatus) {
         this.context = context;
 
         this.listNoteCreate = listNoteCreate;

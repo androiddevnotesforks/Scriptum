@@ -17,12 +17,12 @@ import android.view.View;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterPager;
 import sgtmelon.handynotes.interfaces.menu.MenuMainClick;
-import sgtmelon.handynotes.model.state.NoteState;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.model.state.StateNote;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.service.menu.MenuMain;
-import sgtmelon.handynotes.model.manager.ListRollManager;
-import sgtmelon.handynotes.model.manager.ListStatusManager;
+import sgtmelon.handynotes.model.manager.ManagerRoll;
+import sgtmelon.handynotes.model.manager.ManagerStatus;
 import sgtmelon.handynotes.ui.note.ActNote;
 
 public class ActMain extends AppCompatActivity implements MenuMainClick {
@@ -39,13 +39,13 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         Log.i("ActMain", "onResume");
 
         NoteDB noteDB = new NoteDB(this);
-        listRollManager = noteDB.getListRollManager();
-        listStatusManager = noteDB.getListStatusManager();
+        managerRoll = noteDB.getListRollManager();
+        managerStatus = noteDB.getListStatusManager();
         noteDB.close();
     }
 
-    public ListRollManager listRollManager;
-    public ListStatusManager listStatusManager;
+    public ManagerRoll managerRoll;
+    public ManagerStatus managerStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +111,9 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
                     public void onClick(DialogInterface dialog, int item) {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
-                        intent.putExtra(NoteState.KEY_CREATE, true);
+                        intent.putExtra(StateNote.KEY_CREATE, true);
                         intent.putExtra(NoteDB.KEY_NT_TP, item == NoteDB.typeText ? NoteDB.typeText : NoteDB.typeRoll);
-                        intent.putExtra(NoteDB.KEY_RK_VS, frgRank.listRankManager.getVisible());
+                        intent.putExtra(NoteDB.KEY_RK_VS, frgRank.managerRank.getVisible());
 
                         startActivity(intent);
                     }
@@ -161,7 +161,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         if (buttonCurrent != MenuMain.pageNotes) {
             switch (buttonCurrent) {
                 case MenuMain.pageRank:
-                    if (frgRank.listRankManager.needClearEnter()) frgRank.listRankManager.clearEnter();
+                    if (frgRank.managerRank.needClearEnter()) frgRank.managerRank.clearEnter();
                     else menuMain.setPage(MenuMain.pageNotes);
                     break;
                 default:

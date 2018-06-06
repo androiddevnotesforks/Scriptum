@@ -17,7 +17,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.model.item.ItemRank;
-import sgtmelon.handynotes.view.VisibleButton;
+import sgtmelon.handynotes.view.ButtonVisible;
 
 public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
@@ -111,7 +111,7 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
         private final View rkClick;
         private final TextView rkName, rkTextCount, rkRollCount, rkRollCheck;
-        private final VisibleButton rkVisible;
+        private final ButtonVisible rkVisible;
         private final ImageButton rkCancel;
 
         RankHolder(View itemView) {

@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.item.ItemNote;
-import sgtmelon.handynotes.service.NoteDB;
+import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.service.menu.MenuNote;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
@@ -54,7 +54,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         setupToolbar();
         setupEnter();
 
-        onMenuEditClick(activity.noteState.isEdit());
+        onMenuEditClick(activity.stateNote.isEdit());
 
         return frgView;
     }
@@ -82,7 +82,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     public void onClick(View view) {
         Log.i("FrgText", "onClick");
 
-        if (activity.noteState.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
+        if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
             noteDB = new NoteDB(context);
@@ -113,8 +113,8 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
             }
 
             noteDB = new NoteDB(context);
-            if (activity.noteState.isCreate()) {
-                activity.noteState.setCreate(false);    //Теперь у нас заметка уже будет создана
+            if (activity.stateNote.isCreate()) {
+                activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
 
                 int ntId = noteDB.insertNote(itemNote);
                 itemNote.setId(ntId);
@@ -208,10 +208,10 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     public void onMenuEditClick(boolean editMode) {
         Log.i("FrgText", "onMenuEditClick: " + editMode);
 
-        activity.noteState.setEdit(editMode);
+        activity.stateNote.setEdit(editMode);
 
-        menuNote.setNavigationIcon(activity.noteState.isEdit(), activity.noteState.isCreate());
-        menuNote.setMenuGroupVisible(activity.noteState.isBin(), activity.noteState.isEdit(), !activity.noteState.isBin() && !activity.noteState.isEdit());
+        menuNote.setNavigationIcon(activity.stateNote.isEdit(), activity.stateNote.isCreate());
+        menuNote.setMenuGroupVisible(activity.stateNote.isBin(), activity.stateNote.isEdit(), !activity.stateNote.isBin() && !activity.stateNote.isEdit());
 
         nameEnter.setText(itemNote.getName());      //Установка имени
         nameView.setText(itemNote.getName());
