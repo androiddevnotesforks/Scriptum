@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.settings;
+package sgtmelon.handynotes.ui.frg;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import android.widget.ImageView;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.ui.act.ActDevelop;
+import sgtmelon.handynotes.ui.act.ActSettings;
 import sgtmelon.handynotes.view.alert.AlertColor;
 import sgtmelon.handynotes.view.alert.AlertSort;
 

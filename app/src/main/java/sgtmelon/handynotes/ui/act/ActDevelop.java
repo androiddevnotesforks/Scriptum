@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.settings;
+package sgtmelon.handynotes.ui.act;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

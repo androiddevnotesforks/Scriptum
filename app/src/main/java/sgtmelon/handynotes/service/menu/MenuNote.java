@@ -98,18 +98,18 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     public void setupMenu(Menu menu, boolean ntStatus){
         this.menu = menu;
 
-        MenuItem mItemUndo = menu.findItem(R.id.menu_note_restore);
-        MenuItem mItemDeleteF = menu.findItem(R.id.menu_note_delete_forever);
+        MenuItem mItemUndo = menu.findItem(R.id.menu_actNote_restore);
+        MenuItem mItemDeleteF = menu.findItem(R.id.menu_actNote_clear);
 
-        MenuItem mItemMoreR = menu.findItem(R.id.menu_note_readMore);
-        mItemStatus = menu.findItem(R.id.menu_note_status_bind);
-        MenuItem mItemConvert = menu.findItem(R.id.menu_note_convert);
-        mItemCheck = menu.findItem(R.id.menu_note_check);
-        MenuItem mItemDelete = menu.findItem(R.id.menu_note_delete);
+        MenuItem mItemMoreR = menu.findItem(R.id.menu_actNote_readMore);
+        mItemStatus = menu.findItem(R.id.menu_actNote_bind);
+        MenuItem mItemConvert = menu.findItem(R.id.menu_actNote_convert);
+        mItemCheck = menu.findItem(R.id.menu_actNote_check);
+        MenuItem mItemDelete = menu.findItem(R.id.menu_actNote_delete);
 
-        MenuItem mItemMoreE = menu.findItem(R.id.menu_note_editMore);
-        MenuItem mItemRank = menu.findItem(R.id.menu_note_rank);
-        MenuItem mItemColor = menu.findItem(R.id.menu_note_color);
+        MenuItem mItemMoreE = menu.findItem(R.id.menu_actNote_editMore);
+        MenuItem mItemRank = menu.findItem(R.id.menu_actNote_rank);
+        MenuItem mItemColor = menu.findItem(R.id.menu_actNote_color);
 
         setStatusTitle(ntStatus);
 
@@ -150,9 +150,9 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     }
 
     public void setMenuGroupVisible(boolean grDelete, boolean grEdit, boolean grRead){
-        menu.setGroupVisible(R.id.menu_note_grDelete, grDelete);
-        menu.setGroupVisible(R.id.menu_note_grEdit, grEdit);
-        menu.setGroupVisible(R.id.menu_note_grRead, grRead);
+        menu.setGroupVisible(R.id.menu_actNote_grDelete, grDelete);
+        menu.setGroupVisible(R.id.menu_actNote_grEdit, grEdit);
+        menu.setGroupVisible(R.id.menu_actNote_grRead, grRead);
     }
 
     private MenuNoteClick.NoteClick noteClick;
@@ -174,32 +174,32 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_note_restore:
+            case R.id.menu_actNote_restore:
                 deleteClick.onMenuRestoreClick();
                 return true;
-            case R.id.menu_note_delete_forever:
+            case R.id.menu_actNote_clear:
                 deleteClick.onMenuDeleteForeverClick();
                 return true;
-            case R.id.menu_note_save:
+            case R.id.menu_actNote_save:
                 if (!noteClick.onMenuSaveClick(true))
                     Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
                 return true;
-            case R.id.menu_note_rank:
+            case R.id.menu_actNote_rank:
                 noteClick.onMenuRankClick();
                 return true;
-            case R.id.menu_note_color:
+            case R.id.menu_actNote_color:
                 noteClick.onMenuColorClick();
                 return true;
-            case R.id.menu_note_edit:
+            case R.id.menu_actNote_edit:
                 noteClick.onMenuEditClick(true);
                 return true;
-            case R.id.menu_note_check:
+            case R.id.menu_actNote_check:
                 rollClick.onMenuCheckClick();
                 return true;
-            case R.id.menu_note_status_bind:
+            case R.id.menu_actNote_bind:
                 noteClick.onMenuBindClick();
                 break;
-            case R.id.menu_note_convert:
+            case R.id.menu_actNote_convert:
                 AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
                 alert.setTitle(context.getString(R.string.dialog_title_convert));
 
@@ -225,7 +225,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 AlertDialog dialog = alert.create();
                 dialog.show();
                 return true;
-            case R.id.menu_note_delete:
+            case R.id.menu_actNote_delete:
                 deleteClick.onMenuDeleteClick();
                 return true;
         }

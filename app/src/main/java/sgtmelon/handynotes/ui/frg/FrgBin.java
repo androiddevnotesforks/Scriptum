@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.main;
+package sgtmelon.handynotes.ui.frg;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +34,8 @@ import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
 import sgtmelon.handynotes.model.item.ItemNote;
-import sgtmelon.handynotes.ui.note.ActNote;
+import sgtmelon.handynotes.ui.act.ActMain;
+import sgtmelon.handynotes.ui.act.ActNote;
 import sgtmelon.handynotes.view.alert.AlertOption;
 
 public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
@@ -87,11 +88,11 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_frg_bin));
 
-        toolbar.inflateMenu(R.menu.menu_page_bin);
+        toolbar.inflateMenu(R.menu.menu_frg_bin);
         toolbar.setOnMenuItemClickListener(this);
 
         Menu menu = toolbar.getMenu();
-        mItemClearBin = menu.findItem(R.id.menu_page_bin_clear);
+        mItemClearBin = menu.findItem(R.id.menu_frgBin_clear);
 
         Help.Icon.tintMenuIcon(context, mItemClearBin);
     }
@@ -108,7 +109,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Log.i("FrgBin", "onMenuItemClick");
 
         switch (item.getItemId()) {
-            case R.id.menu_page_bin_clear:
+            case R.id.menu_frgBin_clear:
                 AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
                 alert.setTitle(getString(R.string.dialog_title_clear_bin))
                         .setMessage(getString(R.string.dialog_text_clear_bin))
@@ -230,7 +231,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         setMenuItemClearVisible();
 
-        activity.frgNotes.updateAdapter();
+        activity.frgNote.updateAdapter();
     }
 
     @Override

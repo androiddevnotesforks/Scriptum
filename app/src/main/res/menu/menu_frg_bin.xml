@@ -5,9 +5,9 @@
     tools:ignore="AlwaysShowAction">
 
     <item
-        android:id="@+id/menu_page_notes_settings"
-        android:icon="@drawable/ic_menu_settings"
-        android:title="@string/menu_page_notes_settings"
+        android:id="@+id/menu_frgBin_clear"
+        android:icon="@drawable/ic_menu_clear"
+        android:title="@string/menu_page_bin_clear"
         app:showAsAction="always" />
 
 </menu>

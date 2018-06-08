@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="sgtmelon.handynotes.ui.settings.ActDevelop">
+    tools:context="sgtmelon.handynotes.ui.act.ActDevelop">
 
     <ScrollView
         android:layout_width="match_parent"

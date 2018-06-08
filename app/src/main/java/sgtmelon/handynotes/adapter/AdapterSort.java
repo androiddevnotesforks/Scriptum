@@ -61,7 +61,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
     @NonNull
     @Override
     public SortHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_item_sort, parent, false);
+        View view = inflater.inflate(R.layout.item_sort, parent, false);
         return new SortHolder(view);
     }
 

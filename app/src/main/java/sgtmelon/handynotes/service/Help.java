@@ -29,7 +29,9 @@ import java.util.List;
 import java.util.Locale;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.database.DataBaseDescription;
 import sgtmelon.handynotes.database.NoteDB;
+import sgtmelon.handynotes.database.dao.DaoNote;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.model.item.ItemSort;
@@ -209,6 +211,7 @@ public class Help {
             itemNote.setColor(ntColor);
 
             itemNote.setType(type);
+            itemNote.setRankPs(new String[0]);
             itemNote.setRankId(new String[0]);
             itemNote.setBin(true);
             itemNote.setStatus(false);
@@ -276,6 +279,28 @@ public class Help {
         private static final int sortRk = 2, sortCl = 3;
 
         public static final String divider = ", ";
+
+        //Формирование поискового запроса относительно настроек
+        public static String getSortNoteOrder(Context context){
+
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            String sortKeys = pref.getString(context.getString(R.string.pref_key_sort), getSortDefault());
+
+            String[] sortKeysArr = sortKeys.split(Help.Pref.divider);
+            StringBuilder order = new StringBuilder();
+
+            for (String aSortKey : sortKeysArr) {
+                int key = Integer.parseInt(aSortKey);
+
+                order.append(DataBaseDescription.orders[key]);
+
+                if (key != Help.Pref.sortCr && key != Help.Pref.sortCh) {
+                    order.append(Help.Pref.divider);
+                } else break;
+            }
+
+            return order.toString();
+        }
 
         public static String getSortDefault() {
             return sortCr + divider + sortRk + divider + sortCl;

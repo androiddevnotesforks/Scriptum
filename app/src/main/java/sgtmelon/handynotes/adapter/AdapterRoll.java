@@ -82,10 +82,10 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
         View view = null;
         switch (viewType) {
             case typeRead:
-                view = inflater.inflate(R.layout.list_item_roll_read, parent, false);
+                view = inflater.inflate(R.layout.item_roll_read, parent, false);
                 break;
             case typeWrite:
-                view = inflater.inflate(R.layout.list_item_roll_write, parent, false);
+                view = inflater.inflate(R.layout.item_roll_write, parent, false);
                 break;
         }
         return new RollHolder(view);

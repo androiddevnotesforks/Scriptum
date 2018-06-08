@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.settings;
+package sgtmelon.handynotes.ui.act;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +9,7 @@ import android.view.View;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.ui.frg.FrgSettings;
 
 public class ActSettings extends AppCompatActivity implements View.OnClickListener {
 

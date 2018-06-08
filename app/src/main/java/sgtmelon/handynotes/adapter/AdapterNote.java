@@ -78,10 +78,10 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         View view = null;
         switch (viewType) {
             case NoteDB.typeText:
-                view = inflater.inflate(R.layout.list_item_note_text, parent, false);
+                view = inflater.inflate(R.layout.item_note_text, parent, false);
                 break;
             case NoteDB.typeRoll:
-                view = inflater.inflate(R.layout.list_item_note_roll, parent, false);
+                view = inflater.inflate(R.layout.item_note_roll, parent, false);
                 break;
         }
         return new NoteHolder(view, viewType);

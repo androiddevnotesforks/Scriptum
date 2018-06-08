@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.main;
+package sgtmelon.handynotes.ui.act;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +23,9 @@ import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.service.menu.MenuMain;
 import sgtmelon.handynotes.model.manager.ManagerRoll;
 import sgtmelon.handynotes.model.manager.ManagerStatus;
-import sgtmelon.handynotes.ui.note.ActNote;
+import sgtmelon.handynotes.ui.frg.FrgBin;
+import sgtmelon.handynotes.ui.frg.FrgNote;
+import sgtmelon.handynotes.ui.frg.FrgRank;
 
 public class ActMain extends AppCompatActivity implements MenuMainClick {
 
@@ -61,7 +63,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
     private BottomNavigationView bottomNavigationView;
 
     public FrgRank frgRank;
-    public FrgNotes frgNotes;
+    public FrgNote frgNote;
     public FrgBin frgBin;
 
     private void setupViewPager() {
@@ -74,11 +76,11 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         AdapterPager adapterPager = new AdapterPager(fragmentManager);
 
         frgRank = new FrgRank();
-        frgNotes = new FrgNotes();
+        frgNote = new FrgNote();
         frgBin = new FrgBin();
 
         adapterPager.addFragment(frgRank);
-        adapterPager.addFragment(frgNotes);
+        adapterPager.addFragment(frgNote);
         adapterPager.addFragment(frgBin);
 
         viewPager.setAdapter(adapterPager);

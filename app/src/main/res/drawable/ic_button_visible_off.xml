@@ -4,6 +4,8 @@
     android:viewportHeight="24.0"
     android:viewportWidth="24.0">
 
+    <!-- TODO: вынести в строки названия групп и элементов -->
+
     <group android:name="strike_path_group">
         <path
             android:name="strike_path"

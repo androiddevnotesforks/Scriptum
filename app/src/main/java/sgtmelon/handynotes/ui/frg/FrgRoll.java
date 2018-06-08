@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.note;
+package sgtmelon.handynotes.ui.frg;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -41,6 +41,7 @@ import sgtmelon.handynotes.service.menu.MenuNote;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.interfaces.RollTextWatcher;
+import sgtmelon.handynotes.ui.act.ActNote;
 import sgtmelon.handynotes.view.alert.AlertColor;
 
 public class FrgRoll extends Fragment implements View.OnClickListener,
@@ -98,7 +99,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i("FrgRoll", "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.menu_note);
+        toolbar.inflateMenu(R.menu.menu_act_note);
 
         menuNote = new MenuNote(context, activity.getWindow(), toolbar, itemNote.getType());
         menuNote.setColor(itemNote.getColor());

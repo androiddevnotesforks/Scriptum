@@ -4,7 +4,7 @@
     <string name="app_name">Удобные заметки</string>
 
     <string name="title_frg_rank">Категории</string>
-    <string name="title_frg_notes">Заметки</string>
+    <string name="title_frg_note">Заметки</string>
     <string name="title_frg_bin">Корзина</string>
     <string name="title_act_settings">Настройки</string>
 

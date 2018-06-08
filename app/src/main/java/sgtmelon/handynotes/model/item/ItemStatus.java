@@ -13,7 +13,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.state.StateNote;
 import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
-import sgtmelon.handynotes.ui.note.ActNote;
+import sgtmelon.handynotes.ui.act.ActNote;
 
 public class ItemStatus {
 

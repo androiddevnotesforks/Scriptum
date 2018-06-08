@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="sgtmelon.handynotes.ui.main.ActMain">
+    tools:context="sgtmelon.handynotes.ui.act.ActMain">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -27,6 +27,6 @@
         android:background="@color/colorWhite"
         app:itemIconTint="@drawable/se_menu_main_item"
         app:itemTextColor="@drawable/se_menu_main_item"
-        app:menu="@menu/menu_main" />
+        app:menu="@menu/menu_act_main" />
 
 </LinearLayout>

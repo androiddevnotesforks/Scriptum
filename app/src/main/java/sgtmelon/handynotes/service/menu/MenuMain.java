@@ -12,9 +12,9 @@ public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigatio
 
     //region Variables
     private int[] itemId = new int[]{
-            R.id.menu_main_pageRank,
-            R.id.menu_main_pageNotes,
-            R.id.menu_main_pageBin,
+            R.id.menu_actMain_pageRank,
+            R.id.menu_actMain_pageNote,
+            R.id.menu_actMain_pageBin,
     };
 
     public static final int pageRank = 0;
@@ -49,14 +49,14 @@ public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigatio
 
     private void setPageCurrent(int navId) {
         switch (navId) {
-            case R.id.menu_main_pageRank:
+            case R.id.menu_actMain_pageRank:
                 pageCurrent = pageRank;
                 break;
-            case R.id.menu_main_pageNotes:
+            case R.id.menu_actMain_pageNote:
                 if (pageCurrent == pageNotes) menuMainClick.onMenuNoteClick();
                 else pageCurrent = pageNotes;
                 break;
-            case R.id.menu_main_pageBin:
+            case R.id.menu_actMain_pageBin:
                 pageCurrent = pageBin;
                 break;
         }

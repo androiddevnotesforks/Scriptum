@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.main;
+package sgtmelon.handynotes.ui.frg;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,17 +33,18 @@ import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
 import sgtmelon.handynotes.model.item.ItemRollView;
-import sgtmelon.handynotes.ui.note.ActNote;
-import sgtmelon.handynotes.ui.settings.ActSettings;
+import sgtmelon.handynotes.ui.act.ActMain;
+import sgtmelon.handynotes.ui.act.ActNote;
+import sgtmelon.handynotes.ui.act.ActSettings;
 import sgtmelon.handynotes.view.alert.AlertOption;
 
-public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListener,
+public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener,
         ItemClick.Click, ItemClick.LongClick, AlertOptionClick.DialogNote {
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("FrgNotes", "onResume");
+        Log.i("FrgNote", "onResume");
 
         updateAdapter();
     }
@@ -62,7 +63,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("FrgNotes", "onCreateView");
+        Log.i("FrgNote", "onCreateView");
 
         frgView = inflater.inflate(R.layout.frg_m_notes, container, false);
 
@@ -80,26 +81,26 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     }
 
     private void setupToolbar() {
-        Log.i("FrgNotes", "setupToolbar");
+        Log.i("FrgNote", "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.title_frg_notes));
+        toolbar.setTitle(getString(R.string.title_frg_note));
 
-        toolbar.inflateMenu(R.menu.menu_page_notes);
+        toolbar.inflateMenu(R.menu.menu_frg_note);
         toolbar.setOnMenuItemClickListener(this);
 
         Menu menu = toolbar.getMenu();
-        MenuItem mItemSettings = menu.findItem(R.id.menu_page_notes_settings);
+        MenuItem mItemSettings = menu.findItem(R.id.menu_frgNote_settings);
 
         Help.Icon.tintMenuIcon(context, mItemSettings);
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Log.i("FrgNotes", "onMenuItemClick");
+        Log.i("FrgNote", "onMenuItemClick");
 
         switch (item.getItemId()) {
-            case R.id.menu_page_notes_settings:
+            case R.id.menu_frgNote_settings:
                 Intent intent = new Intent(context, ActSettings.class);
                 startActivity(intent);
                 return true;
@@ -111,7 +112,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     private AdapterNote adapterNote;
 
     private void setupRecyclerView() {
-        Log.i("FrgNotes", "setupRecyclerView");
+        Log.i("FrgNote", "setupRecyclerView");
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
@@ -135,12 +136,19 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     }
 
     public void updateAdapter() {
-        Log.i("FrgNotes", "updateAdapter");
+        Log.i("FrgNote", "updateAdapter");
 
         noteDB = new NoteDB(context);
         String order = pref.getString(getString(R.string.pref_key_sort), Help.Pref.getSortDefault());
         listNote = noteDB.getNote(NoteDB.binFalse, order);
         noteDB.close();
+
+//        DataBaseRoom db = Room.databaseBuilder(context, DataBaseRoom.class, "itemTest")
+//                .allowMainThreadQueries()
+//                .build();
+//
+//        String order = Help.Pref.getSortNoteOrder(context);
+//        listNote = db.daoNote().getNote(NoteDB.binFalse, order);
 
         adapterNote.updateAdapter(listNote);
         adapterNote.setManagerRoll(activity.managerRoll);
@@ -152,7 +160,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     @Override
     public void onItemClick(View view, int p) {
-        Log.i("FrgNotes", "onItemClick");
+        Log.i("FrgNote", "onItemClick");
 
         ItemNote itemNote = listNote.get(p);
 
@@ -167,7 +175,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     @Override
     public void onItemLongClick(View view, int p) {
-        Log.i("FrgNotes", "onItemLongClick");
+        Log.i("FrgNote", "onItemLongClick");
 
         AlertOption alertOption = new AlertOption(context, listNote.get(p), p);
         alertOption.setDialogNote(this);
@@ -176,7 +184,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     @Override
     public void onDialogCheckClick(ItemNote itemNote, int p, int rlCheck, String checkMax) {
-        Log.i("FrgNotes", "onDialogCheckClick");
+        Log.i("FrgNote", "onDialogCheckClick");
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setText(Help.Note.getCheckStr(rlCheck, checkMax));
@@ -202,9 +210,9 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     @Override
     public void onDialogBindClick(ItemNote itemNote, int p) {
-        Log.i("FrgNotes", "onDialogBindClick");
+        Log.i("FrgNote", "onDialogBindClick");
 
-        if (!itemNote.isStatus()){
+        if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
             activity.managerStatus.insertItem(itemNote, activity.frgRank.managerRank.getVisible());
         } else {
@@ -224,7 +232,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     @Override
     public void onDialogConvertClick(ItemNote itemNote, int p) {
-        Log.i("FrgNotes", "onDialogConvertClick");
+        Log.i("FrgNote", "onDialogConvertClick");
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
@@ -270,11 +278,11 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     @Override
     public void onDialogDeleteClick(ItemNote itemNote, int p) {
-        Log.i("FrgNotes", "onDialogDeleteClick");
+        Log.i("FrgNote", "onDialogDeleteClick");
 
         noteDB = new NoteDB(context);
         noteDB.updateNote(itemNote.getId(), Help.Time.getCurrentTime(context), NoteDB.binTrue);
-        if (itemNote.isStatus()){
+        if (itemNote.isStatus()) {
             noteDB.updateNote(itemNote.getId(), false);
         }
         noteDB.close();

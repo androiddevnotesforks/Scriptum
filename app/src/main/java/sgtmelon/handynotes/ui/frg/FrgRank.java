@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.main;
+package sgtmelon.handynotes.ui.frg;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +31,7 @@ import sgtmelon.handynotes.model.state.StateDrag;
 import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.service.InfoPageEmpty;
+import sgtmelon.handynotes.ui.act.ActMain;
 import sgtmelon.handynotes.view.alert.AlertRename;
 
 public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.LongClick,
@@ -236,7 +237,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 noteDB.close();
 
                 activity.managerStatus.updateItemVisible(itemRank);
-                activity.frgNotes.updateAdapter();
+                activity.frgNote.updateAdapter();
                 activity.frgBin.updateAdapter();
                 break;
             case R.id.layout_itemRank_click:
@@ -286,7 +287,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 adapterRank.notifyItemRemoved(p);
 
                 activity.managerStatus.updateItemVisible(itemRank);
-                activity.frgNotes.updateAdapter();
+                activity.frgNote.updateAdapter();
                 activity.frgBin.updateAdapter();
                 break;
         }
@@ -322,7 +323,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         noteDB.close();
 
         activity.managerStatus.updateItemVisible(listRank);
-        activity.frgNotes.updateAdapter();
+        activity.frgNote.updateAdapter();
         activity.frgBin.updateAdapter();
     }
 
@@ -367,7 +368,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 adapterRank.updateAdapter(managerRank.getListRank());
                 adapterRank.notifyDataSetChanged();
 
-                activity.frgNotes.updateAdapter();
+                activity.frgNote.updateAdapter();
                 activity.frgBin.updateAdapter();
             }
         }

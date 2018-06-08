@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.ui.note;
+package sgtmelon.handynotes.ui.act;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.service.PrefNoteSave;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.model.item.ItemStatus;
+import sgtmelon.handynotes.ui.frg.FrgRoll;
+import sgtmelon.handynotes.ui.frg.FrgText;
 
 public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteClick {
 

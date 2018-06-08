@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/menu_main_pageRank"
+        android:id="@+id/menu_actMain_pageRank"
         android:icon="@drawable/ic_menu_rank"
         android:title="@string/title_frg_rank" />
 
     <item
-        android:id="@+id/menu_main_pageNotes"
+        android:id="@+id/menu_actMain_pageNote"
         android:icon="@drawable/se_menu_main_notes"
-        android:title="@string/title_frg_notes" />
+        android:title="@string/title_frg_note" />
 
     <item
-        android:id="@+id/menu_main_pageBin"
+        android:id="@+id/menu_actMain_pageBin"
         android:icon="@drawable/ic_menu_bin"
         android:title="@string/title_frg_bin" />
 

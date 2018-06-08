@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.main.ActMain"
+            android:name=".ui.act.ActMain"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -20,13 +20,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.note.ActNote"
+            android:name=".ui.act.ActNote"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.settings.ActSettings"
+            android:name=".ui.act.ActSettings"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.settings.ActDevelop"
+            android:name=".ui.act.ActDevelop"
             android:screenOrientation="portrait" />
     </application>
 

@@ -1,5 +1,6 @@
-package sgtmelon.handynotes.ui.note;
+package sgtmelon.handynotes.ui.frg;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -19,12 +20,14 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.database.DataBaseRoom;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
 import sgtmelon.handynotes.service.menu.MenuNote;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.model.item.ItemRollView;
+import sgtmelon.handynotes.ui.act.ActNote;
 import sgtmelon.handynotes.view.alert.AlertColor;
 
 public class FrgText extends Fragment implements View.OnClickListener, MenuNoteClick.NoteClick {
@@ -65,7 +68,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         Log.i("FrgText", "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.menu_note);
+        toolbar.inflateMenu(R.menu.menu_act_note);
 
         menuNote = new MenuNote(context, activity.getWindow(), toolbar, itemNote.getType());
         menuNote.setColor(itemNote.getColor());
@@ -111,6 +114,10 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 Help.hideKeyboard(context, activity.getCurrentFocus());
                 onMenuEditClick(false);
             }
+
+            DataBaseRoom db = Room.databaseBuilder(context, DataBaseRoom.class, "itemTest")
+                    .allowMainThreadQueries()
+                    .build();
 
             noteDB = new NoteDB(context);
             if (activity.stateNote.isCreate()) {

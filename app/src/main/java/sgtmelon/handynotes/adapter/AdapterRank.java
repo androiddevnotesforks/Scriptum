@@ -73,7 +73,7 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
     @NonNull
     @Override
     public RankHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.list_item_rank, parent, false);
+        View view = inflater.inflate(R.layout.item_rank, parent, false);
         return new RankHolder(view);
     }
 

@@ -1,11 +1,20 @@
 package sgtmelon.handynotes.model.item;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Intent;
 import android.os.Bundle;
 
+import sgtmelon.handynotes.database.DataBaseDescription;
 import sgtmelon.handynotes.database.NoteDB;
+import sgtmelon.handynotes.database.converter.ConverterBool;
+import sgtmelon.handynotes.database.converter.ConverterString;
 
-public class ItemNote {
+@Entity(tableName = "NOTE_TABLE")
+@TypeConverters({ConverterBool.class, ConverterString.class})
+public class ItemNote extends DataBaseDescription {
 
     public ItemNote() {
 
@@ -23,6 +32,7 @@ public class ItemNote {
         color = bundle.getInt(NoteDB.KEY_NT_CL);
         type = bundle.getInt(NoteDB.KEY_NT_TP);
 
+        rankPs = bundle.getStringArray(NoteDB.KEY_NT_RK_PS);
         rankId = bundle.getStringArray(NoteDB.KEY_NT_RK_ID);
 
         bin = bundle.getBoolean(NoteDB.KEY_NT_BN);
@@ -41,6 +51,7 @@ public class ItemNote {
         intent.putExtra(NoteDB.KEY_NT_CL, color);
         intent.putExtra(NoteDB.KEY_NT_TP, type);
 
+        intent.putExtra(NoteDB.KEY_NT_RK_PS, rankPs);
         intent.putExtra(NoteDB.KEY_NT_RK_ID, rankId);
 
         intent.putExtra(NoteDB.KEY_NT_BN, bin);
@@ -51,15 +62,34 @@ public class ItemNote {
     }
 
     //region Variables
+    @ColumnInfo(name = NT_ID)
+    @PrimaryKey(autoGenerate = true)
     private int id;             //Позиция в базе данных
+    //TODO: long type
+
+    @ColumnInfo(name = NT_CR)
     private String create;      //Дата создания
+    @ColumnInfo(name = NT_CH)
     private String change;      //Дата изменения
-    private String name;   //Имя заметки
+
+    @ColumnInfo(name = NT_NM)
+    private String name;        //Имя заметки
+    @ColumnInfo(name = NT_TX)
     private String text;        //Текст заметки (для списка используется как индикатор количества отмеченных элементов)
+
+    @ColumnInfo(name = NT_CL)
     private int color;          //Цвет заметки
+    @ColumnInfo(name = NT_TP)
     private int type;           //Тип заметки (0 - текст, 1 - список)
-    private String[] rankId;      //Категории, к которым привязана заметка
+
+    @ColumnInfo(name = NT_RK_PS)
+    private String[] rankPs;
+    @ColumnInfo(name = NT_RK_ID)
+    private String[] rankId;    //Категории, к которым привязана заметка
+
+    @ColumnInfo(name = NT_BN)
     private boolean bin;        //Расположение
+    @ColumnInfo(name = NT_ST)
     private boolean status;     //Привязка к шторке
     //endregion
 
@@ -117,6 +147,14 @@ public class ItemNote {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String[] getRankPs() {
+        return rankPs;
+    }
+
+    public void setRankPs(String[] rankPs) {
+        this.rankPs = rankPs;
     }
 
     public String[] getRankId() {
