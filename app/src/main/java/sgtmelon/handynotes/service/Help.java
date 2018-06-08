@@ -23,6 +23,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -86,8 +87,12 @@ public class Help {
             return strArr;
         }
 
-        public static String[] strListToArr(List<String> list){
+        public static String[] strListToArr(List<String> list) {
             return list.toArray(new String[list.size()]);
+        }
+
+        public static List<String> strArrToList(String[] arr) {
+            return new ArrayList<>(Arrays.asList(arr));
         }
 
     }
@@ -281,7 +286,7 @@ public class Help {
         public static final String divider = ", ";
 
         //Формирование поискового запроса относительно настроек
-        public static String getSortNoteOrder(Context context){
+        public static String getSortNoteOrder(Context context) {
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             String sortKeys = pref.getString(context.getString(R.string.pref_key_sort), getSortDefault());

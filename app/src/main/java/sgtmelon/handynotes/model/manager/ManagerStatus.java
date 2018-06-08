@@ -12,27 +12,33 @@ public class ManagerStatus {
 
     private Context context;
 
-    private List<String> listNoteCreate;
+    private List<String> listCreate;
     private List<ItemStatus> listStatus;
 
-    public ManagerStatus(Context context, List<String> listNoteCreate, List<ItemStatus> listStatus) {
+    /**
+     * Конструктов менеджера статусовых сообщений
+     * @param context - Используется для создания нового уведомления
+     * @param listCreate - Список дат создания заметок
+     * @param listStatus - Список моделей создания уведомления
+     */
+    public ManagerStatus(Context context, List<String> listCreate, List<ItemStatus> listStatus) {
         this.context = context;
 
-        this.listNoteCreate = listNoteCreate;
+        this.listCreate = listCreate;
         this.listStatus = listStatus;
     }
 
     public void insertItem(ItemNote itemNote, String[] rkVisible) {
         ItemStatus itemStatus = new ItemStatus(context, itemNote, rkVisible);
 
-        listNoteCreate.add(itemNote.getCreate());
+        listCreate.add(itemNote.getCreate());
         listStatus.add(itemStatus);
 
     }
 
     //Обновление при закреплении/откреплении заметки
     public void updateItemBind(ItemNote itemNote) {
-        int index = listNoteCreate.indexOf(itemNote.getCreate());
+        int index = listCreate.indexOf(itemNote.getCreate());
 
         if (index != -1) {
             ItemStatus itemStatus = listStatus.get(index);
@@ -47,7 +53,7 @@ public class ManagerStatus {
         String[] ntCreate = itemRank.getCreate();
 
         for (String aNtCreate : ntCreate) {
-            int index = listNoteCreate.indexOf(aNtCreate);
+            int index = listCreate.indexOf(aNtCreate);
 
             if (index != -1) {
                 ItemStatus itemStatus = listStatus.get(index);
@@ -65,13 +71,13 @@ public class ManagerStatus {
     }
 
     public void removeItem(ItemNote itemNote) {
-        int index = listNoteCreate.indexOf(itemNote.getCreate());
+        int index = listCreate.indexOf(itemNote.getCreate());
 
         if (index != -1) {
             ItemStatus itemStatus = listStatus.get(index);
             itemStatus.cancelNote();
 
-            listNoteCreate.remove(index);
+            listCreate.remove(index);
             listStatus.remove(index);
         }
 

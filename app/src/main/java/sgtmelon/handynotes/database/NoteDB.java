@@ -145,6 +145,7 @@ public class NoteDB extends SQLiteOpenHelper {
 
     //region NoteTable
 
+    //DONE
     //Запись данных
     public int insertNote(ItemNote itemNote) {
         Log.i("NoteDB", "insertNote");
@@ -174,6 +175,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return (int) db.insertOrThrow(NT_TB, "", contentValues); //Запись
     }
 
+    //DONE
     //Возвращает строку с методом сортировки заметок
     private String getNoteOrder(String sortKeys) {
         Log.i("NoteDB", "getNoteOrder");
@@ -201,6 +203,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return order.toString();
     }
 
+    //DONE
     //Забирает значения по ID
     public ItemNote getNote(int ntId) {
         Log.i("NoteDB", "getNote");
@@ -234,6 +237,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return itemNote;
     }
 
+    //DONE
     //Забирает значения по значениям фильтра
     public List<ItemNote> getNote(int ntBin, String sortKeys) {
         Log.i("NoteDB", "getNote");
@@ -278,6 +282,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return listNote;
     }
 
+    //DONE
     public ManagerStatus getListStatusManager() {
         Log.i("NoteDB", "getListStatusManager");
 
@@ -325,6 +330,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return new ManagerStatus(context, listNoteCreate, listStatus);
     }
 
+    //DONE
     //Обновление значения заметки в базе (при сохранении результатов изменения)
     public void updateNote(ItemNote itemNote) {
         Log.i("NoteDB", "updateNote");
@@ -347,6 +353,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_NT_ID + "='" + itemNote.getId() + "'");
     }
 
+    //DONE
     //Обновление удаления (в корзину или из неё)
     public void updateNote(int ntId, String ntChange, int ntBin) {
         Log.i("NoteDB", "updateNote");
@@ -357,6 +364,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_NT_ID + "='" + ntId + "'");
     }
 
+    //DONE
     //Обновление привязки к статус бару
     public void updateNote(int ntId, boolean ntStatus) {
         Log.i("NoteDB", "updateNote");
@@ -368,6 +376,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_NT_ID + "='" + ntId + "'");
     }
 
+    //DONE использовать обычное обновление
     //Смена типа
     public void updateNoteType(ItemNote itemNote) {
         Log.i("NoteDB", "updateNoteType");
@@ -379,6 +388,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_NT_ID + "='" + itemNote.getId() + "'");
     }
 
+    //DONE использовать обычное обновление
     //Обновление текста (для списков, при выполении пунктов)
     public void updateNoteText(ItemNote itemNote) {
         Log.i("NoteDB", "updateNoteText");
@@ -389,6 +399,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_NT_ID + "='" + itemNote.getId() + "'");
     }
 
+    //DONE
     //Обновление при удалении категории (убираем связь)
     private void updateNote(String[] ntCreate, String ntRankId) {
         Log.i("NoteDB", "updateNote");
@@ -405,7 +416,6 @@ public class NoteDB extends SQLiteOpenHelper {
             int index = rankId.indexOf(ntRankId);
             rankId.remove(index);
 
-//            String[] rankIdNew = rankId.toArray(new String[rankId.size()]);
             String[] rankIdNew = Help.Array.strListToArr(rankId);
 
             String noteRkId = KEY_NONE, noteRkPs = KEY_NONE;
@@ -422,6 +432,7 @@ public class NoteDB extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    //TODO используется в другом DAO
     //Обновление при перетаскивании категории
     private void updateNote(int ntId, String[] ntRankId) {
         Log.i("NoteDB", "updateNote");
@@ -432,6 +443,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_NT_ID + "='" + ntId + "'");
     }
 
+    //DONE
     //Удаление заметок из корзины
     public void clearBin() { //В курсор загружаем данные, только те, где в колонке KEY_NT_BN = 1
         Log.i("NoteDB", "prefClearBin");
@@ -464,6 +476,7 @@ public class NoteDB extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    //DONE
     //Удаление заметки
     public void deleteNote(int id) { //В курсор загружаем лишь одну заметку, где KEY_NT_ID = id
         Log.i("NoteDB", "deleteNote");
@@ -488,11 +501,11 @@ public class NoteDB extends SQLiteOpenHelper {
 
         db.execSQL("DELETE FROM " + NT_TB + " WHERE " + KEY_NT_ID + "='" + id + "'");
     }
-
     //endregion
 
     //region RollTable
 
+    //DONE
     //Заполнение данных
     public int insertRoll(String rlCreate, int rlPosition, boolean rlCheck, String rlText) {
         Log.i("NoteDB", "insertRoll");
@@ -507,6 +520,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return (int) db.insertOrThrow(RL_TB, "", contentValues); //Запись
     }
 
+    //DONE
     //Заполнение данных при переводе текстовой заметки в список
     public ItemRollView insertRoll(String rlCreate, String[] rlText) {
         Log.i("NoteDB", "insertRoll");
@@ -548,6 +562,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return itemRollView;
     }
 
+    //DONE
     //Забирает значение списка
     public List<ItemRoll> getRoll(String rlCreate) {
         Log.i("NoteDB", "getRoll");
@@ -574,6 +589,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return listRoll;
     }
 
+    //DONE
     public ManagerRoll getListRollManager() { //TODO подумай
         Log.i("NoteDB", "getListRollManager");
 
@@ -620,6 +636,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return new ManagerRoll(listNoteCreate, listRollView);
     }
 
+    //DONE
     //Возвращает строку текста собранную из списка
     public String getRollText(String rlCreate) {
         Log.i("NoteDB", "getRollText");
@@ -642,6 +659,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return rollTx.toString();
     }
 
+    //DONE
     //Возвращает строку текста собранную из списка для уведомления
     public String getRollText(String rlCreate, String rlCheck) {
         Log.i("NoteDB", "getRollText");
@@ -668,6 +686,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return rollTx.toString();
     }
 
+    //DONE
     //Обновление позиции в списке и текста
     public void updateRoll(int rlId, int rlPosition, String rlText) {
         Log.i("NoteDB", "updateRoll");
@@ -677,6 +696,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_RL_ID + "='" + rlId + "'");
     }
 
+    //DONE
     //Обновление выполнения для одного пункта
     public void updateRoll(int rlId, boolean rlCheck) {
         Log.i("NoteDB", "updateRoll");
@@ -688,6 +708,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_RL_ID + "='" + rlId + "'");
     }
 
+    //DONE
     //Обновление выполнения для всех пунктов
     public void updateRoll(String rlCreate, int rlCheck) {
         Log.i("NoteDB", "updateRoll");
@@ -697,6 +718,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_RL_CR + "='" + rlCreate + "'");
     }
 
+    //DONE
     //Удаление пункта при сохранении после свайпа
     public void deleteRoll(String rlCreate, String[] notSwipeRlId) {
         Log.i("NoteDB", "deleteRoll");
@@ -706,6 +728,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " AND " + KEY_RL_ID + " NOT IN ('" + TextUtils.join("', '", notSwipeRlId) + "')");
     }
 
+    //DONE
     //Удаление пунктов при удалении заметки
     public void deleteRoll(String rlCreate) {
         Log.i("NoteDB", "deleteRoll");
@@ -717,6 +740,7 @@ public class NoteDB extends SQLiteOpenHelper {
 
     //region RankTable
 
+    //DONE
     //Количество категорий
     public int getRankCount() {  //TODO переделать запрос
         Log.i("NoteDB", "getRankCount");
@@ -727,6 +751,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return count;
     }
 
+    //DONE - 3 метода
     //Возвращает массив с количеством текстов/списков/выполненых пунктов/всего пунктов
     private int[] getRankCount(String[] ntCreate) {
         Log.i("NoteDB", "getRankCount");
@@ -753,6 +778,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return rankCount;
     }
 
+    //DONE
     //Заполнение данных
     public int insertRank(int rkPosition, String rkName) {
         Log.i("NoteDB", "insertRank");
@@ -767,6 +793,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return (int) db.insertOrThrow(RK_TB, "", contentValues);
     }
 
+    //DONE
     //Забирает значения категорий из стола
     public List<ItemRank> getRank() {
         Log.i("NoteDB", "getRank");
@@ -792,7 +819,7 @@ public class NoteDB extends SQLiteOpenHelper {
             int[] rankCount = getRankCount(itemRank.getCreate());
             itemRank.setTextCount(rankCount[typeText]);
             itemRank.setRollCount(rankCount[typeRoll]);
-            itemRank.setRollCheck(Help.Note.getCheckValue(rankCount[2], rankCount[3]));
+            itemRank.setRollCheck(rankCount[2], rankCount[3]);
 
             listRank.add(itemRank);
         }
@@ -800,6 +827,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return listRank;
     }
 
+    //DONE
     private List<String> getRankVisible() {
         Log.i("NoteDB", "getRankVisible");
 
@@ -817,6 +845,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return rankVs;
     }
 
+    //DONE
     //Забирает значения имён категорий из стола
     public List<String> getRankName() {
         Log.i("NoteDB", "getRankName");
@@ -833,6 +862,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return listRankName;
     }
 
+    //DONE - 2 метода
     //Возвращает значения относительно указанной колонки
     public String[] getRankColumn(int column) {
         Log.i("NoteDB", "getRankColumn");
@@ -849,6 +879,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return rankColumn;
     }
 
+    //DONE
     //Возвращает массив, в котором отмечается есть ли категория в массиве с ID категорий
     public boolean[] getRankCheck(String[] rkId) {
         Log.i("NoteDB", "getRankCheck");
@@ -959,6 +990,7 @@ public class NoteDB extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    //DONE
     //Обновление категории при сохранении заметки
     public void updateRank(String ntCreate, String[] ntRankId) { //TODO избежать for
         Log.i("NoteDB", "updateRank");
@@ -1000,6 +1032,7 @@ public class NoteDB extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    //DONE
     //Обновление при смене имени
     public void updateRank(int rkId, String rkName) {
         Log.i("NoteDB", "updateRank");
@@ -1009,6 +1042,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_RK_ID + "='" + rkId + "'");
     }
 
+    //DONE
     //Обновление при нажатие на кнопку скрыть/показать
     public void updateRank(int rkId, boolean rkVisible) {
         Log.i("NoteDB", "updateRank");
@@ -1019,6 +1053,7 @@ public class NoteDB extends SQLiteOpenHelper {
                 " WHERE " + KEY_RK_ID + "='" + rkId + "'");
     }
 
+    //DONE
     //Обновление при долгом нажатие на кнопку скрыть/показать
     public void updateRank(List<ItemRank> listRank) { //TODO избежать for
         Log.i("NoteDB", "updateRank");
@@ -1028,6 +1063,7 @@ public class NoteDB extends SQLiteOpenHelper {
         }
     }
 
+    //DONE
     //Удаление категории и её данных из базы данных заметок
     public void deleteRank(String rkName) {
         Log.i("NoteDB", "deleteRank");
@@ -1048,6 +1084,7 @@ public class NoteDB extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    //DONE
     //Чистит категории при удалении заметки
     private void clearRank(String rkCreate, String[] rkId) {//TODO избежать for
         Log.i("NoteDB", "clearRank");
@@ -1074,6 +1111,7 @@ public class NoteDB extends SQLiteOpenHelper {
         cursor.close();
     }
 
+    //NOT NEED
     //Переводит из массива с id в строку с позициями
     private String convertRankIdToPos(String[] rkId) {
         Log.i("NoteDB", "convertRankIdToPos");

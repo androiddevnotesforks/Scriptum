@@ -7,10 +7,15 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Intent;
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import sgtmelon.handynotes.database.DataBaseDescription;
 import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.database.converter.ConverterBool;
 import sgtmelon.handynotes.database.converter.ConverterString;
+import sgtmelon.handynotes.service.Help;
 
 @Entity(tableName = "NOTE_TABLE")
 @TypeConverters({ConverterBool.class, ConverterString.class})
@@ -59,6 +64,24 @@ public class ItemNote extends DataBaseDescription {
 
 
         return intent;
+    }
+
+    /**
+     * Убирает из массивов ненужную категорию
+     *
+     * @param noteRankId - Id ненужной категории
+     */
+    public void removeRank(String noteRankId) {
+        List<String> rankIdList = Help.Array.strArrToList(rankId);
+        List<String> rankPsList = Help.Array.strArrToList(rankPs);
+
+        int index = rankIdList.indexOf(noteRankId);
+
+        rankIdList.remove(index);
+        rankPsList.remove(index);
+
+        rankId = Help.Array.strListToArr(rankIdList);
+        rankPs = Help.Array.strListToArr(rankPsList);
     }
 
     //region Variables

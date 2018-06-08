@@ -17,28 +17,29 @@ import sgtmelon.handynotes.model.manager.ManagerRoll;
 
 @Dao
 @TypeConverters({ConverterBool.class})
-public abstract class DaoRoll {
+public abstract class DaoRoll extends DaoBase {
 
     @Insert
     public abstract long insertRoll(ItemRoll itemRoll);
 
     /**
      * Запись пунктов после конвертирования из текстовой заметки
-     * @param rlCreate - Дата создания заметки
-     * @param rlText - Массив потенциальных пунктов
+     *
+     * @param rollCreate - Дата создания заметки
+     * @param rollText   - Массив потенциальных пунктов
      * @return - Для ManagerRoll и информации о размере
      */
-    public ItemRollView insertRoll(String rlCreate, String[] rlText) {
+    public ItemRollView insertRoll(String rollCreate, String[] rollText) {
         ItemRollView itemRollView = new ItemRollView();
 
         List<ItemRoll> listRoll = new ArrayList<>();
         int rollPs = 0;
 
-        for (String aRollTx : rlText) {
+        for (String aRollTx : rollText) {
             if (!aRollTx.equals("")) {
 
                 ItemRoll itemRoll = new ItemRoll();
-                itemRoll.setCreate(rlCreate);
+                itemRoll.setCreate(rollCreate);
                 itemRoll.setPosition(rollPs);
                 itemRoll.setCheck(false);
                 itemRoll.setText(aRollTx);
@@ -61,32 +62,33 @@ public abstract class DaoRoll {
     }
 
     @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_CREATE = :rlCreate " +
+            "WHERE RL_CREATE = :rollCreate " +
             "ORDER BY RL_POSITION")
-    public abstract List<ItemRoll> getRoll(String rlCreate);
+    public abstract List<ItemRoll> getRoll(String rollCreate);
 
     /**
      * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
+     *
      * @return - Список пунктов
      */
     @Query("SELECT * FROM ROLL_TABLE " +
             "WHERE RL_POSITION BETWEEN 0 AND 3 " +
             "ORDER BY DATE(RL_CREATE) DESC, TIME(RL_CREATE) DESC, RL_POSITION ASC")
-    public abstract List<ItemRoll> getRoll();
+    abstract List<ItemRoll> getRoll();
 
     public ManagerRoll getManagerRoll() {
-        List<String> listNoteCreate = new ArrayList<>();
-        List<ItemRollView> listRollView = new ArrayList<>();
-
         List<ItemRoll> listRollBetween = getRoll(); //TODO Другое имя
 
+        List<String> listCreate = new ArrayList<>();
+        List<ItemRollView> listRollView = new ArrayList<>();
         List<ItemRoll> listRoll = new ArrayList<>();
+
         for (int i = 0; i < listRollBetween.size(); i++) {
             ItemRoll itemRoll = listRollBetween.get(i);
             itemRoll.setExist(true);
 
-            if (!listNoteCreate.contains(itemRoll.getCreate())) {
-                listNoteCreate.add(itemRoll.getCreate());
+            if (!listCreate.contains(itemRoll.getCreate())) {
+                listCreate.add(itemRoll.getCreate());
 
                 if (listRoll.size() != 0) {
                     listRollView.add(new ItemRollView(listRoll));
@@ -101,93 +103,89 @@ public abstract class DaoRoll {
             listRollView.add(new ItemRollView(listRoll));
         }
 
-        return new ManagerRoll(listNoteCreate, listRollView);
+        return new ManagerRoll(listCreate, listRollView);
     }
 
     /**
      * Получение текста для текстовой заметки на основе списка
-     * @param rlCreate - Дата создания заметки
+     *
+     * @param rollCreate - Дата создания заметки
      * @return - Строка для текстовой заметки
      */
-    public String getRollText(String rlCreate) {
-        List<ItemRoll> listRoll = getRoll(rlCreate);
+    public String getRollText(String rollCreate) {
+        List<ItemRoll> listRoll = getRoll(rollCreate);
 
-        StringBuilder rollTx = new StringBuilder();
+        StringBuilder rollText = new StringBuilder();
         for (int i = 0; i < listRoll.size(); i++) {
-            if (i != 0) rollTx.append("\n");
-            rollTx.append(listRoll.get(i).getText());
+            if (i != 0) rollText.append("\n");
+            rollText.append(listRoll.get(i).getText());
         }
 
-        return rollTx.toString();
+        return rollText.toString();
     }
 
     /**
      * Получение текста для уведомления на основе списка
      *
-     * @param rlCreate - Дата создания заметки
-     * @param rlCheck  - Количество отмеченых пунктов в заметке
+     * @param rollCreate - Дата создания заметки
+     * @param rollCheck  - Количество отмеченых пунктов в заметке
      * @return - Строка для уведомления
      */
-    public String getRollText(String rlCreate, String rlCheck) {
-        List<ItemRoll> listRoll = getRoll(rlCreate);
+    public String getRollText(String rollCreate, String rollCheck) {
+        List<ItemRoll> listRoll = getRoll(rollCreate);
 
-        StringBuilder rollTx = new StringBuilder();
-        rollTx.append(rlCheck).append(" |");
+        StringBuilder rollText = new StringBuilder();
+        rollText.append(rollCheck).append(" |");
 
         for (int i = 0; i < listRoll.size(); i++) {
             ItemRoll itemRoll = listRoll.get(i);
 
-            if (itemRoll.isCheck()) rollTx.append(" \u2713 ");
-            else rollTx.append(" - ");
+            if (itemRoll.isCheck()) rollText.append(" \u2713 ");
+            else rollText.append(" - ");
 
-            rollTx.append(itemRoll.getText());
+            rollText.append(itemRoll.getText());
 
-            if (i != listRoll.size() - 1) rollTx.append(" |");
+            if (i != listRoll.size() - 1) rollText.append(" |");
         }
 
-        return rollTx.toString();
+        return rollText.toString();
     }
 
     @Query("UPDATE ROLL_TABLE " +
-            "SET RL_POSITION = :rlPosition, RL_TEXT = :rlText " +
-            "WHERE RL_ID = :rlId")
-    public abstract void updateRoll(int rlId, int rlPosition, String rlText);
+            "SET RL_POSITION = :rollPosition, RL_TEXT = :rollText " +
+            "WHERE RL_ID = :rollId")
+    public abstract void updateRoll(int rollId, int rollPosition, String rollText);
 
     /**
      * Обновление выполнения конкретного пункта
-     * @param rlId - Id пункта
-     * @param rlCheck - Состояние отметки
+     *
+     * @param rollId    - Id пункта
+     * @param rollCheck - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
-            "SET RL_CHECK = :rlCheck " +
-            "WHERE RL_ID = :rlId")
-    public abstract void updateRoll(int rlId, boolean rlCheck);
+            "SET RL_CHECK = :rollCheck " +
+            "WHERE RL_ID = :rollId")
+    public abstract void updateRoll(int rollId, boolean rollCheck);
 
     /**
      * Обновление выполнения для всех пунктов
-     * @param rlCreate - Дата создания заметки
-     * @param rlCheck - Состояние отметки
+     *
+     * @param rollCreate - Дата создания заметки
+     * @param rollCheck  - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
-            "SET RL_CHECK = :rlCheck " +
-            "WHERE RL_CREATE = :rlCreate")
-    public abstract void updateRoll(String rlCreate, int rlCheck);
+            "SET RL_CHECK = :rollCheck " +
+            "WHERE RL_CREATE = :rollCreate")
+    public abstract void updateRoll(String rollCreate, int rollCheck);
 
     /**
      * Удаление пунктов при сохранении после свайпа
-     * @param rlCreate - Дата создания заметки
-     * @param notSwipeId - Id, которые остались в заметке
+     *
+     * @param rollCreate - Дата создания заметки
+     * @param rollIdSave - Id, которые остались в заметке
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_CREATE = :rlCreate AND RL_ID NOT IN (:notSwipeId)")
-    public abstract void deleteRoll(String rlCreate, String[] notSwipeId);
-
-    /**
-     * Удаление пунктов при удалении заметки
-     * @param rlCreate - Дата создания заметки
-     */
-    @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_CREATE = :rlCreate")
-    public abstract void deleteRoll(String rlCreate);
+            "WHERE RL_CREATE = :rollCreate AND RL_ID NOT IN (:rollIdSave)")
+    public abstract void deleteRoll(String rollCreate, String[] rollIdSave);
 
 }

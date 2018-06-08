@@ -6,19 +6,24 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import sgtmelon.handynotes.database.DataBaseDescription;
 import sgtmelon.handynotes.database.converter.ConverterBool;
 import sgtmelon.handynotes.database.converter.ConverterString;
+import sgtmelon.handynotes.service.Help;
 
 @Entity(tableName = "RANK_TABLE")
 @TypeConverters({ConverterBool.class, ConverterString.class})
-public class ItemRank extends DataBaseDescription{
+public class ItemRank extends DataBaseDescription {
 
-    public ItemRank(){
+    public ItemRank() {
 
     }
 
-    public ItemRank(int id, int position, String name){
+    public ItemRank(int id, int position, String name) {
         this.id = id;
         this.position = position;
         this.name = name;
@@ -31,12 +36,26 @@ public class ItemRank extends DataBaseDescription{
         rollCheck = 0.0;
     }
 
+    /**
+     * Убирает из массива необходимую дату создания заметки
+     *
+     * @param noteCreate - Дата создания заметки
+     */
+    public void removeCreate(String noteCreate) {
+        List<String> createList = Help.Array.strArrToList(create);
+
+        int index = createList.indexOf(noteCreate);
+
+        createList.remove(index);
+
+        create = Help.Array.strListToArr(createList);
+    }
+
     //region Variables
     @ColumnInfo(name = RK_ID)
     @PrimaryKey(autoGenerate = true)
     private int id;             //Позиция в базе данных
     //TODO: long type
-
 
     @ColumnInfo(name = RK_PS)
     private int position;       //Позиция в списке
@@ -115,7 +134,7 @@ public class ItemRank extends DataBaseDescription{
         return rollCheck;
     }
 
-    public void setRollCheck(double rollCheck) {
-        this.rollCheck = rollCheck;
+    public void setRollCheck(int rollCheckCount, int rollAllCount) {
+        rollCheck = Help.Note.getCheckValue(rollCheckCount, rollAllCount);
     }
 }
