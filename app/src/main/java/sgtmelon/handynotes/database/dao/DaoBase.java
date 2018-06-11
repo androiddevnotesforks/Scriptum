@@ -1,5 +1,6 @@
 package sgtmelon.handynotes.database.dao;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.database.DataBaseDescription;
 import sgtmelon.handynotes.database.converter.ConverterBool;
+import sgtmelon.handynotes.database.converter.ConverterInt;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 
@@ -23,6 +25,10 @@ abstract class DaoBase extends DataBaseDescription {
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_CREATE IN(:noteCreate)")
     abstract List<ItemNote> getNote(String[] noteCreate);
+
+    @Query("SELECT * FROM NOTE_TABLE " +
+            "WHERE NT_CREATE IN(:noteCreate)")
+    abstract List<ItemNote> getNote(List<String> noteCreate);
 
     /**
      * @param noteType   - Тип заметки
@@ -77,7 +83,7 @@ abstract class DaoBase extends DataBaseDescription {
     @Query("SELECT RK_ID FROM RANK_TABLE " +
             "WHERE RK_VISIBLE = 1 " +
             "ORDER BY RK_POSITION")
-    abstract List<String> getRankVisible();
+    abstract List<Integer> getRankVisible();
 
     /**
      * Удаление пунктов при удалении заметки

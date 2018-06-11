@@ -23,6 +23,20 @@ public class ItemRank extends DataBaseDescription {
 
     }
 
+    @Ignore
+    public ItemRank(int position, String name) {
+        this.position = position;
+        this.name = name;
+
+        create = new String[0];
+        visible = true;
+
+        textCount = 0;
+        rollCount = 0;
+        rollCheck = 0.0;
+    }
+
+    @Ignore
     public ItemRank(int id, int position, String name) {
         this.id = id;
         this.position = position;

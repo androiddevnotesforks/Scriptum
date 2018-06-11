@@ -1,5 +1,6 @@
 package sgtmelon.handynotes.ui.act;
 
+import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -16,6 +17,7 @@ import android.view.View;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterPager;
+import sgtmelon.handynotes.database.DataBaseRoom;
 import sgtmelon.handynotes.interfaces.menu.MenuMainClick;
 import sgtmelon.handynotes.model.state.StateNote;
 import sgtmelon.handynotes.database.NoteDB;
@@ -40,10 +42,19 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         super.onResume();
         Log.i("ActMain", "onResume");
 
-        NoteDB noteDB = new NoteDB(this);
-        managerRoll = noteDB.getListRollManager();
-        managerStatus = noteDB.getListStatusManager();
-        noteDB.close();
+        DataBaseRoom db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        managerRoll = db.daoRoll().getManagerRoll();
+        managerStatus = db.daoNote().getManagerStatus(this);
+
+        db.close();
+
+//        NoteDB noteDB = new NoteDB(this);
+//        managerRoll = noteDB.getListRollManager();
+//        managerStatus = noteDB.getListStatusManager();
+//        noteDB.close();
     }
 
     public ManagerRoll managerRoll;
@@ -69,8 +80,8 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
     private void setupViewPager() {
         Log.i("ActMain", "setupViewPager");
 
-        viewPager = findViewById(R.id.viewPager_actMain);
-        bottomNavigationView = findViewById(R.id.bNavView_actMain);
+        viewPager = findViewById(R.id.actMain_vp);
+        bottomNavigationView = findViewById(R.id.actMain_bnv_menu);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         AdapterPager adapterPager = new AdapterPager(fragmentManager);

@@ -13,7 +13,7 @@
         android:fillViewport="true">
 
         <TextView
-            android:id="@+id/tView_actDevelop_notes"
+            android:id="@+id/actDevelop_tv_note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -30,7 +30,7 @@
         android:fillViewport="true">
 
         <TextView
-            android:id="@+id/tView_actDevelop_rolls"
+            android:id="@+id/actDevelop_tv_roll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -55,7 +55,7 @@
             tools:ignore="NestedWeights">
 
             <TextView
-                android:id="@+id/tView_actDevelop_ranks"
+                android:id="@+id/actDevelop_tv_rank"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -72,7 +72,7 @@
             android:fillViewport="true">
 
             <TextView
-                android:id="@+id/tView_actDevelop_pref"
+                android:id="@+id/actDevelop_tv_pref"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"

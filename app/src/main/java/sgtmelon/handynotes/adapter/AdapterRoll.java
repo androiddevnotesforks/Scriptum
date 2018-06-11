@@ -123,17 +123,17 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
         RollHolder(View itemView) {
             super(itemView);
             if (keyEdit) {
-                rlEnter = itemView.findViewById(R.id.editText_itemRoll_enter);
-                rlDrag = itemView.findViewById(R.id.iButton_itemRoll_drag);
+                rlEnter = itemView.findViewById(R.id.itemRoll_et_enter);
+                rlDrag = itemView.findViewById(R.id.itemRoll_ib_drag);
 
                 rlEnter.setOnTouchListener(this);
                 rlEnter.addTextChangedListener(this);
 
                 rlDrag.setOnTouchListener(this);
             } else {
-                rlText = itemView.findViewById(R.id.tView_itemRoll_text);
-                rlCheck = itemView.findViewById(R.id.checkBox_itemRoll_check);
-                rlClick = itemView.findViewById(R.id.iView_itemRoll_click);
+                rlText = itemView.findViewById(R.id.itemRoll_tv_text);
+                rlCheck = itemView.findViewById(R.id.itemRoll_cb_check);
+                rlClick = itemView.findViewById(R.id.itemRoll_iv_click);
 
                 rlClick.setOnClickListener(this);
             }
@@ -153,12 +153,12 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (view.getId()) {
-                case R.id.iButton_itemRoll_drag:
+                case R.id.itemRoll_ib_drag:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         drag.setDrag(true);
                     }
                     break;
-                case R.id.editText_itemRoll_enter:
+                case R.id.itemRoll_et_enter:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         drag.setDrag(false);
                     }

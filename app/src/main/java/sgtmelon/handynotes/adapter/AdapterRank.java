@@ -117,18 +117,18 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
         RankHolder(View itemView) {
             super(itemView);
 
-            rkClick = itemView.findViewById(R.id.layout_itemRank_click);
+            rkClick = itemView.findViewById(R.id.itemRank_ll_click);
 
             rkClick.setOnTouchListener(this);
             rkClick.setOnClickListener(this);
 
-            rkName = itemView.findViewById(R.id.tView_itemRank_name);
-            rkTextCount = itemView.findViewById(R.id.tView_itemRank_textCount);
-            rkRollCount = itemView.findViewById(R.id.tView_itemRank_rollCount);
-            rkRollCheck = itemView.findViewById(R.id.tView_itemRank_rollCheck);
+            rkName = itemView.findViewById(R.id.itemRank_tv_name);
+            rkTextCount = itemView.findViewById(R.id.itemRank_tv_textCount);
+            rkRollCount = itemView.findViewById(R.id.itemRank_tv_rollCount);
+            rkRollCheck = itemView.findViewById(R.id.itemRank_tv_rollDone);
 
-            rkVisible = itemView.findViewById(R.id.iButton_itemRank_visible);
-            rkCancel = itemView.findViewById(R.id.iButton_itemRank_cancel);
+            rkVisible = itemView.findViewById(R.id.itemRank_bv_visible);
+            rkCancel = itemView.findViewById(R.id.itemRank_ib_cancel);
 
             rkVisible.setOnTouchListener(this);
             rkVisible.setOnClickListener(this);
@@ -143,14 +143,14 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
             int p = getAdapterPosition();
 
             switch (view.getId()) {
-                case R.id.iButton_itemRank_visible:
+                case R.id.itemRank_bv_visible:
                     rkVisible.setVisible(!listRank.get(p).isVisible(), true);
                     click.onItemClick(view, p);
                     break;
-                case R.id.layout_itemRank_click:
+                case R.id.itemRank_ll_click:
                     click.onItemClick(view, p);
                     break;
-                case R.id.iButton_itemRank_cancel:
+                case R.id.itemRank_ib_cancel:
                     click.onItemClick(view, p);
                     break;
             }
@@ -165,13 +165,13 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (view.getId()) {
-                case R.id.layout_itemRank_click:
+                case R.id.itemRank_ll_click:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         drag.setDrag(true);
                     }
                     break;
-                case R.id.iButton_itemRank_visible:
-                case R.id.iButton_itemRank_cancel:
+                case R.id.itemRank_bv_visible:
+                case R.id.itemRank_ib_cancel:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         drag.setDrag(false);
                     }

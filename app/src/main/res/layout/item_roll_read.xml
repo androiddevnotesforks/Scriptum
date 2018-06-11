@@ -17,14 +17,14 @@
             android:layout_height="match_parent">
 
             <CheckBox
-                android:id="@+id/checkBox_itemRoll_check"
+                android:id="@+id/itemRoll_cb_check"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:clickable="false" />
 
             <ImageView
-                android:id="@+id/iView_itemRoll_click"
+                android:id="@+id/itemRoll_iv_click"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground" />
@@ -32,7 +32,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/tView_itemRoll_text"
+            android:id="@+id/itemRoll_tv_text"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

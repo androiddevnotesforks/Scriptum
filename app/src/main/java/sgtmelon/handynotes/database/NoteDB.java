@@ -432,7 +432,7 @@ public class NoteDB extends SQLiteOpenHelper {
         cursor.close();
     }
 
-    //TODO используется в другом DAO
+    //DONE
     //Обновление при перетаскивании категории
     private void updateNote(int ntId, String[] ntRankId) {
         Log.i("NoteDB", "updateNote");
@@ -896,6 +896,7 @@ public class NoteDB extends SQLiteOpenHelper {
         return rankCh;
     }
 
+    //DONE
     //Обновление позиций при перемещении
     public void updateRank(int startPs, int endPs) { //TODO избежать for
         Log.i("NoteDB", "updateRank");
@@ -973,6 +974,7 @@ public class NoteDB extends SQLiteOpenHelper {
         noteCursor.close();
     }
 
+    //DONE
     //Обновление позиций при удалении категории
     public void updateRank(int startPs) { //TODO избежать for
         Log.i("NoteDB", "updateRank");

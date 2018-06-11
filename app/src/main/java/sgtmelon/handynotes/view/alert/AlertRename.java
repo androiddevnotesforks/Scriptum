@@ -42,7 +42,7 @@ public class AlertRename extends AlertDialog.Builder implements TextWatcher, Tex
 
     private void setupEditText() {
         View content = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
-        enterName = content.findViewById(R.id.editText_viewRename_enter);
+        enterName = content.findViewById(R.id.viewRename_et_enter);
 
         setView(content);
     }

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.database.DataBaseRoom;
+import sgtmelon.handynotes.database.converter.ConverterInt;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.service.Help;
@@ -38,7 +39,8 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         this.itemNote = itemNote;
     }
 
-    private NoteDB noteDB;
+    //    private NoteDB noteDB;
+    private DataBaseRoom db;
 
     private View frgView;
     private Context context;
@@ -67,7 +69,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     private void setupToolbar() {
         Log.i("FrgText", "setupToolbar");
 
-        Toolbar toolbar = frgView.findViewById(R.id.toolbar);
+        Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.inflateMenu(R.menu.menu_act_note);
 
         menuNote = new MenuNote(context, activity.getWindow(), toolbar, itemNote.getType());
@@ -88,9 +90,17 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
-            noteDB = new NoteDB(context);
-            itemNote = noteDB.getNote(itemNote.getId());
-            noteDB.close();
+            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                    .allowMainThreadQueries()
+                    .build();
+
+            itemNote = db.daoNote().getNote(itemNote.getId());
+
+            db.close();
+
+//            noteDB = new NoteDB(context);
+//            itemNote = noteDB.getNote(itemNote.getId());
+//            noteDB.close();
 
             onMenuEditClick(false);
 
@@ -115,21 +125,33 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 onMenuEditClick(false);
             }
 
-            DataBaseRoom db = Room.databaseBuilder(context, DataBaseRoom.class, "itemTest")
+            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
                     .allowMainThreadQueries()
                     .build();
 
-            noteDB = new NoteDB(context);
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
 
-                int ntId = noteDB.insertNote(itemNote);
+                int ntId = (int) db.daoNote().insertNote(itemNote);
                 itemNote.setId(ntId);
             } else {
-                noteDB.updateNote(itemNote);        //Обновляем
+                db.daoNote().updateNote(itemNote);
             }
-            noteDB.updateRank(itemNote.getCreate(), itemNote.getRankId());
-            noteDB.close();
+            db.daoRank().updateRank(itemNote.getCreate(), itemNote.getRankId());
+
+            db.close();
+
+//            noteDB = new NoteDB(context);
+//            if (activity.stateNote.isCreate()) {
+//                activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
+//
+//                int ntId = noteDB.insertNote(itemNote);
+//                itemNote.setId(ntId);
+//            } else {
+//                noteDB.updateNote(itemNote);        //Обновляем
+//            }
+//            noteDB.updateRank(itemNote.getCreate(), itemNote.getRankId());
+//            noteDB.close();
 
             activity.setItemNote(itemNote);
             return true;
@@ -140,11 +162,21 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     public void onMenuRankClick() {
         Log.i("FrgText", "onMenuRankClick");
 
-        noteDB = new NoteDB(context);
-        final String[] checkName = noteDB.getRankColumn(NoteDB.RK_NM);
-        final String[] checkId = noteDB.getRankColumn(NoteDB.RK_ID);
-        final boolean[] checkItem = noteDB.getRankCheck(itemNote.getRankId());
-        noteDB.close();
+//        noteDB = new NoteDB(context);
+//        final String[] checkName = noteDB.getRankColumn(NoteDB.RK_NM);
+//        final String[] checkId = noteDB.getRankColumn(NoteDB.RK_ID);
+//        final boolean[] checkItem = noteDB.getRankCheck(itemNote.getRankId());
+//        noteDB.close();
+
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        final String[] checkName = Help.Array.strListToArr(db.daoRank().getRankName());
+        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getRankId())); //TODO !!! эт жесть если честно
+        final boolean[] checkItem = db.daoRank().getRankCheck(itemNote.getRankId());
+
+        db.close();
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
@@ -259,9 +291,16 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
         menuNote.setStatusTitle(itemNote.isStatus());
 
-        noteDB = new NoteDB(context);
-        noteDB.updateNote(itemNote.getId(), itemNote.isStatus());
-        noteDB.close();
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+        db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
+
+        db.close();
+
+//        noteDB = new NoteDB(context);
+//        noteDB.updateNote(itemNote.getId(), itemNote.isStatus());
+//        noteDB.close();
 
         activity.setItemNote(itemNote);
     }
@@ -272,15 +311,29 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
         String[] textToRoll = itemNote.getText().split("\n");   //Получаем пункты списка
 
-        noteDB = new NoteDB(context);
-        ItemRollView itemRollView = noteDB.insertRoll(itemNote.getCreate(), textToRoll);      //Записываем пункты
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        ItemRollView itemRollView = db.daoRoll().insertRoll(itemNote.getCreate(), textToRoll);
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setType(NoteDB.typeRoll);
         itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
-        noteDB.updateNoteType(itemNote);
-        noteDB.close();
+        db.daoNote().updateNote(itemNote);
+
+        db.close();
+
+//        noteDB = new NoteDB(context);
+//        ItemRollView itemRollView = noteDB.insertRoll(itemNote.getCreate(), textToRoll);      //Записываем пункты
+//
+//        itemNote.setChange(Help.Time.getCurrentTime(context));
+//        itemNote.setType(NoteDB.typeRoll);
+//        itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
+//
+//        noteDB.updateNoteType(itemNote);
+//        noteDB.close();
 
         activity.setItemNote(itemNote);
         activity.setupFrg();
@@ -293,12 +346,12 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     private void setupEnter() {
         Log.i("FrgText", "setupEnter");
 
-        nameEnter = frgView.findViewById(R.id.editText_toolbarNote_name);
-        nameView = frgView.findViewById(R.id.tView_toolbarNote_name);
-        nameScrollView = frgView.findViewById(R.id.hScrollView_toolbarNote_name);
+        nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
+        nameView = frgView.findViewById(R.id.incToolbarNote_tv_name);
+        nameScrollView = frgView.findViewById(R.id.incToolbarNote_hsv_name);
 
-        textEnter = frgView.findViewById(R.id.editText_frgText_enter);
-        textView = frgView.findViewById(R.id.tView_frgText_text);
+        textEnter = frgView.findViewById(R.id.frgText_et_enter);
+        textView = frgView.findViewById(R.id.frgText_tv_text);
 
         nameEnter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

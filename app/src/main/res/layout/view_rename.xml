@@ -8,7 +8,7 @@
     android:paddingTop="@dimen/item_layout_big_indent">
 
     <EditText
-        android:id="@+id/editText_viewRename_enter"
+        android:id="@+id/viewRename_et_enter"
         style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

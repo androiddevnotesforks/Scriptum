@@ -151,39 +151,39 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         NoteHolder(View itemView, int viewType) {
             super(itemView);
 
-            ntContour = itemView.findViewById(R.id.layout_itemNote_main);
-            ntBackground = itemView.findViewById(R.id.layout_itemNote_subMain);
-            ntClick = itemView.findViewById(R.id.layout_itemNote_click);
+            ntContour = itemView.findViewById(R.id.itemNote_fl_main);
+            ntBackground = itemView.findViewById(R.id.itemNote_fl_submain);
+            ntClick = itemView.findViewById(R.id.itemNote_ll_click);
 
             ntClick.setOnClickListener(this);
             ntClick.setOnLongClickListener(this);
 
-            ntName = itemView.findViewById(R.id.tView_itemNote_name);
-            ntText = itemView.findViewById(R.id.tView_itemNote_text);
-            ntCreate = itemView.findViewById(R.id.tView_itemNote_create);
-            ntChange = itemView.findViewById(R.id.tView_itemNote_change);
+            ntName = itemView.findViewById(R.id.itemNote_tv_name);
+            ntText = itemView.findViewById(R.id.itemNote_tv_text);
+            ntCreate = itemView.findViewById(R.id.itemNote_tv_create);
+            ntChange = itemView.findViewById(R.id.itemNote_tv_change);
 
-            ntBind = itemView.findViewById(R.id.iView_itemNote_bind);
-            ntRank = itemView.findViewById(R.id.iView_itemNote_rank);
+            ntBind = itemView.findViewById(R.id.itemNote_iv_bind);
+            ntRank = itemView.findViewById(R.id.itemNote_iv_rank);
 
             if (viewType == NoteDB.typeRoll) {
                 rlChecks = new ImageView[]{
-                        itemView.findViewById(R.id.iView_itemNote_rollCheck_1),
-                        itemView.findViewById(R.id.iView_itemNote_rollCheck_2),
-                        itemView.findViewById(R.id.iView_itemNote_rollCheck_3),
-                        itemView.findViewById(R.id.iView_itemNote_rollCheck_4)};
+                        itemView.findViewById(R.id.itemNote_iv_check_1),
+                        itemView.findViewById(R.id.itemNote_iv_check_2),
+                        itemView.findViewById(R.id.itemNote_iv_check_3),
+                        itemView.findViewById(R.id.itemNote_iv_check_4)};
 
                 rlTexts = new TextView[]{
-                        itemView.findViewById(R.id.tView_itemNote_rollText_1),
-                        itemView.findViewById(R.id.tView_itemNote_rollText_2),
-                        itemView.findViewById(R.id.tView_itemNote_rollText_3),
-                        itemView.findViewById(R.id.tView_itemNote_rollText_4)};
+                        itemView.findViewById(R.id.itemNote_tv_text_1),
+                        itemView.findViewById(R.id.itemNote_tv_text_2),
+                        itemView.findViewById(R.id.itemNote_tv_text_3),
+                        itemView.findViewById(R.id.itemNote_tv_text_4)};
 
                 rlLayouts = new LinearLayout[]{
-                        itemView.findViewById(R.id.layout_itemNote_roll_1),
-                        itemView.findViewById(R.id.layout_itemNote_roll_2),
-                        itemView.findViewById(R.id.layout_itemNote_roll_3),
-                        itemView.findViewById(R.id.layout_itemNote_roll_4)};
+                        itemView.findViewById(R.id.itemNote_ll_roll_1),
+                        itemView.findViewById(R.id.itemNote_ll_roll_2),
+                        itemView.findViewById(R.id.itemNote_ll_roll_3),
+                        itemView.findViewById(R.id.itemNote_ll_roll_4)};
             }
         }
 

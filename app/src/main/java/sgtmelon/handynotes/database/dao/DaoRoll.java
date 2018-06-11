@@ -6,6 +6,7 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 import android.database.Cursor;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -187,5 +188,26 @@ public abstract class DaoRoll extends DaoBase {
     @Query("DELETE FROM ROLL_TABLE " +
             "WHERE RL_CREATE = :rollCreate AND RL_ID NOT IN (:rollIdSave)")
     public abstract void deleteRoll(String rollCreate, String[] rollIdSave);
+
+    public void listAllRoll(TextView textView) {
+        List<ItemRoll> listRoll = getRoll();
+
+        String annotation = "Roll Data Base:";
+        textView.setText(annotation);
+
+        for (int i = 0; i < listRoll.size(); i++) {
+            ItemRoll itemRoll = listRoll.get(i);
+
+            textView.append("\n\n" +
+                    "ID: " + itemRoll.getId() + " | " +
+                    "CR: " + itemRoll.getCreate() + " | " +
+                    "PS: " + itemRoll.getPosition() + " | " +
+                    "CH: " + itemRoll.isCheck() + "\n");
+
+            String rollText = itemRoll.getText();
+            textView.append("TX: " + rollText.substring(0, Math.min(rollText.length(), 45)).replace("\n", " "));
+            if (rollText.length() > 40) textView.append("...");
+        }
+    }
 
 }

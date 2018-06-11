@@ -13,13 +13,13 @@
         android:background="@color/noteWhite">
 
         <LinearLayout
-            android:id="@+id/layout_itemSort_click"
+            android:id="@+id/itemSort_ll_click"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground">
 
             <ImageView
-                android:id="@+id/iView_itemSort_left"
+                android:id="@+id/itemSort_iv_left"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -29,7 +29,7 @@
                 app:srcCompat="@drawable/ic_info_braket_left" />
 
             <TextView
-                android:id="@+id/tView_itemSort_text"
+                android:id="@+id/itemSort_tv_text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,7 +43,7 @@
                 android:textSize="@dimen/text_medium_size" />
 
             <ImageView
-                android:id="@+id/iView_itemSort_right"
+                android:id="@+id/itemSort_iv_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

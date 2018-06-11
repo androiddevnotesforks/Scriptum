@@ -92,10 +92,10 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
         SortHolder(View itemView) {
             super(itemView);
 
-            srClick = itemView.findViewById(R.id.layout_itemSort_click);
-            srText = itemView.findViewById(R.id.tView_itemSort_text);
-            srChevronLeft = itemView.findViewById(R.id.iView_itemSort_left);
-            srChevronRight = itemView.findViewById(R.id.iView_itemSort_right);
+            srClick = itemView.findViewById(R.id.itemSort_ll_click);
+            srText = itemView.findViewById(R.id.itemSort_tv_text);
+            srChevronLeft = itemView.findViewById(R.id.itemSort_iv_left);
+            srChevronRight = itemView.findViewById(R.id.itemSort_iv_right);
 
             srClick.setOnClickListener(this);
         }

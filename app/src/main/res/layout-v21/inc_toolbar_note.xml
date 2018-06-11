@@ -7,7 +7,7 @@
     android:stateListAnimator="@null">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/incToolbar_tb"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/editText_toolbarNote_name"
+                android:id="@+id/incToolbarNote_et_name"
                 style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -38,14 +38,15 @@
                 android:textColorHint="@color/colorDark" />
 
             <HorizontalScrollView
-                android:id="@+id/hScrollView_toolbarNote_name"
+                android:id="@+id/incToolbarNote_hsv_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scrollbars="none"
+                android:overScrollMode="never"
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/tView_toolbarNote_name"
+                    android:id="@+id/incToolbarNote_tv_name"
                     style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

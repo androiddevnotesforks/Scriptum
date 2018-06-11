@@ -218,7 +218,7 @@ public class Help {
             itemNote.setType(type);
             itemNote.setRankPs(new String[0]);
             itemNote.setRankId(new String[0]);
-            itemNote.setBin(true);
+            itemNote.setBin(false);
             itemNote.setStatus(false);
 
             return itemNote;

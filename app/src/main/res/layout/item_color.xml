@@ -8,21 +8,21 @@
     android:padding="@dimen/item_layout_medium_indent">
 
     <ImageView
-        android:id="@+id/iView_itemColor_background"
+        android:id="@+id/itemColor_iv_background"
         android:layout_width="@dimen/icon_big_size"
         android:layout_height="@dimen/icon_big_size"
         android:layout_gravity="center"
         android:background="@drawable/ic_button_color_10" />
 
     <ImageView
-        android:id="@+id/iView_itemColor_check"
+        android:id="@+id/itemColor_iv_check"
         android:layout_width="@dimen/icon_medium_size"
         android:layout_height="@dimen/icon_medium_size"
         android:layout_gravity="center"
         app:srcCompat="@drawable/ic_button_color_check" />
 
     <ImageView
-        android:id="@+id/iView_itemColor_click"
+        android:id="@+id/itemColor_iv_click"
         android:layout_width="@dimen/icon_big_size"
         android:layout_height="@dimen/icon_big_size"
         android:background="?attr/selectableItemBackgroundBorderless"

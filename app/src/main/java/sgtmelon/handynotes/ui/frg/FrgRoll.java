@@ -1,5 +1,6 @@
 package sgtmelon.handynotes.ui.frg;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Canvas;
@@ -31,6 +32,8 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRoll;
+import sgtmelon.handynotes.database.DataBaseRoom;
+import sgtmelon.handynotes.database.converter.ConverterInt;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.model.state.StateCheck;
@@ -50,7 +53,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     //TODO: В идеале отмена последнего действия
 
     //region Variables
-    private NoteDB noteDB;
+//    private NoteDB noteDB;
+    private DataBaseRoom db;
 
     private View frgView;
     private Context context;
@@ -98,7 +102,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void setupToolbar() {
         Log.i("FrgRoll", "setupToolbar");
 
-        Toolbar toolbar = frgView.findViewById(R.id.toolbar);
+        Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.inflateMenu(R.menu.menu_act_note);
 
         menuNote = new MenuNote(context, activity.getWindow(), toolbar, itemNote.getType());
@@ -120,10 +124,19 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
-            noteDB = new NoteDB(context);
-            itemNote = noteDB.getNote(itemNote.getId());
-            listRoll = noteDB.getRoll(itemNote.getCreate());
-            noteDB.close();
+            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                    .allowMainThreadQueries()
+                    .build();
+
+            itemNote = db.daoNote().getNote(itemNote.getId());
+            listRoll = db.daoRoll().getRoll(itemNote.getCreate());
+
+            db.close();
+
+//            noteDB = new NoteDB(context);
+//            itemNote = noteDB.getNote(itemNote.getId());
+//            listRoll = noteDB.getRoll(itemNote.getCreate());
+//            noteDB.close();
 
             adapterRoll.updateAdapter(listRoll);
 
@@ -150,17 +163,23 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 onMenuEditClick(false);                                            //Переход в режим просмотра
             }
 
-            noteDB = new NoteDB(context);
+            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                    .allowMainThreadQueries()
+                    .build();
+
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
 
-                int noteId = noteDB.insertNote(itemNote);
+                int noteId = (int) db.daoNote().insertNote(itemNote);
                 itemNote.setId(noteId);             //Получаем её id
 
                 for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись в пунктов в БД
                     ItemRoll itemRoll = listRoll.get(rollPs);
 
-                    int rollId = noteDB.insertRoll(itemNote.getCreate(), rollPs, itemRoll.isCheck(), itemRoll.getText());
+                    itemRoll.setCreate(itemNote.getCreate());
+                    itemRoll.setPosition(rollPs);
+
+                    int rollId = (int) db.daoRoll().insertRoll(itemRoll);
 
                     itemRoll.setId(rollId);             //Обновление некоторых значений
                     itemRoll.setExist(true);
@@ -169,18 +188,24 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 }
                 adapterRoll.updateAdapter(listRoll);
             } else {
-                noteDB.updateNote(itemNote);
+                db.daoNote().updateNote(itemNote);
 
                 for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись и обновление пунктов в БД
                     ItemRoll itemRoll = listRoll.get(rollPs);
 
                     if (!itemRoll.isExist()) {                          //Если НЕТ В БАЗЕ ДАННЫХ
-                        int rlId = noteDB.insertRoll(itemNote.getCreate(), rollPs, false, itemRoll.getText());
+
+                        ItemRoll itemRoll1 = new ItemRoll();
+                        itemRoll.setCreate(itemNote.getCreate());
+                        itemRoll.setPosition(rollPs);
+                        itemRoll.setCheck(false);
+
+                        int rlId = (int) db.daoRoll().insertRoll(itemRoll);
 
                         itemRoll.setId(rlId);
                         itemRoll.setExist(true);
                     } else {                                           //Если УЖЕ ЕСТЬ В БАЗЕ ДАННЫХ
-                        noteDB.updateRoll(itemRoll.getId(), rollPs, itemRoll.getText());
+                        db.daoRoll().updateRoll(itemRoll.getId(), rollPs, itemRoll.getText());
                     }
                     listRoll.set(rollPs, itemRoll);
                 }
@@ -191,10 +216,57 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                     rollId[rollPs] = Integer.toString(listRoll.get(rollPs).getId());
                 }
 
-                noteDB.deleteRoll(itemNote.getCreate(), rollId);  //Удаление пунктов которые свайпнули
+                db.daoRoll().deleteRoll(itemNote.getCreate(), rollId);
             }
-            noteDB.updateRank(itemNote.getCreate(), itemNote.getRankId());
-            noteDB.close();
+            db.daoRank().updateRank(itemNote.getCreate(), itemNote.getRankId());
+
+            db.close();
+
+//            noteDB = new NoteDB(context);
+//            if (activity.stateNote.isCreate()) {
+//                activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
+//
+//                int noteId = noteDB.insertNote(itemNote);
+//                itemNote.setId(noteId);             //Получаем её id
+//
+//                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись в пунктов в БД
+//                    ItemRoll itemRoll = listRoll.get(rollPs);
+//
+//                    int rollId = noteDB.insertRoll(itemNote.getCreate(), rollPs, itemRoll.isCheck(), itemRoll.getText());
+//
+//                    itemRoll.setId(rollId);             //Обновление некоторых значений
+//                    itemRoll.setExist(true);
+//
+//                    listRoll.set(rollPs, itemRoll);
+//                }
+//                adapterRoll.updateAdapter(listRoll);
+//            } else {
+//                noteDB.updateNote(itemNote);
+//
+//                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись и обновление пунктов в БД
+//                    ItemRoll itemRoll = listRoll.get(rollPs);
+//
+//                    if (!itemRoll.isExist()) {                          //Если НЕТ В БАЗЕ ДАННЫХ
+//                        int rlId = noteDB.insertRoll(itemNote.getCreate(), rollPs, false, itemRoll.getText());
+//
+//                        itemRoll.setId(rlId);
+//                        itemRoll.setExist(true);
+//                    } else {                                           //Если УЖЕ ЕСТЬ В БАЗЕ ДАННЫХ
+//                        noteDB.updateRoll(itemRoll.getId(), rollPs, itemRoll.getText());
+//                    }
+//                    listRoll.set(rollPs, itemRoll);
+//                }
+//                adapterRoll.updateAdapter(listRoll);
+//
+//                String[] rollId = new String[listRoll.size()];        //ID тех пунктов которые остались
+//                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {
+//                    rollId[rollPs] = Integer.toString(listRoll.get(rollPs).getId());
+//                }
+//
+//                noteDB.deleteRoll(itemNote.getCreate(), rollId);  //Удаление пунктов которые свайпнули
+//            }
+//            noteDB.updateRank(itemNote.getCreate(), itemNote.getRankId());
+//            noteDB.close();
 
             activity.setItemNote(itemNote);
             return true;
@@ -205,11 +277,21 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuRankClick() {
         Log.i("FrgRoll", "onMenuRankClick");
 
-        noteDB = new NoteDB(context);
-        final String[] checkName = noteDB.getRankColumn(NoteDB.RK_NM);
-        final String[] checkId = noteDB.getRankColumn(NoteDB.RK_ID);
-        final boolean[] checkItem = noteDB.getRankCheck(itemNote.getRankId());
-        noteDB.close();
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        final String[] checkName = Help.Array.strListToArr(db.daoRank().getRankName());
+        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getRankId())); //TODO !!! эт жесть если честно
+        final boolean[] checkItem = db.daoRank().getRankCheck(itemNote.getRankId());
+
+        db.close();
+
+//        noteDB = new NoteDB(context);
+//        final String[] checkName = noteDB.getRankColumn(NoteDB.RK_NM);
+//        final String[] checkId = noteDB.getRankColumn(NoteDB.RK_ID);
+//        final boolean[] checkItem = noteDB.getRankCheck(itemNote.getRankId());
+//        noteDB.close();
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
@@ -315,19 +397,37 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
-        noteDB = new NoteDB(context);
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
         if (stateCheck.isAll()) {
             itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
-            noteDB.updateRoll(itemNote.getCreate(), NoteDB.checkFalse);
-            noteDB.updateNoteText(itemNote);
+            db.daoRoll().updateRoll(itemNote.getCreate(), NoteDB.checkFalse);
+            db.daoNote().updateNote(itemNote);
         } else {
             itemNote.setText(Help.Note.getCheckStr(listRoll.size(), listRoll.size()));
 
-            noteDB.updateRoll(itemNote.getCreate(), NoteDB.checkTrue);
-            noteDB.updateNoteText(itemNote);
+            db.daoRoll().updateRoll(itemNote.getCreate(), NoteDB.checkTrue);
+            db.daoNote().updateNote(itemNote);
         }
-        noteDB.close();
+
+        db.close();
+
+//        noteDB = new NoteDB(context);
+//        if (stateCheck.isAll()) {
+//            itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
+//
+//            noteDB.updateRoll(itemNote.getCreate(), NoteDB.checkFalse);
+//            noteDB.updateNoteText(itemNote);
+//        } else {
+//            itemNote.setText(Help.Note.getCheckStr(listRoll.size(), listRoll.size()));
+//
+//            noteDB.updateRoll(itemNote.getCreate(), NoteDB.checkTrue);
+//            noteDB.updateNoteText(itemNote);
+//        }
+//        noteDB.close();
 
         updateAdapter();
         activity.setItemNote(itemNote);
@@ -347,9 +447,17 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         menuNote.setStatusTitle(itemNote.isStatus());
 
-        noteDB = new NoteDB(context);
-        noteDB.updateNote(itemNote.getId(), itemNote.isStatus());
-        noteDB.close();
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
+
+        db.close();
+
+//        noteDB = new NoteDB(context);
+//        noteDB.updateNote(itemNote.getId(), itemNote.isStatus());
+//        noteDB.close();
 
         activity.setItemNote(itemNote);
     }
@@ -358,16 +466,31 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i("FrgRoll", "onMenuConvertClick");
 
-        noteDB = new NoteDB(context);
-        String rollToText = noteDB.getRollText(itemNote.getCreate());   //Получаем текст заметки
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        String rollToText = db.daoRoll().getRollText(itemNote.getCreate());
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setType(NoteDB.typeText);
         itemNote.setText(rollToText);
 
-        noteDB.updateNoteType(itemNote);                               //Обновляем заметку (меняем тип и текст)
-        noteDB.deleteRoll(itemNote.getCreate());                        //Удаляем пункты бывшего списка
-        noteDB.close();
+        db.daoNote().updateNote(itemNote);
+        db.daoRoll().deleteRoll(itemNote.getCreate());
+
+        db.close();
+
+//        noteDB = new NoteDB(context);
+//        String rollToText = noteDB.getRollText(itemNote.getCreate());   //Получаем текст заметки
+//
+//        itemNote.setChange(Help.Time.getCurrentTime(context));
+//        itemNote.setType(NoteDB.typeText);
+//        itemNote.setText(rollToText);
+//
+//        noteDB.updateNoteType(itemNote);                               //Обновляем заметку (меняем тип и текст)
+//        noteDB.deleteRoll(itemNote.getCreate());                        //Удаляем пункты бывшего списка
+//        noteDB.close();
 
         activity.setItemNote(itemNote);
         activity.setupFrg();
@@ -390,7 +513,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         stateDrag = new StateDrag();
         stateCheck = new StateCheck();
 
-        recyclerView = frgView.findViewById(R.id.recyclerView_frgRoll);
+        recyclerView = frgView.findViewById(R.id.frgRoll_rv);
 
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
@@ -408,9 +531,17 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void updateAdapter() {
         Log.i("FrgRoll", "updateAdapter");
 
-        noteDB = new NoteDB(getContext());
-        listRoll = noteDB.getRoll(itemNote.getCreate());
-        noteDB.close();
+        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        listRoll = db.daoRoll().getRoll(itemNote.getCreate());
+
+        db.close();
+
+//        noteDB = new NoteDB(getContext());
+//        listRoll = noteDB.getRoll(itemNote.getCreate());
+//        noteDB.close();
 
         stateCheck.setAll(Help.Note.isAllCheck(listRoll));
         menuNote.setCheckTitle(stateCheck.isAll());
@@ -531,13 +662,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void setupEnter() {
         Log.i("FrgRoll", "setupEnter");
 
-        nameEnter = frgView.findViewById(R.id.editText_toolbarNote_name);
-        nameView = frgView.findViewById(R.id.tView_toolbarNote_name);
-        nameScrollView = frgView.findViewById(R.id.hScrollView_toolbarNote_name);
+        nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
+        nameView = frgView.findViewById(R.id.incToolbarNote_tv_name);
+        nameScrollView = frgView.findViewById(R.id.incToolbarNote_hsv_name);
 
-        rollEnterLayout = frgView.findViewById(R.id.layout_frgRoll_enter);
-        rollEnter = frgView.findViewById(R.id.editText_frgRoll_enter);
-        rollAdd = frgView.findViewById(R.id.iButton_frgRoll_add);
+        rollEnterLayout = frgView.findViewById(R.id.frgRoll_ll_enter);
+        rollEnter = frgView.findViewById(R.id.frgRoll_et_enter);
+        rollAdd = frgView.findViewById(R.id.frgRoll_ib_add);
 
         nameEnter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

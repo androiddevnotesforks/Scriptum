@@ -24,7 +24,7 @@
                 android:visibility="invisible" />
 
             <ImageButton
-                android:id="@+id/iButton_itemRoll_drag"
+                android:id="@+id/itemRoll_ib_drag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground"
@@ -34,7 +34,7 @@
         </FrameLayout>
 
         <EditText
-            android:id="@+id/editText_itemRoll_enter"
+            android:id="@+id/itemRoll_et_enter"
             style="@style/EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

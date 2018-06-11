@@ -6,7 +6,7 @@
     app:elevation="@dimen/app_bar_no_elevation">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        android:id="@+id/incToolbar_tb"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -26,7 +26,7 @@
                 android:background="@color/colorPrimary">
 
                 <ImageButton
-                    android:id="@+id/iButton_toolbarRank_cancel"
+                    android:id="@+id/incToolbarRank_ib_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/item_layout_small_indent"
@@ -38,7 +38,7 @@
                     app:srcCompat="@drawable/ic_button_cancel" />
 
                 <EditText
-                    android:id="@+id/editText_toolbarRank_enter"
+                    android:id="@+id/incToolbarRank_et_enter"
                     style="@style/EditText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                     android:textSize="@dimen/text_big_size" />
 
                 <ImageButton
-                    android:id="@+id/iButton_toolbarRank_add"
+                    android:id="@+id/incToolbarRank_ib_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/item_layout_small_indent"

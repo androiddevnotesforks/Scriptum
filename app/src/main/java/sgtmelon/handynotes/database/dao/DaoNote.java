@@ -7,11 +7,16 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 import android.content.Context;
+import android.database.Cursor;
+import android.text.TextUtils;
+import android.util.Log;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.database.converter.ConverterBool;
+import sgtmelon.handynotes.database.converter.ConverterInt;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemStatus;
 import sgtmelon.handynotes.model.manager.ManagerStatus;
@@ -45,7 +50,7 @@ public abstract class DaoNote extends DaoBase {
      */
     public ManagerStatus getManagerStatus(Context context) {
         List<ItemNote> listNote = getNote();
-        List<String> rankVisible = getRankVisible();
+        List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
 
         List<String> listCreate = new ArrayList<>();
         List<ItemStatus> listStatus = new ArrayList<>();
@@ -100,7 +105,7 @@ public abstract class DaoNote extends DaoBase {
 
     public void clearBin() {
         List<ItemNote> listNote = getNote(true, orders[0]);
-        List<String> rankVisible = getRankVisible();
+        List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
@@ -119,19 +124,51 @@ public abstract class DaoNote extends DaoBase {
         deleteNote(listNote);
     }
 
-    public void deleteNote(int noteId){
+    public void deleteNote(int noteId) {
         ItemNote itemNote = getNote(noteId);
 
-        if (itemNote.getType() == typeRoll){
+        if (itemNote.getType() == typeRoll) {
             deleteRoll(itemNote.getCreate());
         }
 
         String[] rankId = itemNote.getRankId();
-        if (rankId.length != 0){
+        if (rankId.length != 0) {
             clearRank(itemNote.getCreate(), rankId);
         }
 
         deleteNote(itemNote);
+    }
+
+    public void listAllNote(TextView textView) {
+        List<ItemNote> listNote = getNote(true, orders[0]);
+        listNote.addAll(getNote(false, orders[0]));
+
+        String annotation = "Note Data Base:";
+        textView.setText(annotation);
+
+        for (int i = 0; i < listNote.size(); i++) {
+            ItemNote itemNote = listNote.get(i);
+
+            textView.append("\n\n" +
+                    "ID: " + itemNote.getId() + " | " +
+                    "CR: " + itemNote.getCreate() + " | " +
+                    "CH: " + itemNote.getChange() + "\n");
+
+            String noteName = itemNote.getName();
+            if (!noteName.equals("")) textView.append("NM: " + noteName + "\n");
+
+            String noteText = itemNote.getText();
+            textView.append("TX: " + noteText.substring(0, Math.min(noteText.length(), 45)).replace("\n", " "));
+            if (noteText.length() > 40) textView.append("...");
+            textView.append("\n");
+
+            textView.append("CL: " + itemNote.getColor() + " | " +
+                    "TP: " + itemNote.getType() + " | " +
+                    "BN: " + itemNote.isBin() + "\n" +
+                    "RK ID: " + TextUtils.join(", ", itemNote.getRankId()) + " | " +
+                    "RK PS: " + TextUtils.join(", ", itemNote.getRankPs()) + "\n" +
+                    "ST: " + itemNote.isStatus());
+        }
     }
 
 }

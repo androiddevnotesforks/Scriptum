@@ -6,7 +6,7 @@
     <include layout="@layout/inc_toolbar"/>
 
     <FrameLayout
-        android:id="@+id/layout_actSettings_container"
+        android:id="@+id/actSettings_fl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

@@ -21,7 +21,7 @@
             android:layout_weight="0.5">
 
             <ImageView
-                android:id="@+id/iView_viewAbout_logo"
+                android:id="@+id/viewAbout_iv_logo"
                 android:layout_width="@dimen/icon_logo_size"
                 android:layout_height="@dimen/icon_logo_size"
                 android:layout_gravity="center"

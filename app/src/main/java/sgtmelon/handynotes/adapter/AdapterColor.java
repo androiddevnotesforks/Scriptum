@@ -82,9 +82,9 @@ public class AdapterColor extends RecyclerView.Adapter<AdapterColor.ColorHolder>
         ColorHolder(View itemView) {
             super(itemView);
 
-            clClick = itemView.findViewById(R.id.iView_itemColor_click);
-            clCheck = itemView.findViewById(R.id.iView_itemColor_check);
-            clBackground = itemView.findViewById(R.id.iView_itemColor_background);
+            clClick = itemView.findViewById(R.id.itemColor_iv_click);
+            clCheck = itemView.findViewById(R.id.itemColor_iv_check);
+            clBackground = itemView.findViewById(R.id.itemColor_iv_background);
 
             clClick.setOnClickListener(this);
 

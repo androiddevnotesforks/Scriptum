@@ -13,7 +13,7 @@
         android:background="@color/noteWhite">
 
         <LinearLayout
-            android:id="@+id/layout_itemRank_click"
+            android:id="@+id/itemRank_ll_click"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
@@ -22,7 +22,7 @@
             android:weightSum="1">
 
             <sgtmelon.handynotes.view.ButtonVisible
-                android:id="@+id/iButton_itemRank_visible"
+                android:id="@+id/itemRank_bv_visible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -39,7 +39,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tView_itemRank_name"
+                    android:id="@+id/itemRank_tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/item_layout_medium_indent"
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/tView_itemRank_textCount"
+                        android:id="@+id/itemRank_tv_textCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/item_layout_small_indent"
@@ -66,7 +66,7 @@
                         android:textSize="@dimen/text_small_size" />
 
                     <TextView
-                        android:id="@+id/tView_itemRank_rollCount"
+                        android:id="@+id/itemRank_tv_rollCount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/item_layout_small_indent"
@@ -78,7 +78,7 @@
                         android:textSize="@dimen/text_small_size" />
 
                     <TextView
-                        android:id="@+id/tView_itemRank_rollCheck"
+                        android:id="@+id/itemRank_tv_rollDone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/test_item_rank_roll_check"
@@ -91,7 +91,7 @@
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/iButton_itemRank_cancel"
+                android:id="@+id/itemRank_ib_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

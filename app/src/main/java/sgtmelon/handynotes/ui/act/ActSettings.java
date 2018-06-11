@@ -22,13 +22,13 @@ public class ActSettings extends AppCompatActivity implements View.OnClickListen
         setupToolbar();
 
         FrgSettings frgSettings = new FrgSettings();
-        getFragmentManager().beginTransaction().replace(R.id.layout_actSettings_container, frgSettings).commit();
+        getFragmentManager().beginTransaction().replace(R.id.actSettings_fl_container, frgSettings).commit();
     }
 
     private void setupToolbar(){
         Log.i("FrgBin", "setupToolbar");
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_act_settings));
 
         toolbar.setNavigationIcon(Help.Icon.getDrawable(this, R.drawable.ic_menu_arrow_back));

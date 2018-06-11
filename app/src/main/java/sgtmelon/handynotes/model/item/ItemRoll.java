@@ -19,7 +19,6 @@ public class ItemRoll extends DataBaseDescription{
     private int id;         //Позиция в базе данных
     //TODO: long type
 
-
     @ColumnInfo(name = RL_CR)
     private String create;
     @ColumnInfo(name = RL_PS)

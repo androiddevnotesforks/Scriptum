@@ -228,7 +228,7 @@ public class FrgSettings extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 View view = LayoutInflater.from(activity).inflate(R.layout.view_about, null);
-                ImageView appLogo = view.findViewById(R.id.iView_viewAbout_logo);
+                ImageView appLogo = view.findViewById(R.id.viewAbout_iv_logo);
 
                 appLogo.setOnClickListener(new View.OnClickListener() {
 

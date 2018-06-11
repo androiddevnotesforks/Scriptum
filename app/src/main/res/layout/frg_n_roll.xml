@@ -9,14 +9,14 @@
     <include layout="@layout/inc_toolbar_note" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_frgRoll"
+        android:id="@+id/frgRoll_rv"
         style="@style/RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <LinearLayout
-        android:id="@+id/layout_frgRoll_enter"
+        android:id="@+id/frgRoll_ll_enter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -31,7 +31,7 @@
             android:padding="@dimen/item_layout_small_indent">
 
             <EditText
-                android:id="@+id/editText_frgRoll_enter"
+                android:id="@+id/frgRoll_et_enter"
                 style="@style/EditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
                 android:textSize="@dimen/text_big_size" />
 
             <ImageButton
-                android:id="@+id/iButton_frgRoll_add"
+                android:id="@+id/frgRoll_ib_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
