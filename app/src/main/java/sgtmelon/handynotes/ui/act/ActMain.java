@@ -17,12 +17,12 @@ import android.view.View;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterPager;
-import sgtmelon.handynotes.database.DataBaseRoom;
+import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.interfaces.menu.MenuMainClick;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
-import sgtmelon.handynotes.service.menu.MenuMain;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.Help;
+import sgtmelon.handynotes.control.menu.MenuMain;
 import sgtmelon.handynotes.model.manager.ManagerRoll;
 import sgtmelon.handynotes.model.manager.ManagerStatus;
 import sgtmelon.handynotes.ui.frg.FrgBin;
@@ -42,7 +42,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         super.onResume();
         Log.i("ActMain", "onResume");
 
-        DataBaseRoom db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+        DbRoom db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -50,11 +50,6 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         managerStatus = db.daoNote().getManagerStatus(this);
 
         db.close();
-
-//        NoteDB noteDB = new NoteDB(this);
-//        managerRoll = noteDB.getListRollManager();
-//        managerStatus = noteDB.getListStatusManager();
-//        noteDB.close();
     }
 
     public ManagerRoll managerRoll;
@@ -125,8 +120,8 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
                         intent.putExtra(StateNote.KEY_CREATE, true);
-                        intent.putExtra(NoteDB.KEY_NT_TP, item == NoteDB.typeText ? NoteDB.typeText : NoteDB.typeRoll);
-                        intent.putExtra(NoteDB.KEY_RK_VS, frgRank.managerRank.getVisible());
+                        intent.putExtra(DbDesc.NT_TP, item == DbDesc.typeText ? DbDesc.typeText : DbDesc.typeRoll);
+                        intent.putExtra(DbDesc.RK_VS, frgRank.managerRank.getVisible());
 
                         startActivity(intent);
                     }

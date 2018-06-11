@@ -18,8 +18,8 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.model.manager.ManagerRoll;
 
@@ -77,10 +77,10 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = null;
         switch (viewType) {
-            case NoteDB.typeText:
+            case  DbDesc.typeText:
                 view = inflater.inflate(R.layout.item_note_text, parent, false);
                 break;
-            case NoteDB.typeRoll:
+            case DbDesc.typeRoll:
                 view = inflater.inflate(R.layout.item_note_roll, parent, false);
                 break;
         }
@@ -101,7 +101,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
 
         holder.ntText.setText(itemNote.getText());
 
-        if (itemNote.getType() == NoteDB.typeRoll) {
+        if (itemNote.getType() == DbDesc.typeRoll) {
             List<ItemRoll> listRoll = managerRoll.getListRoll(itemNote.getCreate());
 
             int size = listRoll.size();
@@ -123,7 +123,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
             holder.ntBind.setVisibility(View.GONE);
         } else {
             holder.ntBind.setVisibility(View.VISIBLE);
-            holder.ntBind.setImageDrawable(itemNote.getType() == NoteDB.typeText ? bindTx : bindRl);
+            holder.ntBind.setImageDrawable(itemNote.getType() ==  DbDesc.typeText ? bindTx : bindRl);
         }
 
         holder.ntRank.setVisibility(itemNote.getRankId().length == 0 ? View.GONE : View.VISIBLE);
@@ -166,7 +166,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
             ntBind = itemView.findViewById(R.id.itemNote_iv_bind);
             ntRank = itemView.findViewById(R.id.itemNote_iv_rank);
 
-            if (viewType == NoteDB.typeRoll) {
+            if (viewType == DbDesc.typeRoll) {
                 rlChecks = new ImageView[]{
                         itemView.findViewById(R.id.itemNote_iv_check_1),
                         itemView.findViewById(R.id.itemNote_iv_check_2),

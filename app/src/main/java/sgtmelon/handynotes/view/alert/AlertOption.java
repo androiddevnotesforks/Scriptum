@@ -5,8 +5,8 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
 import sgtmelon.handynotes.model.item.ItemNote;
 
@@ -43,7 +43,7 @@ public class AlertOption {
         String[] itemOption;
 
         switch (itemNote.getType()) {
-            case NoteDB.typeText:
+            case DbDesc.typeText:
                 itemOption = new String[]{"", context.getString(R.string.dialog_menu_convert_to_roll), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
 
                 if (itemNote.isStatus()) {
@@ -72,17 +72,17 @@ public class AlertOption {
                     }
                 });
                 break;
-            case NoteDB.typeRoll:
+            case DbDesc.typeRoll:
                 itemOption = new String[]{"", "", context.getString(R.string.dialog_menu_convert_to_text), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
 
                 final String[] checkText = itemNote.getText().split(Help.Note.dividerCheck);
                 final int check;
                 if (checkText[0].equals(checkText[1])) {
                     itemOption[0] = context.getString(R.string.dialog_menu_check_zero);
-                    check = NoteDB.checkFalse;
+                    check = DbDesc.checkFalse;
                 } else {
                     itemOption[0] = context.getString(R.string.dialog_menu_check_all);
-                    check = NoteDB.checkTrue;
+                    check = DbDesc.checkTrue;
                 }
 
                 if (itemNote.isStatus()) {

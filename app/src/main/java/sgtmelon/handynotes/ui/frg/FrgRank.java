@@ -25,14 +25,13 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRank;
-import sgtmelon.handynotes.database.DataBaseRoom;
+import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.interfaces.InfoPageReply;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.manager.ManagerRank;
 import sgtmelon.handynotes.model.state.StateDrag;
-import sgtmelon.handynotes.database.NoteDB;
 import sgtmelon.handynotes.interfaces.ItemClick;
-import sgtmelon.handynotes.service.InfoPageEmpty;
+import sgtmelon.handynotes.control.InfoPageEmpty;
 import sgtmelon.handynotes.ui.act.ActMain;
 import sgtmelon.handynotes.view.alert.AlertRename;
 
@@ -50,8 +49,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     }
 
     //region Variables
-//    private NoteDB noteDB;
-    private DataBaseRoom db;
+    private DbRoom db;
 
     private View frgView;
     private Context context;
@@ -119,7 +117,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
                 ItemRank itemRank = new ItemRank(rankPs, rankNm);
 
-                db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                         .allowMainThreadQueries()
                         .build();
 
@@ -129,11 +127,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
                 itemRank.setId(rankId);
 
-//                noteDB = new NoteDB(context);
-//                int rankId = noteDB.insertRank(rankPs, rankNm);                         //Добавляем заметку (с позицией равной количеству элементов)
-//                noteDB.close();
-//
-//                ItemRank itemRank = new ItemRank(rankId, rankPs, rankNm);
                 managerRank.add(rankPs, itemRank);
                 adapterRank.updateAdapter(managerRank.getListRank());
 
@@ -160,7 +153,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         ItemRank itemRank = new ItemRank(rankPs - 1, rankNm);
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -171,12 +164,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         itemRank.setId(rankId);
 
-//        NoteDB noteDB = new NoteDB(context);
-//        int rankId = noteDB.insertRank(rankPs - 1, rankNm);        //Добавляем заметку (с позицией -1)
-//        noteDB.updateRank(rankPs);                                          //Затем обновляем позиции с самого начала
-//        noteDB.close();
-
-//        ItemRank itemRank = new ItemRank(rankId, rankPs, rankNm);
         managerRank.add(rankPs, itemRank);
         adapterRank.updateAdapter(managerRank.getListRank());
 
@@ -231,7 +218,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     public void updateAdapter(boolean updateAll) {
         Log.i("FrgRank", "updateAdapter");
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -239,11 +226,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         if(updateAll) managerRank.setListRankName(db.daoRank().getRankNameUpper());
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        managerRank.setListRank(noteDB.getRank());
-//        if (updateAll) managerRank.setListRankName(noteDB.getRankName());
-//        noteDB.close();
 
         adapterRank.updateAdapter(managerRank.getListRank());
         adapterRank.notifyDataSetChanged();
@@ -269,17 +251,13 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 managerRank.set(p, itemRank);
                 adapterRank.updateAdapter(p, itemRank);
 
-                db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                         .allowMainThreadQueries()
                         .build();
 
                 db.daoRank().updateRank(itemRank);
 
                 db.close();
-
-//                noteDB = new NoteDB(context);
-//                noteDB.updateRank(itemRank.getId(), itemRank.isVisible());
-//                noteDB.close();
 
                 activity.managerStatus.updateItemVisible(itemRank);
                 activity.frgNote.updateAdapter();
@@ -293,17 +271,13 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                             public void onClick(DialogInterface dialog, int id) {
                                 itemRank.setName(alert.getRename());
 
-                                db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                                         .allowMainThreadQueries()
                                         .build();
 
                                 db.daoRank().updateRank(itemRank);
 
                                 db.close();
-
-//                                noteDB = new NoteDB(context);
-//                                noteDB.updateRank(itemRank.getId(), itemRank.getName());
-//                                noteDB.close();
 
                                 managerRank.set(p, itemRank);
 
@@ -329,7 +303,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
             case R.id.itemRank_ib_cancel:
                 itemRank.setVisible(true);                  //Чтобы отобразить заметки в статус баре, если были скрыты
 
-                db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                         .allowMainThreadQueries()
                         .build();
 
@@ -337,11 +311,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 db.daoRank().updateRank(p);
 
                 db.close();
-
-//                noteDB = new NoteDB(context);
-//                noteDB.deleteRank(managerRank.get(p).getName());   //Удаляем категорию из БД
-//                noteDB.updateRank(p);                           //Обновление позиций категорий
-//                noteDB.close();
 
                 managerRank.remove(p);
 
@@ -380,17 +349,13 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         adapterRank.updateAdapter(listRank, iconStartAnim);
         adapterRank.notifyDataSetChanged();
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         db.daoRank().updateRank(listRank);
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        noteDB.updateRank(listRank);
-//        noteDB.close();
 
         activity.managerStatus.updateItemVisible(listRank);
         activity.frgNote.updateAdapter();
@@ -429,7 +394,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
             dragEndPs = viewHolder.getAdapterPosition();
             if (dragStartPs != dragEndPs) {
-                db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                         .allowMainThreadQueries()
                         .build();
 
@@ -438,12 +403,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 activity.managerStatus = db.daoNote().getManagerStatus(context);
 
                 db.close();
-
-//                noteDB = new NoteDB(context);
-//                noteDB.updateRank(dragStartPs, dragEndPs);      //Обновляем позиции категорий от начальной и до конечной
-//                managerRank.setListRank(noteDB.getRank());  //И получаем обновлённый массив с категориями
-//                activity.managerStatus = noteDB.getListStatusManager();
-//                noteDB.close();
 
                 adapterRank.updateAdapter(managerRank.getListRank());
                 adapterRank.notifyDataSetChanged();

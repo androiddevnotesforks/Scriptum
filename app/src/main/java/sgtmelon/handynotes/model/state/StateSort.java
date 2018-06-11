@@ -3,7 +3,7 @@ package sgtmelon.handynotes.model.state;
 import java.util.List;
 
 import sgtmelon.handynotes.model.item.ItemSort;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.Help;
 
 public class StateSort {
 

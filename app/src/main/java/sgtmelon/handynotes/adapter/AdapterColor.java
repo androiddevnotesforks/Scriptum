@@ -14,7 +14,7 @@ import android.widget.ImageView;
 import java.util.Arrays;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.Help;
 
 public class AdapterColor extends RecyclerView.Adapter<AdapterColor.ColorHolder> {
 

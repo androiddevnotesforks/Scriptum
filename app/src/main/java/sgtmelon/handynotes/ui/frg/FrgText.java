@@ -20,12 +20,12 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.database.DataBaseRoom;
-import sgtmelon.handynotes.database.converter.ConverterInt;
+import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.db.converter.ConverterInt;
 import sgtmelon.handynotes.model.item.ItemNote;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
-import sgtmelon.handynotes.service.menu.MenuNote;
+import sgtmelon.handynotes.Help;
+import sgtmelon.handynotes.control.menu.MenuNote;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.model.item.ItemRollView;
 import sgtmelon.handynotes.ui.act.ActNote;
@@ -39,8 +39,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         this.itemNote = itemNote;
     }
 
-    //    private NoteDB noteDB;
-    private DataBaseRoom db;
+    private DbRoom db;
 
     private View frgView;
     private Context context;
@@ -90,17 +89,13 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
-            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+            db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                     .allowMainThreadQueries()
                     .build();
 
             itemNote = db.daoNote().getNote(itemNote.getId());
 
             db.close();
-
-//            noteDB = new NoteDB(context);
-//            itemNote = noteDB.getNote(itemNote.getId());
-//            noteDB.close();
 
             onMenuEditClick(false);
 
@@ -125,7 +120,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 onMenuEditClick(false);
             }
 
-            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+            db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                     .allowMainThreadQueries()
                     .build();
 
@@ -141,18 +136,6 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
             db.close();
 
-//            noteDB = new NoteDB(context);
-//            if (activity.stateNote.isCreate()) {
-//                activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
-//
-//                int ntId = noteDB.insertNote(itemNote);
-//                itemNote.setId(ntId);
-//            } else {
-//                noteDB.updateNote(itemNote);        //Обновляем
-//            }
-//            noteDB.updateRank(itemNote.getCreate(), itemNote.getRankId());
-//            noteDB.close();
-
             activity.setItemNote(itemNote);
             return true;
         } else return false;
@@ -162,13 +145,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     public void onMenuRankClick() {
         Log.i("FrgText", "onMenuRankClick");
 
-//        noteDB = new NoteDB(context);
-//        final String[] checkName = noteDB.getRankColumn(NoteDB.RK_NM);
-//        final String[] checkId = noteDB.getRankColumn(NoteDB.RK_ID);
-//        final boolean[] checkItem = noteDB.getRankCheck(itemNote.getRankId());
-//        noteDB.close();
-
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -291,16 +268,12 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
         menuNote.setStatusTitle(itemNote.isStatus());
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
         db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        noteDB.updateNote(itemNote.getId(), itemNote.isStatus());
-//        noteDB.close();
 
         activity.setItemNote(itemNote);
     }
@@ -311,29 +284,19 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
         String[] textToRoll = itemNote.getText().split("\n");   //Получаем пункты списка
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         ItemRollView itemRollView = db.daoRoll().insertRoll(itemNote.getCreate(), textToRoll);
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
-        itemNote.setType(NoteDB.typeRoll);
+        itemNote.setType(DbDesc.typeRoll);
         itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
         db.daoNote().updateNote(itemNote);
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        ItemRollView itemRollView = noteDB.insertRoll(itemNote.getCreate(), textToRoll);      //Записываем пункты
-//
-//        itemNote.setChange(Help.Time.getCurrentTime(context));
-//        itemNote.setType(NoteDB.typeRoll);
-//        itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
-//
-//        noteDB.updateNoteType(itemNote);
-//        noteDB.close();
 
         activity.setItemNote(itemNote);
         activity.setupFrg();

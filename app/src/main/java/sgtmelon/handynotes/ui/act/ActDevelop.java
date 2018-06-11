@@ -7,9 +7,8 @@ import android.util.Log;
 import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.database.DataBaseRoom;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.Help;
 
 public class ActDevelop extends AppCompatActivity {
 
@@ -23,7 +22,7 @@ public class ActDevelop extends AppCompatActivity {
         TextView rollText = findViewById(R.id.actDevelop_tv_roll);
         TextView rankText = findViewById(R.id.actDevelop_tv_rank);
 
-        DataBaseRoom db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+        DbRoom db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -32,12 +31,6 @@ public class ActDevelop extends AppCompatActivity {
         db.daoRank().listAllRank(rankText);
 
         db.close();
-
-//        NoteDB noteDB = new NoteDB(this);
-//        noteDB.listAllNote(noteText);
-//        noteDB.listAllRoll(rollText);
-//        noteDB.listAllRank(rankText);
-//        noteDB.close();
 
         TextView prefText = findViewById(R.id.actDevelop_tv_pref);
 

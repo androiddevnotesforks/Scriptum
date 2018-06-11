@@ -15,7 +15,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterSort;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.model.item.ItemSort;
 

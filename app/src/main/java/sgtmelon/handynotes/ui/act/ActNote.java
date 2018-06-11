@@ -9,12 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.database.DataBaseRoom;
+import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
-import sgtmelon.handynotes.service.PrefNoteSave;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.Help;
+import sgtmelon.handynotes.control.PrefNoteSave;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.model.item.ItemStatus;
 import sgtmelon.handynotes.ui.frg.FrgRoll;
@@ -23,8 +23,7 @@ import sgtmelon.handynotes.ui.frg.FrgText;
 public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteClick {
 
     //region Variables
-//    private NoteDB noteDB;
-    private DataBaseRoom db;
+    private DbRoom db;
 
     public StateNote stateNote;
     public PrefNoteSave prefNoteSave;
@@ -75,12 +74,12 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
             stateNote.setEdit();
 
             if (stateNote.isCreate()) {
-                itemNote = Help.Note.fillCreate(this, bundle.getInt(NoteDB.KEY_NT_TP));
+                itemNote = Help.Note.fillCreate(this, bundle.getInt(DbDesc.NT_TP));
             } else {
                 itemNote = new ItemNote(bundle);
                 stateNote.setBin(itemNote.isBin());
             }
-            rankVisible = bundle.getStringArray(NoteDB.KEY_RK_VS);
+            rankVisible = bundle.getStringArray(DbDesc.RK_VS);
         }
     }
 
@@ -92,14 +91,14 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
         FragmentTransaction frgTransaction = getSupportFragmentManager().beginTransaction();
         switch (itemNote.getType()) {
-            case NoteDB.typeText:
+            case DbDesc.typeText:
                 frgText = new FrgText();
                 frgText.setItemNote(itemNote);
                 prefNoteSave.setMenuClick(frgText);
 
                 frgTransaction.replace(R.id.actNote_fl_container, frgText);
                 break;
-            case NoteDB.typeRoll:
+            case DbDesc.typeRoll:
                 frgRoll = new FrgRoll();
                 frgRoll.setItemNote(itemNote);
                 prefNoteSave.setMenuClick(frgRoll);
@@ -114,17 +113,13 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuRestoreClick() {
         Log.i("ActNote", "onMenuRestoreClick");
 
-        db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         db.daoNote().updateNote(itemNote.getId(), Help.Time.getCurrentTime(this), false);
 
         db.close();
-
-//        noteDB = new NoteDB(this);
-//        noteDB.updateNote(itemNote.getId(), Help.Time.getCurrentTime(this), NoteDB.binFalse);
-//        noteDB.close();
 
         finish();
     }
@@ -133,17 +128,13 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuDeleteForeverClick() {
         Log.i("ActNote", "onMenuDeleteForeverClick");
 
-        db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         db.daoNote().deleteNote(itemNote.getId());
 
         db.close();
-
-//        noteDB = new NoteDB(this);
-//        noteDB.deleteNote(itemNote.getId());
-//        noteDB.close();
 
         itemStatus.cancelNote();
 
@@ -154,7 +145,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuDeleteClick() {
         Log.i("ActNote", "onMenuDeleteClick");
 
-        db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -164,13 +155,6 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
         }
 
         db.close();
-
-//        noteDB = new NoteDB(this);
-//        noteDB.updateNote(itemNote.getId(), Help.Time.getCurrentTime(this), NoteDB.binTrue);
-//        if (itemNote.isStatus()) {
-//            noteDB.updateNote(itemNote.getId(), false);
-//        }
-//        noteDB.close();
 
         itemStatus.cancelNote();
         finish();
@@ -184,42 +168,34 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
         if (stateNote.isEdit() && !stateNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             switch (itemNote.getType()) {
-                case NoteDB.typeText:
+                case DbDesc.typeText:
                     if (!frgText.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgText.menuNote.setStartColor(itemNote.getColor());
 
-                        db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+                        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
                                 .allowMainThreadQueries()
                                 .build();
 
                         itemNote = db.daoNote().getNote(itemNote.getId());
 
                         db.close();
-
-//                        noteDB = new NoteDB(this);
-//                        itemNote = noteDB.getNote(itemNote.getId());
-//                        noteDB.close();
 
                         frgText.setItemNote(itemNote);
                         frgText.menuNote.startTint(itemNote.getColor());
                         frgText.onMenuEditClick(false);
                     }
                     break;
-                case NoteDB.typeRoll:
+                case DbDesc.typeRoll:
                     if (!frgRoll.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgRoll.menuNote.setStartColor(itemNote.getColor());
 
-                        db = Room.databaseBuilder(this, DataBaseRoom.class, "HandyNotes")
+                        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
                                 .allowMainThreadQueries()
                                 .build();
 
                         itemNote = db.daoNote().getNote(itemNote.getId());
 
                         db.close();
-
-//                        noteDB = new NoteDB(this);
-//                        itemNote = noteDB.getNote(itemNote.getId());
-//                        noteDB.close();
 
                         frgRoll.setItemNote(itemNote);
                         frgRoll.menuNote.startTint(itemNote.getColor());
@@ -230,10 +206,10 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
             }
         } else if (stateNote.isCreate()) {                 //Если только что создали заметку
             switch (itemNote.getType()) {   //Если сохранение не выполнено, выход без сохранения
-                case NoteDB.typeText:
+                case DbDesc.typeText:
                     if (!frgText.onMenuSaveClick(true)) super.onBackPressed();
                     break;
-                case NoteDB.typeRoll:
+                case DbDesc.typeRoll:
                     if (!frgRoll.onMenuSaveClick(true)) super.onBackPressed();
                     break;
             }

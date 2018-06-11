@@ -32,15 +32,15 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRoll;
-import sgtmelon.handynotes.database.DataBaseRoom;
-import sgtmelon.handynotes.database.converter.ConverterInt;
+import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.db.converter.ConverterInt;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.model.state.StateCheck;
 import sgtmelon.handynotes.model.state.StateDrag;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
-import sgtmelon.handynotes.service.menu.MenuNote;
+import sgtmelon.handynotes.Help;
+import sgtmelon.handynotes.control.menu.MenuNote;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.interfaces.RollTextWatcher;
@@ -53,8 +53,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     //TODO: В идеале отмена последнего действия
 
     //region Variables
-//    private NoteDB noteDB;
-    private DataBaseRoom db;
+    private DbRoom db;
 
     private View frgView;
     private Context context;
@@ -124,7 +123,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
-            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+            db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                     .allowMainThreadQueries()
                     .build();
 
@@ -132,11 +131,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             listRoll = db.daoRoll().getRoll(itemNote.getCreate());
 
             db.close();
-
-//            noteDB = new NoteDB(context);
-//            itemNote = noteDB.getNote(itemNote.getId());
-//            listRoll = noteDB.getRoll(itemNote.getCreate());
-//            noteDB.close();
 
             adapterRoll.updateAdapter(listRoll);
 
@@ -163,110 +157,52 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 onMenuEditClick(false);                                            //Переход в режим просмотра
             }
 
-            db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+            db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                     .allowMainThreadQueries()
                     .build();
 
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
 
-                int noteId = (int) db.daoNote().insertNote(itemNote);
-                itemNote.setId(noteId);             //Получаем её id
+                itemNote.setId((int) db.daoNote().insertNote(itemNote));
 
-                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись в пунктов в БД
-                    ItemRoll itemRoll = listRoll.get(rollPs);
+                for (int i = 0; i < listRoll.size(); i++) {           //Запись в пунктов в БД
+                    ItemRoll itemRoll = listRoll.get(i);
 
-                    itemRoll.setCreate(itemNote.getCreate());
-                    itemRoll.setPosition(rollPs);
-
-                    int rollId = (int) db.daoRoll().insertRoll(itemRoll);
-
-                    itemRoll.setId(rollId);             //Обновление некоторых значений
+                    itemRoll.setPosition(i);
+                    itemRoll.setId((int) db.daoRoll().insertRoll(itemRoll));             //Обновление некоторых значений
                     itemRoll.setExist(true);
 
-                    listRoll.set(rollPs, itemRoll);
+                    listRoll.set(i, itemRoll);
                 }
                 adapterRoll.updateAdapter(listRoll);
             } else {
                 db.daoNote().updateNote(itemNote);
 
-                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись и обновление пунктов в БД
-                    ItemRoll itemRoll = listRoll.get(rollPs);
+                for (int i = 0; i < listRoll.size(); i++) {
+                    ItemRoll itemRoll = listRoll.get(i);
 
-                    if (!itemRoll.isExist()) {                          //Если НЕТ В БАЗЕ ДАННЫХ
-
-                        ItemRoll itemRoll1 = new ItemRoll();
-                        itemRoll.setCreate(itemNote.getCreate());
-                        itemRoll.setPosition(rollPs);
-                        itemRoll.setCheck(false);
-
-                        int rlId = (int) db.daoRoll().insertRoll(itemRoll);
-
-                        itemRoll.setId(rlId);
+                    itemRoll.setPosition(i);
+                    if (!itemRoll.isExist()) {
+                        itemRoll.setId((int) db.daoRoll().insertRoll(itemRoll));
                         itemRoll.setExist(true);
-                    } else {                                           //Если УЖЕ ЕСТЬ В БАЗЕ ДАННЫХ
-                        db.daoRoll().updateRoll(itemRoll.getId(), rollPs, itemRoll.getText());
+                    } else {
+                        db.daoRoll().updateRoll(itemRoll.getId(), i, itemRoll.getText());
                     }
-                    listRoll.set(rollPs, itemRoll);
+
+                    listRoll.set(i, itemRoll);
                 }
                 adapterRoll.updateAdapter(listRoll);
 
-                String[] rollId = new String[listRoll.size()];        //ID тех пунктов которые остались
-                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {
-                    rollId[rollPs] = Integer.toString(listRoll.get(rollPs).getId());
+                List<Integer> rollId = new ArrayList<>();
+                for (ItemRoll itemRoll : listRoll) {
+                    rollId.add(itemRoll.getId());
                 }
-
                 db.daoRoll().deleteRoll(itemNote.getCreate(), rollId);
             }
             db.daoRank().updateRank(itemNote.getCreate(), itemNote.getRankId());
 
             db.close();
-
-//            noteDB = new NoteDB(context);
-//            if (activity.stateNote.isCreate()) {
-//                activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
-//
-//                int noteId = noteDB.insertNote(itemNote);
-//                itemNote.setId(noteId);             //Получаем её id
-//
-//                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись в пунктов в БД
-//                    ItemRoll itemRoll = listRoll.get(rollPs);
-//
-//                    int rollId = noteDB.insertRoll(itemNote.getCreate(), rollPs, itemRoll.isCheck(), itemRoll.getText());
-//
-//                    itemRoll.setId(rollId);             //Обновление некоторых значений
-//                    itemRoll.setExist(true);
-//
-//                    listRoll.set(rollPs, itemRoll);
-//                }
-//                adapterRoll.updateAdapter(listRoll);
-//            } else {
-//                noteDB.updateNote(itemNote);
-//
-//                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {           //Запись и обновление пунктов в БД
-//                    ItemRoll itemRoll = listRoll.get(rollPs);
-//
-//                    if (!itemRoll.isExist()) {                          //Если НЕТ В БАЗЕ ДАННЫХ
-//                        int rlId = noteDB.insertRoll(itemNote.getCreate(), rollPs, false, itemRoll.getText());
-//
-//                        itemRoll.setId(rlId);
-//                        itemRoll.setExist(true);
-//                    } else {                                           //Если УЖЕ ЕСТЬ В БАЗЕ ДАННЫХ
-//                        noteDB.updateRoll(itemRoll.getId(), rollPs, itemRoll.getText());
-//                    }
-//                    listRoll.set(rollPs, itemRoll);
-//                }
-//                adapterRoll.updateAdapter(listRoll);
-//
-//                String[] rollId = new String[listRoll.size()];        //ID тех пунктов которые остались
-//                for (int rollPs = 0; rollPs < listRoll.size(); rollPs++) {
-//                    rollId[rollPs] = Integer.toString(listRoll.get(rollPs).getId());
-//                }
-//
-//                noteDB.deleteRoll(itemNote.getCreate(), rollId);  //Удаление пунктов которые свайпнули
-//            }
-//            noteDB.updateRank(itemNote.getCreate(), itemNote.getRankId());
-//            noteDB.close();
 
             activity.setItemNote(itemNote);
             return true;
@@ -277,7 +213,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuRankClick() {
         Log.i("FrgRoll", "onMenuRankClick");
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -286,12 +222,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         final boolean[] checkItem = db.daoRank().getRankCheck(itemNote.getRankId());
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        final String[] checkName = noteDB.getRankColumn(NoteDB.RK_NM);
-//        final String[] checkId = noteDB.getRankColumn(NoteDB.RK_ID);
-//        final boolean[] checkItem = noteDB.getRankCheck(itemNote.getRankId());
-//        noteDB.close();
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
@@ -397,37 +327,23 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         if (stateCheck.isAll()) {
             itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
-            db.daoRoll().updateRoll(itemNote.getCreate(), NoteDB.checkFalse);
+            db.daoRoll().updateRoll(itemNote.getCreate(), DbDesc.checkFalse);
             db.daoNote().updateNote(itemNote);
         } else {
             itemNote.setText(Help.Note.getCheckStr(listRoll.size(), listRoll.size()));
 
-            db.daoRoll().updateRoll(itemNote.getCreate(), NoteDB.checkTrue);
+            db.daoRoll().updateRoll(itemNote.getCreate(), DbDesc.checkTrue);
             db.daoNote().updateNote(itemNote);
         }
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        if (stateCheck.isAll()) {
-//            itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
-//
-//            noteDB.updateRoll(itemNote.getCreate(), NoteDB.checkFalse);
-//            noteDB.updateNoteText(itemNote);
-//        } else {
-//            itemNote.setText(Help.Note.getCheckStr(listRoll.size(), listRoll.size()));
-//
-//            noteDB.updateRoll(itemNote.getCreate(), NoteDB.checkTrue);
-//            noteDB.updateNoteText(itemNote);
-//        }
-//        noteDB.close();
 
         updateAdapter();
         activity.setItemNote(itemNote);
@@ -447,17 +363,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         menuNote.setStatusTitle(itemNote.isStatus());
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        noteDB.updateNote(itemNote.getId(), itemNote.isStatus());
-//        noteDB.close();
 
         activity.setItemNote(itemNote);
     }
@@ -466,31 +378,20 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i("FrgRoll", "onMenuConvertClick");
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         String rollToText = db.daoRoll().getRollText(itemNote.getCreate());
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
-        itemNote.setType(NoteDB.typeText);
+        itemNote.setType(DbDesc.typeText);
         itemNote.setText(rollToText);
 
         db.daoNote().updateNote(itemNote);
         db.daoRoll().deleteRoll(itemNote.getCreate());
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        String rollToText = noteDB.getRollText(itemNote.getCreate());   //Получаем текст заметки
-//
-//        itemNote.setChange(Help.Time.getCurrentTime(context));
-//        itemNote.setType(NoteDB.typeText);
-//        itemNote.setText(rollToText);
-//
-//        noteDB.updateNoteType(itemNote);                               //Обновляем заметку (меняем тип и текст)
-//        noteDB.deleteRoll(itemNote.getCreate());                        //Удаляем пункты бывшего списка
-//        noteDB.close();
 
         activity.setItemNote(itemNote);
         activity.setupFrg();
@@ -531,17 +432,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void updateAdapter() {
         Log.i("FrgRoll", "updateAdapter");
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         listRoll = db.daoRoll().getRoll(itemNote.getCreate());
 
         db.close();
-
-//        noteDB = new NoteDB(getContext());
-//        listRoll = noteDB.getRoll(itemNote.getCreate());
-//        noteDB.close();
 
         stateCheck.setAll(Help.Note.isAllCheck(listRoll));
         menuNote.setCheckTitle(stateCheck.isAll());
@@ -569,10 +466,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         activity.setItemNote(itemNote);
 
-        NoteDB noteDB = new NoteDB(context);
-        noteDB.updateRoll(itemRoll.getId(), itemRoll.isCheck());
-        noteDB.updateNoteText(itemNote);
-        noteDB.close();
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
+                .allowMainThreadQueries()
+                .build();
+
+        db.daoRoll().updateRoll(itemRoll.getId(), itemRoll.isCheck());
+        db.daoNote().updateNote(itemNote);
+
+        db.close();
     }
 
     @Override
@@ -734,8 +635,11 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             } else rollPs = 0;                              //Добавить в самое начало
 
             ItemRoll itemRoll = new ItemRoll(); //Создаём новый элемент
+
+            itemRoll.setCreate(itemNote.getCreate());
             itemRoll.setText(text);
             itemRoll.setExist(false);
+
             listRoll.add(rollPs, itemRoll);             //Добавляем его
             adapterRoll.updateAdapter(listRoll);            //Обновляем адаптер
 

@@ -6,30 +6,29 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import sgtmelon.handynotes.database.DataBaseDescription;
-import sgtmelon.handynotes.database.converter.ConverterBool;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.db.converter.ConverterBool;
 
 @Entity(tableName = "ROLL_TABLE")
 @TypeConverters({ConverterBool.class})
-public class ItemRoll extends DataBaseDescription{
+public class ItemRoll extends DbDesc {
 
     //region Variables
     @ColumnInfo(name = RL_ID)
     @PrimaryKey(autoGenerate = true)
-    private int id;         //Позиция в базе данных
-    //TODO: long type
+    private int id;
 
     @ColumnInfo(name = RL_CR)
     private String create;
     @ColumnInfo(name = RL_PS)
-    private int position;   //Позиция пункта в списке
+    private int position;
     @ColumnInfo(name = RL_CH)
-    private boolean check;  //Состояние (0 - не выполнен, 1 - выполнен)
+    private boolean check = false;
     @ColumnInfo(name = RL_TX)
-    private String text;    //Название пункта
+    private String text;
 
     @Ignore
-    private boolean exist;  //Добавлен пункт в базу данных или нет
+    private boolean exist = true;  //Добавлен пункт в базу данных или нет
     //endregion
 
     public int getId() {

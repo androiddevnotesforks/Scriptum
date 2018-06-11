@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.os.Handler;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.Help;
 
 public class ButtonVisible extends android.support.v7.widget.AppCompatImageButton {
 

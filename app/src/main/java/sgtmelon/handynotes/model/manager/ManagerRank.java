@@ -14,7 +14,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.model.item.ItemRank;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.Help;
 
 public class ManagerRank implements TextWatcher, TextView.OnEditorActionListener {
 

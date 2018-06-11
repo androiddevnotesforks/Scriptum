@@ -1,6 +1,7 @@
 package sgtmelon.handynotes.model.item;
 
 import android.app.PendingIntent;
+import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
@@ -10,9 +11,10 @@ import android.support.v4.content.ContextCompat;
 import java.util.Arrays;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.ui.act.ActNote;
 
 public class ItemStatus {
@@ -37,7 +39,7 @@ public class ItemStatus {
         intent.setAction(Intent.ACTION_VIEW);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(NoteDB.KEY_RK_VS, rkVisible);
+        intent.putExtra(DbDesc.RK_VS, rkVisible);
         intent.putExtra(StateNote.KEY_CREATE, false);
 
         pendingIntent = PendingIntent.getActivity(context, itemNote.getId(), intent, 0);
@@ -52,17 +54,21 @@ public class ItemStatus {
         int icon = 0;
         String text = "";
         switch (itemNote.getType()) {
-            case NoteDB.typeText:
+            case DbDesc.typeText:
                 icon = R.drawable.ic_menu_bind_text;
 
                 text = itemNote.getText();
                 break;
-            case NoteDB.typeRoll:
+            case DbDesc.typeRoll:
                 icon = R.drawable.ic_menu_bind_roll;
 
-                NoteDB noteDB = new NoteDB(context);
-                text = noteDB.getRollText(itemNote.getCreate(), itemNote.getText());
-                noteDB.close();
+                DbRoom db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
+                        .allowMainThreadQueries()
+                        .build();
+
+                text = db.daoRoll().getRollText(itemNote.getCreate(), itemNote.getText());
+
+                db.close();
                 break;
         }
 

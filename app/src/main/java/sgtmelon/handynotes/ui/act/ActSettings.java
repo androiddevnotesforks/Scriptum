@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.ui.frg.FrgSettings;
 
 public class ActSettings extends AppCompatActivity implements View.OnClickListener {

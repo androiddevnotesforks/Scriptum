@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.ui.act.ActDevelop;
 import sgtmelon.handynotes.ui.act.ActSettings;
 import sgtmelon.handynotes.view.alert.AlertColor;

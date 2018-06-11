@@ -7,60 +7,57 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Intent;
 import android.os.Bundle;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import sgtmelon.handynotes.database.DataBaseDescription;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.database.converter.ConverterBool;
-import sgtmelon.handynotes.database.converter.ConverterString;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.db.converter.ConverterBool;
+import sgtmelon.handynotes.db.converter.ConverterString;
+import sgtmelon.handynotes.Help;
 
 @Entity(tableName = "NOTE_TABLE")
 @TypeConverters({ConverterBool.class, ConverterString.class})
-public class ItemNote extends DataBaseDescription {
+public class ItemNote extends DbDesc {
 
     public ItemNote() {
 
     }
 
     public ItemNote(Bundle bundle) {
-        id = bundle.getInt(NoteDB.KEY_NT_ID);
+        id = bundle.getInt(NT_ID);
 
-        create = bundle.getString(NoteDB.KEY_NT_CR);
+        create = bundle.getString(NT_CR);
 
-        change = bundle.getString(NoteDB.KEY_NT_CH);
-        name = bundle.getString(NoteDB.KEY_NT_NM);
-        text = bundle.getString(NoteDB.KEY_NT_TX);
+        change = bundle.getString(NT_CH);
+        name = bundle.getString(NT_NM);
+        text = bundle.getString(NT_TX);
 
-        color = bundle.getInt(NoteDB.KEY_NT_CL);
-        type = bundle.getInt(NoteDB.KEY_NT_TP);
+        color = bundle.getInt(NT_CL);
+        type = bundle.getInt(NT_TP);
 
-        rankPs = bundle.getStringArray(NoteDB.KEY_NT_RK_PS);
-        rankId = bundle.getStringArray(NoteDB.KEY_NT_RK_ID);
+        rankPs = bundle.getStringArray(NT_RK_PS);
+        rankId = bundle.getStringArray(NT_RK_ID);
 
-        bin = bundle.getBoolean(NoteDB.KEY_NT_BN);
-        status = bundle.getBoolean(NoteDB.KEY_NT_ST);
+        bin = bundle.getBoolean(NT_BN);
+        status = bundle.getBoolean(NT_ST);
     }
 
     public Intent fillIntent(Intent intent) {
-        intent.putExtra(NoteDB.KEY_NT_ID, id);
+        intent.putExtra(NT_ID, id);
 
-        intent.putExtra(NoteDB.KEY_NT_CR, create);
+        intent.putExtra(NT_CR, create);
 
-        intent.putExtra(NoteDB.KEY_NT_CH, change);
-        intent.putExtra(NoteDB.KEY_NT_NM, name);
-        intent.putExtra(NoteDB.KEY_NT_TX, text);
+        intent.putExtra(NT_CH, change);
+        intent.putExtra(NT_NM, name);
+        intent.putExtra(NT_TX, text);
 
-        intent.putExtra(NoteDB.KEY_NT_CL, color);
-        intent.putExtra(NoteDB.KEY_NT_TP, type);
+        intent.putExtra(NT_CL, color);
+        intent.putExtra(NT_TP, type);
 
-        intent.putExtra(NoteDB.KEY_NT_RK_PS, rankPs);
-        intent.putExtra(NoteDB.KEY_NT_RK_ID, rankId);
+        intent.putExtra(NT_RK_PS, rankPs);
+        intent.putExtra(NT_RK_ID, rankId);
 
-        intent.putExtra(NoteDB.KEY_NT_BN, bin);
-        intent.putExtra(NoteDB.KEY_NT_ST, status);
+        intent.putExtra(NT_BN, bin);
+        intent.putExtra(NT_ST, status);
 
 
         return intent;

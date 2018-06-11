@@ -3,9 +3,7 @@ package sgtmelon.handynotes.ui.frg;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,12 +24,12 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterNote;
-import sgtmelon.handynotes.database.DataBaseRoom;
+import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.service.InfoPageEmpty;
-import sgtmelon.handynotes.database.NoteDB;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.control.InfoPageEmpty;
+import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
 import sgtmelon.handynotes.model.item.ItemRollView;
@@ -52,13 +50,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     }
 
     //region Variables
-//    private NoteDB noteDB;
-    private DataBaseRoom db;
+    private DbRoom db;
 
     private View frgView;
     private Context context;
     private ActMain activity;
-    private SharedPreferences pref;
 
     private InfoPageEmpty infoPageEmpty;
     //endregion
@@ -72,7 +68,6 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         context = getContext();
         activity = (ActMain) getActivity();
-        pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         setupToolbar();
         setupRecyclerView();
@@ -141,18 +136,13 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void updateAdapter() {
         Log.i("FrgNote", "updateAdapter");
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
-        listNote = db.daoNote().getNote(false, Help.Pref.getSortNoteOrder(context));
+        listNote = db.daoNote().getNote(DbDesc.binFalse, Help.Pref.getSortNoteOrder(context));
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        String order = pref.getString(getString(R.string.pref_key_sort), Help.Pref.getSortDefault());
-//        listNote = noteDB.getNote(NoteDB.binFalse, order);
-//        noteDB.close();
 
         adapterNote.updateAdapter(listNote);
         adapterNote.setManagerRoll(activity.managerRoll);
@@ -171,7 +161,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         Intent intent = new Intent(context, ActNote.class);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(NoteDB.KEY_RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(DbDesc.RK_VS, activity.frgRank.managerRank.getVisible());
         intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);
@@ -193,7 +183,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setText(Help.Note.getCheckStr(rlCheck, checkMax));
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -201,11 +191,6 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         db.daoNote().updateNote(itemNote);
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        noteDB.updateRoll(itemNote.getCreate(), rlCheck);
-//        noteDB.updateNoteText(itemNote);
-//        noteDB.close();
 
         activity.managerRoll.updateList(itemNote.getCreate(), rlCheck);
 
@@ -233,17 +218,13 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
             activity.managerStatus.removeItem(itemNote);
         }
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
         db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        noteDB.updateNote(itemNote.getId(), itemNote.isStatus());
-//        noteDB.close();
 
         listNote.set(p, itemNote);
 
@@ -257,44 +238,35 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
-//        noteDB = new NoteDB(context);
         switch (itemNote.getType()) {
-            case NoteDB.typeText:
+            case DbDesc.typeText:
                 String[] textToRoll = itemNote.getText().split("\n");                             //Получаем пункты списка
 
-//                ItemRollView itemRollView = noteDB.insertRoll(itemNote.getCreate(), textToRoll);      //Записываем пункты
                 ItemRollView itemRollView = db.daoRoll().insertRoll(itemNote.getCreate(), textToRoll);      //Записываем пункты
 
-                itemNote.setType(NoteDB.typeRoll);
+                itemNote.setType(DbDesc.typeRoll);
                 itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
                 db.daoNote().updateNote(itemNote);
-//                noteDB.updateNoteType(itemNote);     //Обновляем заметку (меняем тип и текст)
 
                 activity.managerRoll.insertList(itemNote.getCreate(), itemRollView);
                 break;
-            case NoteDB.typeRoll:
-//                String rollToText = noteDB.getRollText(itemNote.getCreate());           //Получаем текст заметки
+            case DbDesc.typeRoll:
                 String rollToText = db.daoRoll().getRollText(itemNote.getCreate());           //Получаем текст заметки
 
-                itemNote.setType(NoteDB.typeText);
+                itemNote.setType(DbDesc.typeText);
                 itemNote.setText(rollToText);
 
                 db.daoNote().updateNote(itemNote);
                 db.daoRoll().deleteRoll(itemNote.getCreate());
 
-//                noteDB.updateNoteType(itemNote);                                        //Обновляем заметку (меняем тип и текст)
-//                noteDB.deleteRoll(itemNote.getCreate());                                //Удаляем пункты бывшего списка
-
                 activity.managerRoll.removeList(itemNote.getCreate());
                 break;
         }
-//        noteDB.close();
-
         db.close();
 
         listNote.set(p, itemNote);
@@ -313,7 +285,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onDialogDeleteClick(ItemNote itemNote, int p) {
         Log.i("FrgNote", "onDialogDeleteClick");
 
-        db = Room.databaseBuilder(context, DataBaseRoom.class, "HandyNotes")
+        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
 
@@ -323,13 +295,6 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         }
 
         db.close();
-
-//        noteDB = new NoteDB(context);
-//        noteDB.updateNote(itemNote.getId(), Help.Time.getCurrentTime(context), NoteDB.binTrue);
-//        if (itemNote.isStatus()) {
-//            noteDB.updateNote(itemNote.getId(), false);
-//        }
-//        noteDB.close();
 
         listNote.remove(p);
         adapterNote.updateAdapter(listNote);

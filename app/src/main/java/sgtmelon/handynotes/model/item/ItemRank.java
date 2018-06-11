@@ -6,18 +6,16 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import sgtmelon.handynotes.database.DataBaseDescription;
-import sgtmelon.handynotes.database.converter.ConverterBool;
-import sgtmelon.handynotes.database.converter.ConverterString;
-import sgtmelon.handynotes.service.Help;
+import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.db.converter.ConverterBool;
+import sgtmelon.handynotes.db.converter.ConverterString;
+import sgtmelon.handynotes.Help;
 
 @Entity(tableName = "RANK_TABLE")
 @TypeConverters({ConverterBool.class, ConverterString.class})
-public class ItemRank extends DataBaseDescription {
+public class ItemRank extends DbDesc {
 
     public ItemRank() {
 
@@ -69,7 +67,6 @@ public class ItemRank extends DataBaseDescription {
     @ColumnInfo(name = RK_ID)
     @PrimaryKey(autoGenerate = true)
     private int id;             //Позиция в базе данных
-    //TODO: long type
 
     @ColumnInfo(name = RK_PS)
     private int position;       //Позиция в списке
