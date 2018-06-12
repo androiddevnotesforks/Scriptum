@@ -58,7 +58,7 @@ public class AlertSort extends AlertDialog.Builder implements ItemClick.Click {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        adapterSort = new AdapterSort(context);
+        adapterSort = new AdapterSort();
         recyclerView.setAdapter(adapterSort);
         adapterSort.setCallback(this);
 

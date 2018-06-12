@@ -140,7 +140,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
                 .allowMainThreadQueries()
                 .build();
 
-        listNote = db.daoNote().getNote(DbDesc.binFalse, Help.Pref.getSortNoteOrder(context));
+        listNote = db.daoNote().get(DbDesc.binFalse, Help.Pref.getSortNoteOrder(context));
 
         db.close();
 
@@ -187,8 +187,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoRoll().updateRoll(itemNote.getCreate(), rlCheck);
-        db.daoNote().updateNote(itemNote);
+        db.daoRoll().update(itemNote.getCreate(), rlCheck);
+        db.daoNote().update(itemNote);
 
         db.close();
 
@@ -222,7 +222,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
+        db.daoNote().update(itemNote.getId(), itemNote.isStatus());
 
         db.close();
 
@@ -246,22 +246,22 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
             case DbDesc.typeText:
                 String[] textToRoll = itemNote.getText().split("\n");                             //Получаем пункты списка
 
-                ItemRollView itemRollView = db.daoRoll().insertRoll(itemNote.getCreate(), textToRoll);      //Записываем пункты
+                ItemRollView itemRollView = db.daoRoll().insert(itemNote.getCreate(), textToRoll);      //Записываем пункты
 
                 itemNote.setType(DbDesc.typeRoll);
                 itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
-                db.daoNote().updateNote(itemNote);
+                db.daoNote().update(itemNote);
 
                 activity.managerRoll.insertList(itemNote.getCreate(), itemRollView);
                 break;
             case DbDesc.typeRoll:
-                String rollToText = db.daoRoll().getRollText(itemNote.getCreate());           //Получаем текст заметки
+                String rollToText = db.daoRoll().getText(itemNote.getCreate());           //Получаем текст заметки
 
                 itemNote.setType(DbDesc.typeText);
                 itemNote.setText(rollToText);
 
-                db.daoNote().updateNote(itemNote);
+                db.daoNote().update(itemNote);
                 db.daoRoll().deleteRoll(itemNote.getCreate());
 
                 activity.managerRoll.removeList(itemNote.getCreate());
@@ -289,9 +289,9 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().updateNote(itemNote.getId(), Help.Time.getCurrentTime(context), true);
+        db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);
         if(itemNote.isStatus()){
-            db.daoNote().updateNote(itemNote.getId(), false);
+            db.daoNote().update(itemNote.getId(), false);
         }
 
         db.close();

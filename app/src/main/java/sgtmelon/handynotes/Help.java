@@ -55,7 +55,7 @@ public class Help {
                         .allowMainThreadQueries()
                         .build();
                 
-                copyText = db.daoRoll().getRollText(itemNote.getCreate());
+                copyText = db.daoRoll().getText(itemNote.getCreate());
 
                 db.close();
                 break;

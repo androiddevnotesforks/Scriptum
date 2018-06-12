@@ -1,107 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/item_layout_main_indent"
-    android:background="?android:attr/listDivider">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="itemRank"
+            type="sgtmelon.handynotes.model.item.ItemRank" />
+
+    </data>
+
+    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/item_layout_sub_indent"
-        android:background="@color/noteWhite">
+        android:layout_margin="@dimen/item_layout_main_indent"
+        android:background="?android:attr/listDivider">
 
-        <LinearLayout
-            android:id="@+id/itemRank_ll_click"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="@dimen/item_layout_medium_indent"
-            android:weightSum="1">
-
-            <sgtmelon.handynotes.view.ButtonVisible
-                android:id="@+id/itemRank_bv_visible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/item_layout_medium_indent"
-                android:layout_marginRight="@dimen/item_layout_medium_indent"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/item_layout_medium_indent"
-                app:srcCompat="@drawable/ic_button_visible_on" />
+            android:layout_margin="@dimen/item_layout_sub_indent"
+            android:background="@color/noteWhite">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:id="@+id/itemRank_ll_click"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/item_layout_medium_indent"
+                android:weightSum="1">
 
-                <TextView
-                    android:id="@+id/itemRank_tv_name"
-                    android:layout_width="match_parent"
+                <sgtmelon.handynotes.view.ButtonVisible
+                    android:id="@+id/itemRank_bv_visible"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/item_layout_medium_indent"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/test_item_rank_name"
-                    android:textColor="@color/colorDark"
-                    android:textSize="@dimen/text_medium_size" />
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/item_layout_medium_indent"
+                    android:layout_marginRight="@dimen/item_layout_medium_indent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/item_layout_medium_indent"
+                    app:srcCompat="@drawable/ic_button_visible_on" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/itemRank_tv_textCount"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/itemRank_tv_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/item_layout_small_indent"
-                        android:layout_marginRight="@dimen/item_layout_small_indent"
-                        android:text="@string/test_item_rank_text_count"
+                        android:layout_marginBottom="@dimen/item_layout_medium_indent"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text='@{itemRank.name}'
                         android:textColor="@color/colorDark"
-                        android:singleLine="true"
-                        android:ellipsize="start"
-                        android:textSize="@dimen/text_small_size" />
+                        android:textSize="@dimen/text_medium_size" />
 
-                    <TextView
-                        android:id="@+id/itemRank_tv_rollCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/item_layout_small_indent"
-                        android:layout_marginRight="@dimen/item_layout_small_indent"
-                        android:text="@string/test_item_rank_roll_count"
-                        android:textColor="@color/colorDark"
-                        android:singleLine="true"
-                        android:ellipsize="start"
-                        android:textSize="@dimen/text_small_size" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/itemRank_tv_rollDone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/test_item_rank_roll_check"
-                        android:textColor="@color/colorDark"
-                        android:singleLine="true"
-                        android:ellipsize="start"
-                        android:textSize="@dimen/text_small_size" />
+                        <TextView
+                            android:id="@+id/itemRank_tv_textCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/item_layout_small_indent"
+                            android:layout_marginRight="@dimen/item_layout_small_indent"
+                            android:ellipsize="start"
+                            android:singleLine="true"
+                            android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}'
+                            android:textColor="@color/colorDark"
+                            android:textSize="@dimen/text_small_size" />
 
+                        <TextView
+                            android:id="@+id/itemRank_tv_rollCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/item_layout_small_indent"
+                            android:layout_marginRight="@dimen/item_layout_small_indent"
+                            android:ellipsize="start"
+                            android:singleLine="true"
+                            android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}'
+                            android:textColor="@color/colorDark"
+                            android:textSize="@dimen/text_small_size" />
+
+                        <TextView
+                            android:id="@+id/itemRank_tv_rollDone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="start"
+                            android:singleLine="true"
+                            android:text='@{@string/list_item_rank_roll_check + " " + itemRank.getRollCheck() + "%"}'
+                            android:textColor="@color/colorDark"
+                            android:textSize="@dimen/text_small_size"
+                            android:visibility='@{itemRank.getRollCount() == 0 ? View.GONE : View.VISIBLE}' />
+
+                    </LinearLayout>
                 </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/itemRank_ib_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/item_layout_medium_indent"
+                    android:layout_marginStart="@dimen/item_layout_medium_indent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/item_layout_medium_indent"
+                    android:tint="@color/colorDark"
+                    app:srcCompat="@drawable/ic_button_cancel" />
+
             </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/itemRank_ib_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/item_layout_medium_indent"
-                android:layout_marginStart="@dimen/item_layout_medium_indent"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/item_layout_medium_indent"
-                android:tint="@color/colorDark"
-                app:srcCompat="@drawable/ic_button_cancel" />
-
-        </LinearLayout>
+        </FrameLayout>
     </FrameLayout>
-</FrameLayout>
+</layout>

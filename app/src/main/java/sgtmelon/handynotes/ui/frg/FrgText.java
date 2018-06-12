@@ -93,7 +93,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                     .allowMainThreadQueries()
                     .build();
 
-            itemNote = db.daoNote().getNote(itemNote.getId());
+            itemNote = db.daoNote().get(itemNote.getId());
 
             db.close();
 
@@ -125,14 +125,14 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                     .build();
 
             if (activity.stateNote.isCreate()) {
-                activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
+                activity.stateNote.setCreate(false);
 
-                int ntId = (int) db.daoNote().insertNote(itemNote);
+                int ntId = (int) db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
             } else {
-                db.daoNote().updateNote(itemNote);
+                db.daoNote().update(itemNote);
             }
-            db.daoRank().updateRank(itemNote.getCreate(), itemNote.getRankId());
+            db.daoRank().update(itemNote.getCreate(), itemNote.getRankId());
 
             db.close();
 
@@ -149,9 +149,9 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 .allowMainThreadQueries()
                 .build();
 
-        final String[] checkName = Help.Array.strListToArr(db.daoRank().getRankName());
-        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getRankId())); //TODO !!! эт жесть если честно
-        final boolean[] checkItem = db.daoRank().getRankCheck(itemNote.getRankId());
+        final String[] checkName = Help.Array.strListToArr(db.daoRank().getName());
+        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getId())); //TODO !!! эт жесть если честно
+        final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
 
         db.close();
 
@@ -168,12 +168,17 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String[] addRank = new String[0];
+                        String[] rankId = new String[0];
+                        String[] rankPs = new String[0];
                         for (int i = 0; i < checkId.length; i++) {
-                            if (checkItem[i])
-                                addRank = Help.Array.addStrItem(addRank, checkId[i]);
+                            if (checkItem[i]) {
+                                rankId = Help.Array.addStrItem(rankId, checkId[i]);
+                                rankPs = Help.Array.addStrItem(rankPs, Integer.toString(i));
+                            }
                         }
-                        itemNote.setRankId(addRank);
+                        itemNote.setRankId(rankId);
+                        itemNote.setRankPs(rankPs);
+
                         dialog.cancel();
                     }
                 })
@@ -271,7 +276,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                 .allowMainThreadQueries()
                 .build();
-        db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
+        db.daoNote().update(itemNote.getId(), itemNote.isStatus());
 
         db.close();
 
@@ -288,13 +293,13 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 .allowMainThreadQueries()
                 .build();
 
-        ItemRollView itemRollView = db.daoRoll().insertRoll(itemNote.getCreate(), textToRoll);
+        ItemRollView itemRollView = db.daoRoll().insert(itemNote.getCreate(), textToRoll);
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setType(DbDesc.typeRoll);
         itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
-        db.daoNote().updateNote(itemNote);
+        db.daoNote().update(itemNote);
 
         db.close();
 

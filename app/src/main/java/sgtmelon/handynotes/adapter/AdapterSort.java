@@ -1,6 +1,7 @@
 package sgtmelon.handynotes.adapter;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.databinding.ItemRankBinding;
+import sgtmelon.handynotes.databinding.ItemSortBinding;
 import sgtmelon.handynotes.model.state.StateSort;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.model.item.ItemSort;
@@ -22,23 +25,13 @@ import sgtmelon.handynotes.model.item.ItemSort;
 public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
 
     //region Variables
-    private final LayoutInflater inflater;
-
     private final List<ItemSort> listSort;
     public final StateSort stateSort;
-
-    @ColorInt
-    private final int colorDark, colorDarkSecond;
     //endregion
 
-    public AdapterSort(Context context) {
-        this.inflater = LayoutInflater.from(context);
-
+    public AdapterSort() {
         listSort = new ArrayList<>();
         stateSort = new StateSort();
-
-        colorDark = ContextCompat.getColor(context, R.color.colorDark);
-        colorDarkSecond = ContextCompat.getColor(context, R.color.colorDarkSecond);
     }
 
     private ItemClick.Click click;
@@ -61,21 +54,15 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
     @NonNull
     @Override
     public SortHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.item_sort, parent, false);
-        return new SortHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        ItemSortBinding binding = DataBindingUtil.inflate(inflater, R.layout.item_sort, parent, false);
+
+        return new SortHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SortHolder holder, int position) {
-        ItemSort itemSort = listSort.get(position);
-
-        int sortEnd = stateSort.getEnd();
-
-        holder.srChevronLeft.setVisibility(position == sortEnd ? View.VISIBLE : View.GONE);
-        holder.srChevronRight.setVisibility(position == sortEnd ? View.VISIBLE : View.GONE);
-
-        holder.srText.setText(itemSort.getText());
-        holder.srText.setTextColor(position <= sortEnd ? colorDark : colorDarkSecond);
+        holder.bind(listSort.get(position), position, stateSort.getEnd());
     }
 
     @Override
@@ -86,18 +73,22 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
     class SortHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final View srClick;
-        private final TextView srText;
-        private final ImageView srChevronLeft, srChevronRight;
+        private final ItemSortBinding binding;
 
-        SortHolder(View itemView) {
-            super(itemView);
+        SortHolder(ItemSortBinding binding) {
+            super(binding.getRoot());
+
+            this.binding = binding;
 
             srClick = itemView.findViewById(R.id.itemSort_ll_click);
-            srText = itemView.findViewById(R.id.itemSort_tv_text);
-            srChevronLeft = itemView.findViewById(R.id.itemSort_iv_left);
-            srChevronRight = itemView.findViewById(R.id.itemSort_iv_right);
-
             srClick.setOnClickListener(this);
+        }
+
+        void bind(ItemSort itemSort, int position, int sortEnd) {
+            binding.setItemSort(itemSort);
+            binding.setPosition(position);
+            binding.setSortEnd(sortEnd);
+            binding.executePendingBindings();
         }
 
         @Override

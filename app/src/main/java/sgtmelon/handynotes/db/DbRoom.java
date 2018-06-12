@@ -10,6 +10,8 @@ import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.item.ItemRoll;
 
+//TODO SingleTone
+
 @Database(entities = {ItemNote.class, ItemRoll.class, ItemRank.class}, version = 1)
 public abstract class DbRoom extends RoomDatabase {
 

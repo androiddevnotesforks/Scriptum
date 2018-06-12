@@ -1,58 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/item_layout_main_indent"
-    android:background="?android:attr/listDivider">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <FrameLayout
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="itemSort"
+            type="sgtmelon.handynotes.model.item.ItemSort" />
+
+        <variable
+            name="position"
+            type="int" />
+
+        <variable
+            name="sortEnd"
+            type="int" />
+
+    </data>
+
+    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/item_layout_sub_indent"
-        android:background="@color/noteWhite">
+        android:layout_margin="@dimen/item_layout_main_indent"
+        android:background="?android:attr/listDivider">
 
-        <LinearLayout
-            android:id="@+id/itemSort_ll_click"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground">
+            android:layout_margin="@dimen/item_layout_sub_indent"
+            android:background="@color/noteWhite">
 
-            <ImageView
-                android:id="@+id/itemSort_iv_left"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/itemSort_ll_click"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/item_layout_small_indent"
-                android:layout_marginRight="@dimen/item_layout_small_indent"
-                android:tint="@color/colorDarkSecond"
-                app:srcCompat="@drawable/ic_info_braket_left" />
+                android:background="?attr/selectableItemBackground">
 
-            <TextView
-                android:id="@+id/itemSort_tv_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/item_layout_big_indent"
-                android:layout_marginTop="@dimen/item_layout_big_indent"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:text="@string/test_item_sort_text"
-                android:textColor="@color/colorDark"
-                android:textSize="@dimen/text_medium_size" />
+                <ImageView
+                    android:id="@+id/itemSort_iv_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/item_layout_small_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:tint="@color/colorDarkSecond"
+                    android:visibility='@{position == sortEnd ? View.VISIBLE : View.INVISIBLE}'
+                    app:srcCompat="@drawable/ic_info_braket_left" />
 
-            <ImageView
-                android:id="@+id/itemSort_iv_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/item_layout_small_indent"
-                android:layout_marginRight="@dimen/item_layout_small_indent"
-                android:tint="@color/colorDarkSecond"
-                app:srcCompat="@drawable/ic_info_braket_right" />
+                <TextView
+                    android:id="@+id/itemSort_tv_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/item_layout_big_indent"
+                    android:layout_marginTop="@dimen/item_layout_big_indent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:text='@{itemSort.text}'
+                    android:textColor='@{position &lt;= sortEnd ? @color/colorDark : @color/colorDarkSecond}'
+                    android:textSize="@dimen/text_medium_size" />
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/itemSort_iv_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/item_layout_small_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:tint="@color/colorDarkSecond"
+                    android:visibility='@{position == sortEnd ? View.VISIBLE : View.INVISIBLE}'
+                    app:srcCompat="@drawable/ic_info_braket_right" />
 
+            </LinearLayout>
+
+        </FrameLayout>
     </FrameLayout>
-</FrameLayout>
+</layout>

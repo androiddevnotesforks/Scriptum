@@ -6,6 +6,7 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,21 +21,21 @@ import sgtmelon.handynotes.Help;
 public abstract class DaoRank extends DaoBase {
 
     @Query("SELECT COUNT(RK_ID) FROM RANK_TABLE")
-    public abstract long getRankCount();
+    public abstract long getCount();
 
     @Insert
-    public abstract long insertRank(ItemRank itemRank);
+    public abstract long insert(ItemRank itemRank);
 
     //TODO переименуй
     @Query("SELECT * FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
-    abstract List<ItemRank> getRankSimple();
+    abstract List<ItemRank> getSimple();
 
     /**
      * @return - Список моделей категорий с указанной информацией
      */
-    public List<ItemRank> getRank() {
-        List<ItemRank> listRank = getRankSimple();
+    public List<ItemRank> get() {
+        List<ItemRank> listRank = getSimple();
 
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
@@ -56,40 +57,42 @@ public abstract class DaoRank extends DaoBase {
      */
     @Query("SELECT * FROM RANK_TABLE " +
             "WHERE RK_NAME = :rankName")
-    abstract ItemRank getRank(String rankName);
+    abstract ItemRank get(String rankName);
 
     /**
      * @return - Лист с именами в высоком регистре
      */
     @Query("SELECT UPPER(RK_NAME) FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
-    public abstract List<String> getRankNameUpper();
+    public abstract List<String> getNameUp();
 
     @Query("SELECT RK_NAME FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
-    public abstract List<String> getRankName();
+    public abstract List<String> getName();
 
     @Query("SELECT RK_ID FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
-    public abstract List<Integer> getRankId();
+    public abstract List<Integer> getId();
 
-    public boolean[] getRankCheck(String[] rankId) {
-        List<ItemRank> listRank = getRankSimple();
+    public boolean[] getCheck(String[] rankId) {
+        List<ItemRank> listRank = getSimple();
 
         boolean[] rankCheck = new boolean[listRank.size()];
         for (int i = 0; i < listRank.size(); i++) {
-            String id = Integer.toString(listRank.get(i).getId());
+            ItemRank itemRank = listRank.get(i);
+
+            String id = Integer.toString(itemRank.getId());
             rankCheck[i] = Arrays.asList(rankId).contains(id);
         }
 
         return rankCheck;
     }
 
-    //TODO проверь правильность работы
-    public void updateRank(String noteCreate, String[] noteRankId) {
-        List<ItemRank> listRank = getRank();
+    public void update(String noteCreate, String[] noteRankId) {
+        List<ItemRank> listRank = get();
 
-        boolean[] rankCheck = getRankCheck(noteRankId);
+        boolean[] rankCheck = getCheck(noteRankId);
+
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
             List<String> rankCreate = Help.Array.strArrToList(itemRank.getCreate());
@@ -100,6 +103,7 @@ public abstract class DaoRank extends DaoBase {
                 if (rankCreate.contains(noteCreate)) rankCreate.remove(noteCreate);
             }
 
+            itemRank.setCreate(Help.Array.strListToArr(rankCreate));
             listRank.set(i, itemRank);
         }
 
@@ -107,50 +111,42 @@ public abstract class DaoRank extends DaoBase {
     }
 
     @Update
-    public abstract void updateRank(ItemRank itemRank);
+    public abstract void update(ItemRank itemRank);
 
-    //TODO сократи перебор
-    public void updateRank(int startPosition, int endPosition) {
-        List<ItemRank> listRank = getRankSimple();
+    //TODO переделай обновление позиций по другому
+    public void update(int startPosition, int endPosition) {
+        boolean startFirst = startPosition < endPosition;
 
-        int position;
+        int iStart = startFirst ? startPosition : endPosition;
+        int iEnd = startFirst ? endPosition : startPosition;
+        int iAdd = startFirst ? -1 : 1;
+
+        List<ItemRank> listRank = getSimple();
+
+        int newPosition;
         List<String> ntCreate = new ArrayList<>();
 
-        if (startPosition < endPosition) {
-            for (int i = startPosition; i <= endPosition; i++) {
-                ItemRank itemRank = listRank.get(i);
+        for (int i = iStart; i <= iEnd; i++) {
+            ItemRank itemRank = listRank.get(i);
 
-                if (i == startPosition) position = endPosition;
-                else position = i - 1;
+            newPosition = i == startPosition ? endPosition : i + iAdd;
 
-                itemRank.setPosition(position);
-                listRank.set(i, itemRank);
+            Log.i("DaoRank", "update, name: " + itemRank.getName() + ", oldPS: " + itemRank.getPosition() + ", newPS: " + newPosition);
 
-                for (String rankCreate : itemRank.getCreate()) {
-                    if (!ntCreate.contains(rankCreate)) {
-                        ntCreate.add(rankCreate);
-                    }
-                }
-            }
-        } else {
-            for (int i = endPosition; i <= startPosition; i++) {
-                ItemRank itemRank = listRank.get(i);
+            itemRank.setPosition(newPosition);
+            listRank.set(i, itemRank);
 
-                if (i == startPosition) position = endPosition;
-                else position = i + 1;
-
-                itemRank.setPosition(position);
-                listRank.set(i, itemRank);
-
-                for (String rankCreate : itemRank.getCreate()) {
-                    if (!ntCreate.contains(rankCreate)) {
-                        ntCreate.add(rankCreate);
-                    }
+            for (String rankCreate : itemRank.getCreate()) {
+                if (!ntCreate.contains(rankCreate)) {
+                    ntCreate.add(rankCreate);
                 }
             }
         }
 
+        Log.i("DaoRank", "update, ntCreate: " + TextUtils.join(divider, ntCreate));
+
         updateRank(listRank);
+
         List<ItemNote> listNote = getNote(ntCreate);
 
         for (int i = 0; i < listNote.size(); i++) {
@@ -160,7 +156,7 @@ public abstract class DaoRank extends DaoBase {
             String[] rankIdNew = new String[rankIdOld.length];
             String[] rankPsNew = new String[rankIdOld.length];
 
-            int ps = 0;
+            int p = 0;
 
             for (int j = 0; j < listRank.size(); j++) {
                 ItemRank itemRank = listRank.get(j);
@@ -169,9 +165,9 @@ public abstract class DaoRank extends DaoBase {
                 String rankPs = Integer.toString(itemRank.getPosition());
 
                 if (Arrays.asList(rankIdOld).contains(rankId)) {
-                    rankIdNew[ps] = rankId;
-                    rankPsNew[ps] = rankPs;
-                    ps++;
+                    rankIdNew[p] = rankId;
+                    rankPsNew[p] = rankPs;
+                    p++;
                 }
             }
 
@@ -184,35 +180,77 @@ public abstract class DaoRank extends DaoBase {
         updateNote(listNote);
     }
 
+    //TODO переделай обновление позиций по другому
     /**
      * @param startPosition - Позиция удаления категории
      */
-    public void updateRank(int startPosition) {
-        List<ItemRank> listRank = getRankSimple();
+    public void update(int startPosition) {
+        List<ItemRank> listRank = getSimple();
+
+        List<String> ntCreate = new ArrayList<>();
 
         for (int i = startPosition; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
+
+            for (String rankCreate : itemRank.getCreate()) {
+                if (!ntCreate.contains(rankCreate)) {
+                    ntCreate.add(rankCreate);
+                }
+            }
+
             itemRank.setPosition(i);
             listRank.set(i, itemRank);
         }
 
         updateRank(listRank);
+
+        List<ItemNote> listNote = getNote(ntCreate);
+
+        for (int i = 0; i < listNote.size(); i++) {
+            ItemNote itemNote = listNote.get(i);
+
+            String[] rankIdOld = itemNote.getRankId();
+            String[] rankIdNew = new String[rankIdOld.length];
+            String[] rankPsNew = new String[rankIdOld.length];
+
+            int p = 0;
+
+            for (int j = 0; j < listRank.size(); j++) {
+                ItemRank itemRank = listRank.get(j);
+
+                String rankId = Integer.toString(itemRank.getId());
+                String rankPs = Integer.toString(itemRank.getPosition());
+
+                if (Arrays.asList(rankIdOld).contains(rankId)) {
+                    rankIdNew[p] = rankId;
+                    rankPsNew[p] = rankPs;
+                    p++;
+                }
+            }
+
+            itemNote.setRankId(rankIdNew);
+            itemNote.setRankPs(rankPsNew);
+
+            listNote.set(i, itemNote);
+        }
+
+        updateNote(listNote);
     }
 
     @Delete
-    abstract void deleteRank(ItemRank itemRank);
+    abstract void delete(ItemRank itemRank);
 
-    public void deleteRank(String rankName) {
-        ItemRank itemRank = getRank(rankName);
+    public void delete(String rankName) {
+        ItemRank itemRank = get(rankName);
 
         String[] rankCreate = itemRank.getCreate();
         if (rankCreate.length != 0) updateNote(rankCreate, Integer.toString(itemRank.getId()));
 
-        deleteRank(itemRank);
+        delete(itemRank);
     }
 
-    public void listAllRank(TextView textView) {
-        List<ItemRank> listRank = getRank();
+    public void listAll(TextView textView) {
+        List<ItemRank> listRank = get();
 
         String annotation = "Rank Data Base: ";
         textView.setText(annotation);

@@ -190,7 +190,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        listNote = db.daoNote().getNote(DbDesc.binTrue, Help.Pref.getSortNoteOrder(context));
+        listNote = db.daoNote().get(DbDesc.binTrue, Help.Pref.getSortNoteOrder(context));
 
         db.close();
 
@@ -235,7 +235,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().updateNote(itemNote.getId(), Help.Time.getCurrentTime(context), false);
+        db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), false);
 
         db.close();
 
@@ -256,7 +256,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().deleteNote(itemNote.getId());
+        db.daoNote().delete(itemNote.getId());
 
         db.close();
 

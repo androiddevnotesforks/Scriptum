@@ -127,8 +127,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                     .allowMainThreadQueries()
                     .build();
 
-            itemNote = db.daoNote().getNote(itemNote.getId());
-            listRoll = db.daoRoll().getRoll(itemNote.getCreate());
+            itemNote = db.daoNote().get(itemNote.getId());
+            listRoll = db.daoRoll().get(itemNote.getCreate());
 
             db.close();
 
@@ -164,30 +164,30 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
 
-                itemNote.setId((int) db.daoNote().insertNote(itemNote));
+                itemNote.setId((int) db.daoNote().insert(itemNote));
 
                 for (int i = 0; i < listRoll.size(); i++) {           //Запись в пунктов в БД
                     ItemRoll itemRoll = listRoll.get(i);
 
                     itemRoll.setPosition(i);
-                    itemRoll.setId((int) db.daoRoll().insertRoll(itemRoll));             //Обновление некоторых значений
+                    itemRoll.setId((int) db.daoRoll().insert(itemRoll));             //Обновление некоторых значений
                     itemRoll.setExist(true);
 
                     listRoll.set(i, itemRoll);
                 }
                 adapterRoll.updateAdapter(listRoll);
             } else {
-                db.daoNote().updateNote(itemNote);
+                db.daoNote().update(itemNote);
 
                 for (int i = 0; i < listRoll.size(); i++) {
                     ItemRoll itemRoll = listRoll.get(i);
 
                     itemRoll.setPosition(i);
                     if (!itemRoll.isExist()) {
-                        itemRoll.setId((int) db.daoRoll().insertRoll(itemRoll));
+                        itemRoll.setId((int) db.daoRoll().insert(itemRoll));
                         itemRoll.setExist(true);
                     } else {
-                        db.daoRoll().updateRoll(itemRoll.getId(), i, itemRoll.getText());
+                        db.daoRoll().update(itemRoll.getId(), i, itemRoll.getText());
                     }
 
                     listRoll.set(i, itemRoll);
@@ -198,9 +198,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 for (ItemRoll itemRoll : listRoll) {
                     rollId.add(itemRoll.getId());
                 }
-                db.daoRoll().deleteRoll(itemNote.getCreate(), rollId);
+                db.daoRoll().delete(itemNote.getCreate(), rollId);
             }
-            db.daoRank().updateRank(itemNote.getCreate(), itemNote.getRankId());
+            db.daoRank().update(itemNote.getCreate(), itemNote.getRankId());
 
             db.close();
 
@@ -217,9 +217,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        final String[] checkName = Help.Array.strListToArr(db.daoRank().getRankName());
-        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getRankId())); //TODO !!! эт жесть если честно
-        final boolean[] checkItem = db.daoRank().getRankCheck(itemNote.getRankId());
+        final String[] checkName = Help.Array.strListToArr(db.daoRank().getName());
+        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getId())); //TODO !!! эт жесть если честно
+        final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
 
         db.close();
 
@@ -236,12 +236,17 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String[] addRank = new String[0];
+                        String[] rankId = new String[0];
+                        String[] rankPs = new String[0];
                         for (int i = 0; i < checkId.length; i++) {
-                            if (checkItem[i])
-                                addRank = Help.Array.addStrItem(addRank, checkId[i]);
+                            if (checkItem[i]) {
+                                rankId = Help.Array.addStrItem(rankId, checkId[i]);
+                                rankPs = Help.Array.addStrItem(rankPs, Integer.toString(i));
+                            }
                         }
-                        itemNote.setRankId(addRank);
+                        itemNote.setRankId(rankId);
+                        itemNote.setRankPs(rankPs);
+
                         dialog.cancel();
                     }
                 })
@@ -334,13 +339,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         if (stateCheck.isAll()) {
             itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
-            db.daoRoll().updateRoll(itemNote.getCreate(), DbDesc.checkFalse);
-            db.daoNote().updateNote(itemNote);
+            db.daoRoll().update(itemNote.getCreate(), DbDesc.checkFalse);
+            db.daoNote().update(itemNote);
         } else {
             itemNote.setText(Help.Note.getCheckStr(listRoll.size(), listRoll.size()));
 
-            db.daoRoll().updateRoll(itemNote.getCreate(), DbDesc.checkTrue);
-            db.daoNote().updateNote(itemNote);
+            db.daoRoll().update(itemNote.getCreate(), DbDesc.checkTrue);
+            db.daoNote().update(itemNote);
         }
 
         db.close();
@@ -367,7 +372,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().updateNote(itemNote.getId(), itemNote.isStatus());
+        db.daoNote().update(itemNote.getId(), itemNote.isStatus());
 
         db.close();
 
@@ -382,13 +387,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        String rollToText = db.daoRoll().getRollText(itemNote.getCreate());
+        String rollToText = db.daoRoll().getText(itemNote.getCreate());
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setType(DbDesc.typeText);
         itemNote.setText(rollToText);
 
-        db.daoNote().updateNote(itemNote);
+        db.daoNote().update(itemNote);
         db.daoRoll().deleteRoll(itemNote.getCreate());
 
         db.close();
@@ -436,7 +441,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        listRoll = db.daoRoll().getRoll(itemNote.getCreate());
+        listRoll = db.daoRoll().get(itemNote.getCreate());
 
         db.close();
 
@@ -470,8 +475,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoRoll().updateRoll(itemRoll.getId(), itemRoll.isCheck());
-        db.daoNote().updateNote(itemNote);
+        db.daoRoll().update(itemRoll.getId(), itemRoll.isCheck());
+        db.daoNote().update(itemNote);
 
         db.close();
     }

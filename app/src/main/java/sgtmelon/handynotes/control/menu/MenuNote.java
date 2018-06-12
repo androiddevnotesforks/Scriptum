@@ -140,7 +140,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 .allowMainThreadQueries()
                 .build();
 
-        if (db.daoRank().getRankCount() == 0) mItemRank.setVisible(false);
+        if (db.daoRank().getCount() == 0) mItemRank.setVisible(false);
 
         db.close();
     }

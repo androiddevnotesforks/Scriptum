@@ -26,9 +26,9 @@ public class ActDevelop extends AppCompatActivity {
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().listAllNote(noteText);
-        db.daoRoll().listAllRoll(rollText);
-        db.daoRank().listAllRank(rankText);
+        db.daoNote().listAll(noteText);
+        db.daoRoll().listAll(rollText);
+        db.daoRank().listAll(rankText);
 
         db.close();
 

@@ -66,7 +66,7 @@ public class ItemStatus {
                         .allowMainThreadQueries()
                         .build();
 
-                text = db.daoRoll().getRollText(itemNote.getCreate(), itemNote.getText());
+                text = db.daoRoll().getText(itemNote.getCreate(), itemNote.getText());
 
                 db.close();
                 break;

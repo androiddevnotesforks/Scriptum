@@ -121,7 +121,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                         .allowMainThreadQueries()
                         .build();
 
-                int rankId = (int) db.daoRank().insertRank(itemRank);
+                int rankId = (int) db.daoRank().insert(itemRank);
 
                 db.close();
 
@@ -157,8 +157,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 .allowMainThreadQueries()
                 .build();
 
-        int rankId = (int) db.daoRank().insertRank(itemRank);
-        db.daoRank().updateRank(rankPs);
+        int rankId = (int) db.daoRank().insert(itemRank);
+        db.daoRank().update(rankPs);
 
         db.close();
 
@@ -206,7 +206,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapterRank = new AdapterRank(context);
+        adapterRank = new AdapterRank();
         recyclerView.setAdapter(adapterRank);
 
         adapterRank.setCallback(this, this, stateDrag);
@@ -222,8 +222,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 .allowMainThreadQueries()
                 .build();
 
-        managerRank.setListRank(db.daoRank().getRank());
-        if(updateAll) managerRank.setListRankName(db.daoRank().getRankNameUpper());
+        managerRank.setListRank(db.daoRank().get());
+        if(updateAll) managerRank.setListRankName(db.daoRank().getNameUp());
 
         db.close();
 
@@ -255,7 +255,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                         .allowMainThreadQueries()
                         .build();
 
-                db.daoRank().updateRank(itemRank);
+                db.daoRank().update(itemRank);
 
                 db.close();
 
@@ -275,7 +275,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                                         .allowMainThreadQueries()
                                         .build();
 
-                                db.daoRank().updateRank(itemRank);
+                                db.daoRank().update(itemRank);
 
                                 db.close();
 
@@ -307,8 +307,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                         .allowMainThreadQueries()
                         .build();
 
-                db.daoRank().deleteRank(managerRank.get(p).getName());
-                db.daoRank().updateRank(p);
+                db.daoRank().delete(managerRank.get(p).getName());
+                db.daoRank().update(p);
 
                 db.close();
 
@@ -398,8 +398,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                         .allowMainThreadQueries()
                         .build();
 
-                db.daoRank().updateRank(dragStartPs, dragEndPs);
-                managerRank.setListRank(db.daoRank().getRank());
+                db.daoRank().update(dragStartPs, dragEndPs);
+                managerRank.setListRank(db.daoRank().get());
                 activity.managerStatus = db.daoNote().getManagerStatus(context);
 
                 db.close();

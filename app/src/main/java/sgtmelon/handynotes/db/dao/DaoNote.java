@@ -28,28 +28,23 @@ import sgtmelon.handynotes.Help;
 public abstract class DaoNote extends DaoBase {
 
     @Insert
-    public abstract long insertNote(ItemNote itemNote);
+    public abstract long insert(ItemNote itemNote);
 
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_ID = :noteId")
-    public abstract ItemNote getNote(int noteId);
+    public abstract ItemNote get(int noteId);
 
     @RawQuery
-    abstract List<ItemNote> getNote(SupportSQLiteQuery query);
+    abstract List<ItemNote> get(SupportSQLiteQuery query);
 
-    public List<ItemNote> getNote(int noteBin, String sortKeys) {
+    public List<ItemNote> get(int noteBin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + NT_TB +
                         " WHERE " + NT_BN + " = " + noteBin +
                         " ORDER BY " + sortKeys);
 
-        return getNote(query);
+        return get(query);
     }
-
-    //TODO: сортировка должна соответствовать той, что в настройках
-    @Query("SELECT * FROM NOTE_TABLE WHERE NT_STATUS = 1 " +
-            "ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC")
-    protected abstract List<ItemNote> getNote();
 
     /**
      * Конструирует менеджер сообщений с учётом видимых категорий
@@ -58,13 +53,18 @@ public abstract class DaoNote extends DaoBase {
      * @return - Возвращает менеджер сообщений в статус баре
      */
     public ManagerStatus getManagerStatus(Context context) {
-        List<ItemNote> listNote = getNote();
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
+                "SELECT * FROM " + NT_TB +
+                        " WHERE " + NT_ST + " = " + 1 +
+                        " ORDER BY " + Help.Pref.getSortNoteOrder(context));
+
+        List<ItemNote> listNote = get(query);
         List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
 
         List<String> listCreate = new ArrayList<>();
         List<ItemStatus> listStatus = new ArrayList<>();
 
-        for (int i = 0; i < listNote.size(); i++) {
+        for (int i = listNote.size() - 1; i >= 0 ; i--) {
             ItemNote itemNote = listNote.get(i);
             String[] rankId = itemNote.getRankId();
 
@@ -81,7 +81,7 @@ public abstract class DaoNote extends DaoBase {
     }
 
     @Update
-    public abstract void updateNote(ItemNote itemNote);
+    public abstract void update(ItemNote itemNote);
 
     /**
      * Обновление положения заметки относительно корзины
@@ -93,7 +93,7 @@ public abstract class DaoNote extends DaoBase {
     @Query("UPDATE NOTE_TABLE " +
             "SET NT_CHANGE = :noteChange, NT_BIN = :noteBin " +
             "WHERE NT_ID = :noteId")
-    public abstract void updateNote(int noteId, String noteChange, boolean noteBin);
+    public abstract void update(int noteId, String noteChange, boolean noteBin);
 
     /**
      * Обновление привязки к статус бару
@@ -104,16 +104,31 @@ public abstract class DaoNote extends DaoBase {
     @Query("UPDATE NOTE_TABLE " +
             "SET NT_STATUS = :noteStatus " +
             "WHERE NT_ID = :noteId")
-    public abstract void updateNote(int noteId, boolean noteStatus);
+    public abstract void update(int noteId, boolean noteStatus);
 
     @Delete
-    abstract void deleteNote(ItemNote itemNote);
+    abstract void delete(ItemNote itemNote);
 
     @Delete
-    abstract void deleteNote(List<ItemNote> lisNote);
+    abstract void delete(List<ItemNote> lisNote);
+
+    public void delete(int noteId) {
+        ItemNote itemNote = get(noteId);
+
+        if (itemNote.getType() == typeRoll) {
+            deleteRoll(itemNote.getCreate());
+        }
+
+        String[] rankId = itemNote.getRankId();
+        if (rankId.length != 0) {
+            clearRank(itemNote.getCreate(), rankId);
+        }
+
+        delete(itemNote);
+    }
 
     public void clearBin() {
-        List<ItemNote> listNote = getNote(binTrue, orders[0]);
+        List<ItemNote> listNote = get(binTrue, orders[0]);
         List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
 
         for (int i = 0; i < listNote.size(); i++) {
@@ -130,27 +145,12 @@ public abstract class DaoNote extends DaoBase {
             } else listNote.remove(i); //Убираем заметку, которую не надо удалять
         }
 
-        deleteNote(listNote);
+        delete(listNote);
     }
 
-    public void deleteNote(int noteId) {
-        ItemNote itemNote = getNote(noteId);
-
-        if (itemNote.getType() == typeRoll) {
-            deleteRoll(itemNote.getCreate());
-        }
-
-        String[] rankId = itemNote.getRankId();
-        if (rankId.length != 0) {
-            clearRank(itemNote.getCreate(), rankId);
-        }
-
-        deleteNote(itemNote);
-    }
-
-    public void listAllNote(TextView textView) {
-        List<ItemNote> listNote = getNote(binTrue, orders[0]);
-        listNote.addAll(getNote(binFalse, orders[0]));
+    public void listAll(TextView textView) {
+        List<ItemNote> listNote = get(binTrue, orders[0]);
+        listNote.addAll(get(binFalse, orders[0]));
 
         String annotation = "Note Data Base:";
         textView.setText(annotation);

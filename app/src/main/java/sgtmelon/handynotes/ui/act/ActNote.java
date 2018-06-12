@@ -117,7 +117,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().updateNote(itemNote.getId(), Help.Time.getCurrentTime(this), false);
+        db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), false);
 
         db.close();
 
@@ -132,7 +132,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().deleteNote(itemNote.getId());
+        db.daoNote().delete(itemNote.getId());
 
         db.close();
 
@@ -149,9 +149,9 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                 .allowMainThreadQueries()
                 .build();
 
-        db.daoNote().updateNote(itemNote.getId(), Help.Time.getCurrentTime(this), true);
+        db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), true);
         if(itemNote.isStatus()){
-            db.daoNote().updateNote(itemNote.getId(), false);
+            db.daoNote().update(itemNote.getId(), false);
         }
 
         db.close();
@@ -176,7 +176,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                                 .allowMainThreadQueries()
                                 .build();
 
-                        itemNote = db.daoNote().getNote(itemNote.getId());
+                        itemNote = db.daoNote().get(itemNote.getId());
 
                         db.close();
 
@@ -193,7 +193,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                                 .allowMainThreadQueries()
                                 .build();
 
-                        itemNote = db.daoNote().getNote(itemNote.getId());
+                        itemNote = db.daoNote().get(itemNote.getId());
 
                         db.close();
 
