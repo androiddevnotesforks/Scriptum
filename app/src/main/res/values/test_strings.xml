@@ -4,25 +4,10 @@
     <!-- Test strings for layout -->
 
     <!-- Item note test -->
-    <string name="test_item_note_name" translatable="false">Тут будет название</string>
-    <string name="test_item_note_text" translatable="false">Тут будет содержание\nЭто вторая строка\nА это уже третья строка\nНу а тут всем понятно какая строка</string>
-    <string name="test_item_note_change" translatable="false">25 авг. 17 15:35</string>
-    <string name="test_item_note_create" translatable="false">25 авг. 98 17:55</string>
-
-    <string name="test_item_note_check" translatable="false">27/15</string>
     <string name="test_item_note_roll_1" translatable="false">Купить молоко, зарплата, сходить в банк</string>
     <string name="test_item_note_roll_2" translatable="false">Это отсылка к POSTAL2))</string>
     <string name="test_item_note_roll_3" translatable="false">Жаль что это никто не увидит</string>
     <string name="test_item_note_roll_4" translatable="false">Хотя Аринка увидит. Привет Арин :*</string>
-
-    <!-- Item rank test -->
-    <string name="test_item_rank_name" translatable="false">Тут будет категория</string>
-    <string name="test_item_rank_text_count" translatable="false">Текстов: 5</string>
-    <string name="test_item_rank_roll_count" translatable="false">Списков: 10</string>
-    <string name="test_item_rank_roll_check" translatable="false">Выполнено: 50%</string>
-
-    <!-- Item sort test -->
-    <string name="test_item_sort_text" translatable="false">Дата и время создания</string>
 
     <!-- Activity develop test -->
     <string name="test_note_data_base" translatable="false">Note Data Base:</string>

@@ -24,10 +24,8 @@ import sgtmelon.handynotes.model.item.ItemSort;
 
 public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
 
-    //region Variables
     private final List<ItemSort> listSort;
     public final StateSort stateSort;
-    //endregion
 
     public AdapterSort() {
         listSort = new ArrayList<>();
@@ -73,6 +71,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
     class SortHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final View srClick;
+
         private final ItemSortBinding binding;
 
         SortHolder(ItemSortBinding binding) {

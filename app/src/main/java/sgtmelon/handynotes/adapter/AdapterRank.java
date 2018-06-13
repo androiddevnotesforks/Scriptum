@@ -1,6 +1,7 @@
 package sgtmelon.handynotes.adapter;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,12 +22,8 @@ import sgtmelon.handynotes.view.ButtonVisible;
 
 public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
-    //region Variables
-
     private final List<ItemRank> listRank;
-
     private boolean[] iconStartAnim;
-    //endregion
 
     public AdapterRank() {
         listRank = new ArrayList<>();

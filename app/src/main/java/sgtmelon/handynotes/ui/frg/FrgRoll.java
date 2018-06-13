@@ -426,7 +426,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         listRoll = new ArrayList<>();
 
-        adapterRoll = new AdapterRoll(context, activity.stateNote.isBin(), activity.stateNote.isEdit());
+        adapterRoll = new AdapterRoll(activity.stateNote.isBin(), activity.stateNote.isEdit());
         recyclerView.setAdapter(adapterRoll);
         adapterRoll.setCallback(this, stateDrag, this);
 

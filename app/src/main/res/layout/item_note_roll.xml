@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="sgtmelon.handynotes.Help.Icon" />
+
         <import type="sgtmelon.handynotes.Help.Time" />
 
         <import type="android.text.TextUtils" />
@@ -24,14 +26,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/item_layout_main_indent"
-        android:background="@color/noteWhiteDark">
+        android:background='@{Icon.getColor(context, true, itemNote.color)}'>
 
         <FrameLayout
             android:id="@+id/itemNote_fl_submain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/item_layout_sub_indent"
-            android:background="@color/noteWhite">
+            android:background='@{Icon.getColor(context, false, itemNote.color)}'>
 
             <LinearLayout
                 android:id="@+id/itemNote_ll_click"
@@ -65,7 +67,7 @@
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 1 ? (listRoll.get(0).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline) : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size &gt;= 1 &amp;&amp; listRoll.get(0).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView
@@ -96,7 +98,7 @@
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 2 ? (listRoll.get(1).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline) : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size &gt;= 2 &amp;&amp; listRoll.get(1).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView
@@ -127,7 +129,7 @@
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 3 ? (listRoll.get(2).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline) : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size &gt;= 3 &amp;&amp; listRoll.get(2).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView
@@ -157,7 +159,7 @@
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 4 ? (listRoll.get(3).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline) : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size &gt;= 4 &amp;&amp; listRoll.get(3).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView

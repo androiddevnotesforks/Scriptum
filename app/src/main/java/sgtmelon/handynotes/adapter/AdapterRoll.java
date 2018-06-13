@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.adapter;
 
-import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -13,12 +13,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.databinding.ItemRollReadBinding;
+import sgtmelon.handynotes.databinding.ItemRollWriteBinding;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.RollTextWatcher;
 import sgtmelon.handynotes.model.item.ItemRoll;
@@ -28,17 +29,13 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
     //region Variables
     private static final int typeRead = 0, typeWrite = 1;
 
-    private final LayoutInflater inflater;
-
     private final List<ItemRoll> listRoll;
 
     private final boolean keyBin;
     private boolean keyEdit;
     //endregion
 
-    public AdapterRoll(Context context, boolean keyBin, boolean keyEdit) {
-        this.inflater = LayoutInflater.from(context);
-
+    public AdapterRoll(boolean keyBin, boolean keyEdit) {
         listRoll = new ArrayList<>();
 
         this.keyBin = keyBin;
@@ -70,38 +67,28 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
         notifyDataSetChanged();
     }
 
+    @NonNull
+    @Override
+    public RollHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        if (viewType == typeWrite) {
+            ItemRollWriteBinding bindingWrite = DataBindingUtil.inflate(inflater, R.layout.item_roll_write, parent, false);
+            return new RollHolder(bindingWrite);
+        } else {
+            ItemRollReadBinding bindingRead = DataBindingUtil.inflate(inflater, R.layout.item_roll_read, parent, false);
+            return new RollHolder(bindingRead);
+        }
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (keyEdit) return typeWrite;
         else return typeRead;
     }
 
-    @NonNull
-    @Override
-    public RollHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = null;
-        switch (viewType) {
-            case typeRead:
-                view = inflater.inflate(R.layout.item_roll_read, parent, false);
-                break;
-            case typeWrite:
-                view = inflater.inflate(R.layout.item_roll_write, parent, false);
-                break;
-        }
-        return new RollHolder(view);
-    }
-
     @Override
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
-        ItemRoll itemRoll = listRoll.get(position);
-
-        if (keyEdit) {
-            holder.rlEnter.setText(itemRoll.getText());
-        } else {
-            holder.rlText.setText(itemRoll.getText());
-            holder.rlCheck.setChecked(itemRoll.isCheck());
-            holder.rlClick.setVisibility(keyBin ? View.INVISIBLE : View.VISIBLE);   //Если из корзины, нажатие - недоступно
-        }
+        holder.bind(listRoll.get(position));
     }
 
     @Override
@@ -111,31 +98,50 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
 
     class RollHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, TextWatcher {
 
-        //region Variables
         private EditText rlEnter;
         private ImageButton rlDrag; //Кнопка для перетаскивания (< >)
 
-        private TextView rlText;
         private CheckBox rlCheck;   //Отметка о выполении
         private ImageView rlClick;  //Кнопка, которая идёт поверх rlCheck, для полноценного эффекта нажатия
-        //endregion
 
-        RollHolder(View itemView) {
-            super(itemView);
+        private final ItemRollWriteBinding bindingWrite;
+        private final ItemRollReadBinding bindingRead;
+
+        RollHolder(ItemRollWriteBinding bindingWrite) {
+            super(bindingWrite.getRoot());
+
+            this.bindingWrite = bindingWrite;
+            bindingRead = null;
+
+            rlEnter = itemView.findViewById(R.id.itemRoll_et_enter);
+            rlDrag = itemView.findViewById(R.id.itemRoll_ib_drag);
+
+            rlEnter.setOnTouchListener(this);
+            rlEnter.addTextChangedListener(this);
+
+            rlDrag.setOnTouchListener(this);
+        }
+
+        RollHolder(ItemRollReadBinding bindingRead) {
+            super(bindingRead.getRoot());
+
+            this.bindingRead = bindingRead;
+            bindingWrite = null;
+
+            rlCheck = itemView.findViewById(R.id.itemRoll_cb_check);
+            rlClick = itemView.findViewById(R.id.itemRoll_iv_click);
+
+            rlClick.setOnClickListener(this);
+        }
+
+        void bind(ItemRoll itemRoll) {
             if (keyEdit) {
-                rlEnter = itemView.findViewById(R.id.itemRoll_et_enter);
-                rlDrag = itemView.findViewById(R.id.itemRoll_ib_drag);
-
-                rlEnter.setOnTouchListener(this);
-                rlEnter.addTextChangedListener(this);
-
-                rlDrag.setOnTouchListener(this);
+                bindingWrite.setItemRoll(itemRoll);
+                bindingWrite.executePendingBindings();
             } else {
-                rlText = itemView.findViewById(R.id.itemRoll_tv_text);
-                rlCheck = itemView.findViewById(R.id.itemRoll_cb_check);
-                rlClick = itemView.findViewById(R.id.itemRoll_iv_click);
-
-                rlClick.setOnClickListener(this);
+                bindingRead.setItemRoll(itemRoll);
+                bindingRead.setKeyBin(keyBin);
+                bindingRead.executePendingBindings();
             }
         }
 

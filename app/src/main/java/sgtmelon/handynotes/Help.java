@@ -54,7 +54,7 @@ public class Help {
                 DbRoom db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
                         .allowMainThreadQueries()
                         .build();
-                
+
                 copyText = db.daoRoll().getText(itemNote.getCreate());
 
                 db.close();
@@ -103,7 +103,7 @@ public class Help {
     public static class Icon {
 
         //Кружки для диалога смены цвета и фильтра
-        private static final int[] colorIcon = new int[]{
+        static final int[] colorIcon = new int[]{
                 R.drawable.ic_button_color_00, R.drawable.ic_button_color_01,
                 R.drawable.ic_button_color_02, R.drawable.ic_button_color_03,
                 R.drawable.ic_button_color_04, R.drawable.ic_button_color_05,
@@ -111,7 +111,7 @@ public class Help {
                 R.drawable.ic_button_color_08, R.drawable.ic_button_color_09,
                 R.drawable.ic_button_color_10};
 
-        public static final int[] colors = new int[]{
+        static final int[] colors = new int[]{
                 R.color.noteRed, R.color.notePurple,
                 R.color.noteIndigo, R.color.noteBlue,
                 R.color.noteTeal, R.color.noteGreen,
@@ -119,13 +119,22 @@ public class Help {
                 R.color.noteBrown, R.color.noteBlueGrey,
                 R.color.noteWhite};
 
-        public static final int[] colorsDark = new int[]{
+        static final int[] colorsDark = new int[]{
                 R.color.noteRedDark, R.color.notePurpleDark,
                 R.color.noteIndigoDark, R.color.noteBlueDark,
                 R.color.noteTealDark, R.color.noteGreenDark,
                 R.color.noteYellowDark, R.color.noteOrangeDark,
                 R.color.noteBrownDark, R.color.noteBlueGreyDark,
                 R.color.noteWhiteDark};     //Цвета для заметок
+
+        public static int getColor(Context context, boolean isDark, int noteColor){
+            if (isDark) return ContextCompat.getColor(context, colorsDark[noteColor]);
+            else return ContextCompat.getColor(context, colors[noteColor]);
+        }
+
+        public static int getColorLength(){
+            return colors.length;
+        }
 
         public static void tintMenuIcon(Context context, MenuItem item) {
             Drawable normalDrawable = item.getIcon();
@@ -147,22 +156,12 @@ public class Help {
             return drawable;
         }
 
-        public static Drawable[] getColorIconDrawable(Context context) {
-            int iconCount = colorIcon.length;
-            Drawable[] iconDrawable = new Drawable[iconCount];
-            for (int i = 0; i < iconCount; i++) {
-                iconDrawable[i] = ContextCompat.getDrawable(context, colorIcon[i]);
-            }
-            return iconDrawable;
+        public static Drawable getColorIcon(Context context, int position){
+            return ContextCompat.getDrawable(context, colorIcon[position]);
         }
 
-        public static Drawable[] getColorCheckDrawable(Context context) {
-            int checkCount = colors.length;
-            Drawable[] checkDrawable = new Drawable[checkCount];
-            for (int i = 0; i < checkCount; i++) {
-                checkDrawable[i] = getDrawable(context, R.drawable.ic_button_color_check, colorsDark[i]);
-            }
-            return checkDrawable;
+        public static Drawable getColorCheck(Context context, int position){
+            return getDrawable(context, R.drawable.ic_button_color_check, colorsDark[position]);
         }
 
         public static int blendColors(int from, int to, float ratio) {
@@ -242,11 +241,6 @@ public class Help {
 
         public static String getCheckStr(int checkValue, int listRollSize) {
             return checkValue + dividerCheck + listRollSize;
-        }
-
-        public static int[] getCheckValue(String checkStr) {
-            String[] value = checkStr.split(dividerCheck);
-            return new int[]{Integer.parseInt(value[0]), Integer.parseInt(value[1])};
         }
 
         public static int getCheckValue(List<ItemRoll> listRoll) {

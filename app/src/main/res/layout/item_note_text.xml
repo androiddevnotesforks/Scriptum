@@ -3,6 +3,8 @@
 
     <data>
 
+        <import type="sgtmelon.handynotes.Help.Icon" />
+
         <import type="sgtmelon.handynotes.Help.Time" />
 
         <import type="android.text.TextUtils" />
@@ -20,14 +22,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/item_layout_main_indent"
-        android:background="@color/noteWhiteDark">
+        android:background='@{Icon.getColor(context, true, itemNote.color)}'>
 
         <FrameLayout
             android:id="@+id/itemNote_fl_submain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/item_layout_sub_indent"
-            android:background="@color/noteWhite">
+            android:background='@{Icon.getColor(context, false, itemNote.color)}'>
 
             <LinearLayout
                 android:id="@+id/itemNote_ll_click"

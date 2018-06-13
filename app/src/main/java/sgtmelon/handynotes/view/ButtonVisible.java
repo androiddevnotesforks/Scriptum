@@ -9,17 +9,12 @@ import android.support.v7.app.AppCompatDelegate;
 import android.util.AttributeSet;
 
 import android.os.Handler;
+import android.widget.ImageButton;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.Help;
 
 public class ButtonVisible extends android.support.v7.widget.AppCompatImageButton {
-
-    static {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }
-
-    //TODO не работает на Pre-Lollipop
 
     private Context context;
 
@@ -48,6 +43,8 @@ public class ButtonVisible extends android.support.v7.widget.AppCompatImageButto
     }
 
     private Drawable visibleOn, visibleOff;
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private AnimatedVectorDrawable visibleOnAnim, visibleOffAnim;
 
     private Handler animHandler;
@@ -81,6 +78,7 @@ public class ButtonVisible extends android.support.v7.widget.AppCompatImageButto
         animHandler.postDelayed(animRunnable, context.getResources().getInteger(android.R.integer.config_shortAnimTime));
     }
 
+    //TODO: из-за этих методов не работает на низком API
     public void setVisible(boolean visible, boolean needAnim) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || !needAnim) {
             if (visible) setImageDrawable(visibleOn);
@@ -88,10 +86,10 @@ public class ButtonVisible extends android.support.v7.widget.AppCompatImageButto
         } else {
             this.animRunnableVisible = visible;
             if (visible) {
-                setImageDrawable(visibleOnAnim);
+//                setImageDrawable(visibleOnAnim);
                 visibleOnAnim.start();
             } else {
-                setImageDrawable(visibleOffAnim);
+//                setImageDrawable(visibleOffAnim);
                 visibleOffAnim.start();
             }
             waitAnimationEnd();

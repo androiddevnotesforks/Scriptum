@@ -127,7 +127,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         listNote = new ArrayList<>();
 
-        adapterNote = new AdapterNote(context);
+        adapterNote = new AdapterNote();
         recyclerView.setAdapter(adapterNote);
 
         adapterNote.setCallback(this, this);

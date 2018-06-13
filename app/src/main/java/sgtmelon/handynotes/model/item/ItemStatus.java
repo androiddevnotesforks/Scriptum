@@ -1,12 +1,12 @@
 package sgtmelon.handynotes.model.item;
 
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.content.ContextCompat;
 
 import java.util.Arrays;
 
@@ -42,7 +42,12 @@ public class ItemStatus {
         intent.putExtra(DbDesc.RK_VS, rkVisible);
         intent.putExtra(StateNote.KEY_CREATE, false);
 
-        pendingIntent = PendingIntent.getActivity(context, itemNote.getId(), intent, 0);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(ActNote.class);
+        stackBuilder.addNextIntent(intent);
+
+//        pendingIntent = PendingIntent.getActivity(context, itemNote.getId(), intent, 0);
+        pendingIntent = stackBuilder.getPendingIntent(itemNote.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         updateNote(itemNote);
     }
@@ -74,7 +79,7 @@ public class ItemStatus {
 
         notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.channel_status_bind))
                 .setSmallIcon(icon)
-                .setColor(ContextCompat.getColor(context, Help.Icon.colorsDark[itemNote.getColor()]))
+                .setColor(Help.Icon.getColor(context, true, itemNote.getColor()))
                 .setContentTitle(Help.Note.getName(context, itemNote.getName()))
                 .setContentText(text)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))

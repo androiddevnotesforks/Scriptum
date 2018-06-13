@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -52,9 +51,10 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     //Установка цвета
     public void setColor(int ntColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(ContextCompat.getColor(context, Help.Icon.colorsDark[ntColor]));
+            window.setStatusBarColor(Help.Icon.getColor(context, true, ntColor));
         }
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, Help.Icon.colors[ntColor]));
+
+        toolbar.setBackgroundColor(Help.Icon.getColor(context, false, ntColor));
     }
 
     //Цвета до и после смены цвета
@@ -62,14 +62,14 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
     //Меняем начальный цвет
     public void setStartColor(int ntColor) {
-        statusBarStartColor = ContextCompat.getColor(context, Help.Icon.colorsDark[ntColor]);
-        toolbarStartColor = ContextCompat.getColor(context, Help.Icon.colors[ntColor]);
+        statusBarStartColor = Help.Icon.getColor(context, true, ntColor);
+        toolbarStartColor = Help.Icon.getColor(context, false, ntColor);
     }
 
     //Покраска с анимацией
     public void startTint(int ntColor) {
-        statusBarEndColor = ContextCompat.getColor(context, Help.Icon.colorsDark[ntColor]);
-        toolbarEndColor = ContextCompat.getColor(context, Help.Icon.colors[ntColor]);
+        statusBarEndColor = Help.Icon.getColor(context, true, ntColor);
+        toolbarEndColor = Help.Icon.getColor(context, false, ntColor);
 
         if (statusBarStartColor != statusBarEndColor && toolbarStartColor != toolbarEndColor) {
             ValueAnimator anim = ValueAnimator.ofFloat(0, 1);

@@ -1,15 +1,11 @@
 package sgtmelon.handynotes.adapter;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,21 +16,14 @@ import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.db.DbDesc;
-import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.model.manager.ManagerRoll;
 
 public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
 
-    //region Variables
-    private final Context context;
-
     private final List<ItemNote> listNote;
-        //endregion
 
-    public AdapterNote(Context context) {
-        this.context = context;
-
+    public AdapterNote() {
         listNote = new ArrayList<>();
     }
 
@@ -80,9 +69,6 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
         ItemNote itemNote = listNote.get(position);
 
-        holder.ntContour.setBackgroundColor(ContextCompat.getColor(context, Help.Icon.colorsDark[itemNote.getColor()]));
-        holder.ntBackground.setBackgroundColor(ContextCompat.getColor(context, Help.Icon.colors[itemNote.getColor()]));
-
         if (itemNote.getType() == DbDesc.typeText) {
             holder.bind(itemNote, null);
         } else {
@@ -97,18 +83,17 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
 
     class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private final View ntContour, ntBackground, ntClick;
+        private final View ntClick;
 
-        private ItemNoteTextBinding bindingText;
-        private ItemNoteRollBinding bindingRoll;
+        private final ItemNoteTextBinding bindingText;
+        private final ItemNoteRollBinding bindingRoll;
 
         NoteHolder(ItemNoteTextBinding bindingText) {
             super(bindingText.getRoot());
 
             this.bindingText = bindingText;
+            bindingRoll = null;
 
-            ntContour = itemView.findViewById(R.id.itemNote_fl_main);
-            ntBackground = itemView.findViewById(R.id.itemNote_fl_submain);
             ntClick = itemView.findViewById(R.id.itemNote_ll_click);
 
             ntClick.setOnClickListener(this);
@@ -119,9 +104,8 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
             super(bindingRoll.getRoot());
 
             this.bindingRoll = bindingRoll;
+            bindingText = null;
 
-            ntContour = itemView.findViewById(R.id.itemNote_fl_main);
-            ntBackground = itemView.findViewById(R.id.itemNote_fl_submain);
             ntClick = itemView.findViewById(R.id.itemNote_ll_click);
 
             ntClick.setOnClickListener(this);

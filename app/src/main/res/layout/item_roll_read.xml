@@ -1,49 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="@dimen/item_layout_main_indent"
-    android:background="?android:attr/listDivider">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="itemRoll"
+            type="sgtmelon.handynotes.model.item.ItemRoll" />
+
+        <variable
+            name="keyBin"
+            type="boolean" />
+
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/item_layout_sub_indent"
-        android:background="@color/colorWhite"
-        android:orientation="horizontal">
+        android:layout_margin="@dimen/item_layout_main_indent"
+        android:background="?android:attr/listDivider">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <CheckBox
-                android:id="@+id/itemRoll_cb_check"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:clickable="false" />
-
-            <ImageView
-                android:id="@+id/itemRoll_iv_click"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/selectableItemBackground" />
-
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/itemRoll_tv_text"
-            style="@style/EditText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="32dp"
-            android:autoLink="all"
+            android:layout_margin="@dimen/item_layout_sub_indent"
             android:background="@color/colorWhite"
-            android:gravity="top"
-            android:linksClickable="true"
-            android:padding="@dimen/item_layout_medium_indent"
-            android:textIsSelectable="true"
-            android:textSize="@dimen/text_big_size" />
+            android:orientation="horizontal">
 
-    </LinearLayout>
-</FrameLayout>
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <CheckBox
+                    android:id="@+id/itemRoll_cb_check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/transparent"
+                    android:checked='@{itemRoll.check}'
+                    android:clickable="false" />
+
+                <ImageView
+                    android:id="@+id/itemRoll_iv_click"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility='@{keyBin ? View.INVISIBLE : View.VISIBLE}'
+                    android:background="?attr/selectableItemBackground" />
+
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/itemRoll_tv_text"
+                style="@style/EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:background="@color/colorWhite"
+                android:gravity="top"
+                android:linksClickable="true"
+                android:minHeight="32dp"
+                android:padding="@dimen/item_layout_medium_indent"
+                android:text='@{itemRoll.text}'
+                android:textIsSelectable="true"
+                android:textSize="@dimen/text_big_size" />
+
+        </LinearLayout>
+    </FrameLayout>
+</layout>
