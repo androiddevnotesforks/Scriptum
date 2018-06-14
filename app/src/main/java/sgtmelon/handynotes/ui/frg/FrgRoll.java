@@ -3,6 +3,7 @@ package sgtmelon.handynotes.ui.frg;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +33,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRoll;
+import sgtmelon.handynotes.databinding.FrgNRollBinding;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.db.converter.ConverterInt;
@@ -62,6 +64,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private ItemNote itemNote;
     //endregion
 
+    private FrgNRollBinding binding;
+
     public void setItemNote(ItemNote itemNote) {
         this.itemNote = itemNote;
     }
@@ -82,7 +86,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i("FrgRoll", "onCreateView");
 
-        frgView = inflater.inflate(R.layout.frg_n_roll, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.frg_n_roll, container, false);
+        frgView = binding.getRoot();
 
         context = getContext();
         activity = (ActNote) getActivity();
@@ -94,6 +99,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         onMenuEditClick(activity.stateNote.isEdit());
 
         return frgView;
+    }
+
+    private void bind(boolean keyEdit) {
+        binding.setItemNote(itemNote);
+        binding.setKeyEdit(keyEdit);
+
+        binding.executePendingBindings();
     }
 
     public MenuNote menuNote;
@@ -149,7 +161,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         if (listRoll.size() != 0) {
             itemNote.setChange(Help.Time.getCurrentTime(context));      //Новое время редактирования
-            itemNote.setName(nameEnter.getText().toString());           //Новый заголовок
             itemNote.setText(Help.Note.getCheckStr(listRoll));          //Новый текст
 
             if (changeEditMode) {
@@ -295,6 +306,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         menuNote.setStartColor(itemNote.getColor());
     }
 
+    //TODO: чё там
     @Override
     public void onMenuEditClick(boolean editMode) {
         Log.i("FrgRoll", "onMenuEditClick: " + editMode);
@@ -304,25 +316,15 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         menuNote.setNavigationIcon(activity.stateNote.isEdit(), activity.stateNote.isCreate());
         menuNote.setMenuGroupVisible(activity.stateNote.isBin(), activity.stateNote.isEdit(), !activity.stateNote.isBin() && !activity.stateNote.isEdit());
 
-        nameEnter.setText(itemNote.getName());          //Установка имени
-        nameView.setText(itemNote.getName());
-
         adapterRoll.updateAdapter(editMode);
+
+        bind(editMode);
 
         if (editMode) {
             activity.prefNoteSave.startSaveHandler();
-
-            nameEnter.setVisibility(View.VISIBLE);          //Делаем видимыми редакторы
-            nameScrollView.setVisibility(View.GONE);        //Убираем просмотр текста
-            rollEnterLayout.setVisibility(View.VISIBLE);    //Показываем линию добавления пунктов
-
-            nameEnter.setSelection(itemNote.getName().length());
+//            nameEnter.setSelection(itemNote.getName().length());
         } else {
             activity.prefNoteSave.stopSaveHandler();
-
-            nameEnter.setVisibility(View.GONE);             //Убираем редакторы
-            nameScrollView.setVisibility(View.VISIBLE);     //Делаем видимыми просмотр текста
-            rollEnterLayout.setVisibility(View.GONE);       //Показываем/скрываем линию добавления пунктов
         }
     }
 
@@ -556,11 +558,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     };
 
     //region EnterVariables
-    private EditText nameEnter;
-    private TextView nameView;
-    private HorizontalScrollView nameScrollView;
-
-    private LinearLayout rollEnterLayout;
     private EditText rollEnter;
     private ImageButton rollAdd;
     //endregion
@@ -568,11 +565,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void setupEnter() {
         Log.i("FrgRoll", "setupEnter");
 
-        nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
-        nameView = frgView.findViewById(R.id.incToolbarNote_tv_name);
-        nameScrollView = frgView.findViewById(R.id.incToolbarNote_hsv_name);
+        EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
 
-        rollEnterLayout = frgView.findViewById(R.id.frgRoll_ll_enter);
         rollEnter = frgView.findViewById(R.id.frgRoll_et_enter);
         rollAdd = frgView.findViewById(R.id.frgRoll_ib_add);
 

@@ -3,6 +3,7 @@ package sgtmelon.handynotes.ui.frg;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -20,6 +21,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.databinding.FrgNTextBinding;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.db.converter.ConverterInt;
@@ -45,12 +47,15 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     private Context context;
     private ActNote activity;
 
+    private FrgNTextBinding binding;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i("FrgText", "onCreateView");
 
-        frgView = inflater.inflate(R.layout.frg_n_text, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.frg_n_text, container, false);
+        frgView = binding.getRoot();
 
         context = getContext();
         activity = (ActNote) getActivity();
@@ -61,6 +66,13 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         onMenuEditClick(activity.stateNote.isEdit());
 
         return frgView;
+    }
+
+    private void bind(boolean keyEdit) {
+        binding.setItemNote(itemNote);
+        binding.setKeyEdit(keyEdit);
+
+        binding.executePendingBindings();
     }
 
     public MenuNote menuNote;
@@ -110,10 +122,8 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     public boolean onMenuSaveClick(boolean changeEditMode) {
         Log.i("FrgText", "onMenuSaveClick");
 
-        if (!textEnter.getText().toString().equals("")) {
+        if (!itemNote.getText().equals("")) {
             itemNote.setChange(Help.Time.getCurrentTime(context));
-            itemNote.setName(nameEnter.getText().toString());
-            itemNote.setText(textEnter.getText().toString());
 
             if (changeEditMode) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());
@@ -225,6 +235,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         menuNote.setStartColor(itemNote.getColor());
     }
 
+    //TODO: чё там
     @Override
     public void onMenuEditClick(boolean editMode) {
         Log.i("FrgText", "onMenuEditClick: " + editMode);
@@ -234,28 +245,13 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         menuNote.setNavigationIcon(activity.stateNote.isEdit(), activity.stateNote.isCreate());
         menuNote.setMenuGroupVisible(activity.stateNote.isBin(), activity.stateNote.isEdit(), !activity.stateNote.isBin() && !activity.stateNote.isEdit());
 
-        nameEnter.setText(itemNote.getName());      //Установка имени
-        nameView.setText(itemNote.getName());
-
-        textEnter.setText(itemNote.getText());      //Устанока текста
-        textView.setText(itemNote.getText());
+        bind(editMode);
 
         if (editMode) {
             activity.prefNoteSave.startSaveHandler();
-
-            nameEnter.setVisibility(View.VISIBLE);      //Делаем видимыми редакторы
-            nameScrollView.setVisibility(View.GONE);    //Убираем просмотр текста
-            textEnter.setVisibility(View.VISIBLE);      //Делаем видимыми редакторы
-            textView.setVisibility(View.GONE);          //Убираем просмотр текста
+//            nameEnter.setSelection(itemNote.getName().length());
         } else {
             activity.prefNoteSave.stopSaveHandler();
-
-            nameEnter.setVisibility(View.GONE);         //Убираем редакторы
-            nameScrollView.setVisibility(View.VISIBLE); //Делаем видимыми просмотр текста
-            textEnter.setVisibility(View.GONE);         //Убираем редакторы
-            textView.setVisibility(View.VISIBLE);       //Делаем видимыми просмотр текста
-
-            nameEnter.setSelection(itemNote.getName().length());
         }
     }
 
@@ -307,19 +303,11 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         activity.setupFrg();
     }
 
-    private EditText nameEnter, textEnter;
-    private TextView nameView, textView;
-    private HorizontalScrollView nameScrollView;
-
     private void setupEnter() {
         Log.i("FrgText", "setupEnter");
 
-        nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
-        nameView = frgView.findViewById(R.id.incToolbarNote_tv_name);
-        nameScrollView = frgView.findViewById(R.id.incToolbarNote_hsv_name);
-
-        textEnter = frgView.findViewById(R.id.frgText_et_enter);
-        textView = frgView.findViewById(R.id.frgText_tv_text);
+        EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
+        final EditText textEnter = frgView.findViewById(R.id.frgText_et_enter);
 
         nameEnter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override

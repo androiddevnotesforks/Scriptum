@@ -5,11 +5,9 @@ import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.app.AppCompatDelegate;
 import android.util.AttributeSet;
 
 import android.os.Handler;
-import android.widget.ImageButton;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.Help;

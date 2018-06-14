@@ -1,69 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/inc_toolbar_note" />
+    <data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/frgRoll_rv"
-        style="@style/RecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="itemNote"
+            type="sgtmelon.handynotes.model.item.ItemNote" />
+
+        <variable
+            name="keyEdit"
+            type="boolean" />
+
+    </data>
 
     <LinearLayout
-        android:id="@+id/frgRoll_ll_enter"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
         android:orientation="vertical">
 
-        <View style="@style/Divider.Horizontal" />
+        <include
+            layout="@layout/inc_toolbar_note"
+            app:itemNote='@{itemNote}'
+            app:keyEdit='@{keyEdit}' />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/frgRoll_rv"
+            style="@style/RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <LinearLayout
+            android:id="@+id/frgRoll_ll_enter"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal"
-            android:padding="@dimen/item_layout_small_indent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'>
 
-            <EditText
-                android:id="@+id/frgRoll_et_enter"
-                style="@style/EditText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/item_layout_small_indent"
-                android:layout_marginLeft="@dimen/item_layout_medium_indent"
-                android:layout_marginRight="@dimen/item_layout_small_indent"
-                android:layout_marginStart="@dimen/item_layout_medium_indent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:hint="@string/hint_enter_roll"
-                android:imeOptions="flagNoFullscreen"
-                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                android:maxLines="5"
-                android:textSize="@dimen/text_big_size" />
+            <View style="@style/Divider.Horizontal" />
 
-            <ImageButton
-                android:id="@+id/frgRoll_ib_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginEnd="@dimen/item_layout_small_indent"
-                android:layout_marginLeft="@dimen/item_layout_small_indent"
-                android:layout_marginRight="@dimen/item_layout_small_indent"
-                android:layout_marginStart="@dimen/item_layout_small_indent"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/item_layout_medium_indent"
-                app:srcCompat="@drawable/ic_button_add" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal"
+                android:padding="@dimen/item_layout_small_indent">
 
+                <EditText
+                    android:id="@+id/frgRoll_et_enter"
+                    style="@style/EditText"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="@dimen/item_layout_small_indent"
+                    android:layout_marginLeft="@dimen/item_layout_medium_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:layout_marginStart="@dimen/item_layout_medium_indent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:hint="@string/hint_enter_roll"
+                    android:imeOptions="flagNoFullscreen"
+                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                    android:maxLines="5"
+                    android:textSize="@dimen/text_big_size" />
+
+                <ImageButton
+                    android:id="@+id/frgRoll_ib_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginEnd="@dimen/item_layout_small_indent"
+                    android:layout_marginLeft="@dimen/item_layout_small_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:layout_marginStart="@dimen/item_layout_small_indent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/item_layout_medium_indent"
+                    app:srcCompat="@drawable/ic_button_add" />
+
+            </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 
-</LinearLayout>
+</layout>

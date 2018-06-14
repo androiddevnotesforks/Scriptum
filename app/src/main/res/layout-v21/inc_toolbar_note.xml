@@ -1,66 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="@dimen/app_bar_elevation"
-    android:stateListAnimator="@null">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/incToolbar_tb"
+    <data>
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="itemNote"
+            type="sgtmelon.handynotes.model.item.ItemNote" />
+
+        <variable
+            name="keyEdit"
+            type="boolean" />
+
+    </data>
+
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/AppTheme.AppBarTheme"
-        app:contentInsetEnd="@dimen/item_layout_medium_indent"
-        app:contentInsetLeft="@dimen/item_layout_medium_indent"
-        app:contentInsetRight="@dimen/item_layout_medium_indent"
-        app:contentInsetStart="@dimen/item_layout_medium_indent"
-        app:popupTheme="@style/AppTheme.AppBarTheme">
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/app_bar_elevation"
+        android:stateListAnimator="@null">
 
-        <FrameLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/incToolbar_tb"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme.AppBarTheme"
+            app:contentInsetEnd="@dimen/item_layout_medium_indent"
+            app:contentInsetLeft="@dimen/item_layout_medium_indent"
+            app:contentInsetRight="@dimen/item_layout_medium_indent"
+            app:contentInsetStart="@dimen/item_layout_medium_indent"
+            app:popupTheme="@style/AppTheme.AppBarTheme">
 
-            <EditText
-                android:id="@+id/incToolbarNote_et_name"
-                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:hint="@string/hint_enter_name"
-                android:imeOptions="actionNext|flagNoFullscreen"
-                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                android:maxLength="@integer/length_max_note_name"
-                android:maxLines="1"
-                android:scrollHorizontally="true"
-                android:textColor="@color/colorDark"
-                android:textColorHint="@color/colorDark" />
+                android:layout_height="match_parent">
 
-            <HorizontalScrollView
-                android:id="@+id/incToolbarNote_hsv_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/incToolbarNote_tv_name"
+                <EditText
+                    android:id="@+id/incToolbarNote_et_name"
                     style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@android:color/transparent"
-                    android:hint="@string/hint_view_name"
-                    android:maxLength="50"
+                    android:hint="@string/hint_enter_name"
+                    android:imeOptions="actionNext|flagNoFullscreen"
+                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+                    android:maxLength="@integer/length_max_note_name"
                     android:maxLines="1"
+                    android:scrollHorizontally="true"
+                    android:text='@={itemNote.name}'
                     android:textColor="@color/colorDark"
                     android:textColorHint="@color/colorDark"
-                    android:textIsSelectable="true" />
+                    android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}' />
 
-            </HorizontalScrollView>
-        </FrameLayout>
+                <HorizontalScrollView
+                    android:id="@+id/incToolbarNote_hsv_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none"
+                    android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'>
 
-    </android.support.v7.widget.Toolbar>
+                    <TextView
+                        android:id="@+id/incToolbarNote_tv_name"
+                        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/hint_view_name"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:text='@{itemNote.name}'
+                        android:textColor="@color/colorDark"
+                        android:textColorHint="@color/colorDark"
+                        android:textIsSelectable="true" />
 
-</android.support.design.widget.AppBarLayout>
+                </HorizontalScrollView>
+            </FrameLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+</layout>
