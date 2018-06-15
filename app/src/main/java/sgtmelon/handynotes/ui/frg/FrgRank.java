@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.ui.frg;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -118,12 +116,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
                 ItemRank itemRank = new ItemRank(rankPs, rankNm);
 
-                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                        .allowMainThreadQueries()
-                        .build();
-
+                db = DbRoom.provideDb(context);
                 int rankId = (int) db.daoRank().insert(itemRank);
-
                 db.close();
 
                 itemRank.setId(rankId);
@@ -154,13 +148,9 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         ItemRank itemRank = new ItemRank(rankPs - 1, rankNm);
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         int rankId = (int) db.daoRank().insert(itemRank);
         db.daoRank().update(rankPs);
-
         db.close();
 
         itemRank.setId(rankId);
@@ -219,13 +209,9 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     public void updateAdapter(boolean updateAll) {
         Log.i("FrgRank", "updateAdapter");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         managerRank.setListRank(db.daoRank().get());
         if(updateAll) managerRank.setListRankName(db.daoRank().getNameUp());
-
         db.close();
 
         adapterRank.updateAdapter(managerRank.getListRank());
@@ -252,12 +238,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 managerRank.set(p, itemRank);
                 adapterRank.updateAdapter(p, itemRank);
 
-                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                        .allowMainThreadQueries()
-                        .build();
-
+                db = DbRoom.provideDb(context);
                 db.daoRank().update(itemRank);
-
                 db.close();
 
                 activity.managerStatus.updateItemVisible(itemRank);
@@ -272,12 +254,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                             public void onClick(DialogInterface dialog, int id) {
                                 itemRank.setName(alert.getRename());
 
-                                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                                        .allowMainThreadQueries()
-                                        .build();
-
+                                db = DbRoom.provideDb(context);
                                 db.daoRank().update(itemRank);
-
                                 db.close();
 
                                 managerRank.set(p, itemRank);
@@ -304,13 +282,9 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
             case R.id.itemRank_ib_cancel:
                 itemRank.setVisible(true);                  //Чтобы отобразить заметки в статус баре, если были скрыты
 
-                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                        .allowMainThreadQueries()
-                        .build();
-
+                db = DbRoom.provideDb(context);
                 db.daoRank().delete(managerRank.get(p).getName());
                 db.daoRank().update(p);
-
                 db.close();
 
                 managerRank.remove(p);
@@ -350,12 +324,8 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         adapterRank.updateAdapter(listRank, iconStartAnim);
         adapterRank.notifyDataSetChanged();
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoRank().updateRank(listRank);
-
         db.close();
 
         activity.managerStatus.updateItemVisible(listRank);
@@ -395,14 +365,10 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
             dragEndPs = viewHolder.getAdapterPosition();
             if (dragStartPs != dragEndPs) {
-                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                        .allowMainThreadQueries()
-                        .build();
-
+                db = DbRoom.provideDb(context);
                 db.daoRank().update(dragStartPs, dragEndPs);
                 managerRank.setListRank(db.daoRank().get());
                 activity.managerStatus = db.daoNote().getManagerStatus(context);
-
                 db.close();
 
                 adapterRank.updateAdapter(managerRank.getListRank());

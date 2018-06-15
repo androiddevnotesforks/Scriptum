@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.ui.act;
 
-import android.arch.persistence.room.Room;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,9 +21,7 @@ public class ActDevelop extends AppCompatActivity {
         TextView rollText = findViewById(R.id.actDevelop_tv_roll);
         TextView rankText = findViewById(R.id.actDevelop_tv_rank);
 
-        DbRoom db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
+        DbRoom db = DbRoom.provideDb(this);
 
         db.daoNote().listAll(noteText);
         db.daoRoll().listAll(rollText);

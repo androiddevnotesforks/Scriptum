@@ -2,7 +2,6 @@ package sgtmelon.handynotes.model.item;
 
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
@@ -67,12 +66,8 @@ public class ItemStatus {
             case DbDesc.typeRoll:
                 icon = R.drawable.ic_menu_bind_roll;
 
-                DbRoom db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                        .allowMainThreadQueries()
-                        .build();
-
+                DbRoom db = DbRoom.provideDb(context);
                 text = db.daoRoll().getText(itemNote.getCreate(), itemNote.getText());
-
                 db.close();
                 break;
         }

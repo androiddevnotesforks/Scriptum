@@ -1,7 +1,6 @@
 package sgtmelon.handynotes.control.menu;
 
 import android.animation.ValueAnimator;
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -136,12 +135,8 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
         for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem);
 
-        DbRoom db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        DbRoom db = DbRoom.provideDb(context);
         if (db.daoRank().getCount() == 0) mItemRank.setVisible(false);
-
         db.close();
     }
 

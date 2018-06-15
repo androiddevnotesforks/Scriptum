@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.ui.frg;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -136,12 +135,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void updateAdapter() {
         Log.i("FrgNote", "updateAdapter");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         listNote = db.daoNote().get(DbDesc.binFalse, Help.Pref.getSortNoteOrder(context));
-
         db.close();
 
         adapterNote.updateAdapter(listNote);
@@ -183,13 +178,9 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setText(Help.Note.getCheckStr(rlCheck, checkMax));
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoRoll().update(itemNote.getCreate(), rlCheck);
         db.daoNote().update(itemNote);
-
         db.close();
 
         activity.managerRoll.updateList(itemNote.getCreate(), rlCheck);
@@ -218,12 +209,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
             activity.managerStatus.removeItem(itemNote);
         }
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
-
         db.close();
 
         listNote.set(p, itemNote);
@@ -238,10 +225,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         switch (itemNote.getType()) {
             case DbDesc.typeText:
                 String[] textToRoll = itemNote.getText().split("\n");                             //Получаем пункты списка
@@ -285,15 +269,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onDialogDeleteClick(ItemNote itemNote, int p) {
         Log.i("FrgNote", "onDialogDeleteClick");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);
         if(itemNote.isStatus()){
             db.daoNote().update(itemNote.getId(), false);
         }
-
         db.close();
 
         listNote.remove(p);

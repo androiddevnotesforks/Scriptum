@@ -1,6 +1,5 @@
 package sgtmelon.handynotes;
 
-import android.arch.persistence.room.Room;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -51,12 +50,8 @@ public class Help {
                 copyText += itemNote.getText();     //В зависимости от типа составляем текст
                 break;
             case DbDesc.typeRoll:
-                DbRoom db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                        .allowMainThreadQueries()
-                        .build();
-
+                DbRoom db = DbRoom.provideDb(context);
                 copyText = db.daoRoll().getText(itemNote.getCreate());
-
                 db.close();
                 break;
         }

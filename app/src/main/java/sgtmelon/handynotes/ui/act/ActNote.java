@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.ui.act;
 
-import android.arch.persistence.room.Room;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -113,12 +112,8 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuRestoreClick() {
         Log.i("ActNote", "onMenuRestoreClick");
 
-        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), false);
-
         db.close();
 
         finish();
@@ -128,12 +123,8 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuDeleteForeverClick() {
         Log.i("ActNote", "onMenuDeleteForeverClick");
 
-        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(this);
         db.daoNote().delete(itemNote.getId());
-
         db.close();
 
         itemStatus.cancelNote();
@@ -145,15 +136,11 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuDeleteClick() {
         Log.i("ActNote", "onMenuDeleteClick");
 
-        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), true);
         if(itemNote.isStatus()){
             db.daoNote().update(itemNote.getId(), false);
         }
-
         db.close();
 
         itemStatus.cancelNote();
@@ -172,12 +159,8 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                     if (!frgText.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgText.menuNote.setStartColor(itemNote.getColor());
 
-                        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
-                                .allowMainThreadQueries()
-                                .build();
-
+                        db = DbRoom.provideDb(this);
                         itemNote = db.daoNote().get(itemNote.getId());
-
                         db.close();
 
                         frgText.setItemNote(itemNote);
@@ -189,12 +172,8 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                     if (!frgRoll.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgRoll.menuNote.setStartColor(itemNote.getColor());
 
-                        db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
-                                .allowMainThreadQueries()
-                                .build();
-
+                        db = DbRoom.provideDb(this);
                         itemNote = db.daoNote().get(itemNote.getId());
-
                         db.close();
 
                         frgRoll.setItemNote(itemNote);

@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.ui.act;
 
-import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -42,13 +41,9 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         super.onResume();
         Log.i("ActMain", "onResume");
 
-        DbRoom db = Room.databaseBuilder(this, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        DbRoom db = DbRoom.provideDb(this);
         managerRoll = db.daoRoll().getManagerRoll();
         managerStatus = db.daoNote().getManagerStatus(this);
-
         db.close();
     }
 

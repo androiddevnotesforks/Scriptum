@@ -1,12 +1,9 @@
 package sgtmelon.handynotes.ui.frg;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -57,7 +54,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     private View frgView;
     private Context context;
     private ActMain activity;
-    private SharedPreferences pref;
 
     private InfoPageEmpty infoPageEmpty;
     //endregion
@@ -71,7 +67,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         context = getContext();
         activity = (ActMain) getActivity();
-        pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         setupToolbar();
         setupRecyclerView();
@@ -119,12 +114,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
 
-                                db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                                        .allowMainThreadQueries()
-                                        .build();
-
+                                db = DbRoom.provideDb(context);
                                 db.daoNote().clearBin();
-
                                 db.close();
 
                                 activity.managerRoll.removeList(listNote);
@@ -186,12 +177,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void updateAdapter() {
         Log.i("FrgBin", "updateAdapter");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         listNote = db.daoNote().get(DbDesc.binTrue, Help.Pref.getSortNoteOrder(context));
-
         db.close();
 
         adapterNote.updateAdapter(listNote);
@@ -231,12 +218,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onDialogRestoreClick(ItemNote itemNote, int p) {
         Log.i("FrgBin", "onDialogRestoreClick");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), false);
-
         db.close();
 
         listNote.remove(p);
@@ -252,12 +235,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onDialogDeleteForeverClick(ItemNote itemNote, int p) {
         Log.i("FrgBin", "onDialogDeleteForeverClick");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoNote().delete(itemNote.getId());
-
         db.close();
 
         activity.managerRoll.removeList(itemNote.getCreate());

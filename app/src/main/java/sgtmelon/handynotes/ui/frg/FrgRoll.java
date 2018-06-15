@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.ui.frg;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -23,9 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -135,13 +132,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
-            db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                    .allowMainThreadQueries()
-                    .build();
-
+            db = DbRoom.provideDb(context);
             itemNote = db.daoNote().get(itemNote.getId());
             listRoll = db.daoRoll().get(itemNote.getCreate());
-
             db.close();
 
             adapterRoll.updateAdapter(listRoll);
@@ -168,9 +161,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 onMenuEditClick(false);                                            //Переход в режим просмотра
             }
 
-            db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                    .allowMainThreadQueries()
-                    .build();
+            db = DbRoom.provideDb(context);
 
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
@@ -224,9 +215,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuRankClick() {
         Log.i("FrgRoll", "onMenuRankClick");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
+        db = DbRoom.provideDb(context);
 
         final String[] checkName = Help.Array.strListToArr(db.daoRank().getName());
         final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getId())); //TODO !!! эт жесть если честно
@@ -306,7 +295,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         menuNote.setStartColor(itemNote.getColor());
     }
 
-    //TODO: чё там
     @Override
     public void onMenuEditClick(boolean editMode) {
         Log.i("FrgRoll", "onMenuEditClick: " + editMode);
@@ -322,7 +310,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         if (editMode) {
             activity.prefNoteSave.startSaveHandler();
-//            nameEnter.setSelection(itemNote.getName().length());
         } else {
             activity.prefNoteSave.stopSaveHandler();
         }
@@ -334,10 +321,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         if (stateCheck.isAll()) {
             itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
@@ -349,7 +333,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             db.daoRoll().update(itemNote.getCreate(), DbDesc.checkTrue);
             db.daoNote().update(itemNote);
         }
-
         db.close();
 
         updateAdapter();
@@ -370,12 +353,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         menuNote.setStatusTitle(itemNote.isStatus());
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
-
         db.close();
 
         activity.setItemNote(itemNote);
@@ -385,9 +364,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i("FrgRoll", "onMenuConvertClick");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
+        db = DbRoom.provideDb(context);
 
         String rollToText = db.daoRoll().getText(itemNote.getCreate());
 
@@ -439,12 +416,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void updateAdapter() {
         Log.i("FrgRoll", "updateAdapter");
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         listRoll = db.daoRoll().get(itemNote.getCreate());
-
         db.close();
 
         stateCheck.setAll(Help.Note.isAllCheck(listRoll));
@@ -473,13 +446,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         activity.setItemNote(itemNote);
 
-        db = Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
-                .allowMainThreadQueries()
-                .build();
-
+        db = DbRoom.provideDb(context);
         db.daoRoll().update(itemRoll.getId(), itemRoll.isCheck());
         db.daoNote().update(itemNote);
-
         db.close();
     }
 
