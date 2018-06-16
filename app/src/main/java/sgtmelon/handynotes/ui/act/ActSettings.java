@@ -13,11 +13,13 @@ import sgtmelon.handynotes.ui.frg.FrgSettings;
 
 public class ActSettings extends AppCompatActivity implements View.OnClickListener {
 
+    final String TAG = "ActSettings";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_settings);
-        Log.i("ActSettings", "onCreate");
+        Log.i(TAG, "onCreate");
 
         setupToolbar();
 
@@ -25,8 +27,8 @@ public class ActSettings extends AppCompatActivity implements View.OnClickListen
         getFragmentManager().beginTransaction().replace(R.id.actSettings_fl_container, frgSettings).commit();
     }
 
-    private void setupToolbar(){
-        Log.i("FrgBin", "setupToolbar");
+    private void setupToolbar() {
+        Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_act_settings));
@@ -37,7 +39,7 @@ public class ActSettings extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        Log.i("ActSettings", "onClick");
+        Log.i(TAG, "onClick");
 
         finish();
     }

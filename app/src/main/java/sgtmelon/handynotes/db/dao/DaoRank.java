@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.Help;
@@ -26,7 +27,6 @@ public abstract class DaoRank extends DaoBase {
     @Insert
     public abstract long insert(ItemRank itemRank);
 
-    //TODO переименуй
     @Query("SELECT * FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
     abstract List<ItemRank> getSimple();
@@ -68,11 +68,11 @@ public abstract class DaoRank extends DaoBase {
 
     @Query("SELECT RK_NAME FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
-    public abstract List<String> getName();
+    public abstract String[] getName();
 
     @Query("SELECT RK_ID FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
-    public abstract List<Integer> getId();
+    public abstract Integer[] getId();
 
     public boolean[] getCheck(String[] rankId) {
         List<ItemRank> listRank = getSimple();
@@ -95,7 +95,7 @@ public abstract class DaoRank extends DaoBase {
 
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
-            List<String> rankCreate = Help.Array.strArrToList(itemRank.getCreate());
+            List<String> rankCreate = ConverterList.toList(itemRank.getCreate());
 
             if (rankCheck[i]) {
                 if (!rankCreate.contains(noteCreate)) rankCreate.add(noteCreate);
@@ -103,7 +103,7 @@ public abstract class DaoRank extends DaoBase {
                 if (rankCreate.contains(noteCreate)) rankCreate.remove(noteCreate);
             }
 
-            itemRank.setCreate(Help.Array.strListToArr(rankCreate));
+            itemRank.setCreate(ConverterList.fromList(rankCreate));
             listRank.set(i, itemRank);
         }
 
@@ -113,7 +113,8 @@ public abstract class DaoRank extends DaoBase {
     @Update
     public abstract void update(ItemRank itemRank);
 
-    //TODO переделай обновление позиций по другому
+    //TODO переделай обновление позиций по другому на 2 метода вниз
+
     public void update(int startPosition, int endPosition) {
         boolean startFirst = startPosition < endPosition;
 
@@ -131,8 +132,6 @@ public abstract class DaoRank extends DaoBase {
 
             newPosition = i == startPosition ? endPosition : i + iAdd;
 
-            Log.i("DaoRank", "update, name: " + itemRank.getName() + ", oldPS: " + itemRank.getPosition() + ", newPS: " + newPosition);
-
             itemRank.setPosition(newPosition);
             listRank.set(i, itemRank);
 
@@ -142,8 +141,6 @@ public abstract class DaoRank extends DaoBase {
                 }
             }
         }
-
-        Log.i("DaoRank", "update, ntCreate: " + TextUtils.join(divider, ntCreate));
 
         updateRank(listRank);
 
@@ -180,7 +177,6 @@ public abstract class DaoRank extends DaoBase {
         updateNote(listNote);
     }
 
-    //TODO переделай обновление позиций по другому
     /**
      * @param startPosition - Позиция удаления категории
      */

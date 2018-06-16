@@ -11,6 +11,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.db.converter.ConverterBool;
+import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.db.converter.ConverterString;
 import sgtmelon.handynotes.Help;
 
@@ -69,23 +70,22 @@ public class ItemNote extends DbDesc {
      * @param noteRankId - Id ненужной категории
      */
     public void removeRank(String noteRankId) {
-        List<String> rankIdList = Help.Array.strArrToList(rankId);
-        List<String> rankPsList = Help.Array.strArrToList(rankPs);
+        List<String> rankIdList = ConverterList.toList(rankId);
+        List<String> rankPsList = ConverterList.toList(rankPs);
 
         int index = rankIdList.indexOf(noteRankId);
 
         rankIdList.remove(index);
         rankPsList.remove(index);
 
-        rankId = Help.Array.strListToArr(rankIdList);
-        rankPs = Help.Array.strListToArr(rankPsList);
+        rankId = ConverterList.fromList(rankIdList);
+        rankPs = ConverterList.fromList(rankPsList);
     }
 
     //region Variables
     @ColumnInfo(name = NT_ID)
     @PrimaryKey(autoGenerate = true)
     private int id;             //Позиция в базе данных
-    //TODO: long type
 
     @ColumnInfo(name = NT_CR)
     private String create;      //Дата создания

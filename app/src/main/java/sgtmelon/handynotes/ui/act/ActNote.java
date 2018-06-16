@@ -13,7 +13,7 @@ import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.state.StateNote;
 import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.Help;
-import sgtmelon.handynotes.control.PrefNoteSave;
+import sgtmelon.handynotes.control.ControlSave;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 import sgtmelon.handynotes.model.item.ItemStatus;
 import sgtmelon.handynotes.ui.frg.FrgRoll;
@@ -22,10 +22,12 @@ import sgtmelon.handynotes.ui.frg.FrgText;
 public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteClick {
 
     //region Variables
+    final String TAG = "ActNote";
+
     private DbRoom db;
 
     public StateNote stateNote;
-    public PrefNoteSave prefNoteSave;
+    public ControlSave controlSave;
     public ItemStatus itemStatus;
 
     public String[] rankVisible;
@@ -33,7 +35,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     //endregion
 
     public void setItemNote(ItemNote itemNote) {
-        Log.i("ActNote", "setItemNote");
+        Log.i(TAG, "setItemNote");
 
         this.itemNote = itemNote;
         itemStatus.updateNote(itemNote, rankVisible);
@@ -42,21 +44,21 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i("ActNote", "onPause");
+        Log.i(TAG, "onPause");
 
-        prefNoteSave.onPauseSave(stateNote.isEdit());
+        controlSave.onPauseSave(stateNote.isEdit());
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note);
-        Log.i("ActNote", "onCreate");
+        Log.i(TAG, "onCreate");
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
         stateNote = new StateNote();
-        prefNoteSave = new PrefNoteSave(this, pref);
+        controlSave = new ControlSave(this, pref);
 
         setupListItemNote();
         setupFrg();
@@ -65,7 +67,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     }
 
     private void setupListItemNote() {
-        Log.i("ActNote", "setupListItemNote");
+        Log.i(TAG, "setupListItemNote");
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -86,21 +88,21 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     private FrgRoll frgRoll;
 
     public void setupFrg() {
-        Log.i("ActNote", "setupFrg");
+        Log.i(TAG, "setupFrg");
 
         FragmentTransaction frgTransaction = getSupportFragmentManager().beginTransaction();
         switch (itemNote.getType()) {
             case DbDesc.typeText:
                 frgText = new FrgText();
                 frgText.setItemNote(itemNote);
-                prefNoteSave.setMenuClick(frgText);
+                controlSave.setMenuClick(frgText);
 
                 frgTransaction.replace(R.id.actNote_fl_container, frgText);
                 break;
             case DbDesc.typeRoll:
                 frgRoll = new FrgRoll();
                 frgRoll.setItemNote(itemNote);
-                prefNoteSave.setMenuClick(frgRoll);
+                controlSave.setMenuClick(frgRoll);
 
                 frgTransaction.replace(R.id.actNote_fl_container, frgRoll);
                 break;
@@ -110,7 +112,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
     @Override
     public void onMenuRestoreClick() {
-        Log.i("ActNote", "onMenuRestoreClick");
+        Log.i(TAG, "onMenuRestoreClick");
 
         db = DbRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), false);
@@ -121,7 +123,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
     @Override
     public void onMenuDeleteForeverClick() {
-        Log.i("ActNote", "onMenuDeleteForeverClick");
+        Log.i(TAG, "onMenuDeleteForeverClick");
 
         db = DbRoom.provideDb(this);
         db.daoNote().delete(itemNote.getId());
@@ -134,7 +136,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
     @Override
     public void onMenuDeleteClick() {
-        Log.i("ActNote", "onMenuDeleteClick");
+        Log.i(TAG, "onMenuDeleteClick");
 
         db = DbRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), true);
@@ -149,9 +151,9 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
     @Override
     public void onBackPressed() {
-        Log.i("ActNote", "onBackPressed");
+        Log.i(TAG, "onBackPressed");
 
-        prefNoteSave.setNeedSave(false);
+        controlSave.setNeedSave(false);
 
         if (stateNote.isEdit() && !stateNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             switch (itemNote.getType()) {

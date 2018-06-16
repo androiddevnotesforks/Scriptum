@@ -12,11 +12,14 @@ public class ConverterInt {
         return stringList;
     }
 
+    public static String[] fromInteger(Integer[] integerArr) {
+        int size = integerArr.length;
 
-    public static List<Integer> fromString(List<String> stringList) {
-        List<Integer> integerList = new ArrayList<>();
-        for (String s : stringList) integerList.add(Integer.parseInt(s));
-        return integerList;
+        String[] stringArr = new String[size];
+        for (int i = 0; i < size; i++) {
+            stringArr[i] = Integer.toString(integerArr[i]);
+        }
+        return stringArr;
     }
 
 }

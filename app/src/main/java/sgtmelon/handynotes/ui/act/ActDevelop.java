@@ -11,11 +11,13 @@ import sgtmelon.handynotes.Help;
 
 public class ActDevelop extends AppCompatActivity {
 
+    final String TAG = "ActDevelop";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_develop);
-        Log.i("ActDevelop", "onCreate");
+        Log.i(TAG, "onCreate");
 
         TextView noteText = findViewById(R.id.actDevelop_tv_note);
         TextView rollText = findViewById(R.id.actDevelop_tv_roll);
@@ -33,4 +35,5 @@ public class ActDevelop extends AppCompatActivity {
 
         Help.Pref.listAllPref(this, prefText);
     }
+
 }

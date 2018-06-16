@@ -18,6 +18,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.db.converter.ConverterBool;
 import sgtmelon.handynotes.db.converter.ConverterInt;
+import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemStatus;
 import sgtmelon.handynotes.model.manager.ManagerStatus;
@@ -60,6 +61,7 @@ public abstract class DaoNote extends DaoBase {
 
         List<ItemNote> listNote = get(query);
         List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
+        String[] rankVs = ConverterList.fromList(rankVisible);
 
         List<String> listCreate = new ArrayList<>();
         List<ItemStatus> listStatus = new ArrayList<>();
@@ -68,7 +70,7 @@ public abstract class DaoNote extends DaoBase {
             ItemNote itemNote = listNote.get(i);
             String[] rankId = itemNote.getRankId();
 
-            ItemStatus itemStatus = new ItemStatus(context, itemNote, Help.Array.strListToArr(rankVisible));
+            ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
             if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
                 itemStatus.cancelNote();
             }

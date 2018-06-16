@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text length -->
+    <integer name="length_max_note_name">30</integer>
+    <integer name="length_max_rank_name">30</integer>
+    <integer name="length_max_search_text">50</integer>
+
+    <!-- Drawable part name -->
+    <string name="drawable_group_strike_path">group_strike_path</string>
+    <string name="drawable_strike_path">strike_path</string>
+    <string name="drawable_group_strike_mask">group_strike_mask</string>
+    <string name="drawable_strike_mask">strike_mask</string>
+    <string name="drawable_group_eye_path">group_eye_path</string>
+    <string name="drawable_eye_path">eye_path</string>
+
+</resources>

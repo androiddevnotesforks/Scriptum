@@ -28,13 +28,15 @@ public class FrgSettings extends PreferenceFragment {
 
     //TODO смена темы
 
+    final String TAG = "FrgSettings";
+
     private ActSettings activity;
     private SharedPreferences pref;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("FrgPreference", "onCreate");
+        Log.i(TAG, "onCreate");
 
         addPreferencesFromResource(R.xml.preference);
 
@@ -48,7 +50,7 @@ public class FrgSettings extends PreferenceFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("FrgSettings", "onCreateView");
+        Log.i(TAG, "onCreateView");
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
         if (view != null) {
@@ -63,7 +65,7 @@ public class FrgSettings extends PreferenceFragment {
     private Preference prefSortNt;
 
     private void setupSortPref() {
-        Log.i("FrgPreference", "setupSortPref");
+        Log.i(TAG, "setupSortPref");
 
         Preference.OnPreferenceClickListener preferenceClickListener = new Preference.OnPreferenceClickListener() {
             @Override
@@ -80,7 +82,7 @@ public class FrgSettings extends PreferenceFragment {
     }
 
     private void alertSort(final String prefKey) {
-        Log.i("FrgPreference", "alertColorNtDef");
+        Log.i(TAG, "alertColorNtDef");
 
         final AlertSort alert = new AlertSort(activity, pref.getString(prefKey, Help.Pref.getSortDefault()), R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.dialog_title_sort))
@@ -123,7 +125,7 @@ public class FrgSettings extends PreferenceFragment {
     private int noteColorDef, noteSaveTime;
 
     private void setupNotePref() {
-        Log.i("FrgPreference", "setupNotePref");
+        Log.i(TAG, "setupNotePref");
 
         prefNoteColorDef = findPreference(getString(R.string.pref_key_color_create));
         noteColorDef = pref.getInt(getString(R.string.pref_key_color_create), getResources().getInteger(R.integer.pref_default_color_create));
@@ -161,7 +163,7 @@ public class FrgSettings extends PreferenceFragment {
     }
 
     private void alertColorNtDef() {
-        Log.i("FrgPreference", "alertColorNtDef");
+        Log.i(TAG, "alertColorNtDef");
 
         final AlertColor alert = new AlertColor(activity, noteColorDef, R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.pref_title_color_create))
@@ -186,7 +188,7 @@ public class FrgSettings extends PreferenceFragment {
     }
 
     private void alertNoteSaveTime() {
-        Log.i("FrgPreference", "alertNoteSaveTime");
+        Log.i(TAG, "alertNoteSaveTime");
 
         String[] checkName = getResources().getStringArray(R.array.pref_text_save_time);
         final int[] noteSaveTimeAlert = new int[1];
@@ -221,7 +223,7 @@ public class FrgSettings extends PreferenceFragment {
     }
 
     private void setupOtherPref() {
-        Log.i("FrgPreference", "setupOtherPref");
+        Log.i(TAG, "setupOtherPref");
 
         Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
         prefOtherAbout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

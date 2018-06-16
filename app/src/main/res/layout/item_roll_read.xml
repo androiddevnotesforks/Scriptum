@@ -3,7 +3,9 @@
 
     <data>
 
-        <import type="android.view.View"/>
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="itemRoll"
@@ -44,8 +46,8 @@
                     android:id="@+id/itemRoll_iv_click"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility='@{keyBin ? View.INVISIBLE : View.VISIBLE}'
-                    android:background="?attr/selectableItemBackground" />
+                    android:background="?attr/selectableItemBackground"
+                    android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}' />
 
             </FrameLayout>
 

@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.ui.frg;
 
-import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -19,11 +18,15 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.databinding.FrgNTextBinding;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.db.converter.ConverterInt;
+import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.control.menu.MenuNote;
@@ -34,11 +37,8 @@ import sgtmelon.handynotes.view.alert.AlertColor;
 
 public class FrgText extends Fragment implements View.OnClickListener, MenuNoteClick.NoteClick {
 
-    private ItemNote itemNote;
-
-    public void setItemNote(ItemNote itemNote) {
-        this.itemNote = itemNote;
-    }
+    //region Variable
+    final String TAG = "FrgText";
 
     private DbRoom db;
 
@@ -48,10 +48,17 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
     private FrgNTextBinding binding;
 
+    private ItemNote itemNote;
+    //endregion
+
+    public void setItemNote(ItemNote itemNote) {
+        this.itemNote = itemNote;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("FrgText", "onCreateView");
+        Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_n_text, container, false);
         frgView = binding.getRoot();
@@ -77,7 +84,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     public MenuNote menuNote;
 
     private void setupToolbar() {
-        Log.i("FrgText", "setupToolbar");
+        Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.inflateMenu(R.menu.menu_act_note);
@@ -95,7 +102,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
     @Override
     public void onClick(View view) {
-        Log.i("FrgText", "onClick");
+        Log.i(TAG, "onClick");
 
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
@@ -108,14 +115,14 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
             menuNote.startTint(itemNote.getColor());
         } else {
-            activity.prefNoteSave.setNeedSave(false);
+            activity.controlSave.setNeedSave(false);
             activity.finish();
         }
     }
 
     @Override
     public boolean onMenuSaveClick(boolean changeEditMode) {
-        Log.i("FrgText", "onMenuSaveClick");
+        Log.i(TAG, "onMenuSaveClick");
 
         if (!itemNote.getText().equals("")) {
             itemNote.setChange(Help.Time.getCurrentTime(context));
@@ -144,11 +151,11 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
     @Override
     public void onMenuRankClick() {
-        Log.i("FrgText", "onMenuRankClick");
+        Log.i(TAG, "onMenuRankClick");
 
         db = DbRoom.provideDb(context);
-        final String[] checkName = Help.Array.strListToArr(db.daoRank().getName());
-        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getId())); //TODO !!! эт жесть если честно
+        final String[] checkName = db.daoRank().getName();
+        final String[] checkId = ConverterInt.fromInteger(db.daoRank().getId());
         final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
         db.close();
 
@@ -165,16 +172,18 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String[] rankId = new String[0];
-                        String[] rankPs = new String[0];
-                        for (int i = 0; i < checkId.length; i++) {
+                        List<String> rankId = new ArrayList<>();
+                        List<String> rankPs = new ArrayList<>();
+
+                        for (int i = 0; i < checkId.length; i++){
                             if (checkItem[i]) {
-                                rankId = Help.Array.addStrItem(rankId, checkId[i]);
-                                rankPs = Help.Array.addStrItem(rankPs, Integer.toString(i));
+                                rankId.add(checkId[i]);
+                                rankPs.add(Integer.toString(i));
                             }
                         }
-                        itemNote.setRankId(rankId);
-                        itemNote.setRankPs(rankPs);
+
+                        itemNote.setRankId(ConverterList.fromList(rankId));
+                        itemNote.setRankPs(ConverterList.fromList(rankPs));
 
                         dialog.cancel();
                     }
@@ -192,7 +201,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
     @Override
     public void onMenuColorClick() {
-        Log.i("FrgText", "onMenuColorClick");
+        Log.i(TAG, "onMenuColorClick");
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
@@ -224,7 +233,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
     @Override
     public void onMenuEditClick(boolean editMode) {
-        Log.i("FrgText", "onMenuEditClick: " + editMode);
+        Log.i(TAG, "onMenuEditClick: " + editMode);
 
         activity.stateNote.setEdit(editMode);
 
@@ -234,15 +243,15 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         bind(editMode);
 
         if (editMode) {
-            activity.prefNoteSave.startSaveHandler();
+            activity.controlSave.startSaveHandler();
         } else {
-            activity.prefNoteSave.stopSaveHandler();
+            activity.controlSave.stopSaveHandler();
         }
     }
 
     @Override
     public void onMenuBindClick() {
-        Log.i("FrgText", "onMenuBindClick");
+        Log.i(TAG, "onMenuBindClick");
 
         if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
@@ -263,7 +272,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
     @Override
     public void onMenuConvertClick() {
-        Log.i("FrgText", "onMenuConvertClick");
+        Log.i(TAG, "onMenuConvertClick");
 
         String[] textToRoll = itemNote.getText().split("\n");   //Получаем пункты списка
 
@@ -284,7 +293,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     }
 
     private void setupEnter() {
-        Log.i("FrgText", "setupEnter");
+        Log.i(TAG, "setupEnter");
 
         EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
         final EditText textEnter = frgView.findViewById(R.id.frgText_et_enter);

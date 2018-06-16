@@ -24,10 +24,4 @@
     <dimen name="text_medium_size">16sp</dimen>
     <dimen name="text_big_size">18sp</dimen>
 
-
-    <!-- Text length -->
-    <integer name="length_max_note_name">30</integer>
-    <integer name="length_max_rank_name">30</integer>
-    <integer name="length_max_search_text">50</integer>
-
 </resources>

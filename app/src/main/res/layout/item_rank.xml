@@ -3,7 +3,9 @@
 
     <data>
 
-        <import type="android.view.View" />
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="itemRank"
@@ -97,7 +99,7 @@
                             android:text='@{@string/list_item_rank_roll_check + " " + itemRank.getRollCheck() + "%"}'
                             android:textColor="@color/colorDark"
                             android:textSize="@dimen/text_small_size"
-                            android:visibility='@{itemRank.getRollCount() == 0 ? View.GONE : View.VISIBLE}' />
+                            android:visibility='@{itemRank.getRollCount() == 0 ? v.GONE : v.VISIBLE}' />
 
                     </LinearLayout>
                 </LinearLayout>

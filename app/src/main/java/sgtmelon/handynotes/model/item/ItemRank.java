@@ -10,6 +10,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.db.converter.ConverterBool;
+import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.db.converter.ConverterString;
 import sgtmelon.handynotes.Help;
 
@@ -54,13 +55,13 @@ public class ItemRank extends DbDesc {
      * @param noteCreate - Дата создания заметки
      */
     public void removeCreate(String noteCreate) {
-        List<String> createList = Help.Array.strArrToList(create);
+        List<String> createList = ConverterList.toList(create);
 
         int index = createList.indexOf(noteCreate);
 
         createList.remove(index);
 
-        create = Help.Array.strListToArr(createList);
+        create = ConverterList.fromList(createList);
     }
 
     //region Variables

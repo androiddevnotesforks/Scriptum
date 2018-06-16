@@ -10,9 +10,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.Help;
 
@@ -76,13 +78,13 @@ public class ManagerRank implements TextWatcher, TextView.OnEditorActionListener
     }
 
     public String[] getVisible() {
-        String[] rankVs = new String[0];
+        List<String> rankVisible = new ArrayList<>();
         for (ItemRank itemRank : listRank) {
             if (itemRank.isVisible()) {
-                rankVs = Help.Array.addStrItem(rankVs, Integer.toString(itemRank.getId()));
+                rankVisible.add(Integer.toString(itemRank.getId()));
             }
         }
-        return rankVs;
+        return ConverterList.fromList(rankVisible);
     }
 
     public int size() {

@@ -5,15 +5,15 @@
     tools:ignore="NewApi">
 
     <target
-        android:name="strike_path"
+        android:name="@string/drawable_strike_path"
         android:animation="@animator/strike_path_on" />
 
     <target
-        android:name="strike_mask"
+        android:name="@string/drawable_strike_mask"
         android:animation="@animator/strike_mask_on" />
 
     <target
-        android:name="eye_path"
+        android:name="@string/drawable_eye_path"
         android:animation="@animator/eye_path_on" />
 
 </animated-vector>

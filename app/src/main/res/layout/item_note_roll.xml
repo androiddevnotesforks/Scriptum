@@ -7,9 +7,13 @@
 
         <import type="sgtmelon.handynotes.Help.Time" />
 
-        <import type="android.text.TextUtils" />
+        <import
+            alias="text"
+            type="android.text.TextUtils" />
 
-        <import type="android.view.View" />
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="itemNote"
@@ -53,14 +57,14 @@
                     android:text='@{itemNote.name}'
                     android:textColor="@color/colorDark"
                     android:textSize="@dimen/text_big_size"
-                    android:visibility='@{TextUtils.isEmpty(itemNote.name) ? View.GONE : View.VISIBLE}' />
+                    android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}' />
 
                 <LinearLayout
                     android:id="@+id/itemNote_ll_roll_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 1 ? View.VISIBLE : View.GONE}'>
+                    android:visibility='@{listRoll.size &gt;= 1 ? v.VISIBLE : v.GONE}'>
 
                     <ImageView
                         android:id="@+id/itemNote_iv_check_1"
@@ -90,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 2 ? View.VISIBLE : View.GONE}'>
+                    android:visibility='@{listRoll.size &gt;= 2 ? v.VISIBLE : v.GONE}'>
 
 
                     <ImageView
@@ -121,7 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 3 ? View.VISIBLE : View.GONE}'>
+                    android:visibility='@{listRoll.size &gt;= 3 ? v.VISIBLE : v.GONE}'>
 
 
                     <ImageView
@@ -152,7 +156,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 4 ? View.VISIBLE : View.GONE}'>
+                    android:visibility='@{listRoll.size &gt;= 4 ? v.VISIBLE : v.GONE}'>
 
                     <ImageView
                         android:id="@+id/itemNote_iv_check_4"
@@ -191,7 +195,7 @@
                         android:layout_marginEnd="@dimen/item_layout_small_indent"
                         android:layout_marginRight="@dimen/item_layout_small_indent"
                         android:tint="@color/colorDark"
-                        android:visibility='@{itemNote.rankId.length == 0 ? View.GONE : View.VISIBLE}'
+                        android:visibility='@{itemNote.rankId.length == 0 ? v.GONE : v.VISIBLE}'
                         app:srcCompat="@drawable/ic_menu_rank" />
 
                     <ImageView
@@ -202,7 +206,7 @@
                         android:layout_marginEnd="@dimen/item_layout_small_indent"
                         android:layout_marginRight="@dimen/item_layout_small_indent"
                         android:tint="@color/colorDark"
-                        android:visibility='@{itemNote.status ? View.VISIBLE : View.GONE}'
+                        android:visibility='@{itemNote.status ? v.VISIBLE : v.GONE}'
                         app:srcCompat="@drawable/ic_menu_bind_roll" />
 
                     <TextView

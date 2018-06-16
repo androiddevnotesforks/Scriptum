@@ -2,6 +2,7 @@ package sgtmelon.handynotes.ui.frg;
 
 import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,18 +17,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterNote;
+import sgtmelon.handynotes.databinding.FrgMNotesBinding;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.state.StateNote;
 import sgtmelon.handynotes.db.DbDesc;
-import sgtmelon.handynotes.control.InfoPageEmpty;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
@@ -40,30 +40,35 @@ import sgtmelon.handynotes.view.alert.AlertOption;
 public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener,
         ItemClick.Click, ItemClick.LongClick, AlertOptionClick.DialogNote {
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i("FrgNote", "onResume");
+    //region Variable
+    final String TAG = "FrgNote";
 
-        updateAdapter();
-    }
-
-    //region Variables
     private DbRoom db;
 
     private View frgView;
     private Context context;
     private ActMain activity;
 
-    private InfoPageEmpty infoPageEmpty;
+    private FrgMNotesBinding binding;
     //endregion
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+
+        updateAdapter();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("FrgNote", "onCreateView");
+        Log.i(TAG, "onCreateView");
 
-        frgView = inflater.inflate(R.layout.frg_m_notes, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.frg_m_notes, container, false);
+
+
+        frgView = binding.getRoot();
 
         context = getContext();
         activity = (ActMain) getActivity();
@@ -71,14 +76,16 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         setupToolbar();
         setupRecyclerView();
 
-        LinearLayout info = frgView.findViewById(R.id.frgNotes_ll_empty);
-        infoPageEmpty = new InfoPageEmpty(context, info);
-
         return frgView;
     }
 
+    private void bind(int listSize) {
+        binding.setListEmpty(listSize == 0);
+        binding.executePendingBindings();
+    }
+
     private void setupToolbar() {
-        Log.i("FrgNote", "setupToolbar");
+        Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_frg_note));
@@ -94,7 +101,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Log.i("FrgNote", "onMenuItemClick");
+        Log.i(TAG, "onMenuItemClick");
 
         switch (item.getItemId()) {
             case R.id.menu_frgNote_settings:
@@ -109,12 +116,12 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     private AdapterNote adapterNote;
 
     private void setupRecyclerView() {
-        Log.i("FrgNote", "setupRecyclerView");
+        Log.i(TAG, "setupRecyclerView");
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                infoPageEmpty.setVisible(true, listNote.size());
+                bind(listNote.size());
             }
         };
 
@@ -133,7 +140,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     }
 
     public void updateAdapter() {
-        Log.i("FrgNote", "updateAdapter");
+        Log.i(TAG, "updateAdapter");
 
         db = DbRoom.provideDb(context);
         listNote = db.daoNote().get(DbDesc.binFalse, Help.Pref.getSortNoteOrder(context));
@@ -144,12 +151,12 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         adapterNote.notifyDataSetChanged();
 
-        infoPageEmpty.setVisible(false, listNote.size());
+        bind(listNote.size());
     }
 
     @Override
     public void onItemClick(View view, int p) {
-        Log.i("FrgNote", "onItemClick");
+        Log.i(TAG, "onItemClick");
 
         ItemNote itemNote = listNote.get(p);
 
@@ -164,7 +171,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
     @Override
     public void onItemLongClick(View view, int p) {
-        Log.i("FrgNote", "onItemLongClick");
+        Log.i(TAG, "onItemLongClick");
 
         AlertOption alertOption = new AlertOption(context, listNote.get(p), p);
         alertOption.setDialogNote(this);
@@ -173,7 +180,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
     @Override
     public void onDialogCheckClick(ItemNote itemNote, int p, int rlCheck, String checkMax) {
-        Log.i("FrgNote", "onDialogCheckClick");
+        Log.i(TAG, "onDialogCheckClick");
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setText(Help.Note.getCheckStr(rlCheck, checkMax));
@@ -199,7 +206,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
     @Override
     public void onDialogBindClick(ItemNote itemNote, int p) {
-        Log.i("FrgNote", "onDialogBindClick");
+        Log.i(TAG, "onDialogBindClick");
 
         if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
@@ -221,7 +228,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
     @Override
     public void onDialogConvertClick(ItemNote itemNote, int p) {
-        Log.i("FrgNote", "onDialogConvertClick");
+        Log.i(TAG, "onDialogConvertClick");
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
@@ -267,11 +274,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
     @Override
     public void onDialogDeleteClick(ItemNote itemNote, int p) {
-        Log.i("FrgNote", "onDialogDeleteClick");
+        Log.i(TAG, "onDialogDeleteClick");
 
         db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);
-        if(itemNote.isStatus()){
+        if (itemNote.isStatus()) {
             db.daoNote().update(itemNote.getId(), false);
         }
         db.close();

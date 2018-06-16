@@ -74,27 +74,6 @@ public class Help {
         }
     }
 
-    public static class Array {
-
-        public static String[] addStrItem(String[] strArr, String strItem) {
-            int length = strArr.length;
-
-            strArr = Arrays.copyOf(strArr, length + 1);
-            strArr[length] = strItem;
-
-            return strArr;
-        }
-
-        public static String[] strListToArr(List<String> list) {
-            return list.toArray(new String[list.size()]);
-        }
-
-        public static List<String> strArrToList(String[] arr) {
-            return new ArrayList<>(Arrays.asList(arr));
-        }
-
-    }
-
     public static class Icon {
 
         //Кружки для диалога смены цвета и фильтра
@@ -122,12 +101,12 @@ public class Help {
                 R.color.noteBrownDark, R.color.noteBlueGreyDark,
                 R.color.noteWhiteDark};     //Цвета для заметок
 
-        public static int getColor(Context context, boolean isDark, int noteColor){
+        public static int getColor(Context context, boolean isDark, int noteColor) {
             if (isDark) return ContextCompat.getColor(context, colorsDark[noteColor]);
             else return ContextCompat.getColor(context, colors[noteColor]);
         }
 
-        public static int getColorLength(){
+        public static int getColorLength() {
             return colors.length;
         }
 
@@ -151,11 +130,11 @@ public class Help {
             return drawable;
         }
 
-        public static Drawable getColorIcon(Context context, int position){
+        public static Drawable getColorIcon(Context context, int position) {
             return ContextCompat.getDrawable(context, colorIcon[position]);
         }
 
-        public static Drawable getColorCheck(Context context, int position){
+        public static Drawable getColorCheck(Context context, int position) {
             return getDrawable(context, R.drawable.ic_button_color_check, colorsDark[position]);
         }
 

@@ -2,6 +2,7 @@ package sgtmelon.handynotes.ui.frg;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,51 +19,54 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRank;
+import sgtmelon.handynotes.databinding.FrgMRankBinding;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.interfaces.InfoPageReply;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.manager.ManagerRank;
 import sgtmelon.handynotes.model.state.StateDrag;
 import sgtmelon.handynotes.interfaces.ItemClick;
-import sgtmelon.handynotes.control.InfoPageEmpty;
 import sgtmelon.handynotes.ui.act.ActMain;
 import sgtmelon.handynotes.view.alert.AlertRename;
 
 public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.LongClick,
         View.OnClickListener, View.OnLongClickListener, InfoPageReply {
 
+    //region Variable
+    private final String TAG = "FrgRank";
+
+    private DbRoom db;
+
+    private View frgView;
+    private Context context;
+    private ActMain activity;
+
+    private FrgMRankBinding binding;
+    //endregion
+
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("FrgRank", "onResume");
+        Log.i(TAG, "onResume");
 
         updateAdapter(true);
 
         managerRank.tintButton();
     }
 
-    //region Variables
-    private DbRoom db;
-
-    private View frgView;
-    private Context context;
-    public ActMain activity;
-
-    private InfoPageEmpty infoPageEmpty;
-    //endregion
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("FrgRank", "onCreateView");
+        Log.i(TAG, "onCreateView");
 
-        frgView = inflater.inflate(R.layout.frg_m_rank, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.frg_m_rank, container, false);
+
+        frgView = binding.getRoot();
 
         context = getContext();
         activity = (ActMain) getActivity();
@@ -70,17 +74,18 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         setupToolbar();
         setupRecyclerView();
 
-        LinearLayout info = frgView.findViewById(R.id.frgRank_ll_empty);
-        infoPageEmpty = new InfoPageEmpty(context, info);
-        infoPageEmpty.setInfoPageReply(this);
-
         return frgView;
+    }
+
+    private void bind(int listSize) {
+        binding.setListEmpty(listSize == 0);
+        binding.executePendingBindings();
     }
 
     public ManagerRank managerRank;
 
     private void setupToolbar() {
-        Log.i("FrgRank", "setupToolbar");
+        Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_frg_rank));
@@ -104,7 +109,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
     @Override
     public void onClick(View view) {
-        Log.i("FrgRank", "onClick");
+        Log.i(TAG, "onClick");
 
         switch (view.getId()) {
             case R.id.incToolbarRank_ib_cancel:
@@ -125,8 +130,10 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 managerRank.add(rankPs, itemRank);
                 adapterRank.updateAdapter(managerRank.getListRank());
 
-                if (managerRank.size() == 1) infoPageEmpty.hide();
-                else {
+                if (managerRank.size() == 1) {
+                    bind(managerRank.size());
+                    adapterRank.notifyItemInserted(rankPs);
+                } else {
                     if (layoutManager.findLastVisibleItemPosition() == rankPs - 1) {    //Если видимая позиция равна позиции куда добавили заметку
                         recyclerView.scrollToPosition(rankPs);                          //Прокручиваем до края, незаметно
                         adapterRank.notifyItemInserted(rankPs);                         //Добавляем элемент с анимацией
@@ -141,7 +148,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
     @Override
     public boolean onLongClick(View view) {
-        Log.i("FrgRank", "onLongClick");
+        Log.i(TAG, "onLongClick");
 
         int rankPs = 0;
         String rankNm = managerRank.clearEnter();                         //Сбрасываем поле ввода
@@ -158,7 +165,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         managerRank.add(rankPs, itemRank);
         adapterRank.updateAdapter(managerRank.getListRank());
 
-        if (managerRank.size() == 1) infoPageEmpty.hide();
+        if (managerRank.size() == 1) bind(managerRank.size());
         else {
             if (layoutManager.findFirstVisibleItemPosition() == rankPs) {   //Если видимая позиция равна позиции куда добавили заметку
                 recyclerView.scrollToPosition(rankPs);                      //Прокручиваем до края, незаметно
@@ -180,14 +187,14 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     //endregion
 
     private void setupRecyclerView() {
-        Log.i("FrgRank", "setupRecyclerView");
+        Log.i(TAG, "setupRecyclerView");
 
         stateDrag = new StateDrag();
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                infoPageEmpty.setVisible(true, managerRank.size());
+                bind(managerRank.size());
             }
         };
 
@@ -207,17 +214,17 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     }
 
     public void updateAdapter(boolean updateAll) {
-        Log.i("FrgRank", "updateAdapter");
+        Log.i(TAG, "updateAdapter");
 
         db = DbRoom.provideDb(context);
         managerRank.setListRank(db.daoRank().get());
-        if(updateAll) managerRank.setListRankName(db.daoRank().getNameUp());
+        if (updateAll) managerRank.setListRankName(db.daoRank().getNameUp());
         db.close();
 
         adapterRank.updateAdapter(managerRank.getListRank());
         adapterRank.notifyDataSetChanged();
 
-        infoPageEmpty.setVisible(false, managerRank.size());
+        bind(managerRank.size());
     }
 
     @Override
@@ -227,7 +234,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
     @Override
     public void onItemClick(View view, final int p) {
-        Log.i("FrgRank", "onItemClick");
+        Log.i(TAG, "onItemClick");
 
         final ItemRank itemRank = managerRank.get(p);
 
@@ -301,7 +308,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
     @Override
     public void onItemLongClick(View view, int p) {
-        Log.i("FrgRank", "onItemLongClick");
+        Log.i(TAG, "onItemLongClick");
 
         boolean[] iconStartAnim = adapterRank.getIconStartAnim();
         boolean clickVisible = managerRank.get(p).isVisible();

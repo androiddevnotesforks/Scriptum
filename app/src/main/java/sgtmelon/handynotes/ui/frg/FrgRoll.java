@@ -34,6 +34,7 @@ import sgtmelon.handynotes.databinding.FrgNRollBinding;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.db.converter.ConverterInt;
+import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.model.state.StateCheck;
@@ -49,9 +50,9 @@ import sgtmelon.handynotes.view.alert.AlertColor;
 public class FrgRoll extends Fragment implements View.OnClickListener,
         ItemClick.Click, RollTextWatcher, MenuNoteClick.NoteClick, MenuNoteClick.RollClick {
 
-    //TODO: В идеале отмена последнего действия
-
     //region Variables
+    final String TAG = "FrgRoll";
+
     private DbRoom db;
 
     private View frgView;
@@ -70,7 +71,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     @Override
     public void onResume() {
         super.onResume();
-        Log.i("FrgRoll", "onResume");
+        Log.i(TAG, "onResume");
 
         String rollText = rollEnter.getText().toString();
         Help.Icon.tintButton(context, rollAdd, R.drawable.ic_button_add, rollText);
@@ -81,7 +82,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i("FrgRoll", "onCreateView");
+        Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_n_roll, container, false);
         frgView = binding.getRoot();
@@ -108,7 +109,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public MenuNote menuNote;
 
     private void setupToolbar() {
-        Log.i("FrgRoll", "setupToolbar");
+        Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.inflateMenu(R.menu.menu_act_note);
@@ -127,7 +128,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClick(View view) {
-        Log.i("FrgRoll", "onClick");
+        Log.i(TAG, "onClick");
 
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
@@ -143,14 +144,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             menuNote.startTint(itemNote.getColor());
         } else {
-            activity.prefNoteSave.setNeedSave(false);
+            activity.controlSave.setNeedSave(false);
             activity.finish(); //Иначе завершаем активность
         }
     }
 
     @Override
     public boolean onMenuSaveClick(boolean changeEditMode) {
-        Log.i("FrgRoll", "onMenuSaveClick");
+        Log.i(TAG, "onMenuSaveClick");
 
         if (listRoll.size() != 0) {
             itemNote.setChange(Help.Time.getCurrentTime(context));      //Новое время редактирования
@@ -213,12 +214,12 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onMenuRankClick() {
-        Log.i("FrgRoll", "onMenuRankClick");
+        Log.i(TAG, "onMenuRankClick");
 
         db = DbRoom.provideDb(context);
 
-        final String[] checkName = Help.Array.strListToArr(db.daoRank().getName());
-        final String[] checkId = Help.Array.strListToArr(ConverterInt.fromInteger(db.daoRank().getId())); //TODO !!! эт жесть если честно
+        final String[] checkName = db.daoRank().getName();
+        final String[] checkId = ConverterInt.fromInteger(db.daoRank().getId());
         final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
 
         db.close();
@@ -236,16 +237,18 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String[] rankId = new String[0];
-                        String[] rankPs = new String[0];
-                        for (int i = 0; i < checkId.length; i++) {
+                        List<String> rankId = new ArrayList<>();
+                        List<String> rankPs = new ArrayList<>();
+
+                        for (int i = 0; i < checkId.length; i++){
                             if (checkItem[i]) {
-                                rankId = Help.Array.addStrItem(rankId, checkId[i]);
-                                rankPs = Help.Array.addStrItem(rankPs, Integer.toString(i));
+                                rankId.add(checkId[i]);
+                                rankPs.add(Integer.toString(i));
                             }
                         }
-                        itemNote.setRankId(rankId);
-                        itemNote.setRankPs(rankPs);
+
+                        itemNote.setRankId(ConverterList.fromList(rankId));
+                        itemNote.setRankPs(ConverterList.fromList(rankPs));
 
                         dialog.cancel();
                     }
@@ -264,7 +267,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onMenuColorClick() {
-        Log.i("FrgRoll", "onMenuColorClick");
+        Log.i(TAG, "onMenuColorClick");
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
@@ -297,7 +300,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onMenuEditClick(boolean editMode) {
-        Log.i("FrgRoll", "onMenuEditClick: " + editMode);
+        Log.i(TAG, "onMenuEditClick: " + editMode);
 
         activity.stateNote.setEdit(editMode);
 
@@ -309,15 +312,15 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         bind(editMode);
 
         if (editMode) {
-            activity.prefNoteSave.startSaveHandler();
+            activity.controlSave.startSaveHandler();
         } else {
-            activity.prefNoteSave.stopSaveHandler();
+            activity.controlSave.stopSaveHandler();
         }
     }
 
     @Override
     public void onMenuCheckClick() {
-        Log.i("FrgRoll", "onMenuCheckClick");
+        Log.i(TAG, "onMenuCheckClick");
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
@@ -341,7 +344,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onMenuBindClick() {
-        Log.i("FrgRoll", "onMenuBindClick");
+        Log.i(TAG, "onMenuBindClick");
 
         if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
@@ -362,7 +365,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onMenuConvertClick() {
-        Log.i("FrgRoll", "onMenuConvertClick");
+        Log.i(TAG, "onMenuConvertClick");
 
         db = DbRoom.provideDb(context);
 
@@ -393,7 +396,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     //endregion
 
     private void setupRecyclerView() {
-        Log.i("FrgRoll", "setupRecyclerView");
+        Log.i(TAG, "setupRecyclerView");
 
         stateDrag = new StateDrag();
         stateCheck = new StateCheck();
@@ -414,7 +417,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     public void updateAdapter() {
-        Log.i("FrgRoll", "updateAdapter");
+        Log.i(TAG, "updateAdapter");
 
         db = DbRoom.provideDb(context);
         listRoll = db.daoRoll().get(itemNote.getCreate());
@@ -454,7 +457,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onRollChanged(int p, String rollText) {
-        Log.i("FrgRoll", "onRollChanged");
+        Log.i(TAG, "onRollChanged");
 
         if (rollText.equals("")) {
             listRoll.remove(p);
@@ -532,7 +535,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     //endregion
 
     private void setupEnter() {
-        Log.i("FrgRoll", "setupEnter");
+        Log.i(TAG, "setupEnter");
 
         EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
 
@@ -571,7 +574,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         final View.OnClickListener addClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("FrgRoll", "onClick");
+                Log.i(TAG, "onClick");
                 scrollToInsert(true);
             }
         };
@@ -579,7 +582,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         final View.OnLongClickListener addLongClick = new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Log.i("FrgRoll", "onLongClick");
+                Log.i(TAG, "onLongClick");
                 scrollToInsert(false);
                 return true;
             }
@@ -591,7 +594,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     private void scrollToInsert(boolean scrollDown) {
-        Log.i("FrgRoll", "scrollToInsert");
+        Log.i(TAG, "scrollToInsert");
 
         String text = rollEnter.getText().toString();       //Берём текст из поля
         if (!text.equals("")) {                             //Если он != пустому месту, то добавляем

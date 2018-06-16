@@ -36,10 +36,15 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    final String TAG = "ActMain";
+
+    public ManagerRoll managerRoll;
+    public ManagerStatus managerStatus;
+
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("ActMain", "onResume");
+        Log.i(TAG, "onResume");
 
         DbRoom db = DbRoom.provideDb(this);
         managerRoll = db.daoRoll().getManagerRoll();
@@ -47,14 +52,11 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         db.close();
     }
 
-    public ManagerRoll managerRoll;
-    public ManagerStatus managerStatus;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
-        Log.i("ActMain", "onCreate");
+        Log.i(TAG, "onCreate");
 
         setupViewPager();
         setupNavMenu();
@@ -68,7 +70,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
     public FrgBin frgBin;
 
     private void setupViewPager() {
-        Log.i("ActMain", "setupViewPager");
+        Log.i(TAG, "setupViewPager");
 
         viewPager = findViewById(R.id.actMain_vp);
         bottomNavigationView = findViewById(R.id.actMain_bnv_menu);
@@ -91,7 +93,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
     private MenuMain menuMain;
 
     private void setupNavMenu() {
-        Log.i("ActMain", "setupNavMenu");
+        Log.i(TAG, "setupNavMenu");
 
         menuMain = new MenuMain(viewPager, bottomNavigationView);
         menuMain.setMenuMainClick(this);
@@ -104,7 +106,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
 
     @Override
     public void onMenuNoteClick() {
-        Log.i("ActMain", "onMenuNoteClick");
+        Log.i(TAG, "onMenuNoteClick");
 
         String[] itemAddOpt = getResources().getStringArray(R.array.dialog_menu_add);
         AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
@@ -128,7 +130,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (menuMain.getPageCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
-            Log.i("ActMain", "dispatchTouchEvent");
+            Log.i(TAG, "dispatchTouchEvent");
 
             View view = getCurrentFocus();
             if (view != null) {
@@ -157,7 +159,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
 
     @Override
     public void onBackPressed() {
-        Log.i("ActMain", "onBackPressed");
+        Log.i(TAG, "onBackPressed");
 
         int buttonCurrent = menuMain.getPageCurrent();
 

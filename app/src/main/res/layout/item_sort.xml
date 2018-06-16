@@ -3,7 +3,9 @@
 
     <data>
 
-        <import type="android.view.View" />
+        <import
+            alias="v"
+            type="android.view.View" />
 
         <variable
             name="itemSort"
@@ -45,7 +47,7 @@
                     android:layout_marginLeft="@dimen/item_layout_small_indent"
                     android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:tint="@color/colorDarkSecond"
-                    android:visibility='@{position == sortEnd ? View.VISIBLE : View.INVISIBLE}'
+                    android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
                     app:srcCompat="@drawable/ic_info_braket_left" />
 
                 <TextView
@@ -70,7 +72,7 @@
                     android:layout_marginLeft="@dimen/item_layout_small_indent"
                     android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:tint="@color/colorDarkSecond"
-                    android:visibility='@{position == sortEnd ? View.VISIBLE : View.INVISIBLE}'
+                    android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
                     app:srcCompat="@drawable/ic_info_braket_right" />
 
             </LinearLayout>

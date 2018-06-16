@@ -8,12 +8,12 @@ import android.widget.Toast;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 
-public class PrefNoteSave {
+public class ControlSave {
 
     private Context context;
     private SharedPreferences pref;
 
-    public PrefNoteSave(Context context, SharedPreferences pref) {
+    public ControlSave(Context context, SharedPreferences pref) {
         this.context = context;
         this.pref = pref;
 

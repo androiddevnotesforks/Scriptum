@@ -1,47 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorBackground"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <include layout="@layout/inc_toolbar_rank" />
+    <data>
 
-    <FrameLayout
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="listEmpty"
+            type="boolean" />
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/frgRank_ll_empty"
+        <include layout="@layout/inc_toolbar_rank" />
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:layout_width="@dimen/icon_logo_size"
-                android:layout_height="@dimen/icon_logo_size"
-                android:tint="@color/colorDarkSecond"
-                app:srcCompat="@drawable/ic_menu_rank" />
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/frgRank_ll_empty"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:padding="@dimen/item_layout_small_indent"
-                android:text="@string/info_rank_empty"
-                android:textColor="@color/colorDarkSecond"
-                android:textSize="@dimen/text_big_size" />
+                android:orientation="vertical"
+                android:animateLayoutChanges="true"
+                android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'>
 
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/icon_logo_size"
+                    android:layout_height="@dimen/icon_logo_size"
+                    android:tint="@color/colorDarkSecond"
+                    app:srcCompat="@drawable/ic_menu_rank" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/frgRank_rv"
-            style="@style/RecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/item_layout_small_indent"
+                    android:text="@string/info_rank_empty"
+                    android:textColor="@color/colorDarkSecond"
+                    android:textSize="@dimen/text_big_size" />
 
-    </FrameLayout>
+            </LinearLayout>
 
-</LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/frgRank_rv"
+                style="@style/RecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility='@{!listEmpty ? v.VISIBLE : v.GONE}' />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>
