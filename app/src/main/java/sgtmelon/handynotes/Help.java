@@ -27,8 +27,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import sgtmelon.handynotes.db.DbRoom;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataRoom;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.model.item.ItemSort;
@@ -44,11 +44,11 @@ public class Help {
         }
 
         switch (itemNote.getType()) {
-            case DbDesc.typeText:
+            case DataInfo.typeText:
                 copyText += itemNote.getText();     //В зависимости от типа составляем текст
                 break;
-            case DbDesc.typeRoll:
-                DbRoom db = DbRoom.provideDb(context);
+            case DataInfo.typeRoll:
+                DataRoom db = DataRoom.provideDb(context);
                 copyText = db.daoRoll().getText(itemNote.getCreate());
                 db.close();
                 break;
@@ -202,7 +202,7 @@ public class Help {
 
         public static String getCheckStr(int check, String checkMax) {
             String ntText;
-            if (check == DbDesc.checkTrue) ntText = checkMax + "/" + checkMax;
+            if (check == DataInfo.checkTrue) ntText = checkMax + "/" + checkMax;
             else ntText = "0/" + checkMax;
             return ntText;
         }
@@ -266,7 +266,7 @@ public class Help {
             for (String aSortKey : sortKeysArr) {
                 int key = Integer.parseInt(aSortKey);
 
-                order.append(DbDesc.orders[key]);
+                order.append(DataInfo.orders[key]);
 
                 if (key != Help.Pref.sortCr && key != Help.Pref.sortCh) {
                     order.append(Help.Pref.divider);

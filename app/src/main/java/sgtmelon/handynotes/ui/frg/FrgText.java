@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgNTextBinding;
-import sgtmelon.handynotes.db.DbRoom;
-import sgtmelon.handynotes.db.DbDesc;
-import sgtmelon.handynotes.db.converter.ConverterInt;
-import sgtmelon.handynotes.db.converter.ConverterList;
+import sgtmelon.handynotes.data.DataInfo;
+import sgtmelon.handynotes.data.converter.ConverterInt;
+import sgtmelon.handynotes.data.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.control.menu.MenuNote;
@@ -40,7 +40,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     //region Variable
     final String TAG = "FrgText";
 
-    private DbRoom db;
+    private DataRoom db;
 
     private View frgView;
     private Context context;
@@ -107,7 +107,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
-            db = DbRoom.provideDb(context);
+            db = DataRoom.provideDb(context);
             itemNote = db.daoNote().get(itemNote.getId());
             db.close();
 
@@ -132,7 +132,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                 onMenuEditClick(false);
             }
 
-            db = DbRoom.provideDb(context);
+            db = DataRoom.provideDb(context);
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);
 
@@ -153,7 +153,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     public void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         final String[] checkName = db.daoRank().getName();
         final String[] checkId = ConverterInt.fromInteger(db.daoRank().getId());
         final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
@@ -263,7 +263,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
         menuNote.setStatusTitle(itemNote.isStatus());
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
         db.close();
 
@@ -276,12 +276,12 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
         String[] textToRoll = itemNote.getText().split("\n");   //Получаем пункты списка
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
 
         ItemRollView itemRollView = db.daoRoll().insert(itemNote.getCreate(), textToRoll);
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
-        itemNote.setType(DbDesc.typeRoll);
+        itemNote.setType(DataInfo.typeRoll);
         itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
         db.daoNote().update(itemNote);

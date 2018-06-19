@@ -1,8 +1,8 @@
-package sgtmelon.handynotes.db;
+package sgtmelon.handynotes.data;
 
 import android.arch.persistence.room.Ignore;
 
-public class DbDesc {
+public class DataInfo {
 
     @Ignore
     public static final String NT_TB = "NOTE_TABLE",

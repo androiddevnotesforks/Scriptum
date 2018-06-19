@@ -23,11 +23,11 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterNote;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgMNotesBinding;
-import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
@@ -43,7 +43,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     //region Variable
     final String TAG = "FrgNote";
 
-    private DbRoom db;
+    private DataRoom db;
 
     private View frgView;
     private Context context;
@@ -142,8 +142,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        db = DbRoom.provideDb(context);
-        listNote = db.daoNote().get(DbDesc.binFalse, Help.Pref.getSortNoteOrder(context));
+        db = DataRoom.provideDb(context);
+        listNote = db.daoNote().get(DataInfo.binFalse, Help.Pref.getSortNoteOrder(context));
         db.close();
 
         adapterNote.updateAdapter(listNote);
@@ -163,7 +163,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         Intent intent = new Intent(context, ActNote.class);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(DbDesc.RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(DataInfo.RK_VS, activity.frgRank.managerRank.getVisible());
         intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);
@@ -185,7 +185,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setText(Help.Note.getCheckStr(rlCheck, checkMax));
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         db.daoRoll().update(itemNote.getCreate(), rlCheck);
         db.daoNote().update(itemNote);
         db.close();
@@ -216,7 +216,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
             activity.managerStatus.removeItem(itemNote);
         }
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
         db.close();
 
@@ -232,24 +232,24 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         switch (itemNote.getType()) {
-            case DbDesc.typeText:
+            case DataInfo.typeText:
                 String[] textToRoll = itemNote.getText().split("\n");                             //Получаем пункты списка
 
                 ItemRollView itemRollView = db.daoRoll().insert(itemNote.getCreate(), textToRoll);      //Записываем пункты
 
-                itemNote.setType(DbDesc.typeRoll);
+                itemNote.setType(DataInfo.typeRoll);
                 itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
                 db.daoNote().update(itemNote);
 
                 activity.managerRoll.insertList(itemNote.getCreate(), itemRollView);
                 break;
-            case DbDesc.typeRoll:
+            case DataInfo.typeRoll:
                 String rollToText = db.daoRoll().getText(itemNote.getCreate());           //Получаем текст заметки
 
-                itemNote.setType(DbDesc.typeText);
+                itemNote.setType(DataInfo.typeText);
                 itemNote.setText(rollToText);
 
                 db.daoNote().update(itemNote);
@@ -276,7 +276,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onDialogDeleteClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onDialogDeleteClick");
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);
         if (itemNote.isStatus()) {
             db.daoNote().update(itemNote.getId(), false);

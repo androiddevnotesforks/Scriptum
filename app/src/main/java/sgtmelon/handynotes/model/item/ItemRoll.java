@@ -6,12 +6,12 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import sgtmelon.handynotes.db.DbDesc;
-import sgtmelon.handynotes.db.converter.ConverterBool;
+import sgtmelon.handynotes.data.DataInfo;
+import sgtmelon.handynotes.data.converter.ConverterBool;
 
 @Entity(tableName = "ROLL_TABLE")
 @TypeConverters({ConverterBool.class})
-public class ItemRoll extends DbDesc {
+public class ItemRoll extends DataInfo {
 
     //region Variables
     @ColumnInfo(name = RL_ID)

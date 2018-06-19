@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.dao;
+package sgtmelon.handynotes.data.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
@@ -7,14 +7,14 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import sgtmelon.handynotes.db.DbDesc;
-import sgtmelon.handynotes.db.converter.ConverterBool;
+import sgtmelon.handynotes.data.DataInfo;
+import sgtmelon.handynotes.data.converter.ConverterBool;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 
 @Dao
 @TypeConverters({ConverterBool.class})
-abstract class DaoBase extends DbDesc {
+abstract class DaoBase extends DataInfo {
 
     /**
      * @param noteCreate - Массив с датами создания заметок

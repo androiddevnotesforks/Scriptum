@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.Help;
 
 public class ActDevelop extends AppCompatActivity {
@@ -23,7 +23,7 @@ public class ActDevelop extends AppCompatActivity {
         TextView rollText = findViewById(R.id.actDevelop_tv_roll);
         TextView rankText = findViewById(R.id.actDevelop_tv_rank);
 
-        DbRoom db = DbRoom.provideDb(this);
+        DataRoom db = DataRoom.provideDb(this);
 
         db.daoNote().listAll(noteText);
         db.daoRoll().listAll(rollText);

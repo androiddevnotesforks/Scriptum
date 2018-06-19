@@ -5,7 +5,7 @@ import java.util.List;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.model.item.ItemRollView;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 
 public class ManagerRoll {
 
@@ -35,7 +35,7 @@ public class ManagerRoll {
 
         for (int i = 0; i < listRoll.size(); i++) {
             ItemRoll itemRoll = listRoll.get(i);
-            itemRoll.setCheck(rlCheck == DbDesc.checkTrue);
+            itemRoll.setCheck(rlCheck == DataInfo.checkTrue);
             listRoll.set(i, itemRoll);
         }
 

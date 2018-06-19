@@ -8,10 +8,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.control.ControlSave;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
@@ -24,7 +24,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     //region Variables
     final String TAG = "ActNote";
 
-    private DbRoom db;
+    private DataRoom db;
 
     public StateNote stateNote;
     public ControlSave controlSave;
@@ -75,12 +75,12 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
             stateNote.setEdit();
 
             if (stateNote.isCreate()) {
-                itemNote = Help.Note.fillCreate(this, bundle.getInt(DbDesc.NT_TP));
+                itemNote = Help.Note.fillCreate(this, bundle.getInt(DataInfo.NT_TP));
             } else {
                 itemNote = new ItemNote(bundle);
                 stateNote.setBin(itemNote.isBin());
             }
-            rankVisible = bundle.getStringArray(DbDesc.RK_VS);
+            rankVisible = bundle.getStringArray(DataInfo.RK_VS);
         }
     }
 
@@ -92,14 +92,14 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
         FragmentTransaction frgTransaction = getSupportFragmentManager().beginTransaction();
         switch (itemNote.getType()) {
-            case DbDesc.typeText:
+            case DataInfo.typeText:
                 frgText = new FrgText();
                 frgText.setItemNote(itemNote);
                 controlSave.setMenuClick(frgText);
 
                 frgTransaction.replace(R.id.actNote_fl_container, frgText);
                 break;
-            case DbDesc.typeRoll:
+            case DataInfo.typeRoll:
                 frgRoll = new FrgRoll();
                 frgRoll.setItemNote(itemNote);
                 controlSave.setMenuClick(frgRoll);
@@ -114,7 +114,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuRestoreClick() {
         Log.i(TAG, "onMenuRestoreClick");
 
-        db = DbRoom.provideDb(this);
+        db = DataRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), false);
         db.close();
 
@@ -125,7 +125,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuDeleteForeverClick() {
         Log.i(TAG, "onMenuDeleteForeverClick");
 
-        db = DbRoom.provideDb(this);
+        db = DataRoom.provideDb(this);
         db.daoNote().delete(itemNote.getId());
         db.close();
 
@@ -138,7 +138,7 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
     public void onMenuDeleteClick() {
         Log.i(TAG, "onMenuDeleteClick");
 
-        db = DbRoom.provideDb(this);
+        db = DataRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), true);
         if(itemNote.isStatus()){
             db.daoNote().update(itemNote.getId(), false);
@@ -157,11 +157,11 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
 
         if (stateNote.isEdit() && !stateNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             switch (itemNote.getType()) {
-                case DbDesc.typeText:
+                case DataInfo.typeText:
                     if (!frgText.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgText.menuNote.setStartColor(itemNote.getColor());
 
-                        db = DbRoom.provideDb(this);
+                        db = DataRoom.provideDb(this);
                         itemNote = db.daoNote().get(itemNote.getId());
                         db.close();
 
@@ -170,11 +170,11 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
                         frgText.onMenuEditClick(false);
                     }
                     break;
-                case DbDesc.typeRoll:
+                case DataInfo.typeRoll:
                     if (!frgRoll.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgRoll.menuNote.setStartColor(itemNote.getColor());
 
-                        db = DbRoom.provideDb(this);
+                        db = DataRoom.provideDb(this);
                         itemNote = db.daoNote().get(itemNote.getId());
                         db.close();
 
@@ -187,10 +187,10 @@ public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteCl
             }
         } else if (stateNote.isCreate()) {                 //Если только что создали заметку
             switch (itemNote.getType()) {   //Если сохранение не выполнено, выход без сохранения
-                case DbDesc.typeText:
+                case DataInfo.typeText:
                     if (!frgText.onMenuSaveClick(true)) super.onBackPressed();
                     break;
-                case DbDesc.typeRoll:
+                case DataInfo.typeRoll:
                     if (!frgRoll.onMenuSaveClick(true)) super.onBackPressed();
                     break;
             }

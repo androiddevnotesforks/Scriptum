@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.dao;
+package sgtmelon.handynotes.data.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sgtmelon.handynotes.db.converter.ConverterBool;
+import sgtmelon.handynotes.data.converter.ConverterBool;
 import sgtmelon.handynotes.model.item.ItemRoll;
 import sgtmelon.handynotes.model.item.ItemRollView;
 import sgtmelon.handynotes.model.manager.ManagerRoll;

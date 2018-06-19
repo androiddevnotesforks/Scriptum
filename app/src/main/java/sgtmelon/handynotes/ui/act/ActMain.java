@@ -16,10 +16,10 @@ import android.view.View;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterPager;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.interfaces.menu.MenuMainClick;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.control.menu.MenuMain;
 import sgtmelon.handynotes.model.manager.ManagerRoll;
@@ -46,7 +46,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         super.onResume();
         Log.i(TAG, "onResume");
 
-        DbRoom db = DbRoom.provideDb(this);
+        DataRoom db = DataRoom.provideDb(this);
         managerRoll = db.daoRoll().getManagerRoll();
         managerStatus = db.daoNote().getManagerStatus(this);
         db.close();
@@ -117,8 +117,8 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
                         intent.putExtra(StateNote.KEY_CREATE, true);
-                        intent.putExtra(DbDesc.NT_TP, item == DbDesc.typeText ? DbDesc.typeText : DbDesc.typeRoll);
-                        intent.putExtra(DbDesc.RK_VS, frgRank.managerRank.getVisible());
+                        intent.putExtra(DataInfo.NT_TP, item == DataInfo.typeText ? DataInfo.typeText : DataInfo.typeRoll);
+                        intent.putExtra(DataInfo.RK_VS, frgRank.managerRank.getVisible());
 
                         startActivity(intent);
                     }

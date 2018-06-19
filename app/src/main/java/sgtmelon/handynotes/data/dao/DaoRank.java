@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.dao;
+package sgtmelon.handynotes.data.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import sgtmelon.handynotes.db.converter.ConverterList;
+import sgtmelon.handynotes.data.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 

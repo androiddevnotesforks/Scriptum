@@ -14,9 +14,9 @@ import android.view.Window;
 import android.widget.Toast;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
-import sgtmelon.handynotes.db.DbRoom;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.Help;
 
 public class MenuNote implements Toolbar.OnMenuItemClickListener {
@@ -43,6 +43,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         navCancel = Help.Icon.getDrawable(context, R.drawable.ic_button_cancel);
     }
 
+    //TODO переделай в XML
     public void setNavigationIcon(boolean keyEdit, boolean keyCreate){
         if (keyEdit && !keyCreate) toolbar.setNavigationIcon(navCancel);
         else toolbar.setNavigationIcon(navBackArrow);
@@ -116,13 +117,13 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         setStatusTitle(ntStatus);
 
         switch (ntType) {
-            case DbDesc.typeRoll:
+            case DataInfo.typeRoll:
                 mItemStatus.setIcon(Help.Icon.getDrawable(context, R.drawable.ic_menu_bind_roll));
 
                 mItemConvert.setTitle(R.string.menu_note_convert_to_text);
                 mItemCheck.setVisible(true);
                 break;
-            case DbDesc.typeText:
+            case DataInfo.typeText:
                 mItemStatus.setIcon(Help.Icon.getDrawable(context, R.drawable.ic_menu_bind_text));
 
                 mItemConvert.setTitle(R.string.menu_note_convert_to_roll);
@@ -136,7 +137,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
         for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem);
 
-        DbRoom db = DbRoom.provideDb(context);
+        DataRoom db = DataRoom.provideDb(context);
         if (db.daoRank().getCount() == 0) mItemRank.setVisible(false);
         db.close();
     }
@@ -205,7 +206,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
                 alert.setTitle(context.getString(R.string.dialog_title_convert));
 
-                if (ntType == DbDesc.typeText) {
+                if (ntType == DataInfo.typeText) {
                     alert.setMessage(context.getString(R.string.dialog_text_convert_to_roll));
                 } else alert.setMessage(context.getString(R.string.dialog_roll_convert_to_text));
 

@@ -9,14 +9,14 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import sgtmelon.handynotes.db.DbDesc;
-import sgtmelon.handynotes.db.converter.ConverterBool;
-import sgtmelon.handynotes.db.converter.ConverterList;
-import sgtmelon.handynotes.db.converter.ConverterString;
+import sgtmelon.handynotes.data.DataInfo;
+import sgtmelon.handynotes.data.converter.ConverterBool;
+import sgtmelon.handynotes.data.converter.ConverterList;
+import sgtmelon.handynotes.data.converter.ConverterString;
 
 @Entity(tableName = "NOTE_TABLE")
 @TypeConverters({ConverterBool.class, ConverterString.class})
-public class ItemNote extends DbDesc {
+public class ItemNote extends DataInfo {
 
     public ItemNote() {
 

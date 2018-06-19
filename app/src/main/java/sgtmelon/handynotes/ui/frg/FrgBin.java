@@ -25,10 +25,10 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterNote;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgMBinBinding;
-import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.interfaces.AlertOptionClick;
@@ -43,7 +43,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     //region Variable
     final String TAG = "FrgBin";
 
-    private DbRoom db;
+    private DataRoom db;
 
     private View frgView;
     private Context context;
@@ -120,7 +120,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
 
-                                db = DbRoom.provideDb(context);
+                                db = DataRoom.provideDb(context);
                                 db.daoNote().clearBin();
                                 db.close();
 
@@ -183,8 +183,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        db = DbRoom.provideDb(context);
-        listNote = db.daoNote().get(DbDesc.binTrue, Help.Pref.getSortNoteOrder(context));
+        db = DataRoom.provideDb(context);
+        listNote = db.daoNote().get(DataInfo.binTrue, Help.Pref.getSortNoteOrder(context));
         db.close();
 
         adapterNote.updateAdapter(listNote);
@@ -205,7 +205,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Intent intent = new Intent(context, ActNote.class);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(DbDesc.RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(DataInfo.RK_VS, activity.frgRank.managerRank.getVisible());
         intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);
@@ -224,7 +224,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onDialogRestoreClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onDialogRestoreClick");
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), false);
         db.close();
 
@@ -241,7 +241,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onDialogDeleteForeverClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onDialogDeleteForeverClick");
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         db.daoNote().delete(itemNote.getId());
         db.close();
 

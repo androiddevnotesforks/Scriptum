@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.db.converter.ConverterList;
+import sgtmelon.handynotes.data.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.Help;
 
@@ -44,6 +44,7 @@ public class ManagerRank implements TextWatcher, TextView.OnEditorActionListener
         this.rankEnter = rankEnter;
     }
 
+    //TODO переделай смену цвета в XML
     public void tintButton() {
         String rankText = rankEnter.getText().toString().toUpperCase();
 

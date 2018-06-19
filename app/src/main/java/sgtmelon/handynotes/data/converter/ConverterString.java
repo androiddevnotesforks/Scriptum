@@ -1,11 +1,11 @@
-package sgtmelon.handynotes.db.converter;
+package sgtmelon.handynotes.data.converter;
 
 import android.arch.persistence.room.TypeConverter;
 import android.text.TextUtils;
 
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 
-public class ConverterString extends DbDesc {
+public class ConverterString extends DataInfo {
 
     @TypeConverter
     public String[] fromString (String string){

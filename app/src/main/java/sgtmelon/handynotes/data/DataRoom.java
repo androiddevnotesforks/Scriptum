@@ -1,19 +1,19 @@
-package sgtmelon.handynotes.db;
+package sgtmelon.handynotes.data;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import sgtmelon.handynotes.db.dao.DaoNote;
-import sgtmelon.handynotes.db.dao.DaoRank;
-import sgtmelon.handynotes.db.dao.DaoRoll;
+import sgtmelon.handynotes.data.dao.DaoNote;
+import sgtmelon.handynotes.data.dao.DaoRank;
+import sgtmelon.handynotes.data.dao.DaoRoll;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.item.ItemRoll;
 
 @Database(entities = {ItemNote.class, ItemRoll.class, ItemRank.class}, version = 1)
-public abstract class DbRoom extends RoomDatabase {
+public abstract class DataRoom extends RoomDatabase {
 
     public abstract DaoNote daoNote();
 
@@ -21,8 +21,8 @@ public abstract class DbRoom extends RoomDatabase {
 
     public abstract DaoRank daoRank();
 
-    public static DbRoom provideDb(Context context){
-        return Room.databaseBuilder(context, DbRoom.class, "HandyNotes")
+    public static DataRoom provideDb(Context context){
+        return Room.databaseBuilder(context, DataRoom.class, "HandyNotes")
                     .allowMainThreadQueries()
                     .build();
     }

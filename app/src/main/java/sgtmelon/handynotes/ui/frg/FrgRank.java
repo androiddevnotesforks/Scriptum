@@ -24,8 +24,8 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRank;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgMRankBinding;
-import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.manager.ManagerRank;
 import sgtmelon.handynotes.model.state.StateDrag;
@@ -39,7 +39,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     //region Variable
     private final String TAG = "FrgRank";
 
-    private DbRoom db;
+    private DataRoom db;
 
     private View frgView;
     private Context context;
@@ -120,7 +120,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
                 ItemRank itemRank = new ItemRank(rankPs, rankNm);
 
-                db = DbRoom.provideDb(context);
+                db = DataRoom.provideDb(context);
                 int rankId = (int) db.daoRank().insert(itemRank);
                 db.close();
 
@@ -154,7 +154,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
         ItemRank itemRank = new ItemRank(rankPs - 1, rankNm);
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         int rankId = (int) db.daoRank().insert(itemRank);
         db.daoRank().update(rankPs);
         db.close();
@@ -215,7 +215,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
     public void updateAdapter(boolean updateAll) {
         Log.i(TAG, "updateAdapter");
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         managerRank.setListRank(db.daoRank().get());
         if (updateAll) managerRank.setListRankName(db.daoRank().getNameUp());
         db.close();
@@ -239,7 +239,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                 managerRank.set(p, itemRank);
                 adapterRank.updateAdapter(p, itemRank);
 
-                db = DbRoom.provideDb(context);
+                db = DataRoom.provideDb(context);
                 db.daoRank().update(itemRank);
                 db.close();
 
@@ -255,7 +255,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
                             public void onClick(DialogInterface dialog, int id) {
                                 itemRank.setName(alert.getRename());
 
-                                db = DbRoom.provideDb(context);
+                                db = DataRoom.provideDb(context);
                                 db.daoRank().update(itemRank);
                                 db.close();
 
@@ -283,7 +283,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
             case R.id.itemRank_ib_cancel:
                 itemRank.setVisible(true);                  //Чтобы отобразить заметки в статус баре, если были скрыты
 
-                db = DbRoom.provideDb(context);
+                db = DataRoom.provideDb(context);
                 db.daoRank().delete(managerRank.get(p).getName());
                 db.daoRank().update(p);
                 db.close();
@@ -325,7 +325,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         adapterRank.updateAdapter(listRank, iconStartAnim);
         adapterRank.notifyDataSetChanged();
 
-        db = DbRoom.provideDb(context);
+        db = DataRoom.provideDb(context);
         db.daoRank().updateRank(listRank);
         db.close();
 
@@ -366,7 +366,7 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
 
             dragEndPs = viewHolder.getAdapterPosition();
             if (dragStartPs != dragEndPs) {
-                db = DbRoom.provideDb(context);
+                db = DataRoom.provideDb(context);
                 db.daoRank().update(dragStartPs, dragEndPs);
                 managerRank.setListRank(db.daoRank().get());
                 activity.managerStatus = db.daoNote().getManagerStatus(context);

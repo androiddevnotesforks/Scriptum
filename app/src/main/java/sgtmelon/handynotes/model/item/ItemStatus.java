@@ -1,7 +1,6 @@
 package sgtmelon.handynotes.model.item;
 
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
@@ -10,9 +9,9 @@ import android.support.v4.app.NotificationManagerCompat;
 import java.util.Arrays;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.model.state.StateNote;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.ui.act.ActNote;
 
@@ -38,7 +37,7 @@ public class ItemStatus {
         intent.setAction(Intent.ACTION_VIEW);
 
         intent = itemNote.fillIntent(intent);
-        intent.putExtra(DbDesc.RK_VS, rkVisible);
+        intent.putExtra(DataInfo.RK_VS, rkVisible);
         intent.putExtra(StateNote.KEY_CREATE, false);
 
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -58,15 +57,15 @@ public class ItemStatus {
         int icon = 0;
         String text = "";
         switch (itemNote.getType()) {
-            case DbDesc.typeText:
+            case DataInfo.typeText:
                 icon = R.drawable.ic_menu_bind_text;
 
                 text = itemNote.getText();
                 break;
-            case DbDesc.typeRoll:
+            case DataInfo.typeRoll:
                 icon = R.drawable.ic_menu_bind_roll;
 
-                DbRoom db = DbRoom.provideDb(context);
+                DataRoom db = DataRoom.provideDb(context);
                 text = db.daoRoll().getText(itemNote.getCreate(), itemNote.getText());
                 db.close();
                 break;

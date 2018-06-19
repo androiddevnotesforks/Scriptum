@@ -15,7 +15,7 @@ import sgtmelon.handynotes.databinding.ItemNoteRollBinding;
 import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRoll;
-import sgtmelon.handynotes.db.DbDesc;
+import sgtmelon.handynotes.data.DataInfo;
 import sgtmelon.handynotes.interfaces.ItemClick;
 import sgtmelon.handynotes.model.manager.ManagerRoll;
 
@@ -56,7 +56,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
-        if (viewType == DbDesc.typeText) {
+        if (viewType == DataInfo.typeText) {
             ItemNoteTextBinding bindingText = DataBindingUtil.inflate(inflater, R.layout.item_note_text, parent, false);
             return new NoteHolder(bindingText);
         } else {
@@ -69,7 +69,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
         ItemNote itemNote = listNote.get(position);
 
-        if (itemNote.getType() == DbDesc.typeText) {
+        if (itemNote.getType() == DataInfo.typeText) {
             holder.bind(itemNote, null);
         } else {
             holder.bind(itemNote, managerRoll.getListRoll(itemNote.getCreate()));
@@ -113,7 +113,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         }
 
         void bind(ItemNote itemNote, List<ItemRoll> listRoll) {
-            if (itemNote.getType() == DbDesc.typeText) {
+            if (itemNote.getType() == DataInfo.typeText) {
                 bindingText.setItemNote(itemNote);
 
                 bindingText.executePendingBindings();

@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.converter;
+package sgtmelon.handynotes.data.converter;
 
 import android.arch.persistence.room.TypeConverter;
 

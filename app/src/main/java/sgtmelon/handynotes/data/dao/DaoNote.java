@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.dao;
+package sgtmelon.handynotes.data.dao;
 
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.arch.persistence.db.SupportSQLiteQuery;
@@ -16,9 +16,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sgtmelon.handynotes.db.converter.ConverterBool;
-import sgtmelon.handynotes.db.converter.ConverterInt;
-import sgtmelon.handynotes.db.converter.ConverterList;
+import sgtmelon.handynotes.data.converter.ConverterBool;
+import sgtmelon.handynotes.data.converter.ConverterInt;
+import sgtmelon.handynotes.data.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemStatus;
 import sgtmelon.handynotes.model.manager.ManagerStatus;

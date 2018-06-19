@@ -8,15 +8,15 @@ import android.arch.persistence.room.TypeConverters;
 
 import java.util.List;
 
-import sgtmelon.handynotes.db.DbDesc;
-import sgtmelon.handynotes.db.converter.ConverterBool;
-import sgtmelon.handynotes.db.converter.ConverterList;
-import sgtmelon.handynotes.db.converter.ConverterString;
+import sgtmelon.handynotes.data.DataInfo;
+import sgtmelon.handynotes.data.converter.ConverterBool;
+import sgtmelon.handynotes.data.converter.ConverterList;
+import sgtmelon.handynotes.data.converter.ConverterString;
 import sgtmelon.handynotes.Help;
 
 @Entity(tableName = "RANK_TABLE")
 @TypeConverters({ConverterBool.class, ConverterString.class})
-public class ItemRank extends DbDesc {
+public class ItemRank extends DataInfo {
 
     public ItemRank() {
 
