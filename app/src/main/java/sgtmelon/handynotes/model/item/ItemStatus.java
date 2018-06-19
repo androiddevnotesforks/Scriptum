@@ -19,10 +19,10 @@ import sgtmelon.handynotes.ui.act.ActNote;
 public class ItemStatus {
 
     //region Variables
-    private Context context;
+    private final Context context;
     private ItemNote itemNote;
 
-    private PendingIntent pendingIntent;
+    private final PendingIntent pendingIntent;
     private NotificationCompat.Builder notificationBuilder;
     private NotificationManagerCompat notificationManager;
     //endregion
@@ -41,12 +41,12 @@ public class ItemStatus {
         intent.putExtra(DbDesc.RK_VS, rkVisible);
         intent.putExtra(StateNote.KEY_CREATE, false);
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(ActNote.class);
-        stackBuilder.addNextIntent(intent);
+//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+//        stackBuilder.addParentStack(ActNote.class);
+//        stackBuilder.addNextIntent(intent);
 
-//        pendingIntent = PendingIntent.getActivity(context, itemNote.getId(), intent, 0);
-        pendingIntent = stackBuilder.getPendingIntent(itemNote.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getActivity(context, itemNote.getId(), intent, 0);
+//        pendingIntent = stackBuilder.getPendingIntent(itemNote.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         updateNote(itemNote);
     }

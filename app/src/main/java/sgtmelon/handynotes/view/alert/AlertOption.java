@@ -13,7 +13,7 @@ import sgtmelon.handynotes.model.item.ItemNote;
 public class AlertOption {
 
     //region Variables
-    private Context context;
+    private final Context context;
 
     private final ItemNote itemNote;
     private final int p;

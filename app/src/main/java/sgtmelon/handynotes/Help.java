@@ -23,8 +23,6 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -61,7 +59,7 @@ public class Help {
 
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(context, "Текст скопирован в буфер обмена", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Текст скопирован в буфер обмена", Toast.LENGTH_SHORT).show(); //TODO Translate
         }
     }
 

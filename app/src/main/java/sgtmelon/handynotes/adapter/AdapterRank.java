@@ -1,7 +1,6 @@
 package sgtmelon.handynotes.adapter;
 
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

@@ -14,7 +14,7 @@ import sgtmelon.handynotes.Help;
 
 public class ButtonVisible extends android.support.v7.widget.AppCompatImageButton {
 
-    private Context context;
+    private final Context context;
 
     public ButtonVisible(Context context) {
         super(context);
@@ -84,10 +84,10 @@ public class ButtonVisible extends android.support.v7.widget.AppCompatImageButto
         } else {
             this.animRunnableVisible = visible;
             if (visible) {
-//                setImageDrawable(visibleOnAnim);
+                setImageDrawable(visibleOnAnim);
                 visibleOnAnim.start();
             } else {
-//                setImageDrawable(visibleOffAnim);
+                setImageDrawable(visibleOffAnim);
                 visibleOffAnim.start();
             }
             waitAnimationEnd();

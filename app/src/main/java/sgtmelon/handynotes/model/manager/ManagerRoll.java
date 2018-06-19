@@ -9,8 +9,8 @@ import sgtmelon.handynotes.db.DbDesc;
 
 public class ManagerRoll {
 
-    private List<String> listCreate;
-    private List<ItemRollView> listRollView;
+    private final List<String> listCreate;
+    private final List<ItemRollView> listRollView;
 
     public ManagerRoll(List<String> listCreate, List<ItemRollView> listRollView) {
         this.listCreate = listCreate;

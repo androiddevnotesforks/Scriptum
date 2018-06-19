@@ -13,7 +13,6 @@ import sgtmelon.handynotes.db.DbDesc;
 import sgtmelon.handynotes.db.converter.ConverterBool;
 import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.db.converter.ConverterString;
-import sgtmelon.handynotes.Help;
 
 @Entity(tableName = "NOTE_TABLE")
 @TypeConverters({ConverterBool.class, ConverterString.class})

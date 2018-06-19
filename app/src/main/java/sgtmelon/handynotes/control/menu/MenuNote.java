@@ -22,13 +22,14 @@ import sgtmelon.handynotes.Help;
 public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
     //region Variables
-    private Context context;
-    private Window window;
-    private Toolbar toolbar;
+    private final Context context;
+    private final Window window;
+    private final Toolbar toolbar;
 
-    private int ntType;
+    private final int ntType;
 
-    private Drawable navBackArrow, navCancel;
+    private final Drawable navBackArrow;
+    private final Drawable navCancel;
     //endregion
 
     public MenuNote(Context context, Window window, Toolbar toolbar, int ntType) {

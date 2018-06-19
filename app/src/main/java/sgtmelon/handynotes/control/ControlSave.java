@@ -10,8 +10,8 @@ import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 
 public class ControlSave {
 
-    private Context context;
-    private SharedPreferences pref;
+    private final Context context;
+    private final SharedPreferences pref;
 
     public ControlSave(Context context, SharedPreferences pref) {
         this.context = context;

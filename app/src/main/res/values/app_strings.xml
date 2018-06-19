@@ -31,8 +31,8 @@
     <string name="menu_note_check_zero">Uncheck all</string>
     <string name="menu_note_status_bind">Bind to status bar</string>
     <string name="menu_note_status_unbind">Unbind from status bar</string>
-    <string name="menu_note_convert_to_roll">Convert to text</string>
-    <string name="menu_note_convert_to_text">Convert to roll</string>
+    <string name="menu_note_convert_to_roll">Convert to roll</string>
+    <string name="menu_note_convert_to_text">Convert to text</string>
     <string name="menu_note_delete">Delete</string>
 
     <string name="menu_note_rank">Categories</string>
@@ -84,8 +84,8 @@
     <string name="dialog_menu_check_zero">Uncheck all</string>
     <string name="dialog_menu_status_bind">Bind to status bar</string>
     <string name="dialog_menu_status_unbind">Unbind from status bar</string>
-    <string name="dialog_menu_convert_to_text">Convert to roll</string>
-    <string name="dialog_menu_convert_to_roll">Convert to text</string>
+    <string name="dialog_menu_convert_to_text">Convert to text</string>
+    <string name="dialog_menu_convert_to_roll">Convert to roll</string>
     <string name="dialog_menu_delete">Delete</string>
 
     <string name="dialog_menu_restore">Restore</string>

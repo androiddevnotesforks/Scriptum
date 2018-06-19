@@ -1,22 +1,16 @@
 package sgtmelon.handynotes.adapter;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.databinding.ItemRankBinding;
 import sgtmelon.handynotes.databinding.ItemSortBinding;
 import sgtmelon.handynotes.model.state.StateSort;
 import sgtmelon.handynotes.interfaces.ItemClick;

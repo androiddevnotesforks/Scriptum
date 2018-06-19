@@ -20,7 +20,7 @@ import sgtmelon.handynotes.Help;
 
 public class ManagerRank implements TextWatcher, TextView.OnEditorActionListener {
 
-    private Context context;
+    private final Context context;
 
     private List<ItemRank> listRank;
     private List<String> listRankName;

@@ -10,10 +10,10 @@ import sgtmelon.handynotes.model.item.ItemStatus;
 
 public class ManagerStatus {
 
-    private Context context;
+    private final Context context;
 
-    private List<String> listCreate;
-    private List<ItemStatus> listStatus;
+    private final List<String> listCreate;
+    private final List<ItemStatus> listStatus;
 
     /**
      * Конструктов менеджера статусовых сообщений

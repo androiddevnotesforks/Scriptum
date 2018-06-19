@@ -26,7 +26,6 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterRank;
 import sgtmelon.handynotes.databinding.FrgMRankBinding;
 import sgtmelon.handynotes.db.DbRoom;
-import sgtmelon.handynotes.interfaces.InfoPageReply;
 import sgtmelon.handynotes.model.item.ItemRank;
 import sgtmelon.handynotes.model.manager.ManagerRank;
 import sgtmelon.handynotes.model.state.StateDrag;
@@ -35,7 +34,7 @@ import sgtmelon.handynotes.ui.act.ActMain;
 import sgtmelon.handynotes.view.alert.AlertRename;
 
 public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.LongClick,
-        View.OnClickListener, View.OnLongClickListener, InfoPageReply {
+        View.OnClickListener, View.OnLongClickListener {
 
     //region Variable
     private final String TAG = "FrgRank";
@@ -225,11 +224,6 @@ public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.Long
         adapterRank.notifyDataSetChanged();
 
         bind(managerRank.size());
-    }
-
-    @Override
-    public void notifyInsert(int position) {
-        adapterRank.notifyItemInserted(position);
     }
 
     @Override

@@ -19,7 +19,7 @@ import sgtmelon.handynotes.R;
 
 public class AlertRename extends AlertDialog.Builder implements TextWatcher, TextView.OnEditorActionListener {
 
-    private Context context;
+    private final Context context;
 
     @SuppressWarnings("unused")
     public AlertRename(@NonNull Context context) {

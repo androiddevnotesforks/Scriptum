@@ -6,7 +6,6 @@ import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,7 +15,6 @@ import java.util.List;
 import sgtmelon.handynotes.db.converter.ConverterList;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
-import sgtmelon.handynotes.Help;
 
 @Dao
 public abstract class DaoRank extends DaoBase {

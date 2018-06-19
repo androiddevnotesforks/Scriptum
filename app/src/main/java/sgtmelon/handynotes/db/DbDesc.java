@@ -47,8 +47,6 @@ public class DbDesc {
     public static final int
             typeText = 0, typeRoll = 1,         //Типы заметок
             binFalse = 0, binTrue = 1,          //Расположение относительно карзины
-            checkFalse = 0, checkTrue = 1,      //Выполнение пункта
-            visibleFalse = 0, visibleTrue = 1,  //Видимость категории
-            statusFalse = 0, statusTrue = 1;    //Закрепление в статус-баре
+            checkFalse = 0, checkTrue = 1;      //Выполнение пункта
 
 }

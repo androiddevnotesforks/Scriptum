@@ -11,7 +11,7 @@ import sgtmelon.handynotes.interfaces.menu.MenuMainClick;
 public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
     //region Variables
-    private int[] itemId = new int[]{
+    private final int[] itemId = new int[]{
             R.id.menu_actMain_pageRank,
             R.id.menu_actMain_pageNote,
             R.id.menu_actMain_pageBin,
@@ -21,8 +21,8 @@ public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigatio
     public static final int pageNotes = 1;
     private static final int pageBin = 2;
 
-    private ViewPager viewPager;
-    private BottomNavigationView bottomNavigationView;
+    private final ViewPager viewPager;
+    private final BottomNavigationView bottomNavigationView;
     //endregion
 
     public MenuMain(ViewPager viewPager, BottomNavigationView bottomNavigationView) {
