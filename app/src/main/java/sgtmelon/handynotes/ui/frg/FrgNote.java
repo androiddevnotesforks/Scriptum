@@ -143,7 +143,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         Log.i(TAG, "updateAdapter");
 
         db = DataRoom.provideDb(context);
-        listNote = db.daoNote().get(DataInfo.binFalse, Help.Pref.getSortNoteOrder(context));
+        listNote = db.daoNote().getVisible(DataInfo.binFalse, Help.Pref.getSortNoteOrder(context));
         db.close();
 
         adapterNote.updateAdapter(listNote);

@@ -43,18 +43,11 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         navCancel = Help.Icon.getDrawable(context, R.drawable.ic_button_cancel);
     }
 
-    //TODO переделай в XML
-    public void setNavigationIcon(boolean keyEdit, boolean keyCreate){
-        if (keyEdit && !keyCreate) toolbar.setNavigationIcon(navCancel);
-        else toolbar.setNavigationIcon(navBackArrow);
-    }
-
     //Установка цвета
     public void setColor(int ntColor) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(Help.Icon.getColor(context, true, ntColor));
         }
-
         toolbar.setBackgroundColor(Help.Icon.getColor(context, false, ntColor));
     }
 

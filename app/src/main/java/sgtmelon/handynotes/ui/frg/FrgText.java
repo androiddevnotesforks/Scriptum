@@ -74,9 +74,10 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
         return frgView;
     }
 
-    private void bind(boolean keyEdit) {
+    private void bind(boolean keyEdit, boolean keyCreate) {
         binding.setItemNote(itemNote);
         binding.setKeyEdit(keyEdit);
+        binding.setKeyCreate(keyCreate);
 
         binding.executePendingBindings();
     }
@@ -175,7 +176,7 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
                         List<String> rankId = new ArrayList<>();
                         List<String> rankPs = new ArrayList<>();
 
-                        for (int i = 0; i < checkId.length; i++){
+                        for (int i = 0; i < checkId.length; i++) {
                             if (checkItem[i]) {
                                 rankId.add(checkId[i]);
                                 rankPs.add(Integer.toString(i));
@@ -237,16 +238,10 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
 
         activity.stateNote.setEdit(editMode);
 
-        menuNote.setNavigationIcon(activity.stateNote.isEdit(), activity.stateNote.isCreate());
-        menuNote.setMenuGroupVisible(activity.stateNote.isBin(), activity.stateNote.isEdit(), !activity.stateNote.isBin() && !activity.stateNote.isEdit());
+        menuNote.setMenuGroupVisible(activity.stateNote.isBin(), editMode, !activity.stateNote.isBin() && !editMode);
+        bind(editMode, activity.stateNote.isCreate());
 
-        bind(editMode);
-
-        if (editMode) {
-            activity.controlSave.startSaveHandler();
-        } else {
-            activity.controlSave.stopSaveHandler();
-        }
+        activity.controlSave.setSaveHandlerEvent(editMode);
     }
 
     @Override

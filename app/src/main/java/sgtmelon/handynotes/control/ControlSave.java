@@ -57,13 +57,16 @@ public class ControlSave {
         this.needSave = needSave;
     }
 
-    public void startSaveHandler() {
-        if (saveHandler != null) {
-            saveHandler.postDelayed(saveRunnable, noteSaveTime[selectTime]);
-        }
+    public void setSaveHandlerEvent(boolean keyEdit){
+        if (keyEdit) startSaveHandler();
+        else stopSaveHandler();
     }
 
-    public void stopSaveHandler() {
+    private void startSaveHandler() {
+        if (saveHandler != null) saveHandler.postDelayed(saveRunnable, noteSaveTime[selectTime]);
+    }
+
+    private void stopSaveHandler() {
         if (saveHandler != null) saveHandler.removeCallbacks(saveRunnable);
     }
 

@@ -38,13 +38,30 @@ public abstract class DaoNote extends DaoBase {
     @RawQuery
     abstract List<ItemNote> get(SupportSQLiteQuery query);
 
-    public List<ItemNote> get(int noteBin, String sortKeys) {
+    private List<ItemNote> get(int noteBin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + NT_TB +
                         " WHERE " + NT_BN + " = " + noteBin +
                         " ORDER BY " + sortKeys);
 
         return get(query);
+    }
+
+    //TODO переименуй в get
+    public List<ItemNote> getVisible(int noteBin, String sortKeys) {
+        List<ItemNote> listNote = get(noteBin, sortKeys);
+        List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
+
+        for (int i = 0; i < listNote.size(); i++) {
+            ItemNote itemNote = listNote.get(i);
+            String[] rankId = itemNote.getRankId();
+
+            if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
+                listNote.remove(i);
+            }
+        }
+
+        return listNote;
     }
 
     /**
@@ -66,7 +83,7 @@ public abstract class DaoNote extends DaoBase {
         List<String> listCreate = new ArrayList<>();
         List<ItemStatus> listStatus = new ArrayList<>();
 
-        for (int i = listNote.size() - 1; i >= 0 ; i--) {
+        for (int i = listNote.size() - 1; i >= 0; i--) {
             ItemNote itemNote = listNote.get(i);
             String[] rankId = itemNote.getRankId();
 
@@ -130,21 +147,18 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void clearBin() {
-        List<ItemNote> listNote = get(binTrue, orders[0]);
-        List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
+        List<ItemNote> listNote = getVisible(binTrue, orders[0]);
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
             String[] rankId = itemNote.getRankId();
 
-            if (rankId.length == 0 || rankVisible.contains(rankId[0])) {
-                if (itemNote.getType() == typeRoll) {
-                    deleteRoll(itemNote.getCreate());
-                }
-                if (rankId.length != 0) {
-                    clearRank(itemNote.getCreate(), rankId);
-                }
-            } else listNote.remove(i); //Убираем заметку, которую не надо удалять
+            if (itemNote.getType() == typeRoll) {
+                deleteRoll(itemNote.getCreate());
+            }
+            if (rankId.length != 0) {
+                clearRank(itemNote.getCreate(), rankId);
+            }
         }
 
         delete(listNote);

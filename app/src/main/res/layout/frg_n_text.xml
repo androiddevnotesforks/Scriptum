@@ -14,7 +14,11 @@
 
         <variable
             name="keyEdit"
-            type="boolean"/>
+            type="boolean" />
+
+        <variable
+            name="keyCreate"
+            type="boolean" />
 
     </data>
 
@@ -26,8 +30,9 @@
 
         <include
             layout="@layout/inc_toolbar_note"
-            app:keyEdit='@{keyEdit}'
-            app:itemNote='@{itemNote}'  />
+            app:itemNote='@{itemNote}'
+            app:keyCreate='@{keyCreate}'
+            app:keyEdit='@{keyEdit}' />
 
         <ScrollView
             android:layout_width="match_parent"
