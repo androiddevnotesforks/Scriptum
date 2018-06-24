@@ -88,6 +88,11 @@
         <item>Список</item>
     </string-array>
 
+
+    <!-- Toast -->
+    <string name="toast_text_copy">Текст скопирован в буфер обмена</string>
+
+
     <!-- About dialog -->
     <string name="about_app_for">для Андроид</string>
     <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>

@@ -12,6 +12,9 @@ import sgtmelon.handynotes.data.converter.ConverterBool;
 import sgtmelon.handynotes.model.item.ItemNote;
 import sgtmelon.handynotes.model.item.ItemRank;
 
+/**
+ * Класс обеспечивающий базовую логику, которая используется в разных Dao
+ */
 @Dao
 @TypeConverters({ConverterBool.class})
 abstract class DaoBase extends DataInfo {
@@ -67,13 +70,12 @@ abstract class DaoBase extends DataInfo {
     abstract int getRollCount(String[] noteCreate);
 
     /**
-     * @param rollCheck  - Состояние выполнения пункта
      * @param noteCreate - Даты создания заметок
      * @return - Количество пунктов
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_CHECK = :rollCheck AND RL_CREATE IN(:noteCreate)")
-    abstract int getRollCount(boolean rollCheck, String[] noteCreate);
+            "WHERE RL_CHECK = 1 AND RL_CREATE IN(:noteCreate)")
+    abstract int getRollCheck(String[] noteCreate);
 
     /**
      * @return - Лист с id категорий, которые видны
@@ -92,14 +94,25 @@ abstract class DaoBase extends DataInfo {
             "WHERE RL_CREATE = :noteCreate")
     public abstract void deleteRoll(String noteCreate);
 
+    /**
+     * @param rankId - Массив с id категорий
+     * @return - Список моделей категорий
+     */
     @Query("SELECT * FROM RANK_TABLE " +
             "WHERE RK_ID IN(:rankId)" +
             "ORDER BY RK_POSITION ASC")
     abstract List<ItemRank> getRank(String[] rankId);
 
+    /**
+     * @param listRank - список категорий, которые необходимо обновить
+     */
     @Update
     public abstract void updateRank(List<ItemRank> listRank);
 
+    /**
+     * @param noteCreate - Дата создания заметки, которую необходимо убрать из категории
+     * @param rankId     - Массив в id категорий
+     */
     void clearRank(String noteCreate, String[] rankId) {
         List<ItemRank> listRank = getRank(rankId);
 

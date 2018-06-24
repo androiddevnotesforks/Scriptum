@@ -74,8 +74,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         super.onResume();
         Log.i(TAG, "onResume");
 
-        String rollText = rollEnter.getText().toString();
-        Help.Icon.tintButton(context, rollAdd, R.drawable.ic_button_add, rollText);
+//        String rollText = rollEnter.getText().toString();
+//        Help.Icon.tintButton(context, rollAdd, R.drawable.ic_button_add, rollText);
 
         if (!activity.stateNote.isEdit()) updateAdapter();
     }
@@ -242,7 +242,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                         List<String> rankId = new ArrayList<>();
                         List<String> rankPs = new ArrayList<>();
 
-                        for (int i = 0; i < checkId.length; i++){
+                        for (int i = 0; i < checkId.length; i++) {
                             if (checkItem[i]) {
                                 rankId.add(checkId[i]);
                                 rankPs.add(Integer.toString(i));

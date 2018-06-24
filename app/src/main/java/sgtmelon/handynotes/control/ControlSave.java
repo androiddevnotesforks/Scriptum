@@ -10,14 +10,37 @@ import sgtmelon.handynotes.interfaces.menu.MenuNoteClick;
 
 public class ControlSave {
 
+    //region Variable
     private final Context context;
     private final SharedPreferences pref;
+
+    private Handler saveHandler;
+    private Runnable saveRunnable;
+
+    private int saveTime;
+    //endregion
 
     public ControlSave(Context context, SharedPreferences pref) {
         this.context = context;
         this.pref = pref;
 
-        setupAutoSave();
+        boolean saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_default_auto_save));
+
+        if (saveAuto) {
+            saveHandler = new Handler();
+            saveRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    onSave(false);
+                    startSaveHandler();
+                }
+            };
+
+            int[] saveTimeArr = context.getResources().getIntArray(R.array.pref_value_auto_save_time);
+            int saveTimeSelect = pref.getInt(context.getString(R.string.pref_key_auto_save_time), context.getResources().getInteger(R.integer.pref_default_auto_save_time));
+
+            saveTime = saveTimeArr[saveTimeSelect];
+        }
     }
 
     private MenuNoteClick.NoteClick menuClick;
@@ -26,48 +49,35 @@ public class ControlSave {
         this.menuClick = menuClick;
     }
 
-    private Runnable saveRunnable;
-    private Handler saveHandler;
-
-    private int[] noteSaveTime;
-    private int selectTime;
-
-    private void setupAutoSave() {
-        boolean saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_default_auto_save));
-
-        if (saveAuto) {
-            saveRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    onSave(false);
-                    startSaveHandler();
-                }
-            };
-            saveHandler = new Handler();
-
-            noteSaveTime = context.getResources().getIntArray(R.array.pref_value_auto_save_time);
-            selectTime = pref.getInt(context.getString(R.string.pref_key_auto_save_time), context.getResources().getInteger(R.integer.pref_default_auto_save_time));
-        }
-    }
-
-    //Пауза срабатывает не только при сворачивании, нужна дополнительная переменная для контроля (если закрыли активность например)
+    /**
+     * Пауза срабатывает не только при сворачивании
+     * (если закрыли активность например)
+     */
     private boolean needSave = true;
 
     public void setNeedSave(boolean needSave) {
         this.needSave = needSave;
     }
 
-    public void setSaveHandlerEvent(boolean keyEdit){
+    public void setSaveHandlerEvent(boolean keyEdit) {
         if (keyEdit) startSaveHandler();
         else stopSaveHandler();
     }
 
     private void startSaveHandler() {
-        if (saveHandler != null) saveHandler.postDelayed(saveRunnable, noteSaveTime[selectTime]);
+        if (saveHandler != null) saveHandler.postDelayed(saveRunnable, saveTime);
     }
 
     private void stopSaveHandler() {
         if (saveHandler != null) saveHandler.removeCallbacks(saveRunnable);
+    }
+
+    private void onSave(boolean changeEditMode) {
+        if (menuClick.onMenuSaveClick(changeEditMode)) {
+            Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onPauseSave(boolean keyEdit) {
@@ -79,11 +89,4 @@ public class ControlSave {
         else needSave = true;
     }
 
-    private void onSave(boolean changeEditMode) {
-        if (menuClick.onMenuSaveClick(changeEditMode)) {
-            Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show();
-        }
-    }
 }

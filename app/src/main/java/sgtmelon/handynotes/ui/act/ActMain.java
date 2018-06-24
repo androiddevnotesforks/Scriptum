@@ -2,7 +2,6 @@ package sgtmelon.handynotes.ui.act;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -11,8 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.adapter.AdapterPager;
@@ -20,7 +17,6 @@ import sgtmelon.handynotes.data.DataRoom;
 import sgtmelon.handynotes.interfaces.menu.MenuMainClick;
 import sgtmelon.handynotes.model.state.StateNote;
 import sgtmelon.handynotes.data.DataInfo;
-import sgtmelon.handynotes.Help;
 import sgtmelon.handynotes.control.menu.MenuMain;
 import sgtmelon.handynotes.model.manager.ManagerRoll;
 import sgtmelon.handynotes.model.manager.ManagerStatus;
@@ -59,7 +55,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         Log.i(TAG, "onCreate");
 
         setupViewPager();
-        setupNavMenu();
+        setupMenuMain();
     }
 
     private ViewPager viewPager;
@@ -92,8 +88,8 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
 
     private MenuMain menuMain;
 
-    private void setupNavMenu() {
-        Log.i(TAG, "setupNavMenu");
+    private void setupMenuMain() {
+        Log.i(TAG, "setupMenuMain");
 
         menuMain = new MenuMain(viewPager, bottomNavigationView);
         menuMain.setMenuMainClick(this);
@@ -127,35 +123,35 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         dialog.show();
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (menuMain.getPageCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
-            Log.i(TAG, "dispatchTouchEvent");
-
-            View view = getCurrentFocus();
-            if (view != null) {
-                View viewTmp = getCurrentFocus();
-                View viewNew = viewTmp != null ? viewTmp : view;
-
-                if (viewNew.equals(view)) {
-                    Rect rect = new Rect();
-                    int[] coordinate = new int[2];
-
-                    view.getLocationOnScreen(coordinate);
-                    rect.set(coordinate[0], coordinate[1], coordinate[0] + view.getWidth(), coordinate[1] + view.getHeight());
-
-                    final int x = (int) ev.getX();
-                    final int y = (int) ev.getY();
-
-                    if (rect.contains(x, y)) return super.dispatchTouchEvent(ev);
-                }
-
-                Help.hideKeyboard(this, viewNew);
-                viewNew.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if (menuMain.getPageCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            Log.i(TAG, "dispatchTouchEvent");
+//
+//            View view = getCurrentFocus();
+//            if (view != null) {
+//                View viewTmp = getCurrentFocus();
+//                View viewNew = viewTmp != null ? viewTmp : view;
+//
+//                if (viewNew.equals(view)) {
+//                    Rect rect = new Rect();
+//                    int[] coordinate = new int[2];
+//
+//                    view.getLocationOnScreen(coordinate);
+//                    rect.set(coordinate[0], coordinate[1], coordinate[0] + view.getWidth(), coordinate[1] + view.getHeight());
+//
+//                    final int x = (int) ev.getX();
+//                    final int y = (int) ev.getY();
+//
+//                    if (rect.contains(x, y)) return super.dispatchTouchEvent(ev);
+//                }
+//
+//                Help.hideKeyboard(this, viewNew);
+//                viewNew.clearFocus();
+//            }
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
 
     @Override
     public void onBackPressed() {

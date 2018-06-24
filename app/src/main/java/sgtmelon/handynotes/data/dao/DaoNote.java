@@ -36,20 +36,19 @@ public abstract class DaoNote extends DaoBase {
     public abstract ItemNote get(int noteId);
 
     @RawQuery
-    abstract List<ItemNote> get(SupportSQLiteQuery query);
+    abstract List<ItemNote> getQuery(SupportSQLiteQuery query);
 
-    private List<ItemNote> get(int noteBin, String sortKeys) {
+    private List<ItemNote> getQuery(int noteBin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + NT_TB +
                         " WHERE " + NT_BN + " = " + noteBin +
                         " ORDER BY " + sortKeys);
 
-        return get(query);
+        return getQuery(query);
     }
 
-    //TODO переименуй в get
-    public List<ItemNote> getVisible(int noteBin, String sortKeys) {
-        List<ItemNote> listNote = get(noteBin, sortKeys);
+    public List<ItemNote> get(int noteBin, String sortKeys) {
+        List<ItemNote> listNote = getQuery(noteBin, sortKeys);
         List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
 
         for (int i = 0; i < listNote.size(); i++) {
@@ -76,7 +75,7 @@ public abstract class DaoNote extends DaoBase {
                         " WHERE " + NT_ST + " = " + 1 +
                         " ORDER BY " + Help.Pref.getSortNoteOrder(context));
 
-        List<ItemNote> listNote = get(query);
+        List<ItemNote> listNote = getQuery(query);
         List<String> rankVisible = ConverterInt.fromInteger(getRankVisible());
         String[] rankVs = ConverterList.fromList(rankVisible);
 
@@ -147,7 +146,7 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void clearBin() {
-        List<ItemNote> listNote = getVisible(binTrue, orders[0]);
+        List<ItemNote> listNote = get(binTrue, orders[0]);
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
@@ -165,8 +164,8 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void listAll(TextView textView) {
-        List<ItemNote> listNote = get(binTrue, orders[0]);
-        listNote.addAll(get(binFalse, orders[0]));
+        List<ItemNote> listNote = getQuery(binTrue, orders[0]);
+        listNote.addAll(getQuery(binFalse, orders[0]));
 
         String annotation = "Note Data Base:";
         textView.setText(annotation);

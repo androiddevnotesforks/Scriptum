@@ -97,6 +97,10 @@
     </string-array>
 
 
+    <!-- Toast -->
+    <string name="toast_text_copy">Text copied to clipboard</string>
+
+
     <!-- About dialog -->
     <string name="about_app_for">for Android</string>
     <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>

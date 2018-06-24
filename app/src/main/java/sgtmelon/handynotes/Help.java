@@ -59,7 +59,7 @@ public class Help {
 
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
-            Toast.makeText(context, "Текст скопирован в буфер обмена", Toast.LENGTH_SHORT).show(); //TODO Translate
+            Toast.makeText(context, context.getString(R.string.toast_text_copy), Toast.LENGTH_SHORT).show();
         }
     }
 
