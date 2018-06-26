@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.Help.Icon" />
+        <import type="sgtmelon.handynotes.office.Help.Icon" />
 
         <variable
             name="position"

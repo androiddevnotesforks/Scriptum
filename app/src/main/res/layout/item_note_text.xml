@@ -3,9 +3,9 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.Help.Icon" />
+        <import type="sgtmelon.handynotes.office.Help.Icon" />
 
-        <import type="sgtmelon.handynotes.Help.Time" />
+        <import type="sgtmelon.handynotes.office.Help.Time" />
 
         <import
             alias="text"
@@ -17,7 +17,7 @@
 
         <variable
             name="itemNote"
-            type="sgtmelon.handynotes.model.item.ItemNote" />
+            type="sgtmelon.handynotes.app.model.item.ItemNote" />
 
     </data>
 

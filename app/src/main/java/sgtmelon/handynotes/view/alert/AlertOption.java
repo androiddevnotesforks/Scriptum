@@ -5,10 +5,11 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.data.DataInfo;
-import sgtmelon.handynotes.Help;
-import sgtmelon.handynotes.interfaces.AlertOptionClick;
-import sgtmelon.handynotes.model.item.ItemNote;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.def.data.DefCheck;
+import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.intf.AlertOptionClick;
+import sgtmelon.handynotes.app.model.item.ItemNote;
 
 public class AlertOption {
 
@@ -43,7 +44,7 @@ public class AlertOption {
         String[] itemOption;
 
         switch (itemNote.getType()) {
-            case DataInfo.typeText:
+            case DefType.text:
                 itemOption = new String[]{"", context.getString(R.string.dialog_menu_convert_to_roll), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
 
                 if (itemNote.isStatus()) {
@@ -72,17 +73,18 @@ public class AlertOption {
                     }
                 });
                 break;
-            case DataInfo.typeRoll:
+            case DefType.roll:
                 itemOption = new String[]{"", "", context.getString(R.string.dialog_menu_convert_to_text), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
 
-                final String[] checkText = itemNote.getText().split(Help.Note.dividerCheck);
-                final int check;
+                final String[] checkText = itemNote.getText().split(DefCheck.divider);
+                final @DefCheck int check;
+
                 if (checkText[0].equals(checkText[1])) {
                     itemOption[0] = context.getString(R.string.dialog_menu_check_zero);
-                    check = DataInfo.checkFalse;
+                    check = DefCheck.notDone;
                 } else {
                     itemOption[0] = context.getString(R.string.dialog_menu_check_all);
-                    check = DataInfo.checkTrue;
+                    check = DefCheck.done;
                 }
 
                 if (itemNote.isStatus()) {

@@ -10,7 +10,7 @@ import android.support.v7.widget.SimpleItemAnimator;
 import android.view.View;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.adapter.AdapterColor;
+import sgtmelon.handynotes.app.adapter.AdapterColor;
 
 public class AlertColor extends AlertDialog.Builder {
 

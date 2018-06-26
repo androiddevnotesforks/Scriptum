@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.adapter.AdapterSort;
-import sgtmelon.handynotes.Help;
-import sgtmelon.handynotes.interfaces.ItemClick;
-import sgtmelon.handynotes.model.item.ItemSort;
+import sgtmelon.handynotes.app.adapter.AdapterSort;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.def.DefSort;
+import sgtmelon.handynotes.office.intf.ItemClick;
+import sgtmelon.handynotes.app.model.item.ItemSort;
 
 public class AlertSort extends AlertDialog.Builder implements ItemClick.Click {
 
@@ -70,9 +71,9 @@ public class AlertSort extends AlertDialog.Builder implements ItemClick.Click {
         setView(recyclerView);
 
         listSort = new ArrayList<>();
-        String[] sortKeysArr = sortKeys.split(Help.Pref.divider);
+        String[] sortKeysArr = sortKeys.split(DefSort.divider);
         for (String aSortKey : sortKeysArr) {
-            int key = Integer.parseInt(aSortKey);
+            @DefSort int key = Integer.parseInt(aSortKey);
 
             ItemSort itemSort = new ItemSort();
             itemSort.setText(context.getResources().getStringArray(R.array.pref_text_sort)[key]);
@@ -89,9 +90,8 @@ public class AlertSort extends AlertDialog.Builder implements ItemClick.Click {
     public void onItemClick(View view, int p) {
         ItemSort itemSort = listSort.get(p);
 
-        int key = itemSort.getKey();
-        if (key == Help.Pref.sortCr) key = Help.Pref.sortCh;
-        else key = Help.Pref.sortCr;
+        @DefSort int key = itemSort.getKey() == DefSort.create ?
+                DefSort.change : DefSort.create;
 
         itemSort.setText(context.getResources().getStringArray(R.array.pref_text_sort)[key]);
         itemSort.setKey(key);

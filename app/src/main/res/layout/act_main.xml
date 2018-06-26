@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="sgtmelon.handynotes.ui.act.ActMain">
+    tools:context=".app.ui.act.ActMain">
 
     <FrameLayout
         android:layout_width="match_parent"

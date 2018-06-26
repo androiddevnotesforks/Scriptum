@@ -9,7 +9,7 @@
 
         <variable
             name="itemSort"
-            type="sgtmelon.handynotes.model.item.ItemSort" />
+            type="sgtmelon.handynotes.app.model.item.ItemSort" />
 
         <variable
             name="position"

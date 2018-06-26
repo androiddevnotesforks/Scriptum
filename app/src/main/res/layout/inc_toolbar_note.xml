@@ -10,7 +10,7 @@
 
         <variable
             name="itemNote"
-            type="sgtmelon.handynotes.model.item.ItemNote" />
+            type="sgtmelon.handynotes.app.model.item.ItemNote" />
 
         <variable
             name="keyEdit"
