@@ -16,7 +16,7 @@ import sgtmelon.handynotes.app.adapter.AdapterPager;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.office.def.DefPages;
 import sgtmelon.handynotes.office.def.data.DefType;
-import sgtmelon.handynotes.office.intf.menu.MenuMainClick;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.app.model.state.StateNote;
 import sgtmelon.handynotes.app.data.DataInfo;
 import sgtmelon.handynotes.app.control.menu.MenuMain;
@@ -26,7 +26,7 @@ import sgtmelon.handynotes.app.ui.frg.FrgBin;
 import sgtmelon.handynotes.app.ui.frg.FrgNote;
 import sgtmelon.handynotes.app.ui.frg.FrgRank;
 
-public class ActMain extends AppCompatActivity implements MenuMainClick {
+public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
     //TODO: введи вторую ветвь для работы с БД
 
@@ -59,6 +59,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         setupViewPager();
         setupMenuMain();
     }
+
 
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
@@ -94,7 +95,7 @@ public class ActMain extends AppCompatActivity implements MenuMainClick {
         Log.i(TAG, "setupMenuMain");
 
         menuMain = new MenuMain(viewPager, bottomNavigationView);
-        menuMain.setMenuMainClick(this);
+        menuMain.setMainClick(this);
 
         viewPager.addOnPageChangeListener(menuMain);
         bottomNavigationView.setOnNavigationItemSelectedListener(menuMain);

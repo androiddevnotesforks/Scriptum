@@ -27,20 +27,19 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.databinding.FrgMBinBinding;
 import sgtmelon.handynotes.office.def.data.DefBin;
 import sgtmelon.handynotes.app.model.state.StateNote;
 import sgtmelon.handynotes.app.data.DataInfo;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.intf.ItemClick;
-import sgtmelon.handynotes.office.intf.AlertOptionClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.view.alert.AlertOption;
 
 public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
-        ItemClick.Click, ItemClick.LongClick, AlertOptionClick.DialogBin {
+        IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionBin {
 
     //region Variable
     final String TAG = "FrgBin";
@@ -87,6 +86,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
     private MenuItem mItemClearBin;
 
+    // TODO: 27.06.2018 Исправь все покраски в стили
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
@@ -218,13 +218,13 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Log.i(TAG, "onItemLongClick");
 
         AlertOption alertOption = new AlertOption(context, listNote.get(p), p);
-        alertOption.setDialogBin(this);
+        alertOption.setOptionBin(this);
         alertOption.showOptionBin();
     }
 
     @Override
-    public void onDialogRestoreClick(ItemNote itemNote, int p) {
-        Log.i(TAG, "onDialogRestoreClick");
+    public void onOptionRestoreClick(ItemNote itemNote, int p) {
+        Log.i(TAG, "onOptionRestoreClick");
 
         db = DataRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), false);
@@ -240,8 +240,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     }
 
     @Override
-    public void onDialogDeleteForeverClick(ItemNote itemNote, int p) {
-        Log.i(TAG, "onDialogDeleteForeverClick");
+    public void onOptionClearClick(ItemNote itemNote, int p) {
+        Log.i(TAG, "onOptionClearClick");
 
         db = DataRoom.provideDb(context);
         db.daoNote().delete(itemNote.getId());

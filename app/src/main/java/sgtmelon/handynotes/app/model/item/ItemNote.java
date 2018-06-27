@@ -99,7 +99,6 @@ public class ItemNote extends DataInfo {
 
     @ColumnInfo(name = NT_CL)
     private int color;          //Цвет заметки
-    @DefType
     @ColumnInfo(name = NT_TP)
     private int type;           //Тип заметки (0 - текст, 1 - список)
 
@@ -162,7 +161,6 @@ public class ItemNote extends DataInfo {
         this.color = color;
     }
 
-    @DefType
     public int getType() {
         return type;
     }

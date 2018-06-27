@@ -3,7 +3,6 @@ package sgtmelon.handynotes.office.conv;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO переделай без использования статического упоминания, а к результату возвращения
 public class ConvInt {
 
     public static List<String> fromInteger(List<Integer> integerList) {

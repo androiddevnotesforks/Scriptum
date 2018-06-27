@@ -15,7 +15,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.databinding.ItemRankBinding;
-import sgtmelon.handynotes.office.intf.ItemClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.view.ButtonVisible;
 
@@ -32,11 +32,11 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
         return iconStartAnim;
     }
 
-    private ItemClick.Click click;
-    private ItemClick.LongClick longClick;
-    private ItemClick.Drag drag;
+    private IntfItem.Click click;
+    private IntfItem.LongClick longClick;
+    private IntfItem.Drag drag;
 
-    public void setCallback(ItemClick.Click click, ItemClick.LongClick longClick, ItemClick.Drag drag) {
+    public void setCallback(IntfItem.Click click, IntfItem.LongClick longClick, IntfItem.Drag drag) {
         this.click = click;
         this.longClick = longClick;
         this.drag = drag;
@@ -149,13 +149,13 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
             switch (view.getId()) {
                 case R.id.itemRank_ll_click:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setDrag(true);
+                        drag.setItemDrag(true);
                     }
                     break;
                 case R.id.itemRank_bv_visible:
                 case R.id.itemRank_ib_cancel:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setDrag(false);
+                        drag.setItemDrag(false);
                     }
                     break;
             }

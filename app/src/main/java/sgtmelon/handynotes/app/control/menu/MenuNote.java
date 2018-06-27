@@ -15,7 +15,7 @@ import android.widget.Toast;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.office.def.data.DefType;
-import sgtmelon.handynotes.office.intf.menu.MenuNoteClick;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.Help;
 
 public class MenuNote implements Toolbar.OnMenuItemClickListener {
@@ -26,7 +26,6 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     private final Toolbar toolbar;
 
     private final int noteType;
-
     //endregion
 
     public MenuNote(Context context, Window window, Toolbar toolbar, @DefType int noteType) {
@@ -145,19 +144,19 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         menu.setGroupVisible(R.id.menu_actNote_grRead, grRead);
     }
 
-    private MenuNoteClick.NoteClick noteClick;
-    private MenuNoteClick.RollClick rollClick;
-    private MenuNoteClick.DeleteClick deleteClick;
+    private IntfMenu.NoteClick noteClick;
+    private IntfMenu.RollClick rollClick;
+    private IntfMenu.DeleteClick deleteClick;
 
-    public void setNoteClick(MenuNoteClick.NoteClick noteClick) {
+    public void setNoteClick(IntfMenu.NoteClick noteClick) {
         this.noteClick = noteClick;
     }
 
-    public void setRollClick(MenuNoteClick.RollClick rollClick) {
+    public void setRollClick(IntfMenu.RollClick rollClick) {
         this.rollClick = rollClick;
     }
 
-    public void setDeleteClick(MenuNoteClick.DeleteClick deleteClick) {
+    public void setDeleteClick(IntfMenu.DeleteClick deleteClick) {
         this.deleteClick = deleteClick;
     }
 

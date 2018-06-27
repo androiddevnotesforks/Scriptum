@@ -2,7 +2,7 @@ package sgtmelon.handynotes.office.intf;
 
 import android.view.View;
 
-public interface ItemClick {
+public interface IntfItem {
 
     interface Click {
         void onItemClick(View view, int p);
@@ -13,6 +13,11 @@ public interface ItemClick {
     }
 
     interface Drag {
-        void setDrag(boolean itemDrag);
+        void setItemDrag(boolean itemDrag);
     }
+
+    interface Watcher {
+        void onChanged(int p, String text);
+    }
+
 }

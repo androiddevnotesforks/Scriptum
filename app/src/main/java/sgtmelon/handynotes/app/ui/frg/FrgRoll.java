@@ -31,7 +31,6 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterRoll;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.databinding.FrgNRollBinding;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
 import sgtmelon.handynotes.office.conv.ConvInt;
 import sgtmelon.handynotes.office.conv.ConvList;
@@ -43,14 +42,13 @@ import sgtmelon.handynotes.app.model.state.StateCheck;
 import sgtmelon.handynotes.app.model.state.StateDrag;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.control.menu.MenuNote;
-import sgtmelon.handynotes.office.intf.ItemClick;
-import sgtmelon.handynotes.office.intf.menu.MenuNoteClick;
-import sgtmelon.handynotes.office.intf.RollTextWatcher;
+import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.view.alert.AlertColor;
 
 public class FrgRoll extends Fragment implements View.OnClickListener,
-        ItemClick.Click, RollTextWatcher, MenuNoteClick.NoteClick, MenuNoteClick.RollClick {
+        IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {
 
     //region Variables
     final String TAG = "FrgRoll";
@@ -76,8 +74,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         super.onResume();
         Log.i(TAG, "onResume");
 
-//        String rollText = rollEnter.getText().toString();
-//        Help.Icon.tintButton(context, rollAdd, R.drawable.ic_button_add, rollText);
+        String rollText = rollEnter.getText().toString();
+        Help.Icon.tintButton(context, rollAdd, R.drawable.ic_button_add, rollText);
 
         if (!activity.stateNote.isEdit()) updateAdapter();
     }
@@ -154,14 +152,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public boolean onMenuSaveClick(boolean changeEditMode) {
+    public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
         if (listRoll.size() != 0) {
             itemNote.setChange(Help.Time.getCurrentTime(context));      //Новое время редактирования
             itemNote.setText(Help.Note.getCheckStr(listRoll));          //Новый текст
 
-            if (changeEditMode) {
+            if (editModeChange) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());
                 onMenuEditClick(false);                                            //Переход в режим просмотра
             }
@@ -454,16 +452,16 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onRollChanged(int p, String rollText) {
-        Log.i(TAG, "onRollChanged");
+    public void onChanged(int p, String text) {
+        Log.i(TAG, "onChanged");
 
-        if (rollText.equals("")) {
+        if (text.equals("")) {
             listRoll.remove(p);
             adapterRoll.updateAdapter(listRoll);
             adapterRoll.notifyItemRemoved(p);
         } else {
             ItemRoll itemRoll = listRoll.get(p);
-            itemRoll.setText(rollText);
+            itemRoll.setText(text);
 
             listRoll.set(p, itemRoll);
             adapterRoll.updateAdapter(p, itemRoll);

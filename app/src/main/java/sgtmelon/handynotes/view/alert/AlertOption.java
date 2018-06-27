@@ -8,7 +8,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.def.data.DefCheck;
 import sgtmelon.handynotes.office.def.data.DefType;
-import sgtmelon.handynotes.office.intf.AlertOptionClick;
+import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 
 public class AlertOption {
@@ -27,15 +27,15 @@ public class AlertOption {
         this.p = p;
     }
 
-    private AlertOptionClick.DialogNote dialogNote;
-    private AlertOptionClick.DialogBin dialogBin;
+    private IntfAlert.OptionNote optionNote;
+    private IntfAlert.OptionBin optionBin;
 
-    public void setDialogNote(AlertOptionClick.DialogNote dialogNote) {
-        this.dialogNote = dialogNote;
+    public void setOptionNote(IntfAlert.OptionNote optionNote) {
+        this.optionNote = optionNote;
     }
 
-    public void setDialogBin(AlertOptionClick.DialogBin dialogBin) {
-        this.dialogBin = dialogBin;
+    public void setOptionBin(IntfAlert.OptionBin optionBin) {
+        this.optionBin = optionBin;
     }
 
     public void showOptionNote() {
@@ -58,16 +58,16 @@ public class AlertOption {
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
                             case 0:
-                                dialogNote.onDialogBindClick(itemNote, p);
+                                optionNote.onOptionBindClick(itemNote, p);
                                 break;
                             case 1:
-                                dialogNote.onDialogConvertClick(itemNote, p);
+                                optionNote.onOptionConvertClick(itemNote, p);
                                 break;
                             case 2:
                                 Help.optionsCopy(context, itemNote);
                                 break;
                             case 3:
-                                dialogNote.onDialogDeleteClick(itemNote, p);
+                                optionNote.onOptionDeleteClick(itemNote, p);
                                 break;
                         }
                     }
@@ -98,19 +98,19 @@ public class AlertOption {
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
                             case 0:
-                                dialogNote.onDialogCheckClick(itemNote, p, check, checkText[1]);
+                                optionNote.onOptionCheckClick(itemNote, p, check, checkText[1]);
                                 break;
                             case 1:
-                                dialogNote.onDialogBindClick(itemNote, p);
+                                optionNote.onOptionBindClick(itemNote, p);
                                 break;
                             case 2:
-                                dialogNote.onDialogConvertClick(itemNote, p);
+                                optionNote.onOptionConvertClick(itemNote, p);
                                 break;
                             case 3:
                                 Help.optionsCopy(context, itemNote);
                                 break;
                             case 4:
-                                dialogNote.onDialogDeleteClick(itemNote, p);
+                                optionNote.onOptionDeleteClick(itemNote, p);
                                 break;
                         }
                     }
@@ -133,13 +133,13 @@ public class AlertOption {
             public void onClick(DialogInterface dialog, int item) {
                 switch (item) {
                     case 0: //Восстанавливаем заметку
-                        dialogBin.onDialogRestoreClick(itemNote, p);
+                        optionBin.onOptionRestoreClick(itemNote, p);
                         break;
                     case 1:
                         Help.optionsCopy(context, itemNote);
                         break;
                     case 2: //Удаляем навсегда
-                        dialogBin.onDialogDeleteForeverClick(itemNote, p);
+                        optionBin.onOptionClearClick(itemNote, p);
                         break;
                 }
             }

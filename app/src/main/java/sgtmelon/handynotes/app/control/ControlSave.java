@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.intf.menu.MenuNoteClick;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 
 public class ControlSave {
 
@@ -43,9 +43,9 @@ public class ControlSave {
         }
     }
 
-    private MenuNoteClick.NoteClick menuClick;
+    private IntfMenu.NoteClick menuClick;
 
-    public void setMenuClick(MenuNoteClick.NoteClick menuClick) {
+    public void setMenuClick(IntfMenu.NoteClick menuClick) {
         this.menuClick = menuClick;
     }
 

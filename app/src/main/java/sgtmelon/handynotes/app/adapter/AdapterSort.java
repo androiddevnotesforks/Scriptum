@@ -14,7 +14,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.databinding.ItemSortBinding;
 import sgtmelon.handynotes.app.model.state.StateSort;
-import sgtmelon.handynotes.office.intf.ItemClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 
 public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
@@ -27,9 +27,9 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
         stateSort = new StateSort();
     }
 
-    private ItemClick.Click click;
+    private IntfItem.Click click;
 
-    public void setCallback(ItemClick.Click click) {
+    public void setCallback(IntfItem.Click click) {
         this.click = click;
     }
 

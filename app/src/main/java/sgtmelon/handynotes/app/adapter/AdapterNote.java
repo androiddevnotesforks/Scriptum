@@ -16,7 +16,7 @@ import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
 import sgtmelon.handynotes.office.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
-import sgtmelon.handynotes.office.intf.ItemClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.app.model.manager.ManagerRoll;
 
 public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
@@ -27,10 +27,10 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         listNote = new ArrayList<>();
     }
 
-    private ItemClick.Click click;
-    private ItemClick.LongClick longClick;
+    private IntfItem.Click click;
+    private IntfItem.LongClick longClick;
 
-    public void setCallback(ItemClick.Click click, ItemClick.LongClick longClick) {
+    public void setCallback(IntfItem.Click click, IntfItem.LongClick longClick) {
         this.click = click;
         this.longClick = longClick;
     }

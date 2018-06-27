@@ -15,12 +15,12 @@ import sgtmelon.handynotes.app.model.state.StateNote;
 import sgtmelon.handynotes.app.data.DataInfo;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.control.ControlSave;
-import sgtmelon.handynotes.office.intf.menu.MenuNoteClick;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.ui.frg.FrgRoll;
 import sgtmelon.handynotes.app.ui.frg.FrgText;
 
-public class ActNote extends AppCompatActivity implements MenuNoteClick.DeleteClick {
+public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
     //region Variables
     final String TAG = "ActNote";

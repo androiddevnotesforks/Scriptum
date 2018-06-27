@@ -1,8 +1,8 @@
 package sgtmelon.handynotes.app.model.state;
 
-import sgtmelon.handynotes.office.intf.ItemClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class StateDrag implements ItemClick.Drag {
+public class StateDrag implements IntfItem.Drag {
 
     private boolean drag = false;
 
@@ -11,7 +11,7 @@ public class StateDrag implements ItemClick.Drag {
     }
 
     @Override
-    public void setDrag(boolean itemDrag) {
+    public void setItemDrag(boolean itemDrag) {
         this.drag = itemDrag;
     }
 }

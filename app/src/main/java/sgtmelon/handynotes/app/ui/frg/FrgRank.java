@@ -25,16 +25,15 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterRank;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.databinding.FrgMRankBinding;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.manager.ManagerRank;
 import sgtmelon.handynotes.app.model.state.StateDrag;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
-import sgtmelon.handynotes.office.intf.ItemClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.view.alert.AlertRename;
 
-public class FrgRank extends Fragment implements ItemClick.Click, ItemClick.LongClick,
+public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
         View.OnClickListener, View.OnLongClickListener {
 
     //region Variable

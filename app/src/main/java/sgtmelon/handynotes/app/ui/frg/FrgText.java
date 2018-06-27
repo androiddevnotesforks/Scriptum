@@ -23,7 +23,6 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.databinding.FrgNTextBinding;
 import sgtmelon.handynotes.databinding.FrgTextBinding;
 import sgtmelon.handynotes.office.conv.ConvInt;
 import sgtmelon.handynotes.office.conv.ConvList;
@@ -31,12 +30,12 @@ import sgtmelon.handynotes.office.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.control.menu.MenuNote;
-import sgtmelon.handynotes.office.intf.menu.MenuNoteClick;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.app.model.item.ItemRollView;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.view.alert.AlertColor;
 
-public class FrgText extends Fragment implements View.OnClickListener, MenuNoteClick.NoteClick {
+public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.NoteClick {
 
     //region Variable
     final String TAG = "FrgText";
@@ -123,13 +122,13 @@ public class FrgText extends Fragment implements View.OnClickListener, MenuNoteC
     }
 
     @Override
-    public boolean onMenuSaveClick(boolean changeEditMode) {
+    public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
         if (!itemNote.getText().equals("")) {
             itemNote.setChange(Help.Time.getCurrentTime(context));
 
-            if (changeEditMode) {
+            if (editModeChange) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());
                 onMenuEditClick(false);
             }

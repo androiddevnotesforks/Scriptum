@@ -24,7 +24,6 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.databinding.FrgMNotesBinding;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.office.def.data.DefBin;
 import sgtmelon.handynotes.office.def.data.DefCheck;
@@ -33,8 +32,8 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.state.StateNote;
 import sgtmelon.handynotes.app.data.DataInfo;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.intf.ItemClick;
-import sgtmelon.handynotes.office.intf.AlertOptionClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.app.model.item.ItemRollView;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
@@ -42,7 +41,7 @@ import sgtmelon.handynotes.app.ui.act.ActSettings;
 import sgtmelon.handynotes.view.alert.AlertOption;
 
 public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener,
-        ItemClick.Click, ItemClick.LongClick, AlertOptionClick.DialogNote {
+        IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionNote {
 
     //region Variable
     final String TAG = "FrgNote";
@@ -178,13 +177,13 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         Log.i(TAG, "onItemLongClick");
 
         AlertOption alertOption = new AlertOption(context, listNote.get(p), p);
-        alertOption.setDialogNote(this);
+        alertOption.setOptionNote(this);
         alertOption.showOptionNote();
     }
 
     @Override
-    public void onDialogCheckClick(ItemNote itemNote, int p, @DefCheck int rollCheck, String rollAll) {
-        Log.i(TAG, "onDialogCheckClick");
+    public void onOptionCheckClick(ItemNote itemNote, int p, @DefCheck int rollCheck, String rollAll) {
+        Log.i(TAG, "onOptionCheckClick");
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setText(Help.Note.getCheckStr(rollCheck, rollAll));
@@ -209,8 +208,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     }
 
     @Override
-    public void onDialogBindClick(ItemNote itemNote, int p) {
-        Log.i(TAG, "onDialogBindClick");
+    public void onOptionBindClick(ItemNote itemNote, int p) {
+        Log.i(TAG, "onOptionBindClick");
 
         if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
@@ -231,8 +230,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     }
 
     @Override
-    public void onDialogConvertClick(ItemNote itemNote, int p) {
-        Log.i(TAG, "onDialogConvertClick");
+    public void onOptionConvertClick(ItemNote itemNote, int p) {
+        Log.i(TAG, "onOptionConvertClick");
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
@@ -277,8 +276,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     }
 
     @Override
-    public void onDialogDeleteClick(ItemNote itemNote, int p) {
-        Log.i(TAG, "onDialogDeleteClick");
+    public void onOptionDeleteClick(ItemNote itemNote, int p) {
+        Log.i(TAG, "onOptionDeleteClick");
 
         db = DataRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);

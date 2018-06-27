@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.def.DefPages;
-import sgtmelon.handynotes.office.intf.menu.MenuMainClick;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 
 public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -23,10 +23,10 @@ public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigatio
         bottomNavigationView.setSelectedItemId(DefPages.itemId[page]);
     }
 
-    private MenuMainClick menuMainClick;
+    private IntfMenu.MainClick mainClick;
 
-    public void setMenuMainClick(MenuMainClick menuMainClick) {
-        this.menuMainClick = menuMainClick;
+    public void setMainClick(IntfMenu.MainClick mainClick) {
+        this.mainClick = mainClick;
     }
 
     private boolean needChange = false;     //Для избежания повторного вызова метода setPageCurrent после нажатия на кнопку
@@ -42,7 +42,7 @@ public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigatio
                 pageCurrent = DefPages.rank;
                 break;
             case R.id.menu_actMain_pageNote:
-                if (pageCurrent == DefPages.notes) menuMainClick.onMenuNoteClick();
+                if (pageCurrent == DefPages.notes) mainClick.onMenuNoteClick();
                 else pageCurrent = DefPages.notes;
                 break;
             case R.id.menu_actMain_pageBin:

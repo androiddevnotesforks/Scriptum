@@ -20,8 +20,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.databinding.ItemRollReadBinding;
 import sgtmelon.handynotes.databinding.ItemRollWriteBinding;
-import sgtmelon.handynotes.office.intf.ItemClick;
-import sgtmelon.handynotes.office.intf.RollTextWatcher;
+import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 
 public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
@@ -42,11 +41,11 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
         this.keyEdit = keyEdit;
     }
 
-    private ItemClick.Click click;
-    private ItemClick.Drag drag;
-    private RollTextWatcher watcher;
+    private IntfItem.Click click;
+    private IntfItem.Drag drag;
+    private IntfItem.Watcher watcher;
 
-    public void setCallback(ItemClick.Click click, ItemClick.Drag drag, RollTextWatcher watcher) {
+    public void setCallback(IntfItem.Click click, IntfItem.Drag drag, IntfItem.Watcher watcher) {
         this.click = click;
         this.drag = drag;
         this.watcher = watcher;
@@ -161,12 +160,12 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
             switch (view.getId()) {
                 case R.id.itemRoll_ib_drag:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setDrag(true);
+                        drag.setItemDrag(true);
                     }
                     break;
                 case R.id.itemRoll_et_enter:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setDrag(false);
+                        drag.setItemDrag(false);
                     }
                     break;
             }
@@ -185,7 +184,7 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
 
         @Override //После изменения текста обновляем массив
         public void afterTextChanged(Editable editable) {
-            watcher.onRollChanged(getAdapterPosition(), rlEnter.getText().toString());
+            watcher.onChanged(getAdapterPosition(), rlEnter.getText().toString());
         }
     }
 }

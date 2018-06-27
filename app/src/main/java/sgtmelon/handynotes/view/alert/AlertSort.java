@@ -17,10 +17,10 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterSort;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.def.DefSort;
-import sgtmelon.handynotes.office.intf.ItemClick;
+import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.app.model.item.ItemSort;
 
-public class AlertSort extends AlertDialog.Builder implements ItemClick.Click {
+public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
 
     //region Variables
     private final Context context;
