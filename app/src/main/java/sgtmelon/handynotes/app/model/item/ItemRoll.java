@@ -2,14 +2,24 @@ package sgtmelon.handynotes.app.model.item;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import sgtmelon.handynotes.app.data.DataInfo;
 import sgtmelon.handynotes.office.conv.ConvBool;
 
-@Entity(tableName = DataInfo.RL_TB)
+import static android.arch.persistence.room.ForeignKey.CASCADE;
+
+@Entity(tableName = DataInfo.RL_TB,
+        foreignKeys = @ForeignKey(entity = ItemNote.class,
+                parentColumns = DataInfo.NT_ID,
+                childColumns = DataInfo.RL_ID_NT,
+                onUpdate = CASCADE,
+                onDelete = CASCADE),
+        indices = {@Index(DataInfo.RL_ID_NT)})
 @TypeConverters({ConvBool.class})
 public class ItemRoll extends DataInfo {
 

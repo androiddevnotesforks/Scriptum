@@ -72,7 +72,7 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         if (itemNote.getType() == DefType.text) {
             holder.bind(itemNote, null);
         } else {
-            holder.bind(itemNote, managerRoll.getListRoll(itemNote.getCreate()));
+            holder.bind(itemNote, managerRoll.getListRoll(itemNote.getId()));
         }
     }
 

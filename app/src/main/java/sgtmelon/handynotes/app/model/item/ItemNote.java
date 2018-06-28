@@ -2,6 +2,7 @@ package sgtmelon.handynotes.app.model.item;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Intent;
@@ -24,7 +25,7 @@ public class ItemNote extends DataInfo {
     }
 
     public ItemNote(Bundle bundle) {
-        id = bundle.getInt(NT_ID);
+        id = bundle.getLong(NT_ID);
 
         create = bundle.getString(DataInfo.NT_CR);
 
