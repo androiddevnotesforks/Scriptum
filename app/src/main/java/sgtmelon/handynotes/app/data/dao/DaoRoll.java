@@ -62,7 +62,7 @@ public abstract class DaoRoll extends DaoBase {
     }
 
     @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_ID_NT = :rollIdNote " +
+            "WHERE RL_ID_NOTE = :rollIdNote " +
             "ORDER BY RL_POSITION")
     public abstract List<ItemRoll> get(long rollIdNote);
 
@@ -73,7 +73,7 @@ public abstract class DaoRoll extends DaoBase {
      */
     @Query("SELECT * FROM ROLL_TABLE " +
             "WHERE RL_POSITION BETWEEN 0 AND 3 " +
-            "ORDER BY RL_ID_NT ASC, RL_POSITION ASC")
+            "ORDER BY RL_ID_NOTE ASC, RL_POSITION ASC")
     abstract List<ItemRoll> get();
 
     public ManagerRoll getManagerRoll() {
@@ -175,7 +175,7 @@ public abstract class DaoRoll extends DaoBase {
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :rollCheck " +
-            "WHERE RL_ID_NT = :rollIdNote")
+            "WHERE RL_ID_NOTE = :rollIdNote")
     public abstract void update(long rollIdNote, @DefCheck int rollCheck);
 
     /**
@@ -185,7 +185,7 @@ public abstract class DaoRoll extends DaoBase {
      * @param rollIdSave - Id, которые остались в заметке
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_ID_NT = :rollIdNote AND RL_ID NOT IN (:rollIdSave)")
+            "WHERE RL_ID_NOTE = :rollIdNote AND RL_ID NOT IN (:rollIdSave)")
     public abstract void delete(long rollIdNote, List<Long> rollIdSave);
 
     public void listAll(TextView textView) {

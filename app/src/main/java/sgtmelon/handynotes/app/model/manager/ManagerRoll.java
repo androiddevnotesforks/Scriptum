@@ -17,8 +17,8 @@ public class ManagerRoll {
         this.listRollView = listRollView;
     }
 
-    public List<ItemRoll> getListRoll(String ntCreate) {
-        int index = listId.indexOf(ntCreate);
+    public List<ItemRoll> getListRoll(long noteId) {
+        int index = listId.indexOf(noteId);
         return listRollView.get(index).getListRoll();
     }
 

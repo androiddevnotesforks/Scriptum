@@ -67,7 +67,7 @@ abstract class DaoBase extends DataInfo {
      * @return - Количество пунктов по датам создания заметок
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_ID_NT IN(:rollIdNote)")
+            "WHERE RL_ID_NOTE IN(:rollIdNote)")
     abstract int getRollCount(long[] rollIdNote);
 
     /**
@@ -75,7 +75,7 @@ abstract class DaoBase extends DataInfo {
      * @return - Количество пунктов
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_CHECK = 1 AND RL_ID_NT IN(:rollIdNote)")
+            "WHERE RL_CHECK = 1 AND RL_ID_NOTE IN(:rollIdNote)")
     abstract int getRollCheck(long[] rollIdNote);
 
     /**
@@ -92,7 +92,7 @@ abstract class DaoBase extends DataInfo {
      * @param rollIdNote - Id заметки
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_ID_NT = :rollIdNote")
+            "WHERE RL_ID_NOTE = :rollIdNote")
     public abstract void deleteRoll(long rollIdNote);
 
     /**

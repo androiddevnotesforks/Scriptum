@@ -21,7 +21,7 @@ public class DataInfo {
     @Ignore
     public static final String RL_TB = "ROLL_TABLE",
             RL_ID = "RL_ID",
-            RL_ID_NT = "RL_ID_NT",
+            RL_ID_NT = "RL_ID_NOTE",
             RL_PS = "RL_POSITION",
             RL_CH = "RL_CHECK",
             RL_TX = "RL_TEXT";

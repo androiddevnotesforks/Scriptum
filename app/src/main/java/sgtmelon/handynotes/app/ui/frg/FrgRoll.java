@@ -418,6 +418,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i(TAG, "updateAdapter");
 
         db = DataRoom.provideDb(context);
+        Log.i("HEree", itemNote.getId() + " <----");
         listRoll = db.daoRoll().get(itemNote.getId());
         db.close();
 
