@@ -190,11 +190,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         itemNote.setText(Help.Note.getCheckStr(rollCheck, rollAll));
 
         db = DataRoom.provideDb(context);
-        db.daoRoll().update(itemNote.getCreate(), rollCheck);
+        db.daoRoll().update(itemNote.getId(), rollCheck);
         db.daoNote().update(itemNote);
         db.close();
 
-        activity.managerRoll.updateList(itemNote.getCreate(), rollCheck);
+        activity.managerRoll.updateList(itemNote.getId(), rollCheck);
 
         listNote.set(p, itemNote);
 
@@ -241,23 +241,23 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
             case DefType.text:
                 String[] textToRoll = itemNote.getText().split("\n");                             //Получаем пункты списка
 
-                ItemRollView itemRollView = db.daoRoll().insert(itemNote.getCreate(), textToRoll);      //Записываем пункты
+                ItemRollView itemRollView = db.daoRoll().insert(itemNote.getId(), textToRoll);      //Записываем пункты
 
                 itemNote.setType(DefType.roll);
                 itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
 
                 db.daoNote().update(itemNote);
 
-                activity.managerRoll.insertList(itemNote.getCreate(), itemRollView);
+                activity.managerRoll.insertList(itemNote.getId(), itemRollView);
                 break;
             case DefType.roll:
-                String rollToText = db.daoRoll().getText(itemNote.getCreate());           //Получаем текст заметки
+                String rollToText = db.daoRoll().getText(itemNote.getId());           //Получаем текст заметки
 
                 itemNote.setType(DefType.text);
                 itemNote.setText(rollToText);
 
                 db.daoNote().update(itemNote);
-                db.daoRoll().deleteRoll(itemNote.getCreate());
+                db.daoRoll().deleteRoll(itemNote.getId());
 
                 activity.managerRoll.removeList(itemNote.getCreate());
                 break;

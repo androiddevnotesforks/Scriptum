@@ -36,16 +36,17 @@ public abstract class DaoRank extends DaoBase {
     public List<ItemRank> get() {
         List<ItemRank> listRank = getSimple();
 
-        for (int i = 0; i < listRank.size(); i++) {
-            ItemRank itemRank = listRank.get(i);
-            String[] rankCreate = itemRank.getCreate();
-
-            itemRank.setTextCount(getNoteCount(DefType.text, rankCreate));
-            itemRank.setRollCount(getNoteCount(DefType.roll, rankCreate));
-            itemRank.setRollCheck(getRollCheck(rankCreate), getRollCount(rankCreate));
-
-            listRank.set(i, itemRank);
-        }
+        // FIXME: 28.06.2018
+//        for (int i = 0; i < listRank.size(); i++) {
+//            ItemRank itemRank = listRank.get(i);
+//            String[] rankCreate = itemRank.getCreate();
+//
+//            itemRank.setTextCount(getNoteCount(DefType.text, rankCreate));
+//            itemRank.setRollCount(getNoteCount(DefType.roll, rankCreate));
+//            itemRank.setRollCheck(getRollCheck(rankCreate), getRollCount(rankCreate));
+//
+//            listRank.set(i, itemRank);
+//        }
 
         return listRank;
     }

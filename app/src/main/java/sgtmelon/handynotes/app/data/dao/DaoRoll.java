@@ -25,11 +25,11 @@ public abstract class DaoRoll extends DaoBase {
     /**
      * Запись пунктов после конвертирования из текстовой заметки
      *
-     * @param rollCreate - Дата создания заметки
+     * @param rollIdNote - Id заметки
      * @param rollText   - Массив потенциальных пунктов
      * @return - Для ManagerRoll и информации о размере
      */
-    public ItemRollView insert(String rollCreate, String[] rollText) {
+    public ItemRollView insert(long rollIdNote, String[] rollText) {
         ItemRollView itemRollView = new ItemRollView();
 
         List<ItemRoll> listRoll = new ArrayList<>();
@@ -39,7 +39,7 @@ public abstract class DaoRoll extends DaoBase {
             if (!aRollTx.equals("")) {
 
                 ItemRoll itemRoll = new ItemRoll();
-                itemRoll.setCreate(rollCreate);
+                itemRoll.setIdNote(rollIdNote);
                 itemRoll.setPosition(rollPs);
                 itemRoll.setCheck(false);
                 itemRoll.setText(aRollTx);
@@ -62,9 +62,9 @@ public abstract class DaoRoll extends DaoBase {
     }
 
     @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_CREATE = :rollCreate " +
+            "WHERE RL_ID_NT = :rollIdNote " +
             "ORDER BY RL_POSITION")
-    public abstract List<ItemRoll> get(String rollCreate);
+    public abstract List<ItemRoll> get(long rollIdNote);
 
     /**
      * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
@@ -73,13 +73,13 @@ public abstract class DaoRoll extends DaoBase {
      */
     @Query("SELECT * FROM ROLL_TABLE " +
             "WHERE RL_POSITION BETWEEN 0 AND 3 " +
-            "ORDER BY DATE(RL_CREATE) DESC, TIME(RL_CREATE) DESC, RL_POSITION ASC")
+            "ORDER BY RL_ID_NT ASC, RL_POSITION ASC")
     abstract List<ItemRoll> get();
 
     public ManagerRoll getManagerRoll() {
         List<ItemRoll> listRollBetween = get(); //TODO Другое имя
 
-        List<String> listCreate = new ArrayList<>();
+        List<Long> listCreate = new ArrayList<>();
         List<ItemRollView> listRollView = new ArrayList<>();
         List<ItemRoll> listRoll = new ArrayList<>();
 
@@ -87,8 +87,8 @@ public abstract class DaoRoll extends DaoBase {
             ItemRoll itemRoll = listRollBetween.get(i);
             itemRoll.setExist(true);
 
-            if (!listCreate.contains(itemRoll.getCreate())) {
-                listCreate.add(itemRoll.getCreate());
+            if (!listCreate.contains(itemRoll.getIdNote())) {
+                listCreate.add(itemRoll.getIdNote());
 
                 if (listRoll.size() != 0) {
                     listRollView.add(new ItemRollView(listRoll));
@@ -109,11 +109,11 @@ public abstract class DaoRoll extends DaoBase {
     /**
      * Получение текста для текстовой заметки на основе списка
      *
-     * @param rollCreate - Дата создания заметки
+     * @param rollIdNote - Id заметки
      * @return - Строка для текстовой заметки
      */
-    public String getText(String rollCreate) {
-        List<ItemRoll> listRoll = get(rollCreate);
+    public String getText(long rollIdNote) {
+        List<ItemRoll> listRoll = get(rollIdNote);
 
         StringBuilder rollText = new StringBuilder();
         for (int i = 0; i < listRoll.size(); i++) {
@@ -127,12 +127,12 @@ public abstract class DaoRoll extends DaoBase {
     /**
      * Получение текста для уведомления на основе списка
      *
-     * @param rollCreate - Дата создания заметки
+     * @param rollIdNote - Id заметки
      * @param rollCheck  - Количество отмеченых пунктов в заметке
      * @return - Строка для уведомления
      */
-    public String getText(String rollCreate, String rollCheck) {
-        List<ItemRoll> listRoll = get(rollCreate);
+    public String getText(long rollIdNote, String rollCheck) {
+        List<ItemRoll> listRoll = get(rollIdNote);
 
         StringBuilder rollText = new StringBuilder();
         rollText.append(rollCheck).append(" |");
@@ -170,23 +170,23 @@ public abstract class DaoRoll extends DaoBase {
     /**
      * Обновление выполнения для всех пунктов
      *
-     * @param rollCreate - Дата создания заметки
+     * @param rollIdNote - Id заметки
      * @param rollCheck  - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :rollCheck " +
-            "WHERE RL_CREATE = :rollCreate")
-    public abstract void update(String rollCreate, @DefCheck int rollCheck);
+            "WHERE RL_ID_NT = :rollIdNote")
+    public abstract void update(long rollIdNote, @DefCheck int rollCheck);
 
     /**
      * Удаление пунктов при сохранении после свайпа
      *
-     * @param rollCreate - Дата создания заметки
+     * @param rollIdNote - Id заметки
      * @param rollIdSave - Id, которые остались в заметке
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_CREATE = :rollCreate AND RL_ID NOT IN (:rollIdSave)")
-    public abstract void delete(String rollCreate, List<Long> rollIdSave);
+            "WHERE RL_ID_NT = :rollIdNote AND RL_ID NOT IN (:rollIdSave)")
+    public abstract void delete(long rollIdNote, List<Long> rollIdSave);
 
     public void listAll(TextView textView) {
         List<ItemRoll> listRoll = get();
@@ -199,7 +199,7 @@ public abstract class DaoRoll extends DaoBase {
 
             textView.append("\n\n" +
                     "ID: " + itemRoll.getId() + " | " +
-                    "CR: " + itemRoll.getCreate() + " | " +
+                    "ID_NT: " + itemRoll.getIdNote() + " | " +
                     "PS: " + itemRoll.getPosition() + " | " +
                     "CH: " + itemRoll.isCheck() + "\n");
 

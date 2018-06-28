@@ -136,7 +136,7 @@ public abstract class DaoNote extends DaoBase {
         ItemNote itemNote = get(noteId);
 
         if (itemNote.getType() == DefType.roll) {
-            deleteRoll(itemNote.getCreate());
+            deleteRoll(itemNote.getId());
         }
 
         String[] rankId = itemNote.getRankId();
@@ -155,7 +155,7 @@ public abstract class DaoNote extends DaoBase {
             String[] rankId = itemNote.getRankId();
 
             if (itemNote.getType() == DefType.roll) {
-                deleteRoll(itemNote.getCreate());
+                deleteRoll(itemNote.getId());
             }
 
             if (rankId.length != 0) {

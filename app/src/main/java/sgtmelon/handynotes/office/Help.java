@@ -54,7 +54,7 @@ public class Help {
                 break;
             case DefType.roll:
                 DataRoom db = DataRoom.provideDb(context);
-                copyText = db.daoRoll().getText(itemNote.getCreate());
+                copyText = db.daoRoll().getText(itemNote.getId());
                 db.close();
                 break;
         }

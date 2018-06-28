@@ -63,20 +63,20 @@ abstract class DaoBase extends DataInfo {
     }
 
     /**
-     * @param noteCreate - Даты создания заметок
+     * @param rollIdNote - Id заметок
      * @return - Количество пунктов по датам создания заметок
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_CREATE IN(:noteCreate)")
-    abstract int getRollCount(String[] noteCreate);
+            "WHERE RL_ID_NT IN(:rollIdNote)")
+    abstract int getRollCount(long[] rollIdNote);
 
     /**
-     * @param noteCreate - Даты создания заметок
+     * @param rollIdNote - Id заметок
      * @return - Количество пунктов
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_CHECK = 1 AND RL_CREATE IN(:noteCreate)")
-    abstract int getRollCheck(String[] noteCreate);
+            "WHERE RL_CHECK = 1 AND RL_ID_NT IN(:rollIdNote)")
+    abstract int getRollCheck(long[] rollIdNote);
 
     /**
      * @return - Лист с id категорий, которые видны
@@ -89,11 +89,11 @@ abstract class DaoBase extends DataInfo {
     /**
      * Удаление пунктов при удалении заметки
      *
-     * @param noteCreate - Дата создания заметки
+     * @param rollIdNote - Id заметки
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_CREATE = :noteCreate")
-    public abstract void deleteRoll(String noteCreate);
+            "WHERE RL_ID_NT = :rollIdNote")
+    public abstract void deleteRoll(long rollIdNote);
 
     /**
      * @param rankId - Массив с id категорий

@@ -9,26 +9,26 @@ import sgtmelon.handynotes.app.model.item.ItemRollView;
 
 public class ManagerRoll {
 
-    private final List<String> listCreate;
+    private final List<Long> listId;
     private final List<ItemRollView> listRollView;
 
-    public ManagerRoll(List<String> listCreate, List<ItemRollView> listRollView) {
-        this.listCreate = listCreate;
+    public ManagerRoll(List<Long> listId, List<ItemRollView> listRollView) {
+        this.listId = listId;
         this.listRollView = listRollView;
     }
 
     public List<ItemRoll> getListRoll(String ntCreate) {
-        int index = listCreate.indexOf(ntCreate);
+        int index = listId.indexOf(ntCreate);
         return listRollView.get(index).getListRoll();
     }
 
-    public void insertList(String ntCreate, ItemRollView listRoll) {
-        listCreate.add(ntCreate);
+    public void insertList(long noteId, ItemRollView listRoll) {
+        listId.add(noteId);
         listRollView.add(listRoll);
     }
 
-    public void updateList(String noteCreate, @DefCheck int rollCheck) {
-        int index = listCreate.indexOf(noteCreate);
+    public void updateList(Long noteCreate, @DefCheck int rollCheck) {
+        int index = listId.indexOf(noteCreate);
 
         ItemRollView itemRollView = listRollView.get(index);
         List<ItemRoll> listRoll = itemRollView.getListRoll();
@@ -44,17 +44,17 @@ public class ManagerRoll {
     }
 
     public void removeList(String ntCreate) {
-        int index = listCreate.indexOf(ntCreate);
+        int index = listId.indexOf(ntCreate);
 
         if (index != -1) {
-            listCreate.remove(index);
+            listId.remove(index);
             listRollView.remove(index);
         }
     }
 
     public void removeList(List<ItemNote> listNote) {
         for (ItemNote itemNote : listNote) {
-            if (listCreate.contains(itemNote.getCreate())) {
+            if (listId.contains(itemNote.getCreate())) {
                 removeList(itemNote.getCreate());
             }
         }

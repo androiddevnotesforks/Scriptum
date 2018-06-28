@@ -17,9 +17,9 @@ public class ItemRoll extends DataInfo {
     @ColumnInfo(name = RL_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
+    @ColumnInfo(name = RL_ID_NT)
+    private long idNote;
 
-    @ColumnInfo(name = RL_CR)
-    private String create;
     @ColumnInfo(name = RL_PS)
     private int position;
     @ColumnInfo(name = RL_CH)
@@ -39,12 +39,12 @@ public class ItemRoll extends DataInfo {
         this.id = id;
     }
 
-    public String getCreate() {
-        return create;
+    public long getIdNote() {
+        return idNote;
     }
 
-    public void setCreate(String create) {
-        this.create = create;
+    public void setIdNote(long idNote) {
+        this.idNote = idNote;
     }
 
     public int getPosition() {

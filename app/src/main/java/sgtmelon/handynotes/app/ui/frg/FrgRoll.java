@@ -137,7 +137,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             db = DataRoom.provideDb(context);
             itemNote = db.daoNote().get(itemNote.getId());
-            listRoll = db.daoRoll().get(itemNote.getCreate());
+            listRoll = db.daoRoll().get(itemNote.getId());
             db.close();
 
             adapterRoll.updateAdapter(listRoll);
@@ -169,13 +169,15 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);    //Теперь у нас заметка уже будет создана
 
-                itemNote.setId((int) db.daoNote().insert(itemNote));
+                long ntId = db.daoNote().insert(itemNote);
+                itemNote.setId(ntId);
 
                 for (int i = 0; i < listRoll.size(); i++) {           //Запись в пунктов в БД
                     ItemRoll itemRoll = listRoll.get(i);
 
+                    itemRoll.setIdNote(ntId);
                     itemRoll.setPosition(i);
-                    itemRoll.setId((int) db.daoRoll().insert(itemRoll));             //Обновление некоторых значений
+                    itemRoll.setId(db.daoRoll().insert(itemRoll));             //Обновление некоторых значений
                     itemRoll.setExist(true);
 
                     listRoll.set(i, itemRoll);
@@ -189,7 +191,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
                     itemRoll.setPosition(i);
                     if (!itemRoll.isExist()) {
-                        itemRoll.setId((int) db.daoRoll().insert(itemRoll));
+                        itemRoll.setId(db.daoRoll().insert(itemRoll));
                         itemRoll.setExist(true);
                     } else {
                         db.daoRoll().update(itemRoll.getId(), i, itemRoll.getText());
@@ -203,7 +205,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 for (ItemRoll itemRoll : listRoll) {
                     rollId.add(itemRoll.getId());
                 }
-                db.daoRoll().delete(itemNote.getCreate(), rollId);
+                db.daoRoll().delete(itemNote.getId(), rollId);
             }
             db.daoRank().update(itemNote.getCreate(), itemNote.getRankId());
 
@@ -324,12 +326,12 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         if (stateCheck.isAll()) {
             itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
-            db.daoRoll().update(itemNote.getCreate(), DefCheck.notDone);
+            db.daoRoll().update(itemNote.getId(), DefCheck.notDone);
             db.daoNote().update(itemNote);
         } else {
             itemNote.setText(Help.Note.getCheckStr(listRoll.size(), listRoll.size()));
 
-            db.daoRoll().update(itemNote.getCreate(), DefCheck.done);
+            db.daoRoll().update(itemNote.getId(), DefCheck.done);
             db.daoNote().update(itemNote);
         }
         db.close();
@@ -365,14 +367,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         db = DataRoom.provideDb(context);
 
-        String rollToText = db.daoRoll().getText(itemNote.getCreate());
+        String rollToText = db.daoRoll().getText(itemNote.getId());
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setType(DefType.text);
         itemNote.setText(rollToText);
 
         db.daoNote().update(itemNote);
-        db.daoRoll().deleteRoll(itemNote.getCreate());
+        db.daoRoll().deleteRoll(itemNote.getId());
 
         db.close();
 
@@ -416,7 +418,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i(TAG, "updateAdapter");
 
         db = DataRoom.provideDb(context);
-        listRoll = db.daoRoll().get(itemNote.getCreate());
+        listRoll = db.daoRoll().get(itemNote.getId());
         db.close();
 
         stateCheck.setAll(Help.Note.isAllCheck(listRoll));
@@ -603,7 +605,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             ItemRoll itemRoll = new ItemRoll(); //Создаём новый элемент
 
-            itemRoll.setCreate(itemNote.getCreate());
+            itemRoll.setIdNote(itemNote.getId());
             itemRoll.setText(text);
             itemRoll.setExist(false);
 

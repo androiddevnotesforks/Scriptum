@@ -68,7 +68,7 @@ public class ItemStatus {
                 icon = R.drawable.ic_menu_bind_roll;
 
                 DataRoom db = DataRoom.provideDb(context);
-                text = db.daoRoll().getText(itemNote.getCreate(), itemNote.getText());
+                text = db.daoRoll().getText(itemNote.getId(), itemNote.getText());
                 db.close();
                 break;
         }

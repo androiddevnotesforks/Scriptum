@@ -137,7 +137,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             if (activity.stateNote.isCreate()) {
                 activity.stateNote.setCreate(false);
 
-                int ntId = (int) db.daoNote().insert(itemNote);
+                long ntId = db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
             } else {
                 db.daoNote().update(itemNote);
@@ -273,7 +273,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         db = DataRoom.provideDb(context);
 
-        ItemRollView itemRollView = db.daoRoll().insert(itemNote.getCreate(), textToRoll);
+        ItemRollView itemRollView = db.daoRoll().insert(itemNote.getId(), textToRoll);
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setType(DefType.roll);

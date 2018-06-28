@@ -15,7 +15,7 @@ public class RepoNote extends DataInfo {
     @Embedded
     private ItemNote itemNote;
 
-    @Relation(parentColumn = NT_CR, entityColumn = RL_CR)
+    @Relation(parentColumn = NT_ID, entityColumn = RL_ID_NT)
     private List<ItemRoll> listRoll;
 
     private ItemStatus itemStatus;
