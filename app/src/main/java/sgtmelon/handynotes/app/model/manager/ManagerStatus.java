@@ -33,7 +33,6 @@ public class ManagerStatus {
 
         listCreate.add(itemNote.getCreate());
         listStatus.add(itemStatus);
-
     }
 
     //Обновление при закреплении/откреплении заметки

@@ -65,9 +65,7 @@ public class ItemNote extends DataInfo {
     }
 
     /**
-     * Убирает из массивов ненужную категорию
-     *
-     * @param noteRankId - Id ненужной категории
+     * @param noteRankId - Убирает из массивов ненужную категорию по id
      */
     public void removeRank(String noteRankId) {
         List<String> rankIdList = ConvList.toList(rankId);

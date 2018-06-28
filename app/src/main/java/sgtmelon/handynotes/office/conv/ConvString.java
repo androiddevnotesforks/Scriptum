@@ -15,7 +15,7 @@ public class ConvString extends DataInfo {
 
     @TypeConverter
     public String toString(String[] string){
-        if (string.length == 0) return none;
+        if (string == null || string.length == 0) return none;
         else return TextUtils.join(divider, string);
     }
 

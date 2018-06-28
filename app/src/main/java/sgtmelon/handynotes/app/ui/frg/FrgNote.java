@@ -24,6 +24,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.app.data.DataRoom;
+import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.office.def.data.DefBin;
 import sgtmelon.handynotes.office.def.data.DefCheck;

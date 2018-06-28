@@ -40,7 +40,7 @@ public abstract class DaoNote extends DaoBase {
     @RawQuery
     abstract List<ItemNote> getQuery(SupportSQLiteQuery query);
 
-    private List<ItemNote> getQuery(int noteBin, String sortKeys) {
+    private List<ItemNote> getQuery(@DefBin int noteBin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + NT_TB +
                         " WHERE " + NT_BN + " = " + noteBin +

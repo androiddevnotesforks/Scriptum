@@ -26,6 +26,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.app.data.DataRoom;
+import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
 import sgtmelon.handynotes.office.def.data.DefBin;
 import sgtmelon.handynotes.app.model.state.StateNote;
@@ -126,7 +127,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                                 db.daoNote().clearBin();
                                 db.close();
 
-                                activity.managerRoll.removeList(listNote);
+//                                activity.managerRoll.removeList(listNote);
                                 listNote.clear();
 
                                 adapterNote.updateAdapter(listNote);

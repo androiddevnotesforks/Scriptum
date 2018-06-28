@@ -60,13 +60,14 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         setupMenuMain();
     }
 
-
+    //region Variable
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
 
     public FrgRank frgRank;
     public FrgNote frgNote;
     public FrgBin frgBin;
+    //endregion
 
     private void setupViewPager() {
         Log.i(TAG, "setupViewPager");
@@ -116,7 +117,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
                         intent.putExtra(StateNote.KEY_CREATE, true);
-                        intent.putExtra(DataInfo.NT_TP, item == DefType.text ? DefType.text : DefType.roll);
+                        intent.putExtra(DataInfo.NT_TP, item);
                         intent.putExtra(DataInfo.RK_VS, frgRank.managerRank.getVisible());
 
                         startActivity(intent);
