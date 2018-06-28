@@ -80,7 +80,7 @@ public abstract class DaoRank extends DaoBase {
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
 
-            String id = Integer.toString(itemRank.getId());
+            String id = Long.toString(itemRank.getId());
             rankCheck[i] = Arrays.asList(rankId).contains(id);
         }
 
@@ -192,7 +192,7 @@ public abstract class DaoRank extends DaoBase {
             for (int j = 0; j < listRank.size(); j++) {
                 ItemRank itemRank = listRank.get(j);
 
-                String rankId = Integer.toString(itemRank.getId());
+                String rankId = Long.toString(itemRank.getId());
                 String rankPs = Integer.toString(itemRank.getPosition());
 
                 if (Arrays.asList(rankIdOld).contains(rankId)) {
@@ -217,7 +217,7 @@ public abstract class DaoRank extends DaoBase {
         ItemRank itemRank = get(rankName);
 
         String[] rankCreate = itemRank.getCreate();
-        if (rankCreate.length != 0) updateNote(rankCreate, Integer.toString(itemRank.getId()));
+        if (rankCreate.length != 0) updateNote(rankCreate, Long.toString(itemRank.getId()));
 
         delete(itemRank);
     }

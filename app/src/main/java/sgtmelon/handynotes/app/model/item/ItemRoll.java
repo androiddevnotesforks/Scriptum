@@ -16,7 +16,7 @@ public class ItemRoll extends DataInfo {
     //region Variables
     @ColumnInfo(name = RL_ID)
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
 
     @ColumnInfo(name = RL_CR)
     private String create;
@@ -31,11 +31,11 @@ public class ItemRoll extends DataInfo {
     private boolean exist = true;  //Добавлен пункт в базу данных или нет
     //endregion
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

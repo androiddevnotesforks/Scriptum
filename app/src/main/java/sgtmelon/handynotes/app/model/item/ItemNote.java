@@ -83,7 +83,7 @@ public class ItemNote extends DataInfo {
     //region Variables
     @ColumnInfo(name = NT_ID)
     @PrimaryKey(autoGenerate = true)
-    private int id;             //Позиция в базе данных
+    private long id;             //Позиция в базе данных
 
     @ColumnInfo(name = NT_CR)
     private String create;      //Дата создания
@@ -111,11 +111,11 @@ public class ItemNote extends DataInfo {
     private boolean status;     //Привязка к шторке
     //endregion
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

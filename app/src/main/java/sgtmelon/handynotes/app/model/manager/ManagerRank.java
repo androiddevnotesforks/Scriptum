@@ -82,7 +82,7 @@ public class ManagerRank implements TextWatcher, TextView.OnEditorActionListener
         List<String> rankVisible = new ArrayList<>();
         for (ItemRank itemRank : listRank) {
             if (itemRank.isVisible()) {
-                rankVisible.add(Integer.toString(itemRank.getId()));
+                rankVisible.add(Long.toString(itemRank.getId()));
             }
         }
         return ConvList.fromList(rankVisible);

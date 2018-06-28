@@ -199,7 +199,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 }
                 adapterRoll.updateAdapter(listRoll);
 
-                List<Integer> rollId = new ArrayList<>();
+                List<Long> rollId = new ArrayList<>();
                 for (ItemRoll itemRoll : listRoll) {
                     rollId.add(itemRoll.getId());
                 }

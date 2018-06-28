@@ -35,7 +35,7 @@ public abstract class DaoNote extends DaoBase {
 
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_ID = :noteId")
-    public abstract ItemNote get(int noteId);
+    public abstract ItemNote get(long noteId);
 
     @RawQuery
     abstract List<ItemNote> getQuery(SupportSQLiteQuery query);
@@ -113,7 +113,7 @@ public abstract class DaoNote extends DaoBase {
     @Query("UPDATE NOTE_TABLE " +
             "SET NT_CHANGE = :noteChange, NT_BIN = :noteBin " +
             "WHERE NT_ID = :noteId")
-    public abstract void update(int noteId, String noteChange, boolean noteBin);
+    public abstract void update(long noteId, String noteChange, boolean noteBin);
 
     /**
      * Обновление привязки к статус бару
@@ -124,7 +124,7 @@ public abstract class DaoNote extends DaoBase {
     @Query("UPDATE NOTE_TABLE " +
             "SET NT_STATUS = :noteStatus " +
             "WHERE NT_ID = :noteId")
-    public abstract void update(int noteId, boolean noteStatus);
+    public abstract void update(long noteId, boolean noteStatus);
 
     @Delete
     abstract void delete(ItemNote itemNote);
@@ -132,7 +132,7 @@ public abstract class DaoNote extends DaoBase {
     @Delete
     abstract void delete(List<ItemNote> lisNote);
 
-    public void delete(int noteId) {
+    public void delete(long noteId) {
         ItemNote itemNote = get(noteId);
 
         if (itemNote.getType() == DefType.roll) {

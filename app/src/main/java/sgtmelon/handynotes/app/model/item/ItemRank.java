@@ -67,7 +67,7 @@ public class ItemRank extends DataInfo {
     //region Variables
     @ColumnInfo(name = RK_ID)
     @PrimaryKey(autoGenerate = true)
-    private int id;             //Позиция в базе данных
+    private long id;             //Позиция в базе данных
 
     @ColumnInfo(name = RK_PS)
     private int position;       //Позиция в списке
@@ -86,11 +86,11 @@ public class ItemRank extends DataInfo {
     private double rollCheck;   //Выполнение списков в процентах
     //endregion
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

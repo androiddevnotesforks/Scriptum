@@ -121,7 +121,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 ItemRank itemRank = new ItemRank(rankPs, rankNm);
 
                 db = DataRoom.provideDb(context);
-                int rankId = (int) db.daoRank().insert(itemRank);
+                long rankId = db.daoRank().insert(itemRank);
                 db.close();
 
                 itemRank.setId(rankId);
@@ -155,7 +155,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         ItemRank itemRank = new ItemRank(rankPs - 1, rankNm);
 
         db = DataRoom.provideDb(context);
-        int rankId = (int) db.daoRank().insert(itemRank);
+        long rankId = db.daoRank().insert(itemRank);
         db.daoRank().update(rankPs);
         db.close();
 

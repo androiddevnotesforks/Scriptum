@@ -45,7 +45,7 @@ public abstract class DaoRoll extends DaoBase {
                 itemRoll.setText(aRollTx);
                 itemRoll.setExist(true);
 
-                int rollId = (int) insert(itemRoll);
+                long rollId = insert(itemRoll);
 
                 if (rollPs <= 3) {
                     itemRoll.setId(rollId);
@@ -154,7 +154,7 @@ public abstract class DaoRoll extends DaoBase {
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_POSITION = :rollPosition, RL_TEXT = :rollText " +
             "WHERE RL_ID = :rollId")
-    public abstract void update(int rollId, int rollPosition, String rollText);
+    public abstract void update(long rollId, int rollPosition, String rollText);
 
     /**
      * Обновление выполнения конкретного пункта
@@ -165,7 +165,7 @@ public abstract class DaoRoll extends DaoBase {
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :rollCheck " +
             "WHERE RL_ID = :rollId")
-    public abstract void update(int rollId, boolean rollCheck);
+    public abstract void update(long rollId, boolean rollCheck);
 
     /**
      * Обновление выполнения для всех пунктов
@@ -186,7 +186,7 @@ public abstract class DaoRoll extends DaoBase {
      */
     @Query("DELETE FROM ROLL_TABLE " +
             "WHERE RL_CREATE = :rollCreate AND RL_ID NOT IN (:rollIdSave)")
-    public abstract void delete(String rollCreate, List<Integer> rollIdSave);
+    public abstract void delete(String rollCreate, List<Long> rollIdSave);
 
     public void listAll(TextView textView) {
         List<ItemRoll> listRoll = get();

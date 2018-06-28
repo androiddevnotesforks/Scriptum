@@ -45,7 +45,7 @@ public class ItemStatus {
 //        stackBuilder.addParentStack(ActNote.class);
 //        stackBuilder.addNextIntent(intent);
 
-        pendingIntent = PendingIntent.getActivity(context, itemNote.getId(), intent, 0);
+        pendingIntent = PendingIntent.getActivity(context, (int) itemNote.getId(), intent, 0);
 //        pendingIntent = stackBuilder.getPendingIntent(itemNote.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         updateNote(itemNote);
@@ -93,7 +93,7 @@ public class ItemStatus {
     //Обновление отображения в зависимоти от видимости категорий
     //В окне со всеми заметками
     public void updateNote(ItemRank itemRank) {
-        String rkId = Integer.toString(itemRank.getId());
+        String rkId = Long.toString(itemRank.getId());
         String[] rankId = itemNote.getRankId();
 
         if (rankId[0].equals(rkId)) {
@@ -116,12 +116,12 @@ public class ItemStatus {
 
     //Показывает созданное уведомление
     public void notifyNote() {
-        notificationManager.notify(itemNote.getId(), notificationBuilder.build());
+        notificationManager.notify((int) itemNote.getId(), notificationBuilder.build());
     }
 
     //Убирает созданное уведомление
     public void cancelNote() {
-        notificationManager.cancel(itemNote.getId());
+        notificationManager.cancel((int) itemNote.getId());
     }
 
 }
