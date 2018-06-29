@@ -8,33 +8,33 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import sgtmelon.handynotes.app.data.DataInfo;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.conv.ConvBool;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
-@Entity(tableName = DataInfo.RL_TB,
+@Entity(tableName = Db.RL_TB,
         foreignKeys = @ForeignKey(entity = ItemNote.class,
-                parentColumns = DataInfo.NT_ID,
-                childColumns = DataInfo.RL_ID_NT,
+                parentColumns = Db.NT_ID,
+                childColumns = Db.RL_ID_NT,
                 onUpdate = CASCADE,
                 onDelete = CASCADE),
-        indices = {@Index(DataInfo.RL_ID_NT)})
+        indices = {@Index(Db.RL_ID_NT)})
 @TypeConverters({ConvBool.class})
-public class ItemRoll extends DataInfo {
+public class ItemRoll {
 
     //region Variables
-    @ColumnInfo(name = RL_ID)
+    @ColumnInfo(name = Db.RL_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @ColumnInfo(name = RL_ID_NT)
+    @ColumnInfo(name = Db.RL_ID_NT)
     private long idNote;
 
-    @ColumnInfo(name = RL_PS)
+    @ColumnInfo(name = Db.RL_PS)
     private int position;
-    @ColumnInfo(name = RL_CH)
+    @ColumnInfo(name = Db.RL_CH)
     private boolean check = false;
-    @ColumnInfo(name = RL_TX)
+    @ColumnInfo(name = Db.RL_TX)
     private String text;
 
     @Ignore

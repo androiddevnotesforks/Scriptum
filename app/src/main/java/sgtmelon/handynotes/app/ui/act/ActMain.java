@@ -14,11 +14,10 @@ import android.util.Log;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterPager;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.office.def.DefPages;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.DefPages;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.app.model.state.StateNote;
-import sgtmelon.handynotes.app.data.DataInfo;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.app.control.menu.MenuMain;
 import sgtmelon.handynotes.app.model.manager.ManagerRoll;
 import sgtmelon.handynotes.app.model.manager.ManagerStatus;
@@ -117,8 +116,8 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
                         intent.putExtra(StateNote.KEY_CREATE, true);
-                        intent.putExtra(DataInfo.NT_TP, item);
-                        intent.putExtra(DataInfo.RK_VS, frgRank.managerRank.getVisible());
+                        intent.putExtra(Db.NT_TP, item);
+                        intent.putExtra(Db.RK_VS, frgRank.managerRank.getVisible());
 
                         startActivity(intent);
                     }

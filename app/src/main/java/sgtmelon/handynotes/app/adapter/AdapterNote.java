@@ -13,7 +13,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.databinding.ItemNoteRollBinding;
 import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.office.intf.IntfItem;

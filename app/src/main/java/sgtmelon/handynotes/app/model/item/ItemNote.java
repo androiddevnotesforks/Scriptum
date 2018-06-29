@@ -2,23 +2,20 @@ package sgtmelon.handynotes.app.model.item;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
-import android.content.Intent;
-import android.os.Bundle;
 
 import java.util.List;
 
-import sgtmelon.handynotes.app.data.DataInfo;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvString;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 
-@Entity(tableName = DataInfo.NT_TB)
+@Entity(tableName = Db.NT_TB)
 @TypeConverters({ConvBool.class, ConvString.class})
-public class ItemNote extends DataInfo {
+public class ItemNote {
 
     /**
      * @param noteRankId - Убирает из массивов ненужную категорию по id
@@ -37,33 +34,33 @@ public class ItemNote extends DataInfo {
     }
 
     //region Variables
-    @ColumnInfo(name = NT_ID)
+    @ColumnInfo(name = Db.NT_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;             //Позиция в базе данных
 
-    @ColumnInfo(name = NT_CR)
+    @ColumnInfo(name = Db.NT_CR)
     private String create;      //Дата создания
-    @ColumnInfo(name = NT_CH)
+    @ColumnInfo(name = Db.NT_CH)
     private String change;      //Дата изменения
 
-    @ColumnInfo(name = NT_NM)
+    @ColumnInfo(name = Db.NT_NM)
     private String name;        //Имя заметки
-    @ColumnInfo(name = NT_TX)
+    @ColumnInfo(name = Db.NT_TX)
     private String text;        //Текст заметки (для списка используется как индикатор количества отмеченных элементов)
 
-    @ColumnInfo(name = NT_CL)
+    @ColumnInfo(name = Db.NT_CL)
     private int color;          //Цвет заметки
-    @ColumnInfo(name = NT_TP)
+    @ColumnInfo(name = Db.NT_TP)
     private int type;           //Тип заметки (0 - текст, 1 - список)
 
-    @ColumnInfo(name = NT_RK_PS)
+    @ColumnInfo(name = Db.NT_RK_PS)
     private Long[] rankPs;
-    @ColumnInfo(name = NT_RK_ID)
+    @ColumnInfo(name = Db.NT_RK_ID)
     private Long[] rankId;    //Категории, к которым привязана заметка
 
-    @ColumnInfo(name = NT_BN)
+    @ColumnInfo(name = Db.NT_BN)
     private boolean bin;        //Расположение
-    @ColumnInfo(name = NT_ST)
+    @ColumnInfo(name = Db.NT_ST)
     private boolean status;     //Привязка к шторке
     //endregion
 

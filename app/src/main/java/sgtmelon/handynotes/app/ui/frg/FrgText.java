@@ -25,7 +25,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgTextBinding;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.control.menu.MenuNote;

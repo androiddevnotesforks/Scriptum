@@ -235,7 +235,8 @@ public class FrgSettings extends PreferenceFragment {
                 appLogo.setOnClickListener(new View.OnClickListener() {
 
                     private int click = 0;
-                    private final int clickShow = 9;
+                    private final int clickShow = 1;
+//                    private final int clickShow = 9;
 
                     @Override
                     public void onClick(View view) {

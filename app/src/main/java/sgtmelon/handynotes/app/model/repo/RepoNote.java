@@ -5,17 +5,17 @@ import android.arch.persistence.room.Relation;
 
 import java.util.List;
 
-import sgtmelon.handynotes.app.data.DataInfo;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 
-public class RepoNote extends DataInfo {
+public class RepoNote {
 
     @Embedded
     private ItemNote itemNote;
 
-    @Relation(parentColumn = NT_ID, entityColumn = RL_ID_NT)
+    @Relation(parentColumn = Db.NT_ID, entityColumn = Db.RL_ID_NT)
     private List<ItemRoll> listRoll;
 
     private ItemStatus itemStatus;

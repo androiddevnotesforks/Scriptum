@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.office.intf;
 
-import sgtmelon.handynotes.office.def.data.DefCheck;
+import sgtmelon.handynotes.office.annot.def.data.DefCheck;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 
 public interface IntfAlert {

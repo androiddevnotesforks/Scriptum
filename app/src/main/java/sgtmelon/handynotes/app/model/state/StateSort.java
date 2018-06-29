@@ -2,7 +2,7 @@ package sgtmelon.handynotes.app.model.state;
 
 import java.util.List;
 
-import sgtmelon.handynotes.office.def.DefSort;
+import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.app.model.item.ItemSort;
 
 public class StateSort {

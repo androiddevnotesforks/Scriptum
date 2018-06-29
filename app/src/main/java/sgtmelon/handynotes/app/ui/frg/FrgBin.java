@@ -26,11 +26,10 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.office.def.data.DefBin;
+import sgtmelon.handynotes.office.annot.def.data.DefBin;
 import sgtmelon.handynotes.app.model.state.StateNote;
-import sgtmelon.handynotes.app.data.DataInfo;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.office.intf.IntfAlert;
@@ -207,8 +206,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         Intent intent = new Intent(context, ActNote.class);
 
-        intent.putExtra(DataInfo.NT_ID, itemNote.getId());
-        intent.putExtra(DataInfo.RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(Db.NT_ID, itemNote.getId());
+        intent.putExtra(Db.RK_VS, activity.frgRank.managerRank.getVisible());
         intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);

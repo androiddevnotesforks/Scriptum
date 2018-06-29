@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.def;
+package sgtmelon.handynotes.office.annot.def;
 
 import sgtmelon.handynotes.R;
 

@@ -16,10 +16,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.office.def.data.DefBin;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.data.DefBin;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.manager.ManagerStatus;
@@ -41,8 +42,8 @@ public abstract class DaoNote extends DaoBase {
 
     private List<ItemNote> getQuery(@DefBin int noteBin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT * FROM " + NT_TB +
-                        " WHERE " + NT_BN + " = " + noteBin +
+                "SELECT * FROM " + Db.NT_TB +
+                        " WHERE " + Db.NT_BN + " = " + noteBin +
                         " ORDER BY " + sortKeys);
 
         return getQuery(query);
@@ -72,8 +73,8 @@ public abstract class DaoNote extends DaoBase {
      */
     public ManagerStatus getManagerStatus(Context context) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT * FROM " + NT_TB +
-                        " WHERE " + NT_ST + " = " + 1 +
+                "SELECT * FROM " + Db.NT_TB +
+                        " WHERE " + Db.NT_ST + " = " + 1 +
                         " ORDER BY " + Help.Pref.getSortNoteOrder(context));
 
         List<ItemNote> listNote = getQuery(query);
@@ -147,7 +148,7 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void clearBin() {
-        List<ItemNote> listNote = get(DefBin.in, orders[0]);
+        List<ItemNote> listNote = get(DefBin.in, Db.orders[0]);
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
@@ -166,8 +167,8 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void listAll(TextView textView) {
-        List<ItemNote> listNote = getQuery(DefBin.in, orders[0]);
-        listNote.addAll(getQuery(DefBin.out, orders[0]));
+        List<ItemNote> listNote = getQuery(DefBin.in, Db.orders[0]);
+        listNote.addAll(getQuery(DefBin.out, Db.orders[0]));
 
         String annotation = "Note Data Base:";
         textView.setText(annotation);

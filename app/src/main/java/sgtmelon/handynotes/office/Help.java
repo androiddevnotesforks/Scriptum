@@ -29,11 +29,11 @@ import java.util.Locale;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.app.data.DataInfo;
-import sgtmelon.handynotes.office.def.DefColor;
-import sgtmelon.handynotes.office.def.DefSort;
-import sgtmelon.handynotes.office.def.data.DefCheck;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.DefColor;
+import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.office.annot.def.data.DefCheck;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemSort;
@@ -241,7 +241,7 @@ public class Help {
             for (String aSortKey : sortKeysArr) {
                 @DefSort int key = Integer.parseInt(aSortKey);
 
-                order.append(DataInfo.orders[key]);
+                order.append(Db.orders[key]);
 
                 if (key != DefSort.create && key != DefSort.change) {
                     order.append(DefSort.divider);

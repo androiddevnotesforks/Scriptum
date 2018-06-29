@@ -3,18 +3,16 @@ package sgtmelon.handynotes.app.model.item;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import java.util.Arrays;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 import sgtmelon.handynotes.app.model.state.StateNote;
-import sgtmelon.handynotes.app.data.DataInfo;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 
@@ -39,8 +37,8 @@ public class ItemStatus {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setAction(Intent.ACTION_VIEW);
 
-        intent.putExtra(DataInfo.NT_ID, itemNote.getId());
-        intent.putExtra(DataInfo.RK_VS, rankVisible);
+        intent.putExtra(Db.NT_ID, itemNote.getId());
+        intent.putExtra(Db.RK_VS, rankVisible);
         intent.putExtra(StateNote.KEY_CREATE, false);
 
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

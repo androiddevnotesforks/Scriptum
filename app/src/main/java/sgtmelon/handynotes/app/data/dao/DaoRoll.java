@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.office.conv.ConvBool;
-import sgtmelon.handynotes.office.def.data.DefCheck;
+import sgtmelon.handynotes.office.annot.def.data.DefCheck;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemRollView;
 import sgtmelon.handynotes.app.model.manager.ManagerRoll;

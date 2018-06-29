@@ -12,10 +12,10 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.state.StateNote;
-import sgtmelon.handynotes.app.data.DataInfo;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.control.ControlSave;
 import sgtmelon.handynotes.office.intf.IntfMenu;
@@ -80,9 +80,9 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
             db = DataRoom.provideDb(getApplicationContext());
             if (stateNote.isCreate()) {
-                itemNote = Help.Note.fillCreate(this, bundle.getInt(DataInfo.NT_TP));
+                itemNote = Help.Note.fillCreate(this, bundle.getInt(Db.NT_TP));
             } else {
-                itemNote = db.daoNote().get(bundle.getLong(DataInfo.NT_ID));
+                itemNote = db.daoNote().get(bundle.getLong(Db.NT_ID));
                 stateNote.setBin(itemNote.isBin());
             }
             rankVisible = db.daoRank().getRankVisible();

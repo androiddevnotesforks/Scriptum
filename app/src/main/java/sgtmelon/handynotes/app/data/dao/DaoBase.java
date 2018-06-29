@@ -7,9 +7,8 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import sgtmelon.handynotes.app.data.DataInfo;
 import sgtmelon.handynotes.office.conv.ConvBool;
-import sgtmelon.handynotes.office.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 
@@ -18,7 +17,7 @@ import sgtmelon.handynotes.app.model.item.ItemRank;
  */
 @Dao
 @TypeConverters({ConvBool.class})
-abstract class DaoBase extends DataInfo {
+abstract class DaoBase {
 
     /**
      * @param noteId - Массив с датами создания заметок
@@ -33,13 +32,13 @@ abstract class DaoBase extends DataInfo {
     abstract List<ItemNote> getNote(List<Long> noteId);
 
     /**
-     * @param noteType   - Тип заметки
-     * @param noteCreate - Даты создания заметок
+     * @param noteType - Тип заметки
+     * @param noteId   - Id заметок
      * @return - Количество заметок по датам создания
      */
     @Query("SELECT COUNT(NT_ID) FROM NOTE_TABLE " +
-            "WHERE NT_TYPE = :noteType AND NT_CREATE IN(:noteCreate)")
-    abstract int getNoteCount(@DefType int noteType, String[] noteCreate);
+            "WHERE NT_TYPE = :noteType AND NT_ID IN(:noteId)")
+    abstract int getNoteCount(@DefType int noteType, Long[] noteId);
 
     @Update
     abstract void updateNote(List<ItemNote> listNote);
@@ -68,7 +67,7 @@ abstract class DaoBase extends DataInfo {
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
             "WHERE RL_ID_NOTE IN(:rollIdNote)")
-    abstract int getRollCount(long[] rollIdNote);
+    abstract int getRollCount(Long[] rollIdNote);
 
     /**
      * @param rollIdNote - Id заметок
@@ -76,7 +75,7 @@ abstract class DaoBase extends DataInfo {
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
             "WHERE RL_CHECK = 1 AND RL_ID_NOTE IN(:rollIdNote)")
-    abstract int getRollCheck(long[] rollIdNote);
+    abstract int getRollCheck(Long[] rollIdNote);
 
     /**
      * @return - Лист с id категорий, которые видны
