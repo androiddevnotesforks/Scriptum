@@ -24,7 +24,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgTextBinding;
-import sgtmelon.handynotes.office.conv.ConvInt;
+import sgtmelon.handynotes.office.conv.ConvLong;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
@@ -156,7 +156,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         db = DataRoom.provideDb(context);
         final String[] checkName = db.daoRank().getName();
-        final String[] checkId = ConvInt.fromInteger(db.daoRank().getId());
+        final String[] checkId = ConvLong.fromLong(db.daoRank().getId());
         final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
         db.close();
 

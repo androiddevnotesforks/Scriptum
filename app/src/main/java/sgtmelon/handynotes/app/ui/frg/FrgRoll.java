@@ -32,7 +32,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterRoll;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
-import sgtmelon.handynotes.office.conv.ConvInt;
+import sgtmelon.handynotes.office.conv.ConvLong;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.def.data.DefCheck;
 import sgtmelon.handynotes.office.def.data.DefType;
@@ -223,7 +223,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db = DataRoom.provideDb(context);
 
         final String[] checkName = db.daoRank().getName();
-        final String[] checkId = ConvInt.fromInteger(db.daoRank().getId());
+        final String[] checkId = ConvLong.fromLong(db.daoRank().getId());
         final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
 
         db.close();
@@ -418,7 +418,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i(TAG, "updateAdapter");
 
         db = DataRoom.provideDb(context);
-        Log.i("HEree", itemNote.getId() + " <----");
         listRoll = db.daoRoll().get(itemNote.getId());
         db.close();
 

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.office.conv.ConvBool;
-import sgtmelon.handynotes.office.conv.ConvInt;
+import sgtmelon.handynotes.office.conv.ConvLong;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.def.data.DefBin;
 import sgtmelon.handynotes.office.def.data.DefType;
@@ -51,7 +51,7 @@ public abstract class DaoNote extends DaoBase {
 
     public List<ItemNote> get(@DefBin int noteBin, String sortKeys) {
         List<ItemNote> listNote = getQuery(noteBin, sortKeys);
-        List<String> rankVisible = ConvInt.fromInteger(getRankVisible());
+        List<String> rankVisible = ConvLong.fromLong(getRankVisible());
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
@@ -78,7 +78,7 @@ public abstract class DaoNote extends DaoBase {
                         " ORDER BY " + Help.Pref.getSortNoteOrder(context));
 
         List<ItemNote> listNote = getQuery(query);
-        List<String> rankVisible = ConvInt.fromInteger(getRankVisible());
+        List<String> rankVisible = ConvLong.fromLong(getRankVisible());
         String[] rankVs = ConvList.fromList(rankVisible);
 
         List<String> listCreate = new ArrayList<>();

@@ -84,7 +84,7 @@ abstract class DaoBase extends DataInfo {
     @Query("SELECT RK_ID FROM RANK_TABLE " +
             "WHERE RK_VISIBLE = 1 " +
             "ORDER BY RK_POSITION")
-    abstract List<Integer> getRankVisible();
+    abstract List<Long> getRankVisible();
 
     /**
      * Удаление пунктов при удалении заметки

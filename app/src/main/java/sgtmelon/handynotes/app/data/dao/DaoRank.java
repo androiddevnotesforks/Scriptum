@@ -72,7 +72,7 @@ public abstract class DaoRank extends DaoBase {
 
     @Query("SELECT RK_ID FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
-    public abstract Integer[] getId();
+    public abstract long[] getId();
 
     public boolean[] getCheck(String[] rankId) {
         List<ItemRank> listRank = getSimple();

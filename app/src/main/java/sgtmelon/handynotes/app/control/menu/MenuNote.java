@@ -170,8 +170,9 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 deleteClick.onMenuDeleteForeverClick();
                 return true;
             case R.id.menu_actNote_save:
-                if (!noteClick.onMenuSaveClick(true))
+                if (!noteClick.onMenuSaveClick(true)){
                     Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
+                }
                 return true;
             case R.id.menu_actNote_rank:
                 noteClick.onMenuRankClick();
