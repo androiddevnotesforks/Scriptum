@@ -8,7 +8,7 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 import sgtmelon.handynotes.office.conv.ConvBool;
-import sgtmelon.handynotes.office.annot.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 

@@ -7,6 +7,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.RawQuery;
+import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 import android.content.Context;
@@ -16,11 +17,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.office.annot.def.data.DefBin;
-import sgtmelon.handynotes.office.annot.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.db.DefBin;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.manager.ManagerStatus;
@@ -36,6 +38,10 @@ public abstract class DaoNote extends DaoBase {
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_ID = :noteId")
     public abstract ItemNote get(long noteId);
+
+//    @Transaction
+//    @RawQuery
+//    abstract List<RepoNote> getQuery(SupportSQLiteQuery query);
 
     @RawQuery
     abstract List<ItemNote> getQuery(SupportSQLiteQuery query);

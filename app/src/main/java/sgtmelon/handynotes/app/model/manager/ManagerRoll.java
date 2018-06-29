@@ -2,7 +2,7 @@ package sgtmelon.handynotes.app.model.manager;
 
 import java.util.List;
 
-import sgtmelon.handynotes.office.annot.def.data.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemRollView;

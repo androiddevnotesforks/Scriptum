@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.annot.def.data;
+package sgtmelon.handynotes.office.annot.def.db;
 
 import android.support.annotation.IntDef;
 

@@ -11,7 +11,7 @@ import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvString;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.office.annot.def.data.DefType;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 @Entity(tableName = Db.NT_TB)
 @TypeConverters({ConvBool.class, ConvString.class})

@@ -27,7 +27,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.office.annot.def.data.DefBin;
+import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.app.model.state.StateNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.Help;

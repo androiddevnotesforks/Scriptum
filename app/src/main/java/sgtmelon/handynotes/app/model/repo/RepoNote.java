@@ -1,6 +1,7 @@
 package sgtmelon.handynotes.app.model.repo;
 
 import android.arch.persistence.room.Embedded;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Relation;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class RepoNote {
     @Relation(parentColumn = Db.NT_ID, entityColumn = Db.RL_ID_NT)
     private List<ItemRoll> listRoll;
 
+    @Ignore
     private ItemStatus itemStatus;
 
     public ItemNote getItemNote() {
