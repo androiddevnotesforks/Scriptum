@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.office.conv.ConvBool;
-import sgtmelon.handynotes.office.conv.ConvLong;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.def.data.DefBin;
 import sgtmelon.handynotes.office.def.data.DefType;
@@ -51,11 +50,11 @@ public abstract class DaoNote extends DaoBase {
 
     public List<ItemNote> get(@DefBin int noteBin, String sortKeys) {
         List<ItemNote> listNote = getQuery(noteBin, sortKeys);
-        List<String> rankVisible = ConvLong.fromLong(getRankVisible());
+        List<Long> rankVisible = getRankVisible();
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
-            String[] rankId = itemNote.getRankId();
+            Long[] rankId = itemNote.getRankId();
 
             if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
                 listNote.remove(i);
@@ -78,26 +77,26 @@ public abstract class DaoNote extends DaoBase {
                         " ORDER BY " + Help.Pref.getSortNoteOrder(context));
 
         List<ItemNote> listNote = getQuery(query);
-        List<String> rankVisible = ConvLong.fromLong(getRankVisible());
-        String[] rankVs = ConvList.fromList(rankVisible);
+        List<Long> rankVisible = getRankVisible();
+        Long[] rankVs = ConvList.fromList(rankVisible);
 
-        List<String> listCreate = new ArrayList<>();
+        List<Long> listId = new ArrayList<>();
         List<ItemStatus> listStatus = new ArrayList<>();
 
         for (int i = listNote.size() - 1; i >= 0; i--) {
             ItemNote itemNote = listNote.get(i);
-            String[] rankId = itemNote.getRankId();
+            Long[] rankId = itemNote.getRankId();
 
             ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
             if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
                 itemStatus.cancelNote();
             }
 
-            listCreate.add(itemNote.getCreate());
+            listId.add(itemNote.getId());
             listStatus.add(itemStatus);
         }
 
-        return new ManagerStatus(context, listCreate, listStatus);
+        return new ManagerStatus(context, listId, listStatus);
     }
 
     @Update
@@ -139,9 +138,9 @@ public abstract class DaoNote extends DaoBase {
             deleteRoll(itemNote.getId());
         }
 
-        String[] rankId = itemNote.getRankId();
+        Long[] rankId = itemNote.getRankId();
         if (rankId.length != 0) {
-            clearRank(itemNote.getCreate(), rankId);
+            clearRank(itemNote.getId(), rankId);
         }
 
         delete(itemNote);
@@ -152,14 +151,14 @@ public abstract class DaoNote extends DaoBase {
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
-            String[] rankId = itemNote.getRankId();
+            Long[] rankId = itemNote.getRankId();
 
             if (itemNote.getType() == DefType.roll) {
                 deleteRoll(itemNote.getId());
             }
 
             if (rankId.length != 0) {
-                clearRank(itemNote.getCreate(), rankId);
+                clearRank(itemNote.getId(), rankId);
             }
         }
 

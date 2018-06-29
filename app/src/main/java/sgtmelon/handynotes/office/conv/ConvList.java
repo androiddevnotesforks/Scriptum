@@ -6,11 +6,11 @@ import java.util.List;
 
 public class ConvList {
 
-    public static String[] fromList(List<String> list) {
-        return list.toArray(new String[list.size()]);
+    public static Long[] fromList(List<Long> list) {
+        return list.toArray(new Long[list.size()]);
     }
 
-    public static List<String> toList(String[] array) {
+    public static List<Long> toList(Long[] array) {
         return new ArrayList<>(Arrays.asList(array));
     }
 

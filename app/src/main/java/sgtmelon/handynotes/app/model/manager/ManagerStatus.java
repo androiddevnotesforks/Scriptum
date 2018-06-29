@@ -12,52 +12,50 @@ public class ManagerStatus {
 
     private final Context context;
 
-    private final List<String> listCreate;
+    private final List<Long> listId;
     private final List<ItemStatus> listStatus;
 
     /**
      * Конструктов менеджера статусовых сообщений
      * @param context - Используется для создания нового уведомления
-     * @param listCreate - Список дат создания заметок
+     * @param listId - Список id заметок
      * @param listStatus - Список моделей создания уведомления
      */
-    public ManagerStatus(Context context, List<String> listCreate, List<ItemStatus> listStatus) {
+    public ManagerStatus(Context context, List<Long> listId, List<ItemStatus> listStatus) {
         this.context = context;
 
-        this.listCreate = listCreate;
+        this.listId = listId;
         this.listStatus = listStatus;
     }
 
-    public void insertItem(ItemNote itemNote, String[] rkVisible) {
-        ItemStatus itemStatus = new ItemStatus(context, itemNote, rkVisible);
+    public void insertItem(ItemNote itemNote, Long[] rankVisible) {
+        ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVisible);
 
-        listCreate.add(itemNote.getCreate());
+        listId.add(itemNote.getId());
         listStatus.add(itemStatus);
     }
 
     //Обновление при закреплении/откреплении заметки
     public void updateItemBind(ItemNote itemNote) {
-        int index = listCreate.indexOf(itemNote.getCreate());
-
-        if (index != -1) {
-            ItemStatus itemStatus = listStatus.get(index);
+        int i = listId.indexOf(itemNote.getId());
+        if (i != -1) {
+            ItemStatus itemStatus = listStatus.get(i);
             itemStatus.updateNote(itemNote);
 
-            listStatus.set(index, itemStatus);
+            listStatus.set(i, itemStatus);
         }
     }
 
     //При изменении видимости категории
     public void updateItemVisible(ItemRank itemRank) {
-        String[] ntCreate = itemRank.getCreate();
+        Long[] rankIdNote = itemRank.getIdNote();
 
-        for (String aNtCreate : ntCreate) {
-            int index = listCreate.indexOf(aNtCreate);
-
-            if (index != -1) {
-                ItemStatus itemStatus = listStatus.get(index);
+        for (long id : rankIdNote) {
+            int i = listId.indexOf(id);
+            if (i != -1) {
+                ItemStatus itemStatus = listStatus.get(i);
                 itemStatus.updateNote(itemRank);
-                listStatus.set(index, itemStatus);
+                listStatus.set(i, itemStatus);
             }
         }
     }
@@ -70,14 +68,13 @@ public class ManagerStatus {
     }
 
     public void removeItem(ItemNote itemNote) {
-        int index = listCreate.indexOf(itemNote.getCreate());
-
-        if (index != -1) {
-            ItemStatus itemStatus = listStatus.get(index);
+        int i = listId.indexOf(itemNote.getId());
+        if (i != -1) {
+            ItemStatus itemStatus = listStatus.get(i);
             itemStatus.cancelNote();
 
-            listCreate.remove(index);
-            listStatus.remove(index);
+            listId.remove(i);
+            listStatus.remove(i);
         }
 
     }

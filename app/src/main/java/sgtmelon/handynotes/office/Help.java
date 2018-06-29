@@ -174,8 +174,8 @@ public class Help {
             itemNote.setColor(ntColor);
 
             itemNote.setType(noteType);
-            itemNote.setRankPs(new String[0]);
-            itemNote.setRankId(new String[0]);
+            itemNote.setRankPs(new Long[0]);
+            itemNote.setRankId(new Long[0]);
             itemNote.setBin(false);
             itemNote.setStatus(false);
 

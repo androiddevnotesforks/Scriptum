@@ -166,7 +166,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         Intent intent = new Intent(context, ActNote.class);
 
-        intent = itemNote.fillIntent(intent);
+        intent.putExtra(DataInfo.NT_ID, itemNote.getId());
         intent.putExtra(DataInfo.RK_VS, activity.frgRank.managerRank.getVisible());
         intent.putExtra(StateNote.KEY_CREATE, false);
 

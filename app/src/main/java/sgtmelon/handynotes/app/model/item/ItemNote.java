@@ -20,57 +20,12 @@ import sgtmelon.handynotes.office.def.data.DefType;
 @TypeConverters({ConvBool.class, ConvString.class})
 public class ItemNote extends DataInfo {
 
-    public ItemNote() {
-
-    }
-
-    public ItemNote(Bundle bundle) {
-        id = bundle.getLong(NT_ID);
-
-        create = bundle.getString(DataInfo.NT_CR);
-
-        change = bundle.getString(DataInfo.NT_CH);
-        name = bundle.getString(DataInfo.NT_NM);
-        text = bundle.getString(DataInfo.NT_TX);
-
-        color = bundle.getInt(DataInfo.NT_CL);
-        type = bundle.getInt(DataInfo.NT_TP);
-
-        rankPs = bundle.getStringArray(DataInfo.RK_PS);
-        rankId = bundle.getStringArray(DataInfo.RK_ID);
-
-        bin = bundle.getBoolean(DataInfo.NT_BN);
-        status = bundle.getBoolean(DataInfo.NT_ST);
-    }
-
-    public Intent fillIntent(Intent intent) {
-        intent.putExtra(NT_ID, id);
-
-        intent.putExtra(NT_CR, create);
-
-        intent.putExtra(NT_CH, change);
-        intent.putExtra(NT_NM, name);
-        intent.putExtra(NT_TX, text);
-
-        intent.putExtra(NT_CL, color);
-        intent.putExtra(NT_TP, type);
-
-        intent.putExtra(NT_RK_PS, rankPs);
-        intent.putExtra(NT_RK_ID, rankId);
-
-        intent.putExtra(NT_BN, bin);
-        intent.putExtra(NT_ST, status);
-
-
-        return intent;
-    }
-
     /**
      * @param noteRankId - Убирает из массивов ненужную категорию по id
      */
-    public void removeRank(String noteRankId) {
-        List<String> rankIdList = ConvList.toList(rankId);
-        List<String> rankPsList = ConvList.toList(rankPs);
+    public void removeRank(long noteRankId) {
+        List<Long> rankIdList = ConvList.toList(rankId);
+        List<Long> rankPsList = ConvList.toList(rankPs);
 
         int index = rankIdList.indexOf(noteRankId);
 
@@ -102,9 +57,9 @@ public class ItemNote extends DataInfo {
     private int type;           //Тип заметки (0 - текст, 1 - список)
 
     @ColumnInfo(name = NT_RK_PS)
-    private String[] rankPs;
+    private Long[] rankPs;
     @ColumnInfo(name = NT_RK_ID)
-    private String[] rankId;    //Категории, к которым привязана заметка
+    private Long[] rankId;    //Категории, к которым привязана заметка
 
     @ColumnInfo(name = NT_BN)
     private boolean bin;        //Расположение
@@ -168,19 +123,19 @@ public class ItemNote extends DataInfo {
         this.type = type;
     }
 
-    public String[] getRankPs() {
+    public Long[] getRankPs() {
         return rankPs;
     }
 
-    public void setRankPs(String[] rankPs) {
+    public void setRankPs(Long[] rankPs) {
         this.rankPs = rankPs;
     }
 
-    public String[] getRankId() {
+    public Long[] getRankId() {
         return rankId;
     }
 
-    public void setRankId(String[] rankId) {
+    public void setRankId(Long[] rankId) {
         this.rankId = rankId;
     }
 

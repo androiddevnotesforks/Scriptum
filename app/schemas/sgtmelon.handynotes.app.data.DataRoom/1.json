@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "da345a37ac45bd6398da487af7ac1b91",
+    "identityHash": "2640ee59d719334158a8dc2d3695ec3e",
     "entities": [
       {
         "tableName": "NOTE_TABLE",
@@ -151,13 +151,19 @@
       },
       {
         "tableName": "RANK_TABLE",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`RK_ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `RK_POSITION` INTEGER NOT NULL, `RK_NAME` TEXT, `RK_CREATE` TEXT, `RK_VISIBLE` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`RK_ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `RK_ID_NOTE` TEXT, `RK_POSITION` INTEGER NOT NULL, `RK_NAME` TEXT, `RK_VISIBLE` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "RK_ID",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "idNote",
+            "columnName": "RK_ID_NOTE",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "position",
@@ -168,12 +174,6 @@
           {
             "fieldPath": "name",
             "columnName": "RK_NAME",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "create",
-            "columnName": "RK_CREATE",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -196,7 +196,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"da345a37ac45bd6398da487af7ac1b91\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2640ee59d719334158a8dc2d3695ec3e\")"
     ]
   }
 }

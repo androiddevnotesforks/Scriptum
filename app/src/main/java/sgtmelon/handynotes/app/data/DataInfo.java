@@ -29,9 +29,9 @@ public class DataInfo {
     @Ignore
     public static final String RK_TB = "RANK_TABLE",
             RK_ID = "RK_ID",
+            RK_ID_NT = "RK_ID_NOTE",
             RK_PS = "RK_POSITION",
             RK_NM = "RK_NAME",
-            RK_CR = "RK_CREATE",
             RK_VS = "RK_VISIBLE";
 
     public static final String none = "NONE";

@@ -3,10 +3,12 @@ package sgtmelon.handynotes.app.model.item;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import java.util.Arrays;
+import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
@@ -29,7 +31,7 @@ public class ItemStatus {
 
     //TODO: разберись с флагами, то как они работают
 
-    public ItemStatus(Context context, ItemNote itemNote, String[] rkVisible) {
+    public ItemStatus(Context context, ItemNote itemNote, Long[] rankVisible) {
         this.context = context;
 
         Intent intent = new Intent(context, ActNote.class);
@@ -37,8 +39,8 @@ public class ItemStatus {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setAction(Intent.ACTION_VIEW);
 
-        intent = itemNote.fillIntent(intent);
-        intent.putExtra(DataInfo.RK_VS, rkVisible);
+        intent.putExtra(DataInfo.NT_ID, itemNote.getId());
+        intent.putExtra(DataInfo.RK_VS, rankVisible);
         intent.putExtra(StateNote.KEY_CREATE, false);
 
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -93,20 +95,19 @@ public class ItemStatus {
     //Обновление отображения в зависимоти от видимости категорий
     //В окне со всеми заметками
     public void updateNote(ItemRank itemRank) {
-        String rkId = Long.toString(itemRank.getId());
-        String[] rankId = itemNote.getRankId();
+        Long[] rankId = itemNote.getRankId();
 
-        if (rankId[0].equals(rkId)) {
+        if (rankId[0] == itemRank.getId()) {
             if (itemRank.isVisible()) notifyNote();
             else cancelNote();
         }
     }
 
     //В окне редактирования заметок
-    public void updateNote(ItemNote itemNote, String[] rkVisible) {
+    public void updateNote(ItemNote itemNote, List<Long> rkVisible) {
         if (itemNote.isStatus()) {
-            String[] rankId = itemNote.getRankId();
-            if (rankId.length == 0 || Arrays.asList(rkVisible).contains(rankId[0])) {
+            Long[] rankId = itemNote.getRankId();
+            if (rankId.length == 0 || rkVisible.contains(rankId[0])) {
                 updateNote(itemNote);
             } else {
                 cancelNote();

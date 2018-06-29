@@ -32,7 +32,6 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterRoll;
 import sgtmelon.handynotes.app.data.DataRoom;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
-import sgtmelon.handynotes.office.conv.ConvLong;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.def.data.DefCheck;
 import sgtmelon.handynotes.office.def.data.DefType;
@@ -207,7 +206,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 }
                 db.daoRoll().delete(itemNote.getId(), rollId);
             }
-            db.daoRank().update(itemNote.getCreate(), itemNote.getRankId());
+            db.daoRank().update(itemNote.getId(), itemNote.getRankId());
 
             db.close();
 
@@ -223,7 +222,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db = DataRoom.provideDb(context);
 
         final String[] checkName = db.daoRank().getName();
-        final String[] checkId = ConvLong.fromLong(db.daoRank().getId());
+        final Long[] checkId = db.daoRank().getId();
         final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
 
         db.close();
@@ -241,13 +240,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        List<String> rankId = new ArrayList<>();
-                        List<String> rankPs = new ArrayList<>();
+                        List<Long> rankId = new ArrayList<>();
+                        List<Long> rankPs = new ArrayList<>();
 
                         for (int i = 0; i < checkId.length; i++) {
                             if (checkItem[i]) {
                                 rankId.add(checkId[i]);
-                                rankPs.add(Integer.toString(i));
+                                rankPs.add((long) i);
                             }
                         }
 

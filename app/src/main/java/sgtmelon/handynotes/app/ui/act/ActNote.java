@@ -7,8 +7,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.util.List;
+
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.data.DataRoom;
+import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.def.data.DefType;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.state.StateNote;
@@ -31,7 +34,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
     public ControlSave controlSave;
     public ItemStatus itemStatus;
 
-    public String[] rankVisible;
+    public List<Long> rankVisible;
     private ItemNote itemNote;
     //endregion
 
@@ -64,7 +67,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         setupListItemNote();
         setupFrg();
 
-        itemStatus = new ItemStatus(this, itemNote, rankVisible);
+        itemStatus = new ItemStatus(this, itemNote, ConvList.fromList(rankVisible));
     }
 
     private void setupListItemNote() {
@@ -75,13 +78,15 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
             stateNote.setCreate(bundle.getBoolean(StateNote.KEY_CREATE));
             stateNote.setEdit();
 
+            db = DataRoom.provideDb(getApplicationContext());
             if (stateNote.isCreate()) {
                 itemNote = Help.Note.fillCreate(this, bundle.getInt(DataInfo.NT_TP));
             } else {
-                itemNote = new ItemNote(bundle);
+                itemNote = db.daoNote().get(bundle.getLong(DataInfo.NT_ID));
                 stateNote.setBin(itemNote.isBin());
             }
-            rankVisible = bundle.getStringArray(DataInfo.RK_VS);
+            rankVisible = db.daoRank().getRankVisible();
+            db.close();
         }
     }
 
@@ -141,7 +146,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
         db = DataRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), true);
-        if(itemNote.isStatus()){
+        if (itemNote.isStatus()) {
             db.daoNote().update(itemNote.getId(), false);
         }
         db.close();

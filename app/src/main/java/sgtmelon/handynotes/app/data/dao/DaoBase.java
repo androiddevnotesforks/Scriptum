@@ -21,16 +21,16 @@ import sgtmelon.handynotes.app.model.item.ItemRank;
 abstract class DaoBase extends DataInfo {
 
     /**
-     * @param noteCreate - Массив с датами создания заметок
+     * @param noteId - Массив с датами создания заметок
      * @return - Список заметок по данным датам создания
      */
     @Query("SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_CREATE IN(:noteCreate)")
-    abstract List<ItemNote> getNote(String[] noteCreate);
+            "WHERE NT_ID IN(:noteId)")
+    abstract List<ItemNote> getNote(Long[] noteId);
 
     @Query("SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_CREATE IN(:noteCreate)")
-    abstract List<ItemNote> getNote(List<String> noteCreate);
+            "WHERE NT_ID IN(:noteId)")
+    abstract List<ItemNote> getNote(List<Long> noteId);
 
     /**
      * @param noteType   - Тип заметки
@@ -47,11 +47,11 @@ abstract class DaoBase extends DataInfo {
     /**
      * Обновление при удалении категории
      *
-     * @param noteCreate - Даты создания заметок принадлижащих к категории
+     * @param noteId     - Id заметок принадлижащих к категории
      * @param noteRankId - Id категории, которую удалили
      */
-    void updateNote(String[] noteCreate, String noteRankId) {
-        List<ItemNote> listNote = getNote(noteCreate);
+    void updateNote(Long[] noteId, long noteRankId) {
+        List<ItemNote> listNote = getNote(noteId);
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
@@ -84,7 +84,7 @@ abstract class DaoBase extends DataInfo {
     @Query("SELECT RK_ID FROM RANK_TABLE " +
             "WHERE RK_VISIBLE = 1 " +
             "ORDER BY RK_POSITION")
-    abstract List<Long> getRankVisible();
+    public abstract List<Long> getRankVisible();
 
     /**
      * Удаление пунктов при удалении заметки
@@ -102,7 +102,7 @@ abstract class DaoBase extends DataInfo {
     @Query("SELECT * FROM RANK_TABLE " +
             "WHERE RK_ID IN(:rankId)" +
             "ORDER BY RK_POSITION ASC")
-    abstract List<ItemRank> getRank(String[] rankId);
+    abstract List<ItemRank> getRank(Long[] rankId);
 
     /**
      * @param listRank - список категорий, которые необходимо обновить
@@ -111,15 +111,15 @@ abstract class DaoBase extends DataInfo {
     public abstract void updateRank(List<ItemRank> listRank);
 
     /**
-     * @param noteCreate - Дата создания заметки, которую необходимо убрать из категории
-     * @param rankId     - Массив в id категорий
+     * @param noteId - Id заметки, которую необходимо убрать из категории
+     * @param rankId - Массив из id категорий, принадлежащих заметке
      */
-    void clearRank(String noteCreate, String[] rankId) {
+    void clearRank(long noteId, Long[] rankId) {
         List<ItemRank> listRank = getRank(rankId);
 
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
-            itemRank.removeCreate(noteCreate);
+            itemRank.removeId(noteId);
             listRank.set(i, itemRank);
         }
 
