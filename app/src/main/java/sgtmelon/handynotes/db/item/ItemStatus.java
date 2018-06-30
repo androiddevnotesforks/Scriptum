@@ -11,7 +11,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.app.model.state.StateNote;
+import sgtmelon.handynotes.office.mdl.st.StNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.ui.act.ActNote;
@@ -39,7 +39,7 @@ public class ItemStatus {
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
         intent.putExtra(Db.RK_VS, rankVisible);
-        intent.putExtra(StateNote.KEY_CREATE, false);
+        intent.putExtra(StNote.KEY_CREATE, false);
 
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 //        stackBuilder.addParentStack(ActNote.class);

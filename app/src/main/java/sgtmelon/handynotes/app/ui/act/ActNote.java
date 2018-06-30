@@ -14,7 +14,7 @@ import sgtmelon.handynotes.app.control.ControlSave;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.item.ItemNote;
 import sgtmelon.handynotes.db.item.ItemStatus;
-import sgtmelon.handynotes.app.model.state.StateNote;
+import sgtmelon.handynotes.office.mdl.st.StNote;
 import sgtmelon.handynotes.app.ui.frg.FrgRoll;
 import sgtmelon.handynotes.app.ui.frg.FrgText;
 import sgtmelon.handynotes.office.Help;
@@ -30,7 +30,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
     private DbRoom db;
 
-    public StateNote stateNote;
+    public StNote stNote;
     public ControlSave controlSave;
     public ItemStatus itemStatus;
 
@@ -50,7 +50,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         super.onPause();
         Log.i(TAG, "onPause");
 
-        controlSave.onPauseSave(stateNote.isEdit());
+        controlSave.onPauseSave(stNote.isEdit());
     }
 
     @Override
@@ -61,7 +61,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        stateNote = new StateNote();
+        stNote = new StNote();
         controlSave = new ControlSave(this, pref);
 
         setupListItemNote();
@@ -75,15 +75,15 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            stateNote.setCreate(bundle.getBoolean(StateNote.KEY_CREATE));
-            stateNote.setEdit();
+            stNote.setCreate(bundle.getBoolean(StNote.KEY_CREATE));
+            stNote.setEdit();
 
             db = DbRoom.provideDb(getApplicationContext());
-            if (stateNote.isCreate()) {
+            if (stNote.isCreate()) {
                 itemNote = Help.Note.fillCreate(this, bundle.getInt(Db.NT_TP));
             } else {
                 itemNote = db.daoNote().get(bundle.getLong(Db.NT_ID));
-                stateNote.setBin(itemNote.isBin());
+                stNote.setBin(itemNote.isBin());
             }
             rankVisible = db.daoRank().getRankVisible();
             db.close();
@@ -161,7 +161,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
         controlSave.setNeedSave(false);
 
-        if (stateNote.isEdit() && !stateNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
+        if (stNote.isEdit() && !stNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             switch (itemNote.getType()) {
                 case DefType.text:
                     if (!frgText.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
@@ -191,7 +191,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
                     }
                     break;
             }
-        } else if (stateNote.isCreate()) {                 //Если только что создали заметку
+        } else if (stNote.isCreate()) {                 //Если только что создали заметку
             switch (itemNote.getType()) {   //Если сохранение не выполнено, выход без сохранения
                 case DefType.text:
                     if (!frgText.onMenuSaveClick(true)) super.onBackPressed();

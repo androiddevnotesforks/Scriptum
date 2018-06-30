@@ -27,7 +27,7 @@ import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.item.ItemNote;
 import sgtmelon.handynotes.db.item.ItemRoll;
 import sgtmelon.handynotes.db.repo.RepoNote;
-import sgtmelon.handynotes.app.model.state.StateNote;
+import sgtmelon.handynotes.office.mdl.st.StNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
@@ -147,7 +147,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         Log.i(TAG, "updateAdapter");
 
         db = DbRoom.provideDb(context);
-        listRepoNote = db.daoNote().get(DefBin.out, Help.Pref.getSortNoteOrder(context));
+        listRepoNote = db.daoNote().get(context, DefBin.out, Help.Pref.getSortNoteOrder(context));
         db.close();
 
         adapterNote.updateAdapter(listRepoNote);
@@ -166,7 +166,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
         intent.putExtra(Db.RK_VS, activity.frgRank.controlRank.getVisible());
-        intent.putExtra(StateNote.KEY_CREATE, false);
+        intent.putExtra(StNote.KEY_CREATE, false);
 
         startActivity(intent);
     }
@@ -195,12 +195,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         RepoNote repoNote = listRepoNote.get(p);
         repoNote.updateListRoll(rollCheck);
         repoNote.setItemNote(itemNote);
+        repoNote.updateItemStatus(itemNote);
         listRepoNote.set(p, repoNote);
 
         adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemChanged(p);
-
-        activity.managerStatus.updateItemBind(itemNote);
 
         activity.frgRank.updateAdapter(false);
     }
@@ -209,19 +208,20 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onOptionBindClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onOptionBindClick");
 
+        RepoNote repoNote = listRepoNote.get(p);
+
         if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
-            activity.managerStatus.insertItem(itemNote, activity.frgRank.controlRank.getVisible());
+            repoNote.updateItemStatus(true);
         } else {
             itemNote.setStatus(false);
-            activity.managerStatus.removeItem(itemNote);
+            repoNote.updateItemStatus(false);
         }
 
         db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
         db.close();
 
-        RepoNote repoNote = listRepoNote.get(p);
         repoNote.setItemNote(itemNote);
         listRepoNote.set(p, repoNote);
 
@@ -266,12 +266,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         db.close();
 
         repoNote.setItemNote(itemNote);
+        repoNote.updateItemStatus(itemNote);
         listRepoNote.set(p, repoNote);
 
         adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemChanged(p);
-
-        activity.managerStatus.updateItemBind(itemNote);
 
         activity.frgRank.updateAdapter(false);
     }
@@ -287,11 +286,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         }
         db.close();
 
+        listRepoNote.get(p).updateItemStatus(false);
         listRepoNote.remove(p);
+
         adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemRemoved(p);
-
-        activity.managerStatus.removeItem(itemNote);
 
         activity.frgBin.updateAdapter();
     }

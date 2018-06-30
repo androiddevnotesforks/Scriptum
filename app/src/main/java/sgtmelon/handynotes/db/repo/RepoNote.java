@@ -62,4 +62,13 @@ public class RepoNote {
         }
     }
 
+    public void updateItemStatus(boolean noteStatus) {
+        if (noteStatus) itemStatus.notifyNote();
+        else itemStatus.cancelNote();
+    }
+
+    public void updateItemStatus(ItemNote itemNote){
+        itemStatus.updateNote(itemNote);
+    }
+
 }

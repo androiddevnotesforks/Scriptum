@@ -17,11 +17,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sgtmelon.handynotes.app.model.manager.ManagerStatus;
 import sgtmelon.handynotes.db.item.ItemNote;
 import sgtmelon.handynotes.db.item.ItemStatus;
 import sgtmelon.handynotes.db.repo.RepoNote;
-import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
@@ -52,57 +50,33 @@ public abstract class DaoNote extends DaoBase {
         return getQuery(query);
     }
 
-    public List<RepoNote> get(@DefBin int noteBin, String sortKeys) {
+    public List<RepoNote> get(Context context, @DefBin int noteBin, String sortKeys) {
         List<RepoNote> listRepoNote = getQuery(noteBin, sortKeys);
         List<Long> rankVisible = getRankVisible();
+        Long[] rankVs = ConvList.fromList(rankVisible);
 
         for (int i = 0; i < listRepoNote.size(); i++) {
-            ItemNote itemNote = listRepoNote.get(i).getItemNote();
+            RepoNote repoNote = listRepoNote.get(i);
+
+            ItemNote itemNote = repoNote.getItemNote();
+            ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
+
             Long[] rankId = itemNote.getRankId();
-
-
             if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
+                itemStatus.cancelNote();
                 listRepoNote.remove(i);
+            } else {
+                repoNote.setItemStatus(itemStatus);
+                listRepoNote.set(i, repoNote);
             }
         }
 
         return listRepoNote;
     }
 
-    /**
-     * Конструирует менеджер сообщений с учётом видимых категорий
-     *
-     * @param context - Используется для создания уведомления
-     * @return - Возвращает менеджер сообщений в статус баре
-     */
-    public ManagerStatus getManagerStatus(Context context) {
-        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT * FROM " + Db.NT_TB +
-                        " WHERE " + Db.NT_ST + " = " + 1 +
-                        " ORDER BY " + Help.Pref.getSortNoteOrder(context));
-
-        List<RepoNote> listRepoNote = getQuery(query);
-        List<Long> rankVisible = getRankVisible();
-        Long[] rankVs = ConvList.fromList(rankVisible);
-
-        List<Long> listId = new ArrayList<>();
-        List<ItemStatus> listStatus = new ArrayList<>();
-
-        for (int i = listRepoNote.size() - 1; i >= 0; i--) {
-            ItemNote itemNote = listRepoNote.get(i).getItemNote();
-            Long[] rankId = itemNote.getRankId();
-
-            ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
-            if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
-                itemStatus.cancelNote();
-            }
-
-            listId.add(itemNote.getId());
-            listStatus.add(itemStatus);
-        }
-
-        return new ManagerStatus(context, listId, listStatus);
-    }
+    @Query("SELECT * FROM NOTE_TABLE " +
+            "WHERE NT_BIN = :noteBin")
+    abstract List<ItemNote> get(@DefBin int noteBin);
 
     @Update
     public abstract void update(ItemNote itemNote);
@@ -152,19 +126,15 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void clearBin() {
-        List<RepoNote> listRepoNote = get(DefBin.in, Db.orders[0]);
-        List<ItemNote> listNote = new ArrayList<>();
-
-        for (int i = 0; i < listRepoNote.size(); i++) {
-            ItemNote itemNote = listRepoNote.get(i).getItemNote();
-            listNote.add(itemNote);
-
+        List<ItemNote> listNote = get(DefBin.in);
+        for (int i = 0; i < listNote.size(); i++) {
+            ItemNote itemNote = listNote.get(i);
             Long[] rankId = itemNote.getRankId();
+
             if (rankId.length != 0) {
                 clearRank(itemNote.getId(), rankId);
             }
         }
-
         delete(listNote);
     }
 

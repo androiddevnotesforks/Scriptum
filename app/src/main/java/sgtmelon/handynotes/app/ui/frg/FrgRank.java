@@ -27,7 +27,7 @@ import sgtmelon.handynotes.app.adapter.AdapterRank;
 import sgtmelon.handynotes.app.control.ControlRank;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.item.ItemRank;
-import sgtmelon.handynotes.app.model.state.StateDrag;
+import sgtmelon.handynotes.office.mdl.st.StDrag;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
 import sgtmelon.handynotes.office.intf.IntfItem;
@@ -178,7 +178,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     }
 
     //region RecyclerView variables
-    private StateDrag stateDrag;
+    private StDrag stDrag;
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
 
@@ -188,7 +188,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     private void setupRecyclerView() {
         Log.i(TAG, "setupRecyclerView");
 
-        stateDrag = new StateDrag();
+        stDrag = new StDrag();
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
@@ -206,7 +206,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         adapterRank = new AdapterRank();
         recyclerView.setAdapter(adapterRank);
 
-        adapterRank.setCallback(this, this, stateDrag);
+        adapterRank.setCallback(this, this, stDrag);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -243,7 +243,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.daoRank().update(itemRank);
                 db.close();
 
-                activity.managerStatus.updateItemVisible(itemRank);
                 activity.frgNote.updateAdapter();
                 activity.frgBin.updateAdapter();
                 break;
@@ -293,7 +292,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 adapterRank.updateAdapter(controlRank.getListRank());
                 adapterRank.notifyItemRemoved(p);
 
-                activity.managerStatus.updateItemVisible(itemRank);
                 activity.frgNote.updateAdapter();
                 activity.frgBin.updateAdapter();
                 break;
@@ -329,7 +327,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         db.daoRank().updateRank(listRank);
         db.close();
 
-        activity.managerStatus.updateItemVisible(listRank);
         activity.frgNote.updateAdapter();
         activity.frgBin.updateAdapter();
     }
@@ -344,7 +341,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             int flagsDrag = 0;
             int flagsSwipe = 0;
 
-            if (stateDrag.isDrag()) flagsDrag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            if (stDrag.isDrag()) flagsDrag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
 
             return makeMovementFlags(flagsDrag, flagsSwipe);
         }
@@ -367,9 +364,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             dragEndPs = viewHolder.getAdapterPosition();
             if (dragStartPs != dragEndPs) {
                 db = DbRoom.provideDb(context);
-                db.daoRank().update(dragStartPs, dragEndPs);
+                db.daoRank().update(dragStartPs, dragEndPs); //TODO возвращать List<ItemRank>
                 controlRank.setListRank(db.daoRank().get());
-                activity.managerStatus = db.daoNote().getManagerStatus(context);
                 db.close();
 
                 adapterRank.updateAdapter(controlRank.getListRank());

@@ -28,7 +28,7 @@ import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.item.ItemNote;
 import sgtmelon.handynotes.db.repo.RepoNote;
-import sgtmelon.handynotes.app.model.state.StateNote;
+import sgtmelon.handynotes.office.mdl.st.StNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
@@ -187,7 +187,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Log.i(TAG, "updateAdapter");
 
         db = DbRoom.provideDb(context);
-        listRepoNote = db.daoNote().get(DefBin.in, Help.Pref.getSortNoteOrder(context));
+        listRepoNote = db.daoNote().get(context, DefBin.in, Help.Pref.getSortNoteOrder(context));
         db.close();
 
         adapterNote.updateAdapter(listRepoNote);
@@ -208,7 +208,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
         intent.putExtra(Db.RK_VS, activity.frgRank.controlRank.getVisible());
-        intent.putExtra(StateNote.KEY_CREATE, false);
+        intent.putExtra(StNote.KEY_CREATE, false);
 
         startActivity(intent);
     }

@@ -18,7 +18,7 @@ import sgtmelon.handynotes.app.adapter.AdapterSort;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.app.model.item.ItemSort;
+import sgtmelon.handynotes.office.mdl.item.ItemSort;
 
 public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
 
@@ -135,7 +135,7 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
             adapterSort.updateAdapter(listSort);
             adapterSort.notifyItemMoved(oldPs, newPs);
 
-            if (oldPs == adapterSort.stateSort.getEnd()) {
+            if (oldPs == adapterSort.stSort.getEnd()) {
                 adapterSort.notifyItemChanged(newPs);
             } else adapterSort.notifyItemChanged(oldPs);
 

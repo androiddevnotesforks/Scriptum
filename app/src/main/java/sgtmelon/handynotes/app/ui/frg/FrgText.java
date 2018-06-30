@@ -68,7 +68,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         setupToolbar();
         setupEnter();
 
-        onMenuEditClick(activity.stateNote.isEdit());
+        onMenuEditClick(activity.stNote.isEdit());
 
         return frgView;
     }
@@ -104,7 +104,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onClick(View view) {
         Log.i(TAG, "onClick");
 
-        if (activity.stateNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
+        if (activity.stNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
             db = DbRoom.provideDb(context);
@@ -133,8 +133,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             }
 
             db = DbRoom.provideDb(context);
-            if (activity.stateNote.isCreate()) {
-                activity.stateNote.setCreate(false);
+            if (activity.stNote.isCreate()) {
+                activity.stNote.setCreate(false);
 
                 long ntId = db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
@@ -235,10 +235,10 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        activity.stateNote.setEdit(editMode);
+        activity.stNote.setEdit(editMode);
 
-        menuNote.setMenuGroupVisible(activity.stateNote.isBin(), editMode, !activity.stateNote.isBin() && !editMode);
-        bind(editMode, activity.stateNote.isCreate());
+        menuNote.setMenuGroupVisible(activity.stNote.isBin(), editMode, !activity.stNote.isBin() && !editMode);
+        bind(editMode, activity.stNote.isCreate());
 
         activity.controlSave.setSaveHandlerEvent(editMode);
     }

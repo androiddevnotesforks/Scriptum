@@ -13,13 +13,11 @@ import android.util.Log;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterPager;
-import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.office.annot.def.DefPages;
 import sgtmelon.handynotes.office.intf.IntfMenu;
-import sgtmelon.handynotes.app.model.state.StateNote;
+import sgtmelon.handynotes.office.mdl.st.StNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.app.control.menu.MenuMain;
-import sgtmelon.handynotes.app.model.manager.ManagerStatus;
 import sgtmelon.handynotes.app.ui.frg.FrgBin;
 import sgtmelon.handynotes.app.ui.frg.FrgNote;
 import sgtmelon.handynotes.app.ui.frg.FrgRank;
@@ -33,18 +31,6 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
     }
 
     final String TAG = "ActMain";
-
-    public ManagerStatus managerStatus;
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume");
-
-        DbRoom db = DbRoom.provideDb(this);
-        managerStatus = db.daoNote().getManagerStatus(this);
-        db.close();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +98,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
                     public void onClick(DialogInterface dialog, int item) {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
-                        intent.putExtra(StateNote.KEY_CREATE, true);
+                        intent.putExtra(StNote.KEY_CREATE, true);
                         intent.putExtra(Db.NT_TP, item);
                         intent.putExtra(Db.RK_VS, frgRank.controlRank.getVisible());
 

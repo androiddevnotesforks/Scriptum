@@ -1,8 +1,8 @@
-package sgtmelon.handynotes.app.model.state;
+package sgtmelon.handynotes.office.mdl.st;
 
 import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class StateDrag implements IntfItem.Drag {
+public class StDrag implements IntfItem.Drag {
 
     private boolean drag = false;
 

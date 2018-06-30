@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.model.item.ItemSort;
+import sgtmelon.handynotes.office.mdl.item.ItemSort;
 import sgtmelon.handynotes.databinding.ItemSortBinding;
-import sgtmelon.handynotes.app.model.state.StateSort;
+import sgtmelon.handynotes.office.mdl.st.StSort;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
 
 public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
 
     private final List<ItemSort> listSort;
-    public final StateSort stateSort;
+    public final StSort stSort;
 
     public AdapterSort() {
         listSort = new ArrayList<>();
-        stateSort = new StateSort();
+        stSort = new StSort();
     }
 
     private IntfItem.Click click;
@@ -37,7 +37,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
         this.listSort.clear();
         this.listSort.addAll(listSort);
 
-        stateSort.updateEnd(listSort);
+        stSort.updateEnd(listSort);
     }
 
     public void updateAdapter(int position, ItemSort itemSort) {
@@ -55,7 +55,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull SortHolder holder, int position) {
-        holder.bind(listSort.get(position), position, stateSort.getEnd());
+        holder.bind(listSort.get(position), position, stSort.getEnd());
     }
 
     @Override
@@ -88,7 +88,7 @@ public class AdapterSort extends RecyclerView.Adapter<AdapterSort.SortHolder> {
         @Override
         public void onClick(View view) {
             int p = getAdapterPosition();
-            if (p == stateSort.getEnd()) click.onItemClick(view, p);
+            if (p == stSort.getEnd()) click.onItemClick(view, p);
         }
 
     }

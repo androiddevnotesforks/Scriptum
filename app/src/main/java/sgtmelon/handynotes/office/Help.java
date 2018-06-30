@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Locale;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.model.item.ItemSort;
+import sgtmelon.handynotes.office.mdl.item.ItemSort;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.db.item.ItemNote;
 import sgtmelon.handynotes.db.item.ItemRoll;

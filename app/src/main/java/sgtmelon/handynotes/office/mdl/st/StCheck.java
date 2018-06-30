@@ -1,6 +1,6 @@
-package sgtmelon.handynotes.app.model.state;
+package sgtmelon.handynotes.office.mdl.st;
 
-public class StateCheck {
+public class StCheck {
 
     private boolean all;
 
