@@ -1,9 +1,9 @@
-package sgtmelon.handynotes.office.mdl.st;
+package sgtmelon.handynotes.office.st;
 
 import java.util.List;
 
 import sgtmelon.handynotes.office.annot.def.DefSort;
-import sgtmelon.handynotes.office.mdl.item.ItemSort;
+import sgtmelon.handynotes.app.model.item.ItemSort;
 
 public class StSort {
 

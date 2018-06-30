@@ -17,8 +17,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sgtmelon.handynotes.db.item.ItemNote;
-import sgtmelon.handynotes.db.item.ItemStatus;
+import sgtmelon.handynotes.app.model.item.ItemNote;
+import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.db.repo.RepoNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;

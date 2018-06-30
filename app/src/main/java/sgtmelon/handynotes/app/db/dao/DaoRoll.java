@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sgtmelon.handynotes.db.item.ItemRoll;
+import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 

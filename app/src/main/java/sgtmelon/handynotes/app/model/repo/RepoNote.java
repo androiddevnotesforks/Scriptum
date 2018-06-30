@@ -7,9 +7,9 @@ import android.arch.persistence.room.Relation;
 import java.util.ArrayList;
 import java.util.List;
 
-import sgtmelon.handynotes.db.item.ItemNote;
-import sgtmelon.handynotes.db.item.ItemRoll;
-import sgtmelon.handynotes.db.item.ItemStatus;
+import sgtmelon.handynotes.app.model.item.ItemNote;
+import sgtmelon.handynotes.app.model.item.ItemRoll;
+import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 

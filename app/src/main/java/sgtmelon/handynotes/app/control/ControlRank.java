@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.db.item.ItemRank;
+
 import sgtmelon.handynotes.office.Help;
 
 public class ControlRank implements TextWatcher, TextView.OnEditorActionListener {

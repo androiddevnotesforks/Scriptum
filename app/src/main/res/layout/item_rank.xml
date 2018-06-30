@@ -9,7 +9,7 @@
 
         <variable
             name="itemRank"
-            type="sgtmelon.handynotes.db.item.ItemRank" />
+            type="sgtmelon.handynotes.app.model.item.ItemRank" />
 
     </data>
 

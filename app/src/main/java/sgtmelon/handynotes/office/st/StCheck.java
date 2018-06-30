@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.mdl.st;
+package sgtmelon.handynotes.office.st;
 
 public class StCheck {
 

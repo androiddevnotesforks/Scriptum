@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.mdl.st;
+package sgtmelon.handynotes.office.st;
 
 import sgtmelon.handynotes.office.intf.IntfItem;
 

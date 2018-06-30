@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.mdl.item.ItemSort;
+import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.databinding.ItemSortBinding;
-import sgtmelon.handynotes.office.mdl.st.StSort;
+import sgtmelon.handynotes.office.st.StSort;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
 

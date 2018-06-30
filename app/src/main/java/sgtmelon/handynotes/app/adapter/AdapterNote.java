@@ -14,8 +14,8 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.db.repo.RepoNote;
 import sgtmelon.handynotes.databinding.ItemNoteRollBinding;
 import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
-import sgtmelon.handynotes.db.item.ItemNote;
-import sgtmelon.handynotes.db.item.ItemRoll;
+import sgtmelon.handynotes.app.model.item.ItemNote;
+import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfItem;
 

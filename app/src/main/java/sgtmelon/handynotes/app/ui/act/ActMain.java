@@ -15,7 +15,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterPager;
 import sgtmelon.handynotes.office.annot.def.DefPages;
 import sgtmelon.handynotes.office.intf.IntfMenu;
-import sgtmelon.handynotes.office.mdl.st.StNote;
+import sgtmelon.handynotes.office.st.StNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.app.control.menu.MenuMain;
 import sgtmelon.handynotes.app.ui.frg.FrgBin;

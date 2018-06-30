@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.item;
+package sgtmelon.handynotes.app.model.item;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,7 +11,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.office.mdl.st.StNote;
+import sgtmelon.handynotes.office.st.StNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.ui.act.ActNote;

@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.mdl.item;
+package sgtmelon.handynotes.app.model.item;
 
 import sgtmelon.handynotes.office.annot.def.DefSort;
 

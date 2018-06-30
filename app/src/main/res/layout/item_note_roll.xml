@@ -17,11 +17,11 @@
 
         <variable
             name="itemNote"
-            type="sgtmelon.handynotes.db.item.ItemNote" />
+            type="sgtmelon.handynotes.app.model.item.ItemNote" />
 
         <variable
             name="listRoll"
-            type="java.util.List&lt;sgtmelon.handynotes.db.item.ItemRoll&gt;" />
+            type="java.util.List&lt;sgtmelon.handynotes.app.model.item.ItemRoll&gt;" />
 
     </data>
 
