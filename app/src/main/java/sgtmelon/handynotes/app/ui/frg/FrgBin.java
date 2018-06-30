@@ -25,17 +25,18 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
-import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.office.annot.def.db.DefBin;
+import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.repo.RepoNote;
 import sgtmelon.handynotes.app.model.state.StateNote;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.office.intf.IntfAlert;
-import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
+import sgtmelon.handynotes.databinding.FrgBinBinding;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.db.DefBin;
+import sgtmelon.handynotes.office.intf.IntfAlert;
+import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.view.alert.AlertOption;
 
 public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
@@ -44,7 +45,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     //region Variable
     final String TAG = "FrgBin";
 
-    private DataRoom db;
+    private DbRoom db;
 
     private View frgView;
     private Context context;
@@ -105,7 +106,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     private void setMenuItemClearVisible() {
         Log.i(TAG, "setMenuItemClearVisible");
 
-        if (listNote.size() == 0) mItemClearBin.setVisible(false);
+        if (listRepoNote.size() == 0) mItemClearBin.setVisible(false);
         else mItemClearBin.setVisible(true);
     }
 
@@ -122,14 +123,14 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                             @Override
                             public void onClick(DialogInterface dialog, int id) {
 
-                                db = DataRoom.provideDb(context);
+                                db = DbRoom.provideDb(context);
                                 db.daoNote().clearBin();
                                 db.close();
 
-//                                activity.managerRoll.removeList(listNote);
-                                listNote.clear();
+//                                activity.managerRoll.removeList(listRepoNote);
+                                listRepoNote.clear();
 
-                                adapterNote.updateAdapter(listNote);
+                                adapterNote.updateAdapter(listRepoNote);
                                 adapterNote.notifyDataSetChanged();
 
                                 setMenuItemClearVisible();
@@ -155,7 +156,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         return false;
     }
 
-    private List<ItemNote> listNote;
+    private List<RepoNote> listRepoNote;
     private AdapterNote adapterNote;
 
     private void setupRecyclerView() {
@@ -164,7 +165,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                bind(listNote.size());
+                bind(listRepoNote.size());
             }
         };
 
@@ -174,7 +175,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        listNote = new ArrayList<>();
+        listRepoNote = new ArrayList<>();
 
         adapterNote = new AdapterNote();
         recyclerView.setAdapter(adapterNote);
@@ -185,29 +186,28 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        db = DataRoom.provideDb(context);
-        listNote = db.daoNote().get(DefBin.in, Help.Pref.getSortNoteOrder(context));
+        db = DbRoom.provideDb(context);
+        listRepoNote = db.daoNote().get(DefBin.in, Help.Pref.getSortNoteOrder(context));
         db.close();
 
-        adapterNote.updateAdapter(listNote);
-        adapterNote.setManagerRoll(activity.managerRoll);
+        adapterNote.updateAdapter(listRepoNote);
 
         adapterNote.notifyDataSetChanged();
 
         setMenuItemClearVisible();
-        bind(listNote.size());
+        bind(listRepoNote.size());
     }
 
     @Override
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        ItemNote itemNote = listNote.get(p);
+        ItemNote itemNote = listRepoNote.get(p).getItemNote();
 
         Intent intent = new Intent(context, ActNote.class);
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(Db.RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(Db.RK_VS, activity.frgRank.controlRank.getVisible());
         intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);
@@ -217,7 +217,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        AlertOption alertOption = new AlertOption(context, listNote.get(p), p);
+        AlertOption alertOption = new AlertOption(context, listRepoNote.get(p).getItemNote(), p);
         alertOption.setOptionBin(this);
         alertOption.showOptionBin();
     }
@@ -226,12 +226,12 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onOptionRestoreClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onOptionRestoreClick");
 
-        db = DataRoom.provideDb(context);
+        db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), false);
         db.close();
 
-        listNote.remove(p);
-        adapterNote.updateAdapter(listNote);
+        listRepoNote.remove(p);
+        adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemRemoved(p);
 
         setMenuItemClearVisible();
@@ -243,14 +243,13 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onOptionClearClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onOptionClearClick");
 
-        db = DataRoom.provideDb(context);
+        db = DbRoom.provideDb(context);
         db.daoNote().delete(itemNote.getId());
         db.close();
 
-        activity.managerRoll.removeList(itemNote.getCreate());
-        listNote.remove(p);
+        listRepoNote.remove(p);
 
-        adapterNote.updateAdapter(listNote);
+        adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemRemoved(p);
 
         setMenuItemClearVisible();

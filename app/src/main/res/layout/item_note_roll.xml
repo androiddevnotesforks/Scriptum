@@ -17,11 +17,11 @@
 
         <variable
             name="itemNote"
-            type="sgtmelon.handynotes.app.model.item.ItemNote" />
+            type="sgtmelon.handynotes.db.item.ItemNote" />
 
         <variable
             name="listRoll"
-            type="java.util.List&lt;sgtmelon.handynotes.app.model.item.ItemRoll&gt;" />
+            type="java.util.List&lt;sgtmelon.handynotes.db.item.ItemRoll&gt;" />
 
     </data>
 
@@ -64,14 +64,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 1 ? v.VISIBLE : v.GONE}'>
+                    android:visibility='@{listRoll.size() &gt;= 1 ? v.VISIBLE : v.GONE}'>
 
                     <ImageView
                         android:id="@+id/itemNote_iv_check_1"
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 1 &amp;&amp; listRoll.get(0).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size() &gt;= 1 &amp;&amp; listRoll.get(0).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView
@@ -83,7 +83,7 @@
                         android:layout_marginStart="@dimen/item_layout_small_indent"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text='@{listRoll.size &gt;= 1 ? listRoll.get(0).text : @string/test_item_note_roll_1}'
+                        android:text='@{listRoll.size() &gt;= 1 ? listRoll.get(0).text : @string/test_item_note_roll_1}'
                         android:textColor="@color/colorDark"
                         android:textSize="@dimen/text_medium_size" />
 
@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 2 ? v.VISIBLE : v.GONE}'>
+                    android:visibility='@{listRoll.size() &gt;= 2 ? v.VISIBLE : v.GONE}'>
 
 
                     <ImageView
@@ -102,7 +102,7 @@
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 2 &amp;&amp; listRoll.get(1).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size() &gt;= 2 &amp;&amp; listRoll.get(1).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView
@@ -114,7 +114,7 @@
                         android:layout_marginStart="@dimen/item_layout_small_indent"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text='@{listRoll.size &gt;= 2 ? listRoll.get(1).text : @string/test_item_note_roll_2}'
+                        android:text='@{listRoll.size() &gt;= 2 ? listRoll.get(1).text : @string/test_item_note_roll_2}'
                         android:textColor="@color/colorDark"
                         android:textSize="@dimen/text_medium_size" />
 
@@ -125,7 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 3 ? v.VISIBLE : v.GONE}'>
+                    android:visibility='@{listRoll.size() &gt;= 3 ? v.VISIBLE : v.GONE}'>
 
 
                     <ImageView
@@ -133,7 +133,7 @@
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 3 &amp;&amp; listRoll.get(2).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size() &gt;= 3 &amp;&amp; listRoll.get(2).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView
@@ -145,7 +145,7 @@
                         android:layout_marginStart="@dimen/item_layout_small_indent"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text='@{listRoll.size &gt;= 3 ? listRoll.get(2).text : @string/test_item_note_roll_3}'
+                        android:text='@{listRoll.size() &gt;= 3 ? listRoll.get(2).text : @string/test_item_note_roll_3}'
                         android:textColor="@color/colorDark"
                         android:textSize="@dimen/text_medium_size" />
 
@@ -156,14 +156,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:visibility='@{listRoll.size &gt;= 4 ? v.VISIBLE : v.GONE}'>
+                    android:visibility='@{listRoll.size() &gt;= 4 ? v.VISIBLE : v.GONE}'>
 
                     <ImageView
                         android:id="@+id/itemNote_iv_check_4"
                         android:layout_width="@dimen/icon_small_size"
                         android:layout_height="@dimen/icon_small_size"
                         android:layout_gravity="center"
-                        android:src='@{listRoll.size &gt;= 4 &amp;&amp; listRoll.get(3).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
+                        android:src='@{listRoll.size() &gt;= 4 &amp;&amp; listRoll.get(3).check ? @drawable/ic_info_check_done : @drawable/ic_info_check_outline}'
                         android:tint="@color/colorDark" />
 
                     <TextView
@@ -175,7 +175,7 @@
                         android:layout_marginStart="@dimen/item_layout_small_indent"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text='@{listRoll.size &gt;= 4 ? listRoll.get(3).text : @string/test_item_note_roll_4}'
+                        android:text='@{listRoll.size() &gt;= 4 ? listRoll.get(3).text : @string/test_item_note_roll_4}'
                         android:textColor="@color/colorDark"
                         android:textSize="@dimen/text_medium_size" />
 

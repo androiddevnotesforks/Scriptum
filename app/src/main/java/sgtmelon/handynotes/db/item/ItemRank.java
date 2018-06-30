@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.model.item;
+package sgtmelon.handynotes.db.item;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;

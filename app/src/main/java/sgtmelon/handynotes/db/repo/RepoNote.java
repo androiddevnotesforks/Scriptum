@@ -1,15 +1,17 @@
-package sgtmelon.handynotes.app.model.repo;
+package sgtmelon.handynotes.db.repo;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Relation;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemRoll;
+import sgtmelon.handynotes.db.item.ItemStatus;
 import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRoll;
-import sgtmelon.handynotes.app.model.item.ItemStatus;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 
 public class RepoNote {
 
@@ -34,6 +36,11 @@ public class RepoNote {
         return listRoll;
     }
 
+    //Сброс списка при конвертировании
+    public void setListRoll() {
+        listRoll = new ArrayList<>();
+    }
+
     public void setListRoll(List<ItemRoll> listRoll) {
         this.listRoll = listRoll;
     }
@@ -44,6 +51,15 @@ public class RepoNote {
 
     public void setItemStatus(ItemStatus itemStatus) {
         this.itemStatus = itemStatus;
+    }
+
+    //При отметке всех пунктов
+    public void updateListRoll(@DefCheck int rollCheck) {
+        for (int i = 0; i < listRoll.size(); i++) {
+            ItemRoll itemRoll = listRoll.get(i);
+            itemRoll.setCheck(rollCheck == DefCheck.done);
+            listRoll.set(i, itemRoll);
+        }
     }
 
 }

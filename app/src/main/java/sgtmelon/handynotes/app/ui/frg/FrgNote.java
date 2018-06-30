@@ -23,21 +23,22 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
-import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.databinding.FrgNotesBinding;
-import sgtmelon.handynotes.office.annot.def.db.DefBin;
-import sgtmelon.handynotes.office.annot.def.db.DefCheck;
-import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.app.model.item.ItemNote;
+import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemRoll;
+import sgtmelon.handynotes.db.repo.RepoNote;
 import sgtmelon.handynotes.app.model.state.StateNote;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.office.intf.IntfAlert;
-import sgtmelon.handynotes.app.model.item.ItemRollView;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
+import sgtmelon.handynotes.databinding.FrgNotesBinding;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.db.DefBin;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.intf.IntfAlert;
+import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.view.alert.AlertOption;
 
 public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener,
@@ -46,7 +47,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     //region Variable
     final String TAG = "FrgNote";
 
-    private DataRoom db;
+    private DbRoom db;
 
     private View frgView;
     private Context context;
@@ -115,7 +116,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         return false;
     }
 
-    private List<ItemNote> listNote;
+    private List<RepoNote> listRepoNote;
     private AdapterNote adapterNote;
 
     private void setupRecyclerView() {
@@ -124,7 +125,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                bind(listNote.size());
+                bind(listRepoNote.size());
             }
         };
 
@@ -134,7 +135,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        listNote = new ArrayList<>();
+        listRepoNote = new ArrayList<>();
 
         adapterNote = new AdapterNote();
         recyclerView.setAdapter(adapterNote);
@@ -145,28 +146,26 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        db = DataRoom.provideDb(context);
-        listNote = db.daoNote().get(DefBin.out, Help.Pref.getSortNoteOrder(context));
+        db = DbRoom.provideDb(context);
+        listRepoNote = db.daoNote().get(DefBin.out, Help.Pref.getSortNoteOrder(context));
         db.close();
 
-        adapterNote.updateAdapter(listNote);
-        adapterNote.setManagerRoll(activity.managerRoll);
-
+        adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyDataSetChanged();
 
-        bind(listNote.size());
+        bind(listRepoNote.size());
     }
 
     @Override
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        ItemNote itemNote = listNote.get(p);
+        ItemNote itemNote = listRepoNote.get(p).getItemNote();
 
         Intent intent = new Intent(context, ActNote.class);
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(Db.RK_VS, activity.frgRank.managerRank.getVisible());
+        intent.putExtra(Db.RK_VS, activity.frgRank.controlRank.getVisible());
         intent.putExtra(StateNote.KEY_CREATE, false);
 
         startActivity(intent);
@@ -176,7 +175,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        AlertOption alertOption = new AlertOption(context, listNote.get(p), p);
+        AlertOption alertOption = new AlertOption(context, listRepoNote.get(p).getItemNote(), p);
         alertOption.setOptionNote(this);
         alertOption.showOptionNote();
     }
@@ -188,18 +187,17 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         itemNote.setChange(Help.Time.getCurrentTime(context));
         itemNote.setText(Help.Note.getCheckStr(rollCheck, rollAll));
 
-        db = DataRoom.provideDb(context);
+        db = DbRoom.provideDb(context);
         db.daoRoll().update(itemNote.getId(), rollCheck);
         db.daoNote().update(itemNote);
         db.close();
 
-        activity.managerRoll.updateList(itemNote.getId(), rollCheck);
+        RepoNote repoNote = listRepoNote.get(p);
+        repoNote.updateListRoll(rollCheck);
+        repoNote.setItemNote(itemNote);
+        listRepoNote.set(p, repoNote);
 
-        listNote.set(p, itemNote);
-
-        adapterNote.updateAdapter(listNote);
-        adapterNote.setManagerRoll(activity.managerRoll);
-
+        adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemChanged(p);
 
         activity.managerStatus.updateItemBind(itemNote);
@@ -213,19 +211,21 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
-            activity.managerStatus.insertItem(itemNote, activity.frgRank.managerRank.getVisible());
+            activity.managerStatus.insertItem(itemNote, activity.frgRank.controlRank.getVisible());
         } else {
             itemNote.setStatus(false);
             activity.managerStatus.removeItem(itemNote);
         }
 
-        db = DataRoom.provideDb(context);
+        db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
         db.close();
 
-        listNote.set(p, itemNote);
+        RepoNote repoNote = listRepoNote.get(p);
+        repoNote.setItemNote(itemNote);
+        listRepoNote.set(p, repoNote);
 
-        adapterNote.updateAdapter(listNote);
+        adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemChanged(p);
     }
 
@@ -235,19 +235,21 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
 
-        db = DataRoom.provideDb(context);
+        RepoNote repoNote = listRepoNote.get(p);
+
+        db = DbRoom.provideDb(context);
         switch (itemNote.getType()) {
             case DefType.text:
                 String[] textToRoll = itemNote.getText().split("\n");                             //Получаем пункты списка
 
-                ItemRollView itemRollView = db.daoRoll().insert(itemNote.getId(), textToRoll);      //Записываем пункты
+                List<ItemRoll> listRoll = db.daoRoll().insert(itemNote.getId(), textToRoll);      //Записываем пункты
 
                 itemNote.setType(DefType.roll);
-                itemNote.setText(Help.Note.getCheckStr(0, itemRollView.getSize()));
+                itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
                 db.daoNote().update(itemNote);
 
-                activity.managerRoll.insertList(itemNote.getId(), itemRollView);
+                repoNote.setListRoll(listRoll);
                 break;
             case DefType.roll:
                 String rollToText = db.daoRoll().getText(itemNote.getId());           //Получаем текст заметки
@@ -258,16 +260,15 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
                 db.daoNote().update(itemNote);
                 db.daoRoll().deleteRoll(itemNote.getId());
 
-                activity.managerRoll.removeList(itemNote.getCreate());
+                repoNote.setListRoll();
                 break;
         }
         db.close();
 
-        listNote.set(p, itemNote);
+        repoNote.setItemNote(itemNote);
+        listRepoNote.set(p, repoNote);
 
-        adapterNote.updateAdapter(listNote);
-        adapterNote.setManagerRoll(activity.managerRoll);
-
+        adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemChanged(p);
 
         activity.managerStatus.updateItemBind(itemNote);
@@ -279,15 +280,15 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onOptionDeleteClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onOptionDeleteClick");
 
-        db = DataRoom.provideDb(context);
+        db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);
         if (itemNote.isStatus()) {
             db.daoNote().update(itemNote.getId(), false);
         }
         db.close();
 
-        listNote.remove(p);
-        adapterNote.updateAdapter(listNote);
+        listRepoNote.remove(p);
+        adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemRemoved(p);
 
         activity.managerStatus.removeItem(itemNote);

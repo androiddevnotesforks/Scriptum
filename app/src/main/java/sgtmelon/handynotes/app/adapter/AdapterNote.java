@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.db.repo.RepoNote;
 import sgtmelon.handynotes.databinding.ItemNoteRollBinding;
 import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemRoll;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.app.model.manager.ManagerRoll;
 
 public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
 
-    private final List<ItemNote> listNote;
+    private final List<RepoNote> listRepoNote;
 
     public AdapterNote() {
-        listNote = new ArrayList<>();
+        listRepoNote = new ArrayList<>();
     }
 
     private IntfItem.Click click;
@@ -35,20 +35,14 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
         this.longClick = longClick;
     }
 
-    private ManagerRoll managerRoll;
-
-    public void setManagerRoll(ManagerRoll managerRoll) {
-        this.managerRoll = managerRoll;
-    }
-
-    public void updateAdapter(List<ItemNote> listNote) {
-        this.listNote.clear();
-        this.listNote.addAll(listNote);
+    public void updateAdapter(List<RepoNote> listRepoNote) {
+        this.listRepoNote.clear();
+        this.listRepoNote.addAll(listRepoNote);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return listNote.get(position).getType();
+        return listRepoNote.get(position).getItemNote().getType();
     }
 
     @NonNull
@@ -67,18 +61,19 @@ public class AdapterNote extends RecyclerView.Adapter<AdapterNote.NoteHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
-        ItemNote itemNote = listNote.get(position);
+        RepoNote repoNote = listRepoNote.get(position);
+        ItemNote itemNote = repoNote.getItemNote();
 
         if (itemNote.getType() == DefType.text) {
             holder.bind(itemNote, null);
         } else {
-            holder.bind(itemNote, managerRoll.getListRoll(itemNote.getId()));
+            holder.bind(itemNote, repoNote.getListRoll());
         }
     }
 
     @Override
     public int getItemCount() {
-        return listNote.size();
+        return listRepoNote.size();
     }
 
     class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {

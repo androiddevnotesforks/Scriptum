@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.model.manager;
+package sgtmelon.handynotes.app.control;
 
 import android.content.Context;
 import android.text.Editable;
@@ -15,17 +15,17 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.app.model.item.ItemRank;
+import sgtmelon.handynotes.db.item.ItemRank;
 import sgtmelon.handynotes.office.Help;
 
-public class ManagerRank implements TextWatcher, TextView.OnEditorActionListener {
+public class ControlRank implements TextWatcher, TextView.OnEditorActionListener {
 
     private final Context context;
 
     private List<ItemRank> listRank;
     private List<String> listRankName;
 
-    public ManagerRank(Context context) {
+    public ControlRank(Context context) {
         this.context = context;
     }
 

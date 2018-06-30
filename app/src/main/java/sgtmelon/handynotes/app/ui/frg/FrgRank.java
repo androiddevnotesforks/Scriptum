@@ -24,13 +24,13 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterRank;
-import sgtmelon.handynotes.app.data.DataRoom;
-import sgtmelon.handynotes.app.model.item.ItemRank;
-import sgtmelon.handynotes.app.model.manager.ManagerRank;
+import sgtmelon.handynotes.app.control.ControlRank;
+import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.db.item.ItemRank;
 import sgtmelon.handynotes.app.model.state.StateDrag;
+import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.view.alert.AlertRename;
 
 public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
@@ -39,7 +39,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     //region Variable
     private final String TAG = "FrgRank";
 
-    private DataRoom db;
+    private DbRoom db;
 
     private View frgView;
     private Context context;
@@ -55,7 +55,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         updateAdapter(true);
 
-        managerRank.tintButton();
+        controlRank.tintButton();
     }
 
     @Nullable
@@ -81,7 +81,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         binding.executePendingBindings();
     }
 
-    public ManagerRank managerRank;
+    public ControlRank controlRank;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -93,13 +93,13 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         ImageButton rankAdd = frgView.findViewById(R.id.incToolbarRank_ib_add);
         EditText rankEnter = frgView.findViewById(R.id.incToolbarRank_et_enter);
 
-        managerRank = new ManagerRank(context);
+        controlRank = new ControlRank(context);
 
-        managerRank.setOnClickListener(this);
-        managerRank.setControl(rankCancel, rankAdd, rankEnter);
+        controlRank.setOnClickListener(this);
+        controlRank.setControl(rankCancel, rankAdd, rankEnter);
 
-        rankEnter.addTextChangedListener(managerRank);
-        rankEnter.setOnEditorActionListener(managerRank);
+        rankEnter.addTextChangedListener(controlRank);
+        rankEnter.setOnEditorActionListener(controlRank);
 
         rankCancel.setOnClickListener(this);
         rankAdd.setOnClickListener(this);
@@ -112,25 +112,25 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         switch (view.getId()) {
             case R.id.incToolbarRank_ib_cancel:
-                managerRank.clearEnter();
+                controlRank.clearEnter();
                 break;
             case R.id.incToolbarRank_ib_add:
-                int rankPs = managerRank.size();
-                String rankNm = managerRank.clearEnter();                           //Сбрасываем поле ввода
+                int rankPs = controlRank.size();
+                String rankNm = controlRank.clearEnter();                           //Сбрасываем поле ввода
 
                 ItemRank itemRank = new ItemRank(rankPs, rankNm);
 
-                db = DataRoom.provideDb(context);
+                db = DbRoom.provideDb(context);
                 long rankId = db.daoRank().insert(itemRank);
                 db.close();
 
                 itemRank.setId(rankId);
 
-                managerRank.add(rankPs, itemRank);
-                adapterRank.updateAdapter(managerRank.getListRank());
+                controlRank.add(rankPs, itemRank);
+                adapterRank.updateAdapter(controlRank.getListRank());
 
-                if (managerRank.size() == 1) {
-                    bind(managerRank.size());
+                if (controlRank.size() == 1) {
+                    bind(controlRank.size());
                     adapterRank.notifyItemInserted(rankPs);
                 } else {
                     if (layoutManager.findLastVisibleItemPosition() == rankPs - 1) {    //Если видимая позиция равна позиции куда добавили заметку
@@ -150,21 +150,21 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         Log.i(TAG, "onLongClick");
 
         int rankPs = 0;
-        String rankNm = managerRank.clearEnter();                         //Сбрасываем поле ввода
+        String rankNm = controlRank.clearEnter();                         //Сбрасываем поле ввода
 
         ItemRank itemRank = new ItemRank(rankPs - 1, rankNm);
 
-        db = DataRoom.provideDb(context);
+        db = DbRoom.provideDb(context);
         long rankId = db.daoRank().insert(itemRank);
         db.daoRank().update(rankPs);
         db.close();
 
         itemRank.setId(rankId);
 
-        managerRank.add(rankPs, itemRank);
-        adapterRank.updateAdapter(managerRank.getListRank());
+        controlRank.add(rankPs, itemRank);
+        adapterRank.updateAdapter(controlRank.getListRank());
 
-        if (managerRank.size() == 1) bind(managerRank.size());
+        if (controlRank.size() == 1) bind(controlRank.size());
         else {
             if (layoutManager.findFirstVisibleItemPosition() == rankPs) {   //Если видимая позиция равна позиции куда добавили заметку
                 recyclerView.scrollToPosition(rankPs);                      //Прокручиваем до края, незаметно
@@ -193,7 +193,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                bind(managerRank.size());
+                bind(controlRank.size());
             }
         };
 
@@ -215,31 +215,31 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     public void updateAdapter(boolean updateAll) {
         Log.i(TAG, "updateAdapter");
 
-        db = DataRoom.provideDb(context);
-        managerRank.setListRank(db.daoRank().get());
-        if (updateAll) managerRank.setListRankName(db.daoRank().getNameUp());
+        db = DbRoom.provideDb(context);
+        controlRank.setListRank(db.daoRank().get());
+        if (updateAll) controlRank.setListRankName(db.daoRank().getNameUp());
         db.close();
 
-        adapterRank.updateAdapter(managerRank.getListRank());
+        adapterRank.updateAdapter(controlRank.getListRank());
         adapterRank.notifyDataSetChanged();
 
-        bind(managerRank.size());
+        bind(controlRank.size());
     }
 
     @Override
     public void onItemClick(View view, final int p) {
         Log.i(TAG, "onItemClick");
 
-        final ItemRank itemRank = managerRank.get(p);
+        final ItemRank itemRank = controlRank.get(p);
 
         switch (view.getId()) {
             case R.id.itemRank_bv_visible:
                 itemRank.setVisible(!itemRank.isVisible());
 
-                managerRank.set(p, itemRank);
+                controlRank.set(p, itemRank);
                 adapterRank.updateAdapter(p, itemRank);
 
-                db = DataRoom.provideDb(context);
+                db = DbRoom.provideDb(context);
                 db.daoRank().update(itemRank);
                 db.close();
 
@@ -255,11 +255,11 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                             public void onClick(DialogInterface dialog, int id) {
                                 itemRank.setName(alert.getRename());
 
-                                db = DataRoom.provideDb(context);
+                                db = DbRoom.provideDb(context);
                                 db.daoRank().update(itemRank);
                                 db.close();
 
-                                managerRank.set(p, itemRank);
+                                controlRank.set(p, itemRank);
 
                                 adapterRank.updateAdapter(p, itemRank);
                                 adapterRank.notifyItemChanged(p);
@@ -278,19 +278,19 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 AlertDialog dialog = alert.create();
                 dialog.show();
 
-                alert.setTextChange(dialog, managerRank.getListRankName());
+                alert.setTextChange(dialog, controlRank.getListRankName());
                 break;
             case R.id.itemRank_ib_cancel:
                 itemRank.setVisible(true);                  //Чтобы отобразить заметки в статус баре, если были скрыты
 
-                db = DataRoom.provideDb(context);
-                db.daoRank().delete(managerRank.get(p).getName());
+                db = DbRoom.provideDb(context);
+                db.daoRank().delete(controlRank.get(p).getName());
                 db.daoRank().update(p);
                 db.close();
 
-                managerRank.remove(p);
+                controlRank.remove(p);
 
-                adapterRank.updateAdapter(managerRank.getListRank());
+                adapterRank.updateAdapter(controlRank.getListRank());
                 adapterRank.notifyItemRemoved(p);
 
                 activity.managerStatus.updateItemVisible(itemRank);
@@ -305,27 +305,27 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         Log.i(TAG, "onItemLongClick");
 
         boolean[] iconStartAnim = adapterRank.getIconStartAnim();
-        boolean clickVisible = managerRank.get(p).isVisible();
+        boolean clickVisible = controlRank.get(p).isVisible();
 
-        for (int i = 0; i < managerRank.size(); i++) {
+        for (int i = 0; i < controlRank.size(); i++) {
             if (i != p) {
-                ItemRank itemRank = managerRank.get(i);
+                ItemRank itemRank = controlRank.get(i);
                 boolean isVisible = itemRank.isVisible();
 
                 if (clickVisible == isVisible) {
                     iconStartAnim[i] = true;
                     itemRank.setVisible(!isVisible);
-                    managerRank.set(i, itemRank);
+                    controlRank.set(i, itemRank);
                 }
             }
         }
 
-        List<ItemRank> listRank = managerRank.getListRank();
+        List<ItemRank> listRank = controlRank.getListRank();
 
         adapterRank.updateAdapter(listRank, iconStartAnim);
         adapterRank.notifyDataSetChanged();
 
-        db = DataRoom.provideDb(context);
+        db = DbRoom.provideDb(context);
         db.daoRank().updateRank(listRank);
         db.close();
 
@@ -366,13 +366,13 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
             dragEndPs = viewHolder.getAdapterPosition();
             if (dragStartPs != dragEndPs) {
-                db = DataRoom.provideDb(context);
+                db = DbRoom.provideDb(context);
                 db.daoRank().update(dragStartPs, dragEndPs);
-                managerRank.setListRank(db.daoRank().get());
+                controlRank.setListRank(db.daoRank().get());
                 activity.managerStatus = db.daoNote().getManagerStatus(context);
                 db.close();
 
-                adapterRank.updateAdapter(managerRank.getListRank());
+                adapterRank.updateAdapter(controlRank.getListRank());
                 adapterRank.notifyDataSetChanged();
 
                 activity.frgNote.updateAdapter();
@@ -390,9 +390,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             int oldPs = viewHolder.getAdapterPosition();        //Старая позиция (откуда взяли)
             int newPs = target.getAdapterPosition();            //Новая позиция (куда отпустили)
 
-            managerRank.move(oldPs, newPs);
+            controlRank.move(oldPs, newPs);
 
-            adapterRank.updateAdapter(managerRank.getListRank());
+            adapterRank.updateAdapter(controlRank.getListRank());
             adapterRank.notifyItemMoved(oldPs, newPs);
 
             return true;

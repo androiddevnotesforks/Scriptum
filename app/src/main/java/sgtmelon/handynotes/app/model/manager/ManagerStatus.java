@@ -4,9 +4,9 @@ import android.content.Context;
 
 import java.util.List;
 
-import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRank;
-import sgtmelon.handynotes.app.model.item.ItemStatus;
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemRank;
+import sgtmelon.handynotes.db.item.ItemStatus;
 
 public class ManagerStatus {
 

@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Locale;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.data.DataRoom;
+import sgtmelon.handynotes.app.model.item.ItemSort;
+import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemRoll;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefColor;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRoll;
-import sgtmelon.handynotes.app.model.item.ItemSort;
 
 public class Help {
 
@@ -53,7 +53,7 @@ public class Help {
                 copyText += itemNote.getText();     //В зависимости от типа составляем текст
                 break;
             case DefType.roll:
-                DataRoom db = DataRoom.provideDb(context);
+                DbRoom db = DbRoom.provideDb(context);
                 copyText = db.daoRoll().getText(itemNote.getId());
                 db.close();
                 break;

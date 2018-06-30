@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.data.dao;
+package sgtmelon.handynotes.db.dao;
 
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.arch.persistence.db.SupportSQLiteQuery;
@@ -17,16 +17,16 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import sgtmelon.handynotes.app.model.repo.RepoNote;
+import sgtmelon.handynotes.app.model.manager.ManagerStatus;
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemStatus;
+import sgtmelon.handynotes.db.repo.RepoNote;
+import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.conv.ConvBool;
-import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemStatus;
-import sgtmelon.handynotes.app.model.manager.ManagerStatus;
-import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.conv.ConvBool;
+import sgtmelon.handynotes.office.conv.ConvList;
 
 @Dao
 @TypeConverters({ConvBool.class})
@@ -39,14 +39,11 @@ public abstract class DaoNote extends DaoBase {
             "WHERE NT_ID = :noteId")
     public abstract ItemNote get(long noteId);
 
-//    @Transaction
-//    @RawQuery
-//    abstract List<RepoNote> getQuery(SupportSQLiteQuery query);
-
+    @Transaction
     @RawQuery
-    abstract List<ItemNote> getQuery(SupportSQLiteQuery query);
+    abstract List<RepoNote> getQuery(SupportSQLiteQuery query);
 
-    private List<ItemNote> getQuery(@DefBin int noteBin, String sortKeys) {
+    private List<RepoNote> getQuery(@DefBin int noteBin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + Db.NT_TB +
                         " WHERE " + Db.NT_BN + " = " + noteBin +
@@ -55,20 +52,21 @@ public abstract class DaoNote extends DaoBase {
         return getQuery(query);
     }
 
-    public List<ItemNote> get(@DefBin int noteBin, String sortKeys) {
-        List<ItemNote> listNote = getQuery(noteBin, sortKeys);
+    public List<RepoNote> get(@DefBin int noteBin, String sortKeys) {
+        List<RepoNote> listRepoNote = getQuery(noteBin, sortKeys);
         List<Long> rankVisible = getRankVisible();
 
-        for (int i = 0; i < listNote.size(); i++) {
-            ItemNote itemNote = listNote.get(i);
+        for (int i = 0; i < listRepoNote.size(); i++) {
+            ItemNote itemNote = listRepoNote.get(i).getItemNote();
             Long[] rankId = itemNote.getRankId();
 
+
             if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
-                listNote.remove(i);
+                listRepoNote.remove(i);
             }
         }
 
-        return listNote;
+        return listRepoNote;
     }
 
     /**
@@ -83,15 +81,15 @@ public abstract class DaoNote extends DaoBase {
                         " WHERE " + Db.NT_ST + " = " + 1 +
                         " ORDER BY " + Help.Pref.getSortNoteOrder(context));
 
-        List<ItemNote> listNote = getQuery(query);
+        List<RepoNote> listRepoNote = getQuery(query);
         List<Long> rankVisible = getRankVisible();
         Long[] rankVs = ConvList.fromList(rankVisible);
 
         List<Long> listId = new ArrayList<>();
         List<ItemStatus> listStatus = new ArrayList<>();
 
-        for (int i = listNote.size() - 1; i >= 0; i--) {
-            ItemNote itemNote = listNote.get(i);
+        for (int i = listRepoNote.size() - 1; i >= 0; i--) {
+            ItemNote itemNote = listRepoNote.get(i).getItemNote();
             Long[] rankId = itemNote.getRankId();
 
             ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
@@ -154,16 +152,14 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void clearBin() {
-        List<ItemNote> listNote = get(DefBin.in, Db.orders[0]);
+        List<RepoNote> listRepoNote = get(DefBin.in, Db.orders[0]);
+        List<ItemNote> listNote = new ArrayList<>();
 
-        for (int i = 0; i < listNote.size(); i++) {
-            ItemNote itemNote = listNote.get(i);
+        for (int i = 0; i < listRepoNote.size(); i++) {
+            ItemNote itemNote = listRepoNote.get(i).getItemNote();
+            listNote.add(itemNote);
+
             Long[] rankId = itemNote.getRankId();
-
-            if (itemNote.getType() == DefType.roll) {
-                deleteRoll(itemNote.getId());
-            }
-
             if (rankId.length != 0) {
                 clearRank(itemNote.getId(), rankId);
             }
@@ -173,14 +169,14 @@ public abstract class DaoNote extends DaoBase {
     }
 
     public void listAll(TextView textView) {
-        List<ItemNote> listNote = getQuery(DefBin.in, Db.orders[0]);
-        listNote.addAll(getQuery(DefBin.out, Db.orders[0]));
+        List<RepoNote> listRepoNote = getQuery(DefBin.in, Db.orders[0]);
+        listRepoNote.addAll(getQuery(DefBin.out, Db.orders[0]));
 
         String annotation = "Note Data Base:";
         textView.setText(annotation);
 
-        for (int i = 0; i < listNote.size(); i++) {
-            ItemNote itemNote = listNote.get(i);
+        for (int i = 0; i < listRepoNote.size(); i++) {
+            ItemNote itemNote = listRepoNote.get(i).getItemNote();
 
             textView.append("\n\n" +
                     "ID: " + itemNote.getId() + " | " +

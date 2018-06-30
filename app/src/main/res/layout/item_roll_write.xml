@@ -5,7 +5,7 @@
 
         <variable
             name="itemRoll"
-            type="sgtmelon.handynotes.app.model.item.ItemRoll" />
+            type="sgtmelon.handynotes.db.item.ItemRoll" />
 
     </data>
 

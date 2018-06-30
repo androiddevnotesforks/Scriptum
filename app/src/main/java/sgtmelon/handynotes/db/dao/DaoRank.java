@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.data.dao;
+package sgtmelon.handynotes.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemRank;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRank;
 
 @Dao
 public abstract class DaoRank extends DaoBase {

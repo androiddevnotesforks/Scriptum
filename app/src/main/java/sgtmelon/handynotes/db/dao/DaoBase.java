@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.data.dao;
+package sgtmelon.handynotes.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
@@ -7,10 +7,10 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import sgtmelon.handynotes.db.item.ItemNote;
+import sgtmelon.handynotes.db.item.ItemRank;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRank;
 
 /**
  * Класс обеспечивающий базовую логику, которая используется в разных Dao

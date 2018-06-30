@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.data.dao;
+package sgtmelon.handynotes.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Insert;
@@ -9,11 +9,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import sgtmelon.handynotes.db.item.ItemRoll;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
-import sgtmelon.handynotes.app.model.item.ItemRoll;
-import sgtmelon.handynotes.app.model.item.ItemRollView;
-import sgtmelon.handynotes.app.model.manager.ManagerRoll;
 
 @Dao
 @TypeConverters({ConvBool.class})
@@ -27,44 +25,29 @@ public abstract class DaoRoll extends DaoBase {
      *
      * @param rollIdNote - Id заметки
      * @param rollText   - Массив потенциальных пунктов
-     * @return - Для ManagerRoll и информации о размере
+     * @return - Для RepoNote
      */
-    public ItemRollView insert(long rollIdNote, String[] rollText) {
-        ItemRollView itemRollView = new ItemRollView();
-
+    public List<ItemRoll> insert(long rollIdNote, String[] rollText) {
         List<ItemRoll> listRoll = new ArrayList<>();
-        int rollPs = 0;
 
-        for (String aRollTx : rollText) {
-            if (!aRollTx.equals("")) {
+        int pos = 0;
+        for (String text : rollText) {
+            if (!text.equals("")) {
 
                 ItemRoll itemRoll = new ItemRoll();
                 itemRoll.setIdNote(rollIdNote);
-                itemRoll.setPosition(rollPs);
+                itemRoll.setPosition(pos++);
                 itemRoll.setCheck(false);
-                itemRoll.setText(aRollTx);
+                itemRoll.setText(text);
                 itemRoll.setExist(true);
 
-                long rollId = insert(itemRoll);
-
-                if (rollPs <= 3) {
-                    itemRoll.setId(rollId);
-                    listRoll.add(itemRoll);
-                }
-                rollPs++;
+                long id = insert(itemRoll);
+                itemRoll.setId(id);
+                listRoll.add(itemRoll);
             }
         }
-
-        itemRollView.setListRoll(listRoll);
-        itemRollView.setSize(rollPs);
-
-        return itemRollView;
+        return listRoll;
     }
-
-    @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :rollIdNote " +
-            "ORDER BY RL_POSITION")
-    public abstract List<ItemRoll> get(long rollIdNote);
 
     /**
      * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
@@ -72,39 +55,13 @@ public abstract class DaoRoll extends DaoBase {
      * @return - Список пунктов
      */
     @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_POSITION BETWEEN 0 AND 3 " +
             "ORDER BY RL_ID_NOTE ASC, RL_POSITION ASC")
     abstract List<ItemRoll> get();
 
-    public ManagerRoll getManagerRoll() {
-        List<ItemRoll> listRollBetween = get(); //TODO Другое имя
-
-        List<Long> listCreate = new ArrayList<>();
-        List<ItemRollView> listRollView = new ArrayList<>();
-        List<ItemRoll> listRoll = new ArrayList<>();
-
-        for (int i = 0; i < listRollBetween.size(); i++) {
-            ItemRoll itemRoll = listRollBetween.get(i);
-            itemRoll.setExist(true);
-
-            if (!listCreate.contains(itemRoll.getIdNote())) {
-                listCreate.add(itemRoll.getIdNote());
-
-                if (listRoll.size() != 0) {
-                    listRollView.add(new ItemRollView(listRoll));
-                    listRoll = new ArrayList<>();
-                }
-            }
-
-            listRoll.add(itemRoll);
-        }
-
-        if (listRoll.size() != 0) {
-            listRollView.add(new ItemRollView(listRoll));
-        }
-
-        return new ManagerRoll(listCreate, listRollView);
-    }
+    @Query("SELECT * FROM ROLL_TABLE " +
+            "WHERE RL_ID_NOTE = :rollIdNote " +
+            "ORDER BY RL_POSITION")
+    public abstract List<ItemRoll> get(long rollIdNote);
 
     /**
      * Получение текста для текстовой заметки на основе списка
@@ -127,12 +84,12 @@ public abstract class DaoRoll extends DaoBase {
     /**
      * Получение текста для уведомления на основе списка
      *
-     * @param rollIdNote - Id заметки
+     * @param noteId - Id заметки
      * @param rollCheck  - Количество отмеченых пунктов в заметке
      * @return - Строка для уведомления
      */
-    public String getText(long rollIdNote, String rollCheck) {
-        List<ItemRoll> listRoll = get(rollIdNote);
+    public String getText(long noteId, String rollCheck) {
+        List<ItemRoll> listRoll = get(noteId);
 
         StringBuilder rollText = new StringBuilder();
         rollText.append(rollCheck).append(" |");

@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.model.item;
+package sgtmelon.handynotes.db.item;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.data.DataRoom;
+import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.app.model.state.StateNote;
 import sgtmelon.handynotes.office.annot.Db;
@@ -67,7 +67,7 @@ public class ItemStatus {
             case DefType.roll:
                 icon = R.drawable.ic_menu_bind_roll;
 
-                DataRoom db = DataRoom.provideDb(context);
+                DbRoom db = DbRoom.provideDb(context);
                 text = db.daoRoll().getText(itemNote.getId(), itemNote.getText());
                 db.close();
                 break;

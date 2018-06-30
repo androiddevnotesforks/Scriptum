@@ -13,7 +13,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.data.DataRoom;
+import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.Help;
@@ -123,7 +123,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
         for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem);
 
-        DataRoom db = DataRoom.provideDb(context);
+        DbRoom db = DbRoom.provideDb(context);
         if (db.daoRank().getCount() == 0) mItemRank.setVisible(false);
         db.close();
     }
