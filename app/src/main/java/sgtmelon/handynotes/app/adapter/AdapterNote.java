@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.db.repo.RepoNote;
+import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.databinding.ItemNoteRollBinding;
 import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
 import sgtmelon.handynotes.app.model.item.ItemNote;

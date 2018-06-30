@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.repo;
+package sgtmelon.handynotes.app.model.repo;
 
 import android.arch.persistence.room.Embedded;
 import android.arch.persistence.room.Ignore;

@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.dao;
+package sgtmelon.handynotes.app.db.dao;
 
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;

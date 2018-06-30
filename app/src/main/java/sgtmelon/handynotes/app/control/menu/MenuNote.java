@@ -45,20 +45,20 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     }
 
     //Цвета до и после смены цвета
-    private int statusBarStartColor, statusBarEndColor, toolbarStartColor, toolbarEndColor;
+    private int statusStartColor, statusEndColor, toolbarStartColor, toolbarEndColor;
 
     //Меняем начальный цвет
-    public void setStartColor(int ntColor) {
-        statusBarStartColor = Help.Icon.getColor(context, true, ntColor);
-        toolbarStartColor = Help.Icon.getColor(context, false, ntColor);
+    public void setStartColor(int noteColor) {
+        statusStartColor = Help.Icon.getColor(context, true, noteColor);
+        toolbarStartColor = Help.Icon.getColor(context, false, noteColor);
     }
 
     //Покраска с анимацией
-    public void startTint(int ntColor) {
-        statusBarEndColor = Help.Icon.getColor(context, true, ntColor);
-        toolbarEndColor = Help.Icon.getColor(context, false, ntColor);
+    public void startTint(int noteColor) {
+        statusEndColor = Help.Icon.getColor(context, true, noteColor);
+        toolbarEndColor = Help.Icon.getColor(context, false, noteColor);
 
-        if (statusBarStartColor != statusBarEndColor && toolbarStartColor != toolbarEndColor) {
+        if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
             ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
 
             anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -66,7 +66,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 public void onAnimationUpdate(ValueAnimator animation) {
                     float position = animation.getAnimatedFraction();
 
-                    int blended = Help.Icon.blendColors(statusBarStartColor, statusBarEndColor, position);
+                    int blended = Help.Icon.blendColors(statusStartColor, statusEndColor, position);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         window.setStatusBarColor(blended);
                     }
@@ -84,7 +84,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     private Menu menu;
     private MenuItem mItemStatus, mItemCheck;
 
-    public void setupMenu(Menu menu, boolean ntStatus) {
+    public void setupMenu(Menu menu, boolean noteStatus) {
         this.menu = menu;
 
         MenuItem mItemUndo = menu.findItem(R.id.menu_actNote_restore);
@@ -100,22 +100,16 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         MenuItem mItemRank = menu.findItem(R.id.menu_actNote_rank);
         MenuItem mItemColor = menu.findItem(R.id.menu_actNote_color);
 
-        setStatusTitle(ntStatus);
+        setStatusTitle(noteStatus);
 
-        switch (noteType) {
-            case DefType.roll:
-                mItemStatus.setIcon(Help.Icon.getDrawable(context, R.drawable.ic_menu_bind_roll));
+        boolean isRoll = noteType == DefType.roll;
 
-                mItemConvert.setTitle(R.string.menu_note_convert_to_text);
-                mItemCheck.setVisible(true);
-                break;
-            case DefType.text:
-                mItemStatus.setIcon(Help.Icon.getDrawable(context, R.drawable.ic_menu_bind_text));
+        mItemStatus.setIcon(Help.Icon.getDrawable(context, isRoll
+                ? R.drawable.ic_menu_bind_roll
+                : R.drawable.ic_menu_bind_text));
 
-                mItemConvert.setTitle(R.string.menu_note_convert_to_roll);
-                mItemCheck.setVisible(false);
-                break;
-        }
+        mItemConvert.setTitle(isRoll ? R.string.menu_note_convert_to_text : R.string.menu_note_convert_to_roll);
+        mItemCheck.setVisible(isRoll);
 
         MenuItem[] mItems = new MenuItem[]{mItemUndo, mItemDeleteF,
                 mItemMoreR, mItemStatus, mItemConvert, mItemCheck, mItemDelete,
@@ -133,8 +127,8 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         else mItemCheck.setTitle(context.getString(R.string.menu_note_check_all));
     }
 
-    public void setStatusTitle(boolean ntStatus) {
-        if (ntStatus) mItemStatus.setTitle(context.getString(R.string.menu_note_status_unbind));
+    public void setStatusTitle(boolean noteStatus) {
+        if (noteStatus) mItemStatus.setTitle(context.getString(R.string.menu_note_status_unbind));
         else mItemStatus.setTitle(context.getString(R.string.menu_note_status_bind));
     }
 
@@ -170,7 +164,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 deleteClick.onMenuDeleteForeverClick();
                 return true;
             case R.id.menu_actNote_save:
-                if (!noteClick.onMenuSaveClick(true)){
+                if (!noteClick.onMenuSaveClick(true)) {
                     Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
                 }
                 return true;

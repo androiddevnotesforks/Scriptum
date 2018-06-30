@@ -5,9 +5,9 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import sgtmelon.handynotes.db.dao.DaoNote;
-import sgtmelon.handynotes.db.dao.DaoRank;
-import sgtmelon.handynotes.db.dao.DaoRoll;
+import sgtmelon.handynotes.app.db.dao.DaoNote;
+import sgtmelon.handynotes.app.db.dao.DaoRank;
+import sgtmelon.handynotes.app.db.dao.DaoRoll;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.item.ItemRoll;

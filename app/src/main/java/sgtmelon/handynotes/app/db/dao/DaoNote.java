@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db.dao;
+package sgtmelon.handynotes.app.db.dao;
 
 import android.arch.persistence.db.SimpleSQLiteQuery;
 import android.arch.persistence.db.SupportSQLiteQuery;
@@ -19,7 +19,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
-import sgtmelon.handynotes.db.repo.RepoNote;
+import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefType;

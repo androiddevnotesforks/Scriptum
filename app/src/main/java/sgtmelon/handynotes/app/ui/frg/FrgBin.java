@@ -27,7 +27,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.db.repo.RepoNote;
+import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.st.StNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
@@ -127,7 +127,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                                 db.daoNote().clearBin();
                                 db.close();
 
-//                                activity.managerRoll.removeList(listRepoNote);
                                 listRepoNote.clear();
 
                                 adapterNote.updateAdapter(listRepoNote);
