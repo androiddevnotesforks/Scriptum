@@ -23,127 +23,125 @@ public abstract class DaoRoll extends DaoBase {
     /**
      * Запись пунктов после конвертирования из текстовой заметки
      *
-     * @param rollIdNote - Id заметки
-     * @param rollText   - Массив потенциальных пунктов
+     * @param idNote - Id заметки
+     * @param text   - Массив потенциальных пунктов
      * @return - Для RepoNote
      */
-    public List<ItemRoll> insert(long rollIdNote, String[] rollText) {
+    public List<ItemRoll> insert(long idNote, String[] text) {
         List<ItemRoll> listRoll = new ArrayList<>();
 
-        int pos = 0;
-        for (String text : rollText) {
-            if (!text.equals("")) {
-
+        int p = 0;
+        for (String aText : text) {
+            if (!aText.equals("")) {
                 ItemRoll itemRoll = new ItemRoll();
-                itemRoll.setIdNote(rollIdNote);
-                itemRoll.setPosition(pos++);
+                itemRoll.setIdNote(idNote);
+                itemRoll.setPosition(p++);
                 itemRoll.setCheck(false);
-                itemRoll.setText(text);
+                itemRoll.setText(aText);
                 itemRoll.setExist(true);
 
                 long id = insert(itemRoll);
                 itemRoll.setId(id);
+
                 listRoll.add(itemRoll);
             }
         }
+
         return listRoll;
     }
 
-    /**
-     * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
-     *
-     * @return - Список пунктов
-     */
     @Query("SELECT * FROM ROLL_TABLE " +
             "ORDER BY RL_ID_NOTE ASC, RL_POSITION ASC")
     abstract List<ItemRoll> get();
 
-    @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :rollIdNote " +
-            "ORDER BY RL_POSITION")
-    public abstract List<ItemRoll> get(long rollIdNote);
-
     /**
      * Получение текста для текстовой заметки на основе списка
      *
-     * @param rollIdNote - Id заметки
+     * @param idNote - Id заметки
      * @return - Строка для текстовой заметки
      */
-    public String getText(long rollIdNote) {
-        List<ItemRoll> listRoll = get(rollIdNote);
+    public String getText(long idNote) {
+        List<ItemRoll> listRoll = getRoll(idNote);
 
-        StringBuilder rollText = new StringBuilder();
+        StringBuilder text = new StringBuilder();
         for (int i = 0; i < listRoll.size(); i++) {
-            if (i != 0) rollText.append("\n");
-            rollText.append(listRoll.get(i).getText());
+            if (i != 0) text.append("\n");
+            text.append(listRoll.get(i).getText());
         }
 
-        return rollText.toString();
+        return text.toString();
     }
 
     /**
      * Получение текста для уведомления на основе списка
      *
-     * @param noteId - Id заметки
-     * @param rollCheck  - Количество отмеченых пунктов в заметке
+     * @param idNote - Id заметки
+     * @param check  - Количество отмеченых пунктов в заметке
      * @return - Строка для уведомления
      */
-    public String getText(long noteId, String rollCheck) {
-        List<ItemRoll> listRoll = get(noteId);
+    public String getText(long idNote, String check) {
+        List<ItemRoll> listRoll = getRoll(idNote);
 
-        StringBuilder rollText = new StringBuilder();
-        rollText.append(rollCheck).append(" |");
+        StringBuilder text = new StringBuilder();
+        text.append(check).append(" |");
 
         for (int i = 0; i < listRoll.size(); i++) {
             ItemRoll itemRoll = listRoll.get(i);
 
-            if (itemRoll.isCheck()) rollText.append(" \u2713 ");
-            else rollText.append(" - ");
+            if (itemRoll.isCheck()) text.append(" \u2713 ");
+            else text.append(" - ");
 
-            rollText.append(itemRoll.getText());
+            text.append(itemRoll.getText());
 
-            if (i != listRoll.size() - 1) rollText.append(" |");
+            if (i != listRoll.size() - 1) text.append(" |");
         }
 
-        return rollText.toString();
+        return text.toString();
     }
 
     @Query("UPDATE ROLL_TABLE " +
-            "SET RL_POSITION = :rollPosition, RL_TEXT = :rollText " +
-            "WHERE RL_ID = :rollId")
-    public abstract void update(long rollId, int rollPosition, String rollText);
+            "SET RL_POSITION = :position, RL_TEXT = :text " +
+            "WHERE RL_ID = :id")
+    public abstract void update(long id, int position, String text);
 
     /**
      * Обновление выполнения конкретного пункта
      *
-     * @param rollId    - Id пункта
-     * @param rollCheck - Состояние отметки
+     * @param id    - Id пункта
+     * @param check - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
-            "SET RL_CHECK = :rollCheck " +
-            "WHERE RL_ID = :rollId")
-    public abstract void update(long rollId, boolean rollCheck);
+            "SET RL_CHECK = :check " +
+            "WHERE RL_ID = :id")
+    public abstract void update(long id, boolean check);
 
     /**
      * Обновление выполнения для всех пунктов
      *
-     * @param rollIdNote - Id заметки
-     * @param rollCheck  - Состояние отметки
+     * @param idNote - Id заметки
+     * @param check  - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
-            "SET RL_CHECK = :rollCheck " +
-            "WHERE RL_ID_NOTE = :rollIdNote")
-    public abstract void update(long rollIdNote, @DefCheck int rollCheck);
+            "SET RL_CHECK = :check " +
+            "WHERE RL_ID_NOTE = :idNote")
+    public abstract void update(long idNote, @DefCheck int check);
 
     /**
      * Удаление пунктов при сохранении после свайпа
      *
-     * @param rollIdNote - Id заметки
-     * @param rollIdSave - Id, которые остались в заметке
+     * @param idNote - Id заметки
+     * @param idSave - Id, которые остались в заметке
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :rollIdNote AND RL_ID NOT IN (:rollIdSave)")
-    public abstract void delete(long rollIdNote, List<Long> rollIdSave);
+            "WHERE RL_ID_NOTE = :idNote AND RL_ID NOT IN (:idSave)")
+    public abstract void delete(long idNote, List<Long> idSave);
+
+    /**
+     * @param idNote - Id удаляемой заметки
+     */
+    @Query("DELETE FROM ROLL_TABLE " +
+            "WHERE RL_ID_NOTE = :idNote")
+    public abstract void delete(long idNote);
 
     public void listAll(TextView textView) {
         List<ItemRoll> listRoll = get();
@@ -160,9 +158,9 @@ public abstract class DaoRoll extends DaoBase {
                     "PS: " + itemRoll.getPosition() + " | " +
                     "CH: " + itemRoll.isCheck() + "\n");
 
-            String rollText = itemRoll.getText();
-            textView.append("TX: " + rollText.substring(0, Math.min(rollText.length(), 45)).replace("\n", " "));
-            if (rollText.length() > 40) textView.append("...");
+            String text = itemRoll.getText();
+            textView.append("TX: " + text.substring(0, Math.min(text.length(), 45)).replace("\n", " "));
+            if (text.length() > 40) textView.append("...");
         }
     }
 

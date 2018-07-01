@@ -22,22 +22,22 @@ public class AdapterColor extends RecyclerView.Adapter<AdapterColor.ColorHolder>
     //region Variables
     private final Context context;
 
-    private int checkPosition;
-    private final boolean[] checkVisible;
+    private int check;
+    private final boolean[] visible;
     //endregion
 
-    public AdapterColor(Context context, int checkPosition) {
+    public AdapterColor(Context context, int check) {
         this.context = context;
 
-        this.checkPosition = checkPosition;
+        this.check = check;
 
-        checkVisible = new boolean[getItemCount()];
-        Arrays.fill(checkVisible, false);
-        checkVisible[checkPosition] = true;
+        visible = new boolean[getItemCount()];
+        Arrays.fill(visible, false);
+        visible[check] = true;
     }
 
-    public int getCheckPosition() {
-        return checkPosition;
+    public int getCheck() {
+        return check;
     }
 
     @NonNull
@@ -52,11 +52,11 @@ public class AdapterColor extends RecyclerView.Adapter<AdapterColor.ColorHolder>
     public void onBindViewHolder(@NonNull ColorHolder holder, int position) {
         holder.bind(position);
 
-        if (checkVisible[position]) {                                   //Если отметка видна
-            if (checkPosition == position) {                            //Если текущая позиция совпадает с выбранным цветом
+        if (visible[position]) {                                   //Если отметка видна
+            if (this.check == position) {                            //Если текущая позиция совпадает с выбранным цветом
                 holder.clCheck.setVisibility(View.VISIBLE);
             } else {
-                checkVisible[position] = false;                         //Делаем отметку невидимой с анимацией
+                visible[position] = false;                         //Делаем отметку невидимой с анимацией
                 holder.clCheck.startAnimation(holder.alphaOut);
             }
         } else holder.clCheck.setVisibility(View.GONE);
@@ -98,15 +98,15 @@ public class AdapterColor extends RecyclerView.Adapter<AdapterColor.ColorHolder>
 
         @Override
         public void onClick(View view) {
-            int oldCheckPosition = checkPosition;           //Сохраняем старую позицию
-            int newCheckPosition = getAdapterPosition();    //Получаем новую
+            int oldCheck = check;                //Сохраняем старую позицию
+            int newCheck = getAdapterPosition();    //Получаем новую
 
-            if (oldCheckPosition != newCheckPosition) {     //Если выбранный цвет не совпадает с тем, на который нажали
-                checkPosition = newCheckPosition;           //Присваиваем новую позицию
-                checkVisible[checkPosition] = true;
+            if (oldCheck != newCheck) {             //Если выбранный цвет не совпадает с тем, на который нажали
+                check = newCheck;                //Присваиваем новую позицию
+                visible[check] = true;
 
-                notifyItemChanged(oldCheckPosition);        //Скрываем старую отметку
-                clCheck.startAnimation(alphaIn);            //Показываем новую
+                notifyItemChanged(oldCheck);        //Скрываем старую отметку
+                clCheck.startAnimation(alphaIn);      //Показываем новую
             }
         }
 

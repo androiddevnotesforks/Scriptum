@@ -19,6 +19,7 @@ public class StCheck {
             this.all = all;
             return true;
         }
+
         return false;
     }
 

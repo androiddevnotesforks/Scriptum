@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.db;
+package sgtmelon.handynotes.app.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;

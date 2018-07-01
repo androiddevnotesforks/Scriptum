@@ -23,9 +23,10 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.control.menu.MenuNote;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
+import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.databinding.FrgTextBinding;
 import sgtmelon.handynotes.office.Help;
@@ -47,11 +48,11 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
     private FrgTextBinding binding;
 
-    private ItemNote itemNote;
+    private RepoNote repoNote;
     //endregion
 
-    public void setItemNote(ItemNote itemNote) {
-        this.itemNote = itemNote;
+    public void setRepoNote(RepoNote repoNote) {
+        this.repoNote = repoNote;
     }
 
     @Nullable
@@ -74,7 +75,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     }
 
     private void bind(boolean keyEdit, boolean keyCreate) {
-        binding.setItemNote(itemNote);
+        binding.setItemNote(repoNote.getItemNote());
         binding.setKeyEdit(keyEdit);
         binding.setKeyCreate(keyCreate);
 
@@ -85,6 +86,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
+
+        ItemNote itemNote = repoNote.getItemNote();
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.inflateMenu(R.menu.menu_act_note);
@@ -104,15 +107,16 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onClick(View view) {
         Log.i(TAG, "onClick");
 
+        ItemNote itemNote = repoNote.getItemNote();
         if (activity.stNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
             db = DbRoom.provideDb(context);
-            itemNote = db.daoNote().get(itemNote.getId());
+            repoNote = db.daoNote().get(context, itemNote.getId());
             db.close();
 
+            itemNote = repoNote.getItemNote();
             onMenuEditClick(false);
-
             menuNote.startTint(itemNote.getColor());
         } else {
             activity.controlSave.setNeedSave(false);
@@ -124,6 +128,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
+        ItemNote itemNote = repoNote.getItemNote();
         if (!itemNote.getText().equals("")) {
             itemNote.setChange(Help.Time.getCurrentTime(context));
 
@@ -144,7 +149,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             db.daoRank().update(itemNote.getId(), itemNote.getRankId());
             db.close();
 
-            activity.setItemNote(itemNote);
+            repoNote.setItemNote(itemNote);
+            activity.setRepoNote(repoNote);
             return true;
         } else return false;
     }
@@ -156,7 +162,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         db = DbRoom.provideDb(context);
         final String[] checkName = db.daoRank().getName();
         final Long[] checkId = db.daoRank().getId();
-        final boolean[] checkItem = db.daoRank().getCheck(itemNote.getRankId());
+        final boolean[] checkItem = db.daoRank().getCheck(repoNote.getItemNote().getRankId());
         db.close();
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
@@ -182,8 +188,10 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
                             }
                         }
 
+                        ItemNote itemNote = repoNote.getItemNote();
                         itemNote.setRankId(ConvList.fromList(rankId));
                         itemNote.setRankPs(ConvList.fromList(rankPs));
+                        repoNote.setItemNote(itemNote);
 
                         dialog.cancel();
                     }
@@ -205,6 +213,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
+        ItemNote itemNote = repoNote.getItemNote();
         final AlertColor alert = new AlertColor(context, itemNote.getColor(), R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.dialog_title_color))
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
@@ -212,7 +221,10 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
                     public void onClick(DialogInterface dialog, int id) {
                         int color = alert.getCheckPosition();
 
+                        ItemNote itemNote = repoNote.getItemNote();
                         itemNote.setColor(color);
+                        repoNote.setItemNote(itemNote);
+
                         menuNote.startTint(color);
 
                         dialog.cancel();
@@ -247,12 +259,14 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onMenuBindClick() {
         Log.i(TAG, "onMenuBindClick");
 
+        ItemNote itemNote = repoNote.getItemNote();
+
         if (!itemNote.isStatus()) {
             itemNote.setStatus(true);
-            activity.itemStatus.notifyNote();
+            repoNote.updateItemStatus(true);
         } else {
             itemNote.setStatus(false);
-            activity.itemStatus.cancelNote();
+            repoNote.updateItemStatus(false);
         }
 
         menuNote.setStatusTitle(itemNote.isStatus());
@@ -261,17 +275,18 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
         db.close();
 
-        activity.setItemNote(itemNote);
+        repoNote.setItemNote(itemNote);
+        activity.setRepoNote(repoNote);
     }
 
     @Override
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
+        ItemNote itemNote = repoNote.getItemNote();
         String[] textToRoll = itemNote.getText().split("\n");   //Получаем пункты списка
 
         db = DbRoom.provideDb(context);
-
         List<ItemRoll> listRoll = db.daoRoll().insert(itemNote.getId(), textToRoll);
 
         itemNote.setChange(Help.Time.getCurrentTime(context));
@@ -279,10 +294,11 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
 
         db.daoNote().update(itemNote);
-
         db.close();
 
-        activity.setItemNote(itemNote);
+        repoNote.setItemNote(itemNote);
+        repoNote.setListRoll(listRoll);
+        activity.setRepoNote(repoNote);
         activity.setupFrg();
     }
 

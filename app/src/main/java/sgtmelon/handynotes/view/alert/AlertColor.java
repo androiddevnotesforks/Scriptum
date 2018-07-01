@@ -53,6 +53,6 @@ public class AlertColor extends AlertDialog.Builder {
     }
 
     public int getCheckPosition() {
-        return adapterColor.getCheckPosition();
+        return adapterColor.getCheck();
     }
 }

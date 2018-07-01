@@ -67,6 +67,7 @@
                     android:background="@android:color/transparent"
                     android:gravity="top"
                     android:hint="@string/hint_enter_text"
+                    android:linksClickable="true"
                     android:padding="@dimen/item_layout_medium_indent"
                     android:text='@{itemNote.text}'
                     android:textIsSelectable="true"

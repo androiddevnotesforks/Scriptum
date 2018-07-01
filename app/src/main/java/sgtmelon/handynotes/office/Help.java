@@ -29,7 +29,7 @@ import java.util.Locale;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemSort;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.office.annot.Db;

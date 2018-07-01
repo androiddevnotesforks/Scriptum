@@ -25,7 +25,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.st.StNote;

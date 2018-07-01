@@ -11,11 +11,11 @@ public class ConvString {
     public Long[] fromString(String string) {
         if (string.equals(Db.none)) return new Long[0];
         else {
-            String[] arrStr = string.split(Db.divider);
-            int size = arrStr.length;
+            String[] strArr = string.split(Db.divider);
+            int size = strArr.length;
 
             Long[] array = new Long[size];
-            for (int i = 0; i < size; i++) array[i] = Long.parseLong(arrStr[i]);
+            for (int i = 0; i < size; i++) array[i] = Long.parseLong(strArr[i]);
 
             return array;
         }

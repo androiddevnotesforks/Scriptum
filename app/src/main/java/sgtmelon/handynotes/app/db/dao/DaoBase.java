@@ -1,7 +1,10 @@
 package sgtmelon.handynotes.app.db.dao;
 
+import android.arch.persistence.db.SimpleSQLiteQuery;
+import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.RawQuery;
 import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 
@@ -9,6 +12,9 @@ import java.util.List;
 
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRank;
+import sgtmelon.handynotes.app.model.item.ItemRoll;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 
@@ -19,26 +25,45 @@ import sgtmelon.handynotes.office.annot.def.db.DefType;
 @TypeConverters({ConvBool.class})
 abstract class DaoBase {
 
+    //region NoteBase
+
     /**
-     * @param noteId - Массив с датами создания заметок
+     * @param id - Массив с датами создания заметок
      * @return - Список заметок по данным датам создания
      */
     @Query("SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_ID IN(:noteId)")
-    abstract List<ItemNote> getNote(Long[] noteId);
+            "WHERE NT_ID IN(:id)")
+    abstract List<ItemNote> getNote(Long[] id);
 
     @Query("SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_ID IN(:noteId)")
-    abstract List<ItemNote> getNote(List<Long> noteId);
+            "WHERE NT_ID IN(:id)")
+    abstract List<ItemNote> getNote(List<Long> id);
+
+    @RawQuery
+    abstract List<ItemNote> getNote(SupportSQLiteQuery query);
 
     /**
-     * @param noteType - Тип заметки
+     * @param bin  - Расположение заметок
+     * @param sortKeys - Строка с сортировкой заметок
+     * @return - Список заметок
+     */
+    List<ItemNote> getNote(@DefBin int bin, String sortKeys) {
+        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
+                "SELECT * FROM " + Db.NT_TB +
+                        " WHERE " + Db.NT_BN + " = " + bin +
+                        " ORDER BY " + sortKeys);
+
+        return getNote(query);
+    }
+
+    /**
+     * @param type - Тип заметки
      * @param noteId   - Id заметок
      * @return - Количество заметок по датам создания
      */
     @Query("SELECT COUNT(NT_ID) FROM NOTE_TABLE " +
-            "WHERE NT_TYPE = :noteType AND NT_ID IN(:noteId)")
-    abstract int getNoteCount(@DefType int noteType, Long[] noteId);
+            "WHERE NT_TYPE = :type AND NT_ID IN(:noteId)")
+    abstract int getNoteCount(@DefType int type, Long[] noteId);
 
     @Update
     abstract void updateNote(List<ItemNote> listNote);
@@ -46,36 +71,57 @@ abstract class DaoBase {
     /**
      * Обновление при удалении категории
      *
-     * @param noteId     - Id заметок принадлижащих к категории
-     * @param noteRankId - Id категории, которую удалили
+     * @param noteId - Id заметок принадлижащих к категории
+     * @param rankId - Id категории, которую удалили
      */
-    void updateNote(Long[] noteId, long noteRankId) {
+    void updateNote(Long[] noteId, long rankId) {
         List<ItemNote> listNote = getNote(noteId);
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
-            itemNote.removeRank(noteRankId);
+            itemNote.removeRank(rankId);
             listNote.set(i, itemNote);
         }
 
         updateNote(listNote);
     }
 
+    //endregion
+
+    //region RollBase
+
     /**
-     * @param rollIdNote - Id заметок
+     * @return - Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
+     */
+    @Query("SELECT * FROM ROLL_TABLE " +
+            "WHERE RL_ID_NOTE = :idNote AND RL_POSITION BETWEEN 0 AND 3 " +
+            "ORDER BY RL_POSITION ASC")
+    abstract List<ItemRoll> getRollView(long idNote);
+
+    @Query("SELECT * FROM ROLL_TABLE " +
+            "WHERE RL_ID_NOTE = :idNote " +
+            "ORDER BY RL_POSITION")
+    abstract List<ItemRoll> getRoll(long idNote);
+
+    /**
+     * @param idNote - Id заметок
      * @return - Количество пунктов по датам создания заметок
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE IN(:rollIdNote)")
-    abstract int getRollCount(Long[] rollIdNote);
+            "WHERE RL_ID_NOTE IN(:idNote)")
+    abstract int getRollCount(Long[] idNote);
 
     /**
-     * @param rollIdNote - Id заметок
-     * @return - Количество пунктов
+     * @param idNote - Id заметок
+     * @return - Количество пунктов, которые отмечены
      */
     @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_CHECK = 1 AND RL_ID_NOTE IN(:rollIdNote)")
-    abstract int getRollCheck(Long[] rollIdNote);
+            "WHERE RL_CHECK = 1 AND RL_ID_NOTE IN(:idNote)")
+    abstract int getRollCheck(Long[] idNote);
+
+    //endregion
+
+    //region RankBase
 
     /**
      * @return - Лист с id категорий, которые видны
@@ -86,22 +132,13 @@ abstract class DaoBase {
     public abstract List<Long> getRankVisible();
 
     /**
-     * Удаление пунктов при удалении заметки
-     *
-     * @param rollIdNote - Id заметки
-     */
-    @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :rollIdNote")
-    public abstract void deleteRoll(long rollIdNote);
-
-    /**
-     * @param rankId - Массив с id категорий
+     * @param id - Массив с id категорий
      * @return - Список моделей категорий
      */
     @Query("SELECT * FROM RANK_TABLE " +
-            "WHERE RK_ID IN(:rankId)" +
+            "WHERE RK_ID IN(:id)" +
             "ORDER BY RK_POSITION ASC")
-    abstract List<ItemRank> getRank(Long[] rankId);
+    abstract List<ItemRank> getRank(Long[] id);
 
     /**
      * @param listRank - список категорий, которые необходимо обновить
@@ -124,5 +161,7 @@ abstract class DaoBase {
 
         updateRank(listRank);
     }
+
+    //endregion
 
 }

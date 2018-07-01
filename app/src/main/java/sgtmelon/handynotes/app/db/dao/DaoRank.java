@@ -39,11 +39,11 @@ public abstract class DaoRank extends DaoBase {
 
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
-            Long[] rankIdNote = itemRank.getIdNote();
+            Long[] idNote = itemRank.getIdNote();
 
-            itemRank.setTextCount(getNoteCount(DefType.text, rankIdNote));
-            itemRank.setRollCount(getNoteCount(DefType.roll, rankIdNote));
-            itemRank.setRollCheck(getRollCheck(rankIdNote), getRollCount(rankIdNote));
+            itemRank.setTextCount(getNoteCount(DefType.text, idNote));
+            itemRank.setRollCount(getNoteCount(DefType.roll, idNote));
+            itemRank.setRollCheck(getRollCheck(idNote), getRollCount(idNote));
 
             listRank.set(i, itemRank);
         }
@@ -52,12 +52,12 @@ public abstract class DaoRank extends DaoBase {
     }
 
     /**
-     * @param rankName - Уникальное имя категории
+     * @param name - Уникальное имя категории
      * @return - Модель категории
      */
     @Query("SELECT * FROM RANK_TABLE " +
-            "WHERE RK_NAME = :rankName")
-    abstract ItemRank get(String rankName);
+            "WHERE RK_NAME = :name")
+    abstract ItemRank get(String name);
 
     /**
      * @return - Лист с именами в высоком регистре
@@ -74,35 +74,39 @@ public abstract class DaoRank extends DaoBase {
             "ORDER BY RK_POSITION")
     public abstract Long[] getId();
 
-    public boolean[] getCheck(Long[] rankId) {
+    public boolean[] getCheck(Long[] id) {
         List<ItemRank> listRank = getSimple();
 
-        boolean[] rankCheck = new boolean[listRank.size()];
+        boolean[] check = new boolean[listRank.size()];
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
-
-            rankCheck[i] = Arrays.asList(rankId).contains(itemRank.getId());
+            check[i] = Arrays.asList(id).contains(itemRank.getId());
         }
 
-        return rankCheck;
+        return check;
     }
 
-    public void update(long noteId, Long[] noteRankId) {
+    /**
+     * Добавление или удаление id заметки к категорииё
+     *
+     * @param noteId - Id заметки
+     * @param rankId - Id категорий принадлежащих каметке
+     */
+    public void update(long noteId, Long[] rankId) {
         List<ItemRank> listRank = get();
-
-        boolean[] rankCheck = getCheck(noteRankId);
+        boolean[] check = getCheck(rankId);
 
         for (int i = 0; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
-            List<Long> rankNoteId = ConvList.toList(itemRank.getIdNote());
 
-            if (rankCheck[i]) {
-                if (!rankNoteId.contains(noteId)) rankNoteId.add(noteId);
+            List<Long> rkIdNt = ConvList.toList(itemRank.getIdNote());
+            if (check[i]) {
+                if (!rkIdNt.contains(noteId)) rkIdNt.add(noteId);
             } else {
-                if (rankNoteId.contains(noteId)) rankNoteId.remove(noteId);
+                if (rkIdNt.contains(noteId)) rkIdNt.remove(noteId);
             }
 
-            itemRank.setIdNote(ConvList.fromList(rankNoteId));
+            itemRank.setIdNote(ConvList.fromList(rkIdNt));
             listRank.set(i, itemRank);
         }
 
@@ -111,6 +115,8 @@ public abstract class DaoRank extends DaoBase {
 
     @Update
     public abstract void update(ItemRank itemRank);
+
+    // FIXME: 01.07.2018 Сделай нормально
 
     /**
      * @param startDrag - Начальная позиция обновления
@@ -171,14 +177,14 @@ public abstract class DaoRank extends DaoBase {
      */
     public void update(int startPosition) {
         List<ItemRank> listRank = getSimple();
-        List<Long> rankIdNote = new ArrayList<>();
+        List<Long> idNote = new ArrayList<>();
 
         for (int i = startPosition; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
 
             for (long id : itemRank.getIdNote()) {
-                if (!rankIdNote.contains(id)) {
-                    rankIdNote.add(id);
+                if (!idNote.contains(id)) {
+                    idNote.add(id);
                 }
             }
 
@@ -187,41 +193,37 @@ public abstract class DaoRank extends DaoBase {
         }
 
         updateRank(listRank);
-
-        update(rankIdNote, listRank);
+        update(idNote, listRank);
     }
 
     /**
-     * @param rankIdNote - Id заметок, которые нужно обновить
-     * @param listRank   - Новый список категорий, с новыми позициями
+     * @param idNote   - Id заметок, которые нужно обновить
+     * @param listRank - Новый список категорий, с новыми позициями у категорий
      */
-    private void update(List<Long> rankIdNote, List<ItemRank> listRank) {
-        List<ItemNote> listNote = getNote(rankIdNote);
+    private void update(List<Long> idNote, List<ItemRank> listRank) {
+        List<ItemNote> listNote = getNote(idNote);
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
 
-            Long[] rankIdOld = itemNote.getRankId();
-            Long[] rankIdNew = new Long[rankIdOld.length];
-            Long[] rankPsNew = new Long[rankIdOld.length];
+            Long[] idOld = itemNote.getRankId();
+            Long[] idNew = new Long[idOld.length];
+            Long[] psNew = new Long[idOld.length];
 
             int p = 0;
-            for (int j = 0; j < listRank.size(); j++) {
-                ItemRank itemRank = listRank.get(j);
+            for (ItemRank itemRank : listRank) {
+                long id = itemRank.getId();
+                long ps = itemRank.getPosition();
 
-                long rankId = itemRank.getId();
-                long rankPs = itemRank.getPosition();
-
-                if (Arrays.asList(rankIdOld).contains(rankId)) {
-                    rankIdNew[p] = rankId;
-                    rankPsNew[p] = rankPs;
+                if (Arrays.asList(idOld).contains(id)) {
+                    idNew[p] = id;
+                    psNew[p] = ps;
                     p++;
                 }
             }
 
-            itemNote.setRankId(rankIdNew);
-            itemNote.setRankPs(rankPsNew);
-
+            itemNote.setRankId(idNew);
+            itemNote.setRankPs(psNew);
             listNote.set(i, itemNote);
         }
 
@@ -231,11 +233,13 @@ public abstract class DaoRank extends DaoBase {
     @Delete
     abstract void delete(ItemRank itemRank);
 
-    public void delete(String rankName) {
-        ItemRank itemRank = get(rankName);
+    public void delete(String name) {
+        ItemRank itemRank = get(name);
 
-        Long[] rankCreate = itemRank.getIdNote();
-        if (rankCreate.length != 0) updateNote(rankCreate, itemRank.getId());
+        Long[] idNote = itemRank.getIdNote();
+        if (idNote.length != 0) {
+            updateNote(idNote, itemRank.getId());
+        }
 
         delete(itemRank);
     }

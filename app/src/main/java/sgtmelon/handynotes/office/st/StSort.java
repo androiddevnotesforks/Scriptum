@@ -14,10 +14,11 @@ public class StSort {
     }
 
     public void updateEnd(List<ItemSort> listSort) {
-        for (int k = 0; k < listSort.size(); k++) {
-            @DefSort int key = listSort.get(k).getKey();
+        for (int i = 0; i < listSort.size(); i++) {
+            @DefSort int key = listSort.get(i).getKey();
+
             if (key == DefSort.create || key == DefSort.change) {
-                end = k;
+                end = i;
                 break;
             }
         }

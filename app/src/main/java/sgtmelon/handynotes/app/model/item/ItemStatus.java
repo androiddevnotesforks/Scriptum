@@ -9,7 +9,7 @@ import android.support.v4.app.NotificationManagerCompat;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.st.StNote;
 import sgtmelon.handynotes.office.annot.Db;

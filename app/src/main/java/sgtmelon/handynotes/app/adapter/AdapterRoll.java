@@ -81,8 +81,8 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (keyEdit) return typeWrite;
-        else return typeRead;
+        if (!keyEdit) return typeRead;
+        else return typeWrite;
     }
 
     @Override
@@ -148,9 +148,7 @@ public class AdapterRoll extends RecyclerView.Adapter<AdapterRoll.RollHolder> {
         public void onClick(View view) {
             if (!keyEdit) {
                 int p = getAdapterPosition();
-
                 rlCheck.setChecked(!listRoll.get(p).isCheck());
-
                 click.onItemClick(view, p);
             }
         }

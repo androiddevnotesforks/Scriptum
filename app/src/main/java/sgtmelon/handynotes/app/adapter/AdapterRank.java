@@ -22,14 +22,14 @@ import sgtmelon.handynotes.view.ButtonVisible;
 public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
     private final List<ItemRank> listRank;
-    private boolean[] iconStartAnim;
+    private boolean[] startAnim;
 
     public AdapterRank() {
         listRank = new ArrayList<>();
     }
 
-    public boolean[] getIconStartAnim() {
-        return iconStartAnim;
+    public boolean[] getStartAnim() {
+        return startAnim;
     }
 
     private IntfItem.Click click;
@@ -46,15 +46,15 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
         this.listRank.clear();
         this.listRank.addAll(listRank);
 
-        iconStartAnim = new boolean[listRank.size()];
-        Arrays.fill(iconStartAnim, false);
+        startAnim = new boolean[listRank.size()];
+        Arrays.fill(startAnim, false);
     }
 
     public void updateAdapter(List<ItemRank> listRank, boolean[] iconStartAnim) {
         this.listRank.clear();
         this.listRank.addAll(listRank);
 
-        this.iconStartAnim = iconStartAnim;
+        this.startAnim = iconStartAnim;
     }
 
     public void updateAdapter(int position, ItemRank itemRank) {
@@ -76,9 +76,9 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
         holder.bind(listRank.get(position));
 
-        holder.rkVisible.setVisible(itemRank.isVisible(), iconStartAnim[position]);
+        holder.rkVisible.setVisible(itemRank.isVisible(), startAnim[position]);
 
-        if (iconStartAnim[position]) iconStartAnim[position] = false;
+        if (startAnim[position]) startAnim[position] = false;
     }
 
     @Override

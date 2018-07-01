@@ -13,7 +13,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.Help;

@@ -1,13 +1,9 @@
 package sgtmelon.handynotes.app.db.dao;
 
-import android.arch.persistence.db.SimpleSQLiteQuery;
-import android.arch.persistence.db.SupportSQLiteQuery;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.RawQuery;
-import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 import android.content.Context;
@@ -18,11 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.app.model.item.ItemNote;
+import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
-import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvList;
 
@@ -34,49 +29,50 @@ public abstract class DaoNote extends DaoBase {
     public abstract long insert(ItemNote itemNote);
 
     @Query("SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_ID = :noteId")
-    public abstract ItemNote get(long noteId);
+            "WHERE NT_ID = :id")
+    public abstract ItemNote get(long id);
 
-    @Transaction
-    @RawQuery
-    abstract List<RepoNote> getQuery(SupportSQLiteQuery query);
+    public RepoNote get(Context context, long id) {
+        ItemNote itemNote = get(id);
+        List<ItemRoll> listRoll = getRoll(id);
 
-    private List<RepoNote> getQuery(@DefBin int noteBin, String sortKeys) {
-        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT * FROM " + Db.NT_TB +
-                        " WHERE " + Db.NT_BN + " = " + noteBin +
-                        " ORDER BY " + sortKeys);
+        Long[] rankVs = ConvList.fromList(getRankVisible());
+        ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
 
-        return getQuery(query);
+        return new RepoNote(itemNote, listRoll, itemStatus);
     }
 
-    public List<RepoNote> get(Context context, @DefBin int noteBin, String sortKeys) {
-        List<RepoNote> listRepoNote = getQuery(noteBin, sortKeys);
-        List<Long> rankVisible = getRankVisible();
-        Long[] rankVs = ConvList.fromList(rankVisible);
+    public List<RepoNote> get(Context context, @DefBin int bin, String sortKeys) {
+        List<RepoNote> listRepoNote = new ArrayList<>();
+        List<ItemNote> listNote = getNote(bin, sortKeys);
 
-        for (int i = 0; i < listRepoNote.size(); i++) {
-            RepoNote repoNote = listRepoNote.get(i);
+        List<Long> rkVisible = getRankVisible();
+        Long[] rkVs = ConvList.fromList(rkVisible);
 
-            ItemNote itemNote = repoNote.getItemNote();
-            ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
+        for (int i = 0; i < listNote.size(); i++) {
+            ItemNote itemNote = listNote.get(i);
 
-            Long[] rankId = itemNote.getRankId();
-            if (rankId.length != 0 && !rankVisible.contains(rankId[0])) {
+            RepoNote repoNote = new RepoNote();
+            repoNote.setItemNote(itemNote);
+            repoNote.setListRoll(getRollView(itemNote.getId()));
+
+            ItemStatus itemStatus = new ItemStatus(context, itemNote, rkVs);
+
+            Long[] rkId = itemNote.getRankId();
+            if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
                 itemStatus.cancelNote();
-                listRepoNote.remove(i);
             } else {
                 repoNote.setItemStatus(itemStatus);
-                listRepoNote.set(i, repoNote);
+                listRepoNote.add(repoNote);
             }
         }
-
         return listRepoNote;
     }
 
     @Query("SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_BIN = :noteBin")
-    abstract List<ItemNote> get(@DefBin int noteBin);
+            "WHERE NT_BIN = :bin " +
+            "ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC")
+    abstract List<ItemNote> get(@DefBin int bin);
 
     @Update
     public abstract void update(ItemNote itemNote);
@@ -84,25 +80,25 @@ public abstract class DaoNote extends DaoBase {
     /**
      * Обновление положения заметки относительно корзины
      *
-     * @param noteId     - Id обновляемой заметки
-     * @param noteChange - Время изменения
-     * @param noteBin    - Положение относительно корзины
+     * @param id     - Id обновляемой заметки
+     * @param change - Время изменения
+     * @param bin    - Положение относительно корзины
      */
     @Query("UPDATE NOTE_TABLE " +
-            "SET NT_CHANGE = :noteChange, NT_BIN = :noteBin " +
-            "WHERE NT_ID = :noteId")
-    public abstract void update(long noteId, String noteChange, boolean noteBin);
+            "SET NT_CHANGE = :change, NT_BIN = :bin " +
+            "WHERE NT_ID = :id")
+    public abstract void update(long id, String change, boolean bin);
 
     /**
      * Обновление привязки к статус бару
      *
-     * @param noteId     - Id обновляемой заметки
-     * @param noteStatus - Привязка к статус бару
+     * @param id     - Id обновляемой заметки
+     * @param status - Привязка к статус бару
      */
     @Query("UPDATE NOTE_TABLE " +
-            "SET NT_STATUS = :noteStatus " +
-            "WHERE NT_ID = :noteId")
-    public abstract void update(long noteId, boolean noteStatus);
+            "SET NT_STATUS = :status " +
+            "WHERE NT_ID = :id")
+    public abstract void update(long id, boolean status);
 
     @Delete
     abstract void delete(ItemNote itemNote);
@@ -110,16 +106,12 @@ public abstract class DaoNote extends DaoBase {
     @Delete
     abstract void delete(List<ItemNote> lisNote);
 
-    public void delete(long noteId) {
-        ItemNote itemNote = get(noteId);
+    public void delete(long id) {
+        ItemNote itemNote = get(id);
 
-        if (itemNote.getType() == DefType.roll) {
-            deleteRoll(itemNote.getId());
-        }
-
-        Long[] rankId = itemNote.getRankId();
-        if (rankId.length != 0) {
-            clearRank(itemNote.getId(), rankId);
+        Long[] rkId = itemNote.getRankId();
+        if (rkId.length != 0) {
+            clearRank(itemNote.getId(), rkId);
         }
 
         delete(itemNote);
@@ -127,38 +119,40 @@ public abstract class DaoNote extends DaoBase {
 
     public void clearBin() {
         List<ItemNote> listNote = get(DefBin.in);
+
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
-            Long[] rankId = itemNote.getRankId();
 
-            if (rankId.length != 0) {
-                clearRank(itemNote.getId(), rankId);
+            Long[] rkId = itemNote.getRankId();
+            if (rkId.length != 0) {
+                clearRank(itemNote.getId(), rkId);
             }
         }
+
         delete(listNote);
     }
 
     public void listAll(TextView textView) {
-        List<RepoNote> listRepoNote = getQuery(DefBin.in, Db.orders[0]);
-        listRepoNote.addAll(getQuery(DefBin.out, Db.orders[0]));
+        List<ItemNote> listNote = get(DefBin.in);
+        listNote.addAll(get(DefBin.out));
 
         String annotation = "Note Data Base:";
         textView.setText(annotation);
 
-        for (int i = 0; i < listRepoNote.size(); i++) {
-            ItemNote itemNote = listRepoNote.get(i).getItemNote();
+        for (int i = 0; i < listNote.size(); i++) {
+            ItemNote itemNote = listNote.get(i);
 
             textView.append("\n\n" +
                     "ID: " + itemNote.getId() + " | " +
                     "CR: " + itemNote.getCreate() + " | " +
                     "CH: " + itemNote.getChange() + "\n");
 
-            String noteName = itemNote.getName();
-            if (!noteName.equals("")) textView.append("NM: " + noteName + "\n");
+            String name = itemNote.getName();
+            if (!name.equals("")) textView.append("NM: " + name + "\n");
 
-            String noteText = itemNote.getText();
-            textView.append("TX: " + noteText.substring(0, Math.min(noteText.length(), 45)).replace("\n", " "));
-            if (noteText.length() > 40) textView.append("...");
+            String text = itemNote.getText();
+            textView.append("TX: " + text.substring(0, Math.min(text.length(), 45)).replace("\n", " "));
+            if (text.length() > 40) textView.append("...");
             textView.append("\n");
 
             textView.append("CL: " + itemNote.getColor() + " | " +

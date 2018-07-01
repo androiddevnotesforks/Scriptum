@@ -24,6 +24,16 @@ public class RepoNote {
     @Ignore
     private ItemStatus itemStatus;
 
+    public RepoNote() {
+
+    }
+
+    public RepoNote(ItemNote itemNote, List<ItemRoll> listRoll, ItemStatus itemStatus) {
+        this.itemNote = itemNote;
+        this.listRoll = listRoll;
+        this.itemStatus = itemStatus;
+    }
+
     public ItemNote getItemNote() {
         return itemNote;
     }
@@ -45,10 +55,6 @@ public class RepoNote {
         this.listRoll = listRoll;
     }
 
-    public ItemStatus getItemStatus() {
-        return itemStatus;
-    }
-
     public void setItemStatus(ItemStatus itemStatus) {
         this.itemStatus = itemStatus;
     }
@@ -67,8 +73,11 @@ public class RepoNote {
         else itemStatus.cancelNote();
     }
 
-    public void updateItemStatus(ItemNote itemNote){
+    public void updateItemStatus() {
         itemStatus.updateNote(itemNote);
     }
 
+    public void updateItemStatus(List<Long> rankVisible) {
+        itemStatus.updateNote(itemNote, rankVisible);
+    }
 }

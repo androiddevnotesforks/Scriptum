@@ -23,7 +23,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterNote;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
@@ -195,7 +195,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         RepoNote repoNote = listRepoNote.get(p);
         repoNote.updateListRoll(rollCheck);
         repoNote.setItemNote(itemNote);
-        repoNote.updateItemStatus(itemNote);
+        repoNote.updateItemStatus();
         listRepoNote.set(p, repoNote);
 
         adapterNote.updateAdapter(listRepoNote);
@@ -258,7 +258,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
                 itemNote.setText(rollToText);
 
                 db.daoNote().update(itemNote);
-                db.daoRoll().deleteRoll(itemNote.getId());
+                db.daoRoll().delete(itemNote.getId());
 
                 repoNote.setListRoll();
                 break;
@@ -266,7 +266,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         db.close();
 
         repoNote.setItemNote(itemNote);
-        repoNote.updateItemStatus(itemNote);
+        repoNote.updateItemStatus();
         listRepoNote.set(p, repoNote);
 
         adapterNote.updateAdapter(listRepoNote);

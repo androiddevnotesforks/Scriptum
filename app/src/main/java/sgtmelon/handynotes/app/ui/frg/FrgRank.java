@@ -25,7 +25,7 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterRank;
 import sgtmelon.handynotes.app.control.ControlRank;
-import sgtmelon.handynotes.db.DbRoom;
+import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.office.st.StDrag;
 import sgtmelon.handynotes.app.ui.act.ActMain;
@@ -302,7 +302,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        boolean[] iconStartAnim = adapterRank.getIconStartAnim();
+        boolean[] iconStartAnim = adapterRank.getStartAnim();
         boolean clickVisible = controlRank.get(p).isVisible();
 
         for (int i = 0; i < controlRank.size(); i++) {
