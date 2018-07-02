@@ -165,7 +165,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         Intent intent = new Intent(context, ActNote.class);
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(Db.RK_VS, activity.frgRank.controlRank.getVisible());
+        intent.putExtra(Db.RK_VS, activity.frgRank.repoRank.getVisible());
         intent.putExtra(StNote.KEY_CREATE, false);
 
         startActivity(intent);
@@ -181,19 +181,19 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     }
 
     @Override
-    public void onOptionCheckClick(ItemNote itemNote, int p, @DefCheck int rollCheck, String rollAll) {
+    public void onOptionCheckClick(ItemNote itemNote, int p, @DefCheck int check, int rollCount) {
         Log.i(TAG, "onOptionCheckClick");
 
-        itemNote.setChange(Help.Time.getCurrentTime(context));
-        itemNote.setText(Help.Note.getCheckStr(rollCheck, rollAll));
+        itemNote.setChange(context);
+        itemNote.setText(check == DefCheck.notDone ? 0 : rollCount, rollCount);
 
         db = DbRoom.provideDb(context);
-        db.daoRoll().update(itemNote.getId(), rollCheck);
+        db.daoRoll().update(itemNote.getId(), check);
         db.daoNote().update(itemNote);
         db.close();
 
         RepoNote repoNote = listRepoNote.get(p);
-        repoNote.updateListRoll(rollCheck);
+        repoNote.updateListRoll(check);
         repoNote.setItemNote(itemNote);
         repoNote.updateItemStatus();
         listRepoNote.set(p, repoNote);
@@ -201,7 +201,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemChanged(p);
 
-        activity.frgRank.updateAdapter(false);
+        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -233,7 +233,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onOptionConvertClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onOptionConvertClick");
 
-        itemNote.setChange(Help.Time.getCurrentTime(context));
+        itemNote.setChange(context);
 
         RepoNote repoNote = listRepoNote.get(p);
 
@@ -245,7 +245,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
                 List<ItemRoll> listRoll = db.daoRoll().insert(itemNote.getId(), textToRoll);      //Записываем пункты
 
                 itemNote.setType(DefType.roll);
-                itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
+                itemNote.setText(0, listRoll.size());
 
                 db.daoNote().update(itemNote);
 
@@ -272,7 +272,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         adapterNote.updateAdapter(listRepoNote);
         adapterNote.notifyItemChanged(p);
 
-        activity.frgRank.updateAdapter(false);
+        activity.frgRank.updateAdapter();
     }
 
     @Override

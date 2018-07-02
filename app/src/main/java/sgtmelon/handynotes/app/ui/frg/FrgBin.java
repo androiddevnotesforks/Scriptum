@@ -135,7 +135,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                                 setMenuItemClearVisible();
                                 bind(0);
 
-                                activity.frgRank.updateAdapter(false);
+                                activity.frgRank.updateAdapter();
 
                                 dialog.cancel();
                             }
@@ -206,7 +206,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         Intent intent = new Intent(context, ActNote.class);
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(Db.RK_VS, activity.frgRank.controlRank.getVisible());
+        intent.putExtra(Db.RK_VS, activity.frgRank.repoRank.getVisible());
         intent.putExtra(StNote.KEY_CREATE, false);
 
         startActivity(intent);
@@ -253,7 +253,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         setMenuItemClearVisible();
 
-        activity.frgRank.updateAdapter(false);
+        activity.frgRank.updateAdapter();
     }
 
 }

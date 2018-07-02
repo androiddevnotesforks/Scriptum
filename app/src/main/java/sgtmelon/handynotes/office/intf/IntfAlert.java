@@ -6,7 +6,7 @@ import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 public interface IntfAlert {
 
     interface OptionNote {
-        void onOptionCheckClick(ItemNote itemNote, int p, @DefCheck int rollCheck, String rollAll);
+        void onOptionCheckClick(ItemNote itemNote, int p, @DefCheck int check, int rollCount);
 
         void onOptionBindClick(ItemNote itemNote, int p);
 

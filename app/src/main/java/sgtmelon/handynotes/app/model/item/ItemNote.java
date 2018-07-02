@@ -4,10 +4,16 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import java.util.List;
 
+import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvString;
 import sgtmelon.handynotes.office.conv.ConvList;
@@ -16,6 +22,19 @@ import sgtmelon.handynotes.office.annot.def.db.DefType;
 @Entity(tableName = Db.NT_TB)
 @TypeConverters({ConvBool.class, ConvString.class})
 public class ItemNote {
+
+    public ItemNote() {
+
+    }
+
+    public ItemNote(Context context, @DefType int type) {
+        create = Help.Time.getCurrentTime(context);
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        color = pref.getInt(context.getString(R.string.pref_key_color_create), context.getResources().getInteger(R.integer.pref_default_color_create));
+
+        this.type = type;
+    }
 
     /**
      * @param noteRankId - Убирает из массивов ненужную категорию по id
@@ -44,9 +63,9 @@ public class ItemNote {
     private String change;      //Дата изменения
 
     @ColumnInfo(name = Db.NT_NM)
-    private String name;        //Имя заметки
+    private String name = "";        //Имя заметки
     @ColumnInfo(name = Db.NT_TX)
-    private String text;        //Текст заметки (для списка используется как индикатор количества отмеченных элементов)
+    private String text = "";        //Текст заметки (для списка используется как индикатор количества отмеченных элементов)
 
     @ColumnInfo(name = Db.NT_CL)
     private int color;          //Цвет заметки
@@ -54,14 +73,14 @@ public class ItemNote {
     private int type;           //Тип заметки (0 - текст, 1 - список)
 
     @ColumnInfo(name = Db.NT_RK_PS)
-    private Long[] rankPs;
+    private Long[] rankPs = new Long[0];
     @ColumnInfo(name = Db.NT_RK_ID)
-    private Long[] rankId;    //Категории, к которым привязана заметка
+    private Long[] rankId = new Long[0];    //Категории, к которым привязана заметка
 
     @ColumnInfo(name = Db.NT_BN)
-    private boolean bin;        //Расположение
+    private boolean bin = false;        //Расположение
     @ColumnInfo(name = Db.NT_ST)
-    private boolean status;     //Привязка к шторке
+    private boolean status = false;     //Привязка к шторке
     //endregion
 
     public long getId() {
@@ -88,8 +107,17 @@ public class ItemNote {
         this.change = change;
     }
 
+    public void setChange(Context context){
+        change = Help.Time.getCurrentTime(context);
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getName(Context context) {
+        if (!name.equals("")) return name;
+        else return context.getString(R.string.hint_view_name);
     }
 
     public void setName(String name) {
@@ -102,6 +130,10 @@ public class ItemNote {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setText(int rollCheck, int rollCount) {
+        text = rollCheck + DefCheck.divider + rollCount;
     }
 
     public int getColor() {
@@ -150,6 +182,19 @@ public class ItemNote {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public int[] getCheck() {
+        int[] check = new int[2];
+
+        if (type == DefType.roll) {
+            String[] split = text.split(DefCheck.divider);
+            for (int i = 0; i < 2; i++) {
+                check[i] = Integer.parseInt(split[i]);
+            }
+        }
+
+        return check;
     }
 
 }

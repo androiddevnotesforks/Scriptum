@@ -160,8 +160,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         List<ItemRoll> listRoll = repoNote.getListRoll();
 
         if (listRoll.size() != 0) {
-            itemNote.setChange(Help.Time.getCurrentTime(context));      //Новое время редактирования
-            itemNote.setText(Help.Note.getCheckStr(listRoll));          //Новый текст
+            itemNote.setChange(context);      //Новое время редактирования
+            itemNote.setText(Help.Note.getRollCheck(listRoll), listRoll.size());          //Новый текст
 
             if (editModeChange) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());
@@ -290,7 +290,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        int color = alert.getCheckPosition();
+                        int color = alert.getCheck();
 
                         ItemNote itemNote = repoNote.getItemNote();
                         itemNote.setColor(color);
@@ -334,20 +334,20 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i(TAG, "onMenuCheckClick");
 
         ItemNote itemNote = repoNote.getItemNote();
-        itemNote.setChange(Help.Time.getCurrentTime(context));
+        itemNote.setChange(context);
 
         int size = repoNote.getListRoll().size();
 
         db = DbRoom.provideDb(context);
         if (stCheck.isAll()) {
             repoNote.updateListRoll(DefCheck.notDone);
-            itemNote.setText(Help.Note.getCheckStr(0, size));
+            itemNote.setText(0, size);
 
             db.daoRoll().update(itemNote.getId(), DefCheck.notDone);
             db.daoNote().update(itemNote);
         } else {
             repoNote.updateListRoll(DefCheck.done);
-            itemNote.setText(Help.Note.getCheckStr(size, size));
+            itemNote.setText(size, size);
 
             db.daoRoll().update(itemNote.getId(), DefCheck.done);
             db.daoNote().update(itemNote);
@@ -393,7 +393,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db = DbRoom.provideDb(context);
 
         String text = db.daoRoll().getText(itemNote.getId());
-        itemNote.setChange(Help.Time.getCurrentTime(context));
+        itemNote.setChange(context);
         itemNote.setType(DefType.text);
         itemNote.setText(text);
 
@@ -461,15 +461,15 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         adapterRoll.updateAdapter(p, itemRoll);
 
-        int checkValue = Help.Note.getCheckValue(listRoll);
+        int rollCheck = Help.Note.getRollCheck(listRoll);
 
-        if (stCheck.setAll(checkValue, listRoll.size())) {
+        if (stCheck.setAll(rollCheck, listRoll.size())) {
             menuNote.setCheckTitle(stCheck.isAll());
         }
 
         ItemNote itemNote = repoNote.getItemNote();
-        itemNote.setChange(Help.Time.getCurrentTime(context));
-        itemNote.setText(Help.Note.getCheckStr(checkValue, listRoll.size()));
+        itemNote.setChange(context);
+        itemNote.setText(rollCheck, listRoll.size());
 
         repoNote.setItemNote(itemNote);
         activity.setRepoNote(repoNote);

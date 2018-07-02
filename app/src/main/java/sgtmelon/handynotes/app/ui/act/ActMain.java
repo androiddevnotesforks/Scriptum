@@ -100,7 +100,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
                         intent.putExtra(StNote.KEY_CREATE, true);
                         intent.putExtra(Db.NT_TP, item);
-                        intent.putExtra(Db.RK_VS, frgRank.controlRank.getVisible());
+                        intent.putExtra(Db.RK_VS, frgRank.repoRank.getVisible());
 
                         startActivity(intent);
                     }

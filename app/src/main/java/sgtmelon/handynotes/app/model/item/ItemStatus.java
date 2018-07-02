@@ -76,7 +76,7 @@ public class ItemStatus {
         notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.channel_status_bind))
                 .setSmallIcon(icon)
                 .setColor(Help.Icon.getColor(context, true, itemNote.getColor()))
-                .setContentTitle(Help.Note.getName(context, itemNote.getName()))
+                .setContentTitle(itemNote.getName(context))
                 .setContentText(text)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
                 .setGroup(context.getString(R.string.group_status_bind))

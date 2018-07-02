@@ -23,8 +23,11 @@ public class ControlRank implements TextWatcher, TextView.OnEditorActionListener
 
     private final Context context;
 
-    private List<ItemRank> listRank;
-    private List<String> listRankName;
+    private List<String> listName;
+
+    public void setListName(List<String> listName) {
+        this.listName = listName;
+    }
 
     public ControlRank(Context context) {
         this.context = context;
@@ -47,10 +50,10 @@ public class ControlRank implements TextWatcher, TextView.OnEditorActionListener
 
     //TODO переделай смену цвета в XML
     public void tintButton() {
-        String rankText = rankEnter.getText().toString().toUpperCase();
+        String name = rankEnter.getText().toString().toUpperCase();
 
-        Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, rankText);
-        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, rankText, !listRankName.contains(rankText));
+        Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, name);
+        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, name, !listName.contains(name));
     }
 
     public boolean needClearEnter() {
@@ -61,62 +64,6 @@ public class ControlRank implements TextWatcher, TextView.OnEditorActionListener
         String rankNm = rankEnter.getText().toString();
         rankEnter.setText("");
         return rankNm;
-    }
-
-    public List<ItemRank> getListRank() {
-        return listRank;
-    }
-
-    public void setListRank(List<ItemRank> listRank) {
-        this.listRank = listRank;
-    }
-
-    public List<String> getListRankName() {
-        return listRankName;
-    }
-
-    public void setListRankName(List<String> listRankName) {
-        this.listRankName = listRankName;
-    }
-
-    public Long[] getVisible() {
-        List<Long> rankVisible = new ArrayList<>();
-        for (ItemRank itemRank : listRank) {
-            if (itemRank.isVisible()) {
-                rankVisible.add(itemRank.getId());
-            }
-        }
-        return ConvList.fromList(rankVisible);
-    }
-
-    public int size() {
-        return listRank.size();
-    }
-
-    public void add(int position, ItemRank itemRank) {
-        listRank.add(position, itemRank);
-        listRankName.add(position, itemRank.getName().toUpperCase());
-    }
-
-    public void remove(int position){
-        listRank.remove(position);
-        listRankName.remove(position);
-    }
-
-    public ItemRank get(int position) {
-        return listRank.get(position);
-    }
-
-    public void set(int position, ItemRank itemRank) {
-        listRank.set(position, itemRank);
-        listRankName.set(position, itemRank.getName().toUpperCase());
-    }
-
-    public void move(int oldPosition, int newPosition){
-        ItemRank itemRank = listRank.get(oldPosition);
-
-        remove(oldPosition);
-        add(newPosition, itemRank);
     }
 
     @Override
@@ -137,8 +84,8 @@ public class ControlRank implements TextWatcher, TextView.OnEditorActionListener
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         if (i == EditorInfo.IME_ACTION_DONE) {
-            String rankText = rankEnter.getText().toString().toUpperCase();
-            if (!rankText.equals("") && !listRankName.contains(rankText)) {
+            String name = rankEnter.getText().toString().toUpperCase();
+            if (!name.equals("") && !listName.contains(name)) {
                 onClickListener.onClick(rankAdd);
             }
             return true;

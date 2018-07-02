@@ -144,6 +144,6 @@ public class ItemRank {
     }
 
     public void setRollCheck(int rollCheckCount, int rollAllCount) {
-        rollCheck = Help.Note.getCheckValue(rollCheckCount, rollAllCount);
+        rollCheck = Help.Note.getRollCheck(rollCheckCount, rollAllCount);
     }
 }

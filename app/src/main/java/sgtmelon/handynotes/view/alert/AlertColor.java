@@ -18,33 +18,33 @@ public class AlertColor extends AlertDialog.Builder {
     private AdapterColor adapterColor;
 
     @SuppressWarnings("unused")
-    public AlertColor(@NonNull Context context, int checkPos) {
+    public AlertColor(@NonNull Context context, int check) {
         super(context);
 
         this.context = context;
 
-        setupRecycler(checkPos);
+        setupRecycler(check);
     }
 
-    public AlertColor(@NonNull Context context, int checkPos, @StyleRes int themeResId) {
+    public AlertColor(@NonNull Context context, int check, @StyleRes int themeResId) {
         super(context, themeResId);
 
         this.context = context;
 
-        setupRecycler(checkPos);
+        setupRecycler(check);
     }
 
-    private void setupRecycler(int checkPos) {
+    private void setupRecycler(int check) {
         RecyclerView recyclerView = new RecyclerView(context);
 
         int padding = context.getResources().getInteger(R.integer.alert_recycler_view_padding);
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, context.getResources().getInteger(R.integer.alert_color_column_count));
-        recyclerView.setLayoutManager(gridLayoutManager);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, context.getResources().getInteger(R.integer.alert_color_column_count));
+        recyclerView.setLayoutManager(layoutManager);
 
-        adapterColor = new AdapterColor(context, checkPos);
+        adapterColor = new AdapterColor(context, check);
         recyclerView.setAdapter(adapterColor);
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -52,7 +52,7 @@ public class AlertColor extends AlertDialog.Builder {
         setView(recyclerView);
     }
 
-    public int getCheckPosition() {
+    public int getCheck() {
         return adapterColor.getCheck();
     }
 }

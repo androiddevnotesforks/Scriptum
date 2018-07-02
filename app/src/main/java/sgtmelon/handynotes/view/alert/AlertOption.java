@@ -46,12 +46,7 @@ public class AlertOption {
         switch (itemNote.getType()) {
             case DefType.text:
                 itemOption = new String[]{"", context.getString(R.string.dialog_menu_convert_to_roll), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
-
-                if (itemNote.isStatus()) {
-                    itemOption[0] = context.getString(R.string.dialog_menu_status_unbind);
-                } else {
-                    itemOption[0] = context.getString(R.string.dialog_menu_status_bind);
-                }
+                itemOption[0] = itemNote.isStatus() ? context.getString(R.string.dialog_menu_status_unbind) : context.getString(R.string.dialog_menu_status_bind);
 
                 alert.setItems(itemOption, new DialogInterface.OnClickListener() {
                     @Override
@@ -76,22 +71,13 @@ public class AlertOption {
             case DefType.roll:
                 itemOption = new String[]{"", "", context.getString(R.string.dialog_menu_convert_to_text), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
 
-                final String[] checkText = itemNote.getText().split(DefCheck.divider);
-                final @DefCheck int check;
+                final int[] checkText = itemNote.getCheck();
+                boolean checkAll = checkText[0] == checkText[1];
 
-                if (checkText[0].equals(checkText[1])) {
-                    itemOption[0] = context.getString(R.string.dialog_menu_check_zero);
-                    check = DefCheck.notDone;
-                } else {
-                    itemOption[0] = context.getString(R.string.dialog_menu_check_all);
-                    check = DefCheck.done;
-                }
+                final int check = checkAll ? DefCheck.notDone : DefCheck.done;
 
-                if (itemNote.isStatus()) {
-                    itemOption[1] = context.getString(R.string.dialog_menu_status_unbind);
-                } else {
-                    itemOption[1] = context.getString(R.string.dialog_menu_status_bind);
-                }
+                itemOption[0] = checkAll ? context.getString(R.string.dialog_menu_check_zero) : context.getString(R.string.dialog_menu_check_all);
+                itemOption[1] = itemNote.isStatus() ? context.getString(R.string.dialog_menu_status_unbind) : context.getString(R.string.dialog_menu_status_bind);
 
                 alert.setItems(itemOption, new DialogInterface.OnClickListener() {
                     @Override
@@ -132,13 +118,13 @@ public class AlertOption {
             @Override
             public void onClick(DialogInterface dialog, int item) {
                 switch (item) {
-                    case 0: //Восстанавливаем заметку
+                    case 0:
                         optionBin.onOptionRestoreClick(itemNote, p);
                         break;
                     case 1:
                         Help.optionsCopy(context, itemNote);
                         break;
-                    case 2: //Удаляем навсегда
+                    case 2:
                         optionBin.onOptionClearClick(itemNote, p);
                         break;
                 }

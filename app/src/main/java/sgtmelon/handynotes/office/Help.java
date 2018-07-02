@@ -162,48 +162,16 @@ public class Help {
 
     public static class Note {
 
-        public static ItemNote fillCreate(Context context, @DefType int noteType) {
-            ItemNote itemNote = new ItemNote();
-
-            itemNote.setCreate(Time.getCurrentTime(context));
-            itemNote.setName("");
-            itemNote.setText("");
-
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            int ntColor = pref.getInt(context.getString(R.string.pref_key_color_create), context.getResources().getInteger(R.integer.pref_default_color_create));
-            itemNote.setColor(ntColor);
-
-            itemNote.setType(noteType);
-            itemNote.setRankPs(new Long[0]);
-            itemNote.setRankId(new Long[0]);
-            itemNote.setBin(false);
-            itemNote.setStatus(false);
-
-            return itemNote;
-        }
-
-        public static String getCheckStr(@DefCheck int rollCheck, String rollAll) {
-            return rollCheck == DefCheck.done ? rollAll + "/" + rollAll : "0/" + rollAll;
-        }
-
-        public static String getCheckStr(List<ItemRoll> listRoll) {
-            return getCheckValue(listRoll) + DefCheck.divider + listRoll.size();
-        }
-
-        public static String getCheckStr(int rollCheck, int rollAll) {
-            return rollCheck + DefCheck.divider + rollAll;
-        }
-
-        public static int getCheckValue(List<ItemRoll> listRoll) {
-            int value = 0;
+        public static int getRollCheck(List<ItemRoll> listRoll) {
+            int rollCheck = 0;
             for (ItemRoll itemRoll : listRoll) {
-                if (itemRoll.isCheck()) value++;
+                if (itemRoll.isCheck()) rollCheck++;
             }
-            return value;
+            return rollCheck;
         }
 
         //Получаем формат для отображения процентов (Например 15.6%)
-        public static double getCheckValue(int rollCheck, int rollAll) {
+        public static double getRollCheck(int rollCheck, int rollAll) {
             if (rollAll != 0) {
                 if (rollCheck == rollAll) return 100.0;
                 else return Math.floor(1000 * (double) rollCheck / (double) rollAll) / 10;
@@ -218,11 +186,6 @@ public class Help {
                 }
                 return true;
             } else return false;
-        }
-
-        public static String getName(Context context, String noteName) {
-            if (!noteName.equals("")) return noteName;
-            else return context.getString(R.string.hint_view_name);
         }
 
     }

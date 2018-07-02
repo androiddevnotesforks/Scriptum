@@ -83,7 +83,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
             db = DbRoom.provideDb(getApplicationContext());
             rankVisible = db.daoRank().getRankVisible();
             if (stNote.isCreate()) {
-                ItemNote itemNote = Help.Note.fillCreate(this, bundle.getInt(Db.NT_TP));
+                ItemNote itemNote = new ItemNote(this, bundle.getInt(Db.NT_TP));
                 ItemStatus itemStatus = new ItemStatus(this, itemNote, ConvList.fromList(rankVisible));
 
                 repoNote = new RepoNote(itemNote, new ArrayList<ItemRoll>(), itemStatus);

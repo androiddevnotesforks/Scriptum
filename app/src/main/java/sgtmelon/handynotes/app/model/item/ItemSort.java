@@ -5,8 +5,12 @@ import sgtmelon.handynotes.office.annot.def.DefSort;
 public class ItemSort {
 
     private String text;
-    @DefSort
     private int key;
+
+    public ItemSort(String text, int key) {
+        this.text = text;
+        this.key = key;
+    }
 
     public String getText() {
         return text;
@@ -16,7 +20,6 @@ public class ItemSort {
         this.text = text;
     }
 
-    @DefSort
     public int getKey() {
         return key;
     }

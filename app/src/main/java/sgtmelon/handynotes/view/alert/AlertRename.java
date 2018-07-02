@@ -38,30 +38,30 @@ public class AlertRename extends AlertDialog.Builder implements TextWatcher, Tex
         setupEditText();
     }
 
-    private EditText enterName;
+    private EditText renameEnter;
 
     private void setupEditText() {
         View content = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
-        enterName = content.findViewById(R.id.viewRename_et_enter);
+        renameEnter = content.findViewById(R.id.viewRename_et_enter);
 
         setView(content);
     }
 
     public String getRename() {
-        return enterName.getText().toString();
+        return renameEnter.getText().toString();
     }
 
     private AlertDialog dialog;
-    private List<String> listRankName;
+    private List<String> listName;
 
     public void setTextChange(AlertDialog dialog, List<String> listRankName) {
         this.dialog = dialog;
-        this.listRankName = listRankName;
+        this.listName = listRankName;
 
         dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
 
-        enterName.addTextChangedListener(this);
-        enterName.setOnEditorActionListener(this);
+        renameEnter.addTextChangedListener(this);
+        renameEnter.setOnEditorActionListener(this);
 
     }
 
@@ -79,7 +79,7 @@ public class AlertRename extends AlertDialog.Builder implements TextWatcher, Tex
     public void afterTextChanged(Editable editable) {
         String newName = getRename();
 
-        if (newName.equals("") || listRankName.contains(newName.toUpperCase())) {
+        if (newName.equals("") || listName.contains(newName.toUpperCase())) {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
         } else {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
@@ -90,7 +90,7 @@ public class AlertRename extends AlertDialog.Builder implements TextWatcher, Tex
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         if (i == EditorInfo.IME_ACTION_DONE) {
             String newName = getRename();
-            if (!newName.equals("") && !listRankName.contains(newName)) {
+            if (!newName.equals("") && !listName.contains(newName)) {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).callOnClick();
                 return true;
             }

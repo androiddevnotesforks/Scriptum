@@ -130,7 +130,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         ItemNote itemNote = repoNote.getItemNote();
         if (!itemNote.getText().equals("")) {
-            itemNote.setChange(Help.Time.getCurrentTime(context));
+            itemNote.setChange(context);
 
             if (editModeChange) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());
@@ -219,7 +219,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        int color = alert.getCheckPosition();
+                        int color = alert.getCheck();
 
                         ItemNote itemNote = repoNote.getItemNote();
                         itemNote.setColor(color);
@@ -289,9 +289,9 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         db = DbRoom.provideDb(context);
         List<ItemRoll> listRoll = db.daoRoll().insert(itemNote.getId(), textToRoll);
 
-        itemNote.setChange(Help.Time.getCurrentTime(context));
+        itemNote.setChange(context);
         itemNote.setType(DefType.roll);
-        itemNote.setText(Help.Note.getCheckStr(0, listRoll.size()));
+        itemNote.setText(0, listRoll.size());
 
         db.daoNote().update(itemNote);
         db.close();

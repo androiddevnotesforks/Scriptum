@@ -89,7 +89,7 @@ public class FrgSettings extends PreferenceFragment {
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String sortKeys = alert.getSortKeys();
+                        String sortKeys = alert.getKeys();
                         pref.edit().putString(prefKey, sortKeys).apply();
 
                         String summary = Help.Pref.getSortSummary(activity, sortKeys);
@@ -170,7 +170,7 @@ public class FrgSettings extends PreferenceFragment {
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        noteColorDef = alert.getCheckPosition();
+                        noteColorDef = alert.getCheck();
                         pref.edit().putInt(getString(R.string.pref_key_color_create), noteColorDef).apply();
                         prefNoteColorDef.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[noteColorDef]);
                         dialog.cancel();

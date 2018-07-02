@@ -4,6 +4,7 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.Transaction;
 import android.arch.persistence.room.Update;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,10 +12,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRank;
+import sgtmelon.handynotes.app.model.repo.RepoRank;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
 
@@ -31,10 +34,8 @@ public abstract class DaoRank extends DaoBase {
             "ORDER BY RK_POSITION ASC")
     abstract List<ItemRank> getSimple();
 
-    /**
-     * @return - Список моделей категорий с указанной информацией
-     */
-    public List<ItemRank> get() {
+    @Transaction
+    public RepoRank get() {
         List<ItemRank> listRank = getSimple();
 
         for (int i = 0; i < listRank.size(); i++) {
@@ -48,7 +49,9 @@ public abstract class DaoRank extends DaoBase {
             listRank.set(i, itemRank);
         }
 
-        return listRank;
+        List<String> listName = getNameUp();
+
+        return new RepoRank(listRank, listName);
     }
 
     /**
@@ -93,7 +96,7 @@ public abstract class DaoRank extends DaoBase {
      * @param rankId - Id категорий принадлежащих каметке
      */
     public void update(long noteId, Long[] rankId) {
-        List<ItemRank> listRank = get();
+        List<ItemRank> listRank = getSimple();
         boolean[] check = getCheck(rankId);
 
         for (int i = 0; i < listRank.size(); i++) {
@@ -116,13 +119,11 @@ public abstract class DaoRank extends DaoBase {
     @Update
     public abstract void update(ItemRank itemRank);
 
-    // FIXME: 01.07.2018 Сделай нормально
-
     /**
      * @param startDrag - Начальная позиция обновления
      * @param endDrag   - Конечная позиция обновления
      */
-    public void update(int startDrag, int endDrag) {
+    public List<ItemRank> update(int startDrag, int endDrag) {
         boolean startFirst = startDrag < endDrag;
 
         int iStart = startFirst ? startDrag : endDrag;
@@ -130,27 +131,24 @@ public abstract class DaoRank extends DaoBase {
         int iAdd = startFirst ? -1 : 1;
 
         List<ItemRank> listRank = getSimple();
-
-        int newPosition;
-        List<Long> rankIdNote = new ArrayList<>();
+        List<Long> idNote = new ArrayList<>();
 
         for (int i = iStart; i <= iEnd; i++) {
             ItemRank itemRank = listRank.get(i);
 
             for (long id : itemRank.getIdNote()) {
-                if (!rankIdNote.contains(id)) {
-                    rankIdNote.add(id);
+                if (!idNote.contains(id)) {
+                    idNote.add(id);
                 }
             }
 
             boolean start = i == startDrag;
             boolean end = i == endDrag;
 
-            newPosition = start ? endDrag : i + iAdd;
-
+            int newPosition = start ? endDrag : i + iAdd;
             itemRank.setPosition(newPosition);
 
-            if (startFirst) { // FIXME: 29.06.2018 Неправильно перемещает локальные элементы в массиве
+            if (startFirst) {
                 if (end) {
                     listRank.remove(i);
                     listRank.add(newPosition, itemRank);
@@ -163,13 +161,18 @@ public abstract class DaoRank extends DaoBase {
             }
         }
 
-        updateRank(listRank);
-
-        for (ItemRank itemRank : listRank) {
-            Log.i("DaoRank", "NM: " + itemRank.getName() + " | PS: " + itemRank.getPosition());
+        if (listRank.get(0).getPosition() != 0) { // FIXME: 01.07.2018 Сделай нормально
+            Collections.reverse(listRank);
         }
 
-        update(rankIdNote, listRank);
+        updateRank(listRank);
+        update(idNote, listRank);
+
+//        for (ItemRank item : listRank) {
+//            Log.i("DaoRank", "NM: " + item.getName() + " | PS: " + item.getPosition());
+//        }
+
+        return listRank;
     }
 
     /**
@@ -245,7 +248,7 @@ public abstract class DaoRank extends DaoBase {
     }
 
     public void listAll(TextView textView) {
-        List<ItemRank> listRank = get();
+        List<ItemRank> listRank = getSimple();
 
         String annotation = "Rank Data Base: ";
         textView.setText(annotation);

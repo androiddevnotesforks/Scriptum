@@ -24,25 +24,31 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
 
     //region Variables
     private final Context context;
-    private final String sortKeys;
+    private final String keys;
+
+    private final String[] textSort;
     private List<ItemSort> listSort;
     //endregion
 
     @SuppressWarnings("unused")
-    public AlertSort(@NonNull Context context, String sortKeys) {
+    public AlertSort(@NonNull Context context, String keys) {
         super(context);
 
         this.context = context;
-        this.sortKeys = sortKeys;
+        this.keys = keys;
+
+        textSort = context.getResources().getStringArray(R.array.pref_text_sort);
 
         setupRecycler();
     }
 
-    public AlertSort(@NonNull Context context, String sortKeys, @StyleRes int themeResId) {
+    public AlertSort(@NonNull Context context, String keys, @StyleRes int themeResId) {
         super(context, themeResId);
 
         this.context = context;
-        this.sortKeys = sortKeys;
+        this.keys = keys;
+
+        textSort = context.getResources().getStringArray(R.array.pref_text_sort);
 
         setupRecycler();
     }
@@ -56,8 +62,8 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        recyclerView.setLayoutManager(layoutManager);
 
         adapterSort = new AdapterSort();
         recyclerView.setAdapter(adapterSort);
@@ -71,14 +77,10 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
         setView(recyclerView);
 
         listSort = new ArrayList<>();
-        String[] sortKeysArr = sortKeys.split(DefSort.divider);
-        for (String aSortKey : sortKeysArr) {
-            @DefSort int key = Integer.parseInt(aSortKey);
-
-            ItemSort itemSort = new ItemSort();
-            itemSort.setText(context.getResources().getStringArray(R.array.pref_text_sort)[key]);
-            itemSort.setKey(key);
-
+        String[] keysArr = keys.split(DefSort.divider);
+        for (String aKey : keysArr) {
+            @DefSort int key = Integer.parseInt(aKey);
+            ItemSort itemSort = new ItemSort(textSort[key], key);
             listSort.add(itemSort);
         }
 
@@ -93,7 +95,7 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
         @DefSort int key = itemSort.getKey() == DefSort.create ?
                 DefSort.change : DefSort.create;
 
-        itemSort.setText(context.getResources().getStringArray(R.array.pref_text_sort)[key]);
+        itemSort.setText(textSort[key]);
         itemSort.setKey(key);
 
         listSort.set(p, itemSort);
@@ -137,13 +139,15 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
 
             if (oldPs == adapterSort.stSort.getEnd()) {
                 adapterSort.notifyItemChanged(newPs);
-            } else adapterSort.notifyItemChanged(oldPs);
+            } else {
+                adapterSort.notifyItemChanged(oldPs);
+            }
 
             return true;
         }
     };
 
-    public String getSortKeys() {
+    public String getKeys() {
         return Help.Pref.getSortByList(listSort);
     }
 }
