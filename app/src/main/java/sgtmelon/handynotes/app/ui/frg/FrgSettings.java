@@ -21,8 +21,8 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.ui.act.ActDevelop;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
-import sgtmelon.handynotes.view.alert.AlertColor;
-import sgtmelon.handynotes.view.alert.AlertSort;
+import sgtmelon.handynotes.app.view.alert.AlertColor;
+import sgtmelon.handynotes.app.view.alert.AlertSort;
 
 public class FrgSettings extends PreferenceFragment {
 

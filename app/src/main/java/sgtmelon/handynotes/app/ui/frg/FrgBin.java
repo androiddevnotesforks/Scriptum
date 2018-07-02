@@ -37,7 +37,7 @@ import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.view.alert.AlertOption;
+import sgtmelon.handynotes.app.view.alert.AlertOption;
 
 public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionBin {
@@ -87,7 +87,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
     private MenuItem mItemClearBin;
 
-    // TODO: 27.06.2018 Исправь все покраски в стили
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 

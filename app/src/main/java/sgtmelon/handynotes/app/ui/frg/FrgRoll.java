@@ -45,7 +45,7 @@ import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.office.intf.IntfMenu;
-import sgtmelon.handynotes.view.alert.AlertColor;
+import sgtmelon.handynotes.app.view.alert.AlertColor;
 
 public class FrgRoll extends Fragment implements View.OnClickListener,
         IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {

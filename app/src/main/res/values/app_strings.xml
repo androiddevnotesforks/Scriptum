@@ -96,6 +96,26 @@
         <item>List</item>
     </string-array>
 
+    <string-array name="dialog_menu_text">
+        <item />
+        <item>@string/dialog_menu_convert_to_roll</item>
+        <item>@string/dialog_menu_copy</item>
+        <item>@string/dialog_menu_delete</item>
+    </string-array>
+
+    <string-array name="dialog_menu_roll">
+        <item />
+        <item />
+        <item>@string/dialog_menu_convert_to_text</item>
+        <item>@string/dialog_menu_copy</item>
+        <item>@string/dialog_menu_delete</item>
+    </string-array>
+
+    <string-array name="dialog_menu_bin">
+        <item>@string/dialog_menu_restore</item>
+        <item>@string/dialog_menu_copy</item>
+        <item>@string/dialog_menu_clear</item>
+    </string-array>
 
     <!-- Toast -->
     <string name="toast_text_copy">Text copied to clipboard</string>

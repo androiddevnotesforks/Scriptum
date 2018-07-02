@@ -10,12 +10,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.model.item.ItemRank;
-import sgtmelon.handynotes.office.conv.ConvList;
 
 import sgtmelon.handynotes.office.Help;
 

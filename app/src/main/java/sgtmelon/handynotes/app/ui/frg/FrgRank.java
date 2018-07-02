@@ -32,7 +32,7 @@ import sgtmelon.handynotes.office.st.StDrag;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.view.alert.AlertRename;
+import sgtmelon.handynotes.app.view.alert.AlertRename;
 
 public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
         View.OnClickListener, View.OnLongClickListener {

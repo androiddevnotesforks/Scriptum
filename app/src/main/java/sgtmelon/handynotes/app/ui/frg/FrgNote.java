@@ -39,7 +39,7 @@ import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.view.alert.AlertOption;
+import sgtmelon.handynotes.app.view.alert.AlertOption;
 
 public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener,
         IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionNote {

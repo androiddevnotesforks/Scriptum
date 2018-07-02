@@ -35,11 +35,9 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
     public StNote stNote;
     public ControlSave controlSave;
-//    public ItemStatus itemStatus;
 
     public List<Long> rankVisible;
     public RepoNote repoNote;
-//    private ItemNote itemNote;
     //endregion
 
     public void setRepoNote(RepoNote repoNote) {

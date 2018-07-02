@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.view.alert;
+package sgtmelon.handynotes.app.view.alert;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

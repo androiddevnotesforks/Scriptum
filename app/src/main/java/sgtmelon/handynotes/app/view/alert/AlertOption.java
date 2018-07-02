@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.view.alert;
+package sgtmelon.handynotes.app.view.alert;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -45,7 +45,7 @@ public class AlertOption {
 
         switch (itemNote.getType()) {
             case DefType.text:
-                itemOption = new String[]{"", context.getString(R.string.dialog_menu_convert_to_roll), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
+                itemOption = context.getResources().getStringArray(R.array.dialog_menu_text);
                 itemOption[0] = itemNote.isStatus() ? context.getString(R.string.dialog_menu_status_unbind) : context.getString(R.string.dialog_menu_status_bind);
 
                 alert.setItems(itemOption, new DialogInterface.OnClickListener() {
@@ -69,7 +69,7 @@ public class AlertOption {
                 });
                 break;
             case DefType.roll:
-                itemOption = new String[]{"", "", context.getString(R.string.dialog_menu_convert_to_text), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_delete)};
+                itemOption = context.getResources().getStringArray(R.array.dialog_menu_roll);
 
                 final int[] checkText = itemNote.getCheck();
                 boolean checkAll = checkText[0] == checkText[1];
@@ -112,7 +112,7 @@ public class AlertOption {
     public void showOptionBin() {
         AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
 
-        String[] itemOption = {context.getString(R.string.dialog_menu_restore), context.getString(R.string.dialog_menu_copy), context.getString(R.string.dialog_menu_clear)};
+        String[] itemOption = context.getResources().getStringArray(R.array.dialog_menu_bin);
 
         alert.setItems(itemOption, new DialogInterface.OnClickListener() {
             @Override

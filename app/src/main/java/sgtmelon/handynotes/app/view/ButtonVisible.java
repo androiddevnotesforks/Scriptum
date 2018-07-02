@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.view;
+package sgtmelon.handynotes.app.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
