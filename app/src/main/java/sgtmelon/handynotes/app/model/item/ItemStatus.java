@@ -90,17 +90,6 @@ public class ItemStatus {
         if (itemNote.isStatus()) notifyNote();
     }
 
-    //Обновление отображения в зависимоти от видимости категорий
-    //В окне со всеми заметками
-    public void updateNote(ItemRank itemRank) {
-        Long[] rankId = itemNote.getRankId();
-
-        if (rankId[0] == itemRank.getId()) {
-            if (itemRank.isVisible()) notifyNote();
-            else cancelNote();
-        }
-    }
-
     //В окне редактирования заметок
     public void updateNote(ItemNote itemNote, List<Long> rkVisible) {
         if (itemNote.isStatus()) {

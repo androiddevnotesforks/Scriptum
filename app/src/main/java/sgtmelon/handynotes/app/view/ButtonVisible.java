@@ -3,6 +3,8 @@ package sgtmelon.handynotes.app.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.AppCompatImageButton;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -12,7 +14,9 @@ import android.os.Handler;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
 
-public class ButtonVisible extends android.support.v7.widget.AppCompatImageButton {
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+public class ButtonVisible extends AppCompatImageButton {
 
     private final Context context;
 
@@ -41,8 +45,6 @@ public class ButtonVisible extends android.support.v7.widget.AppCompatImageButto
     }
 
     private Drawable visibleOn, visibleOff;
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private AnimatedVectorDrawable visibleOnAnim, visibleOffAnim;
 
     private Handler animHandler;
@@ -53,41 +55,38 @@ public class ButtonVisible extends android.support.v7.widget.AppCompatImageButto
         visibleOn = Help.Icon.getDrawable(context, R.drawable.ic_button_visible_on);
         visibleOff = Help.Icon.getDrawable(context, R.drawable.ic_button_visible_off, R.color.colorDarkSecond);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            visibleOnAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_button_visible_on_anim);
-            visibleOffAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_button_visible_off_anim, R.color.colorDarkSecond);
+        visibleOnAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_button_visible_on_anim);
+        visibleOffAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_button_visible_off_anim, R.color.colorDarkSecond);
 
-            animHandler = new Handler();
-            animRunnable = new Runnable() {
-                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-                @Override
-                public void run() {
-                    if (visibleOnAnim.isRunning() || visibleOffAnim.isRunning()) waitAnimationEnd();
-                    else {
-                        if (animRunnableVisible) setImageDrawable(visibleOn);
-                        else setImageDrawable(visibleOff);
-                    }
+        animHandler = new Handler();
+        animRunnable = new Runnable() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void run() {
+                if (visibleOnAnim.isRunning() || visibleOffAnim.isRunning()) waitAnimationEnd();
+                else {
+                    if (animRunnableVisible) setImageDrawable(visibleOn);
+                    else setImageDrawable(visibleOff);
                 }
-            };
-        }
+            }
+        };
     }
 
     private void waitAnimationEnd() {
         animHandler.postDelayed(animRunnable, context.getResources().getInteger(android.R.integer.config_shortAnimTime));
     }
 
-    //TODO: из-за этих методов не работает на низком API
     public void setVisible(boolean visible, boolean needAnim) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || !needAnim) {
+        if (!needAnim) {
             if (visible) setImageDrawable(visibleOn);
             else setImageDrawable(visibleOff);
         } else {
             this.animRunnableVisible = visible;
             if (visible) {
-//                setImageDrawable(visibleOnAnim);
+                setImageDrawable(visibleOnAnim);
                 visibleOnAnim.start();
             } else {
-//                setImageDrawable(visibleOffAnim);
+                setImageDrawable(visibleOffAnim);
                 visibleOffAnim.start();
             }
             waitAnimationEnd();
