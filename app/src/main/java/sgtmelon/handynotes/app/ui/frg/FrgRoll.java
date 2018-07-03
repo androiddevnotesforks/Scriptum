@@ -502,26 +502,27 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int flagsDrag = 0;
-            int flagsSwipe = 0;
+            int flagsDrag = activity.stNote.isEdit() && stDrag.isDrag()
+                    ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
+                    : 0;
 
-            if (activity.stNote.isEdit()) {
-                if (stDrag.isDrag()) flagsDrag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-                flagsSwipe = ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
-            }
+            int flagsSwipe = activity.stNote.isEdit()
+                    ? ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+                    : 0;
+
             return makeMovementFlags(flagsDrag, flagsSwipe);
         }
 
         @Override
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            int p = viewHolder.getAdapterPosition(); //Получаем позицию
+            int p = viewHolder.getAdapterPosition();
 
             List<ItemRoll> listRoll = repoNote.getListRoll();
-            listRoll.remove(p);                      //Убираем элемент из массива данных
+            listRoll.remove(p);                     //Убираем элемент из массива данных
             repoNote.setListRoll(listRoll);
 
-            adapterRoll.updateAdapter(listRoll);            //Обновление массива данных в адаптере
-            adapterRoll.notifyItemRemoved(p);        //Обновление удаления элемента
+            adapterRoll.updateAdapter(listRoll);    //Обновление массива данных в адаптере
+            adapterRoll.notifyItemRemoved(p);       //Обновление удаления элемента
         }
 
         @Override
@@ -547,8 +548,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                 float itemWidth = viewHolder.itemView.getWidth();           //Ширина плитки
                 float targetX = itemWidth / 2;                              //Конечная точка, где альфа = 0
-                float translationX;                                         //Сдвиг, между начальной точкой и конечной
 
+                float translationX;                                         //Сдвиг, между начальной точкой и конечной
                 if (dX > 0) {                                               //Сдвиг слева вправо
                     translationX = Math.abs(Math.min(dX, targetX));         //Выбираем минимальное (если dX превышает targetX, то выбираем второе)
                 } else {                                                    //Сдвиг справа влево

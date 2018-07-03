@@ -111,7 +111,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
 //    @Override
 //    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        if (menuMain.getPageCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
+//        if (menuMain.getCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
 //            Log.i(TAG, "dispatchTouchEvent");
 //
 //            View view = getCurrentFocus();
@@ -143,13 +143,12 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
     public void onBackPressed() {
         Log.i(TAG, "onBackPressed");
 
-        int buttonCurrent = menuMain.getPageCurrent();
+        int buttonCurrent = menuMain.getCurrent();
 
         if (buttonCurrent != DefPages.notes) {
             switch (buttonCurrent) {
                 case DefPages.rank:
-                    if (frgRank.controlRank.needClearEnter()) frgRank.controlRank.clearEnter();
-                    else menuMain.setPage(DefPages.notes);
+                    if (!frgRank.needClearEnter()) menuMain.setPage(DefPages.notes);
                     break;
                 default:
                     menuMain.setPage(DefPages.notes);

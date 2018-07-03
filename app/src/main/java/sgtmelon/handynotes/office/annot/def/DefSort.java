@@ -10,4 +10,6 @@ public @interface DefSort {
     int create = 0, change = 1;
     int rank = 2, color = 3;
 
+    String def = create + divider + rank + divider + color;
+
 }

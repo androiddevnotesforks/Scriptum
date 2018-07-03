@@ -23,6 +23,7 @@ import sgtmelon.handynotes.app.ui.act.ActDevelop;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
 import sgtmelon.handynotes.app.view.alert.AlertColor;
 import sgtmelon.handynotes.app.view.alert.AlertSort;
+import sgtmelon.handynotes.office.annot.def.DefSort;
 
 public class FrgSettings extends PreferenceFragment {
 
@@ -56,13 +57,13 @@ public class FrgSettings extends PreferenceFragment {
         if (view != null) {
             view.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorBackground));
 
-            View lv = view.findViewById(android.R.id.list);
-            lv.setPadding(0, 0, 0, 0);
+            View list = view.findViewById(android.R.id.list);
+            list.setPadding(0, 0, 0, 0);
         }
         return view;
     }
 
-    private Preference prefSortNt;
+    private Preference prefSort;
 
     private void setupSortPref() {
         Log.i(TAG, "setupSortPref");
@@ -75,25 +76,26 @@ public class FrgSettings extends PreferenceFragment {
             }
         };
 
-        prefSortNt = findPreference(getString(R.string.pref_key_sort));
-        prefSortNt.setSummary(Help.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), Help.Pref.getSortDefault())));
-        prefSortNt.setOnPreferenceClickListener(preferenceClickListener);
+        prefSort = findPreference(getString(R.string.pref_key_sort));
+        prefSort.setSummary(Help.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), DefSort.def)));
+        prefSort.setOnPreferenceClickListener(preferenceClickListener);
 
     }
 
     private void alertSort(final String prefKey) {
-        Log.i(TAG, "alertColorNtDef");
+        Log.i(TAG, "alertSort");
 
-        final AlertSort alert = new AlertSort(activity, pref.getString(prefKey, Help.Pref.getSortDefault()), R.style.AppTheme_AlertDialog);
+        final AlertSort alert = new AlertSort(activity, pref.getString(prefKey, DefSort.def), R.style.AppTheme_AlertDialog);
+
         alert.setTitle(getString(R.string.dialog_title_sort))
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        String sortKeys = alert.getKeys();
-                        pref.edit().putString(prefKey, sortKeys).apply();
+                        String keys = alert.getKeys();
+                        pref.edit().putString(prefKey, keys).apply();
 
-                        String summary = Help.Pref.getSortSummary(activity, sortKeys);
-                        prefSortNt.setSummary(summary);
+                        String summary = Help.Pref.getSortSummary(activity, keys);
+                        prefSort.setSummary(summary);
 
                         dialog.cancel();
                     }
@@ -107,11 +109,11 @@ public class FrgSettings extends PreferenceFragment {
                 .setNeutralButton(getString(R.string.dialog_btn_reset), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        String sortKeys = Help.Pref.getSortDefault();
-                        pref.edit().putString(prefKey, sortKeys).apply();
+                        String keys = DefSort.def;
+                        pref.edit().putString(prefKey, keys).apply();
 
-                        String summary = Help.Pref.getSortSummary(activity, sortKeys);
-                        prefSortNt.setSummary(summary);
+                        String summary = Help.Pref.getSortSummary(activity, keys);
+                        prefSort.setSummary(summary);
 
                         dialogInterface.cancel();
                     }
@@ -121,58 +123,59 @@ public class FrgSettings extends PreferenceFragment {
         dialog.show();
     }
 
-    private Preference prefNoteColorDef, prefNoteSaveTime;
-    private int noteColorDef, noteSaveTime;
+    private Preference prefColorCreate, prefAutoSaveTime;
+    private int colorCreate, autoSaveTime;
 
     private void setupNotePref() {
         Log.i(TAG, "setupNotePref");
 
-        prefNoteColorDef = findPreference(getString(R.string.pref_key_color_create));
-        noteColorDef = pref.getInt(getString(R.string.pref_key_color_create), getResources().getInteger(R.integer.pref_default_color_create));
-        prefNoteColorDef.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[noteColorDef]);
-        prefNoteColorDef.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        prefColorCreate = findPreference(getString(R.string.pref_key_color_create));
+        colorCreate = pref.getInt(getString(R.string.pref_key_color_create), getResources().getInteger(R.integer.pref_default_color_create));
+        prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
+        prefColorCreate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                alertColorNtDef();
+                alertColorCreate();
                 return true;
             }
         });
 
-        prefNoteSaveTime = findPreference(getString(R.string.pref_key_auto_save_time));
-        noteSaveTime = pref.getInt(getString(R.string.pref_key_auto_save_time), getResources().getInteger(R.integer.pref_default_auto_save_time));
-        prefNoteSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[noteSaveTime]);
-        prefNoteSaveTime.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        prefAutoSaveTime = findPreference(getString(R.string.pref_key_auto_save_time));
+        autoSaveTime = pref.getInt(getString(R.string.pref_key_auto_save_time), getResources().getInteger(R.integer.pref_default_auto_save_time));
+        prefAutoSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[autoSaveTime]);
+        prefAutoSaveTime.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                alertNoteSaveTime();
+                alertAutoSaveTime();
                 return true;
             }
         });
 
-        CheckBoxPreference prefNoteSaveCh = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
-        prefNoteSaveCh.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
+        prefAutoSave.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                prefNoteSaveTime.setEnabled((Boolean) newValue);
+                prefAutoSaveTime.setEnabled((Boolean) newValue);
                 return true;
             }
         });
 
-        if (prefNoteSaveCh.isChecked()) prefNoteSaveTime.setEnabled(true);
-        else prefNoteSaveTime.setEnabled(false);
+        prefAutoSaveTime.setEnabled(prefAutoSave.isChecked());
     }
 
-    private void alertColorNtDef() {
-        Log.i(TAG, "alertColorNtDef");
+    private void alertColorCreate() {
+        Log.i(TAG, "alertColorCreate");
 
-        final AlertColor alert = new AlertColor(activity, noteColorDef, R.style.AppTheme_AlertDialog);
+        final AlertColor alert = new AlertColor(activity, colorCreate, R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.pref_title_color_create))
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        noteColorDef = alert.getCheck();
-                        pref.edit().putInt(getString(R.string.pref_key_color_create), noteColorDef).apply();
-                        prefNoteColorDef.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[noteColorDef]);
+                        colorCreate = alert.getCheck();
+
+                        pref.edit().putInt(getString(R.string.pref_key_color_create), colorCreate).apply();
+                        prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
+
                         dialog.cancel();
                     }
                 })
@@ -187,26 +190,28 @@ public class FrgSettings extends PreferenceFragment {
         dialog.show();
     }
 
-    private void alertNoteSaveTime() {
-        Log.i(TAG, "alertNoteSaveTime");
+    private void alertAutoSaveTime() {
+        Log.i(TAG, "alertAutoSaveTime");
 
-        String[] checkName = getResources().getStringArray(R.array.pref_text_save_time);
-        final int[] noteSaveTimeAlert = new int[1];
+        final String[] name = getResources().getStringArray(R.array.pref_text_save_time);
+        final int[] value = new int[1];
 
         AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.pref_title_auto_save_time))
-                .setSingleChoiceItems(checkName, noteSaveTime, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(name, autoSaveTime, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        noteSaveTimeAlert[0] = i;
+                        value[0] = i;
                     }
                 })
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        noteSaveTime = noteSaveTimeAlert[0];
-                        pref.edit().putInt(getString(R.string.pref_key_auto_save_time), noteSaveTime).apply();
-                        prefNoteSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[noteSaveTime]);
+                        autoSaveTime = value[0];
+
+                        pref.edit().putInt(getString(R.string.pref_key_auto_save_time), autoSaveTime).apply();
+                        prefAutoSaveTime.setSummary(name[autoSaveTime]);
+
                         dialog.cancel();
                     }
                 })
@@ -230,18 +235,16 @@ public class FrgSettings extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 View view = LayoutInflater.from(activity).inflate(R.layout.view_about, null);
-                ImageView appLogo = view.findViewById(R.id.viewAbout_iv_logo);
+                ImageView logo = view.findViewById(R.id.viewAbout_iv_logo);
 
-                appLogo.setOnClickListener(new View.OnClickListener() {
+                logo.setOnClickListener(new View.OnClickListener() {
 
                     private int click = 0;
-                    private final int clickShow = 1;
-//                    private final int clickShow = 9;
+                    private final int show = 9;
 
                     @Override
                     public void onClick(View view) {
-                        click++;
-                        if (click == clickShow) {
+                        if (++click == show) {
                             click = 0;
                             Intent intent = new Intent(activity, ActDevelop.class);
                             startActivity(intent);
@@ -251,6 +254,7 @@ public class FrgSettings extends PreferenceFragment {
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppTheme_AlertDialog);
                 alert.setView(view).setCancelable(true);
+
                 AlertDialog dialog = alert.create();
                 dialog.show();
                 return true;

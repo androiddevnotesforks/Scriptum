@@ -79,9 +79,9 @@ public class Help {
 
     public static class Icon {
 
-        public static int getColor(Context context, boolean isDark, int noteColor) {
-            if (isDark) return ContextCompat.getColor(context, DefColor.dark[noteColor]);
-            else return ContextCompat.getColor(context, DefColor.light[noteColor]);
+        public static int getColor(Context context, boolean isDark, int color) {
+            if (isDark) return ContextCompat.getColor(context, DefColor.dark[color]);
+            else return ContextCompat.getColor(context, DefColor.light[color]);
         }
 
         public static int getColorLength() {
@@ -162,6 +162,10 @@ public class Help {
 
     public static class Note {
 
+        /**
+         * @param listRoll - Список для проверки
+         * @return - Количество отмеченных пунктов
+         */
         public static int getRollCheck(List<ItemRoll> listRoll) {
             int rollCheck = 0;
             for (ItemRoll itemRoll : listRoll) {
@@ -170,15 +174,24 @@ public class Help {
             return rollCheck;
         }
 
-        //Получаем формат для отображения процентов (Например 15.6%)
+        /**
+         * @param rollCheck - Количество выполненных пунктов
+         * @param rollAll   - Всего пунктов
+         * @return - Получаем формат для отображения процентов (Например 15.6%)
+         */
         public static double getRollCheck(int rollCheck, int rollAll) {
+            double value = 0.0;
             if (rollAll != 0) {
-                if (rollCheck == rollAll) return 100.0;
-                else return Math.floor(1000 * (double) rollCheck / (double) rollAll) / 10;
+                if (rollCheck == rollAll) value = 100.0;
+                else value = Math.floor(1000 * (double) rollCheck / (double) rollAll) / 10;
             }
-            return 0.0;
+            return value;
         }
 
+        /**
+         * @param listRoll - Список для проверки
+         * @return - Все ли пункты отмечены
+         */
         public static boolean isAllCheck(List<ItemRoll> listRoll) {
             if (listRoll.size() != 0) {
                 for (ItemRoll itemRoll : listRoll) {
@@ -192,17 +205,20 @@ public class Help {
 
     public static class Pref {
 
-        //Формирование поискового запроса относительно настроек
+        /**
+         * @param context - Для получения настроек
+         * @return - Формирование поискового запроса относительно настроек
+         */
         public static String getSortNoteOrder(Context context) {
 
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            String sortKeys = pref.getString(context.getString(R.string.pref_key_sort), getSortDefault());
 
-            String[] sortKeysArr = sortKeys.split(DefSort.divider);
+            String keysStr = pref.getString(context.getString(R.string.pref_key_sort), DefSort.def);
+            String[] keysArr = keysStr.split(DefSort.divider);
+
             StringBuilder order = new StringBuilder();
-
-            for (String aSortKey : sortKeysArr) {
-                @DefSort int key = Integer.parseInt(aSortKey);
+            for (String aKey : keysArr) {
+                @DefSort int key = Integer.parseInt(aKey);
 
                 order.append(Db.orders[key]);
 
@@ -214,46 +230,51 @@ public class Help {
             return order.toString();
         }
 
-        public static String getSortDefault() {
-            return DefSort.create + DefSort.divider + DefSort.rank + DefSort.divider + DefSort.color;
-        }
-
+        /**
+         * @param listSort - Список моделей из диалога
+         * @return - Строка сортировки
+         */
         public static String getSortByList(List<ItemSort> listSort) {
-            StringBuilder sortKeys = new StringBuilder();
+            StringBuilder order = new StringBuilder();
             for (int i = 0; i < listSort.size(); i++) {
-                sortKeys.append(Integer.toString(listSort.get(i).getKey()));
-                if (i != listSort.size() - 1) sortKeys.append(DefSort.divider);
+                order.append(Integer.toString(listSort.get(i).getKey()));
+
+                if (i != listSort.size() - 1) {
+                    order.append(DefSort.divider);
+                }
             }
-            return sortKeys.toString();
+            return order.toString();
         }
 
-        public static String getSortSummary(Context context, String sortKeys) {
-            String sortSummary = "";
-            String[] sortKeysArr = sortKeys.split(DefSort.divider);
+        public static String getSortSummary(Context context, String keys) {
+            StringBuilder order = new StringBuilder();
 
-            for (int k = 0; k < sortKeysArr.length; k++) {
-                @DefSort int key = Integer.parseInt(sortKeysArr[k]);
-                String summary = context.getResources().getStringArray(R.array.pref_text_sort)[key];
+            String[] keysArr = keys.split(DefSort.divider);
+            String[] keysName = context.getResources().getStringArray(R.array.pref_text_sort);
 
+            for (int k = 0; k < keysArr.length; k++) {
+                @DefSort int key = Integer.parseInt(keysArr[k]);
+
+                String summary = keysName[key];
                 if (k != 0) {
                     summary = summary.replace(context.getString(R.string.pref_summary_sort_start), "").replaceFirst(" ", "");
                 }
 
+                order.append(summary);
                 if (key != DefSort.create && key != DefSort.change) {
-                    sortSummary += summary + DefSort.divider;
-                } else {
-                    sortSummary += summary;
-                    break;
-                }
+                    order.append(DefSort.divider);
+                } else break;
+
             }
-            return sortSummary;
+
+            return order.toString();
         }
 
         public static void listAllPref(Context context, TextView textView) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             textView.append("\n\nSort:");
-            textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), Pref.getSortDefault()));
+            textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), DefSort.def));
 
             textView.append("\n\nNotes:");
             textView.append("\nColorDef: " + pref.getInt(context.getString(R.string.pref_key_color_create), context.getResources().getInteger(R.integer.pref_default_color_create)));

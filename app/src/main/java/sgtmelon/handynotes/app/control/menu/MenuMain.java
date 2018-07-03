@@ -29,24 +29,24 @@ public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigatio
         this.mainClick = mainClick;
     }
 
-    private boolean needChange = false;     //Для избежания повторного вызова метода setPageCurrent после нажатия на кнопку
-    private int pageCurrent;
+    private boolean needChange = false; //Для избежания повторного вызова метода setCurrent после нажатия на кнопку
+    private int current;
 
-    public int getPageCurrent() {
-        return pageCurrent;
+    public int getCurrent() {
+        return current;
     }
 
-    private void setPageCurrent(int itemId) {
+    private void setCurrent(int itemId) {
         switch (itemId) {
             case R.id.menu_actMain_pageRank:
-                pageCurrent = DefPages.rank;
+                current = DefPages.rank;
                 break;
             case R.id.menu_actMain_pageNote:
-                if (pageCurrent == DefPages.notes) mainClick.onMenuNoteClick();
-                else pageCurrent = DefPages.notes;
+                if (current == DefPages.notes) mainClick.onMenuNoteClick();
+                else current = DefPages.notes;
                 break;
             case R.id.menu_actMain_pageBin:
-                pageCurrent = DefPages.bin;
+                current = DefPages.bin;
                 break;
         }
     }
@@ -69,8 +69,8 @@ public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigatio
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         needChange = false;
-        setPageCurrent(item.getItemId());
-        viewPager.setCurrentItem(pageCurrent, true);
+        setCurrent(item.getItemId());
+        viewPager.setCurrentItem(current, true);
         return true;
     }
 

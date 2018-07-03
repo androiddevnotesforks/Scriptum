@@ -28,35 +28,35 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     private final int noteType;
     //endregion
 
-    public MenuNote(Context context, Window window, Toolbar toolbar, @DefType int noteType) {
+    public MenuNote(Context context, Window window, Toolbar toolbar, @DefType int type) {
         this.context = context;
         this.window = window;
         this.toolbar = toolbar;
 
-        this.noteType = noteType;
+        this.noteType = type;
     }
 
     //Установка цвета
-    public void setColor(int ntColor) {
+    public void setColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Help.Icon.getColor(context, true, ntColor));
+            window.setStatusBarColor(Help.Icon.getColor(context, true, color));
         }
-        toolbar.setBackgroundColor(Help.Icon.getColor(context, false, ntColor));
+        toolbar.setBackgroundColor(Help.Icon.getColor(context, false, color));
     }
 
     //Цвета до и после смены цвета
     private int statusStartColor, statusEndColor, toolbarStartColor, toolbarEndColor;
 
     //Меняем начальный цвет
-    public void setStartColor(int noteColor) {
-        statusStartColor = Help.Icon.getColor(context, true, noteColor);
-        toolbarStartColor = Help.Icon.getColor(context, false, noteColor);
+    public void setStartColor(int color) {
+        statusStartColor = Help.Icon.getColor(context, true, color);
+        toolbarStartColor = Help.Icon.getColor(context, false, color);
     }
 
     //Покраска с анимацией
-    public void startTint(int noteColor) {
-        statusEndColor = Help.Icon.getColor(context, true, noteColor);
-        toolbarEndColor = Help.Icon.getColor(context, false, noteColor);
+    public void startTint(int color) {
+        statusEndColor = Help.Icon.getColor(context, true, color);
+        toolbarEndColor = Help.Icon.getColor(context, false, color);
 
         if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
             ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
@@ -84,7 +84,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     private Menu menu;
     private MenuItem mItemStatus, mItemCheck;
 
-    public void setupMenu(Menu menu, boolean noteStatus) {
+    public void setupMenu(Menu menu, boolean status) {
         this.menu = menu;
 
         MenuItem mItemUndo = menu.findItem(R.id.menu_actNote_restore);
@@ -100,7 +100,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         MenuItem mItemRank = menu.findItem(R.id.menu_actNote_rank);
         MenuItem mItemColor = menu.findItem(R.id.menu_actNote_color);
 
-        setStatusTitle(noteStatus);
+        setStatusTitle(status);
 
         boolean isRoll = noteType == DefType.roll;
 
@@ -118,17 +118,17 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem);
 
         DbRoom db = DbRoom.provideDb(context);
-        if (db.daoRank().getCount() == 0) mItemRank.setVisible(false);
+        mItemRank.setVisible(db.daoRank().getCount() != 0);
         db.close();
     }
 
-    public void setCheckTitle(boolean allCheck) {
-        if (allCheck) mItemCheck.setTitle(context.getString(R.string.menu_note_check_zero));
+    public void setCheckTitle(boolean isAllCheck) {
+        if (isAllCheck) mItemCheck.setTitle(context.getString(R.string.menu_note_check_zero));
         else mItemCheck.setTitle(context.getString(R.string.menu_note_check_all));
     }
 
-    public void setStatusTitle(boolean noteStatus) {
-        if (noteStatus) mItemStatus.setTitle(context.getString(R.string.menu_note_status_unbind));
+    public void setStatusTitle(boolean status) {
+        if (status) mItemStatus.setTitle(context.getString(R.string.menu_note_status_unbind));
         else mItemStatus.setTitle(context.getString(R.string.menu_note_status_bind));
     }
 

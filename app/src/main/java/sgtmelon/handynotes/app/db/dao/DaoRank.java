@@ -34,8 +34,7 @@ public abstract class DaoRank extends DaoBase {
             "ORDER BY RK_POSITION ASC")
     abstract List<ItemRank> getSimple();
 
-    @Transaction
-    public RepoRank get() {
+    private List<ItemRank> getComplex() {
         List<ItemRank> listRank = getSimple();
 
         for (int i = 0; i < listRank.size(); i++) {
@@ -49,6 +48,12 @@ public abstract class DaoRank extends DaoBase {
             listRank.set(i, itemRank);
         }
 
+        return listRank;
+    }
+
+    @Transaction
+    public RepoRank get() {
+        List<ItemRank> listRank = getComplex();
         List<String> listName = getNameUp();
 
         return new RepoRank(listRank, listName);
@@ -130,7 +135,7 @@ public abstract class DaoRank extends DaoBase {
         int iEnd = startFirst ? endDrag : startDrag;
         int iAdd = startFirst ? -1 : 1;
 
-        List<ItemRank> listRank = getSimple();
+        List<ItemRank> listRank = getComplex();
         List<Long> idNote = new ArrayList<>();
 
         for (int i = iStart; i <= iEnd; i++) {
@@ -176,13 +181,13 @@ public abstract class DaoRank extends DaoBase {
     }
 
     /**
-     * @param startPosition - Позиция удаления категории
+     * @param position - Позиция удаления категории
      */
-    public void update(int startPosition) {
+    public void update(int position) {
         List<ItemRank> listRank = getSimple();
         List<Long> idNote = new ArrayList<>();
 
-        for (int i = startPosition; i < listRank.size(); i++) {
+        for (int i = position; i < listRank.size(); i++) {
             ItemRank itemRank = listRank.get(i);
 
             for (long id : itemRank.getIdNote()) {
