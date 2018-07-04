@@ -1,7 +1,10 @@
 package sgtmelon.handynotes.app.adapter;
 
+import android.annotation.TargetApi;
 import android.databinding.DataBindingUtil;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,10 +17,11 @@ import java.util.Arrays;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.app.view.button.ButtonVisiblePre;
 import sgtmelon.handynotes.databinding.ItemRankBinding;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.app.model.item.ItemRank;
-import sgtmelon.handynotes.app.view.ButtonVisible;
+import sgtmelon.handynotes.app.view.button.ButtonVisible;
 
 public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
@@ -76,9 +80,12 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
         holder.bind(listRank.get(position));
 
-        holder.rkVisible.setVisible(itemRank.isVisible(), startAnim[position]);
-
-        if (startAnim[position]) startAnim[position] = false;
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            holder.rkVisiblePre.setVisible(itemRank.isVisible());
+        } else {
+            holder.rkVisible.setVisible(itemRank.isVisible(), startAnim[position]);
+            if (startAnim[position]) startAnim[position] = false;
+        }
     }
 
     @Override
@@ -89,7 +96,11 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
     class RankHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
 
         private final View rkClick;
-        private final ButtonVisible rkVisible;
+
+        private ButtonVisiblePre rkVisiblePre;
+        @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+        private ButtonVisible rkVisible;
+
         private final ImageButton rkCancel;
 
         private final ItemRankBinding binding;
@@ -104,12 +115,21 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
             rkClick.setOnTouchListener(this);
             rkClick.setOnClickListener(this);
 
-            rkVisible = itemView.findViewById(R.id.itemRank_bv_visible);
-            rkCancel = itemView.findViewById(R.id.itemRank_ib_cancel);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                rkVisiblePre = itemView.findViewById(R.id.itemRank_bv_visible);
 
-            rkVisible.setOnTouchListener(this);
-            rkVisible.setOnClickListener(this);
-            rkVisible.setOnLongClickListener(this);
+                rkVisiblePre.setOnTouchListener(this);
+                rkVisiblePre.setOnClickListener(this);
+                rkVisiblePre.setOnLongClickListener(this);
+            } else {
+                rkVisible = itemView.findViewById(R.id.itemRank_bv_visible);
+
+                rkVisible.setOnTouchListener(this);
+                rkVisible.setOnClickListener(this);
+                rkVisible.setOnLongClickListener(this);
+            }
+
+            rkCancel = itemView.findViewById(R.id.itemRank_ib_cancel);
 
             rkCancel.setOnTouchListener(this);
             rkCancel.setOnClickListener(this);
@@ -126,7 +146,11 @@ public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 
             switch (view.getId()) {
                 case R.id.itemRank_bv_visible:
-                    rkVisible.setVisible(!listRank.get(p).isVisible(), true);
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                        rkVisiblePre.setVisible(!listRank.get(p).isVisible());
+                    } else {
+                        rkVisible.setVisible(!listRank.get(p).isVisible(), true);
+                    }
                     click.onItemClick(view, p);
                     break;
                 case R.id.itemRank_ll_click:

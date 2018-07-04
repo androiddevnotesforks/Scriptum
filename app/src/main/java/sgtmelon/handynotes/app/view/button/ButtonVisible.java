@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.view;
+package sgtmelon.handynotes.app.view.button;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -14,7 +14,6 @@ import android.os.Handler;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public class ButtonVisible extends AppCompatImageButton {
 
@@ -63,8 +62,9 @@ public class ButtonVisible extends AppCompatImageButton {
             @TargetApi(Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void run() {
-                if (visibleOnAnim.isRunning() || visibleOffAnim.isRunning()) waitAnimationEnd();
-                else {
+                if (visibleOnAnim.isRunning() || visibleOffAnim.isRunning()) {
+                    waitAnimationEnd();
+                } else {
                     if (animRunnableVisible) setImageDrawable(visibleOn);
                     else setImageDrawable(visibleOff);
                 }
