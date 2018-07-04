@@ -10,11 +10,11 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.db.DbRoom;
+import sgtmelon.handynotes.app.ui.act.ActNote;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.st.StNote;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.app.ui.act.ActNote;
 
 public class ItemStatus {
 
@@ -27,6 +27,7 @@ public class ItemStatus {
     private NotificationManagerCompat notificationManager;
     //endregion
 
+    // FIXME: 04.07.2018 Не работает привязка к статусбару на эмуляторе и на ранних версиях андроид
     //TODO: разберись с флагами, то как они работают
 
     public ItemStatus(Context context, ItemNote itemNote, Long[] rankVisible) {

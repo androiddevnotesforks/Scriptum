@@ -3,6 +3,7 @@ package sgtmelon.handynotes.app.control;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import sgtmelon.handynotes.R;
@@ -20,9 +21,9 @@ public class ControlSave {
     private int saveTime;
     //endregion
 
-    public ControlSave(Context context, SharedPreferences pref) {
+    public ControlSave(Context context) {
         this.context = context;
-        this.pref = pref;
+        this.pref = PreferenceManager.getDefaultSharedPreferences(context);
 
         boolean saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_default_auto_save));
 

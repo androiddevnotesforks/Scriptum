@@ -34,6 +34,7 @@ import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.NoteClick {
 
@@ -66,10 +67,13 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         context = getContext();
         activity = (ActNote) getActivity();
 
+        assert activity != null;
+        repoNote = activity.vmNote.getRepoNote();
+
         setupToolbar();
         setupEnter();
 
-        onMenuEditClick(activity.stNote.isEdit());
+        onMenuEditClick(activity.vmNote.getStNote().isEdit());
 
         return frgView;
     }
@@ -108,7 +112,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         Log.i(TAG, "onClick");
 
         ItemNote itemNote = repoNote.getItemNote();
-        if (activity.stNote.isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
+        if (activity.vmNote.getStNote().isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
             db = DbRoom.provideDb(context);
@@ -138,8 +142,10 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             }
 
             db = DbRoom.provideDb(context);
-            if (activity.stNote.isCreate()) {
-                activity.stNote.setCreate(false);
+            StNote stNote = activity.vmNote.getStNote();
+            if (stNote.isCreate()) {
+                stNote.setCreate(false);
+                activity.vmNote.setStNote(stNote);
 
                 long ntId = db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
@@ -150,7 +156,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             db.close();
 
             repoNote.setItemNote(itemNote);
-            activity.setRepoNote(repoNote);
+            activity.vmNote.setRepoNote(repoNote);
             return true;
         } else return false;
     }
@@ -247,11 +253,13 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        activity.stNote.setEdit(editMode);
+        StNote stNote = activity.vmNote.getStNote();
+        stNote.setEdit(editMode);
 
-        menuNote.setMenuGroupVisible(activity.stNote.isBin(), editMode, !activity.stNote.isBin() && !editMode);
-        bind(editMode, activity.stNote.isCreate());
+        menuNote.setMenuGroupVisible(stNote.isBin(), editMode, !stNote.isBin() && !editMode);
+        bind(editMode, stNote.isCreate());
 
+        activity.vmNote.setStNote(stNote);
         activity.controlSave.setSaveHandlerEvent(editMode);
     }
 
@@ -276,7 +284,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         db.close();
 
         repoNote.setItemNote(itemNote);
-        activity.setRepoNote(repoNote);
+        activity.vmNote.setRepoNote(repoNote);
     }
 
     @Override
@@ -298,7 +306,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         repoNote.setItemNote(itemNote);
         repoNote.setListRoll(listRoll);
-        activity.setRepoNote(repoNote);
+        activity.vmNote.setRepoNote(repoNote);
         activity.setupFrg();
     }
 

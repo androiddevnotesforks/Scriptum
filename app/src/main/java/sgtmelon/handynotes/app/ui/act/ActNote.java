@@ -1,57 +1,40 @@
 package sgtmelon.handynotes.app.ui.act;
 
-import android.content.SharedPreferences;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.control.ControlSave;
 import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRoll;
-import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.ui.frg.FrgRoll;
 import sgtmelon.handynotes.app.ui.frg.FrgText;
+import sgtmelon.handynotes.app.ui.vm.VmNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.st.StNote;
 
 public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
-    //region Variables
     private static final String TAG = "ActNote";
+
     private DbRoom db;
 
-    public StNote stNote;
     public ControlSave controlSave;
-
-    private List<Long> rankVisible;
-    private RepoNote repoNote;
-    //endregion
-
-    public void setRepoNote(RepoNote repoNote) {
-        Log.i(TAG, "setRepoNote");
-
-        this.repoNote = repoNote;
-        repoNote.updateItemStatus(rankVisible);
-    }
+    public VmNote vmNote;
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(TAG, "onPause");
 
-        controlSave.onPauseSave(stNote.isEdit());
+        controlSave.onPauseSave(vmNote.getStNote().isEdit());
     }
 
     @Override
@@ -60,36 +43,14 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         setContentView(R.layout.act_note);
         Log.i(TAG, "onCreate");
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-
-        stNote = new StNote();
-        controlSave = new ControlSave(this, pref);
-
-        setupNote();
-        setupFrg();
-    }
-
-    private void setupNote() {
-        Log.i(TAG, "setupNote");
+        vmNote = ViewModelProviders.of(this).get(VmNote.class);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            stNote.setCreate(bundle.getBoolean(StNote.KEY_CREATE));
-            stNote.setEdit();
+        vmNote.setValue(bundle == null ? savedInstanceState : bundle);
 
-            db = DbRoom.provideDb(getApplicationContext());
-            rankVisible = db.daoRank().getRankVisible();
-            if (stNote.isCreate()) {
-                ItemNote itemNote = new ItemNote(this, bundle.getInt(Db.NT_TP));
-                ItemStatus itemStatus = new ItemStatus(this, itemNote, ConvList.fromList(rankVisible));
+        controlSave = new ControlSave(this);
 
-                repoNote = new RepoNote(itemNote, new ArrayList<ItemRoll>(), itemStatus);
-            } else {
-                repoNote = db.daoNote().get(this, bundle.getLong(Db.NT_ID));
-                stNote.setBin(repoNote.getItemNote().isBin());
-            }
-            db.close();
-        }
+        setupFrg();
     }
 
     private FrgText frgText;
@@ -99,17 +60,15 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         Log.i(TAG, "setupFrg");
 
         FragmentTransaction frgTransaction = getSupportFragmentManager().beginTransaction();
-        switch (repoNote.getItemNote().getType()) {
+        switch (vmNote.getRepoNote().getItemNote().getType()) {
             case DefType.text:
                 frgText = new FrgText();
-                frgText.setRepoNote(repoNote);
                 controlSave.setMenuClick(frgText);
 
                 frgTransaction.replace(R.id.actNote_fl_container, frgText);
                 break;
             case DefType.roll:
                 frgRoll = new FrgRoll();
-                frgRoll.setRepoNote(repoNote);
                 controlSave.setMenuClick(frgRoll);
 
                 frgTransaction.replace(R.id.actNote_fl_container, frgRoll);
@@ -123,7 +82,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         Log.i(TAG, "onMenuRestoreClick");
 
         db = DbRoom.provideDb(this);
-        db.daoNote().update(repoNote.getItemNote().getId(), Help.Time.getCurrentTime(this), false);
+        db.daoNote().update(vmNote.getRepoNote().getItemNote().getId(), Help.Time.getCurrentTime(this), false);
         db.close();
 
         finish();
@@ -134,10 +93,10 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         Log.i(TAG, "onMenuDeleteForeverClick");
 
         db = DbRoom.provideDb(this);
-        db.daoNote().delete(repoNote.getItemNote().getId());
+        db.daoNote().delete(vmNote.getRepoNote().getItemNote().getId());
         db.close();
 
-        repoNote.updateItemStatus(false);
+        vmNote.setRepoNote(false);
 
         finish();
     }
@@ -146,7 +105,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
     public void onMenuDeleteClick() {
         Log.i(TAG, "onMenuDeleteClick");
 
-        ItemNote itemNote = repoNote.getItemNote();
+        ItemNote itemNote = vmNote.getRepoNote().getItemNote();
 
         db = DbRoom.provideDb(this);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), true);
@@ -155,7 +114,8 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         }
         db.close();
 
-        repoNote.updateItemStatus(false);
+        vmNote.setRepoNote(false);
+
         finish();
     }
 
@@ -165,17 +125,16 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
         controlSave.setNeedSave(false);
 
-        ItemNote itemNote = repoNote.getItemNote();
+        ItemNote itemNote = vmNote.getRepoNote().getItemNote();
+        StNote stNote = vmNote.getStNote();
+
         if (stNote.isEdit() && !stNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             switch (itemNote.getType()) {
                 case DefType.text:
                     if (!frgText.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgText.menuNote.setStartColor(itemNote.getColor());
 
-                        db = DbRoom.provideDb(this);
-                        repoNote = db.daoNote().get(this, itemNote.getId());
-                        db.close();
-
+                        RepoNote repoNote = vmNote.loadData(itemNote.getId());
                         itemNote = repoNote.getItemNote();
 
                         frgText.setRepoNote(repoNote);
@@ -187,10 +146,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
                     if (!frgRoll.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         frgRoll.menuNote.setStartColor(itemNote.getColor());
 
-                        db = DbRoom.provideDb(this);
-                        repoNote = db.daoNote().get(this, itemNote.getId());
-                        db.close();
-
+                        RepoNote repoNote = vmNote.loadData(itemNote.getId());
                         itemNote = repoNote.getItemNote();
 
                         frgRoll.setRepoNote(repoNote);
@@ -200,7 +156,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
                     }
                     break;
             }
-        } else if (stNote.isCreate()) {                 //Если только что создали заметку
+        } else if (stNote.isCreate()) {     //Если только что создали заметку
             switch (itemNote.getType()) {   //Если сохранение не выполнено, выход без сохранения
                 case DefType.text:
                     if (!frgText.onMenuSaveClick(true)) super.onBackPressed();
@@ -211,4 +167,14 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
             }
         } else super.onBackPressed();   //Другие случаи (не редактирование)
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(StNote.KEY_CREATE, vmNote.isCreate());
+        outState.putInt(Db.NT_TP, vmNote.getType());
+        outState.putLong(Db.NT_ID, vmNote.getId());
+    }
+
 }
