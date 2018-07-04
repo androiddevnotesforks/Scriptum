@@ -28,10 +28,6 @@ public class RepoRank {
         return listName;
     }
 
-    public void setListName(List<String> listName) {
-        this.listName = listName;
-    }
-
     public Long[] getVisible() {
         List<Long> rankVisible = new ArrayList<>();
         for (ItemRank itemRank : listRank) {

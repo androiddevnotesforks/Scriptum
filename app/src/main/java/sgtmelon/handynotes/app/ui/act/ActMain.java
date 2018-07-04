@@ -13,14 +13,14 @@ import android.util.Log;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterPager;
-import sgtmelon.handynotes.office.annot.def.DefPages;
-import sgtmelon.handynotes.office.intf.IntfMenu;
-import sgtmelon.handynotes.office.st.StNote;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.app.control.menu.MenuMain;
 import sgtmelon.handynotes.app.ui.frg.FrgBin;
 import sgtmelon.handynotes.app.ui.frg.FrgNote;
 import sgtmelon.handynotes.app.ui.frg.FrgRank;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
@@ -30,7 +30,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
-    final String TAG = "ActMain";
+    private static final String TAG = "ActMain";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

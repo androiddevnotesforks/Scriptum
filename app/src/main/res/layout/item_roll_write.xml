@@ -37,6 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"
+                    android:contentDescription="@null"
                     android:tint="@color/colorDark"
                     app:srcCompat="@drawable/ic_button_move" />
 
@@ -48,6 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
+                android:hint="@null"
                 android:imeOptions="flagNoFullscreen"
                 android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
                 android:padding="@dimen/item_layout_medium_indent"

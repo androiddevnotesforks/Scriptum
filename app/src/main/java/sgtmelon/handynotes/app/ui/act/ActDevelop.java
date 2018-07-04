@@ -11,7 +11,7 @@ import sgtmelon.handynotes.office.Help;
 
 public class ActDevelop extends AppCompatActivity {
 
-    final String TAG = "ActDevelop";
+    private static final String TAG = "ActDevelop";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

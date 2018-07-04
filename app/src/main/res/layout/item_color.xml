@@ -23,13 +23,15 @@
             android:layout_width="@dimen/icon_big_size"
             android:layout_height="@dimen/icon_big_size"
             android:layout_gravity="center"
-            android:background='@{Icon.getColorIcon(context, position)}' />
+            android:background='@{Icon.getColorIcon(context, position)}'
+            android:contentDescription="@null" />
 
         <ImageView
             android:id="@+id/itemColor_iv_check"
             android:layout_width="@dimen/icon_medium_size"
             android:layout_height="@dimen/icon_medium_size"
             android:layout_gravity="center"
+            android:contentDescription="@null"
             android:src='@{Icon.getColorCheck(context, position)}' />
 
         <ImageView
@@ -37,7 +39,8 @@
             android:layout_width="@dimen/icon_big_size"
             android:layout_height="@dimen/icon_big_size"
             android:layout_gravity="center"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@null" />
 
     </FrameLayout>
 </layout>

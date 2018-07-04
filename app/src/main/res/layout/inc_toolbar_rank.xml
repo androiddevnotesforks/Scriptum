@@ -34,6 +34,7 @@
                     android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:layout_marginStart="@dimen/item_layout_small_indent"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
                     app:srcCompat="@drawable/ic_button_cancel" />
 
@@ -67,6 +68,7 @@
                     android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:layout_marginStart="@dimen/item_layout_small_indent"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
                     app:srcCompat="@drawable/ic_menu_rank" />
 

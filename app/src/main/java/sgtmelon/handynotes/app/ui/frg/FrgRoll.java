@@ -35,9 +35,8 @@ import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.st.StCheck;
-import sgtmelon.handynotes.office.st.StDrag;
 import sgtmelon.handynotes.app.ui.act.ActNote;
+import sgtmelon.handynotes.app.view.alert.AlertColor;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
@@ -45,13 +44,14 @@ import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.office.intf.IntfMenu;
-import sgtmelon.handynotes.app.view.alert.AlertColor;
+import sgtmelon.handynotes.office.st.StCheck;
+import sgtmelon.handynotes.office.st.StDrag;
 
 public class FrgRoll extends Fragment implements View.OnClickListener,
         IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {
 
     //region Variables
-    final String TAG = "FrgRoll";
+    private static final String TAG = "FrgRoll";
 
     private DbRoom db;
 

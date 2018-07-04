@@ -32,18 +32,18 @@ import sgtmelon.handynotes.app.adapter.AdapterRank;
 import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.repo.RepoRank;
-import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.st.StDrag;
 import sgtmelon.handynotes.app.ui.act.ActMain;
-import sgtmelon.handynotes.databinding.FrgRankBinding;
-import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.app.view.alert.AlertRename;
+import sgtmelon.handynotes.databinding.FrgRankBinding;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.office.st.StDrag;
 
 public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
         View.OnClickListener, View.OnLongClickListener {
 
     //region Variable
-    private final String TAG = "FrgRank";
+    private static final String TAG = "FrgRank";
 
     private DbRoom db;
 
@@ -139,7 +139,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         rankAdd.setOnLongClickListener(this);
     }
 
-    public void tintButton() {
+    private void tintButton() {
         String name = rankEnter.getText().toString().toUpperCase();
 
         Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, name);
@@ -152,7 +152,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         return needClear;
     }
 
-    public String clearEnter() {
+    private String clearEnter() {
         String name = rankEnter.getText().toString();
         rankEnter.setText("");
         return name;

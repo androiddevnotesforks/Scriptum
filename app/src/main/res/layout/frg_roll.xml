@@ -82,6 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:contentDescription="@null"
                     android:layout_marginEnd="@dimen/item_layout_small_indent"
                     android:layout_marginLeft="@dimen/item_layout_small_indent"
                     android:layout_marginRight="@dimen/item_layout_small_indent"

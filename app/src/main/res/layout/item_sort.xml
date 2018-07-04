@@ -46,9 +46,10 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/item_layout_small_indent"
                     android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:contentDescription="@null"
                     android:tint="@color/colorDarkSecond"
                     android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
-                    app:srcCompat="@drawable/ic_info_braket_left" />
+                    app:srcCompat="@drawable/ic_info_bracket_left" />
 
                 <TextView
                     android:id="@+id/itemSort_tv_text"
@@ -71,9 +72,10 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/item_layout_small_indent"
                     android:layout_marginRight="@dimen/item_layout_small_indent"
+                    android:contentDescription="@null"
                     android:tint="@color/colorDarkSecond"
                     android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
-                    app:srcCompat="@drawable/ic_info_braket_right" />
+                    app:srcCompat="@drawable/ic_info_bracket_right" />
 
             </LinearLayout>
 

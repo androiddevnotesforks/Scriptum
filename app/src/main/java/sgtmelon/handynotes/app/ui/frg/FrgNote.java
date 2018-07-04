@@ -27,10 +27,10 @@ import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.st.StNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
+import sgtmelon.handynotes.app.view.alert.AlertOption;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
@@ -39,13 +39,13 @@ import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.app.view.alert.AlertOption;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener,
         IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionNote {
 
     //region Variable
-    final String TAG = "FrgNote";
+    private static final String TAG = "FrgNote";
 
     private DbRoom db;
 
@@ -70,7 +70,6 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_notes, container, false);
-
 
         frgView = binding.getRoot();
 

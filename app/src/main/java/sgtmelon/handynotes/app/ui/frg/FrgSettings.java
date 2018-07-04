@@ -18,18 +18,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.ui.act.ActDevelop;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
 import sgtmelon.handynotes.app.view.alert.AlertColor;
 import sgtmelon.handynotes.app.view.alert.AlertSort;
+import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 
 public class FrgSettings extends PreferenceFragment {
 
     //TODO смена темы
 
-    final String TAG = "FrgSettings";
+    private static final String TAG = "FrgSettings";
 
     private ActSettings activity;
     private SharedPreferences pref;

@@ -17,27 +17,26 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.conv.ConvList;
-import sgtmelon.handynotes.office.st.StNote;
 import sgtmelon.handynotes.app.ui.frg.FrgRoll;
 import sgtmelon.handynotes.app.ui.frg.FrgText;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
     //region Variables
-    final String TAG = "ActNote";
-
+    private static final String TAG = "ActNote";
     private DbRoom db;
 
     public StNote stNote;
     public ControlSave controlSave;
 
-    public List<Long> rankVisible;
-    public RepoNote repoNote;
+    private List<Long> rankVisible;
+    private RepoNote repoNote;
     //endregion
 
     public void setRepoNote(RepoNote repoNote) {

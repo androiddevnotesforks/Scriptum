@@ -41,7 +41,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/item_layout_medium_indent"
-                    android:layout_marginRight="@dimen/item_layout_medium_indent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="@dimen/item_layout_medium_indent"
                     app:srcCompat="@drawable/ic_button_visible_on" />
@@ -72,7 +71,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/item_layout_small_indent"
-                            android:layout_marginRight="@dimen/item_layout_small_indent"
                             android:ellipsize="start"
                             android:singleLine="true"
                             android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}'
@@ -84,7 +82,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/item_layout_small_indent"
-                            android:layout_marginRight="@dimen/item_layout_small_indent"
                             android:ellipsize="start"
                             android:singleLine="true"
                             android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}'
@@ -110,9 +107,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/item_layout_medium_indent"
                     android:layout_marginStart="@dimen/item_layout_medium_indent"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
                     android:tint="@color/colorDark"
                     app:srcCompat="@drawable/ic_button_cancel" />

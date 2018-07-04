@@ -8,12 +8,12 @@ import android.util.Log;
 import android.view.View;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.app.ui.frg.FrgSettings;
+import sgtmelon.handynotes.office.Help;
 
 public class ActSettings extends AppCompatActivity implements View.OnClickListener {
 
-    final String TAG = "ActSettings";
+    private static final String TAG = "ActSettings";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

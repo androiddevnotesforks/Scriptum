@@ -28,22 +28,22 @@ import sgtmelon.handynotes.app.adapter.AdapterNote;
 import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.st.StNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
+import sgtmelon.handynotes.app.view.alert.AlertOption;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.app.view.alert.AlertOption;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionBin {
 
     //region Variable
-    final String TAG = "FrgBin";
+    private static final String TAG = "FrgBin";
 
     private DbRoom db;
 

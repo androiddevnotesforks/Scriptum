@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="@dimen/item_layout_medium_indent">
@@ -25,6 +24,7 @@
                 android:layout_width="@dimen/icon_logo_size"
                 android:layout_height="@dimen/icon_logo_size"
                 android:layout_gravity="center"
+                android:contentDescription="@null"
                 app:srcCompat="@mipmap/ic_app" />
 
         </FrameLayout>
