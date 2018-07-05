@@ -1,5 +1,11 @@
 package sgtmelon.handynotes.office.annot;
 
+/**
+ * Аннотация для БД.
+ * Наименование столов и столбцов базы данных.
+ * Строковые постоянные.
+ * Строки для формирования сортировки заметок.
+ */
 public @interface Db {
 
     String NT_TB = "NOTE_TABLE",

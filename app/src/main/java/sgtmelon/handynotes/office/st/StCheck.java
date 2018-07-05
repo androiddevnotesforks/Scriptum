@@ -1,5 +1,10 @@
 package sgtmelon.handynotes.office.st;
 
+import java.util.List;
+
+import sgtmelon.handynotes.app.model.item.ItemRoll;
+import sgtmelon.handynotes.office.Help;
+
 public class StCheck {
 
     private boolean all;
@@ -8,8 +13,8 @@ public class StCheck {
         return all;
     }
 
-    public void setAll(boolean all) {
-        this.all = all;
+    public void setAll(List<ItemRoll> listRoll) {
+        this.all = Help.Note.isAllCheck(listRoll);
     }
 
     public boolean setAll(int checkValue, int listSize) {

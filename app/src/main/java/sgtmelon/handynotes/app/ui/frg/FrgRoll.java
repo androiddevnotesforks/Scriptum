@@ -1,5 +1,6 @@
 package sgtmelon.handynotes.app.ui.frg;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -36,6 +37,7 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.ui.act.ActNote;
+import sgtmelon.handynotes.app.ui.vm.VmFrgNote;
 import sgtmelon.handynotes.app.view.alert.AlertColor;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
 import sgtmelon.handynotes.office.Help;
@@ -51,27 +53,20 @@ import sgtmelon.handynotes.office.st.StNote;
 public class FrgRoll extends Fragment implements View.OnClickListener,
         IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {
 
-    //region Variables
+    //region Variable
     private static final String TAG = "FrgRoll";
 
     private DbRoom db;
 
+    private FrgRollBinding binding;
     private View frgView;
+
     private Context context;
     private ActNote activity;
 
-    private RepoNote repoNote;
+    public VmFrgNote vm;
     //endregion
 
-    private FrgRollBinding binding;
-
-    public void setRepoNote(RepoNote repoNote) {
-        Log.d(TAG, "setRepoNote: repoNote - " + (repoNote == null ? "null" : "not null"));
-
-        this.repoNote = repoNote;
-    }
-
-    //TODO смена цвета в XML
     @Override
     public void onResume() {
         super.onResume();
@@ -80,7 +75,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         String rollText = rollEnter.getText().toString();
         Help.Icon.tintButton(context, rollAdd, R.drawable.ic_button_add, rollText);
 
-        if (!activity.vmNote.getStNote().isEdit()) updateAdapter();
+        updateAdapter();
     }
 
     @Nullable
@@ -94,20 +89,20 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         context = getContext();
         activity = (ActNote) getActivity();
 
-        assert activity != null;
-        repoNote = activity.vmNote.getRepoNote();
+        vm = ViewModelProviders.of(this).get(VmFrgNote.class);
+        if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
         setupRecyclerView();
         setupEnter();
 
-        onMenuEditClick(activity.vmNote.getStNote().isEdit());
+        onMenuEditClick(activity.vm.getStNote().isEdit());
 
         return frgView;
     }
 
     private void bind(boolean keyEdit, boolean keyCreate) {
-        binding.setItemNote(repoNote.getItemNote());
+        binding.setItemNote(vm.getRepoNote().getItemNote());
         binding.setKeyEdit(keyEdit);
         binding.setKeyCreate(keyCreate);
 
@@ -119,7 +114,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        ItemNote itemNote = repoNote.getItemNote();
+        ItemNote itemNote = vm.getRepoNote().getItemNote();
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.inflateMenu(R.menu.menu_act_note);
@@ -136,21 +131,34 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         toolbar.setNavigationOnClickListener(this);
     }
 
+    // FIXME: 05.07.2018 переделай без подключения к бд
+
+    /**
+     * Нажатие на клавишу назад
+     */
     @Override
     public void onClick(View view) {
         Log.i(TAG, "onClick");
 
+        Help.hideKeyboard(context, activity.getCurrentFocus());
+
+        RepoNote repoNote = vm.getRepoNote();
         ItemNote itemNote = repoNote.getItemNote();
-        if (activity.vmNote.getStNote().isEdit() && !itemNote.getText().equals("")) { //Если это редактирование и текст в хранилище не пустой
+        if (activity.vm.getStNote().isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
             db = DbRoom.provideDb(context);
             repoNote = db.daoNote().get(context, itemNote.getId());
+            itemNote = repoNote.getItemNote();
             db.close();
 
-            itemNote = repoNote.getItemNote();
+            vm.setRepoNote(repoNote);
+            activity.vm.setRepoNote(repoNote);
+
             adapterRoll.updateAdapter(repoNote.getListRoll());
+
             onMenuEditClick(false);
+
             menuNote.startTint(itemNote.getColor());
         } else {
             activity.controlSave.setNeedSave(false);
@@ -162,6 +170,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
+        RepoNote repoNote = vm.getRepoNote();
         ItemNote itemNote = repoNote.getItemNote();
         List<ItemRoll> listRoll = repoNote.getListRoll();
 
@@ -176,10 +185,10 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             db = DbRoom.provideDb(context);
 
-            StNote stNote = activity.vmNote.getStNote();
+            StNote stNote = activity.vm.getStNote();
             if (stNote.isCreate()) {
                 stNote.setCreate(false);    //Теперь у нас заметка уже будет создана
-                activity.vmNote.setStNote(stNote);
+                activity.vm.setStNote(stNote);
 
                 long ntId = db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
@@ -226,7 +235,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             db.close();
 
             repoNote.setItemNote(itemNote);
-            activity.vmNote.setRepoNote(repoNote);
+
+            vm.setRepoNote(repoNote);
+            activity.vm.setRepoNote(repoNote);
             return true;
         } else return false;
     }
@@ -238,7 +249,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db = DbRoom.provideDb(context);
         final String[] checkName = db.daoRank().getName();
         final Long[] checkId = db.daoRank().getId();
-        final boolean[] checkItem = db.daoRank().getCheck(repoNote.getItemNote().getRankId());
+        final boolean[] checkItem = db.daoRank().getCheck(vm.getRepoNote().getItemNote().getRankId());
         db.close();
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
@@ -264,10 +275,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                             }
                         }
 
+                        RepoNote repoNote = vm.getRepoNote();
+
                         ItemNote itemNote = repoNote.getItemNote();
                         itemNote.setRankId(ConvList.fromList(rankId));
                         itemNote.setRankPs(ConvList.fromList(rankPs));
                         repoNote.setItemNote(itemNote);
+
+                        vm.setRepoNote(repoNote);
 
                         dialog.cancel();
                     }
@@ -290,7 +305,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ItemNote itemNote = repoNote.getItemNote();
+        ItemNote itemNote = vm.getRepoNote().getItemNote();
         final AlertColor alert = new AlertColor(context, itemNote.getColor(), R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.dialog_title_color))
                 .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
@@ -298,12 +313,15 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                     public void onClick(DialogInterface dialog, int id) {
                         int color = alert.getCheck();
 
+                        RepoNote repoNote = vm.getRepoNote();
+
                         ItemNote itemNote = repoNote.getItemNote();
                         itemNote.setColor(color);
                         repoNote.setItemNote(itemNote);
 
-                        menuNote.startTint(color);
+                        vm.setRepoNote(repoNote);
 
+                        menuNote.startTint(color);
                         dialog.cancel();
                     }
                 })
@@ -325,7 +343,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        StNote stNote = activity.vmNote.getStNote();
+        StNote stNote = activity.vm.getStNote();
         stNote.setEdit(editMode);
 
         menuNote.setMenuGroupVisible(stNote.isBin(), editMode, !stNote.isBin() && !editMode);
@@ -333,7 +351,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         adapterRoll.updateAdapter(editMode);
 
-        activity.vmNote.setStNote(stNote);
+        activity.vm.setStNote(stNote);
         activity.controlSave.setSaveHandlerEvent(editMode);
     }
 
@@ -341,6 +359,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuCheckClick() {
         Log.i(TAG, "onMenuCheckClick");
 
+        RepoNote repoNote = vm.getRepoNote();
         ItemNote itemNote = repoNote.getItemNote();
         itemNote.setChange(context);
 
@@ -365,13 +384,16 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         updateAdapter();
 
         repoNote.setItemNote(itemNote);
-        activity.vmNote.setRepoNote(repoNote);
+
+        vm.setRepoNote(repoNote);
+        activity.vm.setRepoNote(repoNote);
     }
 
     @Override
     public void onMenuBindClick() {
         Log.i(TAG, "onMenuBindClick");
 
+        RepoNote repoNote = vm.getRepoNote();
         ItemNote itemNote = repoNote.getItemNote();
 
         if (!itemNote.isStatus()) {
@@ -389,13 +411,16 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db.close();
 
         repoNote.setItemNote(itemNote);
-        activity.vmNote.setRepoNote(repoNote);
+
+        vm.setRepoNote(repoNote);
+        activity.vm.setRepoNote(repoNote);
     }
 
     @Override
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
+        RepoNote repoNote = vm.getRepoNote();
         ItemNote itemNote = repoNote.getItemNote();
 
         db = DbRoom.provideDb(context);
@@ -411,8 +436,10 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db.close();
 
         repoNote.setItemNote(itemNote);
-        activity.vmNote.setRepoNote(repoNote);
-        activity.setupFrg();
+
+        vm.setRepoNote(repoNote);
+        activity.vm.setRepoNote(repoNote);
+        activity.setupFrg(false);
     }
 
     //region RecyclerView Variable
@@ -436,7 +463,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapterRoll = new AdapterRoll(activity.vmNote.getStNote().isBin(), activity.vmNote.getStNote().isEdit());
+        adapterRoll = new AdapterRoll(activity.vm.getStNote().isBin(), activity.vm.getStNote().isEdit());
         recyclerView.setAdapter(adapterRoll);
         adapterRoll.setCallback(this, stDrag, this);
 
@@ -447,17 +474,22 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<ItemRoll> listRoll = repoNote.getListRoll();
+        List<ItemRoll> listRoll = vm.getRepoNote().getListRoll();
 
-        stCheck.setAll(Help.Note.isAllCheck(listRoll));
+        stCheck.setAll(listRoll);
         menuNote.setCheckTitle(stCheck.isAll());
 
         adapterRoll.updateAdapter(listRoll);
         adapterRoll.notifyDataSetChanged();
     }
 
+    /**
+     * Обновление отметки пункта
+     */
     @Override
     public void onItemClick(View view, int p) {
+
+        RepoNote repoNote = vm.getRepoNote();
 
         List<ItemRoll> listRoll = repoNote.getListRoll();
         ItemRoll itemRoll = listRoll.get(p);
@@ -479,7 +511,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         itemNote.setText(rollCheck, listRoll.size());
 
         repoNote.setItemNote(itemNote);
-        activity.vmNote.setRepoNote(repoNote);
+
+        vm.setRepoNote(repoNote);
+        activity.vm.setRepoNote(repoNote);
 
         db = DbRoom.provideDb(context);
         db.daoRoll().update(itemRoll.getId(), itemRoll.isCheck());
@@ -490,6 +524,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     @Override
     public void onChanged(int p, String text) {
         Log.i(TAG, "onChanged");
+
+        RepoNote repoNote = vm.getRepoNote();
 
         List<ItemRoll> listRoll = repoNote.getListRoll();
         if (text.equals("")) {
@@ -504,16 +540,18 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             adapterRoll.updateAdapter(p, itemRoll);
         }
         repoNote.setListRoll(listRoll);
+
+        vm.setRepoNote(repoNote);
     }
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int flagsDrag = activity.vmNote.getStNote().isEdit() && stDrag.isDrag()
+            int flagsDrag = activity.vm.getStNote().isEdit() && stDrag.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
                     : 0;
 
-            int flagsSwipe = activity.vmNote.getStNote().isEdit()
+            int flagsSwipe = activity.vm.getStNote().isEdit()
                     ? ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
                     : 0;
 
@@ -524,9 +562,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
             int p = viewHolder.getAdapterPosition();
 
+            RepoNote repoNote = vm.getRepoNote();
             List<ItemRoll> listRoll = repoNote.getListRoll();
+
             listRoll.remove(p);                     //Убираем элемент из массива данных
+
             repoNote.setListRoll(listRoll);
+            vm.setRepoNote(repoNote);
 
             adapterRoll.updateAdapter(listRoll);    //Обновление массива данных в адаптере
             adapterRoll.notifyItemRemoved(p);       //Обновление удаления элемента
@@ -537,6 +579,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
             int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
 
+            RepoNote repoNote = vm.getRepoNote();
             List<ItemRoll> listRoll = repoNote.getListRoll();
 
             ItemRoll itemRoll = listRoll.get(oldPs);
@@ -544,6 +587,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             listRoll.add(newPs, itemRoll);             //И устанавливаем на новое место
 
             repoNote.setListRoll(listRoll);
+            vm.setRepoNote(repoNote);
 
             adapterRoll.updateAdapter(listRoll);            //Обновление массива данных в адаптере
             adapterRoll.notifyItemMoved(oldPs, newPs);    //Обновление передвижения
@@ -648,14 +692,18 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             } else rollPs = 0;                              //Добавить в самое начало
 
             ItemRoll itemRoll = new ItemRoll(); //Создаём новый элемент
-            itemRoll.setIdNote(repoNote.getItemNote().getId());
+            itemRoll.setIdNote(vm.getRepoNote().getItemNote().getId());
             itemRoll.setText(text);
             itemRoll.setExist(false);
 
+            RepoNote repoNote = vm.getRepoNote();
             List<ItemRoll> listRoll = repoNote.getListRoll();
+
             listRoll.add(rollPs, itemRoll);             //Добавляем его
 
             repoNote.setListRoll(listRoll);
+            vm.setRepoNote(repoNote);
+
             adapterRoll.updateAdapter(listRoll);            //Обновляем адаптер
 
             int visiblePs;                                  //Видимая позиция

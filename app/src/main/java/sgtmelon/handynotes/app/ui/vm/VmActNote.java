@@ -19,11 +19,11 @@ import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.st.StNote;
 
-public class VmNote extends AndroidViewModel {
+public class VmActNote extends AndroidViewModel {
 
-    private static final String TAG = "VmNote";
+    private static final String TAG = "VmActNote";
 
-    public VmNote(@NonNull Application application) {
+    public VmActNote(@NonNull Application application) {
         super(application);
     }
 
@@ -48,9 +48,9 @@ public class VmNote extends AndroidViewModel {
         type = bundle.getInt(Db.NT_TP);
         id = bundle.getLong(Db.NT_ID);
 
-        Log.i(TAG, "setValue: create - " + create  + ", type - " + type + ", id - " + id);
+        Log.i(TAG, "setValue: create - " + create + ", type - " + type + ", id - " + id);
 
-        loadData();
+        if (repoNote == null) loadData();
     }
 
     private StNote stNote;
@@ -81,6 +81,8 @@ public class VmNote extends AndroidViewModel {
     private DbRoom db;
 
     private void loadData() {
+        Log.d(TAG, "loadData");
+
         stNote = new StNote();
         stNote.setCreate(create);
         stNote.setEdit();
@@ -102,6 +104,8 @@ public class VmNote extends AndroidViewModel {
     }
 
     public RepoNote loadData(long id) {
+        Log.d(TAG, "loadData");
+
         Context context = getApplication().getApplicationContext();
 
         db = DbRoom.provideDb(context);
