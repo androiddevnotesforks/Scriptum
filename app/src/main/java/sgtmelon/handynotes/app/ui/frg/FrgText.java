@@ -29,14 +29,14 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.ui.act.ActNote;
-import sgtmelon.handynotes.app.ui.vm.VmFrgNote;
-import sgtmelon.handynotes.app.view.alert.AlertColor;
+import sgtmelon.handynotes.app.vm.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgTextBinding;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.st.StNote;
+import sgtmelon.handynotes.view.alert.AlertColor;
 
 public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.NoteClick {
 
@@ -51,7 +51,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     private Context context;
     private ActNote activity;
 
-    public VmFrgNote vm;
+    public VmFrgText vm;
     //endregion
 
     @Nullable
@@ -65,7 +65,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         context = getContext();
         activity = (ActNote) getActivity();
 
-        vm = ViewModelProviders.of(this).get(VmFrgNote.class);
+        vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();

@@ -7,6 +7,9 @@ import sgtmelon.handynotes.R;
 @IntDef({DefPages.rank, DefPages.notes, DefPages.bin})
 public @interface DefPages {
 
+    String PAGE = "CURRENT_PAGE";
+    String CREATE = "IS_CREATE";
+
     int[] itemId = new int[]{
             R.id.menu_actMain_pageRank,
             R.id.menu_actMain_pageNote,

@@ -14,7 +14,7 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.ui.frg.FrgRoll;
 import sgtmelon.handynotes.app.ui.frg.FrgText;
-import sgtmelon.handynotes.app.ui.vm.VmActNote;
+import sgtmelon.handynotes.app.vm.VmActNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Frg;
@@ -183,7 +183,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(StNote.KEY_CREATE, vm.isCreate());
+        outState.putBoolean(DefPages.CREATE, vm.isCreate());
         outState.putInt(Db.NT_TP, vm.getType());
         outState.putLong(Db.NT_ID, vm.getId());
     }

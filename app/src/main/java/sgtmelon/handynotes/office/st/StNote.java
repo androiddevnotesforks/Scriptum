@@ -2,8 +2,6 @@ package sgtmelon.handynotes.office.st;
 
 public class StNote {
 
-    public static final String KEY_CREATE = "KEY_CREATE";
-
     private boolean create;
     private boolean edit = true;
     private boolean bin = false;

@@ -1,13 +1,13 @@
-package sgtmelon.handynotes.app.ui.vm;
+package sgtmelon.handynotes.app.vm;
 
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 
-public class VmFrgNote extends ViewModel {
+public class VmFrgText extends ViewModel {
 
-    private static final String TAG = "VmFrgNote";
+    private static final String TAG = "VmFrgText";
 
     private RepoNote repoNote;
 

@@ -17,10 +17,10 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemRank;
-import sgtmelon.handynotes.app.view.button.ButtonVisible;
-import sgtmelon.handynotes.app.view.button.ButtonVisiblePre;
 import sgtmelon.handynotes.databinding.ItemRankBinding;
 import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.view.button.ButtonVisible;
+import sgtmelon.handynotes.view.button.ButtonVisiblePre;
 
 public class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {
 

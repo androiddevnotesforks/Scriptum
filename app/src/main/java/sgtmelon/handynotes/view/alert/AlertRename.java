@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.view.alert;
+package sgtmelon.handynotes.view.alert;
 
 import android.content.Context;
 import android.content.DialogInterface;

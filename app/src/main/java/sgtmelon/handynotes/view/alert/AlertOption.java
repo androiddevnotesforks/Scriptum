@@ -1,15 +1,15 @@
-package sgtmelon.handynotes.app.view.alert;
+package sgtmelon.handynotes.view.alert;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfAlert;
-import sgtmelon.handynotes.app.model.item.ItemNote;
 
 public class AlertOption {
 

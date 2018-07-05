@@ -1,5 +1,6 @@
 package sgtmelon.handynotes.app.ui.frg;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -33,11 +34,12 @@ import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.repo.RepoRank;
 import sgtmelon.handynotes.app.ui.act.ActMain;
-import sgtmelon.handynotes.app.view.alert.AlertRename;
+import sgtmelon.handynotes.app.vm.VmFrgRank;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.office.st.StDrag;
+import sgtmelon.handynotes.view.alert.AlertRename;
 
 public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
         View.OnClickListener, View.OnLongClickListener {
@@ -47,13 +49,14 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
     private DbRoom db;
 
+    private FrgRankBinding binding;
     private View frgView;
+
     private Context context;
     private ActMain activity;
 
-    private FrgRankBinding binding;
-
-    public RepoRank repoRank;
+    public VmFrgRank vm;
+//    public RepoRank repoRank;
     //endregion
 
     @Override
@@ -62,7 +65,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         Log.i(TAG, "onResume");
 
         updateAdapter();
-
         tintButton();
     }
 
@@ -72,11 +74,12 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_rank, container, false);
-
         frgView = binding.getRoot();
 
         context = getContext();
         activity = (ActMain) getActivity();
+
+        vm = ViewModelProviders.of(this).get(VmFrgRank.class);
 
         setupToolbar();
         setupRecyclerView();
@@ -125,7 +128,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
                     String name = rankEnter.getText().toString().toUpperCase();
-                    if (!name.equals("") && !repoRank.getListName().contains(name)) {
+                    if (!name.equals("") && !vm.getRepoRank().getListName().contains(name)) {
                         onClick(rankAdd);
                     }
                     return true;
@@ -143,13 +146,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         String name = rankEnter.getText().toString().toUpperCase();
 
         Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, name);
-        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, name, !repoRank.getListName().contains(name));
-    }
-
-    public boolean needClearEnter() {
-        boolean needClear = rankEnter.isFocused() && !rankEnter.getText().toString().equals("");
-        if (needClear) clearEnter();
-        return needClear;
+        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, name, !vm.getRepoRank().getListName().contains(name));
     }
 
     private String clearEnter() {
@@ -167,6 +164,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 clearEnter();
                 break;
             case R.id.incToolbarRank_ib_add:
+                RepoRank repoRank = vm.getRepoRank();
+
                 int rankPs = repoRank.size();
                 String name = clearEnter();
 
@@ -177,9 +176,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.close();
 
                 itemRank.setId(rankId);
-
                 repoRank.add(rankPs, itemRank);
 
+                vm.setRepoRank(repoRank);
                 adapterRank.updateAdapter(repoRank.getListRank());
 
                 if (repoRank.size() == 1) {
@@ -214,7 +213,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         itemRank.setId(rankId);
 
+        RepoRank repoRank = vm.getRepoRank();
         repoRank.add(ps, itemRank);
+        vm.setRepoRank(repoRank);
 
         adapterRank.updateAdapter(repoRank.getListRank());
 
@@ -247,7 +248,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                bind(repoRank.size());
+                bind(vm.getRepoRank().size());
             }
         };
 
@@ -269,9 +270,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        db = DbRoom.provideDb(context);
-        repoRank = db.daoRank().get();
-        db.close();
+        RepoRank repoRank = vm.loadData();
 
         adapterRank.updateAdapter(repoRank.getListRank());
         adapterRank.notifyDataSetChanged();
@@ -283,6 +282,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     public void onItemClick(View view, final int p) {
         Log.i(TAG, "onItemClick");
 
+        final RepoRank repoRank = vm.getRepoRank();
         final ItemRank itemRank = repoRank.get(p);
 
         switch (view.getId()) {
@@ -290,13 +290,15 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 itemRank.setVisible(!itemRank.isVisible());
 
                 repoRank.set(p, itemRank);
+
+                vm.setRepoRank(repoRank);
                 adapterRank.updateAdapter(p, itemRank);
 
                 db = DbRoom.provideDb(context);
                 db.daoRank().update(itemRank);
                 db.close();
 
-                activity.frgNote.updateAdapter();
+                activity.frgNotes.updateAdapter();
                 activity.frgBin.updateAdapter();
                 break;
             case R.id.itemRank_ll_click:
@@ -314,6 +316,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                                 repoRank.set(p, itemRank);
 
                                 tintButton();
+
+                                vm.setRepoRank(repoRank);
 
                                 adapterRank.updateAdapter(p, itemRank);
                                 adapterRank.notifyItemChanged(p);
@@ -344,10 +348,12 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
                 repoRank.remove(p);
 
+                vm.setRepoRank(repoRank);
+
                 adapterRank.updateAdapter(repoRank.getListRank());
                 adapterRank.notifyItemRemoved(p);
 
-                activity.frgNote.updateAdapter();
+                activity.frgNotes.updateAdapter();
                 activity.frgBin.updateAdapter();
                 break;
         }
@@ -356,6 +362,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     @Override
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
+
+        RepoRank repoRank = vm.getRepoRank();
 
         boolean[] iconStartAnim = adapterRank.getStartAnim();
         boolean clickVisible = repoRank.get(p).isVisible();
@@ -375,6 +383,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         List<ItemRank> listRank = repoRank.getListRank();
 
+        vm.setRepoRank(repoRank);
+
         adapterRank.updateAdapter(listRank, iconStartAnim);
         adapterRank.notifyDataSetChanged();
 
@@ -382,7 +392,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         db.daoRank().updateRank(listRank);
         db.close();
 
-        activity.frgNote.updateAdapter();
+        activity.frgNotes.updateAdapter();
         activity.frgBin.updateAdapter();
     }
 
@@ -423,12 +433,14 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 List<ItemRank> listRank = db.daoRank().update(dragStart, dragEnd);
                 db.close();
 
+                RepoRank repoRank = vm.getRepoRank();
                 repoRank.setListRank(listRank);
+                vm.setRepoRank(repoRank);
 
-                adapterRank.updateAdapter(repoRank.getListRank());
+                adapterRank.updateAdapter(listRank);
                 adapterRank.notifyDataSetChanged();
 
-                activity.frgNote.updateAdapter();
+                activity.frgNotes.updateAdapter();
                 activity.frgBin.updateAdapter();
             }
         }
@@ -443,7 +455,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             int oldPs = viewHolder.getAdapterPosition();        //Старая позиция (откуда взяли)
             int newPs = target.getAdapterPosition();            //Новая позиция (куда отпустили)
 
+            RepoRank repoRank = vm.getRepoRank();
             repoRank.move(oldPs, newPs);
+            vm.setRepoRank(repoRank);
 
             adapterRank.updateAdapter(repoRank.getListRank());
             adapterRank.notifyItemMoved(oldPs, newPs);

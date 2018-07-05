@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.ui.vm;
+package sgtmelon.handynotes.app.vm;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
@@ -44,7 +44,7 @@ public class VmActNote extends AndroidViewModel {
     }
 
     public void setValue(Bundle bundle) {
-        create = bundle.getBoolean(StNote.KEY_CREATE);
+        create = bundle.getBoolean(DefPages.CREATE);
         type = bundle.getInt(Db.NT_TP);
         id = bundle.getLong(Db.NT_ID);
 

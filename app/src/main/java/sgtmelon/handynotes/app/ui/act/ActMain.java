@@ -15,12 +15,11 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterPager;
 import sgtmelon.handynotes.app.control.menu.MenuMain;
 import sgtmelon.handynotes.app.ui.frg.FrgBin;
-import sgtmelon.handynotes.app.ui.frg.FrgNote;
+import sgtmelon.handynotes.app.ui.frg.FrgNotes;
 import sgtmelon.handynotes.app.ui.frg.FrgRank;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefPages;
 import sgtmelon.handynotes.office.intf.IntfMenu;
-import sgtmelon.handynotes.office.st.StNote;
 
 public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
@@ -39,7 +38,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         Log.i(TAG, "onCreate");
 
         setupViewPager();
-        setupMenuMain();
+        setupMenuMain(savedInstanceState == null ? DefPages.notes : savedInstanceState.getInt(DefPages.PAGE));
     }
 
     //region Variable
@@ -47,7 +46,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
     private BottomNavigationView bottomNavigationView;
 
     public FrgRank frgRank;
-    public FrgNote frgNote;
+    public FrgNotes frgNotes;
     public FrgBin frgBin;
     //endregion
 
@@ -57,15 +56,16 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         viewPager = findViewById(R.id.actMain_vp);
         bottomNavigationView = findViewById(R.id.actMain_bnv_menu);
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        AdapterPager adapterPager = new AdapterPager(fragmentManager);
+        FragmentManager manager = getSupportFragmentManager();
 
         frgRank = new FrgRank();
-        frgNote = new FrgNote();
+        frgNotes = new FrgNotes();
         frgBin = new FrgBin();
 
+        AdapterPager adapterPager = new AdapterPager(manager);
+
         adapterPager.addFragment(frgRank);
-        adapterPager.addFragment(frgNote);
+        adapterPager.addFragment(frgNotes);
         adapterPager.addFragment(frgBin);
 
         viewPager.setAdapter(adapterPager);
@@ -74,7 +74,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
     private MenuMain menuMain;
 
-    private void setupMenuMain() {
+    private void setupMenuMain(@DefPages int page) {
         Log.i(TAG, "setupMenuMain");
 
         menuMain = new MenuMain(viewPager, bottomNavigationView);
@@ -83,7 +83,7 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         viewPager.addOnPageChangeListener(menuMain);
         bottomNavigationView.setOnNavigationItemSelectedListener(menuMain);
 
-        menuMain.setPage(DefPages.notes);
+        menuMain.setPage(page);
     }
 
     @Override
@@ -98,9 +98,9 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
                     public void onClick(DialogInterface dialog, int item) {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
-                        intent.putExtra(StNote.KEY_CREATE, true);
+                        intent.putExtra(DefPages.CREATE, true);
                         intent.putExtra(Db.NT_TP, item);
-                        intent.putExtra(Db.RK_VS, frgRank.repoRank.getVisible());
+                        intent.putExtra(Db.RK_VS, frgRank.vm.getRepoRank().getVisible());
 
                         startActivity(intent);
                     }
@@ -109,46 +109,48 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         dialog.show();
     }
 
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        if (menuMain.getCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
-//            Log.i(TAG, "dispatchTouchEvent");
-//
-//            View view = getCurrentFocus();
-//            if (view != null) {
-//                View viewTmp = getCurrentFocus();
-//                View viewNew = viewTmp != null ? viewTmp : view;
-//
-//                if (viewNew.equals(view)) {
-//                    Rect rect = new Rect();
-//                    int[] coordinate = new int[2];
-//
-//                    view.getLocationOnScreen(coordinate);
-//                    rect.set(coordinate[0], coordinate[1], coordinate[0] + view.getWidth(), coordinate[1] + view.getHeight());
-//
-//                    final int x = (int) ev.getX();
-//                    final int y = (int) ev.getY();
-//
-//                    if (rect.contains(x, y)) return super.dispatchTouchEvent(ev);
-//                }
-//
-//                Help.hideKeyboard(this, viewNew);
-//                viewNew.clearFocus();
-//            }
-//        }
-//        return super.dispatchTouchEvent(ev);
-//    }
+    /**
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (menuMain.getCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.i(TAG, "dispatchTouchEvent");
+
+            View view = getCurrentFocus();
+            if (view != null) {
+                View viewTmp = getCurrentFocus();
+                View viewNew = viewTmp != null ? viewTmp : view;
+
+                if (viewNew.equals(view)) {
+                    Rect rect = new Rect();
+                    int[] coordinate = new int[2];
+
+                    view.getLocationOnScreen(coordinate);
+                    rect.set(coordinate[0], coordinate[1], coordinate[0] + view.getWidth(), coordinate[1] + view.getHeight());
+
+                    final int x = (int) ev.getX();
+                    final int y = (int) ev.getY();
+
+                    if (rect.contains(x, y)) return super.dispatchTouchEvent(ev);
+                }
+
+                Help.hideKeyboard(this, viewNew);
+                viewNew.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+    */
 
     @Override
     public void onBackPressed() {
         Log.i(TAG, "onBackPressed");
 
-        int buttonCurrent = menuMain.getCurrent();
+        int current = menuMain.getCurrent();
 
-        if (buttonCurrent != DefPages.notes) {
-            switch (buttonCurrent) {
+        if (current != DefPages.notes) {
+            switch (current) {
                 case DefPages.rank:
-                    if (!frgRank.needClearEnter()) menuMain.setPage(DefPages.notes);
+                    menuMain.setPage(DefPages.notes);
                     break;
                 default:
                     menuMain.setPage(DefPages.notes);
@@ -157,4 +159,10 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         } else super.onBackPressed();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(DefPages.PAGE, menuMain.getCurrent());
+    }
 }

@@ -1,15 +1,14 @@
-package sgtmelon.handynotes.app.view.button;
+package sgtmelon.handynotes.view.button;
 
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.AppCompatImageButton;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.util.AttributeSet;
-
 import android.os.Handler;
+import android.support.annotation.RequiresApi;
+import android.support.v7.widget.AppCompatImageButton;
+import android.util.AttributeSet;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;

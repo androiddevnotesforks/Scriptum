@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.view.alert;
+package sgtmelon.handynotes.view.alert;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,10 +15,10 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdapterSort;
+import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.app.model.item.ItemSort;
 
 public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
 

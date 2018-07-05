@@ -37,8 +37,7 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.ui.act.ActNote;
-import sgtmelon.handynotes.app.ui.vm.VmFrgNote;
-import sgtmelon.handynotes.app.view.alert.AlertColor;
+import sgtmelon.handynotes.app.vm.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
@@ -49,6 +48,7 @@ import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.st.StCheck;
 import sgtmelon.handynotes.office.st.StDrag;
 import sgtmelon.handynotes.office.st.StNote;
+import sgtmelon.handynotes.view.alert.AlertColor;
 
 public class FrgRoll extends Fragment implements View.OnClickListener,
         IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {
@@ -58,13 +58,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     private DbRoom db;
 
+    private Context context;
     private FrgRollBinding binding;
     private View frgView;
 
-    private Context context;
     private ActNote activity;
 
-    public VmFrgNote vm;
+    public VmFrgText vm;
     //endregion
 
     @Override
@@ -89,7 +89,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         context = getContext();
         activity = (ActNote) getActivity();
 
-        vm = ViewModelProviders.of(this).get(VmFrgNote.class);
+        vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();

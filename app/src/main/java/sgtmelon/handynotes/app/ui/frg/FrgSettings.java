@@ -20,10 +20,10 @@ import android.widget.ImageView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.ui.act.ActDevelop;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
-import sgtmelon.handynotes.app.view.alert.AlertColor;
-import sgtmelon.handynotes.app.view.alert.AlertSort;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.view.alert.AlertColor;
+import sgtmelon.handynotes.view.alert.AlertSort;
 
 public class FrgSettings extends PreferenceFragment {
 

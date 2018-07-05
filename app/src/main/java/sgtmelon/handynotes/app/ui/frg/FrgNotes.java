@@ -1,5 +1,6 @@
 package sgtmelon.handynotes.app.ui.frg;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -18,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
@@ -30,7 +30,7 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.ui.act.ActMain;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.app.ui.act.ActSettings;
-import sgtmelon.handynotes.app.view.alert.AlertOption;
+import sgtmelon.handynotes.app.vm.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
@@ -39,21 +39,23 @@ import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfAlert;
 import sgtmelon.handynotes.office.intf.IntfItem;
-import sgtmelon.handynotes.office.st.StNote;
+import sgtmelon.handynotes.view.alert.AlertOption;
 
-public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener,
+public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListener,
         IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionNote {
 
     //region Variable
-    private static final String TAG = "FrgNote";
+    private static final String TAG = "FrgNotes";
 
     private DbRoom db;
 
+    private FrgNotesBinding binding;
     private View frgView;
+
     private Context context;
     private ActMain activity;
 
-    private FrgNotesBinding binding;
+    private VmFrgBin vm;
     //endregion
 
     @Override
@@ -75,6 +77,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         context = getContext();
         activity = (ActMain) getActivity();
+
+        vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
         setupToolbar();
         setupRecyclerView();
@@ -115,7 +119,6 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         return false;
     }
 
-    private List<RepoNote> listRepoNote;
     private AdapterNote adapterNote;
 
     private void setupRecyclerView() {
@@ -124,7 +127,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
-                bind(listRepoNote.size());
+                bind(vm.getListRepo().size());
             }
         };
 
@@ -134,38 +137,36 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        listRepoNote = new ArrayList<>();
-
         adapterNote = new AdapterNote();
         recyclerView.setAdapter(adapterNote);
 
         adapterNote.setCallback(this, this);
     }
 
+    // FIXME: 05.07.2018 Выдаёт nullPointer при нажатии на видимость категории после поворота экрана
+
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        db = DbRoom.provideDb(context);
-        listRepoNote = db.daoNote().get(context, DefBin.out, Help.Pref.getSortNoteOrder(context));
-        db.close();
+        List<RepoNote> listRepo = vm.loadData(DefBin.out);
 
-        adapterNote.updateAdapter(listRepoNote);
+        adapterNote.updateAdapter(listRepo);
         adapterNote.notifyDataSetChanged();
 
-        bind(listRepoNote.size());
+        bind(listRepo.size());
     }
 
     @Override
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        ItemNote itemNote = listRepoNote.get(p).getItemNote();
+        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
 
         Intent intent = new Intent(context, ActNote.class);
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(Db.RK_VS, activity.frgRank.repoRank.getVisible());
-        intent.putExtra(StNote.KEY_CREATE, false);
+        intent.putExtra(Db.RK_VS, activity.frgRank.vm.getRepoRank().getVisible());
+        intent.putExtra(DefPages.CREATE, false);
 
         startActivity(intent);
     }
@@ -174,7 +175,7 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        AlertOption alertOption = new AlertOption(context, listRepoNote.get(p).getItemNote(), p);
+        AlertOption alertOption = new AlertOption(context, vm.getListRepo().get(p).getItemNote(), p);
         alertOption.setOptionNote(this);
         alertOption.showOptionNote();
     }
@@ -191,13 +192,17 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         db.daoNote().update(itemNote);
         db.close();
 
-        RepoNote repoNote = listRepoNote.get(p);
+        List<RepoNote> listRepo = vm.getListRepo();
+        RepoNote repoNote = listRepo.get(p);
+
         repoNote.updateListRoll(check);
         repoNote.setItemNote(itemNote);
         repoNote.updateItemStatus();
-        listRepoNote.set(p, repoNote);
 
-        adapterNote.updateAdapter(listRepoNote);
+        listRepo.set(p, repoNote);
+        vm.setListRepo(listRepo);
+
+        adapterNote.updateAdapter(listRepo);
         adapterNote.notifyItemChanged(p);
 
         activity.frgRank.updateAdapter();
@@ -207,24 +212,22 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
     public void onOptionBindClick(ItemNote itemNote, int p) {
         Log.i(TAG, "onOptionBindClick");
 
-        RepoNote repoNote = listRepoNote.get(p);
+        List<RepoNote> listRepo = vm.getListRepo();
+        RepoNote repoNote = listRepo.get(p);
 
-        if (!itemNote.isStatus()) {
-            itemNote.setStatus(true);
-            repoNote.updateItemStatus(true);
-        } else {
-            itemNote.setStatus(false);
-            repoNote.updateItemStatus(false);
-        }
+        itemNote.setStatus(!itemNote.isStatus());
+        repoNote.updateItemStatus(!itemNote.isStatus());
 
         db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());
         db.close();
 
         repoNote.setItemNote(itemNote);
-        listRepoNote.set(p, repoNote);
 
-        adapterNote.updateAdapter(listRepoNote);
+        listRepo.set(p, repoNote);
+        vm.setListRepo(listRepo);
+
+        adapterNote.updateAdapter(listRepo);
         adapterNote.notifyItemChanged(p);
     }
 
@@ -234,7 +237,8 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         itemNote.setChange(context);
 
-        RepoNote repoNote = listRepoNote.get(p);
+        List<RepoNote> listRepo = vm.getListRepo();
+        RepoNote repoNote = listRepo.get(p);
 
         db = DbRoom.provideDb(context);
         switch (itemNote.getType()) {
@@ -266,9 +270,11 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
 
         repoNote.setItemNote(itemNote);
         repoNote.updateItemStatus();
-        listRepoNote.set(p, repoNote);
 
-        adapterNote.updateAdapter(listRepoNote);
+        listRepo.set(p, repoNote);
+        vm.setListRepo(listRepo);
+
+        adapterNote.updateAdapter(listRepo);
         adapterNote.notifyItemChanged(p);
 
         activity.frgRank.updateAdapter();
@@ -285,10 +291,12 @@ public class FrgNote extends Fragment implements Toolbar.OnMenuItemClickListener
         }
         db.close();
 
-        listRepoNote.get(p).updateItemStatus(false);
-        listRepoNote.remove(p);
+        List<RepoNote> listRepo = vm.getListRepo();
+        listRepo.get(p).updateItemStatus(false);
+        listRepo.remove(p);
+        vm.setListRepo(listRepo);
 
-        adapterNote.updateAdapter(listRepoNote);
+        adapterNote.updateAdapter(listRepo);
         adapterNote.notifyItemRemoved(p);
 
         activity.frgBin.updateAdapter();

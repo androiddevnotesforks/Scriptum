@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.view.button;
+package sgtmelon.handynotes.view.button;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;

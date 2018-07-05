@@ -13,8 +13,8 @@ import sgtmelon.handynotes.app.db.DbRoom;
 import sgtmelon.handynotes.app.ui.act.ActNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.DefPages;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.office.st.StNote;
 
 public class ItemStatus {
 
@@ -40,8 +40,7 @@ public class ItemStatus {
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
         intent.putExtra(Db.RK_VS, rankVisible);
-        intent.putExtra(StNote.KEY_CREATE, false);
-
+        intent.putExtra(DefPages.CREATE, false);
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 //        stackBuilder.addParentStack(ActNote.class);
 //        stackBuilder.addNextIntent(intent);
