@@ -13,10 +13,10 @@ import android.view.Window;
 import android.widget.Toast;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.db.DbRoom;
-import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annotation.def.db.DefType;
+import sgtmelon.handynotes.office.interfaces.IntfMenu;
 
 public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
@@ -25,7 +25,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     private final Window window;
     private final Toolbar toolbar;
 
-    private final int noteType;
+    private final int type;
     //endregion
 
     public MenuNote(Context context, Window window, Toolbar toolbar, @DefType int type) {
@@ -33,7 +33,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         this.window = window;
         this.toolbar = toolbar;
 
-        this.noteType = type;
+        this.type = type;
     }
 
     //Установка цвета
@@ -102,7 +102,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
         setStatusTitle(status);
 
-        boolean isRoll = noteType == DefType.roll;
+        boolean isRoll = type == DefType.roll;
 
         mItemStatus.setIcon(Help.Icon.getDrawable(context, isRoll
                 ? R.drawable.ic_menu_bind_roll
@@ -187,7 +187,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
                 alert.setTitle(context.getString(R.string.dialog_title_convert));
 
-                if (noteType == DefType.text) {
+                if (type == DefType.text) {
                     alert.setMessage(context.getString(R.string.dialog_text_convert_to_roll));
                 } else {
                     alert.setMessage(context.getString(R.string.dialog_roll_convert_to_text));

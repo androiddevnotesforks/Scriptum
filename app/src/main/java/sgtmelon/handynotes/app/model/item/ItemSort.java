@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.app.model.item;
 
-import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.office.annotation.def.DefSort;
 
 public class ItemSort {
 

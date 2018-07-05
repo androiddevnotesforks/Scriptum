@@ -10,8 +10,8 @@ import java.util.List;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annotation.Db;
+import sgtmelon.handynotes.office.annotation.def.db.DefCheck;
 
 public class RepoNote {
 

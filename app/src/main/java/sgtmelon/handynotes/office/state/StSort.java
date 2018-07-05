@@ -1,0 +1,27 @@
+package sgtmelon.handynotes.office.state;
+
+import java.util.List;
+
+import sgtmelon.handynotes.app.model.item.ItemSort;
+import sgtmelon.handynotes.office.annotation.def.DefSort;
+
+public class StSort {
+
+    private int end;
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void updateEnd(List<ItemSort> listSort) {
+        for (int i = 0; i < listSort.size(); i++) {
+            @DefSort int key = listSort.get(i).getKey();
+
+            if (key == DefSort.create || key == DefSort.change) {
+                end = i;
+                break;
+            }
+        }
+    }
+
+}

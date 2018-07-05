@@ -1,0 +1,24 @@
+package sgtmelon.handynotes.office.interfaces;
+
+import sgtmelon.handynotes.app.model.item.ItemNote;
+import sgtmelon.handynotes.office.annotation.def.db.DefCheck;
+
+public interface IntfAlert {
+
+    interface OptionNote {
+        void onOptionCheckClick(ItemNote itemNote, int p, @DefCheck int check, int rollCount);
+
+        void onOptionBindClick(ItemNote itemNote, int p);
+
+        void onOptionConvertClick(ItemNote itemNote, int p);
+
+        void onOptionDeleteClick(ItemNote itemNote, int p);
+    }
+
+    interface OptionBin {
+        void onOptionRestoreClick(ItemNote itemNote, int p);
+
+        void onOptionClearClick(ItemNote itemNote, int p);
+    }
+
+}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.app.model.item.ItemRank;
-import sgtmelon.handynotes.office.conv.ConvList;
+import sgtmelon.handynotes.office.converter.ConvList;
 
 public class RepoRank {
 

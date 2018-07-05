@@ -9,12 +9,12 @@ import android.support.v4.app.NotificationManagerCompat;
 import java.util.List;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.db.DbRoom;
-import sgtmelon.handynotes.app.ui.act.ActNote;
+import sgtmelon.handynotes.app.dataBase.DbRoom;
+import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.def.DefPages;
-import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.annotation.Db;
+import sgtmelon.handynotes.office.annotation.def.DefPages;
+import sgtmelon.handynotes.office.annotation.def.db.DefType;
 
 public class ItemStatus {
 
