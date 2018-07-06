@@ -205,7 +205,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
 
-        activity.frgRank.updateAdapter();
+//        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -277,7 +277,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
 
-        activity.frgRank.updateAdapter();
+//        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -299,7 +299,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemRemoved(p);
 
-        activity.frgBin.updateAdapter();
+//        activity.frgBin.updateAdapter();
     }
 
 }

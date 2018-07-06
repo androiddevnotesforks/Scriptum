@@ -139,7 +139,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                                 setMenuItemClearVisible();
                                 bind(0);
 
-                                activity.frgRank.updateAdapter();
+//                                activity.frgRank.updateAdapter();
 
                                 dialog.cancel();
                             }
@@ -235,7 +235,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         setMenuItemClearVisible();
 
-        activity.frgNotes.updateAdapter();
+//        activity.frgNotes.updateAdapter();
     }
 
     @Override
@@ -255,7 +255,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         setMenuItemClearVisible();
 
-        activity.frgRank.updateAdapter();
+//        activity.frgRank.updateAdapter();
     }
 
 }

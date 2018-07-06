@@ -298,8 +298,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.daoRank().update(itemRank);
                 db.close();
 
-                activity.frgNotes.updateAdapter();
-                activity.frgBin.updateAdapter();
+//                activity.frgNotes.updateAdapter();
+//                activity.frgBin.updateAdapter();
                 break;
             case R.id.itemRank_ll_click:
                 final AlertRename alert = new AlertRename(context, R.style.AppTheme_AlertDialog);
@@ -353,8 +353,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 adapter.update(repoRank.getListRank());
                 adapter.notifyItemRemoved(p);
 
-                activity.frgNotes.updateAdapter();
-                activity.frgBin.updateAdapter();
+//                activity.frgNotes.updateAdapter();
+//                activity.frgBin.updateAdapter();
                 break;
         }
     }
@@ -392,8 +392,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         db.daoRank().updateRank(listRank);
         db.close();
 
-        activity.frgNotes.updateAdapter();
-        activity.frgBin.updateAdapter();
+//        activity.frgNotes.updateAdapter();
+//        activity.frgBin.updateAdapter();
     }
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
@@ -440,8 +440,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 adapter.update(listRank);
                 adapter.notifyDataSetChanged();
 
-                activity.frgNotes.updateAdapter();
-                activity.frgBin.updateAdapter();
+//                activity.frgNotes.updateAdapter();
+//                activity.frgBin.updateAdapter();
             }
         }
 
