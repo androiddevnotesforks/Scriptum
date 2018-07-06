@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.interfaces.IntfMenu;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 
 public class CtrlSave {
 

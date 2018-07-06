@@ -16,8 +16,8 @@ import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.databinding.ItemNoteRollBinding;
 import sgtmelon.handynotes.databinding.ItemNoteTextBinding;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.interfaces.IntfItem;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpNote extends RecyclerView.Adapter<AdpNote.NoteHolder> {
 

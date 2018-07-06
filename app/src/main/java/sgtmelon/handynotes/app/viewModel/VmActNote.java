@@ -15,10 +15,10 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.annotation.def.DefPages;
-import sgtmelon.handynotes.office.converter.ConvList;
-import sgtmelon.handynotes.office.state.StNote;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.conv.ConvList;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class VmActNote extends AndroidViewModel {
 

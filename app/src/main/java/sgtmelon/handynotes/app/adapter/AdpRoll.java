@@ -21,7 +21,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.databinding.ItemRollReadBinding;
 import sgtmelon.handynotes.databinding.ItemRollWriteBinding;
-import sgtmelon.handynotes.office.interfaces.IntfItem;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 

@@ -12,12 +12,12 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.annotation.def.db.DefCheck;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.converter.ConvBool;
-import sgtmelon.handynotes.office.converter.ConvList;
-import sgtmelon.handynotes.office.converter.ConvString;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.conv.ConvBool;
+import sgtmelon.handynotes.office.conv.ConvList;
+import sgtmelon.handynotes.office.conv.ConvString;
 
 @Entity(tableName = Db.NT_TB)
 @TypeConverters({ConvBool.class, ConvString.class})

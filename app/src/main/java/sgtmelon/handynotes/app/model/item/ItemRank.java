@@ -9,10 +9,10 @@ import android.arch.persistence.room.TypeConverters;
 import java.util.List;
 
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.converter.ConvBool;
-import sgtmelon.handynotes.office.converter.ConvList;
-import sgtmelon.handynotes.office.converter.ConvString;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.conv.ConvBool;
+import sgtmelon.handynotes.office.conv.ConvList;
+import sgtmelon.handynotes.office.conv.ConvString;
 
 @Entity(tableName = Db.RK_TB)
 @TypeConverters({ConvBool.class, ConvString.class})

@@ -17,9 +17,9 @@ import sgtmelon.handynotes.app.control.menu.MenuMain;
 import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.annotation.def.DefPages;
-import sgtmelon.handynotes.office.interfaces.IntfMenu;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 
 public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
@@ -44,6 +44,8 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
     //region Variable
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
+
+    // FIXME: 05.07.2018 Убрать зависимости между фрагментами, переделать с помощью @LiveData
 
     public FrgRank frgRank;
     public FrgNotes frgNotes;
@@ -100,7 +102,6 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
                         intent.putExtra(DefPages.CREATE, true);
                         intent.putExtra(Db.NT_TP, item);
-                        intent.putExtra(Db.RK_VS, frgRank.vm.getRepoRank().getVisible());
 
                         startActivity(intent);
                     }

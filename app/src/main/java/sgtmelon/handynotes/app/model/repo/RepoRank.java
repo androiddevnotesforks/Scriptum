@@ -1,10 +1,8 @@
 package sgtmelon.handynotes.app.model.repo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import sgtmelon.handynotes.app.model.item.ItemRank;
-import sgtmelon.handynotes.office.converter.ConvList;
 
 public class RepoRank {
 
@@ -26,16 +24,6 @@ public class RepoRank {
 
     public List<String> getListName() {
         return listName;
-    }
-
-    public Long[] getVisible() {
-        List<Long> rankVisible = new ArrayList<>();
-        for (ItemRank itemRank : listRank) {
-            if (itemRank.isVisible()) {
-                rankVisible.add(itemRank.getId());
-            }
-        }
-        return ConvList.fromList(rankVisible);
     }
 
     public int size() {

@@ -20,7 +20,7 @@ import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.databinding.ItemRankBinding;
 import sgtmelon.handynotes.element.button.ButtonVisible;
 import sgtmelon.handynotes.element.button.ButtonVisiblePre;
-import sgtmelon.handynotes.office.interfaces.IntfItem;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
 

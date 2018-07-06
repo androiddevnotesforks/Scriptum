@@ -7,9 +7,9 @@ import android.support.v7.app.AlertDialog;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.def.db.DefCheck;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.interfaces.IntfAlert;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.intf.IntfAlert;
 
 public class AlertOption {
 

@@ -34,13 +34,13 @@ import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.element.alert.AlertOption;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.annotation.def.DefPages;
-import sgtmelon.handynotes.office.annotation.def.db.DefBin;
-import sgtmelon.handynotes.office.annotation.def.db.DefCheck;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.interfaces.IntfAlert;
-import sgtmelon.handynotes.office.interfaces.IntfItem;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.annot.def.db.DefBin;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.intf.IntfAlert;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListener,
         IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionNote {
@@ -166,7 +166,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Intent intent = new Intent(context, ActNote.class);
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(Db.RK_VS, activity.frgRank.vm.getRepoRank().getVisible());
         intent.putExtra(DefPages.CREATE, false);
 
         startActivity(intent);

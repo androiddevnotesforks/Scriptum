@@ -32,10 +32,10 @@ import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemSort;
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.annotation.def.DefColor;
-import sgtmelon.handynotes.office.annotation.def.DefSort;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.DefColor;
+import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 public class Help {
 

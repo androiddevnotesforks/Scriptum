@@ -6,8 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.view.MenuItem;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annotation.def.DefPages;
-import sgtmelon.handynotes.office.interfaces.IntfMenu;
+import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 
 public class MenuMain implements ViewPager.OnPageChangeListener, BottomNavigationView.OnNavigationItemSelectedListener {
 

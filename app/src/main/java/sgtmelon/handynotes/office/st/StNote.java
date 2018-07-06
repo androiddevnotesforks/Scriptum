@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.state;
+package sgtmelon.handynotes.office.st;
 
 public class StNote {
 

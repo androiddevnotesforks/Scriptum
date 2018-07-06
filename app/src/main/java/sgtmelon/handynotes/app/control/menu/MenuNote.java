@@ -15,8 +15,8 @@ import android.widget.Toast;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.interfaces.IntfMenu;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.intf.IntfMenu;
 
 public class MenuNote implements Toolbar.OnMenuItemClickListener {
 

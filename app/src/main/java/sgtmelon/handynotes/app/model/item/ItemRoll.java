@@ -8,8 +8,8 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.converter.ConvBool;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.conv.ConvBool;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 

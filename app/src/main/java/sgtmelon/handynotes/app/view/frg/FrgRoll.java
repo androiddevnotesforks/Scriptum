@@ -41,14 +41,14 @@ import sgtmelon.handynotes.app.viewModel.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
 import sgtmelon.handynotes.element.alert.AlertColor;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.def.db.DefCheck;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.converter.ConvList;
-import sgtmelon.handynotes.office.interfaces.IntfItem;
-import sgtmelon.handynotes.office.interfaces.IntfMenu;
-import sgtmelon.handynotes.office.state.StCheck;
-import sgtmelon.handynotes.office.state.StDrag;
-import sgtmelon.handynotes.office.state.StNote;
+import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.conv.ConvList;
+import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.office.st.StCheck;
+import sgtmelon.handynotes.office.st.StDrag;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class FrgRoll extends Fragment implements View.OnClickListener,
         IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {

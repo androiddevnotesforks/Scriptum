@@ -1,6 +1,6 @@
-package sgtmelon.handynotes.office.state;
+package sgtmelon.handynotes.office.st;
 
-import sgtmelon.handynotes.office.interfaces.IntfItem;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class StDrag implements IntfItem.Drag {
 

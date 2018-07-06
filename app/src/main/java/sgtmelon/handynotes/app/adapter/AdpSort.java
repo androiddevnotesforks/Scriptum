@@ -13,8 +13,8 @@ import java.util.List;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.databinding.ItemSortBinding;
-import sgtmelon.handynotes.office.interfaces.IntfItem;
-import sgtmelon.handynotes.office.state.StSort;
+import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.office.st.StSort;
 
 
 public class AdpSort extends RecyclerView.Adapter<AdpSort.SortHolder> {

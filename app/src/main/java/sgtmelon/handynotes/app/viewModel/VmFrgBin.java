@@ -10,7 +10,7 @@ import java.util.List;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.def.db.DefBin;
+import sgtmelon.handynotes.office.annot.def.db.DefBin;
 
 public class VmFrgBin extends AndroidViewModel {
 

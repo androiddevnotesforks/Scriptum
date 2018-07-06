@@ -17,8 +17,8 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpSort;
 import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.def.DefSort;
-import sgtmelon.handynotes.office.interfaces.IntfItem;
+import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
 

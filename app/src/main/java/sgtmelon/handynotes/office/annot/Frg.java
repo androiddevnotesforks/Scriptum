@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.annotation;
+package sgtmelon.handynotes.office.annot;
 
 /**
  * Ключи для нахождения фрагментов после поворота экрана

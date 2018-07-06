@@ -33,10 +33,10 @@ import sgtmelon.handynotes.app.viewModel.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgTextBinding;
 import sgtmelon.handynotes.element.alert.AlertColor;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.converter.ConvList;
-import sgtmelon.handynotes.office.interfaces.IntfMenu;
-import sgtmelon.handynotes.office.state.StNote;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.conv.ConvList;
+import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.NoteClick {
 

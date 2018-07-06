@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.annotation;
+package sgtmelon.handynotes.office.annot;
 
 /**
  * Аннотация для БД.

@@ -16,12 +16,12 @@ import sgtmelon.handynotes.app.view.frg.FrgRoll;
 import sgtmelon.handynotes.app.view.frg.FrgText;
 import sgtmelon.handynotes.app.viewModel.VmActNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annotation.Db;
-import sgtmelon.handynotes.office.annotation.Frg;
-import sgtmelon.handynotes.office.annotation.def.DefPages;
-import sgtmelon.handynotes.office.annotation.def.db.DefType;
-import sgtmelon.handynotes.office.interfaces.IntfMenu;
-import sgtmelon.handynotes.office.state.StNote;
+import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.Frg;
+import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.office.st.StNote;
 
 public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 

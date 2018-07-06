@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.interfaces;
+package sgtmelon.handynotes.office.intf;
 
 public interface IntfMenu {
 
