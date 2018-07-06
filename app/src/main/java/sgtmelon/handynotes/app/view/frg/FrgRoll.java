@@ -17,14 +17,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -256,36 +254,28 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.dialog_title_rank))
-                .setMultiChoiceItems(checkName, checkItem, new DialogInterface.OnMultiChoiceClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                        checkItem[which] = isChecked;
-                    }
-                })
-                .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        List<Long> rankId = new ArrayList<>();
-                        List<Long> rankPs = new ArrayList<>();
+                .setMultiChoiceItems(checkName, checkItem, (dialog, which, isChecked) -> checkItem[which] = isChecked)
+                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
+                    List<Long> rankId = new ArrayList<>();
+                    List<Long> rankPs = new ArrayList<>();
 
-                        for (int i = 0; i < checkId.length; i++) {
-                            if (checkItem[i]) {
-                                rankId.add(checkId[i]);
-                                rankPs.add((long) i);
-                            }
+                    for (int i = 0; i < checkId.length; i++) {
+                        if (checkItem[i]) {
+                            rankId.add(checkId[i]);
+                            rankPs.add((long) i);
                         }
-
-                        RepoNote repoNote = vm.getRepoNote();
-
-                        ItemNote itemNote = repoNote.getItemNote();
-                        itemNote.setRankId(ConvList.fromList(rankId));
-                        itemNote.setRankPs(ConvList.fromList(rankPs));
-                        repoNote.setItemNote(itemNote);
-
-                        vm.setRepoNote(repoNote);
-
-                        dialog.cancel();
                     }
+
+                    RepoNote repoNote = vm.getRepoNote();
+
+                    ItemNote itemNote = repoNote.getItemNote();
+                    itemNote.setRankId(ConvList.fromList(rankId));
+                    itemNote.setRankPs(ConvList.fromList(rankPs));
+                    repoNote.setItemNote(itemNote);
+
+                    vm.setRepoNote(repoNote);
+
+                    dialog.cancel();
                 })
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
                     @Override
@@ -308,29 +298,21 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         ItemNote itemNote = vm.getRepoNote().getItemNote();
         final AlertColor alert = new AlertColor(context, itemNote.getColor(), R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.dialog_title_color))
-                .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        int color = alert.getCheck();
+                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
+                    int color = alert.getCheck();
 
-                        RepoNote repoNote = vm.getRepoNote();
+                    RepoNote repoNote = vm.getRepoNote();
 
-                        ItemNote itemNote = repoNote.getItemNote();
-                        itemNote.setColor(color);
-                        repoNote.setItemNote(itemNote);
+                    ItemNote itemNote1 = repoNote.getItemNote();
+                    itemNote1.setColor(color);
+                    repoNote.setItemNote(itemNote1);
 
-                        vm.setRepoNote(repoNote);
+                    vm.setRepoNote(repoNote);
 
-                        menuNote.startTint(color);
-                        dialog.cancel();
-                    }
+                    menuNote.startTint(color);
+                    dialog.cancel();
                 })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
+                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true);
 
         AlertDialog dialog = alert.create();
@@ -628,15 +610,12 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         rollEnter = frgView.findViewById(R.id.frgRoll_et_enter);
         rollAdd = frgView.findViewById(R.id.frgRoll_ib_add);
 
-        nameEnter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_NEXT) {
-                    rollEnter.requestFocus();
-                    return true;
-                }
-                return false;
+        nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_NEXT) {
+                rollEnter.requestFocus();
+                return true;
             }
+            return false;
         });
 
         final TextWatcher enterRollTextWatcher = new TextWatcher() {
@@ -657,21 +636,15 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             }
         };
 
-        final View.OnClickListener addClick = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i(TAG, "onClick");
-                scrollToInsert(true);
-            }
+        final View.OnClickListener addClick = view -> {
+            Log.i(TAG, "onClick");
+            scrollToInsert(true);
         };
 
-        final View.OnLongClickListener addLongClick = new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Log.i(TAG, "onLongClick");
-                scrollToInsert(false);
-                return true;
-            }
+        final View.OnLongClickListener addLongClick = view -> {
+            Log.i(TAG, "onLongClick");
+            scrollToInsert(false);
+            return true;
         };
 
         rollEnter.addTextChangedListener(enterRollTextWatcher);

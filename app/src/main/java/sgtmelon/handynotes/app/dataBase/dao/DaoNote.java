@@ -19,7 +19,6 @@ import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.conv.ConvBool;
-import sgtmelon.handynotes.office.conv.ConvList;
 
 @Dao
 @TypeConverters({ConvBool.class})
@@ -36,8 +35,7 @@ public abstract class DaoNote extends DaoBase {
         ItemNote itemNote = get(id);
         List<ItemRoll> listRoll = getRoll(id);
 
-        Long[] rankVs = ConvList.fromList(getRankVisible());
-        ItemStatus itemStatus = new ItemStatus(context, itemNote, rankVs);
+        ItemStatus itemStatus = new ItemStatus(context, itemNote);
 
         return new RepoNote(itemNote, listRoll, itemStatus);
     }
@@ -47,7 +45,6 @@ public abstract class DaoNote extends DaoBase {
         List<ItemNote> listNote = getNote(bin, sortKeys);
 
         List<Long> rkVisible = getRankVisible();
-        Long[] rkVs = ConvList.fromList(rkVisible);
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
@@ -56,7 +53,7 @@ public abstract class DaoNote extends DaoBase {
             repoNote.setItemNote(itemNote);
             repoNote.setListRoll(getRollView(itemNote.getId()));
 
-            ItemStatus itemStatus = new ItemStatus(context, itemNote, rkVs);
+            ItemStatus itemStatus = new ItemStatus(context, itemNote);
 
             Long[] rkId = itemNote.getRankId();
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {

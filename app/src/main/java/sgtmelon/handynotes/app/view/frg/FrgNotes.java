@@ -56,7 +56,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     private Context context;
     private ActMain activity;
 
-    private VmFrgBin vm;
+    public VmFrgBin vm;
     //endregion
 
     @Override
@@ -67,24 +67,35 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         updateAdapter();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.i(TAG, "onAttach");
+        this.context = context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_notes, container, false);
-
         frgView = binding.getRoot();
 
-        context = getContext();
+        return frgView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+
         activity = (ActMain) getActivity();
 
         vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
         setupToolbar();
         setupRecyclerView();
-
-        return frgView;
     }
 
     private void bind(int listSize) {
@@ -148,6 +159,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
+        Log.i(TAG, "updateAdapter: vm isNull: " + (vm == null));
 
         List<RepoNote> listRepo = vm.loadData(DefBin.out);
 
@@ -205,7 +217,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
 
-//        activity.frgRank.updateAdapter();
+        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -277,7 +289,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
 
-//        activity.frgRank.updateAdapter();
+        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -299,7 +311,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemRemoved(p);
 
-//        activity.frgBin.updateAdapter();
+        activity.frgBin.updateAdapter();
     }
 
 }

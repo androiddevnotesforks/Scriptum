@@ -29,12 +29,9 @@ public class CtrlSave {
 
         if (saveAuto) {
             saveHandler = new Handler();
-            saveRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    onSave(false);
-                    startSaveHandler();
-                }
+            saveRunnable = () -> {
+                onSave(false);
+                startSaveHandler();
             };
 
             int[] saveTimeArr = context.getResources().getIntArray(R.array.pref_value_auto_save_time);

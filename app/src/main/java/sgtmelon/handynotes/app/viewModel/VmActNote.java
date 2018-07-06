@@ -12,12 +12,10 @@ import java.util.List;
 
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
-import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefPages;
-import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.st.StNote;
 
 public class VmActNote extends AndroidViewModel {
@@ -82,7 +80,7 @@ public class VmActNote extends AndroidViewModel {
     private DbRoom db;
 
     private void loadData() {
-        Log.d(TAG, "loadData");
+        Log.i(TAG, "loadData");
 
         stNote = new StNote();
         stNote.setCreate(create);
@@ -94,9 +92,9 @@ public class VmActNote extends AndroidViewModel {
         rankVisible = db.daoRank().getRankVisible();
         if (stNote.isCreate()) {
             ItemNote itemNote = new ItemNote(context, type);
-            ItemStatus itemStatus = new ItemStatus(context, itemNote, ConvList.fromList(rankVisible));
+            ItemStatus itemStatus = new ItemStatus(context, itemNote);
 
-            repoNote = new RepoNote(itemNote, new ArrayList<ItemRoll>(), itemStatus);
+            repoNote = new RepoNote(itemNote, new ArrayList<>(), itemStatus);
         } else {
             repoNote = db.daoNote().get(context, id);
             stNote.setBin(repoNote.getItemNote().isBin());
@@ -105,7 +103,7 @@ public class VmActNote extends AndroidViewModel {
     }
 
     public RepoNote loadData(long id) {
-        Log.d(TAG, "loadData");
+        Log.i(TAG, "loadData");
 
         Context context = getApplication().getApplicationContext();
 

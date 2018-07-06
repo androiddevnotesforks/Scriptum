@@ -184,6 +184,10 @@ public class ItemNote {
         this.status = status;
     }
 
+    public void setStatus(){
+        status = !status;
+    }
+
     public int[] getCheck() {
         int[] check = new int[2];
 

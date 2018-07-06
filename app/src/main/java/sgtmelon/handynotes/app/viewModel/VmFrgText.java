@@ -20,7 +20,7 @@ public class VmFrgText extends ViewModel {
     }
 
     public boolean isEmpty(){
-        Log.d(TAG, "isEmpty: " + (repoNote == null));
+        Log.i(TAG, "isEmpty: " + (repoNote == null));
         return repoNote == null;
     }
 

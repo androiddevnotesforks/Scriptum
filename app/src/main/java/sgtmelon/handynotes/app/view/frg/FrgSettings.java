@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.app.view.frg;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -68,12 +67,9 @@ public class FrgSettings extends PreferenceFragment {
     private void setupSortPref() {
         Log.i(TAG, "setupSortPref");
 
-        Preference.OnPreferenceClickListener preferenceClickListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                alertSort(preference.getKey());
-                return true;
-            }
+        Preference.OnPreferenceClickListener preferenceClickListener = preference -> {
+            alertSort(preference.getKey());
+            return true;
         };
 
         prefSort = findPreference(getString(R.string.pref_key_sort));
@@ -88,35 +84,24 @@ public class FrgSettings extends PreferenceFragment {
         final AlertSort alert = new AlertSort(activity, pref.getString(prefKey, DefSort.def), R.style.AppTheme_AlertDialog);
 
         alert.setTitle(getString(R.string.dialog_title_sort))
-                .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        String keys = alert.getKeys();
-                        pref.edit().putString(prefKey, keys).apply();
+                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
+                    String keys = alert.getKeys();
+                    pref.edit().putString(prefKey, keys).apply();
 
-                        String summary = Help.Pref.getSortSummary(activity, keys);
-                        prefSort.setSummary(summary);
+                    String summary = Help.Pref.getSortSummary(activity, keys);
+                    prefSort.setSummary(summary);
 
-                        dialog.cancel();
-                    }
+                    dialog.cancel();
                 })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
-                .setNeutralButton(getString(R.string.dialog_btn_reset), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String keys = DefSort.def;
-                        pref.edit().putString(prefKey, keys).apply();
+                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
+                .setNeutralButton(getString(R.string.dialog_btn_reset), (dialogInterface, i) -> {
+                    String keys = DefSort.def;
+                    pref.edit().putString(prefKey, keys).apply();
 
-                        String summary = Help.Pref.getSortSummary(activity, keys);
-                        prefSort.setSummary(summary);
+                    String summary = Help.Pref.getSortSummary(activity, keys);
+                    prefSort.setSummary(summary);
 
-                        dialogInterface.cancel();
-                    }
+                    dialogInterface.cancel();
                 })
                 .setCancelable(true);
         AlertDialog dialog = alert.create();
@@ -132,32 +117,23 @@ public class FrgSettings extends PreferenceFragment {
         prefColorCreate = findPreference(getString(R.string.pref_key_color_create));
         colorCreate = pref.getInt(getString(R.string.pref_key_color_create), getResources().getInteger(R.integer.pref_default_color_create));
         prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
-        prefColorCreate.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                alertColorCreate();
-                return true;
-            }
+        prefColorCreate.setOnPreferenceClickListener(preference -> {
+            alertColorCreate();
+            return true;
         });
 
         prefAutoSaveTime = findPreference(getString(R.string.pref_key_auto_save_time));
         autoSaveTime = pref.getInt(getString(R.string.pref_key_auto_save_time), getResources().getInteger(R.integer.pref_default_auto_save_time));
         prefAutoSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[autoSaveTime]);
-        prefAutoSaveTime.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                alertAutoSaveTime();
-                return true;
-            }
+        prefAutoSaveTime.setOnPreferenceClickListener(preference -> {
+            alertAutoSaveTime();
+            return true;
         });
 
         CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
-        prefAutoSave.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                prefAutoSaveTime.setEnabled((Boolean) newValue);
-                return true;
-            }
+        prefAutoSave.setOnPreferenceChangeListener((preference, newValue) -> {
+            prefAutoSaveTime.setEnabled((Boolean) newValue);
+            return true;
         });
 
         prefAutoSaveTime.setEnabled(prefAutoSave.isChecked());
@@ -168,23 +144,15 @@ public class FrgSettings extends PreferenceFragment {
 
         final AlertColor alert = new AlertColor(activity, colorCreate, R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.pref_title_color_create))
-                .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        colorCreate = alert.getCheck();
+                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
+                    colorCreate = alert.getCheck();
 
-                        pref.edit().putInt(getString(R.string.pref_key_color_create), colorCreate).apply();
-                        prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
+                    pref.edit().putInt(getString(R.string.pref_key_color_create), colorCreate).apply();
+                    prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
 
-                        dialog.cancel();
-                    }
+                    dialog.cancel();
                 })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
+                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true);
         AlertDialog dialog = alert.create();
         dialog.show();
@@ -198,29 +166,16 @@ public class FrgSettings extends PreferenceFragment {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.pref_title_auto_save_time))
-                .setSingleChoiceItems(name, autoSaveTime, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        value[0] = i;
-                    }
-                })
-                .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        autoSaveTime = value[0];
+                .setSingleChoiceItems(name, autoSaveTime, (dialogInterface, i) -> value[0] = i)
+                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
+                    autoSaveTime = value[0];
 
-                        pref.edit().putInt(getString(R.string.pref_key_auto_save_time), autoSaveTime).apply();
-                        prefAutoSaveTime.setSummary(name[autoSaveTime]);
+                    pref.edit().putInt(getString(R.string.pref_key_auto_save_time), autoSaveTime).apply();
+                    prefAutoSaveTime.setSummary(name[autoSaveTime]);
 
-                        dialog.cancel();
-                    }
+                    dialog.cancel();
                 })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
+                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true);
 
         AlertDialog dialog = alert.create();
@@ -231,34 +186,31 @@ public class FrgSettings extends PreferenceFragment {
         Log.i(TAG, "setupOtherPref");
 
         Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
-        prefOtherAbout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                View view = LayoutInflater.from(activity).inflate(R.layout.view_about, null);
-                ImageView logo = view.findViewById(R.id.viewAbout_iv_logo);
+        prefOtherAbout.setOnPreferenceClickListener(preference -> {
+            View view = LayoutInflater.from(activity).inflate(R.layout.view_about, null);
+            ImageView logo = view.findViewById(R.id.viewAbout_iv_logo);
 
-                logo.setOnClickListener(new View.OnClickListener() {
+            logo.setOnClickListener(new View.OnClickListener() {
 
-                    private int click = 0;
-                    private final int show = 9;
+                private int click = 0;
+                private final int show = 9;
 
-                    @Override
-                    public void onClick(View view) {
-                        if (++click == show) {
-                            click = 0;
-                            Intent intent = new Intent(activity, ActDevelop.class);
-                            startActivity(intent);
-                        }
+                @Override
+                public void onClick(View view) {
+                    if (++click == show) {
+                        click = 0;
+                        Intent intent = new Intent(activity, ActDevelop.class);
+                        startActivity(intent);
                     }
-                });
+                }
+            });
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppTheme_AlertDialog);
-                alert.setView(view).setCancelable(true);
+            AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppTheme_AlertDialog);
+            alert.setView(view).setCancelable(true);
 
-                AlertDialog dialog = alert.create();
-                dialog.show();
-                return true;
-            }
+            AlertDialog dialog = alert.create();
+            dialog.show();
+            return true;
         });
     }
 

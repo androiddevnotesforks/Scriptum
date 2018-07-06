@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.app.view.act;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
@@ -47,9 +46,9 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
     // FIXME: 05.07.2018 Убрать зависимости между фрагментами, переделать с помощью @LiveData
 
-    private FrgRank frgRank;
-    private FrgNotes frgNotes;
-    private FrgBin frgBin;
+    public FrgRank frgRank;
+    public FrgNotes frgNotes;
+    public FrgBin frgBin;
     //endregion
 
     private void setupViewPager() {
@@ -95,51 +94,62 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         String[] itemAddOpt = getResources().getStringArray(R.array.dialog_menu_add);
         AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
         alert.setTitle(getString(R.string.dialog_title_add_note))
-                .setItems(itemAddOpt, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        Intent intent = new Intent(ActMain.this, ActNote.class);
+                .setItems(itemAddOpt, (dialog, item) -> {
+                    Intent intent = new Intent(ActMain.this, ActNote.class);
 
-                        intent.putExtra(DefPages.CREATE, true);
-                        intent.putExtra(Db.NT_TP, item);
+                    intent.putExtra(DefPages.CREATE, true);
+                    intent.putExtra(Db.NT_TP, item);
 
-                        startActivity(intent);
-                    }
+                    startActivity(intent);
                 }).setCancelable(true);
         AlertDialog dialog = alert.create();
         dialog.show();
     }
 
-    /**
-     * @Override public boolean dispatchTouchEvent(MotionEvent ev) {
-     * if (menuMain.getCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
-     * Log.i(TAG, "dispatchTouchEvent");
-     * <p>
-     * View view = getCurrentFocus();
-     * if (view != null) {
-     * View viewTmp = getCurrentFocus();
-     * View viewNew = viewTmp != null ? viewTmp : view;
-     * <p>
-     * if (viewNew.equals(view)) {
-     * Rect rect = new Rect();
-     * int[] coordinate = new int[2];
-     * <p>
-     * view.getLocationOnScreen(coordinate);
-     * rect.set(coordinate[0], coordinate[1], coordinate[0] + view.getWidth(), coordinate[1] + view.getHeight());
-     * <p>
-     * final int x = (int) ev.getX();
-     * final int y = (int) ev.getY();
-     * <p>
-     * if (rect.contains(x, y)) return super.dispatchTouchEvent(ev);
-     * }
-     * <p>
-     * Help.hideKeyboard(this, viewNew);
-     * viewNew.clearFocus();
-     * }
-     * }
-     * return super.dispatchTouchEvent(ev);
-     * }
-     */
+    public void updateNote(){
+
+    }
+
+    public void updateBin(){
+
+    }
+
+    public void updateRank(){
+
+    }
+
+
+
+//    @Override
+//    public boolean dispatchTouchEvent(MotionEvent ev) {
+//        if (menuMain.getCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
+//            Log.i(TAG, "dispatchTouchEvent");
+//
+//            View view = getCurrentFocus();
+//            if (view != null) {
+//                View viewTmp = getCurrentFocus();
+//                View viewNew = viewTmp != null ? viewTmp : view;
+//
+//                if (viewNew.equals(view)) {
+//                    Rect rect = new Rect();
+//                    int[] coordinate = new int[2];
+//
+//                    view.getLocationOnScreen(coordinate);
+//                    rect.set(coordinate[0], coordinate[1], coordinate[0] + view.getWidth(), coordinate[1] + view.getHeight());
+//
+//                    final int x = (int) ev.getX();
+//                    final int y = (int) ev.getY();
+//
+//                    if (rect.contains(x, y)) return super.dispatchTouchEvent(ev);
+//                }
+//
+//                Help.hideKeyboard(this, viewNew);
+//                viewNew.clearFocus();
+//            }
+//        }
+//        return super.dispatchTouchEvent(ev);
+//    }
+
 
     @Override
     public void onBackPressed() {

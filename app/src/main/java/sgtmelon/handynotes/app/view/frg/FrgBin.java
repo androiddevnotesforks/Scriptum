@@ -2,7 +2,6 @@ package sgtmelon.handynotes.app.view.frg;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -65,24 +64,35 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         updateAdapter();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.i(TAG, "onAttach");
+        this.context = context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_bin, container, false);
-
         frgView = binding.getRoot();
 
-        context = getContext();
+        return frgView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+
         activity = (ActMain) getActivity();
 
         vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
         setupToolbar();
         setupRecyclerView();
-
-        return frgView;
     }
 
     private void bind(int listSize) {
@@ -123,33 +133,25 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                 AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
                 alert.setTitle(getString(R.string.dialog_title_clear_bin))
                         .setMessage(getString(R.string.dialog_text_clear_bin))
-                        .setPositiveButton(getString(R.string.dialog_btn_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
+                        .setPositiveButton(getString(R.string.dialog_btn_yes), (dialog, id) -> {
 
-                                db = DbRoom.provideDb(context);
-                                db.daoNote().clearBin();
-                                db.close();
+                            db = DbRoom.provideDb(context);
+                            db.daoNote().clearBin();
+                            db.close();
 
-                                vm.setListRepo();
+                            vm.setListRepo();
 
-                                adapter.update(vm.getListRepo());
-                                adapter.notifyDataSetChanged();
+                            adapter.update(vm.getListRepo());
+                            adapter.notifyDataSetChanged();
 
-                                setMenuItemClearVisible();
-                                bind(0);
+                            setMenuItemClearVisible();
+                            bind(0);
 
-//                                activity.frgRank.updateAdapter();
+                            activity.frgRank.updateAdapter();
 
-                                dialog.cancel();
-                            }
+                            dialog.cancel();
                         })
-                        .setNegativeButton(getString(R.string.dialog_btn_no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
+                        .setNegativeButton(getString(R.string.dialog_btn_no), (dialog, id) -> dialog.cancel())
                         .setCancelable(true);
 
                 AlertDialog dialog = alert.create();
@@ -185,6 +187,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
+        Log.d(TAG, "updateAdapter: vm isNull: " + (vm == null));
 
         List<RepoNote> listRepo = vm.loadData(DefBin.in);
 
@@ -235,7 +238,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         setMenuItemClearVisible();
 
-//        activity.frgNotes.updateAdapter();
+        activity.frgNotes.updateAdapter();
     }
 
     @Override
@@ -255,7 +258,7 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
         setMenuItemClearVisible();
 
-//        activity.frgRank.updateAdapter();
+        activity.frgRank.updateAdapter();
     }
 
 }

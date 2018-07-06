@@ -1,6 +1,5 @@
 package sgtmelon.handynotes.element.button;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
@@ -57,16 +56,12 @@ public class ButtonVisible extends AppCompatImageButton {
         visibleOffAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_button_visible_off_anim, R.color.colorDarkSecond);
 
         animHandler = new Handler();
-        animRunnable = new Runnable() {
-            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void run() {
-                if (visibleOnAnim.isRunning() || visibleOffAnim.isRunning()) {
-                    waitAnimationEnd();
-                } else {
-                    if (animRunnableVisible) setImageDrawable(visibleOn);
-                    else setImageDrawable(visibleOff);
-                }
+        animRunnable = () -> {
+            if (visibleOnAnim.isRunning() || visibleOffAnim.isRunning()) {
+                waitAnimationEnd();
+            } else {
+                if (animRunnableVisible) setImageDrawable(visibleOn);
+                else setImageDrawable(visibleOff);
             }
         };
     }

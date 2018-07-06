@@ -2,7 +2,6 @@ package sgtmelon.handynotes.app.control.menu;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
@@ -61,20 +60,17 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
             ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
 
-            anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float position = animation.getAnimatedFraction();
+            anim.addUpdateListener(animation -> {
+                float position = animation.getAnimatedFraction();
 
-                    int blended = Help.Icon.blendColors(statusStartColor, statusEndColor, position);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        window.setStatusBarColor(blended);
-                    }
-
-                    blended = Help.Icon.blendColors(toolbarStartColor, toolbarEndColor, position);
-                    ColorDrawable background = new ColorDrawable(blended);
-                    toolbar.setBackground(background);
+                int blended = Help.Icon.blendColors(statusStartColor, statusEndColor, position);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    window.setStatusBarColor(blended);
                 }
+
+                blended = Help.Icon.blendColors(toolbarStartColor, toolbarEndColor, position);
+                ColorDrawable background = new ColorDrawable(blended);
+                toolbar.setBackground(background);
             });
 
             anim.setDuration(context.getResources().getInteger(android.R.integer.config_shortAnimTime)).start();
@@ -194,19 +190,11 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 }
 
                 alert.setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.dialog_btn_yes), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                noteClick.onMenuConvertClick();
-                                dialog.cancel();
-                            }
+                        .setPositiveButton(context.getString(R.string.dialog_btn_yes), (dialog, id) -> {
+                            noteClick.onMenuConvertClick();
+                            dialog.cancel();
                         })
-                        .setNegativeButton(context.getString(R.string.dialog_btn_no), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        .setNegativeButton(context.getString(R.string.dialog_btn_no), (dialog, id) -> dialog.cancel());
 
                 AlertDialog dialog = alert.create();
                 dialog.show();

@@ -30,7 +30,7 @@ public class ItemStatus {
     // FIXME: 04.07.2018 Не работает привязка к статусбару на эмуляторе и на ранних версиях андроид
     //TODO: разберись с флагами, то как они работают
 
-    public ItemStatus(Context context, ItemNote itemNote, Long[] rankVisible) {
+    public ItemStatus(Context context, ItemNote itemNote) {
         this.context = context;
 
         Intent intent = new Intent(context, ActNote.class);

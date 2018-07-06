@@ -2,7 +2,6 @@ package sgtmelon.handynotes.app.view.frg;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,14 +16,12 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -68,6 +65,13 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         tintButton();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.i(TAG, "onAttach");
+        this.context = context;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -76,15 +80,20 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_rank, container, false);
         frgView = binding.getRoot();
 
-        context = getContext();
+        return frgView;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+
         activity = (ActMain) getActivity();
 
         vm = ViewModelProviders.of(this).get(VmFrgRank.class);
 
         setupToolbar();
         setupRecyclerView();
-
-        return frgView;
     }
 
     private void bind(int listSize) {
@@ -123,18 +132,15 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             }
         });
 
-        rankEnter.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (i == EditorInfo.IME_ACTION_DONE) {
-                    String name = rankEnter.getText().toString().toUpperCase();
-                    if (!name.equals("") && !vm.getRepoRank().getListName().contains(name)) {
-                        onClick(rankAdd);
-                    }
-                    return true;
+        rankEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                String name = rankEnter.getText().toString().toUpperCase();
+                if (!name.equals("") && !vm.getRepoRank().getListName().contains(name)) {
+                    onClick(rankAdd);
                 }
-                return false;
+                return true;
             }
+            return false;
         });
 
         rankCancel.setOnClickListener(this);
@@ -269,6 +275,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
+        Log.i(TAG, "updateAdapter: vm isNull: " + (vm == null));
 
         RepoRank repoRank = vm.loadData();
 
@@ -298,39 +305,31 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.daoRank().update(itemRank);
                 db.close();
 
-//                activity.frgNotes.updateAdapter();
-//                activity.frgBin.updateAdapter();
+                activity.frgNotes.updateAdapter();
+                activity.frgBin.updateAdapter();
                 break;
             case R.id.itemRank_ll_click:
                 final AlertRename alert = new AlertRename(context, R.style.AppTheme_AlertDialog);
                 alert.setTitle(itemRank.getName())
-                        .setPositiveButton(getString(R.string.dialog_btn_accept), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                itemRank.setName(alert.getRename());
+                        .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
+                            itemRank.setName(alert.getRename());
 
-                                db = DbRoom.provideDb(context);
-                                db.daoRank().update(itemRank);
-                                db.close();
+                            db = DbRoom.provideDb(context);
+                            db.daoRank().update(itemRank);
+                            db.close();
 
-                                repoRank.set(p, itemRank);
+                            repoRank.set(p, itemRank);
 
-                                tintButton();
+                            tintButton();
 
-                                vm.setRepoRank(repoRank);
+                            vm.setRepoRank(repoRank);
 
-                                adapter.update(p, itemRank);
-                                adapter.notifyItemChanged(p);
+                            adapter.update(p, itemRank);
+                            adapter.notifyItemChanged(p);
 
-                                dialog.cancel();
-                            }
+                            dialog.cancel();
                         })
-                        .setNegativeButton(getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
+                        .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                         .setCancelable(true);
 
                 AlertDialog dialog = alert.create();
@@ -353,8 +352,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 adapter.update(repoRank.getListRank());
                 adapter.notifyItemRemoved(p);
 
-//                activity.frgNotes.updateAdapter();
-//                activity.frgBin.updateAdapter();
+                activity.frgNotes.updateAdapter();
+                activity.frgBin.updateAdapter();
                 break;
         }
     }
@@ -392,8 +391,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         db.daoRank().updateRank(listRank);
         db.close();
 
-//        activity.frgNotes.updateAdapter();
-//        activity.frgBin.updateAdapter();
+        activity.frgNotes.updateAdapter();
+        activity.frgBin.updateAdapter();
     }
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
@@ -440,8 +439,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 adapter.update(listRank);
                 adapter.notifyDataSetChanged();
 
-//                activity.frgNotes.updateAdapter();
-//                activity.frgBin.updateAdapter();
+                activity.frgNotes.updateAdapter();
+                activity.frgBin.updateAdapter();
             }
         }
 
