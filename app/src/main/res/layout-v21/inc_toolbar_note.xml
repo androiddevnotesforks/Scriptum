@@ -22,13 +22,13 @@
 
     </data>
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="@dimen/app_bar_elevation"
         android:stateListAnimator="@null">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/incToolbar_tb"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -87,8 +87,8 @@
                 </HorizontalScrollView>
             </FrameLayout>
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
 </layout>

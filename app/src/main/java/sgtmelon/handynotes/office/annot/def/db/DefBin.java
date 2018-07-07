@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.office.annot.def.db;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 @IntDef({DefBin.out, DefBin.in})
 public @interface DefBin {

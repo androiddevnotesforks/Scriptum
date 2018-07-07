@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/actMain_vp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -20,13 +20,39 @@
 
     </FrameLayout>
 
-    <android.support.design.widget.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/actMain_bnv_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         app:itemIconTint="@drawable/se_menu_main_item"
         app:itemTextColor="@drawable/se_menu_main_item"
-        app:menu="@menu/menu_act_main" />
+        app:menu="@menu/menu_act_main"
+        android:visibility="gone"/>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            style="@style/Widget.MaterialComponents.BottomAppBar"
+            app:backgroundTint="@color/noteBrown"
+            app:fabAlignmentMode="center"
+            app:navigationIcon="@drawable/ic_button_add" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_button_add"
+            android:tint="@color/colorDark"
+            app:backgroundTint="@color/noteBrownDark"
+            app:layout_anchor="@id/bottom_app_bar" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </LinearLayout>

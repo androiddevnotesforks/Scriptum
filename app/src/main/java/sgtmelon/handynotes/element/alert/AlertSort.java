@@ -1,13 +1,13 @@
 package sgtmelon.handynotes.element.alert;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.StyleRes;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SimpleItemAnimator;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import androidx.annotation.NonNull;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.View;
 
 import java.util.ArrayList;

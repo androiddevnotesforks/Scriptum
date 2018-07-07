@@ -2,7 +2,7 @@ package sgtmelon.handynotes.element.button;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 
 import sgtmelon.handynotes.R;

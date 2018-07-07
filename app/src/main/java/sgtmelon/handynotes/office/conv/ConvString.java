@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.office.conv;
 
-import android.arch.persistence.room.TypeConverter;
+import androidx.room.TypeConverter;
 import android.text.TextUtils;
 
 import sgtmelon.handynotes.office.annot.Db;

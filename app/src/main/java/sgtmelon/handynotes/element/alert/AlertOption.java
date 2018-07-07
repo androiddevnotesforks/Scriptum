@@ -1,7 +1,7 @@
 package sgtmelon.handynotes.element.alert;
 
 import android.content.Context;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemNote;

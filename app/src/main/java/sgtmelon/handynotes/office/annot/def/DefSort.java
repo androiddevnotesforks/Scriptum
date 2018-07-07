@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.office.annot.def;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 @IntDef({DefSort.create, DefSort.change, DefSort.rank, DefSort.color})
 public @interface DefSort {

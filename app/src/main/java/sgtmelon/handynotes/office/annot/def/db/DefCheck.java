@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.office.annot.def.db;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 @IntDef({DefCheck.notDone, DefCheck.done})
 public @interface DefCheck {

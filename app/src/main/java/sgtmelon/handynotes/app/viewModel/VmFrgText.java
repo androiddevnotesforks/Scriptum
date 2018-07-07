@@ -1,6 +1,6 @@
 package sgtmelon.handynotes.app.viewModel;
 
-import android.arch.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel;
 import android.util.Log;
 
 import sgtmelon.handynotes.app.model.repo.RepoNote;
