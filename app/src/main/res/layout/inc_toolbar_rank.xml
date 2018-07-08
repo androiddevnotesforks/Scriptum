@@ -7,32 +7,27 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/incToolbar_tb"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/AppTheme.AppBarTheme"
+        style="@style/Toolbar"
         app:popupTheme="@style/AppTheme.AppBarTheme">
 
-        <FrameLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/item_layout_main_indent"
-            android:background="?android:attr/listDivider">
+            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardUseCompatPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/item_layout_sub_indent"
-                android:background="@color/colorPrimary">
+                android:layout_height="wrap_content">
 
                 <ImageButton
                     android:id="@+id/incToolbarRank_ib_cancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/item_layout_small_indent"
-                    android:layout_marginLeft="@dimen/item_layout_small_indent"
-                    android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:layout_marginStart="@dimen/item_layout_small_indent"
+                    android:layout_marginLeft="@dimen/item_layout_small_indent"
+                    android:layout_marginEnd="@dimen/item_layout_small_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
@@ -44,10 +39,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/item_layout_medium_indent"
-                    android:layout_marginLeft="@dimen/item_layout_medium_indent"
-                    android:layout_marginRight="@dimen/item_layout_medium_indent"
                     android:layout_marginStart="@dimen/item_layout_medium_indent"
+                    android:layout_marginLeft="@dimen/item_layout_medium_indent"
+                    android:layout_marginEnd="@dimen/item_layout_medium_indent"
+                    android:layout_marginRight="@dimen/item_layout_medium_indent"
                     android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:focusable="true"
@@ -63,10 +58,10 @@
                     android:id="@+id/incToolbarRank_ib_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/item_layout_small_indent"
-                    android:layout_marginLeft="@dimen/item_layout_small_indent"
-                    android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:layout_marginStart="@dimen/item_layout_small_indent"
+                    android:layout_marginLeft="@dimen/item_layout_small_indent"
+                    android:layout_marginEnd="@dimen/item_layout_small_indent"
+                    android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
@@ -74,7 +69,7 @@
 
             </LinearLayout>
 
-        </FrameLayout>
+        </androidx.cardview.widget.CardView>
 
     </androidx.appcompat.widget.Toolbar>
 

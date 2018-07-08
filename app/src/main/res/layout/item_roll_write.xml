@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -9,18 +10,14 @@
 
     </data>
 
-    <FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/item_layout_main_indent"
-        android:background="?android:attr/listDivider">
+    <androidx.cardview.widget.CardView
+        style="@style/ItemCardView"
+        app:cardBackgroundColor="@color/colorPrimary"
+        app:cardUseCompatPadding="false">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/item_layout_sub_indent"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -57,6 +54,5 @@
                 android:textSize="@dimen/text_big_size" />
 
         </LinearLayout>
-
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

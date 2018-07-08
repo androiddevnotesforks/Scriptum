@@ -4,8 +4,8 @@ import androidx.annotation.IntDef;
 
 import sgtmelon.handynotes.R;
 
-@IntDef({DefPages.rank, DefPages.notes, DefPages.bin})
-public @interface DefPages {
+@IntDef({DefPage.rank, DefPage.notes, DefPage.bin})
+public @interface DefPage {
 
     String PAGE = "CURRENT_PAGE";
     String CREATE = "IS_CREATE";

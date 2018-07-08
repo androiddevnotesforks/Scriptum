@@ -2,7 +2,7 @@ package sgtmelon.handynotes.office.st;
 
 import androidx.annotation.IdRes;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.annot.def.DefPage;
 
 public class StPage {
 
@@ -16,14 +16,14 @@ public class StPage {
         boolean add = false;
         switch (itemId) {
             case R.id.menu_actMain_pageRank:
-                page = DefPages.rank;
+                page = DefPage.rank;
                 break;
             case R.id.menu_actMain_pageNote:
-                if (page == DefPages.notes) add = true;
-                else page = DefPages.notes;
+                if (page == DefPage.notes) add = true;
+                else page = DefPage.notes;
                 break;
             case R.id.menu_actMain_pageBin:
-                page = DefPages.bin;
+                page = DefPage.bin;
                 break;
         }
         return add;

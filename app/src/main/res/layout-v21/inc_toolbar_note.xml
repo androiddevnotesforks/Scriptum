@@ -30,10 +30,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/incToolbar_tb"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/AppTheme.AppBarTheme"
+            style="@style/Toolbar"
             app:contentInsetEnd="@dimen/item_layout_medium_indent"
             app:contentInsetLeft="@dimen/item_layout_medium_indent"
             app:contentInsetRight="@dimen/item_layout_medium_indent"

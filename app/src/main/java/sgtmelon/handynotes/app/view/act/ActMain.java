@@ -20,7 +20,7 @@ import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Frg;
-import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.st.StPage;
 
 public class ActMain extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
@@ -42,8 +42,8 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
         stPage = new StPage();
 
         setupNavigation(savedInstanceState != null
-                ? savedInstanceState.getInt(DefPages.PAGE)
-                : DefPages.notes);
+                ? savedInstanceState.getInt(DefPage.PAGE)
+                : DefPage.notes);
     }
 
     private FragmentManager manager;
@@ -52,7 +52,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
     private FrgNotes frgNotes;
     private FrgBin frgBin;
 
-    private void setupNavigation(@DefPages int page) {
+    private void setupNavigation(@DefPage int page) {
         Log.i(TAG, "setupNavigation");
 
         manager = getSupportFragmentManager();
@@ -69,7 +69,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
         BottomNavigationView navigationView = findViewById(R.id.actMain_bnv_menu);
         navigationView.setOnNavigationItemSelectedListener(this);
 
-        navigationView.setSelectedItemId(DefPages.itemId[page]);
+        navigationView.setSelectedItemId(DefPage.itemId[page]);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
                     .setItems(itemAddOpt, (dialog, item) -> {
                         Intent intent = new Intent(ActMain.this, ActNote.class);
 
-                        intent.putExtra(DefPages.CREATE, true);
+                        intent.putExtra(DefPage.CREATE, true);
                         intent.putExtra(Db.NT_TP, item);
 
                         startActivity(intent);
@@ -99,13 +99,13 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
             switch (stPage.getPage()) {
-                case DefPages.rank:
+                case DefPage.rank:
                     transaction.replace(R.id.actMain_fl_container, frgRank, Frg.RANK);
                     break;
-                case DefPages.notes:
+                case DefPage.notes:
                     transaction.replace(R.id.actMain_fl_container, frgNotes, Frg.NOTES);
                     break;
-                case DefPages.bin:
+                case DefPage.bin:
                     transaction.replace(R.id.actMain_fl_container, frgBin, Frg.BIN);
                     break;
             }
@@ -119,7 +119,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
         super.onSaveInstanceState(outState);
         Log.i(TAG, "onSaveInstanceState");
 
-        outState.putInt(DefPages.PAGE, stPage.getPage());
+        outState.putInt(DefPage.PAGE, stPage.getPage());
     }
 
 }

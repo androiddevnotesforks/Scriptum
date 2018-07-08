@@ -34,7 +34,7 @@ import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.element.alert.AlertOption;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
@@ -174,7 +174,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Intent intent = new Intent(context, ActNote.class);
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(DefPages.CREATE, false);
+        intent.putExtra(DefPage.CREATE, false);
 
         startActivity(intent);
     }
@@ -223,8 +223,8 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         List<RepoNote> listRepo = vm.getListRepo();
         RepoNote repoNote = listRepo.get(p);
 
-        itemNote.setStatus(!itemNote.isStatus());
-        repoNote.updateItemStatus(!itemNote.isStatus());
+        itemNote.setStatus();
+        repoNote.updateItemStatus(itemNote.isStatus());
 
         db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), itemNote.isStatus());

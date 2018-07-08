@@ -15,7 +15,7 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.st.StNote;
 
 public class VmActNote extends AndroidViewModel {
@@ -43,7 +43,7 @@ public class VmActNote extends AndroidViewModel {
     }
 
     public void setValue(Bundle bundle) {
-        create = bundle.getBoolean(DefPages.CREATE);
+        create = bundle.getBoolean(DefPage.CREATE);
         type = bundle.getInt(Db.NT_TP);
         id = bundle.getLong(Db.NT_ID);
 

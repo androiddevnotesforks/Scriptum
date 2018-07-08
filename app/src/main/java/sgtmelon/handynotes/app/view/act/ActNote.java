@@ -21,7 +21,7 @@ import sgtmelon.handynotes.app.viewModel.VmActNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Frg;
-import sgtmelon.handynotes.office.annot.def.DefPages;
+import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.st.StNote;
@@ -188,7 +188,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         super.onSaveInstanceState(outState);
         Log.i(TAG, "onSaveInstanceState");
 
-        outState.putBoolean(DefPages.CREATE, vm.isCreate());
+        outState.putBoolean(DefPage.CREATE, vm.isCreate());
         outState.putInt(Db.NT_TP, vm.getType());
         outState.putLong(Db.NT_ID, vm.getId());
     }
