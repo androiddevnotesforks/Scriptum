@@ -2,10 +2,6 @@ package sgtmelon.handynotes.office.intf;
 
 public interface IntfMenu {
 
-    interface MainClick {
-        void onMenuNoteClick();
-    }
-
     interface NoteClick {
         /**
          * @param editModeChange - Надо ли менять режим редактирования

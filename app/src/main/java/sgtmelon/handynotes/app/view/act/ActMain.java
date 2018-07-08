@@ -2,27 +2,28 @@ package sgtmelon.handynotes.app.view.act;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.ViewPager;
+
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import android.util.Log;
 
+import android.util.Log;
+import android.view.MenuItem;
+
+import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.adapter.AdpPager;
-import sgtmelon.handynotes.app.control.menu.MenuMain;
 import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
 import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPages;
-import sgtmelon.handynotes.office.intf.IntfMenu;
+import sgtmelon.handynotes.office.st.StPage;
 
-public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
-
-    //TODO: введи вторую ветвь для работы с БД
+public class ActMain extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -30,122 +31,95 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 
     private static final String TAG = "ActMain";
 
+    private StPage stPage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
         Log.i(TAG, "onCreate");
 
-        setupViewPager();
-        setupMenuMain(savedInstanceState == null ? DefPages.notes : savedInstanceState.getInt(DefPages.PAGE));
+        stPage = new StPage();
+
+        setupNavigation(savedInstanceState != null
+                ? savedInstanceState.getInt(DefPages.PAGE)
+                : DefPages.notes);
     }
 
-    //region Variable
-    private ViewPager viewPager;
-    private BottomNavigationView bottomNavigationView;
+    private FragmentManager manager;
 
-    // FIXME: 05.07.2018 Убрать зависимости между фрагментами, переделать с помощью @LiveData
+    private FrgRank frgRank;
+    private FrgNotes frgNotes;
+    private FrgBin frgBin;
 
-    public FrgRank frgRank;
-    public FrgNotes frgNotes;
-    public FrgBin frgBin;
-    //endregion
+    private void setupNavigation(@DefPages int page) {
+        Log.i(TAG, "setupNavigation");
 
-    private void setupViewPager() {
-        Log.i(TAG, "setupViewPager");
+        manager = getSupportFragmentManager();
 
-        viewPager = findViewById(R.id.actMain_vp);
-        bottomNavigationView = findViewById(R.id.actMain_bnv_menu);
+        frgRank = (FrgRank) manager.findFragmentByTag(Frg.RANK);
+        if (frgRank == null) frgRank = new FrgRank();
 
-        FragmentManager manager = getSupportFragmentManager();
+        frgNotes = (FrgNotes) manager.findFragmentByTag(Frg.NOTES);
+        if (frgNotes == null) frgNotes = new FrgNotes();
 
-        frgRank = new FrgRank();
-        frgNotes = new FrgNotes();
-        frgBin = new FrgBin();
+        frgBin = (FrgBin) manager.findFragmentByTag(Frg.BIN);
+        if (frgBin == null) frgBin = new FrgBin();
 
-        AdpPager adapter = new AdpPager(manager);
+        BottomNavigationView navigationView = findViewById(R.id.actMain_bnv_menu);
+        navigationView.setOnNavigationItemSelectedListener(this);
 
-        adapter.addFragment(frgRank);
-        adapter.addFragment(frgNotes);
-        adapter.addFragment(frgBin);
-
-        viewPager.setAdapter(adapter);
-        viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
-    }
-
-    public void setupFrg(boolean isSaved){
-        Log.i(TAG, "setupFrg");
-
-
-    }
-
-    private MenuMain menuMain;
-
-    private void setupMenuMain(@DefPages int page) {
-        Log.i(TAG, "setupMenuMain");
-
-        menuMain = new MenuMain(viewPager, bottomNavigationView);
-        menuMain.setMainClick(this);
-
-        viewPager.addOnPageChangeListener(menuMain);
-        bottomNavigationView.setOnNavigationItemSelectedListener(menuMain);
-
-        menuMain.setPage(page);
+        navigationView.setSelectedItemId(DefPages.itemId[page]);
     }
 
     @Override
-    public void onMenuNoteClick() {
-        Log.i(TAG, "onMenuNoteClick");
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        Log.i(TAG, "onNavigationItemSelected");
 
-        String[] itemAddOpt = getResources().getStringArray(R.array.dialog_menu_add);
-        AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
-        alert.setTitle(getString(R.string.dialog_title_add_note))
-                .setItems(itemAddOpt, (dialog, item) -> {
-                    Intent intent = new Intent(ActMain.this, ActNote.class);
+        boolean add = stPage.setPage(menuItem.getItemId());
+        if (add) {
+            String[] itemAddOpt = getResources().getStringArray(R.array.dialog_menu_add);
 
-                    intent.putExtra(DefPages.CREATE, true);
-                    intent.putExtra(Db.NT_TP, item);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
+            alert.setTitle(getString(R.string.dialog_title_add_note))
+                    .setItems(itemAddOpt, (dialog, item) -> {
+                        Intent intent = new Intent(ActMain.this, ActNote.class);
 
-                    startActivity(intent);
-                }).setCancelable(true);
-        AlertDialog dialog = alert.create();
-        dialog.show();
+                        intent.putExtra(DefPages.CREATE, true);
+                        intent.putExtra(Db.NT_TP, item);
+
+                        startActivity(intent);
+                    })
+                    .setCancelable(true);
+
+            AlertDialog dialog = alert.create();
+            dialog.show();
+        } else {
+            FragmentTransaction transaction = manager.beginTransaction();
+            transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+
+            switch (stPage.getPage()) {
+                case DefPages.rank:
+                    transaction.replace(R.id.actMain_fl_container, frgRank, Frg.RANK);
+                    break;
+                case DefPages.notes:
+                    transaction.replace(R.id.actMain_fl_container, frgNotes, Frg.NOTES);
+                    break;
+                case DefPages.bin:
+                    transaction.replace(R.id.actMain_fl_container, frgBin, Frg.BIN);
+                    break;
+            }
+            transaction.commit();
+        }
+        return true;
     }
-
-//    @Override
-//    public boolean dispatchTouchEvent(MotionEvent ev) {
-//        if (menuMain.getCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
-//            Log.i(TAG, "dispatchTouchEvent");
-//
-//            View view = getCurrentFocus();
-//            if (view != null) {
-//                View viewTmp = getCurrentFocus();
-//                View viewNew = viewTmp != null ? viewTmp : view;
-//
-//                if (viewNew.equals(view)) {
-//                    Rect rect = new Rect();
-//                    int[] coordinate = new int[2];
-//
-//                    view.getLocationOnScreen(coordinate);
-//                    rect.set(coordinate[0], coordinate[1], coordinate[0] + view.getWidth(), coordinate[1] + view.getHeight());
-//
-//                    final int x = (int) ev.getX();
-//                    final int y = (int) ev.getY();
-//
-//                    if (rect.contains(x, y)) return super.dispatchTouchEvent(ev);
-//                }
-//
-//                Help.hideKeyboard(this, viewNew);
-//                viewNew.clearFocus();
-//            }
-//        }
-//        return super.dispatchTouchEvent(ev);
-//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState");
 
-        outState.putInt(DefPages.PAGE, menuMain.getCurrent());
+        outState.putInt(DefPages.PAGE, stPage.getPage());
     }
+
 }

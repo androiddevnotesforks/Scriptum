@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.app.control.menu;
+package sgtmelon.handynotes.app.control;
 
 import android.animation.ValueAnimator;
 import android.content.Context;

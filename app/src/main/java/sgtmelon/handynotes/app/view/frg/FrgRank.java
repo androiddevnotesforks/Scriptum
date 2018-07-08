@@ -1,18 +1,7 @@
 package sgtmelon.handynotes.app.view.frg;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,12 +14,22 @@ import android.widget.ImageButton;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpRank;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.repo.RepoRank;
-import sgtmelon.handynotes.app.view.act.ActMain;
 import sgtmelon.handynotes.app.viewModel.VmFrgRank;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
 import sgtmelon.handynotes.element.alert.AlertRename;
@@ -46,24 +45,13 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
     private DbRoom db;
 
+    private Context context;
+
     private FrgRankBinding binding;
     private View frgView;
 
-    private Context context;
-    private ActMain activity;
-
-    public VmFrgRank vm;
-//    public RepoRank repoRank;
+    private VmFrgRank vm;
     //endregion
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume");
-
-        updateAdapter();
-        tintButton();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -88,12 +76,20 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
 
-        activity = (ActMain) getActivity();
-
         vm = ViewModelProviders.of(this).get(VmFrgRank.class);
+        vm.loadData();
 
         setupToolbar();
         setupRecyclerView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+
+        updateAdapter();
+        tintButton();
     }
 
     private void bind(int listSize) {
@@ -273,7 +269,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    public void updateAdapter() {
+    private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
         Log.i(TAG, "updateAdapter: vm isNull: " + (vm == null));
 
@@ -305,8 +301,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.daoRank().update(itemRank);
                 db.close();
 
-                activity.frgNotes.updateAdapter();
-                activity.frgBin.updateAdapter();
+//                activity.frgNotes.updateAdapter();
+//                activity.frgBin.updateAdapter();
                 break;
             case R.id.itemRank_ll_click:
                 final AlertRename alert = new AlertRename(context, R.style.AppTheme_AlertDialog);
@@ -352,8 +348,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 adapter.update(repoRank.getListRank());
                 adapter.notifyItemRemoved(p);
 
-                activity.frgNotes.updateAdapter();
-                activity.frgBin.updateAdapter();
+//                activity.frgNotes.updateAdapter();
+//                activity.frgBin.updateAdapter();
                 break;
         }
     }
@@ -391,8 +387,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         db.daoRank().updateRank(listRank);
         db.close();
 
-        activity.frgNotes.updateAdapter();
-        activity.frgBin.updateAdapter();
+//        activity.frgNotes.updateAdapter();
+//        activity.frgBin.updateAdapter();
     }
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
@@ -439,8 +435,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 adapter.update(listRank);
                 adapter.notifyDataSetChanged();
 
-                activity.frgNotes.updateAdapter();
-                activity.frgBin.updateAdapter();
+//                activity.frgNotes.updateAdapter();
+//                activity.frgBin.updateAdapter();
             }
         }
 

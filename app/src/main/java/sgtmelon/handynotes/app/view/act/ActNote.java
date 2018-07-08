@@ -1,10 +1,13 @@
 package sgtmelon.handynotes.app.view.act;
 
 import androidx.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 
 import sgtmelon.handynotes.R;
@@ -30,6 +33,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
     private DbRoom db;
 
     public VmActNote vm;
+
     public CtrlSave ctrlSave;
 
     @Override
@@ -63,29 +67,28 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         Log.i(TAG, "setupFrg");
 
         FragmentManager manager = getSupportFragmentManager();
+
         FragmentTransaction transaction = manager.beginTransaction();
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         switch (vm.getRepoNote().getItemNote().getType()) {
             case DefType.text:
-                if (isSaved) {
-                    frgText = (FrgText) manager.findFragmentByTag(Frg.TEXT);
-                } else frgText = new FrgText();
+                if (isSaved) frgText = (FrgText) manager.findFragmentByTag(Frg.TEXT);
+                else frgText = new FrgText();
 
                 ctrlSave.setMenuClick(frgText);
 
                 transaction.replace(R.id.actNote_fl_container, frgText, Frg.TEXT);
                 break;
             case DefType.roll:
-                if (isSaved) {
-                    frgRoll = (FrgRoll) manager.findFragmentByTag(Frg.ROLL);
-                } else frgRoll = new FrgRoll();
+                if (isSaved) frgRoll = (FrgRoll) manager.findFragmentByTag(Frg.ROLL);
+                else frgRoll = new FrgRoll();
 
                 ctrlSave.setMenuClick(frgRoll);
 
                 transaction.replace(R.id.actNote_fl_container, frgRoll, Frg.ROLL);
                 break;
         }
-
         transaction.commit();
     }
 
@@ -183,6 +186,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState");
 
         outState.putBoolean(DefPages.CREATE, vm.isCreate());
         outState.putInt(Db.NT_TP, vm.getType());

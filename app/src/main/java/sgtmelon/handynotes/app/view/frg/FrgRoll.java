@@ -29,7 +29,7 @@ import java.util.List;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpRoll;
-import sgtmelon.handynotes.app.control.menu.MenuNote;
+import sgtmelon.handynotes.app.control.MenuNote;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
@@ -277,12 +277,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
                     dialog.cancel();
                 })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                })
+                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true);
 
         AlertDialog dialog = alert.create();

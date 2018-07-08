@@ -1,17 +1,8 @@
 package sgtmelon.handynotes.app.view.frg;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,13 +12,21 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpNote;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.app.view.act.ActMain;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.view.act.ActSettings;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
@@ -50,22 +49,13 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     private DbRoom db;
 
+    private Context context;
+
     private FrgNotesBinding binding;
     private View frgView;
 
-    private Context context;
-    private ActMain activity;
-
-    public VmFrgBin vm;
+    private VmFrgBin vm;
     //endregion
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume");
-
-        updateAdapter();
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -90,12 +80,18 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
 
-        activity = (ActMain) getActivity();
-
         vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
         setupToolbar();
         setupRecyclerView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+
+        updateAdapter();
     }
 
     private void bind(int listSize) {
@@ -157,7 +153,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     // FIXME: 05.07.2018 Выдаёт nullPointer при нажатии на видимость категории после поворота экрана
 
-    public void updateAdapter() {
+    private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
         Log.i(TAG, "updateAdapter: vm isNull: " + (vm == null));
 
@@ -217,7 +213,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
 
-        activity.frgRank.updateAdapter();
+//        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -289,7 +285,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
 
-        activity.frgRank.updateAdapter();
+//        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -311,7 +307,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.update(listRepo);
         adapter.notifyItemRemoved(p);
 
-        activity.frgBin.updateAdapter();
+//        activity.frgBin.updateAdapter();
     }
 
 }
