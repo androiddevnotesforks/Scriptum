@@ -17,6 +17,8 @@
     <dimen name="app_bar_no_elevation">0dp</dimen>
     <dimen name="app_bar_elevation">4dp</dimen>
 
+    <dimen name="card_corner_radius">2dp</dimen>
+
     <integer name="alert_recycler_view_padding">24</integer>
     <integer name="alert_color_column_count">4</integer>
 

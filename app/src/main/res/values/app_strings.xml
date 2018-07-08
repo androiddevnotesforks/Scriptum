@@ -91,6 +91,9 @@
     <string name="dialog_menu_restore">Restore</string>
     <string name="dialog_menu_clear">Delete forever</string>
 
+    <string name="dialog_menu_add_text">Text</string>
+    <string name="dialog_menu_add_roll">List</string>
+
     <string-array name="dialog_menu_add">
         <item>Text</item>
         <item>List</item>

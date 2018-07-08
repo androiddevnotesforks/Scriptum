@@ -83,6 +83,9 @@
     <string name="dialog_menu_convert_to_text">Конвертировать в текст</string>
     <string name="dialog_menu_convert_to_roll">Конвертировать в список</string>
 
+    <string name="dialog_menu_add_text">Текст</string>
+    <string name="dialog_menu_add_roll">Список</string>
+
     <string-array name="dialog_menu_add">
         <item>Текст</item>
         <item>Список</item>

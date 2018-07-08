@@ -25,7 +25,8 @@
     <androidx.cardview.widget.CardView
         style="@style/ItemCardView"
         app:cardBackgroundColor='@{Icon.getColor(context, false, itemNote.color)}'
-        app:cardUseCompatPadding="false">
+        app:cardUseCompatPadding="false"
+        app:cardCornerRadius="@dimen/card_corner_radius">
 
         <LinearLayout
             android:id="@+id/itemNote_ll_click"

@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,12 +18,14 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
+import sgtmelon.handynotes.element.SheetAdd;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.st.StPage;
 
-public class ActMain extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class ActMain extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -52,6 +54,8 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
     private FrgNotes frgNotes;
     private FrgBin frgBin;
 
+    private SheetAdd sheetAdd;
+
     private void setupNavigation(@DefPage int page) {
         Log.i(TAG, "setupNavigation");
 
@@ -70,6 +74,21 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
         navigationView.setOnNavigationItemSelectedListener(this);
 
         navigationView.setSelectedItemId(DefPage.itemId[page]);
+
+        sheetAdd = new SheetAdd();
+        sheetAdd.setNavigationItemSelectedListener(menuItem -> {
+            sheetAdd.dismiss();
+
+            Intent intent = new Intent(ActMain.this, ActNote.class);
+
+            intent.putExtra(DefPage.CREATE, true);
+            intent.putExtra(Db.NT_TP, menuItem.getItemId() == R.id.menu_sheetAdd_text
+                    ? DefType.text
+                    : DefType.roll);
+
+            startActivity(intent);
+            return true;
+        });
     }
 
     @Override
@@ -78,22 +97,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
 
         boolean add = stPage.setPage(menuItem.getItemId());
         if (add) {
-            String[] itemAddOpt = getResources().getStringArray(R.array.dialog_menu_add);
-
-            AlertDialog.Builder alert = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
-            alert.setTitle(getString(R.string.dialog_title_add_note))
-                    .setItems(itemAddOpt, (dialog, item) -> {
-                        Intent intent = new Intent(ActMain.this, ActNote.class);
-
-                        intent.putExtra(DefPage.CREATE, true);
-                        intent.putExtra(Db.NT_TP, item);
-
-                        startActivity(intent);
-                    })
-                    .setCancelable(true);
-
-            AlertDialog dialog = alert.create();
-            dialog.show();
+            sheetAdd.show(manager, sheetAdd.getTag());
         } else {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
