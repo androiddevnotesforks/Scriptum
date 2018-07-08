@@ -49,7 +49,7 @@
                     android:contentDescription="@null"
                     android:tint="@color/colorDarkSecond"
                     android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
-                    app:srcCompat="@drawable/ic_info_bracket_left" />
+                    app:srcCompat="@drawable/ic_bracket_left" />
 
                 <TextView
                     android:id="@+id/itemSort_tv_text"
@@ -75,7 +75,7 @@
                     android:contentDescription="@null"
                     android:tint="@color/colorDarkSecond"
                     android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
-                    app:srcCompat="@drawable/ic_info_bracket_right" />
+                    app:srcCompat="@drawable/ic_bracket_right" />
 
             </LinearLayout>
 

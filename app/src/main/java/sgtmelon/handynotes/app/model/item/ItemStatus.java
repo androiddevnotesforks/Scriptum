@@ -59,12 +59,12 @@ public class ItemStatus {
 
         switch (itemNote.getType()) {
             case DefType.text:
-                icon = R.drawable.ic_menu_bind_text;
+                icon = R.drawable.ic_bind_text;
 
                 text = itemNote.getText();
                 break;
             case DefType.roll:
-                icon = R.drawable.ic_menu_bind_roll;
+                icon = R.drawable.ic_bind_roll;
 
                 DbRoom db = DbRoom.provideDb(context);
                 text = db.daoRoll().getText(itemNote.getId(), itemNote.getText());

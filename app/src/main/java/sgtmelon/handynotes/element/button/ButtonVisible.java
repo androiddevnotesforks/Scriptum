@@ -49,11 +49,11 @@ public class ButtonVisible extends AppCompatImageButton {
     private boolean animRunnableVisible;
 
     private void setupDrawable() {
-        visibleOn = Help.Icon.getDrawable(context, R.drawable.ic_button_visible_on);
-        visibleOff = Help.Icon.getDrawable(context, R.drawable.ic_button_visible_off, R.color.colorDarkSecond);
+        visibleOn = Help.Icon.getDrawable(context, R.drawable.ic_visible_on);
+        visibleOff = Help.Icon.getDrawable(context, R.drawable.ic_visible_off, R.color.colorDarkSecond);
 
-        visibleOnAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_button_visible_on_anim);
-        visibleOffAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_button_visible_off_anim, R.color.colorDarkSecond);
+        visibleOnAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_visible_on_anim);
+        visibleOffAnim = (AnimatedVectorDrawable) Help.Icon.getDrawable(context, R.drawable.ic_visible_off_anim, R.color.colorDarkSecond);
 
         animHandler = new Handler();
         animRunnable = () -> {

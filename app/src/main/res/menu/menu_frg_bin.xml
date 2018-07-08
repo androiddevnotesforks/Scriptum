@@ -6,7 +6,7 @@
 
     <item
         android:id="@+id/menu_frgBin_clear"
-        android:icon="@drawable/ic_menu_clear"
+        android:icon="@drawable/ic_clear"
         android:title="@string/menu_page_bin_clear"
         app:showAsAction="always" />
 

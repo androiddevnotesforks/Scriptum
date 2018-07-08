@@ -73,6 +73,12 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         viewPager.setOffscreenPageLimit(adapter.getCount() - 1);
     }
 
+    public void setupFrg(boolean isSaved){
+        Log.i(TAG, "setupFrg");
+
+
+    }
+
     private MenuMain menuMain;
 
     private void setupMenuMain(@DefPages int page) {
@@ -106,20 +112,6 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
         dialog.show();
     }
 
-    public void updateNote(){
-
-    }
-
-    public void updateBin(){
-
-    }
-
-    public void updateRank(){
-
-    }
-
-
-
 //    @Override
 //    public boolean dispatchTouchEvent(MotionEvent ev) {
 //        if (menuMain.getCurrent() == MenuMain.pageRank && ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -149,25 +141,6 @@ public class ActMain extends AppCompatActivity implements IntfMenu.MainClick {
 //        }
 //        return super.dispatchTouchEvent(ev);
 //    }
-
-
-    @Override
-    public void onBackPressed() {
-        Log.i(TAG, "onBackPressed");
-
-        int current = menuMain.getCurrent();
-
-        if (current != DefPages.notes) {
-            switch (current) {
-                case DefPages.rank:
-                    menuMain.setPage(DefPages.notes);
-                    break;
-                default:
-                    menuMain.setPage(DefPages.notes);
-                    break;
-            }
-        } else super.onBackPressed();
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

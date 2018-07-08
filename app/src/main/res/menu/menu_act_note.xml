@@ -9,12 +9,12 @@
         android:visible="false">
         <item
             android:id="@+id/menu_actNote_restore"
-            android:icon="@drawable/ic_menu_restore"
+            android:icon="@drawable/ic_restore"
             android:title="@string/menu_note_restore"
             app:showAsAction="always" />
         <item
             android:id="@+id/menu_actNote_clear"
-            android:icon="@drawable/ic_menu_clear"
+            android:icon="@drawable/ic_clear"
             android:title="@string/menu_note_clear"
             app:showAsAction="always" />
     </group>
@@ -28,18 +28,18 @@
             app:showAsAction="always" />
         <item
             android:id="@+id/menu_actNote_editMore"
-            android:icon="@drawable/ic_menu_more"
+            android:icon="@drawable/ic_more"
             android:title="@string/menu_note_more"
             app:showAsAction="always">
             <menu>
                 <item
                     android:id="@+id/menu_actNote_rank"
-                    android:icon="@drawable/ic_menu_rank"
+                    android:icon="@drawable/ic_rank"
                     android:title="@string/menu_note_rank"
                     app:showAsAction="always|withText" />
                 <item
                     android:id="@+id/menu_actNote_color"
-                    android:icon="@drawable/ic_menu_palette"
+                    android:icon="@drawable/ic_palette"
                     android:title="@string/menu_note_color"
                     app:showAsAction="always|withText" />
             </menu>
@@ -54,32 +54,32 @@
 
         <item
             android:id="@+id/menu_actNote_readMore"
-            android:icon="@drawable/ic_menu_more"
+            android:icon="@drawable/ic_more"
             android:title="@string/menu_note_more"
             app:showAsAction="always">
             <menu>
 
                 <item
                     android:id="@+id/menu_actNote_check"
-                    android:icon="@drawable/ic_menu_check"
+                    android:icon="@drawable/ic_check"
                     android:title="@string/menu_note_check_all"
                     app:showAsAction="always|withText"/>
 
                 <item
                     android:id="@+id/menu_actNote_bind"
-                    android:icon="@drawable/ic_menu_bind_roll"
+                    android:icon="@drawable/ic_bind_roll"
                     android:title="@string/menu_note_status_bind"
                     app:showAsAction="always|withText"/>
 
                 <item
                     android:id="@+id/menu_actNote_convert"
-                    android:icon="@drawable/ic_menu_convert"
+                    android:icon="@drawable/ic_convert"
                     android:title="@string/menu_note_convert_to_roll"
                     app:showAsAction="always|withText" />
 
                 <item
                     android:id="@+id/menu_actNote_delete"
-                    android:icon="@drawable/ic_menu_bin"
+                    android:icon="@drawable/ic_bin"
                     android:title="@string/menu_note_delete"
                     app:showAsAction="always|withText" />
             </menu>

@@ -101,8 +101,8 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         boolean isRoll = type == DefType.roll;
 
         mItemStatus.setIcon(Help.Icon.getDrawable(context, isRoll
-                ? R.drawable.ic_menu_bind_roll
-                : R.drawable.ic_menu_bind_text));
+                ? R.drawable.ic_bind_roll
+                : R.drawable.ic_bind_text));
 
         mItemConvert.setTitle(isRoll ? R.string.menu_note_convert_to_text : R.string.menu_note_convert_to_roll);
         mItemCheck.setVisible(isRoll);

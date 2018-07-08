@@ -6,12 +6,12 @@ public @interface DefColor {
 
     //Кружки для диалога смены цвета и фильтра
     int[] icon = new int[]{
-            R.drawable.ic_button_color_00, R.drawable.ic_button_color_01,
-            R.drawable.ic_button_color_02, R.drawable.ic_button_color_03,
-            R.drawable.ic_button_color_04, R.drawable.ic_button_color_05,
-            R.drawable.ic_button_color_06, R.drawable.ic_button_color_07,
-            R.drawable.ic_button_color_08, R.drawable.ic_button_color_09,
-            R.drawable.ic_button_color_10};
+            R.drawable.ic_color_00, R.drawable.ic_color_01,
+            R.drawable.ic_color_02, R.drawable.ic_color_03,
+            R.drawable.ic_color_04, R.drawable.ic_color_05,
+            R.drawable.ic_color_06, R.drawable.ic_color_07,
+            R.drawable.ic_color_08, R.drawable.ic_color_09,
+            R.drawable.ic_color_10};
 
     //Цвета для заметок
     int[] light = new int[]{

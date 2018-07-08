@@ -81,7 +81,7 @@
                         android:contentDescription="@null"
                         android:tint="@color/colorDark"
                         android:visibility='@{itemNote.rankId.length == 0 ? v.GONE : v.VISIBLE}'
-                        app:srcCompat="@drawable/ic_menu_rank" />
+                        app:srcCompat="@drawable/ic_rank" />
 
                     <ImageView
                         android:id="@+id/itemNote_iv_bind"
@@ -93,7 +93,7 @@
                         android:contentDescription="@null"
                         android:tint="@color/colorDark"
                         android:visibility='@{itemNote.status ? v.VISIBLE : v.GONE}'
-                        app:srcCompat="@drawable/ic_menu_bind_text" />
+                        app:srcCompat="@drawable/ic_bind_text" />
 
                     <TextView
                         android:id="@+id/itemNote_tv_change"

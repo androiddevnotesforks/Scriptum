@@ -40,7 +40,7 @@
                     android:layout_height="@dimen/icon_logo_size"
                     android:tint="@color/colorDarkSecond"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_menu_note" />
+                    app:srcCompat="@drawable/ic_note" />
 
                 <TextView
                     android:layout_width="wrap_content"

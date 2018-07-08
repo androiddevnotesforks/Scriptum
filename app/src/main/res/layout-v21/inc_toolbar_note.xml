@@ -38,7 +38,7 @@
             app:contentInsetLeft="@dimen/item_layout_medium_indent"
             app:contentInsetRight="@dimen/item_layout_medium_indent"
             app:contentInsetStart="@dimen/item_layout_medium_indent"
-            app:navigationIcon='@{keyEdit &amp;&amp; !keyCreate ? @drawable/ic_button_cancel : @drawable/ic_menu_arrow_back}'
+            app:navigationIcon='@{keyEdit &amp;&amp; !keyCreate ? @drawable/ic_cancel : @drawable/ic_arrow_back}'
             app:popupTheme="@style/AppTheme.AppBarTheme">
 
             <FrameLayout

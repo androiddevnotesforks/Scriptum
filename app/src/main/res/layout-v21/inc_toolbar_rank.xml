@@ -36,7 +36,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
-                    app:srcCompat="@drawable/ic_button_cancel" />
+                    app:srcCompat="@drawable/ic_cancel" />
 
                 <EditText
                     android:id="@+id/incToolbarRank_et_enter"
@@ -66,7 +66,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
-                    app:srcCompat="@drawable/ic_menu_rank" />
+                    app:srcCompat="@drawable/ic_rank" />
 
             </LinearLayout>
 

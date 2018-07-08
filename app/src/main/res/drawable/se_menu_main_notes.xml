@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_menu_note" android:state_checked="false" />
-    <item android:drawable="@drawable/ic_menu_note_add" android:state_checked="true" />
+    <item android:drawable="@drawable/ic_note" android:state_checked="false" />
+    <item android:drawable="@drawable/ic_note_add" android:state_checked="true" />
 </selector>

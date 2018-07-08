@@ -151,8 +151,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     private void tintButton() {
         String name = rankEnter.getText().toString().toUpperCase();
 
-        Help.Icon.tintButton(context, rankCancel, R.drawable.ic_button_cancel, name);
-        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_menu_rank, name, !vm.getRepoRank().getListName().contains(name));
+        Help.Icon.tintButton(context, rankCancel, R.drawable.ic_cancel, name);
+        Help.Icon.tintButton(context, rankAdd, R.drawable.ic_rank, name, !vm.getRepoRank().getListName().contains(name));
     }
 
     private String clearEnter() {

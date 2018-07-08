@@ -43,7 +43,7 @@
                     android:layout_marginEnd="@dimen/item_layout_medium_indent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="@dimen/item_layout_medium_indent"
-                    app:srcCompat="@drawable/ic_button_visible_on" />
+                    app:srcCompat="@drawable/ic_visible_on" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -112,7 +112,7 @@
                     android:contentDescription="@null"
                     android:padding="@dimen/item_layout_medium_indent"
                     android:tint="@color/colorDark"
-                    app:srcCompat="@drawable/ic_button_cancel" />
+                    app:srcCompat="@drawable/ic_cancel" />
 
             </LinearLayout>
         </FrameLayout>

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_actMain_pageRank"
-        android:icon="@drawable/ic_menu_rank"
+        android:icon="@drawable/ic_rank"
         android:title="@string/title_frg_rank" />
 
     <item
@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/menu_actMain_pageBin"
-        android:icon="@drawable/ic_menu_bin"
+        android:icon="@drawable/ic_bin"
         android:title="@string/title_frg_bin" />
 
 </menu>

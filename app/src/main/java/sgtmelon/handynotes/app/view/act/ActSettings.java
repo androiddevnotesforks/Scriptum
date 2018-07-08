@@ -33,7 +33,7 @@ public class ActSettings extends AppCompatActivity implements View.OnClickListen
         Toolbar toolbar = findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_act_settings));
 
-        toolbar.setNavigationIcon(Help.Icon.getDrawable(this, R.drawable.ic_menu_arrow_back));
+        toolbar.setNavigationIcon(Help.Icon.getDrawable(this, R.drawable.ic_arrow_back));
         toolbar.setNavigationOnClickListener(this);
     }
 

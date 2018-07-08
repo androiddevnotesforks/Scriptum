@@ -116,7 +116,7 @@ public class Help {
         }
 
         public static Drawable getColorCheck(Context context, int position) {
-            return getDrawable(context, R.drawable.ic_button_color_check, DefColor.dark[position]);
+            return getDrawable(context, R.drawable.ic_color_check, DefColor.dark[position]);
         }
 
         public static int blendColors(int from, int to, float ratio) {

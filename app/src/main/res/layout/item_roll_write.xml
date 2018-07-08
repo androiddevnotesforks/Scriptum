@@ -39,7 +39,7 @@
                     android:background="?attr/selectableItemBackground"
                     android:contentDescription="@null"
                     android:tint="@color/colorDark"
-                    app:srcCompat="@drawable/ic_button_move" />
+                    app:srcCompat="@drawable/ic_move" />
 
             </FrameLayout>
 

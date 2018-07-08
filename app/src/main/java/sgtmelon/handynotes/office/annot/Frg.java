@@ -5,6 +5,10 @@ package sgtmelon.handynotes.office.annot;
  */
 public @interface Frg {
 
+    String RANK = "RANK",
+            NOTES = "NOTES",
+            BIN = "BIN";
+
     String TEXT = "FRG_TEXT",
             ROLL = "FRG_ROLL";
 

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:drawable="@drawable/ic_button_visible_on"
+    android:drawable="@drawable/ic_visible_off"
     tools:ignore="NewApi">
 
     <target
         android:name="@string/drawable_strike_path"
-        android:animation="@animator/strike_path_off" />
+        android:animation="@animator/strike_path_on" />
 
     <target
         android:name="@string/drawable_strike_mask"
-        android:animation="@animator/strike_mask_off" />
+        android:animation="@animator/strike_mask_on" />
 
     <target
         android:name="@string/drawable_eye_path"
-        android:animation="@animator/eye_path_off" />
+        android:animation="@animator/eye_path_on" />
 
 </animated-vector>

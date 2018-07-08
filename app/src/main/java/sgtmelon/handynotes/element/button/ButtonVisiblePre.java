@@ -42,8 +42,8 @@ public class ButtonVisiblePre extends AppCompatImageButton {
     private Drawable visibleOn, visibleOff;
 
     private void setupDrawable() {
-        visibleOn = Help.Icon.getDrawable(context, R.drawable.ic_button_visible_on);
-        visibleOff = Help.Icon.getDrawable(context, R.drawable.ic_button_visible_off, R.color.colorDarkSecond);
+        visibleOn = Help.Icon.getDrawable(context, R.drawable.ic_visible_on);
+        visibleOff = Help.Icon.getDrawable(context, R.drawable.ic_visible_off, R.color.colorDarkSecond);
     }
 
     public void setVisible(boolean visible) {
