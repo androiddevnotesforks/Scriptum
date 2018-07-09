@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.app.control.CtrlSave;
+import sgtmelon.handynotes.app.control.SaveNote;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
@@ -34,14 +34,14 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
     public VmActNote vm;
 
-    public CtrlSave ctrlSave;
+    public SaveNote saveNote;
 
     @Override
     protected void onPause() {
         super.onPause();
         Log.i(TAG, "onPause");
 
-        ctrlSave.onPauseSave(vm.getStNote().isEdit());
+        saveNote.onPauseSave(vm.getStNote().isEdit());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         Bundle bundle = getIntent().getExtras();
         vm.setValue(bundle == null ? savedInstanceState : bundle);
 
-        ctrlSave = new CtrlSave(this);
+        saveNote = new SaveNote(this);
 
         setupFrg(savedInstanceState != null);
     }
@@ -76,7 +76,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
                 if (isSaved) frgText = (FrgText) manager.findFragmentByTag(Frg.TEXT);
                 else frgText = new FrgText();
 
-                ctrlSave.setMenuClick(frgText);
+                saveNote.setMenuClick(frgText);
 
                 transaction.replace(R.id.actNote_fl_container, frgText, Frg.TEXT);
                 break;
@@ -84,7 +84,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
                 if (isSaved) frgRoll = (FrgRoll) manager.findFragmentByTag(Frg.ROLL);
                 else frgRoll = new FrgRoll();
 
-                ctrlSave.setMenuClick(frgRoll);
+                saveNote.setMenuClick(frgRoll);
 
                 transaction.replace(R.id.actNote_fl_container, frgRoll, Frg.ROLL);
                 break;
@@ -138,7 +138,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
     public void onBackPressed() {
         Log.i(TAG, "onBackPressed");
 
-        ctrlSave.setNeedSave(false);
+        saveNote.setNeedSave(false);
 
         ItemNote itemNote = vm.getRepoNote().getItemNote();
         StNote stNote = vm.getStNote();

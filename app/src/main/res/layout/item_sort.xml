@@ -30,39 +30,21 @@
 
         <ImageView
             android:id="@+id/itemSort_iv_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/item_layout_small_indent"
-            android:layout_marginRight="@dimen/item_layout_small_indent"
+            style="@style/ItemSort.Bracket"
             android:contentDescription="@null"
-            android:tint="@color/colorDarkSecond"
             android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
             app:srcCompat="@drawable/ic_bracket_left" />
 
         <TextView
             android:id="@+id/itemSort_tv_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="@dimen/item_layout_big_indent"
-            android:layout_marginBottom="@dimen/item_layout_big_indent"
-            android:layout_weight="1"
-            android:ellipsize="end"
-            android:gravity="center"
+            style="@style/ItemSort.Text"
             android:text='@{itemSort.text}'
-            android:textColor='@{position &lt;= sortEnd ? @color/colorDark : @color/colorDarkSecond}'
-            android:textSize="@dimen/text_medium_size" />
+            android:textColor='@{position &lt;= sortEnd ? @color/colorDark : @color/colorDarkSecond}' />
 
         <ImageView
             android:id="@+id/itemSort_iv_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/item_layout_small_indent"
-            android:layout_marginRight="@dimen/item_layout_small_indent"
+            style="@style/ItemSort.Bracket"
             android:contentDescription="@null"
-            android:tint="@color/colorDarkSecond"
             android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
             app:srcCompat="@drawable/ic_bracket_right" />
 

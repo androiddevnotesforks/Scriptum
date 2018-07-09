@@ -128,7 +128,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
             menuNote.startTint(itemNote.getColor());
         } else {
-            activity.ctrlSave.setNeedSave(false);
+            activity.saveNote.setNeedSave(false);
             activity.finish();
         }
     }
@@ -254,7 +254,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         bind(editMode, stNote.isCreate());
 
         activity.vm.setStNote(stNote);
-        activity.ctrlSave.setSaveHandlerEvent(editMode);
+        activity.saveNote.setSaveHandlerEvent(editMode);
     }
 
     @Override

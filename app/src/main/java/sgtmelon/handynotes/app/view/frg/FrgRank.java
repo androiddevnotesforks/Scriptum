@@ -189,10 +189,10 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 } else {
                     if (layoutManager.findLastVisibleItemPosition() == rankPs - 1) {    //Если видимая позиция равна позиции куда добавили заметку
                         recyclerView.scrollToPosition(rankPs);                          //Прокручиваем до края, незаметно
-                        adapter.notifyItemInserted(rankPs);                         //Добавляем элемент с анимацией
+                        adapter.notifyItemInserted(rankPs);                             //Добавляем элемент с анимацией
                     } else {
                         recyclerView.smoothScrollToPosition(rankPs);                    //Медленно прокручиваем, через весь список
-                        adapter.notifyDataSetChanged();                             //Добавляем элемент без анимации
+                        adapter.notifyDataSetChanged();                                 //Добавляем элемент без анимации
                     }
                 }
                 break;
@@ -225,7 +225,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         else {
             if (layoutManager.findFirstVisibleItemPosition() == ps) {   //Если видимая позиция равна позиции куда добавили заметку
                 recyclerView.scrollToPosition(ps);                      //Прокручиваем до края, незаметно
-                adapter.notifyItemInserted(ps);                     //Добавляем элемент с анимацией
+                adapter.notifyItemInserted(ps);                         //Добавляем элемент с анимацией
             } else {
                 recyclerView.smoothScrollToPosition(ps);                //Медленно прокручиваем, через весь список
                 adapter.notifyDataSetChanged();                         //Добавляем элемент без анимации
@@ -299,10 +299,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
                 db = DbRoom.provideDb(context);
                 db.daoRank().update(itemRank);
+                db.daoNote().update(context);
                 db.close();
-
-//                activity.frgNotes.updateAdapter();
-//                activity.frgBin.updateAdapter();
                 break;
             case R.id.itemRank_ll_click:
                 final AlertRename alert = new AlertRename(context, R.style.AppTheme_AlertDialog);
@@ -334,11 +332,10 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 alert.setTextChange(dialog, repoRank.getListName());
                 break;
             case R.id.itemRank_ib_cancel:
-                itemRank.setVisible(true);                  //Чтобы отобразить заметки в статус баре, если были скрыты
-
                 db = DbRoom.provideDb(context);
                 db.daoRank().delete(repoRank.get(p).getName());
                 db.daoRank().update(p);
+                db.daoNote().update(context);
                 db.close();
 
                 repoRank.remove(p);
@@ -347,9 +344,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
                 adapter.update(repoRank.getListRank());
                 adapter.notifyItemRemoved(p);
-
-//                activity.frgNotes.updateAdapter();
-//                activity.frgBin.updateAdapter();
                 break;
         }
     }
@@ -385,10 +379,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         db = DbRoom.provideDb(context);
         db.daoRank().updateRank(listRank);
+        db.daoNote().update(context);
         db.close();
-
-//        activity.frgNotes.updateAdapter();
-//        activity.frgBin.updateAdapter();
     }
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
@@ -426,6 +418,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             if (dragStart != dragEnd) {
                 db = DbRoom.provideDb(context);
                 List<ItemRank> listRank = db.daoRank().update(dragStart, dragEnd);
+                db.daoNote().update(context);
                 db.close();
 
                 RepoRank repoRank = vm.getRepoRank();
@@ -434,9 +427,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
                 adapter.update(listRank);
                 adapter.notifyDataSetChanged();
-
-//                activity.frgNotes.updateAdapter();
-//                activity.frgBin.updateAdapter();
             }
         }
 
@@ -447,8 +437,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            int oldPs = viewHolder.getAdapterPosition();        //Старая позиция (откуда взяли)
-            int newPs = target.getAdapterPosition();            //Новая позиция (куда отпустили)
+            int oldPs = viewHolder.getAdapterPosition();
+            int newPs = target.getAdapterPosition();
 
             RepoRank repoRank = vm.getRepoRank();
             repoRank.move(oldPs, newPs);

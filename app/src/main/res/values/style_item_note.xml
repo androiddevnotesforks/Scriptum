@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Note" />
+    <style name="ItemNote" />
 
-    <style name="Note.Click">
+    <style name="ItemNote.Click">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
@@ -11,15 +11,14 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="Note.Indicator">
+    <style name="ItemNote.Indicator">
         <item name="android:layout_width">@dimen/icon_small_size</item>
         <item name="android:layout_height">@dimen/icon_small_size</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:contentDescription">@null</item>
         <item name="android:tint">@color/colorDark</item>
     </style>
 
-    <style name="Note.Name">
+    <style name="ItemNote.Name">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/item_layout_medium_indent</item>
@@ -29,16 +28,16 @@
         <item name="android:textSize">@dimen/text_big_size</item>
     </style>
 
-    <style name="Note.Text">
+    <style name="ItemNote.Text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">5</item>
         <item name="android:textColor">@color/colorDark</item>
-        <item name="android:textSize">@dimen/icon_medium_size</item>
+        <item name="android:textSize">@dimen/text_medium_size</item>
     </style>
 
-    <style name="Note.Roll">
+    <style name="ItemNote.Roll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -49,7 +48,7 @@
         <item name="android:textSize">@dimen/text_medium_size</item>
     </style>
 
-    <style name="Note.Info">
+    <style name="ItemNote.Info">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginRight">@dimen/item_layout_small_indent</item>
         <item name="android:ellipsize">end</item>

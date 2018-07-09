@@ -30,17 +30,17 @@
 
         <LinearLayout
             android:id="@+id/itemNote_ll_click"
-            style="@style/Note.Click">
+            style="@style/ItemNote.Click">
 
             <TextView
                 android:id="@+id/itemNote_tv_name"
-                style="@style/Note.Name"
+                style="@style/ItemNote.Name"
                 android:text='@{itemNote.name}'
                 android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}' />
 
             <TextView
                 android:id="@+id/itemNote_tv_text"
-                style="@style/Note.Text"
+                style="@style/ItemNote.Text"
                 android:text='@{itemNote.text}' />
 
             <LinearLayout
@@ -50,7 +50,8 @@
 
                 <ImageView
                     android:id="@+id/itemNote_iv_rank"
-                    style="@style/Note.Indicator"
+                    style="@style/ItemNote.Indicator"
+                    android:contentDescription="@null"
                     android:layout_marginEnd="@dimen/item_layout_small_indent"
                     android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:visibility='@{itemNote.rankId.length == 0 ? v.GONE : v.VISIBLE}'
@@ -58,7 +59,8 @@
 
                 <ImageView
                     android:id="@+id/itemNote_iv_bind"
-                    style="@style/Note.Indicator"
+                    style="@style/ItemNote.Indicator"
+                    android:contentDescription="@null"
                     android:layout_marginEnd="@dimen/item_layout_small_indent"
                     android:layout_marginRight="@dimen/item_layout_small_indent"
                     android:visibility='@{itemNote.status ? v.VISIBLE : v.GONE}'
@@ -66,14 +68,14 @@
 
                 <TextView
                     android:id="@+id/itemNote_tv_change"
-                    style="@style/Note.Info"
+                    style="@style/ItemNote.Info"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:text='@{Time.formatNoteDate(context, itemNote.change)}' />
 
                 <TextView
                     android:id="@+id/itemNote_tv_create"
-                    style="@style/Note.Info"
+                    style="@style/ItemNote.Info"
                     android:layout_width="wrap_content"
                     android:text='@{Time.formatNoteDate(context, itemNote.create)}' />
 

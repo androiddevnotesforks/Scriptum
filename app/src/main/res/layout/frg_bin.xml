@@ -28,28 +28,17 @@
 
             <LinearLayout
                 android:id="@+id/frgBin_ll_empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:animateLayoutChanges="true"
+                style="@style/Info.Container"
                 android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'>
 
                 <ImageView
-                    android:layout_width="@dimen/icon_logo_size"
-                    android:layout_height="@dimen/icon_logo_size"
-                    android:contentDescription="@null"
-                    android:tint="@color/colorDarkSecond"
-                    app:srcCompat="@drawable/ic_bin" />
+                    style="@style/Info.Image"
+                    app:srcCompat="@drawable/ic_bin"
+                    android:contentDescription="@null" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="@dimen/item_layout_small_indent"
-                    android:text="@string/info_bin_empty"
-                    android:textColor="@color/colorDarkSecond"
-                    android:textSize="@dimen/text_big_size" />
+                    style="@style/Info.Text"
+                    android:text="@string/info_bin_empty" />
 
             </LinearLayout>
 

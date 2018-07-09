@@ -151,11 +151,8 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.setCallback(this, this);
     }
 
-    // FIXME: 05.07.2018 Выдаёт nullPointer при нажатии на видимость категории после поворота экрана
-
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
-        Log.i(TAG, "updateAdapter: vm isNull: " + (vm == null));
 
         List<RepoNote> listRepo = vm.loadData(DefBin.out);
 
@@ -212,8 +209,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
-
-//        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -284,8 +279,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         adapter.update(listRepo);
         adapter.notifyItemChanged(p);
-
-//        activity.frgRank.updateAdapter();
     }
 
     @Override
@@ -306,8 +299,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         adapter.update(listRepo);
         adapter.notifyItemRemoved(p);
-
-//        activity.frgBin.updateAdapter();
     }
 
 }

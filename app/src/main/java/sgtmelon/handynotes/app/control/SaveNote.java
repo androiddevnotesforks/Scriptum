@@ -9,7 +9,7 @@ import android.widget.Toast;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 
-public class CtrlSave {
+public class SaveNote {
 
     //region Variable
     private final Context context;
@@ -21,7 +21,7 @@ public class CtrlSave {
     private int saveTime;
     //endregion
 
-    public CtrlSave(Context context) {
+    public SaveNote(Context context) {
         this.context = context;
         this.pref = PreferenceManager.getDefaultSharedPreferences(context);
 

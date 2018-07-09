@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ItemSort" />
+
+    <style name="ItemSort.Bracket">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginLeft">@dimen/item_layout_small_indent</item>
+        <item name="android:layout_marginRight">@dimen/item_layout_small_indent</item>
+        <item name="android:tint">@color/colorDarkSecond</item>
+    </style>
+
+    <style name="ItemSort.Text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/item_layout_big_indent</item>
+        <item name="android:layout_marginBottom">@dimen/item_layout_big_indent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textSize">@dimen/text_medium_size</item>
+    </style>
+
+</resources>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Info" />
+
+    <style name="Info.Container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:animateLayoutChanges">true</item>
+    </style>
+
+    <style name="Info.Image">
+        <item name="android:layout_width">@dimen/icon_logo_size</item>
+        <item name="android:layout_height">@dimen/icon_logo_size</item>
+        <item name="android:tint">@color/colorDarkSecond</item>
+    </style>
+
+    <style name="Info.Text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/item_layout_small_indent</item>
+        <item name="android:textColor">@color/colorDarkSecond</item>
+        <item name="android:textSize">@dimen/text_big_size</item>
+    </style>
+
+</resources>

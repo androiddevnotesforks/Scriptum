@@ -36,7 +36,7 @@ public class VmFrgBin extends AndroidViewModel {
         Context context = getApplication().getApplicationContext();
 
         DbRoom db = DbRoom.provideDb(context);
-        listRepo = db.daoNote().get(context, bin, Help.Pref.getSortNoteOrder(context));
+        listRepo = db.daoNote().get(context, bin);
         db.close();
 
         return listRepo;

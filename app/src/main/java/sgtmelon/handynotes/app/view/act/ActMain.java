@@ -97,7 +97,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
 
         boolean add = stPage.setPage(menuItem.getItemId());
         if (add) {
-            sheetAdd.show(manager, sheetAdd.getTag());
+            if(!sheetAdd.isVisible()) sheetAdd.show(manager, sheetAdd.getTag());
         } else {
             FragmentTransaction transaction = manager.beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

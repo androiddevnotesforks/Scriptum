@@ -52,6 +52,7 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$x_ver"
 
     implementation "androidx.cardview:cardview:$x_ver"
+    implementation "com.android.support.constraint:constraint-layout:$x_ver"
 
     implementation "androidx.vectordrawable:vectordrawable:$x_ver"
     implementation "androidx.vectordrawable:vectordrawable-animated:$x_ver"

@@ -1,8 +1,10 @@
 package sgtmelon.handynotes.app.model.item;
 
+import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -23,7 +25,7 @@ public class ItemStatus {
     private ItemNote itemNote;
 
     private final PendingIntent pendingIntent;
-    private NotificationCompat.Builder notificationBuilder;
+    private Notification notification;
     private NotificationManagerCompat notificationManager;
     //endregion
 
@@ -40,12 +42,8 @@ public class ItemStatus {
 
         intent.putExtra(Db.NT_ID, itemNote.getId());
         intent.putExtra(DefPage.CREATE, false);
-//        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-//        stackBuilder.addParentStack(ActNote.class);
-//        stackBuilder.addNextIntent(intent);
 
         pendingIntent = PendingIntent.getActivity(context, (int) itemNote.getId(), intent, 0);
-//        pendingIntent = stackBuilder.getPendingIntent(itemNote.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         updateNote(itemNote);
     }
@@ -72,7 +70,7 @@ public class ItemStatus {
                 break;
         }
 
-        notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.channel_status_bind))
+        notification = new NotificationCompat.Builder(context, context.getString(R.string.channel_status_bind))
                 .setSmallIcon(icon)
                 .setColor(Help.Icon.getColor(context, true, itemNote.getColor()))
                 .setContentTitle(itemNote.getName(context))
@@ -82,7 +80,8 @@ public class ItemStatus {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
-                .setOngoing(true);
+                .setOngoing(true)
+                .build();
 
         notificationManager = NotificationManagerCompat.from(context);
 
@@ -103,7 +102,7 @@ public class ItemStatus {
 
     //Показывает созданное уведомление
     public void notifyNote() {
-        notificationManager.notify((int) itemNote.getId(), notificationBuilder.build());
+        notificationManager.notify((int) itemNote.getId(), notification);
     }
 
     //Убирает созданное уведомление

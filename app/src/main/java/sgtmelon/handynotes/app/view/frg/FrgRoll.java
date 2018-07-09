@@ -2,7 +2,7 @@ package sgtmelon.handynotes.app.view.frg;
 
 import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.content.DialogInterface;
+
 import androidx.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -159,7 +159,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             menuNote.startTint(itemNote.getColor());
         } else {
-            activity.ctrlSave.setNeedSave(false);
+            activity.saveNote.setNeedSave(false);
             activity.finish(); //Иначе завершаем активность
         }
     }
@@ -329,7 +329,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         adapter.update(editMode);
 
         activity.vm.setStNote(stNote);
-        activity.ctrlSave.setSaveHandlerEvent(editMode);
+        activity.saveNote.setSaveHandlerEvent(editMode);
     }
 
     @Override

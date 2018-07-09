@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.TypeConverters;
 import androidx.room.Update;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
+import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.conv.ConvBool;
 
@@ -40,9 +42,9 @@ public abstract class DaoNote extends DaoBase {
         return new RepoNote(itemNote, listRoll, itemStatus);
     }
 
-    public List<RepoNote> get(Context context, @DefBin int bin, String sortKeys) {
+    public List<RepoNote> get(Context context, @DefBin int bin) {
         List<RepoNote> listRepoNote = new ArrayList<>();
-        List<ItemNote> listNote = getNote(bin, sortKeys);
+        List<ItemNote> listNote = getNote(bin, Help.Pref.getSortNoteOrder(context));
 
         List<Long> rkVisible = getRankVisible();
 
@@ -73,6 +75,26 @@ public abstract class DaoNote extends DaoBase {
 
     @Update
     public abstract void update(ItemNote itemNote);
+
+    /**
+     * Обновление элементов списка в статус баре
+     *
+     * @param context - контекст для получения сортировки
+     */
+    public void update(Context context) {
+        List<ItemNote> listNote = getNote(DefBin.out, Help.Pref.getSortNoteOrder(context));
+        List<Long> rkVisible = getRankVisible();
+
+        for (int i = 0; i < listNote.size(); i++) {
+            ItemNote itemNote = listNote.get(i);
+            ItemStatus itemStatus = new ItemStatus(context, itemNote);
+
+            Long[] rkId = itemNote.getRankId();
+            if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
+                itemStatus.cancelNote();
+            }
+        }
+    }
 
     /**
      * Обновление положения заметки относительно корзины

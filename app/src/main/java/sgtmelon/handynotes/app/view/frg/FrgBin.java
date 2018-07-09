@@ -143,8 +143,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
                             setMenuItemClearVisible();
                             bind(0);
 
-//                            activity.frgRank.updateAdapter();
-
                             dialog.cancel();
                         })
                         .setNegativeButton(getString(R.string.dialog_btn_no), (dialog, id) -> dialog.cancel())
@@ -183,7 +181,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
 
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
-        Log.d(TAG, "updateAdapter: vm isNull: " + (vm == null));
 
         List<RepoNote> listRepo = vm.loadData(DefBin.in);
 
@@ -233,8 +230,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         adapter.notifyItemRemoved(p);
 
         setMenuItemClearVisible();
-
-//        activity.frgNotes.updateAdapter();
     }
 
     @Override
@@ -253,8 +248,6 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         adapter.notifyItemRemoved(p);
 
         setMenuItemClearVisible();
-
-//        activity.frgRank.updateAdapter();
     }
 
 }

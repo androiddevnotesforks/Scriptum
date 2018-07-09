@@ -110,7 +110,7 @@ public abstract class DaoRank extends DaoBase {
             if (check[i]) {
                 if (!rkIdNt.contains(noteId)) rkIdNt.add(noteId);
             } else {
-                if (rkIdNt.contains(noteId)) rkIdNt.remove(noteId);
+                rkIdNt.remove(noteId);
             }
 
             itemRank.setIdNote(ConvList.fromList(rkIdNt));

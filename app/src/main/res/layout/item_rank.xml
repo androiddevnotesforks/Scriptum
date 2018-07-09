@@ -17,8 +17,8 @@
     <androidx.cardview.widget.CardView
         style="@style/ItemCardView"
         app:cardBackgroundColor="@color/colorWhite"
-        app:cardUseCompatPadding="false"
-        app:cardCornerRadius="@dimen/card_corner_radius">
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardUseCompatPadding="false">
 
         <LinearLayout
             android:id="@+id/itemRank_ll_click"
@@ -31,13 +31,9 @@
 
             <sgtmelon.handynotes.element.button.ButtonVisiblePre
                 android:id="@+id/itemRank_bv_visible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                style="@style/ItemRank.Button"
                 android:layout_marginEnd="@dimen/item_layout_medium_indent"
                 android:layout_marginRight="@dimen/item_layout_medium_indent"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/item_layout_medium_indent"
                 app:srcCompat="@drawable/ic_visible_on" />
 
             <LinearLayout
@@ -48,14 +44,8 @@
 
                 <TextView
                     android:id="@+id/itemRank_tv_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/item_layout_medium_indent"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text='@{itemRank.name}'
-                    android:textColor="@color/colorDark"
-                    android:textSize="@dimen/text_medium_size" />
+                    style="@style/ItemRank.Name"
+                    android:text='@{itemRank.name}' />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,37 +53,22 @@
 
                     <TextView
                         android:id="@+id/itemRank_tv_textCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/ItemRank.Info"
                         android:layout_marginEnd="@dimen/item_layout_small_indent"
                         android:layout_marginRight="@dimen/item_layout_small_indent"
-                        android:ellipsize="start"
-                        android:singleLine="true"
-                        android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}'
-                        android:textColor="@color/colorDark"
-                        android:textSize="@dimen/text_small_size" />
+                        android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}' />
 
                     <TextView
                         android:id="@+id/itemRank_tv_rollCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/ItemRank.Info"
                         android:layout_marginEnd="@dimen/item_layout_small_indent"
                         android:layout_marginRight="@dimen/item_layout_small_indent"
-                        android:ellipsize="start"
-                        android:singleLine="true"
-                        android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}'
-                        android:textColor="@color/colorDark"
-                        android:textSize="@dimen/text_small_size" />
+                        android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}' />
 
                     <TextView
                         android:id="@+id/itemRank_tv_rollDone"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="start"
-                        android:singleLine="true"
+                        style="@style/ItemRank.Info"
                         android:text='@{@string/list_item_rank_roll_check + " " + itemRank.getRollCheck() + "%"}'
-                        android:textColor="@color/colorDark"
-                        android:textSize="@dimen/text_small_size"
                         android:visibility='@{itemRank.getRollCount() == 0 ? v.GONE : v.VISIBLE}' />
 
                 </LinearLayout>
@@ -101,14 +76,10 @@
 
             <ImageButton
                 android:id="@+id/itemRank_ib_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                style="@style/ItemRank.Button"
                 android:layout_marginStart="@dimen/item_layout_medium_indent"
                 android:layout_marginLeft="@dimen/item_layout_medium_indent"
-                android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@null"
-                android:padding="@dimen/item_layout_medium_indent"
                 android:tint="@color/colorDark"
                 app:srcCompat="@drawable/ic_cancel" />
 
