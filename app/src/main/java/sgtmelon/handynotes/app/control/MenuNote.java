@@ -4,13 +4,12 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.office.Help;
@@ -35,12 +34,16 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         this.type = type;
     }
 
+    // FIXME: 12.07.2018 проверь как можно убрать повторный вызов setStartColor
+
     //Установка цвета
     public void setColor(int color) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(Help.Icon.getColor(context, true, color));
         }
         toolbar.setBackgroundColor(Help.Icon.getColor(context, false, color));
+
+        setStartColor(color);
     }
 
     //Цвета до и после смены цвета
@@ -180,24 +183,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 noteClick.onMenuBindClick();
                 break;
             case R.id.menu_actNote_convert:
-                AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
-                alert.setTitle(context.getString(R.string.dialog_title_convert));
-
-                if (type == DefType.text) {
-                    alert.setMessage(context.getString(R.string.dialog_text_convert_to_roll));
-                } else {
-                    alert.setMessage(context.getString(R.string.dialog_roll_convert_to_text));
-                }
-
-                alert.setCancelable(true)
-                        .setPositiveButton(context.getString(R.string.dialog_btn_yes), (dialog, id) -> {
-                            noteClick.onMenuConvertClick();
-                            dialog.cancel();
-                        })
-                        .setNegativeButton(context.getString(R.string.dialog_btn_no), (dialog, id) -> dialog.cancel());
-
-                AlertDialog dialog = alert.create();
-                dialog.show();
+                noteClick.onMenuConvertClick();
                 return true;
             case R.id.menu_actNote_delete:
                 deleteClick.onMenuDeleteClick();

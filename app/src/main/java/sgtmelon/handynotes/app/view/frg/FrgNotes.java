@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,18 +32,19 @@ import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.view.act.ActSettings;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
-import sgtmelon.handynotes.element.alert.AlertOption;
+import sgtmelon.handynotes.element.dialog.DialogOptionNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
-import sgtmelon.handynotes.office.intf.IntfAlert;
+import sgtmelon.handynotes.office.intf.IntfDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListener,
-        IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionNote {
+        IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionNote {
 
     //region Variable
     private static final String TAG = "FrgNotes";
@@ -128,6 +130,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     }
 
     private AdpNote adapter;
+    private DialogOptionNote optionNote;
 
     private void setupRecyclerView() {
         Log.i(TAG, "setupRecyclerView");
@@ -149,6 +152,12 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         recyclerView.setAdapter(adapter);
 
         adapter.setCallback(this, this);
+
+        FragmentManager fm = getFragmentManager();
+
+        optionNote = (DialogOptionNote) fm.findFragmentByTag(Frg.OPTIONS);
+        if (optionNote == null) optionNote = new DialogOptionNote();
+        optionNote.setOptionNote(this);
     }
 
     private void updateAdapter() {
@@ -180,25 +189,30 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        AlertOption alertOption = new AlertOption(context, vm.getListRepo().get(p).getItemNote(), p);
-        alertOption.setOptionNote(this);
-        alertOption.showOptionNote();
+        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
+        optionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
+        optionNote.show(getFragmentManager(), Frg.OPTIONS);
     }
 
     @Override
-    public void onOptionCheckClick(ItemNote itemNote, int p, @DefCheck int check, int rollCount) {
+    public void onOptionCheckClick(int p) {
         Log.i(TAG, "onOptionCheckClick");
 
+        List<RepoNote> listRepo = vm.getListRepo();
+        RepoNote repoNote = listRepo.get(p);
+
+        ItemNote itemNote = repoNote.getItemNote();
+
+        int[] checkText = itemNote.getCheck();
+        int check = checkText[0] == checkText[1] ? DefCheck.notDone : DefCheck.done;
+
         itemNote.setChange(context);
-        itemNote.setText(check == DefCheck.notDone ? 0 : rollCount, rollCount);
+        itemNote.setText(check == DefCheck.notDone ? 0 : checkText[1], checkText[1]);
 
         db = DbRoom.provideDb(context);
         db.daoRoll().update(itemNote.getId(), check);
         db.daoNote().update(itemNote);
         db.close();
-
-        List<RepoNote> listRepo = vm.getListRepo();
-        RepoNote repoNote = listRepo.get(p);
 
         repoNote.updateListRoll(check);
         repoNote.setItemNote(itemNote);
@@ -212,13 +226,15 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     }
 
     @Override
-    public void onOptionBindClick(ItemNote itemNote, int p) {
+    public void onOptionBindClick(int p) {
         Log.i(TAG, "onOptionBindClick");
 
         List<RepoNote> listRepo = vm.getListRepo();
         RepoNote repoNote = listRepo.get(p);
 
+        ItemNote itemNote = repoNote.getItemNote();
         itemNote.setStatus();
+
         repoNote.updateItemStatus(itemNote.isStatus());
 
         db = DbRoom.provideDb(context);
@@ -235,13 +251,14 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     }
 
     @Override
-    public void onOptionConvertClick(ItemNote itemNote, int p) {
+    public void onOptionConvertClick(int p) {
         Log.i(TAG, "onOptionConvertClick");
-
-        itemNote.setChange(context);
 
         List<RepoNote> listRepo = vm.getListRepo();
         RepoNote repoNote = listRepo.get(p);
+
+        ItemNote itemNote = repoNote.getItemNote();
+        itemNote.setChange(context);
 
         db = DbRoom.provideDb(context);
         switch (itemNote.getType()) {
@@ -282,18 +299,26 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     }
 
     @Override
-    public void onOptionDeleteClick(ItemNote itemNote, int p) {
+    public void onOptionCopyClick(int p) {
+        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
+        Help.optionsCopy(context, itemNote);
+    }
+
+    @Override
+    public void onOptionDeleteClick(int p) {
         Log.i(TAG, "onOptionDeleteClick");
+
+        List<RepoNote> listRepo = vm.getListRepo();
+        RepoNote repoNote = listRepo.get(p);
+
+        ItemNote itemNote = repoNote.getItemNote();
 
         db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);
-        if (itemNote.isStatus()) {
-            db.daoNote().update(itemNote.getId(), false);
-        }
+        if (itemNote.isStatus()) db.daoNote().update(itemNote.getId(), false);
         db.close();
 
-        List<RepoNote> listRepo = vm.getListRepo();
-        listRepo.get(p).updateItemStatus(false);
+        repoNote.updateItemStatus(false);
         listRepo.remove(p);
         vm.setListRepo(listRepo);
 

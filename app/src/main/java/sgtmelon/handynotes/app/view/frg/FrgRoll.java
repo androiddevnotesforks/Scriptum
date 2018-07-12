@@ -1,19 +1,8 @@
 package sgtmelon.handynotes.app.view.frg;
 
-import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
-
-import androidx.databinding.DataBindingUtil;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -27,6 +16,17 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpRoll;
 import sgtmelon.handynotes.app.control.MenuNote;
@@ -37,8 +37,10 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
-import sgtmelon.handynotes.element.alert.AlertColor;
+import sgtmelon.handynotes.element.dialog.DialogColor;
+import sgtmelon.handynotes.element.dialog.DialogConvert;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
@@ -109,6 +111,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     public MenuNote menuNote;
 
+    private DialogConvert dialogConvert;
+    private DialogColor dialogColor;
+
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
@@ -127,6 +132,46 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
+
+        FragmentManager fm = getFragmentManager();
+
+        dialogConvert = (DialogConvert) fm.findFragmentByTag(Frg.CONVERT);
+        if (dialogConvert == null) dialogConvert = new DialogConvert();
+        dialogConvert.setPositiveButton((dialogInterface, i) -> {
+            RepoNote repoNote = vm.getRepoNote();
+            ItemNote itemNote12 = repoNote.getItemNote();
+
+            db = DbRoom.provideDb(context);
+
+            String text = db.daoRoll().getText(itemNote12.getId());
+            itemNote12.setChange(context);
+            itemNote12.setType(DefType.text);
+            itemNote12.setText(text);
+
+            db.daoNote().update(itemNote12);
+            db.daoRoll().delete(itemNote12.getId());
+
+            db.close();
+
+            repoNote.setItemNote(itemNote12);
+
+            vm.setRepoNote(repoNote);
+            activity.vm.setRepoNote(repoNote);
+            activity.setupFrg(false);
+        });
+
+        dialogColor = (DialogColor) fm.findFragmentByTag(Frg.COLOR);
+        if (dialogColor == null) dialogColor = new DialogColor();
+        dialogColor.setPositiveButton((dialogInterface, i) -> {
+            RepoNote repoNote = vm.getRepoNote();
+            ItemNote itemNote1 = repoNote.getItemNote();
+            itemNote1.setColor(i);
+            repoNote.setItemNote(itemNote1);
+
+            vm.setRepoNote(repoNote);
+
+            menuNote.startTint(i);
+        });
     }
 
     // FIXME: 05.07.2018 переделай без подключения к бд
@@ -291,27 +336,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
         ItemNote itemNote = vm.getRepoNote().getItemNote();
-        final AlertColor alert = new AlertColor(context, itemNote.getColor(), R.style.AppTheme_AlertDialog);
-        alert.setTitle(getString(R.string.dialog_title_color))
-                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
-                    int color = alert.getCheck();
 
-                    RepoNote repoNote = vm.getRepoNote();
-
-                    ItemNote itemNote1 = repoNote.getItemNote();
-                    itemNote1.setColor(color);
-                    repoNote.setItemNote(itemNote1);
-
-                    vm.setRepoNote(repoNote);
-
-                    menuNote.startTint(color);
-                    dialog.cancel();
-                })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
-                .setCancelable(true);
-
-        AlertDialog dialog = alert.create();
-        dialog.show();
+        dialogColor.setArguments(itemNote.getColor());
+        dialogColor.show(getFragmentManager(), Frg.COLOR);
 
         menuNote.setStartColor(itemNote.getColor());
     }
@@ -397,26 +424,10 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        RepoNote repoNote = vm.getRepoNote();
-        ItemNote itemNote = repoNote.getItemNote();
+        ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-        db = DbRoom.provideDb(context);
-
-        String text = db.daoRoll().getText(itemNote.getId());
-        itemNote.setChange(context);
-        itemNote.setType(DefType.text);
-        itemNote.setText(text);
-
-        db.daoNote().update(itemNote);
-        db.daoRoll().delete(itemNote.getId());
-
-        db.close();
-
-        repoNote.setItemNote(itemNote);
-
-        vm.setRepoNote(repoNote);
-        activity.vm.setRepoNote(repoNote);
-        activity.setupFrg(false);
+        dialogConvert.setArguments(itemNote.getType());
+        dialogConvert.show(getFragmentManager(), Frg.CONVERT);
     }
 
     //region RecyclerView Variable
@@ -631,20 +642,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             }
         };
 
-        final View.OnClickListener addClick = view -> {
-            Log.i(TAG, "onClick");
-            scrollToInsert(true);
-        };
+        rollEnter.addTextChangedListener(enterRollTextWatcher);
 
-        final View.OnLongClickListener addLongClick = view -> {
-            Log.i(TAG, "onLongClick");
+        rollAdd.setOnClickListener(view -> scrollToInsert(true));
+        rollAdd.setOnLongClickListener(view -> {
             scrollToInsert(false);
             return true;
-        };
-
-        rollEnter.addTextChangedListener(enterRollTextWatcher);
-        rollAdd.setOnClickListener(addClick);
-        rollAdd.setOnLongClickListener(addLongClick);
+        });
     }
 
     private void scrollToInsert(boolean scrollDown) {
@@ -690,4 +694,5 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             }
         }
     }
+
 }

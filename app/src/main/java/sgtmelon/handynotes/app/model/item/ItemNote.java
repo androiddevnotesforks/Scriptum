@@ -1,15 +1,15 @@
 package sgtmelon.handynotes.app.model.item;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.util.List;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
@@ -107,7 +107,7 @@ public class ItemNote {
         this.change = change;
     }
 
-    public void setChange(Context context){
+    public void setChange(Context context) {
         change = Help.Time.getCurrentTime(context);
     }
 
@@ -184,7 +184,7 @@ public class ItemNote {
         this.status = status;
     }
 
-    public void setStatus(){
+    public void setStatus() {
         status = !status;
     }
 
@@ -199,6 +199,11 @@ public class ItemNote {
         }
 
         return check;
+    }
+
+    public boolean isAllCheck(){
+        int[] check = getCheck();
+        return check[0] == check[1];
     }
 
 }

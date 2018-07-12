@@ -14,10 +14,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,16 +30,18 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.element.alert.AlertOption;
+import sgtmelon.handynotes.element.dialog.DialogClearBin;
+import sgtmelon.handynotes.element.dialog.DialogOptionBin;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
-import sgtmelon.handynotes.office.intf.IntfAlert;
+import sgtmelon.handynotes.office.intf.IntfDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
-        IntfItem.Click, IntfItem.LongClick, IntfAlert.OptionBin {
+public class FrgBin extends Fragment implements
+        IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionBin {
 
     //region Variable
     private static final String TAG = "FrgBin";
@@ -97,20 +99,47 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     }
 
     private MenuItem mItemClearBin;
+    private DialogClearBin clearBin;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
+
+        FragmentManager fm = getFragmentManager();
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_frg_bin));
 
         toolbar.inflateMenu(R.menu.menu_frg_bin);
-        toolbar.setOnMenuItemClickListener(this);
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.menu_frgBin_clear:
+                    if (!clearBin.isVisible()) clearBin.show(fm, Frg.CLEAR_BIN);
+                    return true;
+            }
+            return false;
+        });
 
         Menu menu = toolbar.getMenu();
         mItemClearBin = menu.findItem(R.id.menu_frgBin_clear);
 
         Help.Icon.tintMenuIcon(context, mItemClearBin);
+
+        clearBin = (DialogClearBin) fm.findFragmentByTag(Frg.CLEAR_BIN);
+        if (clearBin == null) clearBin = new DialogClearBin();
+
+        clearBin.setPositiveButton((dialogInterface, i) -> {
+            db = DbRoom.provideDb(context);
+            db.daoNote().clearBin();
+            db.close();
+
+            vm.setListRepo();
+
+            adapter.update(vm.getListRepo());
+            adapter.notifyDataSetChanged();
+
+            setMenuItemClearVisible();
+            bind(0);
+        });
     }
 
     private void setMenuItemClearVisible() {
@@ -120,42 +149,8 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         else mItemClearBin.setVisible(true);
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        Log.i(TAG, "onMenuItemClick");
-
-        switch (item.getItemId()) {
-            case R.id.menu_frgBin_clear:
-                AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
-                alert.setTitle(getString(R.string.dialog_title_clear_bin))
-                        .setMessage(getString(R.string.dialog_text_clear_bin))
-                        .setPositiveButton(getString(R.string.dialog_btn_yes), (dialog, id) -> {
-
-                            db = DbRoom.provideDb(context);
-                            db.daoNote().clearBin();
-                            db.close();
-
-                            vm.setListRepo();
-
-                            adapter.update(vm.getListRepo());
-                            adapter.notifyDataSetChanged();
-
-                            setMenuItemClearVisible();
-                            bind(0);
-
-                            dialog.cancel();
-                        })
-                        .setNegativeButton(getString(R.string.dialog_btn_no), (dialog, id) -> dialog.cancel())
-                        .setCancelable(true);
-
-                AlertDialog dialog = alert.create();
-                dialog.show();
-                return true;
-        }
-        return false;
-    }
-
     private AdpNote adapter;
+    private DialogOptionBin optionBin;
 
     private void setupRecyclerView() {
         Log.i(TAG, "setupRecyclerView");
@@ -177,6 +172,12 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
         recyclerView.setAdapter(adapter);
 
         adapter.setCallback(this, this);
+
+        FragmentManager fm = getFragmentManager();
+
+        optionBin = (DialogOptionBin) fm.findFragmentByTag(Frg.OPTIONS);
+        if (optionBin == null) optionBin = new DialogOptionBin();
+        optionBin.setOptionBin(this);
     }
 
     private void updateAdapter() {
@@ -209,20 +210,21 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        AlertOption alertOption = new AlertOption(context, vm.getListRepo().get(p).getItemNote(), p);
-        alertOption.setOptionBin(this);
-        alertOption.showOptionBin();
+        optionBin.setArguments(p);
+        optionBin.show(getFragmentManager(), Frg.OPTIONS);
     }
 
     @Override
-    public void onOptionRestoreClick(ItemNote itemNote, int p) {
+    public void onOptionRestoreClick(int p) {
         Log.i(TAG, "onOptionRestoreClick");
+
+        List<RepoNote> listRepo = vm.getListRepo();
+        ItemNote itemNote = listRepo.get(p).getItemNote();
 
         db = DbRoom.provideDb(context);
         db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), false);
         db.close();
 
-        List<RepoNote> listRepo = vm.getListRepo();
         listRepo.remove(p);
         vm.setListRepo(listRepo);
 
@@ -233,14 +235,22 @@ public class FrgBin extends Fragment implements Toolbar.OnMenuItemClickListener,
     }
 
     @Override
-    public void onOptionClearClick(ItemNote itemNote, int p) {
+    public void onOptionCopyClick(int p) {
+        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
+        Help.optionsCopy(context, itemNote);
+    }
+
+    @Override
+    public void onOptionClearClick(int p) {
         Log.i(TAG, "onOptionClearClick");
+
+        List<RepoNote> listRepo = vm.getListRepo();
+        ItemNote itemNote = listRepo.get(p).getItemNote();
 
         db = DbRoom.provideDb(context);
         db.daoNote().delete(itemNote.getId());
         db.close();
 
-        List<RepoNote> listRepo = vm.getListRepo();
         listRepo.remove(p);
         vm.setListRepo(listRepo);
 

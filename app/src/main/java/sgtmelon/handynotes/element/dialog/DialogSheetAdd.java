@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element;
+package sgtmelon.handynotes.element.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import sgtmelon.handynotes.R;
 
-public class SheetAdd extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
+public class DialogSheetAdd extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
