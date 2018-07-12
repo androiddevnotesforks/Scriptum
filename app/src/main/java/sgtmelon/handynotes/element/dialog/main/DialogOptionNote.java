@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog;
+package sgtmelon.handynotes.element.dialog.main;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -21,7 +21,7 @@ public class DialogOptionNote extends DialogFragment implements DialogInterface.
         arg.putInt(Db.NT_TP, type);
         arg.putBoolean(Db.NT_ST, status);
         arg.putBoolean(Db.RL_CH, isAll);
-        arg.putInt(Dlg.POSITION, p);
+        arg.putInt(Dlg.VALUE, p);
 
         setArguments(arg);
     }
@@ -40,12 +40,12 @@ public class DialogOptionNote extends DialogFragment implements DialogInterface.
             type = arg.getInt(Db.NT_TP);
             status = arg.getBoolean(Db.NT_ST);
             isAll = arg.getBoolean(Db.RL_CH);
-            p = arg.getInt(Dlg.POSITION);
+            p = arg.getInt(Dlg.VALUE);
         } else if (savedInstanceState != null) {
             type = savedInstanceState.getInt(Db.NT_TP);
             status = savedInstanceState.getBoolean(Db.NT_ST);
             isAll = savedInstanceState.getBoolean(Db.RL_CH);
-            p = savedInstanceState.getInt(Dlg.POSITION);
+            p = savedInstanceState.getInt(Dlg.VALUE);
         }
 
         String[] itemOption = new String[0];
@@ -124,7 +124,7 @@ public class DialogOptionNote extends DialogFragment implements DialogInterface.
         outState.putInt(Db.NT_TP, type);
         outState.putBoolean(Db.NT_ST, status);
         outState.putBoolean(Db.RL_CH, isAll);
-        outState.putInt(Dlg.POSITION, p);
+        outState.putInt(Dlg.VALUE, p);
     }
 
 }

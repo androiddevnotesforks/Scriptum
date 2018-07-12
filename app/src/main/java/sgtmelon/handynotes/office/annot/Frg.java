@@ -5,17 +5,13 @@ package sgtmelon.handynotes.office.annot;
  */
 public @interface Frg {
 
+    //ActMain
     String RANK = "FRG_RANK",
             NOTES = "FRG_NOTES",
             BIN = "FRG_BIN";
 
+    //ActNote
     String TEXT = "FRG_TEXT",
             ROLL = "FRG_ROLL";
-
-    String SHEET_ADD = "FRG_SHEET_ADD",
-            CLEAR_BIN = "FRG_CLEAR_BIN",
-            OPTIONS = "FRG_OPTIONS",
-            COLOR = "FRG_COLOR",
-            CONVERT = "FRG_CONVERT";
 
 }

@@ -30,11 +30,11 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.element.dialog.DialogClearBin;
-import sgtmelon.handynotes.element.dialog.DialogOptionBin;
+import sgtmelon.handynotes.element.dialog.main.DialogClearBin;
+import sgtmelon.handynotes.element.dialog.main.DialogOptionBin;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Frg;
+import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.intf.IntfDialog;
@@ -113,7 +113,7 @@ public class FrgBin extends Fragment implements
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_frgBin_clear:
-                    if (!clearBin.isVisible()) clearBin.show(fm, Frg.CLEAR_BIN);
+                    if (!clearBin.isVisible()) clearBin.show(fm, Dlg.CLEAR_BIN);
                     return true;
             }
             return false;
@@ -124,7 +124,7 @@ public class FrgBin extends Fragment implements
 
         Help.Icon.tintMenuIcon(context, mItemClearBin);
 
-        clearBin = (DialogClearBin) fm.findFragmentByTag(Frg.CLEAR_BIN);
+        clearBin = (DialogClearBin) fm.findFragmentByTag(Dlg.CLEAR_BIN);
         if (clearBin == null) clearBin = new DialogClearBin();
 
         clearBin.setPositiveButton((dialogInterface, i) -> {
@@ -175,7 +175,7 @@ public class FrgBin extends Fragment implements
 
         FragmentManager fm = getFragmentManager();
 
-        optionBin = (DialogOptionBin) fm.findFragmentByTag(Frg.OPTIONS);
+        optionBin = (DialogOptionBin) fm.findFragmentByTag(Dlg.OPTIONS);
         if (optionBin == null) optionBin = new DialogOptionBin();
         optionBin.setOptionBin(this);
     }
@@ -211,7 +211,7 @@ public class FrgBin extends Fragment implements
         Log.i(TAG, "onItemLongClick");
 
         optionBin.setArguments(p);
-        optionBin.show(getFragmentManager(), Frg.OPTIONS);
+        optionBin.show(getFragmentManager(), Dlg.OPTIONS);
     }
 
     @Override

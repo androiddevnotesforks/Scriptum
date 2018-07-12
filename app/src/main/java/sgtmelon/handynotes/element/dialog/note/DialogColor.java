@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog;
+package sgtmelon.handynotes.element.dialog.note;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -20,7 +20,7 @@ public class DialogColor extends DialogFragment
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();
-        arg.putInt(Dlg.CHECK, check);
+        arg.putInt(Dlg.VALUE, check);
         setArguments(arg);
     }
 
@@ -33,9 +33,9 @@ public class DialogColor extends DialogFragment
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
-            check = savedInstanceState.getInt(Dlg.CHECK);
+            check = savedInstanceState.getInt(Dlg.VALUE);
         } else if (arg != null) {
-            check = arg.getInt(Dlg.CHECK);
+            check = arg.getInt(Dlg.VALUE);
         }
 
         RecyclerView recyclerView = new RecyclerView(context);
@@ -77,7 +77,7 @@ public class DialogColor extends DialogFragment
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Dlg.CHECK, adapter.getCheck());
+        outState.putInt(Dlg.VALUE, adapter.getCheck());
     }
 
 }

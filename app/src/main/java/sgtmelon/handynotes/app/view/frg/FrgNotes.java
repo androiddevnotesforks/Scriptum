@@ -32,10 +32,10 @@ import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.view.act.ActSettings;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
-import sgtmelon.handynotes.element.dialog.DialogOptionNote;
+import sgtmelon.handynotes.element.dialog.main.DialogOptionNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Frg;
+import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
@@ -155,7 +155,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         FragmentManager fm = getFragmentManager();
 
-        optionNote = (DialogOptionNote) fm.findFragmentByTag(Frg.OPTIONS);
+        optionNote = (DialogOptionNote) fm.findFragmentByTag(Dlg.OPTIONS);
         if (optionNote == null) optionNote = new DialogOptionNote();
         optionNote.setOptionNote(this);
     }
@@ -191,7 +191,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
         optionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
-        optionNote.show(getFragmentManager(), Frg.OPTIONS);
+        optionNote.show(getFragmentManager(), Dlg.OPTIONS);
     }
 
     @Override

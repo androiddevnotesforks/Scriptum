@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog;
+package sgtmelon.handynotes.element.dialog.main;
 
 
 import android.app.Dialog;
@@ -16,7 +16,7 @@ public class DialogOptionBin extends DialogFragment implements DialogInterface.O
 
     public void setArguments(int p) {
         Bundle arg = new Bundle();
-        arg.putInt(Dlg.POSITION, p);
+        arg.putInt(Dlg.VALUE, p);
         setArguments(arg);
     }
 
@@ -28,9 +28,9 @@ public class DialogOptionBin extends DialogFragment implements DialogInterface.O
         Bundle arg = getArguments();
 
         if (arg != null) {
-            p = arg.getInt(Dlg.POSITION);
+            p = arg.getInt(Dlg.VALUE);
         } else if (savedInstanceState != null) {
-            p = savedInstanceState.getInt(Dlg.POSITION);
+            p = savedInstanceState.getInt(Dlg.VALUE);
         }
 
         String[] itemOption = context.getResources().getStringArray(R.array.dialog_menu_bin);
@@ -67,7 +67,7 @@ public class DialogOptionBin extends DialogFragment implements DialogInterface.O
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Dlg.POSITION, p);
+        outState.putInt(Dlg.VALUE, p);
     }
 
 }

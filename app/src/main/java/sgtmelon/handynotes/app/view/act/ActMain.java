@@ -16,8 +16,9 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
-import sgtmelon.handynotes.element.dialog.DialogSheetAdd;
+import sgtmelon.handynotes.element.dialog.main.DialogSheetAdd;
 import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
@@ -72,7 +73,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
         navigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setSelectedItemId(DefPage.itemId[page]);
 
-        dialogSheetAdd = (DialogSheetAdd) fm.findFragmentByTag(Frg.SHEET_ADD);
+        dialogSheetAdd = (DialogSheetAdd) fm.findFragmentByTag(Dlg.SHEET_ADD);
         if (dialogSheetAdd == null) dialogSheetAdd = new DialogSheetAdd();
 
         dialogSheetAdd.setNavigationItemSelectedListener(menuItem -> {
@@ -96,7 +97,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
 
         boolean add = stPage.setPage(menuItem.getItemId());
         if (add) {
-            if (!dialogSheetAdd.isVisible()) dialogSheetAdd.show(fm, Frg.SHEET_ADD);
+            if (!dialogSheetAdd.isVisible()) dialogSheetAdd.show(fm, Dlg.SHEET_ADD);
         } else {
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

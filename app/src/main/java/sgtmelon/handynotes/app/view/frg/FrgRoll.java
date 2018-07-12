@@ -37,10 +37,10 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
-import sgtmelon.handynotes.element.dialog.DialogColor;
-import sgtmelon.handynotes.element.dialog.DialogConvert;
+import sgtmelon.handynotes.element.dialog.note.DialogColor;
+import sgtmelon.handynotes.element.dialog.note.DialogConvert;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Frg;
+import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
@@ -135,7 +135,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         FragmentManager fm = getFragmentManager();
 
-        dialogConvert = (DialogConvert) fm.findFragmentByTag(Frg.CONVERT);
+        dialogConvert = (DialogConvert) fm.findFragmentByTag(Dlg.CONVERT);
         if (dialogConvert == null) dialogConvert = new DialogConvert();
         dialogConvert.setPositiveButton((dialogInterface, i) -> {
             RepoNote repoNote = vm.getRepoNote();
@@ -160,7 +160,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             activity.setupFrg(false);
         });
 
-        dialogColor = (DialogColor) fm.findFragmentByTag(Frg.COLOR);
+        dialogColor = (DialogColor) fm.findFragmentByTag(Dlg.COLOR);
         if (dialogColor == null) dialogColor = new DialogColor();
         dialogColor.setPositiveButton((dialogInterface, i) -> {
             RepoNote repoNote = vm.getRepoNote();
@@ -185,9 +185,11 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
+        StNote stNote = activity.vm.getStNote();
         RepoNote repoNote = vm.getRepoNote();
         ItemNote itemNote = repoNote.getItemNote();
-        if (activity.vm.getStNote().isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
+
+        if (!stNote.isCreate() && stNote.isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
             menuNote.setStartColor(itemNote.getColor());
 
             db = DbRoom.provideDb(context);
@@ -232,6 +234,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             if (stNote.isCreate()) {
                 stNote.setCreate(false);    //Теперь у нас заметка уже будет создана
                 activity.vm.setStNote(stNote);
+
+                bind(stNote.isEdit(), stNote.isCreate());
 
                 long ntId = db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
@@ -338,7 +342,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         ItemNote itemNote = vm.getRepoNote().getItemNote();
 
         dialogColor.setArguments(itemNote.getColor());
-        dialogColor.show(getFragmentManager(), Frg.COLOR);
+        dialogColor.show(getFragmentManager(), Dlg.COLOR);
 
         menuNote.setStartColor(itemNote.getColor());
     }
@@ -427,7 +431,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         ItemNote itemNote = vm.getRepoNote().getItemNote();
 
         dialogConvert.setArguments(itemNote.getType());
-        dialogConvert.show(getFragmentManager(), Frg.CONVERT);
+        dialogConvert.show(getFragmentManager(), Dlg.CONVERT);
     }
 
     //region RecyclerView Variable

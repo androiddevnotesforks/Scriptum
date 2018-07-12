@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog;
+package sgtmelon.handynotes.element.dialog.note;
 
 import android.app.Dialog;
 import android.content.Context;
