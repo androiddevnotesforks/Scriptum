@@ -1,15 +1,12 @@
 package sgtmelon.handynotes.app.view.act;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.control.SaveNote;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
@@ -28,13 +25,17 @@ import sgtmelon.handynotes.office.st.StNote;
 
 public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
 
+    //region Variable
     private static final String TAG = "ActNote";
 
     private DbRoom db;
 
+    private FragmentManager fm;
+
     public VmActNote vm;
 
     public SaveNote saveNote;
+    //endregion
 
     @Override
     protected void onPause() {
@@ -49,6 +50,8 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note);
         Log.i(TAG, "onCreate");
+
+        fm = getSupportFragmentManager();
 
         vm = ViewModelProviders.of(this).get(VmActNote.class);
 
@@ -66,14 +69,12 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
     public void setupFrg(boolean isSaved) {
         Log.i(TAG, "setupFrg");
 
-        FragmentManager manager = getSupportFragmentManager();
-
-        FragmentTransaction transaction = manager.beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         switch (vm.getRepoNote().getItemNote().getType()) {
             case DefType.text:
-                if (isSaved) frgText = (FrgText) manager.findFragmentByTag(Frg.TEXT);
+                if (isSaved) frgText = (FrgText) fm.findFragmentByTag(Frg.TEXT);
                 else frgText = new FrgText();
 
                 saveNote.setMenuClick(frgText);
@@ -81,7 +82,7 @@ public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
                 transaction.replace(R.id.actNote_fl_container, frgText, Frg.TEXT);
                 break;
             case DefType.roll:
-                if (isSaved) frgRoll = (FrgRoll) manager.findFragmentByTag(Frg.ROLL);
+                if (isSaved) frgRoll = (FrgRoll) fm.findFragmentByTag(Frg.ROLL);
                 else frgRoll = new FrgRoll();
 
                 saveNote.setMenuClick(frgRoll);

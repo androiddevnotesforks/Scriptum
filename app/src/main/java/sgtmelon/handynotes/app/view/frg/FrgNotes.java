@@ -32,7 +32,7 @@ import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.view.act.ActSettings;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
-import sgtmelon.handynotes.element.dialog.main.DialogOptionNote;
+import sgtmelon.handynotes.element.dialog.main.DlgOptionNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
@@ -52,6 +52,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     private DbRoom db;
 
     private Context context;
+    private FragmentManager fm;
 
     private FrgNotesBinding binding;
     private View frgView;
@@ -63,7 +64,9 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.i(TAG, "onAttach");
+
         this.context = context;
+        fm = getFragmentManager();
     }
 
     @Nullable
@@ -130,7 +133,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     }
 
     private AdpNote adapter;
-    private DialogOptionNote optionNote;
+    private DlgOptionNote dlgOptionNote;
 
     private void setupRecyclerView() {
         Log.i(TAG, "setupRecyclerView");
@@ -153,11 +156,9 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         adapter.setCallback(this, this);
 
-        FragmentManager fm = getFragmentManager();
-
-        optionNote = (DialogOptionNote) fm.findFragmentByTag(Dlg.OPTIONS);
-        if (optionNote == null) optionNote = new DialogOptionNote();
-        optionNote.setOptionNote(this);
+        dlgOptionNote = (DlgOptionNote) fm.findFragmentByTag(Dlg.OPTIONS);
+        if (dlgOptionNote == null) dlgOptionNote = new DlgOptionNote();
+        dlgOptionNote.setOptionNote(this);
     }
 
     private void updateAdapter() {
@@ -190,8 +191,8 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Log.i(TAG, "onItemLongClick");
 
         ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
-        optionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
-        optionNote.show(getFragmentManager(), Dlg.OPTIONS);
+        dlgOptionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
+        dlgOptionNote.show(fm, Dlg.OPTIONS);
     }
 
     @Override

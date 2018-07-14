@@ -1,61 +1,60 @@
-package sgtmelon.handynotes.element.alert;
+package sgtmelon.handynotes.element.dialog.settings;
 
+import android.app.Dialog;
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.StyleRes;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SimpleItemAnimator;
-import androidx.recyclerview.widget.ItemTouchHelper;
+import android.os.Bundle;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpSort;
 import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.office.blank.BlankDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
+public class DlgSort extends BlankDialog
+        implements IntfItem.Click {
 
-    //region Variables
-    private final Context context;
-    private final String keys;
+    public void setArguments(String keys) {
+        Bundle arg = new Bundle();
+        arg.putString(Dlg.VALUE, keys);
+        setArguments(arg);
+    }
 
-    private final String[] textSort;
+    private String keys;
+
+    public String getKeys() {
+        return Help.Pref.getSortByList(listSort);
+    }
+
+    private String[] text;
     private List<ItemSort> listSort;
-    //endregion
-
-    @SuppressWarnings("unused")
-    public AlertSort(@NonNull Context context, String keys) {
-        super(context);
-
-        this.context = context;
-        this.keys = keys;
-
-        textSort = context.getResources().getStringArray(R.array.pref_text_sort);
-
-        setupRecycler();
-    }
-
-    public AlertSort(@NonNull Context context, String keys, @StyleRes int themeResId) {
-        super(context, themeResId);
-
-        this.context = context;
-        this.keys = keys;
-
-        textSort = context.getResources().getStringArray(R.array.pref_text_sort);
-
-        setupRecycler();
-    }
 
     private AdpSort adapter;
 
-    private void setupRecycler() {
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Context context = getContext();
+        Bundle arg = getArguments();
+
+        if (savedInstanceState != null) {
+            keys = savedInstanceState.getString(Dlg.VALUE);
+        } else if (arg != null) {
+            keys = arg.getString(Dlg.VALUE);
+        }
+
+        text = getResources().getStringArray(R.array.pref_text_sort);
+
         RecyclerView recyclerView = new RecyclerView(context);
 
         int padding = context.getResources().getInteger(R.integer.alert_recycler_view_padding);
@@ -74,28 +73,36 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
-        setView(recyclerView);
-
         listSort = new ArrayList<>();
         String[] keysArr = keys.split(DefSort.divider);
         for (String aKey : keysArr) {
             @DefSort int key = Integer.parseInt(aKey);
-            ItemSort itemSort = new ItemSort(textSort[key], key);
+            ItemSort itemSort = new ItemSort(text[key], key);
             listSort.add(itemSort);
         }
 
         adapter.update(listSort);
         adapter.notifyDataSetChanged();
+
+        return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+                .setTitle(getString(R.string.dialog_title_sort))
+                .setView(recyclerView)
+                .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)
+                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
+                .setNeutralButton(getString(R.string.dialog_btn_reset), neutralClick)
+                .setCancelable(true)
+                .create();
     }
 
     @Override
     public void onItemClick(View view, int p) {
         ItemSort itemSort = listSort.get(p);
 
-        @DefSort int key = itemSort.getKey() == DefSort.create ?
-                DefSort.change : DefSort.create;
+        @DefSort int key = itemSort.getKey() == DefSort.create
+                ? DefSort.change
+                : DefSort.create;
 
-        itemSort.setText(textSort[key]);
+        itemSort.setText(text[key]);
         itemSort.setKey(key);
 
         listSort.set(p, itemSort);
@@ -147,7 +154,10 @@ public class AlertSort extends AlertDialog.Builder implements IntfItem.Click {
         }
     };
 
-    public String getKeys() {
-        return Help.Pref.getSortByList(listSort);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(Dlg.VALUE, getKeys());
     }
 }

@@ -29,7 +29,7 @@
             android:padding="@dimen/item_layout_medium_indent"
             android:weightSum="1">
 
-            <sgtmelon.handynotes.element.button.ButtonVisiblePre
+            <sgtmelon.handynotes.element.button.BtnVisiblePre
                 android:id="@+id/itemRank_bv_visible"
                 style="@style/ItemRank.Button"
                 android:layout_marginEnd="@dimen/item_layout_medium_indent"

@@ -7,11 +7,12 @@ import java.util.List;
 public class ConvList {
 
     public static Long[] fromList(List<Long> list) {
-        return list.toArray(new Long[list.size()]);
+        return list.toArray(new Long[0]);
     }
 
     public static List<Long> toList(Long[] array) {
         return new ArrayList<>(Arrays.asList(array));
     }
+
 
 }

@@ -14,7 +14,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -29,8 +28,9 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgTextBinding;
-import sgtmelon.handynotes.element.dialog.note.DialogColor;
-import sgtmelon.handynotes.element.dialog.note.DialogConvert;
+import sgtmelon.handynotes.element.dialog.note.DlgColor;
+import sgtmelon.handynotes.element.dialog.note.DlgConvert;
+import sgtmelon.handynotes.element.dialog.note.DlgRank;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
@@ -45,14 +45,25 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
     private DbRoom db;
 
+    private Context context;
+    private ActNote activity;
+    private FragmentManager fm;
+
     private FrgTextBinding binding;
     private View frgView;
 
-    private Context context;
-    private ActNote activity;
-
     public VmFrgText vm;
     //endregion
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.i(TAG, "onAttach");
+
+        this.context = context;
+        activity = (ActNote) getActivity();
+        fm = getFragmentManager();
+    }
 
     @Nullable
     @Override
@@ -62,18 +73,22 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         binding = DataBindingUtil.inflate(inflater, R.layout.frg_text, container, false);
         frgView = binding.getRoot();
 
-        context = getContext();
-        activity = (ActNote) getActivity();
+        return frgView;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
 
         vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
+        setupDialog();
         setupEnter();
 
         onMenuEditClick(activity.vm.getStNote().isEdit());
-
-        return frgView;
     }
 
     private void bind(boolean keyEdit, boolean keyCreate) {
@@ -85,9 +100,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     }
 
     public MenuNote menuNote;
-
-    private DialogConvert dialogConvert;
-    private DialogColor dialogColor;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -106,46 +118,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
-
-        FragmentManager fm = getFragmentManager();
-
-        dialogConvert = (DialogConvert) fm.findFragmentByTag(Dlg.CONVERT);
-        if (dialogConvert == null) dialogConvert = new DialogConvert();
-        dialogConvert.setPositiveButton((dialogInterface, i) -> {
-            RepoNote repoNote = vm.getRepoNote();
-            ItemNote itemNote12 = repoNote.getItemNote();
-            String[] textToRoll = itemNote12.getText().split("\n");   //Получаем пункты списка
-
-            db = DbRoom.provideDb(context);
-            List<ItemRoll> listRoll = db.daoRoll().insert(itemNote12.getId(), textToRoll);
-
-            itemNote12.setChange(context);
-            itemNote12.setType(DefType.roll);
-            itemNote12.setText(0, listRoll.size());
-
-            db.daoNote().update(itemNote12);
-            db.close();
-
-            repoNote.setItemNote(itemNote12);
-            repoNote.setListRoll(listRoll);
-
-            vm.setRepoNote(repoNote);
-            activity.vm.setRepoNote(repoNote);
-            activity.setupFrg(false);
-        });
-
-        dialogColor = (DialogColor) fm.findFragmentByTag(Dlg.COLOR);
-        if (dialogColor == null) dialogColor = new DialogColor();
-        dialogColor.setPositiveButton((dialogInterface, i) -> {
-            RepoNote repoNote = vm.getRepoNote();
-            ItemNote itemNote1 = repoNote.getItemNote();
-            itemNote1.setColor(i);
-            repoNote.setItemNote(itemNote1);
-
-            vm.setRepoNote(repoNote);
-
-            menuNote.startTint(i);
-        });
     }
 
     /**
@@ -179,6 +151,84 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             activity.saveNote.setNeedSave(false);
             activity.finish();
         }
+    }
+
+    private DlgConvert dlgConvert;
+    private DlgColor dlgColor;
+    private DlgRank dlgRank;
+
+    private void setupDialog() {
+        Log.i(TAG, "setupDialog");
+
+        dlgConvert = (DlgConvert) fm.findFragmentByTag(Dlg.CONVERT);
+        if (dlgConvert == null) dlgConvert = new DlgConvert();
+        dlgConvert.setPositiveButton((dialogInterface, i) -> {
+            RepoNote repoNote = vm.getRepoNote();
+            ItemNote itemNote = repoNote.getItemNote();
+            String[] textToRoll = itemNote.getText().split("\n");   //Получаем пункты списка
+
+            db = DbRoom.provideDb(context);
+            List<ItemRoll> listRoll = db.daoRoll().insert(itemNote.getId(), textToRoll);
+
+            itemNote.setChange(context);
+            itemNote.setType(DefType.roll);
+            itemNote.setText(0, listRoll.size());
+
+            db.daoNote().update(itemNote);
+            db.close();
+
+            repoNote.setItemNote(itemNote);
+            repoNote.setListRoll(listRoll);
+
+            vm.setRepoNote(repoNote);
+            activity.vm.setRepoNote(repoNote);
+            activity.setupFrg(false);
+        });
+
+        dlgColor = (DlgColor) fm.findFragmentByTag(Dlg.COLOR);
+        if (dlgColor == null) dlgColor = new DlgColor();
+        dlgColor.setTitle(getString(R.string.dialog_title_color));
+        dlgColor.setPositiveButton((dialogInterface, i) -> {
+            int check = dlgColor.getCheck();
+
+            RepoNote repoNote = vm.getRepoNote();
+            ItemNote itemNote = repoNote.getItemNote();
+            itemNote.setColor(check);
+            repoNote.setItemNote(itemNote);
+
+            vm.setRepoNote(repoNote);
+
+            menuNote.startTint(i);
+        });
+
+        dlgRank = (DlgRank) fm.findFragmentByTag(Dlg.RANK);
+        if (dlgRank == null) dlgRank = new DlgRank();
+        dlgRank.setPositiveButton((dialogInterface, i) -> {
+            boolean[] check = dlgRank.getCheck();
+
+            db = DbRoom.provideDb(context);
+            Long[] id = db.daoRank().getId();
+            db.close();
+
+            List<Long> rankId = new ArrayList<>();
+            List<Long> rankPs = new ArrayList<>();
+
+            for (int j = 0; j < id.length; j++) {
+                if (check[j]) {
+                    rankId.add(id[j]);
+                    rankPs.add((long) j);
+                }
+            }
+
+            RepoNote repoNote = vm.getRepoNote();
+
+            ItemNote itemNote = repoNote.getItemNote();
+            itemNote.setRankId(ConvList.fromList(rankId));
+            itemNote.setRankPs(ConvList.fromList(rankPs));
+            repoNote.setItemNote(itemNote);
+
+            vm.setRepoNote(repoNote);
+        });
     }
 
     @Override
@@ -223,43 +273,17 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
 
-        db = DbRoom.provideDb(context);
-        final String[] checkName = db.daoRank().getName();
-        final Long[] checkId = db.daoRank().getId();
-        final boolean[] checkItem = db.daoRank().getCheck(vm.getRepoNote().getItemNote().getRankId());
-        db.close();
-
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog);
-        alert.setTitle(getString(R.string.dialog_title_rank))
-                .setMultiChoiceItems(checkName, checkItem, (dialog, which, isChecked) -> checkItem[which] = isChecked)
-                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
-                    List<Long> rankId = new ArrayList<>();
-                    List<Long> rankPs = new ArrayList<>();
+        ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-                    for (int i = 0; i < checkId.length; i++) {
-                        if (checkItem[i]) {
-                            rankId.add(checkId[i]);
-                            rankPs.add((long) i);
-                        }
-                    }
+        db = DbRoom.provideDb(context);
+        String[] name = db.daoRank().getName();
+        boolean[] check = db.daoRank().getCheck(itemNote.getRankId());
+        db.close();
 
-                    RepoNote repoNote = vm.getRepoNote();
-
-                    ItemNote itemNote = repoNote.getItemNote();
-                    itemNote.setRankId(ConvList.fromList(rankId));
-                    itemNote.setRankPs(ConvList.fromList(rankPs));
-                    repoNote.setItemNote(itemNote);
-
-                    vm.setRepoNote(repoNote);
-
-                    dialog.cancel();
-                })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
-                .setCancelable(true);
-        AlertDialog dialog = alert.create();
-        dialog.show();
+        dlgRank.setArguments(name, check);
+        dlgRank.show(fm, Dlg.RANK);
     }
 
     @Override
@@ -270,8 +294,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-        dialogColor.setArguments(itemNote.getColor());
-        dialogColor.show(getFragmentManager(), Dlg.COLOR);
+        dlgColor.setArguments(itemNote.getColor());
+        dlgColor.show(fm, Dlg.COLOR);
 
         menuNote.setStartColor(itemNote.getColor());
     }
@@ -323,8 +347,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-        dialogConvert.setArguments(itemNote.getType());
-        dialogConvert.show(getFragmentManager(), Dlg.CONVERT);
+        dlgConvert.setArguments(itemNote.getType());
+        dlgConvert.show(fm, Dlg.CONVERT);
     }
 
     private void setupEnter() {

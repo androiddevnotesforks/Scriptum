@@ -11,7 +11,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import sgtmelon.handynotes.R;
 
-public class DialogSheetAdd extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
+public class DlgSheetAdd extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

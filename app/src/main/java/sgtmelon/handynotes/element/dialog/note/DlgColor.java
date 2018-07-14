@@ -2,21 +2,19 @@ package sgtmelon.handynotes.element.dialog.note;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpColor;
 import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.blank.BlankDialog;
 
-public class DialogColor extends DialogFragment
-        implements DialogInterface.OnClickListener {
+public class DlgColor extends BlankDialog {
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();
@@ -24,8 +22,18 @@ public class DialogColor extends DialogFragment
         setArguments(arg);
     }
 
-    private int check;
     private AdpColor adapter;
+    private int check;
+
+    public int getCheck() {
+        return adapter.getCheck();
+    }
+
+    private String title;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -53,24 +61,12 @@ public class DialogColor extends DialogFragment
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
         return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
-                .setTitle(getString(R.string.dialog_title_color))
+                .setTitle(title)
                 .setView(recyclerView)
-                .setPositiveButton(getString(R.string.dialog_btn_accept), this)
+                .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
-    }
-
-    private DialogInterface.OnClickListener positiveButton;
-
-    public void setPositiveButton(DialogInterface.OnClickListener positiveButton) {
-        this.positiveButton = positiveButton;
-    }
-
-    @Override
-    public void onClick(DialogInterface dialogInterface, int i) {
-        positiveButton.onClick(dialogInterface, adapter.getCheck());
-        dialogInterface.cancel();
     }
 
     @Override

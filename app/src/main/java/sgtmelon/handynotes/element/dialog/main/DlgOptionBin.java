@@ -12,7 +12,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 
-public class DialogOptionBin extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgOptionBin extends DialogFragment implements DialogInterface.OnClickListener {
 
     public void setArguments(int p) {
         Bundle arg = new Bundle();

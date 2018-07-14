@@ -1,10 +1,6 @@
 package sgtmelon.handynotes.app.adapter;
 
-import androidx.databinding.DataBindingUtil;
 import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,11 +11,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.databinding.ItemRankBinding;
-import sgtmelon.handynotes.element.button.ButtonVisible;
-import sgtmelon.handynotes.element.button.ButtonVisiblePre;
+import sgtmelon.handynotes.element.button.BtnVisible;
+import sgtmelon.handynotes.element.button.BtnVisiblePre;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
@@ -96,9 +96,9 @@ public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
 
         private final View rkClick;
 
-        private ButtonVisiblePre rkVisiblePre;
+        private BtnVisiblePre rkVisiblePre;
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-        private ButtonVisible rkVisible;
+        private BtnVisible rkVisible;
 
         private final ImageButton rkCancel;
 

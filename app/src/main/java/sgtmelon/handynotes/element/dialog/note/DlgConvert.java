@@ -2,17 +2,15 @@ package sgtmelon.handynotes.element.dialog.note;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.blank.BlankDialog;
 
-public class DialogConvert extends DialogFragment
-        implements DialogInterface.OnClickListener {
+public class DlgConvert extends BlankDialog {
 
     public void setArguments(@DefType int type) {
         Bundle arg = new Bundle();
@@ -40,22 +38,10 @@ public class DialogConvert extends DialogFragment
         return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
                 .setTitle(context.getString(R.string.dialog_title_convert))
                 .setMessage(message)
-                .setPositiveButton(context.getString(R.string.dialog_btn_yes), this)
+                .setPositiveButton(context.getString(R.string.dialog_btn_yes), positiveClick)
                 .setNegativeButton(context.getString(R.string.dialog_btn_no), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
-    }
-
-    private DialogInterface.OnClickListener positiveButton;
-
-    public void setPositiveButton(DialogInterface.OnClickListener positiveButton) {
-        this.positiveButton = positiveButton;
-    }
-
-    @Override
-    public void onClick(DialogInterface dialogInterface, int i) {
-        positiveButton.onClick(dialogInterface, i);
-        dialogInterface.cancel();
     }
 
     @Override

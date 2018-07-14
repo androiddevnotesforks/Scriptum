@@ -5,19 +5,19 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.AppCompatImageButton;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-public class ButtonVisible extends AppCompatImageButton {
+public class BtnVisible extends AppCompatImageButton {
 
     private final Context context;
 
-    public ButtonVisible(Context context) {
+    public BtnVisible(Context context) {
         super(context);
 
         this.context = context;
@@ -25,7 +25,7 @@ public class ButtonVisible extends AppCompatImageButton {
         setupDrawable();
     }
 
-    public ButtonVisible(Context context, AttributeSet attrs) {
+    public BtnVisible(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         this.context = context;
@@ -33,7 +33,7 @@ public class ButtonVisible extends AppCompatImageButton {
         setupDrawable();
     }
 
-    public ButtonVisible(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BtnVisible(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         this.context = context;

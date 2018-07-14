@@ -30,8 +30,8 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.element.dialog.main.DialogClearBin;
-import sgtmelon.handynotes.element.dialog.main.DialogOptionBin;
+import sgtmelon.handynotes.element.dialog.main.DlgClearBin;
+import sgtmelon.handynotes.element.dialog.main.DlgOptionBin;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
@@ -49,6 +49,7 @@ public class FrgBin extends Fragment implements
     private DbRoom db;
 
     private Context context;
+    private FragmentManager fm;
 
     private FrgBinBinding binding;
     private View frgView;
@@ -60,7 +61,9 @@ public class FrgBin extends Fragment implements
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.i(TAG, "onAttach");
+
         this.context = context;
+        fm = getFragmentManager();
     }
 
     @Nullable
@@ -99,12 +102,10 @@ public class FrgBin extends Fragment implements
     }
 
     private MenuItem mItemClearBin;
-    private DialogClearBin clearBin;
+    private DlgClearBin dlgClearBin;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
-
-        FragmentManager fm = getFragmentManager();
 
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_frg_bin));
@@ -113,7 +114,7 @@ public class FrgBin extends Fragment implements
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_frgBin_clear:
-                    if (!clearBin.isVisible()) clearBin.show(fm, Dlg.CLEAR_BIN);
+                    if (!dlgClearBin.isVisible()) dlgClearBin.show(fm, Dlg.CLEAR_BIN);
                     return true;
             }
             return false;
@@ -124,10 +125,10 @@ public class FrgBin extends Fragment implements
 
         Help.Icon.tintMenuIcon(context, mItemClearBin);
 
-        clearBin = (DialogClearBin) fm.findFragmentByTag(Dlg.CLEAR_BIN);
-        if (clearBin == null) clearBin = new DialogClearBin();
+        dlgClearBin = (DlgClearBin) fm.findFragmentByTag(Dlg.CLEAR_BIN);
+        if (dlgClearBin == null) dlgClearBin = new DlgClearBin();
 
-        clearBin.setPositiveButton((dialogInterface, i) -> {
+        dlgClearBin.setPositiveButton((dialogInterface, i) -> {
             db = DbRoom.provideDb(context);
             db.daoNote().clearBin();
             db.close();
@@ -150,7 +151,7 @@ public class FrgBin extends Fragment implements
     }
 
     private AdpNote adapter;
-    private DialogOptionBin optionBin;
+    private DlgOptionBin dlgOptionBin;
 
     private void setupRecyclerView() {
         Log.i(TAG, "setupRecyclerView");
@@ -173,11 +174,9 @@ public class FrgBin extends Fragment implements
 
         adapter.setCallback(this, this);
 
-        FragmentManager fm = getFragmentManager();
-
-        optionBin = (DialogOptionBin) fm.findFragmentByTag(Dlg.OPTIONS);
-        if (optionBin == null) optionBin = new DialogOptionBin();
-        optionBin.setOptionBin(this);
+        dlgOptionBin = (DlgOptionBin) fm.findFragmentByTag(Dlg.OPTIONS);
+        if (dlgOptionBin == null) dlgOptionBin = new DlgOptionBin();
+        dlgOptionBin.setOptionBin(this);
     }
 
     private void updateAdapter() {
@@ -210,8 +209,8 @@ public class FrgBin extends Fragment implements
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        optionBin.setArguments(p);
-        optionBin.show(getFragmentManager(), Dlg.OPTIONS);
+        dlgOptionBin.setArguments(p);
+        dlgOptionBin.show(fm, Dlg.OPTIONS);
     }
 
     @Override

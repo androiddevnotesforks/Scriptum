@@ -2,20 +2,20 @@ package sgtmelon.handynotes.element.button;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import androidx.appcompat.widget.AppCompatImageButton;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatImageButton;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
 
 /**
  * Версия кнопки видимости категории для версии < API 21
  */
-public class ButtonVisiblePre extends AppCompatImageButton {
+public class BtnVisiblePre extends AppCompatImageButton {
 
     private final Context context;
 
-    public ButtonVisiblePre(Context context) {
+    public BtnVisiblePre(Context context) {
         super(context);
 
         this.context = context;
@@ -23,7 +23,7 @@ public class ButtonVisiblePre extends AppCompatImageButton {
         setupDrawable();
     }
 
-    public ButtonVisiblePre(Context context, AttributeSet attrs) {
+    public BtnVisiblePre(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         this.context = context;
@@ -31,7 +31,7 @@ public class ButtonVisiblePre extends AppCompatImageButton {
         setupDrawable();
     }
 
-    public ButtonVisiblePre(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BtnVisiblePre(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         this.context = context;

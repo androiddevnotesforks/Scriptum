@@ -11,17 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.act.ActDevelop;
 import sgtmelon.handynotes.app.view.act.ActSettings;
-import sgtmelon.handynotes.element.alert.AlertColor;
-import sgtmelon.handynotes.element.alert.AlertSort;
+import sgtmelon.handynotes.element.dialog.note.DlgColor;
+import sgtmelon.handynotes.element.dialog.settings.DlgInfo;
+import sgtmelon.handynotes.element.dialog.settings.DlgSaveTime;
+import sgtmelon.handynotes.element.dialog.settings.DlgSort;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 
 public class FrgSettings extends PreferenceFragment {
@@ -31,6 +33,8 @@ public class FrgSettings extends PreferenceFragment {
     private static final String TAG = "FrgSettings";
 
     private ActSettings activity;
+    private FragmentManager fm;
+
     private SharedPreferences pref;
 
     @Override
@@ -41,6 +45,8 @@ public class FrgSettings extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preference);
 
         activity = (ActSettings) getActivity();
+        fm = activity.getSupportFragmentManager();
+
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         setupSortPref();
@@ -63,53 +69,47 @@ public class FrgSettings extends PreferenceFragment {
     }
 
     private Preference prefSort;
+    private String sort;
+    private DlgSort dlgSort;
 
     private void setupSortPref() {
         Log.i(TAG, "setupSortPref");
 
-        Preference.OnPreferenceClickListener preferenceClickListener = preference -> {
-            alertSort(preference.getKey());
-            return true;
-        };
-
         prefSort = findPreference(getString(R.string.pref_key_sort));
+        sort = pref.getString(getString(R.string.pref_key_sort), DefSort.def);
         prefSort.setSummary(Help.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), DefSort.def)));
-        prefSort.setOnPreferenceClickListener(preferenceClickListener);
+        prefSort.setOnPreferenceClickListener(preference -> {
+            dlgSort.setArguments(sort);
+            dlgSort.show(fm, Dlg.SORT);
+            return true;
+        });
+
+        dlgSort = (DlgSort) fm.findFragmentByTag(Dlg.SORT);
+        if (dlgSort == null) dlgSort = new DlgSort();
+        dlgSort.setPositiveButton((dialogInterface, i) -> {
+            sort = dlgSort.getKeys();
+            pref.edit().putString(getString(R.string.pref_key_sort), sort).apply();
+
+            String summary = Help.Pref.getSortSummary(activity, sort);
+            prefSort.setSummary(summary);
+        });
+        dlgSort.setNeutralButton((dialogInterface, i) -> {
+            sort = DefSort.def;
+            pref.edit().putString(getString(R.string.pref_key_sort), sort).apply();
+
+            String summary = Help.Pref.getSortSummary(activity, sort);
+            prefSort.setSummary(summary);
+        });
 
     }
 
-    private void alertSort(final String prefKey) {
-        Log.i(TAG, "alertSort");
+    private Preference prefColorCreate;
+    private int colorCreate;
+    private DlgColor dlgColor;
 
-        final AlertSort alert = new AlertSort(activity, pref.getString(prefKey, DefSort.def), R.style.AppTheme_AlertDialog);
-
-        alert.setTitle(getString(R.string.dialog_title_sort))
-                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
-                    String keys = alert.getKeys();
-                    pref.edit().putString(prefKey, keys).apply();
-
-                    String summary = Help.Pref.getSortSummary(activity, keys);
-                    prefSort.setSummary(summary);
-
-                    dialog.cancel();
-                })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
-                .setNeutralButton(getString(R.string.dialog_btn_reset), (dialogInterface, i) -> {
-                    String keys = DefSort.def;
-                    pref.edit().putString(prefKey, keys).apply();
-
-                    String summary = Help.Pref.getSortSummary(activity, keys);
-                    prefSort.setSummary(summary);
-
-                    dialogInterface.cancel();
-                })
-                .setCancelable(true);
-        AlertDialog dialog = alert.create();
-        dialog.show();
-    }
-
-    private Preference prefColorCreate, prefAutoSaveTime;
-    private int colorCreate, autoSaveTime;
+    private Preference prefAutoSaveTime;
+    private int autoSaveTime;
+    private DlgSaveTime dlgSaveTime;
 
     private void setupNotePref() {
         Log.i(TAG, "setupNotePref");
@@ -118,16 +118,37 @@ public class FrgSettings extends PreferenceFragment {
         colorCreate = pref.getInt(getString(R.string.pref_key_color_create), getResources().getInteger(R.integer.pref_default_color_create));
         prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
         prefColorCreate.setOnPreferenceClickListener(preference -> {
-            alertColorCreate();
+            dlgColor.setArguments(colorCreate);
+            dlgColor.show(fm, Dlg.COLOR);
             return true;
+        });
+
+        dlgColor = (DlgColor) fm.findFragmentByTag(Dlg.COLOR);
+        if (dlgColor == null) dlgColor = new DlgColor();
+        dlgColor.setTitle(getString(R.string.pref_title_color_create));
+        dlgColor.setPositiveButton((dialogInterface, i) -> {
+            colorCreate = dlgColor.getCheck();
+
+            pref.edit().putInt(getString(R.string.pref_key_color_create), colorCreate).apply();
+            prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
         });
 
         prefAutoSaveTime = findPreference(getString(R.string.pref_key_auto_save_time));
         autoSaveTime = pref.getInt(getString(R.string.pref_key_auto_save_time), getResources().getInteger(R.integer.pref_default_auto_save_time));
         prefAutoSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[autoSaveTime]);
         prefAutoSaveTime.setOnPreferenceClickListener(preference -> {
-            alertAutoSaveTime();
+            dlgSaveTime.setArguments(autoSaveTime);
+            dlgSaveTime.show(fm, Dlg.SAVE_TIME);
             return true;
+        });
+
+        dlgSaveTime = (DlgSaveTime) fm.findFragmentByTag(Dlg.SAVE_TIME);
+        if (dlgSaveTime == null) dlgSaveTime = new DlgSaveTime();
+        dlgSaveTime.setPositiveButton((dialogInterface, i) -> {
+            autoSaveTime = dlgSaveTime.getCheck();
+
+            pref.edit().putInt(getString(R.string.pref_key_auto_save_time), autoSaveTime).apply();
+            prefAutoSaveTime.setSummary(dlgSaveTime.getName()[autoSaveTime]);
         });
 
         CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
@@ -139,77 +160,21 @@ public class FrgSettings extends PreferenceFragment {
         prefAutoSaveTime.setEnabled(prefAutoSave.isChecked());
     }
 
-    private void alertColorCreate() {
-        Log.i(TAG, "alertColorCreate");
-
-        final AlertColor alert = new AlertColor(activity, colorCreate, R.style.AppTheme_AlertDialog);
-        alert.setTitle(getString(R.string.pref_title_color_create))
-                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
-                    colorCreate = alert.getCheck();
-
-                    pref.edit().putInt(getString(R.string.pref_key_color_create), colorCreate).apply();
-                    prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
-
-                    dialog.cancel();
-                })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
-                .setCancelable(true);
-        AlertDialog dialog = alert.create();
-        dialog.show();
-    }
-
-    private void alertAutoSaveTime() {
-        Log.i(TAG, "alertAutoSaveTime");
-
-        final String[] name = getResources().getStringArray(R.array.pref_text_save_time);
-        final int[] value = new int[1];
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppTheme_AlertDialog);
-        alert.setTitle(getString(R.string.pref_title_auto_save_time))
-                .setSingleChoiceItems(name, autoSaveTime, (dialogInterface, i) -> value[0] = i)
-                .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
-                    autoSaveTime = value[0];
-
-                    pref.edit().putInt(getString(R.string.pref_key_auto_save_time), autoSaveTime).apply();
-                    prefAutoSaveTime.setSummary(name[autoSaveTime]);
-
-                    dialog.cancel();
-                })
-                .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
-                .setCancelable(true);
-
-        AlertDialog dialog = alert.create();
-        dialog.show();
-    }
+    private DlgInfo dlgInfo;
 
     private void setupOtherPref() {
         Log.i(TAG, "setupOtherPref");
 
+        dlgInfo = (DlgInfo) fm.findFragmentByTag(Dlg.INFO);
+        if (dlgInfo == null) dlgInfo = new DlgInfo();
+        dlgInfo.setLogoClick(view -> {
+            Intent intent = new Intent(activity, ActDevelop.class);
+            startActivity(intent);
+        });
+
         Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
         prefOtherAbout.setOnPreferenceClickListener(preference -> {
-            View view = LayoutInflater.from(activity).inflate(R.layout.view_about, null);
-            ImageView logo = view.findViewById(R.id.viewAbout_iv_logo);
-
-            logo.setOnClickListener(new View.OnClickListener() {
-
-                private int click = 0;
-                private final int show = 9;
-
-                @Override
-                public void onClick(View view) {
-                    if (++click == show) {
-                        click = 0;
-                        Intent intent = new Intent(activity, ActDevelop.class);
-                        startActivity(intent);
-                    }
-                }
-            });
-
-            AlertDialog.Builder alert = new AlertDialog.Builder(activity, R.style.AppTheme_AlertDialog);
-            alert.setView(view).setCancelable(true);
-
-            AlertDialog dialog = alert.create();
-            dialog.show();
+            dlgInfo.show(fm, Dlg.INFO);
             return true;
         });
     }

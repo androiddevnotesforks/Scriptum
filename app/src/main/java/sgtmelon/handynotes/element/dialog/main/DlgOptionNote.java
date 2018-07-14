@@ -13,7 +13,7 @@ import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 
-public class DialogOptionNote extends DialogFragment implements DialogInterface.OnClickListener {
+public class DlgOptionNote extends DialogFragment implements DialogInterface.OnClickListener {
 
     public void setArguments(@DefType int type, boolean status, boolean isAll, int p) {
         Bundle arg = new Bundle();

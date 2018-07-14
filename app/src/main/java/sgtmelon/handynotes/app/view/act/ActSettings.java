@@ -1,12 +1,12 @@
 package sgtmelon.handynotes.app.view.act;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.frg.FrgSettings;
 import sgtmelon.handynotes.office.Help;

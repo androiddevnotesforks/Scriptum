@@ -16,7 +16,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
-import sgtmelon.handynotes.element.dialog.main.DialogSheetAdd;
+import sgtmelon.handynotes.element.dialog.main.DlgSheetAdd;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.Frg;
@@ -30,15 +30,21 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    //region Variable
     private static final String TAG = "ActMain";
 
+    private FragmentManager fm;
+
     private StPage stPage;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
         Log.i(TAG, "onCreate");
+
+        fm = getSupportFragmentManager();
 
         stPage = new StPage();
 
@@ -47,18 +53,14 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
                 : DefPage.notes);
     }
 
-    private FragmentManager fm;
-
     private FrgRank frgRank;
     private FrgNotes frgNotes;
     private FrgBin frgBin;
 
-    private DialogSheetAdd dialogSheetAdd;
+    private DlgSheetAdd dlgSheetAdd;
 
     private void setupNavigation(@DefPage int page) {
         Log.i(TAG, "setupNavigation");
-
-        fm = getSupportFragmentManager();
 
         frgRank = (FrgRank) fm.findFragmentByTag(Frg.RANK);
         if (frgRank == null) frgRank = new FrgRank();
@@ -73,11 +75,10 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
         navigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setSelectedItemId(DefPage.itemId[page]);
 
-        dialogSheetAdd = (DialogSheetAdd) fm.findFragmentByTag(Dlg.SHEET_ADD);
-        if (dialogSheetAdd == null) dialogSheetAdd = new DialogSheetAdd();
-
-        dialogSheetAdd.setNavigationItemSelectedListener(menuItem -> {
-            dialogSheetAdd.dismiss();
+        dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(Dlg.SHEET_ADD);
+        if (dlgSheetAdd == null) dlgSheetAdd = new DlgSheetAdd();
+        dlgSheetAdd.setNavigationItemSelectedListener(menuItem -> {
+            dlgSheetAdd.dismiss();
 
             Intent intent = new Intent(ActMain.this, ActNote.class);
 
@@ -97,7 +98,7 @@ public class ActMain extends AppCompatActivity implements BottomNavigationView.O
 
         boolean add = stPage.setPage(menuItem.getItemId());
         if (add) {
-            if (!dialogSheetAdd.isVisible()) dialogSheetAdd.show(fm, Dlg.SHEET_ADD);
+            if (!dlgSheetAdd.isVisible()) dlgSheetAdd.show(fm, Dlg.SHEET_ADD);
         } else {
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

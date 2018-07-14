@@ -44,6 +44,14 @@ public class RepoRank {
         return listRank.get(position);
     }
 
+    public int get(String name) {
+        if (listName.contains(name)) {
+            return listName.indexOf(name);
+        } else {
+            return -1;
+        }
+    }
+
     public void set(int position, ItemRank itemRank) {
         listRank.set(position, itemRank);
         listName.set(position, itemRank.getName().toUpperCase());

@@ -16,10 +16,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -32,8 +32,9 @@ import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.repo.RepoRank;
 import sgtmelon.handynotes.app.viewModel.VmFrgRank;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
-import sgtmelon.handynotes.element.alert.AlertRename;
+import sgtmelon.handynotes.element.dialog.main.DlgRename;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.office.st.StDrag;
 
@@ -46,6 +47,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     private DbRoom db;
 
     private Context context;
+    private FragmentManager fm;
 
     private FrgRankBinding binding;
     private View frgView;
@@ -57,7 +59,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.i(TAG, "onAttach");
+
         this.context = context;
+        fm = getFragmentManager();
     }
 
     @Nullable
@@ -240,6 +244,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     private LinearLayoutManager layoutManager;
 
     private AdpRank adapter;
+
+    private DlgRename dlgRename;
     //endregion
 
     private void setupRecyclerView() {
@@ -267,6 +273,31 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        dlgRename = (DlgRename) fm.findFragmentByTag(Dlg.RENAME);
+        if (dlgRename == null) dlgRename = new DlgRename();
+        dlgRename.setPositiveButton((dialogInterface, i) -> {
+            RepoRank repoRank = vm.getRepoRank();
+            int p = repoRank.get(dlgRename.getTitle().toUpperCase());
+
+            // FIXME: 14.07.2018 не работает
+
+            ItemRank itemRank = repoRank.get(p);
+            itemRank.setName(dlgRename.getName());
+
+            db = DbRoom.provideDb(context);
+            db.daoRank().update(itemRank);
+            db.close();
+
+            repoRank.set(p, itemRank);
+
+            tintButton();
+
+            vm.setRepoRank(repoRank);
+
+            adapter.update(p, itemRank);
+            adapter.notifyItemChanged(p);
+        });
     }
 
     private void updateAdapter() {
@@ -303,33 +334,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.close();
                 break;
             case R.id.itemRank_ll_click:
-                final AlertRename alert = new AlertRename(context, R.style.AppTheme_AlertDialog);
-                alert.setTitle(itemRank.getName())
-                        .setPositiveButton(getString(R.string.dialog_btn_accept), (dialog, id) -> {
-                            itemRank.setName(alert.getRename());
-
-                            db = DbRoom.provideDb(context);
-                            db.daoRank().update(itemRank);
-                            db.close();
-
-                            repoRank.set(p, itemRank);
-
-                            tintButton();
-
-                            vm.setRepoRank(repoRank);
-
-                            adapter.update(p, itemRank);
-                            adapter.notifyItemChanged(p);
-
-                            dialog.cancel();
-                        })
-                        .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
-                        .setCancelable(true);
-
-                AlertDialog dialog = alert.create();
-                dialog.show();
-
-                alert.setTextChange(dialog, repoRank.getListName());
+                dlgRename.setArguments(itemRank.getName(), repoRank.getListName().toArray(new String[0]));
+                dlgRename.show(fm, Dlg.RENAME);
                 break;
             case R.id.itemRank_ib_cancel:
                 db = DbRoom.provideDb(context);
