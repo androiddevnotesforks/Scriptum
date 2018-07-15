@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog.main;
+package sgtmelon.handynotes.element.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
@@ -21,29 +21,21 @@ import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
-public class DlgRename extends BlankDialog
-        implements TextWatcher, TextView.OnEditorActionListener {
+public class DlgRename extends BlankDialog implements TextView.OnEditorActionListener {
 
-    public void setArguments(String title, String[] listName) {
+    public void setArguments(int p, String title, ArrayList<String> listName) {
         Bundle arg = new Bundle();
+        arg.putInt(Db.RK_PS, p);
         arg.putString(Dlg.VALUE, title);
-
-        // FIXME: 14.07.2018 сделай нормально
-        for (int i = 0; i < listName.length; i++){
-            listName[i] = listName[i].toUpperCase();
-        }
-
-        arg.putStringArray(Db.RK_NM, listName);
-
+        arg.putStringArrayList(Db.RK_NM, listName);
         setArguments(arg);
     }
 
-    private String[] listName;
+    private int position;
+    private ArrayList<String> listName;
 
-    private String title;
-
-    public String getTitle() {
-        return title;
+    public int getPosition() {
+        return position;
     }
 
     private EditText nameEnter;
@@ -52,25 +44,40 @@ public class DlgRename extends BlankDialog
         return nameEnter.getText().toString();
     }
 
-    private AlertDialog dialog;
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();
         Bundle arg = getArguments();
 
         if (arg != null) {
+            position = arg.getInt(Db.RK_PS);
             title = arg.getString(Dlg.VALUE);
-            listName = arg.getStringArray(Db.RK_NM);
+            listName = arg.getStringArrayList(Db.RK_NM);
         } else if (savedInstanceState != null) {
+            position = savedInstanceState.getInt(Db.RK_PS);
             title = savedInstanceState.getString(Dlg.VALUE);
-            listName = savedInstanceState.getStringArray(Db.RK_NM);
+            listName = savedInstanceState.getStringArrayList(Db.RK_NM);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
         nameEnter = view.findViewById(R.id.viewRename_et_enter);
 
-        nameEnter.addTextChangedListener(this);
+        nameEnter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                setEnable();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         nameEnter.setOnEditorActionListener(this);
 
         return  new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
@@ -85,26 +92,16 @@ public class DlgRename extends BlankDialog
     @Override
     public void onStart() {
         super.onStart();
-        dialog = (AlertDialog) getDialog();
-        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+        setEnable();
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+    private AlertDialog dialog;
 
-    }
-
-    @Override
-    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable editable) {
-        String name = getName();
+    private void setEnable(){
         if (dialog == null) dialog = (AlertDialog) getDialog();
 
-        if (name.equals("") || Arrays.asList(listName).contains(name.toUpperCase())) {
+        String name = getName();
+        if (name.equals("") || listName.contains(name.toUpperCase())) {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
         } else {
             dialog.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
@@ -117,7 +114,7 @@ public class DlgRename extends BlankDialog
             String name = getName();
             if (dialog == null) dialog = (AlertDialog) getDialog();
 
-            if (!name.equals("") && !Arrays.asList(listName).contains(name.toUpperCase())) {
+            if (!name.equals("") && !listName.contains(name.toUpperCase())) {
                 dialog.getButton(DialogInterface.BUTTON_POSITIVE).callOnClick();
                 return true;
             }
@@ -129,8 +126,9 @@ public class DlgRename extends BlankDialog
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        outState.putInt(Db.RK_PS, position);
         outState.putString(Dlg.VALUE, title);
-        outState.putStringArray(Db.RK_NM, listName);
+        outState.putStringArrayList(Db.RK_NM, listName);
     }
 
 }

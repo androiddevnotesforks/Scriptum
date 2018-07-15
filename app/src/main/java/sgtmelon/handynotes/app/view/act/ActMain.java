@@ -16,7 +16,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
-import sgtmelon.handynotes.element.dialog.main.DlgSheetAdd;
+import sgtmelon.handynotes.element.dialog.DlgSheetAdd;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.Frg;

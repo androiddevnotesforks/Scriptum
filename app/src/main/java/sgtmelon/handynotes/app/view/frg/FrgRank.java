@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,7 @@ import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.repo.RepoRank;
 import sgtmelon.handynotes.app.viewModel.VmFrgRank;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
-import sgtmelon.handynotes.element.dialog.main.DlgRename;
+import sgtmelon.handynotes.element.dialog.DlgRename;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.intf.IntfItem;
@@ -135,6 +136,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         rankEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_DONE) {
                 String name = rankEnter.getText().toString().toUpperCase();
+
                 if (!name.equals("") && !vm.getRepoRank().getListName().contains(name)) {
                     onClick(rankAdd);
                 }
@@ -277,11 +279,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         dlgRename = (DlgRename) fm.findFragmentByTag(Dlg.RENAME);
         if (dlgRename == null) dlgRename = new DlgRename();
         dlgRename.setPositiveButton((dialogInterface, i) -> {
+            int p = dlgRename.getPosition();
+
             RepoRank repoRank = vm.getRepoRank();
-            int p = repoRank.get(dlgRename.getTitle().toUpperCase());
-
-            // FIXME: 14.07.2018 не работает
-
             ItemRank itemRank = repoRank.get(p);
             itemRank.setName(dlgRename.getName());
 
@@ -334,7 +334,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.close();
                 break;
             case R.id.itemRank_ll_click:
-                dlgRename.setArguments(itemRank.getName(), repoRank.getListName().toArray(new String[0]));
+                dlgRename.setArguments(p, itemRank.getName(), new ArrayList<>(repoRank.getListName()));
                 dlgRename.show(fm, Dlg.RENAME);
                 break;
             case R.id.itemRank_ib_cancel:

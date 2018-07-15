@@ -1,13 +1,12 @@
 package sgtmelon.handynotes.app.model.item;
 
+import java.util.List;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-
-import java.util.List;
-
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.conv.ConvBool;
@@ -56,8 +55,7 @@ public class ItemRank {
      */
     public void removeId(long noteId) {
         List<Long> createList = ConvList.toList(idNote);
-        int index = createList.indexOf(noteId);
-        createList.remove(index);
+        createList.remove(noteId);
         idNote = ConvList.fromList(createList);
     }
 

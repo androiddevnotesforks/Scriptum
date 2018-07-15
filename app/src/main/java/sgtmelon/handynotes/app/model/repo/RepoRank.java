@@ -7,7 +7,7 @@ import sgtmelon.handynotes.app.model.item.ItemRank;
 public class RepoRank {
 
     private List<ItemRank> listRank;
-    private List<String> listName;
+    private final List<String> listName;
 
     public RepoRank(List<ItemRank> listRank, List<String> listName) {
         this.listRank = listRank;
@@ -42,14 +42,6 @@ public class RepoRank {
 
     public ItemRank get(int position) {
         return listRank.get(position);
-    }
-
-    public int get(String name) {
-        if (listName.contains(name)) {
-            return listName.indexOf(name);
-        } else {
-            return -1;
-        }
     }
 
     public void set(int position, ItemRank itemRank) {

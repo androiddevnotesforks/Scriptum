@@ -86,11 +86,6 @@
     <string name="dialog_menu_add_text">Текст</string>
     <string name="dialog_menu_add_roll">Список</string>
 
-    <string-array name="dialog_menu_add">
-        <item>Текст</item>
-        <item>Список</item>
-    </string-array>
-
     <string-array name="dialog_menu_text">
         <item />
         <item>@string/dialog_menu_convert_to_roll</item>

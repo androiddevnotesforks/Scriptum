@@ -22,7 +22,7 @@ public class BlankDialog extends DialogFragment {
         this.positiveButton = positiveButton;
     }
 
-    protected DialogInterface.OnClickListener positiveClick = new DialogInterface.OnClickListener() {
+    protected final DialogInterface.OnClickListener positiveClick = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             positiveButton.onClick(dialogInterface, i);
@@ -36,7 +36,7 @@ public class BlankDialog extends DialogFragment {
         this.neutralButton = neutralButton;
     }
 
-    protected DialogInterface.OnClickListener neutralClick = new DialogInterface.OnClickListener() {
+    protected final DialogInterface.OnClickListener neutralClick = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
             neutralButton.onClick(dialogInterface, i);

@@ -1,11 +1,5 @@
 package sgtmelon.handynotes.app.dataBase.dao;
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Transaction;
-import androidx.room.Update;
 import android.text.TextUtils;
 import android.widget.TextView;
 
@@ -14,6 +8,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Transaction;
+import androidx.room.Update;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.repo.RepoRank;
@@ -54,6 +54,11 @@ public abstract class DaoRank extends DaoBase {
     public RepoRank get() {
         List<ItemRank> listRank = getComplex();
         List<String> listName = getNameUp();
+
+        for (int i = 0; i < listName.size(); i++) {
+            String name = listName.get(i);
+            listName.set(i, name.toUpperCase());
+        }
 
         return new RepoRank(listRank, listName);
     }

@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog.main;
+package sgtmelon.handynotes.element.dialog;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

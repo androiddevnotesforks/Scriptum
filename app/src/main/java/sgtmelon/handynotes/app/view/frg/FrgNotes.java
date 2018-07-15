@@ -32,7 +32,7 @@ import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.view.act.ActSettings;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
-import sgtmelon.handynotes.element.dialog.main.DlgOptionNote;
+import sgtmelon.handynotes.element.dialog.DlgOptionNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;

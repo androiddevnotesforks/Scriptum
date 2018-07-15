@@ -1,15 +1,14 @@
 package sgtmelon.handynotes.app.viewModel;
 
 import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
 import android.content.Context;
-import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 
 public class VmFrgBin extends AndroidViewModel {
