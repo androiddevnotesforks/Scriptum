@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog.note;
+package sgtmelon.handynotes.element.dialog.common;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -6,21 +6,23 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
-public class DlgRank extends BlankDialog {
+public class DlgMultiply extends BlankDialog {
 
-    public void setArguments(String[] name, boolean[] check) {
+    public void setArguments(boolean[] check) {
         Bundle arg = new Bundle();
-        arg.putStringArray(Db.RK_NM, name);
         arg.putBooleanArray(Dlg.VALUE, check);
         setArguments(arg);
     }
 
     private String[] name;
     private boolean[] check;
+
+    public void setName(String[] name) {
+        this.name = name;
+    }
 
     public boolean[] getCheck() {
         return check;
@@ -32,14 +34,13 @@ public class DlgRank extends BlankDialog {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
-            name = savedInstanceState.getStringArray(Db.RK_NM);
             check = savedInstanceState.getBooleanArray(Dlg.VALUE);
         } else if (arg != null) {
-            name = arg.getStringArray(Db.RK_NM);
             check = arg.getBooleanArray(Dlg.VALUE);
         }
 
         return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+                .setTitle(title)
                 .setMultiChoiceItems(name, check, (dialog, which, isChecked) -> check[which] = isChecked)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
@@ -50,8 +51,6 @@ public class DlgRank extends BlankDialog {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        outState.putStringArray(Db.RK_NM, name);
         outState.putBooleanArray(Dlg.VALUE, check);
     }
 

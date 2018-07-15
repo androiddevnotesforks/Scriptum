@@ -56,7 +56,7 @@
     <string name="dialog_title_color">Цвет</string>
     <string name="dialog_title_rank">Категории</string>
 
-    <string name="dialog_title_convert">Концвертировать</string>
+    <string name="dialog_title_convert">Конвертировать</string>
     <string name="dialog_roll_convert_to_text">Вы уверены что хотите конвертировать заметку? Все отметки в списке будут утеряны.</string>
     <string name="dialog_text_convert_to_roll">Вы уверены что хотите конвертировать заметку? Все пустые строки будут удалены.</string>
 

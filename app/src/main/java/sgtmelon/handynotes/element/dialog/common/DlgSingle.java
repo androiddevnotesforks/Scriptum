@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.element.dialog.settings;
+package sgtmelon.handynotes.element.dialog.common;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,9 +9,9 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
-public class DlgSaveTime extends BlankDialog {
+public class DlgSingle extends BlankDialog {
 
-    public void setArguments(int check){
+    public void setArguments(int check) {
         Bundle arg = new Bundle();
         arg.putInt(Dlg.VALUE, check);
         setArguments(arg);
@@ -22,6 +22,10 @@ public class DlgSaveTime extends BlankDialog {
 
     public String[] getName() {
         return name;
+    }
+
+    public void setName(String[] name) {
+        this.name = name;
     }
 
     public int getCheck() {
@@ -39,10 +43,8 @@ public class DlgSaveTime extends BlankDialog {
             check = arg.getInt(Dlg.VALUE);
         }
 
-        name = getResources().getStringArray(R.array.pref_text_save_time);
-
         return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
-                .setTitle(getString(R.string.pref_title_auto_save_time))
+                .setTitle(title)
                 .setSingleChoiceItems(name, check, (dialogInterface, i) -> check = i)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
@@ -53,7 +55,7 @@ public class DlgSaveTime extends BlankDialog {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         outState.putInt(Dlg.VALUE, check);
     }
+
 }

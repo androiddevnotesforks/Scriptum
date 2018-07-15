@@ -18,9 +18,9 @@ import androidx.fragment.app.FragmentManager;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.act.ActDevelop;
 import sgtmelon.handynotes.app.view.act.ActSettings;
+import sgtmelon.handynotes.element.dialog.common.DlgSingle;
 import sgtmelon.handynotes.element.dialog.note.DlgColor;
 import sgtmelon.handynotes.element.dialog.settings.DlgInfo;
-import sgtmelon.handynotes.element.dialog.settings.DlgSaveTime;
 import sgtmelon.handynotes.element.dialog.settings.DlgSort;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Dlg;
@@ -109,7 +109,7 @@ public class FrgSettings extends PreferenceFragment {
 
     private Preference prefAutoSaveTime;
     private int autoSaveTime;
-    private DlgSaveTime dlgSaveTime;
+    private DlgSingle dlgSaveTime;
 
     private void setupNotePref() {
         Log.i(TAG, "setupNotePref");
@@ -138,12 +138,15 @@ public class FrgSettings extends PreferenceFragment {
         prefAutoSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[autoSaveTime]);
         prefAutoSaveTime.setOnPreferenceClickListener(preference -> {
             dlgSaveTime.setArguments(autoSaveTime);
-            dlgSaveTime.show(fm, Dlg.SAVE_TIME);
+            dlgSaveTime.show(fm, Dlg.SINGLE);
             return true;
         });
 
-        dlgSaveTime = (DlgSaveTime) fm.findFragmentByTag(Dlg.SAVE_TIME);
-        if (dlgSaveTime == null) dlgSaveTime = new DlgSaveTime();
+        dlgSaveTime = (DlgSingle) fm.findFragmentByTag(Dlg.SINGLE);
+        if (dlgSaveTime == null) dlgSaveTime = new DlgSingle();
+
+        dlgSaveTime.setTitle(getString(R.string.pref_title_auto_save_time));
+        dlgSaveTime.setName(getResources().getStringArray(R.array.pref_text_save_time));
         dlgSaveTime.setPositiveButton((dialogInterface, i) -> {
             autoSaveTime = dlgSaveTime.getCheck();
 

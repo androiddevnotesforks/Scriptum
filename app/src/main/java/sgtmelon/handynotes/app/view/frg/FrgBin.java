@@ -30,7 +30,7 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
-import sgtmelon.handynotes.element.dialog.main.DlgClearBin;
+import sgtmelon.handynotes.element.dialog.common.DlgMessage;
 import sgtmelon.handynotes.element.dialog.main.DlgOptionBin;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
@@ -102,7 +102,7 @@ public class FrgBin extends Fragment implements
     }
 
     private MenuItem mItemClearBin;
-    private DlgClearBin dlgClearBin;
+    private DlgMessage dlgClearBin;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -114,7 +114,7 @@ public class FrgBin extends Fragment implements
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_frgBin_clear:
-                    if (!dlgClearBin.isVisible()) dlgClearBin.show(fm, Dlg.CLEAR_BIN);
+                    if (!dlgClearBin.isVisible()) dlgClearBin.show(fm, Dlg.MESSAGE);
                     return true;
             }
             return false;
@@ -125,9 +125,11 @@ public class FrgBin extends Fragment implements
 
         Help.Icon.tintMenuIcon(context, mItemClearBin);
 
-        dlgClearBin = (DlgClearBin) fm.findFragmentByTag(Dlg.CLEAR_BIN);
-        if (dlgClearBin == null) dlgClearBin = new DlgClearBin();
+        dlgClearBin = (DlgMessage) fm.findFragmentByTag(Dlg.MESSAGE);
+        if (dlgClearBin == null) dlgClearBin = new DlgMessage();
 
+        dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
+        dlgClearBin.setMessage(getString(R.string.dialog_text_clear_bin));
         dlgClearBin.setPositiveButton((dialogInterface, i) -> {
             db = DbRoom.provideDb(context);
             db.daoNote().clearBin();

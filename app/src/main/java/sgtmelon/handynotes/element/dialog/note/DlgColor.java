@@ -29,12 +29,6 @@ public class DlgColor extends BlankDialog {
         return adapter.getCheck();
     }
 
-    private String title;
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();

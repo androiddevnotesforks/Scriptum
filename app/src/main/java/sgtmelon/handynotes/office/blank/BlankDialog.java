@@ -6,6 +6,16 @@ import androidx.fragment.app.DialogFragment;
 
 public class BlankDialog extends DialogFragment {
 
+    protected String title, message;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
     private DialogInterface.OnClickListener positiveButton;
 
     public void setPositiveButton(DialogInterface.OnClickListener positiveButton) {

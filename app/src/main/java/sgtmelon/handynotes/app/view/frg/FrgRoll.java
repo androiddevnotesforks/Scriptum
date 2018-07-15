@@ -36,9 +36,9 @@ import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.viewModel.VmFrgText;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
+import sgtmelon.handynotes.element.dialog.common.DlgMessage;
+import sgtmelon.handynotes.element.dialog.common.DlgMultiply;
 import sgtmelon.handynotes.element.dialog.note.DlgColor;
-import sgtmelon.handynotes.element.dialog.note.DlgConvert;
-import sgtmelon.handynotes.element.dialog.note.DlgRank;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
@@ -184,15 +184,18 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         }
     }
 
-    private DlgConvert dlgConvert;
+    private DlgMessage dlgConvert;
     private DlgColor dlgColor;
-    private DlgRank dlgRank;
+    private DlgMultiply dlgRank;
 
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
 
-        dlgConvert = (DlgConvert) fm.findFragmentByTag(Dlg.CONVERT);
-        if (dlgConvert == null) dlgConvert = new DlgConvert();
+        dlgConvert = (DlgMessage) fm.findFragmentByTag(Dlg.MESSAGE);
+        if (dlgConvert == null) dlgConvert = new DlgMessage();
+
+        dlgConvert.setTitle(getString(R.string.dialog_title_convert));
+        dlgConvert.setMessage(getString(R.string.dialog_roll_convert_to_text));
         dlgConvert.setPositiveButton((dialogInterface, i) -> {
             RepoNote repoNote = vm.getRepoNote();
             ItemNote itemNote = repoNote.getItemNote();
@@ -229,12 +232,18 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             vm.setRepoNote(repoNote);
 
-            menuNote.startTint(i);
+            menuNote.startTint(check);
         });
 
+        dlgRank = (DlgMultiply) fm.findFragmentByTag(Dlg.MULTIPLY);
+        if (dlgRank == null) dlgRank = new DlgMultiply();
 
-        dlgRank = (DlgRank) fm.findFragmentByTag(Dlg.RANK);
-        if (dlgRank == null) dlgRank = new DlgRank();
+        db = DbRoom.provideDb(context);
+        String[] name = db.daoRank().getName();
+        db.close();
+
+        dlgRank.setTitle(getString(R.string.dialog_title_rank));
+        dlgRank.setName(name);
         dlgRank.setPositiveButton((dialogInterface, i) -> {
             boolean[] check = dlgRank.getCheck();
 
@@ -350,12 +359,11 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         ItemNote itemNote = vm.getRepoNote().getItemNote();
 
         db = DbRoom.provideDb(context);
-        String[] name = db.daoRank().getName();
         boolean[] check = db.daoRank().getCheck(itemNote.getRankId());
         db.close();
 
-        dlgRank.setArguments(name, check);
-        dlgRank.show(fm, Dlg.RANK);
+        dlgRank.setArguments(check);
+        dlgRank.show(fm, Dlg.MULTIPLY);
     }
 
     @Override
@@ -453,10 +461,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        ItemNote itemNote = vm.getRepoNote().getItemNote();
-
-        dlgConvert.setArguments(itemNote.getType());
-        dlgConvert.show(fm, Dlg.CONVERT);
+        dlgConvert.show(fm, Dlg.MESSAGE);
     }
 
     //region RecyclerView Variable
