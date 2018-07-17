@@ -16,7 +16,7 @@
 
     <androidx.cardview.widget.CardView
         style="@style/ItemCardView"
-        app:cardBackgroundColor="@color/colorWhite"
+        app:cardBackgroundColor="@color/colorPrimary"
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardUseCompatPadding="false">
 
@@ -76,7 +76,7 @@
                 style="@style/ItemRank.Button"
                 android:layout_marginStart="@dimen/item_layout_medium_indent"
                 android:contentDescription="@null"
-                android:tint="@color/colorDark"
+                android:tint="@color/colorIcon"
                 app:srcCompat="@drawable/ic_cancel" />
 
         </LinearLayout>

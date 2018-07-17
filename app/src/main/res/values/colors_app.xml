@@ -4,13 +4,19 @@
     <color name="ic_launcher_background">#1C2024</color>
 
     <color name="colorPrimary">#FFFFFF</color>
-    <color name="colorAccent">#039be5</color>
+    <color name="colorPrimarySecond">#b1b1b1</color>
+    <color name="colorPrimaryAccent">#FFFFFF</color>
 
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorAccent">#039be5</color>
     <color name="colorBackground">#fafafa</color>
 
-    <color name="colorDark">#353535</color>
-    <color name="colorDarkSecond">#b1b1b1</color>
+    <color name="colorIcon">#353535</color>
+    <color name="colorIconSecond">#b1b1b1</color>
+    <color name="colorIconAccent">#353535</color>
+
+    <color name="colorText">#353535</color>
+    <color name="colorTextSecond">#b1b1b1</color>
+    <color name="colorTextAccent">#353535</color>
 
     <color name="noteWhite">#ffffff</color>
     <color name="noteRed">#ffcdd2</color>

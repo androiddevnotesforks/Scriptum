@@ -334,8 +334,10 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.close();
                 break;
             case R.id.itemRank_ll_click:
-                dlgRename.setArguments(p, itemRank.getName(), new ArrayList<>(repoRank.getListName()));
-                dlgRename.show(fm, Dlg.RENAME);
+                if (!dlgRename.isVisible()) {
+                    dlgRename.setArguments(p, itemRank.getName(), new ArrayList<>(repoRank.getListName()));
+                    dlgRename.show(fm, Dlg.RENAME);
+                }
                 break;
             case R.id.itemRank_ib_cancel:
                 db = DbRoom.provideDb(context);

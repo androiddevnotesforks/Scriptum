@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Text" />
+
+    <style name="Text.Scroll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:fillViewport">true</item>
+    </style>
+
+    <style name="Text.Enter" parent="EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">top</item>
+        <item name="android:hint">@string/hint_enter_text</item>
+        <item name="android:imeOptions">flagNoFullscreen</item>
+        <item name="android:inputType">
+            textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine
+        </item>
+        <item name="android:padding">@dimen/item_layout_medium_indent</item>
+        <item name="android:textColor">@color/colorTextAccent</item>
+        <item name="android:textSize">@dimen/text_big_size</item>
+
+    </style>
+
+    <style name="Text.Read" parent="EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">top</item>
+
+        <!-- FIXME нужен ли тут hint -->
+        <item name="android:hint">@string/hint_enter_text</item>
+        <item name="android:linksClickable">true</item>
+        <item name="android:padding">@dimen/item_layout_medium_indent</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:textColor">@color/colorTextAccent</item>
+        <item name="android:textSize">@dimen/text_big_size</item>
+    </style>
+
+</resources>

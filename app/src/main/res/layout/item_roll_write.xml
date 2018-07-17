@@ -36,7 +36,7 @@
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground"
                     android:contentDescription="@null"
-                    android:tint="@color/colorDark"
+                    android:tint="@color/colorIcon"
                     app:srcCompat="@drawable/ic_move" />
 
             </FrameLayout>

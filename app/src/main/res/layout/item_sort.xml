@@ -39,7 +39,7 @@
             android:id="@+id/itemSort_tv_text"
             style="@style/ItemSort.Text"
             android:text='@{itemSort.text}'
-            android:textColor='@{position &lt;= sortEnd ? @color/colorDark : @color/colorDarkSecond}' />
+            android:textColor='@{position &lt;= sortEnd ? @color/colorText : @color/colorTextSecond}' />
 
         <ImageView
             android:id="@+id/itemSort_iv_right"

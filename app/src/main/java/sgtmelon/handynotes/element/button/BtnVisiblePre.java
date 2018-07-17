@@ -43,7 +43,7 @@ public class BtnVisiblePre extends AppCompatImageButton {
 
     private void setupDrawable() {
         visibleOn = Help.Icon.getDrawable(context, R.drawable.ic_visible_on);
-        visibleOff = Help.Icon.getDrawable(context, R.drawable.ic_visible_off, R.color.colorDarkSecond);
+        visibleOff = Help.Icon.getDrawable(context, R.drawable.ic_visible_off, R.color.colorIconSecond);
     }
 
     public void setVisible(boolean visible) {

@@ -17,7 +17,7 @@
         <item name="android:layout_marginBottom">@dimen/item_layout_medium_indent</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:textColor">@color/colorTextAccent</item>
         <item name="android:textSize">@dimen/text_medium_size</item>
     </style>
 
@@ -26,7 +26,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">start</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/colorDark</item>
+        <item name="android:textColor">@color/colorTextAccent</item>
         <item name="android:textSize">@dimen/text_small_size</item>
     </style>
 

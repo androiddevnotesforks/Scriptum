@@ -31,7 +31,7 @@ public class ItemNote {
         create = Help.Time.getCurrentTime(context);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        color = pref.getInt(context.getString(R.string.pref_key_color_create), context.getResources().getInteger(R.integer.pref_default_color_create));
+        color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_default_color));
 
         this.type = type;
     }

@@ -191,7 +191,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
 
-        dlgConvert = (DlgMessage) fm.findFragmentByTag(Dlg.MESSAGE);
+        dlgConvert = (DlgMessage) fm.findFragmentByTag(Dlg.CONVERT);
         if (dlgConvert == null) dlgConvert = new DlgMessage();
 
         dlgConvert.setTitle(getString(R.string.dialog_title_convert));
@@ -235,7 +235,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             menuNote.startTint(check);
         });
 
-        dlgRank = (DlgMultiply) fm.findFragmentByTag(Dlg.MULTIPLY);
+        dlgRank = (DlgMultiply) fm.findFragmentByTag(Dlg.RANK);
         if (dlgRank == null) dlgRank = new DlgMultiply();
 
         db = DbRoom.provideDb(context);
@@ -356,14 +356,16 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ItemNote itemNote = vm.getRepoNote().getItemNote();
+        if (!dlgRank.isVisible()) {
+            ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-        db = DbRoom.provideDb(context);
-        boolean[] check = db.daoRank().getCheck(itemNote.getRankId());
-        db.close();
+            db = DbRoom.provideDb(context);
+            boolean[] check = db.daoRank().getCheck(itemNote.getRankId());
+            db.close();
 
-        dlgRank.setArguments(check);
-        dlgRank.show(fm, Dlg.MULTIPLY);
+            dlgRank.setArguments(check);
+            dlgRank.show(fm, Dlg.RANK);
+        }
     }
 
     @Override
@@ -372,12 +374,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ItemNote itemNote = vm.getRepoNote().getItemNote();
+        if (!dlgColor.isVisible()) {
+            ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-        dlgColor.setArguments(itemNote.getColor());
-        dlgColor.show(fm, Dlg.COLOR);
+            dlgColor.setArguments(itemNote.getColor());
+            dlgColor.show(fm, Dlg.COLOR);
 
-        menuNote.setStartColor(itemNote.getColor());
+            menuNote.setStartColor(itemNote.getColor());
+        }
     }
 
     @Override
@@ -461,7 +465,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, Dlg.MESSAGE);
+        if (!dlgConvert.isVisible()) dlgConvert.show(fm, Dlg.CONVERT);
     }
 
     //region RecyclerView Variable

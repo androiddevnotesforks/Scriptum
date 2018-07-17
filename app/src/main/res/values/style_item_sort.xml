@@ -9,7 +9,7 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginLeft">@dimen/item_layout_small_indent</item>
         <item name="android:layout_marginRight">@dimen/item_layout_small_indent</item>
-        <item name="android:tint">@color/colorDarkSecond</item>
+        <item name="android:tint">@color/colorTextSecond</item>
     </style>
 
     <style name="ItemSort.Text">

@@ -21,11 +21,11 @@
     <!-- Note -->
     <string name="pref_header_note">Notes</string>
 
-    <string name="pref_title_color_create">Default note color</string>
-    <string name="pref_summary_color_create">Will be used by default</string>
-    <string name="pref_key_color_create" translatable="false">key_color_create</string>
+    <string name="pref_title_color">Default note color</string>
+    <string name="pref_summary_color">Will be used by default</string>
+    <string name="pref_key_color" translatable="false">key_color</string>
 
-    <string-array name="pref_text_color_create">
+    <string-array name="pref_text_color">
         <item>Red</item>
         <item>Purple</item>
         <item>Indigo</item>
@@ -47,9 +47,9 @@
     <string name="pref_summary_auto_save">When editing a note</string>
     <string name="pref_key_auto_save" translatable="false">key_auto_save</string>
 
-    <string name="pref_title_auto_save_time">Period</string>
-    <string name="pref_summary_auto_save_time">Number of minutes</string>
-    <string name="pref_key_auto_save_time" translatable="false">key_auto_save_time</string>
+    <string name="pref_title_save_time">Period</string>
+    <string name="pref_summary_save_time">Number of minutes</string>
+    <string name="pref_key_save_time" translatable="false">key_save_time</string>
 
     <string-array name="pref_text_save_time">
         <item>1 minute</item>
@@ -59,6 +59,15 @@
 
     <!-- Other -->
     <string name="pref_header_other">Other</string>
+
+    <string name="pref_title_theme">App theme</string>
+    <string name="pref_summary_theme">Selected theme</string>
+    <string name="pref_key_theme" translatable="false">key_theme</string>
+
+    <string-array name="pref_text_theme">
+        <item>White</item>
+        <item>Black</item>
+    </string-array>
 
     <string name="pref_title_about">About app</string>
     <string name="pref_key_about" translatable="false">key_about</string>

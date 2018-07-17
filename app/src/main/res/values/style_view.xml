@@ -16,8 +16,8 @@
     </style>
 
     <style name="EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">@color/colorDark</item>
-        <item name="android:textColorHint">@color/colorDarkSecond</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColorHint">@color/colorTextSecond</item>
     </style>
 
     <style name="RecyclerView">

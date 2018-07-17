@@ -14,5 +14,4 @@ public class ConvList {
         return new ArrayList<>(Arrays.asList(array));
     }
 
-
 }

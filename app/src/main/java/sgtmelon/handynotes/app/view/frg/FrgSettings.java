@@ -28,14 +28,14 @@ import sgtmelon.handynotes.office.annot.def.DefSort;
 
 public class FrgSettings extends PreferenceFragment {
 
-    //TODO смена темы
-
+    //region Variable
     private static final String TAG = "FrgSettings";
 
     private ActSettings activity;
     private FragmentManager fm;
 
     private SharedPreferences pref;
+    //endregion
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -69,104 +69,134 @@ public class FrgSettings extends PreferenceFragment {
     }
 
     private Preference prefSort;
-    private String sort;
+    private String valSort;
     private DlgSort dlgSort;
 
     private void setupSortPref() {
         Log.i(TAG, "setupSortPref");
 
         prefSort = findPreference(getString(R.string.pref_key_sort));
-        sort = pref.getString(getString(R.string.pref_key_sort), DefSort.def);
+        valSort = pref.getString(getString(R.string.pref_key_sort), DefSort.def);
         prefSort.setSummary(Help.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), DefSort.def)));
         prefSort.setOnPreferenceClickListener(preference -> {
-            dlgSort.setArguments(sort);
-            dlgSort.show(fm, Dlg.SORT);
+            if (!dlgSort.isVisible()) {
+                dlgSort.setArguments(valSort);
+                dlgSort.show(fm, Dlg.SORT);
+            }
             return true;
         });
 
         dlgSort = (DlgSort) fm.findFragmentByTag(Dlg.SORT);
         if (dlgSort == null) dlgSort = new DlgSort();
         dlgSort.setPositiveButton((dialogInterface, i) -> {
-            sort = dlgSort.getKeys();
-            pref.edit().putString(getString(R.string.pref_key_sort), sort).apply();
+            valSort = dlgSort.getKeys();
+            pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            String summary = Help.Pref.getSortSummary(activity, sort);
+            String summary = Help.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         dlgSort.setNeutralButton((dialogInterface, i) -> {
-            sort = DefSort.def;
-            pref.edit().putString(getString(R.string.pref_key_sort), sort).apply();
+            valSort = DefSort.def;
+            pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            String summary = Help.Pref.getSortSummary(activity, sort);
+            String summary = Help.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
 
     }
 
-    private Preference prefColorCreate;
-    private int colorCreate;
+    private Preference prefColor;
+    private int valColor;
     private DlgColor dlgColor;
 
-    private Preference prefAutoSaveTime;
-    private int autoSaveTime;
+    private Preference prefSaveTime;
+    private int valSaveTime;
     private DlgSingle dlgSaveTime;
 
     private void setupNotePref() {
         Log.i(TAG, "setupNotePref");
 
-        prefColorCreate = findPreference(getString(R.string.pref_key_color_create));
-        colorCreate = pref.getInt(getString(R.string.pref_key_color_create), getResources().getInteger(R.integer.pref_default_color_create));
-        prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
-        prefColorCreate.setOnPreferenceClickListener(preference -> {
-            dlgColor.setArguments(colorCreate);
-            dlgColor.show(fm, Dlg.COLOR);
+        prefColor = findPreference(getString(R.string.pref_key_color));
+        valColor = pref.getInt(getString(R.string.pref_key_color), getResources().getInteger(R.integer.pref_default_color));
+        prefColor.setSummary(getResources().getStringArray(R.array.pref_text_color)[valColor]);
+        prefColor.setOnPreferenceClickListener(preference -> {
+            if (!dlgColor.isVisible()) {
+                dlgColor.setArguments(valColor);
+                dlgColor.show(fm, Dlg.COLOR);
+            }
             return true;
         });
 
         dlgColor = (DlgColor) fm.findFragmentByTag(Dlg.COLOR);
         if (dlgColor == null) dlgColor = new DlgColor();
-        dlgColor.setTitle(getString(R.string.pref_title_color_create));
+        dlgColor.setTitle(getString(R.string.pref_title_color));
         dlgColor.setPositiveButton((dialogInterface, i) -> {
-            colorCreate = dlgColor.getCheck();
+            valColor = dlgColor.getCheck();
 
-            pref.edit().putInt(getString(R.string.pref_key_color_create), colorCreate).apply();
-            prefColorCreate.setSummary(getResources().getStringArray(R.array.pref_text_color_create)[colorCreate]);
+            pref.edit().putInt(getString(R.string.pref_key_color), valColor).apply();
+            prefColor.setSummary(getResources().getStringArray(R.array.pref_text_color)[valColor]);
         });
 
-        prefAutoSaveTime = findPreference(getString(R.string.pref_key_auto_save_time));
-        autoSaveTime = pref.getInt(getString(R.string.pref_key_auto_save_time), getResources().getInteger(R.integer.pref_default_auto_save_time));
-        prefAutoSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[autoSaveTime]);
-        prefAutoSaveTime.setOnPreferenceClickListener(preference -> {
-            dlgSaveTime.setArguments(autoSaveTime);
-            dlgSaveTime.show(fm, Dlg.SINGLE);
+        prefSaveTime = findPreference(getString(R.string.pref_key_save_time));
+        valSaveTime = pref.getInt(getString(R.string.pref_key_save_time), getResources().getInteger(R.integer.pref_default_save_time));
+        prefSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[valSaveTime]);
+        prefSaveTime.setOnPreferenceClickListener(preference -> {
+            if (!dlgSaveTime.isVisible()) {
+                dlgSaveTime.setArguments(valSaveTime);
+                dlgSaveTime.show(fm, Dlg.SAVE_TIME);
+            }
             return true;
         });
 
-        dlgSaveTime = (DlgSingle) fm.findFragmentByTag(Dlg.SINGLE);
+        dlgSaveTime = (DlgSingle) fm.findFragmentByTag(Dlg.SAVE_TIME);
         if (dlgSaveTime == null) dlgSaveTime = new DlgSingle();
 
-        dlgSaveTime.setTitle(getString(R.string.pref_title_auto_save_time));
+        dlgSaveTime.setTitle(getString(R.string.pref_title_save_time));
         dlgSaveTime.setName(getResources().getStringArray(R.array.pref_text_save_time));
         dlgSaveTime.setPositiveButton((dialogInterface, i) -> {
-            autoSaveTime = dlgSaveTime.getCheck();
+            valSaveTime = dlgSaveTime.getCheck();
 
-            pref.edit().putInt(getString(R.string.pref_key_auto_save_time), autoSaveTime).apply();
-            prefAutoSaveTime.setSummary(dlgSaveTime.getName()[autoSaveTime]);
+            pref.edit().putInt(getString(R.string.pref_key_save_time), valSaveTime).apply();
+            prefSaveTime.setSummary(dlgSaveTime.getName()[valSaveTime]);
         });
 
         CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
         prefAutoSave.setOnPreferenceChangeListener((preference, newValue) -> {
-            prefAutoSaveTime.setEnabled((Boolean) newValue);
+            prefSaveTime.setEnabled((Boolean) newValue);
             return true;
         });
 
-        prefAutoSaveTime.setEnabled(prefAutoSave.isChecked());
+        prefSaveTime.setEnabled(prefAutoSave.isChecked());
     }
+
+    private Preference prefTheme;
+    private int valTheme;
+    private DlgSingle dlgTheme;
 
     private DlgInfo dlgInfo;
 
     private void setupOtherPref() {
         Log.i(TAG, "setupOtherPref");
+
+        prefTheme = findPreference(getString(R.string.pref_key_theme));
+        valTheme = pref.getInt(getString(R.string.pref_key_theme), getResources().getInteger(R.integer.pref_default_theme));
+        prefTheme.setSummary(getResources().getStringArray(R.array.pref_text_theme)[valSaveTime]);
+        prefTheme.setOnPreferenceClickListener(preference -> {
+            if (!dlgTheme.isVisible()) dlgTheme.show(fm, Dlg.THEME);
+            return true;
+        });
+
+        dlgTheme = (DlgSingle) fm.findFragmentByTag(Dlg.THEME);
+        if (dlgTheme == null) dlgTheme = new DlgSingle();
+
+        dlgTheme.setTitle(getString(R.string.pref_title_theme));
+        dlgTheme.setName(getResources().getStringArray(R.array.pref_text_theme));
+        dlgTheme.setPositiveButton(((dialogInterface, i) -> {
+            valTheme = dlgTheme.getCheck();
+
+            pref.edit().putInt(getString(R.string.pref_key_theme), valTheme).apply();
+            prefTheme.setSummary(dlgTheme.getName()[valTheme]);
+        }));
 
         dlgInfo = (DlgInfo) fm.findFragmentByTag(Dlg.INFO);
         if (dlgInfo == null) dlgInfo = new DlgInfo();
@@ -177,7 +207,7 @@ public class FrgSettings extends PreferenceFragment {
 
         Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
         prefOtherAbout.setOnPreferenceClickListener(preference -> {
-            dlgInfo.show(fm, Dlg.INFO);
+            if (!dlgInfo.isVisible()) dlgInfo.show(fm, Dlg.INFO);
             return true;
         });
     }

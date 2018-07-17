@@ -55,8 +55,8 @@
                     android:maxLines="1"
                     android:scrollHorizontally="true"
                     android:text='@={itemNote.name}'
-                    android:textColor="@color/colorDark"
-                    android:textColorHint="@color/colorDark"
+                    android:textColor="@color/colorIcon"
+                    android:textColorHint="@color/colorIcon"
                     android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}' />
 
                 <HorizontalScrollView
@@ -77,8 +77,8 @@
                         android:maxLength="50"
                         android:maxLines="1"
                         android:text='@{itemNote.name}'
-                        android:textColor="@color/colorDark"
-                        android:textColorHint="@color/colorDark"
+                        android:textColor="@color/colorIcon"
+                        android:textColorHint="@color/colorIcon"
                         android:textIsSelectable="true" />
 
                 </HorizontalScrollView>

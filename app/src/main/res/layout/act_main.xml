@@ -17,7 +17,7 @@
         android:id="@+id/actMain_bnv_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
+        android:background="@color/colorPrimary"
         app:itemIconTint="@drawable/se_menu_main_item"
         app:itemTextColor="@drawable/se_menu_main_item"
         app:menu="@menu/menu_act_main" />

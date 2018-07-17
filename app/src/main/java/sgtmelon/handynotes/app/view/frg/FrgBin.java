@@ -114,7 +114,7 @@ public class FrgBin extends Fragment implements
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_frgBin_clear:
-                    if (!dlgClearBin.isVisible()) dlgClearBin.show(fm, Dlg.MESSAGE);
+                    if (!dlgClearBin.isVisible()) dlgClearBin.show(fm, Dlg.CLEAR_BIN);
                     return true;
             }
             return false;
@@ -125,7 +125,7 @@ public class FrgBin extends Fragment implements
 
         Help.Icon.tintMenuIcon(context, mItemClearBin);
 
-        dlgClearBin = (DlgMessage) fm.findFragmentByTag(Dlg.MESSAGE);
+        dlgClearBin = (DlgMessage) fm.findFragmentByTag(Dlg.CLEAR_BIN);
         if (dlgClearBin == null) dlgClearBin = new DlgMessage();
 
         dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
@@ -211,8 +211,10 @@ public class FrgBin extends Fragment implements
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        dlgOptionBin.setArguments(p);
-        dlgOptionBin.show(fm, Dlg.OPTIONS);
+        if (!dlgOptionBin.isVisible()) {
+            dlgOptionBin.setArguments(p);
+            dlgOptionBin.show(fm, Dlg.OPTIONS);
+        }
     }
 
     @Override

@@ -34,8 +34,8 @@ public class SaveNote {
                 startSaveHandler();
             };
 
-            int[] saveTimeArr = context.getResources().getIntArray(R.array.pref_value_auto_save_time);
-            int saveTimeSelect = pref.getInt(context.getString(R.string.pref_key_auto_save_time), context.getResources().getInteger(R.integer.pref_default_auto_save_time));
+            int[] saveTimeArr = context.getResources().getIntArray(R.array.pref_value_save_time);
+            int saveTimeSelect = pref.getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_default_save_time));
 
             saveTime = saveTimeArr[saveTimeSelect];
         }

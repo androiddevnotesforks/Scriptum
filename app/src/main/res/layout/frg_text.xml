@@ -25,7 +25,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
         android:orientation="vertical">
 
         <include
@@ -34,11 +33,7 @@
             app:keyCreate='@{keyCreate}'
             app:keyEdit='@{keyEdit}' />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorWhite"
-            android:fillViewport="true">
+        <ScrollView style="@style/Text.Scroll">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -46,32 +41,14 @@
 
                 <EditText
                     android:id="@+id/frgText_et_enter"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:gravity="top"
-                    android:hint="@string/hint_enter_text"
-                    android:imeOptions="flagNoFullscreen"
-                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    android:padding="@dimen/item_layout_medium_indent"
+                    style="@style/Text.Enter"
                     android:text='@={itemNote.text}'
-                    android:textSize="@dimen/text_big_size"
                     android:visibility='@{keyEdit ? v.VISIBLE : v.INVISIBLE}' />
 
                 <TextView
                     android:id="@+id/frgText_tv_text"
-                    style="@style/EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:gravity="top"
-                    android:hint="@string/hint_enter_text"
-                    android:linksClickable="true"
-                    android:padding="@dimen/item_layout_medium_indent"
+                    style="@style/Text.Read"
                     android:text='@{itemNote.text}'
-                    android:textIsSelectable="true"
-                    android:textSize="@dimen/text_big_size"
                     android:visibility='@{!keyEdit ? v.VISIBLE : v.INVISIBLE}' />
 
             </FrameLayout>

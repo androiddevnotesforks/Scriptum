@@ -14,10 +14,10 @@
     <PreferenceCategory android:title="@string/pref_header_note">
 
         <Preference
-            android:defaultValue="@integer/pref_default_color_create"
-            android:key="@string/pref_key_color_create"
-            android:summary="@string/pref_summary_color_create"
-            android:title="@string/pref_title_color_create" />
+            android:defaultValue="@integer/pref_default_color"
+            android:key="@string/pref_key_color"
+            android:summary="@string/pref_summary_color"
+            android:title="@string/pref_title_color" />
 
         <CheckBoxPreference
             android:defaultValue="@bool/pref_default_pause_save"
@@ -32,14 +32,20 @@
             android:title="@string/pref_title_auto_save" />
 
         <Preference
-            android:defaultValue="@integer/pref_default_auto_save_time"
-            android:key="@string/pref_key_auto_save_time"
-            android:summary="@string/pref_summary_auto_save_time"
-            android:title="@string/pref_title_auto_save_time" />
+            android:defaultValue="@integer/pref_default_save_time"
+            android:key="@string/pref_key_save_time"
+            android:summary="@string/pref_summary_save_time"
+            android:title="@string/pref_title_save_time" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_header_other">
+
+        <Preference
+            android:defaultValue="@integer/pref_default_theme"
+            android:key="@string/pref_key_theme"
+            android:summary="@string/pref_summary_theme"
+            android:title="@string/pref_title_theme" />
 
         <Preference
             android:key="@string/pref_key_about"
