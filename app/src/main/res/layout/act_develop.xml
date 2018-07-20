@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:padding="@dimen/item_layout_small_indent"
+            android:padding="@dimen/layout_4dp"
             android:text="@string/test_note_data_base" />
     </ScrollView>
 
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
-            android:padding="@dimen/item_layout_small_indent"
+            android:padding="@dimen/layout_4dp"
             android:text="@string/test_roll_data_base" />
     </ScrollView>
 
@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/item_layout_small_indent"
+                android:padding="@dimen/layout_4dp"
                 android:text="@string/test_rank_data_base" />
         </ScrollView>
 
@@ -76,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/item_layout_small_indent"
+                android:padding="@dimen/layout_4dp"
                 android:text="@string/test_preference" />
 
         </ScrollView>

@@ -3,9 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/item_layout_huge_indent"
-    android:paddingRight="@dimen/item_layout_huge_indent"
-    android:paddingTop="@dimen/item_layout_big_indent">
+    android:paddingLeft="@dimen/layout_24dp"
+    android:paddingRight="@dimen/layout_24dp"
+    android:paddingTop="@dimen/layout_16dp">
 
     <EditText
         android:id="@+id/viewRename_et_enter"
@@ -21,6 +21,6 @@
         android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
         android:maxLength="@integer/length_max_rank_name"
         android:maxLines="1"
-        android:textSize="@dimen/text_big_size" />
+        android:textSize="@dimen/text_18sp" />
 
 </LinearLayout>

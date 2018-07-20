@@ -63,7 +63,7 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
                 break;
         }
 
-        return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
                 .setItems(itemOption, this)
                 .setCancelable(true)
                 .create();

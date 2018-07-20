@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ItemRoll" />
+
+    <style name="ItemRoll.Read" />
+
+    <style name="ItemRoll.Write" />
+
+    <style name="ItemRoll.Check">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clickable">false</item>
+    </style>
+
+    <style name="ItemRoll.Read.Check" parent="ItemRoll.Check">
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="ItemRoll.Write.Check" parent="ItemRoll.Check">
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="ItemRoll.Click">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ItemRoll.Read.Click" parent="ItemRoll.Click" />
+
+    <style name="ItemRoll.Write.Click" parent="ItemRoll.Click">
+        <item name="android:tint">@color/colorIcon</item>
+    </style>
+
+    <style name="ItemRoll.Read.Text" parent="EditText">
+        <item name="android:autoLink">all</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">top</item>
+        <item name="android:linksClickable">true</item>
+        <item name="android:padding">@dimen/layout_8dp</item>
+        <item name="android:textIsSelectable">true</item>
+        <item name="android:textSize">@dimen/text_18sp</item>
+    </style>
+
+    <style name="ItemRoll.Write.Enter" parent="EditText">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:padding">@dimen/layout_8dp</item>
+        <item name="android:imeOptions">flagNoFullscreen</item>
+        <item name="android:inputType">
+            textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine
+        </item>
+        <item name="android:textSize">@dimen/text_18sp</item>
+    </style>
+
+</resources>

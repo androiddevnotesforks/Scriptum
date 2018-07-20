@@ -15,9 +15,9 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        style="@style/ItemCardView"
+        style="@style/Card"
         app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardCornerRadius="@dimen/radius_2dp"
         app:cardUseCompatPadding="false">
 
         <LinearLayout
@@ -26,13 +26,13 @@
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackground"
             android:orientation="horizontal"
-            android:padding="@dimen/item_layout_medium_indent"
+            android:padding="@dimen/layout_8dp"
             android:weightSum="1">
 
             <sgtmelon.handynotes.element.button.BtnVisible
                 android:id="@+id/itemRank_bv_visible"
                 style="@style/ItemRank.Button"
-                android:layout_marginEnd="@dimen/item_layout_medium_indent"
+                android:layout_marginEnd="@dimen/layout_8dp"
                 app:srcCompat="@drawable/ic_visible_on" />
 
             <LinearLayout
@@ -53,13 +53,13 @@
                     <TextView
                         android:id="@+id/itemRank_tv_textCount"
                         style="@style/ItemRank.Info"
-                        android:layout_marginEnd="@dimen/item_layout_small_indent"
+                        android:layout_marginEnd="@dimen/layout_4dp"
                         android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}' />
 
                     <TextView
                         android:id="@+id/itemRank_tv_rollCount"
                         style="@style/ItemRank.Info"
-                        android:layout_marginEnd="@dimen/item_layout_small_indent"
+                        android:layout_marginEnd="@dimen/layout_4dp"
                         android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}' />
 
                     <TextView
@@ -74,7 +74,7 @@
             <ImageButton
                 android:id="@+id/itemRank_ib_cancel"
                 style="@style/ItemRank.Button"
-                android:layout_marginStart="@dimen/item_layout_medium_indent"
+                android:layout_marginStart="@dimen/layout_8dp"
                 android:contentDescription="@null"
                 android:tint="@color/colorIcon"
                 app:srcCompat="@drawable/ic_cancel" />

@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="@dimen/item_layout_medium_indent">
+    android:padding="@dimen/layout_8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:baselineAligned="false"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -21,9 +21,7 @@
 
             <ImageView
                 android:id="@+id/viewAbout_iv_logo"
-                android:layout_width="@dimen/icon_logo_size"
-                android:layout_height="@dimen/icon_logo_size"
-                android:layout_gravity="center"
+                style="@style/ViewAbout.Logo"
                 android:contentDescription="@null"
                 app:srcCompat="@mipmap/ic_app" />
 
@@ -37,37 +35,33 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/ViewAbout.Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/app_name"
-                android:textColor="@color/colorText"
-                android:textSize="@dimen/text_big_size" />
+                android:text="@string/app_name" />
 
             <TextView
+                style="@style/ViewAbout.Subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/about_app_for"
-                android:textColor="@color/colorTextSecond"
-                android:textSize="@dimen/text_small_size" />
+                android:text="@string/about_app_for" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/layout_4dp"
                 android:orientation="vertical"
-                android:layout_margin="@dimen/item_layout_small_indent"
                 android:weightSum="1">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/item_layout_small_indent"
+                    android:layout_marginBottom="@dimen/layout_4dp"
                     android:layout_weight="0.5"
                     android:gravity="center"
                     android:text="@string/about_app_developer"
                     android:textColor="@color/colorText"
-                    android:textSize="@dimen/text_medium_size" />
+                    android:textSize="@dimen/text_16sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -76,7 +70,7 @@
                     android:gravity="center"
                     android:text="@string/about_app_logo_designer"
                     android:textColor="@color/colorText"
-                    android:textSize="@dimen/text_medium_size" />
+                    android:textSize="@dimen/text_16sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -93,8 +87,7 @@
             android:gravity="start"
             android:text="@string/about_app_used_libraries"
             android:textColor="@color/colorText"
-            android:textSize="@dimen/text_medium_size"
-            />
+            android:textSize="@dimen/text_16sp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -102,17 +95,17 @@
             android:gravity="start"
             android:text="@string/about_app_libraries"
             android:textColor="@color/colorTextSecond"
-            android:textSize="@dimen/text_small_size" />
+            android:textSize="@dimen/text_14sp" />
 
     </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_4dp"
         android:gravity="center"
-        android:layout_marginTop="@dimen/item_layout_small_indent"
         android:text="@string/about_app_version"
         android:textColor="@color/colorText"
-        android:textSize="@dimen/text_small_size" />
+        android:textSize="@dimen/text_14sp" />
 
 </LinearLayout>

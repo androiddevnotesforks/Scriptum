@@ -3,69 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:elevation="@dimen/app_bar_no_elevation">
+    app:elevation="@dimen/elevation_0dp">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/incToolbar_tb"
         style="@style/Toolbar"
-        app:popupTheme="@style/AppTheme.AppBarTheme">
+        app:popupTheme="@style/App.ToolbarTheme">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorPrimaryAccent"
-            app:cardUseCompatPadding="false"
-            app:cardCornerRadius="@dimen/card_corner_radius">
+            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardUseCompatPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/incToolbarRank_ib_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/item_layout_small_indent"
-                    android:layout_marginLeft="@dimen/item_layout_small_indent"
-                    android:layout_marginEnd="@dimen/item_layout_small_indent"
-                    android:layout_marginRight="@dimen/item_layout_small_indent"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    style="@style/Enter.Button"
                     android:contentDescription="@null"
-                    android:padding="@dimen/item_layout_medium_indent"
                     app:srcCompat="@drawable/ic_cancel" />
 
                 <EditText
                     android:id="@+id/incToolbarRank_et_enter"
-                    style="@style/EditText"
+                    style="@style/Enter.Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/item_layout_medium_indent"
-                    android:layout_marginLeft="@dimen/item_layout_medium_indent"
-                    android:layout_marginEnd="@dimen/item_layout_medium_indent"
-                    android:layout_marginRight="@dimen/item_layout_medium_indent"
                     android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:hint="@string/hint_enter_rank_new"
                     android:imeOptions="flagNoFullscreen|actionDone"
                     android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
                     android:maxLength="@integer/length_max_rank_name"
-                    android:maxLines="1"
-                    android:textSize="@dimen/text_big_size" />
+                    android:maxLines="1" />
 
                 <ImageButton
                     android:id="@+id/incToolbarRank_ib_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/item_layout_small_indent"
-                    android:layout_marginLeft="@dimen/item_layout_small_indent"
-                    android:layout_marginEnd="@dimen/item_layout_small_indent"
-                    android:layout_marginRight="@dimen/item_layout_small_indent"
-                    android:background="?attr/selectableItemBackgroundBorderless"
+                    style="@style/Enter.Button"
                     android:contentDescription="@null"
-                    android:padding="@dimen/item_layout_medium_indent"
                     app:srcCompat="@drawable/ic_rank" />
 
             </LinearLayout>

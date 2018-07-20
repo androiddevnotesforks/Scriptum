@@ -57,7 +57,7 @@ public class DlgSort extends BlankDialog
 
         RecyclerView recyclerView = new RecyclerView(context);
 
-        int padding = context.getResources().getInteger(R.integer.alert_recycler_view_padding);
+        int padding = context.getResources().getInteger(R.integer.dlg_recycler_padding);
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
@@ -84,7 +84,7 @@ public class DlgSort extends BlankDialog
         adapter.update(listSort);
         adapter.notifyDataSetChanged();
 
-        return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
                 .setTitle(getString(R.string.dialog_title_sort))
                 .setView(recyclerView)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)

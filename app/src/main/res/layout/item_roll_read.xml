@@ -19,9 +19,9 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        style="@style/ItemCardView"
+        style="@style/Card"
         app:cardBackgroundColor="@color/colorPrimary"
-        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardCornerRadius="@dimen/radius_2dp"
         app:cardUseCompatPadding="false">
 
         <LinearLayout
@@ -34,17 +34,12 @@
 
                 <CheckBox
                     android:id="@+id/itemRoll_cb_check"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
-                    android:checked='@{itemRoll.check}'
-                    android:clickable="false" />
+                    style="@style/ItemRoll.Read.Check"
+                    android:checked='@{itemRoll.check}' />
 
                 <ImageView
                     android:id="@+id/itemRoll_iv_click"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
+                    style="@style/ItemRoll.Read.Click"
                     android:contentDescription="@null"
                     android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}' />
 
@@ -52,18 +47,10 @@
 
             <TextView
                 android:id="@+id/itemRoll_tv_text"
-                style="@style/EditText"
+                style="@style/ItemRoll.Read.Text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autoLink="all"
-                android:background="@android:color/transparent"
-                android:gravity="top"
-                android:linksClickable="true"
-                android:minHeight="32dp"
-                android:padding="@dimen/item_layout_medium_indent"
-                android:text='@{itemRoll.text}'
-                android:textIsSelectable="true"
-                android:textSize="@dimen/text_big_size" />
+                android:text='@{itemRoll.text}' />
 
         </LinearLayout>
 

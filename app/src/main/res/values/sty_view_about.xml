@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ViewAbout" />
+
+    <style name="ViewAbout.Logo">
+        <item name="android:layout_width">@dimen/icon_128dp</item>
+        <item name="android:layout_height">@dimen/icon_128dp</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="ViewAbout.Title">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textSize">@dimen/text_18sp</item>
+    </style>
+
+    <style name="ViewAbout.Subtitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorTextSecond</item>
+        <item name="android:textSize">@dimen/text_14sp</item>
+    </style>
+
+</resources>

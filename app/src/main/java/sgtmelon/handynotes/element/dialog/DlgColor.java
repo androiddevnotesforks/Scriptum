@@ -42,11 +42,11 @@ public class DlgColor extends BlankDialog {
 
         RecyclerView recyclerView = new RecyclerView(context);
 
-        int padding = context.getResources().getInteger(R.integer.alert_recycler_view_padding);
+        int padding = context.getResources().getInteger(R.integer.dlg_recycler_padding);
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(context, context.getResources().getInteger(R.integer.alert_color_column_count));
+        GridLayoutManager layoutManager = new GridLayoutManager(context, context.getResources().getInteger(R.integer.dlg_color_column));
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new AdpColor(context, check);
@@ -54,7 +54,7 @@ public class DlgColor extends BlankDialog {
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
-        return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
                 .setTitle(title)
                 .setView(recyclerView)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)

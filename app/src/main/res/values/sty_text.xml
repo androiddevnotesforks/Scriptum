@@ -20,9 +20,9 @@
         <item name="android:inputType">
             textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine
         </item>
-        <item name="android:padding">@dimen/item_layout_medium_indent</item>
+        <item name="android:padding">@dimen/layout_8dp</item>
         <item name="android:textColor">@color/colorTextAccent</item>
-        <item name="android:textSize">@dimen/text_big_size</item>
+        <item name="android:textSize">@dimen/text_18sp</item>
 
     </style>
 
@@ -31,14 +31,11 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:gravity">top</item>
-
-        <!-- FIXME нужен ли тут hint -->
-        <item name="android:hint">@string/hint_enter_text</item>
         <item name="android:linksClickable">true</item>
-        <item name="android:padding">@dimen/item_layout_medium_indent</item>
+        <item name="android:padding">@dimen/layout_8dp</item>
         <item name="android:textIsSelectable">true</item>
         <item name="android:textColor">@color/colorTextAccent</item>
-        <item name="android:textSize">@dimen/text_big_size</item>
+        <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
 </resources>

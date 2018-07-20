@@ -7,13 +7,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:padding">@dimen/item_layout_medium_indent</item>
+        <item name="android:padding">@dimen/layout_8dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
     <style name="ItemNote.Indicator">
-        <item name="android:layout_width">@dimen/icon_small_size</item>
-        <item name="android:layout_height">@dimen/icon_small_size</item>
+        <item name="android:layout_width">@dimen/icon_16dp</item>
+        <item name="android:layout_height">@dimen/icon_16dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:tint">@color/colorText</item>
     </style>
@@ -21,11 +21,11 @@
     <style name="ItemNote.Name">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginBottom">@dimen/item_layout_medium_indent</item>
+        <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:textSize">@dimen/text_big_size</item>
+        <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
     <style name="ItemNote.Text">
@@ -34,27 +34,27 @@
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">5</item>
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:textSize">@dimen/text_medium_size</item>
+        <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
     <style name="ItemNote.Roll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginLeft">@dimen/item_layout_small_indent</item>
+        <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:textSize">@dimen/text_medium_size</item>
+        <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
     <style name="ItemNote.Info">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginRight">@dimen/item_layout_small_indent</item>
+        <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/colorText</item>
-        <item name="android:textSize">@dimen/text_small_size</item>
+        <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
 </resources>

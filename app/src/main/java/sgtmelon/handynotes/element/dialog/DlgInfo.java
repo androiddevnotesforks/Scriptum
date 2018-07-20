@@ -27,7 +27,7 @@ public class DlgInfo extends DialogFragment implements View.OnClickListener {
         ImageView logo = view.findViewById(R.id.viewAbout_iv_logo);
         logo.setOnClickListener(this);
 
-        return new AlertDialog.Builder(context, R.style.AppTheme_AlertDialog)
+        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
                 .setView(view)
                 .setCancelable(true)
                 .create();

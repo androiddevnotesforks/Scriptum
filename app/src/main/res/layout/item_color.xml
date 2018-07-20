@@ -16,28 +16,28 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:padding="@dimen/item_layout_medium_indent">
+        android:padding="@dimen/layout_8dp">
 
         <ImageView
             android:id="@+id/itemColor_iv_background"
-            android:layout_width="@dimen/icon_big_size"
-            android:layout_height="@dimen/icon_big_size"
+            android:layout_width="@dimen/icon_48dp"
+            android:layout_height="@dimen/icon_48dp"
             android:layout_gravity="center"
             android:background='@{Icon.getColorIcon(context, position)}'
             android:contentDescription="@null" />
 
         <ImageView
             android:id="@+id/itemColor_iv_check"
-            android:layout_width="@dimen/icon_medium_size"
-            android:layout_height="@dimen/icon_medium_size"
+            android:layout_width="@dimen/icon_24dp"
+            android:layout_height="@dimen/icon_24dp"
             android:layout_gravity="center"
             android:contentDescription="@null"
             android:src='@{Icon.getColorCheck(context, position)}' />
 
         <ImageView
             android:id="@+id/itemColor_iv_click"
-            android:layout_width="@dimen/icon_big_size"
-            android:layout_height="@dimen/icon_big_size"
+            android:layout_width="@dimen/icon_48dp"
+            android:layout_height="@dimen/icon_48dp"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@null" />
