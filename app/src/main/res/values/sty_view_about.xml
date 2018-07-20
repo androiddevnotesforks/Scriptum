@@ -11,13 +11,13 @@
 
     <style name="ViewAbout.Title">
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorText</item>
+        <item name="android:textColor">@color/text</item>
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
     <style name="ViewAbout.Subtitle">
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorTextSecond</item>
+        <item name="android:textColor">@color/textSecond</item>
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 

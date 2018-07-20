@@ -2,15 +2,15 @@
 <resources>
 
     <style name="App" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimarySecond</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primarySecond</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="App.ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">@color/colorText</item>
-        <item name="android:textColorSecondary">@color/colorText</item>
-        <item name="actionMenuTextColor">@color/colorText</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/text</item>
+        <item name="actionMenuTextColor">@color/text</item>
     </style>
 
     <style name="App.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -27,13 +27,13 @@
     <style name="Toolbar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:background">@color/primary</item>
         <item name="android:theme">@style/App.ToolbarTheme</item>
     </style>
 
     <style name="EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">@color/colorText</item>
-        <item name="android:textColorHint">@color/colorTextSecond</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:textColorHint">@color/textSecond</item>
     </style>
 
     <style name="RecyclerView">

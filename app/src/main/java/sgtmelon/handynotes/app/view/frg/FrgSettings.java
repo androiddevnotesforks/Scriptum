@@ -60,7 +60,7 @@ public class FrgSettings extends PreferenceFragment {
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
         if (view != null) {
-            view.setBackgroundColor(ContextCompat.getColor(activity, R.color.colorBackground));
+            view.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
 
             View list = view.findViewById(android.R.id.list);
             list.setPadding(0, 0, 0, 0);
@@ -180,7 +180,7 @@ public class FrgSettings extends PreferenceFragment {
 
         prefTheme = findPreference(getString(R.string.pref_key_theme));
         valTheme = pref.getInt(getString(R.string.pref_key_theme), getResources().getInteger(R.integer.pref_default_theme));
-        prefTheme.setSummary(getResources().getStringArray(R.array.pref_text_theme)[valSaveTime]);
+        prefTheme.setSummary(getResources().getStringArray(R.array.pref_text_theme)[valTheme]);
         prefTheme.setOnPreferenceClickListener(preference -> {
             if (!dlgTheme.isVisible()) dlgTheme.show(fm, Dlg.THEME);
             return true;

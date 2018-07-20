@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="noteWhite">#ffffff</color>
+    <color name="noteRed">#ffcdd2</color>
+    <color name="notePurple">#e1bee7</color>
+    <color name="noteIndigo">#c5cae9</color>
+    <color name="noteBlue">#bbdefb</color>
+    <color name="noteTeal">#b2dfdb</color>
+    <color name="noteGreen">#c8e6c9</color>
+    <color name="noteYellow">#fff9c4</color>
+    <color name="noteOrange">#ffe0b2</color>
+    <color name="noteBrown">#d7ccc8</color>
+    <color name="noteBlueGrey">#cfd8dc</color>
+
+    <color name="noteWhiteDark">#c7c7c7</color>
+    <color name="noteRedDark">#cb9ca1</color>
+    <color name="notePurpleDark">#af8eb5</color>
+    <color name="noteIndigoDark">#9499b7</color>
+    <color name="noteBlueDark">#8aacc8</color>
+    <color name="noteTealDark">#82ada9</color>
+    <color name="noteGreenDark">#97b498</color>
+    <color name="noteYellowDark">#cbc693</color>
+    <color name="noteOrangeDark">#cbae82</color>
+    <color name="noteBrownDark">#a69b97</color>
+    <color name="noteBlueGreyDark">#9ea7aa</color>
+
+</resources>

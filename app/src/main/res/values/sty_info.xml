@@ -14,7 +14,7 @@
     <style name="Info.Image">
         <item name="android:layout_width">@dimen/icon_128dp</item>
         <item name="android:layout_height">@dimen/icon_128dp</item>
-        <item name="android:tint">@color/colorTextSecond</item>
+        <item name="android:tint">@color/textSecond</item>
     </style>
 
     <style name="Info.Text">
@@ -22,7 +22,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/layout_4dp</item>
-        <item name="android:textColor">@color/colorTextSecond</item>
+        <item name="android:textColor">@color/textSecond</item>
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 

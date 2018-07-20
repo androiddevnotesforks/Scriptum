@@ -25,7 +25,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="@color/background"
         android:orientation="vertical">
 
         <include
@@ -53,20 +53,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
+                android:background="@color/primary"
                 android:orientation="horizontal"
                 android:padding="@dimen/layout_4dp">
 
                 <EditText
                     android:id="@+id/frgRoll_et_enter"
+                    style="@style/Enter.Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    style="@style/Enter.Text"
                     android:hint="@string/hint_enter_roll"
                     android:imeOptions="flagNoFullscreen"
                     android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    android:maxLines="5" />
+                    android:maxLines="5"
+                    android:textColor="@color/text" />
 
                 <ImageButton
                     android:id="@+id/frgRoll_ib_add"

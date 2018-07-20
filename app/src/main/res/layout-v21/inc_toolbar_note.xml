@@ -44,42 +44,21 @@
 
                 <EditText
                     android:id="@+id/incToolbarNote_et_name"
-                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/transparent"
+                    style="@style/ToolbarNote.Enter"
                     android:hint="@string/hint_enter_name"
-                    android:imeOptions="actionNext|flagNoFullscreen"
-                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                    android:maxLength="@integer/length_max_note_name"
-                    android:maxLines="1"
-                    android:scrollHorizontally="true"
                     android:text='@={itemNote.name}'
-                    android:textColor="@color/colorIcon"
-                    android:textColorHint="@color/colorIcon"
                     android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}' />
 
                 <HorizontalScrollView
                     android:id="@+id/incToolbarNote_hsv_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none"
+                    style="@style/ToolbarNote.Scroll"
                     android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'>
 
                     <TextView
                         android:id="@+id/incToolbarNote_tv_name"
-                        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
+                        style="@style/ToolbarNote.Text"
                         android:hint="@string/hint_view_name"
-                        android:maxLength="50"
-                        android:maxLines="1"
-                        android:text='@{itemNote.name}'
-                        android:textColor="@color/colorIcon"
-                        android:textColorHint="@color/colorIcon"
-                        android:textIsSelectable="true" />
+                        android:text='@{itemNote.name}' />
 
                 </HorizontalScrollView>
             </FrameLayout>

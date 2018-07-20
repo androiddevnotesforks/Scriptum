@@ -30,7 +30,7 @@
     <style name="ItemRoll.Read.Click" parent="ItemRoll.Click" />
 
     <style name="ItemRoll.Write.Click" parent="ItemRoll.Click">
-        <item name="android:tint">@color/colorIcon</item>
+        <item name="android:tint">@color/icon</item>
     </style>
 
     <style name="ItemRoll.Read.Text" parent="EditText">

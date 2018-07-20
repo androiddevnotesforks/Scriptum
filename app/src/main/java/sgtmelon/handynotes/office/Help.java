@@ -90,7 +90,7 @@ public class Help {
         public static void tintMenuIcon(Context context, MenuItem item) {
             Drawable normalDrawable = item.getIcon();
             Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-            DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(context, R.color.colorIcon));
+            DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(context, R.color.icon));
 
             item.setIcon(wrapDrawable);
         }
@@ -98,7 +98,7 @@ public class Help {
         public static Drawable getDrawable(Context context, @DrawableRes int drawableId) {
             Drawable drawable = ContextCompat.getDrawable(context, drawableId);
             if (drawable != null) {
-                drawable.setColorFilter(ContextCompat.getColor(context, R.color.colorIcon), PorterDuff.Mode.SRC_ATOP);
+                drawable.setColorFilter(ContextCompat.getColor(context, R.color.icon), PorterDuff.Mode.SRC_ATOP);
             }
             return drawable;
         }
@@ -131,7 +131,7 @@ public class Help {
 
         public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, String text) {
             Drawable drawableEnable = getDrawable(context, drawableId);
-            Drawable drawableDisable = getDrawable(context, drawableId, R.color.colorIconSecond);
+            Drawable drawableDisable = getDrawable(context, drawableId, R.color.iconSecond);
 
             if (!text.equals("")) {
                 button.setImageDrawable(drawableEnable);
@@ -144,7 +144,7 @@ public class Help {
 
         public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, String text, boolean enable) {
             Drawable drawableEnable = getDrawable(context, drawableId);
-            Drawable drawableDisable = getDrawable(context, drawableId, R.color.colorIconSecond);
+            Drawable drawableDisable = getDrawable(context, drawableId, R.color.iconSecond);
 
             if (!text.equals("")) {
                 if (enable)
@@ -280,6 +280,7 @@ public class Help {
             textView.append("\nPause:\t" + pref.getBoolean(context.getString(R.string.pref_key_pause_save), context.getResources().getBoolean(R.bool.pref_default_pause_save)));
             textView.append("\nSave:\t" + pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_default_auto_save)));
             textView.append("\nSTime:\t" + pref.getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_default_save_time)));
+            textView.append("\nTheme:\t" + pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_default_theme)));
         }
     }
 
