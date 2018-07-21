@@ -1,17 +1,18 @@
 package sgtmelon.handynotes.app.view.act;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.frg.FrgSettings;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.blank.BlankAct;
 
-public class ActSettings extends AppCompatActivity implements View.OnClickListener {
+public class ActSettings extends BlankAct implements View.OnClickListener {
 
     private static final String TAG = "ActSettings";
 
@@ -33,7 +34,8 @@ public class ActSettings extends AppCompatActivity implements View.OnClickListen
         Toolbar toolbar = findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_act_settings));
 
-        toolbar.setNavigationIcon(Help.Icon.getDrawable(this, R.drawable.ic_arrow_back));
+        Drawable arrowBack = Help.Icon.getDrawable(this,R.attr.clIcon,  R.drawable.ic_arrow_back);
+        toolbar.setNavigationIcon(arrowBack);
         toolbar.setNavigationOnClickListener(this);
     }
 

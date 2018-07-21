@@ -116,7 +116,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Menu menu = toolbar.getMenu();
         MenuItem mItemSettings = menu.findItem(R.id.menu_frgNote_settings);
 
-        Help.Icon.tintMenuIcon(context, mItemSettings);
+        Help.Icon.tintMenuIcon(context, mItemSettings, false);
     }
 
     @Override

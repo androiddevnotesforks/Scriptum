@@ -9,7 +9,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/App">
+        android:theme="@style/App.Dark">
+        <activity android:name=".office.blank.BlankAct" />
         <activity
             android:name=".app.view.act.ActMain"
             android:windowSoftInputMode="adjustPan">

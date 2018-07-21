@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingLeft="@dimen/layout_24dp"
-    android:paddingRight="@dimen/layout_24dp"
-    android:paddingTop="@dimen/layout_16dp">
+    android:paddingTop="@dimen/layout_16dp"
+    android:paddingRight="@dimen/layout_24dp">
 
     <EditText
         android:id="@+id/viewRename_et_enter"

@@ -39,7 +39,7 @@ public class DlgMultiply extends BlankDialog {
             check = arg.getBooleanArray(Dlg.VALUE);
         }
 
-        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
+        return new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMultiChoiceItems(name, check, (dialog, which, isChecked) -> check[which] = isChecked)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)

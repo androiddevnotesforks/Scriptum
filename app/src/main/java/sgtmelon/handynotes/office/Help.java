@@ -9,6 +9,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
+import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,7 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.ColorRes;
+import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -87,26 +88,37 @@ public class Help {
             return DefColor.light.length;
         }
 
-        public static void tintMenuIcon(Context context, MenuItem item) {
+        public static int getColor(Context context, @AttrRes int attr, boolean isAccent) {
+            if (isAccent) return ContextCompat.getColor(context, R.color.iconAccent);
+            else {
+                TypedValue typedValue = new TypedValue();
+                context.getTheme().resolveAttribute(attr, typedValue, true);
+
+                return ContextCompat.getColor(context, typedValue.resourceId);
+            }
+        }
+
+        public static int getColor(Context context, @AttrRes int attr) {
+            TypedValue typedValue = new TypedValue();
+            context.getTheme().resolveAttribute(attr, typedValue, true);
+            return ContextCompat.getColor(context, typedValue.resourceId);
+        }
+
+        public static void tintMenuIcon(Context context, MenuItem item, boolean isAccent) {
             Drawable normalDrawable = item.getIcon();
             Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-            DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(context, R.color.icon));
+
+            int colorRes = getColor(context, R.attr.clIcon, isAccent);
+            DrawableCompat.setTint(wrapDrawable, colorRes);
 
             item.setIcon(wrapDrawable);
         }
 
-        public static Drawable getDrawable(Context context, @DrawableRes int drawableId) {
+        public static Drawable getDrawable(Context context, @AttrRes int attr, @DrawableRes int drawableId) {
             Drawable drawable = ContextCompat.getDrawable(context, drawableId);
             if (drawable != null) {
-                drawable.setColorFilter(ContextCompat.getColor(context, R.color.icon), PorterDuff.Mode.SRC_ATOP);
-            }
-            return drawable;
-        }
-
-        public static Drawable getDrawable(Context context, @DrawableRes int drawableId, @ColorRes int colorId) {
-            Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-            if (drawable != null) {
-                drawable.setColorFilter(ContextCompat.getColor(context, colorId), PorterDuff.Mode.SRC_ATOP);
+                int colorRes = getColor(context, attr);
+                drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
             }
             return drawable;
         }
@@ -116,7 +128,12 @@ public class Help {
         }
 
         public static Drawable getColorCheck(Context context, int position) {
-            return getDrawable(context, R.drawable.ic_color_check, DefColor.dark[position]);
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_color_check);
+            if (drawable != null) {
+                int colorRes = ContextCompat.getColor(context, DefColor.dark[position]);
+                drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
+            }
+            return drawable;
         }
 
         public static int blendColors(int from, int to, float ratio) {
@@ -129,9 +146,9 @@ public class Help {
             return Color.rgb((int) r, (int) g, (int) b);
         }
 
-        public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, String text) {
-            Drawable drawableEnable = getDrawable(context, drawableId);
-            Drawable drawableDisable = getDrawable(context, drawableId, R.color.iconSecond);
+        public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, @AttrRes int attr, String text) {
+            Drawable drawableEnable = getDrawable(context, attr, drawableId);
+            Drawable drawableDisable = getDrawable(context, R.attr.clSecond, drawableId);
 
             if (!text.equals("")) {
                 button.setImageDrawable(drawableEnable);
@@ -143,8 +160,8 @@ public class Help {
         }
 
         public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, String text, boolean enable) {
-            Drawable drawableEnable = getDrawable(context, drawableId);
-            Drawable drawableDisable = getDrawable(context, drawableId, R.color.iconSecond);
+            Drawable drawableEnable = getDrawable(context, R.attr.clAccent, drawableId);
+            Drawable drawableDisable = getDrawable(context, R.attr.clSecond, drawableId);
 
             if (!text.equals("")) {
                 if (enable)

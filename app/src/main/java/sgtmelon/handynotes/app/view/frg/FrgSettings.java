@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.view.act.ActDevelop;
@@ -60,7 +59,8 @@ public class FrgSettings extends PreferenceFragment {
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
         if (view != null) {
-            view.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
+//            view.setBackgroundColor(ContextCompat.getColor(activity, R.color.clBackground));
+            // FIXME: 21.07.2018
 
             View list = view.findViewById(android.R.id.list);
             list.setPadding(0, 0, 0, 0);
@@ -182,7 +182,10 @@ public class FrgSettings extends PreferenceFragment {
         valTheme = pref.getInt(getString(R.string.pref_key_theme), getResources().getInteger(R.integer.pref_default_theme));
         prefTheme.setSummary(getResources().getStringArray(R.array.pref_text_theme)[valTheme]);
         prefTheme.setOnPreferenceClickListener(preference -> {
-            if (!dlgTheme.isVisible()) dlgTheme.show(fm, Dlg.THEME);
+            if (!dlgTheme.isVisible()) {
+                dlgTheme.setArguments(valTheme);
+                dlgTheme.show(fm, Dlg.THEME);
+            }
             return true;
         });
 

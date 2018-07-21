@@ -112,7 +112,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i(TAG, "onResume");
 
         String rollText = rollEnter.getText().toString();
-        Help.Icon.tintButton(context, rollAdd, R.drawable.ic_add, rollText);
+        Help.Icon.tintButton(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
 
         updateAdapter();
     }
@@ -671,7 +671,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String rollText = rollEnter.getText().toString();
-                Help.Icon.tintButton(context, rollAdd, R.drawable.ic_add, rollText);
+                Help.Icon.tintButton(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
             }
 
             @Override

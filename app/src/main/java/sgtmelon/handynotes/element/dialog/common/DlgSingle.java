@@ -43,7 +43,7 @@ public class DlgSingle extends BlankDialog {
             check = arg.getInt(Dlg.VALUE);
         }
 
-        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
+        return new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setSingleChoiceItems(name, check, (dialogInterface, i) -> check = i)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)

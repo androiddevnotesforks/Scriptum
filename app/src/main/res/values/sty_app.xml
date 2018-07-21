@@ -1,20 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="App" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primarySecond</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="App" />
+
+    <style name="App.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="clAccent">@color/accentLight</item>
+        <item name="clBackground">@color/backgroundLight</item>
+        <item name="clPrimary">@color/primaryLight</item>
+        <item name="clIcon">@color/iconLight</item>
+        <item name="clText">@color/textLight</item>
+        <item name="clSecond">@color/secondLight</item>
+
+        <item name="colorPrimary">?attr/clPrimary</item>
+        <item name="colorPrimaryDark">?attr/clSecond</item>
+        <item name="colorAccent">?attr/clAccent</item>
+
+        <item name="alertDialogStyle">@style/App.Light.Alert</item>
+        <item name="alertDialogTheme">@style/App.Light.Alert</item>
     </style>
 
-    <style name="App.ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">@color/text</item>
-        <item name="android:textColorSecondary">@color/text</item>
-        <item name="actionMenuTextColor">@color/text</item>
+    <style name="App.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="clAccent">@color/accentDark</item>
+        <item name="clBackground">@color/backgroundDark</item>
+        <item name="clPrimary">@color/primaryDark</item>
+        <item name="clIcon">@color/iconDark</item>
+        <item name="clText">@color/textDark</item>
+        <item name="clSecond">@color/secondDark</item>
+
+        <item name="colorPrimary">?attr/clPrimary</item>
+        <item name="colorPrimaryDark">?attr/clPrimary</item>
+        <item name="colorAccent">?attr/clAccent</item>
+
+        <item name="alertDialogStyle">@style/App.Dark.Alert</item>
+        <item name="alertDialogTheme">@style/App.Dark.Alert</item>
     </style>
 
-    <style name="App.AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="App.Light.Alert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">?attr/clAccent</item>
+    </style>
+
+    <style name="App.Dark.Alert" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="colorAccent">?attr/clAccent</item>
+    </style>
+
+    <style name="App.Light.ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">?attr/clText</item>
+        <item name="android:textColorSecondary">?attr/clText</item>
+        <item name="colorControlNormal">?attr/clIcon</item>
+        <item name="actionMenuTextColor">?attr/clText</item>
+    </style>
+
+    <style name="App.Dark.ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorPrimary">@color/textAccent</item>
+        <item name="android:textColorSecondary">@color/textAccent</item>
+        <item name="actionMenuTextColor">@color/textAccent</item>
+    </style>
+
+    <style name="Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/clPrimary</item>
+    </style>
+
+    <style name="Toolbar.Light">
+        <item name="android:theme">@style/App.Light.ToolbarTheme</item>
+    </style>
+
+    <style name="Toolbar.Dark">
+        <item name="android:theme">@style/App.Dark.ToolbarTheme</item>
+    </style>
+
+    <style name="NavigationView">
+        <item name="android:background">?attr/clPrimary</item>
+        <item name="android:textColorSecondary">?attr/clSecond</item>
     </style>
 
     <style name="Card">
@@ -24,16 +82,9 @@
         <item name="android:layout_marginRight">@dimen/layout_2dp</item>
     </style>
 
-    <style name="Toolbar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:background">@color/primary</item>
-        <item name="android:theme">@style/App.ToolbarTheme</item>
-    </style>
-
     <style name="EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">@color/text</item>
-        <item name="android:textColorHint">@color/textSecond</item>
+        <item name="android:textColor">?attr/clText</item>
+        <item name="android:textColorHint">?attr/clSecond</item>
     </style>
 
     <style name="RecyclerView">

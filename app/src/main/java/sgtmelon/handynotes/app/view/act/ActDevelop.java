@@ -1,15 +1,15 @@
 package sgtmelon.handynotes.app.view.act;
 
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.blank.BlankAct;
 
-public class ActDevelop extends AppCompatActivity {
+public class ActDevelop extends BlankAct {
 
     private static final String TAG = "ActDevelop";
 

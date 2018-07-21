@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="App" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primary</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="App.Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="clAccent">@color/accentLight</item>
+        <item name="clBackground">@color/backgroundLight</item>
+        <item name="clPrimary">@color/primaryLight</item>
+        <item name="clIcon">@color/iconLight</item>
+        <item name="clText">@color/textLight</item>
+        <item name="clSecond">@color/secondLight</item>
+
+        <item name="colorPrimary">?attr/clPrimary</item>
+        <item name="colorPrimaryDark">?attr/clPrimary</item>
+        <item name="colorAccent">?attr/clAccent</item>
+
         <item name="android:windowLightStatusBar">true</item>
+
+        <item name="alertDialogStyle">@style/App.Light.Alert</item>
+        <item name="alertDialogTheme">@style/App.Light.Alert</item>
+    </style>
+
+    <style name="App.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="clAccent">@color/accentDark</item>
+        <item name="clBackground">@color/backgroundDark</item>
+        <item name="clPrimary">@color/primaryDark</item>
+        <item name="clIcon">@color/iconDark</item>
+        <item name="clText">@color/textDark</item>
+        <item name="clSecond">@color/secondDark</item>
+
+        <item name="colorPrimary">?attr/clPrimary</item>
+        <item name="colorPrimaryDark">?attr/clPrimary</item>
+        <item name="colorAccent">?attr/clAccent</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="alertDialogStyle">@style/App.Dark.Alert</item>
+        <item name="alertDialogTheme">@style/App.Dark.Alert</item>
     </style>
 
 </resources>

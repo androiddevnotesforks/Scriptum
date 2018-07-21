@@ -103,7 +103,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
         boolean isRoll = type == DefType.roll;
 
-        mItemStatus.setIcon(Help.Icon.getDrawable(context, isRoll
+        mItemStatus.setIcon(Help.Icon.getDrawable(context, R.attr.clIcon, isRoll
                 ? R.drawable.ic_bind_roll
                 : R.drawable.ic_bind_text));
 
@@ -114,7 +114,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 mItemMoreR, mItemStatus, mItemConvert, mItemCheck, mItemDelete,
                 mItemMoreE, mItemRank, mItemColor};
 
-        for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem);
+        for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem, true);
 
         DbRoom db = DbRoom.provideDb(context);
         mItemRank.setVisible(db.daoRank().getCount() != 0);

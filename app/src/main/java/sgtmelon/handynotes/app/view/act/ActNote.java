@@ -3,7 +3,6 @@ package sgtmelon.handynotes.app.view.act;
 import android.os.Bundle;
 import android.util.Log;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,10 +19,11 @@ import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
+import sgtmelon.handynotes.office.blank.BlankAct;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 import sgtmelon.handynotes.office.st.StNote;
 
-public class ActNote extends AppCompatActivity implements IntfMenu.DeleteClick {
+public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
     //region Variable
     private static final String TAG = "ActNote";

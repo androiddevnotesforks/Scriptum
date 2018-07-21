@@ -123,7 +123,7 @@ public class FrgBin extends Fragment implements
         Menu menu = toolbar.getMenu();
         mItemClearBin = menu.findItem(R.id.menu_frgBin_clear);
 
-        Help.Icon.tintMenuIcon(context, mItemClearBin);
+        Help.Icon.tintMenuIcon(context, mItemClearBin, false);
 
         dlgClearBin = (DlgMessage) fm.findFragmentByTag(Dlg.CLEAR_BIN);
         if (dlgClearBin == null) dlgClearBin = new DlgMessage();

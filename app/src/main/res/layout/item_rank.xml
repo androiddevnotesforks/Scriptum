@@ -16,7 +16,7 @@
 
     <androidx.cardview.widget.CardView
         style="@style/Card"
-        app:cardBackgroundColor="@color/primary"
+        app:cardBackgroundColor="?attr/clPrimary"
         app:cardCornerRadius="@dimen/radius_2dp"
         app:cardUseCompatPadding="false">
 
@@ -80,7 +80,7 @@
                 android:layout_marginStart="@dimen/layout_8dp"
                 android:layout_marginLeft="@dimen/layout_8dp"
                 android:contentDescription="@null"
-                android:tint="@color/icon"
+                android:tint="?attr/clIcon"
                 app:srcCompat="@drawable/ic_cancel" />
 
         </LinearLayout>

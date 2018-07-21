@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?attr/clBackground"
     android:orientation="vertical"
     tools:context=".app.view.act.ActMain">
 
@@ -18,7 +18,7 @@
         android:id="@+id/actMain_bnv_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary"
+        android:background="?attr/clPrimary"
         app:itemIconTint="@drawable/se_menu_main_item"
         app:itemTextColor="@drawable/se_menu_main_item"
         app:menu="@menu/menu_act_main" />

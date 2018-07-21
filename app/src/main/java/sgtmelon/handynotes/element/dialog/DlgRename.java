@@ -80,7 +80,7 @@ public class DlgRename extends BlankDialog implements TextView.OnEditorActionLis
         });
         nameEnter.setOnEditorActionListener(this);
 
-        return  new AlertDialog.Builder(context, R.style.App_AlertDialog)
+        return  new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setView(view)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)

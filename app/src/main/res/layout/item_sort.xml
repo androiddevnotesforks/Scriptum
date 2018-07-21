@@ -4,6 +4,10 @@
 
     <data>
 
+        <import type="sgtmelon.handynotes.R" />
+
+        <import type="sgtmelon.handynotes.office.Help.Icon" />
+
         <import
             alias="v"
             type="android.view.View" />
@@ -39,7 +43,7 @@
             android:id="@+id/itemSort_tv_text"
             style="@style/ItemSort.Text"
             android:text='@{itemSort.text}'
-            android:textColor='@{position &lt;= sortEnd ? @color/textAccent : @color/textSecond}' />
+            android:textColor='@{position &lt;= sortEnd ? Icon.getColor(context, R.attr.clAccent) : Icon.getColor(context, R.attr.clSecond)}' />
 
         <ImageView
             android:id="@+id/itemSort_iv_right"

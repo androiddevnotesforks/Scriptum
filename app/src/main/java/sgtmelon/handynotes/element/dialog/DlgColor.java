@@ -54,7 +54,7 @@ public class DlgColor extends BlankDialog {
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
 
-        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
+        return new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setView(recyclerView)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)

@@ -3,21 +3,28 @@
 
     <color name="ic_launcher_background">#1C2024</color>
 
-    <color name="colorAccent">#039be5</color>
 
-    <color name="background">#fafafa</color>
-    <color name="backgroundSecond">#717171</color>
+    <color name="accentLight">#039be5</color>
+    <color name="accentDark">#e59203</color>
 
-    <color name="primary">#FFFFFF</color> <!-- Этот меняется при смене темы Белый/Чёрный -->
-    <color name="primarySecond">#b1b1b1</color>
-    <color name="primaryAccent">#FFFFFF</color>
+    <color name="backgroundLight">#eaeaea</color>
+    <color name="backgroundDark">#454545</color>
 
-    <color name="icon">#353535</color> <!-- Этот меняется при смене темы Чёрный/Белый -->
-    <color name="iconSecond">#b1b1b1</color>
+    <color name="primaryLight">#f5f5f5</color>
+    <color name="primaryDark">#353535</color>
+
+    <color name="iconLight">#353535</color>
+    <color name="iconDark">#f5f5f5</color>
+
+    <color name="textLight">#353535</color>
+    <color name="textDark">#f5f5f5</color>
+
+    <color name="secondLight">#969696</color>
+    <color name="secondDark">#b1b1b1</color>
+
+
+    <color name="primaryAccent">#f5f5f5</color>
     <color name="iconAccent">#353535</color>
-
-    <color name="text">#353535</color> <!-- Этот меняется при смене темы Чёрный/Белый -->
-    <color name="textSecond">#b1b1b1</color>
     <color name="textAccent">#353535</color>
 
 </resources>

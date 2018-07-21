@@ -84,7 +84,7 @@ public class DlgSort extends BlankDialog
         adapter.update(listSort);
         adapter.notifyDataSetChanged();
 
-        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
+        return new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.dialog_title_sort))
                 .setView(recyclerView)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)

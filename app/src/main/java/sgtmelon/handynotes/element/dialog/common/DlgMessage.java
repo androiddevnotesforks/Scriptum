@@ -11,7 +11,7 @@ public class DlgMessage extends BlankDialog {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getContext(), R.style.App_AlertDialog)
+        return new AlertDialog.Builder(getContext())
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(getString(R.string.dialog_btn_yes), positiveClick)

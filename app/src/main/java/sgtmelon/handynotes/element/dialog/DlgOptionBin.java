@@ -35,7 +35,7 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
 
         String[] itemOption = context.getResources().getStringArray(R.array.dialog_menu_bin);
 
-        return new AlertDialog.Builder(context, R.style.App_AlertDialog)
+        return new AlertDialog.Builder(context)
                 .setItems(itemOption, this)
                 .setCancelable(true)
                 .create();

@@ -29,13 +29,13 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/incToolbar_tb"
-            style="@style/Toolbar"
+            style="@style/Toolbar.Dark"
             app:contentInsetEnd="@dimen/layout_8dp"
             app:contentInsetLeft="@dimen/layout_8dp"
             app:contentInsetRight="@dimen/layout_8dp"
             app:contentInsetStart="@dimen/layout_8dp"
             app:navigationIcon='@{keyEdit &amp;&amp; !keyCreate ? @drawable/ic_cancel : @drawable/ic_arrow_back}'
-            app:popupTheme="@style/App.ToolbarTheme">
+            app:popupTheme="@style/App.Dark.ToolbarTheme">
 
             <FrameLayout
                 android:layout_width="match_parent"
