@@ -5,7 +5,7 @@
         android:duration="@android:integer/config_shortAnimTime"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:propertyName="fillColor"
-        android:valueFrom="?attr/clSecond"
+        android:valueFrom="?attr/clIcon"
         android:valueTo="?attr/clAccent"
         android:valueType="colorType" />
 

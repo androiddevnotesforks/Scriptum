@@ -6,7 +6,7 @@
     <style name="ItemNote.Click">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:orientation">horizontal</item>
         <item name="android:padding">@dimen/layout_8dp</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
@@ -15,7 +15,7 @@
         <item name="android:layout_width">@dimen/icon_16dp</item>
         <item name="android:layout_height">@dimen/icon_16dp</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:tint">@color/iconAccent</item>
+        <item name="android:tint">?attr/clIcon</item>
     </style>
 
     <style name="ItemNote.Name">
@@ -24,7 +24,7 @@
         <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/textAccent</item>
+        <item name="android:textColor">?attr/clText</item>
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
@@ -33,7 +33,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">5</item>
-        <item name="android:textColor">@color/textAccent</item>
+        <item name="android:textColor">?attr/clText</item>
         <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
@@ -44,7 +44,7 @@
         <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/textAccent</item>
+        <item name="android:textColor">?attr/clText</item>
         <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
@@ -53,8 +53,13 @@
         <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/textAccent</item>
+        <item name="android:textColor">?attr/clInfo</item>
         <item name="android:textSize">@dimen/text_14sp</item>
+    </style>
+
+    <style name="ItemNote.Indicator.Info">
+        <item name="android:layout_marginRight">@dimen/layout_4dp</item>
+        <item name="android:tint">?attr/clInfoIndicator</item>
     </style>
 
 </resources>

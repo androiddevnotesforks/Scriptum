@@ -4,34 +4,28 @@
     <style name="ToolbarNote" />
 
     <style name="ToolbarNote.Enter" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:imeOptions">actionNext|flagNoFullscreen</item>
         <item name="android:inputType">textCapSentences|textAutoCorrect|textAutoComplete</item>
         <item name="android:maxLength">@integer/length_max_note_name</item>
         <item name="android:maxLines">1</item>
         <item name="android:scrollHorizontally">true</item>
-        <item name="android:textColor">@color/textAccent</item>
-        <item name="android:textColorHint">@color/textAccent</item>
+        <item name="android:textColor">?attr/clText</item>
+        <item name="android:textColorHint">?attr/clText</item>
     </style>
 
     <style name="ToolbarNote.Scroll">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
         <item name="android:overScrollMode">never</item>
         <item name="android:scrollbars">none</item>
     </style>
 
     <style name="ToolbarNote.Text" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:maxLength">@integer/length_max_note_name</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">@color/textAccent</item>
-        <item name="android:textColorHint">@color/textAccent</item>
+        <item name="android:textColor">?attr/clText</item>
+        <item name="android:textColorHint">?attr/clText</item>
         <item name="android:textIsSelectable">true</item>
     </style>
 

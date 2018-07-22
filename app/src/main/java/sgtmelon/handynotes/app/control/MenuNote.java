@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.def.DefTheme;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfMenu;
 
@@ -22,26 +24,33 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     private final Context context;
     private final Window window;
     private final Toolbar toolbar;
+    private final View indicator;
 
     private final int type;
+    private final int valTheme;
     //endregion
 
-    public MenuNote(Context context, Window window, Toolbar toolbar, @DefType int type) {
+    public MenuNote(Context context, Window window, Toolbar toolbar, View indicator, @DefType int type) {
         this.context = context;
         this.window = window;
         this.toolbar = toolbar;
+        this.indicator = indicator;
 
         this.type = type;
+        valTheme = Help.Pref.getTheme(context);
     }
 
     // FIXME: 12.07.2018 проверь как можно убрать повторный вызов setStartColor
 
     //Установка цвета
     public void setColor(int color) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.setStatusBarColor(Help.Icon.getColor(context, true, color));
+        if (valTheme != DefTheme.dark) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                window.setStatusBarColor(Help.Icon.getColor(context, true, color));
+            }
+            toolbar.setBackgroundColor(Help.Icon.getColor(context, false, color));
         }
-        toolbar.setBackgroundColor(Help.Icon.getColor(context, false, color));
+        indicator.setBackgroundColor(Help.Icon.getColor(context, false, color));
 
         setStartColor(color);
     }
@@ -67,13 +76,15 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 float position = animation.getAnimatedFraction();
 
                 int blended = Help.Icon.blendColors(statusStartColor, statusEndColor, position);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (valTheme != DefTheme.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     window.setStatusBarColor(blended);
                 }
 
                 blended = Help.Icon.blendColors(toolbarStartColor, toolbarEndColor, position);
                 ColorDrawable background = new ColorDrawable(blended);
-                toolbar.setBackground(background);
+                if (valTheme != DefTheme.dark) toolbar.setBackground(background);
+
+                indicator.setBackground(background);
             });
 
             anim.setDuration(context.getResources().getInteger(android.R.integer.config_shortAnimTime)).start();
@@ -114,7 +125,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 mItemMoreR, mItemStatus, mItemConvert, mItemCheck, mItemDelete,
                 mItemMoreE, mItemRank, mItemColor};
 
-        for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem, true);
+        for (MenuItem mItem : mItems) Help.Icon.tintMenuIcon(context, mItem);
 
         DbRoom db = DbRoom.provideDb(context);
         mItemRank.setVisible(db.daoRank().getCount() != 0);

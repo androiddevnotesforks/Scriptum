@@ -8,12 +8,12 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/incToolbar_tb"
-        style="@style/Toolbar.Light"
+        style="?attr/styleToolbar"
         app:contentInsetEnd="@dimen/layout_8dp"
         app:contentInsetLeft="@dimen/layout_8dp"
         app:contentInsetRight="@dimen/layout_8dp"
         app:contentInsetStart="@dimen/layout_8dp"
-        app:popupTheme="@style/App.Light.ToolbarTheme">
+        app:popupTheme="?attr/themePopup">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

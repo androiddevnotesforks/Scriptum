@@ -1,11 +1,11 @@
 package sgtmelon.handynotes.office.blank;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 import sgtmelon.handynotes.R;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.def.DefTheme;
 
 public class BlankAct extends AppCompatActivity {
 
@@ -13,13 +13,12 @@ public class BlankAct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences pref =  PreferenceManager.getDefaultSharedPreferences(this);
-        int valTheme = pref.getInt(getString(R.string.pref_key_theme), getResources().getInteger(R.integer.pref_default_theme));
+        int valTheme = Help.Pref.getTheme(this);
         switch (valTheme){
-            case 0:
+            case DefTheme.light:
                 setTheme(R.style.App_Light);
                 break;
-            case 1:
+            case DefTheme.dark:
                 setTheme(R.style.App_Dark);
                 break;
         }

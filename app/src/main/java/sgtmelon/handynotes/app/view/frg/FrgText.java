@@ -109,7 +109,9 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         Toolbar toolbar = frgView.findViewById(R.id.incToolbar_tb);
         toolbar.inflateMenu(R.menu.menu_act_note);
 
-        menuNote = new MenuNote(context, activity.getWindow(), toolbar, itemNote.getType());
+        View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
+
+        menuNote = new MenuNote(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
         menuNote.setColor(itemNote.getColor());
 
         menuNote.setNoteClick(this);

@@ -36,6 +36,7 @@ import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefColor;
 import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.office.annot.def.DefTheme;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 public class Help {
@@ -79,6 +80,16 @@ public class Help {
 
     public static class Icon {
 
+        public static int getColorNote(Context context, int color, boolean onDark) {
+            switch (Pref.getTheme(context)) {
+                case DefTheme.light:
+                    return ContextCompat.getColor(context, DefColor.light[color]);
+                default:
+                    if (onDark) return ContextCompat.getColor(context, DefColor.light[color]);
+                    else return getColor(context, R.attr.clPrimary);
+            }
+        }
+
         public static int getColor(Context context, boolean isDark, int color) {
             if (isDark) return ContextCompat.getColor(context, DefColor.dark[color]);
             else return ContextCompat.getColor(context, DefColor.light[color]);
@@ -104,11 +115,11 @@ public class Help {
             return ContextCompat.getColor(context, typedValue.resourceId);
         }
 
-        public static void tintMenuIcon(Context context, MenuItem item, boolean isAccent) {
+        public static void tintMenuIcon(Context context, MenuItem item) {
             Drawable normalDrawable = item.getIcon();
             Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
 
-            int colorRes = getColor(context, R.attr.clIcon, isAccent);
+            int colorRes = getColor(context, R.attr.clIcon);
             DrawableCompat.setTint(wrapDrawable, colorRes);
 
             item.setIcon(wrapDrawable);
@@ -298,6 +309,11 @@ public class Help {
             textView.append("\nSave:\t" + pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_default_auto_save)));
             textView.append("\nSTime:\t" + pref.getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_default_save_time)));
             textView.append("\nTheme:\t" + pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_default_theme)));
+        }
+
+        public static int getTheme(Context context) {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_default_theme));
         }
     }
 

@@ -7,9 +7,9 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/incToolbar_tb"
-        style="@style/Toolbar.Light"
-        app:popupTheme="@style/App.Light.ToolbarTheme" />
+        style="?attr/styleToolbar"
+        app:popupTheme="?attr/themePopup" />
 
-    <View style="@style/Divider.Horizontal" />
+    <!--<View style="@style/Divider.Horizontal" />-->
 
 </com.google.android.material.appbar.AppBarLayout>
