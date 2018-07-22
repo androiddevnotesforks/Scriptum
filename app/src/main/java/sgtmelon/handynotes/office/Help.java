@@ -85,7 +85,7 @@ public class Help {
                 case DefTheme.light:
                     return ContextCompat.getColor(context, DefColor.light[color]);
                 default:
-                    if (onDark) return ContextCompat.getColor(context, DefColor.light[color]);
+                    if (onDark) return ContextCompat.getColor(context, DefColor.dark[color]);
                     else return getColor(context, R.attr.clPrimary);
             }
         }
@@ -93,10 +93,6 @@ public class Help {
         public static int getColor(Context context, boolean isDark, int color) {
             if (isDark) return ContextCompat.getColor(context, DefColor.dark[color]);
             else return ContextCompat.getColor(context, DefColor.light[color]);
-        }
-
-        public static int getColorLength() {
-            return DefColor.light.length;
         }
 
         public static int getColor(Context context, @AttrRes int attr, boolean isAccent) {
@@ -113,16 +109,6 @@ public class Help {
             TypedValue typedValue = new TypedValue();
             context.getTheme().resolveAttribute(attr, typedValue, true);
             return ContextCompat.getColor(context, typedValue.resourceId);
-        }
-
-        public static void tintMenuIcon(Context context, MenuItem item) {
-            Drawable normalDrawable = item.getIcon();
-            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
-
-            int colorRes = getColor(context, R.attr.clIcon);
-            DrawableCompat.setTint(wrapDrawable, colorRes);
-
-            item.setIcon(wrapDrawable);
         }
 
         public static Drawable getDrawable(Context context, @AttrRes int attr, @DrawableRes int drawableId) {
@@ -155,6 +141,16 @@ public class Help {
             final float b = Color.blue(to) * ratio + Color.blue(from) * inverseRatio;
 
             return Color.rgb((int) r, (int) g, (int) b);
+        }
+
+        public static void tintMenuIcon(Context context, MenuItem item) {
+            Drawable normalDrawable = item.getIcon();
+            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+
+            int colorRes = getColor(context, R.attr.clIcon);
+            DrawableCompat.setTint(wrapDrawable, colorRes);
+
+            item.setIcon(wrapDrawable);
         }
 
         public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, @AttrRes int attr, String text) {

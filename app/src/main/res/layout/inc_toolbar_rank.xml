@@ -53,6 +53,6 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <!--<View style="@style/Divider.Horizontal" />-->
+    <View style="@style/Divider.Horizontal" />
 
 </com.google.android.material.appbar.AppBarLayout>

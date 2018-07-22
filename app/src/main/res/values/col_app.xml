@@ -7,20 +7,23 @@
     <color name="accentLight">#039be5</color>
     <color name="accentDark">#e59203</color>
 
+    <color name="primaryLight">#f5f5f5</color>
+    <color name="primaryDark">#353535</color>
+
+    <color name="dividerLight">#e5e5e5</color>
+    <color name="dividerDark">#252525</color>
+
     <color name="backgroundLight">#eaeaea</color>
     <color name="backgroundDark">#454545</color>
 
-    <color name="primaryLight">#f5f5f5</color>
-    <color name="primaryDark">#353535</color>
+    <color name="secondLight">#969696</color>
+    <color name="secondDark">#b1b1b1</color>
 
     <color name="iconLight">#353535</color>
     <color name="iconDark">#f5f5f5</color>
 
     <color name="textLight">#353535</color>
     <color name="textDark">#f5f5f5</color>
-
-    <color name="secondLight">#969696</color>
-    <color name="secondDark">#b1b1b1</color>
 
 
     <color name="primaryAccent">#f5f5f5</color>

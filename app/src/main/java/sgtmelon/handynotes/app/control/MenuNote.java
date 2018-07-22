@@ -80,11 +80,13 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                     window.setStatusBarColor(blended);
                 }
 
-                blended = Help.Icon.blendColors(toolbarStartColor, toolbarEndColor, position);
                 ColorDrawable background = new ColorDrawable(blended);
+                indicator.setBackground(background);
+
+                blended = Help.Icon.blendColors(toolbarStartColor, toolbarEndColor, position);
+                background = new ColorDrawable(blended);
                 if (valTheme != DefTheme.dark) toolbar.setBackground(background);
 
-                indicator.setBackground(background);
             });
 
             anim.setDuration(context.getResources().getInteger(android.R.integer.config_shortAnimTime)).start();

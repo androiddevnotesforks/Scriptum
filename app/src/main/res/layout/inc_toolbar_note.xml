@@ -84,11 +84,10 @@
 
         <View
             android:id="@+id/incToolbarNote_iv_color"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/layout_4dp"
+            style="@style/ItemNote.Color.Horizontal"
             android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}' />
 
-        <!--<View style="@style/Divider.Horizontal" />-->
+        <View style="@style/Divider.Horizontal" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

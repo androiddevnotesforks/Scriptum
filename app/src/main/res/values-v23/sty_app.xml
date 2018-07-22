@@ -3,11 +3,12 @@
 
     <style name="App.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="clAccent">@color/accentLight</item>
-        <item name="clBackground">@color/backgroundLight</item>
         <item name="clPrimary">@color/primaryLight</item>
+        <item name="clDivider">@color/dividerLight</item>
+        <item name="clBackground">@color/backgroundLight</item>
+        <item name="clSecond">@color/secondLight</item>
         <item name="clIcon">@color/iconLight</item>
         <item name="clText">@color/textLight</item>
-        <item name="clSecond">@color/secondLight</item>
 
         <item name="clInfo">?attr/clText</item>
         <item name="clInfoIndicator">?attr/clIcon</item>
@@ -27,11 +28,12 @@
 
     <style name="App.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="clAccent">@color/accentDark</item>
-        <item name="clBackground">@color/backgroundDark</item>
         <item name="clPrimary">@color/primaryDark</item>
+        <item name="clDivider">@color/dividerDark</item>
+        <item name="clBackground">@color/backgroundDark</item>
+        <item name="clSecond">@color/secondDark</item>
         <item name="clIcon">@color/iconDark</item>
         <item name="clText">@color/textDark</item>
-        <item name="clSecond">@color/secondDark</item>
 
         <item name="clInfo">?attr/clSecond</item>
         <item name="clInfoIndicator">?attr/clAccent</item>

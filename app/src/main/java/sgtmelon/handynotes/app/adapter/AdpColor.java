@@ -1,9 +1,6 @@
 package sgtmelon.handynotes.app.adapter;
 
 import android.content.Context;
-import androidx.databinding.DataBindingUtil;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +10,12 @@ import android.widget.ImageView;
 
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.databinding.ItemColorBinding;
-import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.def.DefColor;
 
 public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
@@ -64,7 +64,7 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
     @Override
     public int getItemCount() {
-        return Help.Icon.getColorLength();
+        return DefColor.light.length;
     }
 
     class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Animation.AnimationListener {
