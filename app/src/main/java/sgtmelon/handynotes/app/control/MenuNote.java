@@ -50,7 +50,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
             }
             toolbar.setBackgroundColor(Help.Icon.getColor(context, false, color));
         }
-        indicator.setBackgroundColor(Help.Icon.getColor(context, false, color));
+        indicator.setBackgroundColor(Help.Icon.getColor(context, true, color));
 
         setStartColor(color);
     }

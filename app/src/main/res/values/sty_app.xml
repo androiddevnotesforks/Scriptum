@@ -8,6 +8,7 @@
         <item name="clPrimary">@color/primaryLight</item>
         <item name="clDivider">@color/dividerLight</item>
         <item name="clBackground">@color/backgroundLight</item>
+        <item name="clBackgroundEnter">@color/backgroundEnterLight</item>
         <item name="clSecond">@color/secondLight</item>
         <item name="clIcon">@color/iconLight</item>
         <item name="clText">@color/textLight</item>
@@ -31,6 +32,7 @@
         <item name="clPrimary">@color/primaryDark</item>
         <item name="clDivider">@color/dividerDark</item>
         <item name="clBackground">@color/backgroundDark</item>
+        <item name="clBackgroundEnter">@color/backgroundEnterDark</item>
         <item name="clSecond">@color/secondDark</item>
         <item name="clIcon">@color/iconDark</item>
         <item name="clText">@color/textDark</item>

@@ -58,8 +58,8 @@
     <string name="pref_summary_theme">Выбранная тема</string>
 
     <string-array name="pref_text_theme">
-        <item>Белая</item>
-        <item>Чёрная</item>
+        <item>Светлая</item>
+        <item>Тёмная</item>
     </string-array>
 
     <string name="pref_title_about">О приложении</string>

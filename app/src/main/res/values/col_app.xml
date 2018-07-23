@@ -5,7 +5,7 @@
 
 
     <color name="accentLight">#039be5</color>
-    <color name="accentDark">#e59203</color>
+    <color name="accentDark">#fb8c00</color>
 
     <color name="primaryLight">#f5f5f5</color>
     <color name="primaryDark">#353535</color>
@@ -15,6 +15,9 @@
 
     <color name="backgroundLight">#eaeaea</color>
     <color name="backgroundDark">#454545</color>
+
+    <color name="backgroundEnterLight">#ffffff</color>
+    <color name="backgroundEnterDark">#454545</color>
 
     <color name="secondLight">#969696</color>
     <color name="secondDark">#b1b1b1</color>

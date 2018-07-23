@@ -65,8 +65,8 @@
     <string name="pref_key_theme" translatable="false">key_theme</string>
 
     <string-array name="pref_text_theme">
-        <item>White</item>
-        <item>Black</item>
+        <item>Light</item>
+        <item>Dark</item>
     </string-array>
 
     <string name="pref_title_about">About app</string>

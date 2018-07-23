@@ -199,6 +199,8 @@ public class FrgSettings extends PreferenceFragment {
 
             pref.edit().putInt(getString(R.string.pref_key_theme), valTheme).apply();
             prefTheme.setSummary(dlgTheme.getName()[valTheme]);
+
+            activity.isThemeChange();
         }));
 
         dlgInfo = (DlgInfo) fm.findFragmentByTag(Dlg.INFO);
