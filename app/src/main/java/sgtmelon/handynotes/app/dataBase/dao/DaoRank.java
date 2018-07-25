@@ -177,10 +177,6 @@ public abstract class DaoRank extends DaoBase {
         updateRank(listRank);
         update(idNote, listRank);
 
-//        for (ItemRank item : listRank) {
-//            Log.i("DaoRank", "NM: " + item.getName() + " | PS: " + item.getPosition());
-//        }
-
         return listRank;
     }
 

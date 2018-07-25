@@ -37,7 +37,6 @@ public class BlankAct extends AppCompatActivity {
     public void isThemeChange() {
         int valTheme = Help.Pref.getTheme(this);
         if (this.valTheme != valTheme) {
-//            recreate(); // FIXME: 23.07.2018 Think about it...
             Intent intent = getIntent();
             finish();
             startActivity(intent);

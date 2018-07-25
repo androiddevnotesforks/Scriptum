@@ -652,10 +652,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i(TAG, "setupEnter");
 
         EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
-
-        rollEnter = frgView.findViewById(R.id.frgRoll_et_enter);
-        rollAdd = frgView.findViewById(R.id.frgRoll_ib_add);
-
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_NEXT) {
                 rollEnter.requestFocus();
@@ -664,7 +660,10 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             return false;
         });
 
-        final TextWatcher enterRollTextWatcher = new TextWatcher() {
+        rollEnter = frgView.findViewById(R.id.frgRoll_et_enter);
+        rollAdd = frgView.findViewById(R.id.frgRoll_ib_add);
+
+        rollEnter.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -680,9 +679,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             public void afterTextChanged(Editable editable) {
 
             }
-        };
-
-        rollEnter.addTextChangedListener(enterRollTextWatcher);
+        });
 
         rollAdd.setOnClickListener(view -> scrollToInsert(true));
         rollAdd.setOnLongClickListener(view -> {

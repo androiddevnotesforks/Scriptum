@@ -51,6 +51,11 @@
         <item name="alertDialogTheme">@style/Alert.Dark</item>
     </style>
 
+    <style name="App.Splash" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimaryDark">@color/ic_launcher_background</item>
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+    </style>
+
     <style name="Alert.Light" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">?attr/clAccent</item>
     </style>

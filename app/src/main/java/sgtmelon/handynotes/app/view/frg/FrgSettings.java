@@ -59,9 +59,6 @@ public class FrgSettings extends PreferenceFragment {
 
         View view = super.onCreateView(inflater, container, savedInstanceState);
         if (view != null) {
-//            view.setBackgroundColor(ContextCompat.getColor(activity, R.color.clBackground));
-            // FIXME: 21.07.2018
-
             View list = view.findViewById(android.R.id.list);
             list.setPadding(0, 0, 0, 0);
         }

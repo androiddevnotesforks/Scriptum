@@ -12,13 +12,16 @@
         android:theme="@style/App.Light">
         <activity android:name=".office.blank.BlankAct" />
         <activity
-            android:name=".app.view.act.ActMain"
-            android:windowSoftInputMode="adjustPan">
+            android:name=".app.view.act.ActSplash"
+            android:theme="@style/App.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".app.view.act.ActMain"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".app.view.act.ActNote"
             android:parentActivityName=".app.view.act.ActMain" />

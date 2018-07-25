@@ -378,4 +378,5 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             return false;
         });
     }
+
 }
