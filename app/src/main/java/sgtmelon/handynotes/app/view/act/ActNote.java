@@ -15,9 +15,9 @@ import sgtmelon.handynotes.app.view.frg.FrgRoll;
 import sgtmelon.handynotes.app.view.frg.FrgText;
 import sgtmelon.handynotes.app.viewModel.VmActNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.blank.BlankAct;
 import sgtmelon.handynotes.office.intf.IntfMenu;
@@ -190,8 +190,8 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
         Log.i(TAG, "onSaveInstanceState");
 
         outState.putBoolean(DefPage.CREATE, vm.isCreate());
-        outState.putInt(Db.NT_TP, vm.getType());
-        outState.putLong(Db.NT_ID, vm.getId());
+        outState.putInt(DefDb.NT_TP, vm.getType());
+        outState.putLong(DefDb.NT_ID, vm.getId());
     }
 
 }

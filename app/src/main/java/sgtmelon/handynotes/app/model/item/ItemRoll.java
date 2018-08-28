@@ -7,34 +7,33 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-
-import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.conv.ConvBool;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = Db.RL_TB,
+@Entity(tableName = DefDb.RL_TB,
         foreignKeys = @ForeignKey(entity = ItemNote.class,
-                parentColumns = Db.NT_ID,
-                childColumns = Db.RL_ID_NT,
+                parentColumns = DefDb.NT_ID,
+                childColumns = DefDb.RL_ID_NT,
                 onUpdate = CASCADE,
                 onDelete = CASCADE),
-        indices = {@Index(Db.RL_ID_NT)})
+        indices = {@Index(DefDb.RL_ID_NT)})
 @TypeConverters({ConvBool.class})
 public class ItemRoll {
 
     //region Variables
-    @ColumnInfo(name = Db.RL_ID)
+    @ColumnInfo(name = DefDb.RL_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @ColumnInfo(name = Db.RL_ID_NT)
+    @ColumnInfo(name = DefDb.RL_ID_NT)
     private long idNote;
 
-    @ColumnInfo(name = Db.RL_PS)
+    @ColumnInfo(name = DefDb.RL_PS)
     private int position;
-    @ColumnInfo(name = Db.RL_CH)
+    @ColumnInfo(name = DefDb.RL_CH)
     private boolean check = false;
-    @ColumnInfo(name = Db.RL_TX)
+    @ColumnInfo(name = DefDb.RL_TX)
     private String text;
 
     @Ignore

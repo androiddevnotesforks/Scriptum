@@ -17,17 +17,17 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
 public class DlgRename extends BlankDialog implements TextView.OnEditorActionListener {
 
     public void setArguments(int p, String title, ArrayList<String> listName) {
         Bundle arg = new Bundle();
-        arg.putInt(Db.RK_PS, p);
+        arg.putInt(DefDb.RK_PS, p);
         arg.putString(Dlg.VALUE, title);
-        arg.putStringArrayList(Db.RK_NM, listName);
+        arg.putStringArrayList(DefDb.RK_NM, listName);
         setArguments(arg);
     }
 
@@ -50,13 +50,13 @@ public class DlgRename extends BlankDialog implements TextView.OnEditorActionLis
         Bundle arg = getArguments();
 
         if (arg != null) {
-            position = arg.getInt(Db.RK_PS);
+            position = arg.getInt(DefDb.RK_PS);
             title = arg.getString(Dlg.VALUE);
-            listName = arg.getStringArrayList(Db.RK_NM);
+            listName = arg.getStringArrayList(DefDb.RK_NM);
         } else if (savedInstanceState != null) {
-            position = savedInstanceState.getInt(Db.RK_PS);
+            position = savedInstanceState.getInt(DefDb.RK_PS);
             title = savedInstanceState.getString(Dlg.VALUE);
-            listName = savedInstanceState.getStringArrayList(Db.RK_NM);
+            listName = savedInstanceState.getStringArrayList(DefDb.RK_NM);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
@@ -126,9 +126,9 @@ public class DlgRename extends BlankDialog implements TextView.OnEditorActionLis
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Db.RK_PS, position);
+        outState.putInt(DefDb.RK_PS, position);
         outState.putString(Dlg.VALUE, title);
-        outState.putStringArrayList(Db.RK_NM, listName);
+        outState.putStringArrayList(DefDb.RK_NM, listName);
     }
 
 }

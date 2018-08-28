@@ -34,11 +34,11 @@ import sgtmelon.handynotes.app.viewModel.VmFrgBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.element.dialog.DlgOptionNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
@@ -180,7 +180,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         Intent intent = new Intent(context, ActNote.class);
 
-        intent.putExtra(Db.NT_ID, itemNote.getId());
+        intent.putExtra(DefDb.NT_ID, itemNote.getId());
         intent.putExtra(DefPage.CREATE, false);
 
         startActivity(intent);

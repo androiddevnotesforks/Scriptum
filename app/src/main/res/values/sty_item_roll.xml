@@ -27,12 +27,6 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="ItemRoll.Read.Click" parent="ItemRoll.Click" />
-
-    <style name="ItemRoll.Write.Click" parent="ItemRoll.Click">
-        <item name="android:tint">?attr/clIcon</item>
-    </style>
-
     <style name="ItemRoll.Read.Text" parent="EditText">
         <item name="android:autoLink">all</item>
         <item name="android:background">@android:color/transparent</item>

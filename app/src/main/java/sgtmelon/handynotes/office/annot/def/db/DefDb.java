@@ -1,4 +1,6 @@
-package sgtmelon.handynotes.office.annot;
+package sgtmelon.handynotes.office.annot.def.db;
+
+import androidx.annotation.StringDef;
 
 /**
  * Аннотация для БД.
@@ -6,7 +8,23 @@ package sgtmelon.handynotes.office.annot;
  * Строковые постоянные.
  * Строки для формирования сортировки заметок.
  */
-public @interface Db {
+@StringDef({DefDb.NT_TB,
+        DefDb.NT_ID,
+        DefDb.NT_CR, DefDb.NT_CH,
+        DefDb.NT_NM, DefDb.NT_TX,
+        DefDb.NT_CL, DefDb.NT_TP,
+        DefDb.NT_RK_ID, DefDb.NT_RK_PS,
+        DefDb.NT_BN, DefDb.NT_ST,
+
+        DefDb.RL_TB,
+        DefDb.RL_ID, DefDb.RL_ID_NT,
+        DefDb.RL_PS, DefDb.RL_CH, DefDb.RL_TX,
+
+        DefDb.RK_TB,
+        DefDb.RK_ID, DefDb.RK_ID_NT,
+        DefDb.RK_PS, DefDb.RK_NM, DefDb.RK_VS
+})
+public @interface DefDb {
 
     String NT_TB = "NOTE_TABLE",
             NT_ID = "NT_ID",

@@ -1,24 +1,23 @@
 package sgtmelon.handynotes.app.model.repo;
 
-import androidx.room.Embedded;
-import androidx.room.Ignore;
-import androidx.room.Relation;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.room.Embedded;
+import androidx.room.Ignore;
+import androidx.room.Relation;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 
 public class RepoNote {
 
     @Embedded
     private ItemNote itemNote;
 
-    @Relation(parentColumn = Db.NT_ID, entityColumn = Db.RL_ID_NT)
+    @Relation(parentColumn = DefDb.NT_ID, entityColumn = DefDb.RL_ID_NT)
     private List<ItemRoll> listRoll;
 
     @Ignore

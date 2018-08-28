@@ -5,17 +5,16 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-
 import java.util.List;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 public class ItemStatus {
@@ -40,7 +39,7 @@ public class ItemStatus {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setAction(Intent.ACTION_VIEW);
 
-        intent.putExtra(Db.NT_ID, itemNote.getId());
+        intent.putExtra(DefDb.NT_ID, itemNote.getId());
         intent.putExtra(DefPage.CREATE, false);
 
         pendingIntent = PendingIntent.getActivity(context, (int) itemNote.getId(), intent, 0);

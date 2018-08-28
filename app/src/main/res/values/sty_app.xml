@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="App" />
 
     <style name="App.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="clAccent">@color/accentLight</item>
         <item name="clPrimary">@color/primaryLight</item>
+
         <item name="clDivider">@color/dividerLight</item>
         <item name="clBackground">@color/backgroundLight</item>
         <item name="clBackgroundEnter">@color/backgroundEnterLight</item>
+
         <item name="clSecond">@color/secondLight</item>
         <item name="clIcon">@color/iconLight</item>
         <item name="clText">@color/textLight</item>
@@ -20,6 +22,8 @@
         <item name="colorPrimaryDark">?attr/clSecond</item>
         <item name="colorAccent">?attr/clAccent</item>
 
+        <item name="android:windowLightStatusBar" tools:targetApi="23">true</item>
+
         <item name="styleToolbar">@style/Toolbar.Light</item>
         <item name="themePopup">@style/PopupTheme.Light</item>
 
@@ -30,9 +34,11 @@
     <style name="App.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="clAccent">@color/accentDark</item>
         <item name="clPrimary">@color/primaryDark</item>
+
         <item name="clDivider">@color/dividerDark</item>
         <item name="clBackground">@color/backgroundDark</item>
         <item name="clBackgroundEnter">@color/backgroundEnterDark</item>
+
         <item name="clSecond">@color/secondDark</item>
         <item name="clIcon">@color/iconDark</item>
         <item name="clText">@color/textDark</item>
@@ -43,6 +49,8 @@
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clPrimary</item>
         <item name="colorAccent">?attr/clAccent</item>
+
+        <item name="android:windowLightStatusBar" tools:targetApi="23">false</item>
 
         <item name="styleToolbar">@style/Toolbar.Dark</item>
         <item name="themePopup">@style/PopupTheme.Dark</item>

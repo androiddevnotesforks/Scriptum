@@ -1,20 +1,19 @@
 package sgtmelon.handynotes.app.dataBase.dao;
 
-import androidx.sqlite.db.SimpleSQLiteQuery;
-import androidx.sqlite.db.SupportSQLiteQuery;
+import java.util.List;
+
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.RawQuery;
 import androidx.room.TypeConverters;
 import androidx.room.Update;
-
-import java.util.List;
-
+import androidx.sqlite.db.SimpleSQLiteQuery;
+import androidx.sqlite.db.SupportSQLiteQuery;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRank;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvBool;
 
@@ -43,22 +42,22 @@ abstract class DaoBase {
     abstract List<ItemNote> getNote(SupportSQLiteQuery query);
 
     /**
-     * @param bin  - Расположение заметок
+     * @param bin      - Расположение заметок
      * @param sortKeys - Строка с сортировкой заметок
      * @return - Список заметок
      */
     List<ItemNote> getNote(@DefBin int bin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT * FROM " + Db.NT_TB +
-                        " WHERE " + Db.NT_BN + " = " + bin +
+                "SELECT * FROM " + DefDb.NT_TB +
+                        " WHERE " + DefDb.NT_BN + " = " + bin +
                         " ORDER BY " + sortKeys);
 
         return getNote(query);
     }
 
     /**
-     * @param type - Тип заметки
-     * @param noteId   - Id заметок
+     * @param type   - Тип заметки
+     * @param noteId - Id заметок
      * @return - Количество заметок по датам создания
      */
     @Query("SELECT COUNT(NT_ID) FROM NOTE_TABLE " +

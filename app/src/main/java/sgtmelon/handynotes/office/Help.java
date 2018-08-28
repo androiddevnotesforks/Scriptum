@@ -33,10 +33,10 @@ import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemSort;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefColor;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.annot.def.DefTheme;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 public class Help {
@@ -128,6 +128,19 @@ public class Help {
             Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_color_check);
             if (drawable != null) {
                 int colorRes = ContextCompat.getColor(context, DefColor.dark[position]);
+                drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
+            }
+            return drawable;
+        }
+
+        public static Drawable getRollMove(Context context, boolean check){
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_move);
+            if (drawable != null) {
+                int colorRes;
+
+                if (check) colorRes = getColor(context, R.attr.clAccent);
+                else colorRes = getColor(context, R.attr.clIcon);
+
                 drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
             }
             return drawable;
@@ -243,7 +256,7 @@ public class Help {
             for (String aKey : keysArr) {
                 @DefSort int key = Integer.parseInt(aKey);
 
-                order.append(Db.orders[key]);
+                order.append(DefDb.orders[key]);
 
                 if (key != DefSort.create && key != DefSort.change) {
                     order.append(DefSort.divider);

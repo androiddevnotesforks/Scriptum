@@ -1,21 +1,21 @@
 package sgtmelon.handynotes.app.viewModel;
 
 import android.app.Application;
-import androidx.lifecycle.AndroidViewModel;
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.st.StNote;
 
 public class VmActNote extends AndroidViewModel {
@@ -44,8 +44,8 @@ public class VmActNote extends AndroidViewModel {
 
     public void setValue(Bundle bundle) {
         create = bundle.getBoolean(DefPage.CREATE);
-        type = bundle.getInt(Db.NT_TP);
-        id = bundle.getLong(Db.NT_ID);
+        type = bundle.getInt(DefDb.NT_TP);
+        id = bundle.getLong(DefDb.NT_ID);
 
         Log.i(TAG, "setValue: create - " + create + ", type - " + type + ", id - " + id);
 

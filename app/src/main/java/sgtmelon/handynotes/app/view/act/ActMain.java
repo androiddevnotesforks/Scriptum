@@ -16,10 +16,10 @@ import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
 import sgtmelon.handynotes.element.dialog.DlgSheetAdd;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.Frg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.blank.BlankAct;
 import sgtmelon.handynotes.office.st.StPage;
@@ -83,7 +83,7 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
             Intent intent = new Intent(ActMain.this, ActNote.class);
 
             intent.putExtra(DefPage.CREATE, true);
-            intent.putExtra(Db.NT_TP, menuItem.getItemId() == R.id.menu_sheetAdd_text
+            intent.putExtra(DefDb.NT_TP, menuItem.getItemId() == R.id.menu_sheetAdd_text
                     ? DefType.text
                     : DefType.roll);
 

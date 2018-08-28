@@ -39,7 +39,7 @@
 
                 <ImageView
                     android:id="@+id/itemRoll_iv_click"
-                    style="@style/ItemRoll.Read.Click"
+                    style="@style/ItemRoll.Click"
                     android:contentDescription="@null"
                     android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}' />
 

@@ -1,17 +1,17 @@
 package sgtmelon.handynotes.office.conv;
 
-import androidx.room.TypeConverter;
 import android.text.TextUtils;
 
-import sgtmelon.handynotes.office.annot.Db;
+import androidx.room.TypeConverter;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 
 public class ConvString {
 
     @TypeConverter
     public Long[] fromString(String string) {
-        if (string.equals(Db.none)) return new Long[0];
+        if (string.equals(DefDb.none)) return new Long[0];
         else {
-            String[] strArr = string.split(Db.divider);
+            String[] strArr = string.split(DefDb.divider);
             int size = strArr.length;
 
             Long[] array = new Long[size];
@@ -23,8 +23,8 @@ public class ConvString {
 
     @TypeConverter
     public String toString(Long[] string) {
-        if (string == null || string.length == 0) return Db.none;
-        else return TextUtils.join(Db.divider, string);
+        if (string == null || string.length == 0) return DefDb.none;
+        else return TextUtils.join(DefDb.divider, string);
     }
 
 }
