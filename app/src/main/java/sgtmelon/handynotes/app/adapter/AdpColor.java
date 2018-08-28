@@ -64,7 +64,7 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
     @Override
     public int getItemCount() {
-        return DefColor.light.length;
+        return DefColor.cl_light.length;
     }
 
     class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Animation.AnimationListener {

@@ -1,8 +1,18 @@
 package sgtmelon.handynotes.office.annot;
 
+import androidx.annotation.StringDef;
+
 /**
  * Ключи для нахождения фрагментов после поворота экрана
  */
+@StringDef({
+        Frg.RANK,
+        Frg.NOTES,
+        Frg.BIN,
+
+        Frg.TEXT,
+        Frg.ROLL
+})
 public @interface Frg {
 
     //ActMain

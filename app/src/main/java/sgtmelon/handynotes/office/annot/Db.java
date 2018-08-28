@@ -1,30 +1,30 @@
-package sgtmelon.handynotes.office.annot.def.db;
+package sgtmelon.handynotes.office.annot;
 
 import androidx.annotation.StringDef;
 
 /**
- * Аннотация для БД.
- * Наименование столов и столбцов базы данных.
- * Строковые постоянные.
- * Строки для формирования сортировки заметок.
+ * Аннотация для БД
+ * Наименование столов и столбцов базы данных
+ * Постоянные и строки для формирования сортировки заметок
  */
-@StringDef({DefDb.NT_TB,
-        DefDb.NT_ID,
-        DefDb.NT_CR, DefDb.NT_CH,
-        DefDb.NT_NM, DefDb.NT_TX,
-        DefDb.NT_CL, DefDb.NT_TP,
-        DefDb.NT_RK_ID, DefDb.NT_RK_PS,
-        DefDb.NT_BN, DefDb.NT_ST,
+@StringDef({
+        Db.NT_TB,
+        Db.NT_ID,
+        Db.NT_CR, Db.NT_CH,
+        Db.NT_NM, Db.NT_TX,
+        Db.NT_CL, Db.NT_TP,
+        Db.NT_RK_ID, Db.NT_RK_PS,
+        Db.NT_BN, Db.NT_ST,
 
-        DefDb.RL_TB,
-        DefDb.RL_ID, DefDb.RL_ID_NT,
-        DefDb.RL_PS, DefDb.RL_CH, DefDb.RL_TX,
+        Db.RL_TB,
+        Db.RL_ID, Db.RL_ID_NT,
+        Db.RL_PS, Db.RL_CH, Db.RL_TX,
 
-        DefDb.RK_TB,
-        DefDb.RK_ID, DefDb.RK_ID_NT,
-        DefDb.RK_PS, DefDb.RK_NM, DefDb.RK_VS
+        Db.RK_TB,
+        Db.RK_ID, Db.RK_ID_NT,
+        Db.RK_PS, Db.RK_NM, Db.RK_VS
 })
-public @interface DefDb {
+public @interface Db {
 
     String NT_TB = "NOTE_TABLE",
             NT_ID = "NT_ID",

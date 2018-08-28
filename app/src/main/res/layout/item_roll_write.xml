@@ -6,7 +6,7 @@
 
         <import type="sgtmelon.handynotes.R"/>
 
-        <import type="sgtmelon.handynotes.office.Help.Icon" />
+        <import type="sgtmelon.handynotes.office.Help.Draw" />
 
         <variable
             name="itemRoll"
@@ -34,7 +34,7 @@
                     android:id="@+id/itemRoll_ib_drag"
                     style="@style/ItemRoll.Click"
                     android:contentDescription="@null"
-                    android:src='@{Icon.getRollMove(context, itemRoll.check)}'/>
+                    android:src='@{Draw.getIconMove(context, itemRoll.check)}'/>
 
             </FrameLayout>
 

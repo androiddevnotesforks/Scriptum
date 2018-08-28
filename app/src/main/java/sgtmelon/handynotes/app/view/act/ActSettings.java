@@ -34,7 +34,7 @@ public class ActSettings extends BlankAct implements View.OnClickListener {
         Toolbar toolbar = findViewById(R.id.incToolbar_tb);
         toolbar.setTitle(getString(R.string.title_act_settings));
 
-        Drawable arrowBack = Help.Icon.getDrawable(this, R.attr.clIcon, R.drawable.ic_arrow_back);
+        Drawable arrowBack = Help.Draw.get(this, R.drawable.ic_arrow_back, R.attr.clIcon);
         toolbar.setNavigationIcon(arrowBack);
         toolbar.setNavigationOnClickListener(this);
     }

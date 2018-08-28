@@ -33,10 +33,10 @@ import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemSort;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.DefColor;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.annot.def.DefTheme;
-import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 public class Help {
@@ -78,75 +78,31 @@ public class Help {
         }
     }
 
-    public static class Icon {
+    public static class Col {
 
-        public static int getColorNote(Context context, int color, boolean onDark) {
+        public static int getNote(Context context, int color, boolean onDark) {
             switch (Pref.getTheme(context)) {
                 case DefTheme.light:
-                    return ContextCompat.getColor(context, DefColor.light[color]);
+                    return ContextCompat.getColor(context, DefColor.cl_light[color]);
+                case DefTheme.dark:
                 default:
-                    if (onDark) return ContextCompat.getColor(context, DefColor.dark[color]);
-                    else return getColor(context, R.attr.clPrimary);
+                    if (onDark) return ContextCompat.getColor(context, DefColor.cl_dark[color]);
+                    else return get(context, R.attr.clPrimary);
             }
         }
 
-        public static int getColor(Context context, boolean isDark, int color) {
-            if (isDark) return ContextCompat.getColor(context, DefColor.dark[color]);
-            else return ContextCompat.getColor(context, DefColor.light[color]);
+        public static int get(Context context, int color, boolean isDark) {
+            if (isDark) return ContextCompat.getColor(context, DefColor.cl_dark[color]);
+            else return ContextCompat.getColor(context, DefColor.cl_light[color]);
         }
 
-        public static int getColor(Context context, @AttrRes int attr, boolean isAccent) {
-            if (isAccent) return ContextCompat.getColor(context, R.color.iconAccent);
-            else {
-                TypedValue typedValue = new TypedValue();
-                context.getTheme().resolveAttribute(attr, typedValue, true);
-
-                return ContextCompat.getColor(context, typedValue.resourceId);
-            }
-        }
-
-        public static int getColor(Context context, @AttrRes int attr) {
+        public static int get(Context context, @AttrRes int attr) {
             TypedValue typedValue = new TypedValue();
             context.getTheme().resolveAttribute(attr, typedValue, true);
             return ContextCompat.getColor(context, typedValue.resourceId);
         }
 
-        public static Drawable getDrawable(Context context, @AttrRes int attr, @DrawableRes int drawableId) {
-            Drawable drawable = ContextCompat.getDrawable(context, drawableId);
-            if (drawable != null) {
-                int colorRes = getColor(context, attr);
-                drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
-            }
-            return drawable;
-        }
-
-        public static Drawable getColorIcon(Context context, int position) {
-            return ContextCompat.getDrawable(context, DefColor.icon[position]);
-        }
-
-        public static Drawable getColorCheck(Context context, int position) {
-            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_color_check);
-            if (drawable != null) {
-                int colorRes = ContextCompat.getColor(context, DefColor.dark[position]);
-                drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
-            }
-            return drawable;
-        }
-
-        public static Drawable getRollMove(Context context, boolean check){
-            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_move);
-            if (drawable != null) {
-                int colorRes;
-
-                if (check) colorRes = getColor(context, R.attr.clAccent);
-                else colorRes = getColor(context, R.attr.clIcon);
-
-                drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
-            }
-            return drawable;
-        }
-
-        public static int blendColors(int from, int to, float ratio) {
+        public static int blend(int from, int to, float ratio) {
             final float inverseRatio = 1f - ratio;
 
             final float r = Color.red(to) * ratio + Color.red(from) * inverseRatio;
@@ -156,19 +112,77 @@ public class Help {
             return Color.rgb((int) r, (int) g, (int) b);
         }
 
-        public static void tintMenuIcon(Context context, MenuItem item) {
+    }
+
+    public static class Draw {
+
+        public static Drawable get(Context context, @DrawableRes int drawableId, @AttrRes int attr) {
+            Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+
+            int colorRes = Col.get(context, attr);
+            if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
+
+            return drawable;
+        }
+
+        public static Drawable getIconColor(Context context, int position) {
+            switch (Pref.getTheme(context)) {
+                case DefTheme.light:
+                    return ContextCompat.getDrawable(context, DefColor.ic_light[position]);
+                case DefTheme.dark:
+                default:
+                    return ContextCompat.getDrawable(context, DefColor.ic_dark[position]);
+            }
+        }
+
+        public static Drawable getIconCheck(Context context, int position) {
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_color_check);
+
+            int colorRes;
+            switch (Pref.getTheme(context)) {
+                case DefTheme.light:
+                    colorRes = ContextCompat.getColor(context, DefColor.cl_dark[position]);
+                    break;
+                case DefTheme.dark:
+                default:
+                    colorRes = ContextCompat.getColor(context, DefColor.cl_light[position]);
+                    break;
+            }
+
+            if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
+
+            return drawable;
+        }
+
+        public static Drawable getIconMove(Context context, boolean check) {
+            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_move);
+
+            int colorRes;
+            if (check) colorRes = Col.get(context, R.attr.clAccent);
+            else colorRes = Col.get(context, R.attr.clIcon);
+
+            if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
+
+            return drawable;
+        }
+
+    }
+
+    public static class Tint {
+
+        public static void menuIcon(Context context, MenuItem item) {
             Drawable normalDrawable = item.getIcon();
             Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
 
-            int colorRes = getColor(context, R.attr.clIcon);
+            int colorRes = Col.get(context, R.attr.clIcon);
             DrawableCompat.setTint(wrapDrawable, colorRes);
 
             item.setIcon(wrapDrawable);
         }
 
-        public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, @AttrRes int attr, String text) {
-            Drawable drawableEnable = getDrawable(context, attr, drawableId);
-            Drawable drawableDisable = getDrawable(context, R.attr.clSecond, drawableId);
+        public static void button(Context context, ImageButton button, @DrawableRes int drawableId, @AttrRes int clEnable, String text) {
+            Drawable drawableEnable = Draw.get(context, drawableId, clEnable);
+            Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
 
             if (!text.equals("")) {
                 button.setImageDrawable(drawableEnable);
@@ -179,15 +193,14 @@ public class Help {
             }
         }
 
-        public static void tintButton(Context context, ImageButton button, @DrawableRes int drawableId, String text, boolean enable) {
-            Drawable drawableEnable = getDrawable(context, R.attr.clAccent, drawableId);
-            Drawable drawableDisable = getDrawable(context, R.attr.clSecond, drawableId);
+        public static void button(Context context, ImageButton button, @DrawableRes int drawableId, String text, boolean enable) {
+            Drawable drawableEnable = Draw.get(context, drawableId, R.attr.clAccent);
+            Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
 
             if (!text.equals("")) {
-                if (enable)
-                    button.setImageDrawable(drawableEnable);
-                else
-                    button.setImageDrawable(drawableDisable);
+                if (enable) button.setImageDrawable(drawableEnable);
+                else button.setImageDrawable(drawableDisable);
+
                 button.setEnabled(enable);
             } else {
                 button.setImageDrawable(drawableDisable);
@@ -256,7 +269,7 @@ public class Help {
             for (String aKey : keysArr) {
                 @DefSort int key = Integer.parseInt(aKey);
 
-                order.append(DefDb.orders[key]);
+                order.append(Db.orders[key]);
 
                 if (key != DefSort.create && key != DefSort.change) {
                     order.append(DefSort.divider);

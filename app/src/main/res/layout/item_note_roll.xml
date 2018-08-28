@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.office.Help.Icon" />
+        <import type="sgtmelon.handynotes.office.Help.Col"/>
 
         <import type="sgtmelon.handynotes.office.Help.Pref" />
 
@@ -34,7 +34,7 @@
 
     <androidx.cardview.widget.CardView
         style="@style/Card"
-        app:cardBackgroundColor='@{Icon.getColorNote(context, itemNote.color, false)}'
+        app:cardBackgroundColor='@{Col.getNote(context, itemNote.color, false)}'
         app:cardCornerRadius="@dimen/radius_2dp"
         app:cardUseCompatPadding="false">
 
@@ -184,7 +184,7 @@
                 style="@style/ItemNote.Color.Vertical"
                 android:layout_marginStart="@dimen/layout_4dp"
                 android:layout_marginLeft="@dimen/layout_4dp"
-                android:background='@{Icon.getColorNote(context, itemNote.color, true)}'
+                android:background='@{Col.getNote(context, itemNote.color, true)}'
                 android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}' />
 
 

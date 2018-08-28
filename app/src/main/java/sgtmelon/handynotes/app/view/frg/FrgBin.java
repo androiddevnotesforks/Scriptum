@@ -33,10 +33,10 @@ import sgtmelon.handynotes.databinding.FrgBinBinding;
 import sgtmelon.handynotes.element.dialog.DlgOptionBin;
 import sgtmelon.handynotes.element.dialog.common.DlgMessage;
 import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
-import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
@@ -123,7 +123,7 @@ public class FrgBin extends Fragment implements
         Menu menu = toolbar.getMenu();
         mItemClearBin = menu.findItem(R.id.menu_frgBin_clear);
 
-        Help.Icon.tintMenuIcon(context, mItemClearBin);
+        Help.Tint.menuIcon(context, mItemClearBin);
 
         dlgClearBin = (DlgMessage) fm.findFragmentByTag(Dlg.CLEAR_BIN);
         if (dlgClearBin == null) dlgClearBin = new DlgMessage();
@@ -201,7 +201,7 @@ public class FrgBin extends Fragment implements
 
         Intent intent = new Intent(context, ActNote.class);
 
-        intent.putExtra(DefDb.NT_ID, itemNote.getId());
+        intent.putExtra(Db.NT_ID, itemNote.getId());
         intent.putExtra(DefPage.CREATE, false);
 
         startActivity(intent);

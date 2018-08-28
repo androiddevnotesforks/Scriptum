@@ -1,9 +1,20 @@
 package sgtmelon.handynotes.office.annot;
 
-public @interface Dlg {
+import androidx.annotation.StringDef;
 
-    //Значение которое сохраняем в классе диалога
-    String VALUE = "VALUE";
+/**
+ * Ключи для нахождения диалогов после поворота экрана
+ */
+@StringDef({
+        Dlg.RENAME, Dlg.SHEET_ADD,
+        Dlg.OPTIONS, Dlg.CLEAR_BIN,
+
+        Dlg.CONVERT, Dlg.RANK, Dlg.COLOR,
+
+        Dlg.SORT, Dlg.SAVE_TIME,
+        Dlg.THEME, Dlg.INFO
+})
+public @interface Dlg {
 
     //Main
     String RENAME = "DLG_RENAME",
@@ -21,5 +32,9 @@ public @interface Dlg {
             SAVE_TIME = "DLG_SAVE_TIME",
             THEME = "DLG_THEME",
             INFO = "DLG_INFO";
+
+
+    //Значение которое сохраняем в классе диалога
+    String VALUE = "VALUE";
 
 }
