@@ -4,9 +4,11 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import java.util.List;
 
+import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import sgtmelon.handynotes.R;
@@ -28,8 +30,8 @@ public class ItemStatus {
     private NotificationManagerCompat notificationManager;
     //endregion
 
-    // FIXME: 04.07.2018 Не работает привязка к статусбару на эмуляторе и на ранних версиях андроид
     //TODO: разберись с флагами, то как они работают
+    // TODO: 29.08.2018 Добавить кнопки к уведомлениям, чтобы была возможность их открепить
 
     public ItemStatus(Context context, ItemNote itemNote) {
         this.context = context;
@@ -51,17 +53,17 @@ public class ItemStatus {
     public void updateNote(ItemNote itemNote) {
         this.itemNote = itemNote;
 
-        int icon = 0;
+        @DrawableRes int iconId = 0;
         String text = "";
 
         switch (itemNote.getType()) {
             case DefType.text:
-                icon = R.drawable.ic_bind_text;
+                iconId = R.drawable.ic_bind_text_notif;
 
                 text = itemNote.getText();
                 break;
             case DefType.roll:
-                icon = R.drawable.ic_bind_roll;
+                iconId = R.drawable.ic_bind_roll_notif;
 
                 DbRoom db = DbRoom.provideDb(context);
                 text = db.daoRoll().getText(itemNote.getId(), itemNote.getText());
@@ -69,19 +71,22 @@ public class ItemStatus {
                 break;
         }
 
-        notification = new NotificationCompat.Builder(context, context.getString(R.string.channel_status_bind))
-                .setSmallIcon(icon)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.channel_status_bind))
+                .setSmallIcon(iconId)
                 .setColor(Help.Col.get(context, itemNote.getColor(), true))
                 .setContentTitle(itemNote.getName(context))
                 .setContentText(text)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
-                .setGroup(context.getString(R.string.group_status_bind))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text)) // TODO: 29.08.2018 Если маленький текст, то всё равно увеличивается до большого уведомления
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT) // TODO: 29.08.2018 Подумай над отображением их в правильном порядке после запуска приложения и во время работы (чтобы позиции соответствовали действительности, а не в обратном порядке)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
-                .setOngoing(true)
-                .build();
+                .setOngoing(true);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setGroup(context.getString(R.string.group_status_bind));
+        }
+
+        notification = notificationBuilder.build();
         notificationManager = NotificationManagerCompat.from(context);
 
         if (itemNote.isStatus()) notifyNote();

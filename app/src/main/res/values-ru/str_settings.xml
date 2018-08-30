@@ -3,9 +3,10 @@
 
     <!-- Settings -->
 
-    <!-- Sort -->
-    <string name="pref_header_sort">Сортировка</string>
-    <string name="pref_title_sort">Для заметок</string>
+    <!-- Note -->
+    <string name="pref_header_note">Заметки</string>
+
+    <string name="pref_title_sort">Сортировка заметок</string>
     <string name="pref_summary_sort">Будет применяться по-умолчанию</string>
     <string name="pref_summary_sort_start">По</string>
 
@@ -15,9 +16,6 @@
         <item>По категориям</item>
         <item>По цвету</item>
     </string-array>
-
-    <!-- Note -->
-    <string name="pref_header_note">Заметки</string>
 
     <string name="pref_title_color">Цвет заметки по-умолчанию</string>
     <string name="pref_summary_color">Будет применяться по-умолчанию</string>
@@ -35,6 +33,8 @@
         <item>Сине-серый</item>
         <item>Белый</item>
     </string-array>
+
+    <string name="pref_header_save">Сохранение</string>
 
     <string name="pref_title_pause_save">Сохранение при остановке приложения</string>
     <string name="pref_summary_pause_save">При редактировании заметки</string>

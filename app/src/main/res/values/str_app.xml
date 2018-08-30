@@ -39,6 +39,7 @@
     <string name="menu_note_color">Color</string>
 
     <string name="menu_note_restore">Restore</string>
+    <string name="menu_note_restore_open">Restore and open</string>
     <string name="menu_note_clear">Delete forever</string>
 
 

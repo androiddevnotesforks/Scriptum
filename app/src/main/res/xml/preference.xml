@@ -2,22 +2,22 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="screen">
 
-    <PreferenceCategory android:title="@string/pref_header_sort">
+    <PreferenceCategory android:title="@string/pref_header_note">
 
         <Preference
             android:key="@string/pref_key_sort"
             android:summary="@string/pref_summary_sort"
             android:title="@string/pref_title_sort" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/pref_header_note">
-
         <Preference
             android:defaultValue="@integer/pref_default_color"
             android:key="@string/pref_key_color"
             android:summary="@string/pref_summary_color"
             android:title="@string/pref_title_color" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_save">
 
         <CheckBoxPreference
             android:defaultValue="@bool/pref_default_pause_save"

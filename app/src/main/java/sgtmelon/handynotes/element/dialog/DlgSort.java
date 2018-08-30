@@ -22,19 +22,19 @@ import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class DlgSort extends BlankDialog
-        implements IntfItem.Click {
+public class DlgSort extends BlankDialog implements IntfItem.Click {
 
     public void setArguments(String keys) {
         Bundle arg = new Bundle();
+        arg.putString(Dlg.INIT, keys);
         arg.putString(Dlg.VALUE, keys);
         setArguments(arg);
     }
 
-    private String keys;
+    private String init, keys;
 
     public String getKeys() {
-        return Help.Pref.getSortByList(listSort);
+        return keys;
     }
 
     private String[] text;
@@ -48,8 +48,10 @@ public class DlgSort extends BlankDialog
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
+            init = savedInstanceState.getString(Dlg.INIT);
             keys = savedInstanceState.getString(Dlg.VALUE);
         } else if (arg != null) {
+            init = arg.getString(Dlg.INIT);
             keys = arg.getString(Dlg.VALUE);
         }
 
@@ -108,6 +110,9 @@ public class DlgSort extends BlankDialog
         listSort.set(p, itemSort);
         adapter.update(p, itemSort);
         adapter.notifyItemChanged(p);
+
+        keys = Help.Pref.getSortByList(listSort);
+        setEnable();
     }
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
@@ -150,14 +155,25 @@ public class DlgSort extends BlankDialog
                 adapter.notifyItemChanged(oldPs);
             }
 
+            keys = Help.Pref.getSortByList(listSort);
+            setEnable();
             return true;
         }
     };
 
     @Override
+    protected void setEnable() {
+        super.setEnable();
+
+        if (init.equals(keys)) buttonPositive.setEnabled(false);
+        else buttonPositive.setEnabled(true);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        outState.putString(Dlg.INIT, init);
         outState.putString(Dlg.VALUE, getKeys());
     }
 }

@@ -3,10 +3,10 @@
 
     <!-- Settings -->
 
-    <!-- Sort -->
-    <string name="pref_header_sort">Sorting</string>
+    <!-- Note -->
+    <string name="pref_header_note">Notes</string>
 
-    <string name="pref_title_sort">For notes</string>
+    <string name="pref_title_sort">Sort notes</string>
     <string name="pref_summary_sort">Will be used by default</string>
     <string name="pref_summary_sort_start">By</string>
     <string name="pref_key_sort" translatable="false">key_sort</string>
@@ -17,9 +17,6 @@
         <item>By categories</item>
         <item>By color</item>
     </string-array>
-
-    <!-- Note -->
-    <string name="pref_header_note">Notes</string>
 
     <string name="pref_title_color">Default note color</string>
     <string name="pref_summary_color">Will be used by default</string>
@@ -38,6 +35,8 @@
         <item>Blue-gray</item>
         <item>White</item>
     </string-array>
+
+    <string name="pref_header_save">Save</string>
 
     <string name="pref_title_pause_save">Save when application paused</string>
     <string name="pref_summary_pause_save">When editing a note</string>

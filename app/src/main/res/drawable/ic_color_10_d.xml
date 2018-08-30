@@ -4,7 +4,7 @@
     <solid android:color="@color/noteWhiteDark" />
     <stroke
         android:width="@dimen/layout_1dp"
-        android:color="@color/noteWhite" />
+        android:color="@color/noteWhiteLight" />
     <size
         android:width="24dp"
         android:height="24dp" />

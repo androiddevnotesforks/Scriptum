@@ -33,6 +33,7 @@
     <string name="menu_note_color">Цвет</string>
 
     <string name="menu_note_restore">Восстановить</string>
+    <string name="menu_note_restore_open">Восстановить и открыть</string>
     <string name="menu_note_clear">Удалить навсегда</string>
 
 
@@ -130,8 +131,8 @@
 
     <!-- Items text -->
     <!-- ItemRank -->
-    <string name="list_item_rank_text_count">Текстов:</string>
-    <string name="list_item_rank_roll_count">Списков:</string>
+    <string name="list_item_rank_text_count">Тексты:</string>
+    <string name="list_item_rank_roll_count">Списки:</string>
     <string name="list_item_rank_roll_check">Выполнено:</string>
 
 </resources>

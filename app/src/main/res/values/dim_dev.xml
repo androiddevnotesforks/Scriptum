@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- TODO Для разных экранов разны отступы у карточек-->
+
     <dimen name="card_margin">@dimen/layout_2dp</dimen>
 
 </resources>

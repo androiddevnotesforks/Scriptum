@@ -105,8 +105,41 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
     }
 
     @Override
-    public void onMenuDeleteForeverClick() {
-        Log.i(TAG, "onMenuDeleteForeverClick");
+    public void onMenuRestoreOpenClick() {
+        Log.i(TAG, "onMenuRestoreOpenClick");
+
+        StNote stNote = vm.getStNote();
+        stNote.setBin(false);
+
+        vm.setStNote(stNote);
+
+        RepoNote repoNote = vm.getRepoNote();
+        ItemNote itemNote = repoNote.getItemNote();
+        itemNote.setChange(this);
+        itemNote.setBin(false);
+        repoNote.setItemNote(itemNote);
+
+        vm.setRepoNote(repoNote);
+
+        db = DbRoom.provideDb(this);
+        db.daoNote().update(itemNote);
+        db.close();
+
+        switch (vm.getRepoNote().getItemNote().getType()) {
+            case DefType.text:
+                frgText.vm.setRepoNote(repoNote);
+                frgText.menuNote.setMenuGroupVisible(false, false, true);
+                break;
+            case DefType.roll:
+                frgRoll.vm.setRepoNote(repoNote);
+                frgRoll.menuNote.setMenuGroupVisible(false, false, true);
+                break;
+        }
+    }
+
+    @Override
+    public void onMenuClearClick() {
+        Log.i(TAG, "onMenuClearClick");
 
         db = DbRoom.provideDb(this);
         db.daoNote().delete(vm.getRepoNote().getItemNote().getId());

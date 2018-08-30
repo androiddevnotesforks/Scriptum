@@ -13,20 +13,21 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpColor;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class DlgColor extends BlankDialog {
+public class DlgColor extends BlankDialog implements IntfItem.Click {
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();
+        arg.putInt(Dlg.INIT, check);
         arg.putInt(Dlg.VALUE, check);
         setArguments(arg);
     }
 
-    private AdpColor adapter;
-    private int check;
+    private int init, check;
 
     public int getCheck() {
-        return adapter.getCheck();
+        return check;
     }
 
     @Override
@@ -35,8 +36,10 @@ public class DlgColor extends BlankDialog {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
+            init = savedInstanceState.getInt(Dlg.INIT);
             check = savedInstanceState.getInt(Dlg.VALUE);
         } else if (arg != null) {
+            init = arg.getInt(Dlg.INIT);
             check = arg.getInt(Dlg.VALUE);
         }
 
@@ -49,7 +52,8 @@ public class DlgColor extends BlankDialog {
         GridLayoutManager layoutManager = new GridLayoutManager(context, context.getResources().getInteger(R.integer.dlg_color_column));
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdpColor(context, check);
+        AdpColor adapter = new AdpColor(context, check);
+        adapter.setCallback(this);
         recyclerView.setAdapter(adapter);
 
         ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -64,10 +68,24 @@ public class DlgColor extends BlankDialog {
     }
 
     @Override
+    public void onItemClick(View view, int p) {
+        check = p;
+        setEnable();
+    }
+
+    @Override
+    protected void setEnable() {
+        super.setEnable();
+
+        if (init == check) buttonPositive.setEnabled(false);
+        else buttonPositive.setEnabled(true);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Dlg.VALUE, adapter.getCheck());
+        outState.putInt(Dlg.INIT, init);
+        outState.putInt(Dlg.VALUE, check);
     }
-
 }

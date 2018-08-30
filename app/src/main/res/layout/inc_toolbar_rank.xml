@@ -10,7 +10,6 @@
         style="?attr/styleToolbar"
         app:popupTheme="?attr/themePopup" >
 
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -13,12 +13,13 @@ public class DlgSingle extends BlankDialog {
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();
+        arg.putInt(Dlg.INIT, check);
         arg.putInt(Dlg.VALUE, check);
         setArguments(arg);
     }
 
     private String[] name;
-    private int check;
+    private int init, check;
 
     public String[] getName() {
         return name;
@@ -38,14 +39,19 @@ public class DlgSingle extends BlankDialog {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
+            init = savedInstanceState.getInt(Dlg.INIT);
             check = savedInstanceState.getInt(Dlg.VALUE);
         } else if (arg != null) {
+            init = arg.getInt(Dlg.INIT);
             check = arg.getInt(Dlg.VALUE);
         }
 
         return new AlertDialog.Builder(context)
                 .setTitle(title)
-                .setSingleChoiceItems(name, check, (dialogInterface, i) -> check = i)
+                .setSingleChoiceItems(name, check, (dialogInterface, i) -> {
+                    check = i;
+                    setEnable();
+                })
                 .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
@@ -53,8 +59,18 @@ public class DlgSingle extends BlankDialog {
     }
 
     @Override
+    protected void setEnable() {
+        super.setEnable();
+
+        if (init == check) buttonPositive.setEnabled(false);
+        else buttonPositive.setEnabled(true);
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        outState.putInt(Dlg.INIT, init);
         outState.putInt(Dlg.VALUE, check);
     }
 

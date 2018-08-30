@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.databinding.ItemColorBinding;
 import sgtmelon.handynotes.office.annot.def.DefColor;
+import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
@@ -36,8 +37,10 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
         visible[check] = true;
     }
 
-    public int getCheck() {
-        return check;
+    private IntfItem.Click click;
+
+    public void setCallback(IntfItem.Click click) {
+        this.click = click;
     }
 
     @NonNull
@@ -98,15 +101,17 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
         @Override
         public void onClick(View view) {
-            int oldCheck = check;                //Сохраняем старую позицию
+            int oldCheck = check;                   //Сохраняем старую позицию
             int newCheck = getAdapterPosition();    //Получаем новую
 
+            click.onItemClick(view, newCheck);
+
             if (oldCheck != newCheck) {             //Если выбранный цвет не совпадает с тем, на который нажали
-                check = newCheck;                //Присваиваем новую позицию
+                check = newCheck;                   //Присваиваем новую позицию
                 visible[check] = true;
 
                 notifyItemChanged(oldCheck);        //Скрываем старую отметку
-                clCheck.startAnimation(alphaIn);      //Показываем новую
+                clCheck.startAnimation(alphaIn);    //Показываем новую
             }
         }
 

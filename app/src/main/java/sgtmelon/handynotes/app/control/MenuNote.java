@@ -99,8 +99,9 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     public void setupMenu(Menu menu, boolean status) {
         this.menu = menu;
 
-        MenuItem mItemUndo = menu.findItem(R.id.menu_actNote_restore);
-        MenuItem mItemDeleteF = menu.findItem(R.id.menu_actNote_clear);
+        MenuItem mItemRestore = menu.findItem(R.id.menu_actNote_restore);
+        MenuItem mItemRestoreOpen = menu.findItem(R.id.menu_actNote_restore_open);
+        MenuItem mItemClear = menu.findItem(R.id.menu_actNote_clear);
 
         MenuItem mItemMoreR = menu.findItem(R.id.menu_actNote_readMore);
         mItemStatus = menu.findItem(R.id.menu_actNote_bind);
@@ -124,7 +125,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         mItemConvert.setTitle(isRoll ? R.string.menu_note_convert_to_text : R.string.menu_note_convert_to_roll);
         mItemCheck.setVisible(isRoll);
 
-        MenuItem[] mItems = new MenuItem[]{mItemUndo, mItemDeleteF,
+        MenuItem[] mItems = new MenuItem[]{mItemRestore, mItemRestoreOpen, mItemClear,
                 mItemMoreR, mItemStatus, mItemConvert, mItemCheck, mItemDelete,
                 mItemMoreE, mItemRank, mItemColor};
 
@@ -173,8 +174,11 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
             case R.id.menu_actNote_restore:
                 deleteClick.onMenuRestoreClick();
                 return true;
+            case R.id.menu_actNote_restore_open:
+                deleteClick.onMenuRestoreOpenClick();
+                return true;
             case R.id.menu_actNote_clear:
-                deleteClick.onMenuDeleteForeverClick();
+                deleteClick.onMenuClearClick();
                 return true;
             case R.id.menu_actNote_save:
                 if (!noteClick.onMenuSaveClick(true)) {

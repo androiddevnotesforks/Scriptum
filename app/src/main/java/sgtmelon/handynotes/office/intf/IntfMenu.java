@@ -30,7 +30,9 @@ public interface IntfMenu {
     interface DeleteClick {
         void onMenuRestoreClick();
 
-        void onMenuDeleteForeverClick();
+        void onMenuRestoreOpenClick();
+
+        void onMenuClearClick();
 
         void onMenuDeleteClick();
     }

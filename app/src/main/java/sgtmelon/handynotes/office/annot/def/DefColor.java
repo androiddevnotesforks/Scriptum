@@ -23,12 +23,12 @@ public @interface DefColor {
 
     //Цвета для заметок
     int[] cl_light = new int[]{
-            R.color.noteRed, R.color.notePurple,
-            R.color.noteIndigo, R.color.noteBlue,
-            R.color.noteTeal, R.color.noteGreen,
-            R.color.noteYellow, R.color.noteOrange,
-            R.color.noteBrown, R.color.noteBlueGrey,
-            R.color.noteWhite};
+            R.color.noteRedLight, R.color.notePurpleLight,
+            R.color.noteIndigoLight, R.color.noteBlueLight,
+            R.color.noteTealLight, R.color.noteGreenLight,
+            R.color.noteYellowLight, R.color.noteOrangeLight,
+            R.color.noteBrownLight, R.color.noteBlueGreyLight,
+            R.color.noteWhiteLight};
 
     int[] cl_dark = new int[]{
             R.color.noteRedDark, R.color.notePurpleDark,

@@ -13,6 +13,11 @@
             android:title="@string/menu_note_restore"
             app:showAsAction="always" />
         <item
+            android:id="@+id/menu_actNote_restore_open"
+            android:icon="@drawable/ic_restore_open"
+            android:title="@string/menu_note_restore_open"
+            app:showAsAction="always" />
+        <item
             android:id="@+id/menu_actNote_clear"
             android:icon="@drawable/ic_clear"
             android:title="@string/menu_note_clear"
@@ -63,13 +68,13 @@
                     android:id="@+id/menu_actNote_check"
                     android:icon="@drawable/ic_check"
                     android:title="@string/menu_note_check_all"
-                    app:showAsAction="always|withText"/>
+                    app:showAsAction="always|withText" />
 
                 <item
                     android:id="@+id/menu_actNote_bind"
                     android:icon="@drawable/ic_bind_roll"
                     android:title="@string/menu_note_status_bind"
-                    app:showAsAction="always|withText"/>
+                    app:showAsAction="always|withText" />
 
                 <item
                     android:id="@+id/menu_actNote_convert"
