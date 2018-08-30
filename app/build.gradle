@@ -36,14 +36,19 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    def arch_version = "2.0.0-beta01"
+    def dag_ver = "2.7"
 
-    implementation "androidx.lifecycle:lifecycle-extensions:$arch_version"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$arch_version"
+    implementation "com.google.dagger:dagger:$dag_ver";
+    annotationProcessor "com.google.dagger:dagger-compiler:$dag_ver";
 
-    implementation "androidx.room:room-runtime:$arch_version"
-    testImplementation "androidx.room:room-testing:$arch_version"
-    annotationProcessor "androidx.room:room-compiler:$arch_version"
+    def arch_ver = "2.0.0-beta01"
+
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_ver"
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$arch_ver"
+
+    implementation "androidx.room:room-runtime:$arch_ver"
+    testImplementation "androidx.room:room-testing:$arch_ver"
+    annotationProcessor "androidx.room:room-compiler:$arch_ver"
 
     def x_ver = "1.0.0-beta01"
 
@@ -52,7 +57,6 @@ dependencies {
     implementation "androidx.legacy:legacy-support-v4:$x_ver"
 
     implementation "androidx.cardview:cardview:$x_ver"
-    implementation "com.android.support.constraint:constraint-layout:$x_ver"
 
     implementation "androidx.vectordrawable:vectordrawable:$x_ver"
     implementation "androidx.vectordrawable:vectordrawable-animated:$x_ver"

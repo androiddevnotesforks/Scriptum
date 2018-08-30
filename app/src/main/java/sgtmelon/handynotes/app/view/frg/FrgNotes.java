@@ -30,7 +30,7 @@ import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.app.view.act.ActSettings;
-import sgtmelon.handynotes.app.viewModel.VmFrgBin;
+import sgtmelon.handynotes.app.viewModel.VmFrgNotesBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.element.dialog.DlgOptionNote;
 import sgtmelon.handynotes.office.Help;
@@ -57,7 +57,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     private FrgNotesBinding binding;
     private View frgView;
 
-    private VmFrgBin vm;
+    private VmFrgNotesBin vm;
     //endregion
 
     @Override
@@ -85,7 +85,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
 
-        vm = ViewModelProviders.of(this).get(VmFrgBin.class);
+        vm = ViewModelProviders.of(this).get(VmFrgNotesBin.class);
 
         setupToolbar();
         setupRecyclerView();

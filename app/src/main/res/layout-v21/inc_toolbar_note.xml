@@ -46,6 +46,7 @@
             app:contentInsetLeft="@dimen/layout_8dp"
             app:contentInsetRight="@dimen/layout_8dp"
             app:contentInsetStart="@dimen/layout_8dp"
+            app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon='@{keyEdit &amp;&amp; !keyCreate ? Draw.get(context, R.drawable.ic_cancel, R.attr.clIcon) : Draw.get(context, R.drawable.ic_arrow_back, R.attr.clIcon)}'
             app:popupTheme="?attr/themePopup">
 

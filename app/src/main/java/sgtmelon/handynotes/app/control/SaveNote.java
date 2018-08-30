@@ -30,7 +30,7 @@ public class SaveNote {
         if (saveAuto) {
             saveHandler = new Handler();
             saveRunnable = () -> {
-                onSave(false);
+                onSave();
                 startSaveHandler();
             };
 
@@ -70,8 +70,8 @@ public class SaveNote {
         if (saveHandler != null) saveHandler.removeCallbacks(saveRunnable);
     }
 
-    private void onSave(boolean changeEditMode) {
-        if (menuClick.onMenuSaveClick(changeEditMode)) {
+    private void onSave() {
+        if (menuClick.onMenuSaveClick(false)) {
             Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show();
@@ -83,7 +83,7 @@ public class SaveNote {
 
         boolean onPauseSave = pref.getBoolean(context.getString(R.string.pref_key_pause_save), context.getResources().getBoolean(R.bool.pref_default_pause_save));
 
-        if (needSave && keyEdit && onPauseSave) onSave(true);
+        if (needSave && keyEdit && onPauseSave) onSave();
         else needSave = true;
     }
 

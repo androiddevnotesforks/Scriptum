@@ -34,7 +34,7 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
-import sgtmelon.handynotes.app.viewModel.VmFrgText;
+import sgtmelon.handynotes.app.viewModel.VmFrgTextRoll;
 import sgtmelon.handynotes.databinding.FrgRollBinding;
 import sgtmelon.handynotes.element.dialog.DlgColor;
 import sgtmelon.handynotes.element.dialog.common.DlgMessage;
@@ -65,7 +65,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private FrgRollBinding binding;
     private View frgView;
 
-    public VmFrgText vm;
+    public VmFrgTextRoll vm;
     //endregion
 
     @Override
@@ -94,7 +94,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
 
-        vm = ViewModelProviders.of(this).get(VmFrgText.class);
+        vm = ViewModelProviders.of(this).get(VmFrgTextRoll.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
@@ -148,8 +148,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
     }
-
-    // FIXME: 05.07.2018 переделай без подключения к бд
 
     /**
      * Нажатие на клавишу назад

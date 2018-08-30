@@ -1,8 +1,5 @@
 package sgtmelon.handynotes.app.adapter;
 
-import androidx.databinding.DataBindingUtil;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,6 +14,9 @@ import android.widget.ImageView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.databinding.ItemRollReadBinding;

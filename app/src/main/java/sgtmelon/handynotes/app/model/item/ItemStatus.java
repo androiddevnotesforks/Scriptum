@@ -76,8 +76,8 @@ public class ItemStatus {
                 .setColor(Help.Col.get(context, itemNote.getColor(), true))
                 .setContentTitle(itemNote.getName(context))
                 .setContentText(text)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text)) // TODO: 29.08.2018 Если маленький текст, то всё равно увеличивается до большого уведомления
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT) // TODO: 29.08.2018 Подумай над отображением их в правильном порядке после запуска приложения и во время работы (чтобы позиции соответствовали действительности, а не в обратном порядке)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))  // TODO: 29.08.2018 Если маленький текст, то всё равно увеличивается до большого уведомления
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)               // TODO: 29.08.2018 Подумай над отображением их в правильном порядке после запуска приложения и во время работы (чтобы позиции соответствовали действительности, а не в обратном порядке)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
                 .setOngoing(true);

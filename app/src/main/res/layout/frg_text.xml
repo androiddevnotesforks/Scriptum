@@ -22,7 +22,7 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -34,7 +34,8 @@
             app:keyCreate='@{keyCreate}'
             app:keyEdit='@{keyEdit}' />
 
-        <ScrollView style="@style/Text.Scroll">
+        <ScrollView style="@style/Text.Scroll"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -56,5 +57,5 @@
 
         </ScrollView>
 
-    </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

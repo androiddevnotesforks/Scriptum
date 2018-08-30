@@ -11,9 +11,9 @@ import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 
-public class VmFrgBin extends AndroidViewModel {
+public class VmFrgNotesBin extends AndroidViewModel {
 
-    public VmFrgBin(@NonNull Application application) {
+    public VmFrgNotesBin(@NonNull Application application) {
         super(application);
     }
 

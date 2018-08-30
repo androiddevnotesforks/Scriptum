@@ -28,7 +28,7 @@ import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
 import sgtmelon.handynotes.app.view.act.ActNote;
-import sgtmelon.handynotes.app.viewModel.VmFrgBin;
+import sgtmelon.handynotes.app.viewModel.VmFrgNotesBin;
 import sgtmelon.handynotes.databinding.FrgBinBinding;
 import sgtmelon.handynotes.element.dialog.DlgOptionBin;
 import sgtmelon.handynotes.element.dialog.common.DlgMessage;
@@ -54,7 +54,7 @@ public class FrgBin extends Fragment implements
     private FrgBinBinding binding;
     private View frgView;
 
-    private VmFrgBin vm;
+    private VmFrgNotesBin vm;
     //endregion
 
     @Override
@@ -82,7 +82,7 @@ public class FrgBin extends Fragment implements
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
 
-        vm = ViewModelProviders.of(this).get(VmFrgBin.class);
+        vm = ViewModelProviders.of(this).get(VmFrgNotesBin.class);
 
         setupToolbar();
         setupRecyclerView();
