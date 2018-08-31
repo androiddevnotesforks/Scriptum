@@ -89,9 +89,9 @@ public class DlgSort extends BlankDialog implements IntfItem.Click {
         return new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.dialog_title_sort))
                 .setView(recyclerView)
-                .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)
+                .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
-                .setNeutralButton(getString(R.string.dialog_btn_reset), neutralClick)
+                .setNeutralButton(getString(R.string.dialog_btn_reset), onNeutralClick)
                 .setCancelable(true)
                 .create();
     }
@@ -165,8 +165,11 @@ public class DlgSort extends BlankDialog implements IntfItem.Click {
     protected void setEnable() {
         super.setEnable();
 
-        if (init.equals(keys)) buttonPositive.setEnabled(false);
+        if (Help.Pref.getSortEqual(init, keys)) buttonPositive.setEnabled(false);
         else buttonPositive.setEnabled(true);
+
+        if (Help.Pref.getSortEqual(DefSort.def, keys)) buttonNeutral.setEnabled(false);
+        else buttonNeutral.setEnabled(true);
     }
 
     @Override
@@ -174,6 +177,6 @@ public class DlgSort extends BlankDialog implements IntfItem.Click {
         super.onSaveInstanceState(outState);
 
         outState.putString(Dlg.INIT, init);
-        outState.putString(Dlg.VALUE, getKeys());
+        outState.putString(Dlg.VALUE, keys);
     }
 }

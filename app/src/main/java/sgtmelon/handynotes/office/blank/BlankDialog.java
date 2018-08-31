@@ -18,29 +18,38 @@ public abstract class BlankDialog extends DialogFragment {
         this.message = message;
     }
 
-    private DialogInterface.OnClickListener positiveButton;
-    private DialogInterface.OnClickListener neutralButton;
+    private DialogInterface.OnClickListener positiveListener;
+    private DialogInterface.OnClickListener neutralListener;
+    private DialogInterface.OnDismissListener dismissListener;
 
-    public void setPositiveButton(DialogInterface.OnClickListener positiveButton) {
-        this.positiveButton = positiveButton;
+    public void setPositiveListener(DialogInterface.OnClickListener positiveListener) {
+        this.positiveListener = positiveListener;
     }
 
-    public void setNeutralButton(DialogInterface.OnClickListener neutralButton) {
-        this.neutralButton = neutralButton;
+    public void setNeutralListener(DialogInterface.OnClickListener neutralListener) {
+        this.neutralListener = neutralListener;
     }
 
-    protected final DialogInterface.OnClickListener positiveClick = new DialogInterface.OnClickListener() {
+    public void setDismissListener(DialogInterface.OnDismissListener dismissListener) {
+        this.dismissListener = dismissListener;
+    }
+
+    protected final DialogInterface.OnClickListener onPositiveClick = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            positiveButton.onClick(dialogInterface, i);
+            if (positiveListener != null) {
+                positiveListener.onClick(dialogInterface, i);
+            }
             dialogInterface.cancel();
         }
     };
 
-    protected final DialogInterface.OnClickListener neutralClick = new DialogInterface.OnClickListener() {
+    protected final DialogInterface.OnClickListener onNeutralClick = new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialogInterface, int i) {
-            neutralButton.onClick(dialogInterface, i);
+            if (neutralListener != null) {
+                neutralListener.onClick(dialogInterface, i);
+            }
             dialogInterface.cancel();
         }
     };
@@ -48,17 +57,22 @@ public abstract class BlankDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+
         setEnable();
     }
 
-    protected AlertDialog dialog;
-    protected Button buttonPositive;
+    protected Button buttonPositive, buttonNeutral;
 
     protected void setEnable() {
-        if (dialog == null) dialog = (AlertDialog) getDialog();
-        if (buttonPositive == null) {
-            buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        }
+        AlertDialog dialog = (AlertDialog) getDialog();
+        buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        buttonNeutral = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        if (dismissListener != null) dismissListener.onDismiss(dialog);
+    }
 }

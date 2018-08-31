@@ -82,7 +82,7 @@ public class DlgRename extends BlankDialog implements TextView.OnEditorActionLis
         return new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setView(view)
-                .setPositiveButton(getString(R.string.dialog_btn_accept), positiveClick)
+                .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();

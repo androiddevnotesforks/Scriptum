@@ -14,7 +14,7 @@ public class DlgMessage extends BlankDialog {
         return new AlertDialog.Builder(getContext())
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(getString(R.string.dialog_btn_yes), positiveClick)
+                .setPositiveButton(getString(R.string.dialog_btn_yes), onPositiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_no), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();

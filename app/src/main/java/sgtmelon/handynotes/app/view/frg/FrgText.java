@@ -167,7 +167,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         dlgConvert.setTitle(getString(R.string.dialog_title_convert));
         dlgConvert.setMessage(getString(R.string.dialog_text_convert_to_roll));
-        dlgConvert.setPositiveButton((dialogInterface, i) -> {
+        dlgConvert.setPositiveListener((dialogInterface, i) -> {
             RepoNote repoNote = vm.getRepoNote();
             ItemNote itemNote = repoNote.getItemNote();
             String[] textToRoll = itemNote.getText().split("\n");   //Получаем пункты списка
@@ -194,7 +194,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         if (dlgColor == null) dlgColor = new DlgColor();
 
         dlgColor.setTitle(getString(R.string.dialog_title_color));
-        dlgColor.setPositiveButton((dialogInterface, i) -> {
+        dlgColor.setPositiveListener((dialogInterface, i) -> {
             int check = dlgColor.getCheck();
 
             RepoNote repoNote = vm.getRepoNote();
@@ -216,7 +216,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         dlgRank.setTitle(getString(R.string.dialog_title_rank));
         dlgRank.setName(name);
-        dlgRank.setPositiveButton((dialogInterface, i) -> {
+        dlgRank.setPositiveListener((dialogInterface, i) -> {
             boolean[] check = dlgRank.getCheck();
 
             db = DbRoom.provideDb(context);
@@ -288,7 +288,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        if (!dlgRank.isVisible()) {
             ItemNote itemNote = vm.getRepoNote().getItemNote();
 
             db = DbRoom.provideDb(context);
@@ -297,7 +296,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
             dlgRank.setArguments(check);
             dlgRank.show(fm, Dlg.RANK);
-        }
     }
 
     @Override
@@ -306,14 +304,12 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        if (!dlgColor.isVisible()) {
             ItemNote itemNote = vm.getRepoNote().getItemNote();
 
             dlgColor.setArguments(itemNote.getColor());
             dlgColor.show(fm, Dlg.COLOR);
 
             menuNote.setStartColor(itemNote.getColor());
-        }
     }
 
     @Override
@@ -361,7 +357,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        if (!dlgConvert.isVisible()) dlgConvert.show(fm, Dlg.CONVERT);
+        dlgConvert.show(fm, Dlg.CONVERT);
     }
 
     private void setupEnter() {

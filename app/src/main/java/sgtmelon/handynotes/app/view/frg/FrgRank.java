@@ -38,6 +38,7 @@ import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.office.st.StDrag;
+import sgtmelon.handynotes.office.st.StOpen;
 
 public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
         View.OnClickListener, View.OnLongClickListener {
@@ -54,6 +55,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     private View frgView;
 
     private VmFrgRank vm;
+
+    private StOpen stOpen;
     //endregion
 
     @Override
@@ -83,6 +86,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         vm = ViewModelProviders.of(this).get(VmFrgRank.class);
         vm.loadData();
+
+        stOpen = new StOpen();
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(Dlg.OPEN));
 
         setupToolbar();
         setupRecyclerView();
@@ -278,7 +284,8 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         dlgRename = (DlgRename) fm.findFragmentByTag(Dlg.RENAME);
         if (dlgRename == null) dlgRename = new DlgRename();
-        dlgRename.setPositiveButton((dialogInterface, i) -> {
+
+        dlgRename.setPositiveListener((dialogInterface, i) -> {
             int p = dlgRename.getPosition();
 
             RepoRank repoRank = vm.getRepoRank();
@@ -298,6 +305,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             adapter.update(p, itemRank);
             adapter.notifyItemChanged(p);
         });
+        dlgRename.setDismissListener(dialogInterface -> stOpen.setOpen(false));
     }
 
     private void updateAdapter() {
@@ -334,7 +342,9 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.close();
                 break;
             case R.id.itemRank_ll_click:
-                if (!dlgRename.isVisible()) {
+                if (!stOpen.isOpen()) {
+                    stOpen.setOpen();
+
                     dlgRename.setArguments(p, itemRank.getName(), new ArrayList<>(repoRank.getListName()));
                     dlgRename.show(fm, Dlg.RENAME);
                 }
@@ -458,5 +468,12 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             return true;
         }
     };
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(Dlg.OPEN, stOpen.isOpen());
+    }
 
 }

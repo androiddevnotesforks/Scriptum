@@ -190,12 +190,10 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        if (!dlgOptionNote.isVisible()) {
-            ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
+        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
 
-            dlgOptionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
-            dlgOptionNote.show(fm, Dlg.OPTIONS);
-        }
+        dlgOptionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
+        dlgOptionNote.show(fm, Dlg.OPTIONS);
     }
 
     @Override

@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.DialogFragment;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.blank.BlankDialog;
 
-public class DlgInfo extends DialogFragment implements View.OnClickListener {
+public class DlgInfo extends BlankDialog implements View.OnClickListener {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

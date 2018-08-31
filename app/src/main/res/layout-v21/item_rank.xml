@@ -16,7 +16,7 @@
 
     <androidx.cardview.widget.CardView
         style="@style/Card"
-        app:cardBackgroundColor="?attr/clPrimary"
+        app:cardBackgroundColor="?attr/clBackgroundItem"
         app:cardCornerRadius="@dimen/radius_2dp"
         app:cardUseCompatPadding="false">
 

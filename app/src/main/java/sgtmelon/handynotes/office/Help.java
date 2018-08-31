@@ -319,6 +319,22 @@ public class Help {
             return order.toString();
         }
 
+        public static boolean getSortEqual(String keys1, String keys2) {
+            String[] keysArr1 = keys1.split(DefSort.divider);
+            String[] keysArr2 = keys2.split(DefSort.divider);
+
+            for (int i = 0; i < keysArr1.length; i++) {
+                if (!keysArr1[i].equals(keysArr2[i])) {
+                    return false;
+                }
+                if (keysArr1[i].equals(Integer.toString(DefSort.create)) || keysArr1[i].equals(Integer.toString(DefSort.change))) {
+                    break;
+                }
+            }
+
+            return true;
+        }
+
         public static void listAllPref(Context context, TextView textView) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -337,6 +353,7 @@ public class Help {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_default_theme));
         }
+
     }
 
     public static class Time {

@@ -8,6 +8,7 @@
         <attr name="clDivider" format="color" />
         <attr name="clBackground" format="color" />
         <attr name="clBackgroundEnter" format="color" />
+        <attr name="clBackgroundItem" format="color" />
 
         <attr name="clSecond" format="color" />
         <attr name="clIcon" format="color" />

@@ -39,6 +39,7 @@ import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
+import sgtmelon.handynotes.office.st.StOpen;
 
 public class FrgBin extends Fragment implements
         IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionBin {
@@ -55,6 +56,8 @@ public class FrgBin extends Fragment implements
     private View frgView;
 
     private VmFrgNotesBin vm;
+
+    private StOpen stOpen;
     //endregion
 
     @Override
@@ -83,6 +86,9 @@ public class FrgBin extends Fragment implements
         Log.i(TAG, "onActivityCreated");
 
         vm = ViewModelProviders.of(this).get(VmFrgNotesBin.class);
+
+        stOpen = new StOpen();
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(Dlg.OPEN));
 
         setupToolbar();
         setupRecyclerView();
@@ -114,7 +120,11 @@ public class FrgBin extends Fragment implements
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_frgBin_clear:
-                    if (!dlgClearBin.isVisible()) dlgClearBin.show(fm, Dlg.CLEAR_BIN);
+                    if (!stOpen.isOpen()) {
+                        stOpen.setOpen();
+
+                        dlgClearBin.show(fm, Dlg.CLEAR_BIN);
+                    }
                     return true;
             }
             return false;
@@ -130,7 +140,7 @@ public class FrgBin extends Fragment implements
 
         dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
         dlgClearBin.setMessage(getString(R.string.dialog_text_clear_bin));
-        dlgClearBin.setPositiveButton((dialogInterface, i) -> {
+        dlgClearBin.setPositiveListener((dialogInterface, i) -> {
             db = DbRoom.provideDb(context);
             db.daoNote().clearBin();
             db.close();
@@ -143,6 +153,7 @@ public class FrgBin extends Fragment implements
             setMenuItemClearVisible();
             bind(0);
         });
+        dlgClearBin.setDismissListener(dialogInterface -> stOpen.setOpen(false));
     }
 
     private void setMenuItemClearVisible() {
@@ -211,10 +222,8 @@ public class FrgBin extends Fragment implements
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        if (!dlgOptionBin.isVisible()) {
-            dlgOptionBin.setArguments(p);
-            dlgOptionBin.show(fm, Dlg.OPTIONS);
-        }
+        dlgOptionBin.setArguments(p);
+        dlgOptionBin.show(fm, Dlg.OPTIONS);
     }
 
     @Override
@@ -261,6 +270,13 @@ public class FrgBin extends Fragment implements
         adapter.notifyItemRemoved(p);
 
         setMenuItemClearVisible();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(Dlg.OPEN, stOpen.isOpen());
     }
 
 }

@@ -24,6 +24,7 @@ import sgtmelon.handynotes.element.dialog.common.DlgSingle;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Dlg;
 import sgtmelon.handynotes.office.annot.def.DefSort;
+import sgtmelon.handynotes.office.st.StOpen;
 
 public class FrgSettings extends PreferenceFragment {
 
@@ -34,6 +35,8 @@ public class FrgSettings extends PreferenceFragment {
     private FragmentManager fm;
 
     private SharedPreferences pref;
+
+    private StOpen stOpen;
     //endregion
 
     @Override
@@ -48,8 +51,11 @@ public class FrgSettings extends PreferenceFragment {
 
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        stOpen = new StOpen();
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(Dlg.OPEN));
+
         setupSortPref();
-        setupNotePref();
+        setupSavePref();
         setupOtherPref();
     }
 
@@ -69,6 +75,10 @@ public class FrgSettings extends PreferenceFragment {
     private String valSort;
     private DlgSort dlgSort;
 
+    private Preference prefColor;
+    private int valColor;
+    private DlgColor dlgColor;
+
     private void setupSortPref() {
         Log.i(TAG, "setupSortPref");
 
@@ -76,7 +86,9 @@ public class FrgSettings extends PreferenceFragment {
         valSort = pref.getString(getString(R.string.pref_key_sort), DefSort.def);
         prefSort.setSummary(Help.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), DefSort.def)));
         prefSort.setOnPreferenceClickListener(preference -> {
-            if (!dlgSort.isVisible()) {
+            if (!stOpen.isOpen()) {
+                stOpen.setOpen();
+
                 dlgSort.setArguments(valSort);
                 dlgSort.show(fm, Dlg.SORT);
             }
@@ -85,39 +97,29 @@ public class FrgSettings extends PreferenceFragment {
 
         dlgSort = (DlgSort) fm.findFragmentByTag(Dlg.SORT);
         if (dlgSort == null) dlgSort = new DlgSort();
-        dlgSort.setPositiveButton((dialogInterface, i) -> {
+        dlgSort.setPositiveListener((dialogInterface, i) -> {
             valSort = dlgSort.getKeys();
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
             String summary = Help.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
-        dlgSort.setNeutralButton((dialogInterface, i) -> {
+        dlgSort.setNeutralListener((dialogInterface, i) -> {
             valSort = DefSort.def;
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
             String summary = Help.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
-
-    }
-
-    private Preference prefColor;
-    private int valColor;
-    private DlgColor dlgColor;
-
-    private Preference prefSaveTime;
-    private int valSaveTime;
-    private DlgSingle dlgSaveTime;
-
-    private void setupNotePref() {
-        Log.i(TAG, "setupNotePref");
+        dlgSort.setDismissListener(dialogInterface -> stOpen.setOpen(false));
 
         prefColor = findPreference(getString(R.string.pref_key_color));
         valColor = pref.getInt(getString(R.string.pref_key_color), getResources().getInteger(R.integer.pref_default_color));
         prefColor.setSummary(getResources().getStringArray(R.array.pref_text_color)[valColor]);
         prefColor.setOnPreferenceClickListener(preference -> {
-            if (!dlgColor.isVisible()) {
+            if (!stOpen.isOpen()) {
+                stOpen.setOpen();
+
                 dlgColor.setArguments(valColor);
                 dlgColor.show(fm, Dlg.COLOR);
             }
@@ -127,18 +129,29 @@ public class FrgSettings extends PreferenceFragment {
         dlgColor = (DlgColor) fm.findFragmentByTag(Dlg.COLOR);
         if (dlgColor == null) dlgColor = new DlgColor();
         dlgColor.setTitle(getString(R.string.pref_title_color));
-        dlgColor.setPositiveButton((dialogInterface, i) -> {
+        dlgColor.setPositiveListener((dialogInterface, i) -> {
             valColor = dlgColor.getCheck();
 
             pref.edit().putInt(getString(R.string.pref_key_color), valColor).apply();
             prefColor.setSummary(getResources().getStringArray(R.array.pref_text_color)[valColor]);
         });
+        dlgColor.setDismissListener(dialogInterface -> stOpen.setOpen(false));
+    }
+
+    private Preference prefSaveTime;
+    private int valSaveTime;
+    private DlgSingle dlgSaveTime;
+
+    private void setupSavePref() {
+        Log.i(TAG, "setupSavePref");
 
         prefSaveTime = findPreference(getString(R.string.pref_key_save_time));
         valSaveTime = pref.getInt(getString(R.string.pref_key_save_time), getResources().getInteger(R.integer.pref_default_save_time));
         prefSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[valSaveTime]);
         prefSaveTime.setOnPreferenceClickListener(preference -> {
-            if (!dlgSaveTime.isVisible()) {
+            if (!stOpen.isOpen()) {
+                stOpen.setOpen();
+
                 dlgSaveTime.setArguments(valSaveTime);
                 dlgSaveTime.show(fm, Dlg.SAVE_TIME);
             }
@@ -150,12 +163,13 @@ public class FrgSettings extends PreferenceFragment {
 
         dlgSaveTime.setTitle(getString(R.string.pref_title_save_time));
         dlgSaveTime.setName(getResources().getStringArray(R.array.pref_text_save_time));
-        dlgSaveTime.setPositiveButton((dialogInterface, i) -> {
+        dlgSaveTime.setPositiveListener((dialogInterface, i) -> {
             valSaveTime = dlgSaveTime.getCheck();
 
             pref.edit().putInt(getString(R.string.pref_key_save_time), valSaveTime).apply();
             prefSaveTime.setSummary(dlgSaveTime.getName()[valSaveTime]);
         });
+        dlgSaveTime.setDismissListener(dialogInterface -> stOpen.setOpen(false));
 
         CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
         prefAutoSave.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -179,7 +193,9 @@ public class FrgSettings extends PreferenceFragment {
         valTheme = pref.getInt(getString(R.string.pref_key_theme), getResources().getInteger(R.integer.pref_default_theme));
         prefTheme.setSummary(getResources().getStringArray(R.array.pref_text_theme)[valTheme]);
         prefTheme.setOnPreferenceClickListener(preference -> {
-            if (!dlgTheme.isVisible()) {
+            if (!stOpen.isOpen()) {
+                stOpen.setOpen();
+
                 dlgTheme.setArguments(valTheme);
                 dlgTheme.show(fm, Dlg.THEME);
             }
@@ -191,7 +207,7 @@ public class FrgSettings extends PreferenceFragment {
 
         dlgTheme.setTitle(getString(R.string.pref_title_theme));
         dlgTheme.setName(getResources().getStringArray(R.array.pref_text_theme));
-        dlgTheme.setPositiveButton(((dialogInterface, i) -> {
+        dlgTheme.setPositiveListener(((dialogInterface, i) -> {
             valTheme = dlgTheme.getCheck();
 
             pref.edit().putInt(getString(R.string.pref_key_theme), valTheme).apply();
@@ -199,19 +215,33 @@ public class FrgSettings extends PreferenceFragment {
 
             activity.isThemeChange();
         }));
+        dlgTheme.setDismissListener(dialogInterface -> stOpen.setOpen(false));
+
+        Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
+        prefOtherAbout.setOnPreferenceClickListener(preference -> {
+            if (!stOpen.isOpen()) {
+                stOpen.setOpen();
+
+                dlgInfo.show(fm, Dlg.INFO);
+            }
+            return true;
+        });
 
         dlgInfo = (DlgInfo) fm.findFragmentByTag(Dlg.INFO);
         if (dlgInfo == null) dlgInfo = new DlgInfo();
+
         dlgInfo.setLogoClick(view -> {
             Intent intent = new Intent(activity, ActDevelop.class);
             startActivity(intent);
         });
+        dlgInfo.setDismissListener(dialogInterface -> stOpen.setOpen(false));
+    }
 
-        Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
-        prefOtherAbout.setOnPreferenceClickListener(preference -> {
-            if (!dlgInfo.isVisible()) dlgInfo.show(fm, Dlg.INFO);
-            return true;
-        });
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBoolean(Dlg.OPEN, stOpen.isOpen());
     }
 
 }

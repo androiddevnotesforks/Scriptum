@@ -19,6 +19,9 @@
     <color name="backgroundEnterLight">#ffffff</color>
     <color name="backgroundEnterDark">#454545</color>
 
+    <color name="backgroundItemLight">#ffffff</color>
+    <color name="backgroundItemDark">#353535</color>
+
     <color name="secondLight">#9e9e9e</color>
     <color name="secondDark">#bdbdbd</color>
 

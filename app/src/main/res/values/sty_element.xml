@@ -9,14 +9,16 @@
     <style name="Card">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/layout_2dp</item>
-        <item name="android:layout_marginRight">@dimen/layout_2dp</item>
+        <item name="android:layout_marginTop">@dimen/card_margin_vertical</item>
+        <item name="android:layout_marginBottom">@dimen/card_margin_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/card_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/card_margin_horizontal</item>
     </style>
 
     <style name="RecyclerView">
         <item name="android:clipToPadding">false</item>
-        <item name="android:paddingBottom">@dimen/layout_2dp</item>
-        <item name="android:paddingTop">@dimen/layout_2dp</item>
+        <item name="android:paddingBottom">@dimen/recycler_margin</item>
+        <item name="android:paddingTop">@dimen/recycler_margin</item>
         <item name="android:scrollbars">vertical</item>
     </style>
 
