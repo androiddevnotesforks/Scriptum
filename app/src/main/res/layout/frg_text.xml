@@ -22,7 +22,7 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/clBackgroundEnter"
@@ -34,11 +34,11 @@
             app:keyCreate='@{keyCreate}'
             app:keyEdit='@{keyEdit}' />
 
-        <androidx.core.widget.NestedScrollView
+        <ScrollView
+            android:id="@+id/frgText_sv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:fillViewport="true">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -58,9 +58,8 @@
 
             </FrameLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
-        <include layout="@layout/inc_note_fab" />
+    </LinearLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

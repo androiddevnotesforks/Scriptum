@@ -37,8 +37,12 @@
                     app:srcCompat="@drawable/ic_note" />
 
                 <TextView
-                    style="@style/Info.Text"
-                    android:text="@string/info_notes_empty" />
+                    style="@style/Info.Title"
+                    android:text="@string/info_notes_title" />
+
+                <TextView
+                    style="@style/Info.Details"
+                    android:text="@string/info_notes_details" />
 
             </LinearLayout>
 

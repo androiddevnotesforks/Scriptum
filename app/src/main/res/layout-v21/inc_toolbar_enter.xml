@@ -36,7 +36,7 @@
                 android:paddingBottom="@dimen/layout_8dp">
 
                 <EditText
-                    android:id="@+id/incNoteEnter_et_enter"
+                    android:id="@+id/incToolbarEnter_et_enter"
                     style="@style/Enter.Text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                     android:maxLines="5" />
 
                 <ImageButton
-                    android:id="@+id/incNoteEnter_ib_add"
+                    android:id="@+id/incToolbarEnter_ib_add"
                     style="@style/Enter.Button"
                     android:layout_gravity="bottom"
                     android:contentDescription="@null"

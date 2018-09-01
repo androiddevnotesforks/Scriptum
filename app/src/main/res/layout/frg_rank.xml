@@ -37,8 +37,12 @@
                     app:srcCompat="@drawable/ic_rank" />
 
                 <TextView
-                    style="@style/Info.Text"
-                    android:text="@string/info_rank_empty" />
+                    style="@style/Info.Title"
+                    android:text="@string/info_rank_title" />
+
+                <TextView
+                    style="@style/Info.Details"
+                    android:text="@string/info_rank_details" />
 
             </LinearLayout>
 

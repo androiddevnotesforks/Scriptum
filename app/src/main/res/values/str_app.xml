@@ -14,9 +14,13 @@
     <string name="title_frg_bin">Bin</string>
     <string name="title_act_settings">Settings</string>
 
-    <string name="info_rank_empty">No categories</string>
-    <string name="info_notes_empty">No created notes</string>
-    <string name="info_bin_empty">No deleted notes</string>
+    <string name="info_rank_title">No categories</string>
+    <string name="info_notes_title">No created notes</string>
+    <string name="info_bin_title">No deleted notes</string>
+
+    <string name="info_rank_details">For add category write name in text field from top.</string>
+    <string name="info_notes_details">For add new note click one more time on central button of menu.</string>
+    <string name="info_bin_details">After delete notes come here. Hiding notes will not delete from here.</string>
 
 
     <!-- Name of menu items -->

@@ -33,12 +33,16 @@
 
                 <ImageView
                     style="@style/Info.Image"
-                    app:srcCompat="@drawable/ic_bin"
-                    android:contentDescription="@null" />
+                    android:contentDescription="@null"
+                    app:srcCompat="@drawable/ic_bin" />
 
                 <TextView
-                    style="@style/Info.Text"
-                    android:text="@string/info_bin_empty" />
+                    style="@style/Info.Title"
+                    android:text="@string/info_bin_title" />
+
+                <TextView
+                    style="@style/Info.Details"
+                    android:text="@string/info_bin_details" />
 
             </LinearLayout>
 

@@ -46,7 +46,6 @@
             app:contentInsetLeft="@dimen/layout_8dp"
             app:contentInsetRight="@dimen/layout_8dp"
             app:contentInsetStart="@dimen/layout_8dp"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon='@{keyEdit &amp;&amp; !keyCreate ? Draw.get(context, R.drawable.ic_cancel, R.attr.clIcon) : Draw.get(context, R.drawable.ic_arrow_back, R.attr.clIcon)}'
             app:popupTheme="?attr/themePopup">
 
@@ -65,14 +64,12 @@
                     android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}' />
 
                 <HorizontalScrollView
-                    android:id="@+id/incToolbarNote_hsv_name"
                     style="@style/ToolbarNote.Scroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'>
 
                     <TextView
-                        android:id="@+id/incToolbarNote_tv_name"
                         style="@style/ToolbarNote.Text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -288,14 +288,14 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-            ItemNote itemNote = vm.getRepoNote().getItemNote();
+        ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-            db = DbRoom.provideDb(context);
-            boolean[] check = db.daoRank().getCheck(itemNote.getRankId());
-            db.close();
+        db = DbRoom.provideDb(context);
+        boolean[] check = db.daoRank().getCheck(itemNote.getRankId());
+        db.close();
 
-            dlgRank.setArguments(check);
-            dlgRank.show(fm, Dlg.RANK);
+        dlgRank.setArguments(check);
+        dlgRank.show(fm, Dlg.RANK);
     }
 
     @Override
@@ -304,12 +304,12 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-            ItemNote itemNote = vm.getRepoNote().getItemNote();
+        ItemNote itemNote = vm.getRepoNote().getItemNote();
 
-            dlgColor.setArguments(itemNote.getColor());
-            dlgColor.show(fm, Dlg.COLOR);
+        dlgColor.setArguments(itemNote.getColor());
+        dlgColor.show(fm, Dlg.COLOR);
 
-            menuNote.setStartColor(itemNote.getColor());
+        menuNote.setStartColor(itemNote.getColor());
     }
 
     @Override
