@@ -10,7 +10,6 @@
         <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:padding">@dimen/layout_8dp</item>
-
     </style>
 
     <style name="Enter.Text" parent="EditText">

@@ -3,12 +3,6 @@
 
     <style name="Text" />
 
-    <style name="Text.Scroll">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:fillViewport">true</item>
-    </style>
-
     <style name="Text.Enter" parent="EditText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>

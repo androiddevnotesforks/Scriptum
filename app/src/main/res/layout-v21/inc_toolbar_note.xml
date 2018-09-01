@@ -80,7 +80,9 @@
                         android:text='@{itemNote.name}' />
 
                 </HorizontalScrollView>
+
             </FrameLayout>
+
         </androidx.appcompat.widget.Toolbar>
 
         <View

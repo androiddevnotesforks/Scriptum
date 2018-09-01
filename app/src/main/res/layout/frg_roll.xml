@@ -25,58 +25,34 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="?attr/clBackground">
+        android:orientation="vertical">
 
-        <include
-            layout="@layout/inc_toolbar_note"
-            app:itemNote='@{itemNote}'
-            app:keyCreate='@{keyCreate}'
-            app:keyEdit='@{keyEdit}' />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/frgRoll_rv"
-            style="@style/RecyclerView"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="?attr/clBackground">
 
-        <LinearLayout
-            android:id="@+id/frgRoll_ll_enter"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'>
+            <include
+                layout="@layout/inc_toolbar_note"
+                app:itemNote='@{itemNote}'
+                app:keyCreate='@{keyCreate}'
+                app:keyEdit='@{keyEdit}' />
 
-            <View style="@style/Divider.Horizontal" />
-
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/frgRoll_rv"
+                style="@style/RecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/clPrimary"
-                android:orientation="horizontal"
-                android:padding="@dimen/layout_4dp">
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <EditText
-                    android:id="@+id/frgRoll_et_enter"
-                    style="@style/Enter.Text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/hint_enter_roll"
-                    android:imeOptions="flagNoFullscreen"
-                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    android:maxLines="5" />
+            <include layout="@layout/inc_note_fab" />
 
-                <ImageButton
-                    android:id="@+id/frgRoll_ib_add"
-                    style="@style/Enter.Button"
-                    android:layout_gravity="bottom"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_add" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            </LinearLayout>
-        </LinearLayout>
+        <include
+            layout="@layout/inc_note_enter"
+            app:keyEdit='@{keyEdit}' />
 
     </LinearLayout>
 

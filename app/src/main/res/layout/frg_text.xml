@@ -25,8 +25,8 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="?attr/clBackgroundEnter">
+        android:background="?attr/clBackgroundEnter"
+        android:orientation="vertical">
 
         <include
             layout="@layout/inc_toolbar_note"
@@ -34,7 +34,10 @@
             app:keyCreate='@{keyCreate}'
             app:keyEdit='@{keyEdit}' />
 
-        <ScrollView style="@style/Text.Scroll"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <FrameLayout
@@ -55,7 +58,9 @@
 
             </FrameLayout>
 
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
+
+        <include layout="@layout/inc_note_fab" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

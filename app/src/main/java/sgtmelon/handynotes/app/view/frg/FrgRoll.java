@@ -654,8 +654,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             return false;
         });
 
-        rollEnter = frgView.findViewById(R.id.frgRoll_et_enter);
-        rollAdd = frgView.findViewById(R.id.frgRoll_ib_add);
+        rollEnter = frgView.findViewById(R.id.incNoteEnter_et_enter);
+        rollAdd = frgView.findViewById(R.id.incNoteEnter_ib_add);
 
         rollEnter.addTextChangedListener(new TextWatcher() {
             @Override
