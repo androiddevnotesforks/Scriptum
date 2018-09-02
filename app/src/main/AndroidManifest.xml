@@ -20,6 +20,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".app.view.act.ActIntro"
+            android:parentActivityName=".app.view.act.ActSplash"
+            android:theme="@style/App.Intro" />
+        <activity
             android:name=".app.view.act.ActMain"
             android:windowSoftInputMode="adjustPan" />
         <activity

@@ -31,7 +31,6 @@
     </style>
 
     <style name="App.Light.UI">
-        <item name="colorPrimaryDark" tools:targetApi="lollipop">?attr/clPrimary</item>
         <item name="android:windowBackground">?attr/clBackground</item>
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
@@ -82,6 +81,18 @@
         <item name="colorPrimaryDark">@color/ic_launcher_background</item>
 
         <item name="android:windowBackground">@drawable/bg_splash</item>
+
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+
+        <item name="android:navigationBarColor" tools:targetApi="lollipop">?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">?attr/colorPrimaryDark</item>
+    </style>
+
+    <style name="App.Intro" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimaryDark">@color/ic_launcher_background</item>
+
+        <item name="android:windowBackground">?attr/colorPrimaryDark</item>
 
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>

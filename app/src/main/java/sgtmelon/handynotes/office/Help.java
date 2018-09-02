@@ -233,6 +233,17 @@ public class Help {
 
     public static class Pref {
 
+        public static boolean isFirstStart(Context context) {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            boolean isFirst = pref.getInt(context.getString(R.string.pref_first_start), context.getResources().getInteger(R.integer.pref_default_first_start)) == context.getResources().getInteger(R.integer.pref_default_first_start);
+
+            if (isFirst) {
+                pref.edit().putInt(context.getString(R.string.pref_first_start), 1).apply();
+            }
+
+            return true; // TODO: 02.09.2018 isFirst
+        }
+
         /**
          * @param context - Для получения настроек
          * @return - Формирование поискового запроса относительно настроек

@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="sgtmelon.handynotes.R" />
+
         <import
             alias="v"
             type="android.view.View" />
@@ -25,25 +27,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/frgRank_ll_empty"
-                style="@style/Info.Container"
-                android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'>
-
-                <ImageView
-                    style="@style/Info.Image"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_rank" />
-
-                <TextView
-                    style="@style/Info.Title"
-                    android:text="@string/info_rank_title" />
-
-                <TextView
-                    style="@style/Info.Details"
-                    android:text="@string/info_rank_details" />
-
-            </LinearLayout>
+            <include
+                layout="@layout/inc_page_empty"
+                android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'
+                app:details='@{R.string.info_rank_details}'
+                app:icon='@{R.drawable.ic_rank}'
+                app:title='@{R.string.info_rank_title}' />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/frgRank_rv"

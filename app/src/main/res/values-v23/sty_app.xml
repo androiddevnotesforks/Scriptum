@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="App.Light.UI">
+        <item name="colorPrimaryDark">?attr/clPrimary</item>
+        <item name="android:windowBackground">?attr/clBackground</item>
+
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">?attr/clDivider</item>
+    </style>
+
+</resources>

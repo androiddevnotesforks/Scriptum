@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="sgtmelon.handynotes.R" />
+
+        <import type="sgtmelon.handynotes.office.Help.Draw" />
+
+        <variable
+            name="icon"
+            type="int" />
+
+        <variable
+            name="title"
+            type="int" />
+
+        <variable
+            name="details"
+            type="int" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/frgNotes_ll_empty"
+        style="@style/Info.Container">
+
+        <ImageView
+            style="@style/Info.Image"
+            android:contentDescription="@null"
+            android:src='@{Draw.get(context, icon, R.attr.clSecond)}' />
+
+        <TextView
+            style="@style/Info.Title"
+            android:text='@{context.getString(title)}' />
+
+        <TextView
+            style="@style/Info.Details"
+            android:text='@{context.getString(details)}' />
+
+    </LinearLayout>
+
+</layout>
