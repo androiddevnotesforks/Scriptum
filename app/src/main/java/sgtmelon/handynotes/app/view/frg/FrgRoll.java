@@ -485,7 +485,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdpRoll(activity.vm.getStNote().isBin(), activity.vm.getStNote().isEdit());
+        adapter = new AdpRoll(context, activity.vm.getStNote().isBin(), activity.vm.getStNote().isEdit());
         recyclerView.setAdapter(adapter);
         adapter.setCallback(this, stDrag, this);
 
@@ -654,8 +654,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             return false;
         });
 
-        rollEnter = frgView.findViewById(R.id.incToolbarEnter_et_enter);
-        rollAdd = frgView.findViewById(R.id.incToolbarEnter_ib_add);
+        rollEnter = frgView.findViewById(R.id.incRollEnter_et_enter);
+        rollAdd = frgView.findViewById(R.id.incRollEnter_ib_add);
 
         rollEnter.addTextChangedListener(new TextWatcher() {
             @Override

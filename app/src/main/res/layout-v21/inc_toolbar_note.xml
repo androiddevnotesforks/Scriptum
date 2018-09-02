@@ -49,36 +49,35 @@
             app:navigationIcon='@{keyEdit &amp;&amp; !keyCreate ? Draw.get(context, R.drawable.ic_cancel, R.attr.clIcon) : Draw.get(context, R.drawable.ic_arrow_back, R.attr.clIcon)}'
             app:popupTheme="?attr/themePopup">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-
-                <EditText
-                    android:id="@+id/incToolbarNote_et_name"
-                    style="@style/ToolbarNote.Enter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/hint_enter_name"
-                    android:text='@={itemNote.name}'
-                    android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}' />
-
                 <HorizontalScrollView
                     style="@style/ToolbarNote.Scroll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'>
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        style="@style/ToolbarNote.Text"
+                    <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_view_name"
-                        android:text='@{itemNote.name}' />
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/incToolbarNote_et_name"
+                            style="@style/ToolbarNote.Enter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_enter_name"
+                            android:text='@={itemNote.name}'
+                            android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}' />
+
+                        <TextView
+                            style="@style/ToolbarNote.Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_view_name"
+                            android:text='@{itemNote.name}'
+                            android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}' />
+
+                    </FrameLayout>
 
                 </HorizontalScrollView>
-
-            </FrameLayout>
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -15,6 +15,7 @@
     </style>
 
     <style name="ToolbarNote.Scroll">
+        <item name="android:layout_gravity">center</item>
         <item name="android:overScrollMode">never</item>
         <item name="android:scrollbars">none</item>
     </style>

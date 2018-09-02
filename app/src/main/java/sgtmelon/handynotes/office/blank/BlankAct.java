@@ -26,10 +26,10 @@ public class BlankAct extends AppCompatActivity {
         valTheme = Help.Pref.getTheme(this);
         switch (valTheme) {
             case DefTheme.light:
-                setTheme(R.style.App_Light);
+                setTheme(R.style.App_Light_UI);
                 break;
             case DefTheme.dark:
-                setTheme(R.style.App_Dark);
+                setTheme(R.style.App_Dark_UI);
                 break;
         }
     }

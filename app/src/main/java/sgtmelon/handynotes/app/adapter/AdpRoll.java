@@ -1,5 +1,6 @@
 package sgtmelon.handynotes.app.adapter;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -21,12 +22,14 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.databinding.ItemRollReadBinding;
 import sgtmelon.handynotes.databinding.ItemRollWriteBinding;
+import sgtmelon.handynotes.office.Help;
+import sgtmelon.handynotes.office.annot.def.DefRoll;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
     //region Variables
-    private static final int typeRead = 0, typeWrite = 1;
+    private final Context context;
 
     private final List<ItemRoll> listRoll;
 
@@ -34,7 +37,9 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
     private boolean keyEdit;
     //endregion
 
-    public AdpRoll(boolean keyBin, boolean keyEdit) {
+    public AdpRoll(Context context, boolean keyBin, boolean keyEdit) {
+        this.context = context;
+
         listRoll = new ArrayList<>();
 
         this.keyBin = keyBin;
@@ -70,24 +75,35 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
     @Override
     public RollHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        if (viewType == typeWrite) {
-            ItemRollWriteBinding bindingWrite = DataBindingUtil.inflate(inflater, R.layout.item_roll_write, parent, false);
-            return new RollHolder(bindingWrite);
-        } else {
-            ItemRollReadBinding bindingRead = DataBindingUtil.inflate(inflater, R.layout.item_roll_read, parent, false);
-            return new RollHolder(bindingRead);
+
+        switch (viewType) {
+            default:
+            case DefRoll.read:
+                ItemRollReadBinding bindingRead = DataBindingUtil.inflate(inflater, R.layout.item_roll_read, parent, false);
+                return new RollHolder(bindingRead);
+            case DefRoll.write:
+                ItemRollWriteBinding bindingWrite = DataBindingUtil.inflate(inflater, R.layout.item_roll_write, parent, false);
+                return new RollHolder(bindingWrite);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (!keyEdit) return typeRead;
-        else return typeWrite;
+        if (!keyEdit) return DefRoll.read;
+        else return DefRoll.write;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
-        holder.bind(listRoll.get(position));
+        ItemRoll itemRoll = listRoll.get(position);
+
+        if (keyEdit) {
+            if (itemRoll.isCheck()) {
+                holder.rlDrag.setColorFilter(Help.Col.get(context, R.attr.clAccent));
+            } else holder.rlDrag.setColorFilter(Help.Col.get(context, R.attr.clIcon));
+        }
+
+        holder.bind(itemRoll);
     }
 
     @Override

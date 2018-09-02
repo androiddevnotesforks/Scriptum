@@ -102,6 +102,16 @@ public class Help {
             return ContextCompat.getColor(context, typedValue.resourceId);
         }
 
+        public static int getColorCheck(Context context, int position) {
+            switch (Pref.getTheme(context)) {
+                case DefTheme.light:
+                    return ContextCompat.getColor(context, DefColor.cl_dark[position]);
+                default:
+                case DefTheme.dark:
+                    return ContextCompat.getColor(context, DefColor.cl_light[position]);
+            }
+        }
+
         public static int blend(int from, int to, float ratio) {
             final float inverseRatio = 1f - ratio;
 
@@ -133,37 +143,6 @@ public class Help {
                 default:
                     return ContextCompat.getDrawable(context, DefColor.ic_dark[position]);
             }
-        }
-
-        public static Drawable getIconCheck(Context context, int position) {
-            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_color_check);
-
-            int colorRes;
-            switch (Pref.getTheme(context)) {
-                case DefTheme.light:
-                    colorRes = ContextCompat.getColor(context, DefColor.cl_dark[position]);
-                    break;
-                case DefTheme.dark:
-                default:
-                    colorRes = ContextCompat.getColor(context, DefColor.cl_light[position]);
-                    break;
-            }
-
-            if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
-
-            return drawable;
-        }
-
-        public static Drawable getIconMove(Context context, boolean check) {
-            Drawable drawable = ContextCompat.getDrawable(context, R.drawable.ic_move);
-
-            int colorRes;
-            if (check) colorRes = Col.get(context, R.attr.clAccent);
-            else colorRes = Col.get(context, R.attr.clIcon);
-
-            if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
-
-            return drawable;
         }
 
     }

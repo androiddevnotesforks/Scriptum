@@ -4,10 +4,6 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.R"/>
-
-        <import type="sgtmelon.handynotes.office.Help.Draw" />
-
         <variable
             name="itemRoll"
             type="sgtmelon.handynotes.app.model.item.ItemRoll" />
@@ -34,7 +30,7 @@
                     android:id="@+id/itemRoll_ib_drag"
                     style="@style/ItemRoll.Click"
                     android:contentDescription="@null"
-                    android:src='@{Draw.getIconMove(context, itemRoll.check)}'/>
+                    app:srcCompat="@drawable/ic_move"/>
 
             </FrameLayout>
 

@@ -26,6 +26,14 @@ import sgtmelon.handynotes.office.st.StPage;
 
 public class ActMain extends BlankAct implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
+    // TODO: 02.09.2018 До релиза:
+    // TODO: 02.09.2018 разобраться с уведомлениями
+    // TODO: 02.09.2018 вступительный экран
+    // TODO: 02.09.2018 иконки от Ариши
+    // TODO: 02.09.2018 анимация
+    // TODO: 02.09.2018 разобраться со строками, красиво описать
+    // TODO: 02.09.2018 Адаптация на другие телефоны
+
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
