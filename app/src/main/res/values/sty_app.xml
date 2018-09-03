@@ -89,21 +89,6 @@
         <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">?attr/colorPrimaryDark</item>
     </style>
 
-    <style name="App.Intro" parent="Theme.AppCompat.NoActionBar">
-        <item name="clSecond">@color/secondDark</item>
-        <item name="clText">@color/textDark</item>
-
-        <item name="colorPrimaryDark">@color/ic_launcher_background</item>
-
-        <item name="android:windowBackground">?attr/colorPrimaryDark</item>
-
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
-
-        <item name="android:navigationBarColor" tools:targetApi="lollipop">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarDividerColor" tools:targetApi="o_mr1">?attr/colorPrimaryDark</item>
-    </style>
-
     <style name="Alert.Light" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">?attr/clAccent</item>
     </style>

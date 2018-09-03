@@ -21,23 +21,18 @@
 
     </data>
 
-    <LinearLayout
-        android:id="@+id/incPageInfo_ll_container"
-        style="@style/Info.Container">
+    <LinearLayout style="@style/Info.Container">
 
         <ImageView
-            android:id="@+id/incPageInfo_iv_icon"
             style="@style/Info.Icon"
             android:contentDescription="@null"
-            android:src='@{Draw.get(context, icon, R.attr.clSecond)}' />
+            android:src='@{Draw.get(context, icon, R.attr.clIcon)}' />
 
         <TextView
-            android:id="@+id/incPageInfo_tv_title"
             style="@style/Info.Title"
             android:text='@{context.getString(title)}' />
 
         <TextView
-            android:id="@+id/incPageInfo_tv_details"
             style="@style/Info.Details"
             android:text='@{context.getString(details)}' />
 

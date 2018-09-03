@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.handynotes.R;
@@ -28,15 +27,10 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
 
     // TODO: 02.09.2018 До релиза:
     // TODO: 02.09.2018 разобраться с уведомлениями
-    // TODO: 02.09.2018 вступительный экран
     // TODO: 02.09.2018 иконки от Ариши
     // TODO: 02.09.2018 анимация
     // TODO: 02.09.2018 разобраться со строками, красиво описать
     // TODO: 02.09.2018 Адаптация на другие телефоны
-
-    static {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }
 
     //region Variable
     private static final String TAG = "ActMain";

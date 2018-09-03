@@ -16,11 +16,11 @@
 
     <string name="info_rank_title">No categories</string>
     <string name="info_notes_title">No created notes</string>
-    <string name="info_bin_title">No deleted notes</string>
+    <string name="info_bin_title">Bin is empty</string>
 
-    <string name="info_rank_details">For add category write name in text field from top.</string>
-    <string name="info_notes_details">For add new note click one more time on central button of menu.</string>
-    <string name="info_bin_details">After delete notes come here. Hiding notes will not delete from here.</string>
+    <string name="info_rank_details">For add category write name in text field from top</string>
+    <string name="info_notes_details">For add new note click on central button of menu</string>
+    <string name="info_bin_details">Hiding notes will not delete from here</string>
 
 
     <!-- Name of menu items -->
@@ -54,8 +54,10 @@
 
 
     <!-- Name of channels & groups-->
-    <string name="channel_status_bind">Notes bind</string>
-    <string name="group_status_bind">Notes</string>
+    <string name="notification_channel_id" translatable="false">HandyNotesChannel</string>
+
+    <string name="notification_channel">Handy Notes</string>
+    <string name="notification_group">Notes</string>
 
 
     <!-- Dialog -->

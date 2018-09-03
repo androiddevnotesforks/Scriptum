@@ -10,11 +10,11 @@
 
     <string name="info_rank_title">Нет категорий</string>
     <string name="info_notes_title">Нет созданных заметок</string>
-    <string name="info_bin_title">Нет удалённых заметок</string>
+    <string name="info_bin_title">Корзина пуста</string>
 
-    <string name="info_rank_details">Чтобы добавить категорию введите имя в поле сверху.</string>
-    <string name="info_notes_details">Чтобы добавить заметку нажмите ещё раз на центральную кнопку меню.</string>
-    <string name="info_bin_details">После удаления заметки попадают сюда. Скрытые заметки не удалятся отсюда.</string>
+    <string name="info_rank_details">Чтобы добавить категорию введите имя в поле сверху</string>
+    <string name="info_notes_details">Чтобы добавить заметку нажмите на центральную кнопку меню</string>
+    <string name="info_bin_details">Скрытые заметки не удалятся отсюда</string>
 
     <!-- Name of menu items -->
     <string name="menu_page_notes_settings">Настройки</string>
@@ -47,8 +47,8 @@
 
 
     <!-- Name of channels -->
-    <string name="channel_status_bind">Прикрепление заметок</string>
-    <string name="group_status_bind">Заметкие</string>
+    <string name="notification_channel">Удобные заметки</string>
+    <string name="notification_group">Заметки</string>
 
 
     <!-- Dialog -->

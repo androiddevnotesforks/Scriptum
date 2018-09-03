@@ -1,6 +1,8 @@
 package sgtmelon.handynotes.app.model.item;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +12,6 @@ import java.util.List;
 
 import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.view.act.ActNote;
@@ -27,7 +28,7 @@ public class ItemStatus {
 
     private final PendingIntent pendingIntent;
     private Notification notification;
-    private NotificationManagerCompat notificationManager;
+    private NotificationManager notificationManager;
     //endregion
 
     //TODO: разберись с флагами, то как они работают
@@ -71,7 +72,7 @@ public class ItemStatus {
                 break;
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.channel_status_bind))
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(iconId)
                 .setColor(Help.Col.get(context, itemNote.getColor(), true))
                 .setContentTitle(itemNote.getName(context))
@@ -83,11 +84,16 @@ public class ItemStatus {
                 .setOngoing(true);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            notificationBuilder.setGroup(context.getString(R.string.group_status_bind));
+            notificationBuilder.setGroup(context.getString(R.string.notification_group));
         }
 
         notification = notificationBuilder.build();
-        notificationManager = NotificationManagerCompat.from(context);
+        notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.notification_channel_id), context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_DEFAULT);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
 
         if (itemNote.isStatus()) notifyNote();
     }
