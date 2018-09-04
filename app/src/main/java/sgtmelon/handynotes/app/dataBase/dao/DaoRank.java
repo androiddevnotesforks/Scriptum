@@ -170,7 +170,7 @@ public abstract class DaoRank extends DaoBase {
             }
         }
 
-        if (listRank.get(0).getPosition() != 0) { // FIXME: 01.07.2018 Сделай нормально
+        if (listRank.get(0).getPosition() != 0) {
             Collections.reverse(listRank);
         }
 

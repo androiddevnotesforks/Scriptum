@@ -25,6 +25,7 @@
 
         <ImageView
             style="@style/Info.Icon"
+            android:tint="?attr/clIcon"
             android:contentDescription="@null"
             android:src='@{Draw.get(context, icon, R.attr.clIcon)}' />
 

@@ -7,13 +7,16 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.List;
 
 import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.TaskStackBuilder;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
+import sgtmelon.handynotes.app.view.act.ActMain;
 import sgtmelon.handynotes.app.view.act.ActNote;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.Db;
@@ -23,6 +26,8 @@ import sgtmelon.handynotes.office.annot.def.db.DefType;
 public class ItemStatus {
 
     //region Variables
+    private static final String TAG = "ItemStatus";
+
     private final Context context;
     private ItemNote itemNote;
 
@@ -31,21 +36,21 @@ public class ItemStatus {
     private NotificationManager notificationManager;
     //endregion
 
-    //TODO: разберись с флагами, то как они работают
     // TODO: 29.08.2018 Добавить кнопки к уведомлениям, чтобы была возможность их открепить
 
     public ItemStatus(Context context, ItemNote itemNote) {
         this.context = context;
 
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        stackBuilder.addParentStack(ActMain.class);
+
         Intent intent = new Intent(context, ActNote.class);
-
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.setAction(Intent.ACTION_VIEW);
-
         intent.putExtra(Db.NT_ID, itemNote.getId());
         intent.putExtra(DefPage.CREATE, false);
 
-        pendingIntent = PendingIntent.getActivity(context, (int) itemNote.getId(), intent, 0);
+        stackBuilder.addNextIntent(intent);
+
+        pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
         updateNote(itemNote);
     }
@@ -77,8 +82,10 @@ public class ItemStatus {
                 .setColor(Help.Col.get(context, itemNote.getColor(), true))
                 .setContentTitle(itemNote.getName(context))
                 .setContentText(text)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))  // TODO: 29.08.2018 Если маленький текст, то всё равно увеличивается до большого уведомления
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)               // TODO: 29.08.2018 Подумай над отображением их в правильном порядке после запуска приложения и во время работы (чтобы позиции соответствовали действительности, а не в обратном порядке)
+                .setCategory(NotificationCompat.CATEGORY_EVENT)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(text))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(false)
                 .setOngoing(true);
@@ -92,6 +99,9 @@ public class ItemStatus {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.notification_channel_id), context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setSound(null, null);
+            notificationChannel.setVibrationPattern(null);
+
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
@@ -112,11 +122,15 @@ public class ItemStatus {
 
     //Показывает созданное уведомление
     public void notifyNote() {
+        Log.i(TAG, "notifyNote");
+
         notificationManager.notify((int) itemNote.getId(), notification);
     }
 
     //Убирает созданное уведомление
     public void cancelNote() {
+        Log.i(TAG, "cancelNote");
+
         notificationManager.cancel((int) itemNote.getId());
     }
 

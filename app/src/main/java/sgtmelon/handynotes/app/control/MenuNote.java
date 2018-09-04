@@ -39,9 +39,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
         this.type = type;
         valTheme = Help.Pref.getTheme(context);
     }
-
-    // FIXME: 12.07.2018 проверь как можно убрать повторный вызов setStartColor
-
+    
     //Установка цвета
     public void setColor(int color) {
         if (valTheme != DefTheme.dark) {

@@ -21,7 +21,12 @@
         </activity>
         <activity
             android:name=".app.view.act.ActMain"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".app.view.act.ActNote"
             android:parentActivityName=".app.view.act.ActMain" />

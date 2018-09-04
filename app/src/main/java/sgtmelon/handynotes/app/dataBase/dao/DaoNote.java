@@ -1,12 +1,5 @@
 package sgtmelon.handynotes.app.dataBase.dao;
 
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.TypeConverters;
-import androidx.room.Update;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -14,6 +7,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.TypeConverters;
+import androidx.room.Update;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;

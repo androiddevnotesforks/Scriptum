@@ -47,7 +47,7 @@
 
 
     <!-- Name of channels -->
-    <string name="notification_channel">Удобные заметки</string>
+    <string name="notification_channel">Заметки</string>
     <string name="notification_group">Заметки</string>
 
 
@@ -118,7 +118,7 @@
     <!-- About dialog -->
     <string name="about_app_for">для Андроид</string>
     <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>
-    <string name="about_app_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
+    <string name="about_app_logo_designer">Дизайнер:\nПолепкина Арина</string>
     <string name="about_app_used_libraries">Используемые библиотеки:</string>
     <string name="about_app_version">Версия приложения: 1.0</string>
 
