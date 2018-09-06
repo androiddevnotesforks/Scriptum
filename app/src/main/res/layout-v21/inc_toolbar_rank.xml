@@ -30,7 +30,7 @@
                     android:id="@+id/incToolbarRank_ib_cancel"
                     style="@style/Enter.Button"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_cancel" />
+                    app:srcCompat="@drawable/ic_cancel_on" />
 
                 <EditText
                     android:id="@+id/incToolbarRank_et_enter"

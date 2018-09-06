@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24.0"
+    android:viewportHeight="24.0">
+
+    <group
+        android:name="@string/drawable_cancel_group"
+        android:pivotX="12"
+        android:pivotY="12">
+
+        <path
+            android:name="@string/drawable_cancel_path"
+            android:fillColor="#FF000000"
+            android:pathData="M 20 11 L 7.83 11 L 13.42 5.41 L 12 4 L 5 11 L 5 11 L 4 12 L 5 13 L 5 13 L 12 20 L 13.41 18.59 L 7.83 13 L 20 13 L 20 11 L 20 11" />
+
+    </group>
+
+</vector>

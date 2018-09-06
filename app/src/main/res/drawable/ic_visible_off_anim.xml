@@ -6,14 +6,14 @@
 
     <target
         android:name="@string/drawable_strike_path"
-        android:animation="@animator/strike_path_off" />
+        android:animation="@animator/visible_strike_path_off" />
 
     <target
         android:name="@string/drawable_strike_mask"
-        android:animation="@animator/strike_mask_off" />
+        android:animation="@animator/visible_strike_mask_off" />
 
     <target
         android:name="@string/drawable_eye_path"
-        android:animation="@animator/eye_path_off" />
+        android:animation="@animator/visible_eye_path_off" />
 
 </animated-vector>

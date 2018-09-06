@@ -1,0 +1,14 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:drawable="@drawable/ic_cancel_on"
+    tools:ignore="NewApi">
+
+    <target
+        android:name="@string/drawable_cancel_group"
+        android:animation="@animator/cancel_group_on" />
+
+    <target
+        android:name="@string/drawable_cancel_path"
+        android:animation="@animator/cancel_path_on" />
+
+</animated-vector>

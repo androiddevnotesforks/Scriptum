@@ -77,7 +77,7 @@
                 android:layout_marginStart="@dimen/layout_8dp"
                 android:contentDescription="@null"
                 android:tint="?attr/clIcon"
-                app:srcCompat="@drawable/ic_cancel" />
+                app:srcCompat="@drawable/ic_cancel_on" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

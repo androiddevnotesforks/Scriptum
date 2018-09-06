@@ -8,7 +8,7 @@ public @interface AnnIntro {
 
     int[] icon = new int[]{
             R.drawable.ic_add,
-            R.drawable.ic_arrow_back,
+            R.drawable.ic_cancel_off,
             R.drawable.ic_bind_roll,
             R.drawable.ic_bracket_right
     };
