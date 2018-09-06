@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.annot;
+package sgtmelon.handynotes.office.annot.def;
 
 import androidx.annotation.StringDef;
 
@@ -6,14 +6,14 @@ import androidx.annotation.StringDef;
  * Ключи для нахождения фрагментов после поворота экрана
  */
 @StringDef({
-        Frg.RANK,
-        Frg.NOTES,
-        Frg.BIN,
+        DefFrg.RANK,
+        DefFrg.NOTES,
+        DefFrg.BIN,
 
-        Frg.TEXT,
-        Frg.ROLL
+        DefFrg.TEXT,
+        DefFrg.ROLL
 })
-public @interface Frg {
+public @interface DefFrg {
 
     //ActMain
     String RANK = "FRG_RANK",

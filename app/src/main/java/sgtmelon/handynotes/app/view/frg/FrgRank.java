@@ -35,7 +35,7 @@ import sgtmelon.handynotes.app.viewModel.VmFrgRank;
 import sgtmelon.handynotes.databinding.FrgRankBinding;
 import sgtmelon.handynotes.element.dialog.DlgRename;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.intf.IntfItem;
 import sgtmelon.handynotes.office.st.StDrag;
 import sgtmelon.handynotes.office.st.StOpen;
@@ -88,7 +88,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         vm.loadData();
 
         stOpen = new StOpen();
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(Dlg.OPEN));
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
 
         setupToolbar();
         setupRecyclerView();
@@ -282,7 +282,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        dlgRename = (DlgRename) fm.findFragmentByTag(Dlg.RENAME);
+        dlgRename = (DlgRename) fm.findFragmentByTag(DefDlg.RENAME);
         if (dlgRename == null) dlgRename = new DlgRename();
 
         dlgRename.setPositiveListener((dialogInterface, i) -> {
@@ -346,7 +346,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                     stOpen.setOpen();
 
                     dlgRename.setArguments(p, itemRank.getName(), new ArrayList<>(repoRank.getListName()));
-                    dlgRename.show(fm, Dlg.RENAME);
+                    dlgRename.show(fm, DefDlg.RENAME);
                 }
                 break;
             case R.id.itemRank_ib_cancel:
@@ -473,7 +473,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(Dlg.OPEN, stOpen.isOpen());
+        outState.putBoolean(DefDlg.OPEN, stOpen.isOpen());
     }
 
 }

@@ -17,7 +17,7 @@ import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpSort;
 import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
@@ -26,8 +26,8 @@ public class DlgSort extends BlankDialog implements IntfItem.Click {
 
     public void setArguments(String keys) {
         Bundle arg = new Bundle();
-        arg.putString(Dlg.INIT, keys);
-        arg.putString(Dlg.VALUE, keys);
+        arg.putString(DefDlg.INIT, keys);
+        arg.putString(DefDlg.VALUE, keys);
         setArguments(arg);
     }
 
@@ -48,11 +48,11 @@ public class DlgSort extends BlankDialog implements IntfItem.Click {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
-            init = savedInstanceState.getString(Dlg.INIT);
-            keys = savedInstanceState.getString(Dlg.VALUE);
+            init = savedInstanceState.getString(DefDlg.INIT);
+            keys = savedInstanceState.getString(DefDlg.VALUE);
         } else if (arg != null) {
-            init = arg.getString(Dlg.INIT);
-            keys = arg.getString(Dlg.VALUE);
+            init = arg.getString(DefDlg.INIT);
+            keys = arg.getString(DefDlg.VALUE);
         }
 
         text = getResources().getStringArray(R.array.pref_text_sort);
@@ -176,7 +176,7 @@ public class DlgSort extends BlankDialog implements IntfItem.Click {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString(Dlg.INIT, init);
-        outState.putString(Dlg.VALUE, keys);
+        outState.putString(DefDlg.INIT, init);
+        outState.putString(DefDlg.VALUE, keys);
     }
 }

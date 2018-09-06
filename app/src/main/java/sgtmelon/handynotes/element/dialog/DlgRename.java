@@ -16,17 +16,17 @@ import java.util.ArrayList;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
 public class DlgRename extends BlankDialog implements TextView.OnEditorActionListener {
 
     public void setArguments(int p, String title, ArrayList<String> listName) {
         Bundle arg = new Bundle();
-        arg.putInt(Db.RK_PS, p);
-        arg.putString(Dlg.INIT, title);
-        arg.putStringArrayList(Dlg.VALUE, listName);
+        arg.putInt(DefDb.RK_PS, p);
+        arg.putString(DefDlg.INIT, title);
+        arg.putStringArrayList(DefDlg.VALUE, listName);
         setArguments(arg);
     }
 
@@ -49,13 +49,13 @@ public class DlgRename extends BlankDialog implements TextView.OnEditorActionLis
         Bundle arg = getArguments();
 
         if (arg != null) {
-            position = arg.getInt(Db.RK_PS);
-            title = arg.getString(Dlg.INIT);
-            listName = arg.getStringArrayList(Dlg.VALUE);
+            position = arg.getInt(DefDb.RK_PS);
+            title = arg.getString(DefDlg.INIT);
+            listName = arg.getStringArrayList(DefDlg.VALUE);
         } else if (savedInstanceState != null) {
-            position = savedInstanceState.getInt(Db.RK_PS);
-            title = savedInstanceState.getString(Dlg.INIT);
-            listName = savedInstanceState.getStringArrayList(Dlg.VALUE);
+            position = savedInstanceState.getInt(DefDb.RK_PS);
+            title = savedInstanceState.getString(DefDlg.INIT);
+            listName = savedInstanceState.getStringArrayList(DefDlg.VALUE);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
@@ -116,9 +116,9 @@ public class DlgRename extends BlankDialog implements TextView.OnEditorActionLis
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Db.RK_PS, position);
-        outState.putString(Dlg.INIT, title);
-        outState.putStringArrayList(Dlg.VALUE, listName);
+        outState.putInt(DefDb.RK_PS, position);
+        outState.putString(DefDlg.INIT, title);
+        outState.putStringArrayList(DefDlg.VALUE, listName);
     }
 
 }

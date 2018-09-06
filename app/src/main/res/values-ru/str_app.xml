@@ -8,13 +8,26 @@
     <string name="title_frg_bin">Корзина</string>
     <string name="title_act_settings">Настройки</string>
 
-    <string name="info_rank_title">Нет категорий</string>
-    <string name="info_notes_title">Нет созданных заметок</string>
-    <string name="info_bin_title">Корзина пуста</string>
+    <!-- Info for intro and empty pages -->
+    <string name="info_intro_title_1">Заголовок 1</string>
+    <string name="info_intro_title_2">Заголовок 2</string>
+    <string name="info_intro_title_3">Заголовок 3</string>
+    <string name="info_intro_title_4">Заголовок 4</string>
 
-    <string name="info_rank_details">Чтобы добавить категорию введите имя в поле сверху</string>
-    <string name="info_notes_details">Чтобы добавить заметку нажмите на центральную кнопку меню</string>
-    <string name="info_bin_details">Скрытые заметки не удалятся отсюда</string>
+    <string name="info_intro_details_1">Детали детали детали\nДетали детали детали 1</string>
+    <string name="info_intro_details_2">Детали детали детали\nДетали детали детали 2</string>
+    <string name="info_intro_details_3">Детали детали детали\nДетали детали детали 3</string>
+    <string name="info_intro_details_4">Детали детали детали\nДетали детали детали 4</string>
+
+    <string name="info_intro_button">Закончить</string>
+
+    <string name="info_empty_rank_title">Нет категорий</string>
+    <string name="info_empty_notes_title">Нет созданных заметок</string>
+    <string name="info_empty_bin_title">Корзина пуста</string>
+
+    <string name="info_empty_rank_details">Чтобы добавить категорию введите имя в поле сверху</string>
+    <string name="info_empty_notes_details">Чтобы добавить заметку нажмите на центральную кнопку меню</string>
+    <string name="info_empty_bin_details">Скрытые заметки не удалятся отсюда</string>
 
     <!-- Name of menu items -->
     <string name="menu_page_notes_settings">Настройки</string>

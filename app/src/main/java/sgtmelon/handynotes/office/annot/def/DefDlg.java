@@ -1,4 +1,4 @@
-package sgtmelon.handynotes.office.annot;
+package sgtmelon.handynotes.office.annot.def;
 
 import androidx.annotation.StringDef;
 
@@ -6,15 +6,15 @@ import androidx.annotation.StringDef;
  * Ключи для нахождения диалогов после поворота экрана
  */
 @StringDef({
-        Dlg.RENAME, Dlg.SHEET_ADD,
-        Dlg.OPTIONS, Dlg.CLEAR_BIN,
+        DefDlg.RENAME, DefDlg.SHEET_ADD,
+        DefDlg.OPTIONS, DefDlg.CLEAR_BIN,
 
-        Dlg.CONVERT, Dlg.RANK, Dlg.COLOR,
+        DefDlg.CONVERT, DefDlg.RANK, DefDlg.COLOR,
 
-        Dlg.SORT, Dlg.SAVE_TIME,
-        Dlg.THEME, Dlg.INFO
+        DefDlg.SORT, DefDlg.SAVE_TIME,
+        DefDlg.THEME, DefDlg.INFO
 })
-public @interface Dlg {
+public @interface DefDlg {
 
     //Main
     String RENAME = "DLG_RENAME",

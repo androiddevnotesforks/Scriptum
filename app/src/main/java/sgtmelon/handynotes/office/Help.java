@@ -33,10 +33,10 @@ import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemSort;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.def.DefColor;
+import sgtmelon.handynotes.office.annot.AnnColor;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.annot.def.DefTheme;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 public class Help {
@@ -78,22 +78,22 @@ public class Help {
         }
     }
 
-    public static class Col {
+    public static class Clr {
 
         public static int getNote(Context context, int color, boolean onDark) {
             switch (Pref.getTheme(context)) {
                 case DefTheme.light:
-                    return ContextCompat.getColor(context, DefColor.cl_light[color]);
+                    return ContextCompat.getColor(context, AnnColor.cl_light[color]);
                 case DefTheme.dark:
                 default:
-                    if (onDark) return ContextCompat.getColor(context, DefColor.cl_dark[color]);
+                    if (onDark) return ContextCompat.getColor(context, AnnColor.cl_dark[color]);
                     else return get(context, R.attr.clPrimary);
             }
         }
 
         public static int get(Context context, int color, boolean isDark) {
-            if (isDark) return ContextCompat.getColor(context, DefColor.cl_dark[color]);
-            else return ContextCompat.getColor(context, DefColor.cl_light[color]);
+            if (isDark) return ContextCompat.getColor(context, AnnColor.cl_dark[color]);
+            else return ContextCompat.getColor(context, AnnColor.cl_light[color]);
         }
 
         public static int get(Context context, @AttrRes int attr) {
@@ -105,10 +105,10 @@ public class Help {
         public static int getColorCheck(Context context, int position) {
             switch (Pref.getTheme(context)) {
                 case DefTheme.light:
-                    return ContextCompat.getColor(context, DefColor.cl_dark[position]);
+                    return ContextCompat.getColor(context, AnnColor.cl_dark[position]);
                 default:
                 case DefTheme.dark:
-                    return ContextCompat.getColor(context, DefColor.cl_light[position]);
+                    return ContextCompat.getColor(context, AnnColor.cl_light[position]);
             }
         }
 
@@ -129,7 +129,7 @@ public class Help {
         public static Drawable get(Context context, @DrawableRes int drawableId, @AttrRes int attr) {
             Drawable drawable = ContextCompat.getDrawable(context, drawableId);
 
-            int colorRes = Col.get(context, attr);
+            int colorRes = Clr.get(context, attr);
             if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
 
             return drawable;
@@ -138,10 +138,10 @@ public class Help {
         public static Drawable getIconColor(Context context, int position) {
             switch (Pref.getTheme(context)) {
                 case DefTheme.light:
-                    return ContextCompat.getDrawable(context, DefColor.ic_light[position]);
+                    return ContextCompat.getDrawable(context, AnnColor.ic_light[position]);
                 case DefTheme.dark:
                 default:
-                    return ContextCompat.getDrawable(context, DefColor.ic_dark[position]);
+                    return ContextCompat.getDrawable(context, AnnColor.ic_dark[position]);
             }
         }
 
@@ -153,7 +153,7 @@ public class Help {
             Drawable normalDrawable = item.getIcon();
             Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
 
-            int colorRes = Col.get(context, R.attr.clIcon);
+            int colorRes = Clr.get(context, R.attr.clIcon);
             DrawableCompat.setTint(wrapDrawable, colorRes);
 
             item.setIcon(wrapDrawable);
@@ -233,12 +233,24 @@ public class Help {
 
     public static class Pref {
 
+        // TODO: 04.09.2018 fix
+
+        public static boolean isFirstStart(Context context) {
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+
+            boolean val = pref.getBoolean(context.getString(R.string.pref_first_start), context.getResources().getBoolean(R.bool.pref_default_first_start));
+            if (val){
+                pref.edit().putBoolean(context.getString(R.string.pref_first_start), false).apply();
+            }
+
+            return true;
+        }
+
         /**
          * @param context - Для получения настроек
          * @return - Формирование поискового запроса относительно настроек
          */
         public static String getSortNoteOrder(Context context) {
-
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             String keysStr = pref.getString(context.getString(R.string.pref_key_sort), DefSort.def);
@@ -248,7 +260,7 @@ public class Help {
             for (String aKey : keysArr) {
                 @DefSort int key = Integer.parseInt(aKey);
 
-                order.append(Db.orders[key]);
+                order.append(DefDb.orders[key]);
 
                 if (key != DefSort.create && key != DefSort.change) {
                     order.append(DefSort.divider);

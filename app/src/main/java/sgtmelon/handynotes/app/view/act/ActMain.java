@@ -15,9 +15,9 @@ import sgtmelon.handynotes.app.view.frg.FrgBin;
 import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.app.view.frg.FrgRank;
 import sgtmelon.handynotes.element.dialog.DlgSheetAdd;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Dlg;
-import sgtmelon.handynotes.office.annot.Frg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
+import sgtmelon.handynotes.office.annot.def.DefFrg;
+import sgtmelon.handynotes.office.annot.def.DefNote;
 import sgtmelon.handynotes.office.annot.def.DefPage;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.blank.BlankAct;
@@ -57,28 +57,28 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
     private void setupNavigation(@DefPage int page) {
         Log.i(TAG, "setupNavigation");
 
-        frgRank = (FrgRank) fm.findFragmentByTag(Frg.RANK);
+        frgRank = (FrgRank) fm.findFragmentByTag(DefFrg.RANK);
         if (frgRank == null) frgRank = new FrgRank();
 
-        frgNotes = (FrgNotes) fm.findFragmentByTag(Frg.NOTES);
+        frgNotes = (FrgNotes) fm.findFragmentByTag(DefFrg.NOTES);
         if (frgNotes == null) frgNotes = new FrgNotes();
 
-        frgBin = (FrgBin) fm.findFragmentByTag(Frg.BIN);
+        frgBin = (FrgBin) fm.findFragmentByTag(DefFrg.BIN);
         if (frgBin == null) frgBin = new FrgBin();
 
         BottomNavigationView navigationView = findViewById(R.id.actMain_bnv_menu);
         navigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setSelectedItemId(DefPage.itemId[page]);
 
-        dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(Dlg.SHEET_ADD);
+        dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(DefDlg.SHEET_ADD);
         if (dlgSheetAdd == null) dlgSheetAdd = new DlgSheetAdd();
         dlgSheetAdd.setNavigationItemSelectedListener(menuItem -> {
             dlgSheetAdd.dismiss();
 
             Intent intent = new Intent(ActMain.this, ActNote.class);
 
-            intent.putExtra(DefPage.CREATE, true);
-            intent.putExtra(Db.NT_TP, menuItem.getItemId() == R.id.menu_sheetAdd_text
+            intent.putExtra(DefNote.CREATE, true);
+            intent.putExtra(DefNote.TYPE, menuItem.getItemId() == R.id.menu_sheetAdd_text
                     ? DefType.text
                     : DefType.roll);
 
@@ -93,20 +93,20 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
 
         boolean add = stPage.setPage(menuItem.getItemId());
         if (add) {
-            if (!dlgSheetAdd.isVisible()) dlgSheetAdd.show(fm, Dlg.SHEET_ADD);
+            if (!dlgSheetAdd.isVisible()) dlgSheetAdd.show(fm, DefDlg.SHEET_ADD);
         } else {
             FragmentTransaction transaction = fm.beginTransaction();
             transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
             switch (stPage.getPage()) {
                 case DefPage.rank:
-                    transaction.replace(R.id.actMain_fl_container, frgRank, Frg.RANK);
+                    transaction.replace(R.id.actMain_fl_container, frgRank, DefFrg.RANK);
                     break;
                 case DefPage.notes:
-                    transaction.replace(R.id.actMain_fl_container, frgNotes, Frg.NOTES);
+                    transaction.replace(R.id.actMain_fl_container, frgNotes, DefFrg.NOTES);
                     break;
                 case DefPage.bin:
-                    transaction.replace(R.id.actMain_fl_container, frgBin, Frg.BIN);
+                    transaction.replace(R.id.actMain_fl_container, frgBin, DefFrg.BIN);
                     break;
             }
             transaction.commit();

@@ -14,8 +14,7 @@ import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.DefNote;
 import sgtmelon.handynotes.office.st.StNote;
 
 public class VmActNote extends AndroidViewModel {
@@ -43,9 +42,9 @@ public class VmActNote extends AndroidViewModel {
     }
 
     public void setValue(Bundle bundle) {
-        create = bundle.getBoolean(DefPage.CREATE);
-        type = bundle.getInt(Db.NT_TP);
-        id = bundle.getLong(Db.NT_ID);
+        create = bundle.getBoolean(DefNote.CREATE);
+        type = bundle.getInt(DefNote.TYPE);
+        id = bundle.getLong(DefNote.ID);
 
         Log.i(TAG, "setValue: create - " + create + ", type - " + type + ", id - " + id);
 
@@ -92,7 +91,7 @@ public class VmActNote extends AndroidViewModel {
         rankVisible = db.daoRank().getRankVisible();
         if (stNote.isCreate()) {
             ItemNote itemNote = new ItemNote(context, type);
-            ItemStatus itemStatus = new ItemStatus(context, itemNote);
+            ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
 
             repoNote = new RepoNote(itemNote, new ArrayList<>(), itemStatus);
         } else {

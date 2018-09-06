@@ -44,11 +44,11 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
     public void setColor(int color) {
         if (valTheme != DefTheme.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.setStatusBarColor(Help.Col.get(context, color, true));
+                window.setStatusBarColor(Help.Clr.get(context, color, true));
             }
-            toolbar.setBackgroundColor(Help.Col.get(context, color, false));
+            toolbar.setBackgroundColor(Help.Clr.get(context, color, false));
         }
-        indicator.setBackgroundColor(Help.Col.get(context, color, true));
+        indicator.setBackgroundColor(Help.Clr.get(context, color, true));
 
         setStartColor(color);
     }
@@ -58,14 +58,14 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
 
     //Меняем начальный цвет
     public void setStartColor(int color) {
-        statusStartColor = Help.Col.get(context, color, true);
-        toolbarStartColor = Help.Col.get(context, color, false);
+        statusStartColor = Help.Clr.get(context, color, true);
+        toolbarStartColor = Help.Clr.get(context, color, false);
     }
 
     //Покраска с анимацией
     public void startTint(int color) {
-        statusEndColor = Help.Col.get(context, color, true);
-        toolbarEndColor = Help.Col.get(context, color, false);
+        statusEndColor = Help.Clr.get(context, color, true);
+        toolbarEndColor = Help.Clr.get(context, color, false);
 
         if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
             ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
@@ -73,7 +73,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
             anim.addUpdateListener(animation -> {
                 float position = animation.getAnimatedFraction();
 
-                int blended = Help.Col.blend(statusStartColor, statusEndColor, position);
+                int blended = Help.Clr.blend(statusStartColor, statusEndColor, position);
                 if (valTheme != DefTheme.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     window.setStatusBarColor(blended);
                 }
@@ -81,7 +81,7 @@ public class MenuNote implements Toolbar.OnMenuItemClickListener {
                 ColorDrawable background = new ColorDrawable(blended);
                 indicator.setBackground(background);
 
-                blended = Help.Col.blend(toolbarStartColor, toolbarEndColor, position);
+                blended = Help.Clr.blend(toolbarStartColor, toolbarEndColor, position);
                 background = new ColorDrawable(blended);
                 if (valTheme != DefTheme.dark) toolbar.setBackground(background);
 

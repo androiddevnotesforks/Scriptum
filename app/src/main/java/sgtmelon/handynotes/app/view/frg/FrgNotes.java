@@ -34,9 +34,8 @@ import sgtmelon.handynotes.app.viewModel.VmFrgNotesBin;
 import sgtmelon.handynotes.databinding.FrgNotesBinding;
 import sgtmelon.handynotes.element.dialog.DlgOptionNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Dlg;
-import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
+import sgtmelon.handynotes.office.annot.def.DefNote;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
@@ -48,6 +47,8 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     //region Variable
     private static final String TAG = "FrgNotes";
+
+    public static boolean updateStatus = true; //Для единовременного обновления статус бара
 
     private DbRoom db;
 
@@ -97,6 +98,8 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Log.i(TAG, "onResume");
 
         updateAdapter();
+
+        if (updateStatus) updateStatus = false;
     }
 
     private void bind(int listSize) {
@@ -156,7 +159,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         adapter.setCallback(this, this);
 
-        dlgOptionNote = (DlgOptionNote) fm.findFragmentByTag(Dlg.OPTIONS);
+        dlgOptionNote = (DlgOptionNote) fm.findFragmentByTag(DefDlg.OPTIONS);
         if (dlgOptionNote == null) dlgOptionNote = new DlgOptionNote();
         dlgOptionNote.setOptionNote(this);
     }
@@ -180,8 +183,8 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         Intent intent = new Intent(context, ActNote.class);
 
-        intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(DefPage.CREATE, false);
+        intent.putExtra(DefNote.CREATE, false);
+        intent.putExtra(DefNote.ID, itemNote.getId());
 
         startActivity(intent);
     }
@@ -193,7 +196,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
 
         dlgOptionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
-        dlgOptionNote.show(fm, Dlg.OPTIONS);
+        dlgOptionNote.show(fm, DefDlg.OPTIONS);
     }
 
     @Override

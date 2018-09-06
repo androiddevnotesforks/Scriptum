@@ -15,9 +15,8 @@ import sgtmelon.handynotes.app.view.frg.FrgRoll;
 import sgtmelon.handynotes.app.view.frg.FrgText;
 import sgtmelon.handynotes.app.viewModel.VmActNote;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Frg;
-import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.DefFrg;
+import sgtmelon.handynotes.office.annot.def.DefNote;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.blank.BlankAct;
 import sgtmelon.handynotes.office.intf.IntfMenu;
@@ -74,20 +73,20 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
         switch (vm.getRepoNote().getItemNote().getType()) {
             case DefType.text:
-                if (isSaved) frgText = (FrgText) fm.findFragmentByTag(Frg.TEXT);
+                if (isSaved) frgText = (FrgText) fm.findFragmentByTag(DefFrg.TEXT);
                 else frgText = new FrgText();
 
                 saveNote.setMenuClick(frgText);
 
-                transaction.replace(R.id.actNote_fl_container, frgText, Frg.TEXT);
+                transaction.replace(R.id.actNote_fl_container, frgText, DefFrg.TEXT);
                 break;
             case DefType.roll:
-                if (isSaved) frgRoll = (FrgRoll) fm.findFragmentByTag(Frg.ROLL);
+                if (isSaved) frgRoll = (FrgRoll) fm.findFragmentByTag(DefFrg.ROLL);
                 else frgRoll = new FrgRoll();
 
                 saveNote.setMenuClick(frgRoll);
 
-                transaction.replace(R.id.actNote_fl_container, frgRoll, Frg.ROLL);
+                transaction.replace(R.id.actNote_fl_container, frgRoll, DefFrg.ROLL);
                 break;
         }
         transaction.commit();
@@ -222,9 +221,9 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
         super.onSaveInstanceState(outState);
         Log.i(TAG, "onSaveInstanceState");
 
-        outState.putBoolean(DefPage.CREATE, vm.isCreate());
-        outState.putInt(Db.NT_TP, vm.getType());
-        outState.putLong(Db.NT_ID, vm.getId());
+        outState.putBoolean(DefNote.CREATE, vm.isCreate());
+        outState.putInt(DefNote.TYPE, vm.getType());
+        outState.putLong(DefNote.ID, vm.getId());
     }
 
 }

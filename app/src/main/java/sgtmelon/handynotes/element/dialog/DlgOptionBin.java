@@ -9,14 +9,14 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 
 public class DlgOptionBin extends DialogFragment implements DialogInterface.OnClickListener {
 
     public void setArguments(int p) {
         Bundle arg = new Bundle();
-        arg.putInt(Dlg.VALUE, p);
+        arg.putInt(DefDlg.VALUE, p);
         setArguments(arg);
     }
 
@@ -28,9 +28,9 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
         Bundle arg = getArguments();
 
         if (arg != null) {
-            p = arg.getInt(Dlg.VALUE);
+            p = arg.getInt(DefDlg.VALUE);
         } else if (savedInstanceState != null) {
-            p = savedInstanceState.getInt(Dlg.VALUE);
+            p = savedInstanceState.getInt(DefDlg.VALUE);
         }
 
         String[] itemOption = context.getResources().getStringArray(R.array.dialog_menu_bin);
@@ -67,7 +67,7 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Dlg.VALUE, p);
+        outState.putInt(DefDlg.VALUE, p);
     }
 
 }

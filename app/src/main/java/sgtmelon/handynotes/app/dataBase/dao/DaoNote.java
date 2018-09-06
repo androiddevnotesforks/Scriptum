@@ -17,6 +17,7 @@ import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.app.model.item.ItemStatus;
 import sgtmelon.handynotes.app.model.repo.RepoNote;
+import sgtmelon.handynotes.app.view.frg.FrgNotes;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.conv.ConvBool;
@@ -36,7 +37,7 @@ public abstract class DaoNote extends DaoBase {
         ItemNote itemNote = get(id);
         List<ItemRoll> listRoll = getRoll(id);
 
-        ItemStatus itemStatus = new ItemStatus(context, itemNote);
+        ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
 
         return new RepoNote(itemNote, listRoll, itemStatus);
     }
@@ -54,12 +55,14 @@ public abstract class DaoNote extends DaoBase {
             repoNote.setItemNote(itemNote);
             repoNote.setListRoll(getRollView(itemNote.getId()));
 
-            ItemStatus itemStatus = new ItemStatus(context, itemNote);
+            ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
 
             Long[] rkId = itemNote.getRankId();
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
                 itemStatus.cancelNote();
             } else {
+                if (FrgNotes.updateStatus) itemStatus.notifyNote();
+
                 repoNote.setItemStatus(itemStatus);
                 listRepoNote.add(repoNote);
             }
@@ -86,12 +89,12 @@ public abstract class DaoNote extends DaoBase {
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
-            ItemStatus itemStatus = new ItemStatus(context, itemNote);
+            ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
 
             Long[] rkId = itemNote.getRankId();
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
                 itemStatus.cancelNote();
-            }
+            } else itemStatus.notifyNote();
         }
     }
 

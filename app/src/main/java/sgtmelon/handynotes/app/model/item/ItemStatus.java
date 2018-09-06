@@ -16,11 +16,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
-import sgtmelon.handynotes.app.view.act.ActMain;
-import sgtmelon.handynotes.app.view.act.ActNote;
+import sgtmelon.handynotes.app.view.act.ActSplash;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.DefNote;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 
 public class ItemStatus {
@@ -38,25 +36,21 @@ public class ItemStatus {
 
     // TODO: 29.08.2018 Добавить кнопки к уведомлениям, чтобы была возможность их открепить
 
-    public ItemStatus(Context context, ItemNote itemNote) {
+    public ItemStatus(Context context, ItemNote itemNote, boolean notify) {
         this.context = context;
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(ActMain.class);
-
-        Intent intent = new Intent(context, ActNote.class);
-        intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(DefPage.CREATE, false);
-
+        Intent intent = new Intent(context, ActSplash.class);
+        intent.putExtra(DefNote.ID, itemNote.getId());
         stackBuilder.addNextIntent(intent);
 
         pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        updateNote(itemNote);
+        updateNote(itemNote, notify);
     }
 
     //Обновление информации о заметке
-    public void updateNote(ItemNote itemNote) {
+    public void updateNote(ItemNote itemNote, boolean notify) {
         this.itemNote = itemNote;
 
         @DrawableRes int iconId = 0;
@@ -79,7 +73,7 @@ public class ItemStatus {
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(iconId)
-                .setColor(Help.Col.get(context, itemNote.getColor(), true))
+                .setColor(Help.Clr.get(context, itemNote.getColor(), true))
                 .setContentTitle(itemNote.getName(context))
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
@@ -105,7 +99,7 @@ public class ItemStatus {
             notificationManager.createNotificationChannel(notificationChannel);
         }
 
-        if (itemNote.isStatus()) notifyNote();
+        if (itemNote.isStatus() && notify) notifyNote();
     }
 
     //В окне редактирования заметок
@@ -113,7 +107,7 @@ public class ItemStatus {
         if (itemNote.isStatus()) {
             Long[] rankId = itemNote.getRankId();
             if (rankId.length == 0 || rkVisible.contains(rankId[0])) {
-                updateNote(itemNote);
+                updateNote(itemNote, true);
             } else {
                 cancelNote();
             }

@@ -12,14 +12,14 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.conv.ConvString;
 
-@Entity(tableName = Db.NT_TB)
+@Entity(tableName = DefDb.NT_TB)
 @TypeConverters({ConvBool.class, ConvString.class})
 public class ItemNote {
 
@@ -53,33 +53,33 @@ public class ItemNote {
     }
 
     //region Variables
-    @ColumnInfo(name = Db.NT_ID)
+    @ColumnInfo(name = DefDb.NT_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;             //Позиция в базе данных
 
-    @ColumnInfo(name = Db.NT_CR)
+    @ColumnInfo(name = DefDb.NT_CR)
     private String create;      //Дата создания
-    @ColumnInfo(name = Db.NT_CH)
+    @ColumnInfo(name = DefDb.NT_CH)
     private String change;      //Дата изменения
 
-    @ColumnInfo(name = Db.NT_NM)
+    @ColumnInfo(name = DefDb.NT_NM)
     private String name = "";        //Имя заметки
-    @ColumnInfo(name = Db.NT_TX)
+    @ColumnInfo(name = DefDb.NT_TX)
     private String text = "";        //Текст заметки (для списка используется как индикатор количества отмеченных элементов)
 
-    @ColumnInfo(name = Db.NT_CL)
+    @ColumnInfo(name = DefDb.NT_CL)
     private int color;          //Цвет заметки
-    @ColumnInfo(name = Db.NT_TP)
+    @ColumnInfo(name = DefDb.NT_TP)
     private int type;           //Тип заметки (0 - текст, 1 - список)
 
-    @ColumnInfo(name = Db.NT_RK_PS)
+    @ColumnInfo(name = DefDb.NT_RK_PS)
     private Long[] rankPs = new Long[0];
-    @ColumnInfo(name = Db.NT_RK_ID)
+    @ColumnInfo(name = DefDb.NT_RK_ID)
     private Long[] rankId = new Long[0];    //Категории, к которым привязана заметка
 
-    @ColumnInfo(name = Db.NT_BN)
+    @ColumnInfo(name = DefDb.NT_BN)
     private boolean bin = false;        //Расположение
-    @ColumnInfo(name = Db.NT_ST)
+    @ColumnInfo(name = DefDb.NT_ST)
     private boolean status = false;     //Привязка к шторке
     //endregion
 

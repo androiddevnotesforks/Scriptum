@@ -6,15 +6,15 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
 public class DlgSingle extends BlankDialog {
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();
-        arg.putInt(Dlg.INIT, check);
-        arg.putInt(Dlg.VALUE, check);
+        arg.putInt(DefDlg.INIT, check);
+        arg.putInt(DefDlg.VALUE, check);
         setArguments(arg);
     }
 
@@ -39,11 +39,11 @@ public class DlgSingle extends BlankDialog {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
-            init = savedInstanceState.getInt(Dlg.INIT);
-            check = savedInstanceState.getInt(Dlg.VALUE);
+            init = savedInstanceState.getInt(DefDlg.INIT);
+            check = savedInstanceState.getInt(DefDlg.VALUE);
         } else if (arg != null) {
-            init = arg.getInt(Dlg.INIT);
-            check = arg.getInt(Dlg.VALUE);
+            init = arg.getInt(DefDlg.INIT);
+            check = arg.getInt(DefDlg.VALUE);
         }
 
         return new AlertDialog.Builder(context)
@@ -70,8 +70,8 @@ public class DlgSingle extends BlankDialog {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Dlg.INIT, init);
-        outState.putInt(Dlg.VALUE, check);
+        outState.putInt(DefDlg.INIT, init);
+        outState.putInt(DefDlg.VALUE, check);
     }
 
 }

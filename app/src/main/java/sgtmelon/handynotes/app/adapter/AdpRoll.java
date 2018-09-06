@@ -23,7 +23,7 @@ import sgtmelon.handynotes.app.model.item.ItemRoll;
 import sgtmelon.handynotes.databinding.ItemRollReadBinding;
 import sgtmelon.handynotes.databinding.ItemRollWriteBinding;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.def.DefRoll;
+import sgtmelon.handynotes.office.annot.def.DefRollType;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
@@ -78,10 +78,10 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
         switch (viewType) {
             default:
-            case DefRoll.read:
+            case DefRollType.read:
                 ItemRollReadBinding bindingRead = DataBindingUtil.inflate(inflater, R.layout.item_roll_read, parent, false);
                 return new RollHolder(bindingRead);
-            case DefRoll.write:
+            case DefRollType.write:
                 ItemRollWriteBinding bindingWrite = DataBindingUtil.inflate(inflater, R.layout.item_roll_write, parent, false);
                 return new RollHolder(bindingWrite);
         }
@@ -89,8 +89,8 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (!keyEdit) return DefRoll.read;
-        else return DefRoll.write;
+        if (!keyEdit) return DefRollType.read;
+        else return DefRollType.write;
     }
 
     @Override
@@ -99,8 +99,8 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
         if (keyEdit) {
             if (itemRoll.isCheck()) {
-                holder.rlDrag.setColorFilter(Help.Col.get(context, R.attr.clAccent));
-            } else holder.rlDrag.setColorFilter(Help.Col.get(context, R.attr.clIcon));
+                holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clAccent));
+            } else holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clIcon));
         }
 
         holder.bind(itemRoll);

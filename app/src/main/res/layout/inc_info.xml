@@ -21,7 +21,9 @@
 
     </data>
 
-    <LinearLayout style="@style/Info.Container">
+    <LinearLayout
+        android:id="@+id/incInfo_ll_container"
+        style="@style/Info.Container">
 
         <ImageView
             style="@style/Info.Icon"

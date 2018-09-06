@@ -8,12 +8,12 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvList;
 import sgtmelon.handynotes.office.conv.ConvString;
 
-@Entity(tableName = Db.RK_TB)
+@Entity(tableName = DefDb.RK_TB)
 @TypeConverters({ConvBool.class, ConvString.class})
 public class ItemRank {
 
@@ -60,17 +60,17 @@ public class ItemRank {
     }
 
     //region Variables
-    @ColumnInfo(name = Db.RK_ID)
+    @ColumnInfo(name = DefDb.RK_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;             //Позиция в базе данных
-    @ColumnInfo(name = Db.RK_ID_NT)
+    @ColumnInfo(name = DefDb.RK_ID_NT)
     private Long[] idNote;    //Id заметок которые привязаны
 
-    @ColumnInfo(name = Db.RK_PS)
+    @ColumnInfo(name = DefDb.RK_PS)
     private int position;       //Позиция в списке
-    @ColumnInfo(name = Db.RK_NM)
+    @ColumnInfo(name = DefDb.RK_NM)
     private String name;        //Уникальное имя
-    @ColumnInfo(name = Db.RK_VS)
+    @ColumnInfo(name = DefDb.RK_VS)
     private boolean visible;    //Видимость категории
 
     @Ignore

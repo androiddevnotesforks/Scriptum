@@ -14,13 +14,26 @@
     <string name="title_frg_bin">Bin</string>
     <string name="title_act_settings">Settings</string>
 
-    <string name="info_rank_title">No categories</string>
-    <string name="info_notes_title">No created notes</string>
-    <string name="info_bin_title">Bin is empty</string>
+    <!-- Info for intro and empty pages -->
+    <string name="info_intro_title_1">Title 1</string>
+    <string name="info_intro_title_2">Title 2</string>
+    <string name="info_intro_title_3">Title 3</string>
+    <string name="info_intro_title_4">Title 4</string>
 
-    <string name="info_rank_details">For add category write name in text field from top</string>
-    <string name="info_notes_details">For add new note click on central button of menu</string>
-    <string name="info_bin_details">Hiding notes will not delete from here</string>
+    <string name="info_intro_details_1">Details details details\nDetails details details 1</string>
+    <string name="info_intro_details_2">Details details details\nDetails details details 2</string>
+    <string name="info_intro_details_3">Details details details\nDetails details details 3</string>
+    <string name="info_intro_details_4">Details details details\nDetails details details 4</string>
+
+    <string name="info_intro_button">End with this</string>
+
+    <string name="info_empty_rank_title">No categories</string>
+    <string name="info_empty_notes_title">No created notes</string>
+    <string name="info_empty_bin_title">Bin is empty</string>
+
+    <string name="info_empty_rank_details">For add category write name in text field from top</string>
+    <string name="info_empty_notes_details">For add new note click on central button of menu</string>
+    <string name="info_empty_bin_details">Hiding notes will not delete from here</string>
 
 
     <!-- Name of menu items -->

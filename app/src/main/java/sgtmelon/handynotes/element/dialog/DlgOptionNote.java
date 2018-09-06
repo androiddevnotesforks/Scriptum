@@ -8,8 +8,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
+import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 
@@ -18,10 +18,10 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
     public void setArguments(@DefType int type, boolean status, boolean isAll, int p) {
         Bundle arg = new Bundle();
 
-        arg.putInt(Db.NT_TP, type);
-        arg.putBoolean(Db.NT_ST, status);
-        arg.putBoolean(Db.RL_CH, isAll);
-        arg.putInt(Dlg.VALUE, p);
+        arg.putInt(DefDb.NT_TP, type);
+        arg.putBoolean(DefDb.NT_ST, status);
+        arg.putBoolean(DefDb.RL_CH, isAll);
+        arg.putInt(DefDlg.VALUE, p);
 
         setArguments(arg);
     }
@@ -37,15 +37,15 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
         Bundle arg = getArguments();
 
         if (arg != null) {
-            type = arg.getInt(Db.NT_TP);
-            status = arg.getBoolean(Db.NT_ST);
-            isAll = arg.getBoolean(Db.RL_CH);
-            p = arg.getInt(Dlg.VALUE);
+            type = arg.getInt(DefDb.NT_TP);
+            status = arg.getBoolean(DefDb.NT_ST);
+            isAll = arg.getBoolean(DefDb.RL_CH);
+            p = arg.getInt(DefDlg.VALUE);
         } else if (savedInstanceState != null) {
-            type = savedInstanceState.getInt(Db.NT_TP);
-            status = savedInstanceState.getBoolean(Db.NT_ST);
-            isAll = savedInstanceState.getBoolean(Db.RL_CH);
-            p = savedInstanceState.getInt(Dlg.VALUE);
+            type = savedInstanceState.getInt(DefDb.NT_TP);
+            status = savedInstanceState.getBoolean(DefDb.NT_ST);
+            isAll = savedInstanceState.getBoolean(DefDb.RL_CH);
+            p = savedInstanceState.getInt(DefDlg.VALUE);
         }
 
         String[] itemOption = new String[0];
@@ -121,10 +121,10 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Db.NT_TP, type);
-        outState.putBoolean(Db.NT_ST, status);
-        outState.putBoolean(Db.RL_CH, isAll);
-        outState.putInt(Dlg.VALUE, p);
+        outState.putInt(DefDb.NT_TP, type);
+        outState.putBoolean(DefDb.NT_ST, status);
+        outState.putBoolean(DefDb.RL_CH, isAll);
+        outState.putInt(DefDlg.VALUE, p);
     }
 
 }

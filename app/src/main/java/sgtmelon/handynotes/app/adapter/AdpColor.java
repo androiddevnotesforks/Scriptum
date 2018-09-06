@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.databinding.ItemColorBinding;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.def.DefColor;
+import sgtmelon.handynotes.office.annot.AnnColor;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
@@ -54,7 +54,7 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ColorHolder holder, int position) {
-        holder.clCheck.setColorFilter(Help.Col.getColorCheck(context, position));
+        holder.clCheck.setColorFilter(Help.Clr.getColorCheck(context, position));
         holder.bind(position);
 
         if (visible[position]) {                                   //Если отметка видна
@@ -69,7 +69,7 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
     @Override
     public int getItemCount() {
-        return DefColor.cl_light.length;
+        return AnnColor.cl_light.length;
     }
 
     class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Animation.AnimationListener {

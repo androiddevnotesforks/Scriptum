@@ -3,6 +3,8 @@
 
     <!-- Settings -->
 
+    <string name="pref_first_start" translatable="false">key_first_start</string>
+
     <!-- Note -->
     <string name="pref_header_note">Notes</string>
 

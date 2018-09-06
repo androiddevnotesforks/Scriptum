@@ -30,9 +30,9 @@
             <include
                 layout="@layout/inc_info"
                 android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'
-                app:details='@{R.string.info_bin_details}'
+                app:details='@{R.string.info_empty_bin_details}'
                 app:icon='@{R.drawable.ic_bin}'
-                app:title='@{R.string.info_bin_title}' />
+                app:title='@{R.string.info_empty_bin_title}' />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/frgBin_rv"

@@ -33,9 +33,8 @@ import sgtmelon.handynotes.databinding.FrgBinBinding;
 import sgtmelon.handynotes.element.dialog.DlgOptionBin;
 import sgtmelon.handynotes.element.dialog.common.DlgMessage;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Db;
-import sgtmelon.handynotes.office.annot.Dlg;
-import sgtmelon.handynotes.office.annot.def.DefPage;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
+import sgtmelon.handynotes.office.annot.def.DefNote;
 import sgtmelon.handynotes.office.annot.def.db.DefBin;
 import sgtmelon.handynotes.office.intf.IntfDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
@@ -88,7 +87,7 @@ public class FrgBin extends Fragment implements
         vm = ViewModelProviders.of(this).get(VmFrgNotesBin.class);
 
         stOpen = new StOpen();
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(Dlg.OPEN));
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
 
         setupToolbar();
         setupRecyclerView();
@@ -123,7 +122,7 @@ public class FrgBin extends Fragment implements
                     if (!stOpen.isOpen()) {
                         stOpen.setOpen();
 
-                        dlgClearBin.show(fm, Dlg.CLEAR_BIN);
+                        dlgClearBin.show(fm, DefDlg.CLEAR_BIN);
                     }
                     return true;
             }
@@ -135,7 +134,7 @@ public class FrgBin extends Fragment implements
 
         Help.Tint.menuIcon(context, mItemClearBin);
 
-        dlgClearBin = (DlgMessage) fm.findFragmentByTag(Dlg.CLEAR_BIN);
+        dlgClearBin = (DlgMessage) fm.findFragmentByTag(DefDlg.CLEAR_BIN);
         if (dlgClearBin == null) dlgClearBin = new DlgMessage();
 
         dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
@@ -187,7 +186,7 @@ public class FrgBin extends Fragment implements
 
         adapter.setCallback(this, this);
 
-        dlgOptionBin = (DlgOptionBin) fm.findFragmentByTag(Dlg.OPTIONS);
+        dlgOptionBin = (DlgOptionBin) fm.findFragmentByTag(DefDlg.OPTIONS);
         if (dlgOptionBin == null) dlgOptionBin = new DlgOptionBin();
         dlgOptionBin.setOptionBin(this);
     }
@@ -212,8 +211,8 @@ public class FrgBin extends Fragment implements
 
         Intent intent = new Intent(context, ActNote.class);
 
-        intent.putExtra(Db.NT_ID, itemNote.getId());
-        intent.putExtra(DefPage.CREATE, false);
+        intent.putExtra(DefNote.CREATE, false);
+        intent.putExtra(DefNote.ID, itemNote.getId());
 
         startActivity(intent);
     }
@@ -223,7 +222,7 @@ public class FrgBin extends Fragment implements
         Log.i(TAG, "onItemLongClick");
 
         dlgOptionBin.setArguments(p);
-        dlgOptionBin.show(fm, Dlg.OPTIONS);
+        dlgOptionBin.show(fm, DefDlg.OPTIONS);
     }
 
     @Override
@@ -276,7 +275,7 @@ public class FrgBin extends Fragment implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(Dlg.OPEN, stOpen.isOpen());
+        outState.putBoolean(DefDlg.OPEN, stOpen.isOpen());
     }
 
 }

@@ -10,15 +10,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/App.Light.UI">
+
         <activity android:name=".office.blank.BlankAct" />
+
         <activity
             android:name=".app.view.act.ActSplash"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/App.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".app.view.act.ActIntro"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:parentActivityName=".app.view.act.ActSplash"
+            android:theme="@style/App.Intro">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".app.view.act.ActMain"
             android:windowSoftInputMode="adjustPan">
@@ -27,15 +42,36 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".app.view.act.ActNote"
-            android:parentActivityName=".app.view.act.ActMain" />
+            android:parentActivityName=".app.view.act.ActMain">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".app.view.act.ActSettings"
-            android:parentActivityName=".app.view.act.ActMain" />
+            android:configChanges="keyboardHidden"
+            android:parentActivityName=".app.view.act.ActMain">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".app.view.act.ActDevelop"
-            android:parentActivityName=".app.view.act.ActSettings" />
+            android:configChanges="keyboardHidden"
+            android:parentActivityName=".app.view.act.ActSettings">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

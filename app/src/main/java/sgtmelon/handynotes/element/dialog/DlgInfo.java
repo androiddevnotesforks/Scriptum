@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
 public class DlgInfo extends BlankDialog implements View.OnClickListener {
@@ -19,7 +19,7 @@ public class DlgInfo extends BlankDialog implements View.OnClickListener {
         Context context = getContext();
 
         if (savedInstanceState != null) {
-            click = savedInstanceState.getInt(Dlg.VALUE);
+            click = savedInstanceState.getInt(DefDlg.VALUE);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_about, null);
@@ -55,6 +55,6 @@ public class DlgInfo extends BlankDialog implements View.OnClickListener {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Dlg.VALUE, click);
+        outState.putInt(DefDlg.VALUE, click);
     }
 }

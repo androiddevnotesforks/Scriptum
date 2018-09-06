@@ -8,15 +8,15 @@ import java.util.Arrays;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 
 public class DlgMultiply extends BlankDialog {
 
     public void setArguments(boolean[] check) {
         Bundle arg = new Bundle();
-        arg.putBooleanArray(Dlg.INIT, check.clone());
-        arg.putBooleanArray(Dlg.VALUE, check);
+        arg.putBooleanArray(DefDlg.INIT, check.clone());
+        arg.putBooleanArray(DefDlg.VALUE, check);
         setArguments(arg);
     }
 
@@ -37,11 +37,11 @@ public class DlgMultiply extends BlankDialog {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
-            init = savedInstanceState.getBooleanArray(Dlg.INIT);
-            check = savedInstanceState.getBooleanArray(Dlg.VALUE);
+            init = savedInstanceState.getBooleanArray(DefDlg.INIT);
+            check = savedInstanceState.getBooleanArray(DefDlg.VALUE);
         } else if (arg != null) {
-            init = arg.getBooleanArray(Dlg.INIT);
-            check = arg.getBooleanArray(Dlg.VALUE);
+            init = arg.getBooleanArray(DefDlg.INIT);
+            check = arg.getBooleanArray(DefDlg.VALUE);
         }
 
         return new AlertDialog.Builder(context)
@@ -68,8 +68,8 @@ public class DlgMultiply extends BlankDialog {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putBooleanArray(Dlg.INIT, init);
-        outState.putBooleanArray(Dlg.VALUE, check);
+        outState.putBooleanArray(DefDlg.INIT, init);
+        outState.putBooleanArray(DefDlg.VALUE, check);
     }
 
 }

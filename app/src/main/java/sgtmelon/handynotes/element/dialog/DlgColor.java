@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpColor;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.blank.BlankDialog;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
@@ -19,8 +19,8 @@ public class DlgColor extends BlankDialog implements IntfItem.Click {
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();
-        arg.putInt(Dlg.INIT, check);
-        arg.putInt(Dlg.VALUE, check);
+        arg.putInt(DefDlg.INIT, check);
+        arg.putInt(DefDlg.VALUE, check);
         setArguments(arg);
     }
 
@@ -36,11 +36,11 @@ public class DlgColor extends BlankDialog implements IntfItem.Click {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
-            init = savedInstanceState.getInt(Dlg.INIT);
-            check = savedInstanceState.getInt(Dlg.VALUE);
+            init = savedInstanceState.getInt(DefDlg.INIT);
+            check = savedInstanceState.getInt(DefDlg.VALUE);
         } else if (arg != null) {
-            init = arg.getInt(Dlg.INIT);
-            check = arg.getInt(Dlg.VALUE);
+            init = arg.getInt(DefDlg.INIT);
+            check = arg.getInt(DefDlg.VALUE);
         }
 
         RecyclerView recyclerView = new RecyclerView(context);
@@ -85,7 +85,7 @@ public class DlgColor extends BlankDialog implements IntfItem.Click {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(Dlg.INIT, init);
-        outState.putInt(Dlg.VALUE, check);
+        outState.putInt(DefDlg.INIT, init);
+        outState.putInt(DefDlg.VALUE, check);
     }
 }

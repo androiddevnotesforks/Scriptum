@@ -1,14 +1,12 @@
 package sgtmelon.handynotes.office.annot.def;
 
 import androidx.annotation.IntDef;
-
 import sgtmelon.handynotes.R;
 
 @IntDef({DefPage.rank, DefPage.notes, DefPage.bin})
 public @interface DefPage {
 
     String PAGE = "CURRENT_PAGE";
-    String CREATE = "IS_CREATE";
 
     int[] itemId = new int[]{
             R.id.menu_actMain_pageRank,

@@ -40,7 +40,7 @@ import sgtmelon.handynotes.element.dialog.DlgColor;
 import sgtmelon.handynotes.element.dialog.common.DlgMessage;
 import sgtmelon.handynotes.element.dialog.common.DlgMultiply;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.annot.def.db.DefCheck;
 import sgtmelon.handynotes.office.annot.def.db.DefType;
 import sgtmelon.handynotes.office.conv.ConvList;
@@ -191,7 +191,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
 
-        dlgConvert = (DlgMessage) fm.findFragmentByTag(Dlg.CONVERT);
+        dlgConvert = (DlgMessage) fm.findFragmentByTag(DefDlg.CONVERT);
         if (dlgConvert == null) dlgConvert = new DlgMessage();
 
         dlgConvert.setTitle(getString(R.string.dialog_title_convert));
@@ -219,7 +219,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             activity.setupFrg(false);
         });
 
-        dlgColor = (DlgColor) fm.findFragmentByTag(Dlg.COLOR);
+        dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
         if (dlgColor == null) dlgColor = new DlgColor();
         dlgColor.setTitle(getString(R.string.dialog_title_color));
         dlgColor.setPositiveListener((dialogInterface, i) -> {
@@ -235,7 +235,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             menuNote.startTint(check);
         });
 
-        dlgRank = (DlgMultiply) fm.findFragmentByTag(Dlg.RANK);
+        dlgRank = (DlgMultiply) fm.findFragmentByTag(DefDlg.RANK);
         if (dlgRank == null) dlgRank = new DlgMultiply();
 
         db = DbRoom.provideDb(context);
@@ -363,7 +363,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db.close();
 
         dlgRank.setArguments(check);
-        dlgRank.show(fm, Dlg.RANK);
+        dlgRank.show(fm, DefDlg.RANK);
     }
 
     @Override
@@ -375,7 +375,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         ItemNote itemNote = vm.getRepoNote().getItemNote();
 
         dlgColor.setArguments(itemNote.getColor());
-        dlgColor.show(fm, Dlg.COLOR);
+        dlgColor.show(fm, DefDlg.COLOR);
 
         menuNote.setStartColor(itemNote.getColor());
     }
@@ -461,7 +461,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, Dlg.CONVERT);
+        dlgConvert.show(fm, DefDlg.CONVERT);
     }
 
     //region RecyclerView Variable

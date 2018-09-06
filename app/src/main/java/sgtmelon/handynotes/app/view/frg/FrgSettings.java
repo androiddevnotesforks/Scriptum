@@ -22,7 +22,7 @@ import sgtmelon.handynotes.element.dialog.DlgInfo;
 import sgtmelon.handynotes.element.dialog.DlgSort;
 import sgtmelon.handynotes.element.dialog.common.DlgSingle;
 import sgtmelon.handynotes.office.Help;
-import sgtmelon.handynotes.office.annot.Dlg;
+import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.annot.def.DefSort;
 import sgtmelon.handynotes.office.st.StOpen;
 
@@ -52,7 +52,7 @@ public class FrgSettings extends PreferenceFragment {
         pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         stOpen = new StOpen();
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(Dlg.OPEN));
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
 
         setupSortPref();
         setupSavePref();
@@ -90,12 +90,12 @@ public class FrgSettings extends PreferenceFragment {
                 stOpen.setOpen();
 
                 dlgSort.setArguments(valSort);
-                dlgSort.show(fm, Dlg.SORT);
+                dlgSort.show(fm, DefDlg.SORT);
             }
             return true;
         });
 
-        dlgSort = (DlgSort) fm.findFragmentByTag(Dlg.SORT);
+        dlgSort = (DlgSort) fm.findFragmentByTag(DefDlg.SORT);
         if (dlgSort == null) dlgSort = new DlgSort();
         dlgSort.setPositiveListener((dialogInterface, i) -> {
             valSort = dlgSort.getKeys();
@@ -121,12 +121,12 @@ public class FrgSettings extends PreferenceFragment {
                 stOpen.setOpen();
 
                 dlgColor.setArguments(valColor);
-                dlgColor.show(fm, Dlg.COLOR);
+                dlgColor.show(fm, DefDlg.COLOR);
             }
             return true;
         });
 
-        dlgColor = (DlgColor) fm.findFragmentByTag(Dlg.COLOR);
+        dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
         if (dlgColor == null) dlgColor = new DlgColor();
         dlgColor.setTitle(getString(R.string.pref_title_color));
         dlgColor.setPositiveListener((dialogInterface, i) -> {
@@ -153,12 +153,12 @@ public class FrgSettings extends PreferenceFragment {
                 stOpen.setOpen();
 
                 dlgSaveTime.setArguments(valSaveTime);
-                dlgSaveTime.show(fm, Dlg.SAVE_TIME);
+                dlgSaveTime.show(fm, DefDlg.SAVE_TIME);
             }
             return true;
         });
 
-        dlgSaveTime = (DlgSingle) fm.findFragmentByTag(Dlg.SAVE_TIME);
+        dlgSaveTime = (DlgSingle) fm.findFragmentByTag(DefDlg.SAVE_TIME);
         if (dlgSaveTime == null) dlgSaveTime = new DlgSingle();
 
         dlgSaveTime.setTitle(getString(R.string.pref_title_save_time));
@@ -197,12 +197,12 @@ public class FrgSettings extends PreferenceFragment {
                 stOpen.setOpen();
 
                 dlgTheme.setArguments(valTheme);
-                dlgTheme.show(fm, Dlg.THEME);
+                dlgTheme.show(fm, DefDlg.THEME);
             }
             return true;
         });
 
-        dlgTheme = (DlgSingle) fm.findFragmentByTag(Dlg.THEME);
+        dlgTheme = (DlgSingle) fm.findFragmentByTag(DefDlg.THEME);
         if (dlgTheme == null) dlgTheme = new DlgSingle();
 
         dlgTheme.setTitle(getString(R.string.pref_title_theme));
@@ -222,12 +222,12 @@ public class FrgSettings extends PreferenceFragment {
             if (!stOpen.isOpen()) {
                 stOpen.setOpen();
 
-                dlgInfo.show(fm, Dlg.INFO);
+                dlgInfo.show(fm, DefDlg.INFO);
             }
             return true;
         });
 
-        dlgInfo = (DlgInfo) fm.findFragmentByTag(Dlg.INFO);
+        dlgInfo = (DlgInfo) fm.findFragmentByTag(DefDlg.INFO);
         if (dlgInfo == null) dlgInfo = new DlgInfo();
 
         dlgInfo.setLogoClick(view -> {
@@ -241,7 +241,7 @@ public class FrgSettings extends PreferenceFragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(Dlg.OPEN, stOpen.isOpen());
+        outState.putBoolean(DefDlg.OPEN, stOpen.isOpen());
     }
 
 }
