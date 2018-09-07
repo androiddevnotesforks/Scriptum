@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpColor;
 import sgtmelon.handynotes.office.annot.def.DefDlg;
-import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.blank.BlankDlg;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class DlgColor extends BlankDialog implements IntfItem.Click {
+public class DlgColor extends BlankDlg implements IntfItem.Click {
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();

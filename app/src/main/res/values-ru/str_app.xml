@@ -9,17 +9,24 @@
     <string name="title_act_settings">Настройки</string>
 
     <!-- Info for intro and empty pages -->
-    <string name="info_intro_title_1">Заголовок 1</string>
-    <string name="info_intro_title_2">Заголовок 2</string>
-    <string name="info_intro_title_3">Заголовок 3</string>
-    <string name="info_intro_title_4">Заголовок 4</string>
+    <string name="info_intro_title_1">Два типа заметок</string>
+    <string name="info_intro_title_2">Цвета</string>
+    <string name="info_intro_title_3">Всегда под рукой!</string>
+    <string name="info_intro_title_4">Категории</string>
+    <string name="info_intro_title_5">Видимость</string>
+    <string name="info_intro_title_6">Настройки</string>
+    <string name="info_intro_title_7">Корзина</string>
 
-    <string name="info_intro_details_1">Детали детали детали\nДетали детали детали 1</string>
-    <string name="info_intro_details_2">Детали детали детали\nДетали детали детали 2</string>
-    <string name="info_intro_details_3">Детали детали детали\nДетали детали детали 3</string>
-    <string name="info_intro_details_4">Детали детали детали\nДетали детали детали 4</string>
+    <string name="info_intro_details_1">Вы можете создать текст или список</string>
+    <string name="info_intro_details_2">Выбирайте один из 11 цветов</string>
+    <string name="info_intro_details_3">Закрепляйте свои заметки в статус баре</string>
+    <string name="info_intro_details_4">Группируйте заметки по своим категориям</string>
+    <string name="info_intro_details_5">Скрывайте категории и заметки вместе с ними</string>
+    <string name="info_intro_details_6">Сортируйте заметки\nНастраивайте сохранение\nВыбирайте тему приложения</string>
+    <string name="info_intro_details_7">После удаления заметки перемещаются в корзину, откуда их можно восстановить или удалить окончательно</string>
 
-    <string name="info_intro_button">Закончить</string>
+    <string name="info_intro_button">Приступить к работе</string>
+
 
     <string name="info_empty_rank_title">Нет категорий</string>
     <string name="info_empty_notes_title">Нет созданных заметок</string>
@@ -27,7 +34,7 @@
 
     <string name="info_empty_rank_details">Чтобы добавить категорию введите имя в поле сверху</string>
     <string name="info_empty_notes_details">Чтобы добавить заметку нажмите на центральную кнопку меню</string>
-    <string name="info_empty_bin_details">Скрытые заметки не удалятся отсюда</string>
+    <string name="info_empty_bin_details" />
 
     <!-- Name of menu items -->
     <string name="menu_page_notes_settings">Настройки</string>

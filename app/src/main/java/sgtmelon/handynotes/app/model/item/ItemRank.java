@@ -7,7 +7,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.db.DefDb;
 import sgtmelon.handynotes.office.conv.ConvBool;
 import sgtmelon.handynotes.office.conv.ConvList;
@@ -31,7 +30,6 @@ public class ItemRank {
 
         textCount = 0;
         rollCount = 0;
-        rollCheck = 0.0;
     }
 
     @Ignore
@@ -45,7 +43,6 @@ public class ItemRank {
 
         textCount = 0;
         rollCount = 0;
-        rollCheck = 0.0;
     }
 
     /**
@@ -77,8 +74,6 @@ public class ItemRank {
     private int textCount;      //Количество тектовых заметок
     @Ignore
     private int rollCount;      //Количество списков
-    @Ignore
-    private double rollCheck;   //Выполнение списков в процентах
     //endregion
 
     public long getId() {
@@ -137,11 +132,4 @@ public class ItemRank {
         this.rollCount = rollCount;
     }
 
-    public double getRollCheck() {
-        return rollCheck;
-    }
-
-    public void setRollCheck(int rollCheck, int rollAll) {
-        this.rollCheck = Help.Note.getRollCheck(rollCheck, rollAll);
-    }
 }

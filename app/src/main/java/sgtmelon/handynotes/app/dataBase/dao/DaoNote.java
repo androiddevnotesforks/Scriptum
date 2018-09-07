@@ -61,7 +61,7 @@ public abstract class DaoNote extends DaoBase {
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
                 itemStatus.cancelNote();
             } else {
-                if (FrgNotes.updateStatus) itemStatus.notifyNote();
+                if (itemNote.isStatus() && FrgNotes.updateStatus) itemStatus.notifyNote();
 
                 repoNote.setItemStatus(itemStatus);
                 listRepoNote.add(repoNote);
@@ -94,7 +94,7 @@ public abstract class DaoNote extends DaoBase {
             Long[] rkId = itemNote.getRankId();
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
                 itemStatus.cancelNote();
-            } else itemStatus.notifyNote();
+            } else if (itemNote.isStatus()) itemStatus.notifyNote();
         }
     }
 

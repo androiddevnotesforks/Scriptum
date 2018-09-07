@@ -41,7 +41,9 @@ public class ItemStatus {
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         Intent intent = new Intent(context, ActSplash.class);
+        intent.putExtra(DefNote.OPEN, DefNote.OPEN);
         intent.putExtra(DefNote.ID, itemNote.getId());
+
         stackBuilder.addNextIntent(intent);
 
         pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);

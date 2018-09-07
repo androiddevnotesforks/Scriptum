@@ -5,9 +5,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
-import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.blank.BlankDlg;
 
-public class DlgMessage extends BlankDialog {
+public class DlgMessage extends BlankDlg {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

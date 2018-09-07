@@ -23,30 +23,34 @@ public class ActSplash extends AppCompatActivity {
         Log.i(TAG, "onCreate");
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle == null) {
-            Log.i(TAG, "onCreate: bundle == null");
+        if (bundle == null) startNormal();
+        else {
+            if (bundle.getString(DefNote.OPEN) == null) startNormal();
+            else {
+                Intent intentMain = new Intent(this, ActMain.class);
 
-            Intent intent;
-            if (Help.Pref.isFirstStart(this)) {
-                intent = new Intent(this, ActIntro.class);
-            } else {
-                intent = new Intent(this, ActMain.class);
+                Intent intentNote = new Intent(this, ActNote.class);
+                intentNote.putExtra(DefNote.CREATE, false);
+                intentNote.putExtra(DefNote.ID, bundle.getLong(DefNote.ID));
+
+                startActivities(new Intent[]{intentMain, intentNote});
             }
-
-            startActivity(intent);
-        } else {
-            Log.i(TAG, "onCreate: bundle != null");
-
-            Intent intentMain = new Intent(this, ActMain.class);
-
-            Intent intentNote = new Intent(this, ActNote.class);
-            intentNote.putExtra(DefNote.CREATE, false);
-            intentNote.putExtra(DefNote.ID, bundle.getLong(DefNote.ID));
-
-            startActivities(new Intent[]{intentMain, intentNote});
         }
 
         finish();
+    }
+
+    private void startNormal() {
+        Log.i(TAG, "startNormal");
+
+        Intent intent;
+        if (Help.Pref.isFirstStart(this)) {
+            intent = new Intent(this, ActIntro.class);
+        } else {
+            intent = new Intent(this, ActMain.class);
+        }
+
+        startActivity(intent);
     }
 
 }

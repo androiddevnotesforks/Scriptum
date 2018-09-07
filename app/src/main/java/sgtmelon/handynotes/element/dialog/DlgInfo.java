@@ -10,9 +10,9 @@ import android.widget.ImageView;
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.def.DefDlg;
-import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.blank.BlankDlg;
 
-public class DlgInfo extends BlankDialog implements View.OnClickListener {
+public class DlgInfo extends BlankDlg implements View.OnClickListener {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

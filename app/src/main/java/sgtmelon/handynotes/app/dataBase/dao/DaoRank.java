@@ -42,7 +42,6 @@ public abstract class DaoRank extends DaoBase {
 
             itemRank.setTextCount(getNoteCount(DefType.text, idNote));
             itemRank.setRollCount(getNoteCount(DefType.roll, idNote));
-            itemRank.setRollCheck(getRollCheck(idNote), getRollCount(idNote));
 
             listRank.set(i, itemRank);
         }

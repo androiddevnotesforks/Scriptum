@@ -6,8 +6,6 @@
 
         <import type="sgtmelon.handynotes.R" />
 
-        <import type="sgtmelon.handynotes.office.Help.Draw" />
-
         <import type="sgtmelon.handynotes.office.Help.Pref" />
 
         <import
@@ -26,10 +24,6 @@
             name="keyEdit"
             type="boolean" />
 
-        <variable
-            name="keyCreate"
-            type="boolean" />
-
     </data>
 
     <com.google.android.material.appbar.AppBarLayout
@@ -45,7 +39,6 @@
             app:contentInsetLeft="@dimen/layout_8dp"
             app:contentInsetRight="@dimen/layout_8dp"
             app:contentInsetStart="@dimen/layout_8dp"
-            app:navigationIcon='@{keyEdit &amp;&amp; !keyCreate ? Draw.get(context, R.drawable.ic_cancel, R.attr.clIcon) : Draw.get(context, R.drawable.ic_arrow_back, R.attr.clIcon)}'
             app:popupTheme="?attr/themePopup">
 
             <HorizontalScrollView

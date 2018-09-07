@@ -102,22 +102,6 @@ abstract class DaoBase {
             "ORDER BY RL_POSITION")
     abstract List<ItemRoll> getRoll(long idNote);
 
-    /**
-     * @param idNote - Id заметок
-     * @return - Количество пунктов по датам создания заметок
-     */
-    @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE IN(:idNote)")
-    abstract int getRollCount(Long[] idNote);
-
-    /**
-     * @param idNote - Id заметок
-     * @return - Количество пунктов, которые отмечены
-     */
-    @Query("SELECT COUNT(RL_ID) FROM ROLL_TABLE " +
-            "WHERE RL_CHECK = 1 AND RL_ID_NOTE IN(:idNote)")
-    abstract int getRollCheck(Long[] idNote);
-
     //endregion
 
     //region RankBase

@@ -6,7 +6,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public abstract class BlankDialog extends DialogFragment {
+public abstract class BlankDlg extends DialogFragment {
 
     protected String title, message;
 

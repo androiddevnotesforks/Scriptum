@@ -8,7 +8,11 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/incToolbar_tb"
         style="?attr/styleToolbar"
-        app:popupTheme="?attr/themePopup" >
+        android:paddingRight="@dimen/layout_8dp"
+        android:paddingLeft="@dimen/layout_8dp"
+        app:popupTheme="?attr/themePopup">
+
+        <!-- FIXME проверь правильность отображения с padding'ом -->
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

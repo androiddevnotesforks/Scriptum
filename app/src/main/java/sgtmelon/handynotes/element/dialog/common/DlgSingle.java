@@ -7,9 +7,9 @@ import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.def.DefDlg;
-import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.blank.BlankDlg;
 
-public class DlgSingle extends BlankDialog {
+public class DlgSingle extends BlankDlg {
 
     public void setArguments(int check) {
         Bundle arg = new Bundle();

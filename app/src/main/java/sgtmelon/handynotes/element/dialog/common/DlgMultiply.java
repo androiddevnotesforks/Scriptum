@@ -9,9 +9,9 @@ import java.util.Arrays;
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.def.DefDlg;
-import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.blank.BlankDlg;
 
-public class DlgMultiply extends BlankDialog {
+public class DlgMultiply extends BlankDlg {
 
     public void setArguments(boolean[] check) {
         Bundle arg = new Bundle();

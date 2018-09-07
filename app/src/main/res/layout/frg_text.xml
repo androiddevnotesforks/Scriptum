@@ -16,10 +16,6 @@
             name="keyEdit"
             type="boolean" />
 
-        <variable
-            name="keyCreate"
-            type="boolean" />
-
     </data>
 
     <LinearLayout
@@ -31,7 +27,6 @@
         <include
             layout="@layout/inc_toolbar_note"
             app:itemNote='@{itemNote}'
-            app:keyCreate='@{keyCreate}'
             app:keyEdit='@{keyEdit}' />
 
         <ScrollView

@@ -1,6 +1,7 @@
 package sgtmelon.handynotes.app.view.frg;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.control.MenuNote;
+import sgtmelon.handynotes.app.control.MenuNotePreL;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
@@ -91,17 +93,16 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         onMenuEditClick(activity.vm.getStNote().isEdit());
     }
 
-    private void bind(boolean keyEdit, boolean keyCreate) {
+    private void bind(boolean keyEdit) {
         Log.i(TAG, "bind");
 
         binding.setItemNote(vm.getRepoNote().getItemNote());
         binding.setKeyEdit(keyEdit);
-        binding.setKeyCreate(keyCreate);
 
         binding.executePendingBindings();
     }
 
-    public MenuNote menuNote;
+    public MenuNotePreL menuNote;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -113,12 +114,23 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
 
-        menuNote = new MenuNote(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            menuNote = new MenuNotePreL(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+        } else {
+            menuNote = new MenuNote(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+        }
+
         menuNote.setColor(itemNote.getColor());
 
         menuNote.setNoteClick(this);
         menuNote.setDeleteClick(activity);
-        menuNote.setupMenu(toolbar.getMenu(), itemNote.isStatus());
+
+        StNote stNote = activity.vm.getStNote();
+
+        menuNote.setupDrawable();
+        menuNote.setDrawable(stNote.isEdit() && !stNote.isCreate(), false);
+
+        menuNote.setupMenu(itemNote.isStatus());
 
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
@@ -266,8 +278,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
                 stNote.setCreate(false);
                 activity.vm.setStNote(stNote);
 
-                bind(stNote.isEdit(), stNote.isCreate());
-
                 long ntId = db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
             } else {
@@ -321,8 +331,10 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         StNote stNote = activity.vm.getStNote();
         stNote.setEdit(editMode);
 
+        menuNote.setDrawable(editMode && !stNote.isCreate(), !stNote.isCreate());
         menuNote.setMenuGroupVisible(stNote.isBin(), editMode, !stNote.isBin() && !editMode);
-        bind(editMode, stNote.isCreate());
+
+        bind(editMode);
 
         activity.vm.setStNote(stNote);
         activity.saveNote.setSaveHandlerEvent(editMode);

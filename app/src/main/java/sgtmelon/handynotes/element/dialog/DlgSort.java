@@ -19,10 +19,10 @@ import sgtmelon.handynotes.app.model.item.ItemSort;
 import sgtmelon.handynotes.office.Help;
 import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.annot.def.DefSort;
-import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.blank.BlankDlg;
 import sgtmelon.handynotes.office.intf.IntfItem;
 
-public class DlgSort extends BlankDialog implements IntfItem.Click {
+public class DlgSort extends BlankDlg implements IntfItem.Click {
 
     public void setArguments(String keys) {
         Bundle arg = new Bundle();

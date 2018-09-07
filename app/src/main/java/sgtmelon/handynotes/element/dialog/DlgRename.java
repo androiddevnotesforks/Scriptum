@@ -18,9 +18,9 @@ import androidx.appcompat.app.AlertDialog;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.office.annot.def.DefDlg;
 import sgtmelon.handynotes.office.annot.def.db.DefDb;
-import sgtmelon.handynotes.office.blank.BlankDialog;
+import sgtmelon.handynotes.office.blank.BlankDlg;
 
-public class DlgRename extends BlankDialog implements TextView.OnEditorActionListener {
+public class DlgRename extends BlankDlg implements TextView.OnEditorActionListener {
 
     public void setArguments(int p, String title, ArrayList<String> listName) {
         Bundle arg = new Bundle();

@@ -4,7 +4,7 @@
     android:viewportWidth="24.0"
     android:viewportHeight="24.0">
 
-    <group android:name="@string/drawable_visible_group">
+    <group>
         <path
             android:name="@string/drawable_visible_strike_path"
             android:fillColor="#FF000000"

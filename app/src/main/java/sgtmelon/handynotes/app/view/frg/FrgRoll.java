@@ -2,6 +2,7 @@ package sgtmelon.handynotes.app.view.frg;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpRoll;
 import sgtmelon.handynotes.app.control.MenuNote;
+import sgtmelon.handynotes.app.control.MenuNotePreL;
 import sgtmelon.handynotes.app.dataBase.DbRoom;
 import sgtmelon.handynotes.app.model.item.ItemNote;
 import sgtmelon.handynotes.app.model.item.ItemRoll;
@@ -117,15 +119,16 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         updateAdapter();
     }
 
-    private void bind(boolean keyEdit, boolean keyCreate) {
+    private void bind(boolean keyEdit) {
+        Log.i(TAG, "bind");
+
         binding.setItemNote(vm.getRepoNote().getItemNote());
         binding.setKeyEdit(keyEdit);
-        binding.setKeyCreate(keyCreate);
 
         binding.executePendingBindings();
     }
 
-    public MenuNote menuNote;
+    public MenuNotePreL menuNote;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -137,13 +140,24 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
 
-        menuNote = new MenuNote(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            menuNote = new MenuNotePreL(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+        } else {
+            menuNote = new MenuNote(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+        }
+
         menuNote.setColor(itemNote.getColor());
 
         menuNote.setNoteClick(this);
         menuNote.setRollClick(this);
         menuNote.setDeleteClick(activity);
-        menuNote.setupMenu(toolbar.getMenu(), itemNote.isStatus());
+
+        StNote stNote = activity.vm.getStNote();
+
+        menuNote.setupDrawable();
+        menuNote.setDrawable(stNote.isEdit() && !stNote.isCreate(), false);
+
+        menuNote.setupMenu(itemNote.isStatus());
 
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
@@ -296,8 +310,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 stNote.setCreate(false);    //Теперь у нас заметка уже будет создана
                 activity.vm.setStNote(stNote);
 
-                bind(stNote.isEdit(), stNote.isCreate());
-
                 long ntId = db.daoNote().insert(itemNote);
                 itemNote.setId(ntId);
 
@@ -387,8 +399,10 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         StNote stNote = activity.vm.getStNote();
         stNote.setEdit(editMode);
 
+        menuNote.setDrawable(editMode && !stNote.isCreate(), !stNote.isCreate());
         menuNote.setMenuGroupVisible(stNote.isBin(), editMode, !stNote.isBin() && !editMode);
-        bind(editMode, stNote.isCreate());
+
+        bind(editMode);
 
         adapter.update(editMode);
 

@@ -6,12 +6,11 @@
     <integer name="length_max_rank_name">30</integer>
 
     <!-- Drawable part name -->
-    <string name="drawable_visible_group" translatable="false">group</string>
-    <string name="drawable_visible_strike_path" translatable="false">strike_path</string>
-    <string name="drawable_visible_strike_mask" translatable="false">strike_mask</string>
-    <string name="drawable_visible_eye_path" translatable="false">eye_path</string>
+    <string name="drawable_visible_strike_path" translatable="false">visible_strike_path</string>
+    <string name="drawable_visible_strike_mask" translatable="false">visible_strike_mask</string>
+    <string name="drawable_visible_eye_path" translatable="false">visible_eye_path</string>
 
-    <string name="drawable_cancel_group" translatable="false">group</string>
-    <string name="drawable_cancel_path" translatable="false">path</string>
+    <string name="drawable_cancel_group" translatable="false">cancel_group</string>
+    <string name="drawable_cancel_path" translatable="false">cancel_path</string>
 
 </resources>

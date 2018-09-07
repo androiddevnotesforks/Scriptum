@@ -2,6 +2,8 @@ package sgtmelon.handynotes.office.intf;
 
 import android.view.View;
 
+import androidx.annotation.Nullable;
+
 public interface IntfItem {
 
     interface Click {
@@ -18,6 +20,10 @@ public interface IntfItem {
 
     interface Watcher {
         void onChanged(int p, String text);
+    }
+
+    interface Animation {
+        void setDrawable(boolean drawableOn, @Nullable boolean needAnim);
     }
 
 }

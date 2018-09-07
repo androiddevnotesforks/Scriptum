@@ -51,22 +51,13 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/itemRank_tv_textCount"
                         style="@style/ItemRank.Info"
                         android:layout_marginEnd="@dimen/layout_4dp"
                         android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}' />
 
                     <TextView
-                        android:id="@+id/itemRank_tv_rollCount"
                         style="@style/ItemRank.Info"
-                        android:layout_marginEnd="@dimen/layout_4dp"
                         android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}' />
-
-                    <TextView
-                        android:id="@+id/itemRank_tv_rollDone"
-                        style="@style/ItemRank.Info"
-                        android:text='@{@string/list_item_rank_roll_check + " " + itemRank.getRollCheck() + "%"}'
-                        android:visibility='@{itemRank.getRollCount() == 0 ? v.GONE : v.VISIBLE}' />
 
                 </LinearLayout>
             </LinearLayout>

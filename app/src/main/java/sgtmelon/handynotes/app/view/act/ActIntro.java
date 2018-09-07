@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import sgtmelon.handynotes.R;
 import sgtmelon.handynotes.app.adapter.AdpPager;
 import sgtmelon.handynotes.app.view.frg.FrgIntro;
+import sgtmelon.handynotes.office.annot.AnnIntro;
 
 public class ActIntro extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
@@ -46,7 +47,7 @@ public class ActIntro extends AppCompatActivity implements ViewPager.OnPageChang
         adpPager = new AdpPager(getSupportFragmentManager());
 
         FrgIntro frgIntro;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < AnnIntro.count; i++) {
             frgIntro = new FrgIntro();
             frgIntro.setPage(i);
             adpPager.addItem(frgIntro);

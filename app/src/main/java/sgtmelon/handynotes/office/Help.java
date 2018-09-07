@@ -203,20 +203,6 @@ public class Help {
         }
 
         /**
-         * @param rollCheck - Количество выполненных пунктов
-         * @param rollAll   - Всего пунктов
-         * @return - Получаем формат для отображения процентов (Например 15.6%)
-         */
-        public static double getRollCheck(int rollCheck, int rollAll) {
-            double value = 0.0;
-            if (rollAll != 0) {
-                if (rollCheck == rollAll) value = 100.0;
-                else value = Math.floor(1000 * (double) rollCheck / (double) rollAll) / 10;
-            }
-            return value;
-        }
-
-        /**
          * @param listRoll - Список для проверки
          * @return - Все ли пункты отмечены
          */
@@ -243,7 +229,8 @@ public class Help {
                 pref.edit().putBoolean(context.getString(R.string.pref_first_start), false).apply();
             }
 
-            return val;
+//            return val;
+            return true;
         }
 
         /**

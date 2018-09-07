@@ -5,6 +5,14 @@
 
         <import type="sgtmelon.handynotes.R" />
 
+        <import
+            alias="text"
+            type="android.text.TextUtils" />
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
         <import type="sgtmelon.handynotes.office.Help.Draw" />
 
         <variable
@@ -27,9 +35,9 @@
 
         <ImageView
             style="@style/Info.Icon"
-            android:tint="?attr/clIcon"
             android:contentDescription="@null"
-            android:src='@{Draw.get(context, icon, R.attr.clIcon)}' />
+            android:src='@{Draw.get(context, icon, R.attr.clIcon)}'
+            android:tint="?attr/clIcon" />
 
         <TextView
             style="@style/Info.Title"
@@ -37,7 +45,8 @@
 
         <TextView
             style="@style/Info.Details"
-            android:text='@{context.getString(details)}' />
+            android:text='@{context.getString(details)}'
+            android:visibility='@{text.isEmpty(context.getString(details)) ? v.GONE : v.VISIBLE}' />
 
     </LinearLayout>
 
