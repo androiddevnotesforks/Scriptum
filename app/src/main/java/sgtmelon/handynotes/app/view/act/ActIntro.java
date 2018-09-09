@@ -3,6 +3,7 @@ package sgtmelon.handynotes.app.view.act;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -27,22 +28,26 @@ public class ActIntro extends AppCompatActivity implements ViewPager.OnPageChang
     }
 
     private AdpPager adpPager;
-    private Button buttonEnd;
+
+    private View pageIndicator;
+    private Button pageButtonEnd;
 
     private void setupViewPager() {
         Log.i(TAG, "setupViewPager");
 
         ViewPager viewPager = findViewById(R.id.actIntro_vp);
 
-        buttonEnd = findViewById(R.id.actIntro_b);
-        buttonEnd.setOnClickListener(view -> {
+        pageIndicator = findViewById(R.id.actIntro_piv_page);
+        pageButtonEnd = findViewById(R.id.actIntro_b);
+
+        pageButtonEnd.setOnClickListener(view -> {
             Intent intent = new Intent(ActIntro.this, ActMain.class);
             startActivity(intent);
             finish();
         });
 
-        buttonEnd.setAlpha(0);
-        buttonEnd.setEnabled(false);
+        pageButtonEnd.setAlpha(0);
+        pageButtonEnd.setEnabled(false);
 
         adpPager = new AdpPager(getSupportFragmentManager());
 
@@ -60,8 +65,6 @@ public class ActIntro extends AppCompatActivity implements ViewPager.OnPageChang
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.i(TAG, "onPageScrolled: ps=" + position + " psOff=" + positionOffset);
-
         float targetAlpha = (float) Math.max(0.2, 1 - positionOffset);
         float targetScale = (float) Math.max(0.75, 1 - positionOffset);
 
@@ -75,11 +78,13 @@ public class ActIntro extends AppCompatActivity implements ViewPager.OnPageChang
         }
 
         if (position == adpPager.getCount() - 1) {
-            buttonEnd.setEnabled(true);
-        } else buttonEnd.setEnabled(false);
+            pageButtonEnd.setEnabled(true);
+        } else pageButtonEnd.setEnabled(false);
 
         if (position == adpPager.getCount() - 2) {
-            buttonEnd.setAlpha(positionOffset);
+            pageIndicator.setTranslationY(positionOffset * pageButtonEnd.getHeight());
+            pageIndicator.setAlpha(1 - positionOffset);
+            pageButtonEnd.setAlpha(positionOffset);
         }
     }
 

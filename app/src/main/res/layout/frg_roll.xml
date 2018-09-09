@@ -4,10 +4,6 @@
 
     <data>
 
-        <import
-            alias="v"
-            type="android.view.View" />
-
         <variable
             name="itemNote"
             type="sgtmelon.handynotes.app.model.item.ItemNote" />
@@ -42,9 +38,7 @@
 
         </LinearLayout>
 
-        <include
-            layout="@layout/inc_roll_enter"
-            app:keyEdit='@{keyEdit}' />
+        <include layout="@layout/inc_roll_enter" />
 
     </LinearLayout>
 

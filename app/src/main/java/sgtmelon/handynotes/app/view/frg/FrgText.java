@@ -91,6 +91,10 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         setupEnter();
 
         onMenuEditClick(activity.vm.getStNote().isEdit());
+
+        StNote stNote = activity.vm.getStNote();
+        stNote.setFirst(false);
+        activity.vm.setStNote(stNote);
     }
 
     private void bind(boolean keyEdit) {

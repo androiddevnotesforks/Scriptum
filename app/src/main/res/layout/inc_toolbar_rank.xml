@@ -12,8 +12,6 @@
         android:paddingLeft="@dimen/layout_8dp"
         app:popupTheme="?attr/themePopup">
 
-        <!-- FIXME проверь правильность отображения с padding'ом -->
-
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

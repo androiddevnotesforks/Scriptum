@@ -40,7 +40,7 @@
 
     <string name="info_empty_rank_details">For add category write name in text field from top</string>
     <string name="info_empty_notes_details">For add new note click on central button of menu</string>
-    <string name="info_empty_bin_details"/>
+    <string name="info_empty_bin_details">Deleted notes can be restored at any time</string>
 
 
     <!-- Name of menu items -->
@@ -169,7 +169,9 @@
             vectordrawable:1.0.0-beta01\n\t
             vectordrawable-animated:1.0.0-beta01\n
 
-        com.google.android.material:material:1.0.0-beta01
+        com.google.android.material:material:1.0.0-beta01\n
+
+        com.romandanylyk:pageindicatorview:1.0.1
     </string>
     <string name="about_app_version">App version: 1.0</string>
 
@@ -187,6 +189,5 @@
     <!-- ItemRank -->
     <string name="list_item_rank_text_count">Texts:</string>
     <string name="list_item_rank_roll_count">Lists:</string>
-    <string name="list_item_rank_roll_check">Done:</string>
 
 </resources>

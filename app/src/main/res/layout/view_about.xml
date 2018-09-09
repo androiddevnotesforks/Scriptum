@@ -28,7 +28,7 @@
                     android:id="@+id/viewAbout_iv_logo"
                     style="@style/ViewAbout.Logo"
                     android:contentDescription="@null"
-                    app:srcCompat="@mipmap/ic_app" />
+                    app:srcCompat="@mipmap/ic_about_logo" />
 
             </FrameLayout>
 

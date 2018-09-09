@@ -219,8 +219,6 @@ public class Help {
 
     public static class Pref {
 
-        // TODO: 04.09.2018 fix
-
         public static boolean isFirstStart(Context context) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
@@ -229,7 +227,6 @@ public class Help {
                 pref.edit().putBoolean(context.getString(R.string.pref_first_start), false).apply();
             }
 
-//            return val;
             return true;
         }
 

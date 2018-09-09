@@ -34,7 +34,7 @@
 
     <string name="info_empty_rank_details">Чтобы добавить категорию введите имя в поле сверху</string>
     <string name="info_empty_notes_details">Чтобы добавить заметку нажмите на центральную кнопку меню</string>
-    <string name="info_empty_bin_details" />
+    <string name="info_empty_bin_details">Удалённые заметки можно в любой момент восстановить</string>
 
     <!-- Name of menu items -->
     <string name="menu_page_notes_settings">Настройки</string>
@@ -156,6 +156,5 @@
     <!-- ItemRank -->
     <string name="list_item_rank_text_count">Тексты:</string>
     <string name="list_item_rank_roll_count">Списки:</string>
-    <string name="list_item_rank_roll_check">Выполнено:</string>
 
 </resources>

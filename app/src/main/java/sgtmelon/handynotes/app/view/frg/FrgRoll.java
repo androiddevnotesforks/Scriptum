@@ -10,9 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,11 +104,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         setupToolbar();
         setupDialog();
-
         setupRecyclerView();
         setupEnter();
 
         onMenuEditClick(activity.vm.getStNote().isEdit());
+
+        StNote stNote = activity.vm.getStNote();
+        stNote.setFirst(false);
+        activity.vm.setStNote(stNote);
     }
 
     @Override
@@ -402,6 +408,10 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         menuNote.setDrawable(editMode && !stNote.isCreate(), !stNote.isCreate());
         menuNote.setMenuGroupVisible(stNote.isBin(), editMode, !stNote.isBin() && !editMode);
 
+        if (stNote.isCreate() && editMode) rollContainer.setVisibility(View.VISIBLE);
+        else if (stNote.isFirst()) rollContainer.setVisibility(View.GONE);
+        else rollContainer.startAnimation(editMode ? translateIn : translateOut);
+
         bind(editMode);
 
         adapter.update(editMode);
@@ -652,6 +662,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     };
 
     //region EnterVariables
+    private LinearLayout rollContainer;
+    private Animation translateIn, translateOut;
     private EditText rollEnter;
     private ImageButton rollAdd;
     //endregion
@@ -667,6 +679,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             }
             return false;
         });
+
+        rollContainer = frgView.findViewById(R.id.incRollEnter_ll_container);
+
+        translateIn = AnimationUtils.loadAnimation(context, R.anim.translate_in);
+        translateOut = AnimationUtils.loadAnimation(context, R.anim.translate_out);
+
+        translateIn.setAnimationListener(animationListener);
+        translateOut.setAnimationListener(animationListener);
 
         rollEnter = frgView.findViewById(R.id.incRollEnter_et_enter);
         rollAdd = frgView.findViewById(R.id.incRollEnter_ib_add);
@@ -695,6 +715,31 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             return true;
         });
     }
+
+    private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+            rollContainer.setEnabled(false);
+
+            if (animation == translateOut) {
+                rollContainer.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            rollContainer.setEnabled(true);
+
+            if (animation == translateIn) {
+                rollContainer.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
 
     private void scrollToInsert(boolean scrollDown) {
         Log.i(TAG, "scrollToInsert");

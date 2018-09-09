@@ -1,54 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/incRollEnter_ll_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/clBackgroundItem"
+    android:orientation="vertical">
 
-    <data>
-
-        <import
-            alias="v"
-            type="android.view.View" />
-
-        <variable
-            name="keyEdit"
-            type="boolean" />
-
-    </data>
+    <View style="@style/Divider.Horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/clPrimary"
-        android:orientation="vertical"
-        android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'>
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="@dimen/layout_4dp">
 
-        <View style="@style/Divider.Horizontal" />
+        <EditText
+            android:id="@+id/incRollEnter_et_enter"
+            style="@style/Enter.Text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/hint_enter_roll"
+            android:imeOptions="flagNoFullscreen"
+            android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+            android:maxLines="5" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:padding="@dimen/layout_4dp">
-
-            <EditText
-                android:id="@+id/incRollEnter_et_enter"
-                style="@style/Enter.Text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/hint_enter_roll"
-                android:imeOptions="flagNoFullscreen"
-                android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                android:maxLines="5" />
-
-            <ImageButton
-                android:id="@+id/incRollEnter_ib_add"
-                style="@style/Enter.Button"
-                android:layout_gravity="bottom"
-                android:contentDescription="@null"
-                app:srcCompat="@drawable/ic_add" />
-
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/incRollEnter_ib_add"
+            style="@style/Enter.Button"
+            android:layout_gravity="bottom"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_add" />
 
     </LinearLayout>
 
-</layout>
+</LinearLayout>

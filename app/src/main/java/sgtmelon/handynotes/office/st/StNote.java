@@ -3,6 +3,7 @@ package sgtmelon.handynotes.office.st;
 public class StNote {
 
     private boolean create;
+    private boolean first = true;
     private boolean edit = true;
     private boolean bin = false;
 
@@ -12,6 +13,14 @@ public class StNote {
 
     public void setCreate(boolean create) {
         this.create = create;
+    }
+
+    public boolean isFirst() {
+        return first;
+    }
+
+    public void setFirst(boolean first) {
+        this.first = first;
     }
 
     public boolean isEdit() {
@@ -33,4 +42,5 @@ public class StNote {
     public void setBin(boolean bin) {
         this.bin = bin;
     }
+
 }
