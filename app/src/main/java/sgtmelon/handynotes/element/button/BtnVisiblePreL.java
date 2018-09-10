@@ -11,7 +11,7 @@ import sgtmelon.handynotes.office.intf.IntfItem;
 
 public class BtnVisiblePreL extends AppCompatImageButton implements IntfItem.Animation {
 
-    protected final Context context;
+    final Context context;
 
     public BtnVisiblePreL(Context context) {
         super(context);
@@ -34,9 +34,10 @@ public class BtnVisiblePreL extends AppCompatImageButton implements IntfItem.Ani
         setupDrawable();
     }
 
-    protected Drawable visibleOn, visibleOff;
+    Drawable visibleOn;
+    Drawable visibleOff;
 
-    protected void setupDrawable() {
+    void setupDrawable() {
         visibleOn = Help.Draw.get(context, R.drawable.ic_visible_on, R.attr.clAccent);
         visibleOff = Help.Draw.get(context, R.drawable.ic_visible_off, R.attr.clIcon);
     }

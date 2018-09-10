@@ -24,12 +24,14 @@ import sgtmelon.handynotes.office.intf.IntfMenu;
 public class MenuNotePreL implements Toolbar.OnMenuItemClickListener, IntfItem.Animation {
 
     //region Variables
-    protected final Context context;
+    final Context context;
     private final Window window;
-    protected final Toolbar toolbar;
+    final Toolbar toolbar;
     private final View indicator;
 
     private final int type;
+
+    private final Menu menu;
     private final int valTheme;
     //endregion
 
@@ -109,7 +111,6 @@ public class MenuNotePreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
         else toolbar.setNavigationIcon(cancelOff);
     }
 
-    private Menu menu;
     private MenuItem mItemStatus, mItemCheck;
 
     public void setupMenu(boolean status) {

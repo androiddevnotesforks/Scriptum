@@ -716,7 +716,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         });
     }
 
-    private Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+    private final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
         @Override
         public void onAnimationStart(Animation animation) {
             rollContainer.setEnabled(false);

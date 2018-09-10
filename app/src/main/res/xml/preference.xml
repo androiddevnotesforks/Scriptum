@@ -39,13 +39,17 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_other">
+    <PreferenceCategory android:title="@string/pref_header_app">
 
         <Preference
             android:defaultValue="@integer/pref_default_theme"
             android:key="@string/pref_key_theme"
             android:summary="@string/pref_summary_theme"
             android:title="@string/pref_title_theme" />
+
+        <Preference
+            android:key="@string/pref_key_rate"
+            android:title="@string/pref_title_rate"/>
 
         <Preference
             android:key="@string/pref_key_about"

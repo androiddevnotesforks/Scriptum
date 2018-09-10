@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Date Formats -->
+    <string name="date_app_format" translatable="false">yyyy-MM-dd HH:mm:ss</string>
+    <string name="date_note_today_format" translatable="false">HH:mm</string>
+    <string name="date_note_yesterday_format" translatable="false">d MMM yyyy</string>
+
+
     <!-- Settings -->
 
     <string name="pref_first_start" translatable="false">key_first_start</string>
@@ -59,9 +65,9 @@
     </string-array>
 
     <!-- Other -->
-    <string name="pref_header_other">Other</string>
+    <string name="pref_header_app">App</string>
 
-    <string name="pref_title_theme">App theme</string>
+    <string name="pref_title_theme">Theme</string>
     <string name="pref_summary_theme">Selected theme</string>
     <string name="pref_key_theme" translatable="false">key_theme</string>
 
@@ -69,6 +75,9 @@
         <item>Light</item>
         <item>Dark</item>
     </string-array>
+
+    <string name="pref_title_rate">Rate</string>
+    <string name="pref_key_rate" translatable="false">key_rate</string>
 
     <string name="pref_title_about">About app</string>
     <string name="pref_key_about" translatable="false">key_about</string>

@@ -14,7 +14,7 @@ public class HdlrAnim {
     //region Variable
     private final Context context;
 
-    private AnimatedVectorDrawable animOn, animOff;
+    private final AnimatedVectorDrawable animOn, animOff;
 
     private final Handler animHandler;
     private final Runnable animRunnable;
@@ -62,7 +62,7 @@ public class HdlrAnim {
         this.animState = animState;
     }
 
-    protected IntfItem.Animation animation;
+    private IntfItem.Animation animation;
 
     public void setAnimation(IntfItem.Animation animation) {
         this.animation = animation;

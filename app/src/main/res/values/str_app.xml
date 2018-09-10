@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Date Formats -->
-    <string name="date_app_format" translatable="false">yyyy-MM-dd HH:mm:ss</string>
-    <string name="date_note_today_format" translatable="false">HH:mm</string>
-    <string name="date_note_yesterday_format" translatable="false">d MMM yyyy</string>
-
-
-    <string name="app_name">Handy notes</string>
+    <string name="app_name" translatable="false">Handy Notes</string>
 
     <string name="title_frg_rank">Categories</string>
     <string name="title_frg_note">Notes</string>

@@ -2,6 +2,7 @@ package sgtmelon.handynotes.app.view.frg;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -56,7 +57,7 @@ public class FrgSettings extends PreferenceFragment {
 
         setupSortPref();
         setupSavePref();
-        setupOtherPref();
+        setupAppPref();
     }
 
     @Override
@@ -186,8 +187,8 @@ public class FrgSettings extends PreferenceFragment {
 
     private DlgInfo dlgInfo;
 
-    private void setupOtherPref() {
-        Log.i(TAG, "setupOtherPref");
+    private void setupAppPref() {
+        Log.i(TAG, "setupAppPref");
 
         prefTheme = findPreference(getString(R.string.pref_key_theme));
         valTheme = pref.getInt(getString(R.string.pref_key_theme), getResources().getInteger(R.integer.pref_default_theme));
@@ -216,6 +217,21 @@ public class FrgSettings extends PreferenceFragment {
             activity.isThemeChange();
         }));
         dlgTheme.setDismissListener(dialogInterface -> stOpen.setOpen(false));
+
+        Preference prefRate = findPreference(getString(R.string.pref_key_rate));
+        prefRate.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            final String packageName = activity.getPackageName();
+
+            try {
+                intent.setData(Uri.parse("market://details?id=" + packageName));
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException exception) {
+                intent.setData(Uri.parse("https://play.google.com/sore/apps/details?id=" + packageName));
+                startActivity(intent);
+            }
+            return true;
+        });
 
         Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
         prefOtherAbout.setOnPreferenceClickListener(preference -> {

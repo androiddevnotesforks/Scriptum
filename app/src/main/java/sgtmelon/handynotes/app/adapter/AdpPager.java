@@ -9,7 +9,7 @@ import sgtmelon.handynotes.app.view.frg.FrgIntro;
 
 public class AdpPager extends FragmentPagerAdapter {
 
-    private List<FrgIntro> itemList = new ArrayList<>();
+    private final List<FrgIntro> itemList = new ArrayList<>();
 
     public AdpPager(FragmentManager fm) {
         super(fm);

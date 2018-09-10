@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "sgtmelon.handynotes"
         minSdkVersion 16
@@ -45,7 +45,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$arch_ver"
     annotationProcessor "androidx.room:room-compiler:$arch_ver"
 
-    def x_ver = "1.0.0-beta01"
+    def x_ver = "1.0.0-rc02"
 
     implementation "com.google.android.material:material:$x_ver"
 
@@ -56,8 +56,8 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:$x_ver"
     implementation "androidx.vectordrawable:vectordrawable-animated:$x_ver"
 
-    androidTestImplementation "androidx.test:runner:1.1.0-alpha3"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-alpha3"
+    androidTestImplementation "androidx.test:runner:1.1.0-alpha4"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-alpha4"
 
     implementation 'com.romandanylyk:pageindicatorview:1.0.1'
 }

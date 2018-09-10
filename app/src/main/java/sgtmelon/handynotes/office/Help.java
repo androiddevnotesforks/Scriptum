@@ -227,7 +227,7 @@ public class Help {
                 pref.edit().putBoolean(context.getString(R.string.pref_first_start), false).apply();
             }
 
-            return true;
+            return val;
         }
 
         /**

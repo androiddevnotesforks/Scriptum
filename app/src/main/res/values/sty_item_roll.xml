@@ -3,10 +3,6 @@
 
     <style name="ItemRoll" />
 
-    <style name="ItemRoll.Read" />
-
-    <style name="ItemRoll.Write" />
-
     <style name="ItemRoll.Check">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
