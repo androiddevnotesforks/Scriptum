@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.util.Log;
 
 import java.util.List;
 
@@ -24,8 +23,6 @@ import sgtmelon.handynotes.office.annot.def.db.DefType;
 public class ItemStatus {
 
     //region Variables
-    private static final String TAG = "ItemStatus";
-
     private final Context context;
     private ItemNote itemNote;
 
@@ -118,15 +115,11 @@ public class ItemStatus {
 
     //Показывает созданное уведомление
     public void notifyNote() {
-        Log.i(TAG, "notifyNote");
-
         notificationManager.notify((int) itemNote.getId(), notification);
     }
 
     //Убирает созданное уведомление
     public void cancelNote() {
-        Log.i(TAG, "cancelNote");
-
         notificationManager.cancel((int) itemNote.getId());
     }
 

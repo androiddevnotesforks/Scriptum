@@ -46,7 +46,7 @@ public class VmActNote extends AndroidViewModel {
         type = bundle.getInt(DefNote.TYPE);
         id = bundle.getLong(DefNote.ID);
 
-        Log.i(TAG, "setValue: create - " + create + ", type - " + type + ", id - " + id);
+        Log.i(TAG, "setValue: create=" + create + ", type=" + type + ", id=" + id);
 
         if (repoNote == null) loadData();
     }
@@ -102,7 +102,7 @@ public class VmActNote extends AndroidViewModel {
     }
 
     public RepoNote loadData(long id) {
-        Log.i(TAG, "loadData");
+        Log.i(TAG, "loadData: id=" + id);
 
         Context context = getApplication().getApplicationContext();
 

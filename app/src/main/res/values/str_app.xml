@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name" translatable="false">Handy Notes</string>
+    <string name="app_name" translatable="false">Scriptum</string>
 
     <string name="title_frg_rank">Categories</string>
     <string name="title_frg_note">Notes</string>
@@ -167,7 +167,7 @@
 
         com.romandanylyk:pageindicatorview:1.0.1
     </string>
-    <string name="about_app_version">App version: 1.0</string>
+    <string name="about_app_version">App version: 1.0.0-beta01</string>
 
 
     <!-- EditText hint -->
