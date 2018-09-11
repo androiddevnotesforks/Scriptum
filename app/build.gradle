@@ -4,11 +4,11 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
     defaultConfig {
-        applicationId "sgtmelon.handynotes"
+        applicationId "sgtmelon.scriptum"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0.0-beta01"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 

@@ -167,7 +167,7 @@
 
         com.romandanylyk:pageindicatorview:1.0.1
     </string>
-    <string name="about_app_version">App version: 1.0.0-beta01</string>
+    <string name="about_app_version">App version: 1.0.0</string>
 
 
     <!-- EditText hint -->

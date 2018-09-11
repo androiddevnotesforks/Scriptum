@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sgtmelon.handynotes">
+    package="sgtmelon.scriptum">
 
     <application
         android:allowBackup="true"
@@ -11,10 +11,10 @@
         android:supportsRtl="true"
         android:theme="@style/App.Light.UI">
 
-        <activity android:name=".office.blank.BlankAct" />
+        <activity android:name="sgtmelon.scriptum.office.blank.BlankAct" />
 
         <activity
-            android:name=".app.view.act.ActSplash"
+            android:name="sgtmelon.scriptum.app.view.act.ActSplash"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/App.Splash">
             <intent-filter>
@@ -24,9 +24,9 @@
         </activity>
 
         <activity
-            android:name=".app.view.act.ActIntro"
+            android:name="sgtmelon.scriptum.app.view.act.ActIntro"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName=".app.view.act.ActSplash"
+            android:parentActivityName="sgtmelon.scriptum.app.view.act.ActSplash"
             android:theme="@style/App.Intro">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name=".app.view.act.ActMain"
+            android:name="sgtmelon.scriptum.app.view.act.ActMain"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -44,8 +44,8 @@
         </activity>
 
         <activity
-            android:name=".app.view.act.ActNote"
-            android:parentActivityName=".app.view.act.ActMain">
+            android:name="sgtmelon.scriptum.app.view.act.ActNote"
+            android:parentActivityName="sgtmelon.scriptum.app.view.act.ActMain">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -53,9 +53,9 @@
         </activity>
 
         <activity
-            android:name=".app.view.act.ActSettings"
+            android:name="sgtmelon.scriptum.app.view.act.ActSettings"
             android:configChanges="keyboardHidden"
-            android:parentActivityName=".app.view.act.ActMain">
+            android:parentActivityName="sgtmelon.scriptum.app.view.act.ActMain">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -63,9 +63,9 @@
         </activity>
 
         <activity
-            android:name=".app.view.act.ActDevelop"
+            android:name="sgtmelon.scriptum.app.view.act.ActDevelop"
             android:configChanges="keyboardHidden"
-            android:parentActivityName=".app.view.act.ActSettings">
+            android:parentActivityName="sgtmelon.scriptum.app.view.act.ActSettings">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

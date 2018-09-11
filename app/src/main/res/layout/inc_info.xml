@@ -3,9 +3,9 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.R" />
+        <import type="sgtmelon.scriptum.R" />
 
-        <import type="sgtmelon.handynotes.office.Help.Draw" />
+        <import type="sgtmelon.scriptum.office.Help.Draw" />
 
         <variable
             name="icon"

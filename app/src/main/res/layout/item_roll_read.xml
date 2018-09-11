@@ -10,7 +10,7 @@
 
         <variable
             name="itemRoll"
-            type="sgtmelon.handynotes.app.model.item.ItemRoll" />
+            type="sgtmelon.scriptum.app.model.item.ItemRoll" />
 
         <variable
             name="keyBin"

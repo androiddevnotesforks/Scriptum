@@ -4,15 +4,15 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.office.Help.Clr"/>
+        <import type="sgtmelon.scriptum.office.Help.Clr"/>
 
-        <import type="sgtmelon.handynotes.office.Help.Pref" />
+        <import type="sgtmelon.scriptum.office.Help.Pref" />
 
-        <import type="sgtmelon.handynotes.office.Help.Time" />
+        <import type="sgtmelon.scriptum.office.Help.Time" />
 
         <import
             alias="def"
-            type="sgtmelon.handynotes.office.annot.def.DefTheme" />
+            type="sgtmelon.scriptum.office.annot.def.DefTheme" />
 
         <import
             alias="text"
@@ -24,11 +24,11 @@
 
         <variable
             name="itemNote"
-            type="sgtmelon.handynotes.app.model.item.ItemNote" />
+            type="sgtmelon.scriptum.app.model.item.ItemNote" />
 
         <variable
             name="listRoll"
-            type="java.util.List&lt;sgtmelon.handynotes.app.model.item.ItemRoll&gt;" />
+            type="java.util.List&lt;sgtmelon.scriptum.app.model.item.ItemRoll&gt;" />
 
     </data>
 

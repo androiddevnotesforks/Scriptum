@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.R" />
+        <import type="sgtmelon.scriptum.R" />
 
         <import
             alias="v"

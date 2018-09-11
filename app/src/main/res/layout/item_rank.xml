@@ -10,7 +10,7 @@
 
         <variable
             name="itemRank"
-            type="sgtmelon.handynotes.app.model.item.ItemRank" />
+            type="sgtmelon.scriptum.app.model.item.ItemRank" />
 
     </data>
 
@@ -29,7 +29,7 @@
             android:padding="@dimen/layout_8dp"
             android:weightSum="1">
 
-            <sgtmelon.handynotes.element.button.BtnVisiblePreL
+            <sgtmelon.scriptum.element.button.BtnVisiblePreL
                 android:id="@+id/itemRank_bv_visible"
                 style="@style/ItemRank.Button"
                 android:layout_marginEnd="@dimen/layout_8dp"

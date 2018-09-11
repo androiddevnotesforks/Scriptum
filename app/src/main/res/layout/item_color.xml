@@ -4,7 +4,7 @@
 
     <data>
 
-        <import type="sgtmelon.handynotes.office.Help.Draw" />
+        <import type="sgtmelon.scriptum.office.Help.Draw" />
 
         <variable
             name="position"
