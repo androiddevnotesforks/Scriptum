@@ -8,6 +8,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +43,7 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
 
     private AdpSort adapter;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();
@@ -73,7 +75,8 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
+        if (animator != null) animator.setSupportsChangeAnimations(false);
 
         listSort = new ArrayList<>();
         String[] keysArr = keys.split(DefSort.divider);
@@ -117,7 +120,7 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             int flagsDrag = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
             int flagsSwipe = 0;
 
@@ -125,19 +128,19 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
         }
 
         @Override
-        public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
 
             adapter.notifyItemChanged(viewHolder.getAdapterPosition());
         }
 
         @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
         }
 
         @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             int oldPs = viewHolder.getAdapterPosition();
             int newPs = target.getAdapterPosition();
 
@@ -173,7 +176,7 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putString(DefDlg.INIT, init);

@@ -21,12 +21,8 @@ import sgtmelon.scriptum.office.intf.IntfItem;
 
 public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
 
-    private final List<ItemRank> listRank;
+    private final List<ItemRank> listRank = new ArrayList<>();
     private boolean[] startAnim;
-
-    public AdpRank() {
-        listRank = new ArrayList<>();
-    }
 
     public boolean[] getStartAnim() {
         return startAnim;

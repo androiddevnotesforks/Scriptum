@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import java.util.Arrays;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
@@ -31,6 +32,7 @@ public class DlgMultiply extends BlankDlg {
         return check;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();
@@ -65,7 +67,7 @@ public class DlgMultiply extends BlankDlg {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putBooleanArray(DefDlg.INIT, init);

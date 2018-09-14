@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import sgtmelon.scriptum.R;
@@ -31,6 +32,7 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
     private boolean isAll;
     private int p;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();
@@ -118,7 +120,7 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putInt(DefDb.NT_TP, type);

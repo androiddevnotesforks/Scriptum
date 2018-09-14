@@ -8,12 +8,18 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
+import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.view.frg.FrgBin;
 import sgtmelon.scriptum.app.view.frg.FrgNotes;
 import sgtmelon.scriptum.app.view.frg.FrgRank;
+import sgtmelon.scriptum.dagger.component.ComMain;
+import sgtmelon.scriptum.dagger.component.DaggerComMain;
+import sgtmelon.scriptum.dagger.module.ModMain;
 import sgtmelon.scriptum.element.dialog.DlgSheetAdd;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
@@ -28,9 +34,21 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
     //region Variable
     private static final String TAG = "ActMain";
 
-    private FragmentManager fm;
+    @Inject
+    FragmentManager fm;
 
-    private StPage stPage;
+    @Inject
+    StPage stPage;
+
+    @Inject
+    FrgRank frgRank;
+    @Inject
+    FrgNotes frgNotes;
+    @Inject
+    FrgBin frgBin;
+
+    @Inject
+    DlgSheetAdd dlgSheetAdd;
     //endregion
 
     @Override
@@ -39,39 +57,21 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
         setContentView(R.layout.act_main);
         Log.i(TAG, "onCreate");
 
-        fm = getSupportFragmentManager();
-
-        stPage = new StPage();
+        ComMain comMain = DaggerComMain.builder().modMain(new ModMain(this)).build();
+        comMain.inject(this);
 
         setupNavigation(savedInstanceState != null
                 ? savedInstanceState.getInt(DefPage.PAGE)
                 : DefPage.notes);
     }
 
-    private FrgRank frgRank;
-    private FrgNotes frgNotes;
-    private FrgBin frgBin;
-
-    private DlgSheetAdd dlgSheetAdd;
-
     private void setupNavigation(@DefPage int page) {
         Log.i(TAG, "setupNavigation");
-
-        frgRank = (FrgRank) fm.findFragmentByTag(DefFrg.RANK);
-        if (frgRank == null) frgRank = new FrgRank();
-
-        frgNotes = (FrgNotes) fm.findFragmentByTag(DefFrg.NOTES);
-        if (frgNotes == null) frgNotes = new FrgNotes();
-
-        frgBin = (FrgBin) fm.findFragmentByTag(DefFrg.BIN);
-        if (frgBin == null) frgBin = new FrgBin();
 
         BottomNavigationView navigationView = findViewById(R.id.actMain_bnv_menu);
         navigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setSelectedItemId(DefPage.itemId[page]);
 
-        dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(DefDlg.SHEET_ADD);
-        if (dlgSheetAdd == null) dlgSheetAdd = new DlgSheetAdd();
         dlgSheetAdd.setNavigationItemSelectedListener(menuItem -> {
             dlgSheetAdd.dismiss();
 
@@ -88,7 +88,7 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.i(TAG, "onNavigationItemSelected");
 
         boolean add = stPage.setPage(menuItem.getItemId());

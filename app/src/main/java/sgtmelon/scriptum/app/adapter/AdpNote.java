@@ -21,11 +21,7 @@ import sgtmelon.scriptum.office.intf.IntfItem;
 
 public class AdpNote extends RecyclerView.Adapter<AdpNote.NoteHolder> {
 
-    private final List<RepoNote> listRepoNote;
-
-    public AdpNote() {
-        listRepoNote = new ArrayList<>();
-    }
+    private final List<RepoNote> listRepoNote = new ArrayList<>();;
 
     private IntfItem.Click click;
     private IntfItem.LongClick longClick;

@@ -170,7 +170,7 @@ public class FrgBin extends Fragment implements
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
-            public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
+            public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
                 bind(vm.getListRepo().size());
             }
         };
@@ -272,7 +272,7 @@ public class FrgBin extends Fragment implements
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(DefDlg.OPEN, stOpen.isOpen());

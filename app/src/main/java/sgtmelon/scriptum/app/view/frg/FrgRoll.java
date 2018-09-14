@@ -236,7 +236,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             vm.setRepoNote(repoNote);
             activity.vm.setRepoNote(repoNote);
-            activity.setupFrg(false);
+            activity.setupFrg();
         });
 
         dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
@@ -592,7 +592,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             int flagsDrag = activity.vm.getStNote().isEdit() && stDrag.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
                     : 0;
@@ -621,7 +621,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         }
 
         @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
             int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
 
@@ -641,7 +641,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         }
 
         @Override
-        public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                 float itemWidth = viewHolder.itemView.getWidth();           //Ширина плитки
                 float targetX = itemWidth / 2;                              //Конечная точка, где альфа = 0

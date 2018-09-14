@@ -6,6 +6,8 @@ import sgtmelon.scriptum.R;
 @StringDef({AnnIntro.PAGE})
 public @interface AnnIntro {
 
+    String PAGE = "CURRENT_PAGE";
+
     int[] icon = new int[]{
             R.drawable.ic_note_add,
             R.drawable.ic_palette,
@@ -38,7 +40,5 @@ public @interface AnnIntro {
     };
 
     int count = icon.length;
-
-    String PAGE = "INTRO_PAGE";
 
 }

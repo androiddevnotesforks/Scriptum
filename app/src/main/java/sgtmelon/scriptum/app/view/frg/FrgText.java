@@ -205,7 +205,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
             vm.setRepoNote(repoNote);
             activity.vm.setRepoNote(repoNote);
-            activity.setupFrg(false);
+            activity.setupFrg();
         });
 
         dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);

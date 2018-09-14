@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import sgtmelon.scriptum.R;
 
 public class DlgSheetAdd extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sheet_add, container, false);
 
         NavigationView navigationView = view.findViewById(R.id.sheetAdd_nv_menu);
@@ -30,7 +31,7 @@ public class DlgSheetAdd extends BottomSheetDialogFragment implements Navigation
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         navigationItemSelectedListener.onNavigationItemSelected(menuItem);
         return false;
     }

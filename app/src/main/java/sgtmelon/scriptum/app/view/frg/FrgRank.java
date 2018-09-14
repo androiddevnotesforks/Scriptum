@@ -263,7 +263,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
-            public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
+            public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
                 bind(vm.getRepoRank().size());
             }
         };
@@ -407,7 +407,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         private int dragEnd;
 
         @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             int flagsDrag = stDrag.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
                     : 0;
@@ -429,7 +429,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         }
 
         @Override
-        public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
 
             dragEnd = viewHolder.getAdapterPosition();
@@ -449,12 +449,12 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         }
 
         @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
         }
 
         @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             int oldPs = viewHolder.getAdapterPosition();
             int newPs = target.getAdapterPosition();
 
@@ -470,7 +470,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     };
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putBoolean(DefDlg.OPEN, stOpen.isOpen());

@@ -59,13 +59,13 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
         saveNote = new SaveNote(this);
 
-        setupFrg(savedInstanceState != null);
+        setupFrg();
     }
 
     private FrgText frgText;
     private FrgRoll frgRoll;
 
-    public void setupFrg(boolean isSaved) {
+    public void setupFrg() {
         Log.i(TAG, "setupFrg");
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -73,16 +73,16 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
         switch (vm.getRepoNote().getItemNote().getType()) {
             case DefType.text:
-                if (isSaved) frgText = (FrgText) fm.findFragmentByTag(DefFrg.TEXT);
-                else frgText = new FrgText();
+                frgText = (FrgText) fm.findFragmentByTag(DefFrg.TEXT);
+                if (frgText == null) frgText = new FrgText();
 
                 saveNote.setMenuClick(frgText);
 
                 transaction.replace(R.id.actNote_fl_container, frgText, DefFrg.TEXT);
                 break;
             case DefType.roll:
-                if (isSaved) frgRoll = (FrgRoll) fm.findFragmentByTag(DefFrg.ROLL);
-                else frgRoll = new FrgRoll();
+                frgRoll = (FrgRoll) fm.findFragmentByTag(DefFrg.ROLL);
+                if (frgRoll == null) frgRoll = new FrgRoll();
 
                 saveNote.setMenuClick(frgRoll);
 

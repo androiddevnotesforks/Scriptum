@@ -23,7 +23,7 @@ public interface IntfItem {
     }
 
     interface Animation {
-        void setDrawable(boolean drawableOn, @Nullable boolean needAnim);
+        void setDrawable(boolean drawableOn, boolean needAnim);
     }
 
 }

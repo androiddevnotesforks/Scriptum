@@ -143,7 +143,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
-            public void onAnimationFinished(RecyclerView.ViewHolder viewHolder) {
+            public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
                 bind(vm.getListRepo().size());
             }
         };

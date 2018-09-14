@@ -31,7 +31,7 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
     //region Variables
     private final Context context;
 
-    private final List<ItemRoll> listRoll;
+    private final List<ItemRoll> listRoll = new ArrayList<>();
 
     private final boolean keyBin;
     private boolean keyEdit;
@@ -39,9 +39,6 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
     public AdpRoll(Context context, boolean keyBin, boolean keyEdit) {
         this.context = context;
-
-        listRoll = new ArrayList<>();
-
         this.keyBin = keyBin;
         this.keyEdit = keyEdit;
     }

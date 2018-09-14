@@ -106,7 +106,7 @@ public class MenuNotePreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
     }
 
     @Override
-    public void setDrawable(boolean drawableOn, @Nullable boolean needAnim) {
+    public void setDrawable(boolean drawableOn, boolean needAnim) {
         if (drawableOn) toolbar.setNavigationIcon(cancelOn);
         else toolbar.setNavigationIcon(cancelOff);
     }

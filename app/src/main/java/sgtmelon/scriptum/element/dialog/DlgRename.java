@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
@@ -43,6 +44,7 @@ public class DlgRename extends BlankDlg implements TextView.OnEditorActionListen
         return nameEnter.getText().toString();
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();
@@ -113,7 +115,7 @@ public class DlgRename extends BlankDlg implements TextView.OnEditorActionListen
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putInt(DefDb.RK_PS, position);

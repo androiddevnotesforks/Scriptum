@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,7 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
         return check;
     }
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();
@@ -56,7 +58,8 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
         adapter.setCallback(this);
         recyclerView.setAdapter(adapter);
 
-        ((SimpleItemAnimator) recyclerView.getItemAnimator()).setSupportsChangeAnimations(false);
+        SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
+        if (animator != null) animator.setSupportsChangeAnimations(false);
 
         return new AlertDialog.Builder(context)
                 .setTitle(title)
@@ -82,7 +85,7 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putInt(DefDlg.INIT, init);

@@ -19,13 +19,8 @@ import sgtmelon.scriptum.office.st.StSort;
 
 public class AdpSort extends RecyclerView.Adapter<AdpSort.SortHolder> {
 
-    private final List<ItemSort> listSort;
-    public final StSort stSort;
-
-    public AdpSort() {
-        listSort = new ArrayList<>();
-        stSort = new StSort();
-    }
+    private final List<ItemSort> listSort = new ArrayList<>();
+    public final StSort stSort = new StSort();
 
     private IntfItem.Click click;
 

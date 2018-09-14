@@ -35,7 +35,7 @@ public class MenuNote extends MenuNotePreL {
     }
 
     @Override
-    public void setDrawable(boolean drawableOn, @Nullable boolean needAnim) {
+    public void setDrawable(boolean drawableOn, boolean needAnim) {
         if (!needAnim) {
             if (drawableOn) toolbar.setNavigationIcon(cancelOn);
             else toolbar.setNavigationIcon(cancelOff);

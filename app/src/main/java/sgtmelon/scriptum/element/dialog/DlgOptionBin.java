@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import sgtmelon.scriptum.R;
@@ -22,6 +23,7 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
 
     private int p;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Context context = getContext();
@@ -64,7 +66,7 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putInt(DefDlg.VALUE, p);
