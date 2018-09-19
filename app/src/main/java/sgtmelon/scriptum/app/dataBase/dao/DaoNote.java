@@ -50,12 +50,10 @@ public abstract class DaoNote extends DaoBase {
 
         for (int i = 0; i < listNote.size(); i++) {
             ItemNote itemNote = listNote.get(i);
-
-            RepoNote repoNote = new RepoNote();
-            repoNote.setItemNote(itemNote);
-            repoNote.setListRoll(getRollView(itemNote.getId()));
-
+            List<ItemRoll> listRoll = getRollView(itemNote.getId());
             ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
+
+            RepoNote repoNote = new RepoNote(itemNote, listRoll, itemStatus);
 
             Long[] rkId = itemNote.getRankId();
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {

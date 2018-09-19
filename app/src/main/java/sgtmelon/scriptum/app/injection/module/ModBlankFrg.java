@@ -15,10 +15,10 @@ import dagger.Provides;
 @Module
 public class ModBlankFrg {
 
-    private Fragment fragment;
+    private final Fragment fragment;
 
-    private LayoutInflater inflater;
-    private ViewGroup container;
+    private final LayoutInflater inflater;
+    private final ViewGroup container;
 
     public ModBlankFrg(Fragment fragment, LayoutInflater inflater, ViewGroup container) {
         this.fragment = fragment;

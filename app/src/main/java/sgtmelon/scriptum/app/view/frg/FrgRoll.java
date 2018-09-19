@@ -594,6 +594,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
+
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
             int flagsDrag = activity.vm.getStNote().isEdit() && stDrag.isDrag()

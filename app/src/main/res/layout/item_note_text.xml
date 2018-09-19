@@ -34,73 +34,93 @@
         app:cardCornerRadius="@dimen/radius_2dp"
         app:cardUseCompatPadding="false">
 
-        <LinearLayout
-            android:id="@+id/itemNote_ll_click"
+        <FrameLayout
+            android:id="@+id/itemNote_fl_click"
             style="@style/ItemNote.Click">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+            <FrameLayout
+                android:id="@+id/itemNote_fl_check"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/clSelect">
 
-                <TextView
-                    android:id="@+id/itemNote_tv_name"
-                    style="@style/ItemNote.Name"
-                    android:text='@{itemNote.name}'
-                    android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}' />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:tint="?attr/clIcon"
+                    app:srcCompat="@drawable/ic_color_check" />
 
-                <TextView
-                    android:id="@+id/itemNote_tv_text"
-                    style="@style/ItemNote.Text"
-                    android:text='@{itemNote.text}' />
+            </FrameLayout>
+
+            <LinearLayout style="@style/ItemNote.Container">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/layout_8dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/itemNote_iv_rank"
-                        style="@style/ItemNote.Indicator.Info"
-                        android:contentDescription="@null"
-                        android:visibility='@{itemNote.rankId.length == 0 ? v.GONE : v.VISIBLE}'
-                        app:srcCompat="@drawable/ic_rank" />
-
-                    <ImageView
-                        android:id="@+id/itemNote_iv_bind"
-                        style="@style/ItemNote.Indicator.Info"
-                        android:contentDescription="@null"
-                        android:visibility='@{itemNote.status ? v.VISIBLE : v.GONE}'
-                        app:srcCompat="@drawable/ic_bind_text" />
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/itemNote_tv_change"
-                        style="@style/ItemNote.Info"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:text='@{Time.formatNoteDate(context, itemNote.change)}' />
+                        android:id="@+id/itemNote_tv_name"
+                        style="@style/ItemNote.Name"
+                        android:text='@{itemNote.name}'
+                        android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}' />
 
                     <TextView
-                        android:id="@+id/itemNote_tv_create"
-                        style="@style/ItemNote.Info"
-                        android:layout_width="wrap_content"
-                        android:text='@{Time.formatNoteDate(context, itemNote.create)}' />
+                        android:id="@+id/itemNote_tv_text"
+                        style="@style/ItemNote.Text"
+                        android:text='@{itemNote.text}' />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/layout_8dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/itemNote_iv_rank"
+                            style="@style/ItemNote.Indicator.Info"
+                            android:contentDescription="@null"
+                            android:visibility='@{itemNote.rankId.length == 0 ? v.GONE : v.VISIBLE}'
+                            app:srcCompat="@drawable/ic_rank" />
+
+                        <ImageView
+                            android:id="@+id/itemNote_iv_bind"
+                            style="@style/ItemNote.Indicator.Info"
+                            android:contentDescription="@null"
+                            android:visibility='@{itemNote.status ? v.VISIBLE : v.GONE}'
+                            app:srcCompat="@drawable/ic_bind_text" />
+
+                        <TextView
+                            android:id="@+id/itemNote_tv_change"
+                            style="@style/ItemNote.Info"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text='@{Time.formatNoteDate(context, itemNote.change)}' />
+
+                        <TextView
+                            android:id="@+id/itemNote_tv_create"
+                            style="@style/ItemNote.Info"
+                            android:layout_width="wrap_content"
+                            android:text='@{Time.formatNoteDate(context, itemNote.create)}' />
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
+                <View
+                    android:id="@+id/itemNote_iv_color"
+                    android:layout_width="@dimen/layout_4dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/layout_4dp"
+                    android:layout_marginLeft="@dimen/layout_4dp"
+                    android:background='@{Clr.getNote(context, itemNote.color, true)}'
+                    android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}' />
+
             </LinearLayout>
 
-            <View
-                android:id="@+id/itemNote_iv_color"
-                android:layout_width="@dimen/layout_4dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/layout_4dp"
-                android:layout_marginLeft="@dimen/layout_4dp"
-                android:background='@{Clr.getNote(context, itemNote.color, true)}'
-                android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}' />
+        </FrameLayout>
 
-        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

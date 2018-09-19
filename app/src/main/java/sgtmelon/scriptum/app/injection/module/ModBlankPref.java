@@ -12,8 +12,8 @@ import sgtmelon.scriptum.app.view.act.ActSettings;
 @Module
 public class ModBlankPref {
 
-    private PreferenceFragment preferenceFragment;
-    private ActSettings activity;
+    private final PreferenceFragment preferenceFragment;
+    private final ActSettings activity;
 
     public ModBlankPref(PreferenceFragment preferenceFragment) {
         this.preferenceFragment = preferenceFragment;

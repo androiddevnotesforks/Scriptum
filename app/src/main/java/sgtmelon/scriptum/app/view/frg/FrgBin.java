@@ -20,6 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.selection.ItemKeyProvider;
+import androidx.recyclerview.selection.SelectionTracker;
+import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +34,8 @@ import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
 import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
+import sgtmelon.scriptum.app.selection.SelNoteKeyProvider;
+import sgtmelon.scriptum.app.selection.SelNoteLookup;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgNotes;
 import sgtmelon.scriptum.databinding.FrgBinBinding;
@@ -44,7 +49,7 @@ import sgtmelon.scriptum.office.intf.IntfDialog;
 import sgtmelon.scriptum.office.intf.IntfItem;
 import sgtmelon.scriptum.office.st.StOpen;
 
-public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionBin {
+public class FrgBin extends Fragment implements IntfItem.Click, IntfDialog.OptionBin {
 
     //region Variable
     private static final String TAG = "FrgBin";
@@ -82,18 +87,18 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
                 .build();
         comFrg.inject(this);
 
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
-
-        return frgView = binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.i(TAG, "onActivityCreated");
+        frgView = binding.getRoot();
 
         setupToolbar();
         setupRecycler();
+        setupTracker();
+
+        if (savedInstanceState != null) {
+            selectionTracker.onRestoreInstanceState(savedInstanceState);
+            stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
+        }
+
+        return frgView;
     }
 
     private void bind(int listSize) {
@@ -159,6 +164,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         else mItemClearBin.setVisible(true);
     }
 
+    private RecyclerView recyclerView;
     @Inject
     AdpNote adapter;
     @Inject
@@ -174,17 +180,52 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
             }
         };
 
-        RecyclerView recyclerView = frgView.findViewById(R.id.frgBin_rv);
+        recyclerView = frgView.findViewById(R.id.frgBin_rv);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter.setCallback(this, this);
-
+        adapter.setClick(this);
         recyclerView.setAdapter(adapter);
 
         dlgOptionBin.setOptionBin(this);
+    }
+
+    private SelectionTracker<RepoNote> selectionTracker;
+    private SelNoteKeyProvider selNoteKeyProvider;
+    private boolean start = false;
+
+    private void setupTracker(){
+        Log.i(TAG, "setupTracker");
+
+        selNoteKeyProvider = new SelNoteKeyProvider(ItemKeyProvider.SCOPE_CACHED);
+
+        selectionTracker = new SelectionTracker.Builder<>(
+                "selectionId",
+                recyclerView,
+                selNoteKeyProvider,
+                new SelNoteLookup(recyclerView),
+                StorageStrategy.createParcelableStorage(RepoNote.class)
+        ).build();
+
+        adapter.setSelectionTracker(selectionTracker);
+
+        selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
+            @Override
+            public void onSelectionChanged() {
+                super.onSelectionChanged();
+                if (selectionTracker.hasSelection() && !start) {
+                    start = true;
+                    Log.i(TAG, "onSelectionChanged: start, " + selectionTracker.getSelection().size());
+                } else if (!selectionTracker.hasSelection() && start) {
+                    start = false;
+                    Log.i(TAG, "onSelectionChanged: cancel, " + selectionTracker.getSelection().size());
+                } else {
+                    Log.i(TAG, "onSelectionChanged: add, " + selectionTracker.getSelection().size());
+                }
+            }
+        });
     }
 
     private void updateAdapter() {
@@ -192,6 +233,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
 
         List<RepoNote> listRepo = vm.loadData(DefBin.in);
 
+        selNoteKeyProvider.update(listRepo);
         adapter.update(listRepo);
         adapter.notifyDataSetChanged();
 
@@ -213,13 +255,13 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         startActivity(intent);
     }
 
-    @Override
-    public void onItemLongClick(View view, int p) {
-        Log.i(TAG, "onItemLongClick");
-
-        dlgOptionBin.setArguments(p);
-        dlgOptionBin.show(fm, DefDlg.OPTIONS);
-    }
+//    @Override
+//    public void onItemLongClick(View view, int p) {
+//        Log.i(TAG, "onItemLongClick");
+//
+//        dlgOptionBin.setArguments(p);
+//        dlgOptionBin.show(fm, DefDlg.OPTIONS);
+//    }
 
     @Override
     public void onOptionRestoreClick(int p) {
@@ -270,7 +312,9 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState");
 
+        selectionTracker.onSaveInstanceState(outState);
         outState.putBoolean(DefDlg.OPEN, stOpen.isOpen());
     }
 

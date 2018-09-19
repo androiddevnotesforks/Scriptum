@@ -41,7 +41,7 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
         this.context = context;
     }
 
-    public void setKey(boolean keyBin, boolean keyEdit){
+    public void setKey(boolean keyBin, boolean keyEdit) {
         this.keyBin = keyBin;
         this.keyEdit = keyEdit;
     }
@@ -171,17 +171,8 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            switch (view.getId()) {
-                case R.id.itemRoll_ib_drag:
-                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setItemDrag(true);
-                    }
-                    break;
-                case R.id.itemRoll_et_enter:
-                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setItemDrag(false);
-                    }
-                    break;
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                drag.setItemDrag(view.getId() == R.id.itemRoll_ib_drag);
             }
             return false;
         }

@@ -31,4 +31,7 @@
     <color name="textLight">#353535</color>
     <color name="textDark">#f5f5f5</color>
 
+    <color name="selectLight">#15000000</color>
+    <color name="selectDark">#15ffffff</color>
+
 </resources>

@@ -13,6 +13,8 @@
         <attr name="clSecond" format="color" />
         <attr name="clIcon" format="color" />
         <attr name="clText" format="color" />
+
+        <attr name="clSelect" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="NoteTheme">

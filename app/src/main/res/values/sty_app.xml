@@ -16,6 +16,8 @@
         <item name="clIcon">@color/iconLight</item>
         <item name="clText">@color/textLight</item>
 
+        <item name="clSelect">@color/selectLight</item>
+
         <item name="clInfo">?attr/clText</item>
         <item name="clInfoIndicator">?attr/clIcon</item>
 
@@ -53,6 +55,8 @@
         <item name="clSecond">@color/secondDark</item>
         <item name="clIcon">@color/iconDark</item>
         <item name="clText">@color/textDark</item>
+
+        <item name="clSelect">@color/selectDark</item>
 
         <item name="clInfo">?attr/clSecond</item>
         <item name="clInfoIndicator">?attr/clAccent</item>
