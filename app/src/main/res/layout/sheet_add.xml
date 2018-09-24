@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:orientation="vertical">
+    android:layout_gravity="bottom">
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/sheetAdd_nv_menu"
@@ -14,4 +13,4 @@
         app:itemTextColor="?attr/clText"
         app:menu="@menu/menu_sheet_add" />
 
-</LinearLayout>
+</FrameLayout>

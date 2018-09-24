@@ -5,16 +5,17 @@ import javax.inject.Named;
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
+import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ScopeApp;
 import sgtmelon.scriptum.element.dialog.DlgColor;
 import sgtmelon.scriptum.element.dialog.DlgInfo;
 import sgtmelon.scriptum.element.dialog.DlgOptionBin;
 import sgtmelon.scriptum.element.dialog.DlgOptionNote;
 import sgtmelon.scriptum.element.dialog.DlgRename;
-import sgtmelon.scriptum.element.dialog.DlgSheetAdd;
 import sgtmelon.scriptum.element.dialog.DlgSort;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
 import sgtmelon.scriptum.element.dialog.common.DlgMultiply;
+import sgtmelon.scriptum.element.dialog.common.DlgSheet;
 import sgtmelon.scriptum.element.dialog.common.DlgSingle;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 
@@ -32,10 +33,13 @@ public class ModFindDlg {
 
     @Provides
     @ScopeApp
-    DlgSheetAdd provideDlgSheetAdd(FragmentManager fm) {
-        DlgSheetAdd dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(DefDlg.SHEET_ADD);
-        if (dlgSheetAdd == null) dlgSheetAdd = new DlgSheetAdd();
-
+    DlgSheet provideDlgSheetAdd(FragmentManager fm) {
+        DlgSheet dlgSheetAdd = (DlgSheet) fm.findFragmentByTag(DefDlg.SHEET_ADD);
+        if (dlgSheetAdd == null) {
+            dlgSheetAdd = new DlgSheet();
+            dlgSheetAdd.setLayout(R.layout.sheet_add);
+            dlgSheetAdd.setNavigation(R.id.sheetAdd_nv_menu);
+        }
         return dlgSheetAdd;
     }
 

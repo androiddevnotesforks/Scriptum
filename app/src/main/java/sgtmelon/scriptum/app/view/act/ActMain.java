@@ -20,7 +20,7 @@ import sgtmelon.scriptum.app.view.frg.FrgRank;
 import sgtmelon.scriptum.app.injection.component.ComAct;
 import sgtmelon.scriptum.app.injection.component.DaggerComAct;
 import sgtmelon.scriptum.app.injection.module.ModBlankAct;
-import sgtmelon.scriptum.element.dialog.DlgSheetAdd;
+import sgtmelon.scriptum.element.dialog.common.DlgSheet;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
 import sgtmelon.scriptum.office.annot.def.DefNote;
@@ -48,7 +48,7 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
     FrgBin frgBin;
 
     @Inject
-    DlgSheetAdd dlgSheetAdd;
+    DlgSheet dlgSheetAdd;
     //endregion
 
     @Override
