@@ -5,7 +5,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.blank.BlankAct;
 

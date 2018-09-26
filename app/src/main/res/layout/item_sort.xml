@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -43,7 +44,9 @@
             android:id="@+id/itemSort_tv_text"
             style="@style/ItemSort.Text"
             android:text='@{itemSort.text}'
-            android:textColor='@{position &lt;= sortEnd ? Clr.get(context, R.attr.clAccent) : Clr.get(context, R.attr.clSecond)}' />
+            android:textColor='@{position &lt;= sortEnd ? Clr.get(context, R.attr.clAccent) : Clr.get(context, R.attr.clSecond)}'
+            tools:text="@string/test_sort_text"
+            tools:textColor="?attr/clAccent" />
 
         <ImageView
             android:id="@+id/itemSort_iv_right"

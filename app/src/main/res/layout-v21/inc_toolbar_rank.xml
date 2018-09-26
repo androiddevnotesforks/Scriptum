@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:elevation="@dimen/elevation_4dp"
@@ -30,7 +31,8 @@
                     android:id="@+id/incToolbarRank_ib_cancel"
                     style="@style/Enter.Button"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_cancel_on" />
+                    app:srcCompat="@drawable/ic_cancel_on"
+                    tools:tint="?attr/clIcon" />
 
                 <EditText
                     android:id="@+id/incToolbarRank_et_enter"
@@ -48,7 +50,8 @@
                     android:id="@+id/incToolbarRank_ib_add"
                     style="@style/Enter.Button"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_rank" />
+                    app:srcCompat="@drawable/ic_rank"
+                    tools:tint="?attr/clAccent" />
 
             </LinearLayout>
 

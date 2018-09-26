@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefTheme;
 import sgtmelon.scriptum.office.annot.def.db.DefType;

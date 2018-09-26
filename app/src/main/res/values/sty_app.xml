@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="App" />
+    <style name="App"/>
 
     <style name="App.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="clAccent">@color/accentLight</item>
@@ -9,25 +9,26 @@
 
         <item name="clDivider">@color/dividerLight</item>
         <item name="clBackground">@color/backgroundLight</item>
+        <item name="clBackgroundView">@color/backgroundViewLight</item>
         <item name="clBackgroundEnter">@color/backgroundEnterLight</item>
-        <item name="clBackgroundItem">@color/backgroundItemLight</item>
 
-        <item name="clSecond">@color/secondLight</item>
-        <item name="clIcon">@color/iconLight</item>
         <item name="clText">@color/textLight</item>
+        <item name="clIcon">@color/iconLight</item>
+        <item name="clSecond">@color/secondLight</item>
 
         <item name="clSelect">@color/selectLight</item>
 
         <item name="clNoteInfoText">?attr/clText</item>
         <item name="clNoteIndicator">?attr/clIcon</item>
-        <item name="clNoteCheck">?attr/clIcon</item>
 
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clSecond</item>
         <item name="colorAccent">?attr/clAccent</item>
 
+
         <item name="styleToolbar">@style/Toolbar.Light</item>
         <item name="themePopup">@style/PopupTheme.Light</item>
+        <item name="styleFab">@style/Fab.Light</item>
 
         <item name="alertDialogStyle">@style/Alert.Light</item>
         <item name="alertDialogTheme">@style/Alert.Light</item>
@@ -50,18 +51,17 @@
 
         <item name="clDivider">@color/dividerDark</item>
         <item name="clBackground">@color/backgroundDark</item>
+        <item name="clBackgroundView">@color/backgroundViewDark</item>
         <item name="clBackgroundEnter">@color/backgroundEnterDark</item>
-        <item name="clBackgroundItem">@color/backgroundItemDark</item>
 
-        <item name="clSecond">@color/secondDark</item>
         <item name="clIcon">@color/iconDark</item>
         <item name="clText">@color/textDark</item>
+        <item name="clSecond">@color/secondDark</item>
 
         <item name="clSelect">@color/selectDark</item>
 
         <item name="clNoteInfoText">?attr/clSecond</item>
         <item name="clNoteIndicator">?attr/clAccent</item>
-        <item name="clNoteCheck">?attr/clAccent</item>
 
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clPrimary</item>
@@ -69,6 +69,7 @@
 
         <item name="styleToolbar">@style/Toolbar.Dark</item>
         <item name="themePopup">@style/PopupTheme.Dark</item>
+        <item name="styleFab">@style/Fab.Dark</item>
 
         <item name="alertDialogStyle">@style/Alert.Dark</item>
         <item name="alertDialogTheme">@style/Alert.Dark</item>
@@ -136,6 +137,22 @@
 
     <style name="Toolbar.Dark">
         <item name="android:theme">@style/PopupTheme.Dark</item>
+    </style>
+
+    <style name="Fab.Light" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">@dimen/layout_16dp</item>
+        <item name="android:tint">?attr/clBackgroundView</item>
+    </style>
+
+    <style name="Fab.Dark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:layout_margin">@dimen/layout_16dp</item>
+        <item name="android:tint">?attr/clBackgroundView</item>
     </style>
 
 </resources>

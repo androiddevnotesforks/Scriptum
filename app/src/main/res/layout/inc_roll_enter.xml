@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/incRollEnter_ll_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/clBackgroundItem"
+    android:background="?attr/clBackgroundView"
     android:orientation="vertical">
 
     <View style="@style/Divider.Horizontal" />
@@ -31,7 +32,8 @@
             style="@style/Enter.Button"
             android:layout_gravity="bottom"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_add" />
+            app:srcCompat="@drawable/ic_add"
+            tools:tint="?attr/clIcon"/>
 
     </LinearLayout>
 

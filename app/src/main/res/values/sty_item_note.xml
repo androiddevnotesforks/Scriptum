@@ -9,11 +9,23 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
+    <style name="ItemNote.Check">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:padding">@dimen/layout_8dp</item>
+        <item name="android:tint">?attr/clBackground</item>
+    </style>
+
     <style name="ItemNote.Container">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:padding">@dimen/layout_8dp</item>
+    </style>
+
+    <style name="ItemNote.Container.Roll">
+        <item name="android:padding">@dimen/layout_0dp</item>
     </style>
 
     <style name="ItemNote.Indicator">

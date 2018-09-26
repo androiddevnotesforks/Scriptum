@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.dataBase.dao;
+package sgtmelon.scriptum.app.database.dao;
 
 import android.text.TextUtils;
 import android.widget.TextView;

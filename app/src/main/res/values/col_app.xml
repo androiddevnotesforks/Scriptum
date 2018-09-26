@@ -10,26 +10,29 @@
     <color name="primaryLight">#fafafa</color>
     <color name="primaryDark">#353535</color>
 
+
     <color name="backgroundLight">#eeeeee</color>
     <color name="backgroundDark">#454545</color>
 
     <color name="dividerLight">#e0e0e0</color>
-    <color name="dividerDark">#252525</color>
+    <color name="dividerDark">#282828</color>
+
+    <color name="backgroundViewLight">#ffffff</color>
+    <color name="backgroundViewDark">#353535</color>
 
     <color name="backgroundEnterLight">#ffffff</color>
     <color name="backgroundEnterDark">#454545</color>
 
-    <color name="backgroundItemLight">#ffffff</color>
-    <color name="backgroundItemDark">#353535</color>
-
-    <color name="secondLight">#9e9e9e</color>
-    <color name="secondDark">#bdbdbd</color>
 
     <color name="iconLight">#353535</color>
-    <color name="iconDark">#f5f5f5</color>
+    <color name="iconDark">#e0e0e0</color>
 
     <color name="textLight">#353535</color>
-    <color name="textDark">#f5f5f5</color>
+    <color name="textDark">#e0e0e0</color>
+
+    <color name="secondLight">#9e9e9e</color>
+    <color name="secondDark">#9e9e9e</color>
+
 
     <color name="selectLight">#15000000</color>
     <color name="selectDark">#15ffffff</color>

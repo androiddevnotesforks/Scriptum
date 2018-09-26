@@ -24,7 +24,7 @@ import androidx.fragment.app.FragmentManager;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.CtrlMenu;
 import sgtmelon.scriptum.app.control.CtrlMenuPreL;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.injection.component.ComFrg;
 import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
 import sgtmelon.scriptum.app.injection.module.ModBlankFrg;

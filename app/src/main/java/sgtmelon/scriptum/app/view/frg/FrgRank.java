@@ -11,12 +11,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -28,7 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpRank;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.injection.component.ComFrg;
 import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
 import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
@@ -42,6 +36,10 @@ import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.intf.IntfItem;
 import sgtmelon.scriptum.office.st.StDrag;
 import sgtmelon.scriptum.office.st.StOpen;
+
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
         View.OnClickListener, View.OnLongClickListener {
@@ -176,31 +174,31 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             case R.id.incToolbarRank_ib_add:
                 RepoRank repoRank = vm.getRepoRank();
 
-                int rankPs = repoRank.size();
+                int ps = repoRank.size();
                 String name = clearEnter();
 
-                ItemRank itemRank = new ItemRank(rankPs, name);
+                ItemRank itemRank = new ItemRank(ps, name);
 
                 db = DbRoom.provideDb(context);
                 long rankId = db.daoRank().insert(itemRank);
                 db.close();
 
                 itemRank.setId(rankId);
-                repoRank.add(rankPs, itemRank);
+                repoRank.add(ps, itemRank);
 
                 vm.setRepoRank(repoRank);
                 adapter.update(repoRank.getListRank());
 
                 if (repoRank.size() == 1) {
                     bind(repoRank.size());
-                    adapter.notifyItemInserted(rankPs);
+                    adapter.notifyItemInserted(ps);
                 } else {
-                    if (layoutManager.findLastVisibleItemPosition() == rankPs - 1) {    //Если видимая позиция равна позиции куда добавили заметку
-                        recyclerView.scrollToPosition(rankPs);                          //Прокручиваем до края, незаметно
-                        adapter.notifyItemInserted(rankPs);                             //Добавляем элемент с анимацией
+                    if (layoutManager.findLastVisibleItemPosition() == ps - 1) {
+                        recyclerView.scrollToPosition(ps);                          //Прокручиваем до края, незаметно
+                        adapter.notifyItemInserted(ps);                             //Добавляем элемент с анимацией
                     } else {
-                        recyclerView.smoothScrollToPosition(rankPs);                    //Медленно прокручиваем, через весь список
-                        adapter.notifyDataSetChanged();                                 //Добавляем элемент без анимации
+                        recyclerView.smoothScrollToPosition(ps);                    //Медленно прокручиваем, через весь список
+                        adapter.notifyDataSetChanged();                             //Добавляем элемент без анимации
                     }
                 }
                 break;
@@ -231,7 +229,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         if (repoRank.size() == 1) bind(repoRank.size());
         else {
-            if (layoutManager.findFirstVisibleItemPosition() == ps) {   //Если видимая позиция равна позиции куда добавили заметку
+            if (layoutManager.findFirstVisibleItemPosition() == ps) {
                 recyclerView.scrollToPosition(ps);                      //Прокручиваем до края, незаметно
                 adapter.notifyItemInserted(ps);                         //Добавляем элемент с анимацией
             } else {
@@ -243,7 +241,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     }
 
     //region Recycler variable
-    private RecyclerView recyclerView;
+    public RecyclerView recyclerView;
 
     @Inject
     StDrag stDrag;
@@ -337,7 +335,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 break;
             case R.id.itemRank_ll_click:
                 if (!stOpen.isOpen()) {
-                    stOpen.setOpen();
+                    stOpen.setOpen(true);
 
                     dlgRename.setArguments(p, itemRank.getName(), new ArrayList<>(repoRank.getListName()));
                     dlgRename.show(fm, DefDlg.RENAME);

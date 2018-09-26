@@ -14,7 +14,7 @@ import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.view.act.ActSplash;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefNote;

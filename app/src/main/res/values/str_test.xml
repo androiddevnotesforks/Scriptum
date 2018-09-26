@@ -4,7 +4,6 @@
     <!-- Test strings for layout -->
 
     <!-- Item note test -->
-
     <string name="test_note_name" translatable="false">Не глупое заглавие заметки</string>
 
     <string name="test_note_text" translatable="false">
@@ -13,13 +12,15 @@
         А так же не забудь надеть носочки, чтобы грело! Чтобы было тепло и уютно.
     </string>
 
-    <string name="test_note_roll_1" translatable="false">Купить молоко, зарплата, сходить в банк.</string>
-    <string name="test_note_roll_2" translatable="false">Это отсылка к POSTAL2))</string>
-    <string name="test_note_roll_3" translatable="false">Жаль что это никто не увидит.</string>
-    <string name="test_note_roll_4" translatable="false">Хотя Аринка увидит. Привет Арин :*</string>
-
+    <string name="test_note_roll" translatable="false">Не пустой пункт для макета, ещё и текст длинный. Ваау.</string>
     <string name="test_note_time" translatable="false">25 Авг 2018</string>
     <string name="test_note_done" translatable="false">3/5</string>
+
+    <string name="test_rank_name" translatable="false">Название какой-нибудь категории</string>
+    <string name="test_rank_text" translatable="false">Тексты: 1</string>
+    <string name="test_rank_roll" translatable="false">Списки: 10</string>
+
+    <string name="test_sort_text" translatable="false">Сортируй как хочешь</string>
 
     <!-- Activity develop test -->
     <string name="test_note_data_base" translatable="false">Note Data Base:</string>

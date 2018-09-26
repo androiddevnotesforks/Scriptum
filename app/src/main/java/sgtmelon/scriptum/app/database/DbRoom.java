@@ -1,13 +1,13 @@
-package sgtmelon.scriptum.app.dataBase;
+package sgtmelon.scriptum.app.database;
 
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import sgtmelon.scriptum.app.dataBase.dao.DaoNote;
-import sgtmelon.scriptum.app.dataBase.dao.DaoRank;
-import sgtmelon.scriptum.app.dataBase.dao.DaoRoll;
+import sgtmelon.scriptum.app.database.dao.DaoNote;
+import sgtmelon.scriptum.app.database.dao.DaoRank;
+import sgtmelon.scriptum.app.database.dao.DaoRoll;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRank;
 import sgtmelon.scriptum.app.model.item.ItemRoll;

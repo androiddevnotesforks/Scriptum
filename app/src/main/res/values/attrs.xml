@@ -7,12 +7,12 @@
 
         <attr name="clDivider" format="color" />
         <attr name="clBackground" format="color" />
+        <attr name="clBackgroundView" format="color" />
         <attr name="clBackgroundEnter" format="color" />
-        <attr name="clBackgroundItem" format="color" />
 
-        <attr name="clSecond" format="color" /> <!-- TODO remane -->
         <attr name="clIcon" format="color" />
         <attr name="clText" format="color" />
+        <attr name="clSecond" format="color" />
 
         <attr name="clSelect" format="color" />
     </declare-styleable>
@@ -20,12 +20,12 @@
     <declare-styleable name="NoteTheme">
         <attr name="clNoteInfoText" format="color" />
         <attr name="clNoteIndicator" format="color" />
-        <attr name="clNoteCheck" format="color" />
     </declare-styleable>
 
-    <declare-styleable name="ToolbarTheme">
+    <declare-styleable name="ElementTheme">
         <attr name="styleToolbar" format="integer" />
         <attr name="themePopup" format="integer" />
+        <attr name="styleFab" format="integer" />
     </declare-styleable>
 
 </resources>

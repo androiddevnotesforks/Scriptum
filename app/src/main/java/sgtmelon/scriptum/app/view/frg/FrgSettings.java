@@ -103,7 +103,7 @@ public class FrgSettings extends PreferenceFragment {
         prefSort.setSummary(Help.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), DefSort.def)));
         prefSort.setOnPreferenceClickListener(preference -> {
             if (!stOpen.isOpen()) {
-                stOpen.setOpen();
+                stOpen.setOpen(true);
 
                 dlgSort.setArguments(valSort);
                 dlgSort.show(fm, DefDlg.SORT);
@@ -132,7 +132,7 @@ public class FrgSettings extends PreferenceFragment {
         prefColor.setSummary(getResources().getStringArray(R.array.pref_text_color)[valColor]);
         prefColor.setOnPreferenceClickListener(preference -> {
             if (!stOpen.isOpen()) {
-                stOpen.setOpen();
+                stOpen.setOpen(true);
 
                 dlgColor.setArguments(valColor);
                 dlgColor.show(fm, DefDlg.COLOR);
@@ -164,7 +164,7 @@ public class FrgSettings extends PreferenceFragment {
         prefSaveTime.setSummary(getResources().getStringArray(R.array.pref_text_save_time)[valSaveTime]);
         prefSaveTime.setOnPreferenceClickListener(preference -> {
             if (!stOpen.isOpen()) {
-                stOpen.setOpen();
+                stOpen.setOpen(true);
 
                 dlgSaveTime.setArguments(valSaveTime);
                 dlgSaveTime.show(fm, DefDlg.SAVE_TIME);
@@ -208,7 +208,7 @@ public class FrgSettings extends PreferenceFragment {
         prefTheme.setSummary(getResources().getStringArray(R.array.pref_text_theme)[valTheme]);
         prefTheme.setOnPreferenceClickListener(preference -> {
             if (!stOpen.isOpen()) {
-                stOpen.setOpen();
+                stOpen.setOpen(true);
 
                 dlgTheme.setArguments(valTheme);
                 dlgTheme.show(fm, DefDlg.THEME);
@@ -246,7 +246,7 @@ public class FrgSettings extends PreferenceFragment {
         Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
         prefOtherAbout.setOnPreferenceClickListener(preference -> {
             if (!stOpen.isOpen()) {
-                stOpen.setOpen();
+                stOpen.setOpen(true);
 
                 dlgInfo.show(fm, DefDlg.INFO);
             }

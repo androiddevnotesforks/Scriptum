@@ -29,7 +29,7 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.item.ItemSort;

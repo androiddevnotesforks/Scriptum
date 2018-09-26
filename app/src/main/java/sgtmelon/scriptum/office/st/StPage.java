@@ -13,20 +13,22 @@ public class StPage {
     }
 
     public boolean setPage(@IdRes int itemId) {
-        boolean add = false;
+        boolean scroll = false;
         switch (itemId) {
             case R.id.menu_actMain_pageRank:
-                page = DefPage.rank;
+                if (page == DefPage.rank) scroll = true;
+                else page = DefPage.rank;
                 break;
             case R.id.menu_actMain_pageNote:
-                if (page == DefPage.notes) add = true;
+                if (page == DefPage.notes) scroll = true;
                 else page = DefPage.notes;
                 break;
             case R.id.menu_actMain_pageBin:
-                page = DefPage.bin;
+                if (page == DefPage.bin) scroll = true;
+                else page = DefPage.bin;
                 break;
         }
-        return add;
+        return scroll;
     }
 
 }

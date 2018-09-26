@@ -10,7 +10,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemStatus;
 import sgtmelon.scriptum.app.model.repo.RepoNote;

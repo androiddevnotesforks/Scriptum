@@ -28,13 +28,13 @@
     <string name="info_intro_button">Get started</string>
 
 
-    <string name="info_empty_rank_title">No categories</string>
-    <string name="info_empty_notes_title">No created notes</string>
-    <string name="info_empty_bin_title">Bin is empty</string>
+    <string name="info_rank_title">No categories</string>
+    <string name="info_notes_title">No created notes</string>
+    <string name="info_bin_title">Bin is empty</string>
 
-    <string name="info_empty_rank_details">For add category write name in text field from top</string>
-    <string name="info_empty_notes_details">For add new note click on central button of menu</string>
-    <string name="info_empty_bin_details">Deleted notes can be restored at any time</string>
+    <string name="info_rank_details">For add category write name in text field from top</string>
+    <string name="info_notes_details">For add new note click on central button of menu</string>
+    <string name="info_bin_details">Deleted notes can be restored at any time</string>
 
 
     <!-- Name of menu items -->

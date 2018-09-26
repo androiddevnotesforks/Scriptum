@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.view.frg;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,13 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -33,9 +25,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpRoll;
-import sgtmelon.scriptum.app.control.CtrlMenu;
 import sgtmelon.scriptum.app.control.CtrlMenuPreL;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.injection.component.ComFrg;
 import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
 import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
@@ -58,6 +49,11 @@ import sgtmelon.scriptum.office.intf.IntfMenu;
 import sgtmelon.scriptum.office.st.StCheck;
 import sgtmelon.scriptum.office.st.StDrag;
 import sgtmelon.scriptum.office.st.StNote;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FrgRoll extends Fragment implements View.OnClickListener,
         IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {
@@ -146,12 +142,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         toolbar.inflateMenu(R.menu.menu_act_note);
 
         View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new CtrlMenuPreL(context, activity.getWindow());
-        } else {
-            menuNote = new CtrlMenu(context, activity.getWindow());
-        }
 
         menuNote.setToolbar(toolbar);
         menuNote.setIndicator(indicator);
@@ -411,9 +401,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         if (stNote.isCreate() && editMode) rollContainer.setVisibility(View.VISIBLE);
         else if (stNote.isFirst()) rollContainer.setVisibility(View.GONE);
-        else {
-            rollContainer.startAnimation(editMode ? translateIn : translateOut);
-        }
+        else rollContainer.startAnimation(editMode ? translateIn : translateOut);
 
         bind(editMode);
 
@@ -748,16 +736,16 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     private void scrollToInsert(boolean scrollDown) {
         Log.i(TAG, "scrollToInsert");
 
-        String text = rollEnter.getText().toString();       //Берём текст из поля
-        if (!text.equals("")) {                             //Если он != пустому месту, то добавляем
-            rollEnter.setText("");                          //Сразу же убираем текст с поля
+        String text = rollEnter.getText().toString();   //Берём текст из поля
+        if (!text.equals("")) {                         //Если он != пустому месту, то добавляем
+            rollEnter.setText("");                      //Сразу же убираем текст с поля
 
-            int rollPs;                                     //Позиция, куда будем добавлять новый пункт
+            int ps;                                     //Позиция, куда будем добавлять новый пункт
             if (scrollDown) {
-                rollPs = adapter.getItemCount();        //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
-            } else rollPs = 0;                              //Добавить в самое начало
+                ps = adapter.getItemCount();            //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
+            } else ps = 0;                              //Добавить в самое начало
 
-            ItemRoll itemRoll = new ItemRoll(); //Создаём новый элемент
+            ItemRoll itemRoll = new ItemRoll();
             itemRoll.setIdNote(vm.getRepoNote().getItemNote().getId());
             itemRoll.setText(text);
             itemRoll.setExist(false);
@@ -765,26 +753,26 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             RepoNote repoNote = vm.getRepoNote();
             List<ItemRoll> listRoll = repoNote.getListRoll();
 
-            listRoll.add(rollPs, itemRoll);             //Добавляем его
+            listRoll.add(ps, itemRoll);
 
             repoNote.setListRoll(listRoll);
             vm.setRepoNote(repoNote);
 
-            adapter.update(listRoll);            //Обновляем адаптер
+            adapter.update(listRoll);
 
-            int visiblePs;                                  //Видимая позиция
+            int visiblePs;
             if (scrollDown) {
                 visiblePs = layoutManager.findLastVisibleItemPosition() + 1;   //Видимая последняя позиция +1 (добавленный элемент)
             } else {
                 visiblePs = layoutManager.findFirstVisibleItemPosition();      //Видимая первая позиция
             }
 
-            if (visiblePs == rollPs) {                                       //Если видимая позиция равна позиции куда добавили пункт
-                recyclerView.scrollToPosition(rollPs);                        //Прокручиваем до края, незаметно
-                adapter.notifyItemInserted(rollPs);                       //Добавляем элемент с анимацией
+            if (visiblePs == ps) {                          //Если видимая позиция равна позиции куда добавили пункт
+                recyclerView.scrollToPosition(ps);          //Прокручиваем до края, незаметно
+                adapter.notifyItemInserted(ps);             //Добавляем элемент с анимацией
             } else {
-                recyclerView.smoothScrollToPosition(rollPs);                  //Медленно прокручиваем, через весь список
-                adapter.notifyDataSetChanged();                             //Добавляем элемент без анимации
+                recyclerView.smoothScrollToPosition(ps);    //Медленно прокручиваем, через весь список
+                adapter.notifyDataSetChanged();             //Добавляем элемент без анимации
             }
         }
     }

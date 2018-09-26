@@ -3,6 +3,7 @@
 
     <style name="App.Light.UI">
         <item name="colorPrimaryDark">?attr/clPrimary</item>
+
         <item name="android:windowBackground">?attr/clBackground</item>
 
         <item name="android:windowLightStatusBar">true</item>

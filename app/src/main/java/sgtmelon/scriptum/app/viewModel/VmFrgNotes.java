@@ -7,7 +7,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 

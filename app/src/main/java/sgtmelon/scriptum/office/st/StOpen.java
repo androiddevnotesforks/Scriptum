@@ -12,8 +12,4 @@ public class StOpen {
         this.open = open;
     }
 
-    public void setOpen() {
-        open = !open;
-    }
-
 }

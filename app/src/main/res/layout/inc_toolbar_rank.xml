@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:elevation="@dimen/elevation_0dp">
@@ -8,8 +9,8 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/incToolbar_tb"
         style="?attr/styleToolbar"
-        android:paddingRight="@dimen/layout_8dp"
         android:paddingLeft="@dimen/layout_8dp"
+        android:paddingRight="@dimen/layout_8dp"
         app:popupTheme="?attr/themePopup">
 
         <androidx.cardview.widget.CardView
@@ -28,7 +29,8 @@
                     android:id="@+id/incToolbarRank_ib_cancel"
                     style="@style/Enter.Button"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_cancel_on" />
+                    app:srcCompat="@drawable/ic_cancel_on"
+                    tools:tint="?attr/clIcon" />
 
                 <EditText
                     android:id="@+id/incToolbarRank_et_enter"
@@ -46,7 +48,8 @@
                     android:id="@+id/incToolbarRank_ib_add"
                     style="@style/Enter.Button"
                     android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_rank" />
+                    app:srcCompat="@drawable/ic_rank"
+                    tools:tint="?attr/clAccent" />
 
             </LinearLayout>
 

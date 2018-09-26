@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -29,15 +30,18 @@
             style="@style/Info.Icon"
             android:contentDescription="@null"
             android:src='@{Draw.get(context, icon, R.attr.clIcon)}'
-            android:tint="?attr/clIcon" />
+            android:tint="?attr/clIcon"
+            tools:srcCompat="@mipmap/ic_info_notes"/>
 
         <TextView
             style="@style/Info.Title"
-            android:text='@{context.getString(title)}' />
+            android:text='@{context.getString(title)}'
+            tools:text="@string/info_notes_title"/>
 
         <TextView
             style="@style/Info.Details"
-            android:text='@{context.getString(details)}' />
+            android:text='@{context.getString(details)}'
+            tools:text="@string/info_notes_details"/>
 
     </LinearLayout>
 

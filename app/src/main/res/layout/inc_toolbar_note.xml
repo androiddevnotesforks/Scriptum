@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -52,13 +53,15 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_enter_name"
                     android:text='@={itemNote.name}'
-                    android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}' />
+                    android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
+                    tools:text="@string/test_note_name" />
 
                 <HorizontalScrollView
                     style="@style/ToolbarNote.Scroll"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'>
+                    android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
+                    tools:visibility="invisible">
 
                     <TextView
                         style="@style/ToolbarNote.Text"
@@ -76,7 +79,9 @@
         <View
             android:id="@+id/incToolbarNote_iv_color"
             style="@style/ItemNote.Color.Horizontal"
-            android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}' />
+            android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
+            tools:background="@color/noteRedDark"
+            tools:visibility="gone" />
 
         <View style="@style/Divider.Horizontal" />
 

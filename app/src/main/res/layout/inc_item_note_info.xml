@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.office.Help.Time" />
+
+        <import
+            alias="def"
+            type="sgtmelon.scriptum.office.annot.def.db.DefType" />
+
+        <import
+            alias="v"
+            type="android.view.View" />
+
+        <variable
+            name="itemNote"
+            type="sgtmelon.scriptum.app.model.item.ItemNote" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_8dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            style="@style/ItemNote.Indicator.Info"
+            android:contentDescription="@null"
+            android:visibility='@{itemNote.rankId.length == 0 ? v.GONE : v.VISIBLE}'
+            app:srcCompat="@drawable/ic_rank" />
+
+        <ImageView
+            style="@style/ItemNote.Indicator.Info"
+            android:contentDescription="@null"
+            android:src='@{itemNote.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+            android:visibility='@{itemNote.status ? v.VISIBLE : v.GONE}'
+            tools:srcCompat="@drawable/ic_bind_roll" />
+
+        <TextView
+            style="@style/ItemNote.Info"
+            android:layout_width="wrap_content"
+            android:text='@{itemNote.type == def.roll ? itemNote.text : ""}'
+            android:visibility='@{itemNote.type == def.roll ?  v.VISIBLE : v.GONE}'
+            tools:text="@string/test_note_done"
+            tools:visibility="visible" />
+
+        <TextView
+            style="@style/ItemNote.Info"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text='@{Time.formatNoteDate(context, itemNote.change)}'
+            tools:text="@string/test_note_time" />
+
+        <TextView
+            style="@style/ItemNote.Info"
+            android:layout_width="wrap_content"
+            android:text='@{Time.formatNoteDate(context, itemNote.create)}'
+            tools:text="@string/test_note_time" />
+
+    </LinearLayout>
+
+</layout>

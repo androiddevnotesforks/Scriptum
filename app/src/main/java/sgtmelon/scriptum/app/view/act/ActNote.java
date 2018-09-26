@@ -2,14 +2,11 @@ package sgtmelon.scriptum.app.view.act;
 
 import android.os.Bundle;
 import android.util.Log;
-
-import javax.inject.Inject;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.CtrlSave;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.injection.component.ComAct;
 import sgtmelon.scriptum.app.injection.component.DaggerComAct;
 import sgtmelon.scriptum.app.injection.module.ModBlankAct;
@@ -25,6 +22,8 @@ import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.blank.BlankAct;
 import sgtmelon.scriptum.office.intf.IntfMenu;
 import sgtmelon.scriptum.office.st.StNote;
+
+import javax.inject.Inject;
 
 public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
@@ -71,6 +70,12 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
     public void setupFrg(boolean isSave) {
         Log.i(TAG, "setupFrg");
+
+        if (!isSave) {
+            StNote stNote = vm.getStNote();
+            stNote.setFirst(true);
+            vm.setStNote(stNote);
+        }
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);

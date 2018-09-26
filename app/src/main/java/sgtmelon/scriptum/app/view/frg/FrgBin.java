@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpNote;
-import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.injection.component.ComFrg;
 import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
 import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
@@ -125,7 +125,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfDialog.Optio
             switch (item.getItemId()) {
                 case R.id.menu_frgBin_clear:
                     if (!stOpen.isOpen()) {
-                        stOpen.setOpen();
+                        stOpen.setOpen(true);
 
                         dlgClearBin.show(fm, DefDlg.CLEAR_BIN);
                     }
@@ -164,11 +164,14 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfDialog.Optio
         else mItemClearBin.setVisible(true);
     }
 
-    private RecyclerView recyclerView;
+    //region RecyclerVariable
+    public RecyclerView recyclerView;
+
     @Inject
     AdpNote adapter;
     @Inject
     DlgOptionBin dlgOptionBin;
+    //endregion
 
     private void setupRecycler() {
         Log.i(TAG, "setupRecycler");
