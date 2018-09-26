@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <variable
-            name="itemRoll"
-            type="sgtmelon.scriptum.app.model.item.ItemRoll" />
+        <variable name="itemRoll"
+                  type="sgtmelon.scriptum.app.model.item.ItemRoll"/>
 
     </data>
 
     <androidx.cardview.widget.CardView
-        style="@style/Card"
-        app:cardBackgroundColor="?attr/clBackgroundView"
-        app:cardCornerRadius="@dimen/radius_2dp"
-        app:cardUseCompatPadding="false">
+            style="@style/Card"
+            app:cardBackgroundColor="?attr/clBackgroundView"
+            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardUseCompatPadding="false">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+            <FrameLayout android:layout_width="wrap_content" android:layout_height="match_parent">
 
-                <CheckBox style="@style/ItemRoll.Write.Check" />
+                <CheckBox style="@style/ItemRoll.Write.Check"/>
 
                 <ImageButton
-                    android:id="@+id/itemRoll_ib_drag"
-                    style="@style/ItemRoll.Click"
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_move"
-                    tools:tint="?attr/clAccent" />
+                        android:id="@+id/itemRoll_ib_drag"
+                        style="@style/ItemRoll.Click"
+                        android:contentDescription="@null"
+                        app:srcCompat="@drawable/ic_move"
+                        tools:tint="?attr/clAccent"/>
 
             </FrameLayout>
 
             <EditText
-                android:id="@+id/itemRoll_et_enter"
-                style="@style/ItemRoll.Write.Enter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@null"
-                android:text='@{itemRoll.text}'
-                tools:text="@string/test_note_roll" />
+                    android:id="@+id/itemRoll_et_enter"
+                    style="@style/ItemRoll.Write.Enter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@null"
+                    android:text='@{itemRoll.text}'
+                    tools:text="@string/test_note_roll"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

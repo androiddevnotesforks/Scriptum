@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="sgtmelon.scriptum.R" />
+        <import type="sgtmelon.scriptum.R"/>
 
-        <import type="sgtmelon.scriptum.office.Help.Draw" />
+        <import type="sgtmelon.scriptum.office.Help.Draw"/>
 
-        <variable
-            name="icon"
-            type="int" />
+        <variable name="icon"
+                  type="int"/>
 
-        <variable
-            name="title"
-            type="int" />
+        <variable name="title"
+                  type="int"/>
 
-        <variable
-            name="details"
-            type="int" />
+        <variable name="details"
+                  type="int"/>
 
     </data>
 
     <LinearLayout
-        android:id="@+id/incInfo_ll_container"
-        style="@style/Info.Container">
+            android:id="@+id/incInfo_ll_container"
+            style="@style/Info.Container">
 
         <ImageView
-            style="@style/Info.Icon"
-            android:contentDescription="@null"
-            android:src='@{Draw.get(context, icon, R.attr.clIcon)}'
-            android:tint="?attr/clIcon"
-            tools:srcCompat="@mipmap/ic_info_notes"/>
+                style="@style/Info.Icon"
+                android:contentDescription="@null"
+                android:src='@{Draw.get(context, icon, R.attr.clIcon)}'
+                android:tint="?attr/clIcon"
+                tools:srcCompat="@mipmap/ic_info_notes"/>
 
         <TextView
-            style="@style/Info.Title"
-            android:text='@{context.getString(title)}'
-            tools:text="@string/info_notes_title"/>
+                style="@style/Info.Title"
+                android:text='@{context.getString(title)}'
+                tools:text="@string/info_notes_title"/>
 
         <TextView
-            style="@style/Info.Details"
-            android:text='@{context.getString(details)}'
-            tools:text="@string/info_notes_details"/>
+                style="@style/Info.Details"
+                android:text='@{context.getString(details)}'
+                tools:text="@string/info_notes_details"/>
 
     </LinearLayout>
 

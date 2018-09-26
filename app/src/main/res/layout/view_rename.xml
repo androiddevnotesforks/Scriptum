@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/layout_24dp"
-    android:paddingTop="@dimen/layout_16dp"
-    android:paddingRight="@dimen/layout_24dp">
-
-    <EditText
-        android:id="@+id/viewRename_et_enter"
-        style="@style/EditText"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:color/transparent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:hint="@string/hint_enter_rank_rename"
-        android:imeOptions="flagNoFullscreen|actionDone"
-        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-        android:maxLength="@integer/length_max_rank_name"
-        android:maxLines="1"
-        android:textSize="@dimen/text_18sp" />
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/layout_24dp"
+        android:paddingTop="@dimen/layout_16dp"
+        android:paddingRight="@dimen/layout_24dp">
+
+    <EditText
+            android:id="@+id/viewRename_et_enter"
+            style="@style/EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="@string/hint_enter_rank_rename"
+            android:imeOptions="flagNoFullscreen|actionDone"
+            android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+            android:maxLength="@integer/length_max_rank_name"
+            android:maxLines="1"
+            android:textSize="@dimen/text_18sp"/>
 
 </LinearLayout>

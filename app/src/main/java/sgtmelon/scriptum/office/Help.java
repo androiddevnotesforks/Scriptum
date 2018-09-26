@@ -16,14 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
-
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
@@ -38,6 +30,13 @@ import sgtmelon.scriptum.office.annot.def.DefSort;
 import sgtmelon.scriptum.office.annot.def.DefTheme;
 import sgtmelon.scriptum.office.annot.def.db.DefDb;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class Help {
 
@@ -223,7 +222,7 @@ public class Help {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             boolean val = pref.getBoolean(context.getString(R.string.pref_first_start), context.getResources().getBoolean(R.bool.pref_default_first_start));
-            if (val){
+            if (val) {
                 pref.edit().putBoolean(context.getString(R.string.pref_first_start), false).apply();
             }
 

@@ -17,8 +17,8 @@ public class ModAdp {
     }
 
     @Provides
-    public AdpNote provideAdpNote(Context context) {
-        return new AdpNote(context);
+    public AdpNote provideAdpNote() {
+        return new AdpNote();
     }
 
     @Provides

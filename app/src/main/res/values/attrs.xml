@@ -2,30 +2,28 @@
 <resources>
 
     <declare-styleable name="AppColorTheme">
-        <attr name="clAccent" format="color" />
-        <attr name="clPrimary" format="color" />
+        <attr name="clAccent" format="color"/>
+        <attr name="clPrimary" format="color"/>
 
-        <attr name="clDivider" format="color" />
-        <attr name="clBackground" format="color" />
-        <attr name="clBackgroundView" format="color" />
-        <attr name="clBackgroundEnter" format="color" />
+        <attr name="clDivider" format="color"/>
+        <attr name="clBackground" format="color"/>
+        <attr name="clBackgroundView" format="color"/>
+        <attr name="clBackgroundEnter" format="color"/>
 
-        <attr name="clIcon" format="color" />
-        <attr name="clText" format="color" />
-        <attr name="clSecond" format="color" />
-
-        <attr name="clSelect" format="color" />
+        <attr name="clIcon" format="color"/>
+        <attr name="clText" format="color"/>
+        <attr name="clSecond" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="NoteTheme">
-        <attr name="clNoteInfoText" format="color" />
-        <attr name="clNoteIndicator" format="color" />
+        <attr name="clNoteInfoText" format="color"/>
+        <attr name="clNoteIndicator" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="ElementTheme">
-        <attr name="styleToolbar" format="integer" />
-        <attr name="themePopup" format="integer" />
-        <attr name="styleFab" format="integer" />
+        <attr name="styleToolbar" format="integer"/>
+        <attr name="themePopup" format="integer"/>
+        <attr name="styleFab" format="integer"/>
     </declare-styleable>
 
 </resources>

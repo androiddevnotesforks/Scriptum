@@ -10,9 +10,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.selection.ItemKeyProvider;
-import androidx.recyclerview.selection.SelectionTracker;
-import androidx.recyclerview.selection.StorageStrategy;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,14 +22,13 @@ import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
-import sgtmelon.scriptum.app.selection.SelNoteKeyProvider;
-import sgtmelon.scriptum.app.selection.SelNoteLookup;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.view.act.ActSettings;
 import sgtmelon.scriptum.app.viewModel.VmFrgNotes;
 import sgtmelon.scriptum.databinding.FrgNotesBinding;
 import sgtmelon.scriptum.element.dialog.DlgOptionNote;
 import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefNote;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 import sgtmelon.scriptum.office.annot.def.db.DefCheck;
@@ -44,7 +40,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListener,
-        IntfItem.Click, IntfDialog.OptionNote {
+        IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionNote {
 
     //region Variable
     private static final String TAG = "FrgNotes";
@@ -90,7 +86,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         setupToolbar();
         setupRecycler();
-        setupTracker();
 
         return frgView;
     }
@@ -154,45 +149,11 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         recyclerView.setLayoutManager(layoutManager);
 
         adapter.setClick(this);
+        adapter.setLongClick(this);
+
         recyclerView.setAdapter(adapter);
 
         dlgOptionNote.setOptionNote(this);
-    }
-
-    private SelectionTracker<RepoNote> selectionTracker;
-    private SelNoteKeyProvider keyProvider;
-    private boolean start = false;
-
-    private void setupTracker() {
-        Log.i(TAG, "setupTracker");
-
-        keyProvider = new SelNoteKeyProvider(ItemKeyProvider.SCOPE_CACHED);
-
-        selectionTracker = new SelectionTracker.Builder<>(
-                "selectionId",
-                recyclerView,
-                keyProvider,
-                new SelNoteLookup(recyclerView),
-                StorageStrategy.createParcelableStorage(RepoNote.class)
-        ).build();
-
-        adapter.setSelectionTracker(selectionTracker);
-
-        selectionTracker.addObserver(new SelectionTracker.SelectionObserver() {
-            @Override
-            public void onSelectionChanged() {
-                super.onSelectionChanged();
-                if (selectionTracker.hasSelection() && !start) {
-                    start = true;
-                    Log.i(TAG, "onSelectionChanged: start, " + selectionTracker.getSelection().size());
-                } else if (!selectionTracker.hasSelection() && start) {
-                    start = false;
-                    Log.i(TAG, "onSelectionChanged: cancel, " + selectionTracker.getSelection().size());
-                } else {
-                    Log.i(TAG, "onSelectionChanged: add, " + selectionTracker.getSelection().size());
-                }
-            }
-        });
     }
 
     private void updateAdapter() {
@@ -200,7 +161,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         List<RepoNote> listRepo = vm.loadData(DefBin.out);
 
-        if (!selectionTracker.hasSelection()) keyProvider.update(listRepo);
         adapter.update(listRepo);
         adapter.notifyDataSetChanged();
 
@@ -221,15 +181,15 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         startActivity(intent);
     }
 
-//    @Override
-//    public void onItemLongClick(View view, int p) {
-//        Log.i(TAG, "onItemLongClick");
-//
-//        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
-//
-//        dlgOptionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
-//        dlgOptionNote.show(fm, DefDlg.OPTIONS);
-//    }
+    @Override
+    public void onItemLongClick(View view, int p) {
+        Log.i(TAG, "onItemLongClick");
+
+        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
+
+        dlgOptionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
+        dlgOptionNote.show(fm, DefDlg.OPTIONS);
+    }
 
     @Override
     public void onOptionCheckClick(int p) {
@@ -363,19 +323,4 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         adapter.notifyItemRemoved(p);
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState");
-
-        selectionTracker.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        Log.i(TAG, "onViewStateRestored");
-
-        selectionTracker.onRestoreInstanceState(savedInstanceState);
-    }
 }

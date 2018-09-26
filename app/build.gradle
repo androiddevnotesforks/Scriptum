@@ -51,7 +51,7 @@ dependencies {
     testImplementation "androidx.room:room-testing:$arch_ver"
     annotationProcessor "androidx.room:room-compiler:$arch_ver"
 
-    def x_ver = "1.0.0-rc02"
+    def x_ver = "1.0.0"
 
     implementation "com.google.android.material:material:$x_ver"
 

@@ -1,94 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="sgtmelon.scriptum.office.Help.Clr" />
+        <import type="sgtmelon.scriptum.office.Help.Clr"/>
 
-        <import type="sgtmelon.scriptum.office.Help.Pref" />
+        <import type="sgtmelon.scriptum.office.Help.Pref"/>
 
-        <import type="sgtmelon.scriptum.office.Help.Time" />
+        <import type="sgtmelon.scriptum.office.Help.Time"/>
 
-        <import
-            alias="def"
-            type="sgtmelon.scriptum.office.annot.def.DefTheme" />
+        <import alias="def"
+                type="sgtmelon.scriptum.office.annot.def.DefTheme"/>
 
-        <import
-            alias="text"
-            type="android.text.TextUtils" />
+        <import alias="text"
+                type="android.text.TextUtils"/>
 
-        <import
-            alias="v"
-            type="android.view.View" />
+        <import alias="v"
+                type="android.view.View"/>
 
-        <variable
-            name="itemNote"
-            type="sgtmelon.scriptum.app.model.item.ItemNote" />
+        <variable name="itemNote"
+                  type="sgtmelon.scriptum.app.model.item.ItemNote"/>
 
     </data>
 
     <androidx.cardview.widget.CardView
-        style="@style/Card"
-        app:cardBackgroundColor='@{Clr.getNote(context, itemNote.color, false)}'
-        app:cardCornerRadius="@dimen/radius_2dp"
-        app:cardUseCompatPadding="false"
-        tools:cardBackgroundColor="@color/noteGreenLight">
+            style="@style/Card"
+            app:cardBackgroundColor='@{Clr.getNote(context, itemNote.color, false)}'
+            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardUseCompatPadding="false"
+            tools:cardBackgroundColor="@color/noteGreenLight">
 
         <FrameLayout
-            android:id="@+id/itemNote_fl_click"
-            style="@style/ItemNote.Click">
+                android:id="@+id/itemNote_fl_click"
+                style="@style/ItemNote.Click">
 
             <LinearLayout style="@style/ItemNote.Container">
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                     <TextView
-                        style="@style/ItemNote.Name"
-                        android:text='@{itemNote.name}'
-                        android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}'
-                        tools:text="@string/test_note_name" />
+                            style="@style/ItemNote.Name"
+                            android:text='@{itemNote.name}'
+                            android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}'
+                            tools:text="@string/test_note_name"/>
 
                     <TextView
-                        style="@style/ItemNote.Text"
-                        android:text='@{itemNote.text}'
-                        tools:text="@string/test_note_text" />
+                            style="@style/ItemNote.Text"
+                            android:text='@{itemNote.text}'
+                            tools:text="@string/test_note_text"/>
 
                     <include
-                        layout="@layout/inc_item_note_info"
-                        app:itemNote='@{itemNote}' />
+                            layout="@layout/inc_item_note_info"
+                            app:itemNote='@{itemNote}'/>
 
                 </LinearLayout>
 
                 <View
-                    style="@style/ItemNote.Color.Vertical"
-                    android:background='@{Clr.getNote(context, itemNote.color, true)}'
-                    android:visibility='@{Pref.getTheme(context) == def.light ? v.GONE : v.VISIBLE}'
-                    tools:background="@color/noteGreenDark"
-                    tools:visibility="gone" />
+                        style="@style/ItemNote.Color.Vertical"
+                        android:background='@{Clr.getNote(context, itemNote.color, true)}'
+                        android:visibility='@{Pref.getTheme(context) == def.light ? v.GONE : v.VISIBLE}'
+                        tools:background="@color/noteGreenDark"
+                        tools:visibility="gone"/>
 
             </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/itemNote_fl_check"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?attr/clSelect"
-                tools:visibility="gone">
-
-                <ImageView
-                    style="@style/ItemNote.Check"
-                    android:background='@{Pref.getTheme(context) == def.light ? @drawable/ic_note_check_l :  @drawable/ic_note_check_d}'
-                    android:contentDescription="@null"
-                    app:srcCompat="@drawable/ic_check"
-                    tools:background="@drawable/ic_note_check_l" />
-
-            </FrameLayout>
 
         </FrameLayout>
 

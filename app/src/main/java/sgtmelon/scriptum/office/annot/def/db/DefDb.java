@@ -26,6 +26,8 @@ import androidx.annotation.StringDef;
 })
 public @interface DefDb {
 
+    String name = "Scriptum.db";
+
     String NT_TB = "NOTE_TABLE",
             NT_ID = "NT_ID",
             NT_CR = "NT_CREATE",

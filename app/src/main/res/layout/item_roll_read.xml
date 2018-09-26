@@ -1,59 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import
-            alias="v"
-            type="android.view.View" />
+        <import alias="v"
+                type="android.view.View"/>
 
-        <variable
-            name="itemRoll"
-            type="sgtmelon.scriptum.app.model.item.ItemRoll" />
+        <variable name="itemRoll"
+                  type="sgtmelon.scriptum.app.model.item.ItemRoll"/>
 
-        <variable
-            name="keyBin"
-            type="boolean" />
+        <variable name="keyBin"
+                  type="boolean"/>
 
     </data>
 
     <androidx.cardview.widget.CardView
-        style="@style/Card"
-        app:cardBackgroundColor="?attr/clBackgroundView"
-        app:cardCornerRadius="@dimen/radius_2dp"
-        app:cardUseCompatPadding="false">
+            style="@style/Card"
+            app:cardBackgroundColor="?attr/clBackgroundView"
+            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardUseCompatPadding="false">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent">
+            <FrameLayout android:layout_width="wrap_content" android:layout_height="match_parent">
 
                 <CheckBox
-                    android:id="@+id/itemRoll_cb_check"
-                    style="@style/ItemRoll.Read.Check"
-                    android:checked='@{itemRoll.check}'
-                    tools:checked="true" />
+                        android:id="@+id/itemRoll_cb_check"
+                        style="@style/ItemRoll.Read.Check"
+                        android:checked='@{itemRoll.check}'
+                        tools:checked="true"/>
 
                 <ImageView
-                    android:id="@+id/itemRoll_iv_click"
-                    style="@style/ItemRoll.Click"
-                    android:contentDescription="@null"
-                    android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}' />
+                        android:id="@+id/itemRoll_iv_click"
+                        style="@style/ItemRoll.Click"
+                        android:contentDescription="@null"
+                        android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
 
             </FrameLayout>
 
             <TextView
-                android:id="@+id/itemRoll_tv_text"
-                style="@style/ItemRoll.Read.Text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text='@{itemRoll.text}'
-                tools:text="@string/test_note_roll" />
+                    android:id="@+id/itemRoll_tv_text"
+                    style="@style/ItemRoll.Read.Text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text='@{itemRoll.text}'
+                    tools:text="@string/test_note_roll"/>
 
         </LinearLayout>
 

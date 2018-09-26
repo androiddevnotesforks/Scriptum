@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
-
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.DbRoom;
@@ -159,13 +158,11 @@ public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
     }
 
     public void setCheckTitle(boolean isAllCheck) {
-        if (isAllCheck) mItemCheck.setTitle(context.getString(R.string.menu_note_check_zero));
-        else mItemCheck.setTitle(context.getString(R.string.menu_note_check_all));
+        mItemCheck.setTitle(isAllCheck ? context.getString(R.string.menu_note_check_zero) : context.getString(R.string.menu_note_check_all));
     }
 
     public void setStatusTitle(boolean status) {
-        if (status) mItemStatus.setTitle(context.getString(R.string.menu_note_status_unbind));
-        else mItemStatus.setTitle(context.getString(R.string.menu_note_status_bind));
+        mItemStatus.setTitle(status ? context.getString(R.string.menu_note_status_unbind) : context.getString(R.string.menu_note_status_bind));
     }
 
     public void setMenuGroupVisible(boolean grDelete, boolean grEdit, boolean grRead) {
