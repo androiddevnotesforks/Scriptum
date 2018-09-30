@@ -18,23 +18,23 @@ import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
 import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.IncInfoBinding;
 import sgtmelon.scriptum.office.annot.AnnIntro;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
+import sgtmelon.scriptum.office.st.StPage;
 
 public class FrgIntro extends Fragment {
 
-    //region Variable
-    private static final String TAG = "FrgIntro";
+    private static final String TAG = FrgIntro.class.getSimpleName();
 
     @Inject
     IncInfoBinding binding;
+    @Inject
+    StPage stPage;
 
     private View frgView;
     private LinearLayout container;
 
-    private int page;
-    //endregion
-
     public void setPage(int page) {
-        this.page = page;
+        stPage.setPage(page);
     }
 
     public void setChange(float alpha, float scale) {
@@ -55,15 +55,17 @@ public class FrgIntro extends Fragment {
                 .build();
         comFrg.inject(this);
 
-        if (savedInstanceState != null) page = savedInstanceState.getInt(AnnIntro.PAGE);
+        if (savedInstanceState != null) {
+            stPage = savedInstanceState.getParcelable(DefIntent.STATE_PAGE);
+        }
 
         return frgView = binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
+        super.onActivityCreated(savedInstanceState);
 
         container = frgView.findViewById(R.id.incInfo_ll_container);
         bind();
@@ -71,6 +73,8 @@ public class FrgIntro extends Fragment {
 
     private void bind() {
         Log.i(TAG, "bind");
+        int page = stPage.getPage();
+
         binding.setIcon(AnnIntro.icon[page]);
         binding.setTitle(AnnIntro.title[page]);
         binding.setDetails(AnnIntro.details[page]);
@@ -80,10 +84,10 @@ public class FrgIntro extends Fragment {
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
         Log.d(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
 
-        outState.putInt(AnnIntro.PAGE, page);
+        outState.putParcelable(DefIntent.STATE_PAGE, stPage);
     }
 
 }

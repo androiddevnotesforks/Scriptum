@@ -46,10 +46,12 @@ import sgtmelon.scriptum.office.st.StNote;
 
 public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.NoteClick {
 
-    //region Variable
-    private static final String TAG = "FrgText";
+    private static final String TAG = FrgText.class.getSimpleName();
 
-    private DbRoom db;
+    @Inject
+    public CtrlMenuPreL menuNote;
+    @Inject
+    public VmFrgText vm;
 
     @Inject
     ActNote activity;
@@ -60,11 +62,18 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
     @Inject
     FrgTextBinding binding;
-    @Inject
-    public VmFrgText vm;
 
+    @Inject
+    @Named(DefDlg.CONVERT)
+    DlgMessage dlgConvert;
+    @Inject
+    DlgColor dlgColor;
+    @Inject
+    @Named(DefDlg.RANK)
+    DlgMultiply dlgRank;
+
+    private DbRoom db;
     private View frgView;
-    //endregion
 
     @Nullable
     @Override
@@ -76,13 +85,13 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
-        return frgView= binding.getRoot();
+        return frgView = binding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
+        super.onActivityCreated(savedInstanceState);
 
         setupToolbar();
         setupDialog();
@@ -103,9 +112,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
         binding.executePendingBindings();
     }
-
-    @Inject
-    public CtrlMenuPreL menuNote;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -141,48 +147,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
     }
-
-    /**
-     * Нажатие на клавишу назад
-     */
-    @Override
-    public void onClick(View view) {
-        Log.i(TAG, "onClick");
-
-        Help.hideKeyboard(context, activity.getCurrentFocus());
-
-        StNote stNote = activity.vm.getStNote();
-        RepoNote repoNote = vm.getRepoNote();
-        ItemNote itemNote = repoNote.getItemNote();
-
-        if (!stNote.isCreate() && stNote.isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
-            menuNote.setStartColor(itemNote.getColor());
-
-            db = DbRoom.provideDb(context);
-            repoNote = db.daoNote().get(context, itemNote.getId());
-            itemNote = repoNote.getItemNote();
-            db.close();
-
-            vm.setRepoNote(repoNote);
-            activity.vm.setRepoNote(repoNote);
-
-            onMenuEditClick(false);
-
-            menuNote.startTint(itemNote.getColor());
-        } else {
-            activity.ctrlSave.setNeedSave(false);
-            activity.finish();
-        }
-    }
-
-    @Inject
-    @Named(DefDlg.CONVERT)
-    DlgMessage dlgConvert;
-    @Inject
-    DlgColor dlgColor;
-    @Inject
-    @Named(DefDlg.RANK)
-    DlgMultiply dlgRank;
 
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
@@ -258,6 +222,54 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
             vm.setRepoNote(repoNote);
         });
+    }
+
+    private void setupEnter() {
+        Log.i(TAG, "setupEnter");
+
+        EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
+        final EditText textEnter = frgView.findViewById(R.id.frgText_et_enter);
+
+        nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_NEXT) {
+                textEnter.requestFocus();
+                return true;
+            }
+            return false;
+        });
+    }
+
+    /**
+     * Нажатие на клавишу назад
+     */
+    @Override
+    public void onClick(View view) {
+        Log.i(TAG, "onClick");
+
+        Help.hideKeyboard(context, activity.getCurrentFocus());
+
+        StNote stNote = activity.vm.getStNote();
+        RepoNote repoNote = vm.getRepoNote();
+        ItemNote itemNote = repoNote.getItemNote();
+
+        if (!stNote.isCreate() && stNote.isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
+            menuNote.setStartColor(itemNote.getColor());
+
+            db = DbRoom.provideDb(context);
+            repoNote = db.daoNote().get(context, itemNote.getId());
+            itemNote = repoNote.getItemNote();
+            db.close();
+
+            vm.setRepoNote(repoNote);
+            activity.vm.setRepoNote(repoNote);
+
+            onMenuEditClick(false);
+
+            menuNote.startTint(itemNote.getColor());
+        } else {
+            activity.ctrlSave.setNeedSave(false);
+            activity.finish();
+        }
     }
 
     @Override
@@ -374,21 +386,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         Log.i(TAG, "onMenuConvertClick");
 
         dlgConvert.show(fm, DefDlg.CONVERT);
-    }
-
-    private void setupEnter() {
-        Log.i(TAG, "setupEnter");
-
-        EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
-        final EditText textEnter = frgView.findViewById(R.id.frgText_et_enter);
-
-        nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_NEXT) {
-                textEnter.requestFocus();
-                return true;
-            }
-            return false;
-        });
     }
 
 }

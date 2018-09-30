@@ -3,10 +3,7 @@ package sgtmelon.scriptum.office.annot;
 import androidx.annotation.StringDef;
 import sgtmelon.scriptum.R;
 
-@StringDef({AnnIntro.PAGE})
 public @interface AnnIntro {
-
-    String PAGE = "CURRENT_PAGE";
 
     int[] icon = new int[]{
             R.drawable.ic_note_add,

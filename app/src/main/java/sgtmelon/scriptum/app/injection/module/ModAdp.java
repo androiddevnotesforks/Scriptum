@@ -22,7 +22,7 @@ public class ModAdp {
     }
 
     @Provides
-    public AdpRoll provideAdpRoll(Context context){
+    public AdpRoll provideAdpRoll(Context context) {
         return new AdpRoll(context);
     }
 

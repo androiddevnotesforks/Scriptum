@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.element.dialog.common;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 
 import java.util.Arrays;
@@ -14,28 +13,21 @@ import sgtmelon.scriptum.office.blank.BlankDlg;
 
 public class DlgMultiply extends BlankDlg {
 
-    public void setArguments(boolean[] check) {
-        Bundle arg = new Bundle();
-        arg.putBooleanArray(DefDlg.INIT, check.clone());
-        arg.putBooleanArray(DefDlg.VALUE, check);
-        setArguments(arg);
-    }
-
     private String[] name;
     private boolean[] init, check;
 
-    public void setName(String[] name) {
-        this.name = name;
-    }
+    public void setArguments(boolean[] check) {
+        Bundle arg = new Bundle();
 
-    public boolean[] getCheck() {
-        return check;
+        arg.putBooleanArray(DefDlg.INIT, check.clone());
+        arg.putBooleanArray(DefDlg.VALUE, check);
+
+        setArguments(arg);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getContext();
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
@@ -56,6 +48,14 @@ public class DlgMultiply extends BlankDlg {
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
+    }
+
+    public void setName(String[] name) {
+        this.name = name;
+    }
+
+    public boolean[] getCheck() {
+        return check;
     }
 
     @Override

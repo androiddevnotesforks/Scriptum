@@ -16,38 +16,46 @@ import sgtmelon.scriptum.office.intf.IntfDialog;
 
 public class DlgOptionNote extends DialogFragment implements DialogInterface.OnClickListener {
 
-    public void setArguments(@DefType int type, boolean status, boolean isAll, int p) {
+    private Context context;
+
+    private int position, type;
+    private boolean status, check;
+
+    private IntfDialog.OptionNote optionNote;
+
+    public void setArguments(int p, @DefType int type, boolean status, boolean check) {
         Bundle arg = new Bundle();
 
+        arg.putInt(DefDlg.VALUE, p);
         arg.putInt(DefDb.NT_TP, type);
         arg.putBoolean(DefDb.NT_ST, status);
-        arg.putBoolean(DefDb.RL_CH, isAll);
-        arg.putInt(DefDlg.VALUE, p);
+        arg.putBoolean(DefDb.RL_CH, check);
 
         setArguments(arg);
     }
 
-    private int type;
-    private boolean status;
-    private boolean isAll;
-    private int p;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        this.context = context;
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getContext();
         Bundle arg = getArguments();
 
         if (arg != null) {
             type = arg.getInt(DefDb.NT_TP);
             status = arg.getBoolean(DefDb.NT_ST);
-            isAll = arg.getBoolean(DefDb.RL_CH);
-            p = arg.getInt(DefDlg.VALUE);
+            check = arg.getBoolean(DefDb.RL_CH);
+            position = arg.getInt(DefDlg.VALUE);
         } else if (savedInstanceState != null) {
             type = savedInstanceState.getInt(DefDb.NT_TP);
             status = savedInstanceState.getBoolean(DefDb.NT_ST);
-            isAll = savedInstanceState.getBoolean(DefDb.RL_CH);
-            p = savedInstanceState.getInt(DefDlg.VALUE);
+            check = savedInstanceState.getBoolean(DefDb.RL_CH);
+            position = savedInstanceState.getInt(DefDlg.VALUE);
         }
 
         String[] itemOption = new String[0];
@@ -60,7 +68,7 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
             case DefType.roll:
                 itemOption = context.getResources().getStringArray(R.array.dialog_menu_roll);
 
-                itemOption[0] = isAll ? context.getString(R.string.dialog_menu_check_zero) : context.getString(R.string.dialog_menu_check_all);
+                itemOption[0] = check ? context.getString(R.string.dialog_menu_check_zero) : context.getString(R.string.dialog_menu_check_all);
                 itemOption[1] = status ? context.getString(R.string.dialog_menu_status_unbind) : context.getString(R.string.dialog_menu_status_bind);
                 break;
         }
@@ -70,8 +78,6 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
                 .setCancelable(true)
                 .create();
     }
-
-    private IntfDialog.OptionNote optionNote;
 
     public void setOptionNote(IntfDialog.OptionNote optionNote) {
         this.optionNote = optionNote;
@@ -83,35 +89,35 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
             case DefType.text:
                 switch (i) {
                     case 0:
-                        optionNote.onOptionBindClick(p);
+                        optionNote.onOptionBindClick(position);
                         break;
                     case 1:
-                        optionNote.onOptionConvertClick(p);
+                        optionNote.onOptionConvertClick(position);
                         break;
                     case 2:
-                        optionNote.onOptionCopyClick(p);
+                        optionNote.onOptionCopyClick(position);
                         break;
                     case 3:
-                        optionNote.onOptionDeleteClick(p);
+                        optionNote.onOptionDeleteClick(position);
                         break;
                 }
                 break;
             case DefType.roll:
                 switch (i) {
                     case 0:
-                        optionNote.onOptionCheckClick(p);
+                        optionNote.onOptionCheckClick(position);
                         break;
                     case 1:
-                        optionNote.onOptionBindClick(p);
+                        optionNote.onOptionBindClick(position);
                         break;
                     case 2:
-                        optionNote.onOptionConvertClick(p);
+                        optionNote.onOptionConvertClick(position);
                         break;
                     case 3:
-                        optionNote.onOptionCopyClick(p);
+                        optionNote.onOptionCopyClick(position);
                         break;
                     case 4:
-                        optionNote.onOptionDeleteClick(p);
+                        optionNote.onOptionDeleteClick(position);
                         break;
                 }
                 break;
@@ -125,8 +131,8 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
 
         outState.putInt(DefDb.NT_TP, type);
         outState.putBoolean(DefDb.NT_ST, status);
-        outState.putBoolean(DefDb.RL_CH, isAll);
-        outState.putInt(DefDlg.VALUE, p);
+        outState.putBoolean(DefDb.RL_CH, check);
+        outState.putInt(DefDlg.VALUE, position);
     }
 
 }

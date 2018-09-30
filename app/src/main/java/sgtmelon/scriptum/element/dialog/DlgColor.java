@@ -18,23 +18,20 @@ import sgtmelon.scriptum.office.intf.IntfItem;
 
 public class DlgColor extends BlankDlg implements IntfItem.Click {
 
-    public void setArguments(int check) {
-        Bundle arg = new Bundle();
-        arg.putInt(DefDlg.INIT, check);
-        arg.putInt(DefDlg.VALUE, check);
-        setArguments(arg);
-    }
-
     private int init, check;
 
-    public int getCheck() {
-        return check;
+    public void setArguments(int check) {
+        Bundle arg = new Bundle();
+
+        arg.putInt(DefDlg.INIT, check);
+        arg.putInt(DefDlg.VALUE, check);
+
+        setArguments(arg);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getContext();
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
@@ -55,7 +52,7 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
         recyclerView.setLayoutManager(layoutManager);
 
         AdpColor adapter = new AdpColor(context, check);
-        adapter.setCallback(this);
+        adapter.setClick(this);
         recyclerView.setAdapter(adapter);
 
         SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
@@ -68,6 +65,10 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
+    }
+
+    public int getCheck() {
+        return check;
     }
 
     @Override

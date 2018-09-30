@@ -4,7 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -28,22 +38,18 @@ import sgtmelon.scriptum.element.dialog.DlgOptionBin;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.DefNote;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 import sgtmelon.scriptum.office.intf.IntfDialog;
 import sgtmelon.scriptum.office.intf.IntfItem;
+import sgtmelon.scriptum.office.st.StNote;
 import sgtmelon.scriptum.office.st.StOpen;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.List;
 
 public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionBin {
 
-    //region Variable
-    private static final String TAG = "FrgBin";
+    private static final String TAG = FrgBin.class.getSimpleName();
 
-    private DbRoom db;
+    public RecyclerView recyclerView;
 
     @Inject
     Context context;
@@ -55,8 +61,21 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
     @Inject
     VmFrgNotes vm;
 
+    @Inject
+    StOpen stOpen;
+    @Inject
+    @Named(DefDlg.CLEAR_BIN)
+    DlgMessage dlgClearBin;
+
+    @Inject
+    AdpNote adapter;
+    @Inject
+    DlgOptionBin dlgOptionBin;
+
+    private DbRoom db;
+
     private View frgView;
-    //endregion
+    private MenuItem mItemClearBin;
 
     @Override
     public void onResume() {
@@ -78,12 +97,12 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
 
         frgView = binding.getRoot();
 
+        if (savedInstanceState != null) {
+            stOpen = savedInstanceState.getParcelable(DefIntent.STATE_OPEN);
+        }
+
         setupToolbar();
         setupRecycler();
-
-        if (savedInstanceState != null) {
-            stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
-        }
 
         return frgView;
     }
@@ -92,14 +111,6 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         binding.setListEmpty(listSize == 0);
         binding.executePendingBindings();
     }
-
-    private MenuItem mItemClearBin;
-
-    @Inject
-    StOpen stOpen;
-    @Inject
-    @Named(DefDlg.CLEAR_BIN)
-    DlgMessage dlgClearBin;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -111,7 +122,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.menu_frgBin_clear:
-                    if (!stOpen.isOpen()) {
+                    if (stOpen.isNotOpen()) {
                         stOpen.setOpen(true);
 
                         dlgClearBin.show(fm, DefDlg.CLEAR_BIN);
@@ -133,9 +144,9 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
             db.daoNote().clearBin();
             db.close();
 
-            vm.clearListRepo();
+            vm.setListRepo(null);
 
-            adapter.update(vm.getListRepo());
+            adapter.setListRepo(vm.getListRepo());
             adapter.notifyDataSetChanged();
 
             mItemClearBin.setVisible(vm.getListRepo().size() != 0);
@@ -143,15 +154,6 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         });
         dlgClearBin.setDismissListener(dialogInterface -> stOpen.setOpen(false));
     }
-
-    //region RecyclerVariable
-    public RecyclerView recyclerView;
-
-    @Inject
-    AdpNote adapter;
-    @Inject
-    DlgOptionBin dlgOptionBin;
-    //endregion
 
     private void setupRecycler() {
         Log.i(TAG, "setupRecycler");
@@ -182,7 +184,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
 
         List<RepoNote> listRepo = vm.loadData(DefBin.in);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyDataSetChanged();
 
         mItemClearBin.setVisible(vm.getListRepo().size() != 0);
@@ -193,12 +195,11 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
+        long ntId = vm.getListRepo().get(p).getItemNote().getId();
 
         Intent intent = new Intent(context, ActNote.class);
-
-        intent.putExtra(DefNote.CREATE, false);
-        intent.putExtra(DefNote.ID, itemNote.getId());
+        intent.putExtra(DefIntent.STATE_NOTE, new StNote(false, true));
+        intent.putExtra(DefIntent.NOTE_ID, ntId);
 
         startActivity(intent);
     }
@@ -225,7 +226,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         listRepo.remove(p);
         vm.setListRepo(listRepo);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyItemRemoved(p);
 
         mItemClearBin.setVisible(vm.getListRepo().size() != 0);
@@ -251,10 +252,17 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         listRepo.remove(p);
         vm.setListRepo(listRepo);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyItemRemoved(p);
 
         mItemClearBin.setVisible(vm.getListRepo().size() != 0);
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.i(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelable(DefIntent.STATE_OPEN, stOpen);
+    }
 }

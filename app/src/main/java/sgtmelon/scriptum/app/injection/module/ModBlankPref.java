@@ -21,22 +21,22 @@ public class ModBlankPref {
     }
 
     @Provides
-    public PreferenceFragment providePreferenceFragment() {
+    PreferenceFragment providePreferenceFragment() {
         return preferenceFragment;
     }
 
     @Provides
-    public ActSettings provideActivity(){
+    public ActSettings provideActivity() {
         return activity;
     }
 
     @Provides
-    public FragmentManager provideFragmentManager(){
+    public FragmentManager provideFragmentManager() {
         return activity.getSupportFragmentManager();
     }
 
     @Provides
-    public SharedPreferences provideSharedPreferences(){
+    public SharedPreferences provideSharedPreferences() {
         return PreferenceManager.getDefaultSharedPreferences(activity);
     }
 

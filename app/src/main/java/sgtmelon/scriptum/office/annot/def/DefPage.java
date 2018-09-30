@@ -3,10 +3,12 @@ package sgtmelon.scriptum.office.annot.def;
 import androidx.annotation.IntDef;
 import sgtmelon.scriptum.R;
 
-@IntDef({DefPage.rank, DefPage.notes, DefPage.bin})
+@IntDef({
+        DefPage.rank,
+        DefPage.notes,
+        DefPage.bin
+})
 public @interface DefPage {
-
-    String PAGE = "CURRENT_PAGE";
 
     int[] itemId = new int[]{
             R.id.menu_actMain_pageRank,

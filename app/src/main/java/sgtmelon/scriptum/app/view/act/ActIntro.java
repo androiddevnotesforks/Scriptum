@@ -16,21 +16,21 @@ import sgtmelon.scriptum.office.annot.AnnIntro;
 
 public class ActIntro extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
-    private static final String TAG = "ActIntro";
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_intro);
-        Log.i(TAG, "onCreate");
-
-        setupViewPager();
-    }
+    private static final String TAG = ActIntro.class.getSimpleName();
 
     private AdpPager adpPager;
 
     private View pageIndicator;
     private Button pageButtonEnd;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.act_intro);
+
+        setupViewPager();
+    }
 
     private void setupViewPager() {
         Log.i(TAG, "setupViewPager");

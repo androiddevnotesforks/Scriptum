@@ -24,21 +24,27 @@ public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
     private final List<ItemRank> listRank = new ArrayList<>();
     private boolean[] startAnim;
 
-    public boolean[] getStartAnim() {
-        return startAnim;
-    }
-
     private IntfItem.Click click;
     private IntfItem.LongClick longClick;
     private IntfItem.Drag drag;
 
-    public void setCallback(IntfItem.Click click, IntfItem.LongClick longClick, IntfItem.Drag drag) {
+    public boolean[] getStartAnim() {
+        return startAnim;
+    }
+
+    public void setClick(IntfItem.Click click) {
         this.click = click;
+    }
+
+    public void setLongClick(IntfItem.LongClick longClick) {
         this.longClick = longClick;
+    }
+
+    public void setDrag(IntfItem.Drag drag) {
         this.drag = drag;
     }
 
-    public void update(List<ItemRank> listRank) {
+    public void setListRank(List<ItemRank> listRank) {
         this.listRank.clear();
         this.listRank.addAll(listRank);
 
@@ -46,14 +52,14 @@ public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
         Arrays.fill(startAnim, false);
     }
 
-    public void update(List<ItemRank> listRank, boolean[] iconStartAnim) {
+    public void setListRank(List<ItemRank> listRank, boolean[] startAnim) {
         this.listRank.clear();
         this.listRank.addAll(listRank);
 
-        this.startAnim = iconStartAnim;
+        this.startAnim = startAnim;
     }
 
-    public void update(int position, ItemRank itemRank) {
+    public void setListRank(int position, ItemRank itemRank) {
         listRank.set(position, itemRank);
     }
 
@@ -83,12 +89,12 @@ public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
 
     class RankHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, View.OnLongClickListener {
 
+        private final ItemRankBinding binding;
+
         private final View rkClick;
 
         private final BtnVisiblePreL rkVisible;
         private final ImageButton rkCancel;
-
-        private final ItemRankBinding binding;
 
         RankHolder(ItemRankBinding binding) {
             super(binding.getRoot());
@@ -158,5 +164,7 @@ public class AdpRank extends RecyclerView.Adapter<AdpRank.RankHolder> {
             }
             return false;
         }
+
     }
+
 }

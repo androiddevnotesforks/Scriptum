@@ -6,12 +6,19 @@ import androidx.annotation.StringDef;
  * Ключи для нахождения диалогов после поворота экрана
  */
 @StringDef({
-        DefDlg.RENAME, DefDlg.SHEET_ADD,
-        DefDlg.OPTIONS, DefDlg.CLEAR_BIN,
+        DefDlg.RENAME,
+        DefDlg.SHEET_ADD,
+        DefDlg.OPTIONS,
+        DefDlg.CLEAR_BIN,
 
-        DefDlg.CONVERT, DefDlg.RANK, DefDlg.COLOR,
+        DefDlg.CONVERT,
+        DefDlg.RANK,
+        DefDlg.COLOR,
 
-        DefDlg.SORT, DefDlg.SAVE_TIME, DefDlg.THEME, DefDlg.INFO
+        DefDlg.SORT,
+        DefDlg.SAVE_TIME,
+        DefDlg.THEME,
+        DefDlg.INFO
 })
 public @interface DefDlg {
 
@@ -32,7 +39,6 @@ public @interface DefDlg {
 
     //Значения которое сохраняем в классе диалога
     String INIT = "INIT",
-            VALUE = "VALUE",
-            OPEN = "OPEN";
+            VALUE = "VALUE";
 
 }

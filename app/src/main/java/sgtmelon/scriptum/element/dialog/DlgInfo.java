@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.element.dialog;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +14,13 @@ import sgtmelon.scriptum.office.blank.BlankDlg;
 
 public class DlgInfo extends BlankDlg implements View.OnClickListener {
 
+    private View.OnClickListener logoClick;
+
+    private int click = 0;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getContext();
-
         if (savedInstanceState != null) {
             click = savedInstanceState.getInt(DefDlg.VALUE);
         }
@@ -35,18 +36,13 @@ public class DlgInfo extends BlankDlg implements View.OnClickListener {
                 .create();
     }
 
-    private View.OnClickListener logoClick;
-
     public void setLogoClick(View.OnClickListener logoClick) {
         this.logoClick = logoClick;
     }
 
-    private final static int show = 9;
-    private int click = 0;
-
     @Override
     public void onClick(View view) {
-        if (++click == show) {
+        if (++click == context.getResources().getInteger(R.integer.pref_logo_click)) {
             click = 0;
             logoClick.onClick(view);
             getDialog().cancel();

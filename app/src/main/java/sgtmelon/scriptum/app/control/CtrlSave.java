@@ -11,7 +11,6 @@ import sgtmelon.scriptum.office.intf.IntfMenu;
 
 public class CtrlSave {
 
-    //region Variable
     private final Context context;
     private final SharedPreferences pref;
 
@@ -19,7 +18,13 @@ public class CtrlSave {
     private Runnable saveRunnable;
 
     private int saveTime;
-    //endregion
+    private IntfMenu.NoteClick noteClick;
+
+    /**
+     * Пауза срабатывает не только при сворачивании
+     * (если закрыли активность например)
+     */
+    private boolean needSave = true;
 
     public CtrlSave(Context context) {
         this.context = context;
@@ -41,17 +46,9 @@ public class CtrlSave {
         }
     }
 
-    private IntfMenu.NoteClick menuClick;
-
-    public void setMenuClick(IntfMenu.NoteClick menuClick) {
-        this.menuClick = menuClick;
+    public void setNoteClick(IntfMenu.NoteClick noteClick) {
+        this.noteClick = noteClick;
     }
-
-    /**
-     * Пауза срабатывает не только при сворачивании
-     * (если закрыли активность например)
-     */
-    private boolean needSave = true;
 
     public void setNeedSave(boolean needSave) {
         this.needSave = needSave;
@@ -71,7 +68,7 @@ public class CtrlSave {
     }
 
     private void onSave() {
-        if (menuClick.onMenuSaveClick(false)) {
+        if (noteClick.onMenuSaveClick(false)) {
             Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show();

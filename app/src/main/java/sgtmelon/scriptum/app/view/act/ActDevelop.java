@@ -11,13 +11,13 @@ import sgtmelon.scriptum.office.blank.BlankAct;
 
 public class ActDevelop extends BlankAct {
 
-    private static final String TAG = "ActDevelop";
+    private static final String TAG = ActDevelop.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_develop);
-        Log.i(TAG, "onCreate");
 
         TextView noteText = findViewById(R.id.actDevelop_tv_note);
         TextView rollText = findViewById(R.id.actDevelop_tv_roll);

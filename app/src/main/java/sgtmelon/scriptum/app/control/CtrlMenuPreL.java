@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.DbRoom;
@@ -21,22 +22,32 @@ import sgtmelon.scriptum.office.intf.IntfMenu;
 
 public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.Animation {
 
-    //region Variables
-    final Context context;
+    protected final Context context;
     private final Window window;
 
-    Toolbar toolbar;
-    private Menu menu;
+    protected Toolbar toolbar;
+    protected Drawable cancelOn, cancelOff;
 
+    private Menu menu;
     private View indicator;
 
     private int type;
     private int valTheme;
-    //endregion
+
+    private int statusStartColor, statusEndColor;   //Цвета до и после смены цвета
+    private int toolbarStartColor, toolbarEndColor;
+
+    private MenuItem mItemStatus, mItemCheck;
+
+    private IntfMenu.NoteClick noteClick;
+    private IntfMenu.RollClick rollClick;
+    private IntfMenu.DeleteClick deleteClick;
 
     public CtrlMenuPreL(Context context, Window window) {
         this.context = context;
         this.window = window;
+
+        valTheme = Help.Pref.getTheme(context);
     }
 
     public void setToolbar(Toolbar toolbar) {
@@ -50,7 +61,18 @@ public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
 
     public void setType(int type) {
         this.type = type;
-        valTheme = Help.Pref.getTheme(context);
+    }
+
+    public void setNoteClick(IntfMenu.NoteClick noteClick) {
+        this.noteClick = noteClick;
+    }
+
+    public void setRollClick(IntfMenu.RollClick rollClick) {
+        this.rollClick = rollClick;
+    }
+
+    public void setDeleteClick(IntfMenu.DeleteClick deleteClick) {
+        this.deleteClick = deleteClick;
     }
 
     //Установка цвета
@@ -65,9 +87,6 @@ public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
 
         setStartColor(color);
     }
-
-    //Цвета до и после смены цвета
-    private int statusStartColor, statusEndColor, toolbarStartColor, toolbarEndColor;
 
     //Меняем начальный цвет
     public void setStartColor(int color) {
@@ -104,8 +123,6 @@ public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
         }
     }
 
-    Drawable cancelOn, cancelOff;
-
     public void setupDrawable() {
         cancelOn = Help.Draw.get(context, R.drawable.ic_cancel_on, R.attr.clIcon);
         cancelOff = Help.Draw.get(context, R.drawable.ic_cancel_off, R.attr.clIcon);
@@ -116,8 +133,6 @@ public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
         if (drawableOn) toolbar.setNavigationIcon(cancelOn);
         else toolbar.setNavigationIcon(cancelOff);
     }
-
-    private MenuItem mItemStatus, mItemCheck;
 
     public void setupMenu(boolean status) {
         MenuItem mItemRestore = menu.findItem(R.id.menu_actNote_restore);
@@ -157,34 +172,18 @@ public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
         db.close();
     }
 
-    public void setCheckTitle(boolean isAllCheck) {
-        mItemCheck.setTitle(isAllCheck ? context.getString(R.string.menu_note_check_zero) : context.getString(R.string.menu_note_check_all));
-    }
-
-    public void setStatusTitle(boolean status) {
-        mItemStatus.setTitle(status ? context.getString(R.string.menu_note_status_unbind) : context.getString(R.string.menu_note_status_bind));
-    }
-
     public void setMenuGroupVisible(boolean grDelete, boolean grEdit, boolean grRead) {
         menu.setGroupVisible(R.id.menu_actNote_grDelete, grDelete);
         menu.setGroupVisible(R.id.menu_actNote_grEdit, grEdit);
         menu.setGroupVisible(R.id.menu_actNote_grRead, grRead);
     }
 
-    private IntfMenu.NoteClick noteClick;
-    private IntfMenu.RollClick rollClick;
-    private IntfMenu.DeleteClick deleteClick;
-
-    public void setNoteClick(IntfMenu.NoteClick noteClick) {
-        this.noteClick = noteClick;
+    public void setCheckTitle(boolean isAllCheck) {
+        mItemCheck.setTitle(isAllCheck ? context.getString(R.string.menu_note_check_zero) : context.getString(R.string.menu_note_check_all));
     }
 
-    public void setRollClick(IntfMenu.RollClick rollClick) {
-        this.rollClick = rollClick;
-    }
-
-    public void setDeleteClick(IntfMenu.DeleteClick deleteClick) {
-        this.deleteClick = deleteClick;
+    public void setStatusTitle(boolean status) {
+        mItemStatus.setTitle(status ? context.getString(R.string.menu_note_status_unbind) : context.getString(R.string.menu_note_status_bind));
     }
 
     @Override

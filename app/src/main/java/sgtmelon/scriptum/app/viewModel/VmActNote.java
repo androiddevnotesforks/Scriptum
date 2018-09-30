@@ -3,7 +3,6 @@ package sgtmelon.scriptum.app.viewModel;
 import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,46 +13,43 @@ import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemStatus;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
-import sgtmelon.scriptum.office.annot.def.DefNote;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.st.StNote;
 
 public class VmActNote extends AndroidViewModel {
 
-    private static final String TAG = "VmActNote";
+    private final Context context;
+
+    private StNote stNote;
+    private int ntType;
+    private long ntId;
+
+    private List<Long> rankVisible;
+    private RepoNote repoNote;
+
+    private DbRoom db;
 
     public VmActNote(@NonNull Application application) {
         super(application);
-    }
 
-    private boolean create;
-    private int type;
-    private long id;
-
-    public boolean isCreate() {
-        return create;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public long getId() {
-        return id;
+        context = application.getApplicationContext();
     }
 
     public void setValue(Bundle bundle) {
-        create = bundle.getBoolean(DefNote.CREATE);
-        type = bundle.getInt(DefNote.TYPE);
-        id = bundle.getLong(DefNote.ID);
-
-        Log.i(TAG, "setValue: create=" + create + ", type=" + type + ", id=" + id);
+        stNote = bundle.getParcelable(DefIntent.STATE_NOTE);
+        ntType = bundle.getInt(DefIntent.NOTE_TYPE);
+        ntId = bundle.getLong(DefIntent.NOTE_ID);
 
         if (repoNote == null) loadData();
     }
 
-    private StNote stNote;
-    private List<Long> rankVisible;
-    private RepoNote repoNote;
+    public int getNtType() {
+        return ntType;
+    }
+
+    public long getNtId() {
+        return ntId;
+    }
 
     public StNote getStNote() {
         return stNote;
@@ -76,36 +72,21 @@ public class VmActNote extends AndroidViewModel {
         repoNote.updateItemStatus(status);
     }
 
-    private DbRoom db;
-
     private void loadData() {
-        Log.i(TAG, "loadData");
-
-        stNote = new StNote();
-        stNote.setCreate(create);
-        stNote.setEdit();
-
-        Context context = getApplication().getApplicationContext();
-
         db = DbRoom.provideDb(context);
         rankVisible = db.daoRank().getRankVisible();
         if (stNote.isCreate()) {
-            ItemNote itemNote = new ItemNote(context, type);
+            ItemNote itemNote = new ItemNote(context, ntType);
             ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
 
             repoNote = new RepoNote(itemNote, new ArrayList<>(), itemStatus);
         } else {
-            repoNote = db.daoNote().get(context, id);
-            stNote.setBin(repoNote.getItemNote().isBin());
+            repoNote = db.daoNote().get(context, ntId);
         }
         db.close();
     }
 
     public RepoNote loadData(long id) {
-        Log.i(TAG, "loadData: id=" + id);
-
-        Context context = getApplication().getApplicationContext();
-
         db = DbRoom.provideDb(context);
         repoNote = db.daoNote().get(context, id);
         db.close();

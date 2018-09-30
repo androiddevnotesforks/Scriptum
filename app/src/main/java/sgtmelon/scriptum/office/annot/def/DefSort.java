@@ -2,7 +2,12 @@ package sgtmelon.scriptum.office.annot.def;
 
 import androidx.annotation.IntDef;
 
-@IntDef({DefSort.create, DefSort.change, DefSort.rank, DefSort.color})
+@IntDef({
+        DefSort.create,
+        DefSort.change,
+        DefSort.rank,
+        DefSort.color
+})
 public @interface DefSort {
 
     String divider = ", ";

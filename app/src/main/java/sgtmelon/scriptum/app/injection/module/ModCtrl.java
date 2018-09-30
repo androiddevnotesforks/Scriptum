@@ -6,9 +6,9 @@ import android.view.Window;
 
 import dagger.Module;
 import dagger.Provides;
+import sgtmelon.scriptum.app.control.CtrlMenu;
 import sgtmelon.scriptum.app.control.CtrlMenuPreL;
 import sgtmelon.scriptum.app.control.CtrlSave;
-import sgtmelon.scriptum.app.control.CtrlMenu;
 
 @Module
 public class ModCtrl {

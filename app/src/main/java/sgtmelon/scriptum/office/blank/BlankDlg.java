@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.office.blank;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.Button;
 
@@ -8,7 +9,49 @@ import androidx.fragment.app.DialogFragment;
 
 public abstract class BlankDlg extends DialogFragment {
 
+    protected Context context;
+
     protected String title, message;
+
+    protected Button buttonPositive, buttonNeutral;
+
+    private DialogInterface.OnClickListener positiveListener;
+    protected final DialogInterface.OnClickListener onPositiveClick = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            if (positiveListener != null) {
+                positiveListener.onClick(dialogInterface, i);
+            }
+            dialogInterface.cancel();
+        }
+    };
+
+    private DialogInterface.OnClickListener neutralListener;
+    protected final DialogInterface.OnClickListener onNeutralClick = new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialogInterface, int i) {
+            if (neutralListener != null) {
+                neutralListener.onClick(dialogInterface, i);
+            }
+            dialogInterface.cancel();
+        }
+    };
+
+    private DialogInterface.OnDismissListener dismissListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        this.context = context;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        setEnable();
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -17,10 +60,6 @@ public abstract class BlankDlg extends DialogFragment {
     public void setMessage(String message) {
         this.message = message;
     }
-
-    private DialogInterface.OnClickListener positiveListener;
-    private DialogInterface.OnClickListener neutralListener;
-    private DialogInterface.OnDismissListener dismissListener;
 
     public void setPositiveListener(DialogInterface.OnClickListener positiveListener) {
         this.positiveListener = positiveListener;
@@ -34,35 +73,6 @@ public abstract class BlankDlg extends DialogFragment {
         this.dismissListener = dismissListener;
     }
 
-    protected final DialogInterface.OnClickListener onPositiveClick = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-            if (positiveListener != null) {
-                positiveListener.onClick(dialogInterface, i);
-            }
-            dialogInterface.cancel();
-        }
-    };
-
-    protected final DialogInterface.OnClickListener onNeutralClick = new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialogInterface, int i) {
-            if (neutralListener != null) {
-                neutralListener.onClick(dialogInterface, i);
-            }
-            dialogInterface.cancel();
-        }
-    };
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        setEnable();
-    }
-
-    protected Button buttonPositive, buttonNeutral;
-
     protected void setEnable() {
         AlertDialog dialog = (AlertDialog) getDialog();
         buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
@@ -75,4 +85,5 @@ public abstract class BlankDlg extends DialogFragment {
 
         if (dismissListener != null) dismissListener.onDismiss(dialog);
     }
+
 }

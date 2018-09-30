@@ -4,7 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -29,25 +38,22 @@ import sgtmelon.scriptum.databinding.FrgNotesBinding;
 import sgtmelon.scriptum.element.dialog.DlgOptionNote;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.DefNote;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 import sgtmelon.scriptum.office.annot.def.db.DefCheck;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.intf.IntfDialog;
 import sgtmelon.scriptum.office.intf.IntfItem;
-
-import javax.inject.Inject;
-import java.util.List;
+import sgtmelon.scriptum.office.st.StNote;
 
 public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListener,
         IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionNote {
 
-    //region Variable
-    private static final String TAG = "FrgNotes";
+    private static final String TAG = FrgNotes.class.getSimpleName();
 
     public static boolean updateStatus = true; //Для единовременного обновления статус бара
 
-    private DbRoom db;
+    public RecyclerView recyclerView;
 
     @Inject
     Context context;
@@ -59,13 +65,19 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     @Inject
     VmFrgNotes vm;
 
+    @Inject
+    AdpNote adapter;
+
+    @Inject
+    DlgOptionNote dlgOptionNote;
+
+    private DbRoom db;
     private View frgView;
-    //endregion
 
     @Override
     public void onResume() {
-        super.onResume();
         Log.i(TAG, "onResume");
+        super.onResume();
 
         updateAdapter();
 
@@ -110,28 +122,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         Help.Tint.menuIcon(context, mItemSettings);
     }
 
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        Log.i(TAG, "onMenuItemClick");
-
-        switch (item.getItemId()) {
-            case R.id.menu_frgNote_settings:
-                Intent intent = new Intent(context, ActSettings.class);
-                startActivity(intent);
-                return true;
-        }
-        return false;
-    }
-
-    //region RecyclerVariable
-    public RecyclerView recyclerView;
-
-    @Inject
-    AdpNote adapter;
-    @Inject
-    DlgOptionNote dlgOptionNote;
-    //endregion
-
     private void setupRecycler() {
         Log.i(TAG, "setupRecycler");
 
@@ -161,22 +151,34 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         List<RepoNote> listRepo = vm.loadData(DefBin.out);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyDataSetChanged();
 
         bind(listRepo.size());
     }
 
     @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Log.i(TAG, "onMenuItemClick");
+
+        switch (item.getItemId()) {
+            case R.id.menu_frgNote_settings:
+                Intent intent = new Intent(context, ActSettings.class);
+                startActivity(intent);
+                return true;
+        }
+        return false;
+    }
+
+    @Override
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
+        long ntId = vm.getListRepo().get(p).getItemNote().getId();
 
         Intent intent = new Intent(context, ActNote.class);
-
-        intent.putExtra(DefNote.CREATE, false);
-        intent.putExtra(DefNote.ID, itemNote.getId());
+        intent.putExtra(DefIntent.STATE_NOTE, new StNote(false, false));
+        intent.putExtra(DefIntent.NOTE_ID, ntId);
 
         startActivity(intent);
     }
@@ -187,7 +189,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
         ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
 
-        dlgOptionNote.setArguments(itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck(), p);
+        dlgOptionNote.setArguments(p, itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck());
         dlgOptionNote.show(fm, DefDlg.OPTIONS);
     }
 
@@ -218,7 +220,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         listRepo.set(p, repoNote);
         vm.setListRepo(listRepo);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyItemChanged(p);
     }
 
@@ -243,7 +245,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         listRepo.set(p, repoNote);
         vm.setListRepo(listRepo);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyItemChanged(p);
     }
 
@@ -291,12 +293,14 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         listRepo.set(p, repoNote);
         vm.setListRepo(listRepo);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyItemChanged(p);
     }
 
     @Override
     public void onOptionCopyClick(int p) {
+        Log.i(TAG, "onOptionCopyClick");
+
         ItemNote itemNote = vm.getListRepo().get(p).getItemNote();
         Help.optionsCopy(context, itemNote);
     }
@@ -319,7 +323,7 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         listRepo.remove(p);
         vm.setListRepo(listRepo);
 
-        adapter.update(listRepo);
+        adapter.setListRepo(listRepo);
         adapter.notifyItemRemoved(p);
     }
 

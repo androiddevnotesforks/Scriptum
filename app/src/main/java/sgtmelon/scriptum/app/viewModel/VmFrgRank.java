@@ -9,11 +9,11 @@ import sgtmelon.scriptum.app.model.repo.RepoRank;
 
 public class VmFrgRank extends AndroidViewModel {
 
+    private RepoRank repoRank;
+
     public VmFrgRank(@NonNull Application application) {
         super(application);
     }
-
-    private RepoRank repoRank;
 
     public RepoRank getRepoRank() {
         return repoRank;

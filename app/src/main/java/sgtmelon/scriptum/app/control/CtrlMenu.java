@@ -13,11 +13,11 @@ import sgtmelon.scriptum.office.hdlr.HdlrAnim;
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public class CtrlMenu extends CtrlMenuPreL {
 
+    private HdlrAnim hdlrAnim;
+
     public CtrlMenu(Context context, Window window) {
         super(context, window);
     }
-
-    private HdlrAnim hdlrAnim;
 
     @Override
     public void setupDrawable() {

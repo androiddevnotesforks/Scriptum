@@ -11,6 +11,12 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -33,21 +39,17 @@ import sgtmelon.scriptum.databinding.FrgRankBinding;
 import sgtmelon.scriptum.element.dialog.DlgRename;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.intf.IntfItem;
 import sgtmelon.scriptum.office.st.StDrag;
 import sgtmelon.scriptum.office.st.StOpen;
 
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+public class FrgRank extends Fragment implements View.OnClickListener, View.OnLongClickListener,
+        IntfItem.Click, IntfItem.LongClick {
 
-public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongClick,
-        View.OnClickListener, View.OnLongClickListener {
+    private static final String TAG = FrgRank.class.getSimpleName();
 
-    //region Variable
-    private static final String TAG = "FrgRank";
-
-    private DbRoom db;
+    public RecyclerView recyclerView;
 
     @Inject
     Context context;
@@ -59,13 +61,98 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     @Inject
     VmFrgRank vm;
 
+    @Inject
+    StDrag stDrag;
+
+    @Inject
+    LinearLayoutManager layoutManager;
+    @Inject
+    AdpRank adapter;
+
+    @Inject
+    StOpen stOpen;
+    @Inject
+    DlgRename dlgRename;
+
+    private DbRoom db;
+
+    private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
+
+        private int dragStart;
+        private int dragEnd;
+
+        @Override
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            int flagsDrag = stDrag.isDrag()
+                    ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
+                    : 0;
+
+            int flagsSwipe = 0;
+
+            return makeMovementFlags(flagsDrag, flagsSwipe);
+        }
+
+        @Override
+        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+            super.onSelectedChanged(viewHolder, actionState);
+
+            switch (actionState) {
+                case ItemTouchHelper.ACTION_STATE_DRAG:
+                    dragStart = viewHolder.getAdapterPosition();
+                    break;
+            }
+        }
+
+        @Override
+        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            super.clearView(recyclerView, viewHolder);
+
+            dragEnd = viewHolder.getAdapterPosition();
+            if (dragStart != dragEnd) {
+                db = DbRoom.provideDb(context);
+                List<ItemRank> listRank = db.daoRank().update(dragStart, dragEnd);
+                db.daoNote().update(context);
+                db.close();
+
+                RepoRank repoRank = vm.getRepoRank();
+                repoRank.setListRank(listRank);
+                vm.setRepoRank(repoRank);
+
+                adapter.setListRank(listRank);
+                adapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            int oldPs = viewHolder.getAdapterPosition();
+            int newPs = target.getAdapterPosition();
+
+            RepoRank repoRank = vm.getRepoRank();
+            repoRank.move(oldPs, newPs);
+            vm.setRepoRank(repoRank);
+
+            adapter.setListRank(repoRank.getListRank());
+            adapter.notifyItemMoved(oldPs, newPs);
+
+            return true;
+        }
+    };
+
     private View frgView;
-    //endregion
+    private ImageButton rankCancel;
+    private ImageButton rankAdd;
+    private EditText rankEnter;
 
     @Override
     public void onResume() {
-        super.onResume();
         Log.i(TAG, "onResume");
+        super.onResume();
 
         updateAdapter();
         tintButton();
@@ -81,30 +168,32 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 .build();
         comFrg.inject(this);
 
+        frgView = binding.getRoot();
+
+        if (savedInstanceState != null) {
+            stOpen = savedInstanceState.getParcelable(DefIntent.STATE_OPEN);
+        }
+
         vm.loadData();
 
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
-
-        return frgView = binding.getRoot();
+        return frgView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
+        super.onActivityCreated(savedInstanceState);
 
         setupToolbar();
         setupRecycler();
     }
 
     private void bind(int listSize) {
+        Log.i(TAG, "bind");
+
         binding.setListEmpty(listSize == 0);
         binding.executePendingBindings();
     }
-
-    private ImageButton rankCancel;
-    private ImageButton rankAdd;
-    private EditText rankEnter;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -150,7 +239,10 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         rankAdd.setOnLongClickListener(this);
     }
 
+    // TODO: 30.09.2018 переделай в отдельный класс
     private void tintButton() {
+        Log.i(TAG, "tintButton");
+
         String name = rankEnter.getText().toString().toUpperCase();
 
         Help.Tint.button(context, rankCancel, R.drawable.ic_cancel_on, R.attr.clIcon, name);
@@ -158,9 +250,67 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     }
 
     private String clearEnter() {
+        Log.i(TAG, "clearEnter");
+
         String name = rankEnter.getText().toString();
         rankEnter.setText("");
         return name;
+    }
+
+    private void setupRecycler() {
+        Log.i(TAG, "setupRecycler");
+
+        final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
+            @Override
+            public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
+                bind(vm.getRepoRank().size());
+            }
+        };
+
+        adapter.setClick(this);
+        adapter.setLongClick(this);
+        adapter.setDrag(stDrag);
+
+        recyclerView = frgView.findViewById(R.id.frgRank_rv);
+        recyclerView.setItemAnimator(recyclerViewEndAnim);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+        dlgRename.setPositiveListener((dialogInterface, i) -> {
+            int p = dlgRename.getPosition();
+
+            RepoRank repoRank = vm.getRepoRank();
+            ItemRank itemRank = repoRank.get(p);
+            itemRank.setName(dlgRename.getName());
+
+            db = DbRoom.provideDb(context);
+            db.daoRank().update(itemRank);
+            db.close();
+
+            repoRank.set(p, itemRank);
+
+            tintButton();
+
+            vm.setRepoRank(repoRank);
+
+            adapter.setListRank(p, itemRank);
+            adapter.notifyItemChanged(p);
+        });
+        dlgRename.setDismissListener(dialogInterface -> stOpen.setOpen(false));
+    }
+
+    private void updateAdapter() {
+        Log.i(TAG, "updateAdapter");
+
+        RepoRank repoRank = vm.loadData();
+
+        adapter.setListRank(repoRank.getListRank());
+        adapter.notifyDataSetChanged();
+
+        bind(repoRank.size());
     }
 
     @Override
@@ -187,7 +337,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 repoRank.add(ps, itemRank);
 
                 vm.setRepoRank(repoRank);
-                adapter.update(repoRank.getListRank());
+                adapter.setListRank(repoRank.getListRank());
 
                 if (repoRank.size() == 1) {
                     bind(repoRank.size());
@@ -225,7 +375,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         repoRank.add(ps, itemRank);
         vm.setRepoRank(repoRank);
 
-        adapter.update(repoRank.getListRank());
+        adapter.setListRank(repoRank.getListRank());
 
         if (repoRank.size() == 1) bind(repoRank.size());
         else {
@@ -238,78 +388,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             }
         }
         return true;
-    }
-
-    //region Recycler variable
-    public RecyclerView recyclerView;
-
-    @Inject
-    StDrag stDrag;
-
-    @Inject
-    LinearLayoutManager layoutManager;
-    @Inject
-    AdpRank adapter;
-
-    @Inject
-    StOpen stOpen;
-    @Inject
-    DlgRename dlgRename;
-    //endregion
-
-    private void setupRecycler() {
-        Log.i(TAG, "setupRecycler");
-
-        final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
-            @Override
-            public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getRepoRank().size());
-            }
-        };
-
-        adapter.setCallback(this, this, stDrag);
-
-        recyclerView = frgView.findViewById(R.id.frgRank_rv);
-        recyclerView.setItemAnimator(recyclerViewEndAnim);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        dlgRename.setPositiveListener((dialogInterface, i) -> {
-            int p = dlgRename.getPosition();
-
-            RepoRank repoRank = vm.getRepoRank();
-            ItemRank itemRank = repoRank.get(p);
-            itemRank.setName(dlgRename.getName());
-
-            db = DbRoom.provideDb(context);
-            db.daoRank().update(itemRank);
-            db.close();
-
-            repoRank.set(p, itemRank);
-
-            tintButton();
-
-            vm.setRepoRank(repoRank);
-
-            adapter.update(p, itemRank);
-            adapter.notifyItemChanged(p);
-        });
-        dlgRename.setDismissListener(dialogInterface -> stOpen.setOpen(false));
-    }
-
-    private void updateAdapter() {
-        Log.i(TAG, "updateAdapter");
-        Log.i(TAG, "updateAdapter: vm isNull: " + (vm == null));
-
-        RepoRank repoRank = vm.loadData();
-
-        adapter.update(repoRank.getListRank());
-        adapter.notifyDataSetChanged();
-
-        bind(repoRank.size());
     }
 
     @Override
@@ -326,7 +404,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 repoRank.set(p, itemRank);
 
                 vm.setRepoRank(repoRank);
-                adapter.update(p, itemRank);
+                adapter.setListRank(p, itemRank);
 
                 db = DbRoom.provideDb(context);
                 db.daoRank().update(itemRank);
@@ -334,7 +412,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 db.close();
                 break;
             case R.id.itemRank_ll_click:
-                if (!stOpen.isOpen()) {
+                if (stOpen.isNotOpen()) {
                     stOpen.setOpen(true);
 
                     dlgRename.setArguments(p, itemRank.getName(), new ArrayList<>(repoRank.getListName()));
@@ -352,7 +430,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
                 vm.setRepoRank(repoRank);
 
-                adapter.update(repoRank.getListRank());
+                adapter.setListRank(repoRank.getListRank());
                 adapter.notifyItemRemoved(p);
                 break;
         }
@@ -364,7 +442,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         RepoRank repoRank = vm.getRepoRank();
 
-        boolean[] iconStartAnim = adapter.getStartAnim();
+        boolean[] startAnim = adapter.getStartAnim();
         boolean clickVisible = repoRank.get(p).isVisible();
 
         for (int i = 0; i < repoRank.size(); i++) {
@@ -373,7 +451,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
                 boolean isVisible = itemRank.isVisible();
 
                 if (clickVisible == isVisible) {
-                    iconStartAnim[i] = true;
+                    startAnim[i] = true;
                     itemRank.setVisible(!isVisible);
                     repoRank.set(i, itemRank);
                 }
@@ -384,7 +462,7 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         vm.setRepoRank(repoRank);
 
-        adapter.update(listRank, iconStartAnim);
+        adapter.setListRank(listRank, startAnim);
         adapter.notifyDataSetChanged();
 
         db = DbRoom.provideDb(context);
@@ -393,79 +471,12 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         db.close();
     }
 
-    private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
-
-        private int dragStart;
-        private int dragEnd;
-
-        @Override
-        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-            int flagsDrag = stDrag.isDrag()
-                    ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
-                    : 0;
-
-            int flagsSwipe = 0;
-
-            return makeMovementFlags(flagsDrag, flagsSwipe);
-        }
-
-        @Override
-        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-            super.onSelectedChanged(viewHolder, actionState);
-
-            switch (actionState) {
-                case ItemTouchHelper.ACTION_STATE_DRAG:
-                    dragStart = viewHolder.getAdapterPosition();
-                    break;
-            }
-        }
-
-        @Override
-        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-            super.clearView(recyclerView, viewHolder);
-
-            dragEnd = viewHolder.getAdapterPosition();
-            if (dragStart != dragEnd) {
-                db = DbRoom.provideDb(context);
-                List<ItemRank> listRank = db.daoRank().update(dragStart, dragEnd);
-                db.daoNote().update(context);
-                db.close();
-
-                RepoRank repoRank = vm.getRepoRank();
-                repoRank.setListRank(listRank);
-                vm.setRepoRank(repoRank);
-
-                adapter.update(listRank);
-                adapter.notifyDataSetChanged();
-            }
-        }
-
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-        }
-
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            int oldPs = viewHolder.getAdapterPosition();
-            int newPs = target.getAdapterPosition();
-
-            RepoRank repoRank = vm.getRepoRank();
-            repoRank.move(oldPs, newPs);
-            vm.setRepoRank(repoRank);
-
-            adapter.update(repoRank.getListRank());
-            adapter.notifyItemMoved(oldPs, newPs);
-
-            return true;
-        }
-    };
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.i(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(DefDlg.OPEN, stOpen.isOpen());
+        outState.putParcelable(DefIntent.STATE_OPEN, stOpen);
     }
 
 }

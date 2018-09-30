@@ -11,7 +11,6 @@ import sgtmelon.scriptum.office.intf.IntfItem;
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public class HdlrAnim {
 
-    //region Variable
     private final Context context;
 
     private final AnimatedVectorDrawable animOn, animOff;
@@ -20,7 +19,8 @@ public class HdlrAnim {
     private final Runnable animRunnable;
 
     private boolean animState;
-    //endregion
+
+    private IntfItem.Animation animation;
 
     public HdlrAnim(Context context, AnimatedVectorDrawable animOn, AnimatedVectorDrawable animOff) {
         this.context = context;
@@ -61,8 +61,6 @@ public class HdlrAnim {
     public void setAnimState(boolean animState) {
         this.animState = animState;
     }
-
-    private IntfItem.Animation animation;
 
     public void setAnimation(IntfItem.Animation animation) {
         this.animation = animation;

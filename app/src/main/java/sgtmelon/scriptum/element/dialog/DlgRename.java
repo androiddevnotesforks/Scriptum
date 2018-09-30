@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.element.dialog;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,31 +22,24 @@ import sgtmelon.scriptum.office.blank.BlankDlg;
 
 public class DlgRename extends BlankDlg implements TextView.OnEditorActionListener {
 
+    private int position;
+
+    private ArrayList<String> listName;
+    private EditText nameEnter;
+
     public void setArguments(int p, String title, ArrayList<String> listName) {
         Bundle arg = new Bundle();
+
         arg.putInt(DefDb.RK_PS, p);
         arg.putString(DefDlg.INIT, title);
         arg.putStringArrayList(DefDlg.VALUE, listName);
+
         setArguments(arg);
-    }
-
-    private int position;
-    private ArrayList<String> listName;
-
-    public int getPosition() {
-        return position;
-    }
-
-    private EditText nameEnter;
-
-    public String getName() {
-        return nameEnter.getText().toString();
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getContext();
         Bundle arg = getArguments();
 
         if (arg != null) {
@@ -88,6 +80,14 @@ public class DlgRename extends BlankDlg implements TextView.OnEditorActionListen
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public String getName() {
+        return nameEnter.getText().toString();
     }
 
     @Override

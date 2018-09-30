@@ -15,18 +15,30 @@ import sgtmelon.scriptum.office.intf.IntfDialog;
 
 public class DlgOptionBin extends DialogFragment implements DialogInterface.OnClickListener {
 
+    private Context context;
+
+    private int p;
+
+    private IntfDialog.OptionBin optionBin;
+
     public void setArguments(int p) {
         Bundle arg = new Bundle();
+
         arg.putInt(DefDlg.VALUE, p);
+
         setArguments(arg);
     }
 
-    private int p;
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        this.context = context;
+    }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getContext();
         Bundle arg = getArguments();
 
         if (arg != null) {
@@ -42,8 +54,6 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
                 .setCancelable(true)
                 .create();
     }
-
-    private IntfDialog.OptionBin optionBin;
 
     public void setOptionBin(IntfDialog.OptionBin optionBin) {
         this.optionBin = optionBin;

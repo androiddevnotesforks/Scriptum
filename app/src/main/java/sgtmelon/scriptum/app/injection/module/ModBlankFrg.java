@@ -27,7 +27,7 @@ public class ModBlankFrg {
     }
 
     @Provides
-    public Fragment provideFragment() {
+    Fragment provideFragment() {
         return fragment;
     }
 
@@ -42,17 +42,17 @@ public class ModBlankFrg {
     }
 
     @Provides
-    public LayoutInflater provideInflater() {
+    LayoutInflater provideInflater() {
         return inflater;
     }
 
     @Provides
-    public ViewGroup provideContainer() {
+    ViewGroup provideContainer() {
         return container;
     }
 
     @Provides
-    public Window provideWindow(){
+    public Window provideWindow() {
         FragmentActivity activity = fragment.getActivity();
 
         if (activity != null) return activity.getWindow();
@@ -60,7 +60,7 @@ public class ModBlankFrg {
     }
 
     @Provides
-    public LinearLayoutManager provideLinearLayout(Context context){
+    public LinearLayoutManager provideLinearLayout(Context context) {
         return new LinearLayoutManager(context);
     }
 

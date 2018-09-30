@@ -13,6 +13,9 @@ public class BtnVisiblePreL extends AppCompatImageButton implements IntfItem.Ani
 
     final Context context;
 
+    Drawable visibleOn;
+    Drawable visibleOff;
+
     public BtnVisiblePreL(Context context) {
         super(context);
 
@@ -33,9 +36,6 @@ public class BtnVisiblePreL extends AppCompatImageButton implements IntfItem.Ani
         this.context = context;
         setupDrawable();
     }
-
-    Drawable visibleOn;
-    Drawable visibleOff;
 
     void setupDrawable() {
         visibleOn = Help.Draw.get(context, R.drawable.ic_visible_on, R.attr.clAccent);

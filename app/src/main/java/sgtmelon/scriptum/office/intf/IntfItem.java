@@ -2,8 +2,6 @@ package sgtmelon.scriptum.office.intf;
 
 import android.view.View;
 
-import androidx.annotation.Nullable;
-
 public interface IntfItem {
 
     interface Click {

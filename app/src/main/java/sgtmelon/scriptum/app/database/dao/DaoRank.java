@@ -268,4 +268,5 @@ public abstract class DaoRank extends DaoBase {
                     "VS: " + itemRank.isVisible());
         }
     }
+
 }

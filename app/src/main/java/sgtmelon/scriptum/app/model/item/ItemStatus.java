@@ -17,19 +17,18 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.app.view.act.ActSplash;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.DefNote;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
+import sgtmelon.scriptum.office.st.StNote;
 
 public class ItemStatus {
 
-    //region Variables
     private final Context context;
-    private ItemNote itemNote;
-
     private final PendingIntent pendingIntent;
+
+    private ItemNote itemNote;
     private Notification notification;
     private NotificationManager notificationManager;
-    //endregion
 
     // TODO: 29.08.2018 Добавить кнопки к уведомлениям, чтобы была возможность их открепить
 
@@ -37,9 +36,11 @@ public class ItemStatus {
         this.context = context;
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+
         Intent intent = new Intent(context, ActSplash.class);
-        intent.putExtra(DefNote.OPEN, DefNote.OPEN);
-        intent.putExtra(DefNote.ID, itemNote.getId());
+        intent.putExtra(DefIntent.STATUS_OPEN, true);
+        intent.putExtra(DefIntent.STATE_NOTE, new StNote(false, false));
+        intent.putExtra(DefIntent.NOTE_ID, itemNote.getId());
 
         stackBuilder.addNextIntent(intent);
 

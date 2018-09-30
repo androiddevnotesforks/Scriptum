@@ -13,22 +13,19 @@ import sgtmelon.scriptum.office.annot.def.db.DefBin;
 
 public class VmFrgNotes extends AndroidViewModel {
 
+    private List<RepoNote> listRepo;
+
     public VmFrgNotes(@NonNull Application application) {
         super(application);
     }
-
-    private List<RepoNote> listRepo;
 
     public List<RepoNote> getListRepo() {
         return listRepo;
     }
 
     public void setListRepo(List<RepoNote> listRepo) {
-        this.listRepo = listRepo;
-    }
-
-    public void clearListRepo() {
-        listRepo.clear();
+        if (listRepo == null) this.listRepo.clear();
+        else this.listRepo = listRepo;
     }
 
     public List<RepoNote> loadData(@DefBin int bin) {

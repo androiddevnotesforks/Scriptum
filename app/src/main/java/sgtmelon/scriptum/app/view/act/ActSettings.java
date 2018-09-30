@@ -13,13 +13,13 @@ import sgtmelon.scriptum.office.blank.BlankAct;
 
 public class ActSettings extends BlankAct {
 
-    private static final String TAG = "ActSettings";
+    private static final String TAG = ActSettings.class.getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_settings);
-        Log.i(TAG, "onCreate");
 
         setupToolbar();
 

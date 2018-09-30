@@ -24,8 +24,6 @@ import sgtmelon.scriptum.office.conv.ConvBool;
 @TypeConverters({ConvBool.class})
 abstract class DaoBase {
 
-    //region NoteBase
-
     /**
      * @param id - Массив с датами создания заметок
      * @return - Список заметок по данным датам создания
@@ -85,10 +83,6 @@ abstract class DaoBase {
         updateNote(listNote);
     }
 
-    //endregion
-
-    //region RollBase
-
     /**
      * @return - Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
      */
@@ -101,10 +95,6 @@ abstract class DaoBase {
             "WHERE RL_ID_NOTE = :idNote " +
             "ORDER BY RL_POSITION")
     abstract List<ItemRoll> getRoll(long idNote);
-
-    //endregion
-
-    //region RankBase
 
     /**
      * @return - Лист с id категорий, которые видны
@@ -144,7 +134,5 @@ abstract class DaoBase {
 
         updateRank(listRank);
     }
-
-    //endregion
 
 }

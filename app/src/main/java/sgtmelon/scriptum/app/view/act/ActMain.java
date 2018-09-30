@@ -4,12 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
+import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.ComAct;
 import sgtmelon.scriptum.app.injection.component.DaggerComAct;
@@ -20,27 +24,26 @@ import sgtmelon.scriptum.app.view.frg.FrgRank;
 import sgtmelon.scriptum.element.dialog.common.DlgSheet;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
-import sgtmelon.scriptum.office.annot.def.DefNote;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.annot.def.DefPage;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.blank.BlankAct;
+import sgtmelon.scriptum.office.st.StNote;
 import sgtmelon.scriptum.office.st.StOpen;
 import sgtmelon.scriptum.office.st.StPage;
 
-import javax.inject.Inject;
-
 public class ActMain extends BlankAct implements BottomNavigationView.OnNavigationItemSelectedListener, NavigationView.OnNavigationItemSelectedListener {
 
-    //region Variable
-    private static final String TAG = "ActMain";
+
+    private static final String TAG = ActMain.class.getSimpleName();
 
     @Inject
     FragmentManager fm;
 
     @Inject
-    StPage stPage;
+    StPage stPage = new StPage();
     @Inject
-    StOpen stOpen;
+    StOpen stOpen = new StOpen();
 
     @Inject
     FrgRank frgRank;
@@ -51,30 +54,35 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
 
     @Inject
     DlgSheet dlgSheetAdd;
-    //endregion
+
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
-        Log.i(TAG, "onCreate");
 
         ComAct comAct = DaggerComAct.builder().modBlankAct(new ModBlankAct(this, this)).build();
         comAct.inject(this);
 
-        setupNavigation(savedInstanceState != null
-                ? savedInstanceState.getInt(DefPage.PAGE)
-                : DefPage.notes);
-    }
+        int page = DefPage.notes;
+        if (savedInstanceState != null) {
+            stPage = savedInstanceState.getParcelable(DefIntent.STATE_PAGE);
+            stOpen = savedInstanceState.getParcelable(DefIntent.STATE_OPEN);
 
-    private FloatingActionButton fab;
+            page = stPage.getPage();
+        }
+
+        setupNavigation(page);
+    }
 
     private void setupNavigation(@DefPage int page) {
         Log.i(TAG, "setupNavigation");
 
         fab = findViewById(R.id.actMain_fab);
         fab.setOnClickListener(view -> {
-            if (!stOpen.isOpen()) {
+            if (stOpen.isNotOpen()) {
                 stOpen.setOpen(true);
 
                 dlgSheetAdd.show(fm, DefDlg.SHEET_ADD);
@@ -88,12 +96,13 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
         dlgSheetAdd.setNavigationItemSelectedListener(menuItem -> {
             dlgSheetAdd.dismiss();
 
-            Intent intent = new Intent(ActMain.this, ActNote.class);
-
-            intent.putExtra(DefNote.CREATE, true);
-            intent.putExtra(DefNote.TYPE, menuItem.getItemId() == R.id.menu_sheetAdd_text
+            @DefType int ntType = menuItem.getItemId() == R.id.menu_sheetAdd_text
                     ? DefType.text
-                    : DefType.roll);
+                    : DefType.roll;
+
+            Intent intent = new Intent(ActMain.this, ActNote.class);
+            intent.putExtra(DefIntent.STATE_NOTE, new StNote(true, false));
+            intent.putExtra(DefIntent.NOTE_TYPE, ntType);
 
             startActivity(intent);
             return true;
@@ -146,10 +155,11 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         Log.i(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
 
-        outState.putInt(DefPage.PAGE, stPage.getPage());
+        outState.putParcelable(DefIntent.STATE_PAGE, stPage);
+        outState.putParcelable(DefIntent.STATE_OPEN, stOpen);
     }
 
 }

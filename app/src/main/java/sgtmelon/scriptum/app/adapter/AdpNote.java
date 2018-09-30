@@ -3,6 +3,10 @@ package sgtmelon.scriptum.app.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,12 +19,9 @@ import sgtmelon.scriptum.databinding.ItemNoteTextBinding;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.intf.IntfItem;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AdpNote extends RecyclerView.Adapter<AdpNote.NoteHolder> {
 
-    private final List<RepoNote> listRepoNote = new ArrayList<>();
+    private final List<RepoNote> listRepo = new ArrayList<>();
 
     private IntfItem.Click click;
     private IntfItem.LongClick longClick;
@@ -33,14 +34,14 @@ public class AdpNote extends RecyclerView.Adapter<AdpNote.NoteHolder> {
         this.longClick = longClick;
     }
 
-    public void update(List<RepoNote> listRepoNote) {
-        this.listRepoNote.clear();
-        this.listRepoNote.addAll(listRepoNote);
+    public void setListRepo(List<RepoNote> listRepoNote) {
+        this.listRepo.clear();
+        this.listRepo.addAll(listRepoNote);
     }
 
     @Override
     public int getItemViewType(int position) {
-        return listRepoNote.get(position).getItemNote().getType();
+        return listRepo.get(position).getItemNote().getType();
     }
 
     @NonNull
@@ -59,21 +60,21 @@ public class AdpNote extends RecyclerView.Adapter<AdpNote.NoteHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
-        RepoNote repoNote = listRepoNote.get(position);
+        RepoNote repoNote = listRepo.get(position);
         holder.bind(repoNote.getItemNote(), repoNote.getListRoll());
     }
 
     @Override
     public int getItemCount() {
-        return listRepoNote.size();
+        return listRepo.size();
     }
 
     class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
-        private final View ntClick;
-
         private final ItemNoteTextBinding bindingText;
         private final ItemNoteRollBinding bindingRoll;
+
+        private final View ntClick;
 
         NoteHolder(ItemNoteTextBinding bindingText) {
             super(bindingText.getRoot());
@@ -122,6 +123,7 @@ public class AdpNote extends RecyclerView.Adapter<AdpNote.NoteHolder> {
             longClick.onItemLongClick(view, getAdapterPosition());
             return false;
         }
+
     }
 
 }

@@ -16,6 +16,24 @@ import sgtmelon.scriptum.office.conv.ConvString;
 @TypeConverters({ConvBool.class, ConvString.class})
 public class ItemRank {
 
+    @ColumnInfo(name = DefDb.RK_ID)
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+    @ColumnInfo(name = DefDb.RK_ID_NT)
+    private Long[] idNote;
+
+    @ColumnInfo(name = DefDb.RK_PS)
+    private int position;
+    @ColumnInfo(name = DefDb.RK_NM)
+    private String name;
+    @ColumnInfo(name = DefDb.RK_VS)
+    private boolean visible;
+
+    @Ignore
+    private int textCount;
+    @Ignore
+    private int rollCount;
+
     public ItemRank() {
 
     }
@@ -55,26 +73,6 @@ public class ItemRank {
         createList.remove(noteId);
         idNote = ConvList.fromList(createList);
     }
-
-    //region Variables
-    @ColumnInfo(name = DefDb.RK_ID)
-    @PrimaryKey(autoGenerate = true)
-    private long id;             //Позиция в базе данных
-    @ColumnInfo(name = DefDb.RK_ID_NT)
-    private Long[] idNote;    //Id заметок которые привязаны
-
-    @ColumnInfo(name = DefDb.RK_PS)
-    private int position;       //Позиция в списке
-    @ColumnInfo(name = DefDb.RK_NM)
-    private String name;        //Уникальное имя
-    @ColumnInfo(name = DefDb.RK_VS)
-    private boolean visible;    //Видимость категории
-
-    @Ignore
-    private int textCount;      //Количество тектовых заметок
-    @Ignore
-    private int rollCount;      //Количество списков
-    //endregion
 
     public long getId() {
         return id;

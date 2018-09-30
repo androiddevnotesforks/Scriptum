@@ -6,12 +6,16 @@ import sgtmelon.scriptum.app.model.item.ItemRank;
 
 public class RepoRank {
 
-    private List<ItemRank> listRank;
     private final List<String> listName;
+    private List<ItemRank> listRank;
 
     public RepoRank(List<ItemRank> listRank, List<String> listName) {
         this.listRank = listRank;
         this.listName = listName;
+    }
+
+    public List<String> getListName() {
+        return listName;
     }
 
     public List<ItemRank> getListRank() {
@@ -20,10 +24,6 @@ public class RepoRank {
 
     public void setListRank(List<ItemRank> listRank) {
         this.listRank = listRank;
-    }
-
-    public List<String> getListName() {
-        return listName;
     }
 
     public int size() {
@@ -35,18 +35,18 @@ public class RepoRank {
         listName.add(position, itemRank.getName().toUpperCase());
     }
 
-    public void remove(int position) {
-        listRank.remove(position);
-        listName.remove(position);
+    public void set(int position, ItemRank itemRank) {
+        listRank.set(position, itemRank);
+        listName.set(position, itemRank.getName().toUpperCase());
     }
 
     public ItemRank get(int position) {
         return listRank.get(position);
     }
 
-    public void set(int position, ItemRank itemRank) {
-        listRank.set(position, itemRank);
-        listName.set(position, itemRank.getName().toUpperCase());
+    public void remove(int position) {
+        listRank.remove(position);
+        listName.remove(position);
     }
 
     public void move(int oldPosition, int newPosition) {

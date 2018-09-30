@@ -15,7 +15,7 @@ public class VmFrgText extends ViewModel {
         this.repoNote = repoNote;
     }
 
-    public boolean isEmpty(){
+    public boolean isEmpty() {
         return repoNote == null;
     }
 

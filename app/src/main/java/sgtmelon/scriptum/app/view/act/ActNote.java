@@ -2,6 +2,9 @@ package sgtmelon.scriptum.app.view.act;
 
 import android.os.Bundle;
 import android.util.Log;
+
+import javax.inject.Inject;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
@@ -17,44 +20,43 @@ import sgtmelon.scriptum.app.view.frg.FrgText;
 import sgtmelon.scriptum.app.viewModel.VmActNote;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
-import sgtmelon.scriptum.office.annot.def.DefNote;
+import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.blank.BlankAct;
 import sgtmelon.scriptum.office.intf.IntfMenu;
 import sgtmelon.scriptum.office.st.StNote;
 
-import javax.inject.Inject;
-
 public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
-    //region Variable
-    private static final String TAG = "ActNote";
-
-    private DbRoom db;
-
-    @Inject
-    FragmentManager fm;
+    private static final String TAG = ActNote.class.getSimpleName();
 
     @Inject
     public VmActNote vm;
 
     @Inject
     public CtrlSave ctrlSave;
-    //endregion
+
+    @Inject
+    FragmentManager fm;
+
+    private DbRoom db;
+
+    private FrgText frgText;
+    private FrgRoll frgRoll;
 
     @Override
     protected void onPause() {
-        super.onPause();
         Log.i(TAG, "onPause");
+        super.onPause();
 
         ctrlSave.onPauseSave(vm.getStNote().isEdit());
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_note);
-        Log.i(TAG, "onCreate");
 
         ComAct comAct = DaggerComAct.builder().modBlankAct(new ModBlankAct(this, this)).build();
         comAct.inject(this);
@@ -64,9 +66,6 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
         setupFrg(savedInstanceState != null);
     }
-
-    private FrgText frgText;
-    private FrgRoll frgRoll;
 
     public void setupFrg(boolean isSave) {
         Log.i(TAG, "setupFrg");
@@ -85,7 +84,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
                 if (isSave) frgText = (FrgText) fm.findFragmentByTag(DefFrg.TEXT);
                 else frgText = new FrgText();
 
-                ctrlSave.setMenuClick(frgText);
+                ctrlSave.setNoteClick(frgText);
 
                 transaction.replace(R.id.actNote_fl_container, frgText, DefFrg.TEXT);
                 break;
@@ -93,7 +92,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
                 if (isSave) frgRoll = (FrgRoll) fm.findFragmentByTag(DefFrg.ROLL);
                 else frgRoll = new FrgRoll();
 
-                ctrlSave.setMenuClick(frgRoll);
+                ctrlSave.setNoteClick(frgRoll);
 
                 transaction.replace(R.id.actNote_fl_container, frgRoll, DefFrg.ROLL);
                 break;
@@ -227,12 +226,12 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
         Log.i(TAG, "onSaveInstanceState");
+        super.onSaveInstanceState(outState);
 
-        outState.putBoolean(DefNote.CREATE, vm.isCreate());
-        outState.putInt(DefNote.TYPE, vm.getType());
-        outState.putLong(DefNote.ID, vm.getId());
+        outState.putParcelable(DefIntent.STATE_NOTE, vm.getStNote());
+        outState.putInt(DefIntent.NOTE_TYPE, vm.getNtType());
+        outState.putLong(DefIntent.NOTE_ID, vm.getNtId());
     }
 
 }

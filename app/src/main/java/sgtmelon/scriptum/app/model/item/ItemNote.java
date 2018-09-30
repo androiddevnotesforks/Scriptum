@@ -23,6 +23,35 @@ import sgtmelon.scriptum.office.conv.ConvString;
 @TypeConverters({ConvBool.class, ConvString.class})
 public class ItemNote {
 
+    @ColumnInfo(name = DefDb.NT_ID)
+    @PrimaryKey(autoGenerate = true)
+    private long id;
+
+    @ColumnInfo(name = DefDb.NT_CR)
+    private String create;
+    @ColumnInfo(name = DefDb.NT_CH)
+    private String change;
+
+    @ColumnInfo(name = DefDb.NT_NM)
+    private String name = "";
+    @ColumnInfo(name = DefDb.NT_TX)
+    private String text = "";
+
+    @ColumnInfo(name = DefDb.NT_CL)
+    private int color;
+    @ColumnInfo(name = DefDb.NT_TP)
+    private int type;
+
+    @ColumnInfo(name = DefDb.NT_RK_PS)
+    private Long[] rankPs = new Long[0];
+    @ColumnInfo(name = DefDb.NT_RK_ID)
+    private Long[] rankId = new Long[0];
+
+    @ColumnInfo(name = DefDb.NT_BN)
+    private boolean bin = false;
+    @ColumnInfo(name = DefDb.NT_ST)
+    private boolean status = false;
+
     public ItemNote() {
 
     }
@@ -51,37 +80,6 @@ public class ItemNote {
         rankId = ConvList.fromList(rankIdList);
         rankPs = ConvList.fromList(rankPsList);
     }
-
-    //region Variables
-    @ColumnInfo(name = DefDb.NT_ID)
-    @PrimaryKey(autoGenerate = true)
-    private long id;             //Позиция в базе данных
-
-    @ColumnInfo(name = DefDb.NT_CR)
-    private String create;      //Дата создания
-    @ColumnInfo(name = DefDb.NT_CH)
-    private String change;      //Дата изменения
-
-    @ColumnInfo(name = DefDb.NT_NM)
-    private String name = "";        //Имя заметки
-    @ColumnInfo(name = DefDb.NT_TX)
-    private String text = "";        //Текст заметки (для списка используется как индикатор количества отмеченных элементов)
-
-    @ColumnInfo(name = DefDb.NT_CL)
-    private int color;          //Цвет заметки
-    @ColumnInfo(name = DefDb.NT_TP)
-    private int type;           //Тип заметки (0 - текст, 1 - список)
-
-    @ColumnInfo(name = DefDb.NT_RK_PS)
-    private Long[] rankPs = new Long[0];
-    @ColumnInfo(name = DefDb.NT_RK_ID)
-    private Long[] rankId = new Long[0];    //Категории, к которым привязана заметка
-
-    @ColumnInfo(name = DefDb.NT_BN)
-    private boolean bin = false;        //Расположение
-    @ColumnInfo(name = DefDb.NT_ST)
-    private boolean status = false;     //Привязка к шторке
-    //endregion
 
     public long getId() {
         return id;
@@ -115,13 +113,13 @@ public class ItemNote {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getName(Context context) {
         if (!name.equals("")) return name;
         else return context.getString(R.string.hint_view_name);
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getText() {

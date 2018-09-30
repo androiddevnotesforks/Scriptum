@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.element.dialog.common;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,32 +11,21 @@ import sgtmelon.scriptum.office.blank.BlankDlg;
 
 public class DlgSingle extends BlankDlg {
 
-    public void setArguments(int check) {
-        Bundle arg = new Bundle();
-        arg.putInt(DefDlg.INIT, check);
-        arg.putInt(DefDlg.VALUE, check);
-        setArguments(arg);
-    }
-
     private String[] name;
     private int init, check;
 
-    public String[] getName() {
-        return name;
-    }
+    public void setArguments(int check) {
+        Bundle arg = new Bundle();
 
-    public void setName(String[] name) {
-        this.name = name;
-    }
+        arg.putInt(DefDlg.INIT, check);
+        arg.putInt(DefDlg.VALUE, check);
 
-    public int getCheck() {
-        return check;
+        setArguments(arg);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getContext();
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
@@ -58,6 +46,18 @@ public class DlgSingle extends BlankDlg {
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
+    }
+
+    public String[] getName() {
+        return name;
+    }
+
+    public void setName(String[] name) {
+        this.name = name;
+    }
+
+    public int getCheck() {
+        return check;
     }
 
     @Override

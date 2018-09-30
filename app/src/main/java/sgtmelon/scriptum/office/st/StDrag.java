@@ -14,4 +14,5 @@ public class StDrag implements IntfItem.Drag {
     public void setItemDrag(boolean itemDrag) {
         this.drag = itemDrag;
     }
+
 }

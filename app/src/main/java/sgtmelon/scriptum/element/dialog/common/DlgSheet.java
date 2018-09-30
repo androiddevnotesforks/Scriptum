@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.navigation.NavigationView;
+
 import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.google.android.material.navigation.NavigationView;
 
 public class DlgSheet extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -18,17 +20,11 @@ public class DlgSheet extends BottomSheetDialogFragment implements NavigationVie
 
     @LayoutRes
     private int layout;
-
     @IdRes
     private int navigation;
 
-    public void setLayout(@LayoutRes int layout) {
-        this.layout = layout;
-    }
-
-    public void setNavigation(@IdRes int navigation) {
-        this.navigation = navigation;
-    }
+    private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
+    private DialogInterface.OnDismissListener dismissListener;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,13 +36,17 @@ public class DlgSheet extends BottomSheetDialogFragment implements NavigationVie
         return view;
     }
 
-    private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
+    public void setLayout(@LayoutRes int layout) {
+        this.layout = layout;
+    }
+
+    public void setNavigation(@IdRes int navigation) {
+        this.navigation = navigation;
+    }
 
     public void setNavigationItemSelectedListener(NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener) {
         this.navigationItemSelectedListener = navigationItemSelectedListener;
     }
-
-    private DialogInterface.OnDismissListener dismissListener;
 
     public void setDismissListener(DialogInterface.OnDismissListener dismissListener) {
         this.dismissListener = dismissListener;
@@ -61,6 +61,7 @@ public class DlgSheet extends BottomSheetDialogFragment implements NavigationVie
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+
         dismissListener.onDismiss(dialog);
     }
 }

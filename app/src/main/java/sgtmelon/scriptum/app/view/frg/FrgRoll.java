@@ -15,6 +15,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -50,38 +57,156 @@ import sgtmelon.scriptum.office.st.StCheck;
 import sgtmelon.scriptum.office.st.StDrag;
 import sgtmelon.scriptum.office.st.StNote;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.ArrayList;
-import java.util.List;
-
 public class FrgRoll extends Fragment implements View.OnClickListener,
         IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {
 
-    //region Variable
-    private static final String TAG = "FrgRoll";
+    private static final String TAG = FrgRoll.class.getSimpleName();
 
-    private DbRoom db;
+    @Inject
+    public VmFrgText vm;
+    @Inject
+    public CtrlMenuPreL menuNote;
 
     @Inject
     ActNote activity;
     @Inject
     Context context;
+
     @Inject
     FragmentManager fm;
-
     @Inject
     FrgRollBinding binding;
-    @Inject
-    public VmFrgText vm;
 
+    @Inject
+    @Named(DefDlg.CONVERT)
+    DlgMessage dlgConvert;
+    @Inject
+    DlgColor dlgColor;
+    @Inject
+    @Named(DefDlg.RANK)
+    DlgMultiply dlgRank;
+
+    @Inject
+    StDrag stDrag;
+    @Inject
+    StCheck stCheck;
+
+    @Inject
+    LinearLayoutManager layoutManager;
+    @Inject
+    AdpRoll adapter;
+
+    private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
+        @Override
+        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+            int flagsDrag = activity.vm.getStNote().isEdit() && stDrag.isDrag()
+                    ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
+                    : 0;
+
+            int flagsSwipe = activity.vm.getStNote().isEdit()
+                    ? ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
+                    : 0;
+
+            return makeMovementFlags(flagsDrag, flagsSwipe);
+        }
+
+        @Override
+        public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+            int p = viewHolder.getAdapterPosition();
+
+            RepoNote repoNote = vm.getRepoNote();
+            List<ItemRoll> listRoll = repoNote.getListRoll();
+
+            listRoll.remove(p);                     //Убираем элемент из массива данных
+
+            repoNote.setListRoll(listRoll);
+            vm.setRepoNote(repoNote);
+
+            adapter.setListRoll(listRoll);    //Обновление массива данных в адаптере
+            adapter.notifyItemRemoved(p);       //Обновление удаления элемента
+        }
+
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
+            int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
+
+            RepoNote repoNote = vm.getRepoNote();
+            List<ItemRoll> listRoll = repoNote.getListRoll();
+
+            ItemRoll itemRoll = listRoll.get(oldPs);
+            listRoll.remove(oldPs);                        //Удаляем
+            listRoll.add(newPs, itemRoll);             //И устанавливаем на новое место
+
+            repoNote.setListRoll(listRoll);
+            vm.setRepoNote(repoNote);
+
+            adapter.setListRoll(listRoll);            //Обновление массива данных в адаптере
+            adapter.notifyItemMoved(oldPs, newPs);    //Обновление передвижения
+            return true;
+        }
+
+        @Override
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                float itemWidth = viewHolder.itemView.getWidth();           //Ширина плитки
+                float targetX = itemWidth / 2;                              //Конечная точка, где альфа = 0
+
+                float translationX;                                         //Сдвиг, между начальной точкой и конечной
+                if (dX > 0) {                                               //Сдвиг слева вправо
+                    translationX = Math.abs(Math.min(dX, targetX));         //Выбираем минимальное (если dX превышает targetX, то выбираем второе)
+                } else {                                                    //Сдвиг справа влево
+                    translationX = Math.abs(Math.max(dX, -targetX));        //Выбираем максимальное (если dX принижает targetX, то выбираем второе)
+                }
+
+                float alpha = 1.0f - translationX / targetX;                //Значение прозрачности
+
+                viewHolder.itemView.setAlpha((float) Math.max(alpha, 0.2)); //Установка прозрачности
+            }
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+        }
+    };
+
+    private DbRoom db;
     private View frgView;
-    //endregion
+
+    private RecyclerView recyclerView;
+
+    private LinearLayout rollContainer;
+    private Animation translateIn, translateOut;
+
+    private final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+            rollContainer.setEnabled(false);
+
+            if (animation == translateOut) {
+                rollContainer.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            rollContainer.setEnabled(true);
+
+            if (animation == translateIn) {
+                rollContainer.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
+
+    private EditText rollEnter;
+    private ImageButton rollAdd;
 
     @Override
     public void onResume() {
-        super.onResume();
         Log.i(TAG, "onResume");
+        super.onResume();
 
         String rollText = rollEnter.getText().toString();
         Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
@@ -106,8 +231,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
+        super.onActivityCreated(savedInstanceState);
 
         setupToolbar();
         setupDialog();
@@ -129,9 +254,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         binding.executePendingBindings();
     }
-
-    @Inject
-    public CtrlMenuPreL menuNote;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -162,50 +284,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
     }
-
-    /**
-     * Нажатие на клавишу назад
-     */
-    @Override
-    public void onClick(View view) {
-        Log.i(TAG, "onClick");
-
-        Help.hideKeyboard(context, activity.getCurrentFocus());
-
-        StNote stNote = activity.vm.getStNote();
-        RepoNote repoNote = vm.getRepoNote();
-        ItemNote itemNote = repoNote.getItemNote();
-
-        if (!stNote.isCreate() && stNote.isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
-            menuNote.setStartColor(itemNote.getColor());
-
-            db = DbRoom.provideDb(context);
-            repoNote = db.daoNote().get(context, itemNote.getId());
-            itemNote = repoNote.getItemNote();
-            db.close();
-
-            vm.setRepoNote(repoNote);
-            activity.vm.setRepoNote(repoNote);
-
-            adapter.update(repoNote.getListRoll());
-
-            onMenuEditClick(false);
-
-            menuNote.startTint(itemNote.getColor());
-        } else {
-            activity.ctrlSave.setNeedSave(false);
-            activity.finish(); //Иначе завершаем активность
-        }
-    }
-
-    @Inject
-    @Named(DefDlg.CONVERT)
-    DlgMessage dlgConvert;
-    @Inject
-    DlgColor dlgColor;
-    @Inject
-    @Named(DefDlg.RANK)
-    DlgMultiply dlgRank;
 
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
@@ -283,6 +361,222 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         });
     }
 
+    private void setupRecycler() {
+        Log.i(TAG, "setupRecycler");
+
+        recyclerView = frgView.findViewById(R.id.frgRoll_rv);
+        recyclerView.setLayoutManager(layoutManager);
+
+        adapter.setStNote(activity.vm.getStNote());
+        adapter.setCallback(this, stDrag, this);
+
+        recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    public void updateAdapter() {
+        Log.i(TAG, "updateAdapter");
+
+        List<ItemRoll> listRoll = vm.getRepoNote().getListRoll();
+
+        stCheck.setAll(listRoll);
+        menuNote.setCheckTitle(stCheck.isAll());
+
+        adapter.setListRoll(listRoll);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setupEnter() {
+        Log.i(TAG, "setupEnter");
+
+        EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
+        nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
+            if (i == EditorInfo.IME_ACTION_NEXT) {
+                rollEnter.requestFocus();
+                return true;
+            }
+            return false;
+        });
+
+        rollContainer = frgView.findViewById(R.id.incRollEnter_ll_container);
+
+        translateIn = AnimationUtils.loadAnimation(context, R.anim.translate_in);
+        translateOut = AnimationUtils.loadAnimation(context, R.anim.translate_out);
+
+        translateIn.setAnimationListener(animationListener);
+        translateOut.setAnimationListener(animationListener);
+
+        rollEnter = frgView.findViewById(R.id.incRollEnter_et_enter);
+        rollAdd = frgView.findViewById(R.id.incRollEnter_ib_add);
+
+        rollEnter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String rollText = rollEnter.getText().toString();
+                Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        rollAdd.setOnClickListener(view -> scrollToInsert(true));
+        rollAdd.setOnLongClickListener(view -> {
+            scrollToInsert(false);
+            return true;
+        });
+    }
+
+    private void scrollToInsert(boolean scrollDown) {
+        Log.i(TAG, "scrollToInsert");
+
+        String text = rollEnter.getText().toString();   //Берём текст из поля
+        if (!text.equals("")) {                         //Если он != пустому месту, то добавляем
+            rollEnter.setText("");                      //Сразу же убираем текст с поля
+
+            int ps;                                     //Позиция, куда будем добавлять новый пункт
+            if (scrollDown) {
+                ps = adapter.getItemCount();            //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
+            } else ps = 0;                              //Добавить в самое начало
+
+            ItemRoll itemRoll = new ItemRoll();
+            itemRoll.setIdNote(vm.getRepoNote().getItemNote().getId());
+            itemRoll.setText(text);
+            itemRoll.setExist(false);
+
+            RepoNote repoNote = vm.getRepoNote();
+            List<ItemRoll> listRoll = repoNote.getListRoll();
+
+            listRoll.add(ps, itemRoll);
+
+            repoNote.setListRoll(listRoll);
+            vm.setRepoNote(repoNote);
+
+            adapter.setListRoll(listRoll);
+
+            int visiblePs;
+            if (scrollDown) {
+                visiblePs = layoutManager.findLastVisibleItemPosition() + 1;   //Видимая последняя позиция +1 (добавленный элемент)
+            } else {
+                visiblePs = layoutManager.findFirstVisibleItemPosition();      //Видимая первая позиция
+            }
+
+            if (visiblePs == ps) {                          //Если видимая позиция равна позиции куда добавили пункт
+                recyclerView.scrollToPosition(ps);          //Прокручиваем до края, незаметно
+                adapter.notifyItemInserted(ps);             //Добавляем элемент с анимацией
+            } else {
+                recyclerView.smoothScrollToPosition(ps);    //Медленно прокручиваем, через весь список
+                adapter.notifyDataSetChanged();             //Добавляем элемент без анимации
+            }
+        }
+    }
+
+    /**
+     * Нажатие на клавишу назад
+     */
+    @Override
+    public void onClick(View view) {
+        Log.i(TAG, "onClick");
+
+        Help.hideKeyboard(context, activity.getCurrentFocus());
+
+        StNote stNote = activity.vm.getStNote();
+        RepoNote repoNote = vm.getRepoNote();
+        ItemNote itemNote = repoNote.getItemNote();
+
+        if (!stNote.isCreate() && stNote.isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
+            menuNote.setStartColor(itemNote.getColor());
+
+            db = DbRoom.provideDb(context);
+            repoNote = db.daoNote().get(context, itemNote.getId());
+            itemNote = repoNote.getItemNote();
+            db.close();
+
+            vm.setRepoNote(repoNote);
+            activity.vm.setRepoNote(repoNote);
+
+            adapter.setListRoll(repoNote.getListRoll());
+
+            onMenuEditClick(false);
+
+            menuNote.startTint(itemNote.getColor());
+        } else {
+            activity.ctrlSave.setNeedSave(false);
+            activity.finish(); //Иначе завершаем активность
+        }
+    }
+
+    /**
+     * Обновление отметки пункта
+     */
+    @Override
+    public void onItemClick(View view, int p) {
+        Log.i(TAG, "onItemClick");
+
+        RepoNote repoNote = vm.getRepoNote();
+
+        List<ItemRoll> listRoll = repoNote.getListRoll();
+        ItemRoll itemRoll = listRoll.get(p);
+        itemRoll.setCheck(!itemRoll.isCheck());
+
+        listRoll.set(p, itemRoll);
+        repoNote.setListRoll(listRoll);
+
+        adapter.setListRoll(p, itemRoll);
+
+        int rollCheck = Help.Note.getRollCheck(listRoll);
+
+        if (stCheck.setAll(rollCheck, listRoll.size())) {
+            menuNote.setCheckTitle(stCheck.isAll());
+        }
+
+        ItemNote itemNote = repoNote.getItemNote();
+        itemNote.setChange(context);
+        itemNote.setText(rollCheck, listRoll.size());
+
+        repoNote.setItemNote(itemNote);
+
+        vm.setRepoNote(repoNote);
+        activity.vm.setRepoNote(repoNote);
+
+        db = DbRoom.provideDb(context);
+        db.daoRoll().update(itemRoll.getId(), itemRoll.isCheck());
+        db.daoNote().update(itemNote);
+        db.close();
+    }
+
+    @Override
+    public void onChanged(int p, String text) {
+        Log.i(TAG, "onChanged");
+
+        RepoNote repoNote = vm.getRepoNote();
+
+        List<ItemRoll> listRoll = repoNote.getListRoll();
+        if (text.equals("")) {
+            listRoll.remove(p);
+            adapter.setListRoll(listRoll);
+            adapter.notifyItemRemoved(p);
+        } else {
+            ItemRoll itemRoll = listRoll.get(p);
+            itemRoll.setText(text);
+
+            listRoll.set(p, itemRoll);
+            adapter.setListRoll(p, itemRoll);
+        }
+        repoNote.setListRoll(listRoll);
+
+        vm.setRepoNote(repoNote);
+    }
+
     @Override
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
@@ -321,7 +615,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                     listRoll.set(i, itemRoll);
                 }
                 repoNote.setListRoll(listRoll);
-                adapter.update(listRoll);
+                adapter.setListRoll(listRoll);
             } else {
                 db.daoNote().update(itemNote);
 
@@ -339,7 +633,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                     listRoll.set(i, itemRoll);
                 }
                 repoNote.setListRoll(listRoll);
-                adapter.update(listRoll);
+                adapter.setListRoll(listRoll);
 
                 List<Long> rollId = new ArrayList<>();
                 for (ItemRoll itemRoll : listRoll) {
@@ -405,7 +699,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         bind(editMode);
 
-        adapter.update(editMode);
+        adapter.setStNote(stNote);
+        adapter.notifyDataSetChanged();
 
         activity.vm.setStNote(stNote);
         activity.ctrlSave.setSaveHandlerEvent(editMode);
@@ -477,304 +772,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         Log.i(TAG, "onMenuConvertClick");
 
         dlgConvert.show(fm, DefDlg.CONVERT);
-    }
-
-    //region RecyclerView Variable
-    private RecyclerView recyclerView;
-
-    @Inject
-    StDrag stDrag;
-    @Inject
-    StCheck stCheck;
-
-    @Inject
-    LinearLayoutManager layoutManager;
-    @Inject
-    AdpRoll adapter;
-    //endregion
-
-    private void setupRecycler() {
-        Log.i(TAG, "setupRecycler");
-
-        recyclerView = frgView.findViewById(R.id.frgRoll_rv);
-        recyclerView.setLayoutManager(layoutManager);
-
-        adapter.setKey(activity.vm.getStNote().isBin(), activity.vm.getStNote().isEdit());
-        adapter.setCallback(this, stDrag, this);
-
-        recyclerView.setAdapter(adapter);
-
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    public void updateAdapter() {
-        Log.i(TAG, "updateAdapter");
-
-        List<ItemRoll> listRoll = vm.getRepoNote().getListRoll();
-
-        stCheck.setAll(listRoll);
-        menuNote.setCheckTitle(stCheck.isAll());
-
-        adapter.update(listRoll);
-        adapter.notifyDataSetChanged();
-    }
-
-    /**
-     * Обновление отметки пункта
-     */
-    @Override
-    public void onItemClick(View view, int p) {
-
-        RepoNote repoNote = vm.getRepoNote();
-
-        List<ItemRoll> listRoll = repoNote.getListRoll();
-        ItemRoll itemRoll = listRoll.get(p);
-        itemRoll.setCheck(!itemRoll.isCheck());
-
-        listRoll.set(p, itemRoll);
-        repoNote.setListRoll(listRoll);
-
-        adapter.update(p, itemRoll);
-
-        int rollCheck = Help.Note.getRollCheck(listRoll);
-
-        if (stCheck.setAll(rollCheck, listRoll.size())) {
-            menuNote.setCheckTitle(stCheck.isAll());
-        }
-
-        ItemNote itemNote = repoNote.getItemNote();
-        itemNote.setChange(context);
-        itemNote.setText(rollCheck, listRoll.size());
-
-        repoNote.setItemNote(itemNote);
-
-        vm.setRepoNote(repoNote);
-        activity.vm.setRepoNote(repoNote);
-
-        db = DbRoom.provideDb(context);
-        db.daoRoll().update(itemRoll.getId(), itemRoll.isCheck());
-        db.daoNote().update(itemNote);
-        db.close();
-    }
-
-    @Override
-    public void onChanged(int p, String text) {
-        Log.i(TAG, "onChanged");
-
-        RepoNote repoNote = vm.getRepoNote();
-
-        List<ItemRoll> listRoll = repoNote.getListRoll();
-        if (text.equals("")) {
-            listRoll.remove(p);
-            adapter.update(listRoll);
-            adapter.notifyItemRemoved(p);
-        } else {
-            ItemRoll itemRoll = listRoll.get(p);
-            itemRoll.setText(text);
-
-            listRoll.set(p, itemRoll);
-            adapter.update(p, itemRoll);
-        }
-        repoNote.setListRoll(listRoll);
-
-        vm.setRepoNote(repoNote);
-    }
-
-    private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
-
-        @Override
-        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-            int flagsDrag = activity.vm.getStNote().isEdit() && stDrag.isDrag()
-                    ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
-                    : 0;
-
-            int flagsSwipe = activity.vm.getStNote().isEdit()
-                    ? ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
-                    : 0;
-
-            return makeMovementFlags(flagsDrag, flagsSwipe);
-        }
-
-        @Override
-        public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            int p = viewHolder.getAdapterPosition();
-
-            RepoNote repoNote = vm.getRepoNote();
-            List<ItemRoll> listRoll = repoNote.getListRoll();
-
-            listRoll.remove(p);                     //Убираем элемент из массива данных
-
-            repoNote.setListRoll(listRoll);
-            vm.setRepoNote(repoNote);
-
-            adapter.update(listRoll);    //Обновление массива данных в адаптере
-            adapter.notifyItemRemoved(p);       //Обновление удаления элемента
-        }
-
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
-            int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
-
-            RepoNote repoNote = vm.getRepoNote();
-            List<ItemRoll> listRoll = repoNote.getListRoll();
-
-            ItemRoll itemRoll = listRoll.get(oldPs);
-            listRoll.remove(oldPs);                        //Удаляем
-            listRoll.add(newPs, itemRoll);             //И устанавливаем на новое место
-
-            repoNote.setListRoll(listRoll);
-            vm.setRepoNote(repoNote);
-
-            adapter.update(listRoll);            //Обновление массива данных в адаптере
-            adapter.notifyItemMoved(oldPs, newPs);    //Обновление передвижения
-            return true;
-        }
-
-        @Override
-        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                float itemWidth = viewHolder.itemView.getWidth();           //Ширина плитки
-                float targetX = itemWidth / 2;                              //Конечная точка, где альфа = 0
-
-                float translationX;                                         //Сдвиг, между начальной точкой и конечной
-                if (dX > 0) {                                               //Сдвиг слева вправо
-                    translationX = Math.abs(Math.min(dX, targetX));         //Выбираем минимальное (если dX превышает targetX, то выбираем второе)
-                } else {                                                    //Сдвиг справа влево
-                    translationX = Math.abs(Math.max(dX, -targetX));        //Выбираем максимальное (если dX принижает targetX, то выбираем второе)
-                }
-
-                float alpha = 1.0f - translationX / targetX;                //Значение прозрачности
-
-                viewHolder.itemView.setAlpha((float) Math.max(alpha, 0.2)); //Установка прозрачности
-            }
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        }
-    };
-
-    //region EnterVariables
-    private LinearLayout rollContainer;
-    private Animation translateIn, translateOut;
-    private EditText rollEnter;
-    private ImageButton rollAdd;
-    //endregion
-
-    private void setupEnter() {
-        Log.i(TAG, "setupEnter");
-
-        EditText nameEnter = frgView.findViewById(R.id.incToolbarNote_et_name);
-        nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_NEXT) {
-                rollEnter.requestFocus();
-                return true;
-            }
-            return false;
-        });
-
-        rollContainer = frgView.findViewById(R.id.incRollEnter_ll_container);
-
-        translateIn = AnimationUtils.loadAnimation(context, R.anim.translate_in);
-        translateOut = AnimationUtils.loadAnimation(context, R.anim.translate_out);
-
-        translateIn.setAnimationListener(animationListener);
-        translateOut.setAnimationListener(animationListener);
-
-        rollEnter = frgView.findViewById(R.id.incRollEnter_et_enter);
-        rollAdd = frgView.findViewById(R.id.incRollEnter_ib_add);
-
-        rollEnter.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String rollText = rollEnter.getText().toString();
-                Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        rollAdd.setOnClickListener(view -> scrollToInsert(true));
-        rollAdd.setOnLongClickListener(view -> {
-            scrollToInsert(false);
-            return true;
-        });
-    }
-
-    private final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-            rollContainer.setEnabled(false);
-
-            if (animation == translateOut) {
-                rollContainer.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            rollContainer.setEnabled(true);
-
-            if (animation == translateIn) {
-                rollContainer.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
-
-    private void scrollToInsert(boolean scrollDown) {
-        Log.i(TAG, "scrollToInsert");
-
-        String text = rollEnter.getText().toString();   //Берём текст из поля
-        if (!text.equals("")) {                         //Если он != пустому месту, то добавляем
-            rollEnter.setText("");                      //Сразу же убираем текст с поля
-
-            int ps;                                     //Позиция, куда будем добавлять новый пункт
-            if (scrollDown) {
-                ps = adapter.getItemCount();            //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
-            } else ps = 0;                              //Добавить в самое начало
-
-            ItemRoll itemRoll = new ItemRoll();
-            itemRoll.setIdNote(vm.getRepoNote().getItemNote().getId());
-            itemRoll.setText(text);
-            itemRoll.setExist(false);
-
-            RepoNote repoNote = vm.getRepoNote();
-            List<ItemRoll> listRoll = repoNote.getListRoll();
-
-            listRoll.add(ps, itemRoll);
-
-            repoNote.setListRoll(listRoll);
-            vm.setRepoNote(repoNote);
-
-            adapter.update(listRoll);
-
-            int visiblePs;
-            if (scrollDown) {
-                visiblePs = layoutManager.findLastVisibleItemPosition() + 1;   //Видимая последняя позиция +1 (добавленный элемент)
-            } else {
-                visiblePs = layoutManager.findFirstVisibleItemPosition();      //Видимая первая позиция
-            }
-
-            if (visiblePs == ps) {                          //Если видимая позиция равна позиции куда добавили пункт
-                recyclerView.scrollToPosition(ps);          //Прокручиваем до края, незаметно
-                adapter.notifyItemInserted(ps);             //Добавляем элемент с анимацией
-            } else {
-                recyclerView.smoothScrollToPosition(ps);    //Медленно прокручиваем, через весь список
-                adapter.notifyDataSetChanged();             //Добавляем элемент без анимации
-            }
-        }
     }
 
 }

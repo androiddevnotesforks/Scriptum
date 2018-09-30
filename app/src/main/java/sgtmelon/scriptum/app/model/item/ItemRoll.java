@@ -22,7 +22,7 @@ import static androidx.room.ForeignKey.CASCADE;
 @TypeConverters({ConvBool.class})
 public class ItemRoll {
 
-    //region Variables
+
     @ColumnInfo(name = DefDb.RL_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -38,7 +38,6 @@ public class ItemRoll {
 
     @Ignore
     private boolean exist = true;  //Добавлен пункт в базу данных или нет
-    //endregion
 
     public long getId() {
         return id;

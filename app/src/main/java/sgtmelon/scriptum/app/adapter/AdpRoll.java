@@ -25,30 +25,27 @@ import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefRollType;
 import sgtmelon.scriptum.office.intf.IntfItem;
+import sgtmelon.scriptum.office.st.StNote;
 
 public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
-    //region Variables
-    private final Context context;
 
+    private final Context context;
     private final List<ItemRoll> listRoll = new ArrayList<>();
 
-    private boolean keyBin;
-    private boolean keyEdit;
-    //endregion
+    private StNote stNote;
+
+    private IntfItem.Click click;
+    private IntfItem.Drag drag;
+    private IntfItem.Watcher watcher;
 
     public AdpRoll(Context context) {
         this.context = context;
     }
 
-    public void setKey(boolean keyBin, boolean keyEdit) {
-        this.keyBin = keyBin;
-        this.keyEdit = keyEdit;
+    public void setStNote(StNote stNote) {
+        this.stNote = stNote;
     }
-
-    private IntfItem.Click click;
-    private IntfItem.Drag drag;
-    private IntfItem.Watcher watcher;
 
     public void setCallback(IntfItem.Click click, IntfItem.Drag drag, IntfItem.Watcher watcher) {
         this.click = click;
@@ -56,19 +53,13 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
         this.watcher = watcher;
     }
 
-    public void update(List<ItemRoll> listRoll) {
+    public void setListRoll(List<ItemRoll> listRoll) {
         this.listRoll.clear();
         this.listRoll.addAll(listRoll);
     }
 
-    public void update(int position, ItemRoll itemRoll) {
+    public void setListRoll(int position, ItemRoll itemRoll) {
         listRoll.set(position, itemRoll);
-    }
-
-    //Обновление режима редактирования
-    public void update(boolean keyEdit) {
-        this.keyEdit = keyEdit;
-        notifyDataSetChanged();
     }
 
     @NonNull
@@ -89,7 +80,7 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (!keyEdit) return DefRollType.read;
+        if (!stNote.isEdit()) return DefRollType.read;
         else return DefRollType.write;
     }
 
@@ -97,7 +88,7 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
         ItemRoll itemRoll = listRoll.get(position);
 
-        if (keyEdit) {
+        if (stNote.isEdit()) {
             if (itemRoll.isCheck()) {
                 holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clAccent));
             } else holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clIcon));
@@ -113,14 +104,14 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
     class RollHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, TextWatcher {
 
+        private final ItemRollWriteBinding bindingWrite;
+        private final ItemRollReadBinding bindingRead;
+
         private EditText rlEnter;
         private ImageButton rlDrag; //Кнопка для перетаскивания (< >)
 
         private CheckBox rlCheck;   //Отметка о выполении
         private ImageView rlClick;  //Кнопка, которая идёт поверх rlCheck, для полноценного эффекта нажатия
-
-        private final ItemRollWriteBinding bindingWrite;
-        private final ItemRollReadBinding bindingRead;
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
@@ -150,19 +141,19 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
         }
 
         void bind(ItemRoll itemRoll) {
-            if (keyEdit) {
+            if (stNote.isEdit()) {
                 bindingWrite.setItemRoll(itemRoll);
                 bindingWrite.executePendingBindings();
             } else {
                 bindingRead.setItemRoll(itemRoll);
-                bindingRead.setKeyBin(keyBin);
+                bindingRead.setKeyBin(stNote.isBin());
                 bindingRead.executePendingBindings();
             }
         }
 
         @Override
         public void onClick(View view) {
-            if (!keyEdit) {
+            if (!stNote.isEdit()) {
                 int p = getAdapterPosition();
                 rlCheck.setChecked(!listRoll.get(p).isCheck());
                 click.onItemClick(view, p);
@@ -187,9 +178,11 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
         }
 
-        @Override //После изменения текста обновляем массив
+        @Override
         public void afterTextChanged(Editable editable) {
             watcher.onChanged(getAdapterPosition(), rlEnter.getText().toString());
         }
+
     }
+
 }

@@ -19,23 +19,24 @@ import sgtmelon.scriptum.office.st.StSort;
 
 public class AdpSort extends RecyclerView.Adapter<AdpSort.SortHolder> {
 
-    private final List<ItemSort> listSort = new ArrayList<>();
     public final StSort stSort = new StSort();
+
+    private final List<ItemSort> listSort = new ArrayList<>();
 
     private IntfItem.Click click;
 
-    public void setCallback(IntfItem.Click click) {
+    public void setClick(IntfItem.Click click) {
         this.click = click;
     }
 
-    public void update(List<ItemSort> listSort) {
+    public void setListSort(List<ItemSort> listSort) {
         this.listSort.clear();
         this.listSort.addAll(listSort);
 
         stSort.updateEnd(listSort);
     }
 
-    public void update(int position, ItemSort itemSort) {
+    public void setListSort(int position, ItemSort itemSort) {
         listSort.set(position, itemSort);
     }
 
@@ -60,9 +61,9 @@ public class AdpSort extends RecyclerView.Adapter<AdpSort.SortHolder> {
 
     class SortHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final View srClick;
-
         private final ItemSortBinding binding;
+
+        private final View srClick;
 
         SortHolder(ItemSortBinding binding) {
             super(binding.getRoot());
@@ -87,4 +88,5 @@ public class AdpSort extends RecyclerView.Adapter<AdpSort.SortHolder> {
         }
 
     }
+
 }

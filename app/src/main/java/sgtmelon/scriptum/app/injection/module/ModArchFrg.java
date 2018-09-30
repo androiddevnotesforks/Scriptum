@@ -26,7 +26,7 @@ public class ModArchFrg {
 
     @Provides
     @ScopeApp
-    ActNote provideActNote(Fragment fragment){
+    ActNote provideActNote(Fragment fragment) {
         return (ActNote) fragment.getActivity();
     }
 

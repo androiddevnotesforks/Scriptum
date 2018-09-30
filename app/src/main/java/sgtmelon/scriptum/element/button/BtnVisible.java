@@ -13,6 +13,8 @@ import sgtmelon.scriptum.office.hdlr.HdlrAnim;
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public class BtnVisible extends BtnVisiblePreL {
 
+    private HdlrAnim hdlrAnim;
+
     public BtnVisible(Context context) {
         super(context);
     }
@@ -24,8 +26,6 @@ public class BtnVisible extends BtnVisiblePreL {
     public BtnVisible(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
-    private HdlrAnim hdlrAnim;
 
     @Override
     protected void setupDrawable() {

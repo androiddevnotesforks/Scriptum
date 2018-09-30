@@ -21,12 +21,12 @@ import sgtmelon.scriptum.office.intf.IntfItem;
 
 public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
-    //region Variables
     private final Context context;
 
-    private int check;
     private final boolean[] visible;
-    //endregion
+    private int check;
+
+    private IntfItem.Click click;
 
     public AdpColor(Context context, int check) {
         this.context = context;
@@ -38,9 +38,7 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
         visible[check] = true;
     }
 
-    private IntfItem.Click click;
-
-    public void setCallback(IntfItem.Click click) {
+    public void setClick(IntfItem.Click click) {
         this.click = click;
     }
 
@@ -74,10 +72,10 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
 
     class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener, Animation.AnimationListener {
 
+        private final ItemColorBinding binding;
+
         private final ImageView clClick, clCheck;
         private final Animation alphaIn, alphaOut;
-
-        private final ItemColorBinding binding;
 
         ColorHolder(ItemColorBinding binding) {
             super(binding.getRoot());
@@ -139,5 +137,7 @@ public class AdpColor extends RecyclerView.Adapter<AdpColor.ColorHolder> {
         public void onAnimationRepeat(Animation animation) {
 
         }
+
     }
+
 }
