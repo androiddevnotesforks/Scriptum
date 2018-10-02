@@ -1,55 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="sgtmelon.scriptum.R" />
+        <import type="sgtmelon.scriptum.R"/>
 
-        <import type="sgtmelon.scriptum.office.Help.Clr" />
+        <import type="sgtmelon.scriptum.office.Help.Clr"/>
 
         <import alias="v"
-            type="android.view.View" />
+                type="android.view.View"/>
 
         <variable name="itemSort"
-            type="sgtmelon.scriptum.app.model.item.ItemSort" />
+                  type="sgtmelon.scriptum.app.model.item.ItemSort"/>
 
         <variable name="position"
-            type="int" />
+                  type="int"/>
 
         <variable name="sortEnd"
-            type="int" />
+                  type="int"/>
 
     </data>
 
     <LinearLayout
-        android:id="@+id/itemSort_ll_click"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground">
+            android:id="@+id/click_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground">
 
         <ImageView
-            android:id="@+id/itemSort_iv_left"
-            style="@style/ItemSort.Bracket"
-            android:contentDescription="@null"
-            android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
-            app:srcCompat="@drawable/ic_bracket_left" />
+                style="@style/ItemSort.Bracket"
+                android:contentDescription="@null"
+                android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
+                app:srcCompat="@drawable/ic_bracket_left"/>
 
         <TextView
-            android:id="@+id/itemSort_tv_text"
-            style="@style/ItemSort.Text"
-            android:text='@{itemSort.text}'
-            android:textColor='@{position &lt;= sortEnd ? Clr.get(context, R.attr.clAccent) : Clr.get(context, R.attr.clSecond)}'
-            tools:text="@string/test_sort_text"
-            tools:textColor="?attr/clAccent" />
+                style="@style/ItemSort.Text"
+                android:text='@{itemSort.text}'
+                android:textColor='@{position &lt;= sortEnd ? Clr.get(context, R.attr.clAccent) : Clr.get(context, R.attr.clSecond)}'
+                tools:text="@string/test_sort_text"
+                tools:textColor="?attr/clAccent"/>
 
         <ImageView
-            android:id="@+id/itemSort_iv_right"
-            style="@style/ItemSort.Bracket"
-            android:contentDescription="@null"
-            android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
-            app:srcCompat="@drawable/ic_bracket_right" />
+                style="@style/ItemSort.Bracket"
+                android:contentDescription="@null"
+                android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
+                app:srcCompat="@drawable/ic_bracket_right"/>
 
     </LinearLayout>
 </layout>

@@ -53,6 +53,13 @@ public abstract class BlankDlg extends DialogFragment {
         setEnable();
     }
 
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        if (dismissListener != null) dismissListener.onDismiss(dialog);
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -77,13 +84,6 @@ public abstract class BlankDlg extends DialogFragment {
         AlertDialog dialog = (AlertDialog) getDialog();
         buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         buttonNeutral = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-
-        if (dismissListener != null) dismissListener.onDismiss(dialog);
     }
 
 }

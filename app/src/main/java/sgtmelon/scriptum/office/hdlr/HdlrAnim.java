@@ -9,7 +9,7 @@ import androidx.annotation.RequiresApi;
 import sgtmelon.scriptum.office.intf.IntfItem;
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-public class HdlrAnim {
+public final class HdlrAnim {
 
     private final Context context;
 

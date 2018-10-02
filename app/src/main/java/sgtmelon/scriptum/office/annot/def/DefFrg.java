@@ -17,15 +17,12 @@ import androidx.annotation.StringDef;
 })
 public @interface DefFrg {
 
-    //ActIntro
     String INFO = "FRG_INFO";
 
-    //ActMain
     String RANK = "FRG_RANK",
             NOTES = "FRG_NOTES",
             BIN = "FRG_BIN";
 
-    //ActNote
     String TEXT = "FRG_TEXT",
             ROLL = "FRG_ROLL";
 

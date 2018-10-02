@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.R"/>
+
+        <import type="sgtmelon.scriptum.office.Help.Pref"/>
+
+        <import alias="def"
+                type="sgtmelon.scriptum.office.annot.def.DefTheme"/>
+
+        <import alias="v"
+                type="android.view.View"/>
+
+        <variable name="itemNote"
+                  type="sgtmelon.scriptum.app.model.item.ItemNote"/>
+
+        <variable name="keyEdit"
+                  type="boolean"/>
+
+    </data>
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="@dimen/elevation_4dp"
+            android:stateListAnimator="@null">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="?attr/styleToolbar"
+                app:contentInsetEnd="@dimen/layout_8dp"
+                app:contentInsetLeft="@dimen/layout_8dp"
+                app:contentInsetRight="@dimen/layout_8dp"
+                app:contentInsetStart="@dimen/layout_8dp"
+                app:popupTheme="?attr/themePopup">
+
+            <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+
+                <EditText
+                        android:id="@+id/name_enter"
+                        style="@style/ToolbarNote.Enter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_enter_name"
+                        android:text='@={itemNote.name}'
+                        android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
+                        tools:text="@string/test_note_name"/>
+
+                <HorizontalScrollView
+                        style="@style/ToolbarNote.Scroll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
+                        tools:visibility="invisible">
+
+                    <TextView
+                            style="@style/ToolbarNote.Text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_view_name"
+                            android:text='@{itemNote.name}'/>
+
+                </HorizontalScrollView>
+
+            </FrameLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+                android:id="@+id/color_view"
+                style="@style/ItemNote.Color.Horizontal"
+                android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
+                tools:background="@color/note_red_dark"
+                tools:visibility="gone"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</layout>

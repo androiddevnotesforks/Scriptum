@@ -13,11 +13,11 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.TypeConverters;
 import androidx.room.Update;
+import sgtmelon.scriptum.app.model.ModelNote;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.item.ItemStatus;
-import sgtmelon.scriptum.app.model.repo.RepoNote;
-import sgtmelon.scriptum.app.view.frg.FrgNotes;
+import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 import sgtmelon.scriptum.office.conv.ConvBool;
@@ -33,17 +33,17 @@ public abstract class DaoNote extends DaoBase {
             "WHERE NT_ID = :id")
     public abstract ItemNote get(long id);
 
-    public RepoNote get(Context context, long id) {
+    public ModelNote get(Context context, long id) {
         ItemNote itemNote = get(id);
         List<ItemRoll> listRoll = getRoll(id);
 
         ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
 
-        return new RepoNote(itemNote, listRoll, itemStatus);
+        return new ModelNote(itemNote, listRoll, itemStatus);
     }
 
-    public List<RepoNote> get(Context context, @DefBin int bin) {
-        List<RepoNote> listRepoNote = new ArrayList<>();
+    public List<ModelNote> get(Context context, @DefBin int bin) {
+        List<ModelNote> listModelNote = new ArrayList<>();
         List<ItemNote> listNote = getNote(bin, Help.Pref.getSortNoteOrder(context));
 
         List<Long> rkVisible = getRankVisible();
@@ -53,19 +53,19 @@ public abstract class DaoNote extends DaoBase {
             List<ItemRoll> listRoll = getRollView(itemNote.getId());
             ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
 
-            RepoNote repoNote = new RepoNote(itemNote, listRoll, itemStatus);
+            ModelNote modelNote = new ModelNote(itemNote, listRoll, itemStatus);
 
             Long[] rkId = itemNote.getRankId();
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
                 itemStatus.cancelNote();
             } else {
-                if (itemNote.isStatus() && FrgNotes.updateStatus) itemStatus.notifyNote();
+                if (itemNote.isStatus() && NotesFragment.updateStatus) itemStatus.notifyNote();
 
-                repoNote.setItemStatus(itemStatus);
-                listRepoNote.add(repoNote);
+                modelNote.setItemStatus(itemStatus);
+                listModelNote.add(modelNote);
             }
         }
-        return listRepoNote;
+        return listModelNote;
     }
 
     @Query("SELECT * FROM NOTE_TABLE " +
@@ -170,7 +170,8 @@ public abstract class DaoNote extends DaoBase {
             if (!name.equals("")) textView.append("NM: " + name + "\n");
 
             String text = itemNote.getText();
-            textView.append("TX: " + text.substring(0, Math.min(text.length(), 45)).replace("\n", " "));
+            textView.append("TX: " + text.substring(0, Math.min(text.length(), 45))
+                    .replace("\n", " "));
             if (text.length() > 40) textView.append("...");
             textView.append("\n");
 

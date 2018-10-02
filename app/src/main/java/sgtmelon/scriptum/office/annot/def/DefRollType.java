@@ -2,6 +2,9 @@ package sgtmelon.scriptum.office.annot.def;
 
 import androidx.annotation.IntDef;
 
+/**
+ * Тип пункта списка
+ */
 @IntDef({
         DefRollType.read,
         DefRollType.write

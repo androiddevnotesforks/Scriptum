@@ -13,7 +13,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.intf.IntfDialog;
 
-public class DlgOptionBin extends DialogFragment implements DialogInterface.OnClickListener {
+public final class DlgOptionBin extends DialogFragment implements DialogInterface.OnClickListener {
 
     private Context context;
 
@@ -55,6 +55,13 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
                 .create();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(DefDlg.VALUE, p);
+    }
+
     public void setOptionBin(IntfDialog.OptionBin optionBin) {
         this.optionBin = optionBin;
     }
@@ -73,13 +80,6 @@ public class DlgOptionBin extends DialogFragment implements DialogInterface.OnCl
                 break;
         }
         dialogInterface.cancel();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(DefDlg.VALUE, p);
     }
 
 }

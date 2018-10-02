@@ -2,7 +2,7 @@ package sgtmelon.scriptum.office.st;
 
 import sgtmelon.scriptum.office.intf.IntfItem;
 
-public class StDrag implements IntfItem.Drag {
+public final class StDrag implements IntfItem.Drag {
 
     private boolean drag = false;
 

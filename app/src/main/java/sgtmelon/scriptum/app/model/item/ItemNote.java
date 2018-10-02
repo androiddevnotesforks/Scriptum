@@ -13,43 +13,43 @@ import androidx.room.TypeConverters;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.db.DefCheck;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
+import sgtmelon.scriptum.office.annot.AnnDb;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.conv.ConvBool;
 import sgtmelon.scriptum.office.conv.ConvList;
 import sgtmelon.scriptum.office.conv.ConvString;
 
-@Entity(tableName = DefDb.NT_TB)
+@Entity(tableName = AnnDb.NT_TB)
 @TypeConverters({ConvBool.class, ConvString.class})
-public class ItemNote {
+public final class ItemNote { // TODO: 02.10.2018 чистая модель
 
-    @ColumnInfo(name = DefDb.NT_ID)
+    @ColumnInfo(name = AnnDb.NT_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo(name = DefDb.NT_CR)
+    @ColumnInfo(name = AnnDb.NT_CR)
     private String create;
-    @ColumnInfo(name = DefDb.NT_CH)
+    @ColumnInfo(name = AnnDb.NT_CH)
     private String change;
 
-    @ColumnInfo(name = DefDb.NT_NM)
+    @ColumnInfo(name = AnnDb.NT_NM)
     private String name = "";
-    @ColumnInfo(name = DefDb.NT_TX)
+    @ColumnInfo(name = AnnDb.NT_TX)
     private String text = "";
 
-    @ColumnInfo(name = DefDb.NT_CL)
+    @ColumnInfo(name = AnnDb.NT_CL)
     private int color;
-    @ColumnInfo(name = DefDb.NT_TP)
+    @ColumnInfo(name = AnnDb.NT_TP)
     private int type;
 
-    @ColumnInfo(name = DefDb.NT_RK_PS)
+    @ColumnInfo(name = AnnDb.NT_RK_PS)
     private Long[] rankPs = new Long[0];
-    @ColumnInfo(name = DefDb.NT_RK_ID)
+    @ColumnInfo(name = AnnDb.NT_RK_ID)
     private Long[] rankId = new Long[0];
 
-    @ColumnInfo(name = DefDb.NT_BN)
+    @ColumnInfo(name = AnnDb.NT_BN)
     private boolean bin = false;
-    @ColumnInfo(name = DefDb.NT_ST)
+    @ColumnInfo(name = AnnDb.NT_ST)
     private boolean status = false;
 
     public ItemNote() {
@@ -60,7 +60,7 @@ public class ItemNote {
         create = Help.Time.getCurrentTime(context);
 
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_default_color));
+        color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
 
         this.type = type;
     }

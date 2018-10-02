@@ -9,7 +9,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.blank.BlankDlg;
 
-public class DlgSingle extends BlankDlg {
+public final class DlgSingle extends BlankDlg {
 
     private String[] name;
     private int init, check;
@@ -48,6 +48,14 @@ public class DlgSingle extends BlankDlg {
                 .create();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(DefDlg.INIT, init);
+        outState.putInt(DefDlg.VALUE, check);
+    }
+
     public String[] getName() {
         return name;
     }
@@ -66,14 +74,6 @@ public class DlgSingle extends BlankDlg {
 
         if (init == check) buttonPositive.setEnabled(false);
         else buttonPositive.setEnabled(true);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(DefDlg.INIT, init);
-        outState.putInt(DefDlg.VALUE, check);
     }
 
 }

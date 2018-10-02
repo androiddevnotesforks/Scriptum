@@ -10,11 +10,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
+import sgtmelon.scriptum.office.annot.AnnDb;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.intf.IntfDialog;
 
-public class DlgOptionNote extends DialogFragment implements DialogInterface.OnClickListener {
+public final class DlgOptionNote extends DialogFragment implements DialogInterface.OnClickListener {
 
     private Context context;
 
@@ -27,9 +27,9 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
         Bundle arg = new Bundle();
 
         arg.putInt(DefDlg.VALUE, p);
-        arg.putInt(DefDb.NT_TP, type);
-        arg.putBoolean(DefDb.NT_ST, status);
-        arg.putBoolean(DefDb.RL_CH, check);
+        arg.putInt(AnnDb.NT_TP, type);
+        arg.putBoolean(AnnDb.NT_ST, status);
+        arg.putBoolean(AnnDb.RL_CH, check);
 
         setArguments(arg);
     }
@@ -47,14 +47,14 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
         Bundle arg = getArguments();
 
         if (arg != null) {
-            type = arg.getInt(DefDb.NT_TP);
-            status = arg.getBoolean(DefDb.NT_ST);
-            check = arg.getBoolean(DefDb.RL_CH);
+            type = arg.getInt(AnnDb.NT_TP);
+            status = arg.getBoolean(AnnDb.NT_ST);
+            check = arg.getBoolean(AnnDb.RL_CH);
             position = arg.getInt(DefDlg.VALUE);
         } else if (savedInstanceState != null) {
-            type = savedInstanceState.getInt(DefDb.NT_TP);
-            status = savedInstanceState.getBoolean(DefDb.NT_ST);
-            check = savedInstanceState.getBoolean(DefDb.RL_CH);
+            type = savedInstanceState.getInt(AnnDb.NT_TP);
+            status = savedInstanceState.getBoolean(AnnDb.NT_ST);
+            check = savedInstanceState.getBoolean(AnnDb.RL_CH);
             position = savedInstanceState.getInt(DefDlg.VALUE);
         }
 
@@ -77,6 +77,16 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
                 .setItems(itemOption, this)
                 .setCancelable(true)
                 .create();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(AnnDb.NT_TP, type);
+        outState.putBoolean(AnnDb.NT_ST, status);
+        outState.putBoolean(AnnDb.RL_CH, check);
+        outState.putInt(DefDlg.VALUE, position);
     }
 
     public void setOptionNote(IntfDialog.OptionNote optionNote) {
@@ -123,16 +133,6 @@ public class DlgOptionNote extends DialogFragment implements DialogInterface.OnC
                 break;
         }
         dialogInterface.cancel();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(DefDb.NT_TP, type);
-        outState.putBoolean(DefDb.NT_ST, status);
-        outState.putBoolean(DefDb.RL_CH, check);
-        outState.putInt(DefDlg.VALUE, position);
     }
 
 }

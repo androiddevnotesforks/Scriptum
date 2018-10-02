@@ -16,11 +16,11 @@ import java.util.ArrayList;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.office.annot.AnnDb;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
 import sgtmelon.scriptum.office.blank.BlankDlg;
 
-public class DlgRename extends BlankDlg implements TextView.OnEditorActionListener {
+public final class DlgRename extends BlankDlg implements TextView.OnEditorActionListener {
 
     private int position;
 
@@ -30,7 +30,7 @@ public class DlgRename extends BlankDlg implements TextView.OnEditorActionListen
     public void setArguments(int p, String title, ArrayList<String> listName) {
         Bundle arg = new Bundle();
 
-        arg.putInt(DefDb.RK_PS, p);
+        arg.putInt(AnnDb.RK_PS, p);
         arg.putString(DefDlg.INIT, title);
         arg.putStringArrayList(DefDlg.VALUE, listName);
 
@@ -43,17 +43,17 @@ public class DlgRename extends BlankDlg implements TextView.OnEditorActionListen
         Bundle arg = getArguments();
 
         if (arg != null) {
-            position = arg.getInt(DefDb.RK_PS);
+            position = arg.getInt(AnnDb.RK_PS);
             title = arg.getString(DefDlg.INIT);
             listName = arg.getStringArrayList(DefDlg.VALUE);
         } else if (savedInstanceState != null) {
-            position = savedInstanceState.getInt(DefDb.RK_PS);
+            position = savedInstanceState.getInt(AnnDb.RK_PS);
             title = savedInstanceState.getString(DefDlg.INIT);
             listName = savedInstanceState.getStringArrayList(DefDlg.VALUE);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
-        nameEnter = view.findViewById(R.id.viewRename_et_enter);
+        nameEnter = view.findViewById(R.id.rename_enter);
 
         nameEnter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,6 +80,15 @@ public class DlgRename extends BlankDlg implements TextView.OnEditorActionListen
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(AnnDb.RK_PS, position);
+        outState.putString(DefDlg.INIT, title);
+        outState.putStringArrayList(DefDlg.VALUE, listName);
     }
 
     public int getPosition() {
@@ -112,15 +121,6 @@ public class DlgRename extends BlankDlg implements TextView.OnEditorActionListen
             }
         }
         return false;
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(DefDb.RK_PS, position);
-        outState.putString(DefDlg.INIT, title);
-        outState.putStringArrayList(DefDlg.VALUE, listName);
     }
 
 }

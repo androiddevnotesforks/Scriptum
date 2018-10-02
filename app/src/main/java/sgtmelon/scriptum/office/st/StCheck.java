@@ -5,7 +5,7 @@ import java.util.List;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.office.Help;
 
-public class StCheck {
+public final class StCheck {
 
     private boolean all;
 

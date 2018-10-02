@@ -36,10 +36,10 @@ import sgtmelon.scriptum.app.model.item.ItemSort;
 import sgtmelon.scriptum.office.annot.AnnColor;
 import sgtmelon.scriptum.office.annot.def.DefSort;
 import sgtmelon.scriptum.office.annot.def.DefTheme;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
+import sgtmelon.scriptum.office.annot.AnnDb;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 
-public class Help {
+public final class Help {
 
     //Копирование текста заметки в память
     public static void optionsCopy(Context context, ItemNote itemNote) {
@@ -78,7 +78,7 @@ public class Help {
         }
     }
 
-    public static class Clr {
+    public static final class Clr {
 
         public static int getNote(Context context, int color, boolean onDark) {
             switch (Pref.getTheme(context)) {
@@ -124,7 +124,7 @@ public class Help {
 
     }
 
-    public static class Draw {
+    public static final class Draw {
 
         public static Drawable get(Context context, @DrawableRes int drawableId, @AttrRes int attr) {
             Drawable drawable = ContextCompat.getDrawable(context, drawableId);
@@ -147,7 +147,7 @@ public class Help {
 
     }
 
-    public static class Tint {
+    public static final class Tint {
 
         public static void menuIcon(Context context, MenuItem item) {
             Drawable normalDrawable = item.getIcon();
@@ -188,7 +188,7 @@ public class Help {
         }
     }
 
-    public static class Note {
+    public static final class Note {
 
         /**
          * @param listRoll - Список для проверки
@@ -217,12 +217,12 @@ public class Help {
 
     }
 
-    public static class Pref {
+    public static final class Pref {
 
         public static boolean isFirstStart(Context context) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-            boolean val = pref.getBoolean(context.getString(R.string.pref_first_start), context.getResources().getBoolean(R.bool.pref_default_first_start));
+            boolean val = pref.getBoolean(context.getString(R.string.pref_first_start), context.getResources().getBoolean(R.bool.pref_first_start_default));
             if (val) {
                 pref.edit().putBoolean(context.getString(R.string.pref_first_start), false).apply();
             }
@@ -244,7 +244,7 @@ public class Help {
             for (String aKey : keysArr) {
                 @DefSort int key = Integer.parseInt(aKey);
 
-                order.append(DefDb.orders[key]);
+                order.append(AnnDb.orders[key]);
 
                 if (key != DefSort.create && key != DefSort.change) {
                     order.append(DefSort.divider);
@@ -274,14 +274,14 @@ public class Help {
             StringBuilder order = new StringBuilder();
 
             String[] keysArr = keys.split(DefSort.divider);
-            String[] keysName = context.getResources().getStringArray(R.array.pref_text_sort);
+            String[] keysName = context.getResources().getStringArray(R.array.pref_sort_text);
 
             for (int k = 0; k < keysArr.length; k++) {
                 @DefSort int key = Integer.parseInt(keysArr[k]);
 
                 String summary = keysName[key];
                 if (k != 0) {
-                    summary = summary.replace(context.getString(R.string.pref_summary_sort_start), "").replaceFirst(" ", "");
+                    summary = summary.replace(context.getString(R.string.pref_sort_summary_start), "").replaceFirst(" ", "");
                 }
 
                 order.append(summary);
@@ -317,21 +317,21 @@ public class Help {
             textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), DefSort.def));
 
             textView.append("\n\nNotes:");
-            textView.append("\nColorDef: " + pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_default_color)));
-            textView.append("\nPause:\t" + pref.getBoolean(context.getString(R.string.pref_key_pause_save), context.getResources().getBoolean(R.bool.pref_default_pause_save)));
-            textView.append("\nSave:\t" + pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_default_auto_save)));
-            textView.append("\nSTime:\t" + pref.getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_default_save_time)));
-            textView.append("\nTheme:\t" + pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_default_theme)));
+            textView.append("\nColorDef: " + pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default)));
+            textView.append("\nPause:\t" + pref.getBoolean(context.getString(R.string.pref_key_pause_save), context.getResources().getBoolean(R.bool.pref_pause_save_default)));
+            textView.append("\nSave:\t" + pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_auto_save_default)));
+            textView.append("\nSTime:\t" + pref.getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_save_time_default)));
+            textView.append("\nTheme:\t" + pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default)));
         }
 
         public static int getTheme(Context context) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_default_theme));
+            return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default));
         }
 
     }
 
-    public static class Time {
+    public static final class Time {
 
         //Возвращает текущее время в нужном формате
         public static String getCurrentTime(Context context) {

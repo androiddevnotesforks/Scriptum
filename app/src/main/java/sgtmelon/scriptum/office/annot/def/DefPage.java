@@ -3,6 +3,9 @@ package sgtmelon.scriptum.office.annot.def;
 import androidx.annotation.IntDef;
 import sgtmelon.scriptum.R;
 
+/**
+ * Ключи главного меню
+ */
 @IntDef({
         DefPage.rank,
         DefPage.notes,
@@ -11,13 +14,11 @@ import sgtmelon.scriptum.R;
 public @interface DefPage {
 
     int[] itemId = new int[]{
-            R.id.menu_actMain_pageRank,
-            R.id.menu_actMain_pageNote,
-            R.id.menu_actMain_pageBin,
+            R.id.page_rank_item,
+            R.id.page_notes_item,
+            R.id.page_bin_item,
     };
 
-    int rank = 0;
-    int notes = 1;
-    int bin = 2;
+    int rank = 0, notes = 1, bin = 2;
 
 }

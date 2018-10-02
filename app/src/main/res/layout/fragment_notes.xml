@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.R"/>
+
+        <import alias="v"
+                type="android.view.View"/>
+
+        <variable name="listEmpty"
+                  type="boolean"/>
+
+    </data>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <include layout="@layout/include_toolbar"/>
+
+        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+
+            <include
+                    layout="@layout/include_info"
+                    android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'
+                    app:details='@{R.string.info_notes_details}'
+                    app:icon='@{R.mipmap.ic_info_notes}'
+                    app:title='@{R.string.info_notes_title}'/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/notes_recycler"
+                    style="@style/RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility='@{!listEmpty ? v.VISIBLE : v.GONE}'/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

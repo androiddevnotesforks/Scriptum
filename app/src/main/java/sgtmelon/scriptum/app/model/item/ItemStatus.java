@@ -15,13 +15,12 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.view.act.ActSplash;
+import sgtmelon.scriptum.app.view.activity.SplashActivity;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefIntent;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
-import sgtmelon.scriptum.office.st.StNote;
 
-public class ItemStatus {
+public final class ItemStatus { // TODO: 02.10.2018 вынести из моделей
 
     private final Context context;
     private final PendingIntent pendingIntent;
@@ -37,9 +36,8 @@ public class ItemStatus {
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 
-        Intent intent = new Intent(context, ActSplash.class);
+        Intent intent = new Intent(context, SplashActivity.class);
         intent.putExtra(DefIntent.STATUS_OPEN, true);
-        intent.putExtra(DefIntent.STATE_NOTE, new StNote(false, false));
         intent.putExtra(DefIntent.NOTE_ID, itemNote.getId());
 
         stackBuilder.addNextIntent(intent);

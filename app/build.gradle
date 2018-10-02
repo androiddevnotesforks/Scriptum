@@ -54,13 +54,8 @@ dependencies {
     def x_ver = "1.0.0"
 
     implementation "com.google.android.material:material:$x_ver"
-
     implementation "androidx.appcompat:appcompat:$x_ver"
-    implementation "androidx.legacy:legacy-support-v4:$x_ver"
-
     implementation "androidx.cardview:cardview:$x_ver"
-
-    implementation "androidx.recyclerview:recyclerview-selection:$x_ver"
 
     implementation "androidx.vectordrawable:vectordrawable:$x_ver"
     implementation "androidx.vectordrawable:vectordrawable-animated:$x_ver"

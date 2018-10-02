@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.blank.BlankDlg;
 
-public class DlgMultiply extends BlankDlg {
+public final class DlgMultiply extends BlankDlg {
 
     private String[] name;
     private boolean[] init, check;
@@ -50,6 +50,14 @@ public class DlgMultiply extends BlankDlg {
                 .create();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putBooleanArray(DefDlg.INIT, init);
+        outState.putBooleanArray(DefDlg.VALUE, check);
+    }
+
     public void setName(String[] name) {
         this.name = name;
     }
@@ -64,14 +72,6 @@ public class DlgMultiply extends BlankDlg {
 
         if (Arrays.equals(init, check)) buttonPositive.setEnabled(false);
         else buttonPositive.setEnabled(true);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putBooleanArray(DefDlg.INIT, init);
-        outState.putBooleanArray(DefDlg.VALUE, check);
     }
 
 }

@@ -23,7 +23,7 @@
                 <CheckBox style="@style/ItemRoll.Write.Check"/>
 
                 <ImageButton
-                        android:id="@+id/itemRoll_ib_drag"
+                        android:id="@+id/drag_button"
                         style="@style/ItemRoll.Click"
                         android:contentDescription="@null"
                         app:srcCompat="@drawable/ic_move"
@@ -32,7 +32,7 @@
             </FrameLayout>
 
             <EditText
-                    android:id="@+id/itemRoll_et_enter"
+                    android:id="@+id/roll_enter"
                     style="@style/ItemRoll.Write.Enter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

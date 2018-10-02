@@ -37,7 +37,9 @@ public @interface DefDlg {
             INFO = "DLG_INFO";
 
 
-    //Значения которое сохраняем в классе диалога
+    /**
+     * Значения которое сохраняем в классе диалога
+     */
     String INIT = "INIT",
             VALUE = "VALUE";
 

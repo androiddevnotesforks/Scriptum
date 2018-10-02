@@ -33,7 +33,7 @@
             tools:cardBackgroundColor="@color/noteGreenLight">
 
         <FrameLayout
-                android:id="@+id/itemNote_fl_click"
+                android:id="@+id/click_container"
                 style="@style/ItemNote.Click">
 
             <LinearLayout style="@style/ItemNote.Container">
@@ -56,7 +56,7 @@
                             tools:text="@string/test_note_text"/>
 
                     <include
-                            layout="@layout/inc_item_note_info"
+                            layout="@layout/include_item_note_info"
                             app:itemNote='@{itemNote}'/>
 
                 </LinearLayout>
@@ -65,7 +65,7 @@
                         style="@style/ItemNote.Color.Vertical"
                         android:background='@{Clr.getNote(context, itemNote.color, true)}'
                         android:visibility='@{Pref.getTheme(context) == def.light ? v.GONE : v.VISIBLE}'
-                        tools:background="@color/noteGreenDark"
+                        tools:background="@color/note_green_dark"
                         tools:visibility="gone"/>
 
             </LinearLayout>

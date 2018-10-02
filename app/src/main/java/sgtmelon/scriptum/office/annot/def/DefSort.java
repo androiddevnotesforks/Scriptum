@@ -2,6 +2,9 @@ package sgtmelon.scriptum.office.annot.def;
 
 import androidx.annotation.IntDef;
 
+/**
+ * Ключи сортировки данных
+ */
 @IntDef({
         DefSort.create,
         DefSort.change,

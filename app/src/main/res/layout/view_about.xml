@@ -25,7 +25,7 @@
                     android:layout_weight="0.5">
 
                 <ImageView
-                        android:id="@+id/viewAbout_iv_logo"
+                        android:id="@+id/logo_image"
                         style="@style/ViewAbout.Logo"
                         android:contentDescription="@null"
                         app:srcCompat="@mipmap/ic_about_logo"/>

@@ -7,26 +7,26 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
+import sgtmelon.scriptum.office.annot.AnnDb;
 import sgtmelon.scriptum.office.conv.ConvBool;
 import sgtmelon.scriptum.office.conv.ConvList;
 import sgtmelon.scriptum.office.conv.ConvString;
 
-@Entity(tableName = DefDb.RK_TB)
+@Entity(tableName = AnnDb.RK_TB)
 @TypeConverters({ConvBool.class, ConvString.class})
-public class ItemRank {
+public final class ItemRank { // TODO: 02.10.2018 чистая модель
 
-    @ColumnInfo(name = DefDb.RK_ID)
+    @ColumnInfo(name = AnnDb.RK_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @ColumnInfo(name = DefDb.RK_ID_NT)
+    @ColumnInfo(name = AnnDb.RK_ID_NT)
     private Long[] idNote;
 
-    @ColumnInfo(name = DefDb.RK_PS)
+    @ColumnInfo(name = AnnDb.RK_PS)
     private int position;
-    @ColumnInfo(name = DefDb.RK_NM)
+    @ColumnInfo(name = AnnDb.RK_NM)
     private String name;
-    @ColumnInfo(name = DefDb.RK_VS)
+    @ColumnInfo(name = AnnDb.RK_VS)
     private boolean visible;
 
     @Ignore

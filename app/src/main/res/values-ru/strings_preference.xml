@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Settings -->
+
+    <!-- Note -->
+    <string name="pref_note_header">Заметки</string>
+
+    <string name="pref_sort_title">Сортировка заметок</string>
+    <string name="pref_sort_summary">Будет применяться по-умолчанию</string>
+    <string name="pref_sort_summary_start">По</string>
+
+    <string-array name="pref_sort_text">
+        <item>По дате и времени создания</item>
+        <item>По дате и времени изменения</item>
+        <item>По категориям</item>
+        <item>По цвету</item>
+    </string-array>
+
+    <string name="pref_color_title">Цвет заметки по-умолчанию</string>
+    <string name="pref_color_summary">Будет применяться по-умолчанию</string>
+
+    <string-array name="pref_color_text">
+        <item>Красный</item>
+        <item>Фиолетовый</item>
+        <item>Индиго</item>
+        <item>Синий</item>
+        <item>Бирюзовый</item>
+        <item>Зелёный</item>
+        <item>Желтый</item>
+        <item>Оранжевый</item>
+        <item>Коричневый</item>
+        <item>Сине-серый</item>
+        <item>Белый</item>
+    </string-array>
+
+    <string name="pref_save_header">Сохранение</string>
+
+    <string name="pref_pause_save_title">Сохранение при остановке приложения</string>
+    <string name="pref_pause_save_summary">При редактировании заметки</string>
+
+    <string name="pref_auto_save_title">Автоматическое сохранение</string>
+    <string name="pref_auto_save_summary">При редактировании заметки</string>
+
+    <string name="pref_save_time_title">Период</string>
+    <string name="pref_save_time_summary">Количество минут</string>
+
+    <string-array name="pref_save_time_text">
+        <item>1 минута</item>
+        <item>3 минуты</item>
+        <item>7 минут</item>
+    </string-array>
+
+    <!-- Other -->
+    <string name="pref_app_header">Приложение</string>
+
+    <string name="pref_theme_title">Тема</string>
+    <string name="pref_theme_summary">Выбранная тема</string>
+
+    <string-array name="pref_theme_text">
+        <item>Светлая</item>
+        <item>Тёмная</item>
+    </string-array>
+
+    <string name="pref_rate_title">Оценить</string>
+
+    <string name="pref_about_title">О приложении</string>
+
+</resources>

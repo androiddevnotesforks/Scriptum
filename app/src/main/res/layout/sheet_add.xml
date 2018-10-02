@@ -6,7 +6,7 @@
     android:layout_gravity="bottom">
 
     <com.google.android.material.navigation.NavigationView
-        android:id="@+id/sheetAdd_nv_menu"
+        android:id="@+id/add_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/NavigationView"

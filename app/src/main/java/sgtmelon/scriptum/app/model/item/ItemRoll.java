@@ -1,43 +1,39 @@
 package sgtmelon.scriptum.app.model.item;
 
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Ignore;
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
+import androidx.room.*;
+import sgtmelon.scriptum.office.annot.AnnDb;
 import sgtmelon.scriptum.office.conv.ConvBool;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(tableName = DefDb.RL_TB,
+@Entity(tableName = AnnDb.RL_TB,
         foreignKeys = @ForeignKey(entity = ItemNote.class,
-                parentColumns = DefDb.NT_ID,
-                childColumns = DefDb.RL_ID_NT,
+                parentColumns = AnnDb.NT_ID,
+                childColumns = AnnDb.RL_ID_NT,
                 onUpdate = CASCADE,
                 onDelete = CASCADE),
-        indices = {@Index(DefDb.RL_ID_NT)})
+        indices = {@Index(AnnDb.RL_ID_NT)})
 @TypeConverters({ConvBool.class})
-public class ItemRoll {
+public final class ItemRoll {
 
-
-    @ColumnInfo(name = DefDb.RL_ID)
+    @ColumnInfo(name = AnnDb.RL_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @ColumnInfo(name = DefDb.RL_ID_NT)
+    @ColumnInfo(name = AnnDb.RL_ID_NT)
     private long idNote;
 
-    @ColumnInfo(name = DefDb.RL_PS)
+    @ColumnInfo(name = AnnDb.RL_PS)
     private int position;
-    @ColumnInfo(name = DefDb.RL_CH)
+    @ColumnInfo(name = AnnDb.RL_CH)
     private boolean check = false;
-    @ColumnInfo(name = DefDb.RL_TX)
+    @ColumnInfo(name = AnnDb.RL_TX)
     private String text;
 
+    /**
+     * Добавлен пункт в базу данных или нет
+     */
     @Ignore
-    private boolean exist = true;  //Добавлен пункт в базу данных или нет
+    private boolean exist = true;
 
     public long getId() {
         return id;

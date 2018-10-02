@@ -11,13 +11,13 @@ import sgtmelon.scriptum.app.database.dao.DaoRoll;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRank;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
+import sgtmelon.scriptum.office.annot.AnnDb;
 
 @Database(entities = {ItemNote.class, ItemRoll.class, ItemRank.class}, version = 1)
 public abstract class DbRoom extends RoomDatabase {
 
     public static DbRoom provideDb(Context context) {
-        return Room.databaseBuilder(context, DbRoom.class, DefDb.name)
+        return Room.databaseBuilder(context, DbRoom.class, AnnDb.name)
                 .allowMainThreadQueries()   // TODO: 27.09.2018 Сделай нормально
                 .build();
     }

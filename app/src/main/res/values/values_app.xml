@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text length -->
+    <integer name="length_note_name">50</integer>
+    <integer name="length_rank_name">30</integer>
+
+    <!-- Drawable part name -->
+    <!-- TODO в строки strings_anim.xml -->
+    <string name="drawable_visible_strike_path" translatable="false">visible_strike_path</string>
+    <string name="drawable_visible_strike_mask" translatable="false">visible_strike_mask</string>
+    <string name="drawable_visible_eye_path" translatable="false">visible_eye_path</string>
+
+    <string name="drawable_cancel_group" translatable="false">cancel_group</string>
+    <string name="drawable_cancel_path" translatable="false">cancel_path</string>
+
+</resources>

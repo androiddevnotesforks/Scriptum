@@ -13,7 +13,7 @@ import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRank;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
-import sgtmelon.scriptum.office.annot.def.db.DefDb;
+import sgtmelon.scriptum.office.annot.AnnDb;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.conv.ConvBool;
 
@@ -46,8 +46,8 @@ abstract class DaoBase {
      */
     List<ItemNote> getNote(@DefBin int bin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT * FROM " + DefDb.NT_TB +
-                        " WHERE " + DefDb.NT_BN + " = " + bin +
+                "SELECT * FROM " + AnnDb.NT_TB +
+                        " WHERE " + AnnDb.NT_BN + " = " + bin +
                         " ORDER BY " + sortKeys);
 
         return getNote(query);

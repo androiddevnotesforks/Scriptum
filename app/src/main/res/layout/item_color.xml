@@ -19,8 +19,7 @@
             android:gravity="center"
             android:padding="@dimen/layout_8dp">
 
-        <ImageView
-                android:id="@+id/itemColor_iv_background"
+        <View
                 android:layout_width="@dimen/icon_48dp"
                 android:layout_height="@dimen/icon_48dp"
                 android:layout_gravity="center"
@@ -29,16 +28,16 @@
                 tools:background="@drawable/ic_color_00_l"/>
 
         <ImageView
-                android:id="@+id/itemColor_iv_check"
+                android:id="@+id/check_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:contentDescription="@null"
                 app:srcCompat="@drawable/ic_check"
-                tools:tint="@color/noteRedDark"/>
+                tools:tint="@color/note_red_dark"/>
 
-        <ImageView
-                android:id="@+id/itemColor_iv_click"
+        <View
+                android:id="@+id/click_view"
                 android:layout_width="@dimen/icon_48dp"
                 android:layout_height="@dimen/icon_48dp"
                 android:layout_gravity="center"

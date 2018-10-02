@@ -2,58 +2,58 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="screen">
 
-    <PreferenceCategory android:title="@string/pref_header_note">
+    <PreferenceCategory android:title="@string/pref_note_header">
 
         <Preference
             android:key="@string/pref_key_sort"
-            android:summary="@string/pref_summary_sort"
-            android:title="@string/pref_title_sort" />
+            android:summary="@string/pref_sort_summary"
+            android:title="@string/pref_sort_title" />
 
         <Preference
-            android:defaultValue="@integer/pref_default_color"
+            android:defaultValue="@integer/pref_color_default"
             android:key="@string/pref_key_color"
-            android:summary="@string/pref_summary_color"
-            android:title="@string/pref_title_color" />
+            android:summary="@string/pref_color_summary"
+            android:title="@string/pref_color_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_save">
+    <PreferenceCategory android:title="@string/pref_save_header">
 
         <CheckBoxPreference
-            android:defaultValue="@bool/pref_default_pause_save"
+            android:defaultValue="@bool/pref_pause_save_default"
             android:key="@string/pref_key_pause_save"
-            android:summary="@string/pref_summary_pause_save"
-            android:title="@string/pref_title_pause_save" />
+            android:summary="@string/pref_pause_save_summary"
+            android:title="@string/pref_pause_save_title" />
 
         <CheckBoxPreference
-            android:defaultValue="@bool/pref_default_auto_save"
+            android:defaultValue="@bool/pref_auto_save_default"
             android:key="@string/pref_key_auto_save"
-            android:summary="@string/pref_summary_auto_save"
-            android:title="@string/pref_title_auto_save" />
+            android:summary="@string/pref_auto_save_summary"
+            android:title="@string/pref_auto_save_title" />
 
         <Preference
-            android:defaultValue="@integer/pref_default_save_time"
+            android:defaultValue="@integer/pref_save_time_default"
             android:key="@string/pref_key_save_time"
-            android:summary="@string/pref_summary_save_time"
-            android:title="@string/pref_title_save_time" />
+            android:summary="@string/pref_save_time_summary"
+            android:title="@string/pref_save_time_title" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_header_app">
+    <PreferenceCategory android:title="@string/pref_app_header">
 
         <Preference
-            android:defaultValue="@integer/pref_default_theme"
+            android:defaultValue="@integer/pref_theme_default"
             android:key="@string/pref_key_theme"
-            android:summary="@string/pref_summary_theme"
-            android:title="@string/pref_title_theme" />
+            android:summary="@string/pref_theme_summary"
+            android:title="@string/pref_theme_title" />
 
         <Preference
             android:key="@string/pref_key_rate"
-            android:title="@string/pref_title_rate"/>
+            android:title="@string/pref_rate_title"/>
 
         <Preference
             android:key="@string/pref_key_about"
-            android:title="@string/pref_title_about" />
+            android:title="@string/pref_about_title" />
 
     </PreferenceCategory>
 

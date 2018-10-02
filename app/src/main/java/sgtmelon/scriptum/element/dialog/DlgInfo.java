@@ -12,7 +12,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.blank.BlankDlg;
 
-public class DlgInfo extends BlankDlg implements View.OnClickListener {
+public final class DlgInfo extends BlankDlg implements View.OnClickListener {
 
     private View.OnClickListener logoClick;
 
@@ -27,7 +27,7 @@ public class DlgInfo extends BlankDlg implements View.OnClickListener {
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_about, null);
 
-        ImageView logo = view.findViewById(R.id.viewAbout_iv_logo);
+        ImageView logo = view.findViewById(R.id.logo_image);
         logo.setOnClickListener(this);
 
         return new AlertDialog.Builder(context)
@@ -36,23 +36,24 @@ public class DlgInfo extends BlankDlg implements View.OnClickListener {
                 .create();
     }
 
-    public void setLogoClick(View.OnClickListener logoClick) {
-        this.logoClick = logoClick;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (++click == context.getResources().getInteger(R.integer.pref_logo_click)) {
-            click = 0;
-            logoClick.onClick(view);
-            getDialog().cancel();
-        }
-    }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         outState.putInt(DefDlg.VALUE, click);
     }
+
+    public void setLogoClick(View.OnClickListener logoClick) {
+        this.logoClick = logoClick;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (++click == context.getResources().getInteger(R.integer.pref_logo_click_value)) {
+            click = 0;
+            logoClick.onClick(view);
+            getDialog().cancel();
+        }
+    }
+
 }

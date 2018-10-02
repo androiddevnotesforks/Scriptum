@@ -16,7 +16,7 @@ import androidx.room.Transaction;
 import androidx.room.Update;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRank;
-import sgtmelon.scriptum.app.model.repo.RepoRank;
+import sgtmelon.scriptum.app.model.ModelRank;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.conv.ConvList;
 
@@ -50,7 +50,7 @@ public abstract class DaoRank extends DaoBase {
     }
 
     @Transaction
-    public RepoRank get() {
+    public ModelRank get() {
         List<ItemRank> listRank = getComplex();
         List<String> listName = getNameUp();
 
@@ -59,7 +59,7 @@ public abstract class DaoRank extends DaoBase {
             listName.set(i, name.toUpperCase());
         }
 
-        return new RepoRank(listRank, listName);
+        return new ModelRank(listRank, listName);
     }
 
     /**

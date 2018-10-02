@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="note_white_light">#ffffff</color>
+    <color name="note_white_dark">#c7c7c7</color>
+
+    <color name="note_red_light">#ffcdd2</color>
+    <color name="note_red_dark">#cb9ca1</color>
+
+    <color name="note_purple_light">#e1bee7</color>
+    <color name="note_purple_dark">#af8eb5</color>
+
+    <color name="note_indigo_light">#c5cae9</color>
+    <color name="note_indigo_dark">#9499b7</color>
+
+    <color name="note_blue_light">#bbdefb</color>
+    <color name="note_blue_dark">#8aacc8</color>
+
+    <color name="note_teal_light">#b2dfdb</color>
+    <color name="note_teal_dark">#82ada9</color>
+
+    <color name="note_green_light">#c8e6c9</color>
+    <color name="note_green_dark">#97b498</color>
+
+    <color name="note_yellow_light">#fff9c4</color>
+    <color name="note_yellow_dark">#cbc693</color>
+
+    <color name="note_orange_light">#ffe0b2</color>
+    <color name="note_orange_dark">#cbae82</color>
+
+    <color name="note_brown_light">#d7ccc8</color>
+    <color name="note_brown_dark">#a69b97</color>
+
+    <color name="note_blue_grey_light">#cfd8dc</color>
+    <color name="note_blue_grey_dark">#9ea7aa</color>
+
+</resources>

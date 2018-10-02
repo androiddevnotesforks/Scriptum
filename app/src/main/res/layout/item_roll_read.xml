@@ -27,13 +27,13 @@
             <FrameLayout android:layout_width="wrap_content" android:layout_height="match_parent">
 
                 <CheckBox
-                        android:id="@+id/itemRoll_cb_check"
+                        android:id="@+id/roll_check"
                         style="@style/ItemRoll.Read.Check"
                         android:checked='@{itemRoll.check}'
                         tools:checked="true"/>
 
-                <ImageView
-                        android:id="@+id/itemRoll_iv_click"
+                <View
+                        android:id="@+id/click_view"
                         style="@style/ItemRoll.Click"
                         android:contentDescription="@null"
                         android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
@@ -41,7 +41,7 @@
             </FrameLayout>
 
             <TextView
-                    android:id="@+id/itemRoll_tv_text"
+                    android:id="@+id/roll_text"
                     style="@style/ItemRoll.Read.Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

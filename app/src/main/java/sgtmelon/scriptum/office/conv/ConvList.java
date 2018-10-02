@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ConvList {
+public final class ConvList {
 
     public static Long[] fromList(List<Long> list) {
         return list.toArray(new Long[0]);

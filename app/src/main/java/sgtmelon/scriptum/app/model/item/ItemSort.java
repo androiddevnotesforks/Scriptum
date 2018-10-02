@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.app.model.item;
 
-import sgtmelon.scriptum.office.annot.def.DefSort;
-
-public class ItemSort {
+public final class ItemSort {
 
     private String text;
     private int key;
@@ -24,7 +22,7 @@ public class ItemSort {
         return key;
     }
 
-    public void setKey(@DefSort int key) {
+    public void setKey(int key) {
         this.key = key;
     }
 

@@ -5,11 +5,11 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/menu_sheetAdd_text"
-                    android:title="@string/dialog_menu_add_text" />
+                    android:id="@+id/note_text_item"
+                    android:title="@string/dialog_add_note_text" />
                 <item
-                    android:id="@+id/menu_sheetAdd_roll"
-                    android:title="@string/dialog_menu_add_roll" />
+                    android:id="@+id/note_roll_item"
+                    android:title="@string/dialog_add_note_roll" />
             </group>
         </menu>
     </item>

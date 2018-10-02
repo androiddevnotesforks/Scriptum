@@ -14,7 +14,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 
-public class DlgSheet extends BottomSheetDialogFragment implements NavigationView.OnNavigationItemSelectedListener {
+public final class DlgSheet extends BottomSheetDialogFragment implements
+        NavigationView.OnNavigationItemSelectedListener {
 
     // TODO: 24.09.2018 ошибка при тсутствии слоя
 
@@ -34,6 +35,13 @@ public class DlgSheet extends BottomSheetDialogFragment implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+
+        dismissListener.onDismiss(dialog);
     }
 
     public void setLayout(@LayoutRes int layout) {
@@ -58,10 +66,4 @@ public class DlgSheet extends BottomSheetDialogFragment implements NavigationVie
         return false;
     }
 
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-
-        dismissListener.onDismiss(dialog);
-    }
 }

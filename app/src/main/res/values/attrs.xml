@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="AppColorTheme">
-        <attr name="clAccent" format="color"/>
-        <attr name="clPrimary" format="color"/>
+    <declare-styleable name="ColorTheme">
+        <attr name="clAccent" format="color" />
+        <attr name="clPrimary" format="color" />
 
-        <attr name="clDivider" format="color"/>
-        <attr name="clBackground" format="color"/>
-        <attr name="clBackgroundView" format="color"/>
-        <attr name="clBackgroundEnter" format="color"/>
+        <attr name="clDivider" format="color" />
+        <attr name="clBackground" format="color" />
+        <attr name="clBackgroundView" format="color" />
+        <attr name="clBackgroundEnter" format="color" />
 
-        <attr name="clIcon" format="color"/>
-        <attr name="clText" format="color"/>
-        <attr name="clSecond" format="color"/>
+        <attr name="clIcon" format="color" />
+        <attr name="clText" format="color" />
+        <attr name="clSecond" format="color" />
     </declare-styleable>
 
     <declare-styleable name="NoteTheme">
-        <attr name="clNoteInfoText" format="color"/>
-        <attr name="clNoteIndicator" format="color"/>
+        <attr name="clNoteInfoText" format="color" />
+        <attr name="clNoteIndicator" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ElementTheme">
-        <attr name="styleToolbar" format="integer"/>
-        <attr name="themePopup" format="integer"/>
-        <attr name="styleFab" format="integer"/>
+        <attr name="styleToolbar" format="integer" />
+        <attr name="themePopup" format="integer" />
+        <attr name="styleFab" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="SwitchButton">
+        <attr name="colorDisable" format="color" />
+        <attr name="srcDisable" format="reference" />
+        <attr name="srcDisableAnim" format="reference" />
+        <attr name="colorSelect" format="color" />
+        <attr name="srcSelect" format="reference" />
+        <attr name="srcSelectAnim" format="reference" />
     </declare-styleable>
 
 </resources>

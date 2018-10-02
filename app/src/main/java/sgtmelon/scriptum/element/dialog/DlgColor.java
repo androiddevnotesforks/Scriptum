@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.element.dialog;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,12 +10,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.adapter.AdpColor;
+import sgtmelon.scriptum.app.adapter.AdapterColor;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.blank.BlankDlg;
 import sgtmelon.scriptum.office.intf.IntfItem;
 
-public class DlgColor extends BlankDlg implements IntfItem.Click {
+public final class DlgColor extends BlankDlg implements IntfItem.Click {
 
     private int init, check;
 
@@ -51,7 +50,7 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
         GridLayoutManager layoutManager = new GridLayoutManager(context, context.getResources().getInteger(R.integer.dlg_color_column));
         recyclerView.setLayoutManager(layoutManager);
 
-        AdpColor adapter = new AdpColor(context, check);
+        AdapterColor adapter = new AdapterColor(context, check);
         adapter.setClick(this);
         recyclerView.setAdapter(adapter);
 
@@ -67,14 +66,16 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
                 .create();
     }
 
-    public int getCheck() {
-        return check;
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt(DefDlg.INIT, init);
+        outState.putInt(DefDlg.VALUE, check);
     }
 
-    @Override
-    public void onItemClick(View view, int p) {
-        check = p;
-        setEnable();
+    public int getCheck() {
+        return check;
     }
 
     @Override
@@ -86,10 +87,8 @@ public class DlgColor extends BlankDlg implements IntfItem.Click {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putInt(DefDlg.INIT, init);
-        outState.putInt(DefDlg.VALUE, check);
+    public void onItemClick(View view, int p) {
+        check = p;
+        setEnable();
     }
 }

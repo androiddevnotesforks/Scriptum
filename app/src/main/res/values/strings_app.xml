@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Scriptum</string>
+
+    <string name="title_frg_rank">Categories</string>
+    <string name="title_frg_notes">Notes</string>
+    <string name="title_frg_bin">Bin</string>
+    <string name="title_act_settings">Settings</string>
+
+
+    <!-- Name of menu items -->
+    <string name="menu_page_notes_preference">Settings</string>
+    <string name="menu_page_bin_clear">Clear bin</string>
+
+    <string name="menu_note_edit">Change</string>
+    <string name="menu_note_save">Save</string>
+    <string name="menu_note_more">More</string>
+
+    <string name="menu_note_check_all">Check all</string>
+    <string name="menu_note_check_zero">Uncheck all</string>
+    <string name="menu_note_status_bind">Bind to status bar</string>
+    <string name="menu_note_status_unbind">Unbind from status bar</string>
+    <string name="menu_note_convert_to_roll">Convert to roll</string>
+    <string name="menu_note_convert_to_text">Convert to text</string>
+    <string name="menu_note_delete">Delete</string>
+
+    <string name="menu_note_rank">Categories</string>
+    <string name="menu_note_color">Color</string>
+
+    <string name="menu_note_restore">Restore</string>
+    <string name="menu_note_restore_open">Restore and open</string>
+    <string name="menu_note_clear">Delete forever</string>
+
+
+    <!-- Toast text -->
+    <string name="toast_note_save_done">Changes saved</string>
+    <string name="toast_note_save_error">Changes not saved</string>
+    <string name="toast_note_save_warning">The note is empty</string>
+
+
+    <!-- Name of channels & groups-->
+    <string name="notification_channel_id" translatable="false">handy_notes_channel_id</string>
+
+    <string name="notification_channel">Notes</string>
+    <string name="notification_group">Notes</string>
+
+
+    <!-- Dialog -->
+
+    <!-- Dialog titles and text -->
+    <string name="dialog_title_clear_bin">Clear bin</string>
+    <string name="dialog_text_clear_bin">Are you sure you want to permanently delete all not hidden notes from bin?</string>
+
+    <string name="dialog_title_color">Color</string>
+    <string name="dialog_title_rank">Categories</string>
+
+    <string name="dialog_title_convert">Convert</string>
+    <string name="dialog_roll_convert_to_text">Are you sure you want to convert the note? All checks in the list will be lost.</string>
+    <string name="dialog_text_convert_to_roll">Are you sure you want to convert the note? All empty lines will be deleted.</string>
+
+    <string name="dialog_title_sort">Sorting order</string>
+    <string name="dialog_title_add_note">Create note</string>
+
+    <!-- Dialog buttons -->
+    <string name="dialog_btn_accept">Apply</string>
+    <string name="dialog_btn_cancel">Cancel</string>
+    <string name="dialog_btn_reset">Reset</string>
+
+    <string name="dialog_btn_yes">Yes</string>
+    <string name="dialog_btn_no">No</string>
+
+    <!-- Dialog menu buttons -->
+    <string name="dialog_menu_copy">Copy text</string>
+
+    <string name="dialog_menu_check_all">Check all</string>
+    <string name="dialog_menu_check_zero">Uncheck all</string>
+    <string name="dialog_menu_status_bind">Bind to status bar</string>
+    <string name="dialog_menu_status_unbind">Unbind from status bar</string>
+    <string name="dialog_menu_convert_to_text">Convert to text</string>
+    <string name="dialog_menu_convert_to_roll">Convert to roll</string>
+    <string name="dialog_menu_delete">Delete</string>
+
+    <string name="dialog_menu_restore">Restore</string>
+    <string name="dialog_menu_clear">Delete forever</string>
+
+    <string name="dialog_add_note_text">Text</string>
+    <string name="dialog_add_note_roll">List</string>
+
+    <string-array name="dialog_menu_text">
+        <item />
+        <item>@string/dialog_menu_convert_to_roll</item>
+        <item>@string/dialog_menu_copy</item>
+        <item>@string/dialog_menu_delete</item>
+    </string-array>
+
+    <string-array name="dialog_menu_roll">
+        <item />
+        <item />
+        <item>@string/dialog_menu_convert_to_text</item>
+        <item>@string/dialog_menu_copy</item>
+        <item>@string/dialog_menu_delete</item>
+    </string-array>
+
+    <string-array name="dialog_menu_bin">
+        <item>@string/dialog_menu_restore</item>
+        <item>@string/dialog_menu_copy</item>
+        <item>@string/dialog_menu_clear</item>
+    </string-array>
+
+    <!-- Toast -->
+    <string name="toast_text_copy">Text copied to clipboard</string>
+
+
+    <!-- About dialog -->
+    <string name="about_app_for">for Android</string>
+    <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>
+    <string name="about_app_logo_designer">Designer:\nPoplekina Arina</string>
+    <string name="about_app_used_libraries">Used libraries:</string>
+    <string name="about_app_libraries" translatable="false">
+        androidx.lifecycle:\n\t
+            lifecycle-extensions:2.0.0-beta01\n\t
+            lifecycle-compiler:2.0.0-beta01\n
+
+        androidx.room:\n\t
+            room-runtime:2.0.0-beta01\n\t
+            room-testing:2.0.0-beta01\n\t
+            room-compiler:2.0.0-beta01\n
+
+        androidx.appcompat:appcompat:1.0.0-beta01\n
+        androidx.legacy:legacy-support-v4:1.0.0-beta01\n
+        androidx.cardview:cardview:1.0.0-beta01\n
+
+        androidx.vectordrawable:\n\t
+            vectordrawable:1.0.0-beta01\n\t
+            vectordrawable-animated:1.0.0-beta01\n
+
+        com.google.android.material:material:1.0.0-beta01\n
+
+        com.romandanylyk:pageindicatorview:1.0.1
+    </string>
+    <string name="about_app_version">App version: 1.0.0</string>
+
+
+    <!-- EditText hint -->
+    <string name="hint_enter_rank_new">New category</string>
+    <string name="hint_enter_rank_rename">New name for category</string>
+    <string name="hint_enter_name">Title of note</string>
+    <string name="hint_view_name">Untitled</string>
+    <string name="hint_enter_text">Your text</string>
+    <string name="hint_enter_roll">Your list item</string>
+
+
+    <!-- Items text -->
+    <!-- ItemRank -->
+    <string name="list_item_rank_text_count">Texts:</string>
+    <string name="list_item_rank_roll_count">Lists:</string>
+
+</resources>

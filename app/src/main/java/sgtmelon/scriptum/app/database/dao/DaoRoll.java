@@ -25,7 +25,7 @@ public abstract class DaoRoll extends DaoBase {
      *
      * @param idNote - Id заметки
      * @param text   - Массив потенциальных пунктов
-     * @return - Для RepoNote
+     * @return - Для ModelNote
      */
     public List<ItemRoll> insert(long idNote, String[] text) {
         List<ItemRoll> listRoll = new ArrayList<>();
@@ -159,7 +159,8 @@ public abstract class DaoRoll extends DaoBase {
                     "CH: " + itemRoll.isCheck() + "\n");
 
             String text = itemRoll.getText();
-            textView.append("TX: " + text.substring(0, Math.min(text.length(), 45)).replace("\n", " "));
+            textView.append("TX: " + text.substring(0, Math.min(text.length(), 45))
+                    .replace("\n", " "));
             if (text.length() > 40) textView.append("...");
         }
     }

@@ -34,7 +34,7 @@
             tools:cardBackgroundColor="?attr/clPrimary">
 
         <FrameLayout
-                android:id="@+id/itemNote_fl_click"
+                android:id="@+id/click_container"
                 style="@style/ItemNote.Click">
 
             <LinearLayout style="@style/ItemNote.Container">
@@ -52,27 +52,27 @@
                             tools:text="@string/test_note_name"/>
 
                     <include
-                            layout="@layout/inc_item_note_roll"
+                            layout="@layout/include_item_note_roll"
                             android:visibility='@{listRoll.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
                             app:itemRoll='@{listRoll.size() &gt;= 1 ? listRoll.get(0) : null}'/>
 
                     <include
-                            layout="@layout/inc_item_note_roll"
+                            layout="@layout/include_item_note_roll"
                             android:visibility='@{listRoll.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
                             app:itemRoll='@{listRoll.size() &gt;= 2 ? listRoll.get(1) : null}'/>
 
                     <include
-                            layout="@layout/inc_item_note_roll"
+                            layout="@layout/include_item_note_roll"
                             android:visibility='@{listRoll.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
                             app:itemRoll='@{listRoll.size() &gt;= 3 ? listRoll.get(2) : null}'/>
 
                     <include
-                            layout="@layout/inc_item_note_roll"
+                            layout="@layout/include_item_note_roll"
                             android:visibility='@{listRoll.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
                             app:itemRoll='@{listRoll.size() &gt;= 4 ? listRoll.get(3) : null}'/>
 
                     <include
-                            layout="@layout/inc_item_note_info"
+                            layout="@layout/include_item_note_info"
                             app:itemNote='@{itemNote}'/>
 
                 </LinearLayout>
@@ -83,7 +83,7 @@
                         style="@style/ItemNote.Color.Vertical"
                         android:background='@{Clr.getNote(context, itemNote.color, true)}'
                         android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
-                        tools:background="@color/noteGreenDark"
+                        tools:background="@color/note_green_dark"
                         tools:visibility="visible"/>
 
             </LinearLayout>

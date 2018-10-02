@@ -8,7 +8,7 @@ import androidx.appcompat.app.AlertDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.blank.BlankDlg;
 
-public class DlgMessage extends BlankDlg {
+public final class DlgMessage extends BlankDlg {
 
     @NonNull
     @Override

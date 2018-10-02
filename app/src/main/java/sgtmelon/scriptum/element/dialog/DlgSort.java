@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.adapter.AdpSort;
+import sgtmelon.scriptum.app.adapter.AdapterSort;
 import sgtmelon.scriptum.app.model.item.ItemSort;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
@@ -22,13 +22,13 @@ import sgtmelon.scriptum.office.annot.def.DefSort;
 import sgtmelon.scriptum.office.blank.BlankDlg;
 import sgtmelon.scriptum.office.intf.IntfItem;
 
-public class DlgSort extends BlankDlg implements IntfItem.Click {
+public final class DlgSort extends BlankDlg implements IntfItem.Click {
 
     private String init, keys;
     private String[] text;
 
     private List<ItemSort> listSort;
-    private AdpSort adapter;
+    private AdapterSort adapter;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
         @Override
@@ -98,7 +98,7 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
             keys = arg.getString(DefDlg.VALUE);
         }
 
-        text = getResources().getStringArray(R.array.pref_text_sort);
+        text = getResources().getStringArray(R.array.pref_sort_text);
 
         RecyclerView recyclerView = new RecyclerView(context);
 
@@ -109,7 +109,7 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdpSort();
+        adapter = new AdapterSort();
         recyclerView.setAdapter(adapter);
         adapter.setClick(this);
 
@@ -140,8 +140,27 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
                 .create();
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(DefDlg.INIT, init);
+        outState.putString(DefDlg.VALUE, keys);
+    }
+
     public String getKeys() {
         return keys;
+    }
+
+    @Override
+    protected void setEnable() {
+        super.setEnable();
+
+        if (Help.Pref.getSortEqual(init, keys)) buttonPositive.setEnabled(false);
+        else buttonPositive.setEnabled(true);
+
+        if (Help.Pref.getSortEqual(DefSort.def, keys)) buttonNeutral.setEnabled(false);
+        else buttonNeutral.setEnabled(true);
     }
 
     @Override
@@ -163,22 +182,4 @@ public class DlgSort extends BlankDlg implements IntfItem.Click {
         setEnable();
     }
 
-    @Override
-    protected void setEnable() {
-        super.setEnable();
-
-        if (Help.Pref.getSortEqual(init, keys)) buttonPositive.setEnabled(false);
-        else buttonPositive.setEnabled(true);
-
-        if (Help.Pref.getSortEqual(DefSort.def, keys)) buttonNeutral.setEnabled(false);
-        else buttonNeutral.setEnabled(true);
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        outState.putString(DefDlg.INIT, init);
-        outState.putString(DefDlg.VALUE, keys);
-    }
 }

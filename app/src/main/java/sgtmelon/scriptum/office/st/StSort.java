@@ -5,7 +5,7 @@ import java.util.List;
 import sgtmelon.scriptum.app.model.item.ItemSort;
 import sgtmelon.scriptum.office.annot.def.DefSort;
 
-public class StSort {
+public final class StSort {
 
     private int end;
 

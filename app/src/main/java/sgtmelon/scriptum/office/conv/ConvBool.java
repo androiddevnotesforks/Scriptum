@@ -2,7 +2,7 @@ package sgtmelon.scriptum.office.conv;
 
 import androidx.room.TypeConverter;
 
-public class ConvBool {
+public final class ConvBool {
 
     private final static int boolFalse = 0, boolTrue = 1;
 

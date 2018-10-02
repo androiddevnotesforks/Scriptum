@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.office.annot;
 
-import androidx.annotation.StringDef;
 import sgtmelon.scriptum.R;
 
+/**
+ * Аннотация для отображения информации во вступлении
+ */
 public @interface AnnIntro {
 
     int[] icon = new int[]{
@@ -11,7 +13,7 @@ public @interface AnnIntro {
             R.drawable.ic_bind_roll,
             R.drawable.ic_rank,
             R.drawable.ic_visible_off,
-            R.drawable.ic_settings,
+            R.drawable.ic_preference,
             R.drawable.ic_bin
     };
 
