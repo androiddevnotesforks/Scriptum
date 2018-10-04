@@ -26,13 +26,4 @@
         <attr name="styleFab" format="integer" />
     </declare-styleable>
 
-    <declare-styleable name="SwitchButton">
-        <attr name="colorDisable" format="color" />
-        <attr name="srcDisable" format="reference" />
-        <attr name="srcDisableAnim" format="reference" />
-        <attr name="colorSelect" format="color" />
-        <attr name="srcSelect" format="reference" />
-        <attr name="srcSelectAnim" format="reference" />
-    </declare-styleable>
-
 </resources>

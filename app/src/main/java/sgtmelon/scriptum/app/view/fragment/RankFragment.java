@@ -36,7 +36,7 @@ import sgtmelon.scriptum.app.model.ModelRank;
 import sgtmelon.scriptum.app.model.item.ItemRank;
 import sgtmelon.scriptum.app.vm.RankViewModel;
 import sgtmelon.scriptum.databinding.FragmentRankBinding;
-import sgtmelon.scriptum.element.dialog.DlgRename;
+import sgtmelon.scriptum.element.DlgRename;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefIntent;

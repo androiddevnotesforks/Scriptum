@@ -13,10 +13,10 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+import sgtmelon.iconanim.app.SwitchButton;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.ItemRank;
 import sgtmelon.scriptum.databinding.ItemRankBinding;
-import sgtmelon.scriptum.element.button.SwitchButton;
 import sgtmelon.scriptum.office.intf.IntfItem;
 
 public final class AdapterRank extends RecyclerView.Adapter<AdapterRank.RankHolder> {

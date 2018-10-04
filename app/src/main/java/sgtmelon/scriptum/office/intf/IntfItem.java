@@ -20,8 +20,4 @@ public interface IntfItem {
         void onChanged(int p, String text);
     }
 
-    interface Animation {
-        void setDrawable(boolean drawableOn, boolean needAnim);
-    }
-
 }

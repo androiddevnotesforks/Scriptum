@@ -6,9 +6,9 @@ import android.os.Build;
 import android.view.Window;
 
 import androidx.annotation.RequiresApi;
+import sgtmelon.iconanim.office.hdlr.HdlrAnim;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.hdlr.HdlrAnim;
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public final class ControlMenu extends ControlMenuPreL {

@@ -35,7 +35,7 @@ import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
 import sgtmelon.scriptum.app.vm.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentNotesBinding;
-import sgtmelon.scriptum.element.dialog.DlgOptionNote;
+import sgtmelon.scriptum.element.DlgOptionNote;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefIntent;

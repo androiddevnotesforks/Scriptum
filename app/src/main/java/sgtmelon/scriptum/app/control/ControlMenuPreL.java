@@ -10,17 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
-
 import androidx.appcompat.widget.Toolbar;
+import sgtmelon.iconanim.office.intf.IntfAnim;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.DbRoom;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefTheme;
 import sgtmelon.scriptum.office.annot.def.db.DefType;
-import sgtmelon.scriptum.office.intf.IntfItem;
 import sgtmelon.scriptum.office.intf.IntfMenu;
 
-public class ControlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.Animation {
+public class ControlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfAnim {
 
     protected final Context context;
     private final Window window;

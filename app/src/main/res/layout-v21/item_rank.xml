@@ -1,84 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import
-            alias="v"
-            type="android.view.View" />
+                alias="v"
+                type="android.view.View"/>
 
         <variable
-            name="itemRank"
-            type="sgtmelon.scriptum.app.model.item.ItemRank" />
+                name="itemRank"
+                type="sgtmelon.scriptum.app.model.item.ItemRank"/>
 
     </data>
 
     <androidx.cardview.widget.CardView
-        style="@style/Card"
-        app:cardBackgroundColor="?attr/clBackgroundView"
-        app:cardCornerRadius="@dimen/radius_2dp"
-        app:cardUseCompatPadding="false">
+            style="@style/Card"
+            app:cardBackgroundColor="?attr/clBackgroundView"
+            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardUseCompatPadding="false">
 
         <LinearLayout
-            android:id="@+id/click_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:orientation="horizontal"
-            android:padding="@dimen/layout_8dp"
-            android:weightSum="1">
+                android:id="@+id/click_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/layout_8dp"
+                android:weightSum="1">
 
-            <sgtmelon.scriptum.element.button.SwitchButtonAnim
-                android:id="@+id/visible_button"
-                style="@style/ItemRank.Button"
-                android:layout_marginEnd="@dimen/layout_8dp"
-                app:colorDisable="?attr/clIcon"
-                app:colorSelect="?attr/clAccent"
-                app:drawableDisable="@drawable/ic_visible_off"
-                app:drawableDisableAnim="@drawable/ic_visible_off_anim"
-                app:drawableSelect="@drawable/ic_visible_on"
-                app:drawableSelectAnim="@drawable/ic_visible_on_anim" />
+            <sgtmelon.iconanim.app.SwitchButtonAnim
+                    android:id="@+id/visible_button"
+                    style="@style/ItemRank.Button"
+                    android:layout_marginEnd="@dimen/layout_8dp"
+                    app:srcDisable="@drawable/ic_visible_off"
+                    app:srcDisableAnim="@drawable/ic_visible_off_anim"
+                    app:srcSelect="@drawable/ic_visible_on"
+                    app:srcSelectAnim="@drawable/ic_visible_on_anim"/>
+
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/name_text"
-                    style="@style/ItemRank.Name"
-                    android:text='@{itemRank.name}'
-                    tools:text="@string/test_rank_name" />
+                        android:id="@+id/name_text"
+                        style="@style/ItemRank.Name"
+                        android:text='@{itemRank.name}'
+                        tools:text="@string/test_rank_name"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     <TextView
-                        style="@style/ItemRank.Info"
-                        android:layout_marginEnd="@dimen/layout_4dp"
-                        android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}'
-                        tools:text="@string/test_rank_text" />
+                            style="@style/ItemRank.Info"
+                            android:layout_marginEnd="@dimen/layout_4dp"
+                            android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}'
+                            tools:text="@string/test_rank_text"/>
 
                     <TextView
-                        style="@style/ItemRank.Info"
-                        android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}'
-                        tools:text="@string/test_rank_roll" />
+                            style="@style/ItemRank.Info"
+                            android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}'
+                            tools:text="@string/test_rank_roll"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <ImageButton
-                android:id="@+id/cancel_button"
-                style="@style/ItemRank.Button"
-                android:layout_marginStart="@dimen/layout_8dp"
-                android:contentDescription="@null"
-                android:tint="?attr/clIcon"
-                app:srcCompat="@drawable/ic_cancel_on" />
+                    android:id="@+id/cancel_button"
+                    style="@style/ItemRank.Button"
+                    android:layout_marginStart="@dimen/layout_8dp"
+                    android:contentDescription="@null"
+                    android:tint="?attr/clIcon"
+                    app:srcCompat="@drawable/ic_cancel_on"/>
 
         </LinearLayout>
 

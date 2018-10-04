@@ -1,23 +1,18 @@
 package sgtmelon.scriptum.app.injection.module;
 
-import javax.inject.Named;
-
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ScopeArch;
-import sgtmelon.scriptum.element.dialog.DlgColor;
-import sgtmelon.scriptum.element.dialog.DlgInfo;
-import sgtmelon.scriptum.element.dialog.DlgOptionBin;
-import sgtmelon.scriptum.element.dialog.DlgOptionNote;
-import sgtmelon.scriptum.element.dialog.DlgRename;
-import sgtmelon.scriptum.element.dialog.DlgSort;
-import sgtmelon.scriptum.element.dialog.common.DlgMessage;
-import sgtmelon.scriptum.element.dialog.common.DlgMultiply;
-import sgtmelon.scriptum.element.dialog.common.DlgSheet;
-import sgtmelon.scriptum.element.dialog.common.DlgSingle;
+import sgtmelon.scriptum.element.*;
+import sgtmelon.scriptum.element.common.DlgMessage;
+import sgtmelon.scriptum.element.common.DlgMultiply;
+import sgtmelon.scriptum.element.common.DlgSheet;
+import sgtmelon.scriptum.element.common.DlgSingle;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
+
+import javax.inject.Named;
 
 @Module
 public final class ModuleFindDialog {
