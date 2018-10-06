@@ -10,13 +10,13 @@
         <import type="sgtmelon.scriptum.office.Help.Pref"/>
 
         <import alias="def"
-                type="sgtmelon.scriptum.office.annot.def.DefTheme"/>
+                type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
         <import alias="v"
                 type="android.view.View"/>
 
-        <variable name="itemNote"
-                  type="sgtmelon.scriptum.app.model.item.ItemNote"/>
+        <variable name="noteItem"
+                  type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
         <variable name="keyEdit"
                   type="boolean"/>
@@ -46,7 +46,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_enter_name"
-                        android:text='@={itemNote.name}'
+                        android:text='@={noteItem.name}'
                         android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
                         tools:text="@string/test_note_name"/>
 
@@ -62,7 +62,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint_view_name"
-                            android:text='@{itemNote.name}'/>
+                            android:text='@{noteItem.name}'/>
 
                 </HorizontalScrollView>
 
@@ -72,7 +72,7 @@
 
         <View
                 android:id="@+id/color_view"
-                style="@style/ItemNote.Color.Horizontal"
+                style="@style/NoteItem.Color.Horizontal"
                 android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>

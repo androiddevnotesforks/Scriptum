@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ItemRank"/>
+    <style name="RankItem"/>
 
-    <style name="ItemRank.Button">
+    <style name="RankItem.Button">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -11,7 +11,7 @@
         <item name="android:padding">@dimen/layout_8dp</item>
     </style>
 
-    <style name="ItemRank.Name">
+    <style name="RankItem.Name">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
@@ -21,7 +21,7 @@
         <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
-    <style name="ItemRank.Info">
+    <style name="RankItem.Info">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">start</item>

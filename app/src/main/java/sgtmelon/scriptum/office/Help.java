@@ -29,33 +29,33 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.model.item.ItemNote;
-import sgtmelon.scriptum.app.model.item.ItemRoll;
-import sgtmelon.scriptum.app.model.item.ItemSort;
-import sgtmelon.scriptum.office.annot.AnnColor;
-import sgtmelon.scriptum.office.annot.def.DefSort;
-import sgtmelon.scriptum.office.annot.def.DefTheme;
-import sgtmelon.scriptum.office.annot.AnnDb;
-import sgtmelon.scriptum.office.annot.def.db.DefType;
+import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.model.item.NoteItem;
+import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.model.item.SortItem;
+import sgtmelon.scriptum.office.annot.ColorAnn;
+import sgtmelon.scriptum.office.annot.DbAnn;
+import sgtmelon.scriptum.office.annot.def.SortDef;
+import sgtmelon.scriptum.office.annot.def.ThemeDef;
+import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 
 public final class Help {
 
     //Копирование текста заметки в память
-    public static void optionsCopy(Context context, ItemNote itemNote) {
+    public static void optionsCopy(Context context, NoteItem noteItem) {
         String copyText = "";
 
-        if (!itemNote.getName().equals("")) {
-            copyText = itemNote.getName() + "\n";   //Если есть название то добавляем его
+        if (!noteItem.getName().equals("")) {
+            copyText = noteItem.getName() + "\n";   //Если есть название то добавляем его
         }
 
-        switch (itemNote.getType()) {
-            case DefType.text:
-                copyText += itemNote.getText();     //В зависимости от типа составляем текст
+        switch (noteItem.getType()) {
+            case TypeDef.text:
+                copyText += noteItem.getText();     //В зависимости от типа составляем текст
                 break;
-            case DefType.roll:
-                DbRoom db = DbRoom.provideDb(context);
-                copyText = db.daoRoll().getText(itemNote.getId());
+            case TypeDef.roll:
+                RoomDb db = RoomDb.provideDb(context);
+                copyText = db.daoRoll().getText(noteItem.getId());
                 db.close();
                 break;
         }
@@ -82,18 +82,18 @@ public final class Help {
 
         public static int getNote(Context context, int color, boolean onDark) {
             switch (Pref.getTheme(context)) {
-                case DefTheme.light:
-                    return ContextCompat.getColor(context, AnnColor.cl_light[color]);
-                case DefTheme.dark:
+                case ThemeDef.light:
+                    return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
+                case ThemeDef.dark:
                 default:
-                    if (onDark) return ContextCompat.getColor(context, AnnColor.cl_dark[color]);
+                    if (onDark) return ContextCompat.getColor(context, ColorAnn.cl_dark[color]);
                     else return get(context, R.attr.clPrimary);
             }
         }
 
         public static int get(Context context, int color, boolean isDark) {
-            if (isDark) return ContextCompat.getColor(context, AnnColor.cl_dark[color]);
-            else return ContextCompat.getColor(context, AnnColor.cl_light[color]);
+            if (isDark) return ContextCompat.getColor(context, ColorAnn.cl_dark[color]);
+            else return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
         }
 
         public static int get(Context context, @AttrRes int attr) {
@@ -104,11 +104,11 @@ public final class Help {
 
         public static int getColorCheck(Context context, int position) {
             switch (Pref.getTheme(context)) {
-                case DefTheme.light:
-                    return ContextCompat.getColor(context, AnnColor.cl_dark[position]);
+                case ThemeDef.light:
+                    return ContextCompat.getColor(context, ColorAnn.cl_dark[position]);
                 default:
-                case DefTheme.dark:
-                    return ContextCompat.getColor(context, AnnColor.cl_light[position]);
+                case ThemeDef.dark:
+                    return ContextCompat.getColor(context, ColorAnn.cl_light[position]);
             }
         }
 
@@ -137,11 +137,11 @@ public final class Help {
 
         public static Drawable getIconColor(Context context, int position) {
             switch (Pref.getTheme(context)) {
-                case DefTheme.light:
-                    return ContextCompat.getDrawable(context, AnnColor.ic_light[position]);
-                case DefTheme.dark:
+                case ThemeDef.light:
+                    return ContextCompat.getDrawable(context, ColorAnn.ic_light[position]);
+                case ThemeDef.dark:
                 default:
-                    return ContextCompat.getDrawable(context, AnnColor.ic_dark[position]);
+                    return ContextCompat.getDrawable(context, ColorAnn.ic_dark[position]);
             }
         }
 
@@ -194,10 +194,10 @@ public final class Help {
          * @param listRoll - Список для проверки
          * @return - Количество отмеченных пунктов
          */
-        public static int getRollCheck(List<ItemRoll> listRoll) {
+        public static int getRollCheck(List<RollItem> listRoll) {
             int rollCheck = 0;
-            for (ItemRoll itemRoll : listRoll) {
-                if (itemRoll.isCheck()) rollCheck++;
+            for (RollItem rollItem : listRoll) {
+                if (rollItem.isCheck()) rollCheck++;
             }
             return rollCheck;
         }
@@ -206,10 +206,10 @@ public final class Help {
          * @param listRoll - Список для проверки
          * @return - Все ли пункты отмечены
          */
-        public static boolean isAllCheck(List<ItemRoll> listRoll) {
+        public static boolean isAllCheck(List<RollItem> listRoll) {
             if (listRoll.size() != 0) {
-                for (ItemRoll itemRoll : listRoll) {
-                    if (!itemRoll.isCheck()) return false;
+                for (RollItem rollItem : listRoll) {
+                    if (!rollItem.isCheck()) return false;
                 }
                 return true;
             } else return false;
@@ -237,17 +237,17 @@ public final class Help {
         public static String getSortNoteOrder(Context context) {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-            String keysStr = pref.getString(context.getString(R.string.pref_key_sort), DefSort.def);
-            String[] keysArr = keysStr.split(DefSort.divider);
+            String keysStr = pref.getString(context.getString(R.string.pref_key_sort), SortDef.def);
+            String[] keysArr = keysStr.split(SortDef.divider);
 
             StringBuilder order = new StringBuilder();
             for (String aKey : keysArr) {
-                @DefSort int key = Integer.parseInt(aKey);
+                @SortDef int key = Integer.parseInt(aKey);
 
-                order.append(AnnDb.orders[key]);
+                order.append(DbAnn.orders[key]);
 
-                if (key != DefSort.create && key != DefSort.change) {
-                    order.append(DefSort.divider);
+                if (key != SortDef.create && key != SortDef.change) {
+                    order.append(SortDef.divider);
                 } else break;
             }
 
@@ -258,13 +258,13 @@ public final class Help {
          * @param listSort - Список моделей из диалога
          * @return - Строка сортировки
          */
-        public static String getSortByList(List<ItemSort> listSort) {
+        public static String getSortByList(List<SortItem> listSort) {
             StringBuilder order = new StringBuilder();
             for (int i = 0; i < listSort.size(); i++) {
                 order.append(Integer.toString(listSort.get(i).getKey()));
 
                 if (i != listSort.size() - 1) {
-                    order.append(DefSort.divider);
+                    order.append(SortDef.divider);
                 }
             }
             return order.toString();
@@ -273,11 +273,11 @@ public final class Help {
         public static String getSortSummary(Context context, String keys) {
             StringBuilder order = new StringBuilder();
 
-            String[] keysArr = keys.split(DefSort.divider);
+            String[] keysArr = keys.split(SortDef.divider);
             String[] keysName = context.getResources().getStringArray(R.array.pref_sort_text);
 
             for (int k = 0; k < keysArr.length; k++) {
-                @DefSort int key = Integer.parseInt(keysArr[k]);
+                @SortDef int key = Integer.parseInt(keysArr[k]);
 
                 String summary = keysName[key];
                 if (k != 0) {
@@ -285,8 +285,8 @@ public final class Help {
                 }
 
                 order.append(summary);
-                if (key != DefSort.create && key != DefSort.change) {
-                    order.append(DefSort.divider);
+                if (key != SortDef.create && key != SortDef.change) {
+                    order.append(SortDef.divider);
                 } else break;
 
             }
@@ -295,14 +295,14 @@ public final class Help {
         }
 
         public static boolean getSortEqual(String keys1, String keys2) {
-            String[] keysArr1 = keys1.split(DefSort.divider);
-            String[] keysArr2 = keys2.split(DefSort.divider);
+            String[] keysArr1 = keys1.split(SortDef.divider);
+            String[] keysArr2 = keys2.split(SortDef.divider);
 
             for (int i = 0; i < keysArr1.length; i++) {
                 if (!keysArr1[i].equals(keysArr2[i])) {
                     return false;
                 }
-                if (keysArr1[i].equals(Integer.toString(DefSort.create)) || keysArr1[i].equals(Integer.toString(DefSort.change))) {
+                if (keysArr1[i].equals(Integer.toString(SortDef.create)) || keysArr1[i].equals(Integer.toString(SortDef.change))) {
                     break;
                 }
             }
@@ -314,7 +314,7 @@ public final class Help {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             textView.append("\n\nSort:");
-            textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), DefSort.def));
+            textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), SortDef.def));
 
             textView.append("\n\nNotes:");
             textView.append("\nColorDef: " + pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default)));

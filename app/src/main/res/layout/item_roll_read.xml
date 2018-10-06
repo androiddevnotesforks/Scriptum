@@ -8,8 +8,8 @@
         <import alias="v"
                 type="android.view.View"/>
 
-        <variable name="itemRoll"
-                  type="sgtmelon.scriptum.app.model.item.ItemRoll"/>
+        <variable name="rollItem"
+                  type="sgtmelon.scriptum.app.model.item.RollItem"/>
 
         <variable name="keyBin"
                   type="boolean"/>
@@ -28,13 +28,13 @@
 
                 <CheckBox
                         android:id="@+id/roll_check"
-                        style="@style/ItemRoll.Read.Check"
-                        android:checked='@{itemRoll.check}'
+                        style="@style/RollItem.Read.Check"
+                        android:checked='@{rollItem.check}'
                         tools:checked="true"/>
 
                 <View
                         android:id="@+id/click_view"
-                        style="@style/ItemRoll.Click"
+                        style="@style/RollItem.Click"
                         android:contentDescription="@null"
                         android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
 
@@ -42,10 +42,10 @@
 
             <TextView
                     android:id="@+id/roll_text"
-                    style="@style/ItemRoll.Read.Text"
+                    style="@style/RollItem.Read.Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text='@{itemRoll.text}'
+                    android:text='@{rollItem.text}'
                     tools:text="@string/test_note_roll"/>
 
         </LinearLayout>

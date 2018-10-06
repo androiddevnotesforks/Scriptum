@@ -8,13 +8,13 @@
         <import type="sgtmelon.scriptum.office.Help.Time"/>
 
         <import alias="def"
-                type="sgtmelon.scriptum.office.annot.def.db.DefType"/>
+                type="sgtmelon.scriptum.office.annot.def.db.TypeDef"/>
 
         <import alias="v"
                 type="android.view.View"/>
 
-        <variable name="itemNote"
-                  type="sgtmelon.scriptum.app.model.item.ItemNote"/>
+        <variable name="noteItem"
+                  type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
     </data>
 
@@ -25,37 +25,37 @@
             android:orientation="horizontal">
 
         <ImageView
-                style="@style/ItemNote.Indicator.Info"
+                style="@style/NoteItem.Indicator.Info"
                 android:contentDescription="@null"
-                android:visibility='@{itemNote.rankId.length == 0 ? v.GONE : v.VISIBLE}'
+                android:visibility='@{noteItem.rankId.length == 0 ? v.GONE : v.VISIBLE}'
                 app:srcCompat="@drawable/ic_rank"/>
 
         <ImageView
-                style="@style/ItemNote.Indicator.Info"
+                style="@style/NoteItem.Indicator.Info"
                 android:contentDescription="@null"
-                android:src='@{itemNote.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
-                android:visibility='@{itemNote.status ? v.VISIBLE : v.GONE}'
+                android:src='@{noteItem.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                android:visibility='@{noteItem.status ? v.VISIBLE : v.GONE}'
                 tools:srcCompat="@drawable/ic_bind_roll"/>
 
         <TextView
-                style="@style/ItemNote.Info"
+                style="@style/NoteItem.Info"
                 android:layout_width="wrap_content"
-                android:text='@{itemNote.type == def.roll ? itemNote.text : ""}'
-                android:visibility='@{itemNote.type == def.roll ?  v.VISIBLE : v.GONE}'
+                android:text='@{noteItem.type == def.roll ? noteItem.text : ""}'
+                android:visibility='@{noteItem.type == def.roll ?  v.VISIBLE : v.GONE}'
                 tools:text="@string/test_note_done"
                 tools:visibility="visible"/>
 
         <TextView
-                style="@style/ItemNote.Info"
+                style="@style/NoteItem.Info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text='@{Time.formatNoteDate(context, itemNote.change)}'
+                android:text='@{Time.formatNoteDate(context, noteItem.change)}'
                 tools:text="@string/test_note_time"/>
 
         <TextView
-                style="@style/ItemNote.Info"
+                style="@style/NoteItem.Info"
                 android:layout_width="wrap_content"
-                android:text='@{Time.formatNoteDate(context, itemNote.create)}'
+                android:text='@{Time.formatNoteDate(context, noteItem.create)}'
                 tools:text="@string/test_note_time"/>
 
     </LinearLayout>

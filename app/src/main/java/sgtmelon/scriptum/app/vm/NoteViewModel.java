@@ -9,27 +9,27 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.model.ModelNote;
-import sgtmelon.scriptum.app.model.item.ItemNote;
-import sgtmelon.scriptum.app.model.item.ItemStatus;
-import sgtmelon.scriptum.office.annot.def.DefIntent;
-import sgtmelon.scriptum.office.st.StNote;
+import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.item.NoteItem;
+import sgtmelon.scriptum.app.model.item.StatusItem;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.st.NoteSt;
 
 public final class NoteViewModel extends AndroidViewModel {
 
     private final Context context;
 
-    private StNote stNote;
+    private NoteSt noteSt;
 
     private boolean ntCreate;
     private int ntType;
     private long ntId;
 
     private List<Long> rankVisible;
-    private ModelNote modelNote;
+    private NoteModel noteModel;
 
-    private DbRoom db;
+    private RoomDb db;
 
     public NoteViewModel(@NonNull Application application) {
         super(application);
@@ -38,11 +38,11 @@ public final class NoteViewModel extends AndroidViewModel {
     }
 
     public void setValue(Bundle bundle) {
-        ntCreate = bundle.getBoolean(DefIntent.NOTE_CREATE);
-        ntType = bundle.getInt(DefIntent.NOTE_TYPE);
-        ntId = bundle.getLong(DefIntent.NOTE_ID);
+        ntCreate = bundle.getBoolean(IntentDef.NOTE_CREATE);
+        ntType = bundle.getInt(IntentDef.NOTE_TYPE);
+        ntId = bundle.getLong(IntentDef.NOTE_ID);
 
-        if (modelNote == null) loadData();
+        if (noteModel == null) loadData();
     }
 
     public int getNtType() {
@@ -53,53 +53,53 @@ public final class NoteViewModel extends AndroidViewModel {
         return ntId;
     }
 
-    public StNote getStNote() {
-        return stNote;
+    public NoteSt getNoteSt() {
+        return noteSt;
     }
 
-    public void setStNote(StNote stNote) {
-        this.stNote = stNote;
+    public void setNoteSt(NoteSt noteSt) {
+        this.noteSt = noteSt;
     }
 
-    public ModelNote getModelNote() {
-        return modelNote;
+    public NoteModel getNoteModel() {
+        return noteModel;
     }
 
-    public void setModelNote(ModelNote modelNote) {
-        this.modelNote = modelNote;
-        modelNote.updateItemStatus(rankVisible);
+    public void setNoteModel(NoteModel noteModel) {
+        this.noteModel = noteModel;
+        noteModel.updateItemStatus(rankVisible);
     }
 
     public void setRepoNote(boolean status) {
-        modelNote.updateItemStatus(status);
+        noteModel.updateItemStatus(status);
     }
 
     private void loadData() {
-        db = DbRoom.provideDb(context);
+        db = RoomDb.provideDb(context);
         rankVisible = db.daoRank().getRankVisible();
         if (ntCreate) {
-            ItemNote itemNote = new ItemNote(context, ntType);
-            ItemStatus itemStatus = new ItemStatus(context, itemNote, false);
+            NoteItem noteItem = new NoteItem(context, ntType);
+            StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-            modelNote = new ModelNote(itemNote, new ArrayList<>(), itemStatus);
+            noteModel = new NoteModel(noteItem, new ArrayList<>(), statusItem);
 
-            stNote = new StNote(true);
-            stNote.setBin(false);
+            noteSt = new NoteSt(true);
+            noteSt.setBin(false);
         } else {
-            modelNote = db.daoNote().get(context, ntId);
+            noteModel = db.daoNote().get(context, ntId);
 
-            stNote = new StNote(false);
-            stNote.setBin(modelNote.getItemNote().isBin());
+            noteSt = new NoteSt(false);
+            noteSt.setBin(noteModel.getNoteItem().isBin());
         }
         db.close();
     }
 
-    public ModelNote loadData(long id) {
-        db = DbRoom.provideDb(context);
-        modelNote = db.daoNote().get(context, id);
+    public NoteModel loadData(long id) {
+        db = RoomDb.provideDb(context);
+        noteModel = db.daoNote().get(context, id);
         db.close();
 
-        return modelNote;
+        return noteModel;
     }
 
 }

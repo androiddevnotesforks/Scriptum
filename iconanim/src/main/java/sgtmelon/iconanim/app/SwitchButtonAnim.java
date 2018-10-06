@@ -5,14 +5,15 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
-import sgtmelon.iconanim.office.hdlr.HdlrAnim;
+import sgtmelon.iconanim.office.hdlr.AnimHdlr;
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public class SwitchButtonAnim extends SwitchButton {
 
-    private HdlrAnim hdlrAnim;
+    private AnimHdlr animHdlr;
 
     public SwitchButtonAnim(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -36,8 +37,8 @@ public class SwitchButtonAnim extends SwitchButton {
             srcSelectAnim.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP);
         }
 
-        hdlrAnim = new HdlrAnim(context, srcSelectAnim, srcDisableAnim);
-        hdlrAnim.setAnimation(this);
+        animHdlr = new AnimHdlr(context, srcSelectAnim, srcDisableAnim);
+        animHdlr.setAnimation(this);
     }
 
     @Override
@@ -46,15 +47,15 @@ public class SwitchButtonAnim extends SwitchButton {
             if (select) setImageDrawable(drawableSelect);
             else setImageDrawable(drawableDisable);
         } else {
-            hdlrAnim.setAnimState(select);
+            animHdlr.setAnimState(select);
             if (select) {
-                setImageDrawable(hdlrAnim.getAnimOn());
-                hdlrAnim.startAnimOn();
+                setImageDrawable(animHdlr.getAnimOn());
+                animHdlr.startAnimOn();
             } else {
-                setImageDrawable(hdlrAnim.getAnimOff());
-                hdlrAnim.startAnimOff();
+                setImageDrawable(animHdlr.getAnimOff());
+                animHdlr.startAnimOff();
             }
-            hdlrAnim.waitAnimationEnd();
+            animHdlr.waitAnimationEnd();
         }
     }
 

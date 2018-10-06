@@ -12,8 +12,8 @@
         <import alias="v"
                 type="android.view.View"/>
 
-        <variable name="itemSort"
-                  type="sgtmelon.scriptum.app.model.item.ItemSort"/>
+        <variable name="sortItem"
+                  type="sgtmelon.scriptum.app.model.item.SortItem"/>
 
         <variable name="position"
                   type="int"/>
@@ -30,20 +30,20 @@
             android:background="?attr/selectableItemBackground">
 
         <ImageView
-                style="@style/ItemSort.Bracket"
+                style="@style/SortItem.Bracket"
                 android:contentDescription="@null"
                 android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
                 app:srcCompat="@drawable/ic_bracket_left"/>
 
         <TextView
-                style="@style/ItemSort.Text"
-                android:text='@{itemSort.text}'
+                style="@style/SortItem.Text"
+                android:text='@{sortItem.text}'
                 android:textColor='@{position &lt;= sortEnd ? Clr.get(context, R.attr.clAccent) : Clr.get(context, R.attr.clSecond)}'
                 tools:text="@string/test_sort_text"
                 tools:textColor="?attr/clAccent"/>
 
         <ImageView
-                style="@style/ItemSort.Bracket"
+                style="@style/SortItem.Bracket"
                 android:contentDescription="@null"
                 android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
                 app:srcCompat="@drawable/ic_bracket_right"/>

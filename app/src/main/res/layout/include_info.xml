@@ -28,7 +28,7 @@
                 android:contentDescription="@null"
                 android:src='@{Draw.get(context, icon, R.attr.clIcon)}'
                 android:tint="?attr/clIcon"
-                tools:srcCompat="@mipmap/ic_info_notes"/>
+                tools:srcCompat="@mipmap/img_info_notes"/>
 
         <TextView
                 style="@style/Info.Title"

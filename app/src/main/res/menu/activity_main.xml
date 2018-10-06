@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/page_rank_item"
+          android:icon="@drawable/ic_rank"
+          android:title="@string/title_frg_rank"/>
+
+    <item android:id="@+id/page_notes_item"
+          android:icon="@drawable/ic_note"
+          android:title="@string/title_frg_notes"/>
+
+    <item android:id="@+id/page_bin_item"
+          android:icon="@drawable/ic_bin"
+          android:title="@string/title_frg_bin"/>
+
+</menu>

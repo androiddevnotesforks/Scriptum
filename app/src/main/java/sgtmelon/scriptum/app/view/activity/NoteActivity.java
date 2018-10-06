@@ -8,37 +8,37 @@ import javax.inject.Inject;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.control.ControlSave;
-import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.injection.component.ComponentActivity;
-import sgtmelon.scriptum.app.injection.component.DaggerComponentActivity;
-import sgtmelon.scriptum.app.injection.module.blank.ModuleBlankActivity;
-import sgtmelon.scriptum.app.model.ModelNote;
-import sgtmelon.scriptum.app.model.item.ItemNote;
+import sgtmelon.scriptum.app.control.SaveControl;
+import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.injection.component.ActivityComponent;
+import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
+import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
+import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.vm.NoteViewModel;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.DefFrg;
-import sgtmelon.scriptum.office.annot.def.DefIntent;
-import sgtmelon.scriptum.office.annot.def.db.DefType;
-import sgtmelon.scriptum.office.blank.BlankAct;
-import sgtmelon.scriptum.office.intf.IntfMenu;
-import sgtmelon.scriptum.office.st.StNote;
+import sgtmelon.scriptum.office.annot.def.FragmentDef;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.blank.ActivityBlank;
+import sgtmelon.scriptum.office.intf.MenuIntf;
+import sgtmelon.scriptum.office.st.NoteSt;
 
-public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick {
+public final class NoteActivity extends ActivityBlank implements MenuIntf.DeleteClick {
 
     private static final String TAG = NoteActivity.class.getSimpleName();
 
     @Inject
     public NoteViewModel vm;
 
-    public ControlSave controlSave;
+    public SaveControl saveControl;
 
     @Inject
     FragmentManager fm;
 
-    private DbRoom db;
+    private RoomDb db;
 
     private TextFragment textFragment;
     private RollFragment rollFragment;
@@ -48,7 +48,7 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
         Log.i(TAG, "onPause");
         super.onPause();
 
-        controlSave.onPauseSave(vm.getStNote().isEdit());
+        saveControl.onPauseSave(vm.getNoteSt().isEdit());
     }
 
     @Override
@@ -57,15 +57,15 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        ComponentActivity componentActivity = DaggerComponentActivity.builder()
-                .moduleBlankActivity(new ModuleBlankActivity(this))
+        ActivityComponent activityComponent = DaggerActivityComponent.builder()
+                .activityBlankModule(new ActivityBlankModule(this))
                 .build();
-        componentActivity.inject(this);
+        activityComponent.inject(this);
 
         Bundle bundle = getIntent().getExtras();
         vm.setValue(bundle != null ? bundle : savedInstanceState);
 
-        controlSave = new ControlSave(this);
+        saveControl = new SaveControl(this);
 
         setupFrg(savedInstanceState != null);
     }
@@ -75,54 +75,54 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
         Log.i(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(DefIntent.NOTE_CREATE, vm.getStNote().isCreate());
-        outState.putInt(DefIntent.NOTE_TYPE, vm.getNtType());
-        outState.putLong(DefIntent.NOTE_ID, vm.getNtId());
+        outState.putBoolean(IntentDef.NOTE_CREATE, vm.getNoteSt().isCreate());
+        outState.putInt(IntentDef.NOTE_TYPE, vm.getNtType());
+        outState.putLong(IntentDef.NOTE_ID, vm.getNtId());
     }
 
     @Override
     public void onBackPressed() {
         Log.i(TAG, "onBackPressed");
 
-        controlSave.setNeedSave(false);
+        saveControl.setNeedSave(false);
 
-        ItemNote itemNote = vm.getModelNote().getItemNote();
-        StNote stNote = vm.getStNote();
+        NoteItem noteItem = vm.getNoteModel().getNoteItem();
+        NoteSt noteSt = vm.getNoteSt();
 
-        if (stNote.isEdit() && !stNote.isCreate()) {                  //Если это редактирование и не только что созданная заметка
-            switch (itemNote.getType()) {
-                case DefType.text:
+        if (noteSt.isEdit() && !noteSt.isCreate()) {                  //Если это редактирование и не только что созданная заметка
+            switch (noteItem.getType()) {
+                case TypeDef.text:
                     if (!textFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
-                        textFragment.menuNote.setStartColor(itemNote.getColor());
+                        textFragment.menuNote.setStartColor(noteItem.getColor());
 
-                        ModelNote modelNote = vm.loadData(itemNote.getId());
-                        itemNote = modelNote.getItemNote();
+                        NoteModel noteModel = vm.loadData(noteItem.getId());
+                        noteItem = noteModel.getNoteItem();
 
-                        textFragment.vm.setModelNote(modelNote);
-                        textFragment.menuNote.startTint(itemNote.getColor());
+                        textFragment.vm.setNoteModel(noteModel);
+                        textFragment.menuNote.startTint(noteItem.getColor());
                         textFragment.onMenuEditClick(false);
                     }
                     break;
-                case DefType.roll:
+                case TypeDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
-                        rollFragment.menuNote.setStartColor(itemNote.getColor());
+                        rollFragment.menuNote.setStartColor(noteItem.getColor());
 
-                        ModelNote modelNote = vm.loadData(itemNote.getId());
-                        itemNote = modelNote.getItemNote();
+                        NoteModel noteModel = vm.loadData(noteItem.getId());
+                        noteItem = noteModel.getNoteItem();
 
-                        rollFragment.vm.setModelNote(modelNote);
-                        rollFragment.menuNote.startTint(itemNote.getColor());
+                        rollFragment.vm.setNoteModel(noteModel);
+                        rollFragment.menuNote.startTint(noteItem.getColor());
                         rollFragment.onMenuEditClick(false);
                         rollFragment.updateAdapter();
                     }
                     break;
             }
-        } else if (stNote.isCreate()) {     //Если только что создали заметку
-            switch (itemNote.getType()) {   //Если сохранение не выполнено, выход без сохранения
-                case DefType.text:
+        } else if (noteSt.isCreate()) {     //Если только что создали заметку
+            switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
+                case TypeDef.text:
                     if (!textFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
-                case DefType.roll:
+                case TypeDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
             }
@@ -133,30 +133,30 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
         Log.i(TAG, "setupFrg");
 
         if (!isSave) {
-            StNote stNote = vm.getStNote();
-            stNote.setFirst(true);
-            vm.setStNote(stNote);
+            NoteSt noteSt = vm.getNoteSt();
+            noteSt.setFirst(true);
+            vm.setNoteSt(noteSt);
         }
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
-        switch (vm.getModelNote().getItemNote().getType()) {
-            case DefType.text:
-                if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(DefFrg.TEXT);
+        switch (vm.getNoteModel().getNoteItem().getType()) {
+            case TypeDef.text:
+                if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
                 else textFragment = new TextFragment();
 
-                controlSave.setNoteClick(textFragment);
+                saveControl.setNoteClick(textFragment);
 
-                transaction.replace(R.id.fragment_container, textFragment, DefFrg.TEXT);
+                transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
-            case DefType.roll:
-                if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(DefFrg.ROLL);
+            case TypeDef.roll:
+                if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
                 else rollFragment = new RollFragment();
 
-                controlSave.setNoteClick(rollFragment);
+                saveControl.setNoteClick(rollFragment);
 
-                transaction.replace(R.id.fragment_container, rollFragment, DefFrg.ROLL);
+                transaction.replace(R.id.fragment_container, rollFragment, FragmentDef.ROLL);
                 break;
         }
         transaction.commit();
@@ -166,8 +166,8 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
     public void onMenuRestoreClick() {
         Log.i(TAG, "onMenuRestoreClick");
 
-        db = DbRoom.provideDb(this);
-        db.daoNote().update(vm.getModelNote().getItemNote().getId(), Help.Time.getCurrentTime(this), false);
+        db = RoomDb.provideDb(this);
+        db.daoNote().update(vm.getNoteModel().getNoteItem().getId(), Help.Time.getCurrentTime(this), false);
         db.close();
 
         finish();
@@ -177,30 +177,30 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
     public void onMenuRestoreOpenClick() {
         Log.i(TAG, "onMenuRestoreOpenClick");
 
-        StNote stNote = vm.getStNote();
-        stNote.setBin(false);
+        NoteSt noteSt = vm.getNoteSt();
+        noteSt.setBin(false);
 
-        vm.setStNote(stNote);
+        vm.setNoteSt(noteSt);
 
-        ModelNote modelNote = vm.getModelNote();
-        ItemNote itemNote = modelNote.getItemNote();
-        itemNote.setChange(this);
-        itemNote.setBin(false);
-        modelNote.setItemNote(itemNote);
+        NoteModel noteModel = vm.getNoteModel();
+        NoteItem noteItem = noteModel.getNoteItem();
+        noteItem.setChange(this);
+        noteItem.setBin(false);
+        noteModel.setNoteItem(noteItem);
 
-        vm.setModelNote(modelNote);
+        vm.setNoteModel(noteModel);
 
-        db = DbRoom.provideDb(this);
-        db.daoNote().update(itemNote);
+        db = RoomDb.provideDb(this);
+        db.daoNote().update(noteItem);
         db.close();
 
-        switch (vm.getModelNote().getItemNote().getType()) {
-            case DefType.text:
-                textFragment.vm.setModelNote(modelNote);
+        switch (vm.getNoteModel().getNoteItem().getType()) {
+            case TypeDef.text:
+                textFragment.vm.setNoteModel(noteModel);
                 textFragment.menuNote.setMenuGroupVisible(false, false, true);
                 break;
-            case DefType.roll:
-                rollFragment.vm.setModelNote(modelNote);
+            case TypeDef.roll:
+                rollFragment.vm.setNoteModel(noteModel);
                 rollFragment.menuNote.setMenuGroupVisible(false, false, true);
                 break;
         }
@@ -210,8 +210,8 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
     public void onMenuClearClick() {
         Log.i(TAG, "onMenuClearClick");
 
-        db = DbRoom.provideDb(this);
-        db.daoNote().delete(vm.getModelNote().getItemNote().getId());
+        db = RoomDb.provideDb(this);
+        db.daoNote().delete(vm.getNoteModel().getNoteItem().getId());
         db.close();
 
         vm.setRepoNote(false);
@@ -223,12 +223,12 @@ public final class NoteActivity extends BlankAct implements IntfMenu.DeleteClick
     public void onMenuDeleteClick() {
         Log.i(TAG, "onMenuDeleteClick");
 
-        ItemNote itemNote = vm.getModelNote().getItemNote();
+        NoteItem noteItem = vm.getNoteModel().getNoteItem();
 
-        db = DbRoom.provideDb(this);
-        db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(this), true);
-        if (itemNote.isStatus()) {
-            db.daoNote().update(itemNote.getId(), false);
+        db = RoomDb.provideDb(this);
+        db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(this), true);
+        if (noteItem.isStatus()) {
+            db.daoNote().update(noteItem.getId(), false);
         }
         db.close();
 

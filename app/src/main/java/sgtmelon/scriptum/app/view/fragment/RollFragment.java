@@ -32,42 +32,42 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.adapter.AdapterRoll;
-import sgtmelon.scriptum.app.control.ControlMenu;
-import sgtmelon.scriptum.app.control.ControlMenuPreL;
-import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.injection.component.ComponentFragment;
-import sgtmelon.scriptum.app.injection.component.DaggerComponentFragment;
-import sgtmelon.scriptum.app.injection.module.blank.ModuleBlankFragment;
-import sgtmelon.scriptum.app.model.ModelNote;
-import sgtmelon.scriptum.app.model.item.ItemNote;
-import sgtmelon.scriptum.app.model.item.ItemRoll;
+import sgtmelon.scriptum.app.adapter.RollAdapter;
+import sgtmelon.scriptum.app.control.MenuControl;
+import sgtmelon.scriptum.app.control.MenuControlAnim;
+import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
+import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
+import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.item.NoteItem;
+import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.TextViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
-import sgtmelon.scriptum.element.DlgColor;
-import sgtmelon.scriptum.element.common.DlgMessage;
-import sgtmelon.scriptum.element.common.DlgMultiply;
+import sgtmelon.scriptum.element.ColorDialog;
+import sgtmelon.scriptum.element.common.MessageDialog;
+import sgtmelon.scriptum.element.common.MultiplyDialog;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.db.DefCheck;
-import sgtmelon.scriptum.office.annot.def.db.DefType;
-import sgtmelon.scriptum.office.conv.ConvList;
-import sgtmelon.scriptum.office.intf.IntfItem;
-import sgtmelon.scriptum.office.intf.IntfMenu;
-import sgtmelon.scriptum.office.st.StCheck;
-import sgtmelon.scriptum.office.st.StDrag;
-import sgtmelon.scriptum.office.st.StNote;
+import sgtmelon.scriptum.office.annot.def.DialogDef;
+import sgtmelon.scriptum.office.annot.def.db.CheckDef;
+import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.conv.ListConv;
+import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.office.intf.MenuIntf;
+import sgtmelon.scriptum.office.st.CheckSt;
+import sgtmelon.scriptum.office.st.DragSt;
+import sgtmelon.scriptum.office.st.NoteSt;
 
 public final class RollFragment extends Fragment implements View.OnClickListener,
-        IntfItem.Click, IntfItem.Watcher, IntfMenu.NoteClick, IntfMenu.RollClick {
+        ItemIntf.Click, ItemIntf.Watcher, MenuIntf.NoteClick, MenuIntf.RollClick {
 
     private static final String TAG = RollFragment.class.getSimpleName();
 
-    private final StDrag stDrag = new StDrag();
-    private final StCheck stCheck = new StCheck();
+    private final DragSt dragSt = new DragSt();
+    private final CheckSt checkSt = new CheckSt();
 
-    public ControlMenuPreL menuNote;
+    public MenuControl menuNote;
 
     @Inject
     public TextViewModel vm;
@@ -78,29 +78,29 @@ public final class RollFragment extends Fragment implements View.OnClickListener
     FragmentRollBinding binding;
 
     @Inject
-    @Named(DefDlg.CONVERT)
-    DlgMessage dlgConvert;
+    @Named(DialogDef.CONVERT)
+    MessageDialog dlgConvert;
     @Inject
-    DlgColor dlgColor;
+    ColorDialog colorDialog;
     @Inject
-    @Named(DefDlg.RANK)
-    DlgMultiply dlgRank;
+    @Named(DialogDef.RANK)
+    MultiplyDialog dlgRank;
 
     private NoteActivity activity;
     private Context context;
 
     private LinearLayoutManager layoutManager;
-    private AdapterRoll adapter;
+    private RollAdapter adapter;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder) {
-            int flagsDrag = activity.vm.getStNote().isEdit() && stDrag.isDrag()
+            int flagsDrag = activity.vm.getNoteSt().isEdit() && dragSt.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
                     : 0;
 
-            int flagsSwipe = activity.vm.getStNote().isEdit()
+            int flagsSwipe = activity.vm.getNoteSt().isEdit()
                     ? ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
                     : 0;
 
@@ -111,13 +111,13 @@ public final class RollFragment extends Fragment implements View.OnClickListener
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
             int p = viewHolder.getAdapterPosition();
 
-            ModelNote modelNote = vm.getModelNote();
-            List<ItemRoll> listRoll = modelNote.getListRoll();
+            NoteModel noteModel = vm.getNoteModel();
+            List<RollItem> listRoll = noteModel.getListRoll();
 
             listRoll.remove(p);                     //Убираем элемент из массива данных
 
-            modelNote.setListRoll(listRoll);
-            vm.setModelNote(modelNote);
+            noteModel.setListRoll(listRoll);
+            vm.setNoteModel(noteModel);
 
             adapter.setListRoll(listRoll);    //Обновление массива данных в адаптере
             adapter.notifyItemRemoved(p);       //Обновление удаления элемента
@@ -128,15 +128,15 @@ public final class RollFragment extends Fragment implements View.OnClickListener
             int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
             int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
 
-            ModelNote modelNote = vm.getModelNote();
-            List<ItemRoll> listRoll = modelNote.getListRoll();
+            NoteModel noteModel = vm.getNoteModel();
+            List<RollItem> listRoll = noteModel.getListRoll();
 
-            ItemRoll itemRoll = listRoll.get(oldPs);
+            RollItem rollItem = listRoll.get(oldPs);
             listRoll.remove(oldPs);                        //Удаляем
-            listRoll.add(newPs, itemRoll);             //И устанавливаем на новое место
+            listRoll.add(newPs, rollItem);             //И устанавливаем на новое место
 
-            modelNote.setListRoll(listRoll);
-            vm.setModelNote(modelNote);
+            noteModel.setListRoll(listRoll);
+            vm.setNoteModel(noteModel);
 
             adapter.setListRoll(listRoll);            //Обновление массива данных в адаптере
             adapter.notifyItemMoved(oldPs, newPs);    //Обновление передвижения
@@ -164,7 +164,7 @@ public final class RollFragment extends Fragment implements View.OnClickListener
         }
     };
 
-    private DbRoom db;
+    private RoomDb db;
     private View frgView;
 
     private RecyclerView recyclerView;
@@ -226,14 +226,14 @@ public final class RollFragment extends Fragment implements View.OnClickListener
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        ComponentFragment componentFragment = DaggerComponentFragment.builder()
-                .moduleBlankFragment(new ModuleBlankFragment(this, inflater, container))
+        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
                 .build();
-        componentFragment.inject(this);
+        fragmentComponent.inject(this);
 
         frgView = binding.getRoot();
 
-        if (vm.isEmpty()) vm.setModelNote(activity.vm.getModelNote());
+        if (vm.isEmpty()) vm.setNoteModel(activity.vm.getNoteModel());
 
         return frgView;
     }
@@ -248,17 +248,17 @@ public final class RollFragment extends Fragment implements View.OnClickListener
         setupRecycler();
         setupEnter();
 
-        onMenuEditClick(activity.vm.getStNote().isEdit());
+        onMenuEditClick(activity.vm.getNoteSt().isEdit());
 
-        StNote stNote = activity.vm.getStNote();
-        stNote.setFirst(false);
-        activity.vm.setStNote(stNote);
+        NoteSt noteSt = activity.vm.getNoteSt();
+        noteSt.setFirst(false);
+        activity.vm.setNoteSt(noteSt);
     }
 
     private void bind(boolean keyEdit) {
         Log.i(TAG, "bind");
 
-        binding.setItemNote(vm.getModelNote().getItemNote());
+        binding.setNoteItem(vm.getNoteModel().getNoteItem());
         binding.setKeyEdit(keyEdit);
 
         binding.executePendingBindings();
@@ -267,34 +267,34 @@ public final class RollFragment extends Fragment implements View.OnClickListener
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        ItemNote itemNote = vm.getModelNote().getItemNote();
+        NoteItem noteItem = vm.getNoteModel().getNoteItem();
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.menu_activity_note);
+        toolbar.inflateMenu(R.menu.activity_note);
 
         View indicator = frgView.findViewById(R.id.color_view);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new ControlMenuPreL(context, activity.getWindow());
+            menuNote = new MenuControl(context, activity.getWindow());
         } else {
-            menuNote = new ControlMenu(context, activity.getWindow());
+            menuNote = new MenuControlAnim(context, activity.getWindow());
         }
 
         menuNote.setToolbar(toolbar);
         menuNote.setIndicator(indicator);
-        menuNote.setType(itemNote.getType());
-        menuNote.setColor(itemNote.getColor());
+        menuNote.setType(noteItem.getType());
+        menuNote.setColor(noteItem.getColor());
 
         menuNote.setNoteClick(this);
         menuNote.setRollClick(this);
         menuNote.setDeleteClick(activity);
 
-        StNote stNote = activity.vm.getStNote();
+        NoteSt noteSt = activity.vm.getNoteSt();
 
         menuNote.setupDrawable();
-        menuNote.setDrawable(stNote.isEdit() && !stNote.isCreate(), false);
+        menuNote.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
 
-        menuNote.setupMenu(itemNote.isStatus());
+        menuNote.setupMenu(noteItem.isStatus());
 
         toolbar.setOnMenuItemClickListener(menuNote);
         toolbar.setNavigationOnClickListener(this);
@@ -306,43 +306,43 @@ public final class RollFragment extends Fragment implements View.OnClickListener
         dlgConvert.setTitle(getString(R.string.dialog_title_convert));
         dlgConvert.setMessage(getString(R.string.dialog_roll_convert_to_text));
         dlgConvert.setPositiveListener((dialogInterface, i) -> {
-            ModelNote modelNote = vm.getModelNote();
-            ItemNote itemNote = modelNote.getItemNote();
+            NoteModel noteModel = vm.getNoteModel();
+            NoteItem noteItem = noteModel.getNoteItem();
 
-            db = DbRoom.provideDb(context);
+            db = RoomDb.provideDb(context);
 
-            String text = db.daoRoll().getText(itemNote.getId());
-            itemNote.setChange(context);
-            itemNote.setType(DefType.text);
-            itemNote.setText(text);
+            String text = db.daoRoll().getText(noteItem.getId());
+            noteItem.setChange(context);
+            noteItem.setType(TypeDef.text);
+            noteItem.setText(text);
 
-            db.daoNote().update(itemNote);
-            db.daoRoll().delete(itemNote.getId());
+            db.daoNote().update(noteItem);
+            db.daoRoll().delete(noteItem.getId());
 
             db.close();
 
-            modelNote.setItemNote(itemNote);
+            noteModel.setNoteItem(noteItem);
 
-            vm.setModelNote(modelNote);
-            activity.vm.setModelNote(modelNote);
+            vm.setNoteModel(noteModel);
+            activity.vm.setNoteModel(noteModel);
             activity.setupFrg(false);
         });
 
-        dlgColor.setTitle(getString(R.string.dialog_title_color));
-        dlgColor.setPositiveListener((dialogInterface, i) -> {
-            int check = dlgColor.getCheck();
+        colorDialog.setTitle(getString(R.string.dialog_title_color));
+        colorDialog.setPositiveListener((dialogInterface, i) -> {
+            int check = colorDialog.getCheck();
 
-            ModelNote modelNote = vm.getModelNote();
-            ItemNote itemNote = modelNote.getItemNote();
-            itemNote.setColor(check);
-            modelNote.setItemNote(itemNote);
+            NoteModel noteModel = vm.getNoteModel();
+            NoteItem noteItem = noteModel.getNoteItem();
+            noteItem.setColor(check);
+            noteModel.setNoteItem(noteItem);
 
-            vm.setModelNote(modelNote);
+            vm.setNoteModel(noteModel);
 
             menuNote.startTint(check);
         });
 
-        db = DbRoom.provideDb(context);
+        db = RoomDb.provideDb(context);
         String[] name = db.daoRank().getName();
         db.close();
 
@@ -351,7 +351,7 @@ public final class RollFragment extends Fragment implements View.OnClickListener
         dlgRank.setPositiveListener((dialogInterface, i) -> {
             boolean[] check = dlgRank.getCheck();
 
-            db = DbRoom.provideDb(context);
+            db = RoomDb.provideDb(context);
             Long[] id = db.daoRank().getId();
             db.close();
 
@@ -365,14 +365,14 @@ public final class RollFragment extends Fragment implements View.OnClickListener
                 }
             }
 
-            ModelNote modelNote = vm.getModelNote();
+            NoteModel noteModel = vm.getNoteModel();
 
-            ItemNote itemNote = modelNote.getItemNote();
-            itemNote.setRankId(ConvList.fromList(rankId));
-            itemNote.setRankPs(ConvList.fromList(rankPs));
-            modelNote.setItemNote(itemNote);
+            NoteItem noteItem = noteModel.getNoteItem();
+            noteItem.setRankId(ListConv.fromList(rankId));
+            noteItem.setRankPs(ListConv.fromList(rankPs));
+            noteModel.setNoteItem(noteItem);
 
-            vm.setModelNote(modelNote);
+            vm.setNoteModel(noteModel);
         });
     }
 
@@ -384,9 +384,9 @@ public final class RollFragment extends Fragment implements View.OnClickListener
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdapterRoll(context);
-        adapter.setStNote(activity.vm.getStNote());
-        adapter.setCallback(this, stDrag, this);
+        adapter = new RollAdapter(context);
+        adapter.setNoteSt(activity.vm.getNoteSt());
+        adapter.setCallback(this, dragSt, this);
 
         recyclerView.setAdapter(adapter);
 
@@ -397,10 +397,10 @@ public final class RollFragment extends Fragment implements View.OnClickListener
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<ItemRoll> listRoll = vm.getModelNote().getListRoll();
+        List<RollItem> listRoll = vm.getNoteModel().getListRoll();
 
-        stCheck.setAll(listRoll);
-        menuNote.setCheckTitle(stCheck.isAll());
+        checkSt.setAll(listRoll);
+        menuNote.setCheckTitle(checkSt.isAll());
 
         adapter.setListRoll(listRoll);
         adapter.notifyDataSetChanged();
@@ -466,18 +466,18 @@ public final class RollFragment extends Fragment implements View.OnClickListener
                 ps = adapter.getItemCount();            //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
             } else ps = 0;                              //Добавить в самое начало
 
-            ItemRoll itemRoll = new ItemRoll();
-            itemRoll.setIdNote(vm.getModelNote().getItemNote().getId());
-            itemRoll.setText(text);
-            itemRoll.setExist(false);
+            RollItem rollItem = new RollItem();
+            rollItem.setIdNote(vm.getNoteModel().getNoteItem().getId());
+            rollItem.setText(text);
+            rollItem.setExist(false);
 
-            ModelNote modelNote = vm.getModelNote();
-            List<ItemRoll> listRoll = modelNote.getListRoll();
+            NoteModel noteModel = vm.getNoteModel();
+            List<RollItem> listRoll = noteModel.getListRoll();
 
-            listRoll.add(ps, itemRoll);
+            listRoll.add(ps, rollItem);
 
-            modelNote.setListRoll(listRoll);
-            vm.setModelNote(modelNote);
+            noteModel.setListRoll(listRoll);
+            vm.setNoteModel(noteModel);
 
             adapter.setListRoll(listRoll);
 
@@ -507,28 +507,28 @@ public final class RollFragment extends Fragment implements View.OnClickListener
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        StNote stNote = activity.vm.getStNote();
-        ModelNote modelNote = vm.getModelNote();
-        ItemNote itemNote = modelNote.getItemNote();
+        NoteSt noteSt = activity.vm.getNoteSt();
+        NoteModel noteModel = vm.getNoteModel();
+        NoteItem noteItem = noteModel.getNoteItem();
 
-        if (!stNote.isCreate() && stNote.isEdit() && !itemNote.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
-            menuNote.setStartColor(itemNote.getColor());
+        if (!noteSt.isCreate() && noteSt.isEdit() && !noteItem.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
+            menuNote.setStartColor(noteItem.getColor());
 
-            db = DbRoom.provideDb(context);
-            modelNote = db.daoNote().get(context, itemNote.getId());
-            itemNote = modelNote.getItemNote();
+            db = RoomDb.provideDb(context);
+            noteModel = db.daoNote().get(context, noteItem.getId());
+            noteItem = noteModel.getNoteItem();
             db.close();
 
-            vm.setModelNote(modelNote);
-            activity.vm.setModelNote(modelNote);
+            vm.setNoteModel(noteModel);
+            activity.vm.setNoteModel(noteModel);
 
-            adapter.setListRoll(modelNote.getListRoll());
+            adapter.setListRoll(noteModel.getListRoll());
 
             onMenuEditClick(false);
 
-            menuNote.startTint(itemNote.getColor());
+            menuNote.startTint(noteItem.getColor());
         } else {
-            activity.controlSave.setNeedSave(false);
+            activity.saveControl.setNeedSave(false);
             activity.finish(); //Иначе завершаем активность
         }
     }
@@ -540,35 +540,35 @@ public final class RollFragment extends Fragment implements View.OnClickListener
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        ModelNote modelNote = vm.getModelNote();
+        NoteModel noteModel = vm.getNoteModel();
 
-        List<ItemRoll> listRoll = modelNote.getListRoll();
-        ItemRoll itemRoll = listRoll.get(p);
-        itemRoll.setCheck(!itemRoll.isCheck());
+        List<RollItem> listRoll = noteModel.getListRoll();
+        RollItem rollItem = listRoll.get(p);
+        rollItem.setCheck(!rollItem.isCheck());
 
-        listRoll.set(p, itemRoll);
-        modelNote.setListRoll(listRoll);
+        listRoll.set(p, rollItem);
+        noteModel.setListRoll(listRoll);
 
-        adapter.setListRoll(p, itemRoll);
+        adapter.setListRoll(p, rollItem);
 
         int rollCheck = Help.Note.getRollCheck(listRoll);
 
-        if (stCheck.setAll(rollCheck, listRoll.size())) {
-            menuNote.setCheckTitle(stCheck.isAll());
+        if (checkSt.setAll(rollCheck, listRoll.size())) {
+            menuNote.setCheckTitle(checkSt.isAll());
         }
 
-        ItemNote itemNote = modelNote.getItemNote();
-        itemNote.setChange(context);
-        itemNote.setText(rollCheck, listRoll.size());
+        NoteItem noteItem = noteModel.getNoteItem();
+        noteItem.setChange(context);
+        noteItem.setText(rollCheck, listRoll.size());
 
-        modelNote.setItemNote(itemNote);
+        noteModel.setNoteItem(noteItem);
 
-        vm.setModelNote(modelNote);
-        activity.vm.setModelNote(modelNote);
+        vm.setNoteModel(noteModel);
+        activity.vm.setNoteModel(noteModel);
 
-        db = DbRoom.provideDb(context);
-        db.daoRoll().update(itemRoll.getId(), itemRoll.isCheck());
-        db.daoNote().update(itemNote);
+        db = RoomDb.provideDb(context);
+        db.daoRoll().update(rollItem.getId(), rollItem.isCheck());
+        db.daoNote().update(noteItem);
         db.close();
     }
 
@@ -576,97 +576,97 @@ public final class RollFragment extends Fragment implements View.OnClickListener
     public void onChanged(int p, String text) {
         Log.i(TAG, "onChanged");
 
-        ModelNote modelNote = vm.getModelNote();
+        NoteModel noteModel = vm.getNoteModel();
 
-        List<ItemRoll> listRoll = modelNote.getListRoll();
+        List<RollItem> listRoll = noteModel.getListRoll();
         if (text.equals("")) {
             listRoll.remove(p);
             adapter.setListRoll(listRoll);
             adapter.notifyItemRemoved(p);
         } else {
-            ItemRoll itemRoll = listRoll.get(p);
-            itemRoll.setText(text);
+            RollItem rollItem = listRoll.get(p);
+            rollItem.setText(text);
 
-            listRoll.set(p, itemRoll);
-            adapter.setListRoll(p, itemRoll);
+            listRoll.set(p, rollItem);
+            adapter.setListRoll(p, rollItem);
         }
-        modelNote.setListRoll(listRoll);
+        noteModel.setListRoll(listRoll);
 
-        vm.setModelNote(modelNote);
+        vm.setNoteModel(noteModel);
     }
 
     @Override
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
-        ModelNote modelNote = vm.getModelNote();
-        ItemNote itemNote = modelNote.getItemNote();
-        List<ItemRoll> listRoll = modelNote.getListRoll();
+        NoteModel noteModel = vm.getNoteModel();
+        NoteItem noteItem = noteModel.getNoteItem();
+        List<RollItem> listRoll = noteModel.getListRoll();
 
         if (listRoll.size() != 0) {
-            itemNote.setChange(context);      //Новое время редактирования
-            itemNote.setText(Help.Note.getRollCheck(listRoll), listRoll.size());          //Новый текст
+            noteItem.setChange(context);      //Новое время редактирования
+            noteItem.setText(Help.Note.getRollCheck(listRoll), listRoll.size());          //Новый текст
 
             if (editModeChange) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());
                 onMenuEditClick(false);                                            //Переход в режим просмотра
             }
 
-            db = DbRoom.provideDb(context);
+            db = RoomDb.provideDb(context);
 
-            StNote stNote = activity.vm.getStNote();
-            if (stNote.isCreate()) {
-                stNote.setCreate(false);    //Теперь у нас заметка уже будет создана
-                activity.vm.setStNote(stNote);
+            NoteSt noteSt = activity.vm.getNoteSt();
+            if (noteSt.isCreate()) {
+                noteSt.setCreate(false);    //Теперь у нас заметка уже будет создана
+                activity.vm.setNoteSt(noteSt);
 
-                long ntId = db.daoNote().insert(itemNote);
-                itemNote.setId(ntId);
+                long ntId = db.daoNote().insert(noteItem);
+                noteItem.setId(ntId);
 
                 for (int i = 0; i < listRoll.size(); i++) {           //Запись в пунктов в БД
-                    ItemRoll itemRoll = listRoll.get(i);
+                    RollItem rollItem = listRoll.get(i);
 
-                    itemRoll.setIdNote(ntId);
-                    itemRoll.setPosition(i);
-                    itemRoll.setId(db.daoRoll().insert(itemRoll));             //Обновление некоторых значений
-                    itemRoll.setExist(true);
+                    rollItem.setIdNote(ntId);
+                    rollItem.setPosition(i);
+                    rollItem.setId(db.daoRoll().insert(rollItem));             //Обновление некоторых значений
+                    rollItem.setExist(true);
 
-                    listRoll.set(i, itemRoll);
+                    listRoll.set(i, rollItem);
                 }
-                modelNote.setListRoll(listRoll);
+                noteModel.setListRoll(listRoll);
                 adapter.setListRoll(listRoll);
             } else {
-                db.daoNote().update(itemNote);
+                db.daoNote().update(noteItem);
 
                 for (int i = 0; i < listRoll.size(); i++) {
-                    ItemRoll itemRoll = listRoll.get(i);
+                    RollItem rollItem = listRoll.get(i);
 
-                    itemRoll.setPosition(i);
-                    if (!itemRoll.isExist()) {
-                        itemRoll.setId(db.daoRoll().insert(itemRoll));
-                        itemRoll.setExist(true);
+                    rollItem.setPosition(i);
+                    if (!rollItem.isExist()) {
+                        rollItem.setId(db.daoRoll().insert(rollItem));
+                        rollItem.setExist(true);
                     } else {
-                        db.daoRoll().update(itemRoll.getId(), i, itemRoll.getText());
+                        db.daoRoll().update(rollItem.getId(), i, rollItem.getText());
                     }
 
-                    listRoll.set(i, itemRoll);
+                    listRoll.set(i, rollItem);
                 }
-                modelNote.setListRoll(listRoll);
+                noteModel.setListRoll(listRoll);
                 adapter.setListRoll(listRoll);
 
                 List<Long> rollId = new ArrayList<>();
-                for (ItemRoll itemRoll : listRoll) {
-                    rollId.add(itemRoll.getId());
+                for (RollItem rollItem : listRoll) {
+                    rollId.add(rollItem.getId());
                 }
-                db.daoRoll().delete(itemNote.getId(), rollId);
+                db.daoRoll().delete(noteItem.getId(), rollId);
             }
-            db.daoRank().update(itemNote.getId(), itemNote.getRankId());
+            db.daoRank().update(noteItem.getId(), noteItem.getRankId());
 
             db.close();
 
-            modelNote.setItemNote(itemNote);
+            noteModel.setNoteItem(noteItem);
 
-            vm.setModelNote(modelNote);
-            activity.vm.setModelNote(modelNote);
+            vm.setNoteModel(noteModel);
+            activity.vm.setNoteModel(noteModel);
             return true;
         } else return false;
     }
@@ -677,14 +677,14 @@ public final class RollFragment extends Fragment implements View.OnClickListener
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ItemNote itemNote = vm.getModelNote().getItemNote();
+        NoteItem noteItem = vm.getNoteModel().getNoteItem();
 
-        db = DbRoom.provideDb(context);
-        boolean[] check = db.daoRank().getCheck(itemNote.getRankId());
+        db = RoomDb.provideDb(context);
+        boolean[] check = db.daoRank().getCheck(noteItem.getRankId());
         db.close();
 
         dlgRank.setArguments(check);
-        dlgRank.show(fm, DefDlg.RANK);
+        dlgRank.show(fm, DialogDef.RANK);
     }
 
     @Override
@@ -693,103 +693,103 @@ public final class RollFragment extends Fragment implements View.OnClickListener
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ItemNote itemNote = vm.getModelNote().getItemNote();
+        NoteItem noteItem = vm.getNoteModel().getNoteItem();
 
-        dlgColor.setArguments(itemNote.getColor());
-        dlgColor.show(fm, DefDlg.COLOR);
+        colorDialog.setArguments(noteItem.getColor());
+        colorDialog.show(fm, DialogDef.COLOR);
 
-        menuNote.setStartColor(itemNote.getColor());
+        menuNote.setStartColor(noteItem.getColor());
     }
 
     @Override
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        StNote stNote = activity.vm.getStNote();
-        stNote.setEdit(editMode);
+        NoteSt noteSt = activity.vm.getNoteSt();
+        noteSt.setEdit(editMode);
 
-        menuNote.setDrawable(editMode && !stNote.isCreate(), !stNote.isCreate());
-        menuNote.setMenuGroupVisible(stNote.isBin(), editMode, !stNote.isBin() && !editMode);
+        menuNote.setDrawable(editMode && !noteSt.isCreate(), !noteSt.isCreate());
+        menuNote.setMenuGroupVisible(noteSt.isBin(), editMode, !noteSt.isBin() && !editMode);
 
-        if (stNote.isCreate() && editMode) rollContainer.setVisibility(View.VISIBLE);
-        else if (stNote.isFirst()) rollContainer.setVisibility(View.GONE);
+        if (noteSt.isCreate() && editMode) rollContainer.setVisibility(View.VISIBLE);
+        else if (noteSt.isFirst()) rollContainer.setVisibility(View.GONE);
         else rollContainer.startAnimation(editMode ? translateIn : translateOut);
 
         bind(editMode);
 
-        adapter.setStNote(stNote);
+        adapter.setNoteSt(noteSt);
         adapter.notifyDataSetChanged();
 
-        activity.vm.setStNote(stNote);
-        activity.controlSave.setSaveHandlerEvent(editMode);
+        activity.vm.setNoteSt(noteSt);
+        activity.saveControl.setSaveHandlerEvent(editMode);
     }
 
     @Override
     public void onMenuCheckClick() {
         Log.i(TAG, "onMenuCheckClick");
 
-        ModelNote modelNote = vm.getModelNote();
-        ItemNote itemNote = modelNote.getItemNote();
-        itemNote.setChange(context);
+        NoteModel noteModel = vm.getNoteModel();
+        NoteItem noteItem = noteModel.getNoteItem();
+        noteItem.setChange(context);
 
-        int size = modelNote.getListRoll().size();
+        int size = noteModel.getListRoll().size();
 
-        db = DbRoom.provideDb(context);
-        if (stCheck.isAll()) {
-            modelNote.updateListRoll(DefCheck.notDone);
-            itemNote.setText(0, size);
+        db = RoomDb.provideDb(context);
+        if (checkSt.isAll()) {
+            noteModel.updateListRoll(CheckDef.notDone);
+            noteItem.setText(0, size);
 
-            db.daoRoll().update(itemNote.getId(), DefCheck.notDone);
-            db.daoNote().update(itemNote);
+            db.daoRoll().update(noteItem.getId(), CheckDef.notDone);
+            db.daoNote().update(noteItem);
         } else {
-            modelNote.updateListRoll(DefCheck.done);
-            itemNote.setText(size, size);
+            noteModel.updateListRoll(CheckDef.done);
+            noteItem.setText(size, size);
 
-            db.daoRoll().update(itemNote.getId(), DefCheck.done);
-            db.daoNote().update(itemNote);
+            db.daoRoll().update(noteItem.getId(), CheckDef.done);
+            db.daoNote().update(noteItem);
         }
         db.close();
 
         updateAdapter();
 
-        modelNote.setItemNote(itemNote);
+        noteModel.setNoteItem(noteItem);
 
-        vm.setModelNote(modelNote);
-        activity.vm.setModelNote(modelNote);
+        vm.setNoteModel(noteModel);
+        activity.vm.setNoteModel(noteModel);
     }
 
     @Override
     public void onMenuBindClick() {
         Log.i(TAG, "onMenuBindClick");
 
-        ModelNote modelNote = vm.getModelNote();
-        ItemNote itemNote = modelNote.getItemNote();
+        NoteModel noteModel = vm.getNoteModel();
+        NoteItem noteItem = noteModel.getNoteItem();
 
-        if (!itemNote.isStatus()) {
-            itemNote.setStatus(true);
-            modelNote.updateItemStatus(true);
+        if (!noteItem.isStatus()) {
+            noteItem.setStatus(true);
+            noteModel.updateItemStatus(true);
         } else {
-            itemNote.setStatus(false);
-            modelNote.updateItemStatus(false);
+            noteItem.setStatus(false);
+            noteModel.updateItemStatus(false);
         }
 
-        menuNote.setStatusTitle(itemNote.isStatus());
+        menuNote.setStatusTitle(noteItem.isStatus());
 
-        db = DbRoom.provideDb(context);
-        db.daoNote().update(itemNote.getId(), itemNote.isStatus());
+        db = RoomDb.provideDb(context);
+        db.daoNote().update(noteItem.getId(), noteItem.isStatus());
         db.close();
 
-        modelNote.setItemNote(itemNote);
+        noteModel.setNoteItem(noteItem);
 
-        vm.setModelNote(modelNote);
-        activity.vm.setModelNote(modelNote);
+        vm.setNoteModel(noteModel);
+        activity.vm.setNoteModel(noteModel);
     }
 
     @Override
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, DefDlg.CONVERT);
+        dlgConvert.show(fm, DialogDef.CONVERT);
     }
 
 }

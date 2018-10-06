@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/dialog_title_add_note">
+        <menu>
+            <group android:checkableBehavior="single">
+
+                <item android:id="@+id/note_text_item"
+                      android:title="@string/dialog_add_note_text"/>
+
+                <item android:id="@+id/note_roll_item"
+                      android:title="@string/dialog_add_note_roll"/>
+
+            </group>
+        </menu>
+    </item>
+
+</menu>

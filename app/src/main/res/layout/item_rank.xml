@@ -10,8 +10,8 @@
                 type="android.view.View"/>
 
         <variable
-                name="itemRank"
-                type="sgtmelon.scriptum.app.model.item.ItemRank"/>
+                name="rankItem"
+                type="sgtmelon.scriptum.app.model.item.RankItem"/>
 
     </data>
 
@@ -32,7 +32,7 @@
 
             <sgtmelon.iconanim.app.SwitchButton
                     android:id="@+id/visible_button"
-                    style="@style/ItemRank.Button"
+                    style="@style/RankItem.Button"
                     android:layout_marginEnd="@dimen/layout_8dp"
                     android:layout_marginRight="@dimen/layout_8dp"
                     app:srcDisable="@drawable/ic_visible_off"
@@ -48,8 +48,8 @@
 
                 <TextView
                         android:id="@+id/name_text"
-                        style="@style/ItemRank.Name"
-                        android:text='@{itemRank.name}'
+                        style="@style/RankItem.Name"
+                        android:text='@{rankItem.name}'
                         tools:text="@string/test_rank_name"/>
 
                 <LinearLayout
@@ -57,15 +57,15 @@
                         android:layout_height="wrap_content">
 
                     <TextView
-                            style="@style/ItemRank.Info"
+                            style="@style/RankItem.Info"
                             android:layout_marginEnd="@dimen/layout_4dp"
                             android:layout_marginRight="@dimen/layout_4dp"
-                            android:text='@{@string/list_item_rank_text_count + " " + itemRank.getTextCount()}'
+                            android:text='@{@string/list_item_rank_text_count + " " + rankItem.getTextCount()}'
                             tools:text="@string/test_rank_text"/>
 
                     <TextView
-                            style="@style/ItemRank.Info"
-                            android:text='@{@string/list_item_rank_roll_count + " " + itemRank.getRollCount()}'
+                            style="@style/RankItem.Info"
+                            android:text='@{@string/list_item_rank_roll_count + " " + rankItem.getRollCount()}'
                             tools:text="@string/test_rank_roll"/>
 
 
@@ -75,7 +75,7 @@
 
             <ImageButton
                     android:id="@+id/cancel_button"
-                    style="@style/ItemRank.Button"
+                    style="@style/RankItem.Button"
                     android:layout_marginStart="@dimen/layout_8dp"
                     android:layout_marginLeft="@dimen/layout_8dp"
                     android:contentDescription="@null"

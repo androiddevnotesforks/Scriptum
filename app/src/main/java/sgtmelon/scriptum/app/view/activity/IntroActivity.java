@@ -5,20 +5,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.adapter.AdapterPager;
+import sgtmelon.scriptum.app.adapter.PagerAdapter;
 import sgtmelon.scriptum.app.view.fragment.IntroFragment;
-import sgtmelon.scriptum.office.annot.AnnIntro;
-import sgtmelon.scriptum.office.st.StPage;
+import sgtmelon.scriptum.office.annot.IntroAnn;
+import sgtmelon.scriptum.office.st.PageSt;
 
 public final class IntroActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = IntroActivity.class.getSimpleName();
 
-    private final AdapterPager adapterPager = new AdapterPager(getSupportFragmentManager());;
+    private final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());;
 
     private View pageIndicator;
     private Button pageButtonEnd;
@@ -50,14 +51,14 @@ public final class IntroActivity extends AppCompatActivity implements ViewPager.
         pageButtonEnd.setEnabled(false);
 
         IntroFragment introFragment;
-        for (int i = 0; i < AnnIntro.count; i++) {
+        for (int i = 0; i < IntroAnn.count; i++) {
             introFragment = new IntroFragment();
-            introFragment.setStPage(new StPage(i));
-            adapterPager.addItem(introFragment);
+            introFragment.setPageSt(new PageSt(i));
+            pagerAdapter.addItem(introFragment);
         }
 
-        viewPager.setAdapter(adapterPager);
-        viewPager.setOffscreenPageLimit(adapterPager.getCount() - 1);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(pagerAdapter.getCount() - 1);
         viewPager.addOnPageChangeListener(this);
     }
 
@@ -66,20 +67,20 @@ public final class IntroActivity extends AppCompatActivity implements ViewPager.
         float targetAlpha = (float) Math.max(0.2, 1 - positionOffset);
         float targetScale = (float) Math.max(0.75, 1 - positionOffset);
 
-        adapterPager.getItem(position).setChange(targetAlpha, targetScale);
+        pagerAdapter.getItem(position).setChange(targetAlpha, targetScale);
 
-        if (position != adapterPager.getCount() - 1) {
+        if (position != pagerAdapter.getCount() - 1) {
             targetAlpha = (float) Math.max(0.2, positionOffset);
             targetScale = (float) Math.max(0.75, positionOffset);
 
-            adapterPager.getItem(position + 1).setChange(targetAlpha, targetScale);
+            pagerAdapter.getItem(position + 1).setChange(targetAlpha, targetScale);
         }
 
-        if (position == adapterPager.getCount() - 1) {
+        if (position == pagerAdapter.getCount() - 1) {
             pageButtonEnd.setEnabled(true);
         } else pageButtonEnd.setEnabled(false);
 
-        if (position == adapterPager.getCount() - 2) {
+        if (position == pagerAdapter.getCount() - 2) {
             pageIndicator.setTranslationY(positionOffset * pageButtonEnd.getHeight());
             pageIndicator.setAlpha(1 - positionOffset);
             pageButtonEnd.setAlpha(positionOffset);

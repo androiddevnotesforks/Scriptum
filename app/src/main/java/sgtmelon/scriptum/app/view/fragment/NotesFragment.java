@@ -23,36 +23,36 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.adapter.AdapterNote;
-import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.injection.component.ComponentFragment;
-import sgtmelon.scriptum.app.injection.component.DaggerComponentFragment;
-import sgtmelon.scriptum.app.injection.module.blank.ModuleBlankFragment;
-import sgtmelon.scriptum.app.model.ModelNote;
-import sgtmelon.scriptum.app.model.item.ItemNote;
-import sgtmelon.scriptum.app.model.item.ItemRoll;
+import sgtmelon.scriptum.app.adapter.NoteAdapter;
+import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
+import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
+import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.item.NoteItem;
+import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
 import sgtmelon.scriptum.app.vm.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentNotesBinding;
-import sgtmelon.scriptum.element.DlgOptionNote;
+import sgtmelon.scriptum.element.common.OptionsDialog;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.DefIntent;
-import sgtmelon.scriptum.office.annot.def.db.DefBin;
-import sgtmelon.scriptum.office.annot.def.db.DefCheck;
-import sgtmelon.scriptum.office.annot.def.db.DefType;
-import sgtmelon.scriptum.office.intf.IntfDialog;
-import sgtmelon.scriptum.office.intf.IntfItem;
+import sgtmelon.scriptum.office.annot.def.DialogDef;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.def.db.BinDef;
+import sgtmelon.scriptum.office.annot.def.db.CheckDef;
+import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.intf.DialogIntf;
+import sgtmelon.scriptum.office.intf.ItemIntf;
 
 public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemClickListener,
-        IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionNote {
+        ItemIntf.Click, ItemIntf.LongClick, DialogIntf.OptionNote {
 
     private static final String TAG = NotesFragment.class.getSimpleName();
 
     public static boolean updateStatus = true; //Для единовременного обновления статус бара
 
-    private final AdapterNote adapter = new AdapterNote();
+    private final NoteAdapter adapter = new NoteAdapter();
 
     @Inject
     FragmentManager fm;
@@ -63,11 +63,11 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     NotesViewModel vm;
 
     @Inject
-    DlgOptionNote dlgOptionNote;
+    OptionsDialog optionsDialog;
 
     private Context context;
 
-    private DbRoom db;
+    private RoomDb db;
 
     private View frgView;
 
@@ -95,10 +95,10 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        ComponentFragment componentFragment = DaggerComponentFragment.builder()
-                .moduleBlankFragment(new ModuleBlankFragment(this, inflater, container))
+        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
                 .build();
-        componentFragment.inject(this);
+        fragmentComponent.inject(this);
 
         frgView = binding.getRoot();
 
@@ -119,7 +119,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_frg_notes));
 
-        toolbar.inflateMenu(R.menu.menu_fragment_note);
+        toolbar.inflateMenu(R.menu.fragment_note);
         toolbar.setOnMenuItemClickListener(this);
 
         Menu menu = toolbar.getMenu();
@@ -134,7 +134,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getListModelNote().size());
+                bind(vm.getListModel().size());
             }
         };
 
@@ -149,18 +149,59 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         recyclerView.setAdapter(adapter);
 
-        dlgOptionNote.setOptionNote(this);
+        optionsDialog.setOnClickListener((dialogInterface, i) -> {
+            int p = optionsDialog.getPosition(); // TODO: 06.10.2018 defValues
+            NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+
+            switch (noteItem.getType()) {
+                case TypeDef.text:
+                    switch (i) {
+                        case 0:
+                            onOptionBindClick(p);
+                            break;
+                        case 1:
+                            onOptionConvertClick(p);
+                            break;
+                        case 2:
+                            onOptionCopyClick(p);
+                            break;
+                        case 3:
+                            onOptionDeleteClick(p);
+                            break;
+                    }
+                    break;
+                case TypeDef.roll:
+                    switch (i) {
+                        case 0:
+                            onOptionCheckClick(p);
+                            break;
+                        case 1:
+                            onOptionBindClick(p);
+                            break;
+                        case 2:
+                            onOptionConvertClick(p);
+                            break;
+                        case 3:
+                            onOptionCopyClick(p);
+                            break;
+                        case 4:
+                            onOptionDeleteClick(p);
+                            break;
+                    }
+                    break;
+            }
+        });
     }
 
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<ModelNote> listModelNote = vm.loadData(DefBin.out);
+        List<NoteModel> listNoteModel = vm.loadData(BinDef.out);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyDataSetChanged();
 
-        bind(listModelNote.size());
+        bind(listNoteModel.size());
     }
 
     @Override
@@ -180,11 +221,11 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        long id = vm.getListModelNote().get(p).getItemNote().getId();
+        long id = vm.getListModel().get(p).getNoteItem().getId();
 
         Intent intent = new Intent(context, NoteActivity.class);
-        intent.putExtra(DefIntent.NOTE_CREATE, false);
-        intent.putExtra(DefIntent.NOTE_ID, id);
+        intent.putExtra(IntentDef.NOTE_CREATE, false);
+        intent.putExtra(IntentDef.NOTE_ID, id);
 
         startActivity(intent);
     }
@@ -193,40 +234,61 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        ItemNote itemNote = vm.getListModelNote().get(p).getItemNote();
+        NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
 
-        dlgOptionNote.setArguments(p, itemNote.getType(), itemNote.isStatus(), itemNote.isAllCheck());
-        dlgOptionNote.show(fm, DefDlg.OPTIONS);
+        String[] items = new String[0];
+        switch (noteItem.getType()) {
+            case TypeDef.text:
+                items = context.getResources().getStringArray(R.array.dialog_menu_text);
+
+                items[0] = noteItem.isStatus()
+                        ? context.getString(R.string.dialog_menu_status_unbind)
+                        : context.getString(R.string.dialog_menu_status_bind);
+                break;
+            case TypeDef.roll:
+                items = context.getResources().getStringArray(R.array.dialog_menu_roll);
+
+                items[0] = noteItem.isAllCheck()
+                        ? context.getString(R.string.dialog_menu_check_zero)
+                        : context.getString(R.string.dialog_menu_check_all);
+                items[1] = noteItem.isStatus()
+                        ? context.getString(R.string.dialog_menu_status_unbind)
+                        : context.getString(R.string.dialog_menu_status_bind);
+                break;
+        }
+
+        optionsDialog.setArguments(items, p);
+        optionsDialog.show(fm, DialogDef.OPTIONS);
     }
 
     @Override
     public void onOptionCheckClick(int p) {
         Log.i(TAG, "onOptionCheckClick");
 
-        List<ModelNote> listModelNote = vm.getListModelNote();
-        ModelNote modelNote = listModelNote.get(p);
+        List<NoteModel> listNoteModel = vm.getListModel();
+        NoteModel noteModel = listNoteModel.get(p);
 
-        ItemNote itemNote = modelNote.getItemNote();
+        NoteItem noteItem = noteModel.getNoteItem();
 
-        int[] checkText = itemNote.getCheck();
-        int check = checkText[0] == checkText[1] ? DefCheck.notDone : DefCheck.done;
+        int[] checkText = noteItem.getCheck();
+        int check = checkText[0] == checkText[1] ? CheckDef.notDone : CheckDef.done;
 
-        itemNote.setChange(context);
-        itemNote.setText(check == DefCheck.notDone ? 0 : checkText[1], checkText[1]);
+        noteItem.setChange(context);
+        noteItem.setText(check == CheckDef.notDone ? 0 : checkText[1], checkText[1]);
 
-        db = DbRoom.provideDb(context);
-        db.daoRoll().update(itemNote.getId(), check);
-        db.daoNote().update(itemNote);
+        db = RoomDb.provideDb(context);
+        db.daoRoll().update(noteItem.getId(), check);
+        db.daoNote().update(noteItem);
         db.close();
 
-        modelNote.updateListRoll(check);
-        modelNote.setItemNote(itemNote);
-        modelNote.updateItemStatus();
+        noteModel.updateListRoll(check);
+        noteModel.setNoteItem(noteItem);
+        noteModel.updateItemStatus();
 
-        listModelNote.set(p, modelNote);
-        vm.setListModelNote(listModelNote);
+        listNoteModel.set(p, noteModel);
+        vm.setListModel(listNoteModel);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyItemChanged(p);
     }
 
@@ -234,24 +296,24 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onOptionBindClick(int p) {
         Log.i(TAG, "onOptionBindClick");
 
-        List<ModelNote> listModelNote = vm.getListModelNote();
-        ModelNote modelNote = listModelNote.get(p);
+        List<NoteModel> listNoteModel = vm.getListModel();
+        NoteModel noteModel = listNoteModel.get(p);
 
-        ItemNote itemNote = modelNote.getItemNote();
-        itemNote.setStatus();
+        NoteItem noteItem = noteModel.getNoteItem();
+        noteItem.setStatus();
 
-        modelNote.updateItemStatus(itemNote.isStatus());
+        noteModel.updateItemStatus(noteItem.isStatus());
 
-        db = DbRoom.provideDb(context);
-        db.daoNote().update(itemNote.getId(), itemNote.isStatus());
+        db = RoomDb.provideDb(context);
+        db.daoNote().update(noteItem.getId(), noteItem.isStatus());
         db.close();
 
-        modelNote.setItemNote(itemNote);
+        noteModel.setNoteItem(noteItem);
 
-        listModelNote.set(p, modelNote);
-        vm.setListModelNote(listModelNote);
+        listNoteModel.set(p, noteModel);
+        vm.setListModel(listNoteModel);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyItemChanged(p);
     }
 
@@ -259,47 +321,47 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onOptionConvertClick(int p) {
         Log.i(TAG, "onOptionConvertClick");
 
-        List<ModelNote> listModelNote = vm.getListModelNote();
-        ModelNote modelNote = listModelNote.get(p);
+        List<NoteModel> listNoteModel = vm.getListModel();
+        NoteModel noteModel = listNoteModel.get(p);
 
-        ItemNote itemNote = modelNote.getItemNote();
-        itemNote.setChange(context);
+        NoteItem noteItem = noteModel.getNoteItem();
+        noteItem.setChange(context);
 
-        db = DbRoom.provideDb(context);
-        switch (itemNote.getType()) {
-            case DefType.text:
-                String[] textToRoll = itemNote.getText().split("\n");                             //Получаем пункты списка
+        db = RoomDb.provideDb(context);
+        switch (noteItem.getType()) {
+            case TypeDef.text:
+                String[] textToRoll = noteItem.getText().split("\n");                             //Получаем пункты списка
 
-                List<ItemRoll> listRoll = db.daoRoll().insert(itemNote.getId(), textToRoll);      //Записываем пункты
+                List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);      //Записываем пункты
 
-                itemNote.setType(DefType.roll);
-                itemNote.setText(0, listRoll.size());
+                noteItem.setType(TypeDef.roll);
+                noteItem.setText(0, listRoll.size());
 
-                db.daoNote().update(itemNote);
+                db.daoNote().update(noteItem);
 
-                modelNote.setListRoll(listRoll);
+                noteModel.setListRoll(listRoll);
                 break;
-            case DefType.roll:
-                String rollToText = db.daoRoll().getText(itemNote.getId());           //Получаем текст заметки
+            case TypeDef.roll:
+                String rollToText = db.daoRoll().getText(noteItem.getId());           //Получаем текст заметки
 
-                itemNote.setType(DefType.text);
-                itemNote.setText(rollToText);
+                noteItem.setType(TypeDef.text);
+                noteItem.setText(rollToText);
 
-                db.daoNote().update(itemNote);
-                db.daoRoll().delete(itemNote.getId());
+                db.daoNote().update(noteItem);
+                db.daoRoll().delete(noteItem.getId());
 
-                modelNote.setListRoll();
+                noteModel.setListRoll();
                 break;
         }
         db.close();
 
-        modelNote.setItemNote(itemNote);
-        modelNote.updateItemStatus();
+        noteModel.setNoteItem(noteItem);
+        noteModel.updateItemStatus();
 
-        listModelNote.set(p, modelNote);
-        vm.setListModelNote(listModelNote);
+        listNoteModel.set(p, noteModel);
+        vm.setListModel(listNoteModel);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyItemChanged(p);
     }
 
@@ -307,29 +369,29 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onOptionCopyClick(int p) {
         Log.i(TAG, "onOptionCopyClick");
 
-        ItemNote itemNote = vm.getListModelNote().get(p).getItemNote();
-        Help.optionsCopy(context, itemNote);
+        NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+        Help.optionsCopy(context, noteItem);
     }
 
     @Override
     public void onOptionDeleteClick(int p) {
         Log.i(TAG, "onOptionDeleteClick");
 
-        List<ModelNote> listModelNote = vm.getListModelNote();
-        ModelNote modelNote = listModelNote.get(p);
+        List<NoteModel> listNoteModel = vm.getListModel();
+        NoteModel noteModel = listNoteModel.get(p);
 
-        ItemNote itemNote = modelNote.getItemNote();
+        NoteItem noteItem = noteModel.getNoteItem();
 
-        db = DbRoom.provideDb(context);
-        db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), true);
-        if (itemNote.isStatus()) db.daoNote().update(itemNote.getId(), false);
+        db = RoomDb.provideDb(context);
+        db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(context), true);
+        if (noteItem.isStatus()) db.daoNote().update(noteItem.getId(), false);
         db.close();
 
-        modelNote.updateItemStatus(false);
-        listModelNote.remove(p);
-        vm.setListModelNote(listModelNote);
+        noteModel.updateItemStatus(false);
+        listNoteModel.remove(p);
+        vm.setListModel(listNoteModel);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyItemRemoved(p);
     }
 

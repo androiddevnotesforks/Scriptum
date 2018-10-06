@@ -4,11 +4,11 @@
     tools:ignore="NewApi">
 
     <target
-        android:name="@string/drawable_cancel_group"
+        android:name="@string/anim_cancel_group"
         android:animation="@animator/cancel_group_on" />
 
     <target
-        android:name="@string/drawable_cancel_path"
+        android:name="@string/anim_cancel_path"
         android:animation="@animator/cancel_path_on" />
 
 </animated-vector>

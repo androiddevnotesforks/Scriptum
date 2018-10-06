@@ -8,8 +8,8 @@
         <import alias="v"
                 type="android.view.View"/>
 
-        <variable name="itemNote"
-                  type="sgtmelon.scriptum.app.model.item.ItemNote"/>
+        <variable name="noteItem"
+                  type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
         <variable name="keyEdit"
                   type="boolean"/>
@@ -24,7 +24,7 @@
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:itemNote='@{itemNote}'
+                app:noteItem='@{noteItem}'
                 app:keyEdit='@{keyEdit}'/>
 
         <ScrollView
@@ -37,13 +37,13 @@
                 <EditText
                         android:id="@+id/text_enter"
                         style="@style/Text.Enter"
-                        android:text='@={itemNote.text}'
+                        android:text='@={noteItem.text}'
                         android:visibility='@{keyEdit ? v.VISIBLE : v.INVISIBLE}'/>
 
                 <TextView
                         android:id="@+id/text_text"
                         style="@style/Text.Read"
-                        android:text='@{itemNote.text}'
+                        android:text='@{noteItem.text}'
                         android:visibility='@{!keyEdit ? v.VISIBLE : v.INVISIBLE}'
                         tools:text="@string/test_note_text"/>
 

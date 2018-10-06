@@ -1,22 +1,22 @@
 package sgtmelon.scriptum.app.vm;
 
 import androidx.lifecycle.ViewModel;
-import sgtmelon.scriptum.app.model.ModelNote;
+import sgtmelon.scriptum.app.model.NoteModel;
 
 public final class TextViewModel extends ViewModel {
 
-    private ModelNote modelNote;
+    private NoteModel noteModel;
 
-    public ModelNote getModelNote() {
-        return modelNote;
+    public NoteModel getNoteModel() {
+        return noteModel;
     }
 
-    public void setModelNote(ModelNote modelNote) {
-        this.modelNote = modelNote;
+    public void setNoteModel(NoteModel noteModel) {
+        this.noteModel = noteModel;
     }
 
     public boolean isEmpty() {
-        return modelNote == null;
+        return noteModel == null;
     }
 
 }

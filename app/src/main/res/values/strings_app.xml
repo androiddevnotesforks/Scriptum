@@ -152,7 +152,7 @@
 
 
     <!-- Items text -->
-    <!-- ItemRank -->
+    <!-- RankItem -->
     <string name="list_item_rank_text_count">Texts:</string>
     <string name="list_item_rank_roll_count">Lists:</string>
 

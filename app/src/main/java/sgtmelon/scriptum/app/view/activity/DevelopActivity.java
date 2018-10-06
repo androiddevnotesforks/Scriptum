@@ -5,11 +5,11 @@ import android.util.Log;
 import android.widget.TextView;
 
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.database.DbRoom;
+import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.blank.BlankAct;
+import sgtmelon.scriptum.office.blank.ActivityBlank;
 
-public final class DevelopActivity extends BlankAct {
+public final class DevelopActivity extends ActivityBlank {
 
     private static final String TAG = DevelopActivity.class.getSimpleName();
 
@@ -23,7 +23,7 @@ public final class DevelopActivity extends BlankAct {
         TextView rollText = findViewById(R.id.roll_text);
         TextView rankText = findViewById(R.id.rank_text);
 
-        DbRoom db = DbRoom.provideDb(this);
+        RoomDb db = RoomDb.provideDb(this);
 
         db.daoNote().listAll(noteText);
         db.daoRoll().listAll(rollText);

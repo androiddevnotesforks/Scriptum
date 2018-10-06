@@ -13,13 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.injection.component.ComponentFragment;
-import sgtmelon.scriptum.app.injection.component.DaggerComponentFragment;
-import sgtmelon.scriptum.app.injection.module.blank.ModuleBlankFragment;
+import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
+import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.databinding.IncludeInfoBinding;
-import sgtmelon.scriptum.office.annot.AnnIntro;
-import sgtmelon.scriptum.office.annot.def.DefIntent;
-import sgtmelon.scriptum.office.st.StPage;
+import sgtmelon.scriptum.office.annot.IntroAnn;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.st.PageSt;
 
 public final class IntroFragment extends Fragment {
 
@@ -28,7 +28,7 @@ public final class IntroFragment extends Fragment {
     @Inject
     IncludeInfoBinding binding;
 
-    private StPage stPage;
+    private PageSt pageSt;
 
     private View frgView;
     private LinearLayout container;
@@ -39,15 +39,15 @@ public final class IntroFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        ComponentFragment componentFragment = DaggerComponentFragment.builder()
-                .moduleBlankFragment(new ModuleBlankFragment(this, inflater, container))
+        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
                 .build();
-        componentFragment.inject(this);
+        fragmentComponent.inject(this);
 
         frgView = binding.getRoot();
 
         if (savedInstanceState != null) {
-            stPage.setPage(savedInstanceState.getInt(DefIntent.STATE_PAGE));
+            pageSt.setPage(savedInstanceState.getInt(IntentDef.STATE_PAGE));
         }
 
         return frgView;
@@ -67,11 +67,11 @@ public final class IntroFragment extends Fragment {
         Log.d(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        outState.putInt(DefIntent.STATE_PAGE, stPage.getPage());
+        outState.putInt(IntentDef.STATE_PAGE, pageSt.getPage());
     }
 
-    public void setStPage(StPage stPage) {
-        this.stPage = stPage;
+    public void setPageSt(PageSt pageSt) {
+        this.pageSt = pageSt;
     }
 
     public void setChange(float alpha, float scale) {
@@ -84,11 +84,11 @@ public final class IntroFragment extends Fragment {
 
     private void bind() {
         Log.i(TAG, "bind");
-        int page = stPage.getPage();
+        int page = pageSt.getPage();
 
-        binding.setIcon(AnnIntro.icon[page]);
-        binding.setTitle(AnnIntro.title[page]);
-        binding.setDetails(AnnIntro.details[page]);
+        binding.setIcon(IntroAnn.icon[page]);
+        binding.setTitle(IntroAnn.title[page]);
+        binding.setDetails(IntroAnn.details[page]);
 
         binding.executePendingBindings();
     }

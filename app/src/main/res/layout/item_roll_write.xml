@@ -5,8 +5,8 @@
 
     <data>
 
-        <variable name="itemRoll"
-                  type="sgtmelon.scriptum.app.model.item.ItemRoll"/>
+        <variable name="rollItem"
+                  type="sgtmelon.scriptum.app.model.item.RollItem"/>
 
     </data>
 
@@ -20,11 +20,11 @@
 
             <FrameLayout android:layout_width="wrap_content" android:layout_height="match_parent">
 
-                <CheckBox style="@style/ItemRoll.Write.Check"/>
+                <CheckBox style="@style/RollItem.Write.Check"/>
 
                 <ImageButton
                         android:id="@+id/drag_button"
-                        style="@style/ItemRoll.Click"
+                        style="@style/RollItem.Click"
                         android:contentDescription="@null"
                         app:srcCompat="@drawable/ic_move"
                         tools:tint="?attr/clAccent"/>
@@ -33,11 +33,11 @@
 
             <EditText
                     android:id="@+id/roll_enter"
-                    style="@style/ItemRoll.Write.Enter"
+                    style="@style/RollItem.Write.Enter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@null"
-                    android:text='@{itemRoll.text}'
+                    android:text='@{rollItem.text}'
                     tools:text="@string/test_note_roll"/>
 
         </LinearLayout>

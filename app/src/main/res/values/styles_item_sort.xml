@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ItemSort" />
+    <style name="SortItem" />
 
-    <style name="ItemSort.Bracket">
+    <style name="SortItem.Bracket">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -12,7 +12,7 @@
         <item name="android:tint">?attr/clAccent</item>
     </style>
 
-    <style name="ItemSort.Text">
+    <style name="SortItem.Text">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>

@@ -2,11 +2,11 @@
     <string name="app_name">Icons Anim</string>
 
     <!-- Drawable part name -->
-    <string name="drawable_visible_strike_path" translatable="false">visible_strike_path</string>
-    <string name="drawable_visible_strike_mask" translatable="false">visible_strike_mask</string>
-    <string name="drawable_visible_eye_path" translatable="false">visible_eye_path</string>
+    <string name="anim_visible_strike_path">visible_strike_path</string>
+    <string name="anim_visible_strike_mask">visible_strike_mask</string>
+    <string name="anim_visible_eye_path">visible_eye_path</string>
 
-    <string name="drawable_cancel_group" translatable="false">cancel_group</string>
-    <string name="drawable_cancel_path" translatable="false">cancel_path</string>
+    <string name="anim_cancel_group">cancel_group</string>
+    <string name="anim_cancel_path">cancel_path</string>
 
 </resources>

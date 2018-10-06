@@ -25,34 +25,34 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.adapter.AdapterNote;
-import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.injection.component.ComponentFragment;
-import sgtmelon.scriptum.app.injection.component.DaggerComponentFragment;
-import sgtmelon.scriptum.app.injection.module.blank.ModuleBlankFragment;
-import sgtmelon.scriptum.app.model.ModelNote;
-import sgtmelon.scriptum.app.model.item.ItemNote;
+import sgtmelon.scriptum.app.adapter.NoteAdapter;
+import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
+import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
+import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
-import sgtmelon.scriptum.element.DlgOptionBin;
-import sgtmelon.scriptum.element.common.DlgMessage;
+import sgtmelon.scriptum.element.common.MessageDialog;
+import sgtmelon.scriptum.element.common.OptionsDialog;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.DefIntent;
-import sgtmelon.scriptum.office.annot.def.db.DefBin;
-import sgtmelon.scriptum.office.intf.IntfDialog;
-import sgtmelon.scriptum.office.intf.IntfItem;
-import sgtmelon.scriptum.office.st.StOpen;
+import sgtmelon.scriptum.office.annot.def.DialogDef;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.def.db.BinDef;
+import sgtmelon.scriptum.office.intf.DialogIntf;
+import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.office.st.OpenSt;
 
-public final class BinFragment extends Fragment implements IntfItem.Click, IntfItem.LongClick,
-        IntfDialog.OptionBin {
+public final class BinFragment extends Fragment implements ItemIntf.Click, ItemIntf.LongClick,
+        DialogIntf.OptionBin {
 
     private static final String TAG = BinFragment.class.getSimpleName();
 
-    private final StOpen stOpen = new StOpen();
+    private final OpenSt openSt = new OpenSt();
 
-    private final AdapterNote adapter = new AdapterNote();
+    private final NoteAdapter adapter = new NoteAdapter();
 
     @Inject
     FragmentManager fm;
@@ -63,13 +63,13 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
     NotesViewModel vm;
 
     @Inject
-    @Named(DefDlg.CLEAR_BIN)
-    DlgMessage dlgClearBin;
+    @Named(DialogDef.CLEAR_BIN)
+    MessageDialog dlgClearBin;
     @Inject
-    DlgOptionBin dlgOptionBin;
+    OptionsDialog optionsDialog;
 
     private Context context;
-    private DbRoom db;
+    private RoomDb db;
 
     private View frgView;
     private MenuItem mItemClearBin;
@@ -96,15 +96,15 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        ComponentFragment componentFragment = DaggerComponentFragment.builder()
-                .moduleBlankFragment(new ModuleBlankFragment(this, inflater, container))
+        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
                 .build();
-        componentFragment.inject(this);
+        fragmentComponent.inject(this);
 
         frgView = binding.getRoot();
 
         if (savedInstanceState != null) {
-            stOpen.setOpen(savedInstanceState.getBoolean(DefIntent.STATE_OPEN));
+            openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
         }
 
         setupToolbar();
@@ -118,7 +118,7 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
         Log.i(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(DefIntent.STATE_OPEN, stOpen.isOpen());
+        outState.putBoolean(IntentDef.STATE_OPEN, openSt.isOpen());
     }
 
     private void bind(int listSize) {
@@ -132,14 +132,14 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_frg_bin));
 
-        toolbar.inflateMenu(R.menu.menu_fragment_bin);
+        toolbar.inflateMenu(R.menu.fragment_bin);
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.clear_item:
-                    if (!stOpen.isOpen()) {
-                        stOpen.setOpen(true);
+                    if (!openSt.isOpen()) {
+                        openSt.setOpen(true);
 
-                        dlgClearBin.show(fm, DefDlg.CLEAR_BIN);
+                        dlgClearBin.show(fm, DialogDef.CLEAR_BIN);
                     }
                     return true;
             }
@@ -154,19 +154,19 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
         dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
         dlgClearBin.setMessage(getString(R.string.dialog_text_clear_bin));
         dlgClearBin.setPositiveListener((dialogInterface, i) -> {
-            db = DbRoom.provideDb(context);
+            db = RoomDb.provideDb(context);
             db.daoNote().clearBin();
             db.close();
 
-            vm.setListModelNote(new ArrayList<>());
+            vm.setListModel(new ArrayList<>());
 
-            adapter.setListModelNote(vm.getListModelNote());
+            adapter.setListNoteModel(vm.getListModel());
             adapter.notifyDataSetChanged();
 
-            mItemClearBin.setVisible(vm.getListModelNote().size() != 0);
+            mItemClearBin.setVisible(vm.getListModel().size() != 0);
             bind(0);
         });
-        dlgClearBin.setDismissListener(dialogInterface -> stOpen.setOpen(false));
+        dlgClearBin.setDismissListener(dialogInterface -> openSt.setOpen(false));
     }
 
     private void setupRecycler() {
@@ -175,7 +175,7 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getListModelNote().size());
+                bind(vm.getListModel().size());
             }
         };
 
@@ -190,30 +190,43 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
 
         recyclerView.setAdapter(adapter);
 
-        dlgOptionBin.setOptionBin(this);
+        optionsDialog.setOnClickListener((dialogInterface, i) -> {
+            int p = optionsDialog.getPosition(); // TODO: 06.10.2018 defValues
+            switch (i) {
+                case 0:
+                    onOptionRestoreClick(p);
+                    break;
+                case 1:
+                    onOptionCopyClick(p);
+                    break;
+                case 2:
+                    onOptionClearClick(p);
+                    break;
+            }
+        });
     }
 
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<ModelNote> listModelNote = vm.loadData(DefBin.in);
+        List<NoteModel> listNoteModel = vm.loadData(BinDef.in);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyDataSetChanged();
 
-        mItemClearBin.setVisible(vm.getListModelNote().size() != 0);
-        bind(listModelNote.size());
+        mItemClearBin.setVisible(vm.getListModel().size() != 0);
+        bind(listNoteModel.size());
     }
 
     @Override
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        long id = vm.getListModelNote().get(p).getItemNote().getId();
+        long id = vm.getListModel().get(p).getNoteItem().getId();
 
         Intent intent = new Intent(context, NoteActivity.class);
-        intent.putExtra(DefIntent.NOTE_CREATE, false);
-        intent.putExtra(DefIntent.NOTE_ID, id);
+        intent.putExtra(IntentDef.NOTE_CREATE, false);
+        intent.putExtra(IntentDef.NOTE_ID, id);
 
         startActivity(intent);
     }
@@ -222,54 +235,56 @@ public final class BinFragment extends Fragment implements IntfItem.Click, IntfI
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        dlgOptionBin.setArguments(p);
-        dlgOptionBin.show(fm, DefDlg.OPTIONS);
+        String[] items = context.getResources().getStringArray(R.array.dialog_menu_bin);
+
+        optionsDialog.setArguments(items, p);
+        optionsDialog.show(fm, DialogDef.OPTIONS);
     }
 
     @Override
     public void onOptionRestoreClick(int p) {
         Log.i(TAG, "onOptionRestoreClick");
 
-        List<ModelNote> listModelNote = vm.getListModelNote();
-        ItemNote itemNote = listModelNote.get(p).getItemNote();
+        List<NoteModel> listNoteModel = vm.getListModel();
+        NoteItem noteItem = listNoteModel.get(p).getNoteItem();
 
-        db = DbRoom.provideDb(context);
-        db.daoNote().update(itemNote.getId(), Help.Time.getCurrentTime(context), false);
+        db = RoomDb.provideDb(context);
+        db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(context), false);
         db.close();
 
-        listModelNote.remove(p);
-        vm.setListModelNote(listModelNote);
+        listNoteModel.remove(p);
+        vm.setListModel(listNoteModel);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyItemRemoved(p);
 
-        mItemClearBin.setVisible(vm.getListModelNote().size() != 0);
+        mItemClearBin.setVisible(vm.getListModel().size() != 0);
     }
 
     @Override
     public void onOptionCopyClick(int p) {
-        ItemNote itemNote = vm.getListModelNote().get(p).getItemNote();
-        Help.optionsCopy(context, itemNote);
+        NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+        Help.optionsCopy(context, noteItem);
     }
 
     @Override
     public void onOptionClearClick(int p) {
         Log.i(TAG, "onOptionClearClick");
 
-        List<ModelNote> listModelNote = vm.getListModelNote();
-        ItemNote itemNote = listModelNote.get(p).getItemNote();
+        List<NoteModel> listNoteModel = vm.getListModel();
+        NoteItem noteItem = listNoteModel.get(p).getNoteItem();
 
-        db = DbRoom.provideDb(context);
-        db.daoNote().delete(itemNote.getId());
+        db = RoomDb.provideDb(context);
+        db.daoNote().delete(noteItem.getId());
         db.close();
 
-        listModelNote.remove(p);
-        vm.setListModelNote(listModelNote);
+        listNoteModel.remove(p);
+        vm.setListModel(listNoteModel);
 
-        adapter.setListModelNote(listModelNote);
+        adapter.setListNoteModel(listNoteModel);
         adapter.notifyItemRemoved(p);
 
-        mItemClearBin.setVisible(vm.getListModelNote().size() != 0);
+        mItemClearBin.setVisible(vm.getListModel().size() != 0);
     }
 
 }

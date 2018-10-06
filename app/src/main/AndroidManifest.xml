@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/App.Light.UI">
 
-        <activity android:name="sgtmelon.scriptum.office.blank.BlankAct" />
+        <activity android:name="sgtmelon.scriptum.office.blank.ActivityBlank" />
 
         <activity
             android:name="sgtmelon.scriptum.app.view.activity.SplashActivity"

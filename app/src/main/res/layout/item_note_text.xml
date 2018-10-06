@@ -12,7 +12,7 @@
         <import type="sgtmelon.scriptum.office.Help.Time"/>
 
         <import alias="def"
-                type="sgtmelon.scriptum.office.annot.def.DefTheme"/>
+                type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
         <import alias="text"
                 type="android.text.TextUtils"/>
@@ -20,23 +20,23 @@
         <import alias="v"
                 type="android.view.View"/>
 
-        <variable name="itemNote"
-                  type="sgtmelon.scriptum.app.model.item.ItemNote"/>
+        <variable name="noteItem"
+                  type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
     </data>
 
     <androidx.cardview.widget.CardView
             style="@style/Card"
-            app:cardBackgroundColor='@{Clr.getNote(context, itemNote.color, false)}'
+            app:cardBackgroundColor='@{Clr.getNote(context, noteItem.color, false)}'
             app:cardCornerRadius="@dimen/radius_2dp"
             app:cardUseCompatPadding="false"
             tools:cardBackgroundColor="@color/noteGreenLight">
 
         <FrameLayout
                 android:id="@+id/click_container"
-                style="@style/ItemNote.Click">
+                style="@style/NoteItem.Click">
 
-            <LinearLayout style="@style/ItemNote.Container">
+            <LinearLayout style="@style/NoteItem.Container">
 
                 <LinearLayout
                         android:layout_width="0dp"
@@ -45,25 +45,25 @@
                         android:orientation="vertical">
 
                     <TextView
-                            style="@style/ItemNote.Name"
-                            android:text='@{itemNote.name}'
-                            android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}'
+                            style="@style/NoteItem.Name"
+                            android:text='@{noteItem.name}'
+                            android:visibility='@{text.isEmpty(noteItem.name) ? v.GONE : v.VISIBLE}'
                             tools:text="@string/test_note_name"/>
 
                     <TextView
-                            style="@style/ItemNote.Text"
-                            android:text='@{itemNote.text}'
+                            style="@style/NoteItem.Text"
+                            android:text='@{noteItem.text}'
                             tools:text="@string/test_note_text"/>
 
                     <include
                             layout="@layout/include_item_note_info"
-                            app:itemNote='@{itemNote}'/>
+                            app:noteItem='@{noteItem}'/>
 
                 </LinearLayout>
 
                 <View
-                        style="@style/ItemNote.Color.Vertical"
-                        android:background='@{Clr.getNote(context, itemNote.color, true)}'
+                        style="@style/NoteItem.Color.Vertical"
+                        android:background='@{Clr.getNote(context, noteItem.color, true)}'
                         android:visibility='@{Pref.getTheme(context) == def.light ? v.GONE : v.VISIBLE}'
                         tools:background="@color/note_green_dark"
                         tools:visibility="gone"/>

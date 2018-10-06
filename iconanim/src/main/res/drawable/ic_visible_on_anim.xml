@@ -5,15 +5,15 @@
     tools:ignore="NewApi">
 
     <target
-        android:name="@string/drawable_visible_strike_path"
+        android:name="@string/anim_visible_strike_path"
         android:animation="@animator/visible_strike_path_on" />
 
     <target
-        android:name="@string/drawable_visible_strike_mask"
+        android:name="@string/anim_visible_strike_mask"
         android:animation="@animator/visible_strike_mask_on" />
 
     <target
-        android:name="@string/drawable_visible_eye_path"
+        android:name="@string/anim_visible_eye_path"
         android:animation="@animator/visible_eye_path_on" />
 
 </animated-vector>

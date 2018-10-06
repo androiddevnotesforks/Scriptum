@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ItemRoll" />
+    <style name="RollItem" />
 
-    <style name="ItemRoll.Read" />
+    <style name="RollItem.Read" />
 
-    <style name="ItemRoll.Write" />
+    <style name="RollItem.Write" />
 
-    <style name="ItemRoll.Check">
+    <style name="RollItem.Check">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">false</item>
     </style>
 
-    <style name="ItemRoll.Read.Check" parent="ItemRoll.Check">
+    <style name="RollItem.Read.Check" parent="RollItem.Check">
         <item name="android:visibility">visible</item>
     </style>
 
-    <style name="ItemRoll.Write.Check" parent="ItemRoll.Check">
+    <style name="RollItem.Write.Check" parent="RollItem.Check">
         <item name="android:visibility">invisible</item>
     </style>
 
-    <style name="ItemRoll.Click">
+    <style name="RollItem.Click">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="ItemRoll.Read.Text" parent="EditText">
+    <style name="RollItem.Read.Text" parent="EditText">
         <item name="android:autoLink">all</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:gravity">top</item>
@@ -37,7 +37,7 @@
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
-    <style name="ItemRoll.Write.Enter" parent="EditText">
+    <style name="RollItem.Write.Enter" parent="EditText">
         <item name="android:background">@android:color/transparent</item>
         <item name="android:padding">@dimen/layout_8dp</item>
         <item name="android:imeOptions">flagNoFullscreen</item>

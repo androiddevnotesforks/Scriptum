@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ItemNote" />
+    <style name="NoteItem" />
 
-    <style name="ItemNote.Click">
+    <style name="NoteItem.Click">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="ItemNote.Container">
+    <style name="NoteItem.Container">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:padding">@dimen/layout_8dp</item>
     </style>
 
-    <style name="ItemNote.Container.Roll">
+    <style name="NoteItem.Container.Roll">
         <item name="android:padding">@dimen/layout_0dp</item>
     </style>
 
-    <style name="ItemNote.Indicator">
+    <style name="NoteItem.Indicator">
         <item name="android:layout_width">@dimen/icon_16dp</item>
         <item name="android:layout_height">@dimen/icon_16dp</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:tint">?attr/clIcon</item>
     </style>
 
-    <style name="ItemNote.Name">
+    <style name="NoteItem.Name">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
@@ -37,7 +37,7 @@
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
-    <style name="ItemNote.Roll">
+    <style name="NoteItem.Roll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -48,7 +48,7 @@
         <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
-    <style name="ItemNote.Text">
+    <style name="NoteItem.Text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">end</item>
@@ -57,7 +57,7 @@
         <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
-    <style name="ItemNote.Info">
+    <style name="NoteItem.Info">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:ellipsize">end</item>
@@ -66,21 +66,21 @@
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
-    <style name="ItemNote.Indicator.Info">
+    <style name="NoteItem.Indicator.Info">
         <item name="android:layout_marginRight">@dimen/layout_4dp</item>
         <item name="android:tint">?attr/clNoteIndicator</item>
     </style>
 
-    <style name="ItemNote.Color" />
+    <style name="NoteItem.Color" />
 
-    <style name="ItemNote.Color.Vertical">
+    <style name="NoteItem.Color.Vertical">
         <item name="android:layout_width">@dimen/layout_4dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginStart">@dimen/layout_4dp</item>
         <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
     </style>
 
-    <style name="ItemNote.Color.Horizontal">
+    <style name="NoteItem.Color.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/layout_4dp</item>
     </style>

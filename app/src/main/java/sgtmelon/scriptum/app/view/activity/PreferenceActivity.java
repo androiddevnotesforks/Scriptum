@@ -9,9 +9,9 @@ import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.view.fragment.PreferenceFragment;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.blank.BlankAct;
+import sgtmelon.scriptum.office.blank.ActivityBlank;
 
-public final class PreferenceActivity extends BlankAct {
+public final class PreferenceActivity extends ActivityBlank {
 
     private static final String TAG = PreferenceActivity.class.getSimpleName();
 

@@ -4,22 +4,22 @@
 
     <data>
 
-        <variable name="itemRoll"
-                  type="sgtmelon.scriptum.app.model.item.ItemRoll"/>
+        <variable name="rollItem"
+                  type="sgtmelon.scriptum.app.model.item.RollItem"/>
 
     </data>
 
-    <LinearLayout style="@style/ItemNote.Container.Roll" tools:ignore="UseCompoundDrawables">
+    <LinearLayout style="@style/NoteItem.Container.Roll" tools:ignore="UseCompoundDrawables">
 
         <ImageView
-                style="@style/ItemNote.Indicator"
+                style="@style/NoteItem.Indicator"
                 android:contentDescription="@null"
-                android:src='@{itemRoll != null &amp;&amp; itemRoll.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
+                android:src='@{rollItem != null &amp;&amp; rollItem.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
                 tools:srcCompat="@drawable/ic_check_done"/>
 
         <TextView
-                style="@style/ItemNote.Roll"
-                android:text='@{itemRoll != null ? itemRoll.text : ""}'
+                style="@style/NoteItem.Roll"
+                android:text='@{rollItem != null ? rollItem.text : ""}'
                 tools:text="@string/test_note_roll"/>
 
     </LinearLayout>

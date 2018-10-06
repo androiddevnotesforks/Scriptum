@@ -1,0 +1,40 @@
+package sgtmelon.scriptum.office.intf;
+
+public interface MenuIntf {
+
+    interface NoteClick {
+        /**
+         * @param editModeChange - Надо ли менять режим редактирования
+         * @return - True - сохранение успешно
+         */
+        boolean onMenuSaveClick(boolean editModeChange);
+
+        void onMenuRankClick();
+
+        void onMenuColorClick();
+
+        /**
+         * @param editMode - Установка режима редактирования
+         */
+        void onMenuEditClick(boolean editMode);
+
+        void onMenuBindClick();
+
+        void onMenuConvertClick();
+    }
+
+    interface RollClick {
+        void onMenuCheckClick();
+    }
+
+    interface DeleteClick {
+        void onMenuRestoreClick();
+
+        void onMenuRestoreOpenClick();
+
+        void onMenuClearClick();
+
+        void onMenuDeleteClick();
+    }
+
+}

@@ -14,29 +14,29 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.injection.component.ComponentActivity;
-import sgtmelon.scriptum.app.injection.component.DaggerComponentActivity;
-import sgtmelon.scriptum.app.injection.module.blank.ModuleBlankActivity;
+import sgtmelon.scriptum.app.injection.component.ActivityComponent;
+import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
+import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
 import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.app.view.fragment.RankFragment;
-import sgtmelon.scriptum.element.common.DlgSheet;
-import sgtmelon.scriptum.element.common.DlgSheet;
-import sgtmelon.scriptum.office.annot.def.DefDlg;
-import sgtmelon.scriptum.office.annot.def.DefFrg;
-import sgtmelon.scriptum.office.annot.def.DefIntent;
-import sgtmelon.scriptum.office.annot.def.DefPage;
-import sgtmelon.scriptum.office.annot.def.db.DefType;
-import sgtmelon.scriptum.office.blank.BlankAct;
-import sgtmelon.scriptum.office.st.StOpen;
-import sgtmelon.scriptum.office.st.StPage;
+import sgtmelon.scriptum.element.common.SheetDialog;
+import sgtmelon.scriptum.office.annot.def.DialogDef;
+import sgtmelon.scriptum.office.annot.def.FragmentDef;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.def.PageDef;
+import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.blank.ActivityBlank;
+import sgtmelon.scriptum.office.st.OpenSt;
+import sgtmelon.scriptum.office.st.PageSt;
 
-public final class MainActivity extends BlankAct implements BottomNavigationView.OnNavigationItemSelectedListener {
+public final class MainActivity extends ActivityBlank implements
+        BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private final StPage stPage = new StPage();
-    private final StOpen stOpen = new StOpen();
+    private final PageSt pageSt = new PageSt();
+    private final OpenSt openSt = new OpenSt();
 
     @Inject
     FragmentManager fm;
@@ -48,7 +48,7 @@ public final class MainActivity extends BlankAct implements BottomNavigationView
     BinFragment binFragment;
 
     @Inject
-    DlgSheet dlgSheetAdd;
+    SheetDialog sheetDialog;
 
     private FloatingActionButton fab;
 
@@ -58,17 +58,17 @@ public final class MainActivity extends BlankAct implements BottomNavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ComponentActivity componentActivity = DaggerComponentActivity.builder()
-                .moduleBlankActivity(new ModuleBlankActivity(this))
+        ActivityComponent activityComponent = DaggerActivityComponent.builder()
+                .activityBlankModule(new ActivityBlankModule(this))
                 .build();
-        componentActivity.inject(this);
+        activityComponent.inject(this);
 
-        int page = DefPage.notes;
+        int page = PageDef.notes;
         if (savedInstanceState != null) {
-            stPage.setPage(savedInstanceState.getInt(DefIntent.STATE_PAGE));
-            stOpen.setOpen(savedInstanceState.getBoolean(DefIntent.STATE_OPEN));
+            pageSt.setPage(savedInstanceState.getInt(IntentDef.STATE_PAGE));
+            openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
 
-            page = stPage.getPage();
+            page = pageSt.getPage();
         }
 
         setupNavigation(page);
@@ -79,79 +79,80 @@ public final class MainActivity extends BlankAct implements BottomNavigationView
         Log.i(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        outState.putInt(DefIntent.STATE_PAGE, stPage.getPage());
-        outState.putBoolean(DefIntent.STATE_OPEN, stOpen.isOpen());
+        outState.putInt(IntentDef.STATE_PAGE, pageSt.getPage());
+        outState.putBoolean(IntentDef.STATE_OPEN, openSt.isOpen());
     }
 
-    private void setupNavigation(@DefPage int page) {
+    private void setupNavigation(@PageDef int page) {
         Log.i(TAG, "setupNavigation");
 
         fab = findViewById(R.id.add_fab);
         fab.setOnClickListener(view -> {
-            if (!stOpen.isOpen()) {
-                stOpen.setOpen(true);
+            if (!openSt.isOpen()) {
+                openSt.setOpen(true);
 
-                dlgSheetAdd.show(fm, DefDlg.SHEET_ADD);
+                sheetDialog.setArguments(R.layout.sheet_add, R.id.add_navigation);
+                sheetDialog.show(fm, DialogDef.SHEET);
             }
         });
 
         BottomNavigationView navigationView = findViewById(R.id.menu_navigation);
         navigationView.setOnNavigationItemSelectedListener(this);
-        navigationView.setSelectedItemId(DefPage.itemId[page]);
+        navigationView.setSelectedItemId(PageDef.itemId[page]);
 
-        dlgSheetAdd.setNavigationItemSelectedListener(menuItem -> {
-            dlgSheetAdd.dismiss();
+        sheetDialog.setNavigationItemSelectedListener(menuItem -> {
+            sheetDialog.dismiss();
 
-            @DefType int type = menuItem.getItemId() == R.id.note_text_item
-                    ? DefType.text
-                    : DefType.roll;
+            @TypeDef int type = menuItem.getItemId() == R.id.note_text_item
+                    ? TypeDef.text
+                    : TypeDef.roll;
 
             Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-            intent.putExtra(DefIntent.NOTE_CREATE, true);
-            intent.putExtra(DefIntent.NOTE_TYPE, type);
+            intent.putExtra(IntentDef.NOTE_CREATE, true);
+            intent.putExtra(IntentDef.NOTE_TYPE, type);
 
             startActivity(intent);
             return true;
         });
-        dlgSheetAdd.setDismissListener(dialogInterface -> stOpen.setOpen(false));
+        sheetDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.i(TAG, "onNavigationItemSelected");
 
-        int page = stPage.getPage();
+        int page = pageSt.getPage();
         switch (menuItem.getItemId()) {
             case R.id.page_rank_item:
-                page = DefPage.rank;
+                page = PageDef.rank;
                 break;
             case R.id.page_notes_item:
-                page = DefPage.notes;
+                page = PageDef.notes;
                 break;
             case R.id.page_bin_item:
-                page = DefPage.bin;
+                page = PageDef.bin;
                 break;
         }
-        stPage.setPage(page);
+        pageSt.setPage(page);
 
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
-        switch (stPage.getPage()) {
-            case DefPage.rank:
+        switch (pageSt.getPage()) {
+            case PageDef.rank:
                 fab.setEnabled(false);
                 fab.hide();
-                transaction.replace(R.id.fragment_container, rankFragment, DefFrg.RANK);
+                transaction.replace(R.id.fragment_container, rankFragment, FragmentDef.RANK);
                 break;
-            case DefPage.notes:
+            case PageDef.notes:
                 fab.setEnabled(true);
                 fab.show();
-                transaction.replace(R.id.fragment_container, notesFragment, DefFrg.NOTES);
+                transaction.replace(R.id.fragment_container, notesFragment, FragmentDef.NOTES);
                 break;
-            case DefPage.bin:
+            case PageDef.bin:
                 fab.setEnabled(false);
                 fab.hide();
-                transaction.replace(R.id.fragment_container, binFragment, DefFrg.BIN);
+                transaction.replace(R.id.fragment_container, binFragment, FragmentDef.BIN);
                 break;
         }
         transaction.commit();

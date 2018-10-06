@@ -4,31 +4,31 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import sgtmelon.scriptum.app.database.DbRoom;
-import sgtmelon.scriptum.app.model.ModelRank;
+import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.model.RankModel;
 
 public final class RankViewModel extends AndroidViewModel {
 
-    private ModelRank modelRank;
+    private RankModel rankModel;
 
     public RankViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public ModelRank getModelRank() {
-        return modelRank;
+    public RankModel getRankModel() {
+        return rankModel;
     }
 
-    public void setModelRank(ModelRank modelRank) {
-        this.modelRank = modelRank;
+    public void setRankModel(RankModel rankModel) {
+        this.rankModel = rankModel;
     }
 
-    public ModelRank loadData() {
-        DbRoom db = DbRoom.provideDb(getApplication().getApplicationContext());
-        modelRank = db.daoRank().get();
+    public RankModel loadData() {
+        RoomDb db = RoomDb.provideDb(getApplication().getApplicationContext());
+        rankModel = db.daoRank().get();
         db.close();
 
-        return modelRank;
+        return rankModel;
     }
 
 }
