@@ -42,14 +42,14 @@ public final class RenameDialog extends DialogBlank implements TextView.OnEditor
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle arg = getArguments();
 
-        if (arg != null) {
-            position = arg.getInt(DbAnn.RK_PS);
-            title = arg.getString(DialogDef.INIT);
-            listName = arg.getStringArrayList(DialogDef.VALUE);
-        } else if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             position = savedInstanceState.getInt(DbAnn.RK_PS);
             title = savedInstanceState.getString(DialogDef.INIT);
             listName = savedInstanceState.getStringArrayList(DialogDef.VALUE);
+        } else if (arg != null) {
+            position = arg.getInt(DbAnn.RK_PS);
+            title = arg.getString(DialogDef.INIT);
+            listName = arg.getStringArrayList(DialogDef.VALUE);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_rename, null);

@@ -42,12 +42,12 @@ public final class SheetDialog extends BottomSheetDialogFragment implements
                              Bundle savedInstanceState) {
         Bundle arg = getArguments();
 
-        if (arg != null) {
-            layout = arg.getInt(DialogDef.INIT);
-            navigation = arg.getInt(DialogDef.VALUE);
-        } else if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             layout = savedInstanceState.getInt(DialogDef.INIT);
             navigation = savedInstanceState.getInt(DialogDef.VALUE);
+        } else if (arg != null) {
+            layout = arg.getInt(DialogDef.INIT);
+            navigation = arg.getInt(DialogDef.VALUE);
         }
 
         View view = inflater.inflate(layout, container, false);

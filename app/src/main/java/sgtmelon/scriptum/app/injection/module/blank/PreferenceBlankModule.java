@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.injection.module.blank;
 
+import android.content.Context;
+
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
@@ -15,7 +17,12 @@ public final class PreferenceBlankModule {
     }
 
     @Provides
-    public FragmentManager provideFragmentManager() {
+    Context provideContext() {
+        return activity;
+    }
+
+    @Provides
+    FragmentManager provideFragmentManager() {
         return activity.getSupportFragmentManager();
     }
 

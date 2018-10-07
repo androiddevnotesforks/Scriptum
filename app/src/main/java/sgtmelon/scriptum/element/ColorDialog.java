@@ -19,6 +19,8 @@ public final class ColorDialog extends DialogBlank implements ItemIntf.Click {
 
     private int init, check;
 
+    private int[] icons, colors;
+
     public void setArguments(int check) {
         Bundle arg = new Bundle();
 
@@ -33,12 +35,12 @@ public final class ColorDialog extends DialogBlank implements ItemIntf.Click {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle arg = getArguments();
 
-        if (arg != null) {
-            init = arg.getInt(DialogDef.INIT);
-            check = arg.getInt(DialogDef.VALUE);
-        } else if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             init = savedInstanceState.getInt(DialogDef.INIT);
             check = savedInstanceState.getInt(DialogDef.VALUE);
+        } else if (arg != null) {
+            init = arg.getInt(DialogDef.INIT);
+            check = arg.getInt(DialogDef.VALUE);
         }
 
         RecyclerView recyclerView = new RecyclerView(context);
@@ -50,7 +52,7 @@ public final class ColorDialog extends DialogBlank implements ItemIntf.Click {
         GridLayoutManager layoutManager = new GridLayoutManager(context, context.getResources().getInteger(R.integer.dlg_color_column));
         recyclerView.setLayoutManager(layoutManager);
 
-        ColorAdapter adapter = new ColorAdapter(context, check);
+        ColorAdapter adapter = new ColorAdapter(context, check, icons, colors);
         adapter.setClick(this);
         recyclerView.setAdapter(adapter);
 
@@ -64,6 +66,14 @@ public final class ColorDialog extends DialogBlank implements ItemIntf.Click {
                 .setNegativeButton(getString(R.string.dialog_btn_cancel), (dialog, id) -> dialog.cancel())
                 .setCancelable(true)
                 .create();
+    }
+
+    public void setIcons(int[] icons) {
+        this.icons = icons;
+    }
+
+    public void setColors(int[] colors) {
+        this.colors = colors;
     }
 
     @Override

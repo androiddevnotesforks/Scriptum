@@ -303,7 +303,6 @@ public final class RollFragment extends Fragment implements View.OnClickListener
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
 
-        dlgConvert.setTitle(getString(R.string.dialog_title_convert));
         dlgConvert.setMessage(getString(R.string.dialog_roll_convert_to_text));
         dlgConvert.setPositiveListener((dialogInterface, i) -> {
             NoteModel noteModel = vm.getNoteModel();
@@ -346,8 +345,7 @@ public final class RollFragment extends Fragment implements View.OnClickListener
         String[] name = db.daoRank().getName();
         db.close();
 
-        dlgRank.setTitle(getString(R.string.dialog_title_rank));
-        dlgRank.setName(name);
+        dlgRank.setRows(name);
         dlgRank.setPositiveListener((dialogInterface, i) -> {
             boolean[] check = dlgRank.getCheck();
 

@@ -30,12 +30,12 @@ public final class MultiplyDialog extends DialogBlank {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle arg = getArguments();
 
-        if (arg != null) {
-            init = arg.getBooleanArray(DialogDef.INIT);
-            check = arg.getBooleanArray(DialogDef.VALUE);
-        } else if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             init = savedInstanceState.getBooleanArray(DialogDef.INIT);
             check = savedInstanceState.getBooleanArray(DialogDef.VALUE);
+        } else if (arg != null) {
+            init = arg.getBooleanArray(DialogDef.INIT);
+            check = arg.getBooleanArray(DialogDef.VALUE);
         }
 
         return new AlertDialog.Builder(context)
@@ -58,7 +58,7 @@ public final class MultiplyDialog extends DialogBlank {
         outState.putBooleanArray(DialogDef.VALUE, check);
     }
 
-    public void setName(String[] name) {
+    public void setRows(String[] name) {
         this.name = name;
     }
 

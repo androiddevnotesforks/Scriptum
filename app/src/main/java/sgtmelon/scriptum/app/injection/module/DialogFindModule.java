@@ -1,10 +1,13 @@
 package sgtmelon.scriptum.app.injection.module;
 
+import android.content.Context;
+
 import javax.inject.Named;
 
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
+import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ArchScope;
 import sgtmelon.scriptum.element.ColorDialog;
 import sgtmelon.scriptum.element.InfoDialog;
@@ -15,7 +18,10 @@ import sgtmelon.scriptum.element.common.MultiplyDialog;
 import sgtmelon.scriptum.element.common.OptionsDialog;
 import sgtmelon.scriptum.element.common.SheetDialog;
 import sgtmelon.scriptum.element.common.SingleDialog;
+import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
+import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
 @Module
 public final class DialogFindModule {
@@ -49,9 +55,12 @@ public final class DialogFindModule {
     @Provides
     @ArchScope
     @Named(DialogDef.CLEAR_BIN)
-    MessageDialog provideClearBinDialog(FragmentManager fm) {
+    MessageDialog provideClearBinDialog(Context context, FragmentManager fm) {
         MessageDialog dlgClearBin = (MessageDialog) fm.findFragmentByTag(DialogDef.CLEAR_BIN);
         if (dlgClearBin == null) dlgClearBin = new MessageDialog();
+
+        dlgClearBin.setTitle(context.getString(R.string.dialog_title_clear_bin));
+        dlgClearBin.setMessage(context.getString(R.string.dialog_text_clear_bin));
 
         return dlgClearBin;
     }
@@ -59,9 +68,11 @@ public final class DialogFindModule {
     @Provides
     @ArchScope
     @Named(DialogDef.CONVERT)
-    MessageDialog provideConvertDialog(FragmentManager fm) {
+    MessageDialog provideConvertDialog(Context context, FragmentManager fm) {
         MessageDialog dlgConvert = (MessageDialog) fm.findFragmentByTag(DialogDef.CONVERT);
         if (dlgConvert == null) dlgConvert = new MessageDialog();
+
+        dlgConvert.setTitle(context.getString(R.string.dialog_title_convert));
 
         return dlgConvert;
     }
@@ -69,18 +80,31 @@ public final class DialogFindModule {
     @Provides
     @ArchScope
     @Named(DialogDef.RANK)
-    MultiplyDialog provideRankDialog(FragmentManager fm) {
+    MultiplyDialog provideRankDialog(Context context, FragmentManager fm) {
         MultiplyDialog dlgRank = (MultiplyDialog) fm.findFragmentByTag(DialogDef.RANK);
         if (dlgRank == null) dlgRank = new MultiplyDialog();
+
+        dlgRank.setTitle(context.getString(R.string.dialog_title_rank));
 
         return dlgRank;
     }
 
     @Provides
     @ArchScope
-    ColorDialog provideColorDialog(FragmentManager fm) {
+    ColorDialog provideColorDialog(Context context, FragmentManager fm) {
         ColorDialog colorDialog = (ColorDialog) fm.findFragmentByTag(DialogDef.COLOR);
         if (colorDialog == null) colorDialog = new ColorDialog();
+
+        switch (Help.Pref.getTheme(context)) {
+            case ThemeDef.light:
+                colorDialog.setIcons(ColorAnn.ic_light);
+                colorDialog.setColors(ColorAnn.cl_dark);
+                break;
+            case ThemeDef.dark:
+                colorDialog.setIcons(ColorAnn.ic_dark);
+                colorDialog.setColors(ColorAnn.cl_light);
+                break;
+        }
 
         return colorDialog;
     }
@@ -97,9 +121,12 @@ public final class DialogFindModule {
     @Provides
     @ArchScope
     @Named(DialogDef.SAVE_TIME)
-    SingleDialog provideSaveTimeDialog(FragmentManager fm) {
+    SingleDialog provideSaveTimeDialog(Context context,FragmentManager fm) {
         SingleDialog dlgSaveTime = (SingleDialog) fm.findFragmentByTag(DialogDef.SAVE_TIME);
         if (dlgSaveTime == null) dlgSaveTime = new SingleDialog();
+
+        dlgSaveTime.setTitle(context.getString(R.string.pref_save_time_title));
+        dlgSaveTime.setRows(context.getResources().getStringArray(R.array.pref_save_time_text));
 
         return dlgSaveTime;
     }
@@ -107,9 +134,12 @@ public final class DialogFindModule {
     @Provides
     @ArchScope
     @Named(DialogDef.THEME)
-    SingleDialog provideThemeDialog(FragmentManager fm) {
+    SingleDialog provideThemeDialog(Context context, FragmentManager fm) {
         SingleDialog dlgTheme = (SingleDialog) fm.findFragmentByTag(DialogDef.THEME);
         if (dlgTheme == null) dlgTheme = new SingleDialog();
+
+        dlgTheme.setTitle(context.getString(R.string.pref_theme_title));
+        dlgTheme.setRows(context.getResources().getStringArray(R.array.pref_theme_text));
 
         return dlgTheme;
     }

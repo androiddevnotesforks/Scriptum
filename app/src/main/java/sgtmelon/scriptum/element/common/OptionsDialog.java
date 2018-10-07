@@ -41,12 +41,12 @@ public class OptionsDialog extends DialogFragment implements DialogInterface.OnC
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         Bundle arg = getArguments();
 
-        if (arg != null) {
-            items = arg.getStringArray(DialogDef.INIT);
-            position = arg.getInt(DialogDef.VALUE);
-        } else if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             items = savedInstanceState.getStringArray(DialogDef.INIT);
             position = savedInstanceState.getInt(DialogDef.VALUE);
+        } else if (arg != null) {
+            items = arg.getStringArray(DialogDef.INIT);
+            position = arg.getInt(DialogDef.VALUE);
         }
 
         return new AlertDialog.Builder(context)

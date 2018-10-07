@@ -195,13 +195,11 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             return true;
         });
 
-        dlgSaveTime.setTitle(getString(R.string.pref_save_time_title));
-        dlgSaveTime.setName(getResources().getStringArray(R.array.pref_save_time_text));
         dlgSaveTime.setPositiveListener((dialogInterface, i) -> {
             valSaveTime = dlgSaveTime.getCheck();
 
             pref.edit().putInt(getString(R.string.pref_key_save_time), valSaveTime).apply();
-            prefSaveTime.setSummary(dlgSaveTime.getName()[valSaveTime]);
+            prefSaveTime.setSummary(dlgSaveTime.getRows()[valSaveTime]);
         });
         dlgSaveTime.setDismissListener(dialogInterface -> openSt.setOpen(false));
 
@@ -230,13 +228,11 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             return true;
         });
 
-        dlgTheme.setTitle(getString(R.string.pref_theme_title));
-        dlgTheme.setName(getResources().getStringArray(R.array.pref_theme_text));
         dlgTheme.setPositiveListener(((dialogInterface, i) -> {
             valTheme = dlgTheme.getCheck();
 
             pref.edit().putInt(getString(R.string.pref_key_theme), valTheme).apply();
-            prefTheme.setSummary(dlgTheme.getName()[valTheme]);
+            prefTheme.setSummary(dlgTheme.getRows()[valTheme]);
 
             activity.isThemeChange();
         }));

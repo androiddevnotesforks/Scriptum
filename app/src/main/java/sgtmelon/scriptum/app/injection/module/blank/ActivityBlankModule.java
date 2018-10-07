@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.injection.module.blank;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -16,12 +18,17 @@ public final class ActivityBlankModule {
     }
 
     @Provides
-    public AppCompatActivity getActivity() {
+    AppCompatActivity provideActivity() {
         return activity;
     }
 
     @Provides
-    public FragmentManager getFragmentManager() {
+    Context provideContext() {
+        return activity;
+    }
+
+    @Provides
+    public FragmentManager provideFragmentManager() {
         return activity.getSupportFragmentManager();
     }
 

@@ -24,6 +24,8 @@ import sgtmelon.scriptum.office.intf.ItemIntf;
 
 public final class SortDialog extends DialogBlank implements ItemIntf.Click {
 
+    // TODO: 07.10.2018 От частного к общему
+
     private String init, keys;
     private String[] text;
 
@@ -90,12 +92,12 @@ public final class SortDialog extends DialogBlank implements ItemIntf.Click {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle arg = getArguments();
 
-        if (arg != null) {
-            init = arg.getString(DialogDef.INIT);
-            keys = arg.getString(DialogDef.VALUE);
-        } else if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             init = savedInstanceState.getString(DialogDef.INIT);
             keys = savedInstanceState.getString(DialogDef.VALUE);
+        } else if (arg != null) {
+            init = arg.getString(DialogDef.INIT);
+            keys = arg.getString(DialogDef.VALUE);
         }
 
         text = getResources().getStringArray(R.array.pref_sort_text);

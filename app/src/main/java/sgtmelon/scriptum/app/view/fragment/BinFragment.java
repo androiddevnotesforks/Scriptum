@@ -151,8 +151,6 @@ public final class BinFragment extends Fragment implements ItemIntf.Click, ItemI
 
         Help.Tint.menuIcon(context, mItemClearBin);
 
-        dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
-        dlgClearBin.setMessage(getString(R.string.dialog_text_clear_bin));
         dlgClearBin.setPositiveListener((dialogInterface, i) -> {
             db = RoomDb.provideDb(context);
             db.daoNote().clearBin();

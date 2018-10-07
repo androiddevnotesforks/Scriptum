@@ -102,16 +102,6 @@ public final class Help {
             return ContextCompat.getColor(context, typedValue.resourceId);
         }
 
-        public static int getColorCheck(Context context, int position) {
-            switch (Pref.getTheme(context)) {
-                case ThemeDef.light:
-                    return ContextCompat.getColor(context, ColorAnn.cl_dark[position]);
-                default:
-                case ThemeDef.dark:
-                    return ContextCompat.getColor(context, ColorAnn.cl_light[position]);
-            }
-        }
-
         public static int blend(int from, int to, float ratio) {
             final float inverseRatio = 1f - ratio;
 
@@ -133,16 +123,6 @@ public final class Help {
             if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
 
             return drawable;
-        }
-
-        public static Drawable getIconColor(Context context, int position) {
-            switch (Pref.getTheme(context)) {
-                case ThemeDef.light:
-                    return ContextCompat.getDrawable(context, ColorAnn.ic_light[position]);
-                case ThemeDef.dark:
-                default:
-                    return ContextCompat.getDrawable(context, ColorAnn.ic_dark[position]);
-            }
         }
 
     }

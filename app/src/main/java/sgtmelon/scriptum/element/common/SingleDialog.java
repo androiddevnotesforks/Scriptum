@@ -28,12 +28,12 @@ public final class SingleDialog extends DialogBlank {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle arg = getArguments();
 
-        if (arg != null) {
-            init = arg.getInt(DialogDef.INIT);
-            check = arg.getInt(DialogDef.VALUE);
-        } else if (savedInstanceState != null) {
+        if (savedInstanceState != null) {
             init = savedInstanceState.getInt(DialogDef.INIT);
             check = savedInstanceState.getInt(DialogDef.VALUE);
+        } else if (arg != null) {
+            init = arg.getInt(DialogDef.INIT);
+            check = arg.getInt(DialogDef.VALUE);
         }
 
         return new AlertDialog.Builder(context)
@@ -56,11 +56,11 @@ public final class SingleDialog extends DialogBlank {
         outState.putInt(DialogDef.VALUE, check);
     }
 
-    public String[] getName() {
+    public String[] getRows() {
         return name;
     }
 
-    public void setName(String[] name) {
+    public void setRows(String[] name) {
         this.name = name;
     }
 

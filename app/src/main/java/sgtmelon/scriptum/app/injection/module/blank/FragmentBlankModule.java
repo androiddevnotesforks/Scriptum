@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.app.injection.module.blank;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -18,6 +19,7 @@ public final class FragmentBlankModule {
 
     public FragmentBlankModule(Fragment fragment, LayoutInflater inflater, ViewGroup container) {
         this.fragment = fragment;
+
         this.inflater = inflater;
         this.container = container;
     }
@@ -28,7 +30,12 @@ public final class FragmentBlankModule {
     }
 
     @Provides
-    public FragmentManager provideFragmentManager() {
+    Context provideContext() {
+        return fragment.getContext();
+    }
+
+    @Provides
+    FragmentManager provideFragmentManager() {
         return fragment.getFragmentManager();
     }
 
