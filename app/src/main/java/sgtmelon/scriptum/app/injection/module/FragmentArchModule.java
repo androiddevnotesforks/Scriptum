@@ -11,9 +11,9 @@ import dagger.Provides;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ArchScope;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
-import sgtmelon.scriptum.app.vm.NotesViewModel;
-import sgtmelon.scriptum.app.vm.RankViewModel;
-import sgtmelon.scriptum.app.vm.TextViewModel;
+import sgtmelon.scriptum.app.vm.fragment.NoteViewModel;
+import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
+import sgtmelon.scriptum.app.vm.fragment.RankViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
 import sgtmelon.scriptum.databinding.FragmentNotesBinding;
 import sgtmelon.scriptum.databinding.FragmentRankBinding;
@@ -24,6 +24,14 @@ import sgtmelon.scriptum.databinding.IncludeInfoBinding;
 @Module
 public final class FragmentArchModule {
 
+    private final LayoutInflater inflater;
+    private final ViewGroup container;
+
+    public FragmentArchModule(LayoutInflater inflater, ViewGroup container) {
+        this.inflater = inflater;
+        this.container = container;
+    }
+
     @Provides
     @ArchScope
     NoteActivity provideNoteActivity(Fragment fragment) {
@@ -32,37 +40,37 @@ public final class FragmentArchModule {
 
     @Provides
     @ArchScope
-    IncludeInfoBinding provideIncludeInfoBinding(LayoutInflater inflater, ViewGroup container) {
+    IncludeInfoBinding provideIncludeInfoBinding() {
         return DataBindingUtil.inflate(inflater, R.layout.include_info, container, false);
     }
 
     @Provides
     @ArchScope
-    FragmentRankBinding provideFragmentRankBinding(LayoutInflater inflater, ViewGroup container) {
+    FragmentRankBinding provideFragmentRankBinding() {
         return DataBindingUtil.inflate(inflater, R.layout.fragment_rank, container, false);
     }
 
     @Provides
     @ArchScope
-    FragmentNotesBinding provideFragmentNotesBinding(LayoutInflater inflater, ViewGroup container) {
+    FragmentNotesBinding provideFragmentNotesBinding() {
         return DataBindingUtil.inflate(inflater, R.layout.fragment_notes, container, false);
     }
 
     @Provides
     @ArchScope
-    FragmentBinBinding provideFragmentBinBinding(LayoutInflater inflater, ViewGroup container) {
+    FragmentBinBinding provideFragmentBinBinding() {
         return DataBindingUtil.inflate(inflater, R.layout.fragment_bin, container, false);
     }
 
     @Provides
     @ArchScope
-    FragmentTextBinding provideFragmentTextBinding(LayoutInflater inflater, ViewGroup container) {
+    FragmentTextBinding provideFragmentTextBinding() {
         return DataBindingUtil.inflate(inflater, R.layout.fragment_text, container, false);
     }
 
     @Provides
     @ArchScope
-    FragmentRollBinding provideFragmentRollBinding(LayoutInflater inflater, ViewGroup container) {
+    FragmentRollBinding provideFragmentRollBinding() {
         return DataBindingUtil.inflate(inflater, R.layout.fragment_roll, container, false);
     }
 
@@ -80,8 +88,8 @@ public final class FragmentArchModule {
 
     @Provides
     @ArchScope
-    TextViewModel provideTextViewModel(Fragment fragment) {
-        return ViewModelProviders.of(fragment).get(TextViewModel.class);
+    NoteViewModel provideNoteViewModel(Fragment fragment) {
+        return ViewModelProviders.of(fragment).get(NoteViewModel.class);
     }
 
 }

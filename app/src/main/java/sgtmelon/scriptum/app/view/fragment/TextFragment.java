@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.app.view.fragment;
 
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,93 +8,48 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.control.MenuControl;
-import sgtmelon.scriptum.app.control.MenuControlAnim;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.app.view.activity.NoteActivity;
-import sgtmelon.scriptum.app.vm.TextViewModel;
+import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
-import sgtmelon.scriptum.element.ColorDialog;
-import sgtmelon.scriptum.element.common.MessageDialog;
-import sgtmelon.scriptum.element.common.MultiplyDialog;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
-import sgtmelon.scriptum.office.conv.ListConv;
-import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
-public final class TextFragment extends Fragment implements View.OnClickListener, MenuIntf.NoteClick {
+public final class TextFragment extends NoteFragmentParent {
 
     private static final String TAG = TextFragment.class.getSimpleName();
 
-    public MenuControl menuNote;
-
-    @Inject
-    public TextViewModel vm;
-
-    @Inject
-    FragmentManager fm;
     @Inject
     FragmentTextBinding binding;
 
-    @Inject
-    @Named(DialogDef.CONVERT)
-    MessageDialog dlgConvert;
-    @Inject
-    ColorDialog colorDialog;
-    @Inject
-    @Named(DialogDef.RANK)
-    MultiplyDialog dlgRank;
-
-    private NoteActivity activity;
-    private Context context;
-
-    private RoomDb db;
-
-    private View frgView;
-
-    @Override
-    public void onAttach(Context context) {
-        Log.i(TAG, "onAttach");
-        super.onAttach(context);
-
-        this.context = context;
-        activity = (NoteActivity) getActivity(); // TODO: 02.10.2018 установи интерфейс общения
-    }
-
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
+        super.onCreateView(inflater, container, savedInstanceState);
 
         FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
+                .fragmentBlankModule(new FragmentBlankModule(this))
+                .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
         fragmentComponent.inject(this);
 
         frgView = binding.getRoot();
-
-        if (vm.isEmpty()) vm.setNoteModel(activity.vm.getNoteModel());
 
         return frgView;
     }
@@ -105,6 +58,8 @@ public final class TextFragment extends Fragment implements View.OnClickListener
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+
+        if (vm.isEmpty()) vm.setNoteModel(activity.vm.getNoteModel());
 
         setupToolbar();
         setupDialog();
@@ -126,43 +81,10 @@ public final class TextFragment extends Fragment implements View.OnClickListener
         binding.executePendingBindings();
     }
 
-    private void setupToolbar() {
-        Log.i(TAG, "setupToolbar");
-
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
-
-        Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.activity_note);
-
-        View indicator = frgView.findViewById(R.id.color_view);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new MenuControl(context, activity.getWindow());
-        } else {
-            menuNote = new MenuControlAnim(context, activity.getWindow());
-        }
-
-        menuNote.setToolbar(toolbar);
-        menuNote.setIndicator(indicator);
-        menuNote.setType(noteItem.getType());
-        menuNote.setColor(noteItem.getColor());
-
-        menuNote.setNoteClick(this);
-        menuNote.setDeleteClick(activity);
-
-        NoteSt noteSt = activity.vm.getNoteSt();
-
-        menuNote.setupDrawable();
-        menuNote.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
-
-        menuNote.setupMenu(noteItem.isStatus());
-
-        toolbar.setOnMenuItemClickListener(menuNote);
-        toolbar.setNavigationOnClickListener(this);
-    }
-
-    private void setupDialog() {
+    @Override
+    protected void setupDialog() {
         Log.i(TAG, "setupDialog");
+        super.setupDialog();
 
         dlgConvert.setMessage(getString(R.string.dialog_text_convert_to_roll));
         dlgConvert.setPositiveListener((dialogInterface, i) -> {
@@ -187,58 +109,12 @@ public final class TextFragment extends Fragment implements View.OnClickListener
             activity.vm.setNoteModel(noteModel);
             activity.setupFrg(false);
         });
-
-        colorDialog.setTitle(getString(R.string.dialog_title_color));
-        colorDialog.setPositiveListener((dialogInterface, i) -> {
-            int check = colorDialog.getCheck();
-
-            NoteModel noteModel = vm.getNoteModel();
-            NoteItem noteItem = noteModel.getNoteItem();
-            noteItem.setColor(check);
-            noteModel.setNoteItem(noteItem);
-
-            vm.setNoteModel(noteModel);
-
-            menuNote.startTint(check);
-        });
-
-        db = RoomDb.provideDb(context);
-        String[] name = db.daoRank().getName();
-        db.close();
-
-        dlgRank.setRows(name);
-        dlgRank.setPositiveListener((dialogInterface, i) -> {
-            boolean[] check = dlgRank.getCheck();
-
-            db = RoomDb.provideDb(context);
-            Long[] id = db.daoRank().getId();
-            db.close();
-
-            List<Long> rankId = new ArrayList<>();
-            List<Long> rankPs = new ArrayList<>();
-
-            for (int j = 0; j < id.length; j++) {
-                if (check[j]) {
-                    rankId.add(id[j]);
-                    rankPs.add((long) j);
-                }
-            }
-
-            NoteModel noteModel = vm.getNoteModel();
-
-            NoteItem noteItem = noteModel.getNoteItem();
-            noteItem.setRankId(ListConv.fromList(rankId));
-            noteItem.setRankPs(ListConv.fromList(rankPs));
-            noteModel.setNoteItem(noteItem);
-
-            vm.setNoteModel(noteModel);
-        });
     }
 
     private void setupEnter() {
         Log.i(TAG, "setupEnter");
 
-        EditText nameEnter = frgView.findViewById(R.id.name_enter);
+        final EditText nameEnter = frgView.findViewById(R.id.name_enter);
         final EditText textEnter = frgView.findViewById(R.id.text_enter);
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
@@ -320,36 +196,6 @@ public final class TextFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onMenuRankClick() {
-        Log.i(TAG, "onMenuRankClick");
-
-        Help.hideKeyboard(context, activity.getCurrentFocus());
-
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
-
-        db = RoomDb.provideDb(context);
-        boolean[] check = db.daoRank().getCheck(noteItem.getRankId());
-        db.close();
-
-        dlgRank.setArguments(check);
-        dlgRank.show(fm, DialogDef.RANK);
-    }
-
-    @Override
-    public void onMenuColorClick() {
-        Log.i(TAG, "onMenuColorClick");
-
-        Help.hideKeyboard(context, activity.getCurrentFocus());
-
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
-
-        colorDialog.setArguments(noteItem.getColor());
-        colorDialog.show(fm, DialogDef.COLOR);
-
-        menuNote.setStartColor(noteItem.getColor());
-    }
-
-    @Override
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
@@ -366,37 +212,9 @@ public final class TextFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onMenuBindClick() {
-        Log.i(TAG, "onMenuBindClick");
+    public void onMenuCheckClick() {
+        Log.i(TAG, "onMenuCheckClick");
 
-        NoteModel noteModel = vm.getNoteModel();
-        NoteItem noteItem = noteModel.getNoteItem();
-
-        if (!noteItem.isStatus()) {
-            noteItem.setStatus(true);
-            noteModel.updateItemStatus(true);
-        } else {
-            noteItem.setStatus(false);
-            noteModel.updateItemStatus(false);
-        }
-
-        menuNote.setStatusTitle(noteItem.isStatus());
-
-        db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), noteItem.isStatus());
-        db.close();
-
-        noteModel.setNoteItem(noteItem);
-
-        vm.setNoteModel(noteModel);
-        activity.vm.setNoteModel(noteModel);
-    }
-
-    @Override
-    public void onMenuConvertClick() {
-        Log.i(TAG, "onMenuConvertClick");
-
-        dlgConvert.show(fm, DialogDef.CONVERT);
     }
 
 }

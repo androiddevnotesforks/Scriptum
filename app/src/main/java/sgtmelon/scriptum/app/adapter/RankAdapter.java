@@ -13,7 +13,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import sgtmelon.iconanim.app.SwitchButton;
+import sgtmelon.iconanim.library.SwitchButton;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.databinding.ItemRankBinding;
@@ -24,24 +24,24 @@ public final class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHold
     private final List<RankItem> listRank = new ArrayList<>();
     private boolean[] startAnim;
 
-    private ItemIntf.Click click;
-    private ItemIntf.LongClick longClick;
-    private ItemIntf.Drag drag;
+    private ItemIntf.ClickListener clickListener;
+    private ItemIntf.LongClickListener longClickListener;
+    private ItemIntf.DragListener dragListener;
 
     public boolean[] getStartAnim() {
         return startAnim;
     }
 
-    public void setClick(ItemIntf.Click click) {
-        this.click = click;
+    public void setClickListener(ItemIntf.ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
-    public void setLongClick(ItemIntf.LongClick longClick) {
-        this.longClick = longClick;
+    public void setLongClickListener(ItemIntf.LongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
     }
 
-    public void setDrag(ItemIntf.Drag drag) {
-        this.drag = drag;
+    public void setDragListener(ItemIntf.DragListener dragListener) {
+        this.dragListener = dragListener;
     }
 
     public void setListRank(List<RankItem> listRank) {
@@ -133,20 +133,20 @@ public final class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHold
             switch (view.getId()) {
                 case R.id.visible_button:
                     rkVisible.setDrawable(!listRank.get(p).isVisible(), true);
-                    click.onItemClick(view, p);
+                    clickListener.onItemClick(view, p);
                     break;
                 case R.id.click_container:
-                    click.onItemClick(view, p);
+                    clickListener.onItemClick(view, p);
                     break;
                 case R.id.cancel_button:
-                    click.onItemClick(view, p);
+                    clickListener.onItemClick(view, p);
                     break;
             }
         }
 
         @Override
         public boolean onLongClick(View view) {
-            longClick.onItemLongClick(view, getAdapterPosition());
+            longClickListener.onItemLongClick(view, getAdapterPosition());
             return true;
         }
 
@@ -155,13 +155,13 @@ public final class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHold
             switch (view.getId()) {
                 case R.id.click_container:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setItemDrag(true);
+                        dragListener.setItemDrag(true);
                     }
                     break;
                 case R.id.visible_button:
                 case R.id.cancel_button:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        drag.setItemDrag(false);
+                        dragListener.setItemDrag(false);
                     }
                     break;
             }

@@ -35,8 +35,8 @@ public final class RollAdapter extends RecyclerView.Adapter<RollAdapter.RollHold
 
     private NoteSt noteSt;
 
-    private ItemIntf.Click click;
-    private ItemIntf.Drag drag;
+    private ItemIntf.ClickListener clickListener;
+    private ItemIntf.DragListener dragListener;
     private ItemIntf.Watcher watcher;
 
     public RollAdapter(Context context) {
@@ -47,9 +47,9 @@ public final class RollAdapter extends RecyclerView.Adapter<RollAdapter.RollHold
         this.noteSt = noteSt;
     }
 
-    public void setCallback(ItemIntf.Click click, ItemIntf.Drag drag, ItemIntf.Watcher watcher) {
-        this.click = click;
-        this.drag = drag;
+    public void setCallback(ItemIntf.ClickListener clickListener, ItemIntf.DragListener dragListener, ItemIntf.Watcher watcher) {
+        this.clickListener = clickListener;
+        this.dragListener = dragListener;
         this.watcher = watcher;
     }
 
@@ -161,14 +161,14 @@ public final class RollAdapter extends RecyclerView.Adapter<RollAdapter.RollHold
             if (!noteSt.isEdit()) {
                 int p = getAdapterPosition();
                 rlCheck.setChecked(!listRoll.get(p).isCheck());
-                click.onItemClick(view, p);
+                clickListener.onItemClick(view, p);
             }
         }
 
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                drag.setItemDrag(view.getId() == R.id.drag_button);
+                dragListener.setItemDrag(view.getId() == R.id.drag_button);
             }
             return false;
         }

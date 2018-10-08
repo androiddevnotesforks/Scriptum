@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProviders;
 import dagger.Module;
 import dagger.Provides;
 import sgtmelon.scriptum.app.injection.ArchScope;
-import sgtmelon.scriptum.app.vm.NoteViewModel;
+import sgtmelon.scriptum.app.vm.activity.NoteViewModel;
 
 @Module
 public final class ActivityArchModule {

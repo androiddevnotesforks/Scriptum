@@ -24,29 +24,30 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import sgtmelon.safedialog.library.MessageDialog;
+import sgtmelon.safedialog.library.OptionsDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.NoteAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
-import sgtmelon.scriptum.app.vm.NotesViewModel;
+import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
-import sgtmelon.scriptum.element.common.MessageDialog;
-import sgtmelon.scriptum.element.common.OptionsDialog;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.db.BinDef;
-import sgtmelon.scriptum.office.intf.DialogIntf;
 import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.OpenSt;
 
-public final class BinFragment extends Fragment implements ItemIntf.Click, ItemIntf.LongClick,
-        DialogIntf.OptionBin {
+public final class BinFragment extends Fragment implements ItemIntf.ClickListener,
+        ItemIntf.LongClickListener, MenuIntf.Dialog.DeleteMenuClick {
 
     private static final String TAG = BinFragment.class.getSimpleName();
 
@@ -69,9 +70,11 @@ public final class BinFragment extends Fragment implements ItemIntf.Click, ItemI
     OptionsDialog optionsDialog;
 
     private Context context;
+
     private RoomDb db;
 
     private View frgView;
+
     private MenuItem mItemClearBin;
 
     @Override
@@ -97,7 +100,8 @@ public final class BinFragment extends Fragment implements ItemIntf.Click, ItemI
         Log.i(TAG, "onCreateView");
 
         FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
+                .fragmentBlankModule(new FragmentBlankModule(this))
+                .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
         fragmentComponent.inject(this);
 
@@ -183,8 +187,8 @@ public final class BinFragment extends Fragment implements ItemIntf.Click, ItemI
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter.setClick(this);
-        adapter.setLongClick(this);
+        adapter.setClickListener(this);
+        adapter.setLongClickListener(this);
 
         recyclerView.setAdapter(adapter);
 
@@ -192,13 +196,13 @@ public final class BinFragment extends Fragment implements ItemIntf.Click, ItemI
             int p = optionsDialog.getPosition(); // TODO: 06.10.2018 defValues
             switch (i) {
                 case 0:
-                    onOptionRestoreClick(p);
+                    onMenuRestoreClick(p);
                     break;
                 case 1:
-                    onOptionCopyClick(p);
+                    onMenuCopyClick(p);
                     break;
                 case 2:
-                    onOptionClearClick(p);
+                    onMenuClearClick(p);
                     break;
             }
         });
@@ -240,8 +244,8 @@ public final class BinFragment extends Fragment implements ItemIntf.Click, ItemI
     }
 
     @Override
-    public void onOptionRestoreClick(int p) {
-        Log.i(TAG, "onOptionRestoreClick");
+    public void onMenuRestoreClick(int p) {
+        Log.i(TAG, "onMenuRestoreClick");
 
         List<NoteModel> listNoteModel = vm.getListModel();
         NoteItem noteItem = listNoteModel.get(p).getNoteItem();
@@ -260,14 +264,14 @@ public final class BinFragment extends Fragment implements ItemIntf.Click, ItemI
     }
 
     @Override
-    public void onOptionCopyClick(int p) {
+    public void onMenuCopyClick(int p) {
         NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
         Help.optionsCopy(context, noteItem);
     }
 
     @Override
-    public void onOptionClearClick(int p) {
-        Log.i(TAG, "onOptionClearClick");
+    public void onMenuClearClick(int p) {
+        Log.i(TAG, "onMenuClearClick");
 
         List<NoteModel> listNoteModel = vm.getListModel();
         NoteItem noteItem = listNoteModel.get(p).getNoteItem();

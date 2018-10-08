@@ -43,9 +43,8 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
     private MenuItem mItemStatus, mItemCheck;
 
-    private MenuIntf.NoteClick noteClick;
-    private MenuIntf.RollClick rollClick;
-    private MenuIntf.DeleteClick deleteClick;
+    private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
+    private MenuIntf.Note.NoteMenuClick noteMenuClick;
 
     public MenuControl(Context context, Window window) {
         this.context = context;
@@ -67,16 +66,12 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         this.type = type;
     }
 
-    public void setNoteClick(MenuIntf.NoteClick noteClick) {
-        this.noteClick = noteClick;
+    public void setDeleteMenuClick(MenuIntf.Note.DeleteMenuClick deleteMenuClick) {
+        this.deleteMenuClick = deleteMenuClick;
     }
 
-    public void setRollClick(MenuIntf.RollClick rollClick) {
-        this.rollClick = rollClick;
-    }
-
-    public void setDeleteClick(MenuIntf.DeleteClick deleteClick) {
-        this.deleteClick = deleteClick;
+    public void setNoteMenuClick(MenuIntf.Note.NoteMenuClick noteMenuClick) {
+        this.noteMenuClick = noteMenuClick;
     }
 
     //Установка цвета
@@ -203,39 +198,39 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.restore_item:
-                deleteClick.onMenuRestoreClick();
+                deleteMenuClick.onMenuRestoreClick();
                 return true;
             case R.id.restore_open_item:
-                deleteClick.onMenuRestoreOpenClick();
+                deleteMenuClick.onMenuRestoreOpenClick();
                 return true;
             case R.id.clear_item:
-                deleteClick.onMenuClearClick();
+                deleteMenuClick.onMenuClearClick();
                 return true;
             case R.id.save_item:
-                if (!noteClick.onMenuSaveClick(true)) {
+                if (!noteMenuClick.onMenuSaveClick(true)) {
                     Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
                 }
                 return true;
             case R.id.rank_item:
-                noteClick.onMenuRankClick();
+                noteMenuClick.onMenuRankClick();
                 return true;
             case R.id.color_item:
-                noteClick.onMenuColorClick();
+                noteMenuClick.onMenuColorClick();
                 return true;
             case R.id.edit_item:
-                noteClick.onMenuEditClick(true);
+                noteMenuClick.onMenuEditClick(true);
                 return true;
             case R.id.check_item:
-                rollClick.onMenuCheckClick();
+                noteMenuClick.onMenuCheckClick();
                 return true;
             case R.id.bind_item:
-                noteClick.onMenuBindClick();
+                noteMenuClick.onMenuBindClick();
                 break;
             case R.id.convert_item:
-                noteClick.onMenuConvertClick();
+                noteMenuClick.onMenuConvertClick();
                 return true;
             case R.id.delete_item:
-                deleteClick.onMenuDeleteClick();
+                deleteMenuClick.onMenuDeleteClick();
                 return true;
         }
         return false;

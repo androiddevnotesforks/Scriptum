@@ -6,10 +6,10 @@ import android.widget.TextView;
 
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.view.parent.ActivityParent;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.blank.ActivityBlank;
 
-public final class DevelopActivity extends ActivityBlank {
+public final class DevelopActivity extends ActivityParent {
 
     private static final String TAG = DevelopActivity.class.getSimpleName();
 

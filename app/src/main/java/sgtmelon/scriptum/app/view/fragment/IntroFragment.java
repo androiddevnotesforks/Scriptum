@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.databinding.IncludeInfoBinding;
 import sgtmelon.scriptum.office.annot.IntroAnn;
@@ -40,7 +41,8 @@ public final class IntroFragment extends Fragment {
         Log.i(TAG, "onCreateView");
 
         FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
+                .fragmentBlankModule(new FragmentBlankModule(this))
+                .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
         fragmentComponent.inject(this);
 

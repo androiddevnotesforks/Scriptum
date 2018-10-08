@@ -8,9 +8,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import sgtmelon.safedialog.office.annot.DialogAnn;
+import sgtmelon.safedialog.office.blank.DialogBlank;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.office.annot.def.DialogDef;
-import sgtmelon.scriptum.office.blank.DialogBlank;
 
 public final class InfoDialog extends DialogBlank implements View.OnClickListener {
 
@@ -22,7 +22,7 @@ public final class InfoDialog extends DialogBlank implements View.OnClickListene
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            click = savedInstanceState.getInt(DialogDef.VALUE);
+            click = savedInstanceState.getInt(DialogAnn.VALUE);
         }
 
         View view = LayoutInflater.from(context).inflate(R.layout.view_about, null);
@@ -40,7 +40,7 @@ public final class InfoDialog extends DialogBlank implements View.OnClickListene
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putInt(DialogDef.VALUE, click);
+        outState.putInt(DialogAnn.VALUE, click);
     }
 
     public void setLogoClick(View.OnClickListener logoClick) {

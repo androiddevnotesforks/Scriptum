@@ -8,10 +8,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.view.fragment.PreferenceFragment;
+import sgtmelon.scriptum.app.view.parent.ActivityParent;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.blank.ActivityBlank;
 
-public final class PreferenceActivity extends ActivityBlank {
+public final class PreferenceActivity extends ActivityParent {
 
     private static final String TAG = PreferenceActivity.class.getSimpleName();
 

@@ -26,30 +26,31 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import sgtmelon.safedialog.library.RenameDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RankAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.RankModel;
 import sgtmelon.scriptum.app.model.item.RankItem;
-import sgtmelon.scriptum.app.vm.RankViewModel;
+import sgtmelon.scriptum.app.vm.fragment.RankViewModel;
 import sgtmelon.scriptum.databinding.FragmentRankBinding;
-import sgtmelon.scriptum.element.RenameDialog;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
-import sgtmelon.scriptum.office.st.DragSt;
+import sgtmelon.scriptum.office.st.DragListenerSt;
 import sgtmelon.scriptum.office.st.OpenSt;
 
 public final class RankFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener,
-        ItemIntf.Click, ItemIntf.LongClick {
+        ItemIntf.ClickListener, ItemIntf.LongClickListener {
 
     private static final String TAG = RankFragment.class.getSimpleName();
 
-    private final DragSt dragSt = new DragSt();
+    private final DragListenerSt dragSt = new DragListenerSt();
     private final OpenSt openSt = new OpenSt();
 
     private final RankAdapter adapter = new RankAdapter();
@@ -166,7 +167,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         Log.i(TAG, "onCreateView");
 
         FragmentComponent comFrg = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
+                .fragmentBlankModule(new FragmentBlankModule(this))
+                .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
         comFrg.inject(this);
 
@@ -283,9 +285,9 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter.setClick(this);
-        adapter.setLongClick(this);
-        adapter.setDrag(dragSt);
+        adapter.setClickListener(this);
+        adapter.setLongClickListener(this);
+        adapter.setDragListener(dragSt);
 
         recyclerView.setAdapter(adapter);
 

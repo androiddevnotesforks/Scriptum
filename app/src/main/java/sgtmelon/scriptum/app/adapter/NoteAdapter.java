@@ -23,15 +23,15 @@ public final class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHold
 
     private final List<NoteModel> listNoteModel = new ArrayList<>();
 
-    private ItemIntf.Click click;
-    private ItemIntf.LongClick longClick;
+    private ItemIntf.ClickListener clickListener;
+    private ItemIntf.LongClickListener longClickListener;
 
-    public void setClick(ItemIntf.Click click) {
-        this.click = click;
+    public void setClickListener(ItemIntf.ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
-    public void setLongClick(ItemIntf.LongClick longClick) {
-        this.longClick = longClick;
+    public void setLongClickListener(ItemIntf.LongClickListener longClickListener) {
+        this.longClickListener = longClickListener;
     }
 
     public void setListNoteModel(List<NoteModel> listNoteModel) {
@@ -120,12 +120,12 @@ public final class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHold
 
         @Override
         public void onClick(View view) {
-            click.onItemClick(view, getAdapterPosition());
+            clickListener.onItemClick(view, getAdapterPosition());
         }
 
         @Override
         public boolean onLongClick(View view) {
-            longClick.onItemLongClick(view, getAdapterPosition());
+            longClickListener.onItemLongClick(view, getAdapterPosition());
             return false;
         }
 

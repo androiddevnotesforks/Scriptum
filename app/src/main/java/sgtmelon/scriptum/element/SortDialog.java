@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
+import sgtmelon.safedialog.office.annot.DialogAnn;
+import sgtmelon.safedialog.office.blank.DialogBlank;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.SortAdapter;
 import sgtmelon.scriptum.app.model.item.SortItem;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.SortDef;
-import sgtmelon.scriptum.office.blank.DialogBlank;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 
-public final class SortDialog extends DialogBlank implements ItemIntf.Click {
+public final class SortDialog extends DialogBlank implements ItemIntf.ClickListener {
 
     // TODO: 07.10.2018 От частного к общему
 
@@ -81,8 +81,8 @@ public final class SortDialog extends DialogBlank implements ItemIntf.Click {
     public void setArguments(String keys) {
         Bundle arg = new Bundle();
 
-        arg.putString(DialogDef.INIT, keys);
-        arg.putString(DialogDef.VALUE, keys);
+        arg.putString(DialogAnn.INIT, keys);
+        arg.putString(DialogAnn.VALUE, keys);
 
         setArguments(arg);
     }
@@ -93,11 +93,11 @@ public final class SortDialog extends DialogBlank implements ItemIntf.Click {
         Bundle arg = getArguments();
 
         if (savedInstanceState != null) {
-            init = savedInstanceState.getString(DialogDef.INIT);
-            keys = savedInstanceState.getString(DialogDef.VALUE);
+            init = savedInstanceState.getString(DialogAnn.INIT);
+            keys = savedInstanceState.getString(DialogAnn.VALUE);
         } else if (arg != null) {
-            init = arg.getString(DialogDef.INIT);
-            keys = arg.getString(DialogDef.VALUE);
+            init = arg.getString(DialogAnn.INIT);
+            keys = arg.getString(DialogAnn.VALUE);
         }
 
         text = getResources().getStringArray(R.array.pref_sort_text);
@@ -113,7 +113,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.Click {
 
         adapter = new SortAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setClick(this);
+        adapter.setClickListener(this);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -146,8 +146,8 @@ public final class SortDialog extends DialogBlank implements ItemIntf.Click {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putString(DialogDef.INIT, init);
-        outState.putString(DialogDef.VALUE, keys);
+        outState.putString(DialogAnn.INIT, init);
+        outState.putString(DialogAnn.VALUE, keys);
     }
 
     public String getKeys() {

@@ -23,10 +23,10 @@ public final class SortAdapter extends RecyclerView.Adapter<SortAdapter.SortHold
 
     private final List<SortItem> listSort = new ArrayList<>();
 
-    private ItemIntf.Click click;
+    private ItemIntf.ClickListener clickListener;
 
-    public void setClick(ItemIntf.Click click) {
-        this.click = click;
+    public void setClickListener(ItemIntf.ClickListener clickListener) {
+        this.clickListener = clickListener;
     }
 
     public void setListSort(List<SortItem> listSort) {
@@ -86,7 +86,7 @@ public final class SortAdapter extends RecyclerView.Adapter<SortAdapter.SortHold
         @Override
         public void onClick(View view) {
             int p = getAdapterPosition();
-            if (p == sortSt.getEnd()) click.onItemClick(view, p);
+            if (p == sortSt.getEnd()) clickListener.onItemClick(view, p);
         }
 
     }

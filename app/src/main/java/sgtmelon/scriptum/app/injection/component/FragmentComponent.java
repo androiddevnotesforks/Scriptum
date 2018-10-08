@@ -11,6 +11,7 @@ import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.app.view.fragment.RankFragment;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
+import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 
 @ArchScope
 @Component(modules = {
@@ -28,8 +29,9 @@ public interface FragmentComponent {
 
     void inject(BinFragment binFragment);
 
+    void inject(NoteFragmentParent noteFragmentParent);
+
     void inject(TextFragment textFragment);
 
     void inject(RollFragment rollFragment);
-
 }

@@ -32,7 +32,7 @@
                         android:checked='@{rollItem.check}'
                         tools:checked="true"/>
 
-                <View
+                <ImageView
                         android:id="@+id/click_view"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"

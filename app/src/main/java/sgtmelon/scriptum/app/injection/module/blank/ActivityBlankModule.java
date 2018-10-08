@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.injection.module.blank;
 
 import android.content.Context;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
@@ -11,9 +10,9 @@ import dagger.Provides;
 @Module
 public final class ActivityBlankModule {
 
-    private AppCompatActivity activity;
+    private final AppCompatActivity activity;
 
-    public ActivityBlankModule(@NonNull AppCompatActivity activity) {
+    public ActivityBlankModule(AppCompatActivity activity) {
         this.activity = activity;
     }
 

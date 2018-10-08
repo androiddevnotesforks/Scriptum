@@ -22,31 +22,32 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import sgtmelon.safedialog.library.OptionsDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.NoteAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
+import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
-import sgtmelon.scriptum.app.vm.NotesViewModel;
+import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentNotesBinding;
-import sgtmelon.scriptum.element.common.OptionsDialog;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.db.BinDef;
 import sgtmelon.scriptum.office.annot.def.db.CheckDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
-import sgtmelon.scriptum.office.intf.DialogIntf;
 import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.office.intf.MenuIntf;
 
 public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemClickListener,
-        ItemIntf.Click, ItemIntf.LongClick, DialogIntf.OptionNote {
+        ItemIntf.ClickListener, ItemIntf.LongClickListener, MenuIntf.Dialog.NoteMenuClick {
 
     private static final String TAG = NotesFragment.class.getSimpleName();
 
@@ -96,7 +97,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "onCreateView");
 
         FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this, inflater, container))
+                .fragmentBlankModule(new FragmentBlankModule(this))
+                .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
         fragmentComponent.inject(this);
 
@@ -144,8 +146,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter.setClick(this);
-        adapter.setLongClick(this);
+        adapter.setClickListener(this);
+        adapter.setLongClickListener(this);
 
         recyclerView.setAdapter(adapter);
 
@@ -157,35 +159,35 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
                 case TypeDef.text:
                     switch (i) {
                         case 0:
-                            onOptionBindClick(p);
+                            onMenuBindClick(p);
                             break;
                         case 1:
-                            onOptionConvertClick(p);
+                            onMenuConvertClick(p);
                             break;
                         case 2:
-                            onOptionCopyClick(p);
+                            onMenuCopyClick(p);
                             break;
                         case 3:
-                            onOptionDeleteClick(p);
+                            onMenuDeleteClick(p);
                             break;
                     }
                     break;
                 case TypeDef.roll:
                     switch (i) {
                         case 0:
-                            onOptionCheckClick(p);
+                            onMenuCheckClick(p);
                             break;
                         case 1:
-                            onOptionBindClick(p);
+                            onMenuBindClick(p);
                             break;
                         case 2:
-                            onOptionConvertClick(p);
+                            onMenuConvertClick(p);
                             break;
                         case 3:
-                            onOptionCopyClick(p);
+                            onMenuCopyClick(p);
                             break;
                         case 4:
-                            onOptionDeleteClick(p);
+                            onMenuDeleteClick(p);
                             break;
                     }
                     break;
@@ -262,8 +264,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public void onOptionCheckClick(int p) {
-        Log.i(TAG, "onOptionCheckClick");
+    public void onMenuCheckClick(int p) {
+        Log.i(TAG, "onMenuCheckClick");
 
         List<NoteModel> listNoteModel = vm.getListModel();
         NoteModel noteModel = listNoteModel.get(p);
@@ -293,8 +295,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public void onOptionBindClick(int p) {
-        Log.i(TAG, "onOptionBindClick");
+    public void onMenuBindClick(int p) {
+        Log.i(TAG, "onMenuBindClick");
 
         List<NoteModel> listNoteModel = vm.getListModel();
         NoteModel noteModel = listNoteModel.get(p);
@@ -318,8 +320,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public void onOptionConvertClick(int p) {
-        Log.i(TAG, "onOptionConvertClick");
+    public void onMenuConvertClick(int p) {
+        Log.i(TAG, "onMenuConvertClick");
 
         List<NoteModel> listNoteModel = vm.getListModel();
         NoteModel noteModel = listNoteModel.get(p);
@@ -366,16 +368,16 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public void onOptionCopyClick(int p) {
-        Log.i(TAG, "onOptionCopyClick");
+    public void onMenuCopyClick(int p) {
+        Log.i(TAG, "onMenuCopyClick");
 
         NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
         Help.optionsCopy(context, noteItem);
     }
 
     @Override
-    public void onOptionDeleteClick(int p) {
-        Log.i(TAG, "onOptionDeleteClick");
+    public void onMenuDeleteClick(int p) {
+        Log.i(TAG, "onMenuDeleteClick");
 
         List<NoteModel> listNoteModel = vm.getListModel();
         NoteModel noteModel = listNoteModel.get(p);

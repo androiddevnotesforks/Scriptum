@@ -18,16 +18,16 @@ import javax.inject.Named;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import sgtmelon.safedialog.library.ColorDialog;
+import sgtmelon.safedialog.library.SingleDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.DaggerPreferenceComponent;
 import sgtmelon.scriptum.app.injection.component.PreferenceComponent;
 import sgtmelon.scriptum.app.injection.module.blank.PreferenceBlankModule;
 import sgtmelon.scriptum.app.view.activity.DevelopActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
-import sgtmelon.scriptum.element.ColorDialog;
 import sgtmelon.scriptum.element.InfoDialog;
 import sgtmelon.scriptum.element.SortDialog;
-import sgtmelon.scriptum.element.common.SingleDialog;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;

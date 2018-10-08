@@ -13,6 +13,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import sgtmelon.safedialog.library.SheetDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
 import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
@@ -20,17 +21,16 @@ import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
 import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.app.view.fragment.RankFragment;
-import sgtmelon.scriptum.element.common.SheetDialog;
+import sgtmelon.scriptum.app.view.parent.ActivityParent;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.PageDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
-import sgtmelon.scriptum.office.blank.ActivityBlank;
 import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.st.PageSt;
 
-public final class MainActivity extends ActivityBlank implements
+public final class MainActivity extends ActivityParent implements
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();

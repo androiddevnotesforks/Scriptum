@@ -4,15 +4,15 @@ import android.view.View;
 
 public interface ItemIntf {
 
-    interface Click {
+    interface ClickListener {
         void onItemClick(View view, int p);
     }
 
-    interface LongClick {
+    interface LongClickListener {
         void onItemLongClick(View view, int p);
     }
 
-    interface Drag {
+    interface DragListener {
         void setItemDrag(boolean itemDrag);
     }
 

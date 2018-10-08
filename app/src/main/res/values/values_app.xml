@@ -5,4 +5,6 @@
     <integer name="length_note_name">50</integer>
     <integer name="length_rank_name">30</integer>
 
+    <integer name="column_color">4</integer>
+
 </resources>

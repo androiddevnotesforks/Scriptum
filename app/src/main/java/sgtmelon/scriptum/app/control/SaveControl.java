@@ -18,7 +18,7 @@ public final class SaveControl {
     private Runnable saveRunnable;
 
     private int saveTime;
-    private MenuIntf.NoteClick noteClick;
+    private MenuIntf.Note.NoteMenuClick noteMenuClick;
 
     /**
      * Пауза срабатывает не только при сворачивании
@@ -46,8 +46,8 @@ public final class SaveControl {
         }
     }
 
-    public void setNoteClick(MenuIntf.NoteClick noteClick) {
-        this.noteClick = noteClick;
+    public void setNoteMenuClick(MenuIntf.Note.NoteMenuClick noteMenuClick) {
+        this.noteMenuClick = noteMenuClick;
     }
 
     public void setNeedSave(boolean needSave) {
@@ -68,7 +68,7 @@ public final class SaveControl {
     }
 
     private void onSave() {
-        if (noteClick.onMenuSaveClick(false)) {
+        if (noteMenuClick.onMenuSaveClick(false)) {
             Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show();

@@ -1,23 +1,25 @@
 package sgtmelon.scriptum.app.injection.module;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.TypedValue;
 
 import javax.inject.Named;
 
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
+import sgtmelon.safedialog.library.ColorDialog;
+import sgtmelon.safedialog.library.MessageDialog;
+import sgtmelon.safedialog.library.MultiplyDialog;
+import sgtmelon.safedialog.library.OptionsDialog;
+import sgtmelon.safedialog.library.RenameDialog;
+import sgtmelon.safedialog.library.SheetDialog;
+import sgtmelon.safedialog.library.SingleDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ArchScope;
-import sgtmelon.scriptum.element.ColorDialog;
 import sgtmelon.scriptum.element.InfoDialog;
-import sgtmelon.scriptum.element.RenameDialog;
 import sgtmelon.scriptum.element.SortDialog;
-import sgtmelon.scriptum.element.common.MessageDialog;
-import sgtmelon.scriptum.element.common.MultiplyDialog;
-import sgtmelon.scriptum.element.common.OptionsDialog;
-import sgtmelon.scriptum.element.common.SheetDialog;
-import sgtmelon.scriptum.element.common.SingleDialog;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -28,9 +30,21 @@ public final class DialogFindModule {
 
     @Provides
     @ArchScope
-    RenameDialog provideRenameDialog(FragmentManager fm) {
+    RenameDialog provideRenameDialog(Context context, FragmentManager fm) {
         RenameDialog renameDialog = (RenameDialog) fm.findFragmentByTag(DialogDef.RENAME);
         if (renameDialog == null) renameDialog = new RenameDialog();
+
+        Resources.Theme theme = context.getTheme();
+        TypedValue attrs = new TypedValue();
+
+        theme.resolveAttribute(R.attr.clText, attrs, true);
+        renameDialog.setColorText(attrs.data);
+
+        theme.resolveAttribute(R.attr.clSecond, attrs, true);
+        renameDialog.setColorHint(attrs.data);
+
+        renameDialog.setTextHint(context.getString(R.string.hint_enter_rank_rename));
+        renameDialog.setTextLength(context.getResources().getInteger(R.integer.length_note_name));
 
         return renameDialog;
     }
@@ -106,6 +120,8 @@ public final class DialogFindModule {
                 break;
         }
 
+        colorDialog.setColumnCount(context.getResources().getInteger(R.integer.column_color));
+
         return colorDialog;
     }
 
@@ -121,7 +137,7 @@ public final class DialogFindModule {
     @Provides
     @ArchScope
     @Named(DialogDef.SAVE_TIME)
-    SingleDialog provideSaveTimeDialog(Context context,FragmentManager fm) {
+    SingleDialog provideSaveTimeDialog(Context context, FragmentManager fm) {
         SingleDialog dlgSaveTime = (SingleDialog) fm.findFragmentByTag(DialogDef.SAVE_TIME);
         if (dlgSaveTime == null) dlgSaveTime = new SingleDialog();
 

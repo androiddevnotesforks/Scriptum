@@ -36,11 +36,4 @@ public @interface DialogDef {
             THEME = "DLG_THEME",
             INFO = "DLG_INFO";
 
-
-    /**
-     * Значения которое сохраняем в классе диалога
-     */
-    String INIT = "INIT",
-            VALUE = "VALUE";
-
 }

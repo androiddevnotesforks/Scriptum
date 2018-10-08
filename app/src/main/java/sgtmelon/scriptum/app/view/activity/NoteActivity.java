@@ -17,16 +17,16 @@ import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
-import sgtmelon.scriptum.app.vm.NoteViewModel;
+import sgtmelon.scriptum.app.view.parent.ActivityParent;
+import sgtmelon.scriptum.app.vm.activity.NoteViewModel;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
-import sgtmelon.scriptum.office.blank.ActivityBlank;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
-public final class NoteActivity extends ActivityBlank implements MenuIntf.DeleteClick {
+public final class NoteActivity extends ActivityParent implements MenuIntf.Note.DeleteMenuClick {
 
     private static final String TAG = NoteActivity.class.getSimpleName();
 
@@ -146,7 +146,7 @@ public final class NoteActivity extends ActivityBlank implements MenuIntf.Delete
                 if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
                 else textFragment = new TextFragment();
 
-                saveControl.setNoteClick(textFragment);
+                saveControl.setNoteMenuClick(textFragment);
 
                 transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
@@ -154,7 +154,7 @@ public final class NoteActivity extends ActivityBlank implements MenuIntf.Delete
                 if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
                 else rollFragment = new RollFragment();
 
-                saveControl.setNoteClick(rollFragment);
+                saveControl.setNoteMenuClick(rollFragment);
 
                 transaction.replace(R.id.fragment_container, rollFragment, FragmentDef.ROLL);
                 break;
