@@ -11,9 +11,10 @@
         <item name="android:animateLayoutChanges">true</item>
     </style>
 
-    <style name="Info.Image">
+    <style name="Info.Icon">
         <item name="android:layout_width">@dimen/icon_128dp</item>
         <item name="android:layout_height">@dimen/icon_128dp</item>
+        <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
     </style>
 
     <style name="Info.Title">
@@ -21,14 +22,21 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">@dimen/layout_4dp</item>
+        <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
         <item name="android:textColor">?attr/clText</item>
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
-    <style name="Info.Details" parent="Info.Title">
+    <style name="Info.Details">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/icon_16dp</item>
+        <item name="android:paddingTop">@dimen/layout_4dp</item>
+        <item name="android:paddingRight">@dimen/icon_16dp</item>
+        <item name="android:paddingBottom">@dimen/layout_4dp</item>
         <item name="android:textColor">?attr/clSecond</item>
         <item name="android:textSize">@dimen/text_14sp</item>
-        <item name="android:padding">@dimen/layout_8dp</item>
     </style>
 
 </resources>

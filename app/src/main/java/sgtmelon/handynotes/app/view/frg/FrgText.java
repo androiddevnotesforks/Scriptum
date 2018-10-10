@@ -92,6 +92,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     }
 
     private void bind(boolean keyEdit, boolean keyCreate) {
+        Log.i(TAG, "bind");
+
         binding.setItemNote(vm.getRepoNote().getItemNote());
         binding.setKeyEdit(keyEdit);
         binding.setKeyCreate(keyCreate);

@@ -90,6 +90,9 @@
     </style>
 
     <style name="App.Intro" parent="Theme.AppCompat.NoActionBar">
+        <item name="clSecond">@color/secondDark</item>
+        <item name="clText">@color/textDark</item>
+
         <item name="colorPrimaryDark">@color/ic_launcher_background</item>
 
         <item name="android:windowBackground">?attr/colorPrimaryDark</item>

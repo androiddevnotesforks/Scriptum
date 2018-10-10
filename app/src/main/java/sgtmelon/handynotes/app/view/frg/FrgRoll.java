@@ -626,7 +626,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
                 if (dX > 0) {                                               //Сдвиг слева вправо
                     translationX = Math.abs(Math.min(dX, targetX));         //Выбираем минимальное (если dX превышает targetX, то выбираем второе)
                 } else {                                                    //Сдвиг справа влево
-                    translationX = Math.abs(Math.max(dX, -targetX));        //Выбираем максимальное (если dX пренижает targetX, то выбираем второе)
+                    translationX = Math.abs(Math.max(dX, -targetX));        //Выбираем максимальное (если dX принижает targetX, то выбираем второе)
                 }
 
                 float alpha = 1.0f - translationX / targetX;                //Значение прозрачности
