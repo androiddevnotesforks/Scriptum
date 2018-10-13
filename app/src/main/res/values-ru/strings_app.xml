@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="title_frg_rank">Категории</string>
-    <string name="title_frg_notes">Заметки</string>
-    <string name="title_frg_bin">Корзина</string>
-    <string name="title_act_settings">Настройки</string>
+    <string name="title_rank">Категории</string>
+    <string name="title_notes">Заметки</string>
+    <string name="title_bin">Корзина</string>
+    <string name="title_preference">Настройки</string>
 
 
     <!-- Name of menu items -->

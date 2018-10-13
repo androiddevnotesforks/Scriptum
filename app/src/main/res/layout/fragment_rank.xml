@@ -21,7 +21,9 @@
 
         <include layout="@layout/include_toolbar_rank"/>
 
-        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <FrameLayout
+                android:layout_width="match_parent"
+                     android:layout_height="match_parent">
 
             <include
                     layout="@layout/include_info"

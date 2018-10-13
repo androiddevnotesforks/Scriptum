@@ -134,7 +134,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.title_frg_bin));
+        toolbar.setTitle(getString(R.string.title_bin));
 
         toolbar.inflateMenu(R.menu.fragment_bin);
         toolbar.setOnMenuItemClickListener(item -> {

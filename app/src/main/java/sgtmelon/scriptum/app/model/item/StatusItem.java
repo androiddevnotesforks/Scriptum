@@ -42,7 +42,7 @@ public final class StatusItem { // TODO: 02.10.2018 вынести из моде
 
         stackBuilder.addNextIntent(intent);
 
-        pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = stackBuilder.getPendingIntent((int) noteItem.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         updateNote(noteItem, notify);
     }

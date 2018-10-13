@@ -19,7 +19,7 @@ public final class PreferenceActivity extends ActivityParent {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_preference);
 
         setupToolbar();
 
@@ -31,7 +31,7 @@ public final class PreferenceActivity extends ActivityParent {
         Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.title_act_settings));
+        toolbar.setTitle(getString(R.string.title_preference));
 
         Drawable arrowBack = Help.Draw.get(this, R.drawable.ic_cancel_off, R.attr.clIcon);
         toolbar.setNavigationIcon(arrowBack);

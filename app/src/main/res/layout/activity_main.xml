@@ -8,10 +8,17 @@
         android:orientation="vertical"
         tools:context=".app.view.activity.MainActivity">
 
+    <!-- TODO 13.10.18 добавить везде где надо contentDescription -->
+
     <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="?attr/colorPrimary"/>
 
         <FrameLayout
                 android:id="@+id/fragment_container"
@@ -21,8 +28,10 @@
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_fab"
                 style="?attr/styleFab"
-                app:useCompatPadding="false"
-                app:srcCompat="@drawable/ic_add"/>
+                app:srcCompat="@drawable/ic_add"
+                app:useCompatPadding="false"/>
+
+        <!-- TODO 13.10.18 Сделать тень -->
 
     </FrameLayout>
 

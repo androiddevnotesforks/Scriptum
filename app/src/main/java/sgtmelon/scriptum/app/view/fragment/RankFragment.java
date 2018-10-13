@@ -211,7 +211,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.title_frg_rank));
+        toolbar.setTitle(getString(R.string.title_rank));
 
         rankCancel = frgView.findViewById(R.id.cancel_button);
         rankAdd = frgView.findViewById(R.id.add_button);

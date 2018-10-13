@@ -3,10 +3,10 @@
 
     <string name="app_name" translatable="false">Scriptum</string>
 
-    <string name="title_frg_rank">Categories</string>
-    <string name="title_frg_notes">Notes</string>
-    <string name="title_frg_bin">Bin</string>
-    <string name="title_act_settings">Settings</string>
+    <string name="title_rank">Categories</string>
+    <string name="title_notes">Notes</string>
+    <string name="title_bin">Bin</string>
+    <string name="title_preference">Settings</string>
 
 
     <!-- Name of menu items -->

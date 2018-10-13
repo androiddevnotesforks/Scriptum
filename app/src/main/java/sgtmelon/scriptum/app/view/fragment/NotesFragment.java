@@ -119,7 +119,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "setupToolbar");
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.setTitle(getString(R.string.title_frg_notes));
+        toolbar.setTitle(getString(R.string.title_notes));
 
         toolbar.inflateMenu(R.menu.fragment_note);
         toolbar.setOnMenuItemClickListener(this);
@@ -302,7 +302,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         NoteModel noteModel = listNoteModel.get(p);
 
         NoteItem noteItem = noteModel.getNoteItem();
-        noteItem.setStatus();
+        noteItem.setStatus(!noteItem.isStatus());
 
         noteModel.updateItemStatus(noteItem.isStatus());
 
