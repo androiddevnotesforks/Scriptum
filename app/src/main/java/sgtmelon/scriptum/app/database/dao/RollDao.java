@@ -9,10 +9,14 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.TypeConverters;
+import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.def.db.CheckDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
+/**
+ * Класс для общения Dao списка {@link RoomDb}
+ */
 @Dao
 @TypeConverters({BoolConv.class})
 public abstract class RollDao extends BaseDao {
@@ -23,9 +27,9 @@ public abstract class RollDao extends BaseDao {
     /**
      * Запись пунктов после конвертирования из текстовой заметки
      *
-     * @param idNote - Id заметки
-     * @param text   - Массив потенциальных пунктов
-     * @return - Для NoteModel
+     * @param idNote - id заметки
+     * @param text   - массив потенциальных пунктов
+     * @return - для NoteModel
      */
     public List<RollItem> insert(long idNote, String[] text) {
         List<RollItem> listRoll = new ArrayList<>();
@@ -57,8 +61,8 @@ public abstract class RollDao extends BaseDao {
     /**
      * Получение текста для текстовой заметки на основе списка
      *
-     * @param idNote - Id заметки
-     * @return - Строка для текстовой заметки
+     * @param idNote - id заметки
+     * @return - строка для текстовой заметки
      */
     public String getText(long idNote) {
         List<RollItem> listRoll = getRoll(idNote);
@@ -75,9 +79,9 @@ public abstract class RollDao extends BaseDao {
     /**
      * Получение текста для уведомления на основе списка
      *
-     * @param idNote - Id заметки
-     * @param check  - Количество отмеченых пунктов в заметке
-     * @return - Строка для уведомления
+     * @param idNote - id заметки
+     * @param check  - количество отмеченых пунктов в заметке
+     * @return - строка для уведомления
      */
     public String getText(long idNote, String check) {
         List<RollItem> listRoll = getRoll(idNote);
@@ -107,8 +111,8 @@ public abstract class RollDao extends BaseDao {
     /**
      * Обновление выполнения конкретного пункта
      *
-     * @param id    - Id пункта
-     * @param check - Состояние отметки
+     * @param id    - id пункта
+     * @param check - состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :check " +
@@ -118,8 +122,8 @@ public abstract class RollDao extends BaseDao {
     /**
      * Обновление выполнения для всех пунктов
      *
-     * @param idNote - Id заметки
-     * @param check  - Состояние отметки
+     * @param idNote - id заметки
+     * @param check  - состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :check " +
@@ -129,15 +133,15 @@ public abstract class RollDao extends BaseDao {
     /**
      * Удаление пунктов при сохранении после свайпа
      *
-     * @param idNote - Id заметки
-     * @param idSave - Id, которые остались в заметке
+     * @param idNote - id заметки
+     * @param idSave - id, которые остались в заметке
      */
     @Query("DELETE FROM ROLL_TABLE " +
             "WHERE RL_ID_NOTE = :idNote AND RL_ID NOT IN (:idSave)")
     public abstract void delete(long idNote, List<Long> idSave);
 
     /**
-     * @param idNote - Id удаляемой заметки
+     * @param idNote - id удаляемой заметки
      */
     @Query("DELETE FROM ROLL_TABLE " +
             "WHERE RL_ID_NOTE = :idNote")

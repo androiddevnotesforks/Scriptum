@@ -21,7 +21,7 @@ import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 
 /**
- * Класс контроля меню
+ * Класс для контроля меню
  * Для версий API < 21
  */
 public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {

@@ -1,5 +1,11 @@
 package sgtmelon.scriptum.app.model.item;
 
+import sgtmelon.scriptum.app.adapter.SortAdapter;
+import sgtmelon.scriptum.element.SortDialog;
+
+/**
+ * Модель для сортировки {@link SortDialog}, {@link SortAdapter}
+ */
 public final class SortItem {
 
     private String text;

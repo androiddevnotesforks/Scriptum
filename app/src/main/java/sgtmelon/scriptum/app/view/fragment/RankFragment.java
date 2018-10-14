@@ -53,7 +53,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private final DragListenerSt dragSt = new DragListenerSt();
     private final OpenSt openSt = new OpenSt();
 
-    private final RankAdapter adapter = new RankAdapter();
+    private RankAdapter adapter;
 
     @Inject
     FragmentManager fm;
@@ -112,7 +112,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 rankModel.setListRank(listRank);
                 vm.setRankModel(rankModel);
 
-                adapter.setListRank(listRank);
+                adapter.setList(listRank);
                 adapter.notifyDataSetChanged();
             }
         }
@@ -131,7 +131,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             rankModel.move(oldPs, newPs);
             vm.setRankModel(rankModel);
 
-            adapter.setListRank(rankModel.getListRank());
+            adapter.setList(rankModel.getListRank());
             adapter.notifyItemMoved(oldPs, newPs);
 
             return true;
@@ -285,6 +285,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
+        adapter = new RankAdapter(context);
+
         adapter.setClickListener(this);
         adapter.setLongClickListener(this);
         adapter.setDragListener(dragSt);
@@ -311,7 +313,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
             vm.setRankModel(rankModel);
 
-            adapter.setListRank(p, rankItem);
+            adapter.setListItem(p, rankItem);
             adapter.notifyItemChanged(p);
         });
         renameDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -322,7 +324,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         RankModel rankModel = vm.loadData();
 
-        adapter.setListRank(rankModel.getListRank());
+        adapter.setList(rankModel.getListRank());
         adapter.notifyDataSetChanged();
 
         bind(rankModel.size());
@@ -352,7 +354,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 rankModel.add(ps, rankItem);
 
                 vm.setRankModel(rankModel);
-                adapter.setListRank(rankModel.getListRank());
+                adapter.setList(rankModel.getListRank());
 
                 if (rankModel.size() == 1) {
                     bind(rankModel.size());
@@ -390,7 +392,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         rankModel.add(ps, rankItem);
         vm.setRankModel(rankModel);
 
-        adapter.setListRank(rankModel.getListRank());
+        adapter.setList(rankModel.getListRank());
 
         if (rankModel.size() == 1) bind(rankModel.size());
         else {
@@ -419,7 +421,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 rankModel.set(p, rankItem);
 
                 vm.setRankModel(rankModel);
-                adapter.setListRank(p, rankItem);
+                adapter.setListItem(p, rankItem);
 
                 db = RoomDb.provideDb(context);
                 db.daoRank().update(rankItem);
@@ -445,7 +447,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
                 vm.setRankModel(rankModel);
 
-                adapter.setListRank(rankModel.getListRank());
+                adapter.setList(rankModel.getListRank());
                 adapter.notifyItemRemoved(p);
                 break;
         }
@@ -477,7 +479,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         vm.setRankModel(rankModel);
 
-        adapter.setListRank(listRank, startAnim);
+        adapter.setList(listRank);
         adapter.notifyDataSetChanged();
 
         db = RoomDb.provideDb(context);

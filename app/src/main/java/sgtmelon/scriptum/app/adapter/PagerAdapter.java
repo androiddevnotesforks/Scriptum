@@ -5,8 +5,12 @@ import java.util.List;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import sgtmelon.scriptum.app.view.activity.IntroActivity;
 import sgtmelon.scriptum.app.view.fragment.IntroFragment;
 
+/**
+ * Адаптер для вступления {@link IntroActivity}
+ */
 public final class PagerAdapter extends FragmentPagerAdapter {
 
     private final List<IntroFragment> itemList = new ArrayList<>();

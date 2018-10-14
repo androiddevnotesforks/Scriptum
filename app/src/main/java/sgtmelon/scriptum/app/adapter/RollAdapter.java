@@ -3,7 +3,6 @@ package sgtmelon.scriptum.app.adapter;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,61 +11,36 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.RollTypeDef;
-import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
-public final class RollAdapter extends RecyclerView.Adapter<RollAdapter.RollHolder> {
-
-
-    private final Context context;
-    private final List<RollItem> listRoll = new ArrayList<>();
+/**
+ * Адаптер для {@link RollFragment}
+ */
+public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollHolder> {
 
     private NoteSt noteSt;
 
-    private ItemIntf.ClickListener clickListener;
-    private ItemIntf.DragListener dragListener;
-    private ItemIntf.Watcher watcher;
-
     public RollAdapter(Context context) {
-        this.context = context;
+        super(context);
     }
 
     public void setNoteSt(NoteSt noteSt) {
         this.noteSt = noteSt;
     }
 
-    public void setCallback(ItemIntf.ClickListener clickListener, ItemIntf.DragListener dragListener, ItemIntf.Watcher watcher) {
-        this.clickListener = clickListener;
-        this.dragListener = dragListener;
-        this.watcher = watcher;
-    }
-
-    public void setListRoll(List<RollItem> listRoll) {
-        this.listRoll.clear();
-        this.listRoll.addAll(listRoll);
-    }
-
-    public void setListRoll(int position, RollItem rollItem) {
-        listRoll.set(position, rollItem);
-    }
-
     @NonNull
     @Override
     public RollHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         switch (viewType) {
             default:
             case RollTypeDef.read:
@@ -83,27 +57,22 @@ public final class RollAdapter extends RecyclerView.Adapter<RollAdapter.RollHold
     }
 
     @Override
-    public int getItemViewType(int position) {
-        if (!noteSt.isEdit()) return RollTypeDef.read;
-        else return RollTypeDef.write;
-    }
-
-    @Override
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
-        RollItem rollItem = listRoll.get(position);
+        RollItem item = list.get(position);
 
         if (noteSt.isEdit()) {
-            if (rollItem.isCheck()) {
+            if (item.isCheck()) {
                 holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clAccent));
             } else holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clIcon));
         }
 
-        holder.bind(rollItem);
+        holder.bind(item);
     }
 
     @Override
-    public int getItemCount() {
-        return listRoll.size();
+    public int getItemViewType(int position) {
+        if (!noteSt.isEdit()) return RollTypeDef.read;
+        else return RollTypeDef.write;
     }
 
     final class RollHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
@@ -160,7 +129,7 @@ public final class RollAdapter extends RecyclerView.Adapter<RollAdapter.RollHold
         public void onClick(View view) {
             if (!noteSt.isEdit()) {
                 int p = getAdapterPosition();
-                rlCheck.setChecked(!listRoll.get(p).isCheck());
+                rlCheck.setChecked(!list.get(p).isCheck());
                 clickListener.onItemClick(view, p);
             }
         }

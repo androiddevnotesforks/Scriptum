@@ -1,27 +1,25 @@
 package sgtmelon.scriptum.app.model.item;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import java.util.List;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.db.CheckDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
-import sgtmelon.scriptum.office.conv.ListConv;
 import sgtmelon.scriptum.office.conv.StringConv;
 
+/**
+ * Элемент списка заметок {@link NoteModel}
+ */
 @Entity(tableName = DbAnn.NT_TB)
 @TypeConverters({BoolConv.class, StringConv.class})
-public final class NoteItem { // TODO: 02.10.2018 чистая модель
+public final class NoteItem {
 
     @ColumnInfo(name = DbAnn.NT_ID)
     @PrimaryKey(autoGenerate = true)
@@ -56,29 +54,10 @@ public final class NoteItem { // TODO: 02.10.2018 чистая модель
 
     }
 
-    public NoteItem(Context context, @TypeDef int type) {
-        create = Help.Time.getCurrentTime(context);
-
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-        color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
-
+    public NoteItem(String create, int color, @TypeDef int type) {
+        this.create = create;
+        this.color = color;
         this.type = type;
-    }
-
-    /**
-     * @param noteRankId - Убирает из массивов ненужную категорию по id
-     */
-    public void removeRank(long noteRankId) {
-        List<Long> rankIdList = ListConv.toList(rankId);
-        List<Long> rankPsList = ListConv.toList(rankPs);
-
-        int index = rankIdList.indexOf(noteRankId);
-
-        rankIdList.remove(index);
-        rankPsList.remove(index);
-
-        rankId = ListConv.fromList(rankIdList);
-        rankPs = ListConv.fromList(rankPsList);
     }
 
     public long getId() {
@@ -103,10 +82,6 @@ public final class NoteItem { // TODO: 02.10.2018 чистая модель
 
     public void setChange(String change) {
         this.change = change;
-    }
-
-    public void setChange(Context context) {
-        change = Help.Time.getCurrentTime(context);
     }
 
     public String getName() {

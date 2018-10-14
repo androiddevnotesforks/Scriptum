@@ -53,7 +53,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
     private final OpenSt openSt = new OpenSt();
 
-    private final NoteAdapter adapter = new NoteAdapter();
+    private NoteAdapter adapter;
 
     @Inject
     FragmentManager fm;
@@ -162,7 +162,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
             vm.setListModel(new ArrayList<>());
 
-            adapter.setListNoteModel(vm.getListModel());
+            adapter.setList(vm.getListModel());
             adapter.notifyDataSetChanged();
 
             mItemClearBin.setVisible(vm.getListModel().size() != 0);
@@ -186,6 +186,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
+
+        adapter = new NoteAdapter(context);
 
         adapter.setClickListener(this);
         adapter.setLongClickListener(this);
@@ -213,7 +215,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         List<NoteModel> listNoteModel = vm.loadData(BinDef.in);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyDataSetChanged();
 
         mItemClearBin.setVisible(vm.getListModel().size() != 0);
@@ -257,7 +259,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         listNoteModel.remove(p);
         vm.setListModel(listNoteModel);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyItemRemoved(p);
 
         mItemClearBin.setVisible(vm.getListModel().size() != 0);
@@ -283,7 +285,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         listNoteModel.remove(p);
         vm.setListModel(listNoteModel);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyItemRemoved(p);
 
         mItemClearBin.setVisible(vm.getListModel().size() != 0);

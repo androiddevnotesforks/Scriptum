@@ -13,6 +13,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.TypeConverters;
 import androidx.room.Update;
+import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
@@ -22,6 +23,9 @@ import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.db.BinDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
+/**
+ * Класс для общения Dao заметок {@link RoomDb}
+ */
 @Dao
 @TypeConverters({BoolConv.class})
 public abstract class NoteDao extends BaseDao {
@@ -96,24 +100,11 @@ public abstract class NoteDao extends BaseDao {
         }
     }
 
-    /**
-     * Обновление положения заметки относительно корзины
-     *
-     * @param id     - Id обновляемой заметки
-     * @param change - Время изменения
-     * @param bin    - Положение относительно корзины
-     */
     @Query("UPDATE NOTE_TABLE " +
             "SET NT_CHANGE = :change, NT_BIN = :bin " +
             "WHERE NT_ID = :id")
     public abstract void update(long id, String change, boolean bin);
 
-    /**
-     * Обновление привязки к статус бару
-     *
-     * @param id     - Id обновляемой заметки
-     * @param status - Привязка к статус бару
-     */
     @Query("UPDATE NOTE_TABLE " +
             "SET NT_STATUS = :status " +
             "WHERE NT_ID = :id")
@@ -125,6 +116,11 @@ public abstract class NoteDao extends BaseDao {
     @Delete
     abstract void delete(List<NoteItem> lisNote);
 
+    /**
+     * Удаление заметки с чисткой категории
+     *
+     * @param id - идентификатор заметки
+     */
     public void delete(long id) {
         NoteItem noteItem = get(id);
 

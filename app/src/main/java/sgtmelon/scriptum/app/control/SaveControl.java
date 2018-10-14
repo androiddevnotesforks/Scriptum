@@ -9,6 +9,9 @@ import android.widget.Toast;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 
+/**
+ * Класс контроля сохранений заметки
+ */
 public final class SaveControl {
 
     private final Context context;

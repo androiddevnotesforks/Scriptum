@@ -95,7 +95,7 @@ public final class TextFragment extends NoteFragmentParent {
             db = RoomDb.provideDb(context);
             List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
-            noteItem.setChange(context);
+            noteItem.setChange(Help.Time.getCurrentTime(context));
             noteItem.setType(TypeDef.roll);
             noteItem.setText(0, listRoll.size());
 
@@ -166,7 +166,7 @@ public final class TextFragment extends NoteFragmentParent {
         NoteModel noteModel = vm.getNoteModel();
         NoteItem noteItem = noteModel.getNoteItem();
         if (!noteItem.getText().equals("")) {
-            noteItem.setChange(context);
+            noteItem.setChange(Help.Time.getCurrentTime(context));
 
             if (editModeChange) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());

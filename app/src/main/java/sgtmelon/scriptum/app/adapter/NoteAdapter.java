@@ -1,10 +1,9 @@
 package sgtmelon.scriptum.app.adapter;
 
-import android.view.LayoutInflater;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -14,41 +13,24 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.view.fragment.BinFragment;
+import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding;
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
-import sgtmelon.scriptum.office.intf.ItemIntf;
 
-public final class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHolder> {
+/**
+ * Адаптер для {@link NotesFragment}, {@link BinFragment}
+ */
+public final class NoteAdapter extends ParentAdapter<NoteModel, NoteAdapter.NoteHolder> {
 
-    private final List<NoteModel> listNoteModel = new ArrayList<>();
-
-    private ItemIntf.ClickListener clickListener;
-    private ItemIntf.LongClickListener longClickListener;
-
-    public void setClickListener(ItemIntf.ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    public void setLongClickListener(ItemIntf.LongClickListener longClickListener) {
-        this.longClickListener = longClickListener;
-    }
-
-    public void setListNoteModel(List<NoteModel> listNoteModel) {
-        this.listNoteModel.clear();
-        this.listNoteModel.addAll(listNoteModel);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return listNoteModel.get(position).getNoteItem().getType();
+    public NoteAdapter(Context context) {
+        super(context);
     }
 
     @NonNull
     @Override
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         if (viewType == TypeDef.text) {
             ItemNoteTextBinding bindingText = DataBindingUtil.inflate(
                     inflater, R.layout.item_note_text, parent, false
@@ -64,13 +46,13 @@ public final class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteHold
 
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
-        NoteModel noteModel = listNoteModel.get(position);
+        NoteModel noteModel = list.get(position);
         holder.bind(noteModel.getNoteItem(), noteModel.getListRoll());
     }
 
     @Override
-    public int getItemCount() {
-        return listNoteModel.size();
+    public int getItemViewType(int position) {
+        return list.get(position).getNoteItem().getType();
     }
 
     final class NoteHolder extends RecyclerView.ViewHolder implements View.OnClickListener,

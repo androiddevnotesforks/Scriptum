@@ -2,17 +2,21 @@ package sgtmelon.scriptum.app.vm.activity;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
+import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -66,8 +70,9 @@ public final class NoteViewModel extends AndroidViewModel {
     }
 
     public void setNoteModel(NoteModel noteModel) {
-        this.noteModel = noteModel;
         noteModel.updateItemStatus(rankVisible);
+
+        this.noteModel = noteModel;
     }
 
     public void setRepoNote(boolean status) {
@@ -78,7 +83,12 @@ public final class NoteViewModel extends AndroidViewModel {
         db = RoomDb.provideDb(context);
         rankVisible = db.daoRank().getRankVisible();
         if (ntCreate) {
-            NoteItem noteItem = new NoteItem(context, ntType);
+            String create = Help.Time.getCurrentTime(context);
+
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            int color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
+
+            NoteItem noteItem = new NoteItem(create, color, ntType);
             StatusItem statusItem = new StatusItem(context, noteItem, false);
 
             noteModel = new NoteModel(noteItem, new ArrayList<>(), statusItem);

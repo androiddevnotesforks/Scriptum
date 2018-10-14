@@ -15,12 +15,16 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 
-public final class StatusItem { // TODO: 02.10.2018 вынести из моделей
+/**
+ * Управление закреплением заметки в статус баре {@link NoteModel}
+ */
+public final class StatusItem {
 
     private final Context context;
     private final PendingIntent pendingIntent;
@@ -47,7 +51,12 @@ public final class StatusItem { // TODO: 02.10.2018 вынести из моде
         updateNote(noteItem, notify);
     }
 
-    //Обновление информации о заметке
+    /**
+     * Обновление информации о заметке
+     *
+     * @param noteItem - модель заметки
+     * @param notify   - необходимость обновления
+     */
     public void updateNote(NoteItem noteItem, boolean notify) {
         this.noteItem = noteItem;
 
@@ -100,7 +109,12 @@ public final class StatusItem { // TODO: 02.10.2018 вынести из моде
         if (noteItem.isStatus() && notify) notifyNote();
     }
 
-    //В окне редактирования заметок
+    /**
+     * В окне редактирования заметок
+     *
+     * @param noteItem  - модель заметки
+     * @param rkVisible - видимые категории
+     */
     public void updateNote(NoteItem noteItem, List<Long> rkVisible) {
         if (noteItem.isStatus()) {
             Long[] rankId = noteItem.getRankId();
@@ -112,12 +126,16 @@ public final class StatusItem { // TODO: 02.10.2018 вынести из моде
         }
     }
 
-    //Показывает созданное уведомление
+    /**
+     * Показывает созданное уведомление
+     */
     public void notifyNote() {
         notificationManager.notify((int) noteItem.getId(), notification);
     }
 
-    //Убирает созданное уведомление
+    /**
+     * Убирает созданное уведомление
+     */
     public void cancelNote() {
         notificationManager.cancel((int) noteItem.getId());
     }

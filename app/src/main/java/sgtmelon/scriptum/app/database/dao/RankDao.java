@@ -14,12 +14,16 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
+import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.RankModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.conv.ListConv;
 
+/**
+ * Класс для общения Dao категорий {@link RoomDb}
+ */
 @Dao
 public abstract class RankDao extends BaseDao {
 
@@ -63,15 +67,15 @@ public abstract class RankDao extends BaseDao {
     }
 
     /**
-     * @param name - Уникальное имя категории
-     * @return - Модель категории
+     * @param name - уникальное имя категории
+     * @return - модель категории
      */
     @Query("SELECT * FROM RANK_TABLE " +
             "WHERE RK_NAME = :name")
     abstract RankItem get(String name);
 
     /**
-     * @return - Лист с именами в высоком регистре
+     * @return - лист с именами в высоком регистре
      */
     @Query("SELECT UPPER(RK_NAME) FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
@@ -100,8 +104,8 @@ public abstract class RankDao extends BaseDao {
     /**
      * Добавление или удаление id заметки к категорииё
      *
-     * @param noteId - Id заметки
-     * @param rankId - Id категорий принадлежащих каметке
+     * @param noteId - id заметки
+     * @param rankId - id категорий принадлежащих каметке
      */
     public void update(long noteId, Long[] rankId) {
         List<RankItem> listRank = getSimple();
@@ -128,8 +132,8 @@ public abstract class RankDao extends BaseDao {
     public abstract void update(RankItem rankItem);
 
     /**
-     * @param startDrag - Начальная позиция обновления
-     * @param endDrag   - Конечная позиция обновления
+     * @param startDrag - начальная позиция обновления
+     * @param endDrag   - конечная позиция обновления
      */
     public List<RankItem> update(int startDrag, int endDrag) {
         boolean startFirst = startDrag < endDrag;
@@ -180,7 +184,7 @@ public abstract class RankDao extends BaseDao {
     }
 
     /**
-     * @param position - Позиция удаления категории
+     * @param position - позиция удаления категории
      */
     public void update(int position) {
         List<RankItem> listRank = getSimple();
@@ -204,8 +208,8 @@ public abstract class RankDao extends BaseDao {
     }
 
     /**
-     * @param idNote   - Id заметок, которые нужно обновить
-     * @param listRank - Новый список категорий, с новыми позициями у категорий
+     * @param idNote   - id заметок, которые нужно обновить
+     * @param listRank - новый список категорий, с новыми позициями у категорий
      */
     private void update(List<Long> idNote, List<RankItem> listRank) {
         List<NoteItem> listNote = getNote(idNote);

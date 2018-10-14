@@ -81,13 +81,13 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             NoteModel noteModel = vm.getNoteModel();
             List<RollItem> listRoll = noteModel.getListRoll();
 
-            listRoll.remove(p);                     //Убираем элемент из массива данных
+            listRoll.remove(p);
 
             noteModel.setListRoll(listRoll);
             vm.setNoteModel(noteModel);
 
-            adapter.setListRoll(listRoll);    //Обновление массива данных в адаптере
-            adapter.notifyItemRemoved(p);       //Обновление удаления элемента
+            adapter.setList(listRoll);
+            adapter.notifyItemRemoved(p);
         }
 
         @Override
@@ -99,14 +99,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             List<RollItem> listRoll = noteModel.getListRoll();
 
             RollItem rollItem = listRoll.get(oldPs);
-            listRoll.remove(oldPs);                        //Удаляем
-            listRoll.add(newPs, rollItem);             //И устанавливаем на новое место
+            listRoll.remove(oldPs);
+            listRoll.add(newPs, rollItem);
 
             noteModel.setListRoll(listRoll);
             vm.setNoteModel(noteModel);
 
-            adapter.setListRoll(listRoll);            //Обновление массива данных в адаптере
-            adapter.notifyItemMoved(oldPs, newPs);    //Обновление передвижения
+            adapter.setList(listRoll);
+            adapter.notifyItemMoved(oldPs, newPs);
             return true;
         }
 
@@ -234,7 +234,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             db = RoomDb.provideDb(context);
 
             String text = db.daoRoll().getText(noteItem.getId());
-            noteItem.setChange(context);
+            noteItem.setChange(Help.Time.getCurrentTime(context));
             noteItem.setType(TypeDef.text);
             noteItem.setText(text);
 
@@ -261,7 +261,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         adapter = new RollAdapter(context);
         adapter.setNoteSt(activity.vm.getNoteSt());
-        adapter.setCallback(this, dragSt, this);
+
+        adapter.setClickListener(this);
+        adapter.setDragListener(dragSt);
+        adapter.setWatcher(this);
 
         recyclerView.setAdapter(adapter);
 
@@ -325,7 +328,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         checkSt.setAll(listRoll);
         menuNote.setCheckTitle(checkSt.isAll());
 
-        adapter.setListRoll(listRoll);
+        adapter.setList(listRoll);
         adapter.notifyDataSetChanged();
     }
 
@@ -354,7 +357,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             noteModel.setListRoll(listRoll);
             vm.setNoteModel(noteModel);
 
-            adapter.setListRoll(listRoll);
+            adapter.setList(listRoll);
 
             int visiblePs;
             if (scrollDown) {
@@ -397,7 +400,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             vm.setNoteModel(noteModel);
             activity.vm.setNoteModel(noteModel);
 
-            adapter.setListRoll(noteModel.getListRoll());
+            adapter.setList(noteModel.getListRoll());
 
             onMenuEditClick(false);
 
@@ -424,7 +427,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         listRoll.set(p, rollItem);
         noteModel.setListRoll(listRoll);
 
-        adapter.setListRoll(p, rollItem);
+        adapter.setListItem(p, rollItem);
 
         int rollCheck = Help.Note.getRollCheck(listRoll);
 
@@ -433,7 +436,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         }
 
         NoteItem noteItem = noteModel.getNoteItem();
-        noteItem.setChange(context);
+        noteItem.setChange(Help.Time.getCurrentTime(context));
         noteItem.setText(rollCheck, listRoll.size());
 
         noteModel.setNoteItem(noteItem);
@@ -456,14 +459,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         List<RollItem> listRoll = noteModel.getListRoll();
         if (text.equals("")) {
             listRoll.remove(p);
-            adapter.setListRoll(listRoll);
+            adapter.setList(listRoll);
             adapter.notifyItemRemoved(p);
         } else {
             RollItem rollItem = listRoll.get(p);
             rollItem.setText(text);
 
             listRoll.set(p, rollItem);
-            adapter.setListRoll(p, rollItem);
+            adapter.setListItem(p, rollItem);
         }
         noteModel.setListRoll(listRoll);
 
@@ -479,36 +482,38 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         List<RollItem> listRoll = noteModel.getListRoll();
 
         if (listRoll.size() != 0) {
-            noteItem.setChange(context);      //Новое время редактирования
-            noteItem.setText(Help.Note.getRollCheck(listRoll), listRoll.size());          //Новый текст
+            noteItem.setChange(Help.Time.getCurrentTime(context));
+            noteItem.setText(Help.Note.getRollCheck(listRoll), listRoll.size());
 
+            //Переход в режим просмотра
             if (editModeChange) {
                 Help.hideKeyboard(context, activity.getCurrentFocus());
-                onMenuEditClick(false);                                            //Переход в режим просмотра
+                onMenuEditClick(false);
             }
 
             db = RoomDb.provideDb(context);
 
             NoteSt noteSt = activity.vm.getNoteSt();
             if (noteSt.isCreate()) {
-                noteSt.setCreate(false);    //Теперь у нас заметка уже будет создана
+                noteSt.setCreate(false);
                 activity.vm.setNoteSt(noteSt);
 
                 long ntId = db.daoNote().insert(noteItem);
                 noteItem.setId(ntId);
 
-                for (int i = 0; i < listRoll.size(); i++) {           //Запись в пунктов в БД
+                //Запись в пунктов в БД
+                for (int i = 0; i < listRoll.size(); i++) {
                     RollItem rollItem = listRoll.get(i);
 
                     rollItem.setIdNote(ntId);
                     rollItem.setPosition(i);
-                    rollItem.setId(db.daoRoll().insert(rollItem));             //Обновление некоторых значений
+                    rollItem.setId(db.daoRoll().insert(rollItem));
                     rollItem.setExist(true);
 
                     listRoll.set(i, rollItem);
                 }
                 noteModel.setListRoll(listRoll);
-                adapter.setListRoll(listRoll);
+                adapter.setList(listRoll);
             } else {
                 db.daoNote().update(noteItem);
 
@@ -526,7 +531,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     listRoll.set(i, rollItem);
                 }
                 noteModel.setListRoll(listRoll);
-                adapter.setListRoll(listRoll);
+                adapter.setList(listRoll);
 
                 List<Long> rollId = new ArrayList<>();
                 for (RollItem rollItem : listRoll) {
@@ -575,7 +580,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         NoteModel noteModel = vm.getNoteModel();
         NoteItem noteItem = noteModel.getNoteItem();
-        noteItem.setChange(context);
+        noteItem.setChange(Help.Time.getCurrentTime(context));
 
         int size = noteModel.getListRoll().size();
 

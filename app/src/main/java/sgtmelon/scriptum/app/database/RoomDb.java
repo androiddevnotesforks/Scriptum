@@ -13,6 +13,9 @@ import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
 
+/**
+ * Класс для общения с базой данных
+ */
 @Database(entities = {NoteItem.class, RollItem.class, RankItem.class}, version = 1)
 public abstract class RoomDb extends RoomDatabase {
 

@@ -63,7 +63,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
             listSort.remove(oldPs);
             listSort.add(newPs, sortItem);
 
-            adapter.setListSort(listSort);
+            adapter.setList(listSort);
             adapter.notifyItemMoved(oldPs, newPs);
 
             if (oldPs == adapter.sortSt.getEnd()) {
@@ -111,7 +111,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new SortAdapter();
+        adapter = new SortAdapter(context);
         recyclerView.setAdapter(adapter);
         adapter.setClickListener(this);
 
@@ -129,7 +129,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
             listSort.add(sortItem);
         }
 
-        adapter.setListSort(listSort);
+        adapter.setList(listSort);
         adapter.notifyDataSetChanged();
 
         return new AlertDialog.Builder(context)
@@ -177,7 +177,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
         sortItem.setKey(key);
 
         listSort.set(p, sortItem);
-        adapter.setListSort(p, sortItem);
+        adapter.setListItem(p, sortItem);
         adapter.notifyItemChanged(p);
 
         keys = Help.Pref.getSortByList(listSort);

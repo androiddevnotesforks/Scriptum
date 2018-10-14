@@ -31,8 +31,6 @@
                 app:srcCompat="@drawable/ic_add"
                 app:useCompatPadding="false"/>
 
-        <!-- TODO 13.10.18 Сделать тень -->
-
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -15,7 +15,8 @@ import sgtmelon.scriptum.app.view.fragment.IntroFragment;
 import sgtmelon.scriptum.office.annot.IntroAnn;
 import sgtmelon.scriptum.office.st.PageSt;
 
-public final class IntroActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
+public final class IntroActivity extends AppCompatActivity
+        implements ViewPager.OnPageChangeListener {
 
     private static final String TAG = IntroActivity.class.getSimpleName();
 

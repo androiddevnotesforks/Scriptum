@@ -53,7 +53,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
     public static boolean updateStatus = true; //Для единовременного обновления статус бара
 
-    private final NoteAdapter adapter = new NoteAdapter();
+    private NoteAdapter adapter;
 
     @Inject
     FragmentManager fm;
@@ -146,6 +146,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
+        adapter = new NoteAdapter(context);
+
         adapter.setClickListener(this);
         adapter.setLongClickListener(this);
 
@@ -200,7 +202,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         List<NoteModel> listNoteModel = vm.loadData(BinDef.out);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyDataSetChanged();
 
         bind(listNoteModel.size());
@@ -275,7 +277,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         int[] checkText = noteItem.getCheck();
         int check = checkText[0] == checkText[1] ? CheckDef.notDone : CheckDef.done;
 
-        noteItem.setChange(context);
+        noteItem.setChange(Help.Time.getCurrentTime(context));
         noteItem.setText(check == CheckDef.notDone ? 0 : checkText[1], checkText[1]);
 
         db = RoomDb.provideDb(context);
@@ -290,7 +292,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         listNoteModel.set(p, noteModel);
         vm.setListModel(listNoteModel);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyItemChanged(p);
     }
 
@@ -315,7 +317,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         listNoteModel.set(p, noteModel);
         vm.setListModel(listNoteModel);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyItemChanged(p);
     }
 
@@ -327,7 +329,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         NoteModel noteModel = listNoteModel.get(p);
 
         NoteItem noteItem = noteModel.getNoteItem();
-        noteItem.setChange(context);
+        noteItem.setChange(Help.Time.getCurrentTime(context));
 
         db = RoomDb.provideDb(context);
         switch (noteItem.getType()) {
@@ -363,7 +365,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         listNoteModel.set(p, noteModel);
         vm.setListModel(listNoteModel);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyItemChanged(p);
     }
 
@@ -393,7 +395,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         listNoteModel.remove(p);
         vm.setListModel(listNoteModel);
 
-        adapter.setListNoteModel(listNoteModel);
+        adapter.setList(listNoteModel);
         adapter.notifyItemRemoved(p);
     }
 

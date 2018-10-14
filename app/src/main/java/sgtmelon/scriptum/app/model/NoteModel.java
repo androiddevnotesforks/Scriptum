@@ -12,7 +12,10 @@ import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.db.CheckDef;
 
-public final class NoteModel { // TODO: 02.10.2018 чистая модель
+/**
+ *
+ */
+public final class NoteModel {
 
     @Embedded
     private NoteItem noteItem;

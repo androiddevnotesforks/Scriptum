@@ -1,12 +1,11 @@
 package sgtmelon.scriptum.app.adapter;
 
-import android.view.LayoutInflater;
+import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,58 +15,35 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.iconanim.library.SwitchButton;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.RankItem;
+import sgtmelon.scriptum.app.view.fragment.RankFragment;
 import sgtmelon.scriptum.databinding.ItemRankBinding;
-import sgtmelon.scriptum.office.intf.ItemIntf;
 
-public final class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHolder> {
+/**
+ * Адаптер для {@link RankFragment}
+ */
+public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankHolder> {
 
-    private final List<RankItem> listRank = new ArrayList<>();
     private boolean[] startAnim;
 
-    private ItemIntf.ClickListener clickListener;
-    private ItemIntf.LongClickListener longClickListener;
-    private ItemIntf.DragListener dragListener;
+    public RankAdapter(Context context) {
+        super(context);
+    }
 
     public boolean[] getStartAnim() {
         return startAnim;
     }
 
-    public void setClickListener(ItemIntf.ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
+    @Override
+    public void setList(List<RankItem> list) {
+        super.setList(list);
 
-    public void setLongClickListener(ItemIntf.LongClickListener longClickListener) {
-        this.longClickListener = longClickListener;
-    }
-
-    public void setDragListener(ItemIntf.DragListener dragListener) {
-        this.dragListener = dragListener;
-    }
-
-    public void setListRank(List<RankItem> listRank) {
-        this.listRank.clear();
-        this.listRank.addAll(listRank);
-
-        startAnim = new boolean[listRank.size()];
+        startAnim = new boolean[list.size()];
         Arrays.fill(startAnim, false);
-    }
-
-    public void setListRank(List<RankItem> listRank, boolean[] startAnim) {
-        this.listRank.clear();
-        this.listRank.addAll(listRank);
-
-        this.startAnim = startAnim;
-    }
-
-    public void setListRank(int position, RankItem rankItem) {
-        listRank.set(position, rankItem);
     }
 
     @NonNull
     @Override
     public RankHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         ItemRankBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.item_rank, parent, false
         );
@@ -76,17 +52,14 @@ public final class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHold
 
     @Override
     public void onBindViewHolder(@NonNull RankHolder holder, int position) {
-        RankItem rankItem = listRank.get(position);
+        RankItem item = list.get(position);
 
-        holder.bind(listRank.get(position));
+        holder.bind(item);
 
-        holder.rkVisible.setDrawable(rankItem.isVisible(), startAnim[position]);
-        if (startAnim[position]) startAnim[position] = false;
-    }
-
-    @Override
-    public int getItemCount() {
-        return listRank.size();
+        holder.rkVisible.setDrawable(item.isVisible(), startAnim[position]);
+        if (startAnim[position]) {
+            startAnim[position] = false;
+        }
     }
 
     final class RankHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
@@ -132,7 +105,7 @@ public final class RankAdapter extends RecyclerView.Adapter<RankAdapter.RankHold
 
             switch (view.getId()) {
                 case R.id.visible_button:
-                    rkVisible.setDrawable(!listRank.get(p).isVisible(), true);
+                    rkVisible.setDrawable(!list.get(p).isVisible(), true);
                     clickListener.onItemClick(view, p);
                     break;
                 case R.id.click_container:

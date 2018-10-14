@@ -16,18 +16,16 @@ import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.db.BinDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
+import sgtmelon.scriptum.office.conv.ListConv;
 
 /**
  * Класс обеспечивающий базовую логику, которая используется в разных Dao
+ * {@link NoteDao}, {@link RankDao}, {@link RollDao}
  */
 @Dao
 @TypeConverters({BoolConv.class})
 abstract class BaseDao {
 
-    /**
-     * @param id - Массив с датами создания заметок
-     * @return - Список заметок по данным датам создания
-     */
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_ID IN(:id)")
     abstract List<NoteItem> getNote(Long[] id);
@@ -40,7 +38,7 @@ abstract class BaseDao {
     abstract List<NoteItem> getNote(SupportSQLiteQuery query);
 
     /**
-     * @param bin      - Расположение заметок
+     * @param bin      - Расположение заметок относительно корзины
      * @param sortKeys - Строка с сортировкой заметок
      * @return - Список заметок
      */
@@ -76,7 +74,25 @@ abstract class BaseDao {
 
         for (int i = 0; i < listNote.size(); i++) {
             NoteItem noteItem = listNote.get(i);
-            noteItem.removeRank(rankId);
+
+            //Убирает из массивов ненужную категорию по id
+            Long[] id = noteItem.getRankId();
+            Long[] ps = noteItem.getRankPs();
+
+            List<Long> rankIdList = ListConv.toList(id);
+            List<Long> rankPsList = ListConv.toList(ps);
+
+            int index = rankIdList.indexOf(rankId);
+
+            rankIdList.remove(index);
+            rankPsList.remove(index);
+
+            id = ListConv.fromList(rankIdList);
+            ps = ListConv.fromList(rankPsList);
+
+            noteItem.setRankId(id);
+            noteItem.setRankPs(ps);
+
             listNote.set(i, noteItem);
         }
 
@@ -113,9 +129,6 @@ abstract class BaseDao {
             "ORDER BY RK_POSITION ASC")
     abstract List<RankItem> getRank(Long[] id);
 
-    /**
-     * @param listRank - список категорий, которые необходимо обновить
-     */
     @Update
     public abstract void updateRank(List<RankItem> listRank);
 
@@ -128,7 +141,14 @@ abstract class BaseDao {
 
         for (int i = 0; i < listRank.size(); i++) {
             RankItem rankItem = listRank.get(i);
-            rankItem.removeId(noteId);
+
+            //Убирает из массива необходимую дату создания заметки
+            Long[] id = rankItem.getIdNote();
+            List<Long> createList = ListConv.toList(id);
+            createList.remove(noteId);
+            id = ListConv.fromList(createList);
+
+            rankItem.setIdNote(id);
             listRank.set(i, rankItem);
         }
 

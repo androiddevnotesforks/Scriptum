@@ -1,11 +1,8 @@
 package sgtmelon.scriptum.app.adapter;
 
-import android.view.LayoutInflater;
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -13,38 +10,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.SortItem;
 import sgtmelon.scriptum.databinding.ItemSortBinding;
-import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.element.SortDialog;
 import sgtmelon.scriptum.office.st.SortSt;
 
-
-public final class SortAdapter extends RecyclerView.Adapter<SortAdapter.SortHolder> {
+/**
+ * Адаптер для {@link SortDialog}
+ */
+public final class SortAdapter extends ParentAdapter<SortItem, SortAdapter.SortHolder> {
 
     public final SortSt sortSt = new SortSt();
 
-    private final List<SortItem> listSort = new ArrayList<>();
-
-    private ItemIntf.ClickListener clickListener;
-
-    public void setClickListener(ItemIntf.ClickListener clickListener) {
-        this.clickListener = clickListener;
-    }
-
-    public void setListSort(List<SortItem> listSort) {
-        this.listSort.clear();
-        this.listSort.addAll(listSort);
-
-        sortSt.updateEnd(listSort);
-    }
-
-    public void setListSort(int position, SortItem sortItem) {
-        listSort.set(position, sortItem);
+    public SortAdapter(Context context) {
+        super(context);
     }
 
     @NonNull
     @Override
     public SortHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-
         ItemSortBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.item_sort, parent, false
         );
@@ -53,12 +35,8 @@ public final class SortAdapter extends RecyclerView.Adapter<SortAdapter.SortHold
 
     @Override
     public void onBindViewHolder(@NonNull SortHolder holder, int position) {
-        holder.bind(listSort.get(position), position, sortSt.getEnd());
-    }
-
-    @Override
-    public int getItemCount() {
-        return listSort.size();
+        SortItem item = list.get(position);
+        holder.bind(item, position, sortSt.getEnd());
     }
 
     final class SortHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

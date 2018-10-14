@@ -1,77 +1,53 @@
 package sgtmelon.scriptum.app.model.item;
 
-import java.util.List;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
+import sgtmelon.scriptum.app.model.RankModel;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.conv.BoolConv;
-import sgtmelon.scriptum.office.conv.ListConv;
 import sgtmelon.scriptum.office.conv.StringConv;
 
+/**
+ * Элемент списка категорий {@link RankModel}
+ */
 @Entity(tableName = DbAnn.RK_TB)
 @TypeConverters({BoolConv.class, StringConv.class})
-public final class RankItem { // TODO: 02.10.2018 чистая модель
+public final class RankItem {
 
     @ColumnInfo(name = DbAnn.RK_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
     @ColumnInfo(name = DbAnn.RK_ID_NT)
-    private Long[] idNote;
+    private Long[] idNote = new Long[0];
 
     @ColumnInfo(name = DbAnn.RK_PS)
     private int position;
     @ColumnInfo(name = DbAnn.RK_NM)
     private String name;
     @ColumnInfo(name = DbAnn.RK_VS)
-    private boolean visible;
+    private boolean visible = true;
 
     @Ignore
-    private int textCount;
+    private int textCount = 0;
     @Ignore
-    private int rollCount;
+    private int rollCount = 0;
 
     public RankItem() {
 
     }
 
-    @Ignore
     public RankItem(int position, String name) {
         this.position = position;
         this.name = name;
-
-        idNote = new Long[0];
-        visible = true;
-
-        textCount = 0;
-        rollCount = 0;
     }
 
-    @Ignore
     public RankItem(int id, int position, String name) {
         this.id = id;
         this.position = position;
         this.name = name;
-
-        idNote = new Long[0];
-        visible = true;
-
-        textCount = 0;
-        rollCount = 0;
-    }
-
-    /**
-     * Убирает из массива необходимую дату создания заметки
-     *
-     * @param noteId - Id заметки
-     */
-    public void removeId(long noteId) {
-        List<Long> createList = ListConv.toList(idNote);
-        createList.remove(noteId);
-        idNote = ListConv.fromList(createList);
     }
 
     public long getId() {

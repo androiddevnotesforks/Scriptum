@@ -4,7 +4,7 @@ import java.util.List;
 
 import sgtmelon.scriptum.app.model.item.RankItem;
 
-public final class RankModel { // TODO: 02.10.2018 чистая модель
+public final class RankModel {
 
     private final List<String> listName;
     private List<RankItem> listRank;

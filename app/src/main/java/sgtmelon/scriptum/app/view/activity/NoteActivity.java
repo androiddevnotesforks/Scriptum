@@ -184,7 +184,8 @@ public final class NoteActivity extends ActivityParent implements MenuIntf.Note.
 
         NoteModel noteModel = vm.getNoteModel();
         NoteItem noteItem = noteModel.getNoteItem();
-        noteItem.setChange(this);
+
+        noteItem.setChange(Help.Time.getCurrentTime(this));
         noteItem.setBin(false);
         noteModel.setNoteItem(noteItem);
 
