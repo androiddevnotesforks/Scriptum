@@ -19,17 +19,17 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="?attr/clBackgroundView"
             android:orientation="vertical">
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:noteItem='@{noteItem}'
-                app:keyEdit='@{keyEdit}'/>
+                app:keyEdit='@{keyEdit}'
+                app:noteItem='@{noteItem}'/>
 
         <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:fillViewport="true">
 
             <FrameLayout
@@ -40,7 +40,8 @@
                         android:id="@+id/text_enter"
                         style="@style/Text.Enter"
                         android:text='@={noteItem.text}'
-                        android:visibility='@{keyEdit ? v.VISIBLE : v.INVISIBLE}'/>
+                        android:visibility='@{keyEdit ? v.VISIBLE : v.INVISIBLE}'
+                        tools:visibility="gone"/>
 
                 <TextView
                         android:id="@+id/text_text"
@@ -52,6 +53,17 @@
             </FrameLayout>
 
         </ScrollView>
+
+        <LinearLayout
+                android:id="@+id/panel_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="?attr/clBackgroundView">
+
+            <include layout="@layout/include_note_control"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

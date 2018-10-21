@@ -45,4 +45,5 @@
                 android:textColor="?attr/clAccent"/>
 
     </FrameLayout>
+
 </LinearLayout>

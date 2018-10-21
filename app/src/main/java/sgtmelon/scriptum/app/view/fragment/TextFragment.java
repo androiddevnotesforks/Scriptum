@@ -65,6 +65,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         setupToolbar();
         setupDialog();
+        setupPanel();
         setupEnter();
 
         NoteSt noteSt = viewModel.getNoteSt();
@@ -76,7 +77,8 @@ public final class TextFragment extends NoteFragmentParent {
         noteView.setViewModel(viewModel);
     }
 
-    private void bind(boolean keyEdit) {
+    @Override
+    protected void bind(boolean keyEdit) {
         Log.i(TAG, "bind: keyEdit=" + keyEdit);
 
         binding.setNoteItem(vm.getNoteModel().getNoteItem());
@@ -230,6 +232,10 @@ public final class TextFragment extends NoteFragmentParent {
         menuControl.setDrawable(editMode && !noteSt.isCreate(),
                 !noteSt.isCreate() && !noteSt.isFirst());
         menuControl.setMenuGroupVisible(noteSt.isBin(), editMode, !noteSt.isBin() && !editMode);
+
+        if (noteSt.isCreate() && editMode) panelContainer.setVisibility(View.VISIBLE);
+        else if (noteSt.isFirst()) panelContainer.setVisibility(View.GONE);
+        else panelContainer.startAnimation(editMode ? translateIn : translateOut);
 
         bind(editMode);
 

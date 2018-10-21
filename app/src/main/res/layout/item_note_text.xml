@@ -30,7 +30,7 @@
             app:cardBackgroundColor='@{Clr.getNote(context, noteItem.color, false)}'
             app:cardCornerRadius="@dimen/radius_2dp"
             app:cardUseCompatPadding="false"
-            tools:cardBackgroundColor="@color/noteGreenLight">
+            tools:cardBackgroundColor="@color/note_green_light">
 
         <FrameLayout
                 android:id="@+id/click_container"
@@ -73,4 +73,5 @@
         </FrameLayout>
 
     </androidx.cardview.widget.CardView>
+
 </layout>

@@ -5,13 +5,11 @@
 
     <data>
 
-        <import
-                alias="v"
+        <import alias="v"
                 type="android.view.View"/>
 
-        <variable
-                name="rankItem"
-                type="sgtmelon.scriptum.app.model.item.RankItem"/>
+        <variable name="rankItem"
+                  type="sgtmelon.scriptum.app.model.item.RankItem"/>
 
     </data>
 
@@ -67,7 +65,6 @@
                             style="@style/RankItem.Info"
                             android:text='@{@string/list_item_rank_roll_count + " " + rankItem.getRollCount()}'
                             tools:text="@string/test_rank_roll"/>
-
 
                 </LinearLayout>
 

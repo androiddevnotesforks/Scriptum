@@ -16,9 +16,13 @@
             app:cardCornerRadius="@dimen/radius_2dp"
             app:cardUseCompatPadding="false">
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <FrameLayout android:layout_width="wrap_content" android:layout_height="match_parent">
+            <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
 
                 <CheckBox style="@style/RollItem.Write.Check"/>
 

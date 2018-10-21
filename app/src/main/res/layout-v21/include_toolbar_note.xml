@@ -38,7 +38,9 @@
                 app:contentInsetStart="@dimen/layout_8dp"
                 app:popupTheme="?attr/themePopup">
 
-            <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <EditText
                         android:id="@+id/name_enter"

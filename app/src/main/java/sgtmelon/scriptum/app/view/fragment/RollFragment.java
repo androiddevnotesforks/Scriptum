@@ -8,12 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -135,34 +132,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     };
 
     private RecyclerView recyclerView;
-    private LinearLayout rollContainer;
-    private Animation translateIn, translateOut;
-
-    private final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-            rollContainer.setEnabled(false);
-
-            if (animation == translateOut) {
-                rollContainer.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            rollContainer.setEnabled(true);
-
-            if (animation == translateIn) {
-                rollContainer.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
-
     private EditText rollEnter;
     private ImageButton rollAdd;
 
@@ -206,6 +175,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         setupToolbar();
         setupDialog();
         setupRecycler();
+        setupPanel();
         setupEnter();
 
         NoteSt noteSt = viewModel.getNoteSt();
@@ -217,7 +187,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteView.setViewModel(viewModel);
     }
 
-    private void bind(boolean keyEdit) {
+    @Override
+    protected void bind(boolean keyEdit) {
         Log.i(TAG, "bind");
 
         binding.setNoteItem(vm.getNoteModel().getNoteItem());
@@ -292,14 +263,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             }
             return false;
         });
-
-        rollContainer = frgView.findViewById(R.id.container);
-
-        translateIn = AnimationUtils.loadAnimation(context, R.anim.translate_in);
-        translateOut = AnimationUtils.loadAnimation(context, R.anim.translate_out);
-
-        translateIn.setAnimationListener(animationListener);
-        translateOut.setAnimationListener(animationListener);
 
         rollEnter = frgView.findViewById(R.id.roll_enter);
         rollAdd = frgView.findViewById(R.id.add_button);
@@ -589,9 +552,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 !noteSt.isCreate() && !noteSt.isFirst());
         menuControl.setMenuGroupVisible(noteSt.isBin(), editMode, !noteSt.isBin() && !editMode);
 
-        if (noteSt.isCreate() && editMode) rollContainer.setVisibility(View.VISIBLE);
-        else if (noteSt.isFirst()) rollContainer.setVisibility(View.GONE);
-        else rollContainer.startAnimation(editMode ? translateIn : translateOut);
+        if (noteSt.isCreate() && editMode) panelContainer.setVisibility(View.VISIBLE);
+        else if (noteSt.isFirst()) panelContainer.setVisibility(View.GONE);
+        else panelContainer.startAnimation(editMode ? translateIn : translateOut);
 
         bind(editMode);
 

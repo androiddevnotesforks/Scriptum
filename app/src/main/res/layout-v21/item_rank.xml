@@ -5,13 +5,11 @@
 
     <data>
 
-        <import
-                alias="v"
+        <import alias="v"
                 type="android.view.View"/>
 
-        <variable
-                name="rankItem"
-                type="sgtmelon.scriptum.app.model.item.RankItem"/>
+        <variable name="rankItem"
+                  type="sgtmelon.scriptum.app.model.item.RankItem"/>
 
     </data>
 
@@ -38,7 +36,6 @@
                     app:srcDisableAnim="@drawable/ic_visible_off_anim"
                     app:srcSelect="@drawable/ic_visible_on"
                     app:srcSelectAnim="@drawable/ic_visible_on_anim"/>
-
 
             <LinearLayout
                     android:layout_width="0dp"
