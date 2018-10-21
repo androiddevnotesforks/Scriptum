@@ -53,22 +53,16 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private final DragListenerSt dragSt = new DragListenerSt();
     private final OpenSt openSt = new OpenSt();
 
-    private RankAdapter adapter;
-
-    @Inject
-    FragmentManager fm;
-    @Inject
-    FragmentRankBinding binding;
-    @Inject
-    RankViewModel vm;
-    @Inject
-    RenameDialog renameDialog;
-
-    private LinearLayoutManager layoutManager;
-    private RecyclerView recyclerView;
+    @Inject FragmentManager fm;
+    @Inject FragmentRankBinding binding;
+    @Inject RankViewModel vm;
+    @Inject RenameDialog renameDialog;
 
     private Context context;
     private RoomDb db;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private RankAdapter adapter;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
@@ -341,30 +335,30 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             case R.id.add_button:
                 RankModel rankModel = vm.getRankModel();
 
-                int ps = rankModel.size();
+                int p = rankModel.size();
                 String name = clearEnter();
 
-                RankItem rankItem = new RankItem(ps, name);
+                RankItem rankItem = new RankItem(p, name);
 
                 db = RoomDb.provideDb(context);
                 long rankId = db.daoRank().insert(rankItem);
                 db.close();
 
                 rankItem.setId(rankId);
-                rankModel.add(ps, rankItem);
+                rankModel.add(p, rankItem);
 
                 vm.setRankModel(rankModel);
                 adapter.setList(rankModel.getListRank());
 
                 if (rankModel.size() == 1) {
                     bind(rankModel.size());
-                    adapter.notifyItemInserted(ps);
+                    adapter.notifyItemInserted(p);
                 } else {
-                    if (layoutManager.findLastVisibleItemPosition() == ps - 1) {
-                        recyclerView.scrollToPosition(ps);                          //Прокручиваем до края, незаметно
-                        adapter.notifyItemInserted(ps);                             //Добавляем элемент с анимацией
+                    if (layoutManager.findLastVisibleItemPosition() == p - 1) {
+                        recyclerView.scrollToPosition(p);                          //Прокручиваем до края, незаметно
+                        adapter.notifyItemInserted(p);                             //Добавляем элемент с анимацией
                     } else {
-                        recyclerView.smoothScrollToPosition(ps);                    //Медленно прокручиваем, через весь список
+                        recyclerView.smoothScrollToPosition(p);                    //Медленно прокручиваем, через весь список
                         adapter.notifyDataSetChanged();                             //Добавляем элемент без анимации
                     }
                 }
@@ -376,31 +370,31 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     public boolean onLongClick(View view) {
         Log.i(TAG, "onLongClick");
 
-        int ps = 0;
+        int p = 0;
         String name = clearEnter();
 
-        RankItem rankItem = new RankItem(ps - 1, name);
+        RankItem rankItem = new RankItem(p - 1, name);
 
         db = RoomDb.provideDb(context);
         long rankId = db.daoRank().insert(rankItem);
-        db.daoRank().update(ps);
+        db.daoRank().update(p);
         db.close();
 
         rankItem.setId(rankId);
 
         RankModel rankModel = vm.getRankModel();
-        rankModel.add(ps, rankItem);
+        rankModel.add(p, rankItem);
         vm.setRankModel(rankModel);
 
         adapter.setList(rankModel.getListRank());
 
         if (rankModel.size() == 1) bind(rankModel.size());
         else {
-            if (layoutManager.findFirstVisibleItemPosition() == ps) {
-                recyclerView.scrollToPosition(ps);                      //Прокручиваем до края, незаметно
-                adapter.notifyItemInserted(ps);                         //Добавляем элемент с анимацией
+            if (layoutManager.findFirstVisibleItemPosition() == p) {
+                recyclerView.scrollToPosition(p);                      //Прокручиваем до края, незаметно
+                adapter.notifyItemInserted(p);                         //Добавляем элемент с анимацией
             } else {
-                recyclerView.smoothScrollToPosition(ps);                //Медленно прокручиваем, через весь список
+                recyclerView.smoothScrollToPosition(p);                //Медленно прокручиваем, через весь список
                 adapter.notifyDataSetChanged();                         //Добавляем элемент без анимации
             }
         }
@@ -408,7 +402,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onItemClick(View view, final int p) {
+    public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
         final RankModel rankModel = vm.getRankModel();

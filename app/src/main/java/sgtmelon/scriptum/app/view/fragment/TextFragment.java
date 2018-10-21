@@ -15,6 +15,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
@@ -24,6 +25,7 @@ import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
+import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
@@ -33,8 +35,7 @@ public final class TextFragment extends NoteFragmentParent {
 
     private static final String TAG = TextFragment.class.getSimpleName();
 
-    @Inject
-    FragmentTextBinding binding;
+    @Inject FragmentTextBinding binding;
 
     @NonNull
     @Override
@@ -59,17 +60,20 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        if (vm.isEmpty()) vm.setNoteModel(activity.vm.getNoteModel());
+        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        if (vm.isEmpty()) vm.setNoteModel(viewModel.getNoteModel());
 
         setupToolbar();
         setupDialog();
         setupEnter();
 
-        onMenuEditClick(activity.vm.getNoteSt().isEdit());
+        NoteSt noteSt = viewModel.getNoteSt();
 
-        NoteSt noteSt = activity.vm.getNoteSt();
+        onMenuEditClick(noteSt.isEdit());
+
         noteSt.setFirst(false);
-        activity.vm.setNoteSt(noteSt);
+        viewModel.setNoteSt(noteSt);
+        noteView.setViewModel(viewModel);
     }
 
     private void bind(boolean keyEdit) {
@@ -106,8 +110,12 @@ public final class TextFragment extends NoteFragmentParent {
             noteModel.setListRoll(listRoll);
 
             vm.setNoteModel(noteModel);
-            activity.vm.setNoteModel(noteModel);
-            activity.setupFrg(false);
+
+            ActivityNoteViewModel viewModel = noteView.getViewModel();
+            viewModel.setNoteModel(noteModel);
+            noteView.setViewModel(viewModel);
+
+            noteView.setupFragment(false);
         });
     }
 
@@ -135,12 +143,15 @@ public final class TextFragment extends NoteFragmentParent {
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        NoteSt noteSt = activity.vm.getNoteSt();
+        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        NoteSt noteSt = viewModel.getNoteSt();
+
         NoteModel noteModel = vm.getNoteModel();
         NoteItem noteItem = noteModel.getNoteItem();
 
-        if (!noteSt.isCreate() && noteSt.isEdit() && !noteItem.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
-            menuNote.setStartColor(noteItem.getColor());
+        //Если редактирование и текст в хранилище не пустой
+        if (!noteSt.isCreate() && noteSt.isEdit() && !noteItem.getText().equals("")) {
+            menuControl.setStartColor(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
             noteModel = db.daoNote().get(context, noteItem.getId());
@@ -148,13 +159,18 @@ public final class TextFragment extends NoteFragmentParent {
             db.close();
 
             vm.setNoteModel(noteModel);
-            activity.vm.setNoteModel(noteModel);
+
+            viewModel.setNoteModel(noteModel);
+            noteView.setViewModel(viewModel);
 
             onMenuEditClick(false);
 
-            menuNote.startTint(noteItem.getColor());
+            menuControl.startTint(noteItem.getColor());
         } else {
-            activity.saveControl.setNeedSave(false);
+            SaveControl saveControl = noteView.getSaveControl();
+            saveControl.setNeedSave(false);
+            noteView.setSaveControl(saveControl);
+
             activity.finish();
         }
     }
@@ -174,10 +190,16 @@ public final class TextFragment extends NoteFragmentParent {
             }
 
             db = RoomDb.provideDb(context);
-            NoteSt noteSt = activity.vm.getNoteSt();
+
+            ActivityNoteViewModel viewModel = noteView.getViewModel();
+            NoteSt noteSt = viewModel.getNoteSt();
             if (noteSt.isCreate()) {
                 noteSt.setCreate(false);
-                activity.vm.setNoteSt(noteSt);
+                viewModel.setNoteSt(noteSt);
+
+                if (!editModeChange) {
+                    menuControl.setDrawable(true, true);
+                }
 
                 long ntId = db.daoNote().insert(noteItem);
                 noteItem.setId(ntId);
@@ -190,7 +212,9 @@ public final class TextFragment extends NoteFragmentParent {
             noteModel.setNoteItem(noteItem);
 
             vm.setNoteModel(noteModel);
-            activity.vm.setNoteModel(noteModel);
+
+            viewModel.setNoteModel(noteModel);
+            noteView.setViewModel(viewModel);
             return true;
         } else return false;
     }
@@ -199,16 +223,22 @@ public final class TextFragment extends NoteFragmentParent {
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        NoteSt noteSt = activity.vm.getNoteSt();
+        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        NoteSt noteSt = viewModel.getNoteSt();
         noteSt.setEdit(editMode);
 
-        menuNote.setDrawable(editMode && !noteSt.isCreate(), !noteSt.isCreate());
-        menuNote.setMenuGroupVisible(noteSt.isBin(), editMode, !noteSt.isBin() && !editMode);
+        menuControl.setDrawable(editMode && !noteSt.isCreate(),
+                !noteSt.isCreate() && !noteSt.isFirst());
+        menuControl.setMenuGroupVisible(noteSt.isBin(), editMode, !noteSt.isBin() && !editMode);
 
         bind(editMode);
 
-        activity.vm.setNoteSt(noteSt);
-        activity.saveControl.setSaveHandlerEvent(editMode);
+        viewModel.setNoteSt(noteSt);
+        noteView.setViewModel(viewModel);
+
+        SaveControl saveControl = noteView.getSaveControl();
+        saveControl.setSaveHandlerEvent(editMode);
+        noteView.setSaveControl(saveControl);
     }
 
     @Override

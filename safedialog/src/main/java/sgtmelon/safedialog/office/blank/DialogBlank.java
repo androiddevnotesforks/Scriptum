@@ -7,7 +7,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public abstract class DialogBlank extends DialogFragment {
+public class DialogBlank extends DialogFragment {
 
     protected Context context;
 

@@ -26,11 +26,9 @@ public final class IntroFragment extends Fragment {
 
     private static final String TAG = IntroFragment.class.getSimpleName();
 
-    @Inject
-    IncludeInfoBinding binding;
+    @Inject IncludeInfoBinding binding;
 
     private PageSt pageSt;
-
     private View frgView;
     private LinearLayout container;
 

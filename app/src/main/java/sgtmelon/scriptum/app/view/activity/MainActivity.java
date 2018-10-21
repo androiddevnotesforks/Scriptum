@@ -38,17 +38,11 @@ public final class MainActivity extends ActivityParent implements
     private final PageSt pageSt = new PageSt();
     private final OpenSt openSt = new OpenSt();
 
-    @Inject
-    FragmentManager fm;
-    @Inject
-    RankFragment rankFragment;
-    @Inject
-    NotesFragment notesFragment;
-    @Inject
-    BinFragment binFragment;
-
-    @Inject
-    SheetDialog sheetDialog;
+    @Inject FragmentManager fm;
+    @Inject RankFragment rankFragment;
+    @Inject NotesFragment notesFragment;
+    @Inject BinFragment binFragment;
+    @Inject SheetDialog sheetDialog;
 
     private FloatingActionButton fab;
 
@@ -107,9 +101,7 @@ public final class MainActivity extends ActivityParent implements
                     ? TypeDef.text
                     : TypeDef.roll;
 
-            Intent intent = new Intent(MainActivity.this, NoteActivity.class);
-            intent.putExtra(IntentDef.NOTE_CREATE, true);
-            intent.putExtra(IntentDef.NOTE_TYPE, type);
+            Intent intent = NoteActivity.getIntent(MainActivity.this, type);
 
             startActivity(intent);
             return true;

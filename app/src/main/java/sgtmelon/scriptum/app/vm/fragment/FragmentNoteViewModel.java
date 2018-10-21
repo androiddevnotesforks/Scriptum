@@ -3,7 +3,7 @@ package sgtmelon.scriptum.app.vm.fragment;
 import androidx.lifecycle.ViewModel;
 import sgtmelon.scriptum.app.model.NoteModel;
 
-public final class NoteViewModel extends ViewModel {
+public final class FragmentNoteViewModel extends ViewModel {
 
     private NoteModel noteModel;
 

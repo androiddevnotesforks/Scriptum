@@ -40,35 +40,26 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
     private final OpenSt openSt = new OpenSt();
 
-    @Inject
-    FragmentManager fm;
+    @Inject FragmentManager fm;
+    @Inject SortDialog sortDialog;
+    @Inject ColorDialog colorDialog;
+    @Inject InfoDialog infoDialog;
 
-    @Inject
-    SortDialog sortDialog;
-    @Inject
-    ColorDialog colorDialog;
     @Inject
     @Named(DialogDef.SAVE_TIME)
     SingleDialog dlgSaveTime;
     @Inject
     @Named(DialogDef.THEME)
     SingleDialog dlgTheme;
-    @Inject
-    InfoDialog infoDialog;
 
     private PreferenceActivity activity;
-
     private SharedPreferences pref; // TODO: 02.10.2018 синглтон
-
     private Preference prefSort;
     private String valSort;
-
     private Preference prefColor;
     private int valColor;
-
     private Preference prefSaveTime;
     private int valSaveTime;
-
     private Preference prefTheme;
     private int valTheme;
 

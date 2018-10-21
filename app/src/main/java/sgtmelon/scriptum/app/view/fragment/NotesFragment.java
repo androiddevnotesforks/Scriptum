@@ -39,7 +39,7 @@ import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentNotesBinding;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
-import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.def.OptionsDef;
 import sgtmelon.scriptum.office.annot.def.db.BinDef;
 import sgtmelon.scriptum.office.annot.def.db.CheckDef;
 import sgtmelon.scriptum.office.annot.def.db.TypeDef;
@@ -53,24 +53,15 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
     public static boolean updateStatus = true; //Для единовременного обновления статус бара
 
-    private NoteAdapter adapter;
-
-    @Inject
-    FragmentManager fm;
-
-    @Inject
-    FragmentNotesBinding binding;
-    @Inject
-    NotesViewModel vm;
-
-    @Inject
-    OptionsDialog optionsDialog;
+    @Inject FragmentManager fm;
+    @Inject FragmentNotesBinding binding;
+    @Inject NotesViewModel vm;
+    @Inject OptionsDialog optionsDialog;
 
     private Context context;
-
     private RoomDb db;
-
     private View frgView;
+    private NoteAdapter adapter;
 
     @Override
     public void onAttach(Context context) {
@@ -154,41 +145,41 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         recyclerView.setAdapter(adapter);
 
         optionsDialog.setOnClickListener((dialogInterface, i) -> {
-            int p = optionsDialog.getPosition(); // TODO: 06.10.2018 defValues
+            int p = optionsDialog.getPosition();
             NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
 
             switch (noteItem.getType()) {
                 case TypeDef.text:
                     switch (i) {
-                        case 0:
+                        case OptionsDef.Notes.Text.bind:
                             onMenuBindClick(p);
                             break;
-                        case 1:
+                        case OptionsDef.Notes.Text.convert:
                             onMenuConvertClick(p);
                             break;
-                        case 2:
+                        case OptionsDef.Notes.Text.copy:
                             onMenuCopyClick(p);
                             break;
-                        case 3:
+                        case OptionsDef.Notes.Text.delete:
                             onMenuDeleteClick(p);
                             break;
                     }
                     break;
                 case TypeDef.roll:
                     switch (i) {
-                        case 0:
+                        case OptionsDef.Notes.Roll.check:
                             onMenuCheckClick(p);
                             break;
-                        case 1:
+                        case OptionsDef.Notes.Roll.bind:
                             onMenuBindClick(p);
                             break;
-                        case 2:
+                        case OptionsDef.Notes.Roll.convert:
                             onMenuConvertClick(p);
                             break;
-                        case 3:
+                        case OptionsDef.Notes.Roll.copy:
                             onMenuCopyClick(p);
                             break;
-                        case 4:
+                        case OptionsDef.Notes.Roll.delete:
                             onMenuDeleteClick(p);
                             break;
                     }
@@ -226,10 +217,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "onItemClick");
 
         long id = vm.getListModel().get(p).getNoteItem().getId();
-
-        Intent intent = new Intent(context, NoteActivity.class);
-        intent.putExtra(IntentDef.NOTE_CREATE, false);
-        intent.putExtra(IntentDef.NOTE_ID, id);
+        Intent intent = NoteActivity.getIntent(context, id);
 
         startActivity(intent);
     }

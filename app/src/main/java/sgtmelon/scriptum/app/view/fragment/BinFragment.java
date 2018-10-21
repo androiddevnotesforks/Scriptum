@@ -41,6 +41,7 @@ import sgtmelon.scriptum.databinding.FragmentBinBinding;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.def.OptionsDef;
 import sgtmelon.scriptum.office.annot.def.db.BinDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
@@ -53,28 +54,19 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
     private final OpenSt openSt = new OpenSt();
 
-    private NoteAdapter adapter;
-
-    @Inject
-    FragmentManager fm;
-
-    @Inject
-    FragmentBinBinding binding;
-    @Inject
-    NotesViewModel vm;
+    @Inject FragmentManager fm;
+    @Inject FragmentBinBinding binding;
+    @Inject NotesViewModel vm;
+    @Inject OptionsDialog optionsDialog;
 
     @Inject
     @Named(DialogDef.CLEAR_BIN)
     MessageDialog dlgClearBin;
-    @Inject
-    OptionsDialog optionsDialog;
 
+    private NoteAdapter adapter;
     private Context context;
-
     private RoomDb db;
-
     private View frgView;
-
     private MenuItem mItemClearBin;
 
     @Override
@@ -195,15 +187,15 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         recyclerView.setAdapter(adapter);
 
         optionsDialog.setOnClickListener((dialogInterface, i) -> {
-            int p = optionsDialog.getPosition(); // TODO: 06.10.2018 defValues
+            int p = optionsDialog.getPosition();
             switch (i) {
-                case 0:
+                case OptionsDef.Bin.restore:
                     onMenuRestoreClick(p);
                     break;
-                case 1:
+                case OptionsDef.Bin.copy:
                     onMenuCopyClick(p);
                     break;
-                case 2:
+                case OptionsDef.Bin.clear:
                     onMenuClearClick(p);
                     break;
             }
@@ -227,10 +219,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         Log.i(TAG, "onItemClick");
 
         long id = vm.getListModel().get(p).getNoteItem().getId();
-
-        Intent intent = new Intent(context, NoteActivity.class);
-        intent.putExtra(IntentDef.NOTE_CREATE, false);
-        intent.putExtra(IntentDef.NOTE_ID, id);
+        Intent intent = NoteActivity.getIntent(context, id);
 
         startActivity(intent);
     }

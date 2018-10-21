@@ -28,9 +28,8 @@ public final class SplashActivity extends AppCompatActivity {
         if (bundle != null && bundle.getBoolean(IntentDef.STATUS_OPEN)) {
             Intent intentMain = new Intent(this, MainActivity.class);
 
-            Intent intentNote = new Intent(this, NoteActivity.class);
-            intentNote.putExtra(IntentDef.NOTE_CREATE, false);
-            intentNote.putExtra(IntentDef.NOTE_ID, bundle.getLong(IntentDef.NOTE_ID));
+            long id = bundle.getLong(IntentDef.NOTE_ID);
+            Intent intentNote = NoteActivity.getIntent(this, id);
 
             startActivities(new Intent[]{intentMain, intentNote});
         } else {

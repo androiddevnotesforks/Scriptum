@@ -20,7 +20,7 @@ import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 
-public final class NoteViewModel extends AndroidViewModel {
+public final class ActivityNoteViewModel extends AndroidViewModel {
 
     private final Context context;
 
@@ -35,7 +35,7 @@ public final class NoteViewModel extends AndroidViewModel {
 
     private RoomDb db;
 
-    public NoteViewModel(@NonNull Application application) {
+    public ActivityNoteViewModel(@NonNull Application application) {
         super(application);
 
         context = application.getApplicationContext();

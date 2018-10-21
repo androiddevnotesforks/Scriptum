@@ -19,8 +19,6 @@ import sgtmelon.safedialog.office.annot.DialogAnn;
 public final class SheetDialog extends BottomSheetDialogFragment implements
         NavigationView.OnNavigationItemSelectedListener {
 
-    // TODO: 24.09.2018 ошибка при тсутствии слоя
-
     @LayoutRes
     private int layout;
     @IdRes
@@ -52,6 +50,9 @@ public final class SheetDialog extends BottomSheetDialogFragment implements
         }
 
         View view = inflater.inflate(layout, container, false);
+        if (view == null) {
+            throw new IllegalStateException("Id error, layout view is null");
+        }
 
         NavigationView navigationView = view.findViewById(navigation);
         if (navigationView != null) navigationView.setNavigationItemSelectedListener(this);

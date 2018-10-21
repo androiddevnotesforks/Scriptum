@@ -11,7 +11,7 @@ import dagger.Provides;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ArchScope;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
-import sgtmelon.scriptum.app.vm.fragment.NoteViewModel;
+import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.app.vm.fragment.RankViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
@@ -88,8 +88,8 @@ public final class FragmentArchModule {
 
     @Provides
     @ArchScope
-    NoteViewModel provideNoteViewModel(Fragment fragment) {
-        return ViewModelProviders.of(fragment).get(NoteViewModel.class);
+    FragmentNoteViewModel provideNoteViewModel(Fragment fragment) {
+        return ViewModelProviders.of(fragment).get(FragmentNoteViewModel.class);
     }
 
 }

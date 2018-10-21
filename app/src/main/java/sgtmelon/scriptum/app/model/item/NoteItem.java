@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.R;
@@ -54,6 +55,7 @@ public final class NoteItem {
 
     }
 
+    @Ignore
     public NoteItem(String create, int color, @TypeDef int type) {
         this.create = create;
         this.color = color;

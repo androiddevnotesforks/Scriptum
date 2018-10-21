@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.app.view.parent;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,42 +33,41 @@ import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
-import sgtmelon.scriptum.app.view.activity.NoteActivity;
-import sgtmelon.scriptum.app.vm.fragment.NoteViewModel;
+import sgtmelon.scriptum.app.view.NoteView;
+import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
+import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.conv.ListConv;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
-public abstract class NoteFragmentParent extends Fragment implements View.OnClickListener,
-        MenuIntf.Note.NoteMenuClick {
+public abstract class NoteFragmentParent extends Fragment
+        implements View.OnClickListener, MenuIntf.Note.NoteMenuClick {
 
     private static final String TAG = NoteFragmentParent.class.getSimpleName();
 
-    public MenuControl menuNote;
-
-    @Inject
-    public NoteViewModel vm;
-
-    protected NoteActivity activity;
     protected Context context;
+    protected Activity activity;
+    protected NoteView noteView;
 
     @Inject
     protected FragmentManager fm;
-
     @Inject
     @Named(DialogDef.CONVERT)
     protected MessageDialog dlgConvert;
-
     protected RoomDb db;
     protected View frgView;
+    @Inject
+    protected FragmentNoteViewModel vm;
+    protected MenuControl menuControl;
 
     @Inject
     ColorDialog colorDialog;
     @Inject
     @Named(DialogDef.RANK)
     MultiplyDialog dlgRank;
+    private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
 
     @Override
     public void onAttach(Context context) {
@@ -75,7 +75,21 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         super.onAttach(context);
 
         this.context = context;
-        activity = (NoteActivity) getActivity(); // TODO: 02.10.2018 установи интерфейс общения
+
+        activity = getActivity();
+
+        if (context instanceof NoteView) {
+            noteView = (NoteView) context;
+        } else {
+            throw new IllegalStateException("NoteView interface not installed");
+        }
+
+        if (context instanceof MenuIntf.Note.DeleteMenuClick) {
+            deleteMenuClick = (MenuIntf.Note.DeleteMenuClick) context;
+        } else {
+            throw new IllegalStateException("MenuIntf.Note.DeleteMenuClick interface not installed");
+        }
+
     }
 
     @Nullable
@@ -103,27 +117,27 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         View indicator = frgView.findViewById(R.id.color_view);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new MenuControl(context, activity.getWindow());
+            menuControl = new MenuControl(context, activity.getWindow());
         } else {
-            menuNote = new MenuControlAnim(context, activity.getWindow());
+            menuControl = new MenuControlAnim(context, activity.getWindow());
         }
 
-        menuNote.setToolbar(toolbar);
-        menuNote.setIndicator(indicator);
-        menuNote.setType(noteItem.getType());
-        menuNote.setColor(noteItem.getColor());
+        menuControl.setToolbar(toolbar);
+        menuControl.setIndicator(indicator);
+        menuControl.setType(noteItem.getType());
+        menuControl.setColor(noteItem.getColor());
 
-        menuNote.setNoteMenuClick(this);
-        menuNote.setDeleteMenuClick(activity);
+        menuControl.setNoteMenuClick(this);
+        menuControl.setDeleteMenuClick(deleteMenuClick);
 
-        NoteSt noteSt = activity.vm.getNoteSt();
+        NoteSt noteSt = noteView.getViewModel().getNoteSt();
 
-        menuNote.setupDrawable();
-        menuNote.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
+        menuControl.setupDrawable();
+        menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
 
-        menuNote.setupMenu(noteItem.isStatus());
+        menuControl.setupMenu(noteItem.isStatus());
 
-        toolbar.setOnMenuItemClickListener(menuNote);
+        toolbar.setOnMenuItemClickListener(menuControl);
         toolbar.setNavigationOnClickListener(this);
     }
 
@@ -141,7 +155,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
 
             vm.setNoteModel(noteModel);
 
-            menuNote.startTint(check);
+            menuControl.startTint(check);
         });
 
         db = RoomDb.provideDb(context);
@@ -177,6 +191,22 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         });
     }
 
+    public MenuControl getMenuControl() {
+        return menuControl;
+    }
+
+    public void setMenuControl(MenuControl menuControl) {
+        this.menuControl = menuControl;
+    }
+
+    public FragmentNoteViewModel getViewModel() {
+        return vm;
+    }
+
+    public void setViewModel(FragmentNoteViewModel viewModel) {
+        vm = viewModel;
+    }
+
     @Override
     public void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
@@ -204,7 +234,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         colorDialog.setArguments(noteItem.getColor());
         colorDialog.show(fm, DialogDef.COLOR);
 
-        menuNote.setStartColor(noteItem.getColor());
+        menuControl.setStartColor(noteItem.getColor());
     }
 
     @Override
@@ -222,7 +252,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             noteModel.updateItemStatus(false);
         }
 
-        menuNote.setStatusTitle(noteItem.isStatus());
+        menuControl.setStatusTitle(noteItem.isStatus());
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), noteItem.isStatus());
@@ -231,7 +261,10 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         noteModel.setNoteItem(noteItem);
 
         vm.setNoteModel(noteModel);
-        activity.vm.setNoteModel(noteModel);
+
+        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        viewModel.setNoteModel(noteModel);
+        noteView.setViewModel(viewModel);
     }
 
     @Override

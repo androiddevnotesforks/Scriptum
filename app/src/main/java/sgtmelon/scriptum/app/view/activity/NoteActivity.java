@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -8,6 +10,7 @@ import javax.inject.Inject;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
@@ -15,10 +18,12 @@ import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
 import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
+import sgtmelon.scriptum.app.view.NoteView;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.view.parent.ActivityParent;
-import sgtmelon.scriptum.app.vm.activity.NoteViewModel;
+import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
+import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
@@ -26,22 +31,37 @@ import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
-public final class NoteActivity extends ActivityParent implements MenuIntf.Note.DeleteMenuClick {
+public final class NoteActivity extends ActivityParent
+        implements NoteView, MenuIntf.Note.DeleteMenuClick {
 
     private static final String TAG = NoteActivity.class.getSimpleName();
 
-    @Inject
-    public NoteViewModel vm;
+    @Inject ActivityNoteViewModel vm;
+    @Inject FragmentManager fm;
 
-    public SaveControl saveControl;
-
-    @Inject
-    FragmentManager fm;
+    private SaveControl saveControl;
 
     private RoomDb db;
-
     private TextFragment textFragment;
     private RollFragment rollFragment;
+
+    public static Intent getIntent(Context context, int type) {
+        Intent intent = new Intent(context, NoteActivity.class);
+
+        intent.putExtra(IntentDef.NOTE_CREATE, true);
+        intent.putExtra(IntentDef.NOTE_TYPE, type);
+
+        return intent;
+    }
+
+    public static Intent getIntent(Context context, long id) {
+        Intent intent = new Intent(context, NoteActivity.class);
+
+        intent.putExtra(IntentDef.NOTE_CREATE, false);
+        intent.putExtra(IntentDef.NOTE_ID, id);
+
+        return intent;
+    }
 
     @Override
     protected void onPause() {
@@ -67,7 +87,7 @@ public final class NoteActivity extends ActivityParent implements MenuIntf.Note.
 
         saveControl = new SaveControl(this);
 
-        setupFrg(savedInstanceState != null);
+        setupFragment(savedInstanceState != null);
     }
 
     @Override
@@ -90,28 +110,42 @@ public final class NoteActivity extends ActivityParent implements MenuIntf.Note.
         NoteSt noteSt = vm.getNoteSt();
 
         if (noteSt.isEdit() && !noteSt.isCreate()) {                  //Если это редактирование и не только что созданная заметка
+            FragmentNoteViewModel viewModel;
+            MenuControl menuControl;
             switch (noteItem.getType()) {
                 case TypeDef.text:
                     if (!textFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
-                        textFragment.menuNote.setStartColor(noteItem.getColor());
+                        menuControl = textFragment.getMenuControl();
+                        menuControl.setStartColor(noteItem.getColor());
 
                         NoteModel noteModel = vm.loadData(noteItem.getId());
                         noteItem = noteModel.getNoteItem();
 
-                        textFragment.vm.setNoteModel(noteModel);
-                        textFragment.menuNote.startTint(noteItem.getColor());
+                        viewModel = textFragment.getViewModel();
+                        viewModel.setNoteModel(noteModel);
+                        textFragment.setViewModel(viewModel);
+
+                        menuControl.startTint(noteItem.getColor());
+                        textFragment.setMenuControl(menuControl);
+
                         textFragment.onMenuEditClick(false);
                     }
                     break;
                 case TypeDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
-                        rollFragment.menuNote.setStartColor(noteItem.getColor());
+                        menuControl = rollFragment.getMenuControl();
+                        menuControl.setStartColor(noteItem.getColor());
 
                         NoteModel noteModel = vm.loadData(noteItem.getId());
                         noteItem = noteModel.getNoteItem();
 
-                        rollFragment.vm.setNoteModel(noteModel);
-                        rollFragment.menuNote.startTint(noteItem.getColor());
+                        viewModel = rollFragment.getViewModel();
+                        viewModel.setNoteModel(noteModel);
+                        rollFragment.setViewModel(viewModel);
+
+                        menuControl.startTint(noteItem.getColor());
+                        rollFragment.setMenuControl(menuControl);
+
                         rollFragment.onMenuEditClick(false);
                         rollFragment.updateAdapter();
                     }
@@ -129,8 +163,9 @@ public final class NoteActivity extends ActivityParent implements MenuIntf.Note.
         } else super.onBackPressed();   //Другие случаи (не редактирование)
     }
 
-    public void setupFrg(boolean isSave) {
-        Log.i(TAG, "setupFrg");
+    @Override
+    public void setupFragment(boolean isSave) {
+        Log.i(TAG, "setupFragment");
 
         if (!isSave) {
             NoteSt noteSt = vm.getNoteSt();
@@ -160,6 +195,26 @@ public final class NoteActivity extends ActivityParent implements MenuIntf.Note.
                 break;
         }
         transaction.commit();
+    }
+
+    @Override
+    public SaveControl getSaveControl() {
+        return saveControl;
+    }
+
+    @Override
+    public void setSaveControl(SaveControl saveControl) {
+        this.saveControl = saveControl;
+    }
+
+    @Override
+    public ActivityNoteViewModel getViewModel() {
+        return vm;
+    }
+
+    @Override
+    public void setViewModel(ActivityNoteViewModel viewModel) {
+        vm = viewModel;
     }
 
     @Override
@@ -195,14 +250,26 @@ public final class NoteActivity extends ActivityParent implements MenuIntf.Note.
         db.daoNote().update(noteItem);
         db.close();
 
+        FragmentNoteViewModel viewModel;
+        MenuControl menuControl;
         switch (vm.getNoteModel().getNoteItem().getType()) {
             case TypeDef.text:
-                textFragment.vm.setNoteModel(noteModel);
-                textFragment.menuNote.setMenuGroupVisible(false, false, true);
+                viewModel = textFragment.getViewModel();
+                viewModel.setNoteModel(noteModel);
+                textFragment.setViewModel(viewModel);
+
+                menuControl = textFragment.getMenuControl();
+                menuControl.setMenuGroupVisible(false, false, true);
+                textFragment.setMenuControl(menuControl);
                 break;
             case TypeDef.roll:
-                rollFragment.vm.setNoteModel(noteModel);
-                rollFragment.menuNote.setMenuGroupVisible(false, false, true);
+                viewModel = rollFragment.getViewModel();
+                viewModel.setNoteModel(noteModel);
+                rollFragment.setViewModel(viewModel);
+
+                menuControl = rollFragment.getMenuControl();
+                menuControl.setMenuGroupVisible(false, false, true);
+                rollFragment.setMenuControl(menuControl);
                 break;
         }
     }
