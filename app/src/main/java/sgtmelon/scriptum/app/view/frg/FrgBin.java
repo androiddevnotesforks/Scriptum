@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.frg.main;
+package sgtmelon.scriptum.app.view.frg;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,13 +25,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpNote;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgNotes;
-import sgtmelon.scriptum.dagger.frg.ComFrg;
-import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
-import sgtmelon.scriptum.dagger.frg.ModFrg;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.FrgBinBinding;
 import sgtmelon.scriptum.element.dialog.DlgOptionBin;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -68,7 +68,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
         comFrg.inject(this);
 
         frgView = binding.getRoot();

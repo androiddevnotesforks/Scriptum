@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger;
+package sgtmelon.scriptum.app.injection.module;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.databinding.FrgRollBinding;
 import sgtmelon.scriptum.databinding.FrgTextBinding;
 
 @Module
-public class ModFrgArch {
+public class ModArchFrg {
 
     @Provides
     public FrgRankBinding provideFrgRankBinding(LayoutInflater inflater, ViewGroup container) {

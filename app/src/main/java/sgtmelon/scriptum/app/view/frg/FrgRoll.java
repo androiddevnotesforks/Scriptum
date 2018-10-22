@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.frg.note;
+package sgtmelon.scriptum.app.view.frg;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -32,17 +32,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpRoll;
-import sgtmelon.scriptum.app.control.MenuNote;
-import sgtmelon.scriptum.app.control.MenuNotePreL;
+import sgtmelon.scriptum.app.control.CtrlMenu;
+import sgtmelon.scriptum.app.control.CtrlMenuPreL;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgText;
-import sgtmelon.scriptum.dagger.frg.ComFrg;
-import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
-import sgtmelon.scriptum.dagger.frg.ModFrg;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
+import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.FrgRollBinding;
 import sgtmelon.scriptum.element.dialog.DlgColor;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -87,18 +87,13 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-//        context = getContext();
         activity = (ActNote) getActivity();
-//        fm = getFragmentManager();
 
-//        binding = DataBindingUtil.inflate(inflater, R.layout.frg_roll, container, false);
-
-        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
         comFrg.inject(this);
 
         frgView = binding.getRoot();
 
-//        vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
@@ -136,7 +131,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     @Inject
-    public MenuNotePreL menuNote;
+    public CtrlMenuPreL menuNote;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -149,9 +144,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new MenuNotePreL(context, activity.getWindow());
+            menuNote = new CtrlMenuPreL(context, activity.getWindow());
         } else {
-            menuNote = new MenuNote(context, activity.getWindow());
+            menuNote = new CtrlMenu(context, activity.getWindow());
         }
 
         menuNote.setToolbar(toolbar);
@@ -204,7 +199,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             menuNote.startTint(itemNote.getColor());
         } else {
-            activity.saveNote.setNeedSave(false);
+            activity.ctrlSave.setNeedSave(false);
             activity.finish(); //Иначе завершаем активность
         }
     }
@@ -417,7 +412,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         adapter.update(editMode);
 
         activity.vm.setStNote(stNote);
-        activity.saveNote.setSaveHandlerEvent(editMode);
+        activity.ctrlSave.setSaveHandlerEvent(editMode);
     }
 
     @Override

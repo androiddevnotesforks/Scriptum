@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.frg.note;
+package sgtmelon.scriptum.app.view.frg;
 
 import android.content.Context;
 import android.os.Build;
@@ -21,17 +21,17 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.control.MenuNote;
-import sgtmelon.scriptum.app.control.MenuNotePreL;
+import sgtmelon.scriptum.app.control.CtrlMenu;
+import sgtmelon.scriptum.app.control.CtrlMenuPreL;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
+import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgText;
-import sgtmelon.scriptum.dagger.frg.ComFrg;
-import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
-import sgtmelon.scriptum.dagger.frg.ModFrg;
 import sgtmelon.scriptum.databinding.FrgTextBinding;
 import sgtmelon.scriptum.element.dialog.DlgColor;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -70,18 +70,13 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-//        context = getContext();
         activity = (ActNote) getActivity();
-//        fm = getFragmentManager();
 
-        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
         comFrg.inject(this);
 
-
-//        binding = DataBindingUtil.inflate(inflater, R.layout.frg_text, container, false);
         frgView = binding.getRoot();
 
-//        vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
@@ -107,7 +102,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     }
 
     @Inject
-    public MenuNotePreL menuNote;
+    public CtrlMenuPreL menuNote;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -120,9 +115,9 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new MenuNotePreL(context, activity.getWindow());
+            menuNote = new CtrlMenuPreL(context, activity.getWindow());
         } else {
-            menuNote = new MenuNote(context, activity.getWindow());
+            menuNote = new CtrlMenu(context, activity.getWindow());
         }
 
         menuNote.setToolbar(toolbar);
@@ -172,7 +167,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
             menuNote.startTint(itemNote.getColor());
         } else {
-            activity.saveNote.setNeedSave(false);
+            activity.ctrlSave.setNeedSave(false);
             activity.finish();
         }
     }
@@ -339,7 +334,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         bind(editMode);
 
         activity.vm.setStNote(stNote);
-        activity.saveNote.setSaveHandlerEvent(editMode);
+        activity.ctrlSave.setSaveHandlerEvent(editMode);
     }
 
     @Override

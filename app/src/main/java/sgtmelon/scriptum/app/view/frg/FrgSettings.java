@@ -43,9 +43,8 @@ public class FrgSettings extends PreferenceFragment {
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(TAG, "onCreate");
-
         addPreferencesFromResource(R.xml.preference);
+        Log.i(TAG, "onCreate");
 
         activity = (ActSettings) getActivity();
         fm = activity.getSupportFragmentManager();
@@ -55,7 +54,7 @@ public class FrgSettings extends PreferenceFragment {
         stOpen = new StOpen();
         if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
 
-        setupSortPref();
+        setupNotePref();
         setupSavePref();
         setupAppPref();
     }
@@ -80,8 +79,8 @@ public class FrgSettings extends PreferenceFragment {
     private int valColor;
     private DlgColor dlgColor;
 
-    private void setupSortPref() {
-        Log.i(TAG, "setupSortPref");
+    private void setupNotePref() {
+        Log.i(TAG, "setupNotePref");
 
         prefSort = findPreference(getString(R.string.pref_key_sort));
         valSort = pref.getString(getString(R.string.pref_key_sort), DefSort.def);
@@ -98,6 +97,7 @@ public class FrgSettings extends PreferenceFragment {
 
         dlgSort = (DlgSort) fm.findFragmentByTag(DefDlg.SORT);
         if (dlgSort == null) dlgSort = new DlgSort();
+
         dlgSort.setPositiveListener((dialogInterface, i) -> {
             valSort = dlgSort.getKeys();
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
@@ -129,6 +129,7 @@ public class FrgSettings extends PreferenceFragment {
 
         dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
         if (dlgColor == null) dlgColor = new DlgColor();
+
         dlgColor.setTitle(getString(R.string.pref_title_color));
         dlgColor.setPositiveListener((dialogInterface, i) -> {
             valColor = dlgColor.getCheck();
@@ -243,8 +244,8 @@ public class FrgSettings extends PreferenceFragment {
             return true;
         });
 
-        dlgInfo = (DlgInfo) fm.findFragmentByTag(DefDlg.INFO);
-        if (dlgInfo == null) dlgInfo = new DlgInfo();
+//        dlgInfo = (DlgInfo) fm.findFragmentByTag(DefDlg.INFO);
+//        if (dlgInfo == null) dlgInfo = new DlgInfo();
 
         dlgInfo.setLogoClick(view -> {
             Intent intent = new Intent(activity, ActDevelop.class);

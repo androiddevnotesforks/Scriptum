@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger;
+package sgtmelon.scriptum.app.injection.module;
 
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.element.dialog.common.DlgMultiply;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 
 @Module
-public class ModDlg {
+public class ModFindDlg {
 
     @Provides
     public DlgRename provideDlgRename(FragmentManager fm) {

@@ -8,16 +8,16 @@ import javax.inject.Inject;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.control.SaveNote;
+import sgtmelon.scriptum.app.control.CtrlSave;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.injection.component.ComAct;
+import sgtmelon.scriptum.app.injection.component.DaggerComAct;
+import sgtmelon.scriptum.app.injection.module.ModBlankAct;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
-import sgtmelon.scriptum.app.view.frg.note.FrgRoll;
-import sgtmelon.scriptum.app.view.frg.note.FrgText;
+import sgtmelon.scriptum.app.view.frg.FrgRoll;
+import sgtmelon.scriptum.app.view.frg.FrgText;
 import sgtmelon.scriptum.app.viewModel.VmActNote;
-import sgtmelon.scriptum.dagger.act.ComAct;
-import sgtmelon.scriptum.dagger.act.DaggerComAct;
-import sgtmelon.scriptum.dagger.act.ModAct;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
 import sgtmelon.scriptum.office.annot.def.DefNote;
@@ -40,7 +40,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
     public VmActNote vm;
 
     @Inject
-    public SaveNote saveNote;
+    public CtrlSave ctrlSave;
     //endregion
 
     @Override
@@ -48,7 +48,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
         super.onPause();
         Log.i(TAG, "onPause");
 
-        saveNote.onPauseSave(vm.getStNote().isEdit());
+        ctrlSave.onPauseSave(vm.getStNote().isEdit());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
         setContentView(R.layout.act_note);
         Log.i(TAG, "onCreate");
 
-        ComAct comAct = DaggerComAct.builder().modAct(new ModAct(this, this)).build();
+        ComAct comAct = DaggerComAct.builder().modBlankAct(new ModBlankAct(this, this)).build();
         comAct.inject(this);
 
         Bundle bundle = getIntent().getExtras();
@@ -80,7 +80,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
                 if (isSave) frgText = (FrgText) fm.findFragmentByTag(DefFrg.TEXT);
                 else frgText = new FrgText();
 
-                saveNote.setMenuClick(frgText);
+                ctrlSave.setMenuClick(frgText);
 
                 transaction.replace(R.id.actNote_fl_container, frgText, DefFrg.TEXT);
                 break;
@@ -88,7 +88,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
                 if (isSave) frgRoll = (FrgRoll) fm.findFragmentByTag(DefFrg.ROLL);
                 else frgRoll = new FrgRoll();
 
-                saveNote.setMenuClick(frgRoll);
+                ctrlSave.setMenuClick(frgRoll);
 
                 transaction.replace(R.id.actNote_fl_container, frgRoll, DefFrg.ROLL);
                 break;
@@ -175,7 +175,7 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
     public void onBackPressed() {
         Log.i(TAG, "onBackPressed");
 
-        saveNote.setNeedSave(false);
+        ctrlSave.setNeedSave(false);
 
         ItemNote itemNote = vm.getRepoNote().getItemNote();
         StNote stNote = vm.getStNote();

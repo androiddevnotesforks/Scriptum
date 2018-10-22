@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger.act;
+package sgtmelon.scriptum.app.injection.module;
 
 import android.content.Context;
 
@@ -9,12 +9,12 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class ModAct {
+public class ModBlankAct {
 
     private AppCompatActivity activity;
     private Context context;
 
-    public ModAct(@NonNull AppCompatActivity activity, @NonNull Context context) {
+    public ModBlankAct(@NonNull AppCompatActivity activity, @NonNull Context context) {
         this.activity = activity;
         this.context = context;
     }

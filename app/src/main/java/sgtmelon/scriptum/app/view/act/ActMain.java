@@ -14,12 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.view.frg.main.FrgBin;
-import sgtmelon.scriptum.app.view.frg.main.FrgNotes;
-import sgtmelon.scriptum.app.view.frg.main.FrgRank;
-import sgtmelon.scriptum.dagger.act.ComAct;
-import sgtmelon.scriptum.dagger.act.DaggerComAct;
-import sgtmelon.scriptum.dagger.act.ModAct;
+import sgtmelon.scriptum.app.view.frg.FrgBin;
+import sgtmelon.scriptum.app.view.frg.FrgNotes;
+import sgtmelon.scriptum.app.view.frg.FrgRank;
+import sgtmelon.scriptum.app.injection.component.ComAct;
+import sgtmelon.scriptum.app.injection.component.DaggerComAct;
+import sgtmelon.scriptum.app.injection.module.ModBlankAct;
 import sgtmelon.scriptum.element.dialog.DlgSheetAdd;
 import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
@@ -57,7 +57,7 @@ public class ActMain extends BlankAct implements BottomNavigationView.OnNavigati
         setContentView(R.layout.act_main);
         Log.i(TAG, "onCreate");
 
-        ComAct comAct = DaggerComAct.builder().modAct(new ModAct(this, this)).build();
+        ComAct comAct = DaggerComAct.builder().modBlankAct(new ModBlankAct(this, this)).build();
         comAct.inject(this);
 
         setupNavigation(savedInstanceState != null

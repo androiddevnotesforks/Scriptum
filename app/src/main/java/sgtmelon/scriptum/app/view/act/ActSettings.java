@@ -3,7 +3,6 @@ package sgtmelon.scriptum.app.view.act;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +11,7 @@ import sgtmelon.scriptum.app.view.frg.FrgSettings;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.blank.BlankAct;
 
-public class ActSettings extends BlankAct implements View.OnClickListener {
+public class ActSettings extends BlankAct {
 
     private static final String TAG = "ActSettings";
 
@@ -36,13 +35,7 @@ public class ActSettings extends BlankAct implements View.OnClickListener {
 
         Drawable arrowBack = Help.Draw.get(this, R.drawable.ic_cancel_off, R.attr.clIcon);
         toolbar.setNavigationIcon(arrowBack);
-        toolbar.setNavigationOnClickListener(this);
+        toolbar.setNavigationOnClickListener(view -> finish());
     }
 
-    @Override
-    public void onClick(View view) {
-        Log.i(TAG, "onClick");
-
-        finish();
-    }
 }

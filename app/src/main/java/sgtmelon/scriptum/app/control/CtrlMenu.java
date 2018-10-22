@@ -11,9 +11,9 @@ import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.hdlr.HdlrAnim;
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-public class MenuNote extends MenuNotePreL {
+public class CtrlMenu extends CtrlMenuPreL {
 
-    public MenuNote(Context context, Window window) {
+    public CtrlMenu(Context context, Window window) {
         super(context, window);
     }
 

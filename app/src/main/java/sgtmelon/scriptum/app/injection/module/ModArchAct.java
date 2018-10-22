@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger.act;
+package sgtmelon.scriptum.app.injection.module;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
@@ -6,11 +6,11 @@ import dagger.Module;
 import dagger.Provides;
 import sgtmelon.scriptum.app.viewModel.VmActNote;
 
-@Module(includes = ModAct.class)
-class ModActNote {
+@Module
+public class ModArchAct {
 
     @Provides
-    VmActNote provideVmActNote(AppCompatActivity activity) {
+    public VmActNote provideVmActNote(AppCompatActivity activity) {
         return ViewModelProviders.of(activity).get(VmActNote.class);
     }
 

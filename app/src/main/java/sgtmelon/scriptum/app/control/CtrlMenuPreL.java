@@ -20,7 +20,7 @@ import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.intf.IntfItem;
 import sgtmelon.scriptum.office.intf.IntfMenu;
 
-public class MenuNotePreL implements Toolbar.OnMenuItemClickListener, IntfItem.Animation {
+public class CtrlMenuPreL implements Toolbar.OnMenuItemClickListener, IntfItem.Animation {
 
     //region Variables
     final Context context;
@@ -35,7 +35,7 @@ public class MenuNotePreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
     private int valTheme;
     //endregion
 
-    public MenuNotePreL(Context context, Window window) {
+    public CtrlMenuPreL(Context context, Window window) {
         this.context = context;
         this.window = window;
     }

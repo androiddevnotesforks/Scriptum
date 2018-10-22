@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger;
+package sgtmelon.scriptum.app.injection.module;
 
 import android.content.Context;
 

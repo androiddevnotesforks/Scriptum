@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.dagger.frg;
+package sgtmelon.scriptum.app.injection.module;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,14 +13,14 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class ModFrg {
+public class ModBlankFrg {
 
     private Fragment fragment;
 
     private LayoutInflater inflater;
     private ViewGroup container;
 
-    public ModFrg(Fragment fragment, LayoutInflater inflater, ViewGroup container) {
+    public ModBlankFrg(Fragment fragment, LayoutInflater inflater, ViewGroup container) {
         this.fragment = fragment;
         this.inflater = inflater;
         this.container = container;

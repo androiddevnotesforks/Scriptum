@@ -17,7 +17,7 @@ import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.item.ItemStatus;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
-import sgtmelon.scriptum.app.view.frg.main.FrgNotes;
+import sgtmelon.scriptum.app.view.frg.FrgNotes;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 import sgtmelon.scriptum.office.conv.ConvBool;
