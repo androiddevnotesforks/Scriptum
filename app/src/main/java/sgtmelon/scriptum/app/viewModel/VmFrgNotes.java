@@ -11,9 +11,9 @@ import sgtmelon.scriptum.app.dataBase.DbRoom;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 
-public class VmFrgBin extends AndroidViewModel {
+public class VmFrgNotes extends AndroidViewModel {
 
-    public VmFrgBin(@NonNull Application application) {
+    public VmFrgNotes(@NonNull Application application) {
         super(application);
     }
 

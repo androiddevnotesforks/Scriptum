@@ -15,13 +15,13 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -32,6 +32,9 @@ import sgtmelon.scriptum.app.dataBase.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemRank;
 import sgtmelon.scriptum.app.model.repo.RepoRank;
 import sgtmelon.scriptum.app.viewModel.VmFrgRank;
+import sgtmelon.scriptum.dagger.frg.ComFrg;
+import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
+import sgtmelon.scriptum.dagger.frg.ModFrg;
 import sgtmelon.scriptum.databinding.FrgRankBinding;
 import sgtmelon.scriptum.element.dialog.DlgRename;
 import sgtmelon.scriptum.office.Help;
@@ -48,50 +51,43 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
     private DbRoom db;
 
-    private Context context;
-    private FragmentManager fm;
+    @Inject
+    Context context;
+    @Inject
+    FragmentManager fm;
 
-    private FrgRankBinding binding;
+    @Inject
+    FrgRankBinding binding;
+    @Inject
+    VmFrgRank vm;
+
     private View frgView;
-
-    private VmFrgRank vm;
-
-    private StOpen stOpen;
     //endregion
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i(TAG, "onAttach");
-
-        this.context = context;
-        fm = getFragmentManager();
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.frg_rank, container, false);
+        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        comFrg.inject(this);
+
+//        context = getContext();
+//        fm = getFragmentManager();
+
+//        binding = DataBindingUtil.inflate(inflater, R.layout.frg_rank, container, false);
+
+//        vm = ViewModelProviders.of(this).get(VmFrgRank.class);
         frgView = binding.getRoot();
-
-        return frgView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.i(TAG, "onActivityCreated");
-
-        vm = ViewModelProviders.of(this).get(VmFrgRank.class);
         vm.loadData();
 
-        stOpen = new StOpen();
+//        stOpen = new StOpen();
         if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
 
         setupToolbar();
-        setupRecyclerView();
+        setupRecycler();
+
+        return frgView;
     }
 
     @Override
@@ -246,19 +242,25 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
         return true;
     }
 
-    //region RecyclerView variables
-    private StDrag stDrag;
+    //region Recycler variable
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
 
-    private AdpRank adapter;
-    private DlgRename dlgRename;
+    @Inject
+    StDrag stDrag;
+
+    @Inject
+    LinearLayoutManager layoutManager;
+    @Inject
+    AdpRank adapter;
+
+    @Inject
+    StOpen stOpen;
+    @Inject
+    DlgRename dlgRename;
     //endregion
 
-    private void setupRecyclerView() {
-        Log.i(TAG, "setupRecyclerView");
-
-        stDrag = new StDrag();
+    private void setupRecycler() {
+        Log.i(TAG, "setupRecycler");
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
@@ -267,22 +269,15 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
             }
         };
 
+        adapter.setCallback(this, this, stDrag);
+
         recyclerView = frgView.findViewById(R.id.frgRank_rv);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
-
-        layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new AdpRank();
         recyclerView.setAdapter(adapter);
-
-        adapter.setCallback(this, this, stDrag);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-        dlgRename = (DlgRename) fm.findFragmentByTag(DefDlg.RENAME);
-        if (dlgRename == null) dlgRename = new DlgRename();
 
         dlgRename.setPositiveListener((dialogInterface, i) -> {
             int p = dlgRename.getPosition();

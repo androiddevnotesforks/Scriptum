@@ -3,12 +3,14 @@ package sgtmelon.scriptum.dagger.frg;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import dagger.Module;
 import dagger.Provides;
-import sgtmelon.scriptum.app.adapter.AdpNote;
 
 @Module
 public class ModFrg {
@@ -25,35 +27,41 @@ public class ModFrg {
     }
 
     @Provides
-    public Fragment getFragment() {
+    public Fragment provideFragment() {
         return fragment;
     }
 
     @Provides
-    public Context getContext() {
+    public Context provideContext() {
         return fragment.getContext();
     }
 
     @Provides
-    public FragmentManager getFragmentManager() {
+    public FragmentManager provideFragmentManager() {
         return fragment.getFragmentManager();
     }
 
     @Provides
-    public LayoutInflater getInflater() {
+    public LayoutInflater provideInflater() {
         return inflater;
     }
 
     @Provides
-    public ViewGroup getContainer() {
+    public ViewGroup provideContainer() {
         return container;
     }
 
     @Provides
-    AdpNote getAdpNote() {
-        return new AdpNote();
+    public Window provideWindow(){
+        FragmentActivity activity = fragment.getActivity();
+
+        if (activity != null) return activity.getWindow();
+        else return null;
     }
 
-    // TODO: 22.10.2018 добавить modFrgRank, рефакторинг
+    @Provides
+    public LinearLayoutManager provideLinearLayout(Context context){
+        return new LinearLayoutManager(context);
+    }
 
 }

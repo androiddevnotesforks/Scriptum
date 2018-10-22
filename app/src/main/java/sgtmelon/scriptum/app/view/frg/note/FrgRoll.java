@@ -20,13 +20,13 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +40,9 @@ import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgText;
+import sgtmelon.scriptum.dagger.frg.ComFrg;
+import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
+import sgtmelon.scriptum.dagger.frg.ModFrg;
 import sgtmelon.scriptum.databinding.FrgRollBinding;
 import sgtmelon.scriptum.element.dialog.DlgColor;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -63,48 +66,44 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     private DbRoom db;
 
-    private Context context;
     private ActNote activity;
-    private FragmentManager fm;
 
-    private FrgRollBinding binding;
+    @Inject
+    Context context;
+    @Inject
+    FragmentManager fm;
+
+    @Inject
+    FrgRollBinding binding;
+    @Inject
+    public VmFrgText vm;
+
     private View frgView;
 
-    public VmFrgText vm;
     //endregion
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i(TAG, "onAttach");
-
-        this.context = context;
-        activity = (ActNote) getActivity();
-        fm = getFragmentManager();
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.frg_roll, container, false);
+//        context = getContext();
+        activity = (ActNote) getActivity();
+//        fm = getFragmentManager();
+
+//        binding = DataBindingUtil.inflate(inflater, R.layout.frg_roll, container, false);
+
+        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        comFrg.inject(this);
+
         frgView = binding.getRoot();
 
-        return frgView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.i(TAG, "onActivityCreated");
-
-        vm = ViewModelProviders.of(this).get(VmFrgText.class);
+//        vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
         setupDialog();
-        setupRecyclerView();
+        setupRecycler();
         setupEnter();
 
         onMenuEditClick(activity.vm.getStNote().isEdit());
@@ -112,6 +111,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         StNote stNote = activity.vm.getStNote();
         stNote.setFirst(false);
         activity.vm.setStNote(stNote);
+
+        return frgView;
     }
 
     @Override
@@ -134,6 +135,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         binding.executePendingBindings();
     }
 
+    @Inject
     public MenuNotePreL menuNote;
 
     private void setupToolbar() {
@@ -147,11 +149,14 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new MenuNotePreL(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+            menuNote = new MenuNotePreL(context, activity.getWindow());
         } else {
-            menuNote = new MenuNote(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+            menuNote = new MenuNote(context, activity.getWindow());
         }
 
+        menuNote.setToolbar(toolbar);
+        menuNote.setIndicator(indicator);
+        menuNote.setType(itemNote.getType());
         menuNote.setColor(itemNote.getColor());
 
         menuNote.setNoteClick(this);
@@ -204,15 +209,15 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         }
     }
 
-    private DlgMessage dlgConvert;
-    private DlgColor dlgColor;
-    private DlgMultiply dlgRank;
+    @Inject
+    DlgMessage dlgConvert;
+    @Inject
+    DlgColor dlgColor;
+    @Inject
+    DlgMultiply dlgRank;
 
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
-
-        dlgConvert = (DlgMessage) fm.findFragmentByTag(DefDlg.CONVERT);
-        if (dlgConvert == null) dlgConvert = new DlgMessage();
 
         dlgConvert.setTitle(getString(R.string.dialog_title_convert));
         dlgConvert.setMessage(getString(R.string.dialog_roll_convert_to_text));
@@ -239,8 +244,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
             activity.setupFrg(false);
         });
 
-        dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
-        if (dlgColor == null) dlgColor = new DlgColor();
         dlgColor.setTitle(getString(R.string.dialog_title_color));
         dlgColor.setPositiveListener((dialogInterface, i) -> {
             int check = dlgColor.getCheck();
@@ -254,9 +257,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
             menuNote.startTint(check);
         });
-
-        dlgRank = (DlgMultiply) fm.findFragmentByTag(DefDlg.RANK);
-        if (dlgRank == null) dlgRank = new DlgMultiply();
 
         db = DbRoom.provideDb(context);
         String[] name = db.daoRank().getName();
@@ -381,7 +381,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db.close();
 
         dlgRank.setArguments(check);
-        dlgRank.show(fm, DefDlg.RANK);
+        dlgRank.show(fm, DefDlg.MULTIPLY);
     }
 
     @Override
@@ -485,33 +485,33 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, DefDlg.CONVERT);
+        dlgConvert.show(fm, DefDlg.MESSAGE);
     }
 
     //region RecyclerView Variable
-    private StDrag stDrag;
-    private StCheck stCheck;
-
     private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
 
-    private AdpRoll adapter;
+    @Inject
+    StDrag stDrag;
+    @Inject
+    StCheck stCheck;
+
+    @Inject
+    LinearLayoutManager layoutManager;
+    @Inject
+    AdpRoll adapter;
     //endregion
 
-    private void setupRecyclerView() {
-        Log.i(TAG, "setupRecyclerView");
-
-        stDrag = new StDrag();
-        stCheck = new StCheck();
+    private void setupRecycler() {
+        Log.i(TAG, "setupRecycler");
 
         recyclerView = frgView.findViewById(R.id.frgRoll_rv);
-
-        layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdpRoll(context, activity.vm.getStNote().isBin(), activity.vm.getStNote().isEdit());
-        recyclerView.setAdapter(adapter);
+        adapter.setKey(activity.vm.getStNote().isBin(), activity.vm.getStNote().isEdit());
         adapter.setCallback(this, stDrag, this);
+
+        recyclerView.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);

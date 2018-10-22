@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,7 +30,7 @@ import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.view.act.ActSettings;
-import sgtmelon.scriptum.app.viewModel.VmFrgBin;
+import sgtmelon.scriptum.app.viewModel.VmFrgNotes;
 import sgtmelon.scriptum.dagger.frg.ComFrg;
 import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
 import sgtmelon.scriptum.dagger.frg.ModFrg;
@@ -63,14 +62,10 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     @Inject
     FrgNotesBinding binding;
+    @Inject
+    VmFrgNotes vm;
+
     private View frgView;
-
-    private VmFrgBin vm;
-
-    @Inject
-    AdpNote adapter;
-    @Inject
-    DlgOptionNote dlgOptionNote;
     //endregion
 
     @Nullable
@@ -82,10 +77,9 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         comFrg.inject(this);
 
         frgView = binding.getRoot();
-        vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
         setupToolbar();
-        setupRecyclerView();
+        setupRecycler();
 
         return frgView;
     }
@@ -133,8 +127,13 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         return false;
     }
 
-    private void setupRecyclerView() {
-        Log.i(TAG, "setupRecyclerView");
+    @Inject
+    AdpNote adapter;
+    @Inject
+    DlgOptionNote dlgOptionNote;
+
+    private void setupRecycler() {
+        Log.i(TAG, "setupRecycler");
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override

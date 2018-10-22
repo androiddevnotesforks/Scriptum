@@ -33,12 +33,15 @@ public class AdpRoll extends RecyclerView.Adapter<AdpRoll.RollHolder> {
 
     private final List<ItemRoll> listRoll = new ArrayList<>();
 
-    private final boolean keyBin;
+    private boolean keyBin;
     private boolean keyEdit;
     //endregion
 
-    public AdpRoll(Context context, boolean keyBin, boolean keyEdit) {
+    public AdpRoll(Context context) {
         this.context = context;
+    }
+
+    public void setKey(boolean keyBin, boolean keyEdit){
         this.keyBin = keyBin;
         this.keyEdit = keyEdit;
     }

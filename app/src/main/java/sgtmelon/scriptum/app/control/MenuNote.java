@@ -3,22 +3,18 @@ package sgtmelon.scriptum.app.control;
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
-import android.view.View;
 import android.view.Window;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.db.DefType;
 import sgtmelon.scriptum.office.hdlr.HdlrAnim;
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public class MenuNote extends MenuNotePreL {
 
-    public MenuNote(Context context, Window window, Toolbar toolbar, View indicator, @DefType int type) {
-        super(context, window, toolbar, indicator, type);
+    public MenuNote(Context context, Window window) {
+        super(context, window);
     }
 
     private HdlrAnim hdlrAnim;

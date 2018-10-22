@@ -13,13 +13,13 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.MenuNote;
 import sgtmelon.scriptum.app.control.MenuNotePreL;
@@ -29,6 +29,9 @@ import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgText;
+import sgtmelon.scriptum.dagger.frg.ComFrg;
+import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
+import sgtmelon.scriptum.dagger.frg.ModFrg;
 import sgtmelon.scriptum.databinding.FrgTextBinding;
 import sgtmelon.scriptum.element.dialog.DlgColor;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -47,43 +50,38 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
     private DbRoom db;
 
-    private Context context;
     private ActNote activity;
-    private FragmentManager fm;
 
-    private FrgTextBinding binding;
-    private View frgView;
+    @Inject
+    Context context;
+    @Inject
+    FragmentManager fm;
 
+    @Inject
+    FrgTextBinding binding;
+    @Inject
     public VmFrgText vm;
+
+    private View frgView;
     //endregion
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i(TAG, "onAttach");
-
-        this.context = context;
-        activity = (ActNote) getActivity();
-        fm = getFragmentManager();
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.frg_text, container, false);
+//        context = getContext();
+        activity = (ActNote) getActivity();
+//        fm = getFragmentManager();
+
+        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        comFrg.inject(this);
+
+
+//        binding = DataBindingUtil.inflate(inflater, R.layout.frg_text, container, false);
         frgView = binding.getRoot();
 
-        return frgView;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.i(TAG, "onActivityCreated");
-
-        vm = ViewModelProviders.of(this).get(VmFrgText.class);
+//        vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
@@ -95,6 +93,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         StNote stNote = activity.vm.getStNote();
         stNote.setFirst(false);
         activity.vm.setStNote(stNote);
+
+        return frgView;
     }
 
     private void bind(boolean keyEdit) {
@@ -106,6 +106,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         binding.executePendingBindings();
     }
 
+    @Inject
     public MenuNotePreL menuNote;
 
     private void setupToolbar() {
@@ -119,11 +120,14 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         View indicator = frgView.findViewById(R.id.incToolbarNote_iv_color);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuNote = new MenuNotePreL(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+            menuNote = new MenuNotePreL(context, activity.getWindow());
         } else {
-            menuNote = new MenuNote(context, activity.getWindow(), toolbar, indicator, itemNote.getType());
+            menuNote = new MenuNote(context, activity.getWindow());
         }
 
+        menuNote.setToolbar(toolbar);
+        menuNote.setIndicator(indicator);
+        menuNote.setType(itemNote.getType());
         menuNote.setColor(itemNote.getColor());
 
         menuNote.setNoteClick(this);
@@ -173,15 +177,15 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         }
     }
 
-    private DlgMessage dlgConvert;
-    private DlgColor dlgColor;
-    private DlgMultiply dlgRank;
+    @Inject
+    DlgMessage dlgConvert;
+    @Inject
+    DlgColor dlgColor;
+    @Inject
+    DlgMultiply dlgRank;
 
     private void setupDialog() {
         Log.i(TAG, "setupDialog");
-
-        dlgConvert = (DlgMessage) fm.findFragmentByTag(DefDlg.CONVERT);
-        if (dlgConvert == null) dlgConvert = new DlgMessage();
 
         dlgConvert.setTitle(getString(R.string.dialog_title_convert));
         dlgConvert.setMessage(getString(R.string.dialog_text_convert_to_roll));
@@ -208,9 +212,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
             activity.setupFrg(false);
         });
 
-        dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
-        if (dlgColor == null) dlgColor = new DlgColor();
-
         dlgColor.setTitle(getString(R.string.dialog_title_color));
         dlgColor.setPositiveListener((dialogInterface, i) -> {
             int check = dlgColor.getCheck();
@@ -224,9 +225,6 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
             menuNote.startTint(check);
         });
-
-        dlgRank = (DlgMultiply) fm.findFragmentByTag(DefDlg.RANK);
-        if (dlgRank == null) dlgRank = new DlgMultiply();
 
         db = DbRoom.provideDb(context);
         String[] name = db.daoRank().getName();
@@ -311,7 +309,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         db.close();
 
         dlgRank.setArguments(check);
-        dlgRank.show(fm, DefDlg.RANK);
+        dlgRank.show(fm, DefDlg.MULTIPLY);
     }
 
     @Override
@@ -375,7 +373,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, DefDlg.CONVERT);
+        dlgConvert.show(fm, DefDlg.MESSAGE);
     }
 
     private void setupEnter() {

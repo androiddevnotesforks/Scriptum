@@ -17,10 +17,8 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +28,7 @@ import sgtmelon.scriptum.app.dataBase.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
-import sgtmelon.scriptum.app.viewModel.VmFrgBin;
+import sgtmelon.scriptum.app.viewModel.VmFrgNotes;
 import sgtmelon.scriptum.dagger.frg.ComFrg;
 import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
 import sgtmelon.scriptum.dagger.frg.ModFrg;
@@ -45,8 +43,7 @@ import sgtmelon.scriptum.office.intf.IntfDialog;
 import sgtmelon.scriptum.office.intf.IntfItem;
 import sgtmelon.scriptum.office.st.StOpen;
 
-public class FrgBin extends Fragment implements
-        IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionBin {
+public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongClick, IntfDialog.OptionBin {
 
     //region Variable
     private static final String TAG = "FrgBin";
@@ -60,19 +57,10 @@ public class FrgBin extends Fragment implements
 
     @Inject
     FrgBinBinding binding;
+    @Inject
+    VmFrgNotes vm;
+
     private View frgView;
-
-    private VmFrgBin vm;
-
-    @Inject
-    StOpen stOpen;
-    @Inject
-    DlgMessage dlgClearBin;
-
-    @Inject
-    AdpNote adapter;
-    @Inject
-    DlgOptionBin dlgOptionBin;
     //endregion
 
     @Nullable
@@ -84,12 +72,11 @@ public class FrgBin extends Fragment implements
         comFrg.inject(this);
 
         frgView = binding.getRoot();
-        vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
         if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
 
         setupToolbar();
-        setupRecyclerView();
+        setupRecycler();
 
         return frgView;
     }
@@ -109,6 +96,11 @@ public class FrgBin extends Fragment implements
 
     private MenuItem mItemClearBin;
 
+    @Inject
+    StOpen stOpen;
+    @Inject
+    DlgMessage dlgClearBin;
+
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
@@ -122,7 +114,7 @@ public class FrgBin extends Fragment implements
                     if (!stOpen.isOpen()) {
                         stOpen.setOpen();
 
-                        dlgClearBin.show(fm, DefDlg.CLEAR_BIN);
+                        dlgClearBin.show(fm, DefDlg.MESSAGE);
                     }
                     return true;
             }
@@ -134,7 +126,7 @@ public class FrgBin extends Fragment implements
 
         Help.Tint.menuIcon(context, mItemClearBin);
 
-//        dlgClearBin = (DlgMessage) fm.findFragmentByTag(DefDlg.CLEAR_BIN);
+//        dlgClearBin = (DlgMessage) fm.findFragmentByTag(DefDlg.MESSAGE);
 //        if (dlgClearBin == null) dlgClearBin = new DlgMessage();
 
         dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
@@ -162,8 +154,13 @@ public class FrgBin extends Fragment implements
         else mItemClearBin.setVisible(true);
     }
 
-    private void setupRecyclerView() {
-        Log.i(TAG, "setupRecyclerView");
+    @Inject
+    AdpNote adapter;
+    @Inject
+    DlgOptionBin dlgOptionBin;
+
+    private void setupRecycler() {
+        Log.i(TAG, "setupRecycler");
 
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override

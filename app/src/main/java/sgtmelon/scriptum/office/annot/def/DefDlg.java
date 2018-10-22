@@ -7,27 +7,22 @@ import androidx.annotation.StringDef;
  */
 @StringDef({
         DefDlg.RENAME, DefDlg.SHEET_ADD,
-        DefDlg.OPTIONS, DefDlg.CLEAR_BIN,
+        DefDlg.OPTIONS,
 
-        DefDlg.CONVERT, DefDlg.RANK, DefDlg.COLOR,
+        DefDlg.MESSAGE, DefDlg.MULTIPLY, DefDlg.COLOR,
 
-        DefDlg.SORT, DefDlg.SAVE_TIME,
-        DefDlg.THEME, DefDlg.INFO
+        DefDlg.SORT, DefDlg.SAVE_TIME, DefDlg.THEME, DefDlg.INFO
 })
 public @interface DefDlg {
 
-    //Main
     String RENAME = "DLG_RENAME",
             SHEET_ADD = "DLG_SHEET_ADD",
-            OPTIONS = "DLG_OPTIONS",
-            CLEAR_BIN = "DLG_CLEAR_BIN";
+            OPTIONS = "DLG_OPTIONS";
 
-    //Note
-    String CONVERT = "DLG_CONVERT",
-            RANK = "DLG_RANK",
+    String MESSAGE = "DLG_MESSAGE",
+            MULTIPLY = "DLG_MULTIPLY",
             COLOR = "DLG_COLOR";
 
-    //Settings
     String SORT = "DLG_SORT",
             SAVE_TIME = "DLG_SAVE_TIME",
             THEME = "DLG_THEME",

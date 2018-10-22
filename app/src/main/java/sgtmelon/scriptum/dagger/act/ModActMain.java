@@ -6,18 +6,10 @@ import dagger.Provides;
 import sgtmelon.scriptum.app.view.frg.main.FrgBin;
 import sgtmelon.scriptum.app.view.frg.main.FrgNotes;
 import sgtmelon.scriptum.app.view.frg.main.FrgRank;
-import sgtmelon.scriptum.element.dialog.DlgSheetAdd;
-import sgtmelon.scriptum.office.annot.def.DefDlg;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
-import sgtmelon.scriptum.office.st.StPage;
 
 @Module(includes = ModAct.class)
 class ModActMain {
-
-    @Provides
-    StPage provideStPage() {
-        return new StPage();
-    }
 
     @Provides
     FrgRank provideFrgRank(FragmentManager fm) {
@@ -41,14 +33,6 @@ class ModActMain {
         if (frgBin == null) frgBin = new FrgBin();
 
         return frgBin;
-    }
-
-    @Provides
-    DlgSheetAdd provideDlgSheetAdd(FragmentManager fm) {
-        DlgSheetAdd dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(DefDlg.SHEET_ADD);
-        if (dlgSheetAdd == null) dlgSheetAdd = new DlgSheetAdd();
-
-        return dlgSheetAdd;
     }
 
 }

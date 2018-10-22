@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
@@ -26,24 +25,32 @@ public class MenuNotePreL implements Toolbar.OnMenuItemClickListener, IntfItem.A
     //region Variables
     final Context context;
     private final Window window;
-    final Toolbar toolbar;
-    private final View indicator;
 
-    private final int type;
+    Toolbar toolbar;
+    private Menu menu;
 
-    private final Menu menu;
-    private final int valTheme;
+    private View indicator;
+
+    private int type;
+    private int valTheme;
     //endregion
 
-    public MenuNotePreL(Context context, Window window, Toolbar toolbar, View indicator, @DefType int type) {
+    public MenuNotePreL(Context context, Window window) {
         this.context = context;
         this.window = window;
+    }
+
+    public void setToolbar(Toolbar toolbar) {
         this.toolbar = toolbar;
-        this.indicator = indicator;
-
-        this.type = type;
-
         menu = toolbar.getMenu();
+    }
+
+    public void setIndicator(View indicator) {
+        this.indicator = indicator;
+    }
+
+    public void setType(int type) {
+        this.type = type;
         valTheme = Help.Pref.getTheme(context);
     }
 
