@@ -3,7 +3,7 @@ package sgtmelon.scriptum.app.viewModel;
 import androidx.lifecycle.ViewModel;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 
-public class VmFrgTextRoll extends ViewModel {
+public class VmFrgText extends ViewModel {
 
     private RepoNote repoNote;
 

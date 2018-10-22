@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.frg;
+package sgtmelon.scriptum.app.view.frg.main;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -252,7 +252,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     private LinearLayoutManager layoutManager;
 
     private AdpRank adapter;
-
     private DlgRename dlgRename;
     //endregion
 

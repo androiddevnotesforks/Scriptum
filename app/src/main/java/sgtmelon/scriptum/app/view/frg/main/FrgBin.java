@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.frg;
+package sgtmelon.scriptum.app.view.frg.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +30,10 @@ import sgtmelon.scriptum.app.dataBase.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
-import sgtmelon.scriptum.app.viewModel.VmFrgNotesBin;
+import sgtmelon.scriptum.app.viewModel.VmFrgBin;
+import sgtmelon.scriptum.dagger.frg.ComFrg;
+import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
+import sgtmelon.scriptum.dagger.frg.ModFrg;
 import sgtmelon.scriptum.databinding.FrgBinBinding;
 import sgtmelon.scriptum.element.dialog.DlgOptionBin;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -48,49 +53,45 @@ public class FrgBin extends Fragment implements
 
     private DbRoom db;
 
-    private Context context;
-    private FragmentManager fm;
+    @Inject
+    Context context;
+    @Inject
+    FragmentManager fm;
 
-    private FrgBinBinding binding;
+    @Inject
+    FrgBinBinding binding;
     private View frgView;
 
-    private VmFrgNotesBin vm;
+    private VmFrgBin vm;
 
-    private StOpen stOpen;
+    @Inject
+    StOpen stOpen;
+    @Inject
+    DlgMessage dlgClearBin;
+
+    @Inject
+    AdpNote adapter;
+    @Inject
+    DlgOptionBin dlgOptionBin;
     //endregion
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i(TAG, "onAttach");
-
-        this.context = context;
-        fm = getFragmentManager();
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.frg_bin, container, false);
+        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        comFrg.inject(this);
+
         frgView = binding.getRoot();
+        vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
-        return frgView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.i(TAG, "onActivityCreated");
-
-        vm = ViewModelProviders.of(this).get(VmFrgNotesBin.class);
-
-        stOpen = new StOpen();
         if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
 
         setupToolbar();
         setupRecyclerView();
+
+        return frgView;
     }
 
     @Override
@@ -107,7 +108,6 @@ public class FrgBin extends Fragment implements
     }
 
     private MenuItem mItemClearBin;
-    private DlgMessage dlgClearBin;
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
@@ -134,8 +134,8 @@ public class FrgBin extends Fragment implements
 
         Help.Tint.menuIcon(context, mItemClearBin);
 
-        dlgClearBin = (DlgMessage) fm.findFragmentByTag(DefDlg.CLEAR_BIN);
-        if (dlgClearBin == null) dlgClearBin = new DlgMessage();
+//        dlgClearBin = (DlgMessage) fm.findFragmentByTag(DefDlg.CLEAR_BIN);
+//        if (dlgClearBin == null) dlgClearBin = new DlgMessage();
 
         dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
         dlgClearBin.setMessage(getString(R.string.dialog_text_clear_bin));
@@ -144,7 +144,7 @@ public class FrgBin extends Fragment implements
             db.daoNote().clearBin();
             db.close();
 
-            vm.setListRepo();
+            vm.clearListRepo();
 
             adapter.update(vm.getListRepo());
             adapter.notifyDataSetChanged();
@@ -162,9 +162,6 @@ public class FrgBin extends Fragment implements
         else mItemClearBin.setVisible(true);
     }
 
-    private AdpNote adapter;
-    private DlgOptionBin dlgOptionBin;
-
     private void setupRecyclerView() {
         Log.i(TAG, "setupRecyclerView");
 
@@ -181,13 +178,14 @@ public class FrgBin extends Fragment implements
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdpNote();
-        recyclerView.setAdapter(adapter);
-
+//        adapter = new AdpNote();
         adapter.setCallback(this, this);
 
-        dlgOptionBin = (DlgOptionBin) fm.findFragmentByTag(DefDlg.OPTIONS);
-        if (dlgOptionBin == null) dlgOptionBin = new DlgOptionBin();
+        recyclerView.setAdapter(adapter);
+
+//        dlgOptionBin = (DlgOptionBin) fm.findFragmentByTag(DefDlg.OPTIONS);
+//        if (dlgOptionBin == null) dlgOptionBin = new DlgOptionBin();
+
         dlgOptionBin.setOptionBin(this);
     }
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.frg;
+package sgtmelon.scriptum.app.view.frg.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,10 +12,11 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
@@ -30,7 +31,10 @@ import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.view.act.ActSettings;
-import sgtmelon.scriptum.app.viewModel.VmFrgNotesBin;
+import sgtmelon.scriptum.app.viewModel.VmFrgBin;
+import sgtmelon.scriptum.dagger.frg.ComFrg;
+import sgtmelon.scriptum.dagger.frg.DaggerComFrg;
+import sgtmelon.scriptum.dagger.frg.ModFrg;
 import sgtmelon.scriptum.databinding.FrgNotesBinding;
 import sgtmelon.scriptum.element.dialog.DlgOptionNote;
 import sgtmelon.scriptum.office.Help;
@@ -52,44 +56,38 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
 
     private DbRoom db;
 
-    private Context context;
-    private FragmentManager fm;
+    @Inject
+    Context context;
+    @Inject
+    FragmentManager fm;
 
-    private FrgNotesBinding binding;
+    @Inject
+    FrgNotesBinding binding;
     private View frgView;
 
-    private VmFrgNotesBin vm;
+    private VmFrgBin vm;
+
+    @Inject
+    AdpNote adapter;
+    @Inject
+    DlgOptionNote dlgOptionNote;
     //endregion
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Log.i(TAG, "onAttach");
-
-        this.context = context;
-        fm = getFragmentManager();
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.frg_notes, container, false);
+        ComFrg comFrg = DaggerComFrg.builder().modFrg(new ModFrg(this, inflater, container)).build();
+        comFrg.inject(this);
+
         frgView = binding.getRoot();
-
-        return frgView;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.i(TAG, "onActivityCreated");
-
-        vm = ViewModelProviders.of(this).get(VmFrgNotesBin.class);
+        vm = ViewModelProviders.of(this).get(VmFrgBin.class);
 
         setupToolbar();
         setupRecyclerView();
+
+        return frgView;
     }
 
     @Override
@@ -135,9 +133,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         return false;
     }
 
-    private AdpNote adapter;
-    private DlgOptionNote dlgOptionNote;
-
     private void setupRecyclerView() {
         Log.i(TAG, "setupRecyclerView");
 
@@ -154,13 +149,13 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new AdpNote();
-        recyclerView.setAdapter(adapter);
-
+//        adapter = new AdpNote();
         adapter.setCallback(this, this);
 
-        dlgOptionNote = (DlgOptionNote) fm.findFragmentByTag(DefDlg.OPTIONS);
-        if (dlgOptionNote == null) dlgOptionNote = new DlgOptionNote();
+        recyclerView.setAdapter(adapter);
+
+//        dlgOptionNote = (DlgOptionNote) fm.findFragmentByTag(DefDlg.OPTIONS);
+//        if (dlgOptionNote == null) dlgOptionNote = new DlgOptionNote();
         dlgOptionNote.setOptionNote(this);
     }
 

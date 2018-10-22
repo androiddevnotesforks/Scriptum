@@ -11,9 +11,9 @@ import sgtmelon.scriptum.app.dataBase.DbRoom;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.office.annot.def.db.DefBin;
 
-public class VmFrgNotesBin extends AndroidViewModel {
+public class VmFrgBin extends AndroidViewModel {
 
-    public VmFrgNotesBin(@NonNull Application application) {
+    public VmFrgBin(@NonNull Application application) {
         super(application);
     }
 
@@ -27,7 +27,7 @@ public class VmFrgNotesBin extends AndroidViewModel {
         this.listRepo = listRepo;
     }
 
-    public void setListRepo() {
+    public void clearListRepo() {
         listRepo.clear();
     }
 

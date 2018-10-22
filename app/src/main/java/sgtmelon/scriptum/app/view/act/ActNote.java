@@ -3,17 +3,21 @@ package sgtmelon.scriptum.app.view.act;
 import android.os.Bundle;
 import android.util.Log;
 
+import javax.inject.Inject;
+
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.SaveNote;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
-import sgtmelon.scriptum.app.view.frg.FrgRoll;
-import sgtmelon.scriptum.app.view.frg.FrgText;
+import sgtmelon.scriptum.app.view.frg.note.FrgRoll;
+import sgtmelon.scriptum.app.view.frg.note.FrgText;
 import sgtmelon.scriptum.app.viewModel.VmActNote;
+import sgtmelon.scriptum.dagger.act.ComAct;
+import sgtmelon.scriptum.dagger.act.DaggerComAct;
+import sgtmelon.scriptum.dagger.act.ModAct;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DefFrg;
 import sgtmelon.scriptum.office.annot.def.DefNote;
@@ -29,10 +33,13 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
     private DbRoom db;
 
-    private FragmentManager fm;
+    @Inject
+    FragmentManager fm;
 
+    @Inject
     public VmActNote vm;
 
+    @Inject
     public SaveNote saveNote;
     //endregion
 
@@ -50,22 +57,19 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
         setContentView(R.layout.act_note);
         Log.i(TAG, "onCreate");
 
-        fm = getSupportFragmentManager();
-
-        vm = ViewModelProviders.of(this).get(VmActNote.class);
+        ComAct comAct = DaggerComAct.builder().modAct(new ModAct(this, this)).build();
+        comAct.inject(this);
 
         Bundle bundle = getIntent().getExtras();
         vm.setValue(bundle == null ? savedInstanceState : bundle);
 
-        saveNote = new SaveNote(this);
-
-        setupFrg();
+        setupFrg(savedInstanceState != null);
     }
 
     private FrgText frgText;
     private FrgRoll frgRoll;
 
-    public void setupFrg() {
+    public void setupFrg(boolean isSave) {
         Log.i(TAG, "setupFrg");
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -73,16 +77,16 @@ public class ActNote extends BlankAct implements IntfMenu.DeleteClick {
 
         switch (vm.getRepoNote().getItemNote().getType()) {
             case DefType.text:
-                frgText = (FrgText) fm.findFragmentByTag(DefFrg.TEXT);
-                if (frgText == null) frgText = new FrgText();
+                if (isSave) frgText = (FrgText) fm.findFragmentByTag(DefFrg.TEXT);
+                else frgText = new FrgText();
 
                 saveNote.setMenuClick(frgText);
 
                 transaction.replace(R.id.actNote_fl_container, frgText, DefFrg.TEXT);
                 break;
             case DefType.roll:
-                frgRoll = (FrgRoll) fm.findFragmentByTag(DefFrg.ROLL);
-                if (frgRoll == null) frgRoll = new FrgRoll();
+                if (isSave) frgRoll = (FrgRoll) fm.findFragmentByTag(DefFrg.ROLL);
+                else frgRoll = new FrgRoll();
 
                 saveNote.setMenuClick(frgRoll);
 

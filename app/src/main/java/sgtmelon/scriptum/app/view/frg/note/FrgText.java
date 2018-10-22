@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.frg;
+package sgtmelon.scriptum.app.view.frg.note;
 
 import android.content.Context;
 import android.os.Build;
@@ -28,7 +28,7 @@ import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
-import sgtmelon.scriptum.app.viewModel.VmFrgTextRoll;
+import sgtmelon.scriptum.app.viewModel.VmFrgText;
 import sgtmelon.scriptum.databinding.FrgTextBinding;
 import sgtmelon.scriptum.element.dialog.DlgColor;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -54,7 +54,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     private FrgTextBinding binding;
     private View frgView;
 
-    public VmFrgTextRoll vm;
+    public VmFrgText vm;
     //endregion
 
     @Override
@@ -83,7 +83,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         super.onActivityCreated(savedInstanceState);
         Log.i(TAG, "onActivityCreated");
 
-        vm = ViewModelProviders.of(this).get(VmFrgTextRoll.class);
+        vm = ViewModelProviders.of(this).get(VmFrgText.class);
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
 
         setupToolbar();
@@ -205,7 +205,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
             vm.setRepoNote(repoNote);
             activity.vm.setRepoNote(repoNote);
-            activity.setupFrg();
+            activity.setupFrg(false);
         });
 
         dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
