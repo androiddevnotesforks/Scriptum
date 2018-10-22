@@ -39,11 +39,13 @@ public final class RankItem {
 
     }
 
+    @Ignore
     public RankItem(int position, String name) {
         this.position = position;
         this.name = name;
     }
 
+    @Ignore
     public RankItem(int id, int position, String name) {
         this.id = id;
         this.position = position;

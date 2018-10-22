@@ -73,8 +73,6 @@
 
             </LinearLayout>
 
-            <include layout="@layout/include_note_control"/>
-
         </LinearLayout>
 
     </LinearLayout>

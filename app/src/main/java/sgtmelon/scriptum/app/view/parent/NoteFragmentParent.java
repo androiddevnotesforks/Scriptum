@@ -8,8 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,34 +68,6 @@ public abstract class NoteFragmentParent extends Fragment
     @Named(DialogDef.RANK)
     MultiplyDialog dlgRank;
     private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
-
-    protected View panelContainer;
-    protected Animation translateIn, translateOut;
-
-    private final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-            panelContainer.setEnabled(false);
-
-            if (animation == translateOut) {
-                panelContainer.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            panelContainer.setEnabled(true);
-
-            if (animation == translateIn) {
-                panelContainer.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
 
     @Override
     public void onAttach(Context context) {
@@ -221,18 +191,6 @@ public abstract class NoteFragmentParent extends Fragment
 
             vm.setNoteModel(noteModel);
         });
-    }
-
-    protected void setupPanel() {
-        Log.i(TAG, "setupPanel");
-
-        panelContainer = frgView.findViewById(R.id.panel_container);
-
-        translateIn = AnimationUtils.loadAnimation(context, R.anim.translate_in);
-        translateOut = AnimationUtils.loadAnimation(context, R.anim.translate_out);
-
-        translateIn.setAnimationListener(animationListener);
-        translateOut.setAnimationListener(animationListener);
     }
 
     public MenuControl getMenuControl() {

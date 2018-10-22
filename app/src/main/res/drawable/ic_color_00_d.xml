@@ -3,9 +3,6 @@
        android:shape="oval">
 
     <solid android:color="@color/note_red_dark"/>
-    <stroke
-            android:width="@dimen/layout_1dp"
-            android:color="@color/note_red_light"/>
     <size
             android:width="24dp"
             android:height="24dp"/>

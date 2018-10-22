@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -135,6 +137,34 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private EditText rollEnter;
     private ImageButton rollAdd;
 
+    private View panelContainer;
+    private Animation translateIn, translateOut;
+
+    private final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
+        @Override
+        public void onAnimationStart(Animation animation) {
+            panelContainer.setEnabled(false);
+
+            if (animation == translateOut) {
+                panelContainer.setVisibility(View.GONE);
+            }
+        }
+
+        @Override
+        public void onAnimationEnd(Animation animation) {
+            panelContainer.setEnabled(true);
+
+            if (animation == translateIn) {
+                panelContainer.setVisibility(View.VISIBLE);
+            }
+        }
+
+        @Override
+        public void onAnimationRepeat(Animation animation) {
+
+        }
+    };
+
     @Override
     public void onResume() {
         Log.i(TAG, "onResume");
@@ -250,6 +280,18 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private void setupPanel() {
+        Log.i(TAG, "setupPanel");
+
+        panelContainer = frgView.findViewById(R.id.panel_container);
+
+        translateIn = AnimationUtils.loadAnimation(context, R.anim.translate_in);
+        translateOut = AnimationUtils.loadAnimation(context, R.anim.translate_out);
+
+        translateIn.setAnimationListener(animationListener);
+        translateOut.setAnimationListener(animationListener);
     }
 
     private void setupEnter() {

@@ -26,44 +26,50 @@
                 app:keyEdit='@{keyEdit}'
                 app:noteItem='@{noteItem}'/>
 
-        <ScrollView
+        <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fillViewport="true">
+                android:paddingTop="@dimen/recycler_margin"
+                android:paddingBottom="@dimen/recycler_margin">
 
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+            <androidx.cardview.widget.CardView
+                    style="@style/Card"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="?attr/clBackgroundView"
+                    app:cardCornerRadius="@dimen/radius_2dp"
+                    app:cardUseCompatPadding="false">
 
-                <EditText
-                        android:id="@+id/text_enter"
-                        style="@style/Text.Enter"
-                        android:text='@={noteItem.text}'
-                        android:visibility='@{keyEdit ? v.VISIBLE : v.INVISIBLE}'
-                        tools:visibility="gone"/>
+                <ScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fillViewport="true">
 
-                <TextView
-                        android:id="@+id/text_text"
-                        style="@style/Text.Read"
-                        android:text='@{noteItem.text}'
-                        android:visibility='@{!keyEdit ? v.VISIBLE : v.INVISIBLE}'
-                        tools:text="@string/test_note_text"/>
+                    <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-            </FrameLayout>
+                        <EditText
+                                android:id="@+id/text_enter"
+                                style="@style/Text.Enter"
+                                android:text='@={noteItem.text}'
+                                android:visibility='@{keyEdit ? v.VISIBLE : v.INVISIBLE}'
+                                tools:visibility="gone"/>
 
-        </ScrollView>
+                        <TextView
+                                android:id="@+id/text_text"
+                                style="@style/Text.Read"
+                                android:text='@{noteItem.text}'
+                                android:visibility='@{!keyEdit ? v.VISIBLE : v.INVISIBLE}'
+                                tools:text="@string/test_note_text"/>
 
-        <LinearLayout
-                android:id="@+id/panel_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="?attr/clBackgroundView">
+                    </FrameLayout>
 
-            <include layout="@layout/include_note_control"/>
+                </ScrollView>
 
-        </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
 
     </LinearLayout>
 

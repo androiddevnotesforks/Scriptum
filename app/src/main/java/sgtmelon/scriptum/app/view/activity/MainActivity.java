@@ -33,6 +33,8 @@ import sgtmelon.scriptum.office.st.PageSt;
 public final class MainActivity extends ActivityParent implements
         BottomNavigationView.OnNavigationItemSelectedListener {
 
+    // TODO: 22.10.2018 прятать кнопку при скроллинге (сделай интерфейс hide/show)
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private final PageSt pageSt = new PageSt();
