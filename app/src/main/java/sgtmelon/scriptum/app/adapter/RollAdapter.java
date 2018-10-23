@@ -9,9 +9,9 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
@@ -19,7 +19,6 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
-import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.RollTypeDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -59,14 +58,12 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
     @Override
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
         RollItem item = list.get(position);
-
-        if (noteSt.isEdit()) {
-            if (item.isCheck()) {
-                holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clAccent));
-            } else holder.rlDrag.setColorFilter(Help.Clr.get(context, R.attr.clIcon));
-        }
-
         holder.bind(item);
+    }
+
+    @BindingAdapter("colorFilter")
+    public static void setColorFilter(ImageButton imageButton, int color){
+        imageButton.setColorFilter(color);
     }
 
     @Override
@@ -82,10 +79,10 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private final ItemRollReadBinding bindingRead;
 
         private EditText rlEnter;
-        private ImageButton rlDrag; //Кнопка для перетаскивания (< >)
+        private View rlDrag; //Кнопка для перетаскивания (< >)
 
         private CheckBox rlCheck;   //Отметка о выполении
-        private ImageView rlClick;  //Кнопка, которая идёт поверх rlCheck, для полноценного эффекта нажатия
+        private View rlClick;  //Кнопка, которая идёт поверх rlCheck, для полноценного эффекта нажатия
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());

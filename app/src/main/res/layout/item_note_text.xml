@@ -28,7 +28,7 @@
     <androidx.cardview.widget.CardView
             style="@style/Card"
             app:cardBackgroundColor='@{Clr.getNote(context, noteItem.color, false)}'
-            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
             tools:cardBackgroundColor="@color/note_green_light">
 
@@ -61,11 +61,12 @@
 
                 </LinearLayout>
 
-                <View
+                <ImageView
                         style="@style/NoteItem.Color.Vertical"
-                        android:background='@{Clr.getNote(context, noteItem.color, true)}'
-                        android:visibility='@{Pref.getTheme(context) == def.light ? v.GONE : v.VISIBLE}'
-                        tools:background="@color/note_green_dark"
+                        android:contentDescription="@null"
+                        android:tint='@{Clr.getNote(context, noteItem.color, true)}'
+                        android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
+                        tools:tint="@color/note_green_dark"
                         tools:visibility="gone"/>
 
             </LinearLayout>

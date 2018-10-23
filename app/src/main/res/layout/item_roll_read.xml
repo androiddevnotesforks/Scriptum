@@ -19,7 +19,7 @@
     <androidx.cardview.widget.CardView
             style="@style/Card"
             app:cardBackgroundColor="?attr/clBackgroundView"
-            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false">
 
         <LinearLayout

@@ -18,6 +18,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
 import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
 import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
+import sgtmelon.scriptum.app.view.MainView;
 import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.app.view.fragment.RankFragment;
@@ -30,10 +31,8 @@ import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.st.PageSt;
 
-public final class MainActivity extends ActivityParent implements
+public final class MainActivity extends ActivityParent implements MainView,
         BottomNavigationView.OnNavigationItemSelectedListener {
-
-    // TODO: 22.10.2018 прятать кнопку при скроллинге (сделай интерфейс hide/show)
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -112,6 +111,17 @@ public final class MainActivity extends ActivityParent implements
     }
 
     @Override
+    public void changeFabState(boolean show) {
+        if (show) {
+            fab.setEnabled(true);
+            fab.show();
+        } else {
+            fab.setEnabled(false);
+            fab.hide();
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.i(TAG, "onNavigationItemSelected");
 
@@ -134,18 +144,15 @@ public final class MainActivity extends ActivityParent implements
 
         switch (pageSt.getPage()) {
             case PageDef.rank:
-                fab.setEnabled(false);
-                fab.hide();
+                changeFabState(false);
                 transaction.replace(R.id.fragment_container, rankFragment, FragmentDef.RANK);
                 break;
             case PageDef.notes:
-                fab.setEnabled(true);
-                fab.show();
+                changeFabState(true);
                 transaction.replace(R.id.fragment_container, notesFragment, FragmentDef.NOTES);
                 break;
             case PageDef.bin:
-                fab.setEnabled(false);
-                fab.hide();
+                changeFabState(false);
                 transaction.replace(R.id.fragment_container, binFragment, FragmentDef.BIN);
                 break;
         }

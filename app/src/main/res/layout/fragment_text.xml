@@ -37,7 +37,7 @@
                     style="@style/Card"
                     android:layout_height="match_parent"
                     app:cardBackgroundColor="?attr/clBackgroundView"
-                    app:cardCornerRadius="@dimen/radius_2dp"
+                    app:cardCornerRadius="@dimen/radius_4dp"
                     app:cardUseCompatPadding="false">
 
                 <ScrollView

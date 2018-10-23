@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="sgtmelon.scriptum.R"/>
+
+        <import type="sgtmelon.scriptum.office.Help.Clr"/>
+
         <variable name="rollItem"
                   type="sgtmelon.scriptum.app.model.item.RollItem"/>
 
@@ -13,7 +17,7 @@
     <androidx.cardview.widget.CardView
             style="@style/Card"
             app:cardBackgroundColor="?attr/clBackgroundView"
-            app:cardCornerRadius="@dimen/radius_2dp"
+            app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false">
 
         <LinearLayout
@@ -30,6 +34,7 @@
                         android:id="@+id/drag_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
+                        app:colorFilter='@{Clr.get(context, rollItem.check ? R.attr.clAccent : R.attr.clIcon)}'
                         app:srcCompat="@drawable/ic_move"
                         tools:tint="?attr/clAccent"/>
 
@@ -45,5 +50,7 @@
                     tools:text="@string/test_note_roll"/>
 
         </LinearLayout>
+
     </androidx.cardview.widget.CardView>
+
 </layout>

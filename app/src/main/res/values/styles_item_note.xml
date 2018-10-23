@@ -78,6 +78,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginStart">@dimen/layout_4dp</item>
         <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
+        <item name="android:src">@drawable/ic_color_indicator</item>
     </style>
 
     <style name="NoteItem.Color.Horizontal">

@@ -33,6 +33,7 @@ import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.view.MainView;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
@@ -59,6 +60,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     @Inject OptionsDialog optionsDialog;
 
     private Context context;
+    private MainView mainView;
     private RoomDb db;
     private View frgView;
     private NoteAdapter adapter;
@@ -69,6 +71,12 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         super.onAttach(context);
 
         this.context = context;
+
+        if (context instanceof MainView) {
+            mainView = (MainView) context;
+        } else {
+            throw new IllegalStateException("MainView interface not installed");
+        }
     }
 
     @Override
@@ -143,6 +151,15 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         adapter.setLongClickListener(this);
 
         recyclerView.setAdapter(adapter);
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                mainView.changeFabState(dy <= 0);
+            }
+        });
 
         optionsDialog.setOnClickListener((dialogInterface, i) -> {
             int p = optionsDialog.getPosition();
