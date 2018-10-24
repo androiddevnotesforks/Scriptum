@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,14 +36,14 @@ import sgtmelon.scriptum.app.adapter.AdpRoll;
 import sgtmelon.scriptum.app.control.CtrlMenu;
 import sgtmelon.scriptum.app.control.CtrlMenuPreL;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
+import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgText;
-import sgtmelon.scriptum.app.injection.component.ComFrg;
-import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
-import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.FrgRollBinding;
 import sgtmelon.scriptum.element.dialog.DlgColor;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -66,8 +67,8 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
     private DbRoom db;
 
-    private ActNote activity;
-
+    @Inject
+    ActNote activity;
     @Inject
     Context context;
     @Inject
@@ -79,22 +80,38 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public VmFrgText vm;
 
     private View frgView;
-
     //endregion
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.i(TAG, "onResume");
+
+        String rollText = rollEnter.getText().toString();
+        Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
+
+        updateAdapter();
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        activity = (ActNote) getActivity();
-
-        ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
+        ComFrg comFrg = DaggerComFrg.builder()
+                .modBlankFrg(new ModBlankFrg(this, inflater, container))
+                .build();
         comFrg.inject(this);
 
-        frgView = binding.getRoot();
-
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
+
+        return frgView = binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
 
         setupToolbar();
         setupDialog();
@@ -106,19 +123,6 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         StNote stNote = activity.vm.getStNote();
         stNote.setFirst(false);
         activity.vm.setStNote(stNote);
-
-        return frgView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.i(TAG, "onResume");
-
-        String rollText = rollEnter.getText().toString();
-        Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
-
-        updateAdapter();
     }
 
     private void bind(boolean keyEdit) {
@@ -205,10 +209,12 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     }
 
     @Inject
+    @Named(DefDlg.CONVERT)
     DlgMessage dlgConvert;
     @Inject
     DlgColor dlgColor;
     @Inject
+    @Named(DefDlg.RANK)
     DlgMultiply dlgRank;
 
     private void setupDialog() {
@@ -376,7 +382,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
         db.close();
 
         dlgRank.setArguments(check);
-        dlgRank.show(fm, DefDlg.MULTIPLY);
+        dlgRank.show(fm, DefDlg.RANK);
     }
 
     @Override
@@ -480,7 +486,7 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, DefDlg.MESSAGE);
+        dlgConvert.show(fm, DefDlg.CONVERT);
     }
 
     //region RecyclerView Variable

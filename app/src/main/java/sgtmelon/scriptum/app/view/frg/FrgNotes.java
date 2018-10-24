@@ -25,15 +25,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpNote;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
+import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.item.ItemRoll;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.view.act.ActSettings;
 import sgtmelon.scriptum.app.viewModel.VmFrgNotes;
-import sgtmelon.scriptum.app.injection.component.ComFrg;
-import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
-import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.FrgNotesBinding;
 import sgtmelon.scriptum.element.dialog.DlgOptionNote;
 import sgtmelon.scriptum.office.Help;
@@ -68,22 +68,6 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
     private View frgView;
     //endregion
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
-
-        ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
-        comFrg.inject(this);
-
-        frgView = binding.getRoot();
-
-        setupToolbar();
-        setupRecycler();
-
-        return frgView;
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -92,6 +76,28 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         updateAdapter();
 
         if (updateStatus) updateStatus = false;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
+
+        ComFrg comFrg = DaggerComFrg.builder()
+                .modBlankFrg(new ModBlankFrg(this, inflater, container))
+                .build();
+        comFrg.inject(this);
+
+        return frgView = binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+
+        setupToolbar();
+        setupRecycler();
     }
 
     private void bind(int listSize) {
@@ -148,13 +154,10 @@ public class FrgNotes extends Fragment implements Toolbar.OnMenuItemClickListene
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-//        adapter = new AdpNote();
         adapter.setCallback(this, this);
 
         recyclerView.setAdapter(adapter);
 
-//        dlgOptionNote = (DlgOptionNote) fm.findFragmentByTag(DefDlg.OPTIONS);
-//        if (dlgOptionNote == null) dlgOptionNote = new DlgOptionNote();
         dlgOptionNote.setOptionNote(this);
     }
 

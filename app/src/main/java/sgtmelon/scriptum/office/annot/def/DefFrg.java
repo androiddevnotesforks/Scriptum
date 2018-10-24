@@ -6,6 +6,8 @@ import androidx.annotation.StringDef;
  * Ключи для нахождения фрагментов после поворота экрана
  */
 @StringDef({
+        DefFrg.INFO,
+
         DefFrg.RANK,
         DefFrg.NOTES,
         DefFrg.BIN,
@@ -14,6 +16,9 @@ import androidx.annotation.StringDef;
         DefFrg.ROLL
 })
 public @interface DefFrg {
+
+    //ActIntro
+    String INFO = "FRG_INFO";
 
     //ActMain
     String RANK = "FRG_RANK",

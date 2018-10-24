@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,8 +51,8 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
 
     private DbRoom db;
 
-    private ActNote activity;
-
+    @Inject
+    ActNote activity;
     @Inject
     Context context;
     @Inject
@@ -70,14 +71,18 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        activity = (ActNote) getActivity();
-
         ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
         comFrg.inject(this);
 
-        frgView = binding.getRoot();
-
         if (vm.isEmpty()) vm.setRepoNote(activity.vm.getRepoNote());
+
+        return frgView= binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
 
         setupToolbar();
         setupDialog();
@@ -88,12 +93,10 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         StNote stNote = activity.vm.getStNote();
         stNote.setFirst(false);
         activity.vm.setStNote(stNote);
-
-        return frgView;
     }
 
     private void bind(boolean keyEdit) {
-        Log.i(TAG, "bind");
+        Log.i(TAG, "bind: keyEdit=" + keyEdit);
 
         binding.setItemNote(vm.getRepoNote().getItemNote());
         binding.setKeyEdit(keyEdit);
@@ -173,10 +176,12 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     }
 
     @Inject
+    @Named(DefDlg.CONVERT)
     DlgMessage dlgConvert;
     @Inject
     DlgColor dlgColor;
     @Inject
+    @Named(DefDlg.RANK)
     DlgMultiply dlgRank;
 
     private void setupDialog() {
@@ -304,7 +309,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
         db.close();
 
         dlgRank.setArguments(check);
-        dlgRank.show(fm, DefDlg.MULTIPLY);
+        dlgRank.show(fm, DefDlg.RANK);
     }
 
     @Override
@@ -368,7 +373,7 @@ public class FrgText extends Fragment implements View.OnClickListener, IntfMenu.
     public void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, DefDlg.MESSAGE);
+        dlgConvert.show(fm, DefDlg.CONVERT);
     }
 
     private void setupEnter() {

@@ -7,9 +7,9 @@ import androidx.annotation.StringDef;
  */
 @StringDef({
         DefDlg.RENAME, DefDlg.SHEET_ADD,
-        DefDlg.OPTIONS,
+        DefDlg.OPTIONS, DefDlg.CLEAR_BIN,
 
-        DefDlg.MESSAGE, DefDlg.MULTIPLY, DefDlg.COLOR,
+        DefDlg.CONVERT, DefDlg.RANK, DefDlg.COLOR,
 
         DefDlg.SORT, DefDlg.SAVE_TIME, DefDlg.THEME, DefDlg.INFO
 })
@@ -17,10 +17,11 @@ public @interface DefDlg {
 
     String RENAME = "DLG_RENAME",
             SHEET_ADD = "DLG_SHEET_ADD",
-            OPTIONS = "DLG_OPTIONS";
+            OPTIONS = "DLG_OPTIONS",
+            CLEAR_BIN = "DLG_MESSAGE";
 
-    String MESSAGE = "DLG_MESSAGE",
-            MULTIPLY = "DLG_MULTIPLY",
+    String CONVERT = "DLG_CONVERT",
+            RANK = "DLG_RANK",
             COLOR = "DLG_COLOR";
 
     String SORT = "DLG_SORT",

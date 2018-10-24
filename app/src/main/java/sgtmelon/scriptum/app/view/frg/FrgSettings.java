@@ -244,8 +244,8 @@ public class FrgSettings extends PreferenceFragment {
             return true;
         });
 
-//        dlgInfo = (DlgInfo) fm.findFragmentByTag(DefDlg.INFO);
-//        if (dlgInfo == null) dlgInfo = new DlgInfo();
+        dlgInfo = (DlgInfo) fm.findFragmentByTag(DefDlg.INFO);
+        if (dlgInfo == null) dlgInfo = new DlgInfo();
 
         dlgInfo.setLogoClick(view -> {
             Intent intent = new Intent(activity, ActDevelop.class);

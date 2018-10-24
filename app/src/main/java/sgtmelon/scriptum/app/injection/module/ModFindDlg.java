@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.injection.module;
 
+import javax.inject.Named;
+
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
@@ -24,6 +26,14 @@ public class ModFindDlg {
     }
 
     @Provides
+    public DlgSheetAdd provideDlgSheetAdd(FragmentManager fm) {
+        DlgSheetAdd dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(DefDlg.SHEET_ADD);
+        if (dlgSheetAdd == null) dlgSheetAdd = new DlgSheetAdd();
+
+        return dlgSheetAdd;
+    }
+
+    @Provides
     public DlgOptionNote provideDlgOptionNote(FragmentManager fm) {
         DlgOptionNote dlgOptionNote = (DlgOptionNote) fm.findFragmentByTag(DefDlg.OPTIONS);
         if (dlgOptionNote == null) dlgOptionNote = new DlgOptionNote();
@@ -39,20 +49,28 @@ public class ModFindDlg {
         return dlgOptionBin;
     }
 
-    @Provides
-    public DlgSheetAdd provideDlgSheetAdd(FragmentManager fm) {
-        DlgSheetAdd dlgSheetAdd = (DlgSheetAdd) fm.findFragmentByTag(DefDlg.SHEET_ADD);
-        if (dlgSheetAdd == null) dlgSheetAdd = new DlgSheetAdd();
+    @Provides @Named(DefDlg.CLEAR_BIN)
+    public DlgMessage provideDlgClearBin(FragmentManager fm) {
+        DlgMessage dlgClearBin = (DlgMessage) fm.findFragmentByTag(DefDlg.CLEAR_BIN);
+        if (dlgClearBin == null) dlgClearBin = new DlgMessage();
 
-        return dlgSheetAdd;
+        return dlgClearBin;
     }
 
-    @Provides
-    public DlgMessage provideDlgMessage(FragmentManager fm) {
-        DlgMessage dlgMessage = (DlgMessage) fm.findFragmentByTag(DefDlg.MESSAGE);
-        if (dlgMessage == null) dlgMessage = new DlgMessage();
+    @Provides @Named(DefDlg.CONVERT)
+    public DlgMessage provideDlgConvert(FragmentManager fm) {
+        DlgMessage dlgConvert = (DlgMessage) fm.findFragmentByTag(DefDlg.CONVERT);
+        if (dlgConvert == null) dlgConvert = new DlgMessage();
 
-        return dlgMessage;
+        return dlgConvert;
+    }
+
+    @Provides @Named(DefDlg.RANK)
+    public DlgMultiply provideDlgRank(FragmentManager fm) {
+        DlgMultiply dlgRank = (DlgMultiply) fm.findFragmentByTag(DefDlg.RANK);
+        if (dlgRank == null) dlgRank = new DlgMultiply();
+
+        return dlgRank;
     }
 
     @Provides
@@ -61,14 +79,6 @@ public class ModFindDlg {
         if (dlgColor == null) dlgColor = new DlgColor();
 
         return dlgColor;
-    }
-
-    @Provides
-    public DlgMultiply provideDlgMultiply(FragmentManager fm) {
-        DlgMultiply dlgMultiply = (DlgMultiply) fm.findFragmentByTag(DefDlg.MULTIPLY);
-        if (dlgMultiply == null) dlgMultiply = new DlgMultiply();
-
-        return dlgMultiply;
     }
 
 }

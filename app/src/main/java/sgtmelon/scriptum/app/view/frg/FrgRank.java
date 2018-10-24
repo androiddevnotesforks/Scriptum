@@ -29,12 +29,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpRank;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
 import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.app.model.item.ItemRank;
 import sgtmelon.scriptum.app.model.repo.RepoRank;
 import sgtmelon.scriptum.app.viewModel.VmFrgRank;
-import sgtmelon.scriptum.app.injection.component.ComFrg;
-import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.FrgRankBinding;
 import sgtmelon.scriptum.element.dialog.DlgRename;
 import sgtmelon.scriptum.office.Help;
@@ -64,32 +64,6 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
     private View frgView;
     //endregion
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
-
-        ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
-        comFrg.inject(this);
-
-//        context = getContext();
-//        fm = getFragmentManager();
-
-//        binding = DataBindingUtil.inflate(inflater, R.layout.frg_rank, container, false);
-
-//        vm = ViewModelProviders.of(this).get(VmFrgRank.class);
-        frgView = binding.getRoot();
-        vm.loadData();
-
-//        stOpen = new StOpen();
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
-
-        setupToolbar();
-        setupRecycler();
-
-        return frgView;
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -97,6 +71,32 @@ public class FrgRank extends Fragment implements IntfItem.Click, IntfItem.LongCl
 
         updateAdapter();
         tintButton();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
+
+        ComFrg comFrg = DaggerComFrg.builder()
+                .modBlankFrg(new ModBlankFrg(this, inflater, container))
+                .build();
+        comFrg.inject(this);
+
+        vm.loadData();
+
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
+
+        return frgView = binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+
+        setupToolbar();
+        setupRecycler();
     }
 
     private void bind(int listSize) {

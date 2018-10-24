@@ -7,11 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
+import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.IncInfoBinding;
 import sgtmelon.scriptum.office.annot.AnnIntro;
 
@@ -20,7 +24,9 @@ public class FrgIntro extends Fragment {
     //region Variable
     private static final String TAG = "FrgIntro";
 
-    private IncInfoBinding binding;
+    @Inject
+    IncInfoBinding binding;
+
     private View frgView;
     private LinearLayout container;
 
@@ -44,12 +50,14 @@ public class FrgIntro extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.inc_info, container, false);
-        frgView = binding.getRoot();
+        ComFrg comFrg = DaggerComFrg.builder()
+                .modBlankFrg(new ModBlankFrg(this, inflater, container))
+                .build();
+        comFrg.inject(this);
 
         if (savedInstanceState != null) page = savedInstanceState.getInt(AnnIntro.PAGE);
 
-        return frgView;
+        return frgView = binding.getRoot();
     }
 
     @Override

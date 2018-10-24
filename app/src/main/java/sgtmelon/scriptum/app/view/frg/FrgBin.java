@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,13 +26,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.AdpNote;
 import sgtmelon.scriptum.app.dataBase.DbRoom;
+import sgtmelon.scriptum.app.injection.component.ComFrg;
 import sgtmelon.scriptum.app.injection.component.DaggerComFrg;
+import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.app.model.item.ItemNote;
 import sgtmelon.scriptum.app.model.repo.RepoNote;
 import sgtmelon.scriptum.app.view.act.ActNote;
 import sgtmelon.scriptum.app.viewModel.VmFrgNotes;
-import sgtmelon.scriptum.app.injection.component.ComFrg;
-import sgtmelon.scriptum.app.injection.module.ModBlankFrg;
 import sgtmelon.scriptum.databinding.FrgBinBinding;
 import sgtmelon.scriptum.element.dialog.DlgOptionBin;
 import sgtmelon.scriptum.element.dialog.common.DlgMessage;
@@ -63,30 +64,36 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
     private View frgView;
     //endregion
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
-
-        ComFrg comFrg = DaggerComFrg.builder().modBlankFrg(new ModBlankFrg(this, inflater, container)).build();
-        comFrg.inject(this);
-
-        frgView = binding.getRoot();
-
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
-
-        setupToolbar();
-        setupRecycler();
-
-        return frgView;
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         Log.i(TAG, "onResume");
 
         updateAdapter();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
+
+        ComFrg comFrg = DaggerComFrg.builder()
+                .modBlankFrg(new ModBlankFrg(this, inflater, container))
+                .build();
+        comFrg.inject(this);
+
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
+
+        return frgView = binding.getRoot();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+
+        setupToolbar();
+        setupRecycler();
     }
 
     private void bind(int listSize) {
@@ -99,6 +106,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
     @Inject
     StOpen stOpen;
     @Inject
+    @Named(DefDlg.CLEAR_BIN)
     DlgMessage dlgClearBin;
 
     private void setupToolbar() {
@@ -114,7 +122,7 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
                     if (!stOpen.isOpen()) {
                         stOpen.setOpen();
 
-                        dlgClearBin.show(fm, DefDlg.MESSAGE);
+                        dlgClearBin.show(fm, DefDlg.CLEAR_BIN);
                     }
                     return true;
             }
@@ -125,9 +133,6 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         mItemClearBin = menu.findItem(R.id.menu_frgBin_clear);
 
         Help.Tint.menuIcon(context, mItemClearBin);
-
-//        dlgClearBin = (DlgMessage) fm.findFragmentByTag(DefDlg.MESSAGE);
-//        if (dlgClearBin == null) dlgClearBin = new DlgMessage();
 
         dlgClearBin.setTitle(getString(R.string.dialog_title_clear_bin));
         dlgClearBin.setMessage(getString(R.string.dialog_text_clear_bin));
@@ -175,13 +180,9 @@ public class FrgBin extends Fragment implements IntfItem.Click, IntfItem.LongCli
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-//        adapter = new AdpNote();
         adapter.setCallback(this, this);
 
         recyclerView.setAdapter(adapter);
-
-//        dlgOptionBin = (DlgOptionBin) fm.findFragmentByTag(DefDlg.OPTIONS);
-//        if (dlgOptionBin == null) dlgOptionBin = new DlgOptionBin();
 
         dlgOptionBin.setOptionBin(this);
     }
