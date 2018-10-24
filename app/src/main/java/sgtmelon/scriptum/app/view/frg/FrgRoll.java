@@ -411,7 +411,9 @@ public class FrgRoll extends Fragment implements View.OnClickListener,
 
         if (stNote.isCreate() && editMode) rollContainer.setVisibility(View.VISIBLE);
         else if (stNote.isFirst()) rollContainer.setVisibility(View.GONE);
-        else rollContainer.startAnimation(editMode ? translateIn : translateOut);
+        else {
+            rollContainer.startAnimation(editMode ? translateIn : translateOut);
+        }
 
         bind(editMode);
 

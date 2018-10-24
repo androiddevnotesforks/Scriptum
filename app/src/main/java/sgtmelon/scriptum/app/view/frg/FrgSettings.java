@@ -7,15 +7,20 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.injection.component.ComPref;
+import sgtmelon.scriptum.app.injection.component.DaggerComPref;
+import sgtmelon.scriptum.app.injection.module.ModBlankPref;
 import sgtmelon.scriptum.app.view.act.ActDevelop;
 import sgtmelon.scriptum.app.view.act.ActSettings;
 import sgtmelon.scriptum.element.dialog.DlgColor;
@@ -32,32 +37,17 @@ public class FrgSettings extends PreferenceFragment {
     //region Variable
     private static final String TAG = "FrgSettings";
 
-    private ActSettings activity;
-    private FragmentManager fm;
+    @Inject
+    ActSettings activity;
+    @Inject
+    FragmentManager fm;
 
-    private SharedPreferences pref;
+    @Inject
+    SharedPreferences pref;
 
-    private StOpen stOpen;
+    @Inject
+    StOpen stOpen;
     //endregion
-
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        addPreferencesFromResource(R.xml.preference);
-        Log.i(TAG, "onCreate");
-
-        activity = (ActSettings) getActivity();
-        fm = activity.getSupportFragmentManager();
-
-        pref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        stOpen = new StOpen();
-        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
-
-        setupNotePref();
-        setupSavePref();
-        setupAppPref();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,13 +61,39 @@ public class FrgSettings extends PreferenceFragment {
         return view;
     }
 
+    @Override
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        addPreferencesFromResource(R.xml.preference);
+        Log.i(TAG, "onCreate");
+
+        ComPref comPref = DaggerComPref.builder()
+                .modBlankPref(new ModBlankPref(this))
+                .build();
+        comPref.inject(this);
+
+        if (savedInstanceState != null) stOpen.setOpen(savedInstanceState.getBoolean(DefDlg.OPEN));
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.i(TAG, "onActivityCreated");
+
+        setupNotePref();
+        setupSavePref();
+        setupAppPref();
+    }
+
     private Preference prefSort;
     private String valSort;
-    private DlgSort dlgSort;
+    @Inject
+    DlgSort dlgSort;
 
     private Preference prefColor;
     private int valColor;
-    private DlgColor dlgColor;
+    @Inject
+    DlgColor dlgColor;
 
     private void setupNotePref() {
         Log.i(TAG, "setupNotePref");
@@ -94,9 +110,6 @@ public class FrgSettings extends PreferenceFragment {
             }
             return true;
         });
-
-        dlgSort = (DlgSort) fm.findFragmentByTag(DefDlg.SORT);
-        if (dlgSort == null) dlgSort = new DlgSort();
 
         dlgSort.setPositiveListener((dialogInterface, i) -> {
             valSort = dlgSort.getKeys();
@@ -127,9 +140,6 @@ public class FrgSettings extends PreferenceFragment {
             return true;
         });
 
-        dlgColor = (DlgColor) fm.findFragmentByTag(DefDlg.COLOR);
-        if (dlgColor == null) dlgColor = new DlgColor();
-
         dlgColor.setTitle(getString(R.string.pref_title_color));
         dlgColor.setPositiveListener((dialogInterface, i) -> {
             valColor = dlgColor.getCheck();
@@ -142,7 +152,9 @@ public class FrgSettings extends PreferenceFragment {
 
     private Preference prefSaveTime;
     private int valSaveTime;
-    private DlgSingle dlgSaveTime;
+    @Inject
+    @Named(DefDlg.SAVE_TIME)
+    DlgSingle dlgSaveTime;
 
     private void setupSavePref() {
         Log.i(TAG, "setupSavePref");
@@ -159,9 +171,6 @@ public class FrgSettings extends PreferenceFragment {
             }
             return true;
         });
-
-        dlgSaveTime = (DlgSingle) fm.findFragmentByTag(DefDlg.SAVE_TIME);
-        if (dlgSaveTime == null) dlgSaveTime = new DlgSingle();
 
         dlgSaveTime.setTitle(getString(R.string.pref_title_save_time));
         dlgSaveTime.setName(getResources().getStringArray(R.array.pref_text_save_time));
@@ -184,9 +193,12 @@ public class FrgSettings extends PreferenceFragment {
 
     private Preference prefTheme;
     private int valTheme;
-    private DlgSingle dlgTheme;
+    @Inject
+    @Named(DefDlg.THEME)
+    DlgSingle dlgTheme;
 
-    private DlgInfo dlgInfo;
+    @Inject
+    DlgInfo dlgInfo;
 
     private void setupAppPref() {
         Log.i(TAG, "setupAppPref");
@@ -203,9 +215,6 @@ public class FrgSettings extends PreferenceFragment {
             }
             return true;
         });
-
-        dlgTheme = (DlgSingle) fm.findFragmentByTag(DefDlg.THEME);
-        if (dlgTheme == null) dlgTheme = new DlgSingle();
 
         dlgTheme.setTitle(getString(R.string.pref_title_theme));
         dlgTheme.setName(getResources().getStringArray(R.array.pref_text_theme));
@@ -243,9 +252,6 @@ public class FrgSettings extends PreferenceFragment {
             }
             return true;
         });
-
-        dlgInfo = (DlgInfo) fm.findFragmentByTag(DefDlg.INFO);
-        if (dlgInfo == null) dlgInfo = new DlgInfo();
 
         dlgInfo.setLogoClick(view -> {
             Intent intent = new Intent(activity, ActDevelop.class);
