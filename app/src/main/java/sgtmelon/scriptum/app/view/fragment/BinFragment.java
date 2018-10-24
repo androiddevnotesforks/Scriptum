@@ -67,7 +67,9 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private Context context;
     private RoomDb db;
     private View frgView;
+
     private MenuItem mItemClearBin;
+    private RecyclerView recyclerView;
 
     @Override
     public void onAttach(Context context) {
@@ -173,7 +175,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
             }
         };
 
-        RecyclerView recyclerView = frgView.findViewById(R.id.bin_recycler);
+        recyclerView = frgView.findViewById(R.id.bin_recycler);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -212,6 +214,14 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         mItemClearBin.setVisible(vm.getListModel().size() != 0);
         bind(listNoteModel.size());
+    }
+
+    public void scrollTop(){
+        Log.i(TAG, "scrollTop");
+
+        if (recyclerView != null){
+            recyclerView.smoothScrollToPosition(0);
+        }
     }
 
     @Override

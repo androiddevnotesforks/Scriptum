@@ -137,6 +137,8 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                 page = PageDef.bin;
                 break;
         }
+        boolean scrollTop = page == pageSt.getPage();
+
         pageSt.setPage(page);
 
         FragmentTransaction transaction = fm.beginTransaction();
@@ -144,20 +146,32 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
 
         switch (pageSt.getPage()) {
             case PageDef.rank:
-                changeFabState(false);
-                transaction.replace(R.id.fragment_container, rankFragment, FragmentDef.RANK);
+                if (scrollTop) {
+                    rankFragment.scrollTop();
+                } else {
+                    changeFabState(false);
+                    transaction.replace(R.id.fragment_container, rankFragment, FragmentDef.RANK);
+                }
                 break;
             case PageDef.notes:
-                changeFabState(true);
-                transaction.replace(R.id.fragment_container, notesFragment, FragmentDef.NOTES);
+                if (scrollTop) {
+                    notesFragment.scrollTop();
+                } else {
+                    changeFabState(true);
+                    transaction.replace(R.id.fragment_container, notesFragment, FragmentDef.NOTES);
+                }
                 break;
             case PageDef.bin:
-                changeFabState(false);
-                transaction.replace(R.id.fragment_container, binFragment, FragmentDef.BIN);
+                if (scrollTop) {
+                    binFragment.scrollTop();
+                } else {
+                    changeFabState(false);
+                    transaction.replace(R.id.fragment_container, binFragment, FragmentDef.BIN);
+                }
                 break;
         }
-        transaction.commit();
 
+        transaction.commit();
         return true;
     }
 

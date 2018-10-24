@@ -45,8 +45,8 @@ import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.DragListenerSt;
 import sgtmelon.scriptum.office.st.OpenSt;
 
-public final class RankFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener,
-        ItemIntf.ClickListener, ItemIntf.LongClickListener {
+public final class RankFragment extends Fragment implements View.OnClickListener,
+        View.OnLongClickListener, ItemIntf.ClickListener, ItemIntf.LongClickListener {
 
     private static final String TAG = RankFragment.class.getSimpleName();
 
@@ -324,6 +324,14 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         bind(rankModel.size());
     }
 
+    public void scrollTop(){
+        Log.i(TAG, "scrollTop");
+
+        if (recyclerView != null){
+            recyclerView.smoothScrollToPosition(0);
+        }
+    }
+
     @Override
     public void onClick(View view) {
         Log.i(TAG, "onClick");
@@ -405,8 +413,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        final RankModel rankModel = vm.getRankModel();
-        final RankItem rankItem = rankModel.get(p);
+       RankModel rankModel = vm.getRankModel();
+       RankItem rankItem = rankModel.get(p);
 
         switch (view.getId()) {
             case R.id.visible_button:

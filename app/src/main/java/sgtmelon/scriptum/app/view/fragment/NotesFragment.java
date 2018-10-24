@@ -63,7 +63,9 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     private MainCallback mainCallback;
     private RoomDb db;
     private View frgView;
+
     private NoteAdapter adapter;
+    private RecyclerView recyclerView;
 
     @Override
     public void onAttach(Context context) {
@@ -139,7 +141,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
             }
         };
 
-        RecyclerView recyclerView = frgView.findViewById(R.id.notes_recycler);
+        recyclerView = frgView.findViewById(R.id.notes_recycler);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -214,6 +216,14 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         adapter.notifyDataSetChanged();
 
         bind(listNoteModel.size());
+    }
+
+    public void scrollTop(){
+        Log.i(TAG, "scrollTop");
+
+        if (recyclerView != null){
+            recyclerView.smoothScrollToPosition(0);
+        }
     }
 
     @Override
