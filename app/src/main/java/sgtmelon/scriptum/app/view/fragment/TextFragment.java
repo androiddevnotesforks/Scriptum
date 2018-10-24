@@ -60,7 +60,7 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         if (vm.isEmpty()) vm.setNoteModel(viewModel.getNoteModel());
 
         setupToolbar();
@@ -73,7 +73,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         noteSt.setFirst(false);
         viewModel.setNoteSt(noteSt);
-        noteView.setViewModel(viewModel);
+        noteCallback.setViewModel(viewModel);
     }
 
     @Override
@@ -112,11 +112,11 @@ public final class TextFragment extends NoteFragmentParent {
 
             vm.setNoteModel(noteModel);
 
-            ActivityNoteViewModel viewModel = noteView.getViewModel();
+            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
             viewModel.setNoteModel(noteModel);
-            noteView.setViewModel(viewModel);
+            noteCallback.setViewModel(viewModel);
 
-            noteView.setupFragment(false);
+            noteCallback.setupFragment(false);
         });
     }
 
@@ -144,7 +144,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         NoteSt noteSt = viewModel.getNoteSt();
 
         NoteModel noteModel = vm.getNoteModel();
@@ -162,15 +162,15 @@ public final class TextFragment extends NoteFragmentParent {
             vm.setNoteModel(noteModel);
 
             viewModel.setNoteModel(noteModel);
-            noteView.setViewModel(viewModel);
+            noteCallback.setViewModel(viewModel);
 
             onMenuEditClick(false);
 
             menuControl.startTint(noteItem.getColor());
         } else {
-            SaveControl saveControl = noteView.getSaveControl();
+            SaveControl saveControl = noteCallback.getSaveControl();
             saveControl.setNeedSave(false);
-            noteView.setSaveControl(saveControl);
+            noteCallback.setSaveControl(saveControl);
 
             activity.finish();
         }
@@ -192,7 +192,7 @@ public final class TextFragment extends NoteFragmentParent {
 
             db = RoomDb.provideDb(context);
 
-            ActivityNoteViewModel viewModel = noteView.getViewModel();
+            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
             NoteSt noteSt = viewModel.getNoteSt();
             if (noteSt.isCreate()) {
                 noteSt.setCreate(false);
@@ -215,7 +215,7 @@ public final class TextFragment extends NoteFragmentParent {
             vm.setNoteModel(noteModel);
 
             viewModel.setNoteModel(noteModel);
-            noteView.setViewModel(viewModel);
+            noteCallback.setViewModel(viewModel);
             return true;
         } else return false;
     }
@@ -224,7 +224,7 @@ public final class TextFragment extends NoteFragmentParent {
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         NoteSt noteSt = viewModel.getNoteSt();
         noteSt.setEdit(editMode);
 
@@ -235,11 +235,11 @@ public final class TextFragment extends NoteFragmentParent {
         bind(editMode);
 
         viewModel.setNoteSt(noteSt);
-        noteView.setViewModel(viewModel);
+        noteCallback.setViewModel(viewModel);
 
-        SaveControl saveControl = noteView.getSaveControl();
+        SaveControl saveControl = noteCallback.getSaveControl();
         saveControl.setSaveHandlerEvent(editMode);
-        noteView.setSaveControl(saveControl);
+        noteCallback.setSaveControl(saveControl);
     }
 
     @Override

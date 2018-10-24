@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view;
+package sgtmelon.scriptum.app.view.callback;
 
 import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
@@ -9,7 +9,7 @@ import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
  * Интерфейс общения {@link NoteFragmentParent} и
  * {@link NoteActivity}
  */
-public interface NoteView {
+public interface NoteCallback {
 
     void setupFragment(boolean isSave);
 

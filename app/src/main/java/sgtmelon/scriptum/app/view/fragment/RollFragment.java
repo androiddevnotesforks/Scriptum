@@ -63,7 +63,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder) {
-            boolean isEdit = noteView.getViewModel().getNoteSt().isEdit();
+            boolean isEdit = noteCallback.getViewModel().getNoteSt().isEdit();
 
             int flagsDrag = isEdit && dragSt.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
@@ -199,7 +199,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         if (vm.isEmpty()) vm.setNoteModel(viewModel.getNoteModel());
 
         setupToolbar();
@@ -214,7 +214,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         noteSt.setFirst(false);
         viewModel.setNoteSt(noteSt);
-        noteView.setViewModel(viewModel);
+        noteCallback.setViewModel(viewModel);
     }
 
     @Override
@@ -253,11 +253,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             vm.setNoteModel(noteModel);
 
-            ActivityNoteViewModel viewModel = noteView.getViewModel();
+            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
             viewModel.setNoteModel(noteModel);
-            noteView.setViewModel(viewModel);
+            noteCallback.setViewModel(viewModel);
 
-            noteView.setupFragment(false);
+            noteCallback.setupFragment(false);
         });
     }
 
@@ -270,7 +270,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         recyclerView.setLayoutManager(layoutManager);
 
         adapter = new RollAdapter(context);
-        adapter.setNoteSt(noteView.getViewModel().getNoteSt());
+        adapter.setNoteSt(noteCallback.getViewModel().getNoteSt());
 
         adapter.setClickListener(this);
         adapter.setDragListener(dragSt);
@@ -399,7 +399,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         NoteSt noteSt = viewModel.getNoteSt();
 
         NoteModel noteModel = vm.getNoteModel();
@@ -416,7 +416,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             vm.setNoteModel(noteModel);
 
             viewModel.setNoteModel(noteModel);
-            noteView.setViewModel(viewModel);
+            noteCallback.setViewModel(viewModel);
 
             adapter.setList(noteModel.getListRoll());
 
@@ -424,9 +424,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             menuControl.startTint(noteItem.getColor());
         } else {
-            SaveControl saveControl = noteView.getSaveControl();
+            SaveControl saveControl = noteCallback.getSaveControl();
             saveControl.setNeedSave(false);
-            noteView.setSaveControl(saveControl);
+            noteCallback.setSaveControl(saveControl);
 
             activity.finish(); //Иначе завершаем активность
         }
@@ -464,9 +464,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         vm.setNoteModel(noteModel);
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         viewModel.setNoteModel(noteModel);
-        noteView.setViewModel(viewModel);
+        noteCallback.setViewModel(viewModel);
 
         db = RoomDb.provideDb(context);
         db.daoRoll().update(rollItem.getId(), rollItem.isCheck());
@@ -517,7 +517,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             db = RoomDb.provideDb(context);
 
-            ActivityNoteViewModel viewModel = noteView.getViewModel();
+            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
             NoteSt noteSt = viewModel.getNoteSt();
             if (noteSt.isCreate()) {
                 noteSt.setCreate(false);
@@ -577,7 +577,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             vm.setNoteModel(noteModel);
 
             viewModel.setNoteModel(noteModel);
-            noteView.setViewModel(viewModel);
+            noteCallback.setViewModel(viewModel);
             return true;
         } else return false;
     }
@@ -586,7 +586,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         NoteSt noteSt = viewModel.getNoteSt();
         noteSt.setEdit(editMode);
 
@@ -604,11 +604,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         adapter.notifyDataSetChanged();
 
         viewModel.setNoteSt(noteSt);
-        noteView.setViewModel(viewModel);
+        noteCallback.setViewModel(viewModel);
 
-        SaveControl saveControl = noteView.getSaveControl();
+        SaveControl saveControl = noteCallback.getSaveControl();
         saveControl.setSaveHandlerEvent(editMode);
-        noteView.setSaveControl(saveControl);
+        noteCallback.setSaveControl(saveControl);
     }
 
     @Override
@@ -643,9 +643,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         vm.setNoteModel(noteModel);
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         viewModel.setNoteModel(noteModel);
-        noteView.setViewModel(viewModel);
+        noteCallback.setViewModel(viewModel);
     }
 
 }

@@ -18,10 +18,10 @@ import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
 import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
-import sgtmelon.scriptum.app.view.NoteView;
+import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
-import sgtmelon.scriptum.app.view.parent.ActivityParent;
+import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
@@ -31,8 +31,8 @@ import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
-public final class NoteActivity extends ActivityParent
-        implements NoteView, MenuIntf.Note.DeleteMenuClick {
+public final class NoteActivity extends BaseActivityParent
+        implements NoteCallback, MenuIntf.Note.DeleteMenuClick {
 
     private static final String TAG = NoteActivity.class.getSimpleName();
 

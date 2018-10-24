@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.view.parent.ActivityParent;
 import sgtmelon.scriptum.office.Help;
 
-public final class DevelopActivity extends ActivityParent {
+public final class DevelopActivity extends AppCompatActivity {
 
     private static final String TAG = DevelopActivity.class.getSimpleName();
 

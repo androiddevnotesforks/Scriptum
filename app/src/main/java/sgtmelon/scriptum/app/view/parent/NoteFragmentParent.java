@@ -33,7 +33,7 @@ import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
-import sgtmelon.scriptum.app.view.NoteView;
+import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
@@ -49,7 +49,7 @@ public abstract class NoteFragmentParent extends Fragment
 
     protected Context context;
     protected Activity activity;
-    protected NoteView noteView;
+    protected NoteCallback noteCallback;
 
     @Inject
     protected FragmentManager fm;
@@ -78,23 +78,24 @@ public abstract class NoteFragmentParent extends Fragment
 
         activity = getActivity();
 
-        if (context instanceof NoteView) {
-            noteView = (NoteView) context;
+        if (context instanceof NoteCallback) {
+            noteCallback = (NoteCallback) context;
         } else {
-            throw new IllegalStateException("NoteView interface not installed");
+            throw new IllegalStateException("NoteCallback interface not installed in " + TAG);
         }
 
         if (context instanceof MenuIntf.Note.DeleteMenuClick) {
             deleteMenuClick = (MenuIntf.Note.DeleteMenuClick) context;
         } else {
-            throw new IllegalStateException("MenuIntf.Note.DeleteMenuClick interface not installed");
+            throw new IllegalStateException("MenuIntf.Note.DeleteMenuClick interface not installed in " + TAG);
         }
 
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
         FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
@@ -132,7 +133,7 @@ public abstract class NoteFragmentParent extends Fragment
         menuControl.setNoteMenuClick(this);
         menuControl.setDeleteMenuClick(deleteMenuClick);
 
-        NoteSt noteSt = noteView.getViewModel().getNoteSt();
+        NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
 
         menuControl.setupDrawable();
         menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
@@ -264,9 +265,9 @@ public abstract class NoteFragmentParent extends Fragment
 
         vm.setNoteModel(noteModel);
 
-        ActivityNoteViewModel viewModel = noteView.getViewModel();
+        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         viewModel.setNoteModel(noteModel);
-        noteView.setViewModel(viewModel);
+        noteCallback.setViewModel(viewModel);
     }
 
     @Override

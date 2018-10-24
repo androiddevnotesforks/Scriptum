@@ -8,7 +8,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
-public class ActivityParent extends AppCompatActivity {
+public class BaseActivityParent extends AppCompatActivity {
 
     private int valTheme;
 

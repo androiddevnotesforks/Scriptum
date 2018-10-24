@@ -18,11 +18,11 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
 import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
 import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
-import sgtmelon.scriptum.app.view.MainView;
+import sgtmelon.scriptum.app.view.callback.MainCallback;
 import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.app.view.fragment.RankFragment;
-import sgtmelon.scriptum.app.view.parent.ActivityParent;
+import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
@@ -31,7 +31,7 @@ import sgtmelon.scriptum.office.annot.def.db.TypeDef;
 import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.st.PageSt;
 
-public final class MainActivity extends ActivityParent implements MainView,
+public final class MainActivity extends BaseActivityParent implements MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
