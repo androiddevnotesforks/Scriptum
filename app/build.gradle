@@ -19,6 +19,8 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
+
+        buildConfigField "String", "DB_NAME", '"Scriptum.db"'
     }
 
     compileOptions {
@@ -59,8 +61,11 @@ dependencies {
     testImplementation "androidx.room:room-testing:$arch_ver"
     annotationProcessor "androidx.room:room-compiler:$arch_ver"
 
-    def x_ver = "1.0.0"
+    def rx_ver = "1.0.0"
 
+    implementation "android.arch.persistence.room:rxjava2:$rx_ver"
+
+    def x_ver = "1.0.0"
 
     implementation "androidx.appcompat:appcompat:$x_ver"
     implementation "androidx.cardview:cardview:$x_ver"
@@ -69,8 +74,10 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:$x_ver"
     implementation "androidx.vectordrawable:vectordrawable-animated:$x_ver"
 
-    androidTestImplementation "androidx.test:runner:1.1.0-alpha4"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-alpha4"
+    androidTestImplementation "androidx.test.ext:junit:1.0.0-beta02"
+    androidTestImplementation "android.arch.core:core-testing:1.1.1"
+    androidTestImplementation "androidx.test:runner:1.1.0-beta02"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0-beta02"
 
     implementation 'com.romandanylyk:pageindicatorview:1.0.1'
 }

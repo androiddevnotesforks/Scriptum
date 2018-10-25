@@ -11,7 +11,8 @@ import sgtmelon.scriptum.app.database.dao.RollDao;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.office.annot.DbAnn;
+
+import static sgtmelon.scriptum.BuildConfig.DB_NAME;
 
 /**
  * Класс для общения с базой данных
@@ -20,7 +21,7 @@ import sgtmelon.scriptum.office.annot.DbAnn;
 public abstract class RoomDb extends RoomDatabase {
 
     public static RoomDb provideDb(Context context) {
-        return Room.databaseBuilder(context, RoomDb.class, DbAnn.name)
+        return Room.databaseBuilder(context, RoomDb.class, DB_NAME)
                 .allowMainThreadQueries()   // TODO: 27.09.2018 Сделай нормально
                 .build();
     }

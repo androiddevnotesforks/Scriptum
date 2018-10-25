@@ -6,8 +6,7 @@ import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 
 /**
- * Интерфейс общения {@link NoteFragmentParent} и
- * {@link NoteActivity}
+ * Интерфейс общения {@link NoteFragmentParent} и {@link NoteActivity}
  */
 public interface NoteCallback {
 
