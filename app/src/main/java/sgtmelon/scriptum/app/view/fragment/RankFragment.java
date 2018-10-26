@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -150,8 +151,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         Log.i(TAG, "onResume");
         super.onResume();
 
-        updateAdapter();
-        tintButton();
+//        tintButton();
     }
 
     @Nullable
@@ -172,7 +172,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
         }
 
-        vm.loadData();
+        LiveData<RankModel> rankModel = vm.loadData();
+        rankModel.observe(this, this::updateAdapter);
 
         return frgView;
     }
@@ -313,21 +314,20 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         renameDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
     }
 
-    private void updateAdapter() {
-        Log.i(TAG, "updateAdapter");
-
-        RankModel rankModel = vm.loadData();
+    private void updateAdapter(RankModel rankModel) {
+        Log.i(TAG, "updateAdapter: " + rankModel.getListRank().size() + " | " + rankModel.getListName().size());
 
         adapter.setList(rankModel.getListRank());
         adapter.notifyDataSetChanged();
 
         bind(rankModel.size());
+        tintButton();
     }
 
-    public void scrollTop(){
+    public void scrollTop() {
         Log.i(TAG, "scrollTop");
 
-        if (recyclerView != null){
+        if (recyclerView != null) {
             recyclerView.smoothScrollToPosition(0);
         }
     }
@@ -413,8 +413,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-       RankModel rankModel = vm.getRankModel();
-       RankItem rankItem = rankModel.get(p);
+        RankModel rankModel = vm.getRankModel();
+        RankItem rankItem = rankModel.get(p);
 
         switch (view.getId()) {
             case R.id.visible_button:

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.app.database.dao;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.RawQuery;
@@ -34,15 +35,15 @@ abstract class BaseDao {
             "WHERE NT_ID IN(:id)")
     abstract List<NoteItem> getNote(List<Long> id);
 
-    @RawQuery
-    abstract List<NoteItem> getNote(SupportSQLiteQuery query);
+    @RawQuery(observedEntities = {NoteItem.class, RollItem.class, RankItem.class})
+    abstract LiveData<List<NoteItem>> getNote(SupportSQLiteQuery query);
 
     /**
      * @param bin      - Расположение заметок относительно корзины
      * @param sortKeys - Строка с сортировкой заметок
      * @return - Список заметок
      */
-    List<NoteItem> getNote(@BinDef int bin, String sortKeys) {
+    LiveData<List<NoteItem>> getNote(@BinDef int bin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + DbAnn.NT_TB +
                         " WHERE " + DbAnn.NT_BN + " = " + bin +
@@ -118,7 +119,7 @@ abstract class BaseDao {
     @Query("SELECT RK_ID FROM RANK_TABLE " +
             "WHERE RK_VISIBLE = 1 " +
             "ORDER BY RK_POSITION")
-    public abstract List<Long> getRankVisible();
+    public abstract LiveData<List<Long>> getRankVisible();
 
     /**
      * @param id - Массив с id категорий

@@ -7,6 +7,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -46,29 +48,32 @@ public abstract class NoteDao extends BaseDao {
         return new NoteModel(noteItem, listRoll, statusItem);
     }
 
-    public List<NoteModel> get(Context context, @BinDef int bin) {
-        List<NoteModel> listNoteModel = new ArrayList<>();
-        List<NoteItem> listNote = getNote(bin, Help.Pref.getSortNoteOrder(context));
+    public LiveData<List<NoteModel>> get(Context context, List<Long> rankVisible, @BinDef int bin) {
+        LiveData<List<NoteItem>> listNote = getNote(bin, Help.Pref.getSortNoteOrder(context));
 
-        List<Long> rkVisible = getRankVisible();
+        LiveData<List<NoteModel>> listNoteModel = Transformations.map(listNote, input -> {
+            List<NoteModel> list = new ArrayList<>();
+            for (int i = 0; i < input.size(); i++) {
+                NoteItem noteItem = input.get(i);
+                List<RollItem> listRoll = getRollView(noteItem.getId());
+                StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-        for (int i = 0; i < listNote.size(); i++) {
-            NoteItem noteItem = listNote.get(i);
-            List<RollItem> listRoll = getRollView(noteItem.getId());
-            StatusItem statusItem = new StatusItem(context, noteItem, false);
+                NoteModel noteModel = new NoteModel(noteItem, listRoll, statusItem);
 
-            NoteModel noteModel = new NoteModel(noteItem, listRoll, statusItem);
+                Long[] rkId = noteItem.getRankId();
+                if (rkId.length != 0 && !rankVisible.contains(rkId[0])) {
+                    statusItem.cancelNote();
+                } else {
+                    if (noteItem.isStatus() && NotesFragment.updateStatus) statusItem.notifyNote();
 
-            Long[] rkId = noteItem.getRankId();
-            if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
-                statusItem.cancelNote();
-            } else {
-                if (noteItem.isStatus() && NotesFragment.updateStatus) statusItem.notifyNote();
-
-                noteModel.setStatusItem(statusItem);
-                listNoteModel.add(noteModel);
+                    noteModel.setStatusItem(statusItem);
+                    list.add(noteModel);
+                }
             }
-        }
+
+            return list;
+        });
+
         return listNoteModel;
     }
 
@@ -86,8 +91,8 @@ public abstract class NoteDao extends BaseDao {
      * @param context - контекст для получения сортировки
      */
     public void update(Context context) {
-        List<NoteItem> listNote = getNote(BinDef.out, Help.Pref.getSortNoteOrder(context));
-        List<Long> rkVisible = getRankVisible();
+        List<NoteItem> listNote = getNote(BinDef.out, Help.Pref.getSortNoteOrder(context)).getValue();
+        List<Long> rkVisible = getRankVisible().getValue();
 
         for (int i = 0; i < listNote.size(); i++) {
             NoteItem noteItem = listNote.get(i);

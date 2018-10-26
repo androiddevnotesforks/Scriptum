@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -86,7 +87,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "onResume");
         super.onResume();
 
-        updateAdapter();
+//        updateAdapter();
 
         if (updateStatus) updateStatus = false;
     }
@@ -107,6 +108,12 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         setupToolbar();
         setupRecycler();
+
+        LiveData<List<Long>> rankVisible = vm.getRankVisible();
+        rankVisible.observe(this, longs -> {
+            LiveData<List<NoteModel>> listModel = vm.loadData(longs, BinDef.out);
+            listModel.observe(NotesFragment.this, NotesFragment.this::updateAdapter);
+        });
 
         return frgView;
     }
@@ -207,15 +214,13 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         });
     }
 
-    private void updateAdapter() {
+    private void updateAdapter(List<NoteModel> listModel) {
         Log.i(TAG, "updateAdapter");
 
-        List<NoteModel> listNoteModel = vm.loadData(BinDef.out);
-
-        adapter.setList(listNoteModel);
+        adapter.setList(listModel);
         adapter.notifyDataSetChanged();
 
-        bind(listNoteModel.size());
+        bind(listModel.size());
     }
 
     public void scrollTop(){

@@ -6,8 +6,8 @@ import sgtmelon.scriptum.app.model.item.RankItem;
 
 public final class RankModel {
 
-    private final List<String> listName;
     private List<RankItem> listRank;
+    private List<String> listName;
 
     public RankModel(List<RankItem> listRank, List<String> listName) {
         this.listRank = listRank;
