@@ -9,7 +9,6 @@ import static org.junit.Assert.assertEquals;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-// TODO: 24.10.2018 пиши тесты если хочешь развиваться
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {

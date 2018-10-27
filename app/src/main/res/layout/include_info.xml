@@ -24,6 +24,7 @@
             style="@style/Info.Container">
 
         <ImageView
+                android:id="@+id/info_image"
                 style="@style/Info.Icon"
                 android:contentDescription="@null"
                 android:src='@{Draw.get(context, icon, R.attr.clIcon)}'
@@ -31,11 +32,13 @@
                 tools:srcCompat="@mipmap/img_info_notes"/>
 
         <TextView
+                android:id="@+id/info_title_text"
                 style="@style/Info.Title"
                 android:text='@{context.getString(title)}'
                 tools:text="@string/info_notes_title"/>
 
         <TextView
+                android:id="@+id/info_details_text"
                 style="@style/Info.Details"
                 android:text='@{context.getString(details)}'
                 tools:text="@string/info_notes_details"/>
