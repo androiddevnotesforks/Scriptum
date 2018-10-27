@@ -125,7 +125,9 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.i(TAG, "onNavigationItemSelected");
 
+        int pageOld = pageSt.getPage();
         int page = pageSt.getPage();
+
         switch (menuItem.getItemId()) {
             case R.id.page_rank_item:
                 page = PageDef.rank;
@@ -150,7 +152,12 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                     rankFragment.scrollTop();
                 } else {
                     changeFabState(false);
-                    transaction.replace(R.id.fragment_container, rankFragment, FragmentDef.RANK);
+                    if (fm.findFragmentByTag(FragmentDef.RANK) != null) {
+                        transaction.show(rankFragment);
+                        rankFragment.onResume();
+                    } else {
+                        transaction.add(R.id.fragment_container, rankFragment, FragmentDef.RANK);
+                    }
                 }
                 break;
             case PageDef.notes:
@@ -158,7 +165,12 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                     notesFragment.scrollTop();
                 } else {
                     changeFabState(true);
-                    transaction.replace(R.id.fragment_container, notesFragment, FragmentDef.NOTES);
+                    if (fm.findFragmentByTag(FragmentDef.NOTES) != null) {
+                        transaction.show(notesFragment);
+                        notesFragment.onResume();
+                    } else {
+                        transaction.add(R.id.fragment_container, notesFragment, FragmentDef.NOTES);
+                    }
                 }
                 break;
             case PageDef.bin:
@@ -166,9 +178,34 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                     binFragment.scrollTop();
                 } else {
                     changeFabState(false);
-                    transaction.replace(R.id.fragment_container, binFragment, FragmentDef.BIN);
+                    if (fm.findFragmentByTag(FragmentDef.BIN) != null) {
+                        transaction.show(binFragment);
+                        binFragment.onResume();
+                    } else {
+                        transaction.add(R.id.fragment_container, binFragment, FragmentDef.BIN);
+                    }
                 }
                 break;
+        }
+
+        if (!scrollTop) {
+            switch (pageOld) {
+                case PageDef.rank:
+                    if (fm.findFragmentByTag(FragmentDef.RANK) != null) {
+                        transaction.hide(rankFragment);
+                    }
+                    break;
+                case PageDef.notes:
+                    if (fm.findFragmentByTag(FragmentDef.NOTES) != null) {
+                        transaction.hide(notesFragment);
+                    }
+                    break;
+                case PageDef.bin:
+                    if (fm.findFragmentByTag(FragmentDef.BIN) != null) {
+                        transaction.hide(binFragment);
+                    }
+                    break;
+            }
         }
 
         transaction.commit();
