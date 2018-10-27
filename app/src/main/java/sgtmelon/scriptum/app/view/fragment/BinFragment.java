@@ -21,7 +21,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -85,7 +84,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         super.onResume();
         Log.i(TAG, "onResume");
 
-//        updateAdapter();
+        updateAdapter();
     }
 
     @Nullable
@@ -108,12 +107,6 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         setupToolbar();
         setupRecycler();
-
-        LiveData<List<Long>> rankVisible = vm.getRankVisible();
-        rankVisible.observe(this, longs -> {
-            LiveData<List<NoteModel>> listModel = vm.loadData(longs, BinDef.in);
-            listModel.observe(BinFragment.this, BinFragment.this::updateAdapter);
-        });
 
         return frgView;
     }
@@ -211,20 +204,22 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         });
     }
 
-    private void updateAdapter(List<NoteModel> listNoteModel) {
+    private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
+
+        List<NoteModel> listNoteModel = vm.loadData(BinDef.in);
 
         adapter.setList(listNoteModel);
         adapter.notifyDataSetChanged();
 
-        mItemClearBin.setVisible(listNoteModel.size() != 0);
+        mItemClearBin.setVisible(vm.getListModel().size() != 0);
         bind(listNoteModel.size());
     }
 
-    public void scrollTop() {
+    public void scrollTop(){
         Log.i(TAG, "scrollTop");
 
-        if (recyclerView != null) {
+        if (recyclerView != null){
             recyclerView.smoothScrollToPosition(0);
         }
     }

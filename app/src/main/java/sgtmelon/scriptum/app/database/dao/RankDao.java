@@ -8,12 +8,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.RankModel;
@@ -36,34 +35,35 @@ public abstract class RankDao extends BaseDao {
 
     @Query("SELECT * FROM RANK_TABLE " +
             "ORDER BY RK_POSITION ASC")
-    abstract LiveData<List<RankItem>> getSimple();
+    abstract List<RankItem> getSimple();
 
-    private LiveData<List<RankItem>> getComplex() {
-        return Transformations.map(getSimple(), input -> {
-            List<RankItem> list = new ArrayList<>();
+    private List<RankItem> getComplex() {
+        List<RankItem> listRank = getSimple();
 
-            for (RankItem rankItem : input) {
-                Long[] idNote = rankItem.getIdNote();
+        for (int i = 0; i < listRank.size(); i++) {
+            RankItem rankItem = listRank.get(i);
+            Long[] idNote = rankItem.getIdNote();
 
-                rankItem.setTextCount(getNoteCount(TypeDef.text, idNote));
-                rankItem.setRollCount(getNoteCount(TypeDef.roll, idNote));
+            rankItem.setTextCount(getNoteCount(TypeDef.text, idNote));
+            rankItem.setRollCount(getNoteCount(TypeDef.roll, idNote));
 
-                list.add(rankItem);
-            }
+            listRank.set(i, rankItem);
+        }
 
-            return list;
-        });
+        return listRank;
     }
 
-    public LiveData<RankModel> get() {
-        return Transformations.map(getComplex(), input -> {
-            List<String> listName = new ArrayList<>();
-            for (RankItem rankItem : input) {
-                listName.add(rankItem.getName().toUpperCase());
-            }
+    @Transaction
+    public RankModel get() {
+        List<RankItem> listRank = getComplex();
+        List<String> listName = getNameUp();
 
-            return new RankModel(input, listName);
-        });
+        for (int i = 0; i < listName.size(); i++) {
+            String name = listName.get(i);
+            listName.set(i, name.toUpperCase());
+        }
+
+        return new RankModel(listRank, listName);
     }
 
     /**
@@ -90,7 +90,7 @@ public abstract class RankDao extends BaseDao {
     public abstract Long[] getId();
 
     public boolean[] getCheck(Long[] id) {
-        List<RankItem> listRank = getSimple().getValue();
+        List<RankItem> listRank = getSimple();
 
         boolean[] check = new boolean[listRank.size()];
         for (int i = 0; i < listRank.size(); i++) {
@@ -108,7 +108,7 @@ public abstract class RankDao extends BaseDao {
      * @param rankId - id категорий принадлежащих каметке
      */
     public void update(long noteId, Long[] rankId) {
-        List<RankItem> listRank = getSimple().getValue();
+        List<RankItem> listRank = getSimple();
         boolean[] check = getCheck(rankId);
 
         for (int i = 0; i < listRank.size(); i++) {
@@ -142,7 +142,7 @@ public abstract class RankDao extends BaseDao {
         int iEnd = startFirst ? endDrag : startDrag;
         int iAdd = startFirst ? -1 : 1;
 
-        List<RankItem> listRank = getComplex().getValue();
+        List<RankItem> listRank = getComplex();
         List<Long> idNote = new ArrayList<>();
 
         for (int i = iStart; i <= iEnd; i++) {
@@ -187,7 +187,7 @@ public abstract class RankDao extends BaseDao {
      * @param position - позиция удаления категории
      */
     public void update(int position) {
-        List<RankItem> listRank = getSimple().getValue();
+        List<RankItem> listRank = getSimple();
         List<Long> idNote = new ArrayList<>();
 
         for (int i = position; i < listRank.size(); i++) {
@@ -256,7 +256,7 @@ public abstract class RankDao extends BaseDao {
     }
 
     public void listAll(TextView textView) {
-        List<RankItem> listRank = getSimple().getValue();
+        List<RankItem> listRank = getSimple();
 
         String annotation = "Rank Data Base: ";
         textView.setText(annotation);

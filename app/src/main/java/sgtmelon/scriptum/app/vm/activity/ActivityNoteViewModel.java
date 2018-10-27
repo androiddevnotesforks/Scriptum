@@ -81,7 +81,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
 
     private void loadData() {
         db = RoomDb.provideDb(context);
-        rankVisible = db.daoRank().getRankVisible().getValue();
+        rankVisible = db.daoRank().getRankVisible();
         if (ntCreate) {
             String create = Help.Time.getCurrentTime(context);
 
