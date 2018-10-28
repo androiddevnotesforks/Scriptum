@@ -34,6 +34,8 @@ import sgtmelon.scriptum.office.st.NoteSt;
 public final class NoteActivity extends BaseActivityParent
         implements NoteCallback, MenuIntf.Note.DeleteMenuClick {
 
+    //Если Id не существует то завершать активити
+
     private static final String TAG = NoteActivity.class.getSimpleName();
 
     @Inject ActivityNoteViewModel vm;
