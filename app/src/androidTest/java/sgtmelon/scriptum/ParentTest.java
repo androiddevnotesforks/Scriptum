@@ -11,6 +11,9 @@ import androidx.annotation.CallSuper;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
+/**
+ * Родительский класс включающий в себе объявление часто используемых переменных
+ */
 public abstract class ParentTest {
 
     Context context;
@@ -25,7 +28,7 @@ public abstract class ParentTest {
 
     @After
     @CallSuper
-    public void tearDown() throws Exception {
+    public void tearDown() {
 
     }
 

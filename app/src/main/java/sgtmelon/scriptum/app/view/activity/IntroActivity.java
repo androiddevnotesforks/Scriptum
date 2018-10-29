@@ -20,7 +20,7 @@ public final class IntroActivity extends AppCompatActivity
 
     private static final String TAG = IntroActivity.class.getSimpleName();
 
-    private final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());;
+    private final PagerAdapter pagerAdapter = new PagerAdapter(getSupportFragmentManager());
 
     private View pageIndicator;
     private Button pageButtonEnd;
@@ -79,7 +79,9 @@ public final class IntroActivity extends AppCompatActivity
 
         if (position == pagerAdapter.getCount() - 1) {
             pageButtonEnd.setEnabled(true);
-        } else pageButtonEnd.setEnabled(false);
+        } else {
+            pageButtonEnd.setEnabled(false);
+        }
 
         if (position == pagerAdapter.getCount() - 2) {
             pageIndicator.setTranslationY(positionOffset * pageButtonEnd.getHeight());

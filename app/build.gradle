@@ -74,10 +74,10 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:$x_ver"
     implementation "androidx.vectordrawable:vectordrawable-animated:$x_ver"
 
-    androidTestImplementation "androidx.test:runner:1.1.0"
-    androidTestImplementation 'androidx.test:rules:1.1.0'
-    androidTestImplementation "androidx.test.ext:junit:1.0.0"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.1.0"
+    debugImplementation "androidx.test:runner:1.1.0"
+    debugImplementation 'androidx.test:rules:1.1.0'
+    debugImplementation "androidx.test.ext:junit:1.0.0"
+    debugImplementation "androidx.test.espresso:espresso-core:3.1.0"
 
     implementation 'com.romandanylyk:pageindicatorview:1.0.1'
 }

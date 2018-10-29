@@ -103,6 +103,7 @@
         </item>
     </style>
 
+     <!--TODO баг с бекграундом -->
     <style name="App.Intro" parent="App.Splash">
         <item name="android:windowBackground">?attr/colorPrimaryDark</item>
     </style>

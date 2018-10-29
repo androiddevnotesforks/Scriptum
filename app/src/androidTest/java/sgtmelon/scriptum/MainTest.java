@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import sgtmelon.scriptum.app.view.activity.IntroActivityTest;
+import sgtmelon.scriptum.activity.IntroActivityTest;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
 
 import static androidx.test.espresso.Espresso.onView;

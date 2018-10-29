@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.activity;
+package sgtmelon.scriptum.activity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -6,6 +6,7 @@ import org.junit.Test;
 import androidx.test.filters.SmallTest;
 import androidx.test.rule.ActivityTestRule;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.view.activity.IntroActivity;
 import sgtmelon.scriptum.office.annot.IntroAnn;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -56,7 +57,7 @@ public final class IntroActivityTest {
                 .perform(click());
     }
 
-    private void checkButtonEnable(int i){
+    private void checkButtonEnable(int i) {
         if (i < IntroAnn.count - 2) {
             onView(withId(R.id.end_button)).check(matches(not(isEnabled())));
         } else {
