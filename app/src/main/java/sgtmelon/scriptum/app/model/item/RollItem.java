@@ -7,14 +7,14 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
 import static androidx.room.ForeignKey.CASCADE;
 
 /**
- * Элемент списка заметок {@link NoteModel}
+ * Элемент списка заметок {@link NoteRepo}
  */
 @Entity(tableName = DbAnn.RL_TB,
         foreignKeys = @ForeignKey(entity = NoteItem.class,

@@ -10,19 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding;
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 
 /**
  * Адаптер для {@link NotesFragment}, {@link BinFragment}
  */
-public final class NoteAdapter extends ParentAdapter<NoteModel, NoteAdapter.NoteHolder> {
+public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteHolder> {
 
     public NoteAdapter(Context context) {
         super(context);
@@ -31,7 +31,7 @@ public final class NoteAdapter extends ParentAdapter<NoteModel, NoteAdapter.Note
     @NonNull
     @Override
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TypeDef.text) {
+        if (viewType == TypeDef.Note.text) {
             ItemNoteTextBinding bindingText = DataBindingUtil.inflate(
                     inflater, R.layout.item_note_text, parent, false
             );
@@ -46,8 +46,8 @@ public final class NoteAdapter extends ParentAdapter<NoteModel, NoteAdapter.Note
 
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
-        NoteModel noteModel = list.get(position);
-        holder.bind(noteModel.getNoteItem(), noteModel.getListRoll());
+        NoteRepo noteRepo = list.get(position);
+        holder.bind(noteRepo.getNoteItem(), noteRepo.getListRoll());
     }
 
     @Override
@@ -88,7 +88,7 @@ public final class NoteAdapter extends ParentAdapter<NoteModel, NoteAdapter.Note
         }
 
         void bind(NoteItem noteItem, List<RollItem> listRoll) {
-            if (noteItem.getType() == TypeDef.text) {
+            if (noteItem.getType() == TypeDef.Note.text) {
                 bindingText.setNoteItem(noteItem);
 
                 bindingText.executePendingBindings();

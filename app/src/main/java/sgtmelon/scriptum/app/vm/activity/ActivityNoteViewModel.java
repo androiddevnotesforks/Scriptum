@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.office.Help;
@@ -31,7 +31,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
     private long ntId;
 
     private List<Long> rankVisible;
-    private NoteModel noteModel;
+    private NoteRepo noteRepo;
 
     private RoomDb db;
 
@@ -46,7 +46,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         ntType = bundle.getInt(IntentDef.NOTE_TYPE);
         ntId = bundle.getLong(IntentDef.NOTE_ID);
 
-        if (noteModel == null) loadData();
+        if (noteRepo == null) loadData();
     }
 
     public int getNtType() {
@@ -65,18 +65,18 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         this.noteSt = noteSt;
     }
 
-    public NoteModel getNoteModel() {
-        return noteModel;
+    public NoteRepo getNoteRepo() {
+        return noteRepo;
     }
 
-    public void setNoteModel(NoteModel noteModel) {
-        noteModel.updateItemStatus(rankVisible);
+    public void setNoteRepo(NoteRepo noteRepo) {
+        noteRepo.update(rankVisible);
 
-        this.noteModel = noteModel;
+        this.noteRepo = noteRepo;
     }
 
     public void setRepoNote(boolean status) {
-        noteModel.updateItemStatus(status);
+        noteRepo.update(status);
     }
 
     private void loadData() {
@@ -91,25 +91,25 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
             NoteItem noteItem = new NoteItem(create, color, ntType);
             StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-            noteModel = new NoteModel(noteItem, new ArrayList<>(), statusItem);
+            noteRepo = new NoteRepo(noteItem, new ArrayList<>(), statusItem);
 
             noteSt = new NoteSt(true);
             noteSt.setBin(false);
         } else {
-            noteModel = db.daoNote().get(context, ntId);
+            noteRepo = db.daoNote().get(context, ntId);
 
             noteSt = new NoteSt(false);
-            noteSt.setBin(noteModel.getNoteItem().isBin());
+            noteSt.setBin(noteRepo.getNoteItem().isBin());
         }
         db.close();
     }
 
-    public NoteModel loadData(long id) {
+    public NoteRepo loadData(long id) {
         db = RoomDb.provideDb(context);
-        noteModel = db.daoNote().get(context, id);
+        noteRepo = db.daoNote().get(context, id);
         db.close();
 
-        return noteModel;
+        return noteRepo;
     }
 
 }

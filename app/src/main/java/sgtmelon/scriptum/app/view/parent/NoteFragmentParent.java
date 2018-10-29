@@ -31,7 +31,7 @@ import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
@@ -112,7 +112,7 @@ public abstract class NoteFragmentParent extends Fragment
     protected void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
+        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.activity_note);
@@ -151,12 +151,12 @@ public abstract class NoteFragmentParent extends Fragment
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             int check = colorDialog.getCheck();
 
-            NoteModel noteModel = vm.getNoteModel();
-            NoteItem noteItem = noteModel.getNoteItem();
+            NoteRepo noteRepo = vm.getNoteRepo();
+            NoteItem noteItem = noteRepo.getNoteItem();
             noteItem.setColor(check);
-            noteModel.setNoteItem(noteItem);
+            noteRepo.setNoteItem(noteItem);
 
-            vm.setNoteModel(noteModel);
+            vm.setNoteRepo(noteRepo);
 
             menuControl.startTint(check);
         });
@@ -183,14 +183,14 @@ public abstract class NoteFragmentParent extends Fragment
                 }
             }
 
-            NoteModel noteModel = vm.getNoteModel();
+            NoteRepo noteRepo = vm.getNoteRepo();
 
-            NoteItem noteItem = noteModel.getNoteItem();
+            NoteItem noteItem = noteRepo.getNoteItem();
             noteItem.setRankId(ListConv.fromList(rankId));
             noteItem.setRankPs(ListConv.fromList(rankPs));
-            noteModel.setNoteItem(noteItem);
+            noteRepo.setNoteItem(noteItem);
 
-            vm.setNoteModel(noteModel);
+            vm.setNoteRepo(noteRepo);
         });
     }
 
@@ -216,7 +216,7 @@ public abstract class NoteFragmentParent extends Fragment
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
+        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         db = RoomDb.provideDb(context);
         boolean[] check = db.daoRank().getCheck(noteItem.getRankId());
@@ -232,7 +232,7 @@ public abstract class NoteFragmentParent extends Fragment
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
+        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         colorDialog.setArguments(noteItem.getColor());
         colorDialog.show(fm, DialogDef.COLOR);
@@ -244,15 +244,15 @@ public abstract class NoteFragmentParent extends Fragment
     public void onMenuBindClick() {
         Log.i(TAG, "onMenuBindClick");
 
-        NoteModel noteModel = vm.getNoteModel();
-        NoteItem noteItem = noteModel.getNoteItem();
+        NoteRepo noteRepo = vm.getNoteRepo();
+        NoteItem noteItem = noteRepo.getNoteItem();
 
         if (!noteItem.isStatus()) {
             noteItem.setStatus(true);
-            noteModel.updateItemStatus(true);
+            noteRepo.update(true);
         } else {
             noteItem.setStatus(false);
-            noteModel.updateItemStatus(false);
+            noteRepo.update(false);
         }
 
         menuControl.setStatusTitle(noteItem.isStatus());
@@ -261,12 +261,12 @@ public abstract class NoteFragmentParent extends Fragment
         db.daoNote().update(noteItem.getId(), noteItem.isStatus());
         db.close();
 
-        noteModel.setNoteItem(noteItem);
+        noteRepo.setNoteItem(noteItem);
 
-        vm.setNoteModel(noteModel);
+        vm.setNoteRepo(noteRepo);
 
         ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        viewModel.setNoteModel(noteModel);
+        viewModel.setNoteRepo(noteRepo);
         noteCallback.setViewModel(viewModel);
     }
 

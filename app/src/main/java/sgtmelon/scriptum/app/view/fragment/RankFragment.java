@@ -34,7 +34,7 @@ import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
-import sgtmelon.scriptum.app.model.RankModel;
+import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.vm.fragment.RankViewModel;
 import sgtmelon.scriptum.databinding.FragmentRankBinding;
@@ -102,9 +102,9 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 db.daoNote().update(context);
                 db.close();
 
-                RankModel rankModel = vm.getRankModel();
-                rankModel.setListRank(listRank);
-                vm.setRankModel(rankModel);
+                RankRepo rankRepo = vm.getRankRepo();
+                rankRepo.setListRank(listRank);
+                vm.setRankRepo(rankRepo);
 
                 adapter.setList(listRank);
                 adapter.notifyDataSetChanged();
@@ -121,11 +121,11 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             int oldPs = viewHolder.getAdapterPosition();
             int newPs = target.getAdapterPosition();
 
-            RankModel rankModel = vm.getRankModel();
-            rankModel.move(oldPs, newPs);
-            vm.setRankModel(rankModel);
+            RankRepo rankRepo = vm.getRankRepo();
+            rankRepo.move(oldPs, newPs);
+            vm.setRankRepo(rankRepo);
 
-            adapter.setList(rankModel.getListRank());
+            adapter.setList(rankRepo.getListRank());
             adapter.notifyItemMoved(oldPs, newPs);
 
             return true;
@@ -232,7 +232,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             if (i == EditorInfo.IME_ACTION_DONE) {
                 String name = rankEnter.getText().toString().toUpperCase();
 
-                if (!name.equals("") && !vm.getRankModel().getListName().contains(name)) {
+                if (!name.equals("") && !vm.getRankRepo().getListName().contains(name)) {
                     onClick(rankAdd);
                 }
                 return true;
@@ -252,7 +252,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         String name = rankEnter.getText().toString().toUpperCase();
 
         Help.Tint.button(context, rankCancel, R.drawable.ic_cancel_on, R.attr.clIcon, name);
-        Help.Tint.button(context, rankAdd, R.drawable.ic_rank, name, !vm.getRankModel().getListName().contains(name));
+        Help.Tint.button(context, rankAdd, R.drawable.ic_rank, name, !vm.getRankRepo().getListName().contains(name));
     }
 
     private String clearEnter() {
@@ -269,7 +269,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getRankModel().size());
+                bind(vm.getRankRepo().size());
             }
         };
 
@@ -293,19 +293,19 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         renameDialog.setPositiveListener((dialogInterface, i) -> {
             int p = renameDialog.getPosition();
 
-            RankModel rankModel = vm.getRankModel();
-            RankItem rankItem = rankModel.get(p);
+            RankRepo rankRepo = vm.getRankRepo();
+            RankItem rankItem = rankRepo.get(p);
             rankItem.setName(renameDialog.getName());
 
             db = RoomDb.provideDb(context);
             db.daoRank().update(rankItem);
             db.close();
 
-            rankModel.set(p, rankItem);
+            rankRepo.set(p, rankItem);
 
             tintButton();
 
-            vm.setRankModel(rankModel);
+            vm.setRankRepo(rankRepo);
 
             adapter.setListItem(p, rankItem);
             adapter.notifyItemChanged(p);
@@ -316,12 +316,12 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        RankModel rankModel = vm.loadData();
+        RankRepo rankRepo = vm.loadData();
 
-        adapter.setList(rankModel.getListRank());
+        adapter.setList(rankRepo.getListRank());
         adapter.notifyDataSetChanged();
 
-        bind(rankModel.size());
+        bind(rankRepo.size());
     }
 
     public void scrollTop(){
@@ -341,9 +341,9 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 clearEnter();
                 break;
             case R.id.add_button:
-                RankModel rankModel = vm.getRankModel();
+                RankRepo rankRepo = vm.getRankRepo();
 
-                int p = rankModel.size();
+                int p = rankRepo.size();
                 String name = clearEnter();
 
                 RankItem rankItem = new RankItem(p, name);
@@ -353,13 +353,13 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 db.close();
 
                 rankItem.setId(rankId);
-                rankModel.add(p, rankItem);
+                rankRepo.add(p, rankItem);
 
-                vm.setRankModel(rankModel);
-                adapter.setList(rankModel.getListRank());
+                vm.setRankRepo(rankRepo);
+                adapter.setList(rankRepo.getListRank());
 
-                if (rankModel.size() == 1) {
-                    bind(rankModel.size());
+                if (rankRepo.size() == 1) {
+                    bind(rankRepo.size());
                     adapter.notifyItemInserted(p);
                 } else {
                     if (layoutManager.findLastVisibleItemPosition() == p - 1) {
@@ -390,13 +390,13 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         rankItem.setId(rankId);
 
-        RankModel rankModel = vm.getRankModel();
-        rankModel.add(p, rankItem);
-        vm.setRankModel(rankModel);
+        RankRepo rankRepo = vm.getRankRepo();
+        rankRepo.add(p, rankItem);
+        vm.setRankRepo(rankRepo);
 
-        adapter.setList(rankModel.getListRank());
+        adapter.setList(rankRepo.getListRank());
 
-        if (rankModel.size() == 1) bind(rankModel.size());
+        if (rankRepo.size() == 1) bind(rankRepo.size());
         else {
             if (layoutManager.findFirstVisibleItemPosition() == p) {
                 recyclerView.scrollToPosition(p);                      //Прокручиваем до края, незаметно
@@ -413,16 +413,16 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-       RankModel rankModel = vm.getRankModel();
-       RankItem rankItem = rankModel.get(p);
+       RankRepo rankRepo = vm.getRankRepo();
+       RankItem rankItem = rankRepo.get(p);
 
         switch (view.getId()) {
             case R.id.visible_button:
                 rankItem.setVisible(!rankItem.isVisible());
 
-                rankModel.set(p, rankItem);
+                rankRepo.set(p, rankItem);
 
-                vm.setRankModel(rankModel);
+                vm.setRankRepo(rankRepo);
                 adapter.setListItem(p, rankItem);
 
                 db = RoomDb.provideDb(context);
@@ -434,22 +434,22 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 if (!openSt.isOpen()) {
                     openSt.setOpen(true);
 
-                    renameDialog.setArguments(p, rankItem.getName(), new ArrayList<>(rankModel.getListName()));
+                    renameDialog.setArguments(p, rankItem.getName(), new ArrayList<>(rankRepo.getListName()));
                     renameDialog.show(fm, DialogDef.RENAME);
                 }
                 break;
             case R.id.cancel_button:
                 db = RoomDb.provideDb(context);
-                db.daoRank().delete(rankModel.get(p).getName());
+                db.daoRank().delete(rankRepo.get(p).getName());
                 db.daoRank().update(p);
                 db.daoNote().update(context);
                 db.close();
 
-                rankModel.remove(p);
+                rankRepo.remove(p);
 
-                vm.setRankModel(rankModel);
+                vm.setRankRepo(rankRepo);
 
-                adapter.setList(rankModel.getListRank());
+                adapter.setList(rankRepo.getListRank());
                 adapter.notifyItemRemoved(p);
                 break;
         }
@@ -459,27 +459,27 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        RankModel rankModel = vm.getRankModel();
+        RankRepo rankRepo = vm.getRankRepo();
 
         boolean[] startAnim = adapter.getStartAnim();
-        boolean clickVisible = rankModel.get(p).isVisible();
+        boolean clickVisible = rankRepo.get(p).isVisible();
 
-        for (int i = 0; i < rankModel.size(); i++) {
+        for (int i = 0; i < rankRepo.size(); i++) {
             if (i != p) {
-                RankItem rankItem = rankModel.get(i);
+                RankItem rankItem = rankRepo.get(i);
                 boolean isVisible = rankItem.isVisible();
 
                 if (clickVisible == isVisible) {
                     startAnim[i] = true;
                     rankItem.setVisible(!isVisible);
-                    rankModel.set(i, rankItem);
+                    rankRepo.set(i, rankItem);
                 }
             }
         }
 
-        List<RankItem> listRank = rankModel.getListRank();
+        List<RankItem> listRank = rankRepo.getListRank();
 
-        vm.setRankModel(rankModel);
+        vm.setRankRepo(rankRepo);
 
         adapter.setList(listRank);
         adapter.notifyDataSetChanged();

@@ -33,16 +33,16 @@ import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
 import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.OptionsDef;
-import sgtmelon.scriptum.office.annot.def.db.BinDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.OpenSt;
@@ -207,13 +207,13 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<NoteModel> listNoteModel = vm.loadData(BinDef.in);
+        List<NoteRepo> listNoteRepo = vm.loadData(BinDef.in);
 
-        adapter.setList(listNoteModel);
+        adapter.setList(listNoteRepo);
         adapter.notifyDataSetChanged();
 
         mItemClearBin.setVisible(vm.getListModel().size() != 0);
-        bind(listNoteModel.size());
+        bind(listNoteRepo.size());
     }
 
     public void scrollTop(){
@@ -248,17 +248,17 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onMenuRestoreClick(int p) {
         Log.i(TAG, "onMenuRestoreClick");
 
-        List<NoteModel> listNoteModel = vm.getListModel();
-        NoteItem noteItem = listNoteModel.get(p).getNoteItem();
+        List<NoteRepo> listNoteRepo = vm.getListModel();
+        NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(context), false);
         db.close();
 
-        listNoteModel.remove(p);
-        vm.setListModel(listNoteModel);
+        listNoteRepo.remove(p);
+        vm.setListModel(listNoteRepo);
 
-        adapter.setList(listNoteModel);
+        adapter.setList(listNoteRepo);
         adapter.notifyItemRemoved(p);
 
         mItemClearBin.setVisible(vm.getListModel().size() != 0);
@@ -274,17 +274,17 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onMenuClearClick(int p) {
         Log.i(TAG, "onMenuClearClick");
 
-        List<NoteModel> listNoteModel = vm.getListModel();
-        NoteItem noteItem = listNoteModel.get(p).getNoteItem();
+        List<NoteRepo> listNoteRepo = vm.getListModel();
+        NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
         db.daoNote().delete(noteItem.getId());
         db.close();
 
-        listNoteModel.remove(p);
-        vm.setListModel(listNoteModel);
+        listNoteRepo.remove(p);
+        vm.setListModel(listNoteRepo);
 
-        adapter.setList(listNoteModel);
+        adapter.setList(listNoteRepo);
         adapter.notifyItemRemoved(p);
 
         mItemClearBin.setVisible(vm.getListModel().size() != 0);

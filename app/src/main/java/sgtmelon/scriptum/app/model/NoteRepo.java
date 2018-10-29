@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.app.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.room.Embedded;
@@ -10,12 +9,12 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.annot.def.db.CheckDef;
+import sgtmelon.scriptum.office.annot.def.CheckDef;
 
 /**
- *
+ * Репозиторий заметки
  */
-public final class NoteModel {
+public final class NoteRepo {
 
     @Embedded
     private NoteItem noteItem;
@@ -26,7 +25,7 @@ public final class NoteModel {
     @Ignore
     private StatusItem statusItem;
 
-    public NoteModel(NoteItem noteItem, List<RollItem> listRoll, StatusItem statusItem) {
+    public NoteRepo(NoteItem noteItem, List<RollItem> listRoll, StatusItem statusItem) {
         this.noteItem = noteItem;
         this.listRoll = listRoll;
         this.statusItem = statusItem;
@@ -48,13 +47,6 @@ public final class NoteModel {
         this.listRoll = listRoll;
     }
 
-    /**
-     * Сброс списка при конвертированиия Список -> Текст
-     */
-    public void setListRoll() {
-        listRoll = new ArrayList<>();
-    }
-
     public void setStatusItem(StatusItem statusItem) {
         this.statusItem = statusItem;
     }
@@ -62,7 +54,7 @@ public final class NoteModel {
     /**
      * При отметке всех пунктов
      */
-    public void updateListRoll(@CheckDef int rollCheck) {
+    public void update(@CheckDef int rollCheck) {
         for (int i = 0; i < listRoll.size(); i++) {
             RollItem rollItem = listRoll.get(i);
             rollItem.setCheck(rollCheck == CheckDef.done);
@@ -70,16 +62,16 @@ public final class NoteModel {
         }
     }
 
-    public void updateItemStatus(boolean noteStatus) {
-        if (noteStatus) statusItem.notifyNote();
+    public void update(boolean status) {
+        if (status) statusItem.notifyNote();
         else statusItem.cancelNote();
     }
 
-    public void updateItemStatus() {
+    public void update() {
         statusItem.updateNote(noteItem, true);
     }
 
-    public void updateItemStatus(List<Long> rankVisible) {
+    public void update(List<Long> rankVisible) {
         statusItem.updateNote(noteItem, rankVisible);
     }
 

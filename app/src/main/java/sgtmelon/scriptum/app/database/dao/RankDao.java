@@ -12,13 +12,12 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.model.RankModel;
+import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 import sgtmelon.scriptum.office.conv.ListConv;
 
 /**
@@ -44,8 +43,8 @@ public abstract class RankDao extends BaseDao {
             RankItem rankItem = listRank.get(i);
             Long[] idNote = rankItem.getIdNote();
 
-            rankItem.setTextCount(getNoteCount(TypeDef.text, idNote));
-            rankItem.setRollCount(getNoteCount(TypeDef.roll, idNote));
+            rankItem.setTextCount(getNoteCount(TypeDef.Note.text, idNote));
+            rankItem.setRollCount(getNoteCount(TypeDef.Note.roll, idNote));
 
             listRank.set(i, rankItem);
         }
@@ -53,17 +52,15 @@ public abstract class RankDao extends BaseDao {
         return listRank;
     }
 
-    @Transaction
-    public RankModel get() {
+    public RankRepo get() {
         List<RankItem> listRank = getComplex();
-        List<String> listName = getNameUp();
 
-        for (int i = 0; i < listName.size(); i++) {
-            String name = listName.get(i);
-            listName.set(i, name.toUpperCase());
+        List<String> listName = new ArrayList<>();
+        for (RankItem item: listRank) {
+            listName.add(item.getName().toUpperCase());
         }
 
-        return new RankModel(listRank, listName);
+        return new RankRepo(listRank, listName);
     }
 
     /**

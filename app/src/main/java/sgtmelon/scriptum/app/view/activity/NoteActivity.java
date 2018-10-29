@@ -16,7 +16,7 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
 import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
 import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
@@ -27,7 +27,7 @@ import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -108,23 +108,23 @@ public final class NoteActivity extends BaseActivityParent
 
         saveControl.setNeedSave(false);
 
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
+        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
         NoteSt noteSt = vm.getNoteSt();
 
         if (noteSt.isEdit() && !noteSt.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             FragmentNoteViewModel viewModel;
             MenuControl menuControl;
             switch (noteItem.getType()) {
-                case TypeDef.text:
+                case TypeDef.Note.text:
                     if (!textFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         menuControl = textFragment.getMenuControl();
                         menuControl.setStartColor(noteItem.getColor());
 
-                        NoteModel noteModel = vm.loadData(noteItem.getId());
-                        noteItem = noteModel.getNoteItem();
+                        NoteRepo noteRepo = vm.loadData(noteItem.getId());
+                        noteItem = noteRepo.getNoteItem();
 
                         viewModel = textFragment.getViewModel();
-                        viewModel.setNoteModel(noteModel);
+                        viewModel.setNoteRepo(noteRepo);
                         textFragment.setViewModel(viewModel);
 
                         menuControl.startTint(noteItem.getColor());
@@ -133,16 +133,16 @@ public final class NoteActivity extends BaseActivityParent
                         textFragment.onMenuEditClick(false);
                     }
                     break;
-                case TypeDef.roll:
+                case TypeDef.Note.roll:
                     if (!rollFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         menuControl = rollFragment.getMenuControl();
                         menuControl.setStartColor(noteItem.getColor());
 
-                        NoteModel noteModel = vm.loadData(noteItem.getId());
-                        noteItem = noteModel.getNoteItem();
+                        NoteRepo noteRepo = vm.loadData(noteItem.getId());
+                        noteItem = noteRepo.getNoteItem();
 
                         viewModel = rollFragment.getViewModel();
-                        viewModel.setNoteModel(noteModel);
+                        viewModel.setNoteRepo(noteRepo);
                         rollFragment.setViewModel(viewModel);
 
                         menuControl.startTint(noteItem.getColor());
@@ -155,10 +155,10 @@ public final class NoteActivity extends BaseActivityParent
             }
         } else if (noteSt.isCreate()) {     //Если только что создали заметку
             switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
-                case TypeDef.text:
+                case TypeDef.Note.text:
                     if (!textFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
-                case TypeDef.roll:
+                case TypeDef.Note.roll:
                     if (!rollFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
             }
@@ -178,8 +178,8 @@ public final class NoteActivity extends BaseActivityParent
         FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
-        switch (vm.getNoteModel().getNoteItem().getType()) {
-            case TypeDef.text:
+        switch (vm.getNoteRepo().getNoteItem().getType()) {
+            case TypeDef.Note.text:
                 if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
                 else textFragment = new TextFragment();
 
@@ -187,7 +187,7 @@ public final class NoteActivity extends BaseActivityParent
 
                 transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
-            case TypeDef.roll:
+            case TypeDef.Note.roll:
                 if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
                 else rollFragment = new RollFragment();
 
@@ -224,7 +224,7 @@ public final class NoteActivity extends BaseActivityParent
         Log.i(TAG, "onMenuRestoreClick");
 
         db = RoomDb.provideDb(this);
-        db.daoNote().update(vm.getNoteModel().getNoteItem().getId(), Help.Time.getCurrentTime(this), false);
+        db.daoNote().update(vm.getNoteRepo().getNoteItem().getId(), Help.Time.getCurrentTime(this), false);
         db.close();
 
         finish();
@@ -239,14 +239,14 @@ public final class NoteActivity extends BaseActivityParent
 
         vm.setNoteSt(noteSt);
 
-        NoteModel noteModel = vm.getNoteModel();
-        NoteItem noteItem = noteModel.getNoteItem();
+        NoteRepo noteRepo = vm.getNoteRepo();
+        NoteItem noteItem = noteRepo.getNoteItem();
 
         noteItem.setChange(Help.Time.getCurrentTime(this));
         noteItem.setBin(false);
-        noteModel.setNoteItem(noteItem);
+        noteRepo.setNoteItem(noteItem);
 
-        vm.setNoteModel(noteModel);
+        vm.setNoteRepo(noteRepo);
 
         db = RoomDb.provideDb(this);
         db.daoNote().update(noteItem);
@@ -254,19 +254,19 @@ public final class NoteActivity extends BaseActivityParent
 
         FragmentNoteViewModel viewModel;
         MenuControl menuControl;
-        switch (vm.getNoteModel().getNoteItem().getType()) {
-            case TypeDef.text:
+        switch (vm.getNoteRepo().getNoteItem().getType()) {
+            case TypeDef.Note.text:
                 viewModel = textFragment.getViewModel();
-                viewModel.setNoteModel(noteModel);
+                viewModel.setNoteRepo(noteRepo);
                 textFragment.setViewModel(viewModel);
 
                 menuControl = textFragment.getMenuControl();
                 menuControl.setMenuGroupVisible(false, false, true);
                 textFragment.setMenuControl(menuControl);
                 break;
-            case TypeDef.roll:
+            case TypeDef.Note.roll:
                 viewModel = rollFragment.getViewModel();
-                viewModel.setNoteModel(noteModel);
+                viewModel.setNoteRepo(noteRepo);
                 rollFragment.setViewModel(viewModel);
 
                 menuControl = rollFragment.getMenuControl();
@@ -281,7 +281,7 @@ public final class NoteActivity extends BaseActivityParent
         Log.i(TAG, "onMenuClearClick");
 
         db = RoomDb.provideDb(this);
-        db.daoNote().delete(vm.getNoteModel().getNoteItem().getId());
+        db.daoNote().delete(vm.getNoteRepo().getNoteItem().getId());
         db.close();
 
         vm.setRepoNote(false);
@@ -293,7 +293,7 @@ public final class NoteActivity extends BaseActivityParent
     public void onMenuDeleteClick() {
         Log.i(TAG, "onMenuDeleteClick");
 
-        NoteItem noteItem = vm.getNoteModel().getNoteItem();
+        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         db = RoomDb.provideDb(this);
         db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(this), true);

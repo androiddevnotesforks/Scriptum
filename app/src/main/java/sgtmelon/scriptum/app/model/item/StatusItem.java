@@ -15,14 +15,14 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 
 /**
- * Управление закреплением заметки в статус баре {@link NoteModel}
+ * Управление закреплением заметки в статус баре {@link NoteRepo}
  */
 public final class StatusItem {
 
@@ -64,12 +64,12 @@ public final class StatusItem {
         String text = "";
 
         switch (noteItem.getType()) {
-            case TypeDef.text:
+            case TypeDef.Note.text:
                 iconId = R.drawable.notif_bind_text;
 
                 text = noteItem.getText();
                 break;
-            case TypeDef.roll:
+            case TypeDef.Note.roll:
                 iconId = R.drawable.notif_bind_roll;
 
                 RoomDb db = RoomDb.provideDb(context);

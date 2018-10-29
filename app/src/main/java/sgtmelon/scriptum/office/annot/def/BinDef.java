@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.annot.def.db;
+package sgtmelon.scriptum.office.annot.def;
 
 import androidx.annotation.IntDef;
 

@@ -14,13 +14,13 @@ import androidx.room.Query;
 import androidx.room.TypeConverters;
 import androidx.room.Update;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.db.BinDef;
+import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
 /**
@@ -37,17 +37,17 @@ public abstract class NoteDao extends BaseDao {
             "WHERE NT_ID = :id")
     public abstract NoteItem get(long id);
 
-    public NoteModel get(Context context, long id) {
+    public NoteRepo get(Context context, long id) {
         NoteItem noteItem = get(id);
         List<RollItem> listRoll = getRoll(id);
 
         StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-        return new NoteModel(noteItem, listRoll, statusItem);
+        return new NoteRepo(noteItem, listRoll, statusItem);
     }
 
-    public List<NoteModel> get(Context context, @BinDef int bin) {
-        List<NoteModel> listNoteModel = new ArrayList<>();
+    public List<NoteRepo> get(Context context, @BinDef int bin) {
+        List<NoteRepo> listNoteRepo = new ArrayList<>();
         List<NoteItem> listNote = getNote(bin, Help.Pref.getSortNoteOrder(context));
 
         List<Long> rkVisible = getRankVisible();
@@ -57,7 +57,7 @@ public abstract class NoteDao extends BaseDao {
             List<RollItem> listRoll = getRollView(noteItem.getId());
             StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-            NoteModel noteModel = new NoteModel(noteItem, listRoll, statusItem);
+            NoteRepo noteRepo = new NoteRepo(noteItem, listRoll, statusItem);
 
             Long[] rkId = noteItem.getRankId();
             if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
@@ -65,11 +65,11 @@ public abstract class NoteDao extends BaseDao {
             } else {
                 if (noteItem.isStatus() && NotesFragment.updateStatus) statusItem.notifyNote();
 
-                noteModel.setStatusItem(statusItem);
-                listNoteModel.add(noteModel);
+                noteRepo.setStatusItem(statusItem);
+                listNoteRepo.add(noteRepo);
             }
         }
-        return listNoteModel;
+        return listNoteRepo;
     }
 
     @Query("SELECT * FROM NOTE_TABLE " +

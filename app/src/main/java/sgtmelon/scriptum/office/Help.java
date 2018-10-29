@@ -37,7 +37,7 @@ import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 
 public final class Help {
 
@@ -50,10 +50,10 @@ public final class Help {
         }
 
         switch (noteItem.getType()) {
-            case TypeDef.text:
+            case TypeDef.Note.text:
                 copyText += noteItem.getText();     //В зависимости от типа составляем текст
                 break;
-            case TypeDef.roll:
+            case TypeDef.Note.roll:
                 RoomDb db = RoomDb.provideDb(context);
                 copyText = db.daoRoll().getText(noteItem.getId());
                 db.close();

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -21,14 +23,14 @@ import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 
 public final class TextFragment extends NoteFragmentParent {
@@ -61,7 +63,7 @@ public final class TextFragment extends NoteFragmentParent {
         super.onActivityCreated(savedInstanceState);
 
         ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        if (vm.isEmpty()) vm.setNoteModel(viewModel.getNoteModel());
+        if (vm.isEmpty()) vm.setNoteRepo(viewModel.getNoteRepo());
 
         setupToolbar();
         setupDialog();
@@ -74,13 +76,18 @@ public final class TextFragment extends NoteFragmentParent {
         noteSt.setFirst(false);
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
+
+        ImageView attach = frgView.findViewById(R.id.attach_button);
+        attach.setOnClickListener(view -> {
+            Toast.makeText(context, "attach", Toast.LENGTH_SHORT).show();
+        });
     }
 
     @Override
     protected void bind(boolean keyEdit) {
         Log.i(TAG, "bind: keyEdit=" + keyEdit);
 
-        binding.setNoteItem(vm.getNoteModel().getNoteItem());
+        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
         binding.setKeyEdit(keyEdit);
 
         binding.executePendingBindings();
@@ -93,27 +100,27 @@ public final class TextFragment extends NoteFragmentParent {
 
         dlgConvert.setMessage(getString(R.string.dialog_text_convert_to_roll));
         dlgConvert.setPositiveListener((dialogInterface, i) -> {
-            NoteModel noteModel = vm.getNoteModel();
-            NoteItem noteItem = noteModel.getNoteItem();
+            NoteRepo noteRepo = vm.getNoteRepo();
+            NoteItem noteItem = noteRepo.getNoteItem();
             String[] textToRoll = noteItem.getText().split("\n");   //Получаем пункты списка
 
             db = RoomDb.provideDb(context);
             List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
             noteItem.setChange(Help.Time.getCurrentTime(context));
-            noteItem.setType(TypeDef.roll);
+            noteItem.setType(TypeDef.Note.roll);
             noteItem.setText(0, listRoll.size());
 
             db.daoNote().update(noteItem);
             db.close();
 
-            noteModel.setNoteItem(noteItem);
-            noteModel.setListRoll(listRoll);
+            noteRepo.setNoteItem(noteItem);
+            noteRepo.setListRoll(listRoll);
 
-            vm.setNoteModel(noteModel);
+            vm.setNoteRepo(noteRepo);
 
             ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-            viewModel.setNoteModel(noteModel);
+            viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
 
             noteCallback.setupFragment(false);
@@ -147,21 +154,21 @@ public final class TextFragment extends NoteFragmentParent {
         ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         NoteSt noteSt = viewModel.getNoteSt();
 
-        NoteModel noteModel = vm.getNoteModel();
-        NoteItem noteItem = noteModel.getNoteItem();
+        NoteRepo noteRepo = vm.getNoteRepo();
+        NoteItem noteItem = noteRepo.getNoteItem();
 
         //Если редактирование и текст в хранилище не пустой
         if (!noteSt.isCreate() && noteSt.isEdit() && !noteItem.getText().equals("")) {
             menuControl.setStartColor(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
-            noteModel = db.daoNote().get(context, noteItem.getId());
-            noteItem = noteModel.getNoteItem();
+            noteRepo = db.daoNote().get(context, noteItem.getId());
+            noteItem = noteRepo.getNoteItem();
             db.close();
 
-            vm.setNoteModel(noteModel);
+            vm.setNoteRepo(noteRepo);
 
-            viewModel.setNoteModel(noteModel);
+            viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
 
             onMenuEditClick(false);
@@ -180,8 +187,8 @@ public final class TextFragment extends NoteFragmentParent {
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
-        NoteModel noteModel = vm.getNoteModel();
-        NoteItem noteItem = noteModel.getNoteItem();
+        NoteRepo noteRepo = vm.getNoteRepo();
+        NoteItem noteItem = noteRepo.getNoteItem();
         if (!noteItem.getText().equals("")) {
             noteItem.setChange(Help.Time.getCurrentTime(context));
 
@@ -210,11 +217,11 @@ public final class TextFragment extends NoteFragmentParent {
             db.daoRank().update(noteItem.getId(), noteItem.getRankId());
             db.close();
 
-            noteModel.setNoteItem(noteItem);
+            noteRepo.setNoteItem(noteItem);
 
-            vm.setNoteModel(noteModel);
+            vm.setNoteRepo(noteRepo);
 
-            viewModel.setNoteModel(noteModel);
+            viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
             return true;
         } else return false;

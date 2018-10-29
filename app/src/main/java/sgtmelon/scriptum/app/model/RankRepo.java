@@ -4,12 +4,15 @@ import java.util.List;
 
 import sgtmelon.scriptum.app.model.item.RankItem;
 
-public final class RankModel {
+/**
+ * Репозиторий категории
+ */
+public final class RankRepo {
 
     private final List<String> listName;
     private List<RankItem> listRank;
 
-    public RankModel(List<RankItem> listRank, List<String> listName) {
+    public RankRepo(List<RankItem> listRank, List<String> listName) {
         this.listRank = listRank;
         this.listName = listName;
     }
@@ -49,11 +52,11 @@ public final class RankModel {
         listName.remove(position);
     }
 
-    public void move(int oldPosition, int newPosition) {
-        RankItem rankItem = listRank.get(oldPosition);
+    public void move(int positionOld, int positionNew) {
+        RankItem rankItem = listRank.get(positionOld);
 
-        remove(oldPosition);
-        add(newPosition, rankItem);
+        remove(positionOld);
+        add(positionNew, rankItem);
     }
 
 }

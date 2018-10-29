@@ -13,8 +13,8 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.annot.def.db.BinDef;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.BinDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 import sgtmelon.scriptum.office.conv.ListConv;
 

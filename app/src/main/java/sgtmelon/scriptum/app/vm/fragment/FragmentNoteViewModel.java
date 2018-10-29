@@ -1,22 +1,22 @@
 package sgtmelon.scriptum.app.vm.fragment;
 
 import androidx.lifecycle.ViewModel;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 
 public final class FragmentNoteViewModel extends ViewModel {
 
-    private NoteModel noteModel;
+    private NoteRepo noteRepo;
 
-    public NoteModel getNoteModel() {
-        return noteModel;
+    public NoteRepo getNoteRepo() {
+        return noteRepo;
     }
 
-    public void setNoteModel(NoteModel noteModel) {
-        this.noteModel = noteModel;
+    public void setNoteRepo(NoteRepo noteRepo) {
+        this.noteRepo = noteRepo;
     }
 
     public boolean isEmpty() {
-        return noteModel == null;
+        return noteRepo == null;
     }
 
 }

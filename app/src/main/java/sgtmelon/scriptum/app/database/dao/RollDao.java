@@ -10,8 +10,9 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.office.annot.def.db.CheckDef;
+import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
 /**
@@ -29,7 +30,7 @@ public abstract class RollDao extends BaseDao {
      *
      * @param idNote - id заметки
      * @param text   - массив потенциальных пунктов
-     * @return - для NoteModel
+     * @return - для {@link NoteRepo}
      */
     public List<RollItem> insert(long idNote, String[] text) {
         List<RollItem> listRoll = new ArrayList<>();

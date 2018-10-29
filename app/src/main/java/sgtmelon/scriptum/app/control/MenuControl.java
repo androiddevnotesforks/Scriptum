@@ -17,7 +17,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 
 /**
@@ -151,7 +151,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
         setStatusTitle(status);
 
-        boolean isRoll = type == TypeDef.roll;
+        boolean isRoll = type == TypeDef.Note.roll;
 
         mItemStatus.setIcon(Help.Draw.get(context, isRoll
                         ? R.drawable.ic_bind_roll

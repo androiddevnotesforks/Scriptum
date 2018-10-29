@@ -8,26 +8,26 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.model.NoteModel;
-import sgtmelon.scriptum.office.annot.def.db.BinDef;
+import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.office.annot.def.BinDef;
 
 public final class NotesViewModel extends AndroidViewModel {
 
-    private List<NoteModel> listModel;
+    private List<NoteRepo> listModel;
 
     public NotesViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public List<NoteModel> getListModel() {
+    public List<NoteRepo> getListModel() {
         return listModel;
     }
 
-    public void setListModel(List<NoteModel> listModel) {
+    public void setListModel(List<NoteRepo> listModel) {
         this.listModel = listModel;
     }
 
-    public List<NoteModel> loadData(@BinDef int bin) {
+    public List<NoteRepo> loadData(@BinDef int bin) {
         Context context = getApplication().getApplicationContext();
 
         RoomDb db = RoomDb.provideDb(context);

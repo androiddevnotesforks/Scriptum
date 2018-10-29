@@ -8,15 +8,15 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.model.NoteModel;
+import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.annot.def.db.CheckDef;
-import sgtmelon.scriptum.office.annot.def.db.TypeDef;
+import sgtmelon.scriptum.office.annot.def.CheckDef;
+import sgtmelon.scriptum.office.annot.def.TypeDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 import sgtmelon.scriptum.office.conv.StringConv;
 
 /**
- * Элемент списка заметок {@link NoteModel}
+ * Элемент списка заметок {@link NoteRepo}
  */
 @Entity(tableName = DbAnn.NT_TB)
 @TypeConverters({BoolConv.class, StringConv.class})
@@ -162,7 +162,7 @@ public final class NoteItem {
     public int[] getCheck() {
         int[] check = new int[2];
 
-        if (type == TypeDef.roll) {
+        if (type == TypeDef.Note.roll) {
             String[] split = text.split(CheckDef.divider);
             for (int i = 0; i < 2; i++) {
                 check[i] = Integer.parseInt(split[i]);
