@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
-import sgtmelon.scriptum.office.annot.def.BinDef;
+import sgtmelon.scriptum.office.annot.def.StateDef;
 
 public final class NotesViewModel extends AndroidViewModel {
 
@@ -27,7 +27,7 @@ public final class NotesViewModel extends AndroidViewModel {
         this.listModel = listModel;
     }
 
-    public List<NoteRepo> loadData(@BinDef int bin) {
+    public List<NoteRepo> loadData(@StateDef.Bin int bin) {
         Context context = getApplication().getApplicationContext();
 
         RoomDb db = RoomDb.provideDb(context);

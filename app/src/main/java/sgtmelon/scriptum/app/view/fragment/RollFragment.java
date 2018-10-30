@@ -39,7 +39,7 @@ import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.CheckDef;
+import sgtmelon.scriptum.office.annot.def.StateDef;
 import sgtmelon.scriptum.office.annot.def.TypeDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.CheckSt;
@@ -623,16 +623,16 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         db = RoomDb.provideDb(context);
         if (checkSt.isAll()) {
-            noteRepo.update(CheckDef.notDone);
+            noteRepo.update(StateDef.Check.notDone);
             noteItem.setText(0, size);
 
-            db.daoRoll().update(noteItem.getId(), CheckDef.notDone);
+            db.daoRoll().update(noteItem.getId(), StateDef.Check.notDone);
             db.daoNote().update(noteItem);
         } else {
-            noteRepo.update(CheckDef.done);
+            noteRepo.update(StateDef.Check.done);
             noteItem.setText(size, size);
 
-            db.daoRoll().update(noteItem.getId(), CheckDef.done);
+            db.daoRoll().update(noteItem.getId(), StateDef.Check.done);
             db.daoNote().update(noteItem);
         }
         db.close();

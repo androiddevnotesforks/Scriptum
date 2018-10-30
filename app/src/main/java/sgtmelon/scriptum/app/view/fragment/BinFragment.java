@@ -39,10 +39,10 @@ import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.OptionsDef;
+import sgtmelon.scriptum.office.annot.def.StateDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.OpenSt;
@@ -207,7 +207,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<NoteRepo> listNoteRepo = vm.loadData(BinDef.in);
+        List<NoteRepo> listNoteRepo = vm.loadData(StateDef.Bin.in);
 
         adapter.setList(listNoteRepo);
         adapter.notifyDataSetChanged();

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.annot.def.CheckDef;
+import sgtmelon.scriptum.office.annot.def.StateDef;
 
 /**
  * Репозиторий заметки
@@ -54,10 +54,10 @@ public final class NoteRepo {
     /**
      * При отметке всех пунктов
      */
-    public void update(@CheckDef int rollCheck) {
+    public void update(@StateDef.Check int rollCheck) {
         for (int i = 0; i < listRoll.size(); i++) {
             RollItem rollItem = listRoll.get(i);
-            rollItem.setCheck(rollCheck == CheckDef.done);
+            rollItem.setCheck(rollCheck == StateDef.Check.done);
             listRoll.set(i, rollItem);
         }
     }
