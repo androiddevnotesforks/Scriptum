@@ -13,7 +13,7 @@ public interface ItemIntf {
     }
 
     interface DragListener {
-        void setItemDrag(boolean itemDrag);
+        void setDrag(boolean drag);
     }
 
     interface Watcher {

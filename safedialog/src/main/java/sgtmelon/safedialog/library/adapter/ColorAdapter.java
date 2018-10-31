@@ -21,14 +21,13 @@ import sgtmelon.safedialog.office.intf.ColorIntf;
 public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
     private final Context context;
+    private final LayoutInflater inflater;
 
     private final boolean[] visible;
 
-    @IdRes
-    private final int[] icons, colors;
+    @IdRes private final int[] icons, colors;
 
     private int check;
-
     private ColorIntf.ClickListener clickListener;
 
     public ColorAdapter(Context context, int check, int[] icons, int[] colors) {
@@ -37,6 +36,8 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
         this.icons = icons;
         this.colors = colors;
+
+        inflater = LayoutInflater.from(context);
 
         visible = new boolean[getItemCount()];
         Arrays.fill(visible, false);
@@ -50,15 +51,14 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
     @NonNull
     @Override
     public ColorHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.item_color, parent, false);
+        final View view = inflater.inflate(R.layout.item_color, parent, false);
         return new ColorHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ColorHolder holder, int position) {
-        Drawable bg = ContextCompat.getDrawable(context, icons[position]);
-        int cl = ContextCompat.getColor(context, colors[position]);
+        final Drawable bg = ContextCompat.getDrawable(context, icons[position]);
+        final int cl = ContextCompat.getColor(context, colors[position]);
 
         holder.clBackground.setBackground(bg);
         holder.clCheck.setColorFilter(cl);
@@ -72,8 +72,6 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
             }
         } else holder.clCheck.setVisibility(View.GONE);
     }
-
-    View.OnClickListener listener;
 
     @Override
     public int getItemCount() {
@@ -107,8 +105,8 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
         @Override
         public void onClick(View view) {
-            int oldCheck = check;                   //Сохраняем старую позицию
-            int newCheck = getAdapterPosition();    //Получаем новую
+            final int oldCheck = check;                   //Сохраняем старую позицию
+            final int newCheck = getAdapterPosition();    //Получаем новую
 
             clickListener.onColorClick(newCheck);
 

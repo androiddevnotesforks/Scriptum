@@ -15,7 +15,7 @@ public final class AnimHdlr {
 
     private final AnimatedVectorDrawable animOn, animOff;
 
-    private final Handler animHandler;
+    private final Handler animHandler = new Handler();;
     private final Runnable animRunnable;
 
     private boolean animState;
@@ -28,7 +28,6 @@ public final class AnimHdlr {
         this.animOn = animOn;
         this.animOff = animOff;
 
-        animHandler = new Handler();
         animRunnable = () -> {
             if (animOn.isRunning() || animOff.isRunning()) {
                 waitAnimationEnd();

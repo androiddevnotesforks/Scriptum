@@ -5,6 +5,9 @@ import java.util.List;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.Help;
 
+/**
+ * Состояние для отметок, определяющее отмечено ли всё в списке с элементами {@link RollItem}
+ */
 public final class CheckSt {
 
     private boolean all;
@@ -14,17 +17,21 @@ public final class CheckSt {
     }
 
     public void setAll(List<RollItem> listRoll) {
-        this.all = Help.Note.isAllCheck(listRoll);
+        all = Help.Note.isAllCheck(listRoll);
     }
 
-    public boolean setAll(int checkValue, int listSize) {
-        boolean all = checkValue == listSize;
+    /**
+     * @param check - Количество отметок
+     * @param size  - Размер списка
+     * @return - Произошло ли изменение состояния
+     */
+    public boolean setAll(int check, int size) {
+        final boolean all = check == size;
 
         if (this.all != all) {
             this.all = all;
             return true;
         }
-
         return false;
     }
 

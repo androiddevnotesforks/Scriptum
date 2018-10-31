@@ -37,7 +37,7 @@
                         tools:checked="true"/>
 
                 <ImageView
-                        android:id="@+id/click_view"
+                        android:id="@+id/click_image"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
                         android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>

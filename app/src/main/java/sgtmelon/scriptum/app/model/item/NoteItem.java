@@ -26,30 +26,20 @@ public final class NoteItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo(name = DbAnn.NT_CR)
-    private String create;
-    @ColumnInfo(name = DbAnn.NT_CH)
-    private String change;
+    @ColumnInfo(name = DbAnn.NT_CR) private String create;
+    @ColumnInfo(name = DbAnn.NT_CH) private String change;
 
-    @ColumnInfo(name = DbAnn.NT_NM)
-    private String name = "";
-    @ColumnInfo(name = DbAnn.NT_TX)
-    private String text = "";
+    @ColumnInfo(name = DbAnn.NT_NM) private String name = "";
+    @ColumnInfo(name = DbAnn.NT_TX) private String text = "";
 
-    @ColumnInfo(name = DbAnn.NT_CL)
-    private int color;
-    @ColumnInfo(name = DbAnn.NT_TP)
-    private int type;
+    @ColumnInfo(name = DbAnn.NT_CL) private int color;
+    @ColumnInfo(name = DbAnn.NT_TP) private int type;
 
-    @ColumnInfo(name = DbAnn.NT_RK_PS)
-    private Long[] rankPs = new Long[0];
-    @ColumnInfo(name = DbAnn.NT_RK_ID)
-    private Long[] rankId = new Long[0];
+    @ColumnInfo(name = DbAnn.NT_RK_PS) private Long[] rankPs = new Long[0];
+    @ColumnInfo(name = DbAnn.NT_RK_ID) private Long[] rankId = new Long[0];
 
-    @ColumnInfo(name = DbAnn.NT_BN)
-    private boolean bin = false;
-    @ColumnInfo(name = DbAnn.NT_ST)
-    private boolean status = false;
+    @ColumnInfo(name = DbAnn.NT_BN) private boolean bin = false;
+    @ColumnInfo(name = DbAnn.NT_ST) private boolean status = false;
 
     public NoteItem() {
 
@@ -160,10 +150,10 @@ public final class NoteItem {
     }
 
     public int[] getCheck() {
-        int[] check = new int[2];
+        final int[] check = new int[2];
 
-        if (type == TypeDef.Note.roll) {
-            String[] split = text.split(StateDef.Check.divider);
+        if (type == TypeDef.roll) {
+            final String[] split = text.split(StateDef.Check.divider);
             for (int i = 0; i < 2; i++) {
                 check[i] = Integer.parseInt(split[i]);
             }
@@ -173,7 +163,7 @@ public final class NoteItem {
     }
 
     public boolean isAllCheck() {
-        int[] check = getCheck();
+        final int[] check = getCheck();
         return check[0] == check[1];
     }
 

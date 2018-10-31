@@ -51,7 +51,7 @@ public final class SheetDialog extends BottomSheetDialogFragment implements
 
         View view = inflater.inflate(layout, container, false);
         if (view == null) {
-            throw new IllegalStateException("Id error, layout view is null");
+            throw new NullPointerException("Id error, layout view is null");
         }
 
         NavigationView navigationView = view.findViewById(navigation);

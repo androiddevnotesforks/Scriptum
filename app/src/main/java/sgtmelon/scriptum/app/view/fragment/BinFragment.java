@@ -93,7 +93,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
                 .fragmentBlankModule(new FragmentBlankModule(this))
                 .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
@@ -127,7 +127,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        Toolbar toolbar = frgView.findViewById(R.id.toolbar);
+        final Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_bin));
 
         toolbar.inflateMenu(R.menu.fragment_bin);
@@ -144,7 +144,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
             return false;
         });
 
-        Menu menu = toolbar.getMenu();
+        final Menu menu = toolbar.getMenu();
         mItemClearBin = menu.findItem(R.id.clear_item);
 
         Help.Tint.menuIcon(context, mItemClearBin);
@@ -178,8 +178,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         recyclerView = frgView.findViewById(R.id.bin_recycler);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new NoteAdapter(context);
 
@@ -189,7 +188,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         recyclerView.setAdapter(adapter);
 
         optionsDialog.setOnClickListener((dialogInterface, i) -> {
-            int p = optionsDialog.getPosition();
+            final int p = optionsDialog.getPosition();
             switch (i) {
                 case OptionsDef.Bin.restore:
                     onMenuRestoreClick(p);
@@ -207,7 +206,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<NoteRepo> listNoteRepo = vm.loadData(StateDef.Bin.in);
+        final List<NoteRepo> listNoteRepo = vm.loadData(StateDef.Bin.in);
 
         adapter.setList(listNoteRepo);
         adapter.notifyDataSetChanged();
@@ -216,10 +215,10 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         bind(listNoteRepo.size());
     }
 
-    public void scrollTop(){
+    public void scrollTop() {
         Log.i(TAG, "scrollTop");
 
-        if (recyclerView != null){
+        if (recyclerView != null) {
             recyclerView.smoothScrollToPosition(0);
         }
     }
@@ -228,8 +227,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        long id = vm.getListModel().get(p).getNoteItem().getId();
-        Intent intent = NoteActivity.getIntent(context, id);
+        final long id = vm.getListModel().get(p).getNoteItem().getId();
+        final Intent intent = NoteActivity.getIntent(context, id);
 
         startActivity(intent);
     }
@@ -238,7 +237,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        String[] items = context.getResources().getStringArray(R.array.dialog_menu_bin);
+        final String[] items = context.getResources().getStringArray(R.array.dialog_menu_bin);
 
         optionsDialog.setArguments(items, p);
         optionsDialog.show(fm, DialogDef.OPTIONS);
@@ -248,8 +247,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onMenuRestoreClick(int p) {
         Log.i(TAG, "onMenuRestoreClick");
 
-        List<NoteRepo> listNoteRepo = vm.getListModel();
-        NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
+        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(context), false);
@@ -266,7 +265,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
     @Override
     public void onMenuCopyClick(int p) {
-        NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+        final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
         Help.optionsCopy(context, noteItem);
     }
 
@@ -274,8 +273,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onMenuClearClick(int p) {
         Log.i(TAG, "onMenuClearClick");
 
-        List<NoteRepo> listNoteRepo = vm.getListModel();
-        NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
+        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
         db.daoNote().delete(noteItem.getId());

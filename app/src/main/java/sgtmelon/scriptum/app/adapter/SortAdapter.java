@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,10 +26,16 @@ public final class SortAdapter extends ParentAdapter<SortItem, SortAdapter.SortH
         super(context);
     }
 
+    @Override
+    public void setList(List<SortItem> list) {
+        super.setList(list);
+        sortSt.updateEnd(list);
+    }
+
     @NonNull
     @Override
     public SortHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemSortBinding binding = DataBindingUtil.inflate(
+        final ItemSortBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.item_sort, parent, false
         );
         return new SortHolder(binding);
@@ -35,23 +43,22 @@ public final class SortAdapter extends ParentAdapter<SortItem, SortAdapter.SortH
 
     @Override
     public void onBindViewHolder(@NonNull SortHolder holder, int position) {
-        SortItem item = list.get(position);
+        final SortItem item = list.get(position);
         holder.bind(item, position, sortSt.getEnd());
     }
 
     final class SortHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ItemSortBinding binding;
-
-        private final View srClick;
+        private final View clickView;
 
         SortHolder(ItemSortBinding binding) {
             super(binding.getRoot());
 
             this.binding = binding;
 
-            srClick = itemView.findViewById(R.id.click_container);
-            srClick.setOnClickListener(this);
+            clickView = itemView.findViewById(R.id.click_container);
+            clickView.setOnClickListener(this);
         }
 
         void bind(SortItem sortItem, int position, int sortEnd) {
@@ -63,8 +70,10 @@ public final class SortAdapter extends ParentAdapter<SortItem, SortAdapter.SortH
 
         @Override
         public void onClick(View view) {
-            int p = getAdapterPosition();
-            if (p == sortSt.getEnd()) clickListener.onItemClick(view, p);
+            final int position = getAdapterPosition();
+            if (position == sortSt.getEnd()) {
+                clickListener.onItemClick(view, position);
+            }
         }
 
     }

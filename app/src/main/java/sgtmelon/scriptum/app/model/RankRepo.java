@@ -53,7 +53,7 @@ public final class RankRepo {
     }
 
     public void move(int positionOld, int positionNew) {
-        RankItem rankItem = listRank.get(positionOld);
+        final RankItem rankItem = listRank.get(positionOld);
 
         remove(positionOld);
         add(positionNew, rankItem);

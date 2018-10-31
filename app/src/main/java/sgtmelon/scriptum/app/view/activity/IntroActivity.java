@@ -37,7 +37,7 @@ public final class IntroActivity extends AppCompatActivity
     private void setupViewPager() {
         Log.i(TAG, "setupViewPager");
 
-        ViewPager viewPager = findViewById(R.id.intro_pager);
+        final ViewPager viewPager = findViewById(R.id.intro_pager);
 
         pageIndicator = findViewById(R.id.page_indicator);
         pageButtonEnd = findViewById(R.id.end_button);

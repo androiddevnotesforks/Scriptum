@@ -16,14 +16,12 @@ import sgtmelon.scriptum.office.annot.def.StateDef;
  */
 public final class NoteRepo {
 
-    @Embedded
-    private NoteItem noteItem;
+    @Embedded private NoteItem noteItem;
 
     @Relation(parentColumn = DbAnn.NT_ID, entityColumn = DbAnn.RL_ID_NT)
     private List<RollItem> listRoll;
 
-    @Ignore
-    private StatusItem statusItem;
+    @Ignore private StatusItem statusItem;
 
     public NoteRepo(NoteItem noteItem, List<RollItem> listRoll, StatusItem statusItem) {
         this.noteItem = noteItem;
@@ -56,7 +54,7 @@ public final class NoteRepo {
      */
     public void update(@StateDef.Check int rollCheck) {
         for (int i = 0; i < listRoll.size(); i++) {
-            RollItem rollItem = listRoll.get(i);
+            final RollItem rollItem = listRoll.get(i);
             rollItem.setCheck(rollCheck == StateDef.Check.done);
             listRoll.set(i, rollItem);
         }

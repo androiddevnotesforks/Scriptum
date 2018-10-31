@@ -38,7 +38,7 @@ public final class IntroFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
                 .fragmentBlankModule(new FragmentBlankModule(this))
                 .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();

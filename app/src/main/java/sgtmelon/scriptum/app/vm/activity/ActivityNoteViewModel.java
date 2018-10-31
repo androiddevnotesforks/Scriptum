@@ -37,7 +37,6 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
 
     public ActivityNoteViewModel(@NonNull Application application) {
         super(application);
-
         context = application.getApplicationContext();
     }
 
@@ -83,13 +82,13 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         db = RoomDb.provideDb(context);
         rankVisible = db.daoRank().getRankVisible();
         if (ntCreate) {
-            String create = Help.Time.getCurrentTime(context);
+            final String create = Help.Time.getCurrentTime(context);
 
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-            int color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final int color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
 
-            NoteItem noteItem = new NoteItem(create, color, ntType);
-            StatusItem statusItem = new StatusItem(context, noteItem, false);
+            final NoteItem noteItem = new NoteItem(create, color, ntType);
+            final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
             noteRepo = new NoteRepo(noteItem, new ArrayList<>(), statusItem);
 

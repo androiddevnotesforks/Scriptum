@@ -37,14 +37,14 @@ public abstract class RankDao extends BaseDao {
     abstract List<RankItem> getSimple();
 
     private List<RankItem> getComplex() {
-        List<RankItem> listRank = getSimple();
+        final List<RankItem> listRank = getSimple();
 
         for (int i = 0; i < listRank.size(); i++) {
-            RankItem rankItem = listRank.get(i);
-            Long[] idNote = rankItem.getIdNote();
+            final RankItem rankItem = listRank.get(i);
+            final Long[] idNote = rankItem.getIdNote();
 
-            rankItem.setTextCount(getNoteCount(TypeDef.Note.text, idNote));
-            rankItem.setRollCount(getNoteCount(TypeDef.Note.roll, idNote));
+            rankItem.setTextCount(getNoteCount(TypeDef.text, idNote));
+            rankItem.setRollCount(getNoteCount(TypeDef.roll, idNote));
 
             listRank.set(i, rankItem);
         }
@@ -53,10 +53,10 @@ public abstract class RankDao extends BaseDao {
     }
 
     public RankRepo get() {
-        List<RankItem> listRank = getComplex();
+        final List<RankItem> listRank = getComplex();
 
-        List<String> listName = new ArrayList<>();
-        for (RankItem item: listRank) {
+        final List<String> listName = new ArrayList<>();
+        for (RankItem item : listRank) {
             listName.add(item.getName().toUpperCase());
         }
 
@@ -64,15 +64,15 @@ public abstract class RankDao extends BaseDao {
     }
 
     /**
-     * @param name - уникальное имя категории
-     * @return - модель категории
+     * @param name - Уникальное имя категории
+     * @return - Модель категории
      */
     @Query("SELECT * FROM RANK_TABLE " +
             "WHERE RK_NAME = :name")
     abstract RankItem get(String name);
 
     /**
-     * @return - лист с именами в высоком регистре
+     * @return - Лист с именами в высоком регистре
      */
     @Query("SELECT UPPER(RK_NAME) FROM RANK_TABLE " +
             "ORDER BY RK_POSITION")
@@ -87,11 +87,11 @@ public abstract class RankDao extends BaseDao {
     public abstract Long[] getId();
 
     public boolean[] getCheck(Long[] id) {
-        List<RankItem> listRank = getSimple();
+        final List<RankItem> listRank = getSimple();
 
-        boolean[] check = new boolean[listRank.size()];
+        final boolean[] check = new boolean[listRank.size()];
         for (int i = 0; i < listRank.size(); i++) {
-            RankItem rankItem = listRank.get(i);
+            final RankItem rankItem = listRank.get(i);
             check[i] = Arrays.asList(id).contains(rankItem.getId());
         }
 
@@ -101,17 +101,17 @@ public abstract class RankDao extends BaseDao {
     /**
      * Добавление или удаление id заметки к категорииё
      *
-     * @param noteId - id заметки
-     * @param rankId - id категорий принадлежащих каметке
+     * @param noteId - Id заметки
+     * @param rankId - Id категорий принадлежащих каметке
      */
     public void update(long noteId, Long[] rankId) {
-        List<RankItem> listRank = getSimple();
-        boolean[] check = getCheck(rankId);
+        final List<RankItem> listRank = getSimple();
+        final boolean[] check = getCheck(rankId);
 
         for (int i = 0; i < listRank.size(); i++) {
-            RankItem rankItem = listRank.get(i);
+            final RankItem rankItem = listRank.get(i);
 
-            List<Long> rkIdNt = ListConv.toList(rankItem.getIdNote());
+            final List<Long> rkIdNt = ListConv.toList(rankItem.getIdNote());
             if (check[i]) {
                 if (!rkIdNt.contains(noteId)) rkIdNt.add(noteId);
             } else {
@@ -129,21 +129,21 @@ public abstract class RankDao extends BaseDao {
     public abstract void update(RankItem rankItem);
 
     /**
-     * @param startDrag - начальная позиция обновления
-     * @param endDrag   - конечная позиция обновления
+     * @param startDrag - Начальная позиция обновления
+     * @param endDrag   - Конечная позиция обновления
      */
     public List<RankItem> update(int startDrag, int endDrag) {
-        boolean startFirst = startDrag < endDrag;
+        final boolean startFirst = startDrag < endDrag;
 
-        int iStart = startFirst ? startDrag : endDrag;
-        int iEnd = startFirst ? endDrag : startDrag;
-        int iAdd = startFirst ? -1 : 1;
+        final int iStart = startFirst ? startDrag : endDrag;
+        final int iEnd = startFirst ? endDrag : startDrag;
+        final int iAdd = startFirst ? -1 : 1;
 
-        List<RankItem> listRank = getComplex();
-        List<Long> idNote = new ArrayList<>();
+        final List<RankItem> listRank = getComplex();
+        final List<Long> idNote = new ArrayList<>();
 
         for (int i = iStart; i <= iEnd; i++) {
-            RankItem rankItem = listRank.get(i);
+            final RankItem rankItem = listRank.get(i);
 
             for (long id : rankItem.getIdNote()) {
                 if (!idNote.contains(id)) {
@@ -151,10 +151,10 @@ public abstract class RankDao extends BaseDao {
                 }
             }
 
-            boolean start = i == startDrag;
-            boolean end = i == endDrag;
+            final boolean start = i == startDrag;
+            final boolean end = i == endDrag;
 
-            int newPosition = start ? endDrag : i + iAdd;
+            final int newPosition = start ? endDrag : i + iAdd;
             rankItem.setPosition(newPosition);
 
             if (startFirst) {
@@ -181,14 +181,14 @@ public abstract class RankDao extends BaseDao {
     }
 
     /**
-     * @param position - позиция удаления категории
+     * @param position - Позиция удаления категории
      */
     public void update(int position) {
-        List<RankItem> listRank = getSimple();
-        List<Long> idNote = new ArrayList<>();
+        final List<RankItem> listRank = getSimple();
+        final List<Long> idNote = new ArrayList<>();
 
         for (int i = position; i < listRank.size(); i++) {
-            RankItem rankItem = listRank.get(i);
+            final RankItem rankItem = listRank.get(i);
 
             for (long id : rankItem.getIdNote()) {
                 if (!idNote.contains(id)) {
@@ -205,23 +205,23 @@ public abstract class RankDao extends BaseDao {
     }
 
     /**
-     * @param idNote   - id заметок, которые нужно обновить
-     * @param listRank - новый список категорий, с новыми позициями у категорий
+     * @param idNote   - Id заметок, которые нужно обновить
+     * @param listRank - Новый список категорий, с новыми позициями у категорий
      */
     private void update(List<Long> idNote, List<RankItem> listRank) {
-        List<NoteItem> listNote = getNote(idNote);
+        final List<NoteItem> listNote = getNote(idNote);
 
         for (int i = 0; i < listNote.size(); i++) {
-            NoteItem noteItem = listNote.get(i);
+            final NoteItem noteItem = listNote.get(i);
 
-            Long[] idOld = noteItem.getRankId();
-            Long[] idNew = new Long[idOld.length];
-            Long[] psNew = new Long[idOld.length];
+            final Long[] idOld = noteItem.getRankId();
+            final Long[] idNew = new Long[idOld.length];
+            final Long[] psNew = new Long[idOld.length];
 
             int p = 0;
             for (RankItem rankItem : listRank) {
-                long id = rankItem.getId();
-                long ps = rankItem.getPosition();
+                final long id = rankItem.getId();
+                final long ps = rankItem.getPosition();
 
                 if (Arrays.asList(idOld).contains(id)) {
                     idNew[p] = id;
@@ -242,9 +242,9 @@ public abstract class RankDao extends BaseDao {
     abstract void delete(RankItem rankItem);
 
     public void delete(String name) {
-        RankItem rankItem = get(name);
+        final RankItem rankItem = get(name);
 
-        Long[] idNote = rankItem.getIdNote();
+        final Long[] idNote = rankItem.getIdNote();
         if (idNote.length != 0) {
             updateNote(idNote, rankItem.getId());
         }
@@ -253,13 +253,13 @@ public abstract class RankDao extends BaseDao {
     }
 
     public void listAll(TextView textView) {
-        List<RankItem> listRank = getSimple();
+        final List<RankItem> listRank = getSimple();
 
-        String annotation = "Rank Data Base: ";
+        final String annotation = "Rank Data Base: ";
         textView.setText(annotation);
 
         for (int i = 0; i < listRank.size(); i++) {
-            RankItem rankItem = listRank.get(i);
+            final RankItem rankItem = listRank.get(i);
 
             textView.append("\n\n" +
                     "ID: " + rankItem.getId() + " | " +

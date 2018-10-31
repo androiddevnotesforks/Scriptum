@@ -26,10 +26,9 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
 
     // TODO: 07.10.2018 От частного к общему
 
+    private final List<SortItem> listSort = new ArrayList<>();
     private String init, keys;
     private String[] text;
-
-    private List<SortItem> listSort;
     private SortAdapter adapter;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
@@ -90,42 +89,39 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle arg = getArguments();
-
+        final Bundle bundle = getArguments();
         if (savedInstanceState != null) {
             init = savedInstanceState.getString(DialogAnn.INIT);
             keys = savedInstanceState.getString(DialogAnn.VALUE);
-        } else if (arg != null) {
-            init = arg.getString(DialogAnn.INIT);
-            keys = arg.getString(DialogAnn.VALUE);
+        } else if (bundle != null) {
+            init = bundle.getString(DialogAnn.INIT);
+            keys = bundle.getString(DialogAnn.VALUE);
         }
 
         text = getResources().getStringArray(R.array.pref_sort_text);
 
-        RecyclerView recyclerView = new RecyclerView(context);
+        final RecyclerView recyclerView = new RecyclerView(context);
 
-        int padding = context.getResources().getInteger(R.integer.dlg_recycler_padding);
+        final int padding = context.getResources().getInteger(R.integer.dlg_recycler_padding);
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new SortAdapter(context);
         recyclerView.setAdapter(adapter);
         adapter.setClickListener(this);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
-        SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
+        final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
         if (animator != null) animator.setSupportsChangeAnimations(false);
 
-        listSort = new ArrayList<>();
-        String[] keysArr = keys.split(SortDef.divider);
+        final String[] keysArr = keys.split(SortDef.divider);
         for (String aKey : keysArr) {
-            @SortDef int key = Integer.parseInt(aKey);
-            SortItem sortItem = new SortItem(text[key], key);
+            final int key = Integer.parseInt(aKey);
+            final SortItem sortItem = new SortItem(text[key], key);
             listSort.add(sortItem);
         }
 
@@ -167,9 +163,9 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
 
     @Override
     public void onItemClick(View view, int p) {
-        SortItem sortItem = listSort.get(p);
+        final SortItem sortItem = listSort.get(p);
 
-        @SortDef int key = sortItem.getKey() == SortDef.create
+        final int key = sortItem.getKey() == SortDef.create
                 ? SortDef.change
                 : SortDef.create;
 

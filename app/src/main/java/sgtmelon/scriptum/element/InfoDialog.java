@@ -25,9 +25,9 @@ public final class InfoDialog extends DialogBlank implements View.OnClickListene
             click = savedInstanceState.getInt(DialogAnn.VALUE);
         }
 
-        View view = LayoutInflater.from(context).inflate(R.layout.view_about, null);
+        final View view = LayoutInflater.from(context).inflate(R.layout.view_about, null);
 
-        ImageView logo = view.findViewById(R.id.logo_image);
+        final ImageView logo = view.findViewById(R.id.logo_image);
         logo.setOnClickListener(this);
 
         return new AlertDialog.Builder(context)

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.app.control;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
@@ -15,35 +16,36 @@ import sgtmelon.scriptum.office.intf.MenuIntf;
 public final class SaveControl {
 
     private final Context context;
-    private final SharedPreferences pref;
 
-    private Handler saveHandler;
-    private Runnable saveRunnable;
+    private final Handler saveHandler = new Handler();
+    private final boolean saveAuto;
+    private final boolean savePause;
 
     private int saveTime;
     private MenuIntf.Note.NoteMenuClick noteMenuClick;
 
+    private final Runnable saveRunnable = () -> {
+        onSave();
+        startSaveHandler();
+    };
+
     /**
-     * Пауза срабатывает не только при сворачивании
-     * (если закрыли активность например)
+     * Пауза срабатывает не только при сворачивании (если закрыли активность например)
      */
     private boolean needSave = true;
 
     public SaveControl(Context context) {
         this.context = context;
-        this.pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-        boolean saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_auto_save_default));
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        final Resources resources = context.getResources();
+
+        saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), resources.getBoolean(R.bool.pref_auto_save_default));
+        savePause = pref.getBoolean(context.getString(R.string.pref_key_pause_save), resources.getBoolean(R.bool.pref_pause_save_default));
 
         if (saveAuto) {
-            saveHandler = new Handler();
-            saveRunnable = () -> {
-                onSave();
-                startSaveHandler();
-            };
-
-            int[] saveTimeArr = context.getResources().getIntArray(R.array.pref_save_time_value);
-            int saveTimeSelect = pref.getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_save_time_default));
+            final int[] saveTimeArr = resources.getIntArray(R.array.pref_save_time_value);
+            final int saveTimeSelect = pref.getInt(context.getString(R.string.pref_key_save_time), resources.getInteger(R.integer.pref_save_time_default));
 
             saveTime = saveTimeArr[saveTimeSelect];
         }
@@ -63,11 +65,11 @@ public final class SaveControl {
     }
 
     private void startSaveHandler() {
-        if (saveHandler != null) saveHandler.postDelayed(saveRunnable, saveTime);
+        if (saveAuto) saveHandler.postDelayed(saveRunnable, saveTime);
     }
 
     private void stopSaveHandler() {
-        if (saveHandler != null) saveHandler.removeCallbacks(saveRunnable);
+        if (saveAuto) saveHandler.removeCallbacks(saveRunnable);
     }
 
     private void onSave() {
@@ -81,10 +83,11 @@ public final class SaveControl {
     public void onPauseSave(boolean keyEdit) {
         stopSaveHandler();
 
-        boolean onPauseSave = pref.getBoolean(context.getString(R.string.pref_key_pause_save), context.getResources().getBoolean(R.bool.pref_pause_save_default));
-
-        if (needSave && keyEdit && onPauseSave) onSave();
-        else needSave = true;
+        if (needSave && keyEdit && savePause) {
+            onSave();
+        } else {
+            needSave = true;
+        }
     }
 
 }

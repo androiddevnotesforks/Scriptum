@@ -15,6 +15,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -67,6 +68,7 @@ public abstract class NoteFragmentParent extends Fragment
     @Inject
     @Named(DialogDef.RANK)
     MultiplyDialog dlgRank;
+
     private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
 
     @Override
@@ -75,19 +77,20 @@ public abstract class NoteFragmentParent extends Fragment
         super.onAttach(context);
 
         this.context = context;
-
         activity = getActivity();
 
         if (context instanceof NoteCallback) {
             noteCallback = (NoteCallback) context;
         } else {
-            throw new IllegalStateException("NoteCallback interface not installed in " + TAG);
+            throw new ClassCastException(NoteCallback.class.getSimpleName() +
+                    " interface not installed in " + TAG);
         }
 
         if (context instanceof MenuIntf.Note.DeleteMenuClick) {
             deleteMenuClick = (MenuIntf.Note.DeleteMenuClick) context;
         } else {
-            throw new IllegalStateException("MenuIntf.Note.DeleteMenuClick interface not installed in " + TAG);
+            throw new ClassCastException(MenuIntf.Note.DeleteMenuClick.class.getSimpleName() +
+                    " interface not installed in " + TAG);
         }
 
     }
@@ -98,7 +101,7 @@ public abstract class NoteFragmentParent extends Fragment
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
                 .fragmentBlankModule(new FragmentBlankModule(this))
                 .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
@@ -109,6 +112,7 @@ public abstract class NoteFragmentParent extends Fragment
 
     protected abstract void bind(boolean keyEdit);
 
+    @CallSuper
     protected void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
@@ -144,6 +148,7 @@ public abstract class NoteFragmentParent extends Fragment
         toolbar.setNavigationOnClickListener(this);
     }
 
+    @CallSuper
     protected void setupDialog() {
         Log.i(TAG, "setupDialog");
 
@@ -194,24 +199,24 @@ public abstract class NoteFragmentParent extends Fragment
         });
     }
 
-    public MenuControl getMenuControl() {
+    public final MenuControl getMenuControl() {
         return menuControl;
     }
 
-    public void setMenuControl(MenuControl menuControl) {
+    public final void setMenuControl(MenuControl menuControl) {
         this.menuControl = menuControl;
     }
 
-    public FragmentNoteViewModel getViewModel() {
+    public final FragmentNoteViewModel getViewModel() {
         return vm;
     }
 
-    public void setViewModel(FragmentNoteViewModel viewModel) {
+    public final void setViewModel(FragmentNoteViewModel viewModel) {
         vm = viewModel;
     }
 
     @Override
-    public void onMenuRankClick() {
+    public final void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
@@ -227,7 +232,7 @@ public abstract class NoteFragmentParent extends Fragment
     }
 
     @Override
-    public void onMenuColorClick() {
+    public final void onMenuColorClick() {
         Log.i(TAG, "onMenuColorClick");
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
@@ -241,7 +246,7 @@ public abstract class NoteFragmentParent extends Fragment
     }
 
     @Override
-    public void onMenuBindClick() {
+    public final void onMenuBindClick() {
         Log.i(TAG, "onMenuBindClick");
 
         NoteRepo noteRepo = vm.getNoteRepo();
@@ -271,7 +276,7 @@ public abstract class NoteFragmentParent extends Fragment
     }
 
     @Override
-    public void onMenuConvertClick() {
+    public final void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
         dlgConvert.show(fm, DialogDef.CONVERT);

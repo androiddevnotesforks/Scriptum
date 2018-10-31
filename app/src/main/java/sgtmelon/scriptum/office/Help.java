@@ -50,10 +50,10 @@ public final class Help {
         }
 
         switch (noteItem.getType()) {
-            case TypeDef.Note.text:
+            case TypeDef.text:
                 copyText += noteItem.getText();     //В зависимости от типа составляем текст
                 break;
-            case TypeDef.Note.roll:
+            case TypeDef.roll:
                 RoomDb db = RoomDb.provideDb(context);
                 copyText = db.daoRoll().getText(noteItem.getId());
                 db.close();

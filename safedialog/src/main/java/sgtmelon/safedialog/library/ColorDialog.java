@@ -24,41 +24,40 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
     private int columnCount;
 
     public void setArguments(int check) {
-        Bundle arg = new Bundle();
+        final Bundle bundle = new Bundle();
 
-        arg.putInt(DialogAnn.INIT, check);
-        arg.putInt(DialogAnn.VALUE, check);
+        bundle.putInt(DialogAnn.INIT, check);
+        bundle.putInt(DialogAnn.VALUE, check);
 
-        setArguments(arg);
+        setArguments(bundle);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle arg = getArguments();
-
+        final Bundle bundle = getArguments();
         if (savedInstanceState != null) {
             init = savedInstanceState.getInt(DialogAnn.INIT);
             check = savedInstanceState.getInt(DialogAnn.VALUE);
-        } else if (arg != null) {
-            init = arg.getInt(DialogAnn.INIT);
-            check = arg.getInt(DialogAnn.VALUE);
+        } else if (bundle != null) {
+            init = bundle.getInt(DialogAnn.INIT);
+            check = bundle.getInt(DialogAnn.VALUE);
         }
 
-        RecyclerView recyclerView = new RecyclerView(context);
+        final RecyclerView recyclerView = new RecyclerView(context);
 
-        int padding = 24;
+        final int padding = 24;
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
+        final GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
         recyclerView.setLayoutManager(layoutManager);
 
-        ColorAdapter adapter = new ColorAdapter(context, check, icons, colors);
+        final ColorAdapter adapter = new ColorAdapter(context, check, icons, colors);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
+        final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
         if (animator != null) animator.setSupportsChangeAnimations(false);
 
         return new AlertDialog.Builder(context)
@@ -97,9 +96,7 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
     @Override
     protected void setEnable() {
         super.setEnable();
-
-        if (init == check) buttonPositive.setEnabled(false);
-        else buttonPositive.setEnabled(true);
+        buttonPositive.setEnabled(init != check);
     }
 
     @Override

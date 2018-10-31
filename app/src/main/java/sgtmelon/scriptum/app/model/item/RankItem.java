@@ -20,20 +20,14 @@ public final class RankItem {
     @ColumnInfo(name = DbAnn.RK_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @ColumnInfo(name = DbAnn.RK_ID_NT)
-    private Long[] idNote = new Long[0];
 
-    @ColumnInfo(name = DbAnn.RK_PS)
-    private int position;
-    @ColumnInfo(name = DbAnn.RK_NM)
-    private String name;
-    @ColumnInfo(name = DbAnn.RK_VS)
-    private boolean visible = true;
+    @ColumnInfo(name = DbAnn.RK_ID_NT) private Long[] idNote = new Long[0];
+    @ColumnInfo(name = DbAnn.RK_PS) private int position;
+    @ColumnInfo(name = DbAnn.RK_NM) private String name;
+    @ColumnInfo(name = DbAnn.RK_VS) private boolean visible = true;
 
-    @Ignore
-    private int textCount = 0;
-    @Ignore
-    private int rollCount = 0;
+    @Ignore private int textCount = 0;
+    @Ignore private int rollCount = 0;
 
     public RankItem() {
 

@@ -48,7 +48,7 @@ public final class NoteActivity extends BaseActivityParent
     private RollFragment rollFragment;
 
     public static Intent getIntent(Context context, int type) {
-        Intent intent = new Intent(context, NoteActivity.class);
+        final Intent intent = new Intent(context, NoteActivity.class);
 
         intent.putExtra(IntentDef.NOTE_CREATE, true);
         intent.putExtra(IntentDef.NOTE_TYPE, type);
@@ -57,7 +57,7 @@ public final class NoteActivity extends BaseActivityParent
     }
 
     public static Intent getIntent(Context context, long id) {
-        Intent intent = new Intent(context, NoteActivity.class);
+        final Intent intent = new Intent(context, NoteActivity.class);
 
         intent.putExtra(IntentDef.NOTE_CREATE, false);
         intent.putExtra(IntentDef.NOTE_ID, id);
@@ -79,12 +79,12 @@ public final class NoteActivity extends BaseActivityParent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        ActivityComponent activityComponent = DaggerActivityComponent.builder()
+        final ActivityComponent activityComponent = DaggerActivityComponent.builder()
                 .activityBlankModule(new ActivityBlankModule(this))
                 .build();
         activityComponent.inject(this);
 
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         vm.setValue(bundle != null ? bundle : savedInstanceState);
 
         saveControl = new SaveControl(this);
@@ -115,12 +115,12 @@ public final class NoteActivity extends BaseActivityParent
             FragmentNoteViewModel viewModel;
             MenuControl menuControl;
             switch (noteItem.getType()) {
-                case TypeDef.Note.text:
+                case TypeDef.text:
                     if (!textFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         menuControl = textFragment.getMenuControl();
                         menuControl.setStartColor(noteItem.getColor());
 
-                        NoteRepo noteRepo = vm.loadData(noteItem.getId());
+                        final NoteRepo noteRepo = vm.loadData(noteItem.getId());
                         noteItem = noteRepo.getNoteItem();
 
                         viewModel = textFragment.getViewModel();
@@ -133,12 +133,12 @@ public final class NoteActivity extends BaseActivityParent
                         textFragment.onMenuEditClick(false);
                     }
                     break;
-                case TypeDef.Note.roll:
+                case TypeDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         menuControl = rollFragment.getMenuControl();
                         menuControl.setStartColor(noteItem.getColor());
 
-                        NoteRepo noteRepo = vm.loadData(noteItem.getId());
+                        final NoteRepo noteRepo = vm.loadData(noteItem.getId());
                         noteItem = noteRepo.getNoteItem();
 
                         viewModel = rollFragment.getViewModel();
@@ -155,10 +155,10 @@ public final class NoteActivity extends BaseActivityParent
             }
         } else if (noteSt.isCreate()) {     //Если только что создали заметку
             switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
-                case TypeDef.Note.text:
+                case TypeDef.text:
                     if (!textFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
-                case TypeDef.Note.roll:
+                case TypeDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
             }
@@ -170,16 +170,16 @@ public final class NoteActivity extends BaseActivityParent
         Log.i(TAG, "setupFragment");
 
         if (!isSave) {
-            NoteSt noteSt = vm.getNoteSt();
+            final NoteSt noteSt = vm.getNoteSt();
             noteSt.setFirst(true);
             vm.setNoteSt(noteSt);
         }
 
-        FragmentTransaction transaction = fm.beginTransaction();
+        final FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         switch (vm.getNoteRepo().getNoteItem().getType()) {
-            case TypeDef.Note.text:
+            case TypeDef.text:
                 if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
                 else textFragment = new TextFragment();
 
@@ -187,7 +187,7 @@ public final class NoteActivity extends BaseActivityParent
 
                 transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
-            case TypeDef.Note.roll:
+            case TypeDef.roll:
                 if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
                 else rollFragment = new RollFragment();
 
@@ -234,13 +234,13 @@ public final class NoteActivity extends BaseActivityParent
     public void onMenuRestoreOpenClick() {
         Log.i(TAG, "onMenuRestoreOpenClick");
 
-        NoteSt noteSt = vm.getNoteSt();
+        final NoteSt noteSt = vm.getNoteSt();
         noteSt.setBin(false);
 
         vm.setNoteSt(noteSt);
 
-        NoteRepo noteRepo = vm.getNoteRepo();
-        NoteItem noteItem = noteRepo.getNoteItem();
+        final NoteRepo noteRepo = vm.getNoteRepo();
+        final NoteItem noteItem = noteRepo.getNoteItem();
 
         noteItem.setChange(Help.Time.getCurrentTime(this));
         noteItem.setBin(false);
@@ -255,7 +255,7 @@ public final class NoteActivity extends BaseActivityParent
         FragmentNoteViewModel viewModel;
         MenuControl menuControl;
         switch (vm.getNoteRepo().getNoteItem().getType()) {
-            case TypeDef.Note.text:
+            case TypeDef.text:
                 viewModel = textFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
                 textFragment.setViewModel(viewModel);
@@ -264,7 +264,7 @@ public final class NoteActivity extends BaseActivityParent
                 menuControl.setMenuGroupVisible(false, false, true);
                 textFragment.setMenuControl(menuControl);
                 break;
-            case TypeDef.Note.roll:
+            case TypeDef.roll:
                 viewModel = rollFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
                 rollFragment.setViewModel(viewModel);
@@ -293,7 +293,7 @@ public final class NoteActivity extends BaseActivityParent
     public void onMenuDeleteClick() {
         Log.i(TAG, "onMenuDeleteClick");
 
-        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         db = RoomDb.provideDb(this);
         db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(this), true);

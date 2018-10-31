@@ -17,25 +17,25 @@ public final class MultiplyDialog extends DialogBlank {
     private boolean[] init, check;
 
     public void setArguments(boolean[] check) {
-        Bundle arg = new Bundle();
+        Bundle bundle = new Bundle();
 
-        arg.putBooleanArray(DialogAnn.INIT, check.clone());
-        arg.putBooleanArray(DialogAnn.VALUE, check);
+        bundle.putBooleanArray(DialogAnn.INIT, check.clone());
+        bundle.putBooleanArray(DialogAnn.VALUE, check);
 
-        setArguments(arg);
+        setArguments(bundle);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle arg = getArguments();
+        Bundle bundle = getArguments();
 
         if (savedInstanceState != null) {
             init = savedInstanceState.getBooleanArray(DialogAnn.INIT);
             check = savedInstanceState.getBooleanArray(DialogAnn.VALUE);
-        } else if (arg != null) {
-            init = arg.getBooleanArray(DialogAnn.INIT);
-            check = arg.getBooleanArray(DialogAnn.VALUE);
+        } else if (bundle != null) {
+            init = bundle.getBooleanArray(DialogAnn.INIT);
+            check = bundle.getBooleanArray(DialogAnn.VALUE);
         }
 
         return new AlertDialog.Builder(context)

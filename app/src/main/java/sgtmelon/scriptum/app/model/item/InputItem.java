@@ -9,8 +9,8 @@ public class InputItem {
 
     // TODO: 30.10.2018 написать дефолтные значения - метки
 
-    private String tag;
-    private String value;
+    private final String tag;
+    private final String value;
 
     public InputItem(String tag, String value) {
         this.tag = tag;

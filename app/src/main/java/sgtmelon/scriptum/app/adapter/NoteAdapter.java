@@ -31,13 +31,13 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
     @NonNull
     @Override
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TypeDef.Note.text) {
-            ItemNoteTextBinding bindingText = DataBindingUtil.inflate(
+        if (viewType == TypeDef.text) {
+            final ItemNoteTextBinding bindingText = DataBindingUtil.inflate(
                     inflater, R.layout.item_note_text, parent, false
             );
             return new NoteHolder(bindingText);
         } else {
-            ItemNoteRollBinding bindingRoll = DataBindingUtil.inflate(
+            final ItemNoteRollBinding bindingRoll = DataBindingUtil.inflate(
                     inflater, R.layout.item_note_roll, parent, false
             );
             return new NoteHolder(bindingRoll);
@@ -46,7 +46,7 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
 
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
-        NoteRepo noteRepo = list.get(position);
+        final NoteRepo noteRepo = list.get(position);
         holder.bind(noteRepo.getNoteItem(), noteRepo.getListRoll());
     }
 
@@ -61,7 +61,7 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
         private final ItemNoteTextBinding bindingText;
         private final ItemNoteRollBinding bindingRoll;
 
-        private final View ntClick;
+        private final View clickView;
 
         NoteHolder(ItemNoteTextBinding bindingText) {
             super(bindingText.getRoot());
@@ -69,10 +69,10 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
             this.bindingText = bindingText;
             bindingRoll = null;
 
-            ntClick = itemView.findViewById(R.id.click_container);
+            clickView = itemView.findViewById(R.id.click_container);
 
-            ntClick.setOnClickListener(this);
-            ntClick.setOnLongClickListener(this);
+            clickView.setOnClickListener(this);
+            clickView.setOnLongClickListener(this);
         }
 
         NoteHolder(ItemNoteRollBinding bindingRoll) {
@@ -81,14 +81,14 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
             this.bindingRoll = bindingRoll;
             bindingText = null;
 
-            ntClick = itemView.findViewById(R.id.click_container);
+            clickView = itemView.findViewById(R.id.click_container);
 
-            ntClick.setOnClickListener(this);
-            ntClick.setOnLongClickListener(this);
+            clickView.setOnClickListener(this);
+            clickView.setOnLongClickListener(this);
         }
 
         void bind(NoteItem noteItem, List<RollItem> listRoll) {
-            if (noteItem.getType() == TypeDef.Note.text) {
+            if (noteItem.getType() == TypeDef.text) {
                 bindingText.setNoteItem(noteItem);
 
                 bindingText.executePendingBindings();

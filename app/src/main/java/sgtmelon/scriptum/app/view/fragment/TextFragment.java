@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
-        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
                 .fragmentBlankModule(new FragmentBlankModule(this))
                 .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
@@ -62,25 +60,20 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         if (vm.isEmpty()) vm.setNoteRepo(viewModel.getNoteRepo());
 
         setupToolbar();
         setupDialog();
         setupEnter();
 
-        NoteSt noteSt = viewModel.getNoteSt();
+        final NoteSt noteSt = viewModel.getNoteSt();
 
         onMenuEditClick(noteSt.isEdit());
 
         noteSt.setFirst(false);
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
-
-        ImageView attach = frgView.findViewById(R.id.attach_button);
-        attach.setOnClickListener(view -> {
-            Toast.makeText(context, "attach", Toast.LENGTH_SHORT).show();
-        });
     }
 
     @Override
@@ -100,15 +93,15 @@ public final class TextFragment extends NoteFragmentParent {
 
         dlgConvert.setMessage(getString(R.string.dialog_text_convert_to_roll));
         dlgConvert.setPositiveListener((dialogInterface, i) -> {
-            NoteRepo noteRepo = vm.getNoteRepo();
-            NoteItem noteItem = noteRepo.getNoteItem();
-            String[] textToRoll = noteItem.getText().split("\n");   //Получаем пункты списка
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
+            final String[] textToRoll = noteItem.getText().split("\n");   //Получаем пункты списка
 
             db = RoomDb.provideDb(context);
-            List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
+            final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
             noteItem.setChange(Help.Time.getCurrentTime(context));
-            noteItem.setType(TypeDef.Note.roll);
+            noteItem.setType(TypeDef.roll);
             noteItem.setText(0, listRoll.size());
 
             db.daoNote().update(noteItem);
@@ -119,7 +112,7 @@ public final class TextFragment extends NoteFragmentParent {
 
             vm.setNoteRepo(noteRepo);
 
-            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+            final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
             viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
 
@@ -151,8 +144,8 @@ public final class TextFragment extends NoteFragmentParent {
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        NoteSt noteSt = viewModel.getNoteSt();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
 
         NoteRepo noteRepo = vm.getNoteRepo();
         NoteItem noteItem = noteRepo.getNoteItem();
@@ -175,7 +168,7 @@ public final class TextFragment extends NoteFragmentParent {
 
             menuControl.startTint(noteItem.getColor());
         } else {
-            SaveControl saveControl = noteCallback.getSaveControl();
+            final SaveControl saveControl = noteCallback.getSaveControl();
             saveControl.setNeedSave(false);
             noteCallback.setSaveControl(saveControl);
 
@@ -187,8 +180,8 @@ public final class TextFragment extends NoteFragmentParent {
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
-        NoteRepo noteRepo = vm.getNoteRepo();
-        NoteItem noteItem = noteRepo.getNoteItem();
+        final NoteRepo noteRepo = vm.getNoteRepo();
+        final NoteItem noteItem = noteRepo.getNoteItem();
         if (!noteItem.getText().equals("")) {
             noteItem.setChange(Help.Time.getCurrentTime(context));
 
@@ -199,8 +192,8 @@ public final class TextFragment extends NoteFragmentParent {
 
             db = RoomDb.provideDb(context);
 
-            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-            NoteSt noteSt = viewModel.getNoteSt();
+            final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+            final NoteSt noteSt = viewModel.getNoteSt();
             if (noteSt.isCreate()) {
                 noteSt.setCreate(false);
                 viewModel.setNoteSt(noteSt);
@@ -209,8 +202,8 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.setDrawable(true, true);
                 }
 
-                long ntId = db.daoNote().insert(noteItem);
-                noteItem.setId(ntId);
+                final long id = db.daoNote().insert(noteItem);
+                noteItem.setId(id);
             } else {
                 db.daoNote().update(noteItem);
             }
@@ -231,8 +224,8 @@ public final class TextFragment extends NoteFragmentParent {
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        NoteSt noteSt = viewModel.getNoteSt();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
         noteSt.setEdit(editMode);
 
         menuControl.setDrawable(editMode && !noteSt.isCreate(),
@@ -244,7 +237,7 @@ public final class TextFragment extends NoteFragmentParent {
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
 
-        SaveControl saveControl = noteCallback.getSaveControl();
+        final SaveControl saveControl = noteCallback.getSaveControl();
         saveControl.setSaveHandlerEvent(editMode);
         noteCallback.setSaveControl(saveControl);
     }

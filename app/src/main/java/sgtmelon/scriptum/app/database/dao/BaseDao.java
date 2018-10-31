@@ -70,19 +70,19 @@ abstract class BaseDao {
      * @param rankId - Id категории, которую удалили
      */
     void updateNote(Long[] noteId, long rankId) {
-        List<NoteItem> listNote = getNote(noteId);
+        final  List<NoteItem> listNote = getNote(noteId);
 
         for (int i = 0; i < listNote.size(); i++) {
-            NoteItem noteItem = listNote.get(i);
+            final NoteItem noteItem = listNote.get(i);
 
             //Убирает из массивов ненужную категорию по id
             Long[] id = noteItem.getRankId();
             Long[] ps = noteItem.getRankPs();
 
-            List<Long> rankIdList = ListConv.toList(id);
-            List<Long> rankPsList = ListConv.toList(ps);
+            final List<Long> rankIdList = ListConv.toList(id);
+            final List<Long> rankPsList = ListConv.toList(ps);
 
-            int index = rankIdList.indexOf(rankId);
+            final int index = rankIdList.indexOf(rankId);
 
             rankIdList.remove(index);
             rankPsList.remove(index);
@@ -137,14 +137,14 @@ abstract class BaseDao {
      * @param rankId - Массив из id категорий, принадлежащих заметке
      */
     void clearRank(long noteId, Long[] rankId) {
-        List<RankItem> listRank = getRank(rankId);
+        final List<RankItem> listRank = getRank(rankId);
 
         for (int i = 0; i < listRank.size(); i++) {
             RankItem rankItem = listRank.get(i);
 
             //Убирает из массива необходимую дату создания заметки
             Long[] id = rankItem.getIdNote();
-            List<Long> createList = ListConv.toList(id);
+            final List<Long> createList = ListConv.toList(id);
             createList.remove(noteId);
             id = ListConv.fromList(createList);
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.Button;
 
+import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -42,14 +43,12 @@ public class DialogBlank extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         this.context = context;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
         setEnable();
     }
 
@@ -60,26 +59,27 @@ public class DialogBlank extends DialogFragment {
         if (dismissListener != null) dismissListener.onDismiss(dialog);
     }
 
-    public void setTitle(String title) {
+    public final void setTitle(String title) {
         this.title = title;
     }
 
-    public void setMessage(String message) {
+    public final void setMessage(String message) {
         this.message = message;
     }
 
-    public void setPositiveListener(DialogInterface.OnClickListener positiveListener) {
+    public final void setPositiveListener(DialogInterface.OnClickListener positiveListener) {
         this.positiveListener = positiveListener;
     }
 
-    public void setNeutralListener(DialogInterface.OnClickListener neutralListener) {
+    public final void setNeutralListener(DialogInterface.OnClickListener neutralListener) {
         this.neutralListener = neutralListener;
     }
 
-    public void setDismissListener(DialogInterface.OnDismissListener dismissListener) {
+    public final void setDismissListener(DialogInterface.OnDismissListener dismissListener) {
         this.dismissListener = dismissListener;
     }
 
+    @CallSuper
     protected void setEnable() {
         AlertDialog dialog = (AlertDialog) getDialog();
         buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);

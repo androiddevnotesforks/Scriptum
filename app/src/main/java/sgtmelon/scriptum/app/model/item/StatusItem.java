@@ -10,7 +10,6 @@ import android.os.Build;
 
 import java.util.List;
 
-import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import sgtmelon.scriptum.R;
@@ -38,9 +37,9 @@ public final class StatusItem {
     public StatusItem(Context context, NoteItem noteItem, boolean notify) {
         this.context = context;
 
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+        final TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
 
-        Intent intent = new Intent(context, SplashActivity.class);
+        final Intent intent = new Intent(context, SplashActivity.class);
         intent.putExtra(IntentDef.STATUS_OPEN, true);
         intent.putExtra(IntentDef.NOTE_ID, noteItem.getId());
 
@@ -54,32 +53,31 @@ public final class StatusItem {
     /**
      * Обновление информации о заметке
      *
-     * @param noteItem - модель заметки
-     * @param notify   - необходимость обновления
+     * @param noteItem - Модель заметки
+     * @param notify   - Необходимость обновления
      */
     public void updateNote(NoteItem noteItem, boolean notify) {
         this.noteItem = noteItem;
 
-        @DrawableRes int iconId = 0;
+        int icon = 0;
         String text = "";
 
         switch (noteItem.getType()) {
-            case TypeDef.Note.text:
-                iconId = R.drawable.notif_bind_text;
-
+            case TypeDef.text:
+                icon = R.drawable.notif_bind_text;
                 text = noteItem.getText();
                 break;
-            case TypeDef.Note.roll:
-                iconId = R.drawable.notif_bind_roll;
+            case TypeDef.roll:
+                icon = R.drawable.notif_bind_roll;
 
-                RoomDb db = RoomDb.provideDb(context);
+                final RoomDb db = RoomDb.provideDb(context);
                 text = db.daoRoll().getText(noteItem.getId(), noteItem.getText());
                 db.close();
                 break;
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
-                .setSmallIcon(iconId)
+        final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
+                .setSmallIcon(icon)
                 .setColor(Help.Clr.get(context, noteItem.getColor(), true))
                 .setContentTitle(noteItem.getName(context))
                 .setContentText(text)
@@ -99,7 +97,7 @@ public final class StatusItem {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.notification_channel_id), context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_DEFAULT);
+            final NotificationChannel notificationChannel = new NotificationChannel(context.getString(R.string.notification_channel_id), context.getString(R.string.notification_channel), NotificationManager.IMPORTANCE_DEFAULT);
             notificationChannel.setSound(null, null);
             notificationChannel.setVibrationPattern(null);
 
@@ -112,12 +110,12 @@ public final class StatusItem {
     /**
      * В окне редактирования заметок
      *
-     * @param noteItem  - модель заметки
-     * @param rkVisible - видимые категории
+     * @param noteItem  - Модель заметки
+     * @param rkVisible - Видимые категории
      */
     public void updateNote(NoteItem noteItem, List<Long> rkVisible) {
         if (noteItem.isStatus()) {
-            Long[] rankId = noteItem.getRankId();
+            final Long[] rankId = noteItem.getRankId();
             if (rankId.length == 0 || rkVisible.contains(rankId[0])) {
                 updateNote(noteItem, true);
             } else {

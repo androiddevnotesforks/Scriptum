@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import sgtmelon.safedialog.office.annot.DialogAnn;
 
-public class OptionsDialog extends DialogFragment implements DialogInterface.OnClickListener {
+public final class OptionsDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
     private Context context;
 

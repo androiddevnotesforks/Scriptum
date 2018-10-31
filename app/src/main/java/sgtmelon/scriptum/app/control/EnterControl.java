@@ -31,7 +31,7 @@ public final class EnterControl {
             if (position == 0) {
                 listInput.clear();
             } else {
-                List<InputItem> subListInput = listInput.subList(0, position);
+                final List<InputItem> subListInput = listInput.subList(0, position);
                 listInput.clear();
                 listInput.addAll(subListInput);
             }

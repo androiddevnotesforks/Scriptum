@@ -24,12 +24,12 @@ public final class SplashActivity extends AppCompatActivity {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
-        Bundle bundle = getIntent().getExtras();
+        final Bundle bundle = getIntent().getExtras();
         if (bundle != null && bundle.getBoolean(IntentDef.STATUS_OPEN)) {
-            Intent intentMain = new Intent(this, MainActivity.class);
+            final Intent intentMain = new Intent(this, MainActivity.class);
 
-            long id = bundle.getLong(IntentDef.NOTE_ID);
-            Intent intentNote = NoteActivity.getIntent(this, id);
+            final long id = bundle.getLong(IntentDef.NOTE_ID);
+            final Intent intentNote = NoteActivity.getIntent(this, id);
 
             startActivities(new Intent[]{intentMain, intentNote});
         } else {
@@ -42,16 +42,16 @@ public final class SplashActivity extends AppCompatActivity {
     private void startNormal() {
         Log.i(TAG, "startNormal");
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        boolean firstStart = pref.getBoolean(getString(R.string.pref_first_start),
+        final boolean firstStart = pref.getBoolean(getString(R.string.pref_first_start),
                 getResources().getBoolean(R.bool.pref_first_start_default));
 
         if (firstStart) {
             pref.edit().putBoolean(getString(R.string.pref_first_start), false).apply();
         }
 
-        Intent intent = new Intent(this, firstStart
+        final Intent intent = new Intent(this, firstStart
                 ? IntroActivity.class
                 : MainActivity.class);
 

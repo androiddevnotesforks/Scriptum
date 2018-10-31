@@ -15,7 +15,6 @@ public class BaseActivityParent extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         isThemeChange();
     }
 
@@ -34,7 +33,7 @@ public class BaseActivityParent extends AppCompatActivity {
         }
     }
 
-    public void isThemeChange() {
+    public final void isThemeChange() {
         int valTheme = Help.Pref.getTheme(this);
         if (this.valTheme != valTheme) {
             Intent intent = getIntent();

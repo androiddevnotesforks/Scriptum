@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.view.fragment;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -63,13 +64,13 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder) {
-            boolean isEdit = noteCallback.getViewModel().getNoteSt().isEdit();
+            final boolean isEdit = noteCallback.getViewModel().getNoteSt().isEdit();
 
-            int flagsDrag = isEdit && dragSt.isDrag()
+            final int flagsDrag = isEdit && dragSt.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
                     : 0;
 
-            int flagsSwipe = isEdit
+            final int flagsSwipe = isEdit
                     ? ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
                     : 0;
 
@@ -78,10 +79,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         @Override
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            int p = viewHolder.getAdapterPosition();
+            final int p = viewHolder.getAdapterPosition();
 
-            NoteRepo noteRepo = vm.getNoteRepo();
-            List<RollItem> listRoll = noteRepo.getListRoll();
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final List<RollItem> listRoll = noteRepo.getListRoll();
 
             listRoll.remove(p);
 
@@ -94,13 +95,13 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
-            int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
+            final int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
+            final int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
 
-            NoteRepo noteRepo = vm.getNoteRepo();
-            List<RollItem> listRoll = noteRepo.getListRoll();
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final List<RollItem> listRoll = noteRepo.getListRoll();
 
-            RollItem rollItem = listRoll.get(oldPs);
+            final RollItem rollItem = listRoll.get(oldPs);
             listRoll.remove(oldPs);
             listRoll.add(newPs, rollItem);
 
@@ -115,8 +116,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         @Override
         public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                float itemWidth = viewHolder.itemView.getWidth();           //Ширина плитки
-                float targetX = itemWidth / 2;                              //Конечная точка, где альфа = 0
+                final float itemWidth = viewHolder.itemView.getWidth();     //Ширина плитки
+                final float targetX = itemWidth / 2;                        //Конечная точка, где альфа = 0
 
                 float translationX;                                         //Сдвиг, между начальной точкой и конечной
                 if (dX > 0) {                                               //Сдвиг слева вправо
@@ -125,7 +126,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     translationX = Math.abs(Math.max(dX, -targetX));        //Выбираем максимальное (если dX принижает targetX, то выбираем второе)
                 }
 
-                float alpha = 1.0f - translationX / targetX;                //Значение прозрачности
+                final float alpha = 1.0f - translationX / targetX;          //Значение прозрачности
 
                 viewHolder.itemView.setAlpha((float) Math.max(alpha, 0.2)); //Установка прозрачности
             }
@@ -170,7 +171,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onResume");
         super.onResume();
 
-        String rollText = rollEnter.getText().toString();
+        final String rollText = rollEnter.getText().toString();
         Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
 
         updateAdapter();
@@ -183,7 +184,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
-        FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
+        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
                 .fragmentBlankModule(new FragmentBlankModule(this))
                 .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
@@ -199,7 +200,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         if (vm.isEmpty()) vm.setNoteRepo(viewModel.getNoteRepo());
 
         setupToolbar();
@@ -208,7 +209,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         setupPanel();
         setupEnter();
 
-        NoteSt noteSt = viewModel.getNoteSt();
+        final NoteSt noteSt = viewModel.getNoteSt();
 
         onMenuEditClick(noteSt.isEdit());
 
@@ -234,14 +235,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         dlgConvert.setMessage(getString(R.string.dialog_roll_convert_to_text));
         dlgConvert.setPositiveListener((dialogInterface, i) -> {
-            NoteRepo noteRepo = vm.getNoteRepo();
-            NoteItem noteItem = noteRepo.getNoteItem();
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
 
             db = RoomDb.provideDb(context);
 
-            String text = db.daoRoll().getText(noteItem.getId());
+            final String text = db.daoRoll().getText(noteItem.getId());
             noteItem.setChange(Help.Time.getCurrentTime(context));
-            noteItem.setType(TypeDef.Note.text);
+            noteItem.setType(TypeDef.text);
             noteItem.setText(text);
 
             db.daoNote().update(noteItem);
@@ -253,7 +254,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             vm.setNoteRepo(noteRepo);
 
-            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+            final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
             viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
 
@@ -278,7 +279,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         recyclerView.setAdapter(adapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
+        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
@@ -317,7 +318,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String rollText = rollEnter.getText().toString();
+                final String rollText = rollEnter.getText().toString();
                 Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
             }
 
@@ -337,7 +338,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
+        final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
 
         checkSt.setAll(listRoll);
         menuControl.setCheckTitle(checkSt.isAll());
@@ -349,22 +350,22 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private void scrollToInsert(boolean scrollDown) {
         Log.i(TAG, "scrollToInsert");
 
-        String text = rollEnter.getText().toString();   //Берём текст из поля
-        if (!text.equals("")) {                         //Если он != пустому месту, то добавляем
-            rollEnter.setText("");                      //Сразу же убираем текст с поля
+        final String text = rollEnter.getText().toString();
+        if (TextUtils.isEmpty(text)) {
+            rollEnter.setText("");
 
-            int p;                                     //Позиция, куда будем добавлять новый пункт
-            if (scrollDown) {
-                p = adapter.getItemCount();            //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
-            } else p = 0;                              //Добавить в самое начало
+            //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
+            final int p = scrollDown
+                    ? adapter.getItemCount()
+                    : 0;
 
-            RollItem rollItem = new RollItem();
+            final RollItem rollItem = new RollItem();
             rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
             rollItem.setText(text);
             rollItem.setExist(false);
 
-            NoteRepo noteRepo = vm.getNoteRepo();
-            List<RollItem> listRoll = noteRepo.getListRoll();
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final List<RollItem> listRoll = noteRepo.getListRoll();
 
             listRoll.add(p, rollItem);
 
@@ -399,8 +400,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        NoteSt noteSt = viewModel.getNoteSt();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
 
         NoteRepo noteRepo = vm.getNoteRepo();
         NoteItem noteItem = noteRepo.getNoteItem();
@@ -424,7 +425,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             menuControl.startTint(noteItem.getColor());
         } else {
-            SaveControl saveControl = noteCallback.getSaveControl();
+            final SaveControl saveControl = noteCallback.getSaveControl();
             saveControl.setNeedSave(false);
             noteCallback.setSaveControl(saveControl);
 
@@ -439,10 +440,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        NoteRepo noteRepo = vm.getNoteRepo();
+        final NoteRepo noteRepo = vm.getNoteRepo();
 
-        List<RollItem> listRoll = noteRepo.getListRoll();
-        RollItem rollItem = listRoll.get(p);
+        final List<RollItem> listRoll = noteRepo.getListRoll();
+        final RollItem rollItem = listRoll.get(p);
         rollItem.setCheck(!rollItem.isCheck());
 
         listRoll.set(p, rollItem);
@@ -450,21 +451,21 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         adapter.setListItem(p, rollItem);
 
-        int rollCheck = Help.Note.getRollCheck(listRoll);
+        final int check = Help.Note.getRollCheck(listRoll);
 
-        if (checkSt.setAll(rollCheck, listRoll.size())) {
+        if (checkSt.setAll(check, listRoll.size())) {
             menuControl.setCheckTitle(checkSt.isAll());
         }
 
-        NoteItem noteItem = noteRepo.getNoteItem();
+        final NoteItem noteItem = noteRepo.getNoteItem();
         noteItem.setChange(Help.Time.getCurrentTime(context));
-        noteItem.setText(rollCheck, listRoll.size());
+        noteItem.setText(check, listRoll.size());
 
         noteRepo.setNoteItem(noteItem);
 
         vm.setNoteRepo(noteRepo);
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         viewModel.setNoteRepo(noteRepo);
         noteCallback.setViewModel(viewModel);
 
@@ -478,15 +479,15 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onChanged(int p, String text) {
         Log.i(TAG, "onChanged");
 
-        NoteRepo noteRepo = vm.getNoteRepo();
+        final NoteRepo noteRepo = vm.getNoteRepo();
 
-        List<RollItem> listRoll = noteRepo.getListRoll();
+        final List<RollItem> listRoll = noteRepo.getListRoll();
         if (text.equals("")) {
             listRoll.remove(p);
             adapter.setList(listRoll);
             adapter.notifyItemRemoved(p);
         } else {
-            RollItem rollItem = listRoll.get(p);
+            final RollItem rollItem = listRoll.get(p);
             rollItem.setText(text);
 
             listRoll.set(p, rollItem);
@@ -501,9 +502,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
-        NoteRepo noteRepo = vm.getNoteRepo();
-        NoteItem noteItem = noteRepo.getNoteItem();
-        List<RollItem> listRoll = noteRepo.getListRoll();
+        final NoteRepo noteRepo = vm.getNoteRepo();
+        final NoteItem noteItem = noteRepo.getNoteItem();
+        final List<RollItem> listRoll = noteRepo.getListRoll();
 
         if (listRoll.size() != 0) {
             noteItem.setChange(Help.Time.getCurrentTime(context));
@@ -517,8 +518,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             db = RoomDb.provideDb(context);
 
-            ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-            NoteSt noteSt = viewModel.getNoteSt();
+            final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+            final NoteSt noteSt = viewModel.getNoteSt();
             if (noteSt.isCreate()) {
                 noteSt.setCreate(false);
                 viewModel.setNoteSt(noteSt);
@@ -527,12 +528,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     menuControl.setDrawable(true, true);
                 }
 
-                long ntId = db.daoNote().insert(noteItem);
+                final long ntId = db.daoNote().insert(noteItem);
                 noteItem.setId(ntId);
 
                 //Запись в пунктов в БД
                 for (int i = 0; i < listRoll.size(); i++) {
-                    RollItem rollItem = listRoll.get(i);
+                    final RollItem rollItem = listRoll.get(i);
 
                     rollItem.setIdNote(ntId);
                     rollItem.setPosition(i);
@@ -547,7 +548,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 db.daoNote().update(noteItem);
 
                 for (int i = 0; i < listRoll.size(); i++) {
-                    RollItem rollItem = listRoll.get(i);
+                    final RollItem rollItem = listRoll.get(i);
 
                     rollItem.setPosition(i);
                     if (!rollItem.isExist()) {
@@ -562,14 +563,13 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 noteRepo.setListRoll(listRoll);
                 adapter.setList(listRoll);
 
-                List<Long> rollId = new ArrayList<>();
+                final List<Long> rollId = new ArrayList<>();
                 for (RollItem rollItem : listRoll) {
                     rollId.add(rollItem.getId());
                 }
                 db.daoRoll().delete(noteItem.getId(), rollId);
             }
             db.daoRank().update(noteItem.getId(), noteItem.getRankId());
-
             db.close();
 
             noteRepo.setNoteItem(noteItem);
@@ -579,15 +579,17 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
             return true;
-        } else return false;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        NoteSt noteSt = viewModel.getNoteSt();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
         noteSt.setEdit(editMode);
 
         menuControl.setDrawable(editMode && !noteSt.isCreate(),
@@ -606,7 +608,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
 
-        SaveControl saveControl = noteCallback.getSaveControl();
+        final SaveControl saveControl = noteCallback.getSaveControl();
         saveControl.setSaveHandlerEvent(editMode);
         noteCallback.setSaveControl(saveControl);
     }
@@ -615,11 +617,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onMenuCheckClick() {
         Log.i(TAG, "onMenuCheckClick");
 
-        NoteRepo noteRepo = vm.getNoteRepo();
-        NoteItem noteItem = noteRepo.getNoteItem();
+        final NoteRepo noteRepo = vm.getNoteRepo();
+        final NoteItem noteItem = noteRepo.getNoteItem();
         noteItem.setChange(Help.Time.getCurrentTime(context));
 
-        int size = noteRepo.getListRoll().size();
+        final int size = noteRepo.getListRoll().size();
 
         db = RoomDb.provideDb(context);
         if (checkSt.isAll()) {
@@ -643,7 +645,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         vm.setNoteRepo(noteRepo);
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         viewModel.setNoteRepo(noteRepo);
         noteCallback.setViewModel(viewModel);
     }

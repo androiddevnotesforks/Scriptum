@@ -28,17 +28,17 @@ public abstract class RollDao extends BaseDao {
     /**
      * Запись пунктов после конвертирования из текстовой заметки
      *
-     * @param idNote - id заметки
-     * @param text   - массив потенциальных пунктов
-     * @return - для {@link NoteRepo}
+     * @param idNote - Id заметки
+     * @param text   - Массив потенциальных пунктов
+     * @return - Список для {@link NoteRepo}
      */
     public List<RollItem> insert(long idNote, String[] text) {
-        List<RollItem> listRoll = new ArrayList<>();
+        final List<RollItem> listRoll = new ArrayList<>();
 
         int p = 0;
         for (String aText : text) {
             if (!aText.equals("")) {
-                RollItem rollItem = new RollItem();
+                final RollItem rollItem = new RollItem();
                 rollItem.setIdNote(idNote);
                 rollItem.setPosition(p++);
                 rollItem.setCheck(false);
@@ -62,13 +62,13 @@ public abstract class RollDao extends BaseDao {
     /**
      * Получение текста для текстовой заметки на основе списка
      *
-     * @param idNote - id заметки
-     * @return - строка для текстовой заметки
+     * @param idNote - Id заметки
+     * @return - Строка для текстовой заметки
      */
     public String getText(long idNote) {
-        List<RollItem> listRoll = getRoll(idNote);
+        final List<RollItem> listRoll = getRoll(idNote);
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         for (int i = 0; i < listRoll.size(); i++) {
             if (i != 0) text.append("\n");
             text.append(listRoll.get(i).getText());
@@ -80,18 +80,18 @@ public abstract class RollDao extends BaseDao {
     /**
      * Получение текста для уведомления на основе списка
      *
-     * @param idNote - id заметки
-     * @param check  - количество отмеченых пунктов в заметке
-     * @return - строка для уведомления
+     * @param idNote - Id заметки
+     * @param check  - Количество отмеченых пунктов в заметке
+     * @return - Строка для уведомления
      */
     public String getText(long idNote, String check) {
-        List<RollItem> listRoll = getRoll(idNote);
+        final List<RollItem> listRoll = getRoll(idNote);
 
-        StringBuilder text = new StringBuilder();
+        final StringBuilder text = new StringBuilder();
         text.append(check).append(" |");
 
         for (int i = 0; i < listRoll.size(); i++) {
-            RollItem rollItem = listRoll.get(i);
+            final RollItem rollItem = listRoll.get(i);
 
             if (rollItem.isCheck()) text.append(" \u2713 ");
             else text.append(" - ");
@@ -112,8 +112,8 @@ public abstract class RollDao extends BaseDao {
     /**
      * Обновление выполнения конкретного пункта
      *
-     * @param id    - id пункта
-     * @param check - состояние отметки
+     * @param id    - Id пункта
+     * @param check - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :check " +
@@ -123,8 +123,8 @@ public abstract class RollDao extends BaseDao {
     /**
      * Обновление выполнения для всех пунктов
      *
-     * @param idNote - id заметки
-     * @param check  - состояние отметки
+     * @param idNote - Id заметки
+     * @param check  - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :check " +
@@ -134,28 +134,28 @@ public abstract class RollDao extends BaseDao {
     /**
      * Удаление пунктов при сохранении после свайпа
      *
-     * @param idNote - id заметки
-     * @param idSave - id, которые остались в заметке
+     * @param idNote - Id заметки
+     * @param idSave - Id, которые остались в заметке
      */
     @Query("DELETE FROM ROLL_TABLE " +
             "WHERE RL_ID_NOTE = :idNote AND RL_ID NOT IN (:idSave)")
     public abstract void delete(long idNote, List<Long> idSave);
 
     /**
-     * @param idNote - id удаляемой заметки
+     * @param idNote - Id удаляемой заметки
      */
     @Query("DELETE FROM ROLL_TABLE " +
             "WHERE RL_ID_NOTE = :idNote")
     public abstract void delete(long idNote);
 
     public void listAll(TextView textView) {
-        List<RollItem> listRoll = get();
+        final List<RollItem> listRoll = get();
 
-        String annotation = "Roll Data Base:";
+        final String annotation = "Roll Data Base:";
         textView.setText(annotation);
 
         for (int i = 0; i < listRoll.size(); i++) {
-            RollItem rollItem = listRoll.get(i);
+            final RollItem rollItem = listRoll.get(i);
 
             textView.append("\n\n" +
                     "ID: " + rollItem.getId() + " | " +
@@ -163,7 +163,7 @@ public abstract class RollDao extends BaseDao {
                     "PS: " + rollItem.getPosition() + " | " +
                     "CH: " + rollItem.isCheck() + "\n");
 
-            String text = rollItem.getText();
+            final String text = rollItem.getText();
             textView.append("TX: " + text.substring(0, Math.min(text.length(), 45))
                     .replace("\n", " "));
             if (text.length() > 40) textView.append("...");

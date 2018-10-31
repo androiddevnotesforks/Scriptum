@@ -6,7 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.RankRepo;
+import sgtmelon.scriptum.app.view.fragment.RankFragment;
 
+/**
+ * ViewModel для {@link RankFragment}
+ */
 public final class RankViewModel extends AndroidViewModel {
 
     private RankRepo rankRepo;
@@ -24,7 +28,7 @@ public final class RankViewModel extends AndroidViewModel {
     }
 
     public RankRepo loadData() {
-        RoomDb db = RoomDb.provideDb(getApplication().getApplicationContext());
+        final RoomDb db = RoomDb.provideDb(getApplication().getApplicationContext());
         rankRepo = db.daoRank().get();
         db.close();
 

@@ -43,12 +43,12 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         switch (viewType) {
             default:
             case TypeDef.Roll.read:
-                ItemRollReadBinding bindingRead = DataBindingUtil.inflate(
+                final ItemRollReadBinding bindingRead = DataBindingUtil.inflate(
                         inflater, R.layout.item_roll_read, parent, false
                 );
                 return new RollHolder(bindingRead);
             case TypeDef.Roll.write:
-                ItemRollWriteBinding bindingWrite = DataBindingUtil.inflate(
+                final ItemRollWriteBinding bindingWrite = DataBindingUtil.inflate(
                         inflater, R.layout.item_roll_write, parent, false
                 );
                 return new RollHolder(bindingWrite);
@@ -57,7 +57,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
     @Override
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
-        RollItem item = list.get(position);
+        final RollItem item = list.get(position);
         holder.bind(item);
     }
 
@@ -68,8 +68,9 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
     @Override
     public int getItemViewType(int position) {
-        if (!noteSt.isEdit()) return TypeDef.Roll.read;
-        else return TypeDef.Roll.write;
+        return noteSt.isEdit()
+                ? TypeDef.Roll.write
+                : TypeDef.Roll.read;
     }
 
     final class RollHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
@@ -78,11 +79,11 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private final ItemRollWriteBinding bindingWrite;
         private final ItemRollReadBinding bindingRead;
 
-        private EditText rlEnter;
-        private View rlDrag; //Кнопка для перетаскивания (< >)
+        private EditText rollEnter;
+        private View dragView; //Кнопка для перетаскивания (< >)
 
-        private CheckBox rlCheck;   //Отметка о выполении
-        private View rlClick;  //Кнопка, которая идёт поверх rlCheck, для полноценного эффекта нажатия
+        private CheckBox rollCheck;   //Отметка о выполении
+        private View clickView;  //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
@@ -90,13 +91,13 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             this.bindingWrite = bindingWrite;
             bindingRead = null;
 
-            rlEnter = itemView.findViewById(R.id.roll_enter);
-            rlDrag = itemView.findViewById(R.id.drag_button);
+            rollEnter = itemView.findViewById(R.id.roll_enter);
+            dragView = itemView.findViewById(R.id.drag_button);
 
-            rlEnter.setOnTouchListener(this);
-            rlEnter.addTextChangedListener(this);
+            rollEnter.setOnTouchListener(this);
+            rollEnter.addTextChangedListener(this);
 
-            rlDrag.setOnTouchListener(this);
+            dragView.setOnTouchListener(this);
         }
 
         RollHolder(ItemRollReadBinding bindingRead) {
@@ -105,10 +106,10 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             this.bindingRead = bindingRead;
             bindingWrite = null;
 
-            rlCheck = itemView.findViewById(R.id.roll_check);
-            rlClick = itemView.findViewById(R.id.click_view);
+            rollCheck = itemView.findViewById(R.id.roll_check);
+            clickView = itemView.findViewById(R.id.click_image);
 
-            rlClick.setOnClickListener(this);
+            clickView.setOnClickListener(this);
         }
 
         void bind(RollItem rollItem) {
@@ -126,7 +127,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         public void onClick(View view) {
             if (!noteSt.isEdit()) {
                 int p = getAdapterPosition();
-                rlCheck.setChecked(!list.get(p).isCheck());
+                rollCheck.setChecked(!list.get(p).isCheck());
                 clickListener.onItemClick(view, p);
             }
         }
@@ -134,7 +135,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                dragListener.setItemDrag(view.getId() == R.id.drag_button);
+                dragListener.setDrag(view.getId() == R.id.drag_button);
             }
             return false;
         }
@@ -151,7 +152,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void afterTextChanged(Editable editable) {
-            watcher.onChanged(getAdapterPosition(), rlEnter.getText().toString());
+            watcher.onChanged(getAdapterPosition(), rollEnter.getText().toString());
         }
 
     }

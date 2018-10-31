@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
+import androidx.annotation.CallSuper;
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 import sgtmelon.scriptum.R;
@@ -24,25 +25,25 @@ import sgtmelon.scriptum.office.intf.MenuIntf;
  * Класс для контроля меню
  * Для версий API < 21
  */
+// TODO: 31.10.2018 подумай над builder pattern
 public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
     protected final Context context;
-    private final Window window;
-
+    protected final ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
     protected Toolbar toolbar;
+
     Drawable cancelOn, cancelOff;
 
+    private Window window;
     private Menu menu;
     private View indicator;
 
     private int type;
     private int valTheme;
-
     private int statusStartColor, statusEndColor;
     private int toolbarStartColor, toolbarEndColor;
 
     private MenuItem mItemStatus, mItemCheck;
-
     private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
     private MenuIntf.Note.NoteMenuClick noteMenuClick;
 
@@ -51,31 +52,57 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         this.window = window;
 
         valTheme = Help.Pref.getTheme(context);
+
+        final ValueAnimator.AnimatorUpdateListener updateListener = animator -> {
+            float position = animator.getAnimatedFraction();
+
+            int blended = Help.Clr.blend(statusStartColor, statusEndColor, position);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && valTheme != ThemeDef.dark) {
+                window.setStatusBarColor(blended);
+            }
+
+            ColorDrawable background = new ColorDrawable(blended);
+            indicator.setBackground(background);
+
+            blended = Help.Clr.blend(toolbarStartColor, toolbarEndColor, position);
+            background = new ColorDrawable(blended);
+
+            if (valTheme != ThemeDef.dark) {
+                toolbar.setBackground(background);
+            }
+        };
+
+        anim.addUpdateListener(updateListener);
+        anim.setDuration(context.getResources().getInteger(android.R.integer.config_shortAnimTime));
     }
 
-    public void setToolbar(Toolbar toolbar) {
+    public final void setToolbar(Toolbar toolbar) {
         this.toolbar = toolbar;
         menu = toolbar.getMenu();
     }
 
-    public void setIndicator(View indicator) {
+    public final void setIndicator(View indicator) {
         this.indicator = indicator;
     }
 
-    public void setType(int type) {
+    public final void setType(int type) {
         this.type = type;
     }
 
-    public void setDeleteMenuClick(MenuIntf.Note.DeleteMenuClick deleteMenuClick) {
+    public final void setDeleteMenuClick(MenuIntf.Note.DeleteMenuClick deleteMenuClick) {
         this.deleteMenuClick = deleteMenuClick;
     }
 
-    public void setNoteMenuClick(MenuIntf.Note.NoteMenuClick noteMenuClick) {
+    public final void setNoteMenuClick(MenuIntf.Note.NoteMenuClick noteMenuClick) {
         this.noteMenuClick = noteMenuClick;
     }
 
-    //Установка цвета
-    public void setColor(int color) {
+    /**
+     * Установка цвета для UI
+     *
+     * @param color - Начальный цвет
+     */
+    public final void setColor(int color) {
         if (valTheme != ThemeDef.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.setStatusBarColor(Help.Clr.get(context, color, true));
@@ -87,42 +114,31 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         setStartColor(color);
     }
 
-    //Меняем начальный цвет
-    public void setStartColor(int color) {
+    /**
+     * Установка начального цвета
+     *
+     * @param color - Начальный цвет
+     */
+    public final void setStartColor(int color) {
         statusStartColor = Help.Clr.get(context, color, true);
         toolbarStartColor = Help.Clr.get(context, color, false);
     }
 
-    //Покраска с анимацией
-    public void startTint(int color) {
+    /**
+     * Покраска UI элементов с анимацией
+     *
+     * @param color - конечный цвет
+     */
+    public final void startTint(int color) {
         statusEndColor = Help.Clr.get(context, color, true);
         toolbarEndColor = Help.Clr.get(context, color, false);
 
         if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
-            ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
-
-            anim.addUpdateListener(animation -> {
-                float position = animation.getAnimatedFraction();
-
-                int blended = Help.Clr.blend(statusStartColor, statusEndColor, position);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && valTheme != ThemeDef.dark) {
-                    window.setStatusBarColor(blended);
-                }
-
-                ColorDrawable background = new ColorDrawable(blended);
-                indicator.setBackground(background);
-
-                blended = Help.Clr.blend(toolbarStartColor, toolbarEndColor, position);
-                background = new ColorDrawable(blended);
-                if (valTheme != ThemeDef.dark) toolbar.setBackground(background);
-
-            });
-
-            anim.setDuration(context.getResources().getInteger(android.R.integer.config_shortAnimTime))
-                    .start();
+            anim.start();
         }
     }
 
+    @CallSuper
     public void setupDrawable() {
         cancelOn = Help.Draw.get(context, R.drawable.ic_cancel_on, R.attr.clIcon);
         cancelOff = Help.Draw.get(context, R.drawable.ic_cancel_off, R.attr.clIcon);
@@ -130,11 +146,12 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
     @Override
     public void setDrawable(boolean drawableOn, boolean needAnim) {
-        if (drawableOn) toolbar.setNavigationIcon(cancelOn);
-        else toolbar.setNavigationIcon(cancelOff);
+        toolbar.setNavigationIcon(drawableOn
+                ? cancelOn
+                : cancelOff);
     }
 
-    public void setupMenu(boolean status) {
+    public final void setupMenu(boolean status) {
         MenuItem mItemRestore = menu.findItem(R.id.restore_item);
         MenuItem mItemRestoreOpen = menu.findItem(R.id.restore_open_item);
         MenuItem mItemClear = menu.findItem(R.id.clear_item);
@@ -151,7 +168,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
         setStatusTitle(status);
 
-        boolean isRoll = type == TypeDef.Note.roll;
+        boolean isRoll = type == TypeDef.roll;
 
         mItemStatus.setIcon(Help.Draw.get(context, isRoll
                         ? R.drawable.ic_bind_roll
@@ -174,20 +191,20 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         db.close();
     }
 
-    public void setMenuGroupVisible(boolean grDelete, boolean grEdit, boolean grRead) {
+    public final void setMenuGroupVisible(boolean grDelete, boolean grEdit, boolean grRead) {
         menu.setGroupVisible(R.id.delete_group, grDelete);
         menu.setGroupVisible(R.id.edit_group, grEdit);
         menu.setGroupVisible(R.id.read_group, grRead);
     }
 
-    public void setCheckTitle(boolean isAllCheck) {
+    public final void setCheckTitle(boolean isAllCheck) {
         mItemCheck.setTitle(isAllCheck
                 ? context.getString(R.string.menu_note_check_zero)
                 : context.getString(R.string.menu_note_check_all)
         );
     }
 
-    public void setStatusTitle(boolean status) {
+    public final void setStatusTitle(boolean status) {
         mItemStatus.setTitle(status
                 ? context.getString(R.string.menu_note_status_unbind)
                 : context.getString(R.string.menu_note_status_bind)
@@ -195,7 +212,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public final boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.restore_item:
                 deleteMenuClick.onMenuRestoreClick();

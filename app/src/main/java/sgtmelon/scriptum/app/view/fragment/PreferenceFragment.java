@@ -67,7 +67,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         if (view != null) {
             View list = view.findViewById(android.R.id.list);
@@ -85,7 +85,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         activity = (PreferenceActivity) getActivity();
 
-        PreferenceComponent preferenceComponent = DaggerPreferenceComponent.builder()
+        final PreferenceComponent preferenceComponent = DaggerPreferenceComponent.builder()
                 .preferenceBlankModule(new PreferenceBlankModule(activity))
                 .build();
         preferenceComponent.inject(this);
@@ -135,14 +135,14 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             valSort = sortDialog.getKeys();
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            String summary = Help.Pref.getSortSummary(activity, valSort);
+            final String summary = Help.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setNeutralListener((dialogInterface, i) -> {
             valSort = SortDef.def;
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            String summary = Help.Pref.getSortSummary(activity, valSort);
+            final String summary = Help.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -194,7 +194,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         });
         dlgSaveTime.setDismissListener(dialogInterface -> openSt.setOpen(false));
 
-        CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
+        final CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
         prefAutoSave.setOnPreferenceChangeListener((preference, newValue) -> {
             prefSaveTime.setEnabled((Boolean) newValue);
             return true;
@@ -231,7 +231,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         Preference prefRate = findPreference(getString(R.string.pref_key_rate));
         prefRate.setOnPreferenceClickListener(preference -> {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
+            final Intent intent = new Intent(Intent.ACTION_VIEW);
             final String packageName = activity.getPackageName();
 
             try {
@@ -244,7 +244,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             return true;
         });
 
-        Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
+        final Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
         prefOtherAbout.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
@@ -255,7 +255,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         });
 
         infoDialog.setLogoClick(view -> {
-            Intent intent = new Intent(activity, DevelopActivity.class);
+            final Intent intent = new Intent(activity, DevelopActivity.class);
             startActivity(intent);
         });
         infoDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));

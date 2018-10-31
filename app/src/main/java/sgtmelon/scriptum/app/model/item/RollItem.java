@@ -29,21 +29,16 @@ public final class RollItem {
     @ColumnInfo(name = DbAnn.RL_ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
-    @ColumnInfo(name = DbAnn.RL_ID_NT)
-    private long idNote;
 
-    @ColumnInfo(name = DbAnn.RL_PS)
-    private int position;
-    @ColumnInfo(name = DbAnn.RL_CH)
-    private boolean check = false;
-    @ColumnInfo(name = DbAnn.RL_TX)
-    private String text;
+    @ColumnInfo(name = DbAnn.RL_ID_NT) private long idNote;
+    @ColumnInfo(name = DbAnn.RL_PS) private int position;
+    @ColumnInfo(name = DbAnn.RL_CH) private boolean check = false;
+    @ColumnInfo(name = DbAnn.RL_TX) private String text;
 
     /**
      * Добавлен пункт в базу данных или нет
      */
-    @Ignore
-    private boolean exist = true;
+    @Ignore private boolean exist = true;
 
     public long getId() {
         return id;

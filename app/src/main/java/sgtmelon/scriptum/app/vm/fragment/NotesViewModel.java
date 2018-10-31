@@ -9,8 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.view.fragment.BinFragment;
+import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.office.annot.def.StateDef;
 
+/**
+ * ViewModel для {@link NotesFragment} и {@link BinFragment}
+ */
 public final class NotesViewModel extends AndroidViewModel {
 
     private List<NoteRepo> listModel;
@@ -28,9 +33,9 @@ public final class NotesViewModel extends AndroidViewModel {
     }
 
     public List<NoteRepo> loadData(@StateDef.Bin int bin) {
-        Context context = getApplication().getApplicationContext();
+        final Context context = getApplication().getApplicationContext();
 
-        RoomDb db = RoomDb.provideDb(context);
+        final RoomDb db = RoomDb.provideDb(context);
         listModel = db.daoNote().get(context, bin);
         db.close();
 

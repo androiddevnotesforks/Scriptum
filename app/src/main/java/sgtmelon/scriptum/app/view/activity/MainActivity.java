@@ -53,7 +53,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActivityComponent activityComponent = DaggerActivityComponent.builder()
+        final ActivityComponent activityComponent = DaggerActivityComponent.builder()
                 .activityBlankModule(new ActivityBlankModule(this))
                 .build();
         activityComponent.inject(this);
@@ -91,7 +91,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
             }
         });
 
-        BottomNavigationView navigationView = findViewById(R.id.menu_navigation);
+        final BottomNavigationView navigationView = findViewById(R.id.menu_navigation);
         navigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setSelectedItemId(PageDef.itemId[page]);
 
@@ -99,8 +99,8 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
             sheetDialog.dismiss();
 
             @TypeDef int type = menuItem.getItemId() == R.id.note_text_item
-                    ? TypeDef.Note.text
-                    : TypeDef.Note.roll;
+                    ? TypeDef.text
+                    : TypeDef.roll;
 
             Intent intent = NoteActivity.getIntent(MainActivity.this, type);
 
@@ -125,7 +125,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         Log.i(TAG, "onNavigationItemSelected");
 
-        int pageOld = pageSt.getPage();
+        final int pageOld = pageSt.getPage();
         int page = pageSt.getPage();
 
         switch (menuItem.getItemId()) {
@@ -143,7 +143,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
 
         pageSt.setPage(page);
 
-        FragmentTransaction transaction = fm.beginTransaction();
+        final FragmentTransaction transaction = fm.beginTransaction();
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         switch (pageSt.getPage()) {

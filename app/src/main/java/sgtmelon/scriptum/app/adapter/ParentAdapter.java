@@ -6,14 +6,15 @@ import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.CallSuper;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 
 /**
  * Абстрактный класс адаптера, с часто повторяющимся функционалом
  *
- * @param <E>  - Модель списка
- * @param <VH> - Холдер для модели
+ * @param <E>  - модель списка
+ * @param <VH> - холдер для модели
  */
 public abstract class ParentAdapter<E, VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH> {
@@ -21,7 +22,7 @@ public abstract class ParentAdapter<E, VH extends RecyclerView.ViewHolder>
     protected final Context context;
     protected final LayoutInflater inflater;
 
-    protected List<E> list;
+    protected final List<E> list = new ArrayList<>();
 
     ItemIntf.ClickListener clickListener;
     ItemIntf.LongClickListener longClickListener;
@@ -31,31 +32,32 @@ public abstract class ParentAdapter<E, VH extends RecyclerView.ViewHolder>
     ParentAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
-
-        list = new ArrayList<>();
     }
 
+    @CallSuper
     public void setList(List<E> list) {
-        this.list = list;
+        this.list.clear();
+        this.list.addAll(list);
     }
 
+    @CallSuper
     public void setListItem(int position, E item) {
         list.set(position, item);
     }
 
-    public void setClickListener(ItemIntf.ClickListener clickListener) {
+    public final void setClickListener(ItemIntf.ClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
-    public void setLongClickListener(ItemIntf.LongClickListener longClickListener) {
+    public final void setLongClickListener(ItemIntf.LongClickListener longClickListener) {
         this.longClickListener = longClickListener;
     }
 
-    public void setDragListener(ItemIntf.DragListener dragListener) {
+    public final void setDragListener(ItemIntf.DragListener dragListener) {
         this.dragListener = dragListener;
     }
 
-    public void setWatcher(ItemIntf.Watcher watcher) {
+    public final void setWatcher(ItemIntf.Watcher watcher) {
         this.watcher = watcher;
     }
 

@@ -27,12 +27,12 @@ public class SwitchButtonAnim extends SwitchButton {
     protected void setupDrawable() {
         super.setupDrawable();
 
-        AnimatedVectorDrawable srcDisableAnim = (AnimatedVectorDrawable) ContextCompat.getDrawable(context, this.srcDisableAnim);
+        final AnimatedVectorDrawable srcDisableAnim = (AnimatedVectorDrawable) ContextCompat.getDrawable(context, this.srcDisableAnim);
         if (srcDisableAnim != null) {
             srcDisableAnim.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP);
         }
 
-        AnimatedVectorDrawable srcSelectAnim = (AnimatedVectorDrawable) ContextCompat.getDrawable(context, this.srcSelectAnim);
+        final AnimatedVectorDrawable srcSelectAnim = (AnimatedVectorDrawable) ContextCompat.getDrawable(context, this.srcSelectAnim);
         if (srcSelectAnim != null) {
             srcSelectAnim.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP);
         }
@@ -44,8 +44,9 @@ public class SwitchButtonAnim extends SwitchButton {
     @Override
     public void setDrawable(boolean select, boolean needAnim) {
         if (!needAnim) {
-            if (select) setImageDrawable(drawableSelect);
-            else setImageDrawable(drawableDisable);
+            setImageDrawable(select
+                    ? drawableSelect
+                    : drawableDisable);
         } else {
             animHdlr.setAnimState(select);
             if (select) {

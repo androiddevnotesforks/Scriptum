@@ -44,7 +44,7 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
     @NonNull
     @Override
     public RankHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemRankBinding binding = DataBindingUtil.inflate(
+        final ItemRankBinding binding = DataBindingUtil.inflate(
                 inflater, R.layout.item_rank, parent, false
         );
         return new RankHolder(binding);
@@ -52,11 +52,11 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
 
     @Override
     public void onBindViewHolder(@NonNull RankHolder holder, int position) {
-        RankItem item = list.get(position);
+        final RankItem item = list.get(position);
 
         holder.bind(item);
 
-        holder.rkVisible.setDrawable(item.isVisible(), startAnim[position]);
+        holder.visibleButton.setDrawable(item.isVisible(), startAnim[position]);
         if (startAnim[position]) {
             startAnim[position] = false;
         }
@@ -67,31 +67,31 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
 
         private final ItemRankBinding binding;
 
-        private final View rkClick;
+        private final View clickView;
 
-        private final SwitchButton rkVisible;
-        private final ImageButton rkCancel;
+        private final SwitchButton visibleButton;
+        private final ImageButton cancelButton;
 
         RankHolder(ItemRankBinding binding) {
             super(binding.getRoot());
 
             this.binding = binding;
 
-            rkClick = itemView.findViewById(R.id.click_container);
+            clickView = itemView.findViewById(R.id.click_container);
 
-            rkClick.setOnTouchListener(this);
-            rkClick.setOnClickListener(this);
+            clickView.setOnTouchListener(this);
+            clickView.setOnClickListener(this);
 
-            rkVisible = itemView.findViewById(R.id.visible_button);
+            visibleButton = itemView.findViewById(R.id.visible_button);
 
-            rkVisible.setOnTouchListener(this);
-            rkVisible.setOnClickListener(this);
-            rkVisible.setOnLongClickListener(this);
+            visibleButton.setOnTouchListener(this);
+            visibleButton.setOnClickListener(this);
+            visibleButton.setOnLongClickListener(this);
 
-            rkCancel = itemView.findViewById(R.id.cancel_button);
+            cancelButton = itemView.findViewById(R.id.cancel_button);
 
-            rkCancel.setOnTouchListener(this);
-            rkCancel.setOnClickListener(this);
+            cancelButton.setOnTouchListener(this);
+            cancelButton.setOnClickListener(this);
         }
 
         void bind(RankItem rankItem) {
@@ -105,7 +105,7 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
 
             switch (view.getId()) {
                 case R.id.visible_button:
-                    rkVisible.setDrawable(!list.get(p).isVisible(), true);
+                    visibleButton.setDrawable(!list.get(p).isVisible(), true);
                     clickListener.onItemClick(view, p);
                     break;
                 case R.id.click_container:
@@ -123,18 +123,19 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
             return true;
         }
 
+        // TODO: 01.11.2018 упростить как в RollAdapter
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             switch (view.getId()) {
                 case R.id.click_container:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        dragListener.setItemDrag(true);
+                        dragListener.setDrag(true);
                     }
                     break;
                 case R.id.visible_button:
                 case R.id.cancel_button:
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        dragListener.setItemDrag(false);
+                        dragListener.setDrag(false);
                     }
                     break;
             }

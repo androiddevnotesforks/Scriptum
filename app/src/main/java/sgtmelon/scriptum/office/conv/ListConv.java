@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Преобразование массив - список
+ */
 public final class ListConv {
 
     public static Long[] fromList(List<Long> list) {

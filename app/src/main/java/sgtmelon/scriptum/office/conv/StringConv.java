@@ -5,26 +5,32 @@ import android.text.TextUtils;
 import androidx.room.TypeConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
 
+/**
+ * Преобразование String - Long[]
+ * В строке разделителем является divider {@link DbAnn}
+ */
 public final class StringConv {
 
     @TypeConverter
-    public Long[] fromString(String string) {
-        if (string.equals(DbAnn.none)) return new Long[0];
+    public Long[] fromString(String value) {
+        if (value.equals(DbAnn.none)) return new Long[0];
         else {
-            String[] strArr = string.split(DbAnn.divider);
-            int size = strArr.length;
+            final String[] stringArray = value.split(DbAnn.divider);
+            final int size = stringArray.length;
 
-            Long[] array = new Long[size];
-            for (int i = 0; i < size; i++) array[i] = Long.parseLong(strArr[i]);
+            final Long[] longArray = new Long[size];
+            for (int i = 0; i < size; i++) {
+                longArray[i] = Long.parseLong(stringArray[i]);
+            }
 
-            return array;
+            return longArray;
         }
     }
 
     @TypeConverter
-    public String toString(Long[] string) {
-        if (string == null || string.length == 0) return DbAnn.none;
-        else return TextUtils.join(DbAnn.divider, string);
+    public String toString(Long[] value) {
+        if (value == null || value.length == 0) return DbAnn.none;
+        else return TextUtils.join(DbAnn.divider, value);
     }
 
 }

@@ -34,8 +34,8 @@ public final class DialogFindModule {
         RenameDialog renameDialog = (RenameDialog) fm.findFragmentByTag(DialogDef.RENAME);
         if (renameDialog == null) renameDialog = new RenameDialog();
 
-        Resources.Theme theme = context.getTheme();
-        TypedValue attrs = new TypedValue();
+        final Resources.Theme theme = context.getTheme();
+        final TypedValue attrs = new TypedValue();
 
         theme.resolveAttribute(R.attr.clText, attrs, true);
         renameDialog.setColorText(attrs.data);

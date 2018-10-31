@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.office.st;
 
+/**
+ * Состояние для страниц, сохраняющее её номер
+ */
 public final class PageSt {
 
     private int page;

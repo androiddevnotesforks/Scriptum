@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.office.st;
 
+/**
+ * Состояние для фрагментов с заметками, необходимое для управления её редактированием
+ */
 public final class NoteSt {
-
 
     private boolean create;
     private boolean edit;
