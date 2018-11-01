@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.app.view.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -151,7 +152,7 @@ public final class TextFragment extends NoteFragmentParent {
         NoteItem noteItem = noteRepo.getNoteItem();
 
         //Если редактирование и текст в хранилище не пустой
-        if (!noteSt.isCreate() && noteSt.isEdit() && !noteItem.getText().equals("")) {
+        if (!noteSt.isCreate() && noteSt.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
             menuControl.setStartColor(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
@@ -182,7 +183,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
-        if (!noteItem.getText().equals("")) {
+        if (!TextUtils.isEmpty(noteItem.getText())) {
             noteItem.setChange(Help.Time.getCurrentTime(context));
 
             if (editModeChange) {

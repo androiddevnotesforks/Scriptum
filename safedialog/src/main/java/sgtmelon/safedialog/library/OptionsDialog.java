@@ -21,32 +21,31 @@ public final class OptionsDialog extends DialogFragment implements DialogInterfa
     private DialogInterface.OnClickListener onClickListener;
 
     public void setArguments(String[] items, int p) {
-        Bundle arg = new Bundle();
+        final Bundle bundle = new Bundle();
 
-        arg.putStringArray(DialogAnn.INIT, items);
-        arg.putInt(DialogAnn.VALUE, p);
+        bundle.putStringArray(DialogAnn.INIT, items);
+        bundle.putInt(DialogAnn.VALUE, p);
 
-        setArguments(arg);
+        setArguments(bundle);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         this.context = context;
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        Bundle arg = getArguments();
+        final Bundle bundle = getArguments();
 
         if (savedInstanceState != null) {
             items = savedInstanceState.getStringArray(DialogAnn.INIT);
             position = savedInstanceState.getInt(DialogAnn.VALUE);
-        } else if (arg != null) {
-            items = arg.getStringArray(DialogAnn.INIT);
-            position = arg.getInt(DialogAnn.VALUE);
+        } else if (bundle != null) {
+            items = bundle.getStringArray(DialogAnn.INIT);
+            position = bundle.getInt(DialogAnn.VALUE);
         }
 
         return new AlertDialog.Builder(context)

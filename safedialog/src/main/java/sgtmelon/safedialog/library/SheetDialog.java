@@ -28,33 +28,33 @@ public final class SheetDialog extends BottomSheetDialogFragment implements
     private DialogInterface.OnDismissListener dismissListener;
 
     public void setArguments(@LayoutRes int layout, @IdRes int navigation) {
-        Bundle arg = new Bundle();
+        final Bundle bundle = new Bundle();
 
-        arg.putInt(DialogAnn.INIT, layout);
-        arg.putInt(DialogAnn.VALUE, navigation);
+        bundle.putInt(DialogAnn.INIT, layout);
+        bundle.putInt(DialogAnn.VALUE, navigation);
 
-        setArguments(arg);
+        setArguments(bundle);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle arg = getArguments();
+        final Bundle bundle = getArguments();
 
         if (savedInstanceState != null) {
             layout = savedInstanceState.getInt(DialogAnn.INIT);
             navigation = savedInstanceState.getInt(DialogAnn.VALUE);
-        } else if (arg != null) {
-            layout = arg.getInt(DialogAnn.INIT);
-            navigation = arg.getInt(DialogAnn.VALUE);
+        } else if (bundle != null) {
+            layout = bundle.getInt(DialogAnn.INIT);
+            navigation = bundle.getInt(DialogAnn.VALUE);
         }
 
-        View view = inflater.inflate(layout, container, false);
+        final View view = inflater.inflate(layout, container, false);
         if (view == null) {
             throw new NullPointerException("Id error, layout view is null");
         }
 
-        NavigationView navigationView = view.findViewById(navigation);
+        final NavigationView navigationView = view.findViewById(navigation);
         if (navigationView != null) navigationView.setNavigationItemSelectedListener(this);
 
         return view;

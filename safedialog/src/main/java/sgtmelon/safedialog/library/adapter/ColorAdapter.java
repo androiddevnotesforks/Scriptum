@@ -70,7 +70,9 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
                 visible[position] = false;                  //Делаем отметку невидимой с анимацией
                 holder.clCheck.startAnimation(holder.alphaOut);
             }
-        } else holder.clCheck.setVisibility(View.GONE);
+        } else {
+            holder.clCheck.setVisibility(View.GONE);
+        }
     }
 
     @Override

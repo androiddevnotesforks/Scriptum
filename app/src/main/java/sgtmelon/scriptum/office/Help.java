@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import java.util.Locale;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.FloatRange;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import sgtmelon.scriptum.R;
@@ -41,11 +43,15 @@ import sgtmelon.scriptum.office.annot.def.TypeDef;
 
 public final class Help {
 
-    //Копирование текста заметки в память
+    /**
+     * Копирование текста заметки в память
+     *
+     * @param noteItem - Заметка для копирования
+     */
     public static void optionsCopy(Context context, NoteItem noteItem) {
         String copyText = "";
 
-        if (!noteItem.getName().equals("")) {
+        if (!TextUtils.isEmpty(noteItem.getName())) {
             copyText = noteItem.getName() + "\n";   //Если есть название то добавляем его
         }
 
@@ -54,14 +60,15 @@ public final class Help {
                 copyText += noteItem.getText();     //В зависимости от типа составляем текст
                 break;
             case TypeDef.roll:
-                RoomDb db = RoomDb.provideDb(context);
+                final RoomDb db = RoomDb.provideDb(context);
                 copyText = db.daoRoll().getText(noteItem.getId());
                 db.close();
                 break;
         }
 
-        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE); //Сохраняем в память
-        ClipData clip = ClipData.newPlainText("NoteText", copyText);
+        //Сохраняем данные в память
+        final ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        final ClipData clip = ClipData.newPlainText("NoteText", copyText); // TODO: 02.11.2018 вынеси
 
         if (clipboard != null) {
             clipboard.setPrimaryClip(clip);
@@ -69,9 +76,14 @@ public final class Help {
         }
     }
 
-    //Скрыть клавиатуру
+    /**
+     * Скрыть клавиатуру
+     *
+     * @param view - Текущий фокус
+     */
     public static void hideKeyboard(Context context, View view) {
-        InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        final InputMethodManager inputMethodManager = (InputMethodManager)
+                context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
         if (view != null && inputMethodManager != null) {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -80,29 +92,59 @@ public final class Help {
 
     public static final class Clr {
 
+        /**
+         * Получение цвета заметки в зависимости от темы и заднего фона
+         *
+         * @param color  - Идентификатор цвета заметки
+         * @param onDark - Если элемент находится на тёмном фоне (например индикатор цвета заметки
+         * @return - Один из стандартных цветов приложения
+         */
         public static int getNote(Context context, int color, boolean onDark) {
             switch (Pref.getTheme(context)) {
                 case ThemeDef.light:
                     return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
                 case ThemeDef.dark:
                 default:
-                    if (onDark) return ContextCompat.getColor(context, ColorAnn.cl_dark[color]);
-                    else return get(context, R.attr.clPrimary);
+                    return onDark
+                            ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])
+                            : get(context, R.attr.clPrimary);
             }
         }
 
-        public static int get(Context context, int color, boolean isDark) {
-            if (isDark) return ContextCompat.getColor(context, ColorAnn.cl_dark[color]);
-            else return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
+        /**
+         * Получение одного из стандартных цветов заметки в зави
+         *
+         * @param color     - Идентификатор цвета заметки
+         * @param colorDark - Тёмный цвет или нет
+         * @return - Один из стандартных цветов приложения
+         */
+        public static int get(Context context, int color, boolean colorDark) {
+            return colorDark
+                    ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])
+                    : ContextCompat.getColor(context, ColorAnn.cl_light[color]);
         }
 
+        /**
+         * Получение цвета по аттрибуту
+         *
+         * @param attr - Аттрибут цвета
+         * @return - Цвет в записимости от отрибута
+         */
         public static int get(Context context, @AttrRes int attr) {
-            TypedValue typedValue = new TypedValue();
+            final TypedValue typedValue = new TypedValue();
             context.getTheme().resolveAttribute(attr, typedValue, true);
             return ContextCompat.getColor(context, typedValue.resourceId);
         }
 
-        public static int blend(int from, int to, float ratio) {
+        /**
+         * Получение RGB промежуточного цвета в записимости от значения трансформации
+         *
+         * @param from  - Цвет, от которого происходит переход
+         * @param to    - Цвет, к которому происходит переход
+         * @param ratio - Текущее положение трансформации
+         * @return - Промежуточный цвет
+         */
+        public static int blend(int from, int to, @FloatRange(from = 0.0, to = 1.0) float ratio) {
             final float inverseRatio = 1f - ratio;
 
             final float r = Color.red(to) * ratio + Color.red(from) * inverseRatio;
@@ -116,11 +158,20 @@ public final class Help {
 
     public static final class Draw {
 
+        /**
+         * Получение покрашенного изображения
+         *
+         * @param drawableId - Идентификатор изображения
+         * @param attr       - Аттрибут цвета
+         * @return - Покрашенное изображение
+         */
         public static Drawable get(Context context, @DrawableRes int drawableId, @AttrRes int attr) {
-            Drawable drawable = ContextCompat.getDrawable(context, drawableId);
+            final Drawable drawable = ContextCompat.getDrawable(context, drawableId);
 
-            int colorRes = Clr.get(context, attr);
-            if (drawable != null) drawable.setColorFilter(colorRes, PorterDuff.Mode.SRC_ATOP);
+            final int color = Clr.get(context, attr);
+            if (drawable != null) {
+                drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+            }
 
             return drawable;
         }
@@ -129,21 +180,36 @@ public final class Help {
 
     public static final class Tint {
 
+        /**
+         * Покараска элемента меню в стандартный цвет
+         *
+         * @param item - Элемент меню
+         */
         public static void menuIcon(Context context, MenuItem item) {
-            Drawable normalDrawable = item.getIcon();
-            Drawable wrapDrawable = DrawableCompat.wrap(normalDrawable);
+            final Drawable drawable = item.getIcon();
+            final Drawable wrapDrawable = DrawableCompat.wrap(drawable);
 
-            int colorRes = Clr.get(context, R.attr.clIcon);
-            DrawableCompat.setTint(wrapDrawable, colorRes);
+            final int color = Clr.get(context, R.attr.clIcon);
+            DrawableCompat.setTint(wrapDrawable, color);
 
             item.setIcon(wrapDrawable);
         }
 
-        public static void button(Context context, ImageButton button, @DrawableRes int drawableId, @AttrRes int clEnable, String text) {
-            Drawable drawableEnable = Draw.get(context, drawableId, clEnable);
-            Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
+        /**
+         * Блокирование кнопки и установка на неё покрашенной иконки в зависимости
+         * от текстового сообщения
+         *
+         * @param button     - Кнопка, которую необходимо контролировать
+         * @param drawableId - Идентификатор изображения
+         * @param clEnable   - Цвет изображения, когда кнопка доступна для нажатия
+         * @param text       - Текстовое сообщение, от которого зависит иконка и блокировка
+         */
+        public static void button(Context context, ImageButton button, @DrawableRes int drawableId,
+                                  @AttrRes int clEnable, String text) {
+            final Drawable drawableEnable = Draw.get(context, drawableId, clEnable);
+            final Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
 
-            if (!text.equals("")) {
+            if (!TextUtils.isEmpty(text)) {
                 button.setImageDrawable(drawableEnable);
                 button.setEnabled(true);
             } else {
@@ -152,14 +218,25 @@ public final class Help {
             }
         }
 
-        public static void button(Context context, ImageButton button, @DrawableRes int drawableId, String text, boolean enable) {
-            Drawable drawableEnable = Draw.get(context, drawableId, R.attr.clAccent);
-            Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
+        /**
+         * Блокирование кнопки и установка на неё покрашенной иконки в зависимости
+         * от текстового сообщения и дополнительного параметра доступа
+         *
+         * @param button     - Кнопка, которую необходимо контролировать
+         * @param drawableId - Идентификатор изображения
+         * @param text       - Текстовое сообщение, от которого зависит иконка и блокировка
+         * @param enable     - Дополнительный параметр для контроля, например список содержит
+         *                   текстовое сообщение
+         */
+        public static void button(Context context, ImageButton button, @DrawableRes int drawableId,
+                                  String text, boolean enable) {
+            final Drawable drawableEnable = Draw.get(context, drawableId, R.attr.clAccent);
+            final Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
 
-            if (!text.equals("")) {
-                if (enable) button.setImageDrawable(drawableEnable);
-                else button.setImageDrawable(drawableDisable);
-
+            if (!TextUtils.isEmpty(text)) {
+                button.setImageDrawable(enable
+                        ? drawableEnable
+                        : drawableDisable);
                 button.setEnabled(enable);
             } else {
                 button.setImageDrawable(drawableDisable);
@@ -177,7 +254,9 @@ public final class Help {
         public static int getRollCheck(List<RollItem> listRoll) {
             int rollCheck = 0;
             for (RollItem rollItem : listRoll) {
-                if (rollItem.isCheck()) rollCheck++;
+                if (rollItem.isCheck()) {
+                    rollCheck++;
+                }
             }
             return rollCheck;
         }
@@ -189,10 +268,14 @@ public final class Help {
         public static boolean isAllCheck(List<RollItem> listRoll) {
             if (listRoll.size() != 0) {
                 for (RollItem rollItem : listRoll) {
-                    if (!rollItem.isCheck()) return false;
+                    if (!rollItem.isCheck()) {
+                        return false;
+                    }
                 }
                 return true;
-            } else return false;
+            } else {
+                return false;
+            }
         }
 
     }
@@ -302,27 +385,35 @@ public final class Help {
 
     public static final class Time {
 
-        //Возвращает текущее время в нужном формате
+        /**
+         * @return - Текущее время в нужном формате
+         */
         public static String getCurrentTime(Context context) {
             return new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault()).format(Calendar.getInstance().getTime());
         }
 
-        //Преобразует дату в приятный вид
+        /**
+         * @param date - Время создания/изменения заметки
+         * @return - Время и дата в приятном виде
+         */
         public static String formatNoteDate(Context context, String date) {
-            DateFormat oldDateFormat = new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault()), newDateFormat;
-            Calendar calendar = Calendar.getInstance();
+            final DateFormat oldFormat = new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault());
+            final Calendar calendar = Calendar.getInstance();
+
+            DateFormat newFormat;
             try {
-                calendar.setTime(oldDateFormat.parse(date));
+                calendar.setTime(oldFormat.parse(date));
                 if (DateUtils.isToday(calendar.getTimeInMillis()))
-                    newDateFormat = new SimpleDateFormat(context.getString(R.string.date_note_today_format), Locale.getDefault());
+                    newFormat = new SimpleDateFormat(context.getString(R.string.date_note_today_format), Locale.getDefault());
                 else
-                    newDateFormat = new SimpleDateFormat(context.getString(R.string.date_note_yesterday_format), Locale.getDefault());
-                return newDateFormat.format(oldDateFormat.parse(date));
+                    newFormat = new SimpleDateFormat(context.getString(R.string.date_note_yesterday_format), Locale.getDefault());
+                return newFormat.format(oldFormat.parse(date));
             } catch (ParseException e) {
                 e.printStackTrace();
                 return null;
             }
         }
+
     }
 
 }

@@ -20,7 +20,6 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
     private int init, check;
 
     private int[] icons, colors;
-
     private int columnCount;
 
     public void setArguments(int check) {
@@ -36,6 +35,7 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final Bundle bundle = getArguments();
+
         if (savedInstanceState != null) {
             init = savedInstanceState.getInt(DialogAnn.INIT);
             check = savedInstanceState.getInt(DialogAnn.VALUE);
@@ -50,8 +50,7 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
         recyclerView.setPadding(padding, padding, padding, padding);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        final GridLayoutManager layoutManager = new GridLayoutManager(context, columnCount);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
 
         final ColorAdapter adapter = new ColorAdapter(context, check, icons, colors);
         adapter.setClickListener(this);

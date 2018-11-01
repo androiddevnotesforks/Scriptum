@@ -15,25 +15,24 @@ public final class SingleDialog extends DialogBlank {
     private int init, check;
 
     public void setArguments(int check) {
-        Bundle arg = new Bundle();
+        final Bundle bundle = new Bundle();
 
-        arg.putInt(DialogAnn.INIT, check);
-        arg.putInt(DialogAnn.VALUE, check);
+        bundle.putInt(DialogAnn.INIT, check);
+        bundle.putInt(DialogAnn.VALUE, check);
 
-        setArguments(arg);
+        setArguments(bundle);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle arg = getArguments();
-
+        final Bundle bundle = getArguments();
         if (savedInstanceState != null) {
             init = savedInstanceState.getInt(DialogAnn.INIT);
             check = savedInstanceState.getInt(DialogAnn.VALUE);
-        } else if (arg != null) {
-            init = arg.getInt(DialogAnn.INIT);
-            check = arg.getInt(DialogAnn.VALUE);
+        } else if (bundle != null) {
+            init = bundle.getInt(DialogAnn.INIT);
+            check = bundle.getInt(DialogAnn.VALUE);
         }
 
         return new AlertDialog.Builder(context)

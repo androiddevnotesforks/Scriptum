@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -232,7 +233,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             if (i == EditorInfo.IME_ACTION_DONE) {
                 final String name = rankEnter.getText().toString().toUpperCase();
 
-                if (!name.equals("") && !vm.getRankRepo().getListName().contains(name)) {
+                if (!TextUtils.isEmpty(name) && !vm.getRankRepo().getListName().contains(name)) {
                     onClick(rankAdd);
                 }
                 return true;

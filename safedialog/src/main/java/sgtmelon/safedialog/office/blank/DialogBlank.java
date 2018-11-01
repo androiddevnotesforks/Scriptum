@@ -8,6 +8,9 @@ import androidx.annotation.CallSuper;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+/**
+ * Базовый класс диалогов для наследования
+ */
 public class DialogBlank extends DialogFragment {
 
     protected Context context;
@@ -55,7 +58,6 @@ public class DialogBlank extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-
         if (dismissListener != null) dismissListener.onDismiss(dialog);
     }
 

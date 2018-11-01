@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
+import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatImageButton;
@@ -14,6 +15,9 @@ import androidx.core.content.ContextCompat;
 import sgtmelon.iconanim.R;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 
+/**
+ * Кнопка с автоматизацией процесса смены иконки
+ */
 public class SwitchButton extends AppCompatImageButton implements AnimIntf {
 
     final Context context;
@@ -61,6 +65,7 @@ public class SwitchButton extends AppCompatImageButton implements AnimIntf {
         attributes.recycle();
     }
 
+    @CallSuper
     void setupDrawable() {
         drawableDisable = ContextCompat.getDrawable(context, srcDisable);
         if (drawableDisable != null) {

@@ -406,7 +406,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         NoteRepo noteRepo = vm.getNoteRepo();
         NoteItem noteItem = noteRepo.getNoteItem();
 
-        if (!noteSt.isCreate() && noteSt.isEdit() && !noteItem.getText().equals("")) { //Если редактирование и текст в хранилище не пустой
+        //Если редактирование и текст в хранилище не пустой
+        if (!noteSt.isCreate() && noteSt.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
             menuControl.setStartColor(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
@@ -482,7 +483,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final NoteRepo noteRepo = vm.getNoteRepo();
 
         final List<RollItem> listRoll = noteRepo.getListRoll();
-        if (text.equals("")) {
+        if (TextUtils.isEmpty(text)) {
             listRoll.remove(p);
             adapter.setList(listRoll);
             adapter.notifyItemRemoved(p);

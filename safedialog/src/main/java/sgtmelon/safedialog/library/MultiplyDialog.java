@@ -17,7 +17,7 @@ public final class MultiplyDialog extends DialogBlank {
     private boolean[] init, check;
 
     public void setArguments(boolean[] check) {
-        Bundle bundle = new Bundle();
+        final Bundle bundle = new Bundle();
 
         bundle.putBooleanArray(DialogAnn.INIT, check.clone());
         bundle.putBooleanArray(DialogAnn.VALUE, check);
@@ -28,7 +28,7 @@ public final class MultiplyDialog extends DialogBlank {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle bundle = getArguments();
+        final Bundle bundle = getArguments();
 
         if (savedInstanceState != null) {
             init = savedInstanceState.getBooleanArray(DialogAnn.INIT);

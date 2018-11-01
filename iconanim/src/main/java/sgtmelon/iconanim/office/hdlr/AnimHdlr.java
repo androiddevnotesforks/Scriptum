@@ -8,6 +8,9 @@ import android.os.Handler;
 import androidx.annotation.RequiresApi;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 
+/**
+ * Handler для регистрации начала и конца анимации
+ */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public final class AnimHdlr {
 

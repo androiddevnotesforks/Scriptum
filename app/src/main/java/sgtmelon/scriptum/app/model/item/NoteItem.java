@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.app.model.item;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -85,8 +86,9 @@ public final class NoteItem {
     }
 
     public String getName(Context context) {
-        if (!name.equals("")) return name;
-        else return context.getString(R.string.hint_view_name);
+        return TextUtils.isEmpty(name)
+                ? context.getString(R.string.hint_view_name)
+                : name;
     }
 
     public String getText() {

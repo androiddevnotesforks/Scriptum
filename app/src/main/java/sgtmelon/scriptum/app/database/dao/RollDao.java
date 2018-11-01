@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.app.database.dao;
 
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public abstract class RollDao extends BaseDao {
 
         int p = 0;
         for (String aText : text) {
-            if (!aText.equals("")) {
+            if (!TextUtils.isEmpty(aText)) {
                 final RollItem rollItem = new RollItem();
                 rollItem.setIdNote(idNote);
                 rollItem.setPosition(p++);

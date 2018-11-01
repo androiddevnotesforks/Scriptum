@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -27,37 +28,36 @@ public final class RenameDialog extends DialogBlank implements TextView.OnEditor
     private ArrayList<String> listName;
     private EditText nameEnter;
 
-    @ColorInt
-    private int colorText, colorHint;
+    @ColorInt private int colorText, colorHint;
     private String textHint;
     private int textLength;
 
     public void setArguments(int p, String title, ArrayList<String> listName) {
-        Bundle arg = new Bundle();
+        final Bundle bundle = new Bundle();
 
-        arg.putInt(DialogAnn.POSITION, p);
-        arg.putString(DialogAnn.INIT, title);
-        arg.putStringArrayList(DialogAnn.VALUE, listName);
+        bundle.putInt(DialogAnn.POSITION, p);
+        bundle.putString(DialogAnn.INIT, title);
+        bundle.putStringArrayList(DialogAnn.VALUE, listName);
 
-        setArguments(arg);
+        setArguments(bundle);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Bundle arg = getArguments();
+        final Bundle bundle = getArguments();
 
         if (savedInstanceState != null) {
             position = savedInstanceState.getInt(DialogAnn.POSITION);
             title = savedInstanceState.getString(DialogAnn.INIT);
             listName = savedInstanceState.getStringArrayList(DialogAnn.VALUE);
-        } else if (arg != null) {
-            position = arg.getInt(DialogAnn.POSITION);
-            title = arg.getString(DialogAnn.INIT);
-            listName = arg.getStringArrayList(DialogAnn.VALUE);
+        } else if (bundle != null) {
+            position = bundle.getInt(DialogAnn.POSITION);
+            title = bundle.getString(DialogAnn.INIT);
+            listName = bundle.getStringArrayList(DialogAnn.VALUE);
         }
 
-        View view = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
+        final View view = LayoutInflater.from(context).inflate(R.layout.view_rename, null);
         nameEnter = view.findViewById(R.id.rename_enter);
 
         nameEnter.setTextColor(colorText);
@@ -129,8 +129,8 @@ public final class RenameDialog extends DialogBlank implements TextView.OnEditor
     protected void setEnable() {
         super.setEnable();
 
-        String name = getName();
-        if (name.equals("") || listName.contains(name.toUpperCase())) {
+        final String name = getName();
+        if (TextUtils.isEmpty(name) || listName.contains(name.toUpperCase())) {
             buttonPositive.setEnabled(false);
         } else {
             buttonPositive.setEnabled(true);
@@ -140,8 +140,8 @@ public final class RenameDialog extends DialogBlank implements TextView.OnEditor
     @Override
     public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
         if (i == EditorInfo.IME_ACTION_DONE) {
-            String name = getName();
-            if (!name.equals("") && !listName.contains(name.toUpperCase())) {
+            final String name = getName();
+            if (!TextUtils.isEmpty(name) && !listName.contains(name.toUpperCase())) {
                 buttonPositive.callOnClick();
                 return true;
             }

@@ -10,8 +10,11 @@ import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import sgtmelon.iconanim.office.hdlr.AnimHdlr;
 
+/**
+ * Версия {@link SwitchButton} с анимацией иконок при их смене
+ */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-public class SwitchButtonAnim extends SwitchButton {
+public final class SwitchButtonAnim extends SwitchButton {
 
     private AnimHdlr animHdlr;
 
