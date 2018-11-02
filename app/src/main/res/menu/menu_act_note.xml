@@ -66,7 +66,7 @@
 
                 <item
                     android:id="@+id/menu_actNote_check"
-                    android:icon="@drawable/ic_check"
+                    android:icon="@drawable/ic_check_all"
                     android:title="@string/menu_note_check_all"
                     app:showAsAction="always|withText" />
 

@@ -10,16 +10,17 @@
         <attr name="clBackgroundEnter" format="color" />
         <attr name="clBackgroundItem" format="color" />
 
-        <attr name="clSecond" format="color" />
+        <attr name="clSecond" format="color" /> <!-- TODO remane -->
         <attr name="clIcon" format="color" />
         <attr name="clText" format="color" />
 
-        <attr name="clSelect" format="color"/>
+        <attr name="clSelect" format="color" />
     </declare-styleable>
 
     <declare-styleable name="NoteTheme">
-        <attr name="clInfo" format="color" />
-        <attr name="clInfoIndicator" format="color" />
+        <attr name="clNoteInfoText" format="color" />
+        <attr name="clNoteIndicator" format="color" />
+        <attr name="clNoteCheck" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ToolbarTheme">

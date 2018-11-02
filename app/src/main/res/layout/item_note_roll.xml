@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -46,14 +47,17 @@
                 android:id="@+id/itemNote_fl_check"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/clSelect">
+                android:background="?attr/clSelect"
+                tools:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_color_check" />
+                    android:background="@drawable/ic_note_check"
+                    android:padding="@dimen/layout_4dp"
+                    android:tint="?attr/clBackground"
+                    app:srcCompat="@drawable/ic_check" />
 
             </FrameLayout>
 
@@ -69,7 +73,8 @@
                         android:id="@+id/itemNote_tv_name"
                         style="@style/ItemNote.Name"
                         android:text='@{itemNote.name}'
-                        android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}' />
+                        android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}'
+                        tools:text="@string/test_note_name" />
 
                     <LinearLayout
                         android:id="@+id/itemNote_ll_roll_1"
@@ -82,12 +87,14 @@
                             android:id="@+id/itemNote_iv_check_1"
                             style="@style/ItemNote.Indicator"
                             android:contentDescription="@null"
-                            android:src='@{listRoll.size() &gt;= 1 &amp;&amp; listRoll.get(0).check ? @drawable/ic_check_done : @drawable/ic_check_outline}' />
+                            android:src='@{listRoll.size() &gt;= 1 &amp;&amp; listRoll.get(0).check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
+                            tools:srcCompat="@drawable/ic_check_done" />
 
                         <TextView
                             android:id="@+id/itemNote_tv_text_1"
                             style="@style/ItemNote.Roll"
-                            android:text='@{listRoll.size() &gt;= 1 ? listRoll.get(0).text : @string/test_item_note_roll_1}' />
+                            android:text='@{listRoll.size() &gt;= 1 ? listRoll.get(0).text : ""}'
+                            tools:text="@string/test_note_roll_1" />
 
                     </LinearLayout>
 
@@ -98,17 +105,18 @@
                         android:orientation="horizontal"
                         android:visibility='@{listRoll.size() &gt;= 2 ? v.VISIBLE : v.GONE}'>
 
-
                         <ImageView
                             android:id="@+id/itemNote_iv_check_2"
                             style="@style/ItemNote.Indicator"
                             android:contentDescription="@null"
-                            android:src='@{listRoll.size() &gt;= 2 &amp;&amp; listRoll.get(1).check ? @drawable/ic_check_done : @drawable/ic_check_outline}' />
+                            android:src='@{listRoll.size() &gt;= 2 &amp;&amp; listRoll.get(1).check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
+                            tools:srcCompat="@drawable/ic_check_outline" />
 
                         <TextView
                             android:id="@+id/itemNote_tv_text_2"
                             style="@style/ItemNote.Roll"
-                            android:text='@{listRoll.size() &gt;= 2 ? listRoll.get(1).text : @string/test_item_note_roll_2}' />
+                            android:text='@{listRoll.size() &gt;= 2 ? listRoll.get(1).text : ""}'
+                            tools:text="@string/test_note_roll_2" />
 
                     </LinearLayout>
 
@@ -119,17 +127,18 @@
                         android:orientation="horizontal"
                         android:visibility='@{listRoll.size() &gt;= 3 ? v.VISIBLE : v.GONE}'>
 
-
                         <ImageView
                             android:id="@+id/itemNote_iv_check_3"
                             style="@style/ItemNote.Indicator"
                             android:contentDescription="@null"
-                            android:src='@{listRoll.size() &gt;= 3 &amp;&amp; listRoll.get(2).check ? @drawable/ic_check_done : @drawable/ic_check_outline}' />
+                            android:src='@{listRoll.size() &gt;= 3 &amp;&amp; listRoll.get(2).check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
+                            tools:srcCompat="@drawable/ic_check_done" />
 
                         <TextView
                             android:id="@+id/itemNote_tv_text_3"
                             style="@style/ItemNote.Roll"
-                            android:text='@{listRoll.size() &gt;= 3 ? listRoll.get(2).text : @string/test_item_note_roll_3}' />
+                            android:text='@{listRoll.size() &gt;= 3 ? listRoll.get(2).text : ""}'
+                            tools:text="@string/test_note_roll_3" />
 
                     </LinearLayout>
 
@@ -144,12 +153,14 @@
                             android:id="@+id/itemNote_iv_check_4"
                             style="@style/ItemNote.Indicator"
                             android:contentDescription="@null"
-                            android:src='@{listRoll.size() &gt;= 4 &amp;&amp; listRoll.get(3).check ? @drawable/ic_check_done : @drawable/ic_check_outline}' />
+                            android:src='@{listRoll.size() &gt;= 4 &amp;&amp; listRoll.get(3).check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
+                            tools:srcCompat="@drawable/ic_check_outline" />
 
                         <TextView
                             android:id="@+id/itemNote_tv_text_4"
                             style="@style/ItemNote.Roll"
-                            android:text='@{listRoll.size() &gt;= 4 ? listRoll.get(3).text : @string/test_item_note_roll_4}' />
+                            android:text='@{listRoll.size() &gt;= 4 ? listRoll.get(3).text : ""}'
+                            tools:text="@string/test_note_roll_4" />
 
                     </LinearLayout>
 
@@ -177,20 +188,23 @@
                             android:id="@+id/itemNote_tv_text"
                             style="@style/ItemNote.Info"
                             android:layout_width="wrap_content"
-                            android:text='@{itemNote.text}' />
+                            android:text='@{itemNote.text}'
+                            tools:text="@string/test_note_done" />
 
                         <TextView
                             android:id="@+id/itemNote_tv_change"
                             style="@style/ItemNote.Info"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:text='@{Time.formatNoteDate(context, itemNote.change)}' />
+                            android:text='@{Time.formatNoteDate(context, itemNote.change)}'
+                            tools:text="@string/test_note_time" />
 
                         <TextView
                             android:id="@+id/itemNote_tv_create"
                             style="@style/ItemNote.Info"
                             android:layout_width="wrap_content"
-                            android:text='@{Time.formatNoteDate(context, itemNote.create)}' />
+                            android:text='@{Time.formatNoteDate(context, itemNote.create)}'
+                            tools:text="@string/test_note_time" />
 
                     </LinearLayout>
 
@@ -199,10 +213,10 @@
                 <View
                     android:id="@+id/itemNote_iv_color"
                     style="@style/ItemNote.Color.Vertical"
-                    android:layout_marginStart="@dimen/layout_4dp"
-                    android:layout_marginLeft="@dimen/layout_4dp"
                     android:background='@{Clr.getNote(context, itemNote.color, true)}'
-                    android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}' />
+                    android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
+                    tools:background="@color/noteGreenDark"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 

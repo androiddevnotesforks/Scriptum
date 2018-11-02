@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -42,14 +43,15 @@
                 android:id="@+id/itemNote_fl_check"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?attr/clSelect">
+                android:background="?attr/clSelect"
+                tools:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_color_check" />
+                    app:srcCompat="@drawable/ic_check" />
 
             </FrameLayout>
 
@@ -65,12 +67,14 @@
                         android:id="@+id/itemNote_tv_name"
                         style="@style/ItemNote.Name"
                         android:text='@{itemNote.name}'
-                        android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}' />
+                        android:visibility='@{text.isEmpty(itemNote.name) ? v.GONE : v.VISIBLE}'
+                        tools:text="@string/test_note_name" />
 
                     <TextView
                         android:id="@+id/itemNote_tv_text"
                         style="@style/ItemNote.Text"
-                        android:text='@{itemNote.text}' />
+                        android:text='@{itemNote.text}'
+                        tools:text="@string/test_note_text" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -97,13 +101,15 @@
                             style="@style/ItemNote.Info"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:text='@{Time.formatNoteDate(context, itemNote.change)}' />
+                            android:text='@{Time.formatNoteDate(context, itemNote.change)}'
+                            tools:text="@string/test_note_time" />
 
                         <TextView
                             android:id="@+id/itemNote_tv_create"
                             style="@style/ItemNote.Info"
                             android:layout_width="wrap_content"
-                            android:text='@{Time.formatNoteDate(context, itemNote.create)}' />
+                            android:text='@{Time.formatNoteDate(context, itemNote.create)}'
+                            tools:text="@string/test_note_time" />
 
                     </LinearLayout>
 
@@ -111,12 +117,11 @@
 
                 <View
                     android:id="@+id/itemNote_iv_color"
-                    android:layout_width="@dimen/layout_4dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/layout_4dp"
-                    android:layout_marginLeft="@dimen/layout_4dp"
+                    style="@style/ItemNote.Color.Vertical"
                     android:background='@{Clr.getNote(context, itemNote.color, true)}'
-                    android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}' />
+                    android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
+                    tools:background="@color/noteGreenDark"
+                    tools:visibility="gone" />
 
             </LinearLayout>
 

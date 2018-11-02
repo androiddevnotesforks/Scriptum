@@ -33,7 +33,7 @@
             android:layout_height="@dimen/icon_24dp"
             android:layout_gravity="center"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_color_check" />
+            app:srcCompat="@drawable/ic_check" />
 
         <ImageView
             android:id="@+id/itemColor_iv_click"

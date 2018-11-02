@@ -18,8 +18,9 @@
 
         <item name="clSelect">@color/selectLight</item>
 
-        <item name="clInfo">?attr/clText</item>
-        <item name="clInfoIndicator">?attr/clIcon</item>
+        <item name="clNoteInfoText">?attr/clText</item>
+        <item name="clNoteIndicator">?attr/clIcon</item>
+        <item name="clNoteCheck">?attr/clIcon</item>
 
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clSecond</item>
@@ -58,8 +59,9 @@
 
         <item name="clSelect">@color/selectDark</item>
 
-        <item name="clInfo">?attr/clSecond</item>
-        <item name="clInfoIndicator">?attr/clAccent</item>
+        <item name="clNoteInfoText">?attr/clSecond</item>
+        <item name="clNoteIndicator">?attr/clAccent</item>
+        <item name="clNoteCheck">?attr/clAccent</item>
 
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clPrimary</item>
