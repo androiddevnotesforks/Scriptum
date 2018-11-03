@@ -29,7 +29,7 @@ import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 
 public final class TextFragment extends NoteFragmentParent {
@@ -102,7 +102,7 @@ public final class TextFragment extends NoteFragmentParent {
             final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
             noteItem.setChange(Help.Time.getCurrentTime(context));
-            noteItem.setType(TypeDef.roll);
+            noteItem.setType(TypeNoteDef.roll);
             noteItem.setText(0, listRoll.size());
 
             db.daoNote().update(noteItem);

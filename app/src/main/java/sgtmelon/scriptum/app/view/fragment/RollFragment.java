@@ -41,7 +41,7 @@ import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.StateDef;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.CheckSt;
 import sgtmelon.scriptum.office.st.DragListenerSt;
@@ -242,7 +242,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             final String text = db.daoRoll().getText(noteItem.getId());
             noteItem.setChange(Help.Time.getCurrentTime(context));
-            noteItem.setType(TypeDef.text);
+            noteItem.setType(TypeNoteDef.text);
             noteItem.setText(text);
 
             db.daoNote().update(noteItem);
@@ -351,7 +351,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "scrollToInsert");
 
         final String text = rollEnter.getText().toString();
-        if (TextUtils.isEmpty(text)) {
+        if (!TextUtils.isEmpty(text)) {
             rollEnter.setText("");
 
             //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
@@ -481,8 +481,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onChanged");
 
         final NoteRepo noteRepo = vm.getNoteRepo();
-
         final List<RollItem> listRoll = noteRepo.getListRoll();
+
         if (TextUtils.isEmpty(text)) {
             listRoll.remove(p);
             adapter.setList(listRoll);

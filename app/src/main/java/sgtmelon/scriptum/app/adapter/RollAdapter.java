@@ -19,7 +19,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeRollDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 
 /**
@@ -42,12 +42,12 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
     public RollHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             default:
-            case TypeDef.Roll.read:
+            case TypeRollDef.read:
                 final ItemRollReadBinding bindingRead = DataBindingUtil.inflate(
                         inflater, R.layout.item_roll_read, parent, false
                 );
                 return new RollHolder(bindingRead);
-            case TypeDef.Roll.write:
+            case TypeRollDef.write:
                 final ItemRollWriteBinding bindingWrite = DataBindingUtil.inflate(
                         inflater, R.layout.item_roll_write, parent, false
                 );
@@ -69,8 +69,8 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
     @Override
     public int getItemViewType(int position) {
         return noteSt.isEdit()
-                ? TypeDef.Roll.write
-                : TypeDef.Roll.read;
+                ? TypeRollDef.write
+                : TypeRollDef.read;
     }
 
     final class RollHolder extends RecyclerView.ViewHolder implements View.OnClickListener,

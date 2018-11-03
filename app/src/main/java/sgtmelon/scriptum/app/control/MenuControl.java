@@ -18,7 +18,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 
 /**
@@ -54,7 +54,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         valTheme = Help.Pref.getTheme(context);
 
         final ValueAnimator.AnimatorUpdateListener updateListener = animator -> {
-            float position = animator.getAnimatedFraction();
+            final float position = animator.getAnimatedFraction();
 
             int blended = Help.Clr.blend(statusStartColor, statusEndColor, position);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && valTheme != ThemeDef.dark) {
@@ -152,23 +152,23 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
     }
 
     public final void setupMenu(boolean status) {
-        MenuItem mItemRestore = menu.findItem(R.id.restore_item);
-        MenuItem mItemRestoreOpen = menu.findItem(R.id.restore_open_item);
-        MenuItem mItemClear = menu.findItem(R.id.clear_item);
+        final MenuItem mItemRestore = menu.findItem(R.id.restore_item);
+        final MenuItem mItemRestoreOpen = menu.findItem(R.id.restore_open_item);
+        final MenuItem mItemClear = menu.findItem(R.id.clear_item);
 
-        MenuItem mItemMoreR = menu.findItem(R.id.read_more_item);
+        final MenuItem mItemMoreR = menu.findItem(R.id.read_more_item);
         mItemStatus = menu.findItem(R.id.bind_item);
-        MenuItem mItemConvert = menu.findItem(R.id.convert_item);
+        final MenuItem mItemConvert = menu.findItem(R.id.convert_item);
         mItemCheck = menu.findItem(R.id.check_item);
-        MenuItem mItemDelete = menu.findItem(R.id.delete_item);
+        final MenuItem mItemDelete = menu.findItem(R.id.delete_item);
 
-        MenuItem mItemMoreE = menu.findItem(R.id.edit_more_item);
-        MenuItem mItemRank = menu.findItem(R.id.rank_item);
-        MenuItem mItemColor = menu.findItem(R.id.color_item);
+        final MenuItem mItemMoreE = menu.findItem(R.id.edit_more_item);
+        final MenuItem mItemRank = menu.findItem(R.id.rank_item);
+        final MenuItem mItemColor = menu.findItem(R.id.color_item);
 
         setStatusTitle(status);
 
-        boolean isRoll = type == TypeDef.roll;
+        final boolean isRoll = type == TypeNoteDef.roll;
 
         mItemStatus.setIcon(Help.Draw.get(context, isRoll
                         ? R.drawable.ic_bind_roll
@@ -180,13 +180,13 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
                 : R.string.menu_note_convert_to_roll);
         mItemCheck.setVisible(isRoll);
 
-        MenuItem[] mItems = new MenuItem[]{mItemRestore, mItemRestoreOpen, mItemClear,
+        final MenuItem[] mItems = new MenuItem[]{mItemRestore, mItemRestoreOpen, mItemClear,
                 mItemMoreR, mItemStatus, mItemConvert, mItemCheck, mItemDelete,
                 mItemMoreE, mItemRank, mItemColor};
 
         for (MenuItem mItem : mItems) Help.Tint.menuIcon(context, mItem);
 
-        RoomDb db = RoomDb.provideDb(context);
+        final RoomDb db = RoomDb.provideDb(context);
         mItemRank.setVisible(db.daoRank().getCount() != 0);
         db.close();
     }

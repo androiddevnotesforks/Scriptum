@@ -17,7 +17,7 @@ import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding;
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 
 /**
  * Адаптер для {@link NotesFragment}, {@link BinFragment}
@@ -31,7 +31,7 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
     @NonNull
     @Override
     public NoteHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == TypeDef.text) {
+        if (viewType == TypeNoteDef.text) {
             final ItemNoteTextBinding bindingText = DataBindingUtil.inflate(
                     inflater, R.layout.item_note_text, parent, false
             );
@@ -88,7 +88,7 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
         }
 
         void bind(NoteItem noteItem, List<RollItem> listRoll) {
-            if (noteItem.getType() == TypeDef.text) {
+            if (noteItem.getType() == TypeNoteDef.text) {
                 bindingText.setNoteItem(noteItem);
 
                 bindingText.executePendingBindings();

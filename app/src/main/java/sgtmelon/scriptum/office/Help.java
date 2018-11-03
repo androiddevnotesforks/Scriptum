@@ -39,7 +39,7 @@ import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 
 public final class Help {
 
@@ -56,10 +56,10 @@ public final class Help {
         }
 
         switch (noteItem.getType()) {
-            case TypeDef.text:
+            case TypeNoteDef.text:
                 copyText += noteItem.getText();     //В зависимости от типа составляем текст
                 break;
-            case TypeDef.roll:
+            case TypeNoteDef.roll:
                 final RoomDb db = RoomDb.provideDb(context);
                 copyText = db.daoRoll().getText(noteItem.getId());
                 db.close();
@@ -323,13 +323,13 @@ public final class Help {
         }
 
         public static String getSortSummary(Context context, String keys) {
-            StringBuilder order = new StringBuilder();
+            final StringBuilder order = new StringBuilder();
 
-            String[] keysArr = keys.split(SortDef.divider);
-            String[] keysName = context.getResources().getStringArray(R.array.pref_sort_text);
+            final String[] keysArr = keys.split(SortDef.divider);
+            final String[] keysName = context.getResources().getStringArray(R.array.pref_sort_text);
 
             for (int k = 0; k < keysArr.length; k++) {
-                @SortDef int key = Integer.parseInt(keysArr[k]);
+                final int key = Integer.parseInt(keysArr[k]);
 
                 String summary = keysName[key];
                 if (k != 0) {
@@ -347,8 +347,8 @@ public final class Help {
         }
 
         public static boolean getSortEqual(String keys1, String keys2) {
-            String[] keysArr1 = keys1.split(SortDef.divider);
-            String[] keysArr2 = keys2.split(SortDef.divider);
+            final String[] keysArr1 = keys1.split(SortDef.divider);
+            final String[] keysArr2 = keys2.split(SortDef.divider);
 
             for (int i = 0; i < keysArr1.length; i++) {
                 if (!keysArr1[i].equals(keysArr2[i])) {
@@ -363,7 +363,7 @@ public final class Help {
         }
 
         public static void listAllPref(Context context, TextView textView) {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
             textView.append("\n\nSort:");
             textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), SortDef.def));
@@ -377,7 +377,7 @@ public final class Help {
         }
 
         public static int getTheme(Context context) {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
             return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default));
         }
 

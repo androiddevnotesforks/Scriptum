@@ -18,7 +18,7 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 
 /**
  * Управление закреплением заметки в статус баре {@link NoteRepo}
@@ -63,11 +63,11 @@ public final class StatusItem {
         String text = "";
 
         switch (noteItem.getType()) {
-            case TypeDef.text:
+            case TypeNoteDef.text:
                 icon = R.drawable.notif_bind_text;
                 text = noteItem.getText();
                 break;
-            case TypeDef.roll:
+            case TypeNoteDef.roll:
                 icon = R.drawable.notif_bind_roll;
 
                 final RoomDb db = RoomDb.provideDb(context);

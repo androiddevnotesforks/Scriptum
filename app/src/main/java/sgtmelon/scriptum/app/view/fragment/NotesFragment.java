@@ -43,7 +43,7 @@ import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.OptionsDef;
 import sgtmelon.scriptum.office.annot.def.StateDef;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 
@@ -168,7 +168,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
             final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
 
             switch (noteItem.getType()) {
-                case TypeDef.text:
+                case TypeNoteDef.text:
                     switch (i) {
                         case OptionsDef.Notes.Text.bind:
                             onMenuBindClick(p);
@@ -184,7 +184,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
                             break;
                     }
                     break;
-                case TypeDef.roll:
+                case TypeNoteDef.roll:
                     switch (i) {
                         case OptionsDef.Notes.Roll.check:
                             onMenuCheckClick(p);
@@ -257,14 +257,14 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         String[] items = new String[0];
         switch (noteItem.getType()) {
-            case TypeDef.text:
+            case TypeNoteDef.text:
                 items = context.getResources().getStringArray(R.array.dialog_menu_text);
 
                 items[0] = noteItem.isStatus()
                         ? context.getString(R.string.dialog_menu_status_unbind)
                         : context.getString(R.string.dialog_menu_status_bind);
                 break;
-            case TypeDef.roll:
+            case TypeNoteDef.roll:
                 items = context.getResources().getStringArray(R.array.dialog_menu_roll);
 
                 items[0] = noteItem.isAllCheck()
@@ -352,21 +352,21 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         db = RoomDb.provideDb(context);
         switch (noteItem.getType()) {
-            case TypeDef.text:
+            case TypeNoteDef.text:
                 final String[] textToRoll = noteItem.getText().split("\n");
                 final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
-                noteItem.setType(TypeDef.roll);
+                noteItem.setType(TypeNoteDef.roll);
                 noteItem.setText(0, listRoll.size());
 
                 db.daoNote().update(noteItem);
 
                 noteRepo.setListRoll(listRoll);
                 break;
-            case TypeDef.roll:
+            case TypeNoteDef.roll:
                 final String rollToText = db.daoRoll().getText(noteItem.getId());
 
-                noteItem.setType(TypeDef.text);
+                noteItem.setType(TypeNoteDef.text);
                 noteItem.setText(rollToText);
 
                 db.daoNote().update(noteItem);

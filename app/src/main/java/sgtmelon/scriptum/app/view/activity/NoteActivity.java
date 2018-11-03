@@ -27,7 +27,7 @@ import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -115,7 +115,7 @@ public final class NoteActivity extends BaseActivityParent
             FragmentNoteViewModel viewModel;
             MenuControl menuControl;
             switch (noteItem.getType()) {
-                case TypeDef.text:
+                case TypeNoteDef.text:
                     if (!textFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         menuControl = textFragment.getMenuControl();
                         menuControl.setStartColor(noteItem.getColor());
@@ -133,7 +133,7 @@ public final class NoteActivity extends BaseActivityParent
                         textFragment.onMenuEditClick(false);
                     }
                     break;
-                case TypeDef.roll:
+                case TypeNoteDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
                         menuControl = rollFragment.getMenuControl();
                         menuControl.setStartColor(noteItem.getColor());
@@ -155,10 +155,10 @@ public final class NoteActivity extends BaseActivityParent
             }
         } else if (noteSt.isCreate()) {     //Если только что создали заметку
             switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
-                case TypeDef.text:
+                case TypeNoteDef.text:
                     if (!textFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
-                case TypeDef.roll:
+                case TypeNoteDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) super.onBackPressed();
                     break;
             }
@@ -179,7 +179,7 @@ public final class NoteActivity extends BaseActivityParent
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
 
         switch (vm.getNoteRepo().getNoteItem().getType()) {
-            case TypeDef.text:
+            case TypeNoteDef.text:
                 if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
                 else textFragment = new TextFragment();
 
@@ -187,7 +187,7 @@ public final class NoteActivity extends BaseActivityParent
 
                 transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
-            case TypeDef.roll:
+            case TypeNoteDef.roll:
                 if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
                 else rollFragment = new RollFragment();
 
@@ -255,7 +255,7 @@ public final class NoteActivity extends BaseActivityParent
         FragmentNoteViewModel viewModel;
         MenuControl menuControl;
         switch (vm.getNoteRepo().getNoteItem().getType()) {
-            case TypeDef.text:
+            case TypeNoteDef.text:
                 viewModel = textFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
                 textFragment.setViewModel(viewModel);
@@ -264,7 +264,7 @@ public final class NoteActivity extends BaseActivityParent
                 menuControl.setMenuGroupVisible(false, false, true);
                 textFragment.setMenuControl(menuControl);
                 break;
-            case TypeDef.roll:
+            case TypeNoteDef.roll:
                 viewModel = rollFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
                 rollFragment.setViewModel(viewModel);

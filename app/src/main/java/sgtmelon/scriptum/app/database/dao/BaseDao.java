@@ -14,7 +14,7 @@ import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.StateDef;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeRollDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 import sgtmelon.scriptum.office.conv.ListConv;
 
@@ -58,7 +58,7 @@ abstract class BaseDao {
      */
     @Query("SELECT COUNT(NT_ID) FROM NOTE_TABLE " +
             "WHERE NT_TYPE = :type AND NT_ID IN(:noteId)")
-    abstract int getNoteCount(@TypeDef int type, Long[] noteId);
+    abstract int getNoteCount(@TypeRollDef int type, Long[] noteId);
 
     @Update
     abstract void updateNote(List<NoteItem> listNote);

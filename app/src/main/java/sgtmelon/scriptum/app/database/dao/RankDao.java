@@ -17,7 +17,7 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
-import sgtmelon.scriptum.office.annot.def.TypeDef;
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.ListConv;
 
 /**
@@ -43,8 +43,8 @@ public abstract class RankDao extends BaseDao {
             final RankItem rankItem = listRank.get(i);
             final Long[] idNote = rankItem.getIdNote();
 
-            rankItem.setTextCount(getNoteCount(TypeDef.text, idNote));
-            rankItem.setRollCount(getNoteCount(TypeDef.roll, idNote));
+            rankItem.setTextCount(getNoteCount(TypeNoteDef.text, idNote));
+            rankItem.setRollCount(getNoteCount(TypeNoteDef.roll, idNote));
 
             listRank.set(i, rankItem);
         }

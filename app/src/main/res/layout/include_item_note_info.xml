@@ -8,7 +8,7 @@
         <import type="sgtmelon.scriptum.office.Help.Time"/>
 
         <import alias="def"
-                type="sgtmelon.scriptum.office.annot.def.TypeDef"/>
+                type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
 
         <import alias="v"
                 type="android.view.View"/>
