@@ -15,12 +15,12 @@ public interface InputIntf {
 
     void onTextChange(String text);
 
-    void onRollChange(int position, String text);
+    void onRollChange(int p, String text);
 
-    void onRollAdd(int position, String text);
+    void onRollAdd(int p);
 
-    void onRollSwipe(int position, String text);
+    void onRollRemove(int p, String text);
 
-    void onRollMove(int start, int end);
+    void onRollMove(int dragStart, int dragEnd);
 
 }

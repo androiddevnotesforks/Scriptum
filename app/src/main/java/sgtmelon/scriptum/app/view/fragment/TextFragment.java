@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.app.view.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +74,8 @@ public final class TextFragment extends NoteFragmentParent {
 
         onMenuEditClick(noteSt.isEdit());
 
+        inputControl.setEnable(true);
+
         noteSt.setFirst(false);
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
@@ -121,11 +125,34 @@ public final class TextFragment extends NoteFragmentParent {
         });
     }
 
-    private void setupEnter() {
+    @Override
+    protected void setupEnter() {
         Log.i(TAG, "setupEnter");
+        super.setupEnter();
 
-        final EditText nameEnter = frgView.findViewById(R.id.name_enter);
         final EditText textEnter = frgView.findViewById(R.id.text_enter);
+        textEnter.addTextChangedListener(new TextWatcher() {
+            private String textBefore;
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                textBefore = charSequence.toString();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                final String textChanged = charSequence.toString();
+                if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
+                    inputControl.onTextChange(textBefore);
+                    textBefore = textChanged;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_NEXT) {
@@ -181,6 +208,8 @@ public final class TextFragment extends NoteFragmentParent {
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
+        inputControl.listAll();
+
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
         if (!TextUtils.isEmpty(noteItem.getText())) {
@@ -229,9 +258,14 @@ public final class TextFragment extends NoteFragmentParent {
         final NoteSt noteSt = viewModel.getNoteSt();
         noteSt.setEdit(editMode);
 
-        menuControl.setDrawable(editMode && !noteSt.isCreate(),
-                !noteSt.isCreate() && !noteSt.isFirst());
-        menuControl.setMenuGroupVisible(noteSt.isBin(), editMode, !noteSt.isBin() && !editMode);
+        menuControl.setDrawable(
+                editMode && !noteSt.isCreate(),
+                !noteSt.isCreate() && !noteSt.isFirst()
+        );
+
+        menuControl.setMenuGroupVisible(
+                noteSt.isBin(), editMode, !noteSt.isBin() && !editMode
+        );
 
         bind(editMode);
 

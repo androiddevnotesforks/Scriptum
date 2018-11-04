@@ -61,6 +61,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private RollAdapter adapter;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
+
+        private int dragStart, dragEnd;
+
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder) {
@@ -78,12 +81,33 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         }
 
         @Override
+        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
+            super.onSelectedChanged(viewHolder, actionState);
+
+            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                dragStart = viewHolder.getAdapterPosition();
+            }
+        }
+
+        @Override
+        public void clearView(@NonNull RecyclerView recyclerView,
+                              @NonNull RecyclerView.ViewHolder viewHolder) {
+            super.clearView(recyclerView, viewHolder);
+
+            dragEnd = viewHolder.getAdapterPosition();
+            if (dragStart != dragEnd) {
+                inputControl.onRollMove(dragStart, dragEnd);
+            }
+        }
+
+        @Override
         public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
             final int p = viewHolder.getAdapterPosition();
 
             final NoteRepo noteRepo = vm.getNoteRepo();
             final List<RollItem> listRoll = noteRepo.getListRoll();
 
+            inputControl.onRollRemove(p, listRoll.get(p).getText());
             listRoll.remove(p);
 
             noteRepo.setListRoll(listRoll);
@@ -94,9 +118,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         }
 
         @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            final int oldPs = viewHolder.getAdapterPosition();    //Старая позиция (откуда взяли)
-            final int newPs = target.getAdapterPosition();        //Новая позиция (куда отпустили)
+        public boolean onMove(@NonNull RecyclerView recyclerView,
+                              RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            final int oldPs = viewHolder.getAdapterPosition();
+            final int newPs = target.getAdapterPosition();
 
             final NoteRepo noteRepo = vm.getNoteRepo();
             final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -110,25 +135,28 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             adapter.setList(listRoll);
             adapter.notifyItemMoved(oldPs, newPs);
+
             return true;
         }
 
         @Override
-        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
+                                int actionState, boolean isCurrentlyActive) {
             if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                final float itemWidth = viewHolder.itemView.getWidth();     //Ширина плитки
-                final float targetX = itemWidth / 2;                        //Конечная точка, где альфа = 0
+                final float itemWidth = viewHolder.itemView.getWidth();
 
-                float translationX;                                         //Сдвиг, между начальной точкой и конечной
-                if (dX > 0) {                                               //Сдвиг слева вправо
-                    translationX = Math.abs(Math.min(dX, targetX));         //Выбираем минимальное (если dX превышает targetX, то выбираем второе)
-                } else {                                                    //Сдвиг справа влево
-                    translationX = Math.abs(Math.max(dX, -targetX));        //Выбираем максимальное (если dX принижает targetX, то выбираем второе)
-                }
+                //Конечная точка, где альфа = 0
+                final float targetX = itemWidth / 2;
 
-                final float alpha = 1.0f - translationX / targetX;          //Значение прозрачности
+                //Сдвиг, между начальной точкой и конечной
+                final float translationX = dX > 0
+                        ? Math.abs(Math.min(dX, targetX))
+                        : Math.abs(Math.max(dX, -targetX));
 
-                viewHolder.itemView.setAlpha((float) Math.max(alpha, 0.2)); //Установка прозрачности
+                final float alpha = 1.0f - translationX / targetX;
+
+                viewHolder.itemView.setAlpha((float) Math.max(alpha, 0.2));
             }
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
@@ -213,6 +241,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         onMenuEditClick(noteSt.isEdit());
 
+        inputControl.setEnable(true);
+
         noteSt.setFirst(false);
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
@@ -272,6 +302,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         adapter = new RollAdapter(context);
         adapter.setNoteSt(noteCallback.getViewModel().getNoteSt());
+        adapter.setInputIntf(inputControl);
 
         adapter.setClickListener(this);
         adapter.setDragListener(dragSt);
@@ -295,10 +326,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         translateOut.setAnimationListener(animationListener);
     }
 
-    private void setupEnter() {
+    @Override
+    protected void setupEnter() {
         Log.i(TAG, "setupEnter");
+        super.setupEnter();
 
-        final EditText nameEnter = frgView.findViewById(R.id.name_enter);
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i == EditorInfo.IME_ACTION_NEXT) {
                 rollEnter.requestFocus();
@@ -318,7 +350,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                final String rollText = rollEnter.getText().toString();
+                final String rollText = charSequence.toString();
                 Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
             }
 
@@ -359,6 +391,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     ? adapter.getItemCount()
                     : 0;
 
+            inputControl.onRollAdd(p);
+
             final RollItem rollItem = new RollItem();
             rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
             rollItem.setText(text);
@@ -374,12 +408,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             adapter.setList(listRoll);
 
-            int visiblePs;
-            if (scrollDown) {
-                visiblePs = layoutManager.findLastVisibleItemPosition() + 1;   //Видимая последняя позиция +1 (добавленный элемент)
-            } else {
-                visiblePs = layoutManager.findFirstVisibleItemPosition();      //Видимая первая позиция
-            }
+            final int visiblePs = scrollDown
+                    ? layoutManager.findLastVisibleItemPosition() + 1
+                    : layoutManager.findFirstVisibleItemPosition();
 
             if (visiblePs == p) {                          //Если видимая позиция равна позиции куда добавили пункт
                 recyclerView.scrollToPosition(p);          //Прокручиваем до края, незаметно
@@ -477,8 +508,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     }
 
     @Override
-    public void onRollChanged(int p, String text) {
-        Log.i(TAG, "onRollChanged");
+    public void afterRollChanged(int p, String text) {
+        Log.i(TAG, "afterRollChanged");
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -502,6 +533,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     @Override
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
+
+        inputControl.listAll();
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
@@ -593,9 +626,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final NoteSt noteSt = viewModel.getNoteSt();
         noteSt.setEdit(editMode);
 
-        menuControl.setDrawable(editMode && !noteSt.isCreate(),
-                !noteSt.isCreate() && !noteSt.isFirst());
-        menuControl.setMenuGroupVisible(noteSt.isBin(), editMode, !noteSt.isBin() && !editMode);
+        menuControl.setDrawable(
+                editMode && !noteSt.isCreate(),
+                !noteSt.isCreate() && !noteSt.isFirst()
+        );
+
+        menuControl.setMenuGroupVisible(
+                noteSt.isBin(), editMode, !noteSt.isBin() && !editMode
+        );
 
         if (noteSt.isCreate() && editMode) panelContainer.setVisibility(View.VISIBLE);
         else if (noteSt.isFirst()) panelContainer.setVisibility(View.GONE);

@@ -38,7 +38,7 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
         super.setList(list);
 
         startAnim = new boolean[list.size()];
-        Arrays.fill(startAnim, false);
+        Arrays.fill(startAnim, false); // TODO: 04.11.2018 надо ли это?
     }
 
     @NonNull

@@ -17,7 +17,7 @@ public interface ItemIntf {
     }
 
     interface RollWatcher {
-        void onRollChanged(int p, String text);
+        void afterRollChanged(int p, String text);
     }
 
 }

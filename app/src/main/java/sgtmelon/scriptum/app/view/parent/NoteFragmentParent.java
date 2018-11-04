@@ -4,10 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +40,8 @@ import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
+import sgtmelon.scriptum.app.view.fragment.RollFragment;
+import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
@@ -44,6 +50,10 @@ import sgtmelon.scriptum.office.conv.ListConv;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
+/**
+ * Класс родитель для фрагментов редактирования заметок
+ * {@link TextFragment}, {@link RollFragment}
+ */
 public abstract class NoteFragmentParent extends Fragment
         implements View.OnClickListener, MenuIntf.Note.NoteMenuClick {
 
@@ -58,6 +68,8 @@ public abstract class NoteFragmentParent extends Fragment
     @Inject
     @Named(DialogDef.CONVERT)
     protected MessageDialog dlgConvert;
+
+    protected EditText nameEnter;
 
     @Inject protected FragmentManager fm;
     protected RoomDb db;
@@ -118,12 +130,12 @@ public abstract class NoteFragmentParent extends Fragment
     protected void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
-        Toolbar toolbar = frgView.findViewById(R.id.toolbar);
+        final Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.activity_note);
 
-        View indicator = frgView.findViewById(R.id.color_view);
+        final View indicator = frgView.findViewById(R.id.color_view);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             menuControl = new MenuControl(context, activity.getWindow());
@@ -139,7 +151,7 @@ public abstract class NoteFragmentParent extends Fragment
         menuControl.setNoteMenuClick(this);
         menuControl.setDeleteMenuClick(deleteMenuClick);
 
-        NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
+        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
 
         menuControl.setupDrawable();
         menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
@@ -160,6 +172,9 @@ public abstract class NoteFragmentParent extends Fragment
 
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
+
+            inputControl.onColorChange(noteItem.getColor());
+
             noteItem.setColor(check);
             noteRepo.setNoteItem(noteItem);
 
@@ -193,11 +208,42 @@ public abstract class NoteFragmentParent extends Fragment
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 
+            inputControl.onRankChange(noteItem.getRankId());
+
             noteItem.setRankId(ListConv.fromList(rankId));
             noteItem.setRankPs(ListConv.fromList(rankPs));
             noteRepo.setNoteItem(noteItem);
 
             vm.setNoteRepo(noteRepo);
+        });
+    }
+
+    @CallSuper
+    protected void setupEnter() {
+        Log.i(TAG, "setupEnter");
+
+        nameEnter = frgView.findViewById(R.id.name_enter);
+        nameEnter.addTextChangedListener(new TextWatcher() {
+            private String textBefore;
+
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                textBefore = charSequence.toString();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                final String textChanged = charSequence.toString();
+                if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
+                    inputControl.onNameChange(textBefore);
+                    textBefore = textChanged;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
         });
     }
 
@@ -223,10 +269,10 @@ public abstract class NoteFragmentParent extends Fragment
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         db = RoomDb.provideDb(context);
-        boolean[] check = db.daoRank().getCheck(noteItem.getRankId());
+        final boolean[] check = db.daoRank().getCheck(noteItem.getRankId());
         db.close();
 
         dlgRank.setArguments(check);
@@ -239,7 +285,7 @@ public abstract class NoteFragmentParent extends Fragment
 
         Help.hideKeyboard(context, activity.getCurrentFocus());
 
-        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         colorDialog.setArguments(noteItem.getColor());
         colorDialog.show(fm, DialogDef.COLOR);
@@ -251,8 +297,8 @@ public abstract class NoteFragmentParent extends Fragment
     public final void onMenuBindClick() {
         Log.i(TAG, "onMenuBindClick");
 
-        NoteRepo noteRepo = vm.getNoteRepo();
-        NoteItem noteItem = noteRepo.getNoteItem();
+        final NoteRepo noteRepo = vm.getNoteRepo();
+        final NoteItem noteItem = noteRepo.getNoteItem();
 
         if (!noteItem.isStatus()) {
             noteItem.setStatus(true);
@@ -272,7 +318,7 @@ public abstract class NoteFragmentParent extends Fragment
 
         vm.setNoteRepo(noteRepo);
 
-        ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         viewModel.setNoteRepo(noteRepo);
         noteCallback.setViewModel(viewModel);
     }

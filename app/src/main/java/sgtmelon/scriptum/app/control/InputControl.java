@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.app.control;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,24 +13,29 @@ import sgtmelon.scriptum.office.intf.InputIntf;
 
 /**
  * Класс предназначенный для контроля ввода данных в заметку, применения undo и redo
- * {@link InputDef}
  * <p>
- * Значения, которые будут содержаться в списке:
- * name change  - значение
- * rank change  - отмеченные id
- * color change - отмеченный цвет
- * text change  - значение
- * roll change  - номер пункта : значение
- * roll add     - номер пункта : значение
- * roll swipe   - номер пункта : значение
- * roll move    - начало : конец
+ * {@link InputDef} - Значения, которые будут содержаться в списке:
+ * Name change  - Значение
+ * Rank change  - Отмеченные id
+ * Color change - Отмеченный цвет
+ * Text change  - Значение
+ * Roll change  - Номер пункта : значение
+ * Roll add     - Номер пункта
+ * Roll swipe   - Номер пункта : значение
+ * Roll move    - Начало : конец
  */
 public final class InputControl implements InputIntf {
 
-    // TODO: 30.10.2018 внедрить
+    private static final String TAG = InputControl.class.getSimpleName();
 
     private final List<InputItem> listInput = new ArrayList<>();
+
     private int position = 0;
+    private boolean enable;
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
     public InputItem undo() {
         if (listInput.size() != 0) {
@@ -48,17 +54,19 @@ public final class InputControl implements InputIntf {
     }
 
     private void add(InputItem inputItem) {
-        remove();
-
-        listInput.add(inputItem);
-        position++;
+        Log.i(TAG, "add: " + inputItem.getTag());
+        if (enable) {
+            remove();
+            listInput.add(inputItem);
+            position++;
+        }
     }
 
     /**
      * Если позиция не в конце, то удаление ненужной информации перед добавлением новой
      */
     private void remove() {
-        if (position != listInput.size() - 1) {
+        if (position < listInput.size() - 1) {
             if (position == 0) {
                 listInput.clear();
             } else {
@@ -102,35 +110,42 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onRollChange(int position, String text) {
+    public void onRollChange(int p, String text) {
         final InputItem inputItem = new InputItem(
-                InputDef.roll, Integer.toString(position), text
+                InputDef.roll, Integer.toString(p), text
         );
         add(inputItem);
     }
 
     @Override
-    public void onRollAdd(int position, String text) {
+    public void onRollAdd(int p) {
         final InputItem inputItem = new InputItem(
-                InputDef.rollAdd, Integer.toString(position), text
+                InputDef.rollAdd, null, Integer.toString(p)
         );
         add(inputItem);
     }
 
     @Override
-    public void onRollSwipe(int position, String text) {
+    public void onRollRemove(int p, String text) {
         final InputItem inputItem = new InputItem(
-                InputDef.rollSwipe, Integer.toString(position), text
+                InputDef.rollSwipe, Integer.toString(p), text
         );
         add(inputItem);
     }
 
     @Override
-    public void onRollMove(int start, int end) {
+    public void onRollMove(int dragStart, int dragEnd) {
         final InputItem inputItem = new InputItem(
-                InputDef.rollMove, Integer.toString(start), Integer.toString(end)
+                InputDef.rollMove, Integer.toString(dragStart), Integer.toString(dragEnd)
         );
         add(inputItem);
+    }
+
+    public void listAll() {
+        Log.i(TAG, "listAll: ");
+        for (InputItem inputItem : listInput) {
+            Log.i(TAG, inputItem.toString());
+        }
     }
 
 }

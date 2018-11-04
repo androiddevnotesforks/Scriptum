@@ -67,11 +67,11 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
-        private int dragStart;
-        private int dragEnd;
+        private int dragStart, dragEnd;
 
         @Override
-        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        public int getMovementFlags(@NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder) {
             final int flagsDrag = dragSt.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
                     : 0;
@@ -85,15 +85,14 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
             super.onSelectedChanged(viewHolder, actionState);
 
-            switch (actionState) {
-                case ItemTouchHelper.ACTION_STATE_DRAG:
-                    dragStart = viewHolder.getAdapterPosition();
-                    break;
+            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                dragStart = viewHolder.getAdapterPosition();
             }
         }
 
         @Override
-        public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
+        public void clearView(@NonNull RecyclerView recyclerView,
+                              @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
 
             dragEnd = viewHolder.getAdapterPosition();
@@ -118,7 +117,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         }
 
         @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+        public boolean onMove(@NonNull RecyclerView recyclerView,
+                              RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
             final int oldPs = viewHolder.getAdapterPosition();
             final int newPs = target.getAdapterPosition();
 
@@ -346,7 +346,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
                 final int p = rankRepo.size();
                 final String name = clearEnter();
-
                 final RankItem rankItem = new RankItem(p, name);
 
                 db = RoomDb.provideDb(context);
@@ -364,11 +363,11 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                     adapter.notifyItemInserted(p);
                 } else {
                     if (layoutManager.findLastVisibleItemPosition() == p - 1) {
-                        recyclerView.scrollToPosition(p);                          //Прокручиваем до края, незаметно
-                        adapter.notifyItemInserted(p);                             //Добавляем элемент с анимацией
+                        recyclerView.scrollToPosition(p);
+                        adapter.notifyItemInserted(p);
                     } else {
-                        recyclerView.smoothScrollToPosition(p);                    //Медленно прокручиваем, через весь список
-                        adapter.notifyDataSetChanged();                             //Добавляем элемент без анимации
+                        recyclerView.smoothScrollToPosition(p);
+                        adapter.notifyDataSetChanged();
                     }
                 }
                 break;
@@ -381,7 +380,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         final int p = 0;
         final String name = clearEnter();
-
         final RankItem rankItem = new RankItem(p - 1, name);
 
         db = RoomDb.provideDb(context);
@@ -397,14 +395,16 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         adapter.setList(rankRepo.getListRank());
 
-        if (rankRepo.size() == 1) bind(rankRepo.size());
-        else {
+        if (rankRepo.size() == 1) {
+            bind(rankRepo.size());
+            adapter.notifyItemInserted(p);
+        } else {
             if (layoutManager.findFirstVisibleItemPosition() == p) {
-                recyclerView.scrollToPosition(p);                      //Прокручиваем до края, незаметно
-                adapter.notifyItemInserted(p);                         //Добавляем элемент с анимацией
+                recyclerView.scrollToPosition(p);
+                adapter.notifyItemInserted(p);
             } else {
-                recyclerView.smoothScrollToPosition(p);                //Медленно прокручиваем, через весь список
-                adapter.notifyDataSetChanged();                         //Добавляем элемент без анимации
+                recyclerView.smoothScrollToPosition(p);
+                adapter.notifyDataSetChanged();
             }
         }
         return true;
@@ -447,7 +447,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 db.close();
 
                 rankRepo.remove(p);
-
                 vm.setRankRepo(rankRepo);
 
                 adapter.setList(rankRepo.getListRank());

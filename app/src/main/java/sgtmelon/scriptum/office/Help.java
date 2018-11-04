@@ -287,20 +287,21 @@ public final class Help {
          * @return - Формирование поискового запроса относительно настроек
          */
         public static String getSortNoteOrder(Context context) {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 
-            String keysStr = pref.getString(context.getString(R.string.pref_key_sort), SortDef.def);
-            String[] keysArr = keysStr.split(SortDef.divider);
+            final String keysStr = pref.getString(context.getString(R.string.pref_key_sort), SortDef.def);
+            final String[] keysArr = keysStr.split(SortDef.divider);
 
-            StringBuilder order = new StringBuilder();
+            final StringBuilder order = new StringBuilder();
             for (String aKey : keysArr) {
-                @SortDef int key = Integer.parseInt(aKey);
-
+                final int key = Integer.parseInt(aKey);
                 order.append(DbAnn.orders[key]);
 
                 if (key != SortDef.create && key != SortDef.change) {
                     order.append(SortDef.divider);
-                } else break;
+                } else {
+                    break;
+                }
             }
 
             return order.toString();
@@ -311,7 +312,7 @@ public final class Help {
          * @return - Строка сортировки
          */
         public static String getSortByList(List<SortItem> listSort) {
-            StringBuilder order = new StringBuilder();
+            final StringBuilder order = new StringBuilder();
             for (int i = 0; i < listSort.size(); i++) {
                 order.append(Integer.toString(listSort.get(i).getKey()));
 
@@ -328,11 +329,11 @@ public final class Help {
             final String[] keysArr = keys.split(SortDef.divider);
             final String[] keysName = context.getResources().getStringArray(R.array.pref_sort_text);
 
-            for (int k = 0; k < keysArr.length; k++) {
-                final int key = Integer.parseInt(keysArr[k]);
+            for (int i = 0; i < keysArr.length; i++) {
+                final int key = Integer.parseInt(keysArr[i]);
 
                 String summary = keysName[key];
-                if (k != 0) {
+                if (i != 0) {
                     summary = summary.replace(context.getString(R.string.pref_sort_summary_start), "").replaceFirst(" ", "");
                 }
 

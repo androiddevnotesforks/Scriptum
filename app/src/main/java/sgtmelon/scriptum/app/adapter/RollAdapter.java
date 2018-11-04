@@ -2,6 +2,7 @@ package sgtmelon.scriptum.app.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
 import sgtmelon.scriptum.office.annot.def.TypeRollDef;
+import sgtmelon.scriptum.office.intf.InputIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
 /**
@@ -28,6 +30,7 @@ import sgtmelon.scriptum.office.st.NoteSt;
 public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollHolder> {
 
     private NoteSt noteSt;
+    private InputIntf inputIntf;
 
     public RollAdapter(Context context) {
         super(context);
@@ -35,6 +38,10 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
     public void setNoteSt(NoteSt noteSt) {
         this.noteSt = noteSt;
+    }
+
+    public void setInputIntf(InputIntf inputIntf) {
+        this.inputIntf = inputIntf;
     }
 
     @NonNull
@@ -84,6 +91,8 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         private CheckBox rollCheck;   //Отметка о выполении
         private View clickView;  //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
+
+        private String textBefore;
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
@@ -142,17 +151,30 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            textBefore = charSequence.toString();
         }
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            final String textChanged = charSequence.toString();
+            final int p = getAdapterPosition();
 
+            if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore) && p != -1) {
+                if (!TextUtils.isEmpty(textChanged)) {
+                    inputIntf.onRollChange(p, textBefore);
+                    textBefore = textChanged;
+                } else {
+                    inputIntf.onRollRemove(p, textBefore);
+                }
+            }
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-            rollWatcher.onRollChanged(getAdapterPosition(), rollEnter.getText().toString());
+            final int p = getAdapterPosition();
+            if (!TextUtils.isEmpty(textBefore) && p != -1) {
+                rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
+            }
         }
 
     }

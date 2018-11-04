@@ -26,12 +26,19 @@ public class InputItem {
         return tag;
     }
 
+    @Nullable
     public String getValueFirst() {
         return valueFirst;
     }
 
+    @NonNull
     public String getValueSecond() {
         return valueSecond;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return tag + " | " + (valueFirst == null ? "" : valueFirst + " - ") + valueSecond;
+    }
 }
