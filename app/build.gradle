@@ -61,10 +61,6 @@ dependencies {
     testImplementation "androidx.room:room-testing:$arch_ver"
     annotationProcessor "androidx.room:room-compiler:$arch_ver"
 
-    def rx_ver = "1.0.0"
-
-    implementation "android.arch.persistence.room:rxjava2:$rx_ver"
-
     def x_ver = "1.0.0"
 
     implementation "androidx.appcompat:appcompat:$x_ver"

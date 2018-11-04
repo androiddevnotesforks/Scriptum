@@ -48,7 +48,7 @@ import sgtmelon.scriptum.office.st.DragListenerSt;
 import sgtmelon.scriptum.office.st.NoteSt;
 
 public final class RollFragment extends NoteFragmentParent implements ItemIntf.ClickListener,
-        ItemIntf.Watcher {
+        ItemIntf.RollWatcher {
 
     private static final String TAG = RollFragment.class.getSimpleName();
 
@@ -275,7 +275,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         adapter.setClickListener(this);
         adapter.setDragListener(dragSt);
-        adapter.setWatcher(this);
+        adapter.setRollWatcher(this);
 
         recyclerView.setAdapter(adapter);
 
@@ -477,8 +477,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     }
 
     @Override
-    public void onChanged(int p, String text) {
-        Log.i(TAG, "onChanged");
+    public void onRollChanged(int p, String text) {
+        Log.i(TAG, "onRollChanged");
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final List<RollItem> listRoll = noteRepo.getListRoll();

@@ -1,28 +1,37 @@
 package sgtmelon.scriptum.app.model.item;
 
-import sgtmelon.scriptum.app.control.EnterControl;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import sgtmelon.scriptum.app.control.InputControl;
+import sgtmelon.scriptum.office.annot.IntroAnn;
 
 /**
- * Модель для {@link EnterControl}
+ * Модель для {@link InputControl}
  */
 public class InputItem {
 
-    // TODO: 30.10.2018 написать дефолтные значения - метки
+    private final int tag;
 
-    private final String tag;
-    private final String value;
+    private final String valueFirst;
+    private final String valueSecond;
 
-    public InputItem(String tag, String value) {
+    public InputItem(@IntroAnn int tag, @Nullable String valueFirst, @NonNull String valueSecond) {
         this.tag = tag;
-        this.value = value;
+
+        this.valueFirst = valueFirst;
+        this.valueSecond = valueSecond;
     }
 
-    public String getTag() {
+    public int getTag() {
         return tag;
     }
 
-    public String getValue() {
-        return value;
+    public String getValueFirst() {
+        return valueFirst;
+    }
+
+    public String getValueSecond() {
+        return valueSecond;
     }
 
 }

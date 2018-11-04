@@ -152,7 +152,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void afterTextChanged(Editable editable) {
-            watcher.onChanged(getAdapterPosition(), rollEnter.getText().toString());
+            rollWatcher.onRollChanged(getAdapterPosition(), rollEnter.getText().toString());
         }
 
     }

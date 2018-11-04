@@ -16,8 +16,8 @@ public interface ItemIntf {
         void setDrag(boolean drag);
     }
 
-    interface Watcher {
-        void onChanged(int p, String text);
+    interface RollWatcher {
+        void onRollChanged(int p, String text);
     }
 
 }

@@ -25,6 +25,7 @@ import sgtmelon.safedialog.library.ColorDialog;
 import sgtmelon.safedialog.library.MessageDialog;
 import sgtmelon.safedialog.library.MultiplyDialog;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.MenuControlAnim;
 import sgtmelon.scriptum.app.database.RoomDb;
@@ -48,23 +49,24 @@ public abstract class NoteFragmentParent extends Fragment
 
     private static final String TAG = NoteFragmentParent.class.getSimpleName();
 
+    protected final InputControl inputControl = new InputControl();
+
     protected Context context;
     protected Activity activity;
     protected NoteCallback noteCallback;
 
     @Inject
-    protected FragmentManager fm;
-    @Inject
     @Named(DialogDef.CONVERT)
     protected MessageDialog dlgConvert;
+
+    @Inject protected FragmentManager fm;
     protected RoomDb db;
     protected View frgView;
-    @Inject
-    protected FragmentNoteViewModel vm;
+    @Inject protected FragmentNoteViewModel vm;
+
     protected MenuControl menuControl;
 
-    @Inject
-    ColorDialog colorDialog;
+    @Inject ColorDialog colorDialog;
     @Inject
     @Named(DialogDef.RANK)
     MultiplyDialog dlgRank;
@@ -156,8 +158,8 @@ public abstract class NoteFragmentParent extends Fragment
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             int check = colorDialog.getCheck();
 
-            NoteRepo noteRepo = vm.getNoteRepo();
-            NoteItem noteItem = noteRepo.getNoteItem();
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
             noteItem.setColor(check);
             noteRepo.setNoteItem(noteItem);
 
@@ -167,19 +169,19 @@ public abstract class NoteFragmentParent extends Fragment
         });
 
         db = RoomDb.provideDb(context);
-        String[] name = db.daoRank().getName();
+        final String[] name = db.daoRank().getName();
         db.close();
 
         dlgRank.setRows(name);
         dlgRank.setPositiveListener((dialogInterface, i) -> {
-            boolean[] check = dlgRank.getCheck();
+            final boolean[] check = dlgRank.getCheck();
 
             db = RoomDb.provideDb(context);
-            Long[] id = db.daoRank().getId();
+            final Long[] id = db.daoRank().getId();
             db.close();
 
-            List<Long> rankId = new ArrayList<>();
-            List<Long> rankPs = new ArrayList<>();
+            final List<Long> rankId = new ArrayList<>();
+            final List<Long> rankPs = new ArrayList<>();
 
             for (int j = 0; j < id.length; j++) {
                 if (check[j]) {
@@ -188,9 +190,9 @@ public abstract class NoteFragmentParent extends Fragment
                 }
             }
 
-            NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
 
-            NoteItem noteItem = noteRepo.getNoteItem();
             noteItem.setRankId(ListConv.fromList(rankId));
             noteItem.setRankPs(ListConv.fromList(rankPs));
             noteRepo.setNoteItem(noteItem);

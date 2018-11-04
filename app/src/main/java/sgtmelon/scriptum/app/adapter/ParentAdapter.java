@@ -27,7 +27,7 @@ public abstract class ParentAdapter<E, VH extends RecyclerView.ViewHolder>
     ItemIntf.ClickListener clickListener;
     ItemIntf.LongClickListener longClickListener;
     ItemIntf.DragListener dragListener;
-    ItemIntf.Watcher watcher;
+    ItemIntf.RollWatcher rollWatcher;
 
     ParentAdapter(Context context) {
         this.context = context;
@@ -57,8 +57,8 @@ public abstract class ParentAdapter<E, VH extends RecyclerView.ViewHolder>
         this.dragListener = dragListener;
     }
 
-    public final void setWatcher(ItemIntf.Watcher watcher) {
-        this.watcher = watcher;
+    public final void setRollWatcher(ItemIntf.RollWatcher rollWatcher) {
+        this.rollWatcher = rollWatcher;
     }
 
     @Override

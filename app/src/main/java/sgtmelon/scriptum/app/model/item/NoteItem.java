@@ -36,6 +36,7 @@ public final class NoteItem {
     @ColumnInfo(name = DbAnn.NT_CL) private int color;
     @ColumnInfo(name = DbAnn.NT_TP) private int type;
 
+    // TODO: 04.11.2018 переделать в List
     @ColumnInfo(name = DbAnn.NT_RK_PS) private Long[] rankPs = new Long[0];
     @ColumnInfo(name = DbAnn.NT_RK_ID) private Long[] rankId = new Long[0];
 

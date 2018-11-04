@@ -225,7 +225,7 @@ public abstract class RankDao extends BaseDao {
 
                 if (Arrays.asList(idOld).contains(id)) {
                     idNew[p] = id;
-                    psNew[p] = ps;
+                    psNew[p] = ps; // TODO: 04.11.2018 убрать p в скобки
                     p++;
                 }
             }

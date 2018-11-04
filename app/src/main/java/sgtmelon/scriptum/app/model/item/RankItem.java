@@ -21,6 +21,7 @@ public final class RankItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    // TODO: 04.11.2018 переделать в List
     @ColumnInfo(name = DbAnn.RK_ID_NT) private Long[] idNote = new Long[0];
     @ColumnInfo(name = DbAnn.RK_PS) private int position;
     @ColumnInfo(name = DbAnn.RK_NM) private String name;
