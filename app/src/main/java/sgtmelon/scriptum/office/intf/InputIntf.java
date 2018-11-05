@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.office.intf;
 
+import java.util.List;
+
 import sgtmelon.scriptum.app.control.InputControl;
 
 /**
@@ -7,7 +9,7 @@ import sgtmelon.scriptum.app.control.InputControl;
  */
 public interface InputIntf {
 
-    void onRankChange(Long[] rankId);
+    void onRankChange(List<Long> rankId);
 
     void onColorChange(int color);
 

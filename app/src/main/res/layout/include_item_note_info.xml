@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="java.util.List"/>
+
         <import type="sgtmelon.scriptum.office.Help.Time"/>
 
         <import alias="def"
@@ -27,7 +29,7 @@
         <ImageView
                 style="@style/NoteItem.Indicator.Info"
                 android:contentDescription="@null"
-                android:visibility='@{noteItem.rankId.length == 0 ? v.GONE : v.VISIBLE}'
+                android:visibility='@{noteItem.rankId.size == 0 ? v.GONE : v.VISIBLE}'
                 app:srcCompat="@drawable/ic_rank"/>
 
         <ImageView

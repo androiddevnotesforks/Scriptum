@@ -115,8 +115,8 @@ public final class StatusItem {
      */
     public void updateNote(NoteItem noteItem, List<Long> rkVisible) {
         if (noteItem.isStatus()) {
-            final Long[] rankId = noteItem.getRankId();
-            if (rankId.length == 0 || rkVisible.contains(rankId[0])) {
+            final List<Long> rankId = noteItem.getRankId();
+            if (rankId.size() == 0 || rkVisible.contains(rankId.get(0))) {
                 updateNote(noteItem, true);
             } else {
                 cancelNote();

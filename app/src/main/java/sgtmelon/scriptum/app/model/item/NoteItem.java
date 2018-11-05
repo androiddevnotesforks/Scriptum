@@ -3,6 +3,9 @@ package sgtmelon.scriptum.app.model.item;
 import android.content.Context;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -36,9 +39,8 @@ public final class NoteItem {
     @ColumnInfo(name = DbAnn.NT_CL) private int color;
     @ColumnInfo(name = DbAnn.NT_TP) private int type;
 
-    // TODO: 04.11.2018 переделать в List
-    @ColumnInfo(name = DbAnn.NT_RK_PS) private Long[] rankPs = new Long[0];
-    @ColumnInfo(name = DbAnn.NT_RK_ID) private Long[] rankId = new Long[0];
+    @ColumnInfo(name = DbAnn.NT_RK_PS) private List<Long> rankPs = new ArrayList<>();
+    @ColumnInfo(name = DbAnn.NT_RK_ID) private List<Long> rankId = new ArrayList<>();
 
     @ColumnInfo(name = DbAnn.NT_BN) private boolean bin = false;
     @ColumnInfo(name = DbAnn.NT_ST) private boolean status = false;
@@ -120,19 +122,19 @@ public final class NoteItem {
         this.type = type;
     }
 
-    public Long[] getRankPs() {
+    public List<Long> getRankPs() {
         return rankPs;
     }
 
-    public void setRankPs(Long[] rankPs) {
+    public void setRankPs(List<Long> rankPs) {
         this.rankPs = rankPs;
     }
 
-    public Long[] getRankId() {
+    public List<Long> getRankId() {
         return rankId;
     }
 
-    public void setRankId(Long[] rankId) {
+    public void setRankId(List<Long> rankId) {
         this.rankId = rankId;
     }
 

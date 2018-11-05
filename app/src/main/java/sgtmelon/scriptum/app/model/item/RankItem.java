@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.app.model.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -21,8 +24,7 @@ public final class RankItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    // TODO: 04.11.2018 переделать в List
-    @ColumnInfo(name = DbAnn.RK_ID_NT) private Long[] idNote = new Long[0];
+    @ColumnInfo(name = DbAnn.RK_ID_NT) private List<Long> idNote = new ArrayList<>();
     @ColumnInfo(name = DbAnn.RK_PS) private int position;
     @ColumnInfo(name = DbAnn.RK_NM) private String name;
     @ColumnInfo(name = DbAnn.RK_VS) private boolean visible = true;
@@ -55,11 +57,11 @@ public final class RankItem {
         this.id = id;
     }
 
-    public Long[] getIdNote() {
+    public List<Long> getIdNote() {
         return idNote;
     }
 
-    public void setIdNote(Long[] idNote) {
+    public void setIdNote(List<Long> idNote) {
         this.idNote = idNote;
     }
 

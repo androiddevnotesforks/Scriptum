@@ -78,7 +78,7 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onRankChange(Long[] rankId) {
+    public void onRankChange(List<Long> rankId) {
         final InputItem inputItem = new InputItem(
                 InputDef.rank, null, TextUtils.join(DbAnn.divider, rankId)
         );

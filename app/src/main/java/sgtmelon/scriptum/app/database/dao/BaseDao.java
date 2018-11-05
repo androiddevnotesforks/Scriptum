@@ -16,7 +16,6 @@ import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.StateDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
-import sgtmelon.scriptum.office.conv.ListConv;
 
 /**
  * Класс обеспечивающий базовую логику, которая используется в разных Dao
@@ -58,7 +57,7 @@ abstract class BaseDao {
      */
     @Query("SELECT COUNT(NT_ID) FROM NOTE_TABLE " +
             "WHERE NT_TYPE = :type AND NT_ID IN(:noteId)")
-    abstract int getNoteCount(@TypeNoteDef int type, Long[] noteId);
+    abstract int getNoteCount(@TypeNoteDef int type, List<Long> noteId);
 
     @Update
     abstract void updateNote(List<NoteItem> listNote);
@@ -69,29 +68,22 @@ abstract class BaseDao {
      * @param noteId - Id заметок принадлижащих к категории
      * @param rankId - Id категории, которую удалили
      */
-    void updateNote(Long[] noteId, long rankId) {
-        final  List<NoteItem> listNote = getNote(noteId);
+    void updateNote(List<Long> noteId, long rankId) {
+        final List<NoteItem> listNote = getNote(noteId);
 
         for (int i = 0; i < listNote.size(); i++) {
             final NoteItem noteItem = listNote.get(i);
 
-            //Убирает из массивов ненужную категорию по id
-            Long[] id = noteItem.getRankId();
-            Long[] ps = noteItem.getRankPs();
+            //Убирает из списков ненужную категорию по id
+            final List<Long> listRankId = noteItem.getRankId();
+            final List<Long> listRankPs = noteItem.getRankPs();
+            final int index = listRankId.indexOf(rankId);
 
-            final List<Long> rankIdList = ListConv.toList(id);
-            final List<Long> rankPsList = ListConv.toList(ps);
+            listRankId.remove(index);
+            listRankPs.remove(index);
 
-            final int index = rankIdList.indexOf(rankId);
-
-            rankIdList.remove(index);
-            rankPsList.remove(index);
-
-            id = ListConv.fromList(rankIdList);
-            ps = ListConv.fromList(rankPsList);
-
-            noteItem.setRankId(id);
-            noteItem.setRankPs(ps);
+            noteItem.setRankId(listRankId);
+            noteItem.setRankPs(listRankPs);
 
             listNote.set(i, noteItem);
         }
@@ -121,13 +113,13 @@ abstract class BaseDao {
     public abstract List<Long> getRankVisible();
 
     /**
-     * @param id - Массив с id категорий
+     * @param id - Список с id категорий
      * @return - Список моделей категорий
      */
     @Query("SELECT * FROM RANK_TABLE " +
             "WHERE RK_ID IN(:id)" +
             "ORDER BY RK_POSITION ASC")
-    abstract List<RankItem> getRank(Long[] id);
+    abstract List<RankItem> getRank(List<Long> id);
 
     @Update
     public abstract void updateRank(List<RankItem> listRank);
@@ -136,19 +128,17 @@ abstract class BaseDao {
      * @param noteId - Id заметки, которую необходимо убрать из категории
      * @param rankId - Массив из id категорий, принадлежащих заметке
      */
-    void clearRank(long noteId, Long[] rankId) {
+    void clearRank(long noteId, List<Long> rankId) {
         final List<RankItem> listRank = getRank(rankId);
 
         for (int i = 0; i < listRank.size(); i++) {
-            RankItem rankItem = listRank.get(i);
+            final RankItem rankItem = listRank.get(i);
 
-            //Убирает из массива необходимую дату создания заметки
-            Long[] id = rankItem.getIdNote();
-            final List<Long> createList = ListConv.toList(id);
-            createList.remove(noteId);
-            id = ListConv.fromList(createList);
+            //Убирает из списка необходимую дату создания заметки
+            final List<Long> listId = rankItem.getIdNote();
+            listId.remove(noteId);
 
-            rankItem.setIdNote(id);
+            rankItem.setIdNote(listId);
             listRank.set(i, rankItem);
         }
 

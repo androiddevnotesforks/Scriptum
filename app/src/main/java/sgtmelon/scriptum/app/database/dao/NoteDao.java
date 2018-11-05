@@ -59,8 +59,8 @@ public abstract class NoteDao extends BaseDao {
 
             final NoteRepo noteRepo = new NoteRepo(noteItem, listRoll, statusItem);
 
-            final Long[] rkId = noteItem.getRankId();
-            if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
+            final List<Long> rkId = noteItem.getRankId();
+            if (rkId.size() != 0 && !rkVisible.contains(rkId.get(0))) {
                 statusItem.cancelNote();
             } else {
                 if (noteItem.isStatus() && NotesFragment.updateStatus) {
@@ -95,8 +95,8 @@ public abstract class NoteDao extends BaseDao {
             final NoteItem noteItem = listNote.get(i);
             final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-            final Long[] rkId = noteItem.getRankId();
-            if (rkId.length != 0 && !rkVisible.contains(rkId[0])) {
+            final List<Long> rkId = noteItem.getRankId();
+            if (rkId.size() != 0 && !rkVisible.contains(rkId.get(0))) {
                 statusItem.cancelNote();
             } else if (noteItem.isStatus()) {
                 statusItem.notifyNote();
@@ -128,8 +128,8 @@ public abstract class NoteDao extends BaseDao {
     public void delete(long id) {
         final NoteItem noteItem = get(id);
 
-        final Long[] rkId = noteItem.getRankId();
-        if (rkId.length != 0) {
+        final List<Long> rkId = noteItem.getRankId();
+        if (rkId.size() != 0) {
             clearRank(noteItem.getId(), rkId);
         }
 
@@ -142,8 +142,8 @@ public abstract class NoteDao extends BaseDao {
         for (int i = 0; i < listNote.size(); i++) {
             final NoteItem noteItem = listNote.get(i);
 
-            final Long[] rkId = noteItem.getRankId();
-            if (rkId.length != 0) {
+            final List<Long> rkId = noteItem.getRankId();
+            if (rkId.size() != 0) {
                 clearRank(noteItem.getId(), rkId);
             }
         }

@@ -46,7 +46,6 @@ import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
-import sgtmelon.scriptum.office.conv.ListConv;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -210,8 +209,8 @@ public abstract class NoteFragmentParent extends Fragment
 
             inputControl.onRankChange(noteItem.getRankId());
 
-            noteItem.setRankId(ListConv.fromList(rankId));
-            noteItem.setRankPs(ListConv.fromList(rankPs));
+            noteItem.setRankId(rankId);
+            noteItem.setRankPs(rankPs);
             noteRepo.setNoteItem(noteItem);
 
             vm.setNoteRepo(noteRepo);
