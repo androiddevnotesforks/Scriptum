@@ -30,6 +30,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
     protected final Context context;
     protected final ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
+
     protected Toolbar toolbar;
 
     Drawable cancelOn, cancelOff;

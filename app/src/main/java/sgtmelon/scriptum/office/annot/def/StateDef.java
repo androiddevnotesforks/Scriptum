@@ -2,8 +2,6 @@ package sgtmelon.scriptum.office.annot.def;
 
 import androidx.annotation.IntDef;
 
-// TODO: 30.10.2018 перенести сюда BinDef и CheckDef
-
 /**
  * Аннотация для описания каких-либо состояний
  */

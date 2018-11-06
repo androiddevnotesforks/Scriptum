@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -38,7 +37,6 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
         super.setList(list);
 
         startAnim = new boolean[list.size()];
-        Arrays.fill(startAnim, false); // TODO: 04.11.2018 надо ли это?
     }
 
     @NonNull
@@ -55,8 +53,8 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
         final RankItem item = list.get(position);
 
         holder.bind(item);
-
         holder.visibleButton.setDrawable(item.isVisible(), startAnim[position]);
+
         if (startAnim[position]) {
             startAnim[position] = false;
         }
@@ -101,7 +99,7 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
 
         @Override
         public void onClick(View view) {
-            int p = getAdapterPosition();
+            final int p = getAdapterPosition();
 
             switch (view.getId()) {
                 case R.id.visible_button:
@@ -123,21 +121,10 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
             return true;
         }
 
-        // TODO: 01.11.2018 упростить как в RollAdapter
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            switch (view.getId()) {
-                case R.id.click_container:
-                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        dragListener.setDrag(true);
-                    }
-                    break;
-                case R.id.visible_button:
-                case R.id.cancel_button:
-                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        dragListener.setDrag(false);
-                    }
-                    break;
+            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                dragListener.setDrag(view.getId() == R.id.click_container);
             }
             return false;
         }
