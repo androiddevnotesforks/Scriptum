@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingLeft="24dp"
         android:paddingTop="16dp"
-        android:paddingRight="24dp">
+        android:paddingRight="24dp"
+        tools:layout_gravity="center">
 
     <EditText
+            android:hint="@null"
             android:id="@+id/rename_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,8 +20,10 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:imeOptions="flagNoFullscreen|actionDone"
+            android:importantForAutofill="noExcludeDescendants"
             android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
             android:maxLines="1"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            tools:targetApi="o"/>
 
 </LinearLayout>

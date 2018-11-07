@@ -52,8 +52,11 @@
                         <EditText
                                 android:id="@+id/text_enter"
                                 style="@style/Text.Enter"
+                                android:hint="@string/hint_enter_text"
+                                android:importantForAutofill="noExcludeDescendants"
                                 android:text='@={noteItem.text}'
                                 android:visibility='@{keyEdit ? v.VISIBLE : v.INVISIBLE}'
+                                tools:targetApi="o"
                                 tools:visibility="gone"/>
 
                         <TextView

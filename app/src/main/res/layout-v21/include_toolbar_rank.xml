@@ -43,9 +43,11 @@
                         android:layout_weight="1"
                         android:hint="@string/hint_enter_rank_new"
                         android:imeOptions="flagNoFullscreen|actionDone"
+                        android:importantForAutofill="noExcludeDescendants"
                         android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
                         android:maxLength="@integer/length_rank_name"
-                        android:maxLines="1"/>
+                        android:maxLines="1"
+                        tools:targetApi="o"/>
 
                 <ImageButton
                         android:id="@+id/add_button"

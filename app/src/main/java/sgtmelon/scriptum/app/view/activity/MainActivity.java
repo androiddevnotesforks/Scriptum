@@ -28,7 +28,6 @@ import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.PageDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
-import sgtmelon.scriptum.office.annot.def.TypeRollDef;
 import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.st.PageSt;
 
@@ -99,11 +98,11 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         sheetDialog.setNavigationItemSelectedListener(menuItem -> {
             sheetDialog.dismiss();
 
-            @TypeRollDef int type = menuItem.getItemId() == R.id.note_text_item
+            final int type = menuItem.getItemId() == R.id.note_text_item
                     ? TypeNoteDef.text
                     : TypeNoteDef.roll;
 
-            Intent intent = NoteActivity.getIntent(MainActivity.this, type);
+            final Intent intent = NoteActivity.getIntent(MainActivity.this, type);
 
             startActivity(intent);
             return true;

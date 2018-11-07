@@ -70,7 +70,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         if (view != null) {
-            View list = view.findViewById(android.R.id.list);
+            final View list = view.findViewById(android.R.id.list);
             list.setPadding(0, 0, 0, 0);
         }
 

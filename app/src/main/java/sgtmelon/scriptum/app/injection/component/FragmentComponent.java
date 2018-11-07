@@ -34,4 +34,5 @@ public interface FragmentComponent {
     void inject(TextFragment textFragment);
 
     void inject(RollFragment rollFragment);
+
 }
