@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.view.fragment;
 
+import android.animation.LayoutTransition;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -64,7 +66,9 @@ public final class TextFragment extends NoteFragmentParent {
         super.onActivityCreated(savedInstanceState);
 
         final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        if (vm.isEmpty()) vm.setNoteRepo(viewModel.getNoteRepo());
+        if (vm.isEmpty()) {
+            vm.setNoteRepo(viewModel.getNoteRepo());
+        }
 
         setupToolbar();
         setupDialog();

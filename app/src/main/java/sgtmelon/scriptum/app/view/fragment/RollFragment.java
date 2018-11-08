@@ -229,7 +229,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         super.onActivityCreated(savedInstanceState);
 
         final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        if (vm.isEmpty()) vm.setNoteRepo(viewModel.getNoteRepo());
+        if (vm.isEmpty()) {
+            vm.setNoteRepo(viewModel.getNoteRepo());
+        }
 
         setupToolbar();
         setupDialog();
@@ -319,8 +321,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         panelContainer = frgView.findViewById(R.id.panel_container);
 
-        translateIn = AnimationUtils.loadAnimation(context, R.anim.translate_in);
-        translateOut = AnimationUtils.loadAnimation(context, R.anim.translate_out);
+        translateIn = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+        translateOut = AnimationUtils.loadAnimation(context, R.anim.fade_out);
 
         translateIn.setAnimationListener(animationListener);
         translateOut.setAnimationListener(animationListener);

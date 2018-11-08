@@ -30,6 +30,39 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
+        <View style="@style/Divider.Horizontal"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/clBackgroundView">
+
+            <ImageButton
+                    style="@style/Enter.Button"
+                    android:contentDescription="@null"
+                    android:tint="?attr/clIcon"
+                    app:srcCompat="@drawable/ic_undo"/>
+
+            <ImageButton
+                    style="@style/Enter.Button"
+                    android:contentDescription="@null"
+                    android:tint="?attr/clSecond"
+                    app:srcCompat="@drawable/ic_redo"/>
+
+            <ImageButton
+                    style="@style/Enter.Button"
+                    android:contentDescription="@null"
+                    android:tint="?attr/clIcon"
+                    app:srcCompat="@drawable/ic_rank"/>
+
+            <ImageButton
+                    style="@style/Enter.Button"
+                    android:contentDescription="@null"
+                    android:tint="?attr/clIcon"
+                    app:srcCompat="@drawable/ic_palette"/>
+
+        </LinearLayout>
+
         <LinearLayout
                 android:id="@+id/panel_container"
                 android:layout_width="match_parent"
@@ -37,7 +70,9 @@
                 android:background="?attr/clBackgroundView"
                 android:orientation="vertical">
 
-            <View style="@style/Divider.Horizontal"/>
+            <View style="@style/Divider.Horizontal"
+                  android:layout_marginLeft="@dimen/layout_4dp"
+                  android:layout_marginRight="@dimen/layout_4dp"/>
 
             <LinearLayout
                     android:layout_width="match_parent"

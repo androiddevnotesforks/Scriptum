@@ -70,6 +70,8 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:$x_ver"
     implementation "androidx.vectordrawable:vectordrawable-animated:$x_ver"
 
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+
     debugImplementation "androidx.test:runner:1.1.0"
     debugImplementation 'androidx.test:rules:1.1.0'
     debugImplementation "androidx.test.ext:junit:1.0.0"
