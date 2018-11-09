@@ -5,14 +5,10 @@
 
     <data>
 
-        <import alias="v"
-                type="android.view.View"/>
+        <import alias="v" type="android.view.View"/>
 
-        <variable name="rollItem"
-                  type="sgtmelon.scriptum.app.model.item.RollItem"/>
-
-        <variable name="keyBin"
-                  type="boolean"/>
+        <variable name="rollItem" type="sgtmelon.scriptum.app.model.item.RollItem"/>
+        <variable name="keyBin" type="boolean"/>
 
     </data>
 

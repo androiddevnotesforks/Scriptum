@@ -6,11 +6,9 @@
     <data>
 
         <import type="sgtmelon.scriptum.R"/>
-
         <import type="sgtmelon.scriptum.office.Help.Clr"/>
 
-        <variable name="rollItem"
-                  type="sgtmelon.scriptum.app.model.item.RollItem"/>
+        <variable name="rollItem" type="sgtmelon.scriptum.app.model.item.RollItem"/>
 
     </data>
 

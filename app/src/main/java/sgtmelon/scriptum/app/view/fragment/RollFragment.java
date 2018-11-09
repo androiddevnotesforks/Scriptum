@@ -319,7 +319,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private void setupPanel() {
         Log.i(TAG, "setupPanel");
 
-        panelContainer = frgView.findViewById(R.id.panel_container);
+        panelContainer = frgView.findViewById(R.id.enter_container);
 
         translateIn = AnimationUtils.loadAnimation(context, R.anim.fade_in);
         translateOut = AnimationUtils.loadAnimation(context, R.anim.fade_out);

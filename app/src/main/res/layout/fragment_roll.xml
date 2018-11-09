@@ -5,11 +5,8 @@
 
     <data>
 
-        <variable name="noteItem"
-                  type="sgtmelon.scriptum.app.model.item.NoteItem"/>
-
-        <variable name="keyEdit"
-                  type="boolean"/>
+        <variable name="keyEdit" type="boolean"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
     </data>
 
@@ -30,41 +27,12 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
-        <View style="@style/Divider.Horizontal"/>
+        <include layout="@layout/include_note_panel"
+                 app:keyEdit='@{keyEdit}'
+                 app:noteItem='@{noteItem}'/>
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/clBackgroundView">
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_undo"/>
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clSecond"
-                    app:srcCompat="@drawable/ic_redo"/>
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_rank"/>
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_palette"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-                android:id="@+id/panel_container"
+                android:id="@+id/enter_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/clBackgroundView"

@@ -5,17 +5,11 @@
     <data>
 
         <import type="sgtmelon.scriptum.R"/>
-
         <import type="sgtmelon.scriptum.office.Help.Draw"/>
 
-        <variable name="icon"
-                  type="int"/>
-
-        <variable name="title"
-                  type="int"/>
-
-        <variable name="details"
-                  type="int"/>
+        <variable name="icon" type="int"/>
+        <variable name="title" type="int"/>
+        <variable name="details" type="int"/>
 
     </data>
 

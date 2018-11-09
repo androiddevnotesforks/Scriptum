@@ -6,20 +6,12 @@
     <data>
 
         <import type="sgtmelon.scriptum.R"/>
-
         <import type="sgtmelon.scriptum.office.Help.Clr"/>
+        <import alias="v" type="android.view.View"/>
 
-        <import alias="v"
-                type="android.view.View"/>
-
-        <variable name="sortItem"
-                  type="sgtmelon.scriptum.app.model.item.SortItem"/>
-
-        <variable name="position"
-                  type="int"/>
-
-        <variable name="sortEnd"
-                  type="int"/>
+        <variable name="sortItem" type="sgtmelon.scriptum.app.model.item.SortItem"/>
+        <variable name="position" type="int"/>
+        <variable name="sortEnd" type="int"/>
 
     </data>
 

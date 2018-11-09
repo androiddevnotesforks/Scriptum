@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.R"/>
+        <import alias="v" type="android.view.View"/>
+        <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
+        <import alias="clr" type="sgtmelon.scriptum.office.Help.Clr"/>
+
+        <variable name="keyEdit" type="boolean"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+
+    </data>
+
+    <!-- todo посмотреть возможность сделать с использованием хml меню -->
+
+    <LinearLayout
+            android:id="@+id/control_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+        <View style="@style/Divider.Horizontal"/>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/clBackgroundView">
+
+            <LinearLayout
+                    android:id="@+id/group_delete_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                <ImageButton
+                        android:id="@+id/restore_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_restore"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_restore"/>
+
+                <ImageButton
+                        android:id="@+id/restore_open_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_restore_open"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_restore_open"/>
+
+                <ImageButton
+                        android:id="@+id/clear_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_clear"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_clear"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/edit_group_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                <ImageButton
+                        android:id="@+id/undo_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_undo"/>
+
+                <ImageButton
+                        android:id="@+id/redo_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_redo"/>
+
+                <ImageButton
+                        android:id="@+id/rank_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_rank"/>
+
+                <ImageButton
+                        android:id="@+id/color_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_palette"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/read_group_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                <!--todo чтобы обновлялось -->
+                <ImageButton
+                        android:id="@+id/check_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_check_all"
+                        android:tint="?attr/clIcon"
+                        android:visibility='@{noteItem.type == def.roll ? v.VISIBLE : v.GONE}'
+                        app:srcCompat="@drawable/ic_check_all"
+                        tools:visibility="visible"/>
+
+                <ImageButton
+                        android:id="@+id/bind_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_status_bind"
+                        android:src='@{noteItem.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                        android:tint='@{noteItem.status ? clr.get(context, R.attr.clAccent) : clr.get(context, R.attr.clIcon)}'
+                        tools:srcCompat="@drawable/ic_bind_roll"
+                        tools:tint="?attr/clAccent"/>
+
+                <ImageButton
+                        android:id="@+id/convert_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription='@{noteItem.type == def.text ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_convert"/>
+
+                <ImageButton
+                        android:id="@+id/delete_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_delete"
+                        android:tint="?attr/clIcon"
+                        app:srcCompat="@drawable/ic_bin"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

@@ -6,21 +6,12 @@
     <data>
 
         <import type="sgtmelon.scriptum.office.Help.Clr"/>
-
         <import type="sgtmelon.scriptum.office.Help.Pref"/>
+        <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
+        <import alias="text" type="android.text.TextUtils"/>
+        <import alias="v" type="android.view.View"/>
 
-        <import alias="def"
-                type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
-
-        <import alias="text"
-                type="android.text.TextUtils"/>
-
-        <import alias="v"
-                type="android.view.View"/>
-
-        <variable name="noteItem"
-                  type="sgtmelon.scriptum.app.model.item.NoteItem"/>
-
+        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
         <variable name="listRoll"
                   type="java.util.List&lt;sgtmelon.scriptum.app.model.item.RollItem&gt;"/>
 

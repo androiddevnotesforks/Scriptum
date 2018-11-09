@@ -5,14 +5,10 @@
 
     <data>
 
-        <import alias="v"
-                type="android.view.View"/>
+        <import alias="v" type="android.view.View"/>
 
-        <variable name="noteItem"
-                  type="sgtmelon.scriptum.app.model.item.NoteItem"/>
-
-        <variable name="keyEdit"
-                  type="boolean"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="keyEdit" type="boolean"/>
 
     </data>
 
@@ -74,38 +70,9 @@
 
         </FrameLayout>
 
-        <View style="@style/Divider.Horizontal"/>
-
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/clBackgroundView">
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_undo"/>
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clSecond"
-                    app:srcCompat="@drawable/ic_redo"/>
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_rank"/>
-
-            <ImageButton
-                    style="@style/Enter.Button"
-                    android:contentDescription="@null"
-                    android:tint="?attr/clIcon"
-                    app:srcCompat="@drawable/ic_palette"/>
-
-        </LinearLayout>
+        <include layout="@layout/include_note_panel"
+                 app:keyEdit='@{keyEdit}'
+                 app:noteItem='@{noteItem}'/>
 
     </LinearLayout>
 

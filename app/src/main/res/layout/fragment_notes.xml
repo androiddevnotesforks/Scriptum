@@ -5,12 +5,9 @@
     <data>
 
         <import type="sgtmelon.scriptum.R"/>
+        <import alias="v" type="android.view.View"/>
 
-        <import alias="v"
-                type="android.view.View"/>
-
-        <variable name="listEmpty"
-                  type="boolean"/>
+        <variable name="listEmpty" type="boolean"/>
 
     </data>
 
