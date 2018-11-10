@@ -5,6 +5,8 @@
 
     <data>
 
+        <import alias="v" type="android.view.View"/>
+
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
@@ -27,16 +29,13 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"/>
 
-        <include layout="@layout/include_note_panel"
-                 app:keyEdit='@{keyEdit}'
-                 app:noteItem='@{noteItem}'/>
-
         <LinearLayout
                 android:id="@+id/enter_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/clBackgroundView"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'>
 
             <View style="@style/Divider.Horizontal"
                   android:layout_marginLeft="@dimen/layout_4dp"
@@ -72,6 +71,10 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <include layout="@layout/include_note_panel"
+                 app:keyEdit='@{keyEdit}'
+                 app:noteItem='@{noteItem}'/>
 
     </LinearLayout>
 

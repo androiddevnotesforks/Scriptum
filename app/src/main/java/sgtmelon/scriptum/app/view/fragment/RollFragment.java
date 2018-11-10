@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -40,7 +38,7 @@ import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.StateDef;
+import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.CheckSt;
@@ -166,34 +164,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private EditText rollEnter;
     private ImageButton rollAdd;
 
-    private View panelContainer;
-    private Animation translateIn, translateOut;
-
-    private final Animation.AnimationListener animationListener = new Animation.AnimationListener() {
-        @Override
-        public void onAnimationStart(Animation animation) {
-            panelContainer.setEnabled(false);
-
-            if (animation == translateOut) {
-                panelContainer.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            panelContainer.setEnabled(true);
-
-            if (animation == translateIn) {
-                panelContainer.setVisibility(View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
-        }
-    };
-
     @Override
     public void onResume() {
         Log.i(TAG, "onResume");
@@ -236,7 +206,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         setupToolbar();
         setupDialog();
         setupRecycler();
-        setupPanel();
         setupEnter();
 
         final NoteSt noteSt = viewModel.getNoteSt();
@@ -314,18 +283,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-    }
-
-    private void setupPanel() {
-        Log.i(TAG, "setupPanel");
-
-        panelContainer = frgView.findViewById(R.id.enter_container);
-
-        translateIn = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-        translateOut = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-
-        translateIn.setAnimationListener(animationListener);
-        translateOut.setAnimationListener(animationListener);
     }
 
     @Override
@@ -637,10 +594,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 noteSt.isBin(), editMode, !noteSt.isBin() && !editMode
         );
 
-        if (noteSt.isCreate() && editMode) panelContainer.setVisibility(View.VISIBLE);
-        else if (noteSt.isFirst()) panelContainer.setVisibility(View.GONE);
-        else panelContainer.startAnimation(editMode ? translateIn : translateOut);
-
         bind(editMode);
 
         adapter.setNoteSt(noteSt);
@@ -666,16 +619,16 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         db = RoomDb.provideDb(context);
         if (checkSt.isAll()) {
-            noteRepo.update(StateDef.Check.notDone);
+            noteRepo.update(CheckDef.notDone);
             noteItem.setText(0, size);
 
-            db.daoRoll().update(noteItem.getId(), StateDef.Check.notDone);
+            db.daoRoll().update(noteItem.getId(), CheckDef.notDone);
             db.daoNote().update(noteItem);
         } else {
-            noteRepo.update(StateDef.Check.done);
+            noteRepo.update(CheckDef.done);
             noteItem.setText(size, size);
 
-            db.daoRoll().update(noteItem.getId(), StateDef.Check.done);
+            db.daoRoll().update(noteItem.getId(), CheckDef.done);
             db.daoNote().update(noteItem);
         }
         db.close();

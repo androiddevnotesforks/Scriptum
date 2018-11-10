@@ -13,7 +13,7 @@ import androidx.room.TypeConverters;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.office.annot.def.StateDef;
+import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
 /**
@@ -130,7 +130,7 @@ public abstract class RollDao extends BaseDao {
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :check " +
             "WHERE RL_ID_NOTE = :idNote")
-    public abstract void update(long idNote, @StateDef.Check int check);
+    public abstract void update(long idNote, @CheckDef int check);
 
     /**
      * Удаление пунктов при сохранении после свайпа

@@ -20,7 +20,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
 import sgtmelon.scriptum.office.Help;
-import sgtmelon.scriptum.office.annot.def.StateDef;
+import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
 /**
@@ -46,7 +46,7 @@ public abstract class NoteDao extends BaseDao {
         return new NoteRepo(noteItem, listRoll, statusItem);
     }
 
-    public List<NoteRepo> get(Context context, @StateDef.Bin int bin) {
+    public List<NoteRepo> get(Context context, @BinDef int bin) {
         final List<NoteRepo> listNoteRepo = new ArrayList<>();
         final List<NoteItem> listNote = getNote(bin, Help.Pref.getSortNoteOrder(context));
 
@@ -77,7 +77,7 @@ public abstract class NoteDao extends BaseDao {
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_BIN = :bin " +
             "ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC")
-    abstract List<NoteItem> get(@StateDef.Bin int bin);
+    abstract List<NoteItem> get(@BinDef int bin);
 
     @Update
     public abstract void update(NoteItem noteItem);
@@ -88,7 +88,7 @@ public abstract class NoteDao extends BaseDao {
      * @param context - Контекст для получения сортировки
      */
     public void update(Context context) {
-        final List<NoteItem> listNote = getNote(StateDef.Bin.out, Help.Pref.getSortNoteOrder(context));
+        final List<NoteItem> listNote = getNote(BinDef.out, Help.Pref.getSortNoteOrder(context));
         final List<Long> rkVisible = getRankVisible();
 
         for (int i = 0; i < listNote.size(); i++) {
@@ -137,7 +137,7 @@ public abstract class NoteDao extends BaseDao {
     }
 
     public void clearBin() {
-        final List<NoteItem> listNote = get(StateDef.Bin.in);
+        final List<NoteItem> listNote = get(BinDef.in);
 
         for (int i = 0; i < listNote.size(); i++) {
             final NoteItem noteItem = listNote.get(i);
@@ -152,8 +152,8 @@ public abstract class NoteDao extends BaseDao {
     }
 
     public void listAll(TextView textView) {
-        final List<NoteItem> listNote = get(StateDef.Bin.in);
-        listNote.addAll(get(StateDef.Bin.out));
+        final List<NoteItem> listNote = get(BinDef.in);
+        listNote.addAll(get(BinDef.out));
 
         final String annotation = "Note Data Base:";
         textView.setText(annotation);

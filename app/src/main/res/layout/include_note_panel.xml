@@ -7,6 +7,7 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
+
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
         <import alias="clr" type="sgtmelon.scriptum.office.Help.Clr"/>
 
@@ -14,8 +15,6 @@
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
     </data>
-
-    <!-- todo посмотреть возможность сделать с использованием хml меню -->
 
     <LinearLayout
             android:id="@+id/control_container"
@@ -35,7 +34,8 @@
                     android:id="@+id/group_delete_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility='@{noteItem.bin ? v.VISIBLE : v.GONE}'
+                    tools:visibility="gone">
 
                 <ImageButton
                         android:id="@+id/restore_button"
@@ -64,27 +64,30 @@
                     android:id="@+id/edit_group_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone">
+                    android:visibility='@{keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE : v.GONE}'
+                    tools:visibility="visible">
 
                 <ImageButton
                         android:id="@+id/undo_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:tint="?attr/clIcon"
+                        android:tint="?attr/clSecond"
+                        android:clickable="false"
                         app:srcCompat="@drawable/ic_undo"/>
 
                 <ImageButton
                         android:id="@+id/redo_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:tint="?attr/clIcon"
+                        android:tint="?attr/clSecond"
                         app:srcCompat="@drawable/ic_redo"/>
 
+                <!-- todo убирать если нет категорий, или делать недоступным -->
                 <ImageButton
                         android:id="@+id/rank_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:tint="?attr/clIcon"
+                        android:tint="?attr/clSecond"
                         app:srcCompat="@drawable/ic_rank"/>
 
                 <ImageButton
@@ -100,17 +103,18 @@
                     android:id="@+id/read_group_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
+                    android:visibility='@{!keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.GONE}'
+                    tools:visibility="gone">
 
-                <!--todo чтобы обновлялось -->
                 <ImageButton
                         android:id="@+id/check_button"
                         style="@style/Enter.Button"
-                        android:contentDescription="@string/menu_note_check_all"
-                        android:tint="?attr/clIcon"
+                        android:contentDescription='@{noteItem.allCheck ? @string/menu_note_zero : @string/menu_note_check_all}'
+                        android:src='@{@drawable/ic_check_all}'
+                        android:tint='@{noteItem.allCheck ? clr.get(context, R.attr.clAccent) : clr.get(context, R.attr.clIcon)}'
                         android:visibility='@{noteItem.type == def.roll ? v.VISIBLE : v.GONE}'
-                        app:srcCompat="@drawable/ic_check_all"
-                        tools:visibility="visible"/>
+                        tools:srcCompat="@drawable/ic_check_all"
+                        tools:tint="?attr/clAccent"/>
 
                 <ImageButton
                         android:id="@+id/bind_button"

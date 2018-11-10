@@ -40,9 +40,10 @@ import sgtmelon.scriptum.app.view.callback.MainCallback;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentNotesBinding;
 import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.annot.def.BinDef;
+import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.OptionsDef;
-import sgtmelon.scriptum.office.annot.def.StateDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
@@ -210,7 +211,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        final List<NoteRepo> listNoteRepo = vm.loadData(StateDef.Bin.out);
+        final List<NoteRepo> listNoteRepo = vm.loadData(BinDef.out);
 
         adapter.setList(listNoteRepo);
         adapter.notifyDataSetChanged();
@@ -291,11 +292,11 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         final int[] checkText = noteItem.getCheck();
         final int check = checkText[0] == checkText[1]
-                ? StateDef.Check.notDone
-                : StateDef.Check.done;
+                ? CheckDef.notDone
+                : CheckDef.done;
 
         noteItem.setChange(Help.Time.getCurrentTime(context));
-        noteItem.setText(check == StateDef.Check.notDone
+        noteItem.setText(check == CheckDef.notDone
                 ? 0
                 : checkText[1], checkText[1]);
 

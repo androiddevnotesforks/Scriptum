@@ -11,7 +11,7 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
-import sgtmelon.scriptum.office.annot.def.StateDef;
+import sgtmelon.scriptum.office.annot.def.BinDef;
 
 /**
  * ViewModel для {@link NotesFragment} и {@link BinFragment}
@@ -32,7 +32,7 @@ public final class NotesViewModel extends AndroidViewModel {
         this.listModel = listModel;
     }
 
-    public List<NoteRepo> loadData(@StateDef.Bin int bin) {
+    public List<NoteRepo> loadData(@BinDef int bin) {
         final Context context = getApplication().getApplicationContext();
 
         final RoomDb db = RoomDb.provideDb(context);
