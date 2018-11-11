@@ -6,9 +6,9 @@
     <data>
 
         <import type="sgtmelon.scriptum.R"/>
+        <import alias="v" type="android.view.View"/>
         <import type="sgtmelon.scriptum.office.Help.Pref"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
-        <import alias="v" type="android.view.View"/>
 
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>

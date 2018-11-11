@@ -7,8 +7,6 @@ import sgtmelon.scriptum.R;
  */
 public @interface ColorAnn {
 
-    // TODO: 04.11.2018 добавить def значенгия каждого цвета
-
     //Кружки для диалога смены цвета и фильтра
     int[] ic_light = new int[]{
             R.drawable.ic_color_00_l, R.drawable.ic_color_01_l,

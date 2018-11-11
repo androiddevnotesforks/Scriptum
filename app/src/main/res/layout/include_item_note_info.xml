@@ -6,9 +6,8 @@
     <data>
 
         <import type="java.util.List"/>
-        <import type="sgtmelon.scriptum.office.Help.Time"/>
-        <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
         <import alias="v" type="android.view.View"/>
+        <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
@@ -45,13 +44,13 @@
                 style="@style/NoteItem.Info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text='@{Time.formatNoteDate(context, noteItem.change)}'
+                app:time='@{noteItem.change}'
                 tools:text="@string/test_note_time"/>
 
         <TextView
                 style="@style/NoteItem.Info"
                 android:layout_width="wrap_content"
-                android:text='@{Time.formatNoteDate(context, noteItem.create)}'
+                app:time='@{noteItem.create}'
                 tools:text="@string/test_note_time"/>
 
     </LinearLayout>

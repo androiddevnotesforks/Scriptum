@@ -54,22 +54,20 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
 
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            int oldPs = viewHolder.getAdapterPosition();
-            int newPs = target.getAdapterPosition();
+            final int positionOld = viewHolder.getAdapterPosition();
+            final int positionNew = target.getAdapterPosition();
 
-            SortItem sortItem = listSort.get(oldPs);
+            final SortItem sortItem = listSort.get(positionOld);
 
-            listSort.remove(oldPs);
-            listSort.add(newPs, sortItem);
+            listSort.remove(positionOld);
+            listSort.add(positionNew, sortItem);
 
             adapter.setList(listSort);
-            adapter.notifyItemMoved(oldPs, newPs);
+            adapter.notifyItemMoved(positionOld, positionNew);
 
-            if (oldPs == adapter.sortSt.getEnd()) {
-                adapter.notifyItemChanged(newPs);
-            } else {
-                adapter.notifyItemChanged(oldPs);
-            }
+            adapter.notifyItemChanged(positionOld == adapter.sortSt.getEnd()
+                    ? positionNew
+                    : positionOld);
 
             keys = Help.Pref.getSortByList(listSort);
             setEnable();
@@ -78,12 +76,12 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
     };
 
     public void setArguments(String keys) {
-        Bundle arg = new Bundle();
+        final Bundle bundle = new Bundle();
 
-        arg.putString(DialogAnn.INIT, keys);
-        arg.putString(DialogAnn.VALUE, keys);
+        bundle.putString(DialogAnn.INIT, keys);
+        bundle.putString(DialogAnn.VALUE, keys);
 
-        setArguments(arg);
+        setArguments(bundle);
     }
 
     @NonNull
@@ -109,24 +107,23 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new SortAdapter(context);
-        recyclerView.setAdapter(adapter);
         adapter.setClickListener(this);
+
+        listSort.clear();
+        for (String aKey : keys.split(SortDef.divider)) {
+            final int key = Integer.parseInt(aKey);
+            final SortItem sortItem = new SortItem(text[key], key);
+            listSort.add(sortItem);
+        }
+        adapter.setList(listSort);
+
+        recyclerView.setAdapter(adapter);
 
         final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
         if (animator != null) animator.setSupportsChangeAnimations(false);
-
-        final String[] keysArr = keys.split(SortDef.divider);
-        for (String aKey : keysArr) {
-            final int key = Integer.parseInt(aKey);
-            final SortItem sortItem = new SortItem(text[key], key);
-            listSort.add(sortItem);
-        }
-
-        adapter.setList(listSort);
-        adapter.notifyDataSetChanged();
 
         return new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.dialog_title_sort))
@@ -154,11 +151,8 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
     protected void setEnable() {
         super.setEnable();
 
-        if (Help.Pref.getSortEqual(init, keys)) buttonPositive.setEnabled(false);
-        else buttonPositive.setEnabled(true);
-
-        if (Help.Pref.getSortEqual(SortDef.def, keys)) buttonNeutral.setEnabled(false);
-        else buttonNeutral.setEnabled(true);
+        buttonPositive.setEnabled(!Help.Pref.getSortEqual(init, keys));
+        buttonNeutral.setEnabled(!Help.Pref.getSortEqual(SortDef.def, keys));
     }
 
     @Override

@@ -15,6 +15,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
+import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 import sgtmelon.scriptum.office.conv.StringConv;
@@ -50,7 +51,7 @@ public final class NoteItem {
     }
 
     @Ignore
-    public NoteItem(String create, int color, @TypeNoteDef int type) {
+    public NoteItem(String create, @ColorDef int color, @TypeNoteDef int type) {
         this.create = create;
         this.color = color;
         this.type = type;
@@ -110,7 +111,7 @@ public final class NoteItem {
         return color;
     }
 
-    public void setColor(int color) {
+    public void setColor(@ColorDef int color) {
         this.color = color;
     }
 
@@ -159,8 +160,10 @@ public final class NoteItem {
 
         if (type == TypeNoteDef.roll) {
             final String[] split = text.split(CheckDef.divider);
-            for (int i = 0; i < 2; i++) {
-                check[i] = Integer.parseInt(split[i]);
+            if (split.length == 2) {
+                for (int i = 0; i < 2; i++) {
+                    check[i] = Integer.parseInt(split[i]);
+                }
             }
         }
 

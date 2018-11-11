@@ -9,7 +9,6 @@
         <import alias="v" type="android.view.View"/>
 
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
-        <import alias="clr" type="sgtmelon.scriptum.office.Help.Clr"/>
 
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
@@ -70,9 +69,9 @@
                 <ImageButton
                         android:id="@+id/undo_button"
                         style="@style/Enter.Button"
+                        android:clickable="false"
                         android:contentDescription="@null"
                         android:tint="?attr/clSecond"
-                        android:clickable="false"
                         app:srcCompat="@drawable/ic_undo"/>
 
                 <ImageButton
@@ -109,11 +108,12 @@
                 <ImageButton
                         android:id="@+id/check_button"
                         style="@style/Enter.Button"
-                        android:contentDescription='@{noteItem.allCheck ? @string/menu_note_zero : @string/menu_note_check_all}'
-                        android:src='@{@drawable/ic_check_all}'
-                        android:tint='@{noteItem.allCheck ? clr.get(context, R.attr.clAccent) : clr.get(context, R.attr.clIcon)}'
+                        android:contentDescription='@{noteItem.allCheck ? @string/menu_note_check_zero : @string/menu_note_check_all}'
                         android:visibility='@{noteItem.type == def.roll ? v.VISIBLE : v.GONE}'
-                        tools:srcCompat="@drawable/ic_check_all"
+                        app:boolExpression='@{noteItem.allCheck}'
+                        app:falseColor='@{R.attr.clIcon}'
+                        app:srcCompat="@drawable/ic_check_all"
+                        app:trueColor='@{R.attr.clAccent}'
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
@@ -121,7 +121,9 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_status_bind"
                         android:src='@{noteItem.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
-                        android:tint='@{noteItem.status ? clr.get(context, R.attr.clAccent) : clr.get(context, R.attr.clIcon)}'
+                        app:boolExpression='@{noteItem.status}'
+                        app:falseColor='@{R.attr.clIcon}'
+                        app:trueColor='@{R.attr.clAccent}'
                         tools:srcCompat="@drawable/ic_bind_roll"
                         tools:tint="?attr/clAccent"/>
 

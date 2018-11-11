@@ -6,7 +6,6 @@
     <data>
 
         <import type="sgtmelon.scriptum.R"/>
-        <import type="sgtmelon.scriptum.office.Help.Clr"/>
         <import alias="v" type="android.view.View"/>
 
         <variable name="sortItem" type="sgtmelon.scriptum.app.model.item.SortItem"/>
@@ -30,7 +29,9 @@
         <TextView
                 style="@style/SortItem.Text"
                 android:text='@{sortItem.text}'
-                android:textColor='@{position &lt;= sortEnd ? Clr.get(context, R.attr.clAccent) : Clr.get(context, R.attr.clSecond)}'
+                app:boolExpression='@{position &lt;= sortEnd}'
+                app:trueColor='@{R.attr.clAccent}'
+                app:falseColor='@{R.attr.clSecond}'
                 tools:text="@string/test_sort_text"
                 tools:textColor="?attr/clAccent"/>
 

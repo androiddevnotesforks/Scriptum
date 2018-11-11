@@ -8,6 +8,8 @@
         <import alias="v" type="android.view.View"/>
 
         <variable name="listEmpty" type="boolean"/>
+        <variable name="nameNotEmpty" type="boolean"/>
+        <variable name="listNotContain" type="boolean"/>
 
     </data>
 
@@ -16,7 +18,9 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <include layout="@layout/include_toolbar_rank"/>
+        <include layout="@layout/include_toolbar_rank"
+                 app:nameNotEmpty='@{nameNotEmpty}'
+                 app:listNotContain='@{listNotContain}'/>
 
         <FrameLayout
                 android:layout_width="match_parent"

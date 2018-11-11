@@ -1,65 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.appbar.AppBarLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="@dimen/elevation_0dp">
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            style="?attr/styleToolbar"
-            android:paddingLeft="@dimen/layout_8dp"
-            android:paddingRight="@dimen/layout_8dp"
-            app:popupTheme="?attr/themePopup">
+    <data>
 
-        <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="?attr/clBackgroundEnter"
-                app:cardCornerRadius="@dimen/radius_4dp"
-                app:cardUseCompatPadding="false">
+        <import type="sgtmelon.scriptum.R"/>
 
-            <LinearLayout
+        <variable name="nameNotEmpty" type="boolean"/>
+        <variable name="listNotContain" type="boolean"/>
+
+    </data>
+
+    <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:elevation="@dimen/elevation_0dp">
+
+        <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                style="?attr/styleToolbar"
+                android:paddingLeft="@dimen/layout_8dp"
+                android:paddingRight="@dimen/layout_8dp"
+                app:popupTheme="?attr/themePopup">
+
+            <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="?attr/clBackgroundEnter"
+                    app:cardCornerRadius="@dimen/radius_4dp"
+                    app:cardUseCompatPadding="false">
 
-                <ImageButton
-                        android:id="@+id/cancel_button"
-                        style="@style/Enter.Button"
-                        android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_cancel_on"
-                        tools:tint="?attr/clIcon"/>
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                <EditText
-                        android:id="@+id/rank_enter"
-                        style="@style/Enter.Text"
+                    <ImageButton
+                            android:id="@+id/cancel_button"
+                            style="@style/Enter.Button"
+                            android:contentDescription="@null"
+                            app:boolExpression='@{nameNotEmpty}'
+                            app:enabled='@{nameNotEmpty}'
+                            app:falseColor='@{R.attr.clSecond}'
+                            app:srcCompat="@drawable/ic_cancel_on"
+                            app:trueColor='@{R.attr.clIcon}'
+                            tools:tint="?attr/clIcon"/>
 
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="@string/hint_enter_rank_new"
-                        android:imeOptions="flagNoFullscreen|actionDone"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-                        android:maxLength="@integer/length_rank_name"
-                        android:maxLines="1"
-                        tools:targetApi="o"/>
+                    <EditText
+                            android:id="@+id/rank_enter"
+                            style="@style/Enter.Text"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="@string/hint_enter_rank_new"
+                            android:imeOptions="flagNoFullscreen|actionDone"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
+                            android:maxLength="@integer/length_rank_name"
+                            android:maxLines="1"
+                            tools:targetApi="o"/>
 
-                <ImageButton
-                        android:id="@+id/add_button"
-                        style="@style/Enter.Button"
-                        android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_rank"
-                        tools:tint="?attr/clAccent"/>
+                    <ImageButton
+                            android:id="@+id/add_button"
+                            style="@style/Enter.Button"
+                            android:contentDescription="@null"
+                            app:boolExpression='@{nameNotEmpty}'
+                            app:extraExpression='@{listNotContain}'
+                            app:falseColor='@{R.attr.clSecond}'
+                            app:srcCompat="@drawable/ic_rank"
+                            app:trueColor='@{R.attr.clAccent}'
+                            tools:tint="?attr/clAccent"/>
 
-            </LinearLayout>
+                </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-    </androidx.appcompat.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
-    <View style="@style/Divider.Horizontal"/>
+        <View style="@style/Divider.Horizontal"/>
 
-</com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+</layout>

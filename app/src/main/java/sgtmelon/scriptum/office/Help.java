@@ -9,17 +9,13 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -38,7 +34,6 @@ import sgtmelon.scriptum.app.model.item.SortItem;
 import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.SortDef;
-import sgtmelon.scriptum.office.annot.def.ThemeDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 
 public final class Help {
@@ -91,25 +86,6 @@ public final class Help {
     }
 
     public static final class Clr {
-
-        /**
-         * Получение цвета заметки в зависимости от темы и заднего фона
-         *
-         * @param color  - Идентификатор цвета заметки
-         * @param onDark - Если элемент находится на тёмном фоне (например индикатор цвета заметки
-         * @return - Один из стандартных цветов приложения
-         */
-        public static int getNote(Context context, int color, boolean onDark) {
-            switch (Pref.getTheme(context)) {
-                case ThemeDef.light:
-                    return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
-                case ThemeDef.dark:
-                default:
-                    return onDark
-                            ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])
-                            : get(context, R.attr.clPrimary);
-            }
-        }
 
         /**
          * Получение одного из стандартных цветов заметки в зави
@@ -195,54 +171,6 @@ public final class Help {
             item.setIcon(wrapDrawable);
         }
 
-        /**
-         * Блокирование кнопки и установка на неё покрашенной иконки в зависимости
-         * от текстового сообщения
-         *
-         * @param button     - Кнопка, которую необходимо контролировать
-         * @param drawableId - Идентификатор изображения
-         * @param clEnable   - Цвет изображения, когда кнопка доступна для нажатия
-         * @param text       - Текстовое сообщение, от которого зависит иконка и блокировка
-         */
-        public static void button(Context context, ImageButton button, @DrawableRes int drawableId,
-                                  @AttrRes int clEnable, String text) {
-            final Drawable drawableEnable = Draw.get(context, drawableId, clEnable);
-            final Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
-
-            if (!TextUtils.isEmpty(text)) {
-                button.setImageDrawable(drawableEnable);
-                button.setEnabled(true);
-            } else {
-                button.setImageDrawable(drawableDisable);
-                button.setEnabled(false);
-            }
-        }
-
-        /**
-         * Блокирование кнопки и установка на неё покрашенной иконки в зависимости
-         * от текстового сообщения и дополнительного параметра доступа
-         *
-         * @param button     - Кнопка, которую необходимо контролировать
-         * @param drawableId - Идентификатор изображения
-         * @param text       - Текстовое сообщение, от которого зависит иконка и блокировка
-         * @param enable     - Дополнительный параметр для контроля, например список содержит
-         *                   текстовое сообщение
-         */
-        public static void button(Context context, ImageButton button, @DrawableRes int drawableId,
-                                  String text, boolean enable) {
-            final Drawable drawableEnable = Draw.get(context, drawableId, R.attr.clAccent);
-            final Drawable drawableDisable = Draw.get(context, drawableId, R.attr.clSecond);
-
-            if (!TextUtils.isEmpty(text)) {
-                button.setImageDrawable(enable
-                        ? drawableEnable
-                        : drawableDisable);
-                button.setEnabled(enable);
-            } else {
-                button.setImageDrawable(drawableDisable);
-                button.setEnabled(false);
-            }
-        }
     }
 
     public static final class Note {
@@ -391,28 +319,6 @@ public final class Help {
          */
         public static String getCurrentTime(Context context) {
             return new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault()).format(Calendar.getInstance().getTime());
-        }
-
-        /**
-         * @param date - Время создания/изменения заметки
-         * @return - Время и дата в приятном виде
-         */
-        public static String formatNoteDate(Context context, String date) {
-            final DateFormat oldFormat = new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault());
-            final Calendar calendar = Calendar.getInstance();
-
-            DateFormat newFormat;
-            try {
-                calendar.setTime(oldFormat.parse(date));
-                if (DateUtils.isToday(calendar.getTimeInMillis()))
-                    newFormat = new SimpleDateFormat(context.getString(R.string.date_note_today_format), Locale.getDefault());
-                else
-                    newFormat = new SimpleDateFormat(context.getString(R.string.date_note_yesterday_format), Locale.getDefault());
-                return newFormat.format(oldFormat.parse(date));
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return null;
-            }
         }
 
     }

@@ -58,7 +58,10 @@ public class DialogBlank extends DialogFragment {
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
-        if (dismissListener != null) dismissListener.onDismiss(dialog);
+
+        if (dismissListener != null) {
+            dismissListener.onDismiss(dialog);
+        }
     }
 
     public final void setTitle(String title) {
@@ -83,7 +86,7 @@ public class DialogBlank extends DialogFragment {
 
     @CallSuper
     protected void setEnable() {
-        AlertDialog dialog = (AlertDialog) getDialog();
+        final AlertDialog dialog = (AlertDialog) getDialog();
         buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         buttonNeutral = dialog.getButton(DialogInterface.BUTTON_NEUTRAL);
     }

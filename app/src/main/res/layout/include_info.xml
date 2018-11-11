@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <import type="sgtmelon.scriptum.R"/>
-        <import type="sgtmelon.scriptum.office.Help.Draw"/>
 
         <variable name="icon" type="int"/>
         <variable name="title" type="int"/>
@@ -21,9 +21,10 @@
                 android:id="@+id/info_image"
                 style="@style/Info.Icon"
                 android:contentDescription="@null"
-                android:src='@{Draw.get(context, icon, R.attr.clIcon)}'
-                android:tint="?attr/clIcon"
-                tools:srcCompat="@mipmap/img_info_notes"/>
+                app:imageColor='@{R.attr.clIcon}'
+                app:imageId='@{icon}'
+                tools:srcCompat="@mipmap/img_info_notes"
+                tools:tint="?attr/clIcon"/>
 
         <TextView
                 android:id="@+id/info_title_text"

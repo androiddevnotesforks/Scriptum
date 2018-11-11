@@ -162,15 +162,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
     private RecyclerView recyclerView;
     private EditText rollEnter;
-    private ImageButton rollAdd;
 
     @Override
     public void onResume() {
         Log.i(TAG, "onResume");
         super.onResume();
 
-        final String rollText = rollEnter.getText().toString();
-        Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
+        binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
+        binding.executePendingBindings();
 
         updateAdapter();
     }
@@ -223,8 +222,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     protected void bind(boolean keyEdit) {
         Log.i(TAG, "bind");
 
-        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
         binding.setKeyEdit(keyEdit);
+        binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
+        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
 
         binding.executePendingBindings();
     }
@@ -299,7 +299,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         });
 
         rollEnter = frgView.findViewById(R.id.roll_enter);
-        rollAdd = frgView.findViewById(R.id.add_button);
+        final ImageButton rollAdd = frgView.findViewById(R.id.add_button);
 
         rollEnter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -309,8 +309,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                final String rollText = charSequence.toString();
-                Help.Tint.button(context, rollAdd, R.drawable.ic_add, R.attr.clAccent, rollText);
+                binding.setEnterNotEmpty(!TextUtils.isEmpty(charSequence.toString()));
+                binding.executePendingBindings();
             }
 
             @Override

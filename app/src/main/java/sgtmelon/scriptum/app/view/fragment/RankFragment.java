@@ -39,7 +39,6 @@ import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.vm.fragment.RankViewModel;
 import sgtmelon.scriptum.databinding.FragmentRankBinding;
-import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
@@ -134,8 +133,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     };
 
     private View frgView;
-    private ImageButton rankCancel;
-    private ImageButton rankAdd;
     private EditText rankEnter;
 
     @Override
@@ -152,7 +149,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         super.onResume();
 
         updateAdapter();
-        tintButton();
+        bind();
     }
 
     @Nullable
@@ -196,9 +193,20 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     }
 
     private void bind(int listSize) {
-        Log.i(TAG, "bind");
+        Log.i(TAG, "bind: " + listSize);
 
         binding.setListEmpty(listSize == 0);
+        bind();
+    }
+
+    private void bind() {
+        Log.i(TAG, "bind");
+
+        final String name = rankEnter.getText().toString().toUpperCase();
+
+        binding.setNameNotEmpty(!TextUtils.isEmpty(name));
+        binding.setListNotContain(!vm.getRankRepo().getListName().contains(name));
+
         binding.executePendingBindings();
     }
 
@@ -208,8 +216,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         final Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_rank));
 
-        rankCancel = frgView.findViewById(R.id.cancel_button);
-        rankAdd = frgView.findViewById(R.id.add_button);
+        final ImageButton rankCancel = frgView.findViewById(R.id.cancel_button);
+        final ImageButton rankAdd = frgView.findViewById(R.id.add_button);
         rankEnter = frgView.findViewById(R.id.rank_enter);
 
         rankEnter.addTextChangedListener(new TextWatcher() {
@@ -220,7 +228,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                tintButton();
+                bind();
             }
 
             @Override
@@ -244,16 +252,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         rankCancel.setOnClickListener(this);
         rankAdd.setOnClickListener(this);
         rankAdd.setOnLongClickListener(this);
-    }
-
-    // TODO: 30.09.2018 переделай в отдельный класс
-    private void tintButton() {
-        Log.i(TAG, "tintButton");
-
-        final String name = rankEnter.getText().toString().toUpperCase();
-
-        Help.Tint.button(context, rankCancel, R.drawable.ic_cancel_on, R.attr.clIcon, name);
-        Help.Tint.button(context, rankAdd, R.drawable.ic_rank, name, !vm.getRankRepo().getListName().contains(name));
     }
 
     private String clearEnter() {
@@ -304,7 +302,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
             rankRepo.set(p, rankItem);
 
-            tintButton();
+            bind();
 
             vm.setRankRepo(rankRepo);
 

@@ -5,11 +5,10 @@
 
     <data>
 
-        <import type="sgtmelon.scriptum.office.Help.Clr"/>
+        <import alias="v" type="android.view.View"/>
+        <import alias="text" type="android.text.TextUtils"/>
         <import type="sgtmelon.scriptum.office.Help.Pref"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
-        <import alias="text" type="android.text.TextUtils"/>
-        <import alias="v" type="android.view.View"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
         <variable name="listRoll"
@@ -19,9 +18,9 @@
 
     <androidx.cardview.widget.CardView
             style="@style/Card"
-            app:cardBackgroundColor='@{Clr.getNote(context, noteItem.color, false)}'
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
+            app:noteColor='@{noteItem.color}'
             tools:cardBackgroundColor="?attr/clPrimary">
 
         <FrameLayout
@@ -71,7 +70,8 @@
                 <ImageView
                         style="@style/NoteItem.Color.Vertical"
                         android:contentDescription="@null"
-                        android:tint='@{Clr.getNote(context, noteItem.color, true)}'
+                        app:noteColor='@{noteItem.color}'
+                        app:viewOnDark='@{true}'
                         android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="visible"/>

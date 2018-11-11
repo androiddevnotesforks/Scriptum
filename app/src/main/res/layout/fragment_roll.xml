@@ -5,9 +5,11 @@
 
     <data>
 
+        <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
 
         <variable name="keyEdit" type="boolean"/>
+        <variable name="enterNotEmpty" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
     </data>
@@ -65,7 +67,11 @@
                         style="@style/Enter.Button"
                         android:layout_gravity="bottom"
                         android:contentDescription="@null"
+                        app:boolExpression='@{enterNotEmpty}'
+                        app:enabled='@{enterNotEmpty}'
+                        app:falseColor='@{R.attr.clSecond}'
                         app:srcCompat="@drawable/ic_add"
+                        app:trueColor='@{R.attr.clAccent}'
                         tools:tint="?attr/clIcon"/>
 
             </LinearLayout>

@@ -9,10 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.BindingAdapter;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
@@ -66,11 +64,6 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
         final RollItem item = list.get(position);
         holder.bind(item);
-    }
-
-    @BindingAdapter("colorFilter")
-    public static void setColorFilter(ImageButton imageButton, int color){
-        imageButton.setColorFilter(color);
     }
 
     @Override
