@@ -9,7 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.view.fragment.PreferenceFragment;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 
 public final class PreferenceActivity extends BaseActivityParent {
 
@@ -33,7 +33,7 @@ public final class PreferenceActivity extends BaseActivityParent {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_preference));
 
-        final Drawable icArrow = Help.Draw.get(this, R.drawable.ic_cancel_off, R.attr.clIcon);
+        final Drawable icArrow = HelpUtils.Draw.get(this, R.drawable.ic_cancel_off, R.attr.clIcon);
         toolbar.setNavigationIcon(icArrow);
         toolbar.setNavigationOnClickListener(view -> finish());
     }

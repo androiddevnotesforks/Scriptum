@@ -44,7 +44,7 @@ import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
@@ -288,7 +288,7 @@ public abstract class NoteFragmentParent extends Fragment
     public final void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
 
-        Help.hideKeyboard(context, activity.getCurrentFocus());
+        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
 
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
@@ -304,7 +304,7 @@ public abstract class NoteFragmentParent extends Fragment
     public final void onMenuColorClick() {
         Log.i(TAG, "onMenuColorClick");
 
-        Help.hideKeyboard(context, activity.getCurrentFocus());
+        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
 
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 

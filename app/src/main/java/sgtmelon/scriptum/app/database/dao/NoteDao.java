@@ -19,7 +19,7 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 
@@ -48,7 +48,7 @@ public abstract class NoteDao extends BaseDao {
 
     public List<NoteRepo> get(Context context, @BinDef int bin) {
         final List<NoteRepo> listNoteRepo = new ArrayList<>();
-        final List<NoteItem> listNote = getNote(bin, Help.Pref.getSortNoteOrder(context));
+        final List<NoteItem> listNote = getNote(bin, HelpUtils.Pref.getSortNoteOrder(context));
 
         final List<Long> rkVisible = getRankVisible();
 
@@ -88,7 +88,7 @@ public abstract class NoteDao extends BaseDao {
      * @param context - Контекст для получения сортировки
      */
     public void update(Context context) {
-        final List<NoteItem> listNote = getNote(BinDef.out, Help.Pref.getSortNoteOrder(context));
+        final List<NoteItem> listNote = getNote(BinDef.out, HelpUtils.Pref.getSortNoteOrder(context));
         final List<Long> rkVisible = getRankVisible();
 
         for (int i = 0; i < listNote.size(); i++) {

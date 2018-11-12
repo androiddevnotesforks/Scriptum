@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +15,10 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 public final class ActivityNoteViewModel extends AndroidViewModel {
 
@@ -91,9 +91,9 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         rankVisible = db.daoRank().getRankVisible();
 
         if (ntCreate) {
-            final String create = Help.Time.getCurrentTime(context);
+            final String create = HelpUtils.Time.getCurrentTime(context);
 
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences pref = PrefUtils.getInstance(context);
             final int color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
 
             final NoteItem noteItem = new NoteItem(create, color, ntType);

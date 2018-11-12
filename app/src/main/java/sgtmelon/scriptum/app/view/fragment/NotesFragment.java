@@ -39,7 +39,7 @@ import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
 import sgtmelon.scriptum.app.view.callback.MainCallback;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentNotesBinding;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -130,7 +130,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final Menu menu = toolbar.getMenu();
         MenuItem mItemSettings = menu.findItem(R.id.preference_item);
 
-        Help.Tint.menuIcon(context, mItemSettings);
+        HelpUtils.Tint.menuIcon(context, mItemSettings);
     }
 
     private void setupRecycler() {
@@ -295,7 +295,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
                 ? CheckDef.notDone
                 : CheckDef.done;
 
-        noteItem.setChange(Help.Time.getCurrentTime(context));
+        noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
         noteItem.setText(check == CheckDef.notDone
                 ? 0
                 : checkText[1], checkText[1]);
@@ -349,7 +349,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final NoteRepo noteRepo = listNoteRepo.get(p);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(Help.Time.getCurrentTime(context));
+        noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
 
         db = RoomDb.provideDb(context);
         switch (noteItem.getType()) {
@@ -393,7 +393,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "onMenuCopyClick");
 
         final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
-        Help.optionsCopy(context, noteItem);
+        HelpUtils.optionsCopy(context, noteItem);
     }
 
     @Override
@@ -406,7 +406,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final NoteItem noteItem = noteRepo.getNoteItem();
 
         db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(context), true);
+        db.daoNote().update(noteItem.getId(), HelpUtils.Time.getCurrentTime(context), true);
         if (noteItem.isStatus()) db.daoNote().update(noteItem.getId(), false);
         db.close();
 

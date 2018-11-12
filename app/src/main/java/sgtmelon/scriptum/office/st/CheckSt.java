@@ -3,7 +3,7 @@ package sgtmelon.scriptum.office.st;
 import java.util.List;
 
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 
 /**
  * Состояние для отметок, определяющее отмечено ли всё в списке с элементами {@link RollItem}
@@ -17,7 +17,7 @@ public final class CheckSt {
     }
 
     public void setAll(List<RollItem> listRoll) {
-        all = Help.Note.isAllCheck(listRoll);
+        all = HelpUtils.Note.isAllCheck(listRoll);
     }
 
     /**

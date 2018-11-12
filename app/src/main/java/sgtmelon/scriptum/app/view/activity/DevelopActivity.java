@@ -7,7 +7,7 @@ import android.widget.TextView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 
 public final class DevelopActivity extends BaseActivityParent {
 
@@ -30,7 +30,7 @@ public final class DevelopActivity extends BaseActivityParent {
         db.close();
 
         final TextView prefText = findViewById(R.id.preference_text);
-        Help.Pref.listAllPref(this, prefText);
+        HelpUtils.Pref.listAllPref(this, prefText);
     }
 
 }

@@ -28,7 +28,7 @@ import sgtmelon.scriptum.app.view.activity.DevelopActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
 import sgtmelon.scriptum.element.InfoDialog;
 import sgtmelon.scriptum.element.SortDialog;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.SortDef;
@@ -120,7 +120,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         prefSort = findPreference(getString(R.string.pref_key_sort));
         valSort = pref.getString(getString(R.string.pref_key_sort), SortDef.def);
-        prefSort.setSummary(Help.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), SortDef.def)));
+        prefSort.setSummary(HelpUtils.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), SortDef.def)));
         prefSort.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
@@ -135,14 +135,14 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             valSort = sortDialog.getKeys();
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            final String summary = Help.Pref.getSortSummary(activity, valSort);
+            final String summary = HelpUtils.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setNeutralListener((dialogInterface, i) -> {
             valSort = SortDef.def;
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            final String summary = Help.Pref.getSortSummary(activity, valSort);
+            final String summary = HelpUtils.Pref.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));

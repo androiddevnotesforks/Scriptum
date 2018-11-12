@@ -30,7 +30,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.st.NoteSt;
@@ -121,7 +121,7 @@ public final class TextFragment extends NoteFragmentParent {
             db = RoomDb.provideDb(context);
             final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
-            noteItem.setChange(Help.Time.getCurrentTime(context));
+            noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
             noteItem.setType(TypeNoteDef.roll);
             noteItem.setText(0, listRoll.size());
 
@@ -186,7 +186,7 @@ public final class TextFragment extends NoteFragmentParent {
     public void onClick(View view) {
         Log.i(TAG, "onClick");
 
-        Help.hideKeyboard(context, activity.getCurrentFocus());
+        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
 
         final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
@@ -229,10 +229,10 @@ public final class TextFragment extends NoteFragmentParent {
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
         if (!TextUtils.isEmpty(noteItem.getText())) {
-            noteItem.setChange(Help.Time.getCurrentTime(context));
+            noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
 
             if (editModeChange) {
-                Help.hideKeyboard(context, activity.getCurrentFocus());
+                HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
                 onMenuEditClick(false);
             }
 

@@ -18,7 +18,7 @@ import sgtmelon.safedialog.office.blank.DialogBlank;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.SortAdapter;
 import sgtmelon.scriptum.app.model.item.SortItem;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 
@@ -69,7 +69,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
                     ? positionNew
                     : positionOld);
 
-            keys = Help.Pref.getSortByList(listSort);
+            keys = HelpUtils.Pref.getSortByList(listSort);
             setEnable();
             return true;
         }
@@ -151,8 +151,8 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
     protected void setEnable() {
         super.setEnable();
 
-        buttonPositive.setEnabled(!Help.Pref.getSortEqual(init, keys));
-        buttonNeutral.setEnabled(!Help.Pref.getSortEqual(SortDef.def, keys));
+        buttonPositive.setEnabled(!HelpUtils.Pref.getSortEqual(init, keys));
+        buttonNeutral.setEnabled(!HelpUtils.Pref.getSortEqual(SortDef.def, keys));
     }
 
     @Override
@@ -170,7 +170,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
         adapter.setListItem(p, sortItem);
         adapter.notifyItemChanged(p);
 
-        keys = Help.Pref.getSortByList(listSort);
+        keys = HelpUtils.Pref.getSortByList(listSort);
         setEnable();
     }
 

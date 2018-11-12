@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
 public class BaseActivityParent extends AppCompatActivity {
@@ -22,7 +22,7 @@ public class BaseActivityParent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        valTheme = Help.Pref.getTheme(this);
+        valTheme = HelpUtils.Pref.getTheme(this);
         switch (valTheme) {
             case ThemeDef.light:
                 setTheme(R.style.App_Light_UI);
@@ -34,7 +34,7 @@ public class BaseActivityParent extends AppCompatActivity {
     }
 
     public final void isThemeChange() {
-        int valTheme = Help.Pref.getTheme(this);
+        int valTheme = HelpUtils.Pref.getTheme(this);
         if (this.valTheme != valTheme) {
             Intent intent = getIntent();
             finish();

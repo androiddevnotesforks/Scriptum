@@ -29,7 +29,7 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef;
 /**
  * Класс содержащий адаптеры для dataBinding
  */
-public final class Binding {
+public final class BindingUtils {
 
     /**
      * Установка цветового фильтра на основании результата логического выражения
@@ -138,7 +138,7 @@ public final class Binding {
          * @return - Один из стандартных цветов приложения
          */
         public static int get(Context context, @ColorDef int color, boolean onDark) {
-            switch (Help.Pref.getTheme(context)) {
+            switch (HelpUtils.Pref.getTheme(context)) {
                 case ThemeDef.light:
                     return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
                 case ThemeDef.dark:

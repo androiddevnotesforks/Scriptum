@@ -7,7 +7,7 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-        <import type="sgtmelon.scriptum.office.Help.Pref"/>
+        <import type="sgtmelon.scriptum.office.HelpUtils.Pref"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
         <variable name="keyEdit" type="boolean"/>

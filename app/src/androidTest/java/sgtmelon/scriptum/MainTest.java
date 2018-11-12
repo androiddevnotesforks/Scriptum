@@ -30,7 +30,7 @@ public final class MainTest extends ParentTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        pref.edit().putBoolean(context.getString(R.string.pref_first_start), firstStart).apply();
+        preferences.edit().putBoolean(context.getString(R.string.pref_first_start), firstStart).apply();
     }
 
     @Test

@@ -24,7 +24,7 @@ import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
@@ -227,7 +227,7 @@ public final class NoteActivity extends BaseActivityParent
         Log.i(TAG, "onMenuRestoreClick");
 
         db = RoomDb.provideDb(this);
-        db.daoNote().update(vm.getNoteRepo().getNoteItem().getId(), Help.Time.getCurrentTime(this), false);
+        db.daoNote().update(vm.getNoteRepo().getNoteItem().getId(), HelpUtils.Time.getCurrentTime(this), false);
         db.close();
 
         finish();
@@ -245,7 +245,7 @@ public final class NoteActivity extends BaseActivityParent
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
 
-        noteItem.setChange(Help.Time.getCurrentTime(this));
+        noteItem.setChange(HelpUtils.Time.getCurrentTime(this));
         noteItem.setBin(false);
         noteRepo.setNoteItem(noteItem);
 
@@ -299,7 +299,7 @@ public final class NoteActivity extends BaseActivityParent
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         db = RoomDb.provideDb(this);
-        db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(this), true);
+        db.daoNote().update(noteItem.getId(), HelpUtils.Time.getCurrentTime(this), true);
         if (noteItem.isStatus()) {
             db.daoNote().update(noteItem.getId(), false);
         }

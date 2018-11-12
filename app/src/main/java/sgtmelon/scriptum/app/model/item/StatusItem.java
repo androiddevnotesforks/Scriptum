@@ -16,7 +16,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 
@@ -78,7 +78,7 @@ public final class StatusItem {
 
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(icon)
-                .setColor(Help.Clr.get(context, noteItem.getColor(), true))
+                .setColor(HelpUtils.Clr.get(context, noteItem.getColor(), true))
                 .setContentTitle(noteItem.getName(context))
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)

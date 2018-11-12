@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.intf.MenuIntf;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 /**
  * Класс контроля сохранений заметки
@@ -37,7 +37,7 @@ public final class SaveControl {
     public SaveControl(Context context) {
         this.context = context;
 
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+        final SharedPreferences pref = PrefUtils.getInstance(context);
         final Resources resources = context.getResources();
 
         saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), resources.getBoolean(R.bool.pref_auto_save_default));

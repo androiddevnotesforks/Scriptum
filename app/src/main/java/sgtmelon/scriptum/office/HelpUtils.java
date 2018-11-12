@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.MenuItem;
@@ -35,8 +34,9 @@ import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
-public final class Help {
+public final class HelpUtils {
 
     /**
      * Копирование текста заметки в память
@@ -208,6 +208,7 @@ public final class Help {
 
     }
 
+    // TODO: 13.11.2018 перенести в PrefUtils
     public static final class Pref {
 
         /**
@@ -215,7 +216,7 @@ public final class Help {
          * @return - Формирование поискового запроса относительно настроек
          */
         public static String getSortNoteOrder(Context context) {
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences pref = PrefUtils.getInstance(context);
 
             final String keysStr = pref.getString(context.getString(R.string.pref_key_sort), SortDef.def);
             final String[] keysArr = keysStr.split(SortDef.divider);
@@ -292,7 +293,7 @@ public final class Help {
         }
 
         public static void listAllPref(Context context, TextView textView) {
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences pref = PrefUtils.getInstance(context);
 
             textView.append("\n\nSort:");
             textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), SortDef.def));
@@ -306,7 +307,7 @@ public final class Help {
         }
 
         public static int getTheme(Context context) {
-            final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+            final SharedPreferences pref = PrefUtils.getInstance(context);
             return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default));
         }
 

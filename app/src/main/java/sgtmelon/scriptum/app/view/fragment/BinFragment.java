@@ -38,7 +38,7 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
@@ -147,7 +147,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final Menu menu = toolbar.getMenu();
         mItemClearBin = menu.findItem(R.id.clear_item);
 
-        Help.Tint.menuIcon(context, mItemClearBin);
+        HelpUtils.Tint.menuIcon(context, mItemClearBin);
 
         dlgClearBin.setPositiveListener((dialogInterface, i) -> {
             db = RoomDb.provideDb(context);
@@ -251,7 +251,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), Help.Time.getCurrentTime(context), false);
+        db.daoNote().update(noteItem.getId(), HelpUtils.Time.getCurrentTime(context), false);
         db.close();
 
         listNoteRepo.remove(p);
@@ -266,7 +266,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     @Override
     public void onMenuCopyClick(int p) {
         final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
-        Help.optionsCopy(context, noteItem);
+        HelpUtils.optionsCopy(context, noteItem);
     }
 
     @Override

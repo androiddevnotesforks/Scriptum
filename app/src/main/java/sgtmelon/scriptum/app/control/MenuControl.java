@@ -16,7 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
@@ -52,12 +52,12 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         this.context = context;
         this.window = window;
 
-        valTheme = Help.Pref.getTheme(context);
+        valTheme = HelpUtils.Pref.getTheme(context);
 
         final ValueAnimator.AnimatorUpdateListener updateListener = animator -> {
             final float position = animator.getAnimatedFraction();
 
-            int blended = Help.Clr.blend(statusStartColor, statusEndColor, position);
+            int blended = HelpUtils.Clr.blend(statusStartColor, statusEndColor, position);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && valTheme != ThemeDef.dark) {
                 window.setStatusBarColor(blended);
             }
@@ -65,7 +65,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
             ColorDrawable background = new ColorDrawable(blended);
             indicator.setBackground(background);
 
-            blended = Help.Clr.blend(toolbarStartColor, toolbarEndColor, position);
+            blended = HelpUtils.Clr.blend(toolbarStartColor, toolbarEndColor, position);
             background = new ColorDrawable(blended);
 
             if (valTheme != ThemeDef.dark) {
@@ -106,11 +106,11 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
     public final void setColor(int color) {
         if (valTheme != ThemeDef.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.setStatusBarColor(Help.Clr.get(context, color, true));
+                window.setStatusBarColor(HelpUtils.Clr.get(context, color, true));
             }
-            toolbar.setBackgroundColor(Help.Clr.get(context, color, false));
+            toolbar.setBackgroundColor(HelpUtils.Clr.get(context, color, false));
         }
-        indicator.setBackgroundColor(Help.Clr.get(context, color, true));
+        indicator.setBackgroundColor(HelpUtils.Clr.get(context, color, true));
 
         setStartColor(color);
     }
@@ -121,8 +121,8 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
      * @param color - Начальный цвет
      */
     public final void setStartColor(int color) {
-        statusStartColor = Help.Clr.get(context, color, true);
-        toolbarStartColor = Help.Clr.get(context, color, false);
+        statusStartColor = HelpUtils.Clr.get(context, color, true);
+        toolbarStartColor = HelpUtils.Clr.get(context, color, false);
     }
 
     /**
@@ -131,8 +131,8 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
      * @param color - конечный цвет
      */
     public final void startTint(int color) {
-        statusEndColor = Help.Clr.get(context, color, true);
-        toolbarEndColor = Help.Clr.get(context, color, false);
+        statusEndColor = HelpUtils.Clr.get(context, color, true);
+        toolbarEndColor = HelpUtils.Clr.get(context, color, false);
 
         if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
             anim.start();
@@ -141,8 +141,8 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
     @CallSuper
     public void setupDrawable() {
-        cancelOn = Help.Draw.get(context, R.drawable.ic_cancel_on, R.attr.clIcon);
-        cancelOff = Help.Draw.get(context, R.drawable.ic_cancel_off, R.attr.clIcon);
+        cancelOn = HelpUtils.Draw.get(context, R.drawable.ic_cancel_on, R.attr.clIcon);
+        cancelOff = HelpUtils.Draw.get(context, R.drawable.ic_cancel_off, R.attr.clIcon);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
         final boolean isRoll = type == TypeNoteDef.roll;
 
-        mItemStatus.setIcon(Help.Draw.get(context, isRoll
+        mItemStatus.setIcon(HelpUtils.Draw.get(context, isRoll
                         ? R.drawable.ic_bind_roll
                         : R.drawable.ic_bind_text,
                 R.attr.clIcon));
@@ -185,7 +185,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
                 mItemMoreR, mItemStatus, mItemConvert, mItemCheck, mItemDelete,
                 mItemMoreE, mItemRank, mItemColor};
 
-        for (MenuItem mItem : mItems) Help.Tint.menuIcon(context, mItem);
+        for (MenuItem mItem : mItems) HelpUtils.Tint.menuIcon(context, mItem);
 
         final RoomDb db = RoomDb.provideDb(context);
         mItemRank.setVisible(db.daoRank().getCount() != 0);

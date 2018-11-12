@@ -2,12 +2,12 @@ package sgtmelon.scriptum;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 import org.junit.After;
 import org.junit.Before;
 
 import androidx.annotation.CallSuper;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
@@ -17,13 +17,13 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 public abstract class ParentTest {
 
     Context context;
-    SharedPreferences pref;
+    SharedPreferences preferences;
 
     @Before
     @CallSuper
     public void setUp() throws Exception {
         context = getInstrumentation().getTargetContext();
-        pref = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences = PrefUtils.getInstance(context);
     }
 
     @After

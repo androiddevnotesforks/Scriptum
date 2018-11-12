@@ -37,7 +37,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
@@ -256,7 +256,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             db = RoomDb.provideDb(context);
 
             final String text = db.daoRoll().getText(noteItem.getId());
-            noteItem.setChange(Help.Time.getCurrentTime(context));
+            noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
             noteItem.setType(TypeNoteDef.text);
             noteItem.setText(text);
 
@@ -402,7 +402,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onClick(View view) {
         Log.i(TAG, "onClick");
 
-        Help.hideKeyboard(context, activity.getCurrentFocus());
+        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
 
         final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
@@ -456,14 +456,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         adapter.setListItem(p, rollItem);
 
-        final int check = Help.Note.getRollCheck(listRoll);
+        final int check = HelpUtils.Note.getRollCheck(listRoll);
 
         if (checkSt.setAll(check, listRoll.size())) {
             menuControl.setCheckTitle(checkSt.isAll());
         }
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(Help.Time.getCurrentTime(context));
+        noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
         noteItem.setText(check, listRoll.size());
 
         noteRepo.setNoteItem(noteItem);
@@ -514,12 +514,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final List<RollItem> listRoll = noteRepo.getListRoll();
 
         if (listRoll.size() != 0) {
-            noteItem.setChange(Help.Time.getCurrentTime(context));
-            noteItem.setText(Help.Note.getRollCheck(listRoll), listRoll.size());
+            noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
+            noteItem.setText(HelpUtils.Note.getRollCheck(listRoll), listRoll.size());
 
             //Переход в режим просмотра
             if (editModeChange) {
-                Help.hideKeyboard(context, activity.getCurrentFocus());
+                HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
                 onMenuEditClick(false);
             }
 
@@ -627,7 +627,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(Help.Time.getCurrentTime(context));
+        noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
 
         final int size = noteRepo.getListRoll().size();
 

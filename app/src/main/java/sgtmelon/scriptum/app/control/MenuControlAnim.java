@@ -8,7 +8,7 @@ import android.view.Window;
 import androidx.annotation.RequiresApi;
 import sgtmelon.iconanim.office.hdlr.AnimHdlr;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.HelpUtils;
 
 /**
  * Класс для контроля меню с использованием анимации
@@ -27,10 +27,10 @@ public final class MenuControlAnim extends MenuControl {
     public void setupDrawable() {
         super.setupDrawable();
 
-        final AnimatedVectorDrawable cancelOnAnim = (AnimatedVectorDrawable) Help.Draw.get(
+        final AnimatedVectorDrawable cancelOnAnim = (AnimatedVectorDrawable) HelpUtils.Draw.get(
                 context, R.drawable.ic_cancel_on_anim, R.attr.clIcon
         );
-        final AnimatedVectorDrawable cancelOffAnim = (AnimatedVectorDrawable) Help.Draw.get(
+        final AnimatedVectorDrawable cancelOffAnim = (AnimatedVectorDrawable) HelpUtils.Draw.get(
                 context, R.drawable.ic_cancel_off_anim, R.attr.clIcon
         );
 
