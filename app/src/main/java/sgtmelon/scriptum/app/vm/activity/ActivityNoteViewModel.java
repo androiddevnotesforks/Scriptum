@@ -24,11 +24,13 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
 
     private final Context context;
 
-    private NoteSt noteSt;
-
     private boolean ntCreate;
     private int ntType;
     private long ntId;
+
+    private NoteSt noteSt;
+
+    private boolean rankEmpty;
 
     private List<Long> rankVisible;
     private NoteRepo noteRepo;
@@ -64,6 +66,10 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         this.noteSt = noteSt;
     }
 
+    public boolean isRankEmpty() {
+        return rankEmpty;
+    }
+
     public NoteRepo getNoteRepo() {
         return noteRepo;
     }
@@ -80,7 +86,10 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
 
     private void loadData() {
         db = RoomDb.provideDb(context);
+
+        rankEmpty = db.daoRank().getCount() == 0;
         rankVisible = db.daoRank().getRankVisible();
+
         if (ntCreate) {
             final String create = Help.Time.getCurrentTime(context);
 
@@ -100,6 +109,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
             noteSt = new NoteSt(false);
             noteSt.setBin(noteRepo.getNoteItem().isBin());
         }
+
         db.close();
     }
 

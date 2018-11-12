@@ -39,6 +39,7 @@ import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.CheckSt;
@@ -163,6 +164,18 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private RecyclerView recyclerView;
     private EditText rollEnter;
 
+    public static RollFragment getInstance(boolean rankEmpty) {
+        Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
+
+        final RollFragment rollFragment = new RollFragment();
+        final Bundle bundle = new Bundle();
+
+        bundle.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
+        rollFragment.setArguments(bundle);
+
+        return rollFragment;
+    }
+
     @Override
     public void onResume() {
         Log.i(TAG, "onResume");
@@ -220,11 +233,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
     @Override
     protected void bind(boolean keyEdit) {
-        Log.i(TAG, "bind");
+        Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
 
         binding.setKeyEdit(keyEdit);
         binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
+        binding.setRankEmpty(rankEmpty);
 
         binding.executePendingBindings();
     }

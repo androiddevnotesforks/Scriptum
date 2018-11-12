@@ -13,7 +13,9 @@ import androidx.annotation.StringDef;
 
         IntentDef.NOTE_CREATE,
         IntentDef.NOTE_ID,
-        IntentDef.NOTE_TYPE
+        IntentDef.NOTE_TYPE,
+
+        IntentDef.RANK_EMPTY
 })
 public @interface IntentDef {
 
@@ -26,5 +28,6 @@ public @interface IntentDef {
             NOTE_ID = "INTENT_NOTE_ID",
             NOTE_TYPE = "INTENT_NOTE_TYPE";
 
+    String RANK_EMPTY = "INTENT_RANK_EMPTY";
 
 }

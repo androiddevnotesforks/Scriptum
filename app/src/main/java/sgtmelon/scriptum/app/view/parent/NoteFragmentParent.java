@@ -46,6 +46,7 @@ import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.Help;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -74,6 +75,8 @@ public abstract class NoteFragmentParent extends Fragment
     protected RoomDb db;
     protected View frgView;
     @Inject protected FragmentNoteViewModel vm;
+
+    protected boolean rankEmpty;
 
     protected MenuControl menuControl;
 
@@ -121,6 +124,25 @@ public abstract class NoteFragmentParent extends Fragment
         fragmentComponent.inject(this);
 
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        final Bundle bundle = getArguments();
+        if (bundle != null) {
+            rankEmpty = bundle.getBoolean(IntentDef.RANK_EMPTY);
+        } else if (savedInstanceState != null) {
+            rankEmpty = savedInstanceState.getBoolean(IntentDef.RANK_EMPTY);
+        }
+
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
     }
 
     protected abstract void bind(boolean keyEdit);

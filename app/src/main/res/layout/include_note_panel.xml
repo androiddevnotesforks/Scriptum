@@ -12,6 +12,7 @@
 
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="rankEmpty" type="boolean"/>
 
     </data>
 
@@ -81,13 +82,16 @@
                         android:tint="?attr/clSecond"
                         app:srcCompat="@drawable/ic_redo"/>
 
-                <!-- todo убирать если нет категорий, или делать недоступным -->
                 <ImageButton
                         android:id="@+id/rank_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:tint="?attr/clSecond"
-                        app:srcCompat="@drawable/ic_rank"/>
+                        app:boolExpression='@{rankEmpty}'
+                        app:enabled='@{!rankEmpty}'
+                        app:falseColor='@{R.attr.clIcon}'
+                        app:srcCompat="@drawable/ic_rank"
+                        app:trueColor='@{R.attr.clSecond}'
+                        tools:tint="?attr/clIcon"/>
 
                 <ImageButton
                         android:id="@+id/color_button"

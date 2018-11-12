@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.app.view.fragment;
 
-import android.animation.LayoutTransition;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -33,6 +31,7 @@ import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
 import sgtmelon.scriptum.office.Help;
+import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -41,6 +40,18 @@ public final class TextFragment extends NoteFragmentParent {
     private static final String TAG = TextFragment.class.getSimpleName();
 
     @Inject FragmentTextBinding binding;
+
+    public static TextFragment getInstance(boolean rankEmpty) {
+        Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
+
+        final TextFragment textFragment = new TextFragment();
+        final Bundle bundle = new Bundle();
+
+        bundle.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
+        textFragment.setArguments(bundle);
+
+        return textFragment;
+    }
 
     @NonNull
     @Override
@@ -87,10 +98,11 @@ public final class TextFragment extends NoteFragmentParent {
 
     @Override
     protected void bind(boolean keyEdit) {
-        Log.i(TAG, "bind: keyEdit=" + keyEdit);
+        Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
 
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
         binding.setKeyEdit(keyEdit);
+        binding.setRankEmpty(rankEmpty);
 
         binding.executePendingBindings();
     }

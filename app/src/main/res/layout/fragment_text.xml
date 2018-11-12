@@ -10,6 +10,8 @@
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
         <variable name="keyEdit" type="boolean"/>
 
+        <variable name="rankEmpty" type="boolean"/>
+
     </data>
 
     <LinearLayout
@@ -72,7 +74,8 @@
 
         <include layout="@layout/include_note_panel"
                  app:keyEdit='@{keyEdit}'
-                 app:noteItem='@{noteItem}'/>
+                 app:noteItem='@{noteItem}'
+                 app:rankEmpty='@{rankEmpty}'/>
 
     </LinearLayout>
 

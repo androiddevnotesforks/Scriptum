@@ -85,7 +85,10 @@ public final class NoteActivity extends BaseActivityParent
         activityComponent.inject(this);
 
         final Bundle bundle = getIntent().getExtras();
-        vm.setValue(bundle != null ? bundle : savedInstanceState);
+        vm.setValue(bundle != null
+                ? bundle
+                : savedInstanceState
+        );
 
         saveControl = new SaveControl(this);
 
@@ -181,7 +184,7 @@ public final class NoteActivity extends BaseActivityParent
         switch (vm.getNoteRepo().getNoteItem().getType()) {
             case TypeNoteDef.text:
                 if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
-                else textFragment = new TextFragment();
+                else textFragment = TextFragment.getInstance(vm.isRankEmpty());
 
                 saveControl.setNoteMenuClick(textFragment);
 
@@ -189,7 +192,7 @@ public final class NoteActivity extends BaseActivityParent
                 break;
             case TypeNoteDef.roll:
                 if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
-                else rollFragment = new RollFragment();
+                else rollFragment = RollFragment.getInstance(vm.isRankEmpty());
 
                 saveControl.setNoteMenuClick(rollFragment);
 
