@@ -7,7 +7,7 @@ import android.widget.TextView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
-import sgtmelon.scriptum.office.HelpUtils;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 public final class DevelopActivity extends BaseActivityParent {
 

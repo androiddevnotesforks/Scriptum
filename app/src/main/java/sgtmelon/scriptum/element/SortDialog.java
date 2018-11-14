@@ -18,9 +18,9 @@ import sgtmelon.safedialog.office.blank.DialogBlank;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.SortAdapter;
 import sgtmelon.scriptum.app.model.item.SortItem;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 public final class SortDialog extends DialogBlank implements ItemIntf.ClickListener {
 

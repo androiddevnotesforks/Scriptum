@@ -16,9 +16,9 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
  * Управление закреплением заметки в статус баре {@link NoteRepo}

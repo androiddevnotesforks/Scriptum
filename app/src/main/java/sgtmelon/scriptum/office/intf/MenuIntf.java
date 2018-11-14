@@ -7,6 +7,19 @@ public interface MenuIntf {
      */
     interface Note {
 
+        interface MainMenuClick {
+            /**
+             * @param editModeChange - Надо ли менять режим редактирования
+             * @return - True - сохранение успешно
+             */
+            boolean onMenuSaveClick(boolean editModeChange);
+
+            /**
+             * @param editMode - Установка режима редактирования
+             */
+            void onMenuEditClick(boolean editMode);
+        }
+
         interface DeleteMenuClick {
             void onMenuRestoreClick();
 
@@ -18,20 +31,9 @@ public interface MenuIntf {
         }
 
         interface NoteMenuClick {
-            /**
-             * @param editModeChange - Надо ли менять режим редактирования
-             * @return - True - сохранение успешно
-             */
-            boolean onMenuSaveClick(boolean editModeChange);
-
             void onMenuRankClick();
 
             void onMenuColorClick();
-
-            /**
-             * @param editMode - Установка режима редактирования
-             */
-            void onMenuEditClick(boolean editMode);
 
             void onMenuCheckClick();
 

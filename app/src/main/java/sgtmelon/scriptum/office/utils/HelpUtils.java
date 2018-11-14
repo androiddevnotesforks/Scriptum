@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office;
+package sgtmelon.scriptum.office.utils;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -15,10 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
@@ -34,7 +31,6 @@ import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
-import sgtmelon.scriptum.office.utils.PrefUtils;
 
 public final class HelpUtils {
 
@@ -309,17 +305,6 @@ public final class HelpUtils {
         public static int getTheme(Context context) {
             final SharedPreferences pref = PrefUtils.getInstance(context);
             return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default));
-        }
-
-    }
-
-    public static final class Time {
-
-        /**
-         * @return - Текущее время в нужном формате
-         */
-        public static String getCurrentTime(Context context) {
-            return new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault()).format(Calendar.getInstance().getTime());
         }
 
     }

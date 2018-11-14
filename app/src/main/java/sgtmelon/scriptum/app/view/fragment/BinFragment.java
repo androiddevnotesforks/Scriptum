@@ -38,7 +38,6 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
@@ -46,6 +45,8 @@ import sgtmelon.scriptum.office.annot.def.OptionsDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.OpenSt;
+import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class BinFragment extends Fragment implements ItemIntf.ClickListener,
         ItemIntf.LongClickListener, MenuIntf.Dialog.DeleteMenuClick {
@@ -251,7 +252,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), HelpUtils.Time.getCurrentTime(context), false);
+        db.daoNote().update(noteItem.getId(), TimeUtils.getTime(context), false);
         db.close();
 
         listNoteRepo.remove(p);

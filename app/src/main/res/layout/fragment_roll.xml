@@ -9,9 +9,15 @@
         <import alias="v" type="android.view.View"/>
 
         <variable name="keyEdit" type="boolean"/>
-        <variable name="enterNotEmpty" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+
+        <variable name="enterNotEmpty" type="boolean"/>
+
         <variable name="rankEmpty" type="boolean"/>
+        <variable name="noteClick"
+                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
+        <variable name="deleteClick"
+                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.DeleteMenuClick"/>
 
     </data>
 
@@ -80,7 +86,9 @@
         </LinearLayout>
 
         <include layout="@layout/include_note_panel"
+                 app:deleteClick='@{deleteClick}'
                  app:keyEdit='@{keyEdit}'
+                 app:noteClick='@{noteClick}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'/>
 

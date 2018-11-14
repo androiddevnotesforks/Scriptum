@@ -22,7 +22,7 @@ public final class SaveControl {
     private final boolean savePause;
 
     private int saveTime;
-    private MenuIntf.Note.NoteMenuClick noteMenuClick;
+    private MenuIntf.Note.MainMenuClick mainMenuClick;
 
     private final Runnable saveRunnable = () -> {
         onSave();
@@ -51,8 +51,8 @@ public final class SaveControl {
         }
     }
 
-    public void setNoteMenuClick(MenuIntf.Note.NoteMenuClick noteMenuClick) {
-        this.noteMenuClick = noteMenuClick;
+    public void setMainMenuClick(MenuIntf.Note.MainMenuClick mainMenuClick) {
+        this.mainMenuClick = mainMenuClick;
     }
 
     public void setNeedSave(boolean needSave) {
@@ -73,7 +73,7 @@ public final class SaveControl {
     }
 
     private void onSave() {
-        if (noteMenuClick.onMenuSaveClick(false)) {
+        if (mainMenuClick.onMenuSaveClick(false)) {
             Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show();
@@ -83,11 +83,8 @@ public final class SaveControl {
     public void onPauseSave(boolean keyEdit) {
         stopSaveHandler();
 
-        if (needSave && keyEdit && savePause) {
-            onSave();
-        } else {
-            needSave = true;
-        }
+        if (needSave && keyEdit && savePause) onSave();
+        else needSave = true;
     }
 
 }

@@ -28,11 +28,11 @@ import sgtmelon.scriptum.app.view.activity.DevelopActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
 import sgtmelon.scriptum.element.InfoDialog;
 import sgtmelon.scriptum.element.SortDialog;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.st.OpenSt;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 public final class PreferenceFragment extends android.preference.PreferenceFragment {
 

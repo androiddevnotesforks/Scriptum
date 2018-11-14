@@ -37,7 +37,6 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
@@ -45,6 +44,8 @@ import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.CheckSt;
 import sgtmelon.scriptum.office.st.DragListenerSt;
 import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class RollFragment extends NoteFragmentParent implements ItemIntf.ClickListener,
         ItemIntf.RollWatcher {
@@ -236,9 +237,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
 
         binding.setKeyEdit(keyEdit);
-        binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
+        binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
+
         binding.setRankEmpty(rankEmpty);
+        binding.setNoteClick(this);
+        binding.setDeleteClick(deleteMenuClick);
 
         binding.executePendingBindings();
     }
@@ -256,7 +260,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             db = RoomDb.provideDb(context);
 
             final String text = db.daoRoll().getText(noteItem.getId());
-            noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
+            noteItem.setChange(TimeUtils.getTime(context));
             noteItem.setType(TypeNoteDef.text);
             noteItem.setText(text);
 
@@ -346,7 +350,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
 
         checkSt.setAll(listRoll);
-        menuControl.setCheckTitle(checkSt.isAll());
+//        menuControl.setCheckTitle(checkSt.isAll()); // TODO: 14.11.2018 update binding
 
         adapter.setList(listRoll);
         adapter.notifyDataSetChanged();
@@ -458,12 +462,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final int check = HelpUtils.Note.getRollCheck(listRoll);
 
-        if (checkSt.setAll(check, listRoll.size())) {
-            menuControl.setCheckTitle(checkSt.isAll());
-        }
+//        if (checkSt.setAll(check, listRoll.size())) {
+//            menuControl.setCheckTitle(checkSt.isAll()); // FIXME: 14.11.2018 binding update
+//        }
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
+        noteItem.setChange(TimeUtils.getTime(context));
         noteItem.setText(check, listRoll.size());
 
         noteRepo.setNoteItem(noteItem);
@@ -514,7 +518,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final List<RollItem> listRoll = noteRepo.getListRoll();
 
         if (listRoll.size() != 0) {
-            noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
+            noteItem.setChange(TimeUtils.getTime(context));
             noteItem.setText(HelpUtils.Note.getRollCheck(listRoll), listRoll.size());
 
             //Переход в режим просмотра
@@ -604,9 +608,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 !noteSt.isCreate() && !noteSt.isFirst()
         );
 
-        menuControl.setMenuGroupVisible(
-                noteSt.isBin(), editMode, !noteSt.isBin() && !editMode
-        );
+        menuControl.setMenuVisible(editMode, !noteSt.isBin() && !editMode);
 
         bind(editMode);
 
@@ -627,7 +629,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(HelpUtils.Time.getCurrentTime(context));
+        noteItem.setChange(TimeUtils.getTime(context));
 
         final int size = noteRepo.getListRoll().size();
 

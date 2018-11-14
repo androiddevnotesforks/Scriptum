@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 public class BaseActivityParent extends AppCompatActivity {
 

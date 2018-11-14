@@ -9,7 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.view.fragment.PreferenceFragment;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
-import sgtmelon.scriptum.office.HelpUtils;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 public final class PreferenceActivity extends BaseActivityParent {
 

@@ -24,12 +24,12 @@ import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class NoteActivity extends BaseActivityParent
         implements NoteCallback, MenuIntf.Note.DeleteMenuClick {
@@ -186,7 +186,7 @@ public final class NoteActivity extends BaseActivityParent
                 if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
                 else textFragment = TextFragment.getInstance(vm.isRankEmpty());
 
-                saveControl.setNoteMenuClick(textFragment);
+                saveControl.setMainMenuClick(textFragment);
 
                 transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
@@ -194,7 +194,7 @@ public final class NoteActivity extends BaseActivityParent
                 if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
                 else rollFragment = RollFragment.getInstance(vm.isRankEmpty());
 
-                saveControl.setNoteMenuClick(rollFragment);
+                saveControl.setMainMenuClick(rollFragment);
 
                 transaction.replace(R.id.fragment_container, rollFragment, FragmentDef.ROLL);
                 break;
@@ -227,7 +227,9 @@ public final class NoteActivity extends BaseActivityParent
         Log.i(TAG, "onMenuRestoreClick");
 
         db = RoomDb.provideDb(this);
-        db.daoNote().update(vm.getNoteRepo().getNoteItem().getId(), HelpUtils.Time.getCurrentTime(this), false);
+        db.daoNote().update(
+                vm.getNoteRepo().getNoteItem().getId(), TimeUtils.getTime(this), false
+        );
         db.close();
 
         finish();
@@ -245,7 +247,7 @@ public final class NoteActivity extends BaseActivityParent
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
 
-        noteItem.setChange(HelpUtils.Time.getCurrentTime(this));
+        noteItem.setChange(TimeUtils.getTime(this));
         noteItem.setBin(false);
         noteRepo.setNoteItem(noteItem);
 
@@ -264,7 +266,7 @@ public final class NoteActivity extends BaseActivityParent
                 textFragment.setViewModel(viewModel);
 
                 menuControl = textFragment.getMenuControl();
-                menuControl.setMenuGroupVisible(false, false, true);
+                menuControl.setMenuVisible(false, true);
                 textFragment.setMenuControl(menuControl);
                 break;
             case TypeNoteDef.roll:
@@ -273,7 +275,7 @@ public final class NoteActivity extends BaseActivityParent
                 rollFragment.setViewModel(viewModel);
 
                 menuControl = rollFragment.getMenuControl();
-                menuControl.setMenuGroupVisible(false, false, true);
+                menuControl.setMenuVisible(false, true);
                 rollFragment.setMenuControl(menuControl);
                 break;
         }
@@ -299,7 +301,7 @@ public final class NoteActivity extends BaseActivityParent
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         db = RoomDb.provideDb(this);
-        db.daoNote().update(noteItem.getId(), HelpUtils.Time.getCurrentTime(this), true);
+        db.daoNote().update(noteItem.getId(), TimeUtils.getTime(this), true);
         if (noteItem.isStatus()) {
             db.daoNote().update(noteItem.getId(), false);
         }

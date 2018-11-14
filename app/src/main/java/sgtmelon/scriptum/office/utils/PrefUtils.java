@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Класс для работы с настройками приложения, а так же @Singleton
+ * Класс для работы с настройками приложения, а так же @Singleton для SharedPreferences
  */
 public final class PrefUtils {
 

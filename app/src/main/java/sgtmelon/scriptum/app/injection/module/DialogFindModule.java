@@ -20,10 +20,10 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ArchScope;
 import sgtmelon.scriptum.element.InfoDialog;
 import sgtmelon.scriptum.element.SortDialog;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 @Module
 public final class DialogFindModule {

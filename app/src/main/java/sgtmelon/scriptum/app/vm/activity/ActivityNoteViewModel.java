@@ -15,10 +15,10 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.PrefUtils;
+import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class ActivityNoteViewModel extends AndroidViewModel {
 
@@ -91,7 +91,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         rankVisible = db.daoRank().getRankVisible();
 
         if (ntCreate) {
-            final String create = HelpUtils.Time.getCurrentTime(context);
+            final String create = TimeUtils.getTime(context);
 
             final SharedPreferences pref = PrefUtils.getInstance(context);
             final int color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));

@@ -15,11 +15,9 @@ import androidx.annotation.CallSuper;
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
  * Класс для контроля меню
@@ -39,14 +37,11 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
     private Menu menu;
     private View indicator;
 
-    private int type;
     private int valTheme;
     private int statusStartColor, statusEndColor;
     private int toolbarStartColor, toolbarEndColor;
 
-    private MenuItem mItemStatus, mItemCheck;
-    private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
-    private MenuIntf.Note.NoteMenuClick noteMenuClick;
+    private MenuIntf.Note.MainMenuClick mainMenuClick;
 
     public MenuControl(Context context, Window window) {
         this.context = context;
@@ -86,16 +81,8 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         this.indicator = indicator;
     }
 
-    public final void setType(int type) {
-        this.type = type;
-    }
-
-    public final void setDeleteMenuClick(MenuIntf.Note.DeleteMenuClick deleteMenuClick) {
-        this.deleteMenuClick = deleteMenuClick;
-    }
-
-    public final void setNoteMenuClick(MenuIntf.Note.NoteMenuClick noteMenuClick) {
-        this.noteMenuClick = noteMenuClick;
+    public void setMainMenuClick(MenuIntf.Note.MainMenuClick mainMenuClick) {
+        this.mainMenuClick = mainMenuClick;
     }
 
     /**
@@ -152,103 +139,21 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
                 : cancelOff);
     }
 
-    public final void setupMenu(boolean status) {
-        final MenuItem mItemRestore = menu.findItem(R.id.restore_item);
-        final MenuItem mItemRestoreOpen = menu.findItem(R.id.restore_open_item);
-        final MenuItem mItemClear = menu.findItem(R.id.clear_item);
-
-        final MenuItem mItemMoreR = menu.findItem(R.id.read_more_item);
-        mItemStatus = menu.findItem(R.id.bind_item);
-        final MenuItem mItemConvert = menu.findItem(R.id.convert_item);
-        mItemCheck = menu.findItem(R.id.check_item);
-        final MenuItem mItemDelete = menu.findItem(R.id.delete_item);
-
-        final MenuItem mItemMoreE = menu.findItem(R.id.edit_more_item);
-        final MenuItem mItemRank = menu.findItem(R.id.rank_item);
-        final MenuItem mItemColor = menu.findItem(R.id.color_item);
-
-        setStatusTitle(status);
-
-        final boolean isRoll = type == TypeNoteDef.roll;
-
-        mItemStatus.setIcon(HelpUtils.Draw.get(context, isRoll
-                        ? R.drawable.ic_bind_roll
-                        : R.drawable.ic_bind_text,
-                R.attr.clIcon));
-
-        mItemConvert.setTitle(isRoll
-                ? R.string.menu_note_convert_to_text
-                : R.string.menu_note_convert_to_roll);
-        mItemCheck.setVisible(isRoll);
-
-        final MenuItem[] mItems = new MenuItem[]{mItemRestore, mItemRestoreOpen, mItemClear,
-                mItemMoreR, mItemStatus, mItemConvert, mItemCheck, mItemDelete,
-                mItemMoreE, mItemRank, mItemColor};
-
-        for (MenuItem mItem : mItems) HelpUtils.Tint.menuIcon(context, mItem);
-
-        final RoomDb db = RoomDb.provideDb(context);
-        mItemRank.setVisible(db.daoRank().getCount() != 0);
-        db.close();
-    }
-
-    public final void setMenuGroupVisible(boolean grDelete, boolean grEdit, boolean grRead) {
-        menu.setGroupVisible(R.id.delete_group, grDelete);
-        menu.setGroupVisible(R.id.edit_group, grEdit);
-        menu.setGroupVisible(R.id.read_group, grRead);
-    }
-
-    public final void setCheckTitle(boolean isAllCheck) {
-        mItemCheck.setTitle(isAllCheck
-                ? context.getString(R.string.menu_note_check_zero)
-                : context.getString(R.string.menu_note_check_all)
-        );
-    }
-
-    public final void setStatusTitle(boolean status) {
-        mItemStatus.setTitle(status
-                ? context.getString(R.string.menu_note_status_unbind)
-                : context.getString(R.string.menu_note_status_bind)
-        );
+    public final void setMenuVisible(boolean edit, boolean read) {
+        menu.setGroupVisible(R.id.edit_group, edit);
+        menu.setGroupVisible(R.id.read_group, read);
     }
 
     @Override
     public final boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.restore_item:
-                deleteMenuClick.onMenuRestoreClick();
-                return true;
-            case R.id.restore_open_item:
-                deleteMenuClick.onMenuRestoreOpenClick();
-                return true;
-            case R.id.clear_item:
-                deleteMenuClick.onMenuClearClick();
-                return true;
             case R.id.save_item:
-                if (!noteMenuClick.onMenuSaveClick(true)) {
+                if (!mainMenuClick.onMenuSaveClick(true)) {
                     Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
                 }
                 return true;
-            case R.id.rank_item:
-                noteMenuClick.onMenuRankClick();
-                return true;
-            case R.id.color_item:
-                noteMenuClick.onMenuColorClick();
-                return true;
             case R.id.edit_item:
-                noteMenuClick.onMenuEditClick(true);
-                return true;
-            case R.id.check_item:
-                noteMenuClick.onMenuCheckClick();
-                return true;
-            case R.id.bind_item:
-                noteMenuClick.onMenuBindClick();
-                break;
-            case R.id.convert_item:
-                noteMenuClick.onMenuConvertClick();
-                return true;
-            case R.id.delete_item:
-                deleteMenuClick.onMenuDeleteClick();
+                mainMenuClick.onMenuEditClick(true);
                 return true;
         }
         return false;

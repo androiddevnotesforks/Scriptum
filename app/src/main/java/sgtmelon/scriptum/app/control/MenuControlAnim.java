@@ -8,7 +8,7 @@ import android.view.Window;
 import androidx.annotation.RequiresApi;
 import sgtmelon.iconanim.office.hdlr.AnimHdlr;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.office.HelpUtils;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
  * Класс для контроля меню с использованием анимации

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.office.st;
 import java.util.List;
 
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.office.HelpUtils;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
  * Состояние для отметок, определяющее отмечено ли всё в списке с элементами {@link RollItem}

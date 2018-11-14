@@ -44,18 +44,18 @@ import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
-import sgtmelon.scriptum.office.HelpUtils;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
  * Класс родитель для фрагментов редактирования заметок
  * {@link TextFragment}, {@link RollFragment}
  */
-public abstract class NoteFragmentParent extends Fragment
-        implements View.OnClickListener, MenuIntf.Note.NoteMenuClick {
+public abstract class NoteFragmentParent extends Fragment implements View.OnClickListener,
+        MenuIntf.Note.MainMenuClick, MenuIntf.Note.NoteMenuClick {
 
     private static final String TAG = NoteFragmentParent.class.getSimpleName();
 
@@ -79,13 +79,12 @@ public abstract class NoteFragmentParent extends Fragment
     protected boolean rankEmpty;
 
     protected MenuControl menuControl;
+    protected MenuIntf.Note.DeleteMenuClick deleteMenuClick;
 
     @Inject ColorDialog colorDialog;
     @Inject
     @Named(DialogDef.RANK)
     MultiplyDialog dlgRank;
-
-    private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
 
     @Override
     public void onAttach(Context context) {
@@ -166,18 +165,14 @@ public abstract class NoteFragmentParent extends Fragment
 
         menuControl.setToolbar(toolbar);
         menuControl.setIndicator(indicator);
-        menuControl.setType(noteItem.getType());
         menuControl.setColor(noteItem.getColor());
 
-        menuControl.setNoteMenuClick(this);
-        menuControl.setDeleteMenuClick(deleteMenuClick);
+        menuControl.setMainMenuClick(this);
 
         final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
 
         menuControl.setupDrawable();
         menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
-
-        menuControl.setupMenu(noteItem.isStatus());
 
         toolbar.setOnMenuItemClickListener(menuControl);
         toolbar.setNavigationOnClickListener(this);
@@ -329,7 +324,7 @@ public abstract class NoteFragmentParent extends Fragment
             noteRepo.update(false);
         }
 
-        menuControl.setStatusTitle(noteItem.isStatus());
+//        menuControl.setStatusTitle(noteItem.isStatus()); // TODO: 14.11.2018 update binding
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), noteItem.isStatus());

@@ -12,7 +12,12 @@
 
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+
         <variable name="rankEmpty" type="boolean"/>
+        <variable name="noteClick"
+                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
+        <variable name="deleteClick"
+                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.DeleteMenuClick"/>
 
     </data>
 
@@ -41,6 +46,7 @@
                         android:id="@+id/restore_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore"
+                        android:onClick='@{(v) -> deleteClick.onMenuRestoreClick()}'
                         android:tint="?attr/clIcon"
                         app:srcCompat="@drawable/ic_restore"/>
 
@@ -49,6 +55,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore_open"
                         android:tint="?attr/clIcon"
+                        android:onClick='@{() -> deleteClick.onMenuRestoreOpenClick()}'
                         app:srcCompat="@drawable/ic_restore_open"/>
 
                 <ImageButton
@@ -56,6 +63,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_clear"
                         android:tint="?attr/clIcon"
+                        android:onClick='@{() -> deleteClick.onMenuClearClick()}'
                         app:srcCompat="@drawable/ic_clear"/>
 
             </LinearLayout>
@@ -90,6 +98,7 @@
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clIcon}'
                         app:srcCompat="@drawable/ic_rank"
+                        android:onClick='@{() -> noteClick.onMenuRankClick()}'
                         app:trueColor='@{R.attr.clSecond}'
                         tools:tint="?attr/clIcon"/>
 
@@ -98,6 +107,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:tint="?attr/clIcon"
+                        android:onClick='@{() -> noteClick.onMenuColorClick()}'
                         app:srcCompat="@drawable/ic_palette"/>
 
             </LinearLayout>
@@ -114,6 +124,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.allCheck ? @string/menu_note_check_zero : @string/menu_note_check_all}'
                         android:visibility='@{noteItem.type == def.roll ? v.VISIBLE : v.GONE}'
+                        android:onClick='@{() -> noteClick.onMenuCheckClick()}'
                         app:boolExpression='@{noteItem.allCheck}'
                         app:falseColor='@{R.attr.clIcon}'
                         app:srcCompat="@drawable/ic_check_all"
@@ -125,6 +136,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_status_bind"
                         android:src='@{noteItem.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                        android:onClick='@{() -> noteClick.onMenuBindClick()}'
                         app:boolExpression='@{noteItem.status}'
                         app:falseColor='@{R.attr.clIcon}'
                         app:trueColor='@{R.attr.clAccent}'
@@ -136,6 +148,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.type == def.text ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
                         android:tint="?attr/clIcon"
+                        android:onClick='@{() -> noteClick.onMenuConvertClick()}'
                         app:srcCompat="@drawable/ic_convert"/>
 
                 <ImageButton
@@ -143,6 +156,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_delete"
                         android:tint="?attr/clIcon"
+                        android:onClick='@{() -> deleteClick.onMenuDeleteClick()}'
                         app:srcCompat="@drawable/ic_bin"/>
 
             </LinearLayout>

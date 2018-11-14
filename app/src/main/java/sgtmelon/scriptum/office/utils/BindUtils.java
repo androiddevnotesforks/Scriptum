@@ -1,20 +1,13 @@
-package sgtmelon.scriptum.office;
+package sgtmelon.scriptum.office.utils;
 
 
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.text.format.DateUtils;
 import android.util.TypedValue;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
@@ -29,7 +22,7 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef;
 /**
  * Класс содержащий адаптеры для dataBinding
  */
-public final class BindingUtils {
+public final class BindUtils {
 
     /**
      * Установка цветового фильтра на основании результата логического выражения
@@ -159,35 +152,6 @@ public final class BindingUtils {
             final TypedValue typedValue = new TypedValue();
             context.getTheme().resolveAttribute(attr, typedValue, true);
             return ContextCompat.getColor(context, typedValue.resourceId);
-        }
-
-    }
-
-    public static final class TimeUtils {
-
-        /**
-         * @param date - Время создания/изменения заметки
-         * @return - Время и дата в приятном виде
-         */
-        public static String format(Context context, String date) {
-            final DateFormat formatOld = new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault());
-
-            try {
-                final Calendar calendar = Calendar.getInstance();
-                calendar.setTime(formatOld.parse(date));
-
-                final DateFormat formatNew = new SimpleDateFormat(
-                        DateUtils.isToday(calendar.getTimeInMillis())
-                                ? context.getString(R.string.date_note_today_format)
-                                : context.getString(R.string.date_note_yesterday_format),
-                        Locale.getDefault()
-                );
-
-                return formatNew.format(formatOld.parse(date));
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return null;
-            }
         }
 
     }
