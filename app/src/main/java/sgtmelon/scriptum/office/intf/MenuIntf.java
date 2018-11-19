@@ -7,6 +7,7 @@ public interface MenuIntf {
      */
     interface Note {
 
+        // TODO: 17.11.2018 сделать биндинг на кнопки панели
         interface MainMenuClick {
             /**
              * @param editModeChange - Надо ли менять режим редактирования

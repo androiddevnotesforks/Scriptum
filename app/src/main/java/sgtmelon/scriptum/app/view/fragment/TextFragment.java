@@ -98,7 +98,7 @@ public final class TextFragment extends NoteFragmentParent {
     }
 
     @Override
-    protected void bind(boolean keyEdit) {
+    public void bind(boolean keyEdit) {
         Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
 
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());

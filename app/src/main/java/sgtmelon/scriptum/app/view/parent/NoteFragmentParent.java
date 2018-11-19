@@ -144,7 +144,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         outState.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
     }
 
-    protected abstract void bind(boolean keyEdit);
+    public abstract void bind(boolean keyEdit);
 
     @CallSuper
     protected void setupToolbar() {
@@ -324,7 +324,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             noteRepo.update(false);
         }
 
-//        menuControl.setStatusTitle(noteItem.isStatus()); // TODO: 14.11.2018 update binding
+        bind(false);
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), noteItem.isStatus());

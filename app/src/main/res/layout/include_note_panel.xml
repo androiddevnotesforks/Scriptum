@@ -22,7 +22,6 @@
     </data>
 
     <LinearLayout
-            android:id="@+id/control_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -36,14 +35,12 @@
                 android:background="?attr/clBackgroundView">
 
             <LinearLayout
-                    android:id="@+id/group_delete_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility='@{noteItem.bin ? v.VISIBLE : v.GONE}'
                     tools:visibility="gone">
 
                 <ImageButton
-                        android:id="@+id/restore_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore"
                         android:onClick='@{(v) -> deleteClick.onMenuRestoreClick()}'
@@ -51,32 +48,29 @@
                         app:srcCompat="@drawable/ic_restore"/>
 
                 <ImageButton
-                        android:id="@+id/restore_open_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore_open"
-                        android:tint="?attr/clIcon"
                         android:onClick='@{() -> deleteClick.onMenuRestoreOpenClick()}'
+                        android:tint="?attr/clIcon"
                         app:srcCompat="@drawable/ic_restore_open"/>
 
                 <ImageButton
-                        android:id="@+id/clear_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_clear"
-                        android:tint="?attr/clIcon"
                         android:onClick='@{() -> deleteClick.onMenuClearClick()}'
+                        android:tint="?attr/clIcon"
                         app:srcCompat="@drawable/ic_clear"/>
 
             </LinearLayout>
 
             <LinearLayout
-                    android:id="@+id/edit_group_container"
+                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility='@{keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE : v.GONE}'
                     tools:visibility="visible">
 
                 <ImageButton
-                        android:id="@+id/undo_button"
                         style="@style/Enter.Button"
                         android:clickable="false"
                         android:contentDescription="@null"
@@ -84,47 +78,53 @@
                         app:srcCompat="@drawable/ic_undo"/>
 
                 <ImageButton
-                        android:id="@+id/redo_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:tint="?attr/clSecond"
                         app:srcCompat="@drawable/ic_redo"/>
 
                 <ImageButton
-                        android:id="@+id/rank_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
+                        android:onClick='@{() -> noteClick.onMenuRankClick()}'
                         app:boolExpression='@{rankEmpty}'
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clIcon}'
                         app:srcCompat="@drawable/ic_rank"
-                        android:onClick='@{() -> noteClick.onMenuRankClick()}'
                         app:trueColor='@{R.attr.clSecond}'
                         tools:tint="?attr/clIcon"/>
 
                 <ImageButton
-                        android:id="@+id/color_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:tint="?attr/clIcon"
                         android:onClick='@{() -> noteClick.onMenuColorClick()}'
+                        android:tint="?attr/clIcon"
                         app:srcCompat="@drawable/ic_palette"/>
+
+                <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                <Button
+                        style="@style/Enter.Button"
+                        android:background="?attr/selectableItemBackground"
+                        android:text="@string/menu_note_save"/>
 
             </LinearLayout>
 
             <LinearLayout
-                    android:id="@+id/read_group_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:visibility='@{!keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.GONE}'
                     tools:visibility="gone">
 
                 <ImageButton
-                        android:id="@+id/check_button"
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.allCheck ? @string/menu_note_check_zero : @string/menu_note_check_all}'
-                        android:visibility='@{noteItem.type == def.roll ? v.VISIBLE : v.GONE}'
                         android:onClick='@{() -> noteClick.onMenuCheckClick()}'
+                        android:visibility='@{noteItem.type == def.roll ? v.VISIBLE : v.GONE}'
                         app:boolExpression='@{noteItem.allCheck}'
                         app:falseColor='@{R.attr.clIcon}'
                         app:srcCompat="@drawable/ic_check_all"
@@ -132,11 +132,10 @@
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
-                        android:id="@+id/bind_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_status_bind"
-                        android:src='@{noteItem.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
                         android:onClick='@{() -> noteClick.onMenuBindClick()}'
+                        android:src='@{noteItem.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
                         app:boolExpression='@{noteItem.status}'
                         app:falseColor='@{R.attr.clIcon}'
                         app:trueColor='@{R.attr.clAccent}'
@@ -144,20 +143,28 @@
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
-                        android:id="@+id/convert_button"
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.type == def.text ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
-                        android:tint="?attr/clIcon"
                         android:onClick='@{() -> noteClick.onMenuConvertClick()}'
+                        android:tint="?attr/clIcon"
                         app:srcCompat="@drawable/ic_convert"/>
 
                 <ImageButton
-                        android:id="@+id/delete_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_delete"
-                        android:tint="?attr/clIcon"
                         android:onClick='@{() -> deleteClick.onMenuDeleteClick()}'
+                        android:tint="?attr/clIcon"
                         app:srcCompat="@drawable/ic_bin"/>
+
+                <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                <Button
+                        style="@style/Enter.Button"
+                        android:background="?attr/selectableItemBackground"
+                        android:text="@string/menu_note_edit"/>
 
             </LinearLayout>
 

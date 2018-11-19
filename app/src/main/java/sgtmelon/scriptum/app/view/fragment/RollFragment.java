@@ -233,7 +233,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     }
 
     @Override
-    protected void bind(boolean keyEdit) {
+    public void bind(boolean keyEdit) {
         Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
 
         binding.setKeyEdit(keyEdit);
@@ -350,7 +350,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
 
         checkSt.setAll(listRoll);
-//        menuControl.setCheckTitle(checkSt.isAll()); // TODO: 14.11.2018 update binding
 
         adapter.setList(listRoll);
         adapter.notifyDataSetChanged();
@@ -462,10 +461,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final int check = HelpUtils.Note.getRollCheck(listRoll);
 
-//        if (checkSt.setAll(check, listRoll.size())) {
-//            menuControl.setCheckTitle(checkSt.isAll()); // FIXME: 14.11.2018 binding update
-//        }
-
         final NoteItem noteItem = noteRepo.getNoteItem();
         noteItem.setChange(TimeUtils.getTime(context));
         noteItem.setText(check, listRoll.size());
@@ -473,6 +468,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteRepo.setNoteItem(noteItem);
 
         vm.setNoteRepo(noteRepo);
+
+        if (checkSt.setAll(check, listRoll.size())) {
+            binding.setNoteItem(noteItem);
+            binding.executePendingBindings();
+        }
 
         final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
         viewModel.setNoteRepo(noteRepo);

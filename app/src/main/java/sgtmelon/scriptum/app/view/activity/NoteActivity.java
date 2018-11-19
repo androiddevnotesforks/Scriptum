@@ -267,7 +267,9 @@ public final class NoteActivity extends BaseActivityParent
 
                 menuControl = textFragment.getMenuControl();
                 menuControl.setMenuVisible(false, true);
+
                 textFragment.setMenuControl(menuControl);
+                textFragment.bind(false);
                 break;
             case TypeNoteDef.roll:
                 viewModel = rollFragment.getViewModel();
@@ -276,7 +278,9 @@ public final class NoteActivity extends BaseActivityParent
 
                 menuControl = rollFragment.getMenuControl();
                 menuControl.setMenuVisible(false, true);
+
                 rollFragment.setMenuControl(menuControl);
+                rollFragment.bind(false);
                 break;
         }
     }
