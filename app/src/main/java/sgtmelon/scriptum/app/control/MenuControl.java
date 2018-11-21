@@ -5,26 +5,22 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
  * Класс для контроля меню
  * Для версий API < 21
  */
-// TODO: 31.10.2018 подумай над builder pattern
-public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
+public class MenuControl implements AnimIntf {
 
     protected final Context context;
     protected final ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
@@ -34,14 +30,12 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
     Drawable cancelOn, cancelOff;
 
     private Window window;
-    private Menu menu;
+
     private View indicator;
 
     private int valTheme;
     private int statusStartColor, statusEndColor;
     private int toolbarStartColor, toolbarEndColor;
-
-    private MenuIntf.Note.MainMenuClick mainMenuClick;
 
     public MenuControl(Context context, Window window) {
         this.context = context;
@@ -74,15 +68,10 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
 
     public final void setToolbar(Toolbar toolbar) {
         this.toolbar = toolbar;
-        menu = toolbar.getMenu();
     }
 
     public final void setIndicator(View indicator) {
         this.indicator = indicator;
-    }
-
-    public void setMainMenuClick(MenuIntf.Note.MainMenuClick mainMenuClick) {
-        this.mainMenuClick = mainMenuClick;
     }
 
     /**
@@ -90,7 +79,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
      *
      * @param color - Начальный цвет
      */
-    public final void setColor(int color) {
+    public final void setColor(@ColorDef int color) {
         if (valTheme != ThemeDef.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.setStatusBarColor(HelpUtils.Clr.get(context, color, true));
@@ -107,7 +96,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
      *
      * @param color - Начальный цвет
      */
-    public final void setStartColor(int color) {
+    public final void setStartColor(@ColorDef int color) {
         statusStartColor = HelpUtils.Clr.get(context, color, true);
         toolbarStartColor = HelpUtils.Clr.get(context, color, false);
     }
@@ -117,7 +106,7 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
      *
      * @param color - конечный цвет
      */
-    public final void startTint(int color) {
+    public final void startTint(@ColorDef int color) {
         statusEndColor = HelpUtils.Clr.get(context, color, true);
         toolbarEndColor = HelpUtils.Clr.get(context, color, false);
 
@@ -137,26 +126,6 @@ public class MenuControl implements Toolbar.OnMenuItemClickListener, AnimIntf {
         toolbar.setNavigationIcon(drawableOn
                 ? cancelOn
                 : cancelOff);
-    }
-
-    public final void setMenuVisible(boolean edit, boolean read) {
-        menu.setGroupVisible(R.id.edit_group, edit);
-        menu.setGroupVisible(R.id.read_group, read);
-    }
-
-    @Override
-    public final boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.save_item:
-                if (!mainMenuClick.onMenuSaveClick(true)) {
-                    Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
-                }
-                return true;
-            case R.id.edit_item:
-                mainMenuClick.onMenuEditClick(true);
-                return true;
-        }
-        return false;
     }
 
 }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -266,8 +267,12 @@ public final class TextFragment extends NoteFragmentParent {
 
             viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
+
             return true;
-        } else return false;
+        } else {
+            Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 
     @Override
@@ -282,8 +287,6 @@ public final class TextFragment extends NoteFragmentParent {
                 editMode && !noteSt.isCreate(),
                 !noteSt.isCreate() && !noteSt.isFirst()
         );
-
-        menuControl.setMenuVisible(editMode, !noteSt.isBin() && !editMode);
 
         bind(editMode);
 

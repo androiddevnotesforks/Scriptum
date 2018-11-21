@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
@@ -116,12 +115,10 @@ public final class NoteActivity extends BaseActivityParent
 
         if (noteSt.isEdit() && !noteSt.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             FragmentNoteViewModel viewModel;
-            MenuControl menuControl;
             switch (noteItem.getType()) {
                 case TypeNoteDef.text:
                     if (!textFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
-                        menuControl = textFragment.getMenuControl();
-                        menuControl.setStartColor(noteItem.getColor());
+                        final int startColor = noteItem.getColor();
 
                         final NoteRepo noteRepo = vm.loadData(noteItem.getId());
                         noteItem = noteRepo.getNoteItem();
@@ -130,16 +127,13 @@ public final class NoteActivity extends BaseActivityParent
                         viewModel.setNoteRepo(noteRepo);
                         textFragment.setViewModel(viewModel);
 
-                        menuControl.startTint(noteItem.getColor());
-                        textFragment.setMenuControl(menuControl);
-
+                        textFragment.startTintToolbar(startColor, noteItem.getColor());
                         textFragment.onMenuEditClick(false);
                     }
                     break;
                 case TypeNoteDef.roll:
                     if (!rollFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
-                        menuControl = rollFragment.getMenuControl();
-                        menuControl.setStartColor(noteItem.getColor());
+                        final int startColor = noteItem.getColor();
 
                         final NoteRepo noteRepo = vm.loadData(noteItem.getId());
                         noteItem = noteRepo.getNoteItem();
@@ -148,9 +142,7 @@ public final class NoteActivity extends BaseActivityParent
                         viewModel.setNoteRepo(noteRepo);
                         rollFragment.setViewModel(viewModel);
 
-                        menuControl.startTint(noteItem.getColor());
-                        rollFragment.setMenuControl(menuControl);
-
+                        rollFragment.startTintToolbar(startColor, noteItem.getColor());
                         rollFragment.onMenuEditClick(false);
                         rollFragment.updateAdapter();
                     }
@@ -186,7 +178,7 @@ public final class NoteActivity extends BaseActivityParent
                 if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
                 else textFragment = TextFragment.getInstance(vm.isRankEmpty());
 
-                saveControl.setMainMenuClick(textFragment);
+                saveControl.setNoteMenuClick(textFragment);
 
                 transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
@@ -194,7 +186,7 @@ public final class NoteActivity extends BaseActivityParent
                 if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
                 else rollFragment = RollFragment.getInstance(vm.isRankEmpty());
 
-                saveControl.setMainMenuClick(rollFragment);
+                saveControl.setNoteMenuClick(rollFragment);
 
                 transaction.replace(R.id.fragment_container, rollFragment, FragmentDef.ROLL);
                 break;
@@ -258,28 +250,19 @@ public final class NoteActivity extends BaseActivityParent
         db.close();
 
         FragmentNoteViewModel viewModel;
-        MenuControl menuControl;
         switch (vm.getNoteRepo().getNoteItem().getType()) {
             case TypeNoteDef.text:
                 viewModel = textFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
+
                 textFragment.setViewModel(viewModel);
-
-                menuControl = textFragment.getMenuControl();
-                menuControl.setMenuVisible(false, true);
-
-                textFragment.setMenuControl(menuControl);
                 textFragment.bind(false);
                 break;
             case TypeNoteDef.roll:
                 viewModel = rollFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
+
                 rollFragment.setViewModel(viewModel);
-
-                menuControl = rollFragment.getMenuControl();
-                menuControl.setMenuVisible(false, true);
-
-                rollFragment.setMenuControl(menuControl);
                 rollFragment.bind(false);
                 break;
         }

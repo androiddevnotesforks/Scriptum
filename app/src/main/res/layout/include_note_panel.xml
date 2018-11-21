@@ -32,13 +32,16 @@
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/clBackgroundView">
+                android:background="?attr/clBackgroundView"
+                android:paddingLeft="@dimen/layout_8dp"
+                android:paddingRight="@dimen/layout_8dp">
 
             <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:visibility='@{noteItem.bin ? v.VISIBLE : v.GONE}'
-                    tools:visibility="gone">
+                    tools:visibility="invisible">
 
                 <ImageButton
                         style="@style/Enter.Button"
@@ -64,9 +67,9 @@
             </LinearLayout>
 
             <LinearLayout
-                    android:gravity="center_vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:visibility='@{keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE : v.GONE}'
                     tools:visibility="visible">
 
@@ -109,6 +112,7 @@
                 <Button
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackground"
+                        android:onClick='@{() -> noteClick.onMenuSaveClick(true)}'
                         android:text="@string/menu_note_save"/>
 
             </LinearLayout>
@@ -117,8 +121,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{!keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.GONE}'
-                    tools:visibility="gone">
+                    android:visibility='@{!keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
+                    tools:visibility="invisible">
 
                 <ImageButton
                         style="@style/Enter.Button"
@@ -164,6 +168,8 @@
                 <Button
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackground"
+                        android:onClick='@{() -> noteClick.onMenuEditClick(true)}'
+
                         android:text="@string/menu_note_edit"/>
 
             </LinearLayout>

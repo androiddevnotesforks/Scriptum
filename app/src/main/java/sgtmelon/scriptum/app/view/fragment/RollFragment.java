@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -589,8 +590,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
+
             return true;
         } else {
+            Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -607,8 +610,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 editMode && !noteSt.isCreate(),
                 !noteSt.isCreate() && !noteSt.isFirst()
         );
-
-        menuControl.setMenuVisible(editMode, !noteSt.isBin() && !editMode);
 
         bind(editMode);
 

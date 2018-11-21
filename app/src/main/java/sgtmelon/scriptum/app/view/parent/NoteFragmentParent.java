@@ -44,6 +44,7 @@ import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
+import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
@@ -55,7 +56,7 @@ import sgtmelon.scriptum.office.utils.HelpUtils;
  * {@link TextFragment}, {@link RollFragment}
  */
 public abstract class NoteFragmentParent extends Fragment implements View.OnClickListener,
-        MenuIntf.Note.MainMenuClick, MenuIntf.Note.NoteMenuClick {
+        MenuIntf.Note.NoteMenuClick {
 
     private static final String TAG = NoteFragmentParent.class.getSimpleName();
 
@@ -150,12 +151,9 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
     protected void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
-
         final Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        toolbar.inflateMenu(R.menu.activity_note);
-
         final View indicator = frgView.findViewById(R.id.color_view);
+        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             menuControl = new MenuControl(context, activity.getWindow());
@@ -167,14 +165,11 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         menuControl.setIndicator(indicator);
         menuControl.setColor(noteItem.getColor());
 
-        menuControl.setMainMenuClick(this);
-
         final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
 
         menuControl.setupDrawable();
         menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
 
-        toolbar.setOnMenuItemClickListener(menuControl);
         toolbar.setNavigationOnClickListener(this);
     }
 
@@ -263,12 +258,9 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         });
     }
 
-    public final MenuControl getMenuControl() {
-        return menuControl;
-    }
-
-    public final void setMenuControl(MenuControl menuControl) {
-        this.menuControl = menuControl;
+    public final void startTintToolbar(@ColorDef int startColor, @ColorDef int endColor) {
+        menuControl.setStartColor(startColor);
+        menuControl.startTint(endColor);
     }
 
     public final FragmentNoteViewModel getViewModel() {
