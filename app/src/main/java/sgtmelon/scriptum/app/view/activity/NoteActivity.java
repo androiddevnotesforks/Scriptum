@@ -117,7 +117,7 @@ public final class NoteActivity extends BaseActivityParent
             FragmentNoteViewModel viewModel;
             switch (noteItem.getType()) {
                 case TypeNoteDef.text:
-                    if (!textFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
+                    if (!textFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
                         final int startColor = noteItem.getColor();
 
                         final NoteRepo noteRepo = vm.loadData(noteItem.getId());
@@ -132,7 +132,7 @@ public final class NoteActivity extends BaseActivityParent
                     }
                     break;
                 case TypeNoteDef.roll:
-                    if (!rollFragment.onMenuSaveClick(true)) {   //Если сохранение не выполнено, возвращает старое
+                    if (!rollFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
                         final int startColor = noteItem.getColor();
 
                         final NoteRepo noteRepo = vm.loadData(noteItem.getId());
@@ -151,10 +151,10 @@ public final class NoteActivity extends BaseActivityParent
         } else if (noteSt.isCreate()) {     //Если только что создали заметку
             switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
                 case TypeNoteDef.text:
-                    if (!textFragment.onMenuSaveClick(true)) super.onBackPressed();
+                    if (!textFragment.onMenuSaveClick(true, false)) super.onBackPressed();
                     break;
                 case TypeNoteDef.roll:
-                    if (!rollFragment.onMenuSaveClick(true)) super.onBackPressed();
+                    if (!rollFragment.onMenuSaveClick(true, false)) super.onBackPressed();
                     break;
             }
         } else super.onBackPressed();   //Другие случаи (не редактирование)
@@ -256,14 +256,14 @@ public final class NoteActivity extends BaseActivityParent
                 viewModel.setNoteRepo(noteRepo);
 
                 textFragment.setViewModel(viewModel);
-                textFragment.bind(false);
+                textFragment.bindEdit(false);
                 break;
             case TypeNoteDef.roll:
                 viewModel = rollFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
 
                 rollFragment.setViewModel(viewModel);
-                rollFragment.bind(false);
+                rollFragment.bindEdit(false);
                 break;
         }
     }

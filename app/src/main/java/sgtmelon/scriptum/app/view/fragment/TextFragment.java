@@ -32,6 +32,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
+import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.st.NoteSt;
@@ -41,8 +42,8 @@ import sgtmelon.scriptum.office.utils.TimeUtils;
 public final class TextFragment extends NoteFragmentParent {
 
     private static final String TAG = TextFragment.class.getSimpleName();
-
     @Inject FragmentTextBinding binding;
+    private EditText textEnter;
 
     public static TextFragment getInstance(boolean rankEmpty) {
         Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
@@ -84,6 +85,7 @@ public final class TextFragment extends NoteFragmentParent {
             vm.setNoteRepo(viewModel.getNoteRepo());
         }
 
+        setupBinding();
         setupToolbar();
         setupDialog();
         setupEnter();
@@ -99,20 +101,31 @@ public final class TextFragment extends NoteFragmentParent {
         noteCallback.setViewModel(viewModel);
     }
 
-    // TODO: 24.11.2018 переделать на несколько классов
     @Override
-    public void bind(boolean keyEdit) {
-        Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
-
-        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
-        binding.setKeyEdit(keyEdit);
-
-        binding.setUndoAccess(inputControl.checkUndo());
-        binding.setRedoAccess(inputControl.checkRedo());
-        binding.setRankEmpty(rankEmpty);
+    public void setupBinding() {
+        Log.i(TAG, "setupBinding");
 
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
+        binding.setRankEmpty(rankEmpty);
+    }
+
+    @Override
+    public void bindEdit(boolean editMode) {
+        Log.i(TAG, "bindEdit: keyEdit=" + editMode);
+
+        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
+        binding.setKeyEdit(editMode);
+
+        binding.executePendingBindings();
+    }
+
+    @Override
+    public void bindInput() {
+        Log.i(TAG, "bindInput");
+
+        binding.setUndoAccess(inputControl.isUndoAccess());
+        binding.setRedoAccess(inputControl.isRedoAccess());
 
         binding.executePendingBindings();
     }
@@ -156,7 +169,7 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "setupEnter");
         super.setupEnter();
 
-        final EditText textEnter = frgView.findViewById(R.id.text_enter);
+        textEnter = frgView.findViewById(R.id.text_enter);
         textEnter.addTextChangedListener(new TextWatcher() {
             private String textBefore;
 
@@ -170,7 +183,7 @@ public final class TextFragment extends NoteFragmentParent {
                 final String textChanged = charSequence.toString();
                 if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
                     inputControl.onTextChange(textBefore);
-                    bind(true); // FIXME: 24.11.2018
+                    bindInput();
                     textBefore = textChanged;
                 }
             }
@@ -232,7 +245,7 @@ public final class TextFragment extends NoteFragmentParent {
     }
 
     @Override
-    public boolean onMenuSaveClick(boolean editModeChange) {
+    public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
 
         inputControl.listAll(); // FIXME: 24.11.2018 remove
@@ -274,9 +287,14 @@ public final class TextFragment extends NoteFragmentParent {
             viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
 
+            inputControl.clear();
+            bindInput();
+
             return true;
-        } else { // TODO: 22.11.2018 показывать тост только если автосохранение
-            Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
+        } else {
+            if (showToast) {
+                Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
+            }
             return false;
         }
     }
@@ -294,7 +312,7 @@ public final class TextFragment extends NoteFragmentParent {
                 !noteSt.isCreate() && !noteSt.isFirst()
         );
 
-        bind(editMode);
+        bindEdit(editMode);
 
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
@@ -304,20 +322,74 @@ public final class TextFragment extends NoteFragmentParent {
         noteCallback.setSaveControl(saveControl);
     }
 
+    // TODO: 25.11.2018 Доделать
     @Override
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
-        InputItem inputItem = inputControl.undo();
-        bind(true);
+        final InputItem inputItem = inputControl.undo();
+
+        if (inputItem != null) {
+            switch (inputItem.getTag()) {
+                case InputDef.rank:
+
+                    break;
+                case InputDef.color:
+                    final int color = Integer.parseInt(inputItem.getValueSecond());
+                    final NoteRepo noteRepo = vm.getNoteRepo();
+                    final NoteItem noteItem = noteRepo.getNoteItem();
+
+                    noteItem.setColor(color);
+                    noteRepo.setNoteItem(noteItem);
+
+                    vm.setNoteRepo(noteRepo);
+                    menuControl.startTint(color);
+                    break;
+                case InputDef.name:
+                    nameEnter.setText(inputItem.getValueSecond());
+                    break;
+                case InputDef.text:
+                    textEnter.setText(inputItem.getValueSecond());
+                    break;
+            }
+        }
+
+        bindInput();
     }
 
+    // TODO: 25.11.2018 Доделать
     @Override
     public void onRedoClick() {
         Log.i(TAG, "onRedoClick");
 
-        InputItem inputItem = inputControl.redo();
-        bind(true);
+        final InputItem inputItem = inputControl.redo();
+
+        if (inputItem != null) {
+            switch (inputItem.getTag()) {
+                case InputDef.rank:
+
+                    break;
+                case InputDef.color:
+                    final int color = Integer.parseInt(inputItem.getValueSecond());
+                    final NoteRepo noteRepo = vm.getNoteRepo();
+                    final NoteItem noteItem = noteRepo.getNoteItem();
+
+                    noteItem.setColor(color);
+                    noteRepo.setNoteItem(noteItem);
+
+                    vm.setNoteRepo(noteRepo);
+                    menuControl.startTint(color);
+                    break;
+                case InputDef.name:
+                    nameEnter.setText(inputItem.getValueSecond());
+                    break;
+                case InputDef.text:
+                    textEnter.setText(inputItem.getValueSecond());
+                    break;
+            }
+        }
+
+        bindInput();
     }
 
     @Override

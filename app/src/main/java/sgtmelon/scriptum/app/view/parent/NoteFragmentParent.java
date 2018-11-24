@@ -145,8 +145,22 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         outState.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
     }
 
-    // TODO: 24.11.2018 не правильно работает Binding input
-    public abstract void bind(boolean keyEdit);
+    /**
+     * Установка в биндинг слоя неизменяемых данных, как интерфейсы
+     */
+    public abstract void setupBinding();
+
+    /**
+     * Биндинг отображения элементов управления для конкретного режима редактирования
+     *
+     * @param editMode - Режим редактирования
+     */
+    public abstract void bindEdit(boolean editMode);
+
+    /**
+     * Биндинг кнопок undo/redo в зависимости от положения {@link InputControl#position}
+     */
+    public abstract void bindInput();
 
     @CallSuper
     protected void setupToolbar() {
@@ -186,7 +200,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             final NoteItem noteItem = noteRepo.getNoteItem();
 
             inputControl.onColorChange(noteItem.getColor());
-            bind(true); // FIXME: 24.11.2018
+            bindInput();
 
             noteItem.setColor(check);
             noteRepo.setNoteItem(noteItem);
@@ -222,7 +236,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             final NoteItem noteItem = noteRepo.getNoteItem();
 
             inputControl.onRankChange(noteItem.getRankId());
-            bind(true); // FIXME: 24.11.2018
+            bindInput();
 
             noteItem.setRankId(rankId);
             noteItem.setRankPs(rankPs);
@@ -250,7 +264,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
                 final String textChanged = charSequence.toString();
                 if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
                     inputControl.onNameChange(textBefore);
-                    bind(true); // FIXME: 24.11.2018
+                    bindInput();
                     textBefore = textChanged;
                 }
             }
@@ -320,7 +334,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             noteRepo.update(false);
         }
 
-        bind(false);
+        bindEdit(false);
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), noteItem.isStatus());

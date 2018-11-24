@@ -20,9 +20,10 @@ public interface MenuIntf {
         interface NoteMenuClick {
             /**
              * @param editModeChange - Надо ли менять режим редактирования
+             * @param showToast - Показывать уведомление о том, что заметка пуста
              * @return - Сохранение успешно при возвращении true
              */
-            boolean onMenuSaveClick(boolean editModeChange);
+            boolean onMenuSaveClick(boolean editModeChange, boolean showToast);
 
             void onUndoClick();
 

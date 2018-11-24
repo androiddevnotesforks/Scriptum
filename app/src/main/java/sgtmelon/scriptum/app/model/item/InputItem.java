@@ -3,19 +3,19 @@ package sgtmelon.scriptum.app.model.item;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import sgtmelon.scriptum.app.control.InputControl;
-import sgtmelon.scriptum.office.annot.IntroAnn;
+import sgtmelon.scriptum.office.annot.def.InputDef;
 
 /**
  * Модель для {@link InputControl}
  */
 public class InputItem {
 
-    private final int tag;
+    public final int tag;
 
     private final String valueFirst;
     private final String valueSecond;
 
-    public InputItem(@IntroAnn int tag, @Nullable String valueFirst, @NonNull String valueSecond) {
+    public InputItem(@InputDef int tag, @Nullable String valueFirst, @NonNull String valueSecond) {
         this.tag = tag;
 
         this.valueFirst = valueFirst;

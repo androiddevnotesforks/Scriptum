@@ -61,7 +61,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
     private LinearLayoutManager layoutManager;
     private RollAdapter adapter;
-
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
         private int dragStart, dragEnd;
@@ -99,7 +98,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             dragEnd = viewHolder.getAdapterPosition();
             if (dragStart != dragEnd) {
                 inputControl.onRollMove(dragStart, dragEnd);
-                bind(true); // FIXME: 24.11.2018
+                bindInput();
             }
         }
 
@@ -111,7 +110,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             final List<RollItem> listRoll = noteRepo.getListRoll();
 
             inputControl.onRollRemove(p, listRoll.get(p).getText());
-            bind(true); // FIXME: 24.11.2018
+            bindInput();
             listRoll.remove(p);
 
             noteRepo.setListRoll(listRoll);
@@ -165,7 +164,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
     };
-
     private RecyclerView recyclerView;
     private EditText rollEnter;
 
@@ -186,9 +184,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onResume");
         super.onResume();
 
-        binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
-        binding.executePendingBindings();
-
+        bindEnter(rollEnter.getText().toString());
         updateAdapter();
     }
 
@@ -220,6 +216,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             vm.setNoteRepo(viewModel.getNoteRepo());
         }
 
+        setupBinding();
         setupToolbar();
         setupDialog();
         setupRecycler();
@@ -236,21 +233,38 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteCallback.setViewModel(viewModel);
     }
 
-    // TODO: 24.11.2018 переделать на несколько классов
     @Override
-    public void bind(boolean keyEdit) {
-        Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
-
-        binding.setKeyEdit(keyEdit);
-        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
-        binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
-
-        binding.setUndoAccess(inputControl.checkUndo());
-        binding.setRedoAccess(inputControl.checkRedo());
-        binding.setRankEmpty(rankEmpty);
+    public void setupBinding() {
+        Log.i(TAG, "setupBinding");
 
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
+        binding.setRankEmpty(rankEmpty);
+    }
+
+    @Override
+    public void bindEdit(boolean editMode) {
+        Log.i(TAG, "bindEdit: keyEdit=" + editMode);
+
+        binding.setKeyEdit(editMode);
+        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
+
+        bindEnter(rollEnter.getText().toString());
+    }
+
+    private void bindEnter(String enterText) {
+        Log.i(TAG, "bindEnter");
+
+        binding.setEnterEmpty(TextUtils.isEmpty(enterText));
+        binding.executePendingBindings();
+    }
+
+    @Override
+    public void bindInput() {
+        Log.i(TAG, "bindInput: " + inputControl.isUndoAccess() + " | " + inputControl.isRedoAccess());
+
+        binding.setUndoAccess(inputControl.isUndoAccess());
+        binding.setRedoAccess(inputControl.isRedoAccess());
 
         binding.executePendingBindings();
     }
@@ -335,8 +349,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                binding.setEnterNotEmpty(!TextUtils.isEmpty(charSequence.toString()));
-                binding.executePendingBindings();
+                bindEnter(charSequence.toString());
             }
 
             @Override
@@ -376,7 +389,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     : 0;
 
             inputControl.onRollAdd(p);
-            bind(true); // FIXME: 24.11.2018
+            bindInput();
 
             final RollItem rollItem = new RollItem();
             rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
@@ -517,7 +530,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     }
 
     @Override
-    public boolean onMenuSaveClick(boolean editModeChange) {
+    public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
 
         inputControl.listAll(); // FIXME: 24.11.2018 remove
@@ -599,9 +612,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             viewModel.setNoteRepo(noteRepo);
             noteCallback.setViewModel(viewModel);
 
+            inputControl.clear();
+            bindInput();
+
             return true;
-        } else { // TODO: 22.11.2018 показывать тост только если автосохранение
-            Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
+        } else {
+            if (showToast) {
+                Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
+            }
             return false;
         }
     }
@@ -619,7 +637,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 !noteSt.isCreate() && !noteSt.isFirst()
         );
 
-        bind(editMode);
+        bindEdit(editMode);
 
         adapter.setNoteSt(noteSt);
         adapter.notifyDataSetChanged();
@@ -632,20 +650,28 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteCallback.setSaveControl(saveControl);
     }
 
+    // TODO: 25.11.2018 Доделать
     @Override
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
-        InputItem inputItem = inputControl.undo();
-        bind(true);
+        final InputItem inputItem = inputControl.undo();
+
+
+
+        bindInput();
     }
 
+    // TODO: 25.11.2018 Доделать
     @Override
     public void onRedoClick() {
         Log.i(TAG, "onRedoClick");
 
-        InputItem inputItem = inputControl.redo();
-        bind(true);
+        final InputItem inputItem = inputControl.redo();
+
+
+
+        bindInput();
     }
 
     @Override

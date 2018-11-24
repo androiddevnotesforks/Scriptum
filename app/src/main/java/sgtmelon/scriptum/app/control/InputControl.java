@@ -30,18 +30,23 @@ public final class InputControl implements InputIntf {
 
     private final List<InputItem> listInput = new ArrayList<>();
 
-    private int position = 0;
-    private boolean enable;
+    private int position = -1;
+    private boolean enable; //Переменная для предотвращения записи первичного биндинга
 
     public void setEnable(boolean enable) {
         this.enable = enable;
+    }
+
+    public void clear(){
+        listInput.clear();
+        position = -1;
     }
 
     /**
      * Проверка доступна ли отмена
      * @return - Есть куда возвращаться или нет
      */
-    public boolean checkUndo(){
+    public boolean isUndoAccess(){
         if (listInput.size() != 0){
             return position != 0;
         } else {
@@ -50,7 +55,7 @@ public final class InputControl implements InputIntf {
     }
 
     public InputItem undo() {
-        if (checkUndo()){
+        if (isUndoAccess()){
             position--;
             return listInput.get(position);
         } else {
@@ -62,7 +67,7 @@ public final class InputControl implements InputIntf {
      * Проверка доступен ли возврат
      * @return - Есть куда возвращаться или нет
      */
-    public boolean checkRedo(){
+    public boolean isRedoAccess(){
         if (listInput.size() != 0){
             return position != listInput.size() - 1;
         } else {
@@ -71,7 +76,7 @@ public final class InputControl implements InputIntf {
     }
 
     public InputItem redo() {
-        if (checkRedo()){
+        if (isRedoAccess()){
             position++;
             return listInput.get(position);
         } else {

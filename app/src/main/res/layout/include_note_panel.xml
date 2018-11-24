@@ -7,8 +7,12 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
+
+        <variable name="noteClick"
+                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
+        <variable name="deleteClick"
+                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.DeleteMenuClick"/>
 
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
@@ -16,11 +20,6 @@
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
         <variable name="rankEmpty" type="boolean"/>
-
-        <variable name="noteClick"
-                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
-        <variable name="deleteClick"
-                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.DeleteMenuClick"/>
 
     </data>
 
@@ -78,7 +77,7 @@
 
                 <ImageButton
                         style="@style/Enter.Button"
-                        android:clickable="false"
+                        android:onClick='@{() -> noteClick.onUndoClick()}'
                         android:contentDescription="@null"
                         app:boolExpression='@{undoAccess}'
                         app:enabled='@{undoAccess}'
@@ -89,13 +88,14 @@
 
                 <ImageButton
                         style="@style/Enter.Button"
+                        android:onClick='@{() -> noteClick.onRedoClick()}'
                         android:contentDescription="@null"
-                        android:tint="?attr/clSecond"
                         app:boolExpression='@{redoAccess}'
                         app:enabled='@{redoAccess}'
                         app:falseColor='@{R.attr.clSecond}'
+                        app:srcCompat="@drawable/ic_redo"
                         app:trueColor='@{R.attr.clIcon}'
-                        app:srcCompat="@drawable/ic_redo"/>
+                        tools:tint="?attr/clSecond"/>
 
                 <ImageButton
                         style="@style/Enter.Button"
@@ -123,7 +123,7 @@
                 <Button
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackground"
-                        android:onClick='@{() -> noteClick.onMenuSaveClick(true)}'
+                        android:onClick='@{() -> noteClick.onMenuSaveClick(true, true)}'
                         android:text="@string/menu_note_save"/>
 
             </LinearLayout>

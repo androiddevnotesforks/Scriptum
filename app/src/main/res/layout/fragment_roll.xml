@@ -11,7 +11,7 @@
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
-        <variable name="enterNotEmpty" type="boolean"/>
+        <variable name="enterEmpty" type="boolean"/>
 
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
@@ -77,8 +77,8 @@
                         style="@style/Enter.Button"
                         android:layout_gravity="bottom"
                         android:contentDescription="@null"
-                        app:boolExpression='@{enterNotEmpty}'
-                        app:enabled='@{enterNotEmpty}'
+                        app:boolExpression='@{!enterEmpty}'
+                        app:enabled='@{!enterEmpty}'
                         app:falseColor='@{R.attr.clSecond}'
                         app:srcCompat="@drawable/ic_add"
                         app:trueColor='@{R.attr.clAccent}'
@@ -93,7 +93,9 @@
                  app:keyEdit='@{keyEdit}'
                  app:noteClick='@{noteClick}'
                  app:noteItem='@{noteItem}'
-                 app:rankEmpty='@{rankEmpty}'/>
+                 app:rankEmpty='@{rankEmpty}'
+                 app:undoAccess='@{undoAccess}'
+                 app:redoAccess='@{redoAccess}'/>
 
     </LinearLayout>
 

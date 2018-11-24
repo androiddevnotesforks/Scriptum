@@ -2,14 +2,15 @@ package sgtmelon.scriptum.office.annot.def;
 
 import androidx.annotation.IntDef;
 import sgtmelon.scriptum.app.control.InputControl;
+import sgtmelon.scriptum.app.model.item.InputItem;
 
 /**
- * Аннотация для {@link InputControl}
+ * Аннотация для {@link InputItem#tag}, {@link InputControl}
  */
 @IntDef({
-        InputDef.name,
         InputDef.rank,
         InputDef.color,
+        InputDef.name,
         InputDef.text,
         InputDef.rollAdd,
         InputDef.roll,
@@ -30,3 +31,5 @@ public @interface InputDef {
     int rollMove = 7;
 
 }
+
+

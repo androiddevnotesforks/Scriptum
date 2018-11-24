@@ -73,7 +73,7 @@ public final class SaveControl {
     }
 
     private void onSave() {
-        if (noteMenuClick.onMenuSaveClick(false)) {
+        if (noteMenuClick.onMenuSaveClick(false, false)) {
             Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show();

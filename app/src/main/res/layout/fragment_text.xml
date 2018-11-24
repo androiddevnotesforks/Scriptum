@@ -84,7 +84,9 @@
                  app:keyEdit='@{keyEdit}'
                  app:noteClick='@{noteClick}'
                  app:noteItem='@{noteItem}'
-                 app:rankEmpty='@{rankEmpty}'/>
+                 app:rankEmpty='@{rankEmpty}'
+                 app:redoAccess='@{redoAccess}'
+                 app:undoAccess='@{undoAccess}'/>
 
     </LinearLayout>
 
