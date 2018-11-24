@@ -7,20 +7,6 @@ public interface MenuIntf {
      */
     interface Note {
 
-        // TODO: 17.11.2018 сделать биндинг на кнопки панели
-        interface MainMenuClick {
-            /**
-             * @param editModeChange - Надо ли менять режим редактирования
-             * @return - True - сохранение успешно
-             */
-            boolean onMenuSaveClick(boolean editModeChange);
-
-            /**
-             * @param editMode - Установка режима редактирования
-             */
-            void onMenuEditClick(boolean editMode);
-        }
-
         interface DeleteMenuClick {
             void onMenuRestoreClick();
 
@@ -34,9 +20,13 @@ public interface MenuIntf {
         interface NoteMenuClick {
             /**
              * @param editModeChange - Надо ли менять режим редактирования
-             * @return - True - сохранение успешно
+             * @return - Сохранение успешно при возвращении true
              */
             boolean onMenuSaveClick(boolean editModeChange);
+
+            void onUndoClick();
+
+            void onRedoClick();
 
             void onMenuRankClick();
 

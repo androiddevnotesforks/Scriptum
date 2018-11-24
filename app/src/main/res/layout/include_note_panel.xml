@@ -13,7 +13,10 @@
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 
+        <variable name="undoAccess" type="boolean"/>
+        <variable name="redoAccess" type="boolean"/>
         <variable name="rankEmpty" type="boolean"/>
+
         <variable name="noteClick"
                   type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
         <variable name="deleteClick"
@@ -77,24 +80,32 @@
                         style="@style/Enter.Button"
                         android:clickable="false"
                         android:contentDescription="@null"
-                        android:tint="?attr/clSecond"
-                        app:srcCompat="@drawable/ic_undo"/>
+                        app:boolExpression='@{undoAccess}'
+                        app:enabled='@{undoAccess}'
+                        app:falseColor='@{R.attr.clSecond}'
+                        app:srcCompat="@drawable/ic_undo"
+                        app:trueColor='@{R.attr.clIcon}'
+                        tools:tint="?attr/clSecond"/>
 
                 <ImageButton
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:tint="?attr/clSecond"
+                        app:boolExpression='@{redoAccess}'
+                        app:enabled='@{redoAccess}'
+                        app:falseColor='@{R.attr.clSecond}'
+                        app:trueColor='@{R.attr.clIcon}'
                         app:srcCompat="@drawable/ic_redo"/>
 
                 <ImageButton
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:onClick='@{() -> noteClick.onMenuRankClick()}'
-                        app:boolExpression='@{rankEmpty}'
+                        app:boolExpression='@{!rankEmpty}'
                         app:enabled='@{!rankEmpty}'
-                        app:falseColor='@{R.attr.clIcon}'
+                        app:falseColor='@{R.attr.clSecond}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{R.attr.clSecond}'
+                        app:trueColor='@{R.attr.clIcon}'
                         tools:tint="?attr/clIcon"/>
 
                 <ImageButton

@@ -26,6 +26,7 @@ import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
@@ -98,12 +99,16 @@ public final class TextFragment extends NoteFragmentParent {
         noteCallback.setViewModel(viewModel);
     }
 
+    // TODO: 24.11.2018 переделать на несколько классов
     @Override
     public void bind(boolean keyEdit) {
         Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
 
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
         binding.setKeyEdit(keyEdit);
+
+        binding.setUndoAccess(inputControl.checkUndo());
+        binding.setRedoAccess(inputControl.checkRedo());
         binding.setRankEmpty(rankEmpty);
 
         binding.setNoteClick(this);
@@ -165,6 +170,7 @@ public final class TextFragment extends NoteFragmentParent {
                 final String textChanged = charSequence.toString();
                 if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
                     inputControl.onTextChange(textBefore);
+                    bind(true); // FIXME: 24.11.2018
                     textBefore = textChanged;
                 }
             }
@@ -229,7 +235,7 @@ public final class TextFragment extends NoteFragmentParent {
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
-        inputControl.listAll();
+        inputControl.listAll(); // FIXME: 24.11.2018 remove
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
@@ -269,7 +275,7 @@ public final class TextFragment extends NoteFragmentParent {
             noteCallback.setViewModel(viewModel);
 
             return true;
-        } else {
+        } else { // TODO: 22.11.2018 показывать тост только если автосохранение
             Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -299,9 +305,24 @@ public final class TextFragment extends NoteFragmentParent {
     }
 
     @Override
+    public void onUndoClick() {
+        Log.i(TAG, "onUndoClick");
+
+        InputItem inputItem = inputControl.undo();
+        bind(true);
+    }
+
+    @Override
+    public void onRedoClick() {
+        Log.i(TAG, "onRedoClick");
+
+        InputItem inputItem = inputControl.redo();
+        bind(true);
+    }
+
+    @Override
     public void onMenuCheckClick() {
         Log.i(TAG, "onMenuCheckClick");
-
     }
 
 }

@@ -31,6 +31,8 @@ import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.st.PageSt;
 
+// TODO: 22.11.2018 аннотация профессор
+
 public final class MainActivity extends BaseActivityParent implements MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 

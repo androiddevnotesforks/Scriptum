@@ -155,9 +155,11 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore) && p != -1) {
                 if (!TextUtils.isEmpty(textChanged)) {
                     inputIntf.onRollChange(p, textBefore);
+                    // TODO: 24.11.2018 Обновление Binding
                     textBefore = textChanged;
                 } else {
                     inputIntf.onRollRemove(p, textBefore);
+                    // TODO: 24.11.2018 Обновление Binding
                 }
             }
         }

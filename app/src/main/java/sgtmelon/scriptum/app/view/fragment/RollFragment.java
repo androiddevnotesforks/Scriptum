@@ -33,6 +33,7 @@ import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
@@ -98,6 +99,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             dragEnd = viewHolder.getAdapterPosition();
             if (dragStart != dragEnd) {
                 inputControl.onRollMove(dragStart, dragEnd);
+                bind(true); // FIXME: 24.11.2018
             }
         }
 
@@ -109,6 +111,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             final List<RollItem> listRoll = noteRepo.getListRoll();
 
             inputControl.onRollRemove(p, listRoll.get(p).getText());
+            bind(true); // FIXME: 24.11.2018
             listRoll.remove(p);
 
             noteRepo.setListRoll(listRoll);
@@ -233,6 +236,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteCallback.setViewModel(viewModel);
     }
 
+    // TODO: 24.11.2018 переделать на несколько классов
     @Override
     public void bind(boolean keyEdit) {
         Log.i(TAG, "bind: keyEdit=" + keyEdit + " | rankEmpty=" + rankEmpty);
@@ -241,7 +245,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
         binding.setEnterNotEmpty(!TextUtils.isEmpty(rollEnter.getText().toString()));
 
+        binding.setUndoAccess(inputControl.checkUndo());
+        binding.setRedoAccess(inputControl.checkRedo());
         binding.setRankEmpty(rankEmpty);
+
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
 
@@ -369,6 +376,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     : 0;
 
             inputControl.onRollAdd(p);
+            bind(true); // FIXME: 24.11.2018
 
             final RollItem rollItem = new RollItem();
             rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
@@ -512,7 +520,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public boolean onMenuSaveClick(boolean editModeChange) {
         Log.i(TAG, "onMenuSaveClick");
 
-        inputControl.listAll();
+        inputControl.listAll(); // FIXME: 24.11.2018 remove
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
@@ -592,7 +600,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             noteCallback.setViewModel(viewModel);
 
             return true;
-        } else {
+        } else { // TODO: 22.11.2018 показывать тост только если автосохранение
             Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -622,6 +630,22 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final SaveControl saveControl = noteCallback.getSaveControl();
         saveControl.setSaveHandlerEvent(editMode);
         noteCallback.setSaveControl(saveControl);
+    }
+
+    @Override
+    public void onUndoClick() {
+        Log.i(TAG, "onUndoClick");
+
+        InputItem inputItem = inputControl.undo();
+        bind(true);
+    }
+
+    @Override
+    public void onRedoClick() {
+        Log.i(TAG, "onRedoClick");
+
+        InputItem inputItem = inputControl.redo();
+        bind(true);
     }
 
     @Override

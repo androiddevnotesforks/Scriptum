@@ -37,20 +37,46 @@ public final class InputControl implements InputIntf {
         this.enable = enable;
     }
 
-    public InputItem undo() {
-        if (listInput.size() != 0) {
-            if (position != 0) position--;
-            return listInput.get(position);
+    /**
+     * Проверка доступна ли отмена
+     * @return - Есть куда возвращаться или нет
+     */
+    public boolean checkUndo(){
+        if (listInput.size() != 0){
+            return position != 0;
+        } else {
+            return false;
         }
-        return null;
+    }
+
+    public InputItem undo() {
+        if (checkUndo()){
+            position--;
+            return listInput.get(position);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Проверка доступен ли возврат
+     * @return - Есть куда возвращаться или нет
+     */
+    public boolean checkRedo(){
+        if (listInput.size() != 0){
+            return position != listInput.size() - 1;
+        } else {
+            return false;
+        }
     }
 
     public InputItem redo() {
-        if (listInput.size() != 0) {
-            if (position != listInput.size() - 1) position++;
+        if (checkRedo()){
+            position++;
             return listInput.get(position);
+        } else {
+            return null;
         }
-        return null;
     }
 
     private void add(InputItem inputItem) {
@@ -141,6 +167,7 @@ public final class InputControl implements InputIntf {
         add(inputItem);
     }
 
+    // FIXME: 24.11.2018 remove
     public void listAll() {
         Log.i(TAG, "listAll: ");
         for (InputItem inputItem : listInput) {

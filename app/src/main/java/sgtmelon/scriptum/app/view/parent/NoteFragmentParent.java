@@ -145,6 +145,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         outState.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
     }
 
+    // TODO: 24.11.2018 не правильно работает Binding input
     public abstract void bind(boolean keyEdit);
 
     @CallSuper
@@ -185,6 +186,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             final NoteItem noteItem = noteRepo.getNoteItem();
 
             inputControl.onColorChange(noteItem.getColor());
+            bind(true); // FIXME: 24.11.2018
 
             noteItem.setColor(check);
             noteRepo.setNoteItem(noteItem);
@@ -220,6 +222,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             final NoteItem noteItem = noteRepo.getNoteItem();
 
             inputControl.onRankChange(noteItem.getRankId());
+            bind(true); // FIXME: 24.11.2018
 
             noteItem.setRankId(rankId);
             noteItem.setRankPs(rankPs);
@@ -247,6 +250,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
                 final String textChanged = charSequence.toString();
                 if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
                     inputControl.onNameChange(textBefore);
+                    bind(true); // FIXME: 24.11.2018
                     textBefore = textChanged;
                 }
             }
