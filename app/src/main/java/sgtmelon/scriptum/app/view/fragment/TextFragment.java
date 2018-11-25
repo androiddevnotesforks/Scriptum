@@ -327,6 +327,7 @@ public final class TextFragment extends NoteFragmentParent {
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
+        inputControl.setEnable(false);
         final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
@@ -354,6 +355,7 @@ public final class TextFragment extends NoteFragmentParent {
             }
         }
 
+        inputControl.setEnable(true);
         bindInput();
     }
 
@@ -362,6 +364,7 @@ public final class TextFragment extends NoteFragmentParent {
     public void onRedoClick() {
         Log.i(TAG, "onRedoClick");
 
+        inputControl.setEnable(false);
         final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
@@ -389,6 +392,7 @@ public final class TextFragment extends NoteFragmentParent {
             }
         }
 
+        inputControl.setEnable(true);
         bindInput();
     }
 

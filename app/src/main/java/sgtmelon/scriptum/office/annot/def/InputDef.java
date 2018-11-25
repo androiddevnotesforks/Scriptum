@@ -10,10 +10,12 @@ import sgtmelon.scriptum.app.model.item.InputItem;
 @IntDef({
         InputDef.rank,
         InputDef.color,
+
         InputDef.name,
         InputDef.text,
-        InputDef.rollAdd,
         InputDef.roll,
+
+        InputDef.rollAdd,
         InputDef.rollSwipe,
         InputDef.rollMove
 })

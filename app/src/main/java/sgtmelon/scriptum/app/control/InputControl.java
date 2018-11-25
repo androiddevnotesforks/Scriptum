@@ -56,8 +56,7 @@ public final class InputControl implements InputIntf {
 
     public InputItem undo() {
         if (isUndoAccess()){
-            position--;
-            return listInput.get(position);
+            return listInput.get(--position);
         } else {
             return null;
         }
@@ -77,8 +76,7 @@ public final class InputControl implements InputIntf {
 
     public InputItem redo() {
         if (isRedoAccess()){
-            position++;
-            return listInput.get(position);
+            return listInput.get(++position);
         } else {
             return null;
         }
@@ -97,13 +95,14 @@ public final class InputControl implements InputIntf {
      * Если позиция не в конце, то удаление ненужной информации перед добавлением новой
      */
     private void remove() {
-        if (position < listInput.size() - 1) {
+        Log.i(TAG, "remove");
+
+        if (position != listInput.size() - 1) {
             if (position == 0) {
                 listInput.clear();
             } else {
-                final List<InputItem> subListInput = listInput.subList(0, position);
-                listInput.clear();
-                listInput.addAll(subListInput);
+                final int size = listInput.size();
+                listInput.subList(size - position, size).clear(); // TODO: 25.11.2018 проверить работу
             }
         }
     }
