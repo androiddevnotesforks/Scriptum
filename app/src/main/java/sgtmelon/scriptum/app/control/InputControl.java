@@ -37,17 +37,18 @@ public final class InputControl implements InputIntf {
         this.enable = enable;
     }
 
-    public void clear(){
+    public void clear() {
         listInput.clear();
         position = -1;
     }
 
     /**
      * Проверка доступна ли отмена
+     *
      * @return - Есть куда возвращаться или нет
      */
-    public boolean isUndoAccess(){
-        if (listInput.size() != 0){
+    public boolean isUndoAccess() {
+        if (listInput.size() != 0) {
             return position != 0;
         } else {
             return false;
@@ -55,7 +56,7 @@ public final class InputControl implements InputIntf {
     }
 
     public InputItem undo() {
-        if (isUndoAccess()){
+        if (isUndoAccess()) {
             return listInput.get(--position);
         } else {
             return null;
@@ -64,10 +65,11 @@ public final class InputControl implements InputIntf {
 
     /**
      * Проверка доступен ли возврат
+     *
      * @return - Есть куда возвращаться или нет
      */
-    public boolean isRedoAccess(){
-        if (listInput.size() != 0){
+    public boolean isRedoAccess() {
+        if (listInput.size() != 0) {
             return position != listInput.size() - 1;
         } else {
             return false;
@@ -75,7 +77,7 @@ public final class InputControl implements InputIntf {
     }
 
     public InputItem redo() {
-        if (isRedoAccess()){
+        if (isRedoAccess()) {
             return listInput.get(++position);
         } else {
             return null;
@@ -89,23 +91,26 @@ public final class InputControl implements InputIntf {
             listInput.add(inputItem);
             position++;
         }
+
+        listAll();
     }
 
     /**
      * Если позиция не в конце, то удаление ненужной информации перед добавлением новой
      */
     private void remove() {
-        Log.i(TAG, "remove");
+        final int positionEnd = listInput.size() - 1;
 
-        if (position != listInput.size() - 1) {
-            if (position == 0) {
-                listInput.clear();
-            } else {
-                final int size = listInput.size();
-                listInput.subList(size - position, size).clear(); // TODO: 25.11.2018 проверить работу
+        if (position != positionEnd) {
+            for (int i = positionEnd; i > position; i--) {
+                listInput.remove(i);
             }
         }
+
+        listAll();
     }
+
+    // TODO: 26.11.2018 Не правильно записывает текст, надо чтобы он записывал то, что было до, а не то что стало после
 
     @Override
     public void onRankChange(List<Long> rankId) {
@@ -173,9 +178,14 @@ public final class InputControl implements InputIntf {
 
     // FIXME: 24.11.2018 remove
     public void listAll() {
-        Log.i(TAG, "listAll: ");
-        for (InputItem inputItem : listInput) {
-            Log.i(TAG, inputItem.toString());
+        Log.i(TAG, "listAll:");
+        for (int i = 0; i < listInput.size(); i++) {
+            final InputItem inputItem = listInput.get(i);
+            final String ps = position == i
+                    ? " | ps=" + position
+                    : "";
+
+            Log.i(TAG, "i=" + i + " | " + inputItem.toString() + ps);
         }
     }
 

@@ -48,7 +48,7 @@
                 <ImageButton
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore"
-                        android:onClick='@{(v) -> deleteClick.onMenuRestoreClick()}'
+                        android:onClick='@{() -> deleteClick.onMenuRestoreClick()}'
                         android:tint="?attr/clIcon"
                         app:srcCompat="@drawable/ic_restore"/>
 
