@@ -40,8 +40,10 @@ import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollBinding;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
+import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
+import sgtmelon.scriptum.office.conv.StringConv;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.CheckSt;
 import sgtmelon.scriptum.office.st.DragListenerSt;
@@ -650,27 +652,55 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteCallback.setSaveControl(saveControl);
     }
 
-    // TODO: 25.11.2018 Доделать
     @Override
-    public void onUndoClick() {
-        Log.i(TAG, "onUndoClick");
+    public void onInputClick(boolean undo) {
+        Log.i(TAG, "onInputClick: undo=" + undo);
 
-        final InputItem inputItem = inputControl.undo();
+        inputControl.setEnable(false);
+        final InputItem inputItem = undo
+                ? inputControl.undo()
+                : inputControl.redo();
 
+        if (inputItem != null) {
+            NoteRepo noteRepo;
+            NoteItem noteItem;
 
+            switch (inputItem.getTag()) {
+                case InputDef.rank:
+                    final StringConv stringConv = new StringConv();
+                    final List<Long> rankId = stringConv.fromString(inputItem.getValueSecond());
 
-        bindInput();
-    }
+                    noteRepo = vm.getNoteRepo();
+                    noteItem = noteRepo.getNoteItem();
 
-    // TODO: 25.11.2018 Доделать
-    @Override
-    public void onRedoClick() {
-        Log.i(TAG, "onRedoClick");
+                    noteItem.setRankId(rankId);
+                    noteRepo.setNoteItem(noteItem);
+                    vm.setNoteRepo(noteRepo);
+                    break;
+                case InputDef.color:
+                    final int color = Integer.parseInt(inputItem.getValueSecond());
 
-        final InputItem inputItem = inputControl.redo();
+                    noteRepo = vm.getNoteRepo();
+                    noteItem = noteRepo.getNoteItem();
 
+                    menuControl.setStartColor(noteItem.getColor());
 
+                    noteItem.setColor(color);
+                    noteRepo.setNoteItem(noteItem);
+                    vm.setNoteRepo(noteRepo);
 
+                    menuControl.startTint(color);
+                    break;
+                case InputDef.name:
+                    nameEnter.setText(inputItem.getValueSecond());
+                    break;
+                case InputDef.text:
+//                    textEnter.setText(inputItem.getValueSecond());
+                    break;
+            }
+        }
+
+        inputControl.setEnable(true);
         bindInput();
     }
 

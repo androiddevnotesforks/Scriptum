@@ -25,9 +25,7 @@ public interface MenuIntf {
              */
             boolean onMenuSaveClick(boolean editModeChange, boolean showToast);
 
-            void onUndoClick();
-
-            void onRedoClick();
+            void onInputClick(boolean undo);
 
             void onMenuRankClick();
 

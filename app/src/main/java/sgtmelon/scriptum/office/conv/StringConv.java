@@ -16,7 +16,7 @@ public final class StringConv {
 
     @TypeConverter
     public List<Long> fromString(String value) {
-        if (!value.equals(DbAnn.none)) {
+        if (!value.equals(DbAnn.none) && !value.equals("")) {
             final String[] stringArray = value.split(DbAnn.divider);
             final List<Long> longList = new ArrayList<>();
 
