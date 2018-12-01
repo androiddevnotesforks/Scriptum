@@ -25,6 +25,7 @@ public interface MenuIntf {
              */
             boolean onMenuSaveClick(boolean editModeChange, boolean showToast);
 
+            // TODO: 01.12.2018  Заменить на два метода, как было до этого onUndoClick, onRedoClick. Дальше будет сложно ориентироваться, много разветвлений для одного метода
             void onInputClick(boolean undo);
 
             void onMenuRankClick();

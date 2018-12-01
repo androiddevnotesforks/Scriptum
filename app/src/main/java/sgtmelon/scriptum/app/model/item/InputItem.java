@@ -8,7 +8,17 @@ import sgtmelon.scriptum.office.annot.def.InputDef;
 /**
  * Модель для {@link InputControl}
  */
-public class InputItem {
+public final class InputItem {
+
+    /**
+     * TODO: 01.12.2018  Переделать. Так как не сохраняется значения до изменения и после.
+     * <p>
+     * TODO: 01.12.2018  В самом начале редактирования не сохраняется значение, которое было изначально
+     * TODO: 01.12.2018  В конце редактирования, после нажатия Undo не сохраняется последнее значение
+     * <p>
+     * TODO: 01.12.2018  Переделать {@link #valueFirst} и {@link #valueSecond} в fromValue, toValue
+     * TODO: 01.12.2018  Подумай как это лучше реализовать со списками
+     */
 
     public final int tag;
 
@@ -41,4 +51,5 @@ public class InputItem {
     public String toString() {
         return tag + " | " + (valueFirst == null ? "" : valueFirst + " - ") + valueSecond;
     }
+
 }
