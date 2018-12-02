@@ -111,12 +111,14 @@ public final class DialogFindModule {
 
         switch (HelpUtils.Pref.getTheme(context)) {
             case ThemeDef.light:
-                colorDialog.setIcons(ColorAnn.ic_light);
-                colorDialog.setColors(ColorAnn.cl_dark);
+                colorDialog.setFillColor(ColorAnn.cl_light);
+                colorDialog.setStrokeColor(ColorAnn.cl_dark);
+                colorDialog.setCheckColor(ColorAnn.cl_dark);
                 break;
             case ThemeDef.dark:
-                colorDialog.setIcons(ColorAnn.ic_dark);
-                colorDialog.setColors(ColorAnn.cl_light);
+                colorDialog.setFillColor(ColorAnn.cl_dark);
+                colorDialog.setStrokeColor(ColorAnn.cl_dark);
+                colorDialog.setCheckColor(ColorAnn.cl_light);
                 break;
         }
 

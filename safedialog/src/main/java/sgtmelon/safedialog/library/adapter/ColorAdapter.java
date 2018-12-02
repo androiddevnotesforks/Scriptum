@@ -1,15 +1,13 @@
 package sgtmelon.safedialog.library.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
-import java.util.Arrays;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
@@ -21,26 +19,37 @@ import sgtmelon.safedialog.office.intf.ColorIntf;
 public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
     private final Context context;
+    private final int count;
     private final LayoutInflater inflater;
 
-    private final boolean[] visible;
-
-    @IdRes private final int[] icons, colors;
-
+    @IdRes private int[] fillColor, strokeColor, checkColor;
     private int check;
+    private boolean[] visible;
+
     private ColorIntf.ClickListener clickListener;
 
-    public ColorAdapter(Context context, int check, int[] icons, int[] colors) {
+    public ColorAdapter(Context context, int count) {
         this.context = context;
-        this.check = check;
-
-        this.icons = icons;
-        this.colors = colors;
+        this.count = count;
 
         inflater = LayoutInflater.from(context);
+    }
 
+    public void setFillColor(int[] fillColor) {
+        this.fillColor = fillColor;
+    }
+
+    public void setStrokeColor(int[] strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+
+    public void setCheckColor(int[] checkColor) {
+        this.checkColor = checkColor;
+    }
+
+    public void setCheck(int check) {
+        this.check = check;
         visible = new boolean[getItemCount()];
-        Arrays.fill(visible, false);
         visible[check] = true;
     }
 
@@ -57,12 +66,19 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
     @Override
     public void onBindViewHolder(@NonNull ColorHolder holder, int position) {
-        final Drawable bg = ContextCompat.getDrawable(context, icons[position]);
-        final int cl = ContextCompat.getColor(context, colors[position]);
+        final int fillColor = ContextCompat.getColor(context, this.fillColor[position]);
+        final int strokeColor = ContextCompat.getColor(context, this.strokeColor[position]);
+        final int checkColor = ContextCompat.getColor(context, this.checkColor[position]);
 
-        holder.clBackground.setBackground(bg);
-        holder.clCheck.setColorFilter(cl);
+        if (holder.clBackground.getBackground() instanceof GradientDrawable) {
+            final GradientDrawable drawable = (GradientDrawable) holder.clBackground.getBackground();
+            drawable.setColor(fillColor);
+            drawable.setStroke(2, strokeColor); // TODO: 02.12.2018 1dp
+        }
 
+        holder.clCheck.setColorFilter(checkColor);
+
+        // TODO: 02.12.2018 без использования анимации xml, другой вид анимации
         if (visible[position]) {                            //Если отметка видна
             if (this.check == position) {                   //Если текущая позиция совпадает с выбранным цветом
                 holder.clCheck.setVisibility(View.VISIBLE);
@@ -77,7 +93,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
     @Override
     public int getItemCount() {
-        return icons.length;
+        return count;
     }
 
     final class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener,

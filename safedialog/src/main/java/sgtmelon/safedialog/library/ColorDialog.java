@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,7 +20,7 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
 
     private int init, check;
 
-    private int[] icons, colors;
+    @IdRes private int[] fillColor, strokeColor, checkColor;
     private int columnCount;
 
     public void setArguments(int check) {
@@ -52,8 +53,13 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
 
         recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
 
-        final ColorAdapter adapter = new ColorAdapter(context, check, icons, colors);
+        final ColorAdapter adapter = new ColorAdapter(context, fillColor.length);
+        adapter.setFillColor(fillColor);
+        adapter.setStrokeColor(strokeColor);
+        adapter.setCheckColor(checkColor);
+        adapter.setCheck(check);
         adapter.setClickListener(this);
+
         recyclerView.setAdapter(adapter);
 
         final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
@@ -80,12 +86,16 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
         this.columnCount = columnCount;
     }
 
-    public void setIcons(int[] icons) {
-        this.icons = icons;
+    public void setFillColor(int[] fillColor) {
+        this.fillColor = fillColor;
     }
 
-    public void setColors(int[] colors) {
-        this.colors = colors;
+    public void setStrokeColor(int[] strokeColor) {
+        this.strokeColor = strokeColor;
+    }
+
+    public void setCheckColor(int[] checkColor) {
+        this.checkColor = checkColor;
     }
 
     public int getCheck() {

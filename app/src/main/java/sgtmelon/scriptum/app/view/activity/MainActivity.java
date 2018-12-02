@@ -69,6 +69,15 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         }
 
         setupNavigation(page);
+
+        // FIXME: 02.12.2018 delete
+//        final View cl = findViewById(R.id.view_for_test);
+//        final GradientDrawable myGrad = (GradientDrawable) cl.getBackground();
+//
+//        final int color = ContextCompat.getColor(this, R.color.note_green_dark);
+//        myGrad.setColor(color);
+//        myGrad.setStroke(2, color);
+
     }
 
     @Override
