@@ -2,6 +2,8 @@ package sgtmelon.safedialog.library.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import androidx.annotation.Dimension;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -20,6 +23,8 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
     private final Context context;
     private final int count;
+    @Dimension private final int strokeDimen;
+
     private final LayoutInflater inflater;
 
     @IdRes private int[] fillColor, strokeColor, checkColor;
@@ -33,6 +38,9 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
         this.count = count;
 
         inflater = LayoutInflater.from(context);
+
+        final DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        strokeDimen = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, metrics);
     }
 
     public void setFillColor(int[] fillColor) {
@@ -49,6 +57,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
     public void setCheck(int check) {
         this.check = check;
+
         visible = new boolean[getItemCount()];
         visible[check] = true;
     }
@@ -73,7 +82,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
         if (holder.clBackground.getBackground() instanceof GradientDrawable) {
             final GradientDrawable drawable = (GradientDrawable) holder.clBackground.getBackground();
             drawable.setColor(fillColor);
-            drawable.setStroke(2, strokeColor); // TODO: 02.12.2018 1dp
+            drawable.setStroke(strokeDimen, strokeColor);
         }
 
         holder.clCheck.setColorFilter(checkColor);

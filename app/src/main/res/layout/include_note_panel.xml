@@ -77,7 +77,7 @@
 
                 <ImageButton
                         style="@style/Enter.Button"
-                        android:onClick='@{() -> noteClick.onInputClick(true)}'
+                        android:onClick='@{() -> noteClick.onUndoClick()}'
                         android:contentDescription="@null"
                         app:boolExpression='@{undoAccess}'
                         app:enabled='@{undoAccess}'
@@ -88,7 +88,7 @@
 
                 <ImageButton
                         style="@style/Enter.Button"
-                        android:onClick='@{() -> noteClick.onInputClick(false)}'
+                        android:onClick='@{() -> noteClick.onRedoClick()}'
                         android:contentDescription="@null"
                         app:boolExpression='@{redoAccess}'
                         app:enabled='@{redoAccess}'

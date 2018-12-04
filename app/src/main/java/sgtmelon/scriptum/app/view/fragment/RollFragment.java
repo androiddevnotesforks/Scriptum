@@ -652,8 +652,22 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteCallback.setSaveControl(saveControl);
     }
 
+    // TODO: 04.12.2018 доделать
     @Override
-    public void onInputClick(boolean undo) {
+    public void onUndoClick() {
+        Log.i(TAG, "onUndoClick");
+
+        onInputClick(true);
+    }
+
+    @Override
+    public void onRedoClick() {
+        Log.i(TAG, "onRedoClick");
+
+        onInputClick(false);
+    }
+
+    private void onInputClick(boolean undo) {
         Log.i(TAG, "onInputClick: undo=" + undo);
 
         inputControl.setEnable(false);

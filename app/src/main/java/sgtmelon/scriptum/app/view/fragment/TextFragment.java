@@ -323,10 +323,22 @@ public final class TextFragment extends NoteFragmentParent {
         noteCallback.setSaveControl(saveControl);
     }
 
+    // TODO: 04.12.2018 доделать
     @Override
-    public void onInputClick(boolean undo) {
-        Log.i(TAG, "onInputClick: undo=" + undo);
+    public void onUndoClick() {
+        Log.i(TAG, "onUndoClick");
 
+        onInputClick(true);
+    }
+
+    @Override
+    public void onRedoClick() {
+        Log.i(TAG, "onRedoClick");
+
+        onInputClick(false);
+    }
+
+    private void onInputClick(boolean undo){
         inputControl.setEnable(false);
         final InputItem inputItem = undo
                 ? inputControl.undo()

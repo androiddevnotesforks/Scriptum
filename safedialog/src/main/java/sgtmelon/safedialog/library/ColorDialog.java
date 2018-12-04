@@ -45,6 +45,14 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
             check = bundle.getInt(DialogAnn.VALUE);
         }
 
+        if (fillColor == null || strokeColor == null || checkColor == null){
+            throw new NullPointerException("One of color arrays is null");
+        }
+
+        if (fillColor.length != strokeColor.length && strokeColor.length != checkColor.length){
+            throw new ArrayIndexOutOfBoundsException("Color arrays should have equal length");
+        }
+
         final RecyclerView recyclerView = new RecyclerView(context);
 
         final int padding = 24;
