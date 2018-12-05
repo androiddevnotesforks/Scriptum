@@ -42,7 +42,7 @@ public final class SplashActivity extends AppCompatActivity {
     private void startNormal() {
         Log.i(TAG, "startNormal");
 
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this); // TODO: 02.10.2018 вынести в PrefUtils
 
         final boolean firstStart = pref.getBoolean(getString(R.string.pref_first_start),
                 getResources().getBoolean(R.bool.pref_first_start_default));

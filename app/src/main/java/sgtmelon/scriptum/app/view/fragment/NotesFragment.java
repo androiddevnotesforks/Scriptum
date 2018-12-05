@@ -46,6 +46,7 @@ import sgtmelon.scriptum.office.annot.def.OptionsDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
+import sgtmelon.scriptum.office.utils.ColorUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
@@ -131,7 +132,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final Menu menu = toolbar.getMenu();
         MenuItem mItemSettings = menu.findItem(R.id.preference_item);
 
-        HelpUtils.Tint.menuIcon(context, mItemSettings);
+        ColorUtils.tintMenuIcon(context, mItemSettings);
     }
 
     private void setupRecycler() {

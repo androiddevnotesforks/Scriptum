@@ -23,7 +23,7 @@ import sgtmelon.scriptum.element.SortDialog;
 import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 @Module
 public final class DialogFindModule {
@@ -109,7 +109,7 @@ public final class DialogFindModule {
         ColorDialog colorDialog = (ColorDialog) fm.findFragmentByTag(DialogDef.COLOR);
         if (colorDialog == null) colorDialog = new ColorDialog();
 
-        switch (HelpUtils.Pref.getTheme(context)) {
+        switch (PrefUtils.getTheme(context)) {
             case ThemeDef.light:
                 colorDialog.setFillColor(ColorAnn.cl_light);
                 colorDialog.setStrokeColor(ColorAnn.cl_dark);

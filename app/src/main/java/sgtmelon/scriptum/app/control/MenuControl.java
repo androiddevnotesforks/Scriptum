@@ -14,7 +14,8 @@ import sgtmelon.iconanim.office.intf.AnimIntf;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.ColorUtils;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 /**
  * Класс для контроля меню
@@ -41,20 +42,21 @@ public class MenuControl implements AnimIntf {
         this.context = context;
         this.window = window;
 
-        valTheme = HelpUtils.Pref.getTheme(context);
+        valTheme = PrefUtils.getTheme(context);
 
         final ValueAnimator.AnimatorUpdateListener updateListener = animator -> {
             final float position = animator.getAnimatedFraction();
 
-            int blended = HelpUtils.Clr.blend(statusStartColor, statusEndColor, position);
+            int blended = ColorUtils.blend(statusStartColor, statusEndColor, position);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && valTheme != ThemeDef.dark) {
                 window.setStatusBarColor(blended);
             }
 
+            // TODO: 05.12.2018 не красится в тёмной теме
             ColorDrawable background = new ColorDrawable(blended);
             indicator.setBackground(background);
 
-            blended = HelpUtils.Clr.blend(toolbarStartColor, toolbarEndColor, position);
+            blended = ColorUtils.blend(toolbarStartColor, toolbarEndColor, position);
             background = new ColorDrawable(blended);
 
             if (valTheme != ThemeDef.dark) {
@@ -82,11 +84,11 @@ public class MenuControl implements AnimIntf {
     public final void setColor(@ColorDef int color) {
         if (valTheme != ThemeDef.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.setStatusBarColor(HelpUtils.Clr.get(context, color, true));
+                window.setStatusBarColor(ColorUtils.get(context, color, true));
             }
-            toolbar.setBackgroundColor(HelpUtils.Clr.get(context, color, false));
+            toolbar.setBackgroundColor(ColorUtils.get(context, color, false));
         }
-        indicator.setBackgroundColor(HelpUtils.Clr.get(context, color, true));
+        indicator.setBackgroundColor(ColorUtils.get(context, color, true));
 
         setStartColor(color);
     }
@@ -97,8 +99,8 @@ public class MenuControl implements AnimIntf {
      * @param color - Начальный цвет
      */
     public final void setStartColor(@ColorDef int color) {
-        statusStartColor = HelpUtils.Clr.get(context, color, true);
-        toolbarStartColor = HelpUtils.Clr.get(context, color, false);
+        statusStartColor = ColorUtils.get(context, color, true);
+        toolbarStartColor = ColorUtils.get(context, color, false);
     }
 
     /**
@@ -107,8 +109,8 @@ public class MenuControl implements AnimIntf {
      * @param color - конечный цвет
      */
     public final void startTint(@ColorDef int color) {
-        statusEndColor = HelpUtils.Clr.get(context, color, true);
-        toolbarEndColor = HelpUtils.Clr.get(context, color, false);
+        statusEndColor = ColorUtils.get(context, color, true);
+        toolbarEndColor = ColorUtils.get(context, color, false);
 
         if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
             anim.start();
@@ -117,8 +119,8 @@ public class MenuControl implements AnimIntf {
 
     @CallSuper
     public void setupDrawable() {
-        cancelOn = HelpUtils.Draw.get(context, R.drawable.ic_cancel_on, R.attr.clIcon);
-        cancelOff = HelpUtils.Draw.get(context, R.drawable.ic_cancel_off, R.attr.clIcon);
+        cancelOn = ColorUtils.getDrawable(context, R.drawable.ic_cancel_on, R.attr.clIcon);
+        cancelOff = ColorUtils.getDrawable(context, R.drawable.ic_cancel_off, R.attr.clIcon);
     }
 
     @Override

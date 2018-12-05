@@ -18,7 +18,7 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
-import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.ColorUtils;
 
 /**
  * Управление закреплением заметки в статус баре {@link NoteRepo}
@@ -78,7 +78,7 @@ public final class StatusItem {
 
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(icon)
-                .setColor(HelpUtils.Clr.get(context, noteItem.getColor(), true))
+                .setColor(ColorUtils.get(context, noteItem.getColor(), true))
                 .setContentTitle(noteItem.getName(context))
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)

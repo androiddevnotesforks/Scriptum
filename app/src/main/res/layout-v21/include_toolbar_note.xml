@@ -7,7 +7,6 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-        <import type="sgtmelon.scriptum.office.utils.HelpUtils.Pref"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
         <variable name="keyEdit" type="boolean"/>
@@ -29,6 +28,8 @@
                 app:contentInsetRight="@dimen/layout_8dp"
                 app:contentInsetStart="@dimen/layout_8dp"
                 app:popupTheme="?attr/themePopup">
+
+            <!-- TODO: 05.12.2018 добавить паддинг в конце -->
 
             <FrameLayout
                     android:layout_width="match_parent"
@@ -69,7 +70,7 @@
         <View
                 android:id="@+id/color_view"
                 style="@style/NoteItem.Color.Horizontal"
-                android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
+                app:visibleOn='@{def.dark}'
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>
 

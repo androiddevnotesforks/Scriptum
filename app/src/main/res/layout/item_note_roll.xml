@@ -7,7 +7,6 @@
 
         <import alias="v" type="android.view.View"/>
         <import alias="text" type="android.text.TextUtils"/>
-        <import type="sgtmelon.scriptum.office.utils.HelpUtils.Pref"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
@@ -72,7 +71,7 @@
                         android:contentDescription="@null"
                         app:noteColor='@{noteItem.color}'
                         app:viewOnDark='@{true}'
-                        android:visibility='@{Pref.getTheme(context) == def.dark ? v.VISIBLE : v.GONE}'
+                        app:visibleOn='@{def.dark}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="visible"/>
 

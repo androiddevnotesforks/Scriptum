@@ -37,7 +37,7 @@ public final class SaveControl {
     public SaveControl(Context context) {
         this.context = context;
 
-        final SharedPreferences pref = PrefUtils.getInstance(context);
+        final SharedPreferences pref = PrefUtils.getInstance(context); // TODO: 02.10.2018 вынести в PrefUtils
         final Resources resources = context.getResources();
 
         saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), resources.getBoolean(R.bool.pref_auto_save_default));

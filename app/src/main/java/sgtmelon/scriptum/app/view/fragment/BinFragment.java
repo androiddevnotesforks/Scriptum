@@ -45,6 +45,7 @@ import sgtmelon.scriptum.office.annot.def.OptionsDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.OpenSt;
+import sgtmelon.scriptum.office.utils.ColorUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
@@ -148,7 +149,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final Menu menu = toolbar.getMenu();
         mItemClearBin = menu.findItem(R.id.clear_item);
 
-        HelpUtils.Tint.menuIcon(context, mItemClearBin);
+        ColorUtils.tintMenuIcon(context, mItemClearBin);
 
         dlgClearBin.setPositiveListener((dialogInterface, i) -> {
             db = RoomDb.provideDb(context);

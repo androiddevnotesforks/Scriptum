@@ -4,7 +4,7 @@ package sgtmelon.scriptum.office.utils;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.util.TypedValue;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,8 +14,6 @@ import androidx.annotation.DrawableRes;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
-import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.office.annot.ColorAnn;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
@@ -37,8 +35,8 @@ public final class BindUtils {
         final Context context = imageButton.getContext();
 
         imageButton.setColorFilter(boolExpression
-                        ? ColorUtils.get(context, trueColor)
-                        : ColorUtils.get(context, falseColor),
+                        ? sgtmelon.scriptum.office.utils.ColorUtils.get(context, trueColor)
+                        : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor),
                 PorterDuff.Mode.SRC_ATOP
         );
     }
@@ -49,8 +47,8 @@ public final class BindUtils {
         final Context context = textView.getContext();
 
         textView.setTextColor(boolExpression
-                ? ColorUtils.get(context, trueColor)
-                : ColorUtils.get(context, falseColor)
+                ? sgtmelon.scriptum.office.utils.ColorUtils.get(context, trueColor)
+                : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor)
         );
     }
 
@@ -59,7 +57,7 @@ public final class BindUtils {
         final Context context = cardView.getContext();
 
         cardView.setCardBackgroundColor(
-                ColorUtils.get(context, color, false)
+                sgtmelon.scriptum.office.utils.ColorUtils.get(context, color, false)
         );
     }
 
@@ -69,7 +67,7 @@ public final class BindUtils {
         final Context context = imageView.getContext();
 
         imageView.setColorFilter(
-                ColorUtils.get(context, color, viewOnDark),
+                sgtmelon.scriptum.office.utils.ColorUtils.get(context, color, viewOnDark),
                 PorterDuff.Mode.SRC_ATOP
         );
     }
@@ -82,7 +80,7 @@ public final class BindUtils {
 
         if (drawable != null) {
             imageView.setImageDrawable(drawable);
-            imageView.setColorFilter(ColorUtils.get(context, color), PorterDuff.Mode.SRC_ATOP);
+            imageView.setColorFilter(sgtmelon.scriptum.office.utils.ColorUtils.get(context, color), PorterDuff.Mode.SRC_ATOP);
         }
     }
 
@@ -107,9 +105,9 @@ public final class BindUtils {
 
         imageButton.setColorFilter(boolExpression
                         ? extraExpression
-                        ? ColorUtils.get(context, trueColor)
-                        : ColorUtils.get(context, falseColor)
-                        : ColorUtils.get(context, falseColor),
+                        ? sgtmelon.scriptum.office.utils.ColorUtils.get(context, trueColor)
+                        : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor)
+                        : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor),
                 PorterDuff.Mode.SRC_ATOP
         );
 
@@ -121,39 +119,14 @@ public final class BindUtils {
         imageButton.setEnabled(enabled);
     }
 
-    public static final class ColorUtils {
+    @BindingAdapter("visibleOn")
+    public static void setVisibility(View view, @ThemeDef int visibleTheme) {
+        final Context context = view.getContext();
+        final int currentTheme = PrefUtils.getTheme(context);
 
-        /**
-         * Получение цвета заметки в зависимости от темы и заднего фона
-         *
-         * @param color  - Идентификатор цвета заметки
-         * @param onDark - Если элемент находится на тёмном фоне (например индикатор цвета заметки
-         * @return - Один из стандартных цветов приложения
-         */
-        public static int get(Context context, @ColorDef int color, boolean onDark) {
-            switch (HelpUtils.Pref.getTheme(context)) {
-                case ThemeDef.light:
-                    return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
-                case ThemeDef.dark:
-                default:
-                    return onDark
-                            ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])
-                            : get(context, R.attr.clPrimary);
-            }
-        }
-
-        /**
-         * Получение цвета по аттрибуту
-         *
-         * @param attr - Аттрибут цвета
-         * @return - Цвет в записимости от отрибута
-         */
-        public static int get(Context context, @AttrRes int attr) {
-            final TypedValue typedValue = new TypedValue();
-            context.getTheme().resolveAttribute(attr, typedValue, true);
-            return ContextCompat.getColor(context, typedValue.resourceId);
-        }
-
+        view.setVisibility(currentTheme == visibleTheme
+                ? View.VISIBLE
+                : View.GONE);
     }
 
 }

@@ -32,7 +32,7 @@ import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.SortDef;
 import sgtmelon.scriptum.office.st.OpenSt;
-import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 public final class PreferenceFragment extends android.preference.PreferenceFragment {
 
@@ -53,7 +53,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
     SingleDialog dlgTheme;
 
     private PreferenceActivity activity;
-    private SharedPreferences pref; // TODO: 02.10.2018 синглтон
+    private SharedPreferences pref; // TODO: 02.10.2018 вынести в PrefUtils
     private Preference prefSort;
     private String valSort;
     private Preference prefColor;
@@ -120,7 +120,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         prefSort = findPreference(getString(R.string.pref_key_sort));
         valSort = pref.getString(getString(R.string.pref_key_sort), SortDef.def);
-        prefSort.setSummary(HelpUtils.Pref.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), SortDef.def)));
+        prefSort.setSummary(PrefUtils.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), SortDef.def)));
         prefSort.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
@@ -135,14 +135,14 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             valSort = sortDialog.getKeys();
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            final String summary = HelpUtils.Pref.getSortSummary(activity, valSort);
+            final String summary = PrefUtils.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setNeutralListener((dialogInterface, i) -> {
             valSort = SortDef.def;
             pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
 
-            final String summary = HelpUtils.Pref.getSortSummary(activity, valSort);
+            final String summary = PrefUtils.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
