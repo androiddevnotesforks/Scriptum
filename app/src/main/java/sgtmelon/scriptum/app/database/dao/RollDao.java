@@ -38,19 +38,19 @@ public abstract class RollDao extends BaseDao {
 
         int p = 0;
         for (String aText : text) {
-            if (!TextUtils.isEmpty(aText)) {
-                final RollItem rollItem = new RollItem();
-                rollItem.setIdNote(idNote);
-                rollItem.setPosition(p++);
-                rollItem.setCheck(false);
-                rollItem.setText(aText);
-                rollItem.setExist(true);
+            if (TextUtils.isEmpty(aText)) continue;
 
-                final long id = insert(rollItem);
-                rollItem.setId(id);
+            final RollItem rollItem = new RollItem();
+            rollItem.setIdNote(idNote);
+            rollItem.setPosition(p++);
+            rollItem.setCheck(false);
+            rollItem.setText(aText);
+            rollItem.setExist(true);
 
-                listRoll.add(rollItem);
-            }
+            final long id = insert(rollItem);
+            rollItem.setId(id);
+
+            listRoll.add(rollItem);
         }
 
         return listRoll;

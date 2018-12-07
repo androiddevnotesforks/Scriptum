@@ -29,11 +29,10 @@
                 app:contentInsetStart="@dimen/layout_8dp"
                 app:popupTheme="?attr/themePopup">
 
-            <!-- TODO: 05.12.2018 добавить паддинг в конце -->
-
             <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/layout_24dp">
 
                 <EditText
                         android:id="@+id/name_enter"

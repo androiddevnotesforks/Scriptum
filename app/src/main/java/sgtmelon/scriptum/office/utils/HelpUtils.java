@@ -78,6 +78,7 @@ public final class HelpUtils {
                     rollCheck++;
                 }
             }
+
             return rollCheck;
         }
 
@@ -86,16 +87,15 @@ public final class HelpUtils {
          * @return - Все ли пункты отмечены
          */
         public static boolean isAllCheck(List<RollItem> listRoll) {
-            if (listRoll.size() != 0) {
-                for (RollItem rollItem : listRoll) {
-                    if (!rollItem.isCheck()) {
-                        return false;
-                    }
+            if (listRoll.size() == 0) return false;
+
+            for (RollItem rollItem : listRoll) {
+                if (!rollItem.isCheck()) {
+                    return false;
                 }
-                return true;
-            } else {
-                return false;
             }
+
+            return true;
         }
 
     }

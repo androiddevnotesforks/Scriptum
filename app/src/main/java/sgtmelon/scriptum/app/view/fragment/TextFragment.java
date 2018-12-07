@@ -196,11 +196,10 @@ public final class TextFragment extends NoteFragmentParent {
         });
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_NEXT) {
-                textEnter.requestFocus();
-                return true;
-            }
-            return false;
+            if (i != EditorInfo.IME_ACTION_NEXT) return false;
+
+            textEnter.requestFocus();
+            return true;
         });
     }
 

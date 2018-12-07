@@ -48,11 +48,10 @@ public class MenuControl implements AnimIntf {
             final float position = animator.getAnimatedFraction();
 
             int blended = ColorUtils.blend(statusStartColor, statusEndColor, position);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && valTheme != ThemeDef.dark) {
+            if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.setStatusBarColor(blended);
             }
 
-            // TODO: 05.12.2018 не красится в тёмной теме
             ColorDrawable background = new ColorDrawable(blended);
             indicator.setBackground(background);
 
@@ -106,13 +105,13 @@ public class MenuControl implements AnimIntf {
     /**
      * Покраска UI элементов с анимацией
      *
-     * @param color - конечный цвет
+     * @param color - Конечный цвет
      */
     public final void startTint(@ColorDef int color) {
         statusEndColor = ColorUtils.get(context, color, true);
         toolbarEndColor = ColorUtils.get(context, color, false);
 
-        if (statusStartColor != statusEndColor && toolbarStartColor != toolbarEndColor) {
+        if (statusStartColor != statusEndColor) {
             anim.start();
         }
     }

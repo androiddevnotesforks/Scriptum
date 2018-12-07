@@ -238,15 +238,15 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         });
 
         rankEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_DONE) {
-                final String name = rankEnter.getText().toString().toUpperCase();
+            if (i != EditorInfo.IME_ACTION_DONE) return false;
 
-                if (!TextUtils.isEmpty(name) && !vm.getRankRepo().getListName().contains(name)) {
-                    onClick(rankAdd);
-                }
-                return true;
+            final String name = rankEnter.getText().toString().toUpperCase();
+
+            if (!TextUtils.isEmpty(name) && !vm.getRankRepo().getListName().contains(name)) {
+                onClick(rankAdd);
             }
-            return false;
+
+            return true;
         });
 
         rankCancel.setOnClickListener(this);

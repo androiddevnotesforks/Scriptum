@@ -167,12 +167,18 @@ public abstract class NoteDao extends BaseDao {
                     "CH: " + noteItem.getChange() + "\n");
 
             final String name = noteItem.getName();
-            if (!TextUtils.isEmpty(name)) textView.append("NM: " + name + "\n");
+            if (!TextUtils.isEmpty(name)) {
+                textView.append("NM: " + name + "\n");
+            }
 
             final String text = noteItem.getText();
             textView.append("TX: " + text.substring(0, Math.min(text.length(), 45))
                     .replace("\n", " "));
-            if (text.length() > 40) textView.append("...");
+
+            if (text.length() > 40) {
+                textView.append("...");
+            }
+
             textView.append("\n");
 
             textView.append("CL: " + noteItem.getColor() + " | " +

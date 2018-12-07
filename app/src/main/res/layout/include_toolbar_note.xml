@@ -31,7 +31,9 @@
 
             <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/layout_24dp"
+                    android:layout_marginEnd="@dimen/layout_24dp">
 
                 <EditText
                         android:id="@+id/name_enter"

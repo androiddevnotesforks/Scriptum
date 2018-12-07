@@ -32,7 +32,9 @@ public final class DialogFindModule {
     @ArchScope
     RenameDialog provideRenameDialog(Context context, FragmentManager fm) {
         RenameDialog renameDialog = (RenameDialog) fm.findFragmentByTag(DialogDef.RENAME);
-        if (renameDialog == null) renameDialog = new RenameDialog();
+        if (renameDialog == null) {
+            renameDialog = new RenameDialog();
+        }
 
         final Resources.Theme theme = context.getTheme();
         final TypedValue attrs = new TypedValue();
@@ -53,7 +55,9 @@ public final class DialogFindModule {
     @ArchScope
     SheetDialog provideSheetDialog(FragmentManager fm) {
         SheetDialog sheetDialogAdd = (SheetDialog) fm.findFragmentByTag(DialogDef.SHEET);
-        if (sheetDialogAdd == null) sheetDialogAdd = new SheetDialog();
+        if (sheetDialogAdd == null) {
+            sheetDialogAdd = new SheetDialog();
+        }
         return sheetDialogAdd;
     }
 
@@ -61,7 +65,9 @@ public final class DialogFindModule {
     @ArchScope
     OptionsDialog provideOptionsDialog(FragmentManager fm) {
         OptionsDialog optionsDialog = (OptionsDialog) fm.findFragmentByTag(DialogDef.OPTIONS);
-        if (optionsDialog == null) optionsDialog = new OptionsDialog();
+        if (optionsDialog == null) {
+            optionsDialog = new OptionsDialog();
+        }
 
         return optionsDialog;
     }
@@ -71,7 +77,9 @@ public final class DialogFindModule {
     @Named(DialogDef.CLEAR_BIN)
     MessageDialog provideClearBinDialog(Context context, FragmentManager fm) {
         MessageDialog dlgClearBin = (MessageDialog) fm.findFragmentByTag(DialogDef.CLEAR_BIN);
-        if (dlgClearBin == null) dlgClearBin = new MessageDialog();
+        if (dlgClearBin == null) {
+            dlgClearBin = new MessageDialog();
+        }
 
         dlgClearBin.setTitle(context.getString(R.string.dialog_title_clear_bin));
         dlgClearBin.setMessage(context.getString(R.string.dialog_text_clear_bin));
@@ -84,7 +92,9 @@ public final class DialogFindModule {
     @Named(DialogDef.CONVERT)
     MessageDialog provideConvertDialog(Context context, FragmentManager fm) {
         MessageDialog dlgConvert = (MessageDialog) fm.findFragmentByTag(DialogDef.CONVERT);
-        if (dlgConvert == null) dlgConvert = new MessageDialog();
+        if (dlgConvert == null) {
+            dlgConvert = new MessageDialog();
+        }
 
         dlgConvert.setTitle(context.getString(R.string.dialog_title_convert));
 
@@ -96,7 +106,9 @@ public final class DialogFindModule {
     @Named(DialogDef.RANK)
     MultiplyDialog provideRankDialog(Context context, FragmentManager fm) {
         MultiplyDialog dlgRank = (MultiplyDialog) fm.findFragmentByTag(DialogDef.RANK);
-        if (dlgRank == null) dlgRank = new MultiplyDialog();
+        if (dlgRank == null) {
+            dlgRank = new MultiplyDialog();
+        }
 
         dlgRank.setTitle(context.getString(R.string.dialog_title_rank));
 
@@ -107,7 +119,9 @@ public final class DialogFindModule {
     @ArchScope
     ColorDialog provideColorDialog(Context context, FragmentManager fm) {
         ColorDialog colorDialog = (ColorDialog) fm.findFragmentByTag(DialogDef.COLOR);
-        if (colorDialog == null) colorDialog = new ColorDialog();
+        if (colorDialog == null) {
+            colorDialog = new ColorDialog();
+        }
 
         switch (PrefUtils.getTheme(context)) {
             case ThemeDef.light:
@@ -131,7 +145,9 @@ public final class DialogFindModule {
     @ArchScope
     SortDialog provideSortDialog(FragmentManager fm) {
         SortDialog sortDialog = (SortDialog) fm.findFragmentByTag(DialogDef.SORT);
-        if (sortDialog == null) sortDialog = new SortDialog();
+        if (sortDialog == null) {
+            sortDialog = new SortDialog();
+        }
 
         return sortDialog;
     }
@@ -141,7 +157,9 @@ public final class DialogFindModule {
     @Named(DialogDef.SAVE_TIME)
     SingleDialog provideSaveTimeDialog(Context context, FragmentManager fm) {
         SingleDialog dlgSaveTime = (SingleDialog) fm.findFragmentByTag(DialogDef.SAVE_TIME);
-        if (dlgSaveTime == null) dlgSaveTime = new SingleDialog();
+        if (dlgSaveTime == null) {
+            dlgSaveTime = new SingleDialog();
+        }
 
         dlgSaveTime.setTitle(context.getString(R.string.pref_save_time_title));
         dlgSaveTime.setRows(context.getResources().getStringArray(R.array.pref_save_time_text));
@@ -154,7 +172,9 @@ public final class DialogFindModule {
     @Named(DialogDef.THEME)
     SingleDialog provideThemeDialog(Context context, FragmentManager fm) {
         SingleDialog dlgTheme = (SingleDialog) fm.findFragmentByTag(DialogDef.THEME);
-        if (dlgTheme == null) dlgTheme = new SingleDialog();
+        if (dlgTheme == null) {
+            dlgTheme = new SingleDialog();
+        }
 
         dlgTheme.setTitle(context.getString(R.string.pref_theme_title));
         dlgTheme.setRows(context.getResources().getStringArray(R.array.pref_theme_text));
@@ -166,7 +186,9 @@ public final class DialogFindModule {
     @ArchScope
     InfoDialog provideInfoDialog(FragmentManager fm) {
         InfoDialog infoDialog = (InfoDialog) fm.findFragmentByTag(DialogDef.INFO);
-        if (infoDialog == null) infoDialog = new InfoDialog();
+        if (infoDialog == null) {
+            infoDialog = new InfoDialog();
+        }
 
         return infoDialog;
     }

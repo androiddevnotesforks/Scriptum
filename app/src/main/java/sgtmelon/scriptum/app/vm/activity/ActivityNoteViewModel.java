@@ -47,7 +47,9 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         ntType = bundle.getInt(IntentDef.NOTE_TYPE);
         ntId = bundle.getLong(IntentDef.NOTE_ID);
 
-        if (noteRepo == null) loadData();
+        if (noteRepo == null) {
+            loadData();
+        }
     }
 
     public int getNtType() {
