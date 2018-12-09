@@ -163,8 +163,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
                 viewHolder.itemView.setAlpha((float) Math.max(alpha, 0.2));
             }
+
             super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
         }
+
     };
     private RecyclerView recyclerView;
     private EditText rollEnter;
@@ -390,7 +392,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     ? adapter.getItemCount()
                     : 0;
 
-            inputControl.onRollAdd(p);
+            inputControl.onRollAdd(p, text);
             bindInput();
 
             final RollItem rollItem = new RollItem();
@@ -456,6 +458,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             onMenuEditClick(false);
 
             menuControl.startTint(noteItem.getColor());
+
+            inputControl.clear();
+            bindInput();
         } else {
             final SaveControl saveControl = noteCallback.getSaveControl();
             saveControl.setNeedSave(false);
@@ -682,7 +687,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
-                    final List<Long> rankId = stringConv.fromString(inputItem.getValueSecond());
+                    final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
 
                     noteRepo = vm.getNoteRepo();
                     noteItem = noteRepo.getNoteItem();
@@ -692,7 +697,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     vm.setNoteRepo(noteRepo);
                     break;
                 case InputDef.color:
-                    final int color = Integer.parseInt(inputItem.getValueSecond());
+                    final int color = Integer.parseInt(inputItem.getValueTo());
 
                     noteRepo = vm.getNoteRepo();
                     noteItem = noteRepo.getNoteItem();
@@ -706,10 +711,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
-                    nameEnter.setText(inputItem.getValueSecond());
+                    nameEnter.setText(inputItem.getValueTo());
                     break;
                 case InputDef.text:
-//                    textEnter.setText(inputItem.getValueSecond());
+//                    textEnter.setText(inputItem.getValueTo());
                     break;
             }
         }

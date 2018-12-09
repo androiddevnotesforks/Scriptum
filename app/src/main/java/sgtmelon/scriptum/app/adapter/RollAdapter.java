@@ -85,7 +85,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private CheckBox rollCheck;   //Отметка о выполении
         private View clickView;  //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
 
-        private String textBefore;
+        private String valueFrom;
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
@@ -144,30 +144,30 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            textBefore = charSequence.toString();
+            valueFrom = charSequence.toString();
         }
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            final String textChanged = charSequence.toString();
+            final String valueTo = charSequence.toString();
             final int p = getAdapterPosition();
 
-            if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore) && p != -1) {
-                if (!TextUtils.isEmpty(textChanged)) {
-                    inputIntf.onRollChange(p, textBefore);
-                    // TODO: 24.11.2018 Обновление Binding
-                    textBefore = textChanged;
+            if (!TextUtils.isEmpty(valueFrom) && !valueTo.equals(valueFrom) && p != -1) {
+                if (!TextUtils.isEmpty(valueTo)) {
+                    inputIntf.onRollChange(p, valueFrom, valueTo);
+                    valueFrom = valueTo;
                 } else {
-                    inputIntf.onRollRemove(p, textBefore);
-                    // TODO: 24.11.2018 Обновление Binding
+                    inputIntf.onRollRemove(p, valueFrom);
                 }
+
+                // TODO: 24.11.2018 Обновление Binding
             }
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
             final int p = getAdapterPosition();
-            if (!TextUtils.isEmpty(textBefore) && p != -1) {
+            if (!TextUtils.isEmpty(valueFrom) && p != -1) {
                 rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
             }
         }

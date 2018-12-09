@@ -172,20 +172,21 @@ public final class TextFragment extends NoteFragmentParent {
 
         textEnter = frgView.findViewById(R.id.text_enter);
         textEnter.addTextChangedListener(new TextWatcher() {
-            private String textBefore;
+            private String valueFrom = "";
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                textBefore = charSequence.toString();
+                valueFrom = charSequence.toString();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                final String textChanged = charSequence.toString();
-                if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
-                    inputControl.onTextChange(textBefore);
+                final String valueTo = charSequence.toString();
+
+                if (!valueFrom.equals(valueTo)) {
+                    inputControl.onTextChange(valueFrom, valueTo);
                     bindInput();
-                    textBefore = textChanged;
+                    valueFrom = valueTo;
                 }
             }
 
@@ -235,6 +236,9 @@ public final class TextFragment extends NoteFragmentParent {
             onMenuEditClick(false);
 
             menuControl.startTint(noteItem.getColor());
+
+            inputControl.clear();
+            bindInput();
         } else {
             final SaveControl saveControl = noteCallback.getSaveControl();
             saveControl.setNeedSave(false);
@@ -327,21 +331,8 @@ public final class TextFragment extends NoteFragmentParent {
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
-        onInputClick(true);
-    }
-
-    @Override
-    public void onRedoClick() {
-        Log.i(TAG, "onRedoClick");
-
-        onInputClick(false);
-    }
-
-    private void onInputClick(boolean undo){
         inputControl.setEnable(false);
-        final InputItem inputItem = undo
-                ? inputControl.undo()
-                : inputControl.redo();
+        final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
             NoteRepo noteRepo;
@@ -350,7 +341,7 @@ public final class TextFragment extends NoteFragmentParent {
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
-                    final List<Long> rankId = stringConv.fromString(inputItem.getValueSecond());
+                    final List<Long> rankId = stringConv.fromString(inputItem.getValueFrom());
 
                     noteRepo = vm.getNoteRepo();
                     noteItem = noteRepo.getNoteItem();
@@ -360,7 +351,7 @@ public final class TextFragment extends NoteFragmentParent {
                     vm.setNoteRepo(noteRepo);
                     break;
                 case InputDef.color:
-                    final int color = Integer.parseInt(inputItem.getValueSecond());
+                    final int color = Integer.parseInt(inputItem.getValueFrom());
 
                     noteRepo = vm.getNoteRepo();
                     noteItem = noteRepo.getNoteItem();
@@ -374,10 +365,60 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
-                    nameEnter.setText(inputItem.getValueSecond());
+                    nameEnter.setText(inputItem.getValueFrom());
                     break;
                 case InputDef.text:
-                    textEnter.setText(inputItem.getValueSecond());
+                    textEnter.setText(inputItem.getValueFrom());
+                    break;
+            }
+        }
+
+        inputControl.setEnable(true);
+        bindInput();
+    }
+
+    @Override
+    public void onRedoClick() {
+        Log.i(TAG, "onRedoClick");
+
+        inputControl.setEnable(false);
+        final InputItem inputItem = inputControl.redo();
+
+        if (inputItem != null) {
+            NoteRepo noteRepo;
+            NoteItem noteItem;
+
+            switch (inputItem.getTag()) {
+                case InputDef.rank:
+                    final StringConv stringConv = new StringConv();
+                    final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
+
+                    noteRepo = vm.getNoteRepo();
+                    noteItem = noteRepo.getNoteItem();
+
+                    noteItem.setRankId(rankId);
+                    noteRepo.setNoteItem(noteItem);
+                    vm.setNoteRepo(noteRepo);
+                    break;
+                case InputDef.color:
+                    final int color = Integer.parseInt(inputItem.getValueTo());
+
+                    noteRepo = vm.getNoteRepo();
+                    noteItem = noteRepo.getNoteItem();
+
+                    menuControl.setStartColor(noteItem.getColor());
+
+                    noteItem.setColor(color);
+                    noteRepo.setNoteItem(noteItem);
+                    vm.setNoteRepo(noteRepo);
+
+                    menuControl.startTint(color);
+                    break;
+                case InputDef.name:
+                    nameEnter.setText(inputItem.getValueTo());
+                    break;
+                case InputDef.text:
+                    textEnter.setText(inputItem.getValueTo());
                     break;
             }
         }

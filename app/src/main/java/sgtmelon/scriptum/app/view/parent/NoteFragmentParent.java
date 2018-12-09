@@ -199,7 +199,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 
-            inputControl.onColorChange(noteItem.getColor());
+            inputControl.onColorChange(noteItem.getColor(), check);
             bindInput();
 
             noteItem.setColor(check);
@@ -235,7 +235,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 
-            inputControl.onRankChange(noteItem.getRankId());
+            inputControl.onRankChange(noteItem.getRankId(), rankId);
             bindInput();
 
             noteItem.setRankId(rankId);
@@ -252,20 +252,21 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
 
         nameEnter = frgView.findViewById(R.id.name_enter);
         nameEnter.addTextChangedListener(new TextWatcher() {
-            private String textBefore;
+            private String valueFrom;
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                textBefore = charSequence.toString();
+                valueFrom = charSequence.toString();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                final String textChanged = charSequence.toString();
-                if (!TextUtils.isEmpty(textBefore) && !textChanged.equals(textBefore)) {
-                    inputControl.onNameChange(textBefore);
+                final String valueTo = charSequence.toString();
+
+                if (!TextUtils.isEmpty(valueFrom) && !valueFrom.equals(valueTo)) {
+                    inputControl.onNameChange(valueFrom, valueTo);
                     bindInput();
-                    textBefore = textChanged;
+                    valueFrom = valueTo;
                 }
             }
 

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.app.model.item;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 
@@ -16,40 +15,64 @@ public final class InputItem {
      * TODO: 01.12.2018  В самом начале редактирования не сохраняется значение, которое было изначально
      * TODO: 01.12.2018  В конце редактирования, после нажатия Undo не сохраняется последнее значение
      * <p>
-     * TODO: 01.12.2018  Переделать {@link #valueFirst} и {@link #valueSecond} в fromValue, toValue
+     * TODO: 01.12.2018  Переделать {@link #valueFrom} и {@link #valueTo} в fromValue, toValue
      * TODO: 01.12.2018  Подумай как это лучше реализовать со списками
      */
 
     public final int tag;
 
-    private final String valueFirst;
-    private final String valueSecond;
+    private final int position;
+    private final String valueFrom;
+    private final String valueTo;
 
-    public InputItem(@InputDef int tag, @Nullable String valueFirst, @NonNull String valueSecond) {
+    public InputItem(@InputDef int tag, int position, @NonNull String valueFrom, @NonNull String valueTo) {
         this.tag = tag;
 
-        this.valueFirst = valueFirst;
-        this.valueSecond = valueSecond;
+        this.position = position;
+        this.valueFrom = valueFrom;
+        this.valueTo = valueTo;
+    }
+
+    public InputItem(@InputDef int tag, @NonNull String valueFrom, @NonNull String valueTo) {
+        this.tag = tag;
+
+        this.position = -1;
+        this.valueFrom = valueFrom;
+        this.valueTo = valueTo;
     }
 
     public int getTag() {
         return tag;
     }
 
-    @Nullable
-    public String getValueFirst() {
-        return valueFirst;
+    public int getPosition() {
+        return position;
     }
 
     @NonNull
-    public String getValueSecond() {
-        return valueSecond;
+    public String getValueFrom() {
+        return valueFrom;
+    }
+
+    @NonNull
+    public String getValueTo() {
+        return valueTo;
     }
 
     @NonNull
     @Override
     public String toString() {
-        return tag + " | " + (valueFirst == null ? "" : valueFirst + " - ") + valueSecond;
+        final String stringPosition = position != -1
+                ? "position = " + position  + " | "
+                : "";
+        final String stringFrom = "from = " + (!valueFrom.equals("")
+                ? valueFrom
+                : "empty");
+        final String stringTo = "to = " + (!valueTo.equals("")
+                ? valueTo
+                : "empty");
+
+        return tag + " | " + stringPosition + stringFrom + " | " +  stringTo;
     }
 
 }

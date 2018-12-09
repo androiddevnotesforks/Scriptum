@@ -13,16 +13,17 @@ import sgtmelon.scriptum.office.intf.InputIntf;
 
 /**
  * Класс предназначенный для контроля ввода данных в заметку, применения undo и redo
+ * Модель для хранения данных: {@link InputItem}
  * <p>
  * {@link InputDef} - Значения, которые будут содержаться в списке:
- * Name change  - Значение
- * Rank change  - Отмеченные id
- * Color change - Отмеченный цвет
- * Text change  - Значение
- * Roll change  - Номер пункта : значение
- * Roll add     - Номер пункта
+ * Name change  - Текст (до/после)
+ * Rank change  - Отмеченные id (до/после)
+ * Color change - Отмеченный цвет (до/после)
+ * Text change  - Текст (до/после)
+ * Roll change  - Текст (пункт/до/после)
+ * Roll add     - Номер пункта : значение
  * Roll swipe   - Номер пункта : значение
- * Roll move    - Начало : конец
+ * Roll move    - Перемещение (до/после)
  */
 public final class InputControl implements InputIntf {
 
@@ -57,7 +58,7 @@ public final class InputControl implements InputIntf {
 
     public InputItem undo() {
         if (isUndoAccess()) {
-            return listInput.get(--position);
+            return listInput.get(position--);
         } else {
             return null;
         }
@@ -78,7 +79,7 @@ public final class InputControl implements InputIntf {
 
     public InputItem redo() {
         if (isRedoAccess()) {
-            return listInput.get(++position);
+            return listInput.get(position++);
         } else {
             return null;
         }
@@ -113,79 +114,68 @@ public final class InputControl implements InputIntf {
     // TODO: 26.11.2018 Не правильно записывает текст, надо чтобы он записывал то, что было до, а не то что стало после
 
     @Override
-    public void onRankChange(List<Long> rankId) {
-        final InputItem inputItem = new InputItem(
-                InputDef.rank, null, TextUtils.join(DbAnn.divider, rankId)
+    public void onRankChange(List<Long> valueFrom, List<Long> valueTo) {
+        final InputItem inputItem = new InputItem(InputDef.rank,
+                TextUtils.join(DbAnn.divider, valueFrom), TextUtils.join(DbAnn.divider, valueTo)
         );
         add(inputItem);
     }
 
     @Override
-    public void onColorChange(int color) {
+    public void onColorChange(int valueFrom, int valueTo) {
         final InputItem inputItem = new InputItem(
-                InputDef.color, null, Integer.toString(color)
+                InputDef.color, Integer.toString(valueFrom), Integer.toString(valueTo)
         );
         add(inputItem);
     }
 
     @Override
-    public void onNameChange(String text) {
-        final InputItem inputItem = new InputItem(
-                InputDef.name, null, text
-        );
+    public void onNameChange(String valueFrom, String valueTo) {
+        final InputItem inputItem = new InputItem(InputDef.name, valueFrom, valueTo);
         add(inputItem);
     }
 
     @Override
-    public void onTextChange(String text) {
-        final InputItem inputItem = new InputItem(
-                InputDef.text, null, text
-        );
+    public void onTextChange(String valueFrom, String valueTo) {
+        final InputItem inputItem = new InputItem(InputDef.text, valueFrom, valueTo);
         add(inputItem);
     }
 
     @Override
-    public void onRollChange(int p, String text) {
-        final InputItem inputItem = new InputItem(
-                InputDef.roll, Integer.toString(p), text
-        );
+    public void onRollChange(int p, String valueFrom, String valueTo) {
+        final InputItem inputItem = new InputItem(InputDef.roll, p, valueFrom, valueTo);
         add(inputItem);
     }
 
     @Override
-    public void onRollAdd(int p) {
-        final InputItem inputItem = new InputItem(
-                InputDef.rollAdd, null, Integer.toString(p)
-        );
+    public void onRollAdd(int p, String valueTo) {
+        final InputItem inputItem = new InputItem(InputDef.rollAdd, p, "", valueTo);
         add(inputItem);
     }
 
     @Override
-    public void onRollRemove(int p, String text) {
-        final InputItem inputItem = new InputItem(
-                InputDef.rollSwipe, Integer.toString(p), text
-        );
+    public void onRollRemove(int p, String valueFrom) {
+        final InputItem inputItem = new InputItem(InputDef.rollSwipe, p, valueFrom, "");
         add(inputItem);
     }
 
     @Override
-    public void onRollMove(int dragStart, int dragEnd) {
+    public void onRollMove(int valueFrom, int valueTo) {
         final InputItem inputItem = new InputItem(
-                InputDef.rollMove, Integer.toString(dragStart), Integer.toString(dragEnd)
+                InputDef.rollMove, Integer.toString(valueFrom), Integer.toString(valueTo)
         );
         add(inputItem);
     }
 
-    // FIXME: 24.11.2018 remove
     public void listAll() {
         Log.i(TAG, "listAll:");
         for (int i = 0; i < listInput.size(); i++) {
             final InputItem inputItem = listInput.get(i);
             final String ps = position == i
-                    ? " | ps=" + position
+                    ? " | cursor = " + position
                     : "";
 
-            Log.i(TAG, "i=" + i + " | " + inputItem.toString() + ps);
+            Log.i(TAG, "i = " + i + " | " + inputItem.toString() + ps);
         }
     }
 

@@ -9,20 +9,22 @@ import sgtmelon.scriptum.app.control.InputControl;
  */
 public interface InputIntf {
 
-    void onRankChange(List<Long> rankId);
+    // TODO: 09.12.2018 убрать лишнее
 
-    void onColorChange(int color);
+    void onRankChange(List<Long> valueFrom, List<Long> valueTo);
 
-    void onNameChange(String text);
+    void onColorChange(int valueFrom, int valueTo);
 
-    void onTextChange(String text);
+    void onNameChange(String valueFrom, String valueTo);
 
-    void onRollChange(int p, String text);
+    void onTextChange(String valueFrom, String valueTo);
 
-    void onRollAdd(int p);
+    void onRollChange(int p, String valueFrom, String valueTo);
 
-    void onRollRemove(int p, String text);
+    void onRollAdd(int p, String valueTo);
 
-    void onRollMove(int dragStart, int dragEnd);
+    void onRollRemove(int p, String valueFrom);
+
+    void onRollMove(int valueFrom, int valueTo);
 
 }
