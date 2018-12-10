@@ -19,6 +19,7 @@ import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
 import sgtmelon.scriptum.office.annot.def.TypeRollDef;
+import sgtmelon.scriptum.office.intf.BindIntf;
 import sgtmelon.scriptum.office.intf.InputIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 
@@ -29,6 +30,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
     private NoteSt noteSt;
     private InputIntf inputIntf;
+    private BindIntf bindIntf;
 
     public RollAdapter(Context context) {
         super(context);
@@ -40,6 +42,10 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
     public void setInputIntf(InputIntf inputIntf) {
         this.inputIntf = inputIntf;
+    }
+
+    public void setBindIntf(BindIntf bindIntf) {
+        this.bindIntf = bindIntf;
     }
 
     @NonNull
@@ -127,11 +133,11 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void onClick(View view) {
-            if (!noteSt.isEdit()) {
-                int p = getAdapterPosition();
-                rollCheck.setChecked(!list.get(p).isCheck());
-                clickListener.onItemClick(view, p);
-            }
+            if (noteSt.isEdit()) return;
+
+            final int p = getAdapterPosition();
+            rollCheck.setChecked(!list.get(p).isCheck());
+            clickListener.onItemClick(view, p);
         }
 
         @Override
@@ -139,6 +145,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 dragListener.setDrag(view.getId() == R.id.drag_button);
             }
+
             return false;
         }
 
@@ -149,19 +156,24 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            final String valueTo = charSequence.toString();
             final int p = getAdapterPosition();
+            if (p == -1) return;
 
-            if (!valueFrom.equals(valueTo) && p != -1) {
-                if (!TextUtils.isEmpty(valueTo)) {
-                    inputIntf.onRollChange(p, valueFrom, valueTo);
-                    valueFrom = valueTo;
+            final String valueTo = charSequence.toString();
+            if (valueFrom.equals(valueTo)) return;
+
+            if (!TextUtils.isEmpty(valueTo)) {
+                if (TextUtils.isEmpty(valueFrom)) {
+                    inputIntf.onRollAdd(p, valueTo);
                 } else {
-                    inputIntf.onRollRemove(p, valueFrom);
+                    inputIntf.onRollChange(p, valueFrom, valueTo);
                 }
-
-                // TODO: 24.11.2018 Обновление Binding
+                valueFrom = valueTo;
+            } else {
+                inputIntf.onRollRemove(p, valueFrom);
             }
+
+            bindIntf.bindInput();
         }
 
         @Override

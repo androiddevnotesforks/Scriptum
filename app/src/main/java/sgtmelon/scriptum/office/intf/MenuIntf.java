@@ -25,6 +25,8 @@ public interface MenuIntf {
              */
             boolean onMenuSaveClick(boolean editModeChange, boolean showToast);
 
+            // TODO: 10.12.2018 добавить длинное нажатие на кнопку undo/redo - для возвращение в один из концов
+
             void onUndoClick();
 
             void onRedoClick();

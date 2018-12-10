@@ -16,6 +16,7 @@
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
         <variable name="rankEmpty" type="boolean"/>
+        <variable name="saveEnabled" type="boolean"/>
 
         <variable name="noteClick"
                   type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
@@ -94,8 +95,9 @@
                  app:noteClick='@{noteClick}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'
-                 app:undoAccess='@{undoAccess}'
-                 app:redoAccess='@{redoAccess}'/>
+                 app:saveEnabled='@{saveEnabled}'
+                 app:redoAccess='@{redoAccess}'
+                 app:undoAccess='@{undoAccess}'/>
 
     </LinearLayout>
 

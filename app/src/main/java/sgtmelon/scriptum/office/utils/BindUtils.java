@@ -22,6 +22,8 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef;
  */
 public final class BindUtils {
 
+    // TODO: 10.12.2018 разобраться с requireAll =
+
     /**
      * Установка цветового фильтра на основании результата логического выражения
      *
@@ -115,7 +117,7 @@ public final class BindUtils {
     }
 
     @BindingAdapter("enabled")
-    public static void setEnable(ImageButton imageButton, boolean enabled) {
+    public static void setEnabled(ImageButton imageButton, boolean enabled) {
         imageButton.setEnabled(enabled);
     }
 

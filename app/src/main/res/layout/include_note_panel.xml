@@ -20,6 +20,7 @@
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
         <variable name="rankEmpty" type="boolean"/>
+        <variable name="saveEnabled" type="boolean"/>
 
     </data>
 
@@ -77,8 +78,8 @@
 
                 <ImageButton
                         style="@style/Enter.Button"
-                        android:onClick='@{() -> noteClick.onUndoClick()}'
                         android:contentDescription="@null"
+                        android:onClick='@{() -> noteClick.onUndoClick()}'
                         app:boolExpression='@{undoAccess}'
                         app:enabled='@{undoAccess}'
                         app:falseColor='@{R.attr.clSecond}'
@@ -88,8 +89,8 @@
 
                 <ImageButton
                         style="@style/Enter.Button"
-                        android:onClick='@{() -> noteClick.onRedoClick()}'
                         android:contentDescription="@null"
+                        android:onClick='@{() -> noteClick.onRedoClick()}'
                         app:boolExpression='@{redoAccess}'
                         app:enabled='@{redoAccess}'
                         app:falseColor='@{R.attr.clSecond}'
@@ -124,7 +125,8 @@
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackground"
                         android:onClick='@{() -> noteClick.onMenuSaveClick(true, true)}'
-                        android:text="@string/menu_note_save"/>
+                        android:text="@string/menu_note_save"
+                        app:enabled='@{saveEnabled}'/>
 
             </LinearLayout>
 

@@ -50,7 +50,7 @@ public final class InputControl implements InputIntf {
      */
     public boolean isUndoAccess() {
         if (listInput.size() != 0) {
-            return position != 0;
+            return position != -1;
         } else {
             return false;
         }
@@ -79,14 +79,13 @@ public final class InputControl implements InputIntf {
 
     public InputItem redo() {
         if (isRedoAccess()) {
-            return listInput.get(position++);
+            return listInput.get(++position);
         } else {
             return null;
         }
     }
 
     private void add(InputItem inputItem) {
-        Log.i(TAG, "add: " + inputItem.getTag());
         if (enable) {
             remove();
             listInput.add(inputItem);
@@ -100,18 +99,16 @@ public final class InputControl implements InputIntf {
      * Если позиция не в конце, то удаление ненужной информации перед добавлением новой
      */
     private void remove() {
-        final int positionEnd = listInput.size() - 1;
+        final int endPosition = listInput.size() - 1;
 
-        if (position != positionEnd) {
-            for (int i = positionEnd; i > position; i--) {
+        if (position != endPosition) {
+            for (int i = endPosition; i > position; i--) {
                 listInput.remove(i);
             }
         }
 
         listAll();
     }
-
-    // TODO: 26.11.2018 Не правильно записывает текст, надо чтобы он записывал то, что было до, а не то что стало после
 
     @Override
     public void onRankChange(List<Long> valueFrom, List<Long> valueTo) {
@@ -167,8 +164,9 @@ public final class InputControl implements InputIntf {
         add(inputItem);
     }
 
-    public void listAll() {
+    private void listAll() {
         Log.i(TAG, "listAll:");
+
         for (int i = 0; i < listInput.size(); i++) {
             final InputItem inputItem = listInput.get(i);
             final String ps = position == i

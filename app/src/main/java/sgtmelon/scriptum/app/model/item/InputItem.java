@@ -19,7 +19,7 @@ public final class InputItem {
      * TODO: 01.12.2018  Подумай как это лучше реализовать со списками
      */
 
-    public final int tag;
+    private final int tag;
 
     private final int position;
     private final String valueFrom;
@@ -63,7 +63,7 @@ public final class InputItem {
     @Override
     public String toString() {
         final String stringPosition = position != -1
-                ? "position = " + position  + " | "
+                ? "position = " + position + " | "
                 : "";
         final String stringFrom = "from = " + (!valueFrom.equals("")
                 ? valueFrom
@@ -72,7 +72,7 @@ public final class InputItem {
                 ? valueTo
                 : "empty");
 
-        return tag + " | " + stringPosition + stringFrom + " | " +  stringTo;
+        return tag + " | " + stringPosition + stringFrom + " | " + stringTo;
     }
 
 }

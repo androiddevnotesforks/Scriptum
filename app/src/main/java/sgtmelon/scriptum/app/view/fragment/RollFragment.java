@@ -63,6 +63,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
     private LinearLayoutManager layoutManager;
     private RollAdapter adapter;
+
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
         private int dragStart, dragEnd;
@@ -168,6 +169,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         }
 
     };
+
     private RecyclerView recyclerView;
     private EditText rollEnter;
 
@@ -265,10 +267,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
     @Override
     public void bindInput() {
-        Log.i(TAG, "bindInput: " + inputControl.isUndoAccess() + " | " + inputControl.isRedoAccess());
+        Log.i(TAG, "bindInput");
 
         binding.setUndoAccess(inputControl.isUndoAccess());
         binding.setRedoAccess(inputControl.isRedoAccess());
+        binding.setSaveEnabled(vm.getNoteRepo().getListRoll().size() != 0);
 
         binding.executePendingBindings();
     }
@@ -318,6 +321,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         adapter = new RollAdapter(context);
         adapter.setNoteSt(noteCallback.getViewModel().getNoteSt());
         adapter.setInputIntf(inputControl);
+        adapter.setBindIntf(this);
 
         adapter.setClickListener(this);
         adapter.setDragListener(dragSt);
@@ -384,43 +388,40 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "scrollToInsert");
 
         final String text = rollEnter.getText().toString();
-        if (!TextUtils.isEmpty(text)) {
-            rollEnter.setText("");
+        if (TextUtils.isEmpty(text)) return;
 
-            //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
-            final int p = scrollDown
-                    ? adapter.getItemCount()
-                    : 0;
+        rollEnter.setText("");
 
-            inputControl.onRollAdd(p, text);
-            bindInput();
+        //Добавить в конце (размер адаптера = последняя позиция + 1, но тут мы добавим в конец и данный размер станет равен позиции)
+        final int p = scrollDown
+                ? adapter.getItemCount()
+                : 0;
 
-            final RollItem rollItem = new RollItem();
-            rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
-            rollItem.setText(text);
-            rollItem.setExist(false);
+        final RollItem rollItem = new RollItem();
+        rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
+        rollItem.setText(text);
+        rollItem.setExist(false);
 
-            final NoteRepo noteRepo = vm.getNoteRepo();
-            final List<RollItem> listRoll = noteRepo.getListRoll();
+        final NoteRepo noteRepo = vm.getNoteRepo();
+        final List<RollItem> listRoll = noteRepo.getListRoll();
 
-            listRoll.add(p, rollItem);
+        listRoll.add(p, rollItem);
 
-            noteRepo.setListRoll(listRoll);
-            vm.setNoteRepo(noteRepo);
+        noteRepo.setListRoll(listRoll);
+        vm.setNoteRepo(noteRepo);
 
-            adapter.setList(listRoll);
+        adapter.setList(listRoll);
 
-            final int visiblePs = scrollDown
-                    ? layoutManager.findLastVisibleItemPosition() + 1
-                    : layoutManager.findFirstVisibleItemPosition();
+        final int visiblePs = scrollDown
+                ? layoutManager.findLastVisibleItemPosition() + 1
+                : layoutManager.findFirstVisibleItemPosition();
 
-            if (visiblePs == p) {                          //Если видимая позиция равна позиции куда добавили пункт
-                recyclerView.scrollToPosition(p);          //Прокручиваем до края, незаметно
-                adapter.notifyItemInserted(p);             //Добавляем элемент с анимацией
-            } else {
-                recyclerView.smoothScrollToPosition(p);    //Медленно прокручиваем, через весь список
-                adapter.notifyDataSetChanged();             //Добавляем элемент без анимации
-            }
+        if (visiblePs == p) {                          //Если видимая позиция равна позиции куда добавили пункт
+            recyclerView.scrollToPosition(p);          //Прокручиваем до края, незаметно
+            adapter.notifyItemInserted(p);             //Добавляем элемент с анимацией
+        } else {
+            recyclerView.smoothScrollToPosition(p);    //Медленно прокручиваем, через весь список
+            adapter.notifyDataSetChanged();             //Добавляем элемент без анимации
         }
     }
 
@@ -540,8 +541,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
 
-        inputControl.listAll(); // FIXME: 24.11.2018 remove
-
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
         final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -657,40 +656,93 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteCallback.setSaveControl(saveControl);
     }
 
-    // TODO: 04.12.2018 доделать
     @Override
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
-        onInputClick(true);
+        inputControl.setEnable(false);
+        final InputItem inputItem =  inputControl.undo();
+
+        if (inputItem != null) {
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
+            final List<RollItem> listRoll = noteRepo.getListRoll();
+
+            switch (inputItem.getTag()) {
+                case InputDef.rank:
+                    final StringConv stringConv = new StringConv();
+                    final List<Long> rankId = stringConv.fromString(inputItem.getValueFrom());
+
+                    noteItem.setRankId(rankId);
+                    noteRepo.setNoteItem(noteItem);
+                    vm.setNoteRepo(noteRepo);
+                    break;
+                case InputDef.color:
+                    final int color = Integer.parseInt(inputItem.getValueFrom());
+
+                    menuControl.setStartColor(noteItem.getColor());
+
+                    noteItem.setColor(color);
+                    noteRepo.setNoteItem(noteItem);
+                    vm.setNoteRepo(noteRepo);
+
+                    menuControl.startTint(color);
+                    break;
+                case InputDef.name:
+                    nameEnter.setText(inputItem.getValueFrom());
+                    break;
+                case InputDef.roll:
+
+                    break;
+                case InputDef.rollAdd:
+//                    listRoll.remove(inputItem.getPosition());
+//                    noteRepo.setListRoll(listRoll);
+//
+//                    vm.setNoteRepo(noteRepo);
+//
+//                    adapter.setList(listRoll);
+//                    adapter.notifyItemRemoved(inputItem.getPosition());
+                    break;
+                case InputDef.rollSwipe:
+
+                    break;
+                case InputDef.rollMove:
+                    final int startPosition = Integer.parseInt(inputItem.getValueTo());
+                    final int endPosition = Integer.parseInt(inputItem.getValueFrom());
+
+                    final RollItem rollItem = listRoll.get(startPosition);
+                    listRoll.remove(startPosition);
+                    listRoll.add(endPosition, rollItem);
+
+                    noteRepo.setListRoll(listRoll);
+                    vm.setNoteRepo(noteRepo);
+
+                    adapter.setList(listRoll);
+                    adapter.notifyItemMoved(startPosition, endPosition);
+                    break;
+            }
+        }
+
+        inputControl.setEnable(true);
+        bindInput();
     }
 
     @Override
     public void onRedoClick() {
         Log.i(TAG, "onRedoClick");
 
-        onInputClick(false);
-    }
-
-    private void onInputClick(boolean undo) {
-        Log.i(TAG, "onInputClick: undo=" + undo);
-
         inputControl.setEnable(false);
-        final InputItem inputItem = undo
-                ? inputControl.undo()
-                : inputControl.redo();
+        final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
-            NoteRepo noteRepo;
-            NoteItem noteItem;
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
+            final List<RollItem> listRoll = noteRepo.getListRoll();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
                     final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
-
-                    noteRepo = vm.getNoteRepo();
-                    noteItem = noteRepo.getNoteItem();
 
                     noteItem.setRankId(rankId);
                     noteRepo.setNoteItem(noteItem);
@@ -698,9 +750,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     break;
                 case InputDef.color:
                     final int color = Integer.parseInt(inputItem.getValueTo());
-
-                    noteRepo = vm.getNoteRepo();
-                    noteItem = noteRepo.getNoteItem();
 
                     menuControl.setStartColor(noteItem.getColor());
 
@@ -713,8 +762,28 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 case InputDef.name:
                     nameEnter.setText(inputItem.getValueTo());
                     break;
-                case InputDef.text:
-//                    textEnter.setText(inputItem.getValueTo());
+                case InputDef.roll:
+
+                    break;
+                case InputDef.rollAdd:
+
+                    break;
+                case InputDef.rollSwipe:
+
+                    break;
+                case InputDef.rollMove:
+                    final int startPosition = Integer.parseInt(inputItem.getValueFrom());
+                    final int endPosition = Integer.parseInt(inputItem.getValueTo());
+
+                    final RollItem rollItem = listRoll.get(startPosition);
+                    listRoll.remove(startPosition);
+                    listRoll.add(endPosition, rollItem);
+
+                    noteRepo.setListRoll(listRoll);
+                    vm.setNoteRepo(noteRepo);
+
+                    adapter.setList(listRoll);
+                    adapter.notifyItemMoved(startPosition, endPosition);
                     break;
             }
         }

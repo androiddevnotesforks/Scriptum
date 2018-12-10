@@ -46,6 +46,7 @@ import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.intf.BindIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.HelpUtils;
@@ -54,7 +55,7 @@ import sgtmelon.scriptum.office.utils.HelpUtils;
  * Класс родитель для фрагментов редактирования заметок
  * {@link TextFragment}, {@link RollFragment}
  */
-public abstract class NoteFragmentParent extends Fragment implements View.OnClickListener,
+public abstract class NoteFragmentParent extends Fragment implements View.OnClickListener, BindIntf,
         MenuIntf.Note.NoteMenuClick {
 
     private static final String TAG = NoteFragmentParent.class.getSimpleName();
@@ -155,11 +156,6 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
      * @param editMode - Режим редактирования
      */
     public abstract void bindEdit(boolean editMode);
-
-    /**
-     * Биндинг кнопок undo/redo в зависимости от положения {@link InputControl#position}
-     */
-    public abstract void bindInput();
 
     @CallSuper
     protected void setupToolbar() {

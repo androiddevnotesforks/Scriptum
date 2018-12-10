@@ -127,6 +127,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         binding.setUndoAccess(inputControl.isUndoAccess());
         binding.setRedoAccess(inputControl.isRedoAccess());
+        binding.setSaveEnabled(!TextUtils.isEmpty(textEnter.getText().toString()));
 
         binding.executePendingBindings();
     }
@@ -252,8 +253,6 @@ public final class TextFragment extends NoteFragmentParent {
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
 
-        inputControl.listAll(); // FIXME: 24.11.2018 remove
-
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
         if (!TextUtils.isEmpty(noteItem.getText())) {
@@ -326,7 +325,6 @@ public final class TextFragment extends NoteFragmentParent {
         noteCallback.setSaveControl(saveControl);
     }
 
-    // TODO: 04.12.2018 доделать
     @Override
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
@@ -335,16 +333,13 @@ public final class TextFragment extends NoteFragmentParent {
         final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
-            NoteRepo noteRepo;
-            NoteItem noteItem;
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
                     final List<Long> rankId = stringConv.fromString(inputItem.getValueFrom());
-
-                    noteRepo = vm.getNoteRepo();
-                    noteItem = noteRepo.getNoteItem();
 
                     noteItem.setRankId(rankId);
                     noteRepo.setNoteItem(noteItem);
@@ -352,9 +347,6 @@ public final class TextFragment extends NoteFragmentParent {
                     break;
                 case InputDef.color:
                     final int color = Integer.parseInt(inputItem.getValueFrom());
-
-                    noteRepo = vm.getNoteRepo();
-                    noteItem = noteRepo.getNoteItem();
 
                     menuControl.setStartColor(noteItem.getColor());
 
@@ -385,16 +377,13 @@ public final class TextFragment extends NoteFragmentParent {
         final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
-            NoteRepo noteRepo;
-            NoteItem noteItem;
+            final NoteRepo noteRepo = vm.getNoteRepo();
+            final NoteItem noteItem = noteRepo.getNoteItem();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
                     final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
-
-                    noteRepo = vm.getNoteRepo();
-                    noteItem = noteRepo.getNoteItem();
 
                     noteItem.setRankId(rankId);
                     noteRepo.setNoteItem(noteItem);
@@ -402,9 +391,6 @@ public final class TextFragment extends NoteFragmentParent {
                     break;
                 case InputDef.color:
                     final int color = Integer.parseInt(inputItem.getValueTo());
-
-                    noteRepo = vm.getNoteRepo();
-                    noteItem = noteRepo.getNoteItem();
 
                     menuControl.setStartColor(noteItem.getColor());
 
@@ -426,6 +412,8 @@ public final class TextFragment extends NoteFragmentParent {
         inputControl.setEnable(true);
         bindInput();
     }
+
+    // TODO: 10.12.2018 вынести в отдельный интерфейс
 
     @Override
     public void onMenuCheckClick() {
