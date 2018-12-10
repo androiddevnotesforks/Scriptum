@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -251,8 +250,8 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         Log.i(TAG, "setupEnter");
 
         nameEnter = frgView.findViewById(R.id.name_enter);
-        nameEnter.addTextChangedListener(new TextWatcher() {
-            private String valueFrom;
+        nameEnter.addTextChangedListener(new TextWatcher() {  // TODO: 10.12.2018 сделать отдельный TextWatcher
+            private String valueFrom = "";
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -263,7 +262,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 final String valueTo = charSequence.toString();
 
-                if (!TextUtils.isEmpty(valueFrom) && !valueFrom.equals(valueTo)) {
+                if (!valueFrom.equals(valueTo)) {
                     inputControl.onNameChange(valueFrom, valueTo);
                     bindInput();
                     valueFrom = valueTo;

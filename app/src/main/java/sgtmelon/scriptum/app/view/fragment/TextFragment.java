@@ -171,7 +171,7 @@ public final class TextFragment extends NoteFragmentParent {
         super.setupEnter();
 
         textEnter = frgView.findViewById(R.id.text_enter);
-        textEnter.addTextChangedListener(new TextWatcher() {
+        textEnter.addTextChangedListener(new TextWatcher() { // TODO: 10.12.2018 сделать отдельный TextWatcher
             private String valueFrom = "";
 
             @Override

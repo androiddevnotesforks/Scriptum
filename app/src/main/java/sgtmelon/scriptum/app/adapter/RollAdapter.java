@@ -85,7 +85,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private CheckBox rollCheck;   //Отметка о выполении
         private View clickView;  //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
 
-        private String valueFrom;
+        private String valueFrom = "";
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
@@ -152,7 +152,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             final String valueTo = charSequence.toString();
             final int p = getAdapterPosition();
 
-            if (!TextUtils.isEmpty(valueFrom) && !valueTo.equals(valueFrom) && p != -1) {
+            if (!valueFrom.equals(valueTo) && p != -1) {
                 if (!TextUtils.isEmpty(valueTo)) {
                     inputIntf.onRollChange(p, valueFrom, valueTo);
                     valueFrom = valueTo;
