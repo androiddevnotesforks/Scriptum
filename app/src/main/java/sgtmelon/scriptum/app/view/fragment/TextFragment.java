@@ -307,29 +307,6 @@ public final class TextFragment extends NoteFragmentParent {
     }
 
     @Override
-    public void onMenuEditClick(boolean editMode) {
-        Log.i(TAG, "onMenuEditClick: " + editMode);
-
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteSt noteSt = viewModel.getNoteSt();
-        noteSt.setEdit(editMode);
-
-        menuControl.setDrawable(
-                editMode && !noteSt.isCreate(),
-                !noteSt.isCreate() && !noteSt.isFirst()
-        );
-
-        bindEdit(editMode);
-
-        viewModel.setNoteSt(noteSt);
-        noteCallback.setViewModel(viewModel);
-
-        final SaveControl saveControl = noteCallback.getSaveControl();
-        saveControl.setSaveHandlerEvent(editMode);
-        noteCallback.setSaveControl(saveControl);
-    }
-
-    @Override
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
@@ -415,6 +392,29 @@ public final class TextFragment extends NoteFragmentParent {
 
         inputControl.setEnable(true);
         bindInput();
+    }
+
+    @Override
+    public void onMenuEditClick(boolean editMode) {
+        Log.i(TAG, "onMenuEditClick: " + editMode);
+
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
+        noteSt.setEdit(editMode);
+
+        menuControl.setDrawable(
+                editMode && !noteSt.isCreate(),
+                !noteSt.isCreate() && !noteSt.isFirst()
+        );
+
+        bindEdit(editMode);
+
+        viewModel.setNoteSt(noteSt);
+        noteCallback.setViewModel(viewModel);
+
+        final SaveControl saveControl = noteCallback.getSaveControl();
+        saveControl.setSaveHandlerEvent(editMode);
+        noteCallback.setSaveControl(saveControl);
     }
 
     // TODO: 10.12.2018 вынести onMenuCheckClick в отдельный интерфейс только для RollFragment

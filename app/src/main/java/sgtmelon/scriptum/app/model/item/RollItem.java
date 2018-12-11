@@ -1,5 +1,9 @@
 package sgtmelon.scriptum.app.model.item;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -39,6 +43,25 @@ public final class RollItem {
      * Добавлен пункт в базу данных или нет
      */
     @Ignore private boolean exist = true;
+
+    public RollItem() {
+
+    }
+
+    public RollItem(String data) {
+        try {
+            final JSONObject jsonObject = new JSONObject(data);
+
+            id = jsonObject.getLong(DbAnn.RL_ID);
+            idNote = jsonObject.getLong(DbAnn.RL_ID_NT);
+            position = jsonObject.getInt(DbAnn.RL_PS);
+            check = jsonObject.getBoolean(DbAnn.RL_CH);
+            text = jsonObject.getString(DbAnn.RL_TX);
+            exist = id != -1;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public long getId() {
         return id;
@@ -86,6 +109,24 @@ public final class RollItem {
 
     public void setExist(boolean exist) {
         this.exist = exist;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        final JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put(DbAnn.RL_TX, text);
+            jsonObject.put(DbAnn.RL_ID, id);
+            jsonObject.put(DbAnn.RL_ID_NT, idNote);
+            jsonObject.put(DbAnn.RL_PS, position);
+            jsonObject.put(DbAnn.RL_CH, check);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject.toString();
     }
 
 }
