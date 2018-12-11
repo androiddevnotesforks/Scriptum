@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import sgtmelon.safedialog.library.ColorDialog;
 import sgtmelon.safedialog.library.SingleDialog;
+import sgtmelon.scriptum.BuildConfig;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.DaggerPreferenceComponent;
 import sgtmelon.scriptum.app.injection.component.PreferenceComponent;
@@ -225,16 +226,16 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         }));
         dlgTheme.setDismissListener(dialogInterface -> openSt.setOpen(false));
 
-        Preference prefRate = findPreference(getString(R.string.pref_key_rate));
+        final Preference prefRate = findPreference(getString(R.string.pref_key_rate));
         prefRate.setOnPreferenceClickListener(preference -> {
             final Intent intent = new Intent(Intent.ACTION_VIEW);
             final String packageName = activity.getPackageName();
 
             try {
-                intent.setData(Uri.parse("market://details?id=" + packageName));
+                intent.setData(Uri.parse(BuildConfig.MARKET_URL + packageName));
                 startActivity(intent);
             } catch (ActivityNotFoundException exception) {
-                intent.setData(Uri.parse("https://play.google.com/sore/apps/details?id=" + packageName));
+                intent.setData(Uri.parse(BuildConfig.BROWSER_URL + packageName));
                 startActivity(intent);
             }
             return true;

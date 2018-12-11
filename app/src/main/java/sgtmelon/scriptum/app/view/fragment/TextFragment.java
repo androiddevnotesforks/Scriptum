@@ -43,7 +43,9 @@ import sgtmelon.scriptum.office.utils.TimeUtils;
 public final class TextFragment extends NoteFragmentParent {
 
     private static final String TAG = TextFragment.class.getSimpleName();
+
     @Inject FragmentTextBinding binding;
+
     private EditText textEnter;
 
     public static TextFragment getInstance(boolean rankEmpty) {
