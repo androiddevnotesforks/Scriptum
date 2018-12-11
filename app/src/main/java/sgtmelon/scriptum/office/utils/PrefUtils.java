@@ -10,7 +10,9 @@ import java.util.List;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.SortItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
+import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.SortDef;
+import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
 /**
  * Класс для работы с настройками приложения, а так же @Singleton для SharedPreferences
@@ -19,11 +21,11 @@ public final class PrefUtils {
 
     private static SharedPreferences preferences;
 
-    public static SharedPreferences getInstance(Context context){
-        if(preferences == null){
+    public static SharedPreferences getInstance(Context context) {
+        if (preferences == null) {
             preferences = PreferenceManager.getDefaultSharedPreferences(context);
-            synchronized (PrefUtils.class){
-                if (preferences == null){
+            synchronized (PrefUtils.class) {
+                if (preferences == null) {
                     preferences = PreferenceManager.getDefaultSharedPreferences(context);
                 }
             }
@@ -97,6 +99,7 @@ public final class PrefUtils {
         return order.toString();
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean getSortEqual(String keys1, String keys2) {
         final String[] keysArr1 = keys1.split(SortDef.divider);
         final String[] keysArr2 = keys2.split(SortDef.divider);
@@ -114,22 +117,65 @@ public final class PrefUtils {
     }
 
     public static void listAllPref(Context context, TextView textView) {
-        final SharedPreferences pref = getInstance(context);
-
         textView.append("\n\nSort:");
-        textView.append("\nNt: " + pref.getString(context.getString(R.string.pref_key_sort), SortDef.def));
+        textView.append("\nNt: " + getSort(context));
 
         textView.append("\n\nNotes:");
-        textView.append("\nColorDef: " + pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default)));
-        textView.append("\nPause:\t" + pref.getBoolean(context.getString(R.string.pref_key_pause_save), context.getResources().getBoolean(R.bool.pref_pause_save_default)));
-        textView.append("\nSave:\t" + pref.getBoolean(context.getString(R.string.pref_key_auto_save), context.getResources().getBoolean(R.bool.pref_auto_save_default)));
-        textView.append("\nSTime:\t" + pref.getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_save_time_default)));
-        textView.append("\nTheme:\t" + pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default)));
+        textView.append("\nColorDef: " + getDefaultColor(context));
+        textView.append("\nPause:\t" + getPauseSave(context));
+        textView.append("\nSave:\t" + getAutoSave(context));
+        textView.append("\nSTime:\t" + getSaveTime(context));
+        textView.append("\nTheme:\t" + getTheme(context));
+    }
+
+    public static String getSort(Context context) {
+        return getInstance(context).getString(context.getString(R.string.pref_key_sort), SortDef.def);
+    }
+
+    public static void setSort(Context context, String sort) {
+        getInstance(context).edit()
+                .putString(context.getString(R.string.pref_key_sort), sort)
+                .apply();
+    }
+
+    public static int getDefaultColor(Context context) {
+        return getInstance(context).getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
+    }
+
+    public static void setDefaultColor(Context context, @ColorDef int color) {
+        getInstance(context).edit()
+                .putInt(context.getString(R.string.pref_key_color), color)
+                .apply();
+    }
+
+    public static boolean getPauseSave(Context context) {
+        final boolean def = context.getResources().getBoolean(R.bool.pref_pause_save_default);
+        return getInstance(context).getBoolean(context.getString(R.string.pref_key_pause_save), def);
+    }
+
+    public static boolean getAutoSave(Context context) {
+        final boolean def = context.getResources().getBoolean(R.bool.pref_auto_save_default);
+        return getInstance(context).getBoolean(context.getString(R.string.pref_key_auto_save), def);
+    }
+
+    public static void setSaveTime(Context context, int saveTime) {
+        getInstance(context).edit()
+                .putInt(context.getString(R.string.pref_key_save_time), saveTime)
+                .apply();
+    }
+
+    public static int getSaveTime(Context context) {
+        return getInstance(context).getInt(context.getString(R.string.pref_key_save_time), context.getResources().getInteger(R.integer.pref_save_time_default));
+    }
+
+    public static void setTheme(Context context, @ThemeDef int theme) {
+        getInstance(context).edit()
+                .putInt(context.getString(R.string.pref_key_theme), theme)
+                .apply();
     }
 
     public static int getTheme(Context context) {
-        final SharedPreferences pref = getInstance(context);
-        return pref.getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default));
+        return getInstance(context).getInt(context.getString(R.string.pref_key_theme), context.getResources().getInteger(R.integer.pref_theme_default));
     }
 
 }

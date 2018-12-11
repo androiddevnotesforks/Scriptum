@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.vm.activity;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
@@ -94,9 +92,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
 
         if (ntCreate) {
             final String create = TimeUtils.getTime(context);
-
-            final SharedPreferences pref = PrefUtils.getInstance(context); // TODO: 02.10.2018 вынести в PrefUtils
-            final int color = pref.getInt(context.getString(R.string.pref_key_color), context.getResources().getInteger(R.integer.pref_color_default));
+            final int color = PrefUtils.getDefaultColor(context);
 
             final NoteItem noteItem = new NoteItem(create, color, ntType);
             final StatusItem statusItem = new StatusItem(context, noteItem, false);

@@ -2,12 +2,10 @@ package sgtmelon.scriptum.app.view.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +51,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
     SingleDialog dlgTheme;
 
     private PreferenceActivity activity;
-    private SharedPreferences pref; // TODO: 02.10.2018 вынести в PrefUtils
+
     private Preference prefSort;
     private String valSort;
     private Preference prefColor;
@@ -90,8 +88,6 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
                 .build();
         preferenceComponent.inject(this);
 
-        pref = PreferenceManager.getDefaultSharedPreferences(activity);
-
         if (savedInstanceState != null) {
             openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
         }
@@ -119,8 +115,8 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         Log.i(TAG, "setupNotePref");
 
         prefSort = findPreference(getString(R.string.pref_key_sort));
-        valSort = pref.getString(getString(R.string.pref_key_sort), SortDef.def);
-        prefSort.setSummary(PrefUtils.getSortSummary(activity, pref.getString(getString(R.string.pref_key_sort), SortDef.def)));
+        valSort = PrefUtils.getSort(activity);
+        prefSort.setSummary(PrefUtils.getSortSummary(activity, valSort));
         prefSort.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
@@ -133,14 +129,14 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         sortDialog.setPositiveListener((dialogInterface, i) -> {
             valSort = sortDialog.getKeys();
-            pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
+            PrefUtils.setSort(activity, valSort);
 
             final String summary = PrefUtils.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setNeutralListener((dialogInterface, i) -> {
             valSort = SortDef.def;
-            pref.edit().putString(getString(R.string.pref_key_sort), valSort).apply();
+            PrefUtils.setSort(activity, valSort);
 
             final String summary = PrefUtils.getSortSummary(activity, valSort);
             prefSort.setSummary(summary);
@@ -148,7 +144,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         sortDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
 
         prefColor = findPreference(getString(R.string.pref_key_color));
-        valColor = pref.getInt(getString(R.string.pref_key_color), getResources().getInteger(R.integer.pref_color_default));
+        valColor = PrefUtils.getDefaultColor(activity);
         prefColor.setSummary(getResources().getStringArray(R.array.pref_color_text)[valColor]);
         prefColor.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
@@ -164,7 +160,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             valColor = colorDialog.getCheck();
 
-            pref.edit().putInt(getString(R.string.pref_key_color), valColor).apply();
+            PrefUtils.setDefaultColor(activity, valColor);
             prefColor.setSummary(getResources().getStringArray(R.array.pref_color_text)[valColor]);
         });
         colorDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -174,7 +170,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         Log.i(TAG, "setupSavePref");
 
         prefSaveTime = findPreference(getString(R.string.pref_key_save_time));
-        valSaveTime = pref.getInt(getString(R.string.pref_key_save_time), getResources().getInteger(R.integer.pref_save_time_default));
+        valSaveTime = PrefUtils.getSaveTime(activity);
         prefSaveTime.setSummary(getResources().getStringArray(R.array.pref_save_time_text)[valSaveTime]);
         prefSaveTime.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
@@ -189,7 +185,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         dlgSaveTime.setPositiveListener((dialogInterface, i) -> {
             valSaveTime = dlgSaveTime.getCheck();
 
-            pref.edit().putInt(getString(R.string.pref_key_save_time), valSaveTime).apply();
+            PrefUtils.setSaveTime(activity, valSaveTime);
             prefSaveTime.setSummary(dlgSaveTime.getRows()[valSaveTime]);
         });
         dlgSaveTime.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -207,7 +203,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         Log.i(TAG, "setupAppPref");
 
         prefTheme = findPreference(getString(R.string.pref_key_theme));
-        valTheme = pref.getInt(getString(R.string.pref_key_theme), getResources().getInteger(R.integer.pref_theme_default));
+        valTheme = PrefUtils.getTheme(activity);
         prefTheme.setSummary(getResources().getStringArray(R.array.pref_theme_text)[valTheme]);
         prefTheme.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
@@ -222,7 +218,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         dlgTheme.setPositiveListener(((dialogInterface, i) -> {
             valTheme = dlgTheme.getCheck();
 
-            pref.edit().putInt(getString(R.string.pref_key_theme), valTheme).apply();
+            PrefUtils.setTheme(activity, valTheme);
             prefTheme.setSummary(dlgTheme.getRows()[valTheme]);
 
             activity.isThemeChange();

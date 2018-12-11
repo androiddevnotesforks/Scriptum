@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.app.control;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Handler;
 import android.widget.Toast;
@@ -18,8 +17,7 @@ public final class SaveControl {
     private final Context context;
 
     private final Handler saveHandler = new Handler();
-    private final boolean saveAuto;
-    private final boolean savePause;
+    private final boolean savePause, saveAuto;
 
     private int saveTime;
     private MenuIntf.Note.NoteMenuClick noteMenuClick;
@@ -37,17 +35,13 @@ public final class SaveControl {
     public SaveControl(Context context) {
         this.context = context;
 
-        final SharedPreferences pref = PrefUtils.getInstance(context); // TODO: 02.10.2018 вынести в PrefUtils
-        final Resources resources = context.getResources();
-
-        saveAuto = pref.getBoolean(context.getString(R.string.pref_key_auto_save), resources.getBoolean(R.bool.pref_auto_save_default));
-        savePause = pref.getBoolean(context.getString(R.string.pref_key_pause_save), resources.getBoolean(R.bool.pref_pause_save_default));
+        savePause = PrefUtils.getPauseSave(context);
+        saveAuto = PrefUtils.getAutoSave(context);
 
         if (saveAuto) {
-            final int[] saveTimeArr = resources.getIntArray(R.array.pref_save_time_value);
-            final int saveTimeSelect = pref.getInt(context.getString(R.string.pref_key_save_time), resources.getInteger(R.integer.pref_save_time_default));
-
-            saveTime = saveTimeArr[saveTimeSelect];
+            final Resources resources = context.getResources();
+            final int[] timeArray = resources.getIntArray(R.array.pref_save_time_value);
+            saveTime = timeArray[PrefUtils.getSaveTime(context)];
         }
     }
 
