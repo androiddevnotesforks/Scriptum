@@ -35,7 +35,7 @@
         <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/clBackgroundView"
+                android:background="?attr/clPrimary"
                 android:paddingLeft="@dimen/layout_8dp"
                 android:paddingRight="@dimen/layout_8dp">
 

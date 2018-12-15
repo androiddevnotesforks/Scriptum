@@ -45,6 +45,8 @@ import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.DragListenerSt;
 import sgtmelon.scriptum.office.st.OpenSt;
 
+// TODO: 15.12.2018 Не правильно работает анимация глаза при долгом нажатии
+
 public final class RankFragment extends Fragment implements View.OnClickListener,
         View.OnLongClickListener, ItemIntf.ClickListener, ItemIntf.LongClickListener {
 

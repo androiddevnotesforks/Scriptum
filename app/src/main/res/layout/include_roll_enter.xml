@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.R"/>
+        <import alias="v" type="android.view.View"/>
+
+        <variable name="keyEdit" type="boolean"/>
+        <variable name="enterEmpty" type="boolean"/>
+
+    </data>
+
+    <LinearLayout
+            android:id="@+id/enter_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/clPrimary"
+            android:orientation="vertical"
+            android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'>
+
+        <View style="@style/Divider.Horizontal"
+              android:layout_marginLeft="@dimen/layout_4dp"
+              android:layout_marginRight="@dimen/layout_4dp"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/layout_4dp">
+
+            <EditText
+                    android:id="@+id/roll_enter"
+                    style="@style/Enter.Text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/hint_enter_roll"
+                    android:imeOptions="flagNoFullscreen"
+                    android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
+                    android:maxLines="5"
+                    tools:targetApi="o"/>
+
+            <ImageButton
+                    android:id="@+id/add_button"
+                    style="@style/Enter.Button"
+                    android:layout_gravity="bottom"
+                    android:contentDescription="@null"
+                    app:boolExpression='@{!enterEmpty}'
+                    app:enabled='@{!enterEmpty}'
+                    app:falseColor='@{R.attr.clSecond}'
+                    app:srcCompat="@drawable/ic_add"
+                    app:trueColor='@{R.attr.clAccent}'
+                    tools:tint="?attr/clIcon"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
