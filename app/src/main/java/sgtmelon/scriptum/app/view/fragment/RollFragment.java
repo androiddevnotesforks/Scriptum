@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,8 +111,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             final NoteRepo noteRepo = vm.getNoteRepo();
             final List<RollItem> listRoll = noteRepo.getListRoll();
 
-            inputControl.onRollRemove(p, listRoll.get(p).getText());
+            inputControl.onRollRemove(p, listRoll.get(p).toString());
             bindInput();
+
             listRoll.remove(p);
 
             noteRepo.setListRoll(listRoll);
@@ -403,6 +403,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         rollItem.setText(text);
         rollItem.setExist(false);
 
+        inputControl.onRollAdd(p, rollItem.toString());
+        bindInput();
+
         final NoteRepo noteRepo = vm.getNoteRepo();
         final List<RollItem> listRoll = noteRepo.getListRoll();
 
@@ -538,8 +541,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         vm.setNoteRepo(noteRepo);
     }
 
-    // TODO: 10.12.2018 убрать Toast в onMenuSaveClick
-
     @Override
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
@@ -548,89 +549,84 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final NoteItem noteItem = noteRepo.getNoteItem();
         final List<RollItem> listRoll = noteRepo.getListRoll();
 
-        if (listRoll.size() != 0) {
-            noteItem.setChange(TimeUtils.getTime(context));
-            noteItem.setText(HelpUtils.Note.getRollCheck(listRoll), listRoll.size());
+        if (listRoll.size() == 0) return false;
 
-            //Переход в режим просмотра
-            if (editModeChange) {
-                HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
-                onMenuEditClick(false);
+        noteItem.setChange(TimeUtils.getTime(context));
+        noteItem.setText(HelpUtils.Note.getRollCheck(listRoll), listRoll.size());
+
+        //Переход в режим просмотра
+        if (editModeChange) {
+            HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+            onMenuEditClick(false);
+        }
+
+        db = RoomDb.provideDb(context);
+
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
+        if (noteSt.isCreate()) {
+            noteSt.setCreate(false);
+            viewModel.setNoteSt(noteSt);
+
+            if (!editModeChange) {
+                menuControl.setDrawable(true, true);
             }
 
-            db = RoomDb.provideDb(context);
+            final long ntId = db.daoNote().insert(noteItem);
+            noteItem.setId(ntId);
 
-            final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-            final NoteSt noteSt = viewModel.getNoteSt();
-            if (noteSt.isCreate()) {
-                noteSt.setCreate(false);
-                viewModel.setNoteSt(noteSt);
+            //Запись в пунктов в БД
+            for (int i = 0; i < listRoll.size(); i++) {
+                final RollItem rollItem = listRoll.get(i);
 
-                if (!editModeChange) {
-                    menuControl.setDrawable(true, true);
-                }
+                rollItem.setIdNote(ntId);
+                rollItem.setPosition(i);
+                rollItem.setId(db.daoRoll().insert(rollItem));
+                rollItem.setExist(true);
 
-                final long ntId = db.daoNote().insert(noteItem);
-                noteItem.setId(ntId);
+                listRoll.set(i, rollItem);
+            }
+            noteRepo.setListRoll(listRoll);
+            adapter.setList(listRoll);
+        } else {
+            db.daoNote().update(noteItem);
 
-                //Запись в пунктов в БД
-                for (int i = 0; i < listRoll.size(); i++) {
-                    final RollItem rollItem = listRoll.get(i);
+            for (int i = 0; i < listRoll.size(); i++) {
+                final RollItem rollItem = listRoll.get(i);
 
-                    rollItem.setIdNote(ntId);
-                    rollItem.setPosition(i);
+                rollItem.setPosition(i);
+                if (!rollItem.isExist()) {
                     rollItem.setId(db.daoRoll().insert(rollItem));
                     rollItem.setExist(true);
-
-                    listRoll.set(i, rollItem);
+                } else {
+                    db.daoRoll().update(rollItem.getId(), i, rollItem.getText());
                 }
-                noteRepo.setListRoll(listRoll);
-                adapter.setList(listRoll);
-            } else {
-                db.daoNote().update(noteItem);
 
-                for (int i = 0; i < listRoll.size(); i++) {
-                    final RollItem rollItem = listRoll.get(i);
-
-                    rollItem.setPosition(i);
-                    if (!rollItem.isExist()) {
-                        rollItem.setId(db.daoRoll().insert(rollItem));
-                        rollItem.setExist(true);
-                    } else {
-                        db.daoRoll().update(rollItem.getId(), i, rollItem.getText());
-                    }
-
-                    listRoll.set(i, rollItem);
-                }
-                noteRepo.setListRoll(listRoll);
-                adapter.setList(listRoll);
-
-                final List<Long> rollId = new ArrayList<>();
-                for (RollItem rollItem : listRoll) {
-                    rollId.add(rollItem.getId());
-                }
-                db.daoRoll().delete(noteItem.getId(), rollId);
+                listRoll.set(i, rollItem);
             }
-            db.daoRank().update(noteItem.getId(), noteItem.getRankId());
-            db.close();
+            noteRepo.setListRoll(listRoll);
+            adapter.setList(listRoll);
 
-            noteRepo.setNoteItem(noteItem);
-
-            vm.setNoteRepo(noteRepo);
-
-            viewModel.setNoteRepo(noteRepo);
-            noteCallback.setViewModel(viewModel);
-
-            inputControl.clear();
-            bindInput();
-
-            return true;
-        } else {
-            if (showToast) {
-                Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
+            final List<Long> rollId = new ArrayList<>();
+            for (RollItem rollItem : listRoll) {
+                rollId.add(rollItem.getId());
             }
-            return false;
+            db.daoRoll().delete(noteItem.getId(), rollId);
         }
+        db.daoRank().update(noteItem.getId(), noteItem.getRankId());
+        db.close();
+
+        noteRepo.setNoteItem(noteItem);
+
+        vm.setNoteRepo(noteRepo);
+
+        viewModel.setNoteRepo(noteRepo);
+        noteCallback.setViewModel(viewModel);
+
+        inputControl.clear();
+        bindInput();
+
+        return true;
     }
 
     @Override
@@ -638,7 +634,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onUndoClick");
 
         inputControl.setEnable(false);
-        final InputItem inputItem =  inputControl.undo();
+        final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
             final NoteRepo noteRepo = vm.getNoteRepo();
@@ -672,16 +668,22 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
                     break;
                 case InputDef.rollAdd:
-//                    listRoll.remove(inputItem.getPosition());
-//                    noteRepo.setListRoll(listRoll);
-//
-//                    vm.setNoteRepo(noteRepo);
-//
-//                    adapter.setList(listRoll);
-//                    adapter.notifyItemRemoved(inputItem.getPosition());
-                    break;
-                case InputDef.rollSwipe:
+                    listRoll.remove(inputItem.getPosition());
+                    noteRepo.setListRoll(listRoll);
 
+                    vm.setNoteRepo(noteRepo);
+
+                    adapter.setList(listRoll);
+                    adapter.notifyItemRemoved(inputItem.getPosition());
+                    break;
+                case InputDef.rollRemove:
+                    listRoll.add(inputItem.getPosition(), new RollItem(inputItem.getValueFrom()));
+                    noteRepo.setListRoll(listRoll);
+
+                    vm.setNoteRepo(noteRepo);
+
+                    adapter.setList(listRoll);
+                    adapter.notifyItemInserted(inputItem.getPosition());
                     break;
                 case InputDef.rollMove:
                     final int startPosition = Integer.parseInt(inputItem.getValueTo());
@@ -743,10 +745,22 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
                     break;
                 case InputDef.rollAdd:
+                    listRoll.add(inputItem.getPosition(), new RollItem(inputItem.getValueTo()));
+                    noteRepo.setListRoll(listRoll);
 
+                    vm.setNoteRepo(noteRepo);
+
+                    adapter.setList(listRoll);
+                    adapter.notifyItemInserted(inputItem.getPosition());
                     break;
-                case InputDef.rollSwipe:
+                case InputDef.rollRemove:
+                    listRoll.remove(inputItem.getPosition());
+                    noteRepo.setListRoll(listRoll);
 
+                    vm.setNoteRepo(noteRepo);
+
+                    adapter.setList(listRoll);
+                    adapter.notifyItemRemoved(inputItem.getPosition());
                     break;
                 case InputDef.rollMove:
                     final int startPosition = Integer.parseInt(inputItem.getValueFrom());

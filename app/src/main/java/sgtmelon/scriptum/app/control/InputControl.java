@@ -152,7 +152,7 @@ public final class InputControl implements InputIntf {
 
     @Override
     public void onRollRemove(int p, String valueFrom) {
-        final InputItem inputItem = new InputItem(InputDef.rollSwipe, p, valueFrom, "");
+        final InputItem inputItem = new InputItem(InputDef.rollRemove, p, valueFrom, "");
         add(inputItem);
     }
 

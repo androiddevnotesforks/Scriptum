@@ -34,7 +34,6 @@
     <!-- Toast text -->
     <string name="toast_note_save_done">Изменения сохранены</string>
     <string name="toast_note_save_error">Изменения не сохранены</string>
-    <string name="toast_note_save_warning">Заметка пуста</string>
 
 
     <!-- Name of channels -->

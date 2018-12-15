@@ -16,7 +16,7 @@ import sgtmelon.scriptum.app.model.item.InputItem;
         InputDef.roll,
 
         InputDef.rollAdd,
-        InputDef.rollSwipe,
+        InputDef.rollRemove,
         InputDef.rollMove
 })
 public @interface InputDef {
@@ -29,7 +29,7 @@ public @interface InputDef {
     int roll = 4;
 
     int rollAdd = 5;
-    int rollSwipe = 6;
+    int rollRemove = 6;
     int rollMove = 7;
 
 }

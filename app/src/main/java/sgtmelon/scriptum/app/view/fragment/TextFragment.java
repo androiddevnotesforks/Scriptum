@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -259,51 +258,47 @@ public final class TextFragment extends NoteFragmentParent {
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
-        if (!TextUtils.isEmpty(noteItem.getText())) {
-            noteItem.setChange(TimeUtils.getTime(context));
 
-            if (editModeChange) {
-                HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
-                onMenuEditClick(false);
-            }
+        if (TextUtils.isEmpty(noteItem.getText())) return false;
 
-            db = RoomDb.provideDb(context);
+        noteItem.setChange(TimeUtils.getTime(context));
 
-            final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-            final NoteSt noteSt = viewModel.getNoteSt();
-            if (noteSt.isCreate()) {
-                noteSt.setCreate(false);
-                viewModel.setNoteSt(noteSt);
-
-                if (!editModeChange) {
-                    menuControl.setDrawable(true, true);
-                }
-
-                final long id = db.daoNote().insert(noteItem);
-                noteItem.setId(id);
-            } else {
-                db.daoNote().update(noteItem);
-            }
-            db.daoRank().update(noteItem.getId(), noteItem.getRankId());
-            db.close();
-
-            noteRepo.setNoteItem(noteItem);
-
-            vm.setNoteRepo(noteRepo);
-
-            viewModel.setNoteRepo(noteRepo);
-            noteCallback.setViewModel(viewModel);
-
-            inputControl.clear();
-            bindInput();
-
-            return true;
-        } else {
-            if (showToast) {
-                Toast.makeText(context, R.string.toast_note_save_warning, Toast.LENGTH_SHORT).show();
-            }
-            return false;
+        if (editModeChange) {
+            HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+            onMenuEditClick(false);
         }
+
+        db = RoomDb.provideDb(context);
+
+        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
+        if (noteSt.isCreate()) {
+            noteSt.setCreate(false);
+            viewModel.setNoteSt(noteSt);
+
+            if (!editModeChange) {
+                menuControl.setDrawable(true, true);
+            }
+
+            final long id = db.daoNote().insert(noteItem);
+            noteItem.setId(id);
+        } else {
+            db.daoNote().update(noteItem);
+        }
+        db.daoRank().update(noteItem.getId(), noteItem.getRankId());
+        db.close();
+
+        noteRepo.setNoteItem(noteItem);
+
+        vm.setNoteRepo(noteRepo);
+
+        viewModel.setNoteRepo(noteRepo);
+        noteCallback.setViewModel(viewModel);
+
+        inputControl.clear();
+        bindInput();
+
+        return true;
     }
 
     @Override

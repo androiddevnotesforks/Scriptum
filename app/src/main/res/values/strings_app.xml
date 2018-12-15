@@ -36,7 +36,6 @@
     <!-- Toast text -->
     <string name="toast_note_save_done">Changes saved</string>
     <string name="toast_note_save_error">Changes not saved</string>
-    <string name="toast_note_save_warning">The note is empty</string>
 
 
     <!-- Name of channels & groups-->
