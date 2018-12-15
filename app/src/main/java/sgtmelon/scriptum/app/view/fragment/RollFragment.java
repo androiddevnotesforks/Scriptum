@@ -541,6 +541,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         vm.setNoteRepo(noteRepo);
     }
 
+    // TODO: 15.12.2018 приложение падает при сохранении пунктов
+
     @Override
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");

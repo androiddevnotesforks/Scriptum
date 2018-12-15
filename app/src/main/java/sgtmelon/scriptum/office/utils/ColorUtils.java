@@ -29,7 +29,9 @@ public final class ColorUtils {
     public static int get(Context context, @ColorDef int color, boolean onDark) {
         switch (PrefUtils.getTheme(context)) {
             case ThemeDef.light:
-                return ContextCompat.getColor(context, ColorAnn.cl_light[color]);
+                return onDark
+                        ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])
+                        : ContextCompat.getColor(context, ColorAnn.cl_light[color]);
             case ThemeDef.dark:
             default:
                 return onDark

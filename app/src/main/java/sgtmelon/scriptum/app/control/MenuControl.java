@@ -48,7 +48,7 @@ public class MenuControl implements AnimIntf {
             final float position = animator.getAnimatedFraction();
 
             int blended = ColorUtils.blend(statusStartColor, statusEndColor, position);
-            if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 window.setStatusBarColor(blended);
             }
 
@@ -74,6 +74,8 @@ public class MenuControl implements AnimIntf {
     public final void setIndicator(View indicator) {
         this.indicator = indicator;
     }
+
+    // TODO: 15.12.2018 починить цвет статус бара в зависимости от версии API
 
     /**
      * Установка цвета для UI

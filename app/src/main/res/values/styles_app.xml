@@ -3,6 +3,8 @@
 
     <style name="App"/>
 
+    <!-- TODO: 15.12.2018 починить цвет навигейшен бара в зависимости от версии -->
+
     <style name="App.Light" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="clAccent">@color/accent_light</item>
         <item name="clPrimary">@color/primary_light</item>
