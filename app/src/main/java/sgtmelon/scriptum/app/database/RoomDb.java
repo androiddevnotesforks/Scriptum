@@ -16,7 +16,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 /**
  * Класс для общения с базой данных
  */
-@Database(entities = {NoteItem.class, RollItem.class, RankItem.class}, version = 1)
+@Database(entities = {NoteItem.class, RollItem.class, RankItem.class}, version = 2)
 public abstract class RoomDb extends RoomDatabase {
 
     public static RoomDb provideDb(Context context) {

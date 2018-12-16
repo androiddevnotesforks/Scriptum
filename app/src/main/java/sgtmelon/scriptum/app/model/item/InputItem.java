@@ -25,7 +25,8 @@ public final class InputItem {
     private final String valueFrom;
     private final String valueTo;
 
-    public InputItem(@InputDef int tag, int position, @NonNull String valueFrom, @NonNull String valueTo) {
+    public InputItem(@InputDef int tag, int position, @NonNull String valueFrom,
+                     @NonNull String valueTo) {
         this.tag = tag;
 
         this.position = position;

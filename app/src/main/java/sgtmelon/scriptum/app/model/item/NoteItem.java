@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -51,7 +52,7 @@ public final class NoteItem {
     }
 
     @Ignore
-    public NoteItem(String create, @ColorDef int color, @TypeNoteDef int type) {
+    public NoteItem(@NonNull String create, @ColorDef int color, @TypeNoteDef int type) {
         this.create = create;
         this.color = color;
         this.type = type;
@@ -65,41 +66,46 @@ public final class NoteItem {
         this.id = id;
     }
 
+    @NonNull
     public String getCreate() {
         return create;
     }
 
-    public void setCreate(String create) {
+    public void setCreate(@NonNull String create) {
         this.create = create;
     }
 
+    @NonNull
     public String getChange() {
         return change;
     }
 
-    public void setChange(String change) {
+    public void setChange(@NonNull String change) {
         this.change = change;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
+    @NonNull
     public String getName(Context context) {
         return TextUtils.isEmpty(name)
                 ? context.getString(R.string.hint_view_name)
                 : name;
     }
 
+    @NonNull
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(@NonNull String text) {
         this.text = text;
     }
 
@@ -123,19 +129,21 @@ public final class NoteItem {
         this.type = type;
     }
 
+    @NonNull
     public List<Long> getRankPs() {
         return rankPs;
     }
 
-    public void setRankPs(List<Long> rankPs) {
+    public void setRankPs(@NonNull List<Long> rankPs) {
         this.rankPs = rankPs;
     }
 
+    @NonNull
     public List<Long> getRankId() {
         return rankId;
     }
 
-    public void setRankId(List<Long> rankId) {
+    public void setRankId(@NonNull List<Long> rankId) {
         this.rankId = rankId;
     }
 
@@ -158,12 +166,12 @@ public final class NoteItem {
     public int[] getCheck() {
         final int[] check = new int[]{-1, 0};
 
-        if (type == TypeNoteDef.roll) {
-            final String[] split = text.split(CheckDef.divider);
-            if (split.length == 2) {
-                for (int i = 0; i < 2; i++) {
-                    check[i] = Integer.parseInt(split[i]);
-                }
+        if (type != TypeNoteDef.roll) return check;
+
+        final String[] split = text.split(CheckDef.divider);
+        if (split.length == 2) {
+            for (int i = 0; i < 2; i++) {
+                check[i] = Integer.parseInt(split[i]);
             }
         }
 

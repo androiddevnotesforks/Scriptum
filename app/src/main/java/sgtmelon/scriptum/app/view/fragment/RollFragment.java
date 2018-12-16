@@ -402,7 +402,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final RollItem rollItem = new RollItem();
         rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
         rollItem.setText(text);
-        rollItem.setExist(false);
 
         inputControl.onRollAdd(p, rollItem.toString());
         bindInput();
@@ -579,11 +578,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             //Запись в пунктов в БД
             for (int i = 0; i < listRoll.size(); i++) {
                 final RollItem rollItem = listRoll.get(i);
-
                 rollItem.setIdNote(ntId);
                 rollItem.setPosition(i);
                 rollItem.setId(db.daoRoll().insert(rollItem));
-                rollItem.setExist(true);
 
                 listRoll.set(i, rollItem);
             }
@@ -596,9 +593,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 final RollItem rollItem = listRoll.get(i);
 
                 rollItem.setPosition(i);
-                if (!rollItem.isExist()) {
+                if (rollItem.getId() == null) {
                     rollItem.setId(db.daoRoll().insert(rollItem));
-                    rollItem.setExist(true);
                 } else {
                     db.daoRoll().update(rollItem.getId(), i, rollItem.getText());
                 }

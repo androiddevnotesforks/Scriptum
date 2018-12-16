@@ -23,8 +23,10 @@ public final class PreferenceActivity extends BaseActivityParent {
 
         setupToolbar();
 
-        final PreferenceFragment preferenceFragment = new PreferenceFragment();
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, preferenceFragment).commit();
+        getFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, new PreferenceFragment())
+                .commit();
     }
 
     private void setupToolbar() {
@@ -33,8 +35,11 @@ public final class PreferenceActivity extends BaseActivityParent {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_preference));
 
-        final Drawable icArrow = ColorUtils.getDrawable(this, R.drawable.ic_cancel_off, R.attr.clIcon);
-        toolbar.setNavigationIcon(icArrow);
+        final Drawable arrowIcon = ColorUtils.getDrawable(
+                this, R.drawable.ic_cancel_off, R.attr.clIcon
+        );
+
+        toolbar.setNavigationIcon(arrowIcon);
         toolbar.setNavigationOnClickListener(view -> finish());
     }
 

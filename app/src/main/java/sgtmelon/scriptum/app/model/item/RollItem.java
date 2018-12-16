@@ -4,10 +4,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -32,17 +32,13 @@ public final class RollItem {
 
     @ColumnInfo(name = DbAnn.Roll.ID)
     @PrimaryKey(autoGenerate = true)
-    private long id;
+    @Nullable
+    private Long id;
 
     @ColumnInfo(name = DbAnn.Roll.ID_NT) private long idNote;
     @ColumnInfo(name = DbAnn.Roll.POSITION) private int position;
     @ColumnInfo(name = DbAnn.Roll.CHECK) private boolean check = false;
     @ColumnInfo(name = DbAnn.Roll.TEXT) private String text;
-
-    /**
-     * Добавлен пункт в базу данных или нет
-     */
-    @Ignore private boolean exist = true;
 
     public RollItem() {
 
@@ -57,17 +53,17 @@ public final class RollItem {
             position = jsonObject.getInt(DbAnn.Roll.POSITION);
             check = jsonObject.getBoolean(DbAnn.Roll.CHECK);
             text = jsonObject.getString(DbAnn.Roll.TEXT);
-            exist = jsonObject.getBoolean(DbAnn.Roll.EXIST);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    public long getId() {
+    @Nullable
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(@NonNull Long id) {
         this.id = id;
     }
 
@@ -95,20 +91,13 @@ public final class RollItem {
         this.check = check;
     }
 
+    @NonNull
     public String getText() {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(@NonNull String text) {
         this.text = text;
-    }
-
-    public boolean isExist() {
-        return exist;
-    }
-
-    public void setExist(boolean exist) {
-        this.exist = exist;
     }
 
     @NonNull
@@ -122,7 +111,6 @@ public final class RollItem {
             jsonObject.put(DbAnn.Roll.POSITION, position);
             jsonObject.put(DbAnn.Roll.CHECK, check);
             jsonObject.put(DbAnn.Roll.TEXT, text);
-            jsonObject.put(DbAnn.Roll.EXIST, exist);
         } catch (JSONException e) {
             e.printStackTrace();
         }

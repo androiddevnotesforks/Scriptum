@@ -37,8 +37,7 @@ public @interface DbAnn {
                 ID_NT = "RL_ID_NOTE",
                 POSITION = "RL_POSITION",
                 CHECK = "RL_CHECK",
-                TEXT = "RL_TEXT",
-                EXIST = "RL_EXIST";
+                TEXT = "RL_TEXT";
     }
 
     @interface Rank {

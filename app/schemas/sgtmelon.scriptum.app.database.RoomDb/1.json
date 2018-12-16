@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2640ee59d719334158a8dc2d3695ec3e",
+    "identityHash": "39e7eecb840d092d06920bf9edbdcccd",
     "entities": [
       {
         "tableName": "NOTE_TABLE",
@@ -86,13 +86,13 @@
       },
       {
         "tableName": "ROLL_TABLE",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`RL_ID` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `RL_ID_NOTE` INTEGER NOT NULL, `RL_POSITION` INTEGER NOT NULL, `RL_CHECK` INTEGER NOT NULL, `RL_TEXT` TEXT, FOREIGN KEY(`RL_ID_NOTE`) REFERENCES `NOTE_TABLE`(`NT_ID`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`RL_ID` INTEGER PRIMARY KEY AUTOINCREMENT, `RL_ID_NOTE` INTEGER NOT NULL, `RL_POSITION` INTEGER NOT NULL, `RL_CHECK` INTEGER NOT NULL, `RL_TEXT` TEXT, FOREIGN KEY(`RL_ID_NOTE`) REFERENCES `NOTE_TABLE`(`NT_ID`) ON UPDATE CASCADE ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "RL_ID",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "idNote",
@@ -196,7 +196,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"2640ee59d719334158a8dc2d3695ec3e\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"39e7eecb840d092d06920bf9edbdcccd\")"
     ]
   }
 }

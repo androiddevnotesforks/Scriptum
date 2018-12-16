@@ -45,10 +45,8 @@ public abstract class RollDao extends BaseDao {
             rollItem.setPosition(p++);
             rollItem.setCheck(false);
             rollItem.setText(aText);
-            rollItem.setExist(true);
 
-            final long id = insert(rollItem);
-            rollItem.setId(id);
+            rollItem.setId(insert(rollItem));
 
             listRoll.add(rollItem);
         }

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.model.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -37,13 +38,13 @@ public final class RankItem {
     }
 
     @Ignore
-    public RankItem(int position, String name) {
+    public RankItem(int position, @NonNull String name) {
         this.position = position;
         this.name = name;
     }
 
     @Ignore
-    public RankItem(int id, int position, String name) {
+    public RankItem(int id, int position, @NonNull String name) {
         this.id = id;
         this.position = position;
         this.name = name;
@@ -57,11 +58,12 @@ public final class RankItem {
         this.id = id;
     }
 
+    @NonNull
     public List<Long> getIdNote() {
         return idNote;
     }
 
-    public void setIdNote(List<Long> idNote) {
+    public void setIdNote(@NonNull List<Long> idNote) {
         this.idNote = idNote;
     }
 
@@ -73,11 +75,12 @@ public final class RankItem {
         this.position = position;
     }
 
+    @NonNull
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@NonNull String name) {
         this.name = name;
     }
 
