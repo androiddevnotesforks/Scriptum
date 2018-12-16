@@ -166,11 +166,12 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuControl = new MenuControl(context, activity.getWindow());
+            menuControl = new MenuControl(context);
         } else {
-            menuControl = new MenuControlAnim(context, activity.getWindow());
+            menuControl = new MenuControlAnim(context);
         }
 
+        menuControl.setWindow(activity.getWindow());
         menuControl.setToolbar(toolbar);
         menuControl.setIndicator(indicator);
         menuControl.setColor(noteItem.getColor());

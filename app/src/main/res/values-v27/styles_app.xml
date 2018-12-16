@@ -7,16 +7,20 @@
         <item name="android:windowBackground">?attr/clBackground</item>
 
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
 
-        <item name="android:navigationBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarDividerColor">?attr/clDivider</item>
     </style>
 
     <style name="App.Dark.UI">
         <item name="android:windowBackground">?attr/clBackground</item>
 
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
 
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarDividerColor">?attr/clDivider</item>
     </style>
 
 </resources>

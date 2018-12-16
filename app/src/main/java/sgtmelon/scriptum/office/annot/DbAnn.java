@@ -7,6 +7,8 @@ package sgtmelon.scriptum.office.annot;
  */
 public @interface DbAnn {
 
+    // TODO: 16.12.2018 Разобраться с Nt_ID и подобным
+
     @interface Note {
         String TABLE = "NOTE_TABLE",
                 ID = "NT_ID",

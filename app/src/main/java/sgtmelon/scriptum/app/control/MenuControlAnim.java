@@ -3,7 +3,6 @@ package sgtmelon.scriptum.app.control;
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
-import android.view.Window;
 
 import androidx.annotation.RequiresApi;
 import sgtmelon.iconanim.office.hdlr.AnimHdlr;
@@ -19,8 +18,8 @@ public final class MenuControlAnim extends MenuControl {
 
     private AnimHdlr animHdlr;
 
-    public MenuControlAnim(Context context, Window window) {
-        super(context, window);
+    public MenuControlAnim(Context context) {
+        super(context);
     }
 
     @Override

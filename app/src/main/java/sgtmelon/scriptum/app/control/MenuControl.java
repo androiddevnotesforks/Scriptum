@@ -26,21 +26,20 @@ public class MenuControl implements AnimIntf {
     protected final Context context;
     protected final ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
 
-    protected Toolbar toolbar;
+    private final boolean statusOnDark = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M;
 
+    protected Toolbar toolbar;
     Drawable cancelOn, cancelOff;
 
     private Window window;
-
     private View indicator;
 
     private int valTheme;
     private int statusStartColor, statusEndColor;
     private int toolbarStartColor, toolbarEndColor;
 
-    public MenuControl(Context context, Window window) {
+    public MenuControl(Context context) {
         this.context = context;
-        this.window = window;
 
         valTheme = PrefUtils.getTheme(context);
 
@@ -48,7 +47,7 @@ public class MenuControl implements AnimIntf {
             final float position = animator.getAnimatedFraction();
 
             int blended = ColorUtils.blend(statusStartColor, statusEndColor, position);
-            if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.setStatusBarColor(blended);
             }
 
@@ -65,6 +64,10 @@ public class MenuControl implements AnimIntf {
 
         anim.addUpdateListener(updateListener);
         anim.setDuration(context.getResources().getInteger(android.R.integer.config_shortAnimTime));
+    }
+
+    public final void setWindow(Window window) {
+        this.window = window;
     }
 
     public final void setToolbar(Toolbar toolbar) {
@@ -85,7 +88,7 @@ public class MenuControl implements AnimIntf {
     public final void setColor(@ColorDef int color) {
         if (valTheme != ThemeDef.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                window.setStatusBarColor(ColorUtils.get(context, color, true));
+                window.setStatusBarColor(ColorUtils.get(context, color, statusOnDark));
             }
             toolbar.setBackgroundColor(ColorUtils.get(context, color, false));
         }
@@ -100,7 +103,7 @@ public class MenuControl implements AnimIntf {
      * @param color - Начальный цвет
      */
     public final void setStartColor(@ColorDef int color) {
-        statusStartColor = ColorUtils.get(context, color, true);
+        statusStartColor = ColorUtils.get(context, color, statusOnDark);
         toolbarStartColor = ColorUtils.get(context, color, false);
     }
 
@@ -110,7 +113,7 @@ public class MenuControl implements AnimIntf {
      * @param color - Конечный цвет
      */
     public final void startTint(@ColorDef int color) {
-        statusEndColor = ColorUtils.get(context, color, true);
+        statusEndColor = ColorUtils.get(context, color, statusOnDark);
         toolbarEndColor = ColorUtils.get(context, color, false);
 
         if (statusStartColor != statusEndColor) {
