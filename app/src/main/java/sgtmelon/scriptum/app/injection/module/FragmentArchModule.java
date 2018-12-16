@@ -24,6 +24,8 @@ import sgtmelon.scriptum.databinding.IncludeInfoBinding;
 @Module
 public final class FragmentArchModule {
 
+    // TODO: 16.12.2018 сделать Factory для вещей в inject
+
     private final LayoutInflater inflater;
     private final ViewGroup container;
 

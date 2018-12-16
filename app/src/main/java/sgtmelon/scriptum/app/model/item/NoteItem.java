@@ -23,28 +23,28 @@ import sgtmelon.scriptum.office.conv.StringConv;
 /**
  * Элемент списка заметок {@link NoteRepo}
  */
-@Entity(tableName = DbAnn.NT_TB)
+@Entity(tableName = DbAnn.Note.TABLE)
 @TypeConverters({BoolConv.class, StringConv.class})
 public final class NoteItem {
 
-    @ColumnInfo(name = DbAnn.NT_ID)
+    @ColumnInfo(name = DbAnn.Note.ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo(name = DbAnn.NT_CR) private String create;
-    @ColumnInfo(name = DbAnn.NT_CH) private String change;
+    @ColumnInfo(name = DbAnn.Note.CREATE) private String create;
+    @ColumnInfo(name = DbAnn.Note.CHANGE) private String change;
 
-    @ColumnInfo(name = DbAnn.NT_NM) private String name = "";
-    @ColumnInfo(name = DbAnn.NT_TX) private String text = "";
+    @ColumnInfo(name = DbAnn.Note.NAME) private String name = "";
+    @ColumnInfo(name = DbAnn.Note.TEXT) private String text = "";
 
-    @ColumnInfo(name = DbAnn.NT_CL) private int color;
-    @ColumnInfo(name = DbAnn.NT_TP) private int type;
+    @ColumnInfo(name = DbAnn.Note.COLOR) private int color;
+    @ColumnInfo(name = DbAnn.Note.TYPE) private int type;
 
-    @ColumnInfo(name = DbAnn.NT_RK_PS) private List<Long> rankPs = new ArrayList<>();
-    @ColumnInfo(name = DbAnn.NT_RK_ID) private List<Long> rankId = new ArrayList<>();
+    @ColumnInfo(name = DbAnn.Note.RANK_PS) private List<Long> rankPs = new ArrayList<>();
+    @ColumnInfo(name = DbAnn.Note.RANK_ID) private List<Long> rankId = new ArrayList<>();
 
-    @ColumnInfo(name = DbAnn.NT_BN) private boolean bin = false;
-    @ColumnInfo(name = DbAnn.NT_ST) private boolean status = false;
+    @ColumnInfo(name = DbAnn.Note.BIN) private boolean bin = false;
+    @ColumnInfo(name = DbAnn.Note.STATUS) private boolean status = false;
 
     public NoteItem() {
 

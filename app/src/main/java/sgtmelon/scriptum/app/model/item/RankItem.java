@@ -16,18 +16,18 @@ import sgtmelon.scriptum.office.conv.StringConv;
 /**
  * Элемент списка категорий {@link RankRepo}
  */
-@Entity(tableName = DbAnn.RK_TB)
+@Entity(tableName = DbAnn.Rank.TABLE)
 @TypeConverters({BoolConv.class, StringConv.class})
 public final class RankItem {
 
-    @ColumnInfo(name = DbAnn.RK_ID)
+    @ColumnInfo(name = DbAnn.Rank.ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo(name = DbAnn.RK_ID_NT) private List<Long> idNote = new ArrayList<>();
-    @ColumnInfo(name = DbAnn.RK_PS) private int position;
-    @ColumnInfo(name = DbAnn.RK_NM) private String name;
-    @ColumnInfo(name = DbAnn.RK_VS) private boolean visible = true;
+    @ColumnInfo(name = DbAnn.Rank.ID_NT) private List<Long> idNote = new ArrayList<>();
+    @ColumnInfo(name = DbAnn.Rank.POSITION) private int position;
+    @ColumnInfo(name = DbAnn.Rank.NAME) private String name;
+    @ColumnInfo(name = DbAnn.Rank.VISIBLE) private boolean visible = true;
 
     @Ignore private int textCount = 0;
     @Ignore private int rollCount = 0;

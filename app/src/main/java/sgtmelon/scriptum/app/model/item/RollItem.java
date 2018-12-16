@@ -20,24 +20,24 @@ import static androidx.room.ForeignKey.CASCADE;
 /**
  * Элемент списка заметок {@link NoteRepo}
  */
-@Entity(tableName = DbAnn.RL_TB,
+@Entity(tableName = DbAnn.Roll.TABLE,
         foreignKeys = @ForeignKey(entity = NoteItem.class,
-                parentColumns = DbAnn.NT_ID,
-                childColumns = DbAnn.RL_ID_NT,
+                parentColumns = DbAnn.Note.ID,
+                childColumns = DbAnn.Roll.ID_NT,
                 onUpdate = CASCADE,
                 onDelete = CASCADE),
-        indices = {@Index(DbAnn.RL_ID_NT)})
+        indices = {@Index(DbAnn.Roll.ID_NT)})
 @TypeConverters({BoolConv.class})
 public final class RollItem {
 
-    @ColumnInfo(name = DbAnn.RL_ID)
+    @ColumnInfo(name = DbAnn.Roll.ID)
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo(name = DbAnn.RL_ID_NT) private long idNote;
-    @ColumnInfo(name = DbAnn.RL_PS) private int position;
-    @ColumnInfo(name = DbAnn.RL_CH) private boolean check = false;
-    @ColumnInfo(name = DbAnn.RL_TX) private String text;
+    @ColumnInfo(name = DbAnn.Roll.ID_NT) private long idNote;
+    @ColumnInfo(name = DbAnn.Roll.POSITION) private int position;
+    @ColumnInfo(name = DbAnn.Roll.CHECK) private boolean check = false;
+    @ColumnInfo(name = DbAnn.Roll.TEXT) private String text;
 
     /**
      * Добавлен пункт в базу данных или нет
@@ -52,12 +52,12 @@ public final class RollItem {
         try {
             final JSONObject jsonObject = new JSONObject(data);
 
-            id = jsonObject.getLong(DbAnn.RL_ID);
-            idNote = jsonObject.getLong(DbAnn.RL_ID_NT);
-            position = jsonObject.getInt(DbAnn.RL_PS);
-            check = jsonObject.getBoolean(DbAnn.RL_CH);
-            text = jsonObject.getString(DbAnn.RL_TX);
-            exist = id != -1;
+            id = jsonObject.getLong(DbAnn.Roll.ID);
+            idNote = jsonObject.getLong(DbAnn.Roll.ID_NT);
+            position = jsonObject.getInt(DbAnn.Roll.POSITION);
+            check = jsonObject.getBoolean(DbAnn.Roll.CHECK);
+            text = jsonObject.getString(DbAnn.Roll.TEXT);
+            exist = jsonObject.getBoolean(DbAnn.Roll.EXIST);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -117,11 +117,12 @@ public final class RollItem {
         final JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put(DbAnn.RL_TX, text);
-            jsonObject.put(DbAnn.RL_ID, id);
-            jsonObject.put(DbAnn.RL_ID_NT, idNote);
-            jsonObject.put(DbAnn.RL_PS, position);
-            jsonObject.put(DbAnn.RL_CH, check);
+            jsonObject.put(DbAnn.Roll.ID, id);
+            jsonObject.put(DbAnn.Roll.ID_NT, idNote);
+            jsonObject.put(DbAnn.Roll.POSITION, position);
+            jsonObject.put(DbAnn.Roll.CHECK, check);
+            jsonObject.put(DbAnn.Roll.TEXT, text);
+            jsonObject.put(DbAnn.Roll.EXIST, exist);
         } catch (JSONException e) {
             e.printStackTrace();
         }

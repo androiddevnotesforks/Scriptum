@@ -400,7 +400,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 : 0;
 
         final RollItem rollItem = new RollItem();
-        rollItem.setId(-1);
         rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
         rollItem.setText(text);
         rollItem.setExist(false);
@@ -543,8 +542,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         vm.setNoteRepo(noteRepo);
     }
 
-    // TODO: 15.12.2018 приложение падает при сохранении пунктов
-
     @Override
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
@@ -632,6 +629,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         return true;
     }
+
+    // TODO: 16.12.2018 Приложение падает при свайпе пункта и потом undo/redo
 
     @Override
     public void onUndoClick() {

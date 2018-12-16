@@ -7,41 +7,50 @@ package sgtmelon.scriptum.office.annot;
  */
 public @interface DbAnn {
 
-    String NT_TB = "NOTE_TABLE",
-            NT_ID = "NT_ID",
-            NT_CR = "NT_CREATE",
-            NT_CH = "NT_CHANGE",
-            NT_NM = "NT_NAME",
-            NT_TX = "NT_TEXT",
-            NT_CL = "NT_COLOR",
-            NT_TP = "NT_TYPE",
-            NT_RK_ID = "NT_RANK_ID",
-            NT_RK_PS = "NT_RANK_PS",
-            NT_BN = "NT_BIN",
-            NT_ST = "NT_STATUS";
+    @interface Note {
+        String TABLE = "NOTE_TABLE",
+                ID = "NT_ID",
+                CREATE = "NT_CREATE",
+                CHANGE = "NT_CHANGE",
+                NAME = "NT_NAME",
+                TEXT = "NT_TEXT",
+                COLOR = "NT_COLOR",
+                TYPE = "NT_TYPE",
+                RANK_ID = "NT_RANK_ID",
+                RANK_PS = "NT_RANK_PS",
+                BIN = "NT_BIN",
+                STATUS = "NT_STATUS";
 
-    String RL_TB = "ROLL_TABLE",
-            RL_ID = "RL_ID",
-            RL_ID_NT = "RL_ID_NOTE",
-            RL_PS = "RL_POSITION",
-            RL_CH = "RL_CHECK",
-            RL_TX = "RL_TEXT";
+        String[] orders = new String[]{
+                "DATE(" + CREATE + ") DESC, TIME(" + CREATE + ") DESC",
+                "DATE(" + CHANGE + ") DESC, TIME(" + CHANGE + ") DESC",
+                RANK_PS + " ASC",
+                COLOR + " ASC"
+        };
+    }
 
-    String RK_TB = "RANK_TABLE",
-            RK_ID = "RK_ID",
-            RK_ID_NT = "RK_ID_NOTE",
-            RK_PS = "RK_POSITION",
-            RK_NM = "RK_NAME",
-            RK_VS = "RK_VISIBLE";
+    @interface Roll {
+        String TABLE = "ROLL_TABLE",
+                ID = "RL_ID",
+                ID_NT = "RL_ID_NOTE",
+                POSITION = "RL_POSITION",
+                CHECK = "RL_CHECK",
+                TEXT = "RL_TEXT",
+                EXIST = "RL_EXIST";
+    }
 
-    String none = "NONE";
-    String divider = ",";
+    @interface Rank {
+        String TABLE = "RANK_TABLE",
+                ID = "RK_ID",
+                ID_NT = "RK_ID_NOTE",
+                POSITION = "RK_POSITION",
+                NAME = "RK_NAME",
+                VISIBLE = "RK_VISIBLE";
+    }
 
-    String[] orders = new String[]{
-            "DATE(" + NT_CR + ") DESC, TIME(" + NT_CR + ") DESC",
-            "DATE(" + NT_CH + ") DESC, TIME(" + NT_CH + ") DESC",
-            NT_RK_PS + " ASC",
-            NT_CL + " ASC"
-    };
+    @interface Value {
+        String NONE = "NONE";
+        String DIVIDER = ","; // TODO: 16.12.2018 Вынести в отдельный класс аннотации
+    }
 
 }

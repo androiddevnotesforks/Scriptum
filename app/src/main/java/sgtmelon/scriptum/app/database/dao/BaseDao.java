@@ -43,8 +43,8 @@ abstract class BaseDao {
      */
     List<NoteItem> getNote(@BinDef int bin, String sortKeys) {
         SimpleSQLiteQuery query = new SimpleSQLiteQuery(
-                "SELECT * FROM " + DbAnn.NT_TB +
-                        " WHERE " + DbAnn.NT_BN + " = " + bin +
+                "SELECT * FROM " + DbAnn.Note.TABLE +
+                        " WHERE " + DbAnn.Note.BIN + " = " + bin +
                         " ORDER BY " + sortKeys);
 
         return getNote(query);

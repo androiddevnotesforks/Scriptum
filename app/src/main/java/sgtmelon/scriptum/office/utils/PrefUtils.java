@@ -47,7 +47,7 @@ public final class PrefUtils {
         final StringBuilder order = new StringBuilder();
         for (String aKey : keysArr) {
             final int key = Integer.parseInt(aKey);
-            order.append(DbAnn.orders[key]);
+            order.append(DbAnn.Note.orders[key]);
 
             if (key != SortDef.create && key != SortDef.change) {
                 order.append(SortDef.divider);

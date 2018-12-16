@@ -18,7 +18,7 @@ public final class NoteRepo {
 
     @Embedded private NoteItem noteItem;
 
-    @Relation(parentColumn = DbAnn.NT_ID, entityColumn = DbAnn.RL_ID_NT)
+    @Relation(parentColumn = DbAnn.Note.ID, entityColumn = DbAnn.Roll.ID_NT)
     private List<RollItem> listRoll;
 
     @Ignore private StatusItem statusItem;
