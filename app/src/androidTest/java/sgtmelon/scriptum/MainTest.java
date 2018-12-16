@@ -7,6 +7,7 @@ import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 import sgtmelon.scriptum.activity.IntroActivityTest;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -30,7 +31,7 @@ public final class MainTest extends ParentTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        preferences.edit().putBoolean(context.getString(R.string.pref_first_start), firstStart).apply();
+        PrefUtils.setFirstStart(context, firstStart);
     }
 
     @Test

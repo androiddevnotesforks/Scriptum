@@ -21,7 +21,7 @@ public final class PrefUtils {
 
     private static SharedPreferences preferences;
 
-    public static SharedPreferences getInstance(Context context) {
+    private static SharedPreferences getInstance(Context context) {
         if (preferences == null) {
             preferences = PreferenceManager.getDefaultSharedPreferences(context);
             synchronized (PrefUtils.class) {
@@ -39,9 +39,7 @@ public final class PrefUtils {
      * @return - Формирование поискового запроса относительно настроек
      */
     public static String getSortNoteOrder(Context context) {
-        final SharedPreferences pref = getInstance(context);
-
-        final String keysStr = pref.getString(context.getString(R.string.pref_key_sort), SortDef.def);
+        final String keysStr = getSort(context);
         final String[] keysArr = keysStr.split(SortDef.divider);
 
         final StringBuilder order = new StringBuilder();
@@ -126,6 +124,18 @@ public final class PrefUtils {
         textView.append("\nSave:\t" + getAutoSave(context));
         textView.append("\nSTime:\t" + getSaveTime(context));
         textView.append("\nTheme:\t" + getTheme(context));
+    }
+
+    public static boolean getFirstStart(Context context) {
+        return getInstance(context).getBoolean(context.getString(R.string.pref_first_start),
+                context.getResources().getBoolean(R.bool.pref_first_start_default)
+        );
+    }
+
+    public static void setFirstStart(Context context, boolean isFirst) {
+        getInstance(context).edit()
+                .putBoolean(context.getString(R.string.pref_first_start), isFirst)
+                .apply();
     }
 
     public static String getSort(Context context) {

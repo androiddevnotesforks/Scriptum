@@ -1,15 +1,13 @@
 package sgtmelon.scriptum.app.view.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 public final class SplashActivity extends AppCompatActivity {
 
@@ -42,13 +40,10 @@ public final class SplashActivity extends AppCompatActivity {
     private void startNormal() {
         Log.i(TAG, "startNormal");
 
-        final SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this); // TODO: 02.10.2018 вынести в PrefUtils
-
-        final boolean firstStart = pref.getBoolean(getString(R.string.pref_first_start),
-                getResources().getBoolean(R.bool.pref_first_start_default));
+        final boolean firstStart = PrefUtils.getFirstStart(this);
 
         if (firstStart) {
-            pref.edit().putBoolean(getString(R.string.pref_first_start), false).apply();
+            PrefUtils.setFirstStart(this, false);
         }
 
         final Intent intent = new Intent(this, firstStart
