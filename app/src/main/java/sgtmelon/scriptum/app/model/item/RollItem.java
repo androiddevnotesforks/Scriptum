@@ -49,6 +49,8 @@ public final class RollItem {
             final JSONObject jsonObject = new JSONObject(data);
 
             id = jsonObject.getLong(DbAnn.Roll.ID);
+            id = id != -1 ? id : null;
+
             noteId = jsonObject.getLong(DbAnn.Roll.NOTE_ID);
             position = jsonObject.getInt(DbAnn.Roll.POSITION);
             check = jsonObject.getBoolean(DbAnn.Roll.CHECK);
@@ -106,7 +108,7 @@ public final class RollItem {
         final JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put(DbAnn.Roll.ID, id);
+            jsonObject.put(DbAnn.Roll.ID, id != null ? id : -1);
             jsonObject.put(DbAnn.Roll.NOTE_ID, noteId);
             jsonObject.put(DbAnn.Roll.POSITION, position);
             jsonObject.put(DbAnn.Roll.CHECK, check);

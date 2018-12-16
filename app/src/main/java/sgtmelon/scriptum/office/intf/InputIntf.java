@@ -9,8 +9,6 @@ import sgtmelon.scriptum.app.control.InputControl;
  */
 public interface InputIntf {
 
-    // TODO: 09.12.2018 убрать лишнее
-
     void onRankChange(List<Long> valueFrom, List<Long> valueTo);
 
     void onColorChange(int valueFrom, int valueTo);

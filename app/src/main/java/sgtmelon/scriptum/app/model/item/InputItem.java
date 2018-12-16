@@ -19,6 +19,8 @@ public final class InputItem {
      * TODO: 01.12.2018  Подумай как это лучше реализовать со списками
      */
 
+    // TODO: 16.12.2018 сохранять позицию курсора
+
     private final int tag;
 
     private final int position;

@@ -89,9 +89,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
             super.onSelectedChanged(viewHolder, actionState);
 
-            if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                dragStart = viewHolder.getAdapterPosition();
-            }
+            dragStart = actionState == ItemTouchHelper.ACTION_STATE_DRAG
+                    ? viewHolder.getAdapterPosition()
+                    : -1;
         }
 
         @Override
@@ -100,7 +100,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             super.clearView(recyclerView, viewHolder);
 
             dragEnd = viewHolder.getAdapterPosition();
-            if (dragStart != dragEnd) {
+            if (dragStart != -1 && dragStart != dragEnd) {
                 inputControl.onRollMove(dragStart, dragEnd);
                 bindInput();
             }

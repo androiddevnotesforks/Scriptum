@@ -33,5 +33,3 @@ public @interface InputDef {
     int rollMove = 7;
 
 }
-
-

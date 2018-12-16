@@ -27,6 +27,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
     // TODO: 07.10.2018 От частного к общему
 
     private final List<SortItem> listSort = new ArrayList<>();
+
     private String init, keys;
     private String[] text;
     private SortAdapter adapter;

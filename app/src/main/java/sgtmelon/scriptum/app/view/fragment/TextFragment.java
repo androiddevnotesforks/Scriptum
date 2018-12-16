@@ -250,8 +250,6 @@ public final class TextFragment extends NoteFragmentParent {
         }
     }
 
-    // TODO: 10.12.2018 убрать Toast в onMenuSaveClick
-
     @Override
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
