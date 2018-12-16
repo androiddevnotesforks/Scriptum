@@ -26,7 +26,7 @@ public class MenuControl implements AnimIntf {
     protected final Context context;
     protected final ValueAnimator anim = ValueAnimator.ofFloat(0, 1);
 
-    private final boolean statusOnDark = Build.VERSION.SDK_INT <= Build.VERSION_CODES.M;
+    private final boolean statusOnDark = Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
 
     protected Toolbar toolbar;
     Drawable cancelOn, cancelOff;
@@ -77,8 +77,6 @@ public class MenuControl implements AnimIntf {
     public final void setIndicator(View indicator) {
         this.indicator = indicator;
     }
-
-    // TODO: 15.12.2018 починить цвет статус бара в зависимости от версии API
 
     /**
      * Установка цвета для UI
