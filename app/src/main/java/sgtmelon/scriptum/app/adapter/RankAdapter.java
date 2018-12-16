@@ -32,6 +32,13 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
         return startAnim;
     }
 
+    /**
+     * Вызывать после {@link #setList(List)}
+     */
+    public void setStartAnim(boolean[] startAnim) {
+        this.startAnim = startAnim;
+    }
+
     @Override
     public void setList(List<RankItem> list) {
         super.setList(list);

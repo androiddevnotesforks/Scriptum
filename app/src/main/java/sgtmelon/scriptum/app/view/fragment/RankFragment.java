@@ -45,8 +45,6 @@ import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.DragListenerSt;
 import sgtmelon.scriptum.office.st.OpenSt;
 
-// TODO: 15.12.2018 Не правильно работает анимация глаза при долгом нажатии
-
 public final class RankFragment extends Fragment implements View.OnClickListener,
         View.OnLongClickListener, ItemIntf.ClickListener, ItemIntf.LongClickListener {
 
@@ -349,10 +347,9 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 final RankItem rankItem = new RankItem(p, name);
 
                 db = RoomDb.provideDb(context);
-                final long rankId = db.daoRank().insert(rankItem);
+                rankItem.setId(db.daoRank().insert(rankItem));
                 db.close();
 
-                rankItem.setId(rankId);
                 rankRepo.add(p, rankItem);
 
                 vm.setRankRepo(rankRepo);
@@ -383,11 +380,9 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         final RankItem rankItem = new RankItem(p - 1, name);
 
         db = RoomDb.provideDb(context);
-        long rankId = db.daoRank().insert(rankItem);
+        rankItem.setId(db.daoRank().insert(rankItem));
         db.daoRank().update(p);
         db.close();
-
-        rankItem.setId(rankId);
 
         final RankRepo rankRepo = vm.getRankRepo();
         rankRepo.add(p, rankItem);
@@ -465,15 +460,15 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         final boolean clickVisible = rankRepo.get(p).isVisible();
 
         for (int i = 0; i < rankRepo.size(); i++) {
-            if (i != p) {
-                final RankItem rankItem = rankRepo.get(i);
-                final boolean isVisible = rankItem.isVisible();
+            if (i == p) continue;
 
-                if (clickVisible == isVisible) {
-                    startAnim[i] = true;
-                    rankItem.setVisible(!isVisible);
-                    rankRepo.set(i, rankItem);
-                }
+            final RankItem rankItem = rankRepo.get(i);
+            final boolean isVisible = rankItem.isVisible();
+
+            if (clickVisible == isVisible) {
+                startAnim[i] = true;
+                rankItem.setVisible(!isVisible);
+                rankRepo.set(i, rankItem);
             }
         }
 
@@ -482,6 +477,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         vm.setRankRepo(rankRepo);
 
         adapter.setList(listRank);
+        adapter.setStartAnim(startAnim);
         adapter.notifyDataSetChanged();
 
         db = RoomDb.provideDb(context);
