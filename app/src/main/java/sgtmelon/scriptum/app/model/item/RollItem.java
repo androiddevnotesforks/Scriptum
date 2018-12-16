@@ -23,10 +23,10 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(tableName = DbAnn.Roll.TABLE,
         foreignKeys = @ForeignKey(entity = NoteItem.class,
                 parentColumns = DbAnn.Note.ID,
-                childColumns = DbAnn.Roll.ID_NT,
+                childColumns = DbAnn.Roll.NOTE_ID,
                 onUpdate = CASCADE,
                 onDelete = CASCADE),
-        indices = {@Index(DbAnn.Roll.ID_NT)})
+        indices = {@Index(DbAnn.Roll.NOTE_ID)})
 @TypeConverters({BoolConv.class})
 public final class RollItem {
 
@@ -35,7 +35,7 @@ public final class RollItem {
     @Nullable
     private Long id;
 
-    @ColumnInfo(name = DbAnn.Roll.ID_NT) private long idNote;
+    @ColumnInfo(name = DbAnn.Roll.NOTE_ID) private long noteId;
     @ColumnInfo(name = DbAnn.Roll.POSITION) private int position;
     @ColumnInfo(name = DbAnn.Roll.CHECK) private boolean check = false;
     @ColumnInfo(name = DbAnn.Roll.TEXT) private String text;
@@ -49,7 +49,7 @@ public final class RollItem {
             final JSONObject jsonObject = new JSONObject(data);
 
             id = jsonObject.getLong(DbAnn.Roll.ID);
-            idNote = jsonObject.getLong(DbAnn.Roll.ID_NT);
+            noteId = jsonObject.getLong(DbAnn.Roll.NOTE_ID);
             position = jsonObject.getInt(DbAnn.Roll.POSITION);
             check = jsonObject.getBoolean(DbAnn.Roll.CHECK);
             text = jsonObject.getString(DbAnn.Roll.TEXT);
@@ -67,12 +67,12 @@ public final class RollItem {
         this.id = id;
     }
 
-    public long getIdNote() {
-        return idNote;
+    public long getNoteId() {
+        return noteId;
     }
 
-    public void setIdNote(long idNote) {
-        this.idNote = idNote;
+    public void setNoteId(long noteId) {
+        this.noteId = noteId;
     }
 
     public int getPosition() {
@@ -107,7 +107,7 @@ public final class RollItem {
 
         try {
             jsonObject.put(DbAnn.Roll.ID, id);
-            jsonObject.put(DbAnn.Roll.ID_NT, idNote);
+            jsonObject.put(DbAnn.Roll.NOTE_ID, noteId);
             jsonObject.put(DbAnn.Roll.POSITION, position);
             jsonObject.put(DbAnn.Roll.CHECK, check);
             jsonObject.put(DbAnn.Roll.TEXT, text);

@@ -7,8 +7,6 @@ package sgtmelon.scriptum.office.annot;
  */
 public @interface DbAnn {
 
-    // TODO: 16.12.2018 Разобраться с Nt_ID и подобным
-
     @interface Note {
         String TABLE = "NOTE_TABLE",
                 ID = "NT_ID",
@@ -34,7 +32,7 @@ public @interface DbAnn {
     @interface Roll {
         String TABLE = "ROLL_TABLE",
                 ID = "RL_ID",
-                ID_NT = "RL_ID_NOTE",
+                NOTE_ID = "RL_NOTE_ID",
                 POSITION = "RL_POSITION",
                 CHECK = "RL_CHECK",
                 TEXT = "RL_TEXT";
@@ -43,7 +41,7 @@ public @interface DbAnn {
     @interface Rank {
         String TABLE = "RANK_TABLE",
                 ID = "RK_ID",
-                ID_NT = "RK_ID_NOTE",
+                NOTE_ID = "RK_NOTE_ID",
                 POSITION = "RK_POSITION",
                 NAME = "RK_NAME",
                 VISIBLE = "RK_VISIBLE";

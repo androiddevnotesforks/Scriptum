@@ -400,7 +400,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 : 0;
 
         final RollItem rollItem = new RollItem();
-        rollItem.setIdNote(vm.getNoteRepo().getNoteItem().getId());
+        rollItem.setNoteId(vm.getNoteRepo().getNoteItem().getId());
         rollItem.setText(text);
 
         inputControl.onRollAdd(p, rollItem.toString());
@@ -512,6 +512,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         viewModel.setNoteRepo(noteRepo);
         noteCallback.setViewModel(viewModel);
 
+        if (rollItem.getId() == null) return;
+
         db = RoomDb.provideDb(context);
         db.daoRoll().update(rollItem.getId(), rollItem.isCheck());
         db.daoNote().update(noteItem);
@@ -578,7 +580,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             //Запись в пунктов в БД
             for (int i = 0; i < listRoll.size(); i++) {
                 final RollItem rollItem = listRoll.get(i);
-                rollItem.setIdNote(ntId);
+                rollItem.setNoteId(ntId);
                 rollItem.setPosition(i);
                 rollItem.setId(db.daoRoll().insert(rollItem));
 
@@ -601,14 +603,16 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
                 listRoll.set(i, rollItem);
             }
+
             noteRepo.setListRoll(listRoll);
             adapter.setList(listRoll);
 
-            final List<Long> rollId = new ArrayList<>();
+            final List<Long> listRollId = new ArrayList<>();
             for (RollItem rollItem : listRoll) {
-                rollId.add(rollItem.getId());
+                listRollId.add(rollItem.getId());
             }
-            db.daoRoll().delete(noteItem.getId(), rollId);
+
+            db.daoRoll().delete(noteItem.getId(), listRollId);
         }
         db.daoRank().update(noteItem.getId(), noteItem.getRankId());
         db.close();

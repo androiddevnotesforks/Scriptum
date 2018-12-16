@@ -25,7 +25,7 @@ public final class RankItem {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
-    @ColumnInfo(name = DbAnn.Rank.ID_NT) private List<Long> idNote = new ArrayList<>();
+    @ColumnInfo(name = DbAnn.Rank.NOTE_ID) private List<Long> noteId = new ArrayList<>();
     @ColumnInfo(name = DbAnn.Rank.POSITION) private int position;
     @ColumnInfo(name = DbAnn.Rank.NAME) private String name;
     @ColumnInfo(name = DbAnn.Rank.VISIBLE) private boolean visible = true;
@@ -59,12 +59,12 @@ public final class RankItem {
     }
 
     @NonNull
-    public List<Long> getIdNote() {
-        return idNote;
+    public List<Long> getNoteId() {
+        return noteId;
     }
 
-    public void setIdNote(@NonNull List<Long> idNote) {
-        this.idNote = idNote;
+    public void setNoteId(@NonNull List<Long> noteId) {
+        this.noteId = noteId;
     }
 
     public int getPosition() {

@@ -42,7 +42,7 @@ abstract class BaseDao {
      * @return - Список заметок
      */
     List<NoteItem> getNote(@BinDef int bin, String sortKeys) {
-        SimpleSQLiteQuery query = new SimpleSQLiteQuery(
+        final SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + DbAnn.Note.TABLE +
                         " WHERE " + DbAnn.Note.BIN + " = " + bin +
                         " ORDER BY " + sortKeys);
@@ -95,12 +95,12 @@ abstract class BaseDao {
      * @return - Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
      */
     @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :idNote AND RL_POSITION BETWEEN 0 AND 3 " +
+            "WHERE RL_NOTE_ID = :idNote AND RL_POSITION BETWEEN 0 AND 3 " +
             "ORDER BY RL_POSITION ASC")
     abstract List<RollItem> getRollView(long idNote);
 
     @Query("SELECT * FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :idNote " +
+            "WHERE RL_NOTE_ID = :idNote " +
             "ORDER BY RL_POSITION")
     abstract List<RollItem> getRoll(long idNote);
 
@@ -125,20 +125,20 @@ abstract class BaseDao {
     public abstract void updateRank(List<RankItem> listRank);
 
     /**
-     * @param noteId - Id заметки, которую необходимо убрать из категории
-     * @param rankId - Массив из id категорий, принадлежащих заметке
+     * @param noteId     - Id заметки, которую необходимо убрать из категории
+     * @param listRankId - Массив из id категорий, принадлежащих заметке
      */
-    void clearRank(long noteId, List<Long> rankId) {
-        final List<RankItem> listRank = getRank(rankId);
+    void clearRank(long noteId, List<Long> listRankId) {
+        final List<RankItem> listRank = getRank(listRankId);
 
         for (int i = 0; i < listRank.size(); i++) {
             final RankItem rankItem = listRank.get(i);
 
             //Убирает из списка необходимую дату создания заметки
-            final List<Long> listId = rankItem.getIdNote();
-            listId.remove(noteId);
+            final List<Long> listNoteId = rankItem.getNoteId();
+            listNoteId.remove(noteId);
 
-            rankItem.setIdNote(listId);
+            rankItem.setNoteId(listNoteId);
             listRank.set(i, rankItem);
         }
 

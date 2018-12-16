@@ -39,10 +39,10 @@ public abstract class RankDao extends BaseDao {
 
         for (int i = 0; i < listRank.size(); i++) {
             final RankItem rankItem = listRank.get(i);
-            final List<Long> listId = rankItem.getIdNote();
+            final List<Long> listNoteId = rankItem.getNoteId();
 
-            rankItem.setTextCount(getNoteCount(TypeNoteDef.text, listId));
-            rankItem.setRollCount(getNoteCount(TypeNoteDef.roll, listId));
+            rankItem.setTextCount(getNoteCount(TypeNoteDef.text, listNoteId));
+            rankItem.setRollCount(getNoteCount(TypeNoteDef.roll, listNoteId));
 
             listRank.set(i, rankItem);
         }
@@ -93,15 +93,15 @@ public abstract class RankDao extends BaseDao {
      * Добавление или удаление id заметки к категорииё
      *
      * @param noteId - Id заметки
-     * @param rankId - Id категорий принадлежащих каметке
+     * @param listRankId - Id категорий принадлежащих каметке
      */
-    public void update(long noteId, List<Long> rankId) {
+    public void update(long noteId, List<Long> listRankId) {
         final List<RankItem> listRank = getSimple();
-        final boolean[] check = getCheck(rankId);
+        final boolean[] check = getCheck(listRankId);
 
         for (int i = 0; i < listRank.size(); i++) {
             final RankItem rankItem = listRank.get(i);
-            final List<Long> listId = rankItem.getIdNote();
+            final List<Long> listId = rankItem.getNoteId();
 
             if (check[i] && !listId.contains(noteId)) {
                 listId.add(noteId);
@@ -109,7 +109,7 @@ public abstract class RankDao extends BaseDao {
                 listId.remove(noteId);
             }
 
-            rankItem.setIdNote(listId);
+            rankItem.setNoteId(listId);
             listRank.set(i, rankItem);
         }
 
@@ -131,14 +131,14 @@ public abstract class RankDao extends BaseDao {
         final int iAdd = startFirst ? -1 : 1;
 
         final List<RankItem> listRank = getComplex();
-        final List<Long> idNote = new ArrayList<>();
+        final List<Long> listNoteId = new ArrayList<>();
 
         for (int i = iStart; i <= iEnd; i++) {
             final RankItem rankItem = listRank.get(i);
 
-            for (long id : rankItem.getIdNote()) {
-                if (!idNote.contains(id)) {
-                    idNote.add(id);
+            for (long id : rankItem.getNoteId()) {
+                if (!listNoteId.contains(id)) {
+                    listNoteId.add(id);
                 }
             }
 
@@ -166,7 +166,7 @@ public abstract class RankDao extends BaseDao {
         }
 
         updateRank(listRank);
-        update(idNote, listRank);
+        update(listNoteId, listRank);
 
         return listRank;
     }
@@ -176,14 +176,14 @@ public abstract class RankDao extends BaseDao {
      */
     public void update(int position) {
         final List<RankItem> listRank = getSimple();
-        final List<Long> idNote = new ArrayList<>();
+        final List<Long> listNoteId = new ArrayList<>();
 
         for (int i = position; i < listRank.size(); i++) {
             final RankItem rankItem = listRank.get(i);
 
-            for (long id : rankItem.getIdNote()) {
-                if (!idNote.contains(id)) {
-                    idNote.add(id);
+            for (long id : rankItem.getNoteId()) {
+                if (!listNoteId.contains(id)) {
+                    listNoteId.add(id);
                 }
             }
 
@@ -192,15 +192,15 @@ public abstract class RankDao extends BaseDao {
         }
 
         updateRank(listRank);
-        update(idNote, listRank);
+        update(listNoteId, listRank);
     }
 
     /**
-     * @param idNote   - Id заметок, которые нужно обновить
+     * @param listNoteId   - Id заметок, которые нужно обновить
      * @param listRank - Новый список категорий, с новыми позициями у категорий
      */
-    private void update(List<Long> idNote, List<RankItem> listRank) {
-        final List<NoteItem> listNote = getNote(idNote);
+    private void update(List<Long> listNoteId, List<RankItem> listRank) {
+        final List<NoteItem> listNote = getNote(listNoteId);
 
         for (int i = 0; i < listNote.size(); i++) {
             final NoteItem noteItem = listNote.get(i);
@@ -233,9 +233,9 @@ public abstract class RankDao extends BaseDao {
     public void delete(String name) {
         final RankItem rankItem = get(name);
 
-        final List<Long> listId = rankItem.getIdNote();
-        if (listId.size() != 0) {
-            updateNote(listId, rankItem.getId());
+        final List<Long> listNoteId = rankItem.getNoteId();
+        if (listNoteId.size() != 0) {
+            updateNote(listNoteId, rankItem.getId());
         }
 
         delete(rankItem);
@@ -254,7 +254,7 @@ public abstract class RankDao extends BaseDao {
                     "ID: " + rankItem.getId() + " | " +
                     "PS: " + rankItem.getPosition() + "\n" +
                     "NM: " + rankItem.getName() + "\n" +
-                    "CR: " + TextUtils.join(", ", rankItem.getIdNote()) + "\n" +
+                    "CR: " + TextUtils.join(", ", rankItem.getNoteId()) + "\n" +
                     "VS: " + rankItem.isVisible());
         }
     }

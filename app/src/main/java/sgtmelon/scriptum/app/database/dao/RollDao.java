@@ -29,11 +29,11 @@ public abstract class RollDao extends BaseDao {
     /**
      * Запись пунктов после конвертирования из текстовой заметки
      *
-     * @param idNote - Id заметки
+     * @param noteId - Id заметки
      * @param text   - Массив потенциальных пунктов
      * @return - Список для {@link NoteRepo}
      */
-    public List<RollItem> insert(long idNote, String[] text) {
+    public List<RollItem> insert(long noteId, String[] text) {
         final List<RollItem> listRoll = new ArrayList<>();
 
         int p = 0;
@@ -41,7 +41,7 @@ public abstract class RollDao extends BaseDao {
             if (TextUtils.isEmpty(aText)) continue;
 
             final RollItem rollItem = new RollItem();
-            rollItem.setIdNote(idNote);
+            rollItem.setNoteId(noteId);
             rollItem.setPosition(p++);
             rollItem.setCheck(false);
             rollItem.setText(aText);
@@ -55,7 +55,7 @@ public abstract class RollDao extends BaseDao {
     }
 
     @Query("SELECT * FROM ROLL_TABLE " +
-            "ORDER BY RL_ID_NOTE ASC, RL_POSITION ASC")
+            "ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
     abstract List<RollItem> get();
 
     /**
@@ -127,7 +127,7 @@ public abstract class RollDao extends BaseDao {
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :check " +
-            "WHERE RL_ID_NOTE = :idNote")
+            "WHERE RL_NOTE_ID = :idNote")
     public abstract void update(long idNote, @CheckDef int check);
 
     /**
@@ -137,14 +137,14 @@ public abstract class RollDao extends BaseDao {
      * @param idSave - Id, которые остались в заметке
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :idNote AND RL_ID NOT IN (:idSave)")
+            "WHERE RL_NOTE_ID = :idNote AND RL_ID NOT IN (:idSave)")
     public abstract void delete(long idNote, List<Long> idSave);
 
     /**
      * @param idNote - Id удаляемой заметки
      */
     @Query("DELETE FROM ROLL_TABLE " +
-            "WHERE RL_ID_NOTE = :idNote")
+            "WHERE RL_NOTE_ID = :idNote")
     public abstract void delete(long idNote);
 
     public void listAll(TextView textView) {
@@ -158,7 +158,7 @@ public abstract class RollDao extends BaseDao {
 
             textView.append("\n\n" +
                     "ID: " + rollItem.getId() + " | " +
-                    "ID_NT: " + rollItem.getIdNote() + " | " +
+                    "ID_NT: " + rollItem.getNoteId() + " | " +
                     "PS: " + rollItem.getPosition() + " | " +
                     "CH: " + rollItem.isCheck() + "\n");
 
