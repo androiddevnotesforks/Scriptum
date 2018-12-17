@@ -13,11 +13,11 @@ public interface InputIntf {
 
     void onColorChange(int valueFrom, int valueTo);
 
-    void onNameChange(String valueFrom, String valueTo);
+    void onNameChange(int cursor, String valueFrom, String valueTo);
 
-    void onTextChange(String valueFrom, String valueTo);
+    void onTextChange(int cursor, String valueFrom, String valueTo);
 
-    void onRollChange(int p, String valueFrom, String valueTo);
+    void onRollChange(int p, int cursor, String valueFrom, String valueTo);
 
     void onRollAdd(int p, String valueTo);
 

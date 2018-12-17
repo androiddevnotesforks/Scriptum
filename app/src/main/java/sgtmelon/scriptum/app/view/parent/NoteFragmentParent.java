@@ -62,6 +62,8 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
 
     protected final InputControl inputControl = new InputControl();
 
+    // TODO: 17.12.2018 сделать долгое нажатие undo/redo
+
     protected Context context;
     protected Activity activity;
     protected NoteCallback noteCallback;
@@ -260,7 +262,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
                 final String valueTo = charSequence.toString();
 
                 if (!valueFrom.equals(valueTo)) {
-                    inputControl.onNameChange(valueFrom, valueTo);
+                    inputControl.onNameChange(nameEnter.getSelectionEnd(), valueFrom, valueTo);
                     bindInput();
                     valueFrom = valueTo;
                 }

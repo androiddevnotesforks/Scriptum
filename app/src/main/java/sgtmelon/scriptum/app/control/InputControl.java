@@ -27,6 +27,8 @@ import sgtmelon.scriptum.office.intf.InputIntf;
  */
 public final class InputControl implements InputIntf {
 
+    // TODO: 17.12.2018 хранить последние 200 изменений
+
     private static final String TAG = InputControl.class.getSimpleName();
 
     private final List<InputItem> listInput = new ArrayList<>();
@@ -112,56 +114,95 @@ public final class InputControl implements InputIntf {
 
     @Override
     public void onRankChange(List<Long> valueFrom, List<Long> valueTo) {
-        final InputItem inputItem = new InputItem(InputDef.rank,
-                TextUtils.join(DbAnn.Value.DIVIDER, valueFrom),
-                TextUtils.join(DbAnn.Value.DIVIDER, valueTo)
-        );
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.rank)
+                .setValueFrom(TextUtils.join(DbAnn.Value.DIVIDER, valueFrom))
+                .setValueTo(TextUtils.join(DbAnn.Value.DIVIDER, valueTo))
+                .create();
+
         add(inputItem);
     }
 
     @Override
     public void onColorChange(int valueFrom, int valueTo) {
-        final InputItem inputItem = new InputItem(
-                InputDef.color, Integer.toString(valueFrom), Integer.toString(valueTo)
-        );
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.color)
+                .setValueFrom(Integer.toString(valueFrom))
+                .setValueTo(Integer.toString(valueTo))
+                .create();
+
         add(inputItem);
     }
 
     @Override
-    public void onNameChange(String valueFrom, String valueTo) {
-        final InputItem inputItem = new InputItem(InputDef.name, valueFrom, valueTo);
+    public void onNameChange(int cursor, String valueFrom, String valueTo) {
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.name)
+                .setCursor(cursor)
+                .setValueFrom(valueFrom)
+                .setValueTo(valueTo)
+                .create();
+
         add(inputItem);
     }
 
     @Override
-    public void onTextChange(String valueFrom, String valueTo) {
-        final InputItem inputItem = new InputItem(InputDef.text, valueFrom, valueTo);
+    public void onTextChange(int cursor, String valueFrom, String valueTo) {
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.text)
+                .setCursor(cursor)
+                .setValueFrom(valueFrom)
+                .setValueTo(valueTo)
+                .create();
+
         add(inputItem);
     }
 
     @Override
-    public void onRollChange(int p, String valueFrom, String valueTo) {
-        final InputItem inputItem = new InputItem(InputDef.roll, p, valueFrom, valueTo);
+    public void onRollChange(int p, int cursor, String valueFrom, String valueTo) {
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.roll)
+                .setPosition(p)
+                .setCursor(cursor)
+                .setValueFrom(valueFrom)
+                .setValueTo(valueTo)
+                .create();
+
         add(inputItem);
     }
 
     @Override
     public void onRollAdd(int p, String valueTo) {
-        final InputItem inputItem = new InputItem(InputDef.rollAdd, p, "", valueTo);
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.rollAdd)
+                .setPosition(p)
+                .setValueFrom("")
+                .setValueTo(valueTo)
+                .create();
+
         add(inputItem);
     }
 
     @Override
     public void onRollRemove(int p, String valueFrom) {
-        final InputItem inputItem = new InputItem(InputDef.rollRemove, p, valueFrom, "");
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.rollRemove)
+                .setPosition(p)
+                .setValueFrom(valueFrom)
+                .setValueTo("")
+                .create();
+
         add(inputItem);
     }
 
     @Override
     public void onRollMove(int valueFrom, int valueTo) {
-        final InputItem inputItem = new InputItem(
-                InputDef.rollMove, Integer.toString(valueFrom), Integer.toString(valueTo)
-        );
+        final InputItem inputItem = new InputItem.Builder()
+                .setTag(InputDef.rollMove)
+                .setValueFrom(Integer.toString(valueFrom))
+                .setValueTo(Integer.toString(valueTo))
+                .create();
+
         add(inputItem);
     }
 

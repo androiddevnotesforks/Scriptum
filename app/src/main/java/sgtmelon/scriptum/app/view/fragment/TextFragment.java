@@ -186,7 +186,7 @@ public final class TextFragment extends NoteFragmentParent {
                 final String valueTo = charSequence.toString();
 
                 if (!valueFrom.equals(valueTo)) {
-                    inputControl.onTextChange(valueFrom, valueTo);
+                    inputControl.onTextChange(textEnter.getSelectionEnd(), valueFrom, valueTo);
                     bindInput();
                     valueFrom = valueTo;
                 }
@@ -332,9 +332,11 @@ public final class TextFragment extends NoteFragmentParent {
                     break;
                 case InputDef.name:
                     nameEnter.setText(inputItem.getValueFrom());
+                    nameEnter.setSelection(inputItem.getCursor()); // TODO: 17.12.2018 вызывает ошибку
                     break;
                 case InputDef.text:
                     textEnter.setText(inputItem.getValueFrom());
+                    textEnter.setSelection(inputItem.getCursor());
                     break;
             }
         }
@@ -376,9 +378,11 @@ public final class TextFragment extends NoteFragmentParent {
                     break;
                 case InputDef.name:
                     nameEnter.setText(inputItem.getValueTo());
+                    nameEnter.setSelection(inputItem.getCursor());
                     break;
                 case InputDef.text:
                     textEnter.setText(inputItem.getValueTo());
+                    textEnter.setSelection(inputItem.getCursor());
                     break;
             }
         }

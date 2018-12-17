@@ -151,10 +151,14 @@ public final class NoteActivity extends BaseActivityParent
         } else if (noteSt.isCreate()) {     //Если только что создали заметку
             switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
                 case TypeNoteDef.text:
-                    if (!textFragment.onMenuSaveClick(true, false)) super.onBackPressed();
+                    if (!textFragment.onMenuSaveClick(true, false)) {
+                        super.onBackPressed();
+                    }
                     break;
                 case TypeNoteDef.roll:
-                    if (!rollFragment.onMenuSaveClick(true, false)) super.onBackPressed();
+                    if (!rollFragment.onMenuSaveClick(true, false)) {
+                        super.onBackPressed();
+                    }
                     break;
             }
         } else super.onBackPressed();   //Другие случаи (не редактирование)
@@ -175,16 +179,18 @@ public final class NoteActivity extends BaseActivityParent
 
         switch (vm.getNoteRepo().getNoteItem().getType()) {
             case TypeNoteDef.text:
-                if (isSave) textFragment = (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT);
-                else textFragment = TextFragment.getInstance(vm.isRankEmpty());
+                textFragment = isSave
+                        ? (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT)
+                        : TextFragment.getInstance(vm.isRankEmpty());
 
                 saveControl.setNoteMenuClick(textFragment);
 
                 transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
                 break;
             case TypeNoteDef.roll:
-                if (isSave) rollFragment = (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL);
-                else rollFragment = RollFragment.getInstance(vm.isRankEmpty());
+                rollFragment = isSave
+                        ? (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL)
+                        : RollFragment.getInstance(vm.isRankEmpty());
 
                 saveControl.setNoteMenuClick(rollFragment);
 

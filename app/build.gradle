@@ -64,17 +64,17 @@ dependencies {
     testImplementation "androidx.room:room-testing:$arch_ver"
     annotationProcessor "androidx.room:room-compiler:$arch_ver"
 
-    implementation "androidx.appcompat:appcompat:1.0.2"
-    implementation "androidx.cardview:cardview:1.0.0"
-    implementation "com.google.android.material:material:1.0.0"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
 
-    implementation "androidx.vectordrawable:vectordrawable:1.0.1"
-    implementation "androidx.vectordrawable:vectordrawable-animated:1.0.0"
+    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
 
-    debugImplementation "androidx.test:runner:1.1.1"
-    debugImplementation "androidx.test:rules:1.1.1"
-    debugImplementation "androidx.test.ext:junit:1.1.0"
-    debugImplementation "androidx.test.espresso:espresso-core:3.1.1"
+    debugImplementation 'androidx.test:runner:1.1.1'
+    debugImplementation 'androidx.test:rules:1.1.1'
+    debugImplementation 'androidx.test.ext:junit:1.1.0'
+    debugImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
-    implementation "com.romandanylyk:pageindicatorview:1.0.1"
+    implementation 'com.romandanylyk:pageindicatorview:1.0.1'
 }

@@ -9,37 +9,23 @@ import sgtmelon.scriptum.office.annot.def.InputDef;
  */
 public final class InputItem {
 
-    /**
-     * TODO: 01.12.2018  Переделать. Так как не сохраняется значения до изменения и после.
-     * <p>
-     * TODO: 01.12.2018  В самом начале редактирования не сохраняется значение, которое было изначально
-     * TODO: 01.12.2018  В конце редактирования, после нажатия Undo не сохраняется последнее значение
-     * <p>
-     * TODO: 01.12.2018  Переделать {@link #valueFrom} и {@link #valueTo} в fromValue, toValue
-     * TODO: 01.12.2018  Подумай как это лучше реализовать со списками
-     */
-
-    // TODO: 16.12.2018 сохранять позицию курсора
-
     private final int tag;
-
     private final int position;
+    private final int cursor; // TODO: 17.12.2018 selectionStart/End
+
     private final String valueFrom;
     private final String valueTo;
 
-    public InputItem(@InputDef int tag, int position, @NonNull String valueFrom,
-                     @NonNull String valueTo) {
-        this.tag = tag;
+    private InputItem(@InputDef int tag, int position, int cursor, @NonNull String valueFrom,
+                      @NonNull String valueTo) {
+        if (tag == InputDef.indefinite) {
+            throw new NullPointerException(InputItem.class.getSimpleName() + "#tag is indefinite");
+        }
 
+        this.tag = tag;
         this.position = position;
-        this.valueFrom = valueFrom;
-        this.valueTo = valueTo;
-    }
+        this.cursor = cursor;
 
-    public InputItem(@InputDef int tag, @NonNull String valueFrom, @NonNull String valueTo) {
-        this.tag = tag;
-
-        this.position = -1;
         this.valueFrom = valueFrom;
         this.valueTo = valueTo;
     }
@@ -50,6 +36,10 @@ public final class InputItem {
 
     public int getPosition() {
         return position;
+    }
+
+    public int getCursor() {
+        return cursor;
     }
 
     @NonNull
@@ -76,6 +66,58 @@ public final class InputItem {
                 : "empty");
 
         return tag + " | " + stringPosition + stringFrom + " | " + stringTo;
+    }
+
+    public static class Builder {
+
+        private int tag = InputDef.indefinite;
+        private int position = -1;
+        private int cursor = -1;
+
+        private String valueFrom = null;
+        private String valueTo = null;
+
+        public Builder setTag(@InputDef int tag) {
+            this.tag = tag;
+            return this;
+        }
+
+        public Builder setPosition(int position) {
+            this.position = position;
+            return this;
+        }
+
+        public Builder setCursor(int cursor) {
+            this.cursor = cursor;
+            return this;
+        }
+
+        public Builder setValueFrom(String valueFrom) {
+            this.valueFrom = valueFrom;
+            return this;
+        }
+
+        public Builder setValueTo(String valueTo) {
+            this.valueTo = valueTo;
+            return this;
+        }
+
+        public InputItem create() {
+            if (tag == InputDef.indefinite) {
+                throw new NullPointerException(InputItem.class.getSimpleName() + "#tag is indefinite");
+            }
+
+            if (valueFrom == null) {
+                throw new NullPointerException(InputItem.class.getSimpleName() + "#valueFrom is null");
+            }
+
+            if (valueTo == null) {
+                throw new NullPointerException(InputItem.class.getSimpleName() + "#valueTo is null");
+            }
+
+            return new InputItem(tag, position, cursor, valueFrom, valueTo);
+        }
+
     }
 
 }

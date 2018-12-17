@@ -164,7 +164,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
             if (!TextUtils.isEmpty(valueTo)) {
                 if (!TextUtils.isEmpty(valueFrom)) {
-                    inputIntf.onRollChange(p, valueFrom, valueTo);
+                    inputIntf.onRollChange(p, rollEnter.getSelectionEnd(), valueFrom, valueTo);
                     valueFrom = valueTo;
                 }
             } else {
