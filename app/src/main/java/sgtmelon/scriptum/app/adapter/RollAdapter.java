@@ -15,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.model.item.SelectionItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
@@ -92,6 +93,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private View clickView;  //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
 
         private String valueFrom = "";
+        private SelectionItem selectionFrom = new SelectionItem(0, 0);
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
@@ -152,6 +154,10 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             valueFrom = charSequence.toString();
+            selectionFrom = new SelectionItem.Builder()
+                    .setStart(rollEnter.getSelectionStart())
+                    .setEnd(rollEnter.getSelectionEnd())
+                    .create();
         }
 
         @Override
@@ -160,11 +166,16 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             if (p == -1) return;
 
             final String valueTo = charSequence.toString();
+            final SelectionItem selectionTo = new SelectionItem.Builder()
+                    .setStart(rollEnter.getSelectionStart())
+                    .setEnd(rollEnter.getSelectionEnd())
+                    .create();
+
             if (valueFrom.equals(valueTo)) return;
 
             if (!TextUtils.isEmpty(valueTo)) {
                 if (!TextUtils.isEmpty(valueFrom)) {
-                    inputIntf.onRollChange(p, rollEnter.getSelectionEnd(), valueFrom, valueTo);
+                    inputIntf.onRollChange(p, valueFrom, valueTo, selectionFrom, selectionTo);
                     valueFrom = valueTo;
                 }
             } else {

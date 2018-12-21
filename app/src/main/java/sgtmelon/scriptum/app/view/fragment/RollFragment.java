@@ -63,8 +63,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private LinearLayoutManager layoutManager;
     private RollAdapter adapter;
 
-    // TODO: 15.12.2018 срабатывает ложнный onMove при добавлении пункта
-
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
         private int dragStart, dragEnd;

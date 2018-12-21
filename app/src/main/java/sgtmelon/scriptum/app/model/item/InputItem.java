@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.app.model.item;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 
@@ -11,23 +12,28 @@ public final class InputItem {
 
     private final int tag;
     private final int position;
-    private final int cursor; // TODO: 17.12.2018 selectionStart/End
 
     private final String valueFrom;
     private final String valueTo;
 
-    private InputItem(@InputDef int tag, int position, int cursor, @NonNull String valueFrom,
-                      @NonNull String valueTo) {
+    private final SelectionItem selectionFrom;
+    private final SelectionItem selectionTo;
+
+    private InputItem(@InputDef int tag, int position, @NonNull String valueFrom,
+                      @NonNull String valueTo, @Nullable SelectionItem selectionFrom,
+                      @Nullable SelectionItem selectionTo) {
         if (tag == InputDef.indefinite) {
             throw new NullPointerException(InputItem.class.getSimpleName() + "#tag is indefinite");
         }
 
         this.tag = tag;
         this.position = position;
-        this.cursor = cursor;
 
         this.valueFrom = valueFrom;
         this.valueTo = valueTo;
+
+        this.selectionFrom = selectionFrom;
+        this.selectionTo = selectionTo;
     }
 
     public int getTag() {
@@ -36,10 +42,6 @@ public final class InputItem {
 
     public int getPosition() {
         return position;
-    }
-
-    public int getCursor() {
-        return cursor;
     }
 
     @NonNull
@@ -52,30 +54,54 @@ public final class InputItem {
         return valueTo;
     }
 
+    @Nullable
+    public SelectionItem getSelectionFrom() {
+        return selectionFrom;
+    }
+
+    @Nullable
+    public SelectionItem getSelectionTo() {
+        return selectionTo;
+    }
+
     @NonNull
     @Override
     public String toString() {
         final String stringPosition = position != -1
                 ? "position = " + position + " | "
                 : "";
-        final String stringFrom = "from = " + (!valueFrom.equals("")
+
+        final String stringValueFrom = "from = " + (!valueFrom.equals("")
                 ? valueFrom
                 : "empty");
-        final String stringTo = "to = " + (!valueTo.equals("")
+
+        final String stringSelectionFrom = selectionFrom != null
+                ? selectionFrom.toString()
+                : "(null)";
+
+        final String stringValueTo = "to = " + (!valueTo.equals("")
                 ? valueTo
                 : "empty");
 
-        return tag + " | " + stringPosition + stringFrom + " | " + stringTo;
+        final String stringSelectionTo = selectionTo != null
+                ? selectionTo.toString()
+                : "(null)";
+
+        return tag + " | " + stringPosition +
+                stringValueFrom + " / " + stringSelectionFrom + " | " +
+                stringValueTo + " / " + stringSelectionTo;
     }
 
     public static class Builder {
 
         private int tag = InputDef.indefinite;
         private int position = -1;
-        private int cursor = -1;
 
         private String valueFrom = null;
         private String valueTo = null;
+
+        private SelectionItem selectionFrom = null;
+        private SelectionItem selectionTo = null;
 
         public Builder setTag(@InputDef int tag) {
             this.tag = tag;
@@ -84,11 +110,6 @@ public final class InputItem {
 
         public Builder setPosition(int position) {
             this.position = position;
-            return this;
-        }
-
-        public Builder setCursor(int cursor) {
-            this.cursor = cursor;
             return this;
         }
 
@@ -102,20 +123,45 @@ public final class InputItem {
             return this;
         }
 
+        public Builder setSelectionFrom(SelectionItem selectionFrom) {
+            this.selectionFrom = selectionFrom;
+            return this;
+        }
+
+        public Builder setSelectionTo(SelectionItem selectionTo) {
+            this.selectionTo = selectionTo;
+            return this;
+        }
+
         public InputItem create() {
             if (tag == InputDef.indefinite) {
-                throw new NullPointerException(InputItem.class.getSimpleName() + "#tag is indefinite");
+                throw new NullPointerException(InputItem.class.getSimpleName() +
+                        "#tag is indefinite");
             }
 
             if (valueFrom == null) {
-                throw new NullPointerException(InputItem.class.getSimpleName() + "#valueFrom is null");
+                throw new NullPointerException(InputItem.class.getSimpleName() +
+                        "#valueFrom is null");
             }
 
             if (valueTo == null) {
-                throw new NullPointerException(InputItem.class.getSimpleName() + "#valueTo is null");
+                throw new NullPointerException(InputItem.class.getSimpleName() +
+                        "#valueTo is null");
             }
 
-            return new InputItem(tag, position, cursor, valueFrom, valueTo);
+            if (tag == InputDef.name || tag == InputDef.text || tag == InputDef.roll) {
+                if (selectionFrom == null) {
+                    throw new NullPointerException(InputItem.class.getSimpleName() +
+                            "#selectionFrom is null");
+                }
+
+                if (selectionTo == null) {
+                    throw new NullPointerException(InputItem.class.getSimpleName() +
+                            "#selectionTo is null");
+                }
+            }
+
+            return new InputItem(tag, position, valueFrom, valueTo, selectionFrom, selectionTo);
         }
 
     }

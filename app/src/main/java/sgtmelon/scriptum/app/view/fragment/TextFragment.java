@@ -28,6 +28,7 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.model.item.SelectionItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
@@ -175,18 +176,27 @@ public final class TextFragment extends NoteFragmentParent {
         textEnter = frgView.findViewById(R.id.text_enter);
         textEnter.addTextChangedListener(new TextWatcher() { // TODO: 10.12.2018 сделать отдельный TextWatcher
             private String valueFrom = "";
+            private SelectionItem selectionFrom = new SelectionItem(0, 0);
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 valueFrom = charSequence.toString();
+                selectionFrom = new SelectionItem.Builder()
+                        .setStart(textEnter.getSelectionStart())
+                        .setEnd(textEnter.getSelectionEnd())
+                        .create();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 final String valueTo = charSequence.toString();
+                final SelectionItem selectionTo = new SelectionItem.Builder()
+                        .setStart(textEnter.getSelectionStart())
+                        .setEnd(textEnter.getSelectionEnd())
+                        .create();
 
                 if (!valueFrom.equals(valueTo)) {
-                    inputControl.onTextChange(textEnter.getSelectionEnd(), valueFrom, valueTo);
+                    inputControl.onTextChange(valueFrom, valueTo, selectionFrom, selectionTo);
                     bindInput();
                     valueFrom = valueTo;
                 }
@@ -310,6 +320,8 @@ public final class TextFragment extends NoteFragmentParent {
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 
+            final SelectionItem selectionItem = inputItem.getSelectionFrom();
+
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
@@ -331,12 +343,16 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
+                    assert selectionItem != null;
+
                     nameEnter.setText(inputItem.getValueFrom());
-                    nameEnter.setSelection(inputItem.getCursor()); // TODO: 17.12.2018 вызывает ошибку
+                    nameEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
                     break;
                 case InputDef.text:
+                    assert selectionItem != null;
+
                     textEnter.setText(inputItem.getValueFrom());
-                    textEnter.setSelection(inputItem.getCursor());
+                    textEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
                     break;
             }
         }
@@ -355,6 +371,8 @@ public final class TextFragment extends NoteFragmentParent {
         if (inputItem != null) {
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
+
+            final SelectionItem selectionItem = inputItem.getSelectionTo();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
@@ -377,12 +395,16 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
+                    assert selectionItem != null;
+
                     nameEnter.setText(inputItem.getValueTo());
-                    nameEnter.setSelection(inputItem.getCursor());
+                    nameEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
                     break;
                 case InputDef.text:
+                    assert selectionItem != null;
+
                     textEnter.setText(inputItem.getValueTo());
-                    textEnter.setSelection(inputItem.getCursor());
+                    textEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
                     break;
             }
         }

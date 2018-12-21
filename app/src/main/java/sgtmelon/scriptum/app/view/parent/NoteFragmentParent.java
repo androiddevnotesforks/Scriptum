@@ -38,6 +38,7 @@ import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
+import sgtmelon.scriptum.app.model.item.SelectionItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
@@ -251,18 +252,27 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         nameEnter = frgView.findViewById(R.id.name_enter);
         nameEnter.addTextChangedListener(new TextWatcher() {  // TODO: 10.12.2018 сделать отдельный TextWatcher
             private String valueFrom = "";
+            private SelectionItem selectionFrom = new SelectionItem(0, 0);
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 valueFrom = charSequence.toString();
+                selectionFrom = new SelectionItem.Builder()
+                        .setStart(nameEnter.getSelectionStart())
+                        .setEnd(nameEnter.getSelectionEnd())
+                        .create();
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 final String valueTo = charSequence.toString();
+                final SelectionItem selectionTo = new SelectionItem.Builder()
+                        .setStart(nameEnter.getSelectionStart())
+                        .setEnd(nameEnter.getSelectionEnd())
+                        .create();
 
                 if (!valueFrom.equals(valueTo)) {
-                    inputControl.onNameChange(nameEnter.getSelectionEnd(), valueFrom, valueTo);
+                    inputControl.onNameChange(valueFrom, valueTo, selectionFrom, selectionTo);
                     bindInput();
                     valueFrom = valueTo;
                 }

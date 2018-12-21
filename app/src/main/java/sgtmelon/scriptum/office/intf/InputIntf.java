@@ -3,6 +3,7 @@ package sgtmelon.scriptum.office.intf;
 import java.util.List;
 
 import sgtmelon.scriptum.app.control.InputControl;
+import sgtmelon.scriptum.app.model.item.SelectionItem;
 
 /**
  * Интерфейс для общения с {@link InputControl}
@@ -13,11 +14,14 @@ public interface InputIntf {
 
     void onColorChange(int valueFrom, int valueTo);
 
-    void onNameChange(int cursor, String valueFrom, String valueTo);
+    void onNameChange(String valueFrom, String valueTo, SelectionItem selectionFrom,
+                      SelectionItem selectionTo);
 
-    void onTextChange(int cursor, String valueFrom, String valueTo);
+    void onTextChange(String valueFrom, String valueTo, SelectionItem selectionFrom,
+                      SelectionItem selectionTo);
 
-    void onRollChange(int p, int cursor, String valueFrom, String valueTo);
+    void onRollChange(int p, String valueFrom, String valueTo, SelectionItem selectionFrom,
+                      SelectionItem selectionTo);
 
     void onRollAdd(int p, String valueTo);
 
