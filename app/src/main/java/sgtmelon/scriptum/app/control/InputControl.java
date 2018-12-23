@@ -6,8 +6,8 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
-import sgtmelon.scriptum.app.model.item.SelectionItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.intf.InputIntf;
@@ -136,43 +136,37 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onNameChange(String valueFrom, String valueTo, SelectionItem selectionFrom,
-                             SelectionItem selectionTo) {
+    public void onNameChange(String valueFrom, String valueTo, CursorItem cursorItem) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.name)
                 .setValueFrom(valueFrom)
                 .setValueTo(valueTo)
-                .setSelectionFrom(selectionFrom)
-                .setSelectionTo(selectionTo)
+                .setCursorItem(cursorItem)
                 .create();
 
         add(inputItem);
     }
 
     @Override
-    public void onTextChange(String valueFrom, String valueTo, SelectionItem selectionFrom,
-                             SelectionItem selectionTo) {
+    public void onTextChange(String valueFrom, String valueTo, CursorItem cursorItem) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.text)
                 .setValueFrom(valueFrom)
                 .setValueTo(valueTo)
-                .setSelectionFrom(selectionFrom)
-                .setSelectionTo(selectionTo)
+                .setCursorItem(cursorItem)
                 .create();
 
         add(inputItem);
     }
 
     @Override
-    public void onRollChange(int p, String valueFrom, String valueTo, SelectionItem selectionFrom,
-                             SelectionItem selectionTo) {
+    public void onRollChange(int p, String valueFrom, String valueTo, CursorItem cursorItem) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.roll)
                 .setPosition(p)
                 .setValueFrom(valueFrom)
                 .setValueTo(valueTo)
-                .setSelectionFrom(selectionFrom)
-                .setSelectionTo(selectionTo)
+                .setCursorItem(cursorItem)
                 .create();
 
         add(inputItem);

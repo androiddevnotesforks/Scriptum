@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.app.view.fragment;
 
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +23,10 @@ import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.app.model.item.SelectionItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
 import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextBinding;
@@ -36,6 +34,7 @@ import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.StringConv;
+import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
@@ -174,39 +173,9 @@ public final class TextFragment extends NoteFragmentParent {
         super.setupEnter();
 
         textEnter = frgView.findViewById(R.id.text_enter);
-        textEnter.addTextChangedListener(new TextWatcher() { // TODO: 10.12.2018 сделать отдельный TextWatcher
-            private String valueFrom = "";
-            private SelectionItem selectionFrom = new SelectionItem(0, 0);
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                valueFrom = charSequence.toString();
-                selectionFrom = new SelectionItem.Builder()
-                        .setStart(textEnter.getSelectionStart())
-                        .setEnd(textEnter.getSelectionEnd())
-                        .create();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                final String valueTo = charSequence.toString();
-                final SelectionItem selectionTo = new SelectionItem.Builder()
-                        .setStart(textEnter.getSelectionStart())
-                        .setEnd(textEnter.getSelectionEnd())
-                        .create();
-
-                if (!valueFrom.equals(valueTo)) {
-                    inputControl.onTextChange(valueFrom, valueTo, selectionFrom, selectionTo);
-                    bindInput();
-                    valueFrom = valueTo;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+        textEnter.addTextChangedListener(
+                new InputTextWatcher(textEnter, InputDef.text, this, inputControl)
+        );
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i != EditorInfo.IME_ACTION_NEXT) return false;
@@ -320,7 +289,7 @@ public final class TextFragment extends NoteFragmentParent {
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 
-            final SelectionItem selectionItem = inputItem.getSelectionFrom();
+            final CursorItem cursorItem = inputItem.getCursorItem();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
@@ -343,16 +312,16 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
-                    assert selectionItem != null;
+                    assert cursorItem != null;
 
                     nameEnter.setText(inputItem.getValueFrom());
-                    nameEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
+                    nameEnter.setSelection(cursorItem.getValueFrom());
                     break;
                 case InputDef.text:
-                    assert selectionItem != null;
+                    assert cursorItem != null;
 
                     textEnter.setText(inputItem.getValueFrom());
-                    textEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
+                    textEnter.setSelection(cursorItem.getValueFrom());
                     break;
             }
         }
@@ -372,7 +341,7 @@ public final class TextFragment extends NoteFragmentParent {
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 
-            final SelectionItem selectionItem = inputItem.getSelectionTo();
+            final CursorItem cursorItem = inputItem.getCursorItem();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
@@ -395,16 +364,16 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
-                    assert selectionItem != null;
+                    assert cursorItem != null;
 
                     nameEnter.setText(inputItem.getValueTo());
-                    nameEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
+                    nameEnter.setSelection(cursorItem.getValueTo());
                     break;
                 case InputDef.text:
-                    assert selectionItem != null;
+                    assert cursorItem != null;
 
                     textEnter.setText(inputItem.getValueTo());
-                    textEnter.setSelection(selectionItem.getStart(), selectionItem.getEnd());
+                    textEnter.setSelection(cursorItem.getValueTo());
                     break;
             }
         }

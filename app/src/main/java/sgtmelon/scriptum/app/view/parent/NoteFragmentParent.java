@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +36,6 @@ import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
-import sgtmelon.scriptum.app.model.item.SelectionItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
@@ -46,8 +43,10 @@ import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
+import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.BindIntf;
+import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.HelpUtils;
@@ -250,39 +249,9 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         Log.i(TAG, "setupEnter");
 
         nameEnter = frgView.findViewById(R.id.name_enter);
-        nameEnter.addTextChangedListener(new TextWatcher() {  // TODO: 10.12.2018 сделать отдельный TextWatcher
-            private String valueFrom = "";
-            private SelectionItem selectionFrom = new SelectionItem(0, 0);
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                valueFrom = charSequence.toString();
-                selectionFrom = new SelectionItem.Builder()
-                        .setStart(nameEnter.getSelectionStart())
-                        .setEnd(nameEnter.getSelectionEnd())
-                        .create();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                final String valueTo = charSequence.toString();
-                final SelectionItem selectionTo = new SelectionItem.Builder()
-                        .setStart(nameEnter.getSelectionStart())
-                        .setEnd(nameEnter.getSelectionEnd())
-                        .create();
-
-                if (!valueFrom.equals(valueTo)) {
-                    inputControl.onNameChange(valueFrom, valueTo, selectionFrom, selectionTo);
-                    bindInput();
-                    valueFrom = valueTo;
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+        nameEnter.addTextChangedListener(
+                new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
+        );
     }
 
     public final void startTintToolbar(@ColorDef int startColor, @ColorDef int endColor) {

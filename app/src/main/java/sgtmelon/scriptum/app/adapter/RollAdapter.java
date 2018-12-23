@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.app.model.item.SelectionItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding;
@@ -92,8 +92,8 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private CheckBox rollCheck;   //Отметка о выполении
         private View clickView;  //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
 
-        private String valueFrom = "";
-        private SelectionItem selectionFrom = new SelectionItem(0, 0);
+        private String textFrom = "";
+        private int cursorFrom = 0;
 
         RollHolder(ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
@@ -153,11 +153,8 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            valueFrom = charSequence.toString();
-            selectionFrom = new SelectionItem.Builder()
-                    .setStart(rollEnter.getSelectionStart())
-                    .setEnd(rollEnter.getSelectionEnd())
-                    .create();
+            textFrom = charSequence.toString();
+            cursorFrom = rollEnter.getSelectionEnd();
         }
 
         @Override
@@ -165,21 +162,19 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             final int p = getAdapterPosition();
             if (p == -1) return;
 
-            final String valueTo = charSequence.toString();
-            final SelectionItem selectionTo = new SelectionItem.Builder()
-                    .setStart(rollEnter.getSelectionStart())
-                    .setEnd(rollEnter.getSelectionEnd())
-                    .create();
+            final String textTo = charSequence.toString();
+            final int cursorTo = rollEnter.getSelectionEnd();
 
-            if (valueFrom.equals(valueTo)) return;
+            if (textFrom.equals(textTo)) return;
 
-            if (!TextUtils.isEmpty(valueTo)) {
-                if (!TextUtils.isEmpty(valueFrom)) {
-                    inputIntf.onRollChange(p, valueFrom, valueTo, selectionFrom, selectionTo);
-                    valueFrom = valueTo;
-                }
+            if (!TextUtils.isEmpty(textTo)) {
+                final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
+                inputIntf.onRollChange(p, textFrom, textTo, cursorItem);
+
+                textFrom = textTo;
+                cursorFrom = cursorTo;
             } else {
-                inputIntf.onRollRemove(p, valueFrom);
+                inputIntf.onRollRemove(p, textFrom);
             }
 
             bindIntf.bindInput();
@@ -188,7 +183,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         @Override
         public void afterTextChanged(Editable editable) {
             final int p = getAdapterPosition();
-            if (!TextUtils.isEmpty(valueFrom) && p != -1) {
+            if (!TextUtils.isEmpty(textFrom) && p != -1) {
                 rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
             }
         }

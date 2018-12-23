@@ -16,12 +16,10 @@ public final class InputItem {
     private final String valueFrom;
     private final String valueTo;
 
-    private final SelectionItem selectionFrom;
-    private final SelectionItem selectionTo;
+    private final CursorItem cursorItem;
 
     private InputItem(@InputDef int tag, int position, @NonNull String valueFrom,
-                      @NonNull String valueTo, @Nullable SelectionItem selectionFrom,
-                      @Nullable SelectionItem selectionTo) {
+                      @NonNull String valueTo, @Nullable CursorItem cursorItem) {
         if (tag == InputDef.indefinite) {
             throw new NullPointerException(InputItem.class.getSimpleName() + "#tag is indefinite");
         }
@@ -32,8 +30,7 @@ public final class InputItem {
         this.valueFrom = valueFrom;
         this.valueTo = valueTo;
 
-        this.selectionFrom = selectionFrom;
-        this.selectionTo = selectionTo;
+        this.cursorItem = cursorItem;
     }
 
     public int getTag() {
@@ -55,13 +52,8 @@ public final class InputItem {
     }
 
     @Nullable
-    public SelectionItem getSelectionFrom() {
-        return selectionFrom;
-    }
-
-    @Nullable
-    public SelectionItem getSelectionTo() {
-        return selectionTo;
+    public CursorItem getCursorItem() {
+        return cursorItem;
     }
 
     @NonNull
@@ -75,21 +67,21 @@ public final class InputItem {
                 ? valueFrom
                 : "empty");
 
-        final String stringSelectionFrom = selectionFrom != null
-                ? selectionFrom.toString()
+        final String stringCursorFrom = cursorItem != null
+                ? Integer.toString(cursorItem.getValueFrom())
                 : "(null)";
 
         final String stringValueTo = "to = " + (!valueTo.equals("")
                 ? valueTo
                 : "empty");
 
-        final String stringSelectionTo = selectionTo != null
-                ? selectionTo.toString()
+        final String stringCursorTo = cursorItem != null
+                ? Integer.toString(cursorItem.getValueTo())
                 : "(null)";
 
         return tag + " | " + stringPosition +
-                stringValueFrom + " / " + stringSelectionFrom + " | " +
-                stringValueTo + " / " + stringSelectionTo;
+                stringValueFrom + " / " + stringCursorFrom + " | " +
+                stringValueTo + " / " + stringCursorTo;
     }
 
     public static class Builder {
@@ -100,8 +92,7 @@ public final class InputItem {
         private String valueFrom = null;
         private String valueTo = null;
 
-        private SelectionItem selectionFrom = null;
-        private SelectionItem selectionTo = null;
+        private CursorItem cursorItem = null;
 
         public Builder setTag(@InputDef int tag) {
             this.tag = tag;
@@ -123,13 +114,8 @@ public final class InputItem {
             return this;
         }
 
-        public Builder setSelectionFrom(SelectionItem selectionFrom) {
-            this.selectionFrom = selectionFrom;
-            return this;
-        }
-
-        public Builder setSelectionTo(SelectionItem selectionTo) {
-            this.selectionTo = selectionTo;
+        public Builder setCursorItem(CursorItem cursorItem) {
+            this.cursorItem = cursorItem;
             return this;
         }
 
@@ -150,18 +136,13 @@ public final class InputItem {
             }
 
             if (tag == InputDef.name || tag == InputDef.text || tag == InputDef.roll) {
-                if (selectionFrom == null) {
+                if (cursorItem == null) {
                     throw new NullPointerException(InputItem.class.getSimpleName() +
-                            "#selectionFrom is null");
-                }
-
-                if (selectionTo == null) {
-                    throw new NullPointerException(InputItem.class.getSimpleName() +
-                            "#selectionTo is null");
+                            "#cursorItem is null");
                 }
             }
 
-            return new InputItem(tag, position, valueFrom, valueTo, selectionFrom, selectionTo);
+            return new InputItem(tag, position, valueFrom, valueTo, cursorItem);
         }
 
     }
