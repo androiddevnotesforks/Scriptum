@@ -10,11 +10,12 @@ import sgtmelon.scriptum.office.utils.PrefUtils;
 
 public class BaseActivityParent extends AppCompatActivity {
 
-    private int valTheme;
+    @ThemeDef private int currentTheme;
 
     @Override
     protected void onResume() {
         super.onResume();
+
         isThemeChange();
     }
 
@@ -22,8 +23,8 @@ public class BaseActivityParent extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        valTheme = PrefUtils.getTheme(this);
-        switch (valTheme) {
+        currentTheme = PrefUtils.getTheme(this);
+        switch (currentTheme) {
             case ThemeDef.light:
                 setTheme(R.style.App_Light_UI);
                 break;
@@ -34,12 +35,16 @@ public class BaseActivityParent extends AppCompatActivity {
     }
 
     public final void isThemeChange() {
-        int valTheme = PrefUtils.getTheme(this);
-        if (this.valTheme != valTheme) {
-            Intent intent = getIntent();
-            finish();
-            startActivity(intent);
-        }
+        if (currentTheme == PrefUtils.getTheme(this)) return;
+
+        final Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+
+        overridePendingTransition(0, 0);
+        finish();
+
+        overridePendingTransition(0, 0);
+        startActivity(intent);
     }
 
 }
