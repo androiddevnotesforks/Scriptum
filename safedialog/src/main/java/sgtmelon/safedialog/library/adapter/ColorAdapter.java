@@ -123,8 +123,8 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
             clClick.setOnClickListener(this);
 
-            alphaIn = AnimationUtils.loadAnimation(context, R.anim.alpha_in);
-            alphaOut = AnimationUtils.loadAnimation(context, R.anim.alpha_out);
+            alphaIn = AnimationUtils.loadAnimation(context, R.anim.fade_in);
+            alphaOut = AnimationUtils.loadAnimation(context, R.anim.fade_out);
 
             alphaIn.setAnimationListener(this);
             alphaOut.setAnimationListener(this);

@@ -40,10 +40,10 @@ public class BaseActivityParent extends AppCompatActivity {
         final Intent intent = getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 
-        overridePendingTransition(0, 0);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         finish();
 
-        overridePendingTransition(0, 0);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         startActivity(intent);
     }
 
