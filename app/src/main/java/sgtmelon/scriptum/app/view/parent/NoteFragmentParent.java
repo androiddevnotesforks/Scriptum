@@ -233,14 +233,14 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 
-            inputControl.onRankChange(noteItem.getRankId(), rankId);
-            bindInput();
-
             noteItem.setRankId(rankId);
             noteItem.setRankPs(rankPs);
             noteRepo.setNoteItem(noteItem);
 
             vm.setNoteRepo(noteRepo);
+
+            inputControl.onRankChange(noteItem.getRankId(), rankId);
+            bindInput();
         });
     }
 

@@ -110,6 +110,7 @@ public final class TextFragment extends NoteFragmentParent {
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
         binding.setRankEmpty(rankEmpty);
+        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
     }
 
     @Override
@@ -129,6 +130,7 @@ public final class TextFragment extends NoteFragmentParent {
         binding.setUndoAccess(inputControl.isUndoAccess());
         binding.setRedoAccess(inputControl.isRedoAccess());
         binding.setSaveEnabled(!TextUtils.isEmpty(textEnter.getText().toString()));
+        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
 
         binding.executePendingBindings();
     }

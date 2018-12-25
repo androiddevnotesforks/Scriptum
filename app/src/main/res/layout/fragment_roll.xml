@@ -10,15 +10,16 @@
 
         <variable name="enterEmpty" type="boolean"/>
 
-        <variable name="undoAccess" type="boolean"/>
-        <variable name="redoAccess" type="boolean"/>
-        <variable name="rankEmpty" type="boolean"/>
-        <variable name="saveEnabled" type="boolean"/>
-
         <variable name="noteClick"
                   type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
         <variable name="deleteClick"
                   type="sgtmelon.scriptum.office.intf.MenuIntf.Note.DeleteMenuClick"/>
+
+        <variable name="undoAccess" type="boolean"/>
+        <variable name="redoAccess" type="boolean"/>
+        <variable name="rankEmpty" type="boolean"/>
+        <variable name="rankSelect" type="boolean"/>
+        <variable name="saveEnabled" type="boolean"/>
 
     </data>
 
@@ -49,6 +50,7 @@
                  app:noteClick='@{noteClick}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'
+                 app:rankSelect='@{rankSelect}'
                  app:redoAccess='@{redoAccess}'
                  app:saveEnabled='@{saveEnabled}'
                  app:undoAccess='@{undoAccess}'/>

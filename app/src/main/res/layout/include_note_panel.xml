@@ -9,17 +9,18 @@
         <import alias="v" type="android.view.View"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
 
+        <variable name="keyEdit" type="boolean"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+
         <variable name="noteClick"
                   type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
         <variable name="deleteClick"
                   type="sgtmelon.scriptum.office.intf.MenuIntf.Note.DeleteMenuClick"/>
 
-        <variable name="keyEdit" type="boolean"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
-
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
         <variable name="rankEmpty" type="boolean"/>
+        <variable name="rankSelect" type="boolean"/>
         <variable name="saveEnabled" type="boolean"/>
 
     </data>
@@ -64,7 +65,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_clear"
                         android:onClick='@{() -> deleteClick.onMenuClearClick()}'
-                        android:tint="?attr/clIcon"
+                        android:tint="?attr/clAccent"
                         app:srcCompat="@drawable/ic_clear"/>
 
             </LinearLayout>
@@ -106,8 +107,8 @@
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clSecond}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{R.attr.clIcon}'
-                        tools:tint="?attr/clIcon"/>
+                        app:trueColor='@{rankSelect ? R.attr.clAccent : R.attr.clIcon}'
+                        tools:tint="?attr/clAccent"/>
 
                 <ImageButton
                         style="@style/Enter.Button"
@@ -182,7 +183,6 @@
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackground"
                         android:onClick='@{() -> noteClick.onMenuEditClick(true)}'
-
                         android:text="@string/menu_note_edit"/>
 
             </LinearLayout>

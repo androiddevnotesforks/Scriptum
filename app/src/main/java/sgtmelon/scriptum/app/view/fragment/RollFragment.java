@@ -246,6 +246,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
         binding.setRankEmpty(rankEmpty);
+        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
     }
 
     @Override
@@ -272,6 +273,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         binding.setUndoAccess(inputControl.isUndoAccess());
         binding.setRedoAccess(inputControl.isRedoAccess());
         binding.setSaveEnabled(vm.getNoteRepo().getListRoll().size() != 0);
+        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
 
         binding.executePendingBindings();
     }
