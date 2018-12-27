@@ -535,11 +535,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             final RollItem rollItem = listRoll.get(p);
             rollItem.setText(text);
 
-            listRoll.set(p, rollItem);
             adapter.setListItem(p, rollItem);
         }
-        noteRepo.setListRoll(listRoll);
 
+        noteRepo.setListRoll(listRoll);
         vm.setNoteRepo(noteRepo);
     }
 
@@ -650,40 +649,32 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     final List<Long> rankId = stringConv.fromString(inputItem.getValueFrom());
 
                     noteItem.setRankId(rankId);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
                     break;
                 case InputDef.color:
                     final int color = Integer.parseInt(inputItem.getValueFrom());
 
                     menuControl.setStartColor(noteItem.getColor());
-
                     noteItem.setColor(color);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
-
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
                     nameEnter.setText(inputItem.getValueFrom());
                     break;
                 case InputDef.roll:
+                    final int position = inputItem.getPosition();
+                    listRoll.get(position).setText(inputItem.getValueFrom());
 
+                    adapter.setList(listRoll);
+                    adapter.notifyItemChanged(position);
                     break;
                 case InputDef.rollAdd:
                     listRoll.remove(inputItem.getPosition());
-                    noteRepo.setListRoll(listRoll);
-
-                    vm.setNoteRepo(noteRepo);
 
                     adapter.setList(listRoll);
                     adapter.notifyItemRemoved(inputItem.getPosition());
                     break;
                 case InputDef.rollRemove:
                     listRoll.add(inputItem.getPosition(), new RollItem(inputItem.getValueFrom()));
-                    noteRepo.setListRoll(listRoll);
-
-                    vm.setNoteRepo(noteRepo);
 
                     adapter.setList(listRoll);
                     adapter.notifyItemInserted(inputItem.getPosition());
@@ -695,9 +686,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     final RollItem rollItem = listRoll.get(startPosition);
                     listRoll.remove(startPosition);
                     listRoll.add(endPosition, rollItem);
-
-                    noteRepo.setListRoll(listRoll);
-                    vm.setNoteRepo(noteRepo);
 
                     adapter.setList(listRoll);
                     adapter.notifyItemMoved(startPosition, endPosition);
@@ -727,40 +715,32 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
 
                     noteItem.setRankId(rankId);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
                     break;
                 case InputDef.color:
-                    final int color = Integer.parseInt(inputItem.getValueTo());
+                    final int colorTo = Integer.parseInt(inputItem.getValueTo());
 
                     menuControl.setStartColor(noteItem.getColor());
-
-                    noteItem.setColor(color);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
-
-                    menuControl.startTint(color);
+                    noteItem.setColor(colorTo);
+                    menuControl.startTint(colorTo);
                     break;
                 case InputDef.name:
                     nameEnter.setText(inputItem.getValueTo());
                     break;
                 case InputDef.roll:
+                    final int position = inputItem.getPosition();
+                    listRoll.get(position).setText(inputItem.getValueTo());
 
+                    adapter.setList(listRoll);
+                    adapter.notifyItemChanged(position);
                     break;
                 case InputDef.rollAdd:
                     listRoll.add(inputItem.getPosition(), new RollItem(inputItem.getValueTo()));
-                    noteRepo.setListRoll(listRoll);
-
-                    vm.setNoteRepo(noteRepo);
 
                     adapter.setList(listRoll);
                     adapter.notifyItemInserted(inputItem.getPosition());
                     break;
                 case InputDef.rollRemove:
                     listRoll.remove(inputItem.getPosition());
-                    noteRepo.setListRoll(listRoll);
-
-                    vm.setNoteRepo(noteRepo);
 
                     adapter.setList(listRoll);
                     adapter.notifyItemRemoved(inputItem.getPosition());
@@ -772,9 +752,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     final RollItem rollItem = listRoll.get(startPosition);
                     listRoll.remove(startPosition);
                     listRoll.add(endPosition, rollItem);
-
-                    noteRepo.setListRoll(listRoll);
-                    vm.setNoteRepo(noteRepo);
 
                     adapter.setList(listRoll);
                     adapter.notifyItemMoved(startPosition, endPosition);

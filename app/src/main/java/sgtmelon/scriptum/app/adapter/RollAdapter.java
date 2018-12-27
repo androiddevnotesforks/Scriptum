@@ -168,11 +168,13 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             if (textFrom.equals(textTo)) return;
 
             if (!TextUtils.isEmpty(textTo)) {
-                final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
-                inputIntf.onRollChange(p, textFrom, textTo, cursorItem);
+                if (!TextUtils.isEmpty(textFrom)) {
+                    final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
+                    inputIntf.onRollChange(p, textFrom, textTo, cursorItem);
 
-                textFrom = textTo;
-                cursorFrom = cursorTo;
+                    textFrom = textTo;
+                    cursorFrom = cursorTo;
+                }
             } else {
                 inputIntf.onRollRemove(p, textFrom);
             }
