@@ -211,11 +211,6 @@ public final class NoteActivity extends BaseActivityParent
     }
 
     @Override
-    public void setViewModel(ActivityNoteViewModel viewModel) {
-        vm = viewModel;
-    }
-
-    @Override
     public void onMenuRestoreClick() {
         Log.i(TAG, "onMenuRestoreClick");
 

@@ -16,6 +16,4 @@ public interface NoteCallback {
 
     ActivityNoteViewModel getViewModel();
 
-    void setViewModel(ActivityNoteViewModel viewModel);
-
 }
