@@ -45,6 +45,10 @@ public final class NoteRepo {
         this.listRoll = listRoll;
     }
 
+    public StatusItem getStatusItem() {
+        return statusItem;
+    }
+
     public void setStatusItem(StatusItem statusItem) {
         this.statusItem = statusItem;
     }
@@ -53,22 +57,17 @@ public final class NoteRepo {
      * При отметке всех пунктов
      */
     public void update(@CheckDef int rollCheck) {
-        for (RollItem rollItem: listRoll){
+        for (RollItem rollItem : listRoll) {
             rollItem.setCheck(rollCheck == CheckDef.done);
         }
     }
 
     public void update(boolean status) {
-        if (status) statusItem.notifyNote();
-        else statusItem.cancelNote();
-    }
-
-    public void update() {
-        statusItem.updateNote(noteItem, true);
-    }
-
-    public void update(List<Long> rankVisible) {
-        statusItem.updateNote(noteItem, rankVisible);
+        if (status) {
+            statusItem.notifyNote();
+        } else {
+            statusItem.cancelNote();
+        }
     }
 
 }

@@ -183,7 +183,6 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new NoteAdapter(context);
-
         adapter.setClickListener(this);
         adapter.setLongClickListener(this);
 
@@ -257,7 +256,6 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         db.close();
 
         listNoteRepo.remove(p);
-        vm.setListNoteRepo(listNoteRepo);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemRemoved(p);
@@ -283,7 +281,6 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         db.close();
 
         listNoteRepo.remove(p);
-        vm.setListNoteRepo(listNoteRepo);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemRemoved(p);

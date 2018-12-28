@@ -306,7 +306,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         db.close();
 
         noteRepo.update(check);
-        noteRepo.update();
+        noteRepo.getStatusItem().updateNote(noteItem, true);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemChanged(p);
@@ -369,7 +369,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         }
         db.close();
 
-        noteRepo.update();
+        noteRepo.getStatusItem().updateNote(noteItem, true);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemChanged(p);

@@ -75,7 +75,8 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
     }
 
     public void setNoteRepo(NoteRepo noteRepo) {
-        noteRepo.update(rankVisible);
+        final NoteItem noteItem = noteRepo.getNoteItem();
+        noteRepo.getStatusItem().updateNote(noteItem, rankVisible);
 
         this.noteRepo = noteRepo;
     }
