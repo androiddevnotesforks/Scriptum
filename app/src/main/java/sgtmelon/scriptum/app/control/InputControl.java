@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
@@ -52,19 +53,14 @@ public final class InputControl implements InputIntf {
      * @return - Есть куда возвращаться или нет
      */
     public boolean isUndoAccess() {
-        if (listInput.size() != 0) {
-            return position != -1;
-        } else {
-            return false;
-        }
+        return listInput.size() != 0 && position != -1;
     }
 
+    @Nullable
     public InputItem undo() {
-        if (isUndoAccess()) {
-            return listInput.get(position--);
-        } else {
-            return null;
-        }
+        return isUndoAccess()
+                ? listInput.get(position--)
+                : null;
     }
 
     /**
@@ -73,19 +69,14 @@ public final class InputControl implements InputIntf {
      * @return - Есть куда возвращаться или нет
      */
     public boolean isRedoAccess() {
-        if (listInput.size() != 0) {
-            return position != listInput.size() - 1;
-        } else {
-            return false;
-        }
+        return listInput.size() != 0 && position != listInput.size() - 1;
     }
 
+    @Nullable
     public InputItem redo() {
-        if (isRedoAccess()) {
-            return listInput.get(++position);
-        } else {
-            return null;
-        }
+        return isRedoAccess()
+                ? listInput.get(++position)
+                : null;
     }
 
     private void add(InputItem inputItem) {

@@ -204,7 +204,6 @@ public final class TextFragment extends NoteFragmentParent {
             viewModel.setNoteRepo(noteRepo);
 
             onMenuEditClick(false);
-
             menuControl.startTint(noteItem.getColor());
 
             inputControl.clear();
