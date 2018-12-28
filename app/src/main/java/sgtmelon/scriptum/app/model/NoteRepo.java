@@ -53,10 +53,8 @@ public final class NoteRepo {
      * При отметке всех пунктов
      */
     public void update(@CheckDef int rollCheck) {
-        for (int i = 0; i < listRoll.size(); i++) {
-            final RollItem rollItem = listRoll.get(i);
+        for (RollItem rollItem: listRoll){
             rollItem.setCheck(rollCheck == CheckDef.done);
-            listRoll.set(i, rollItem);
         }
     }
 

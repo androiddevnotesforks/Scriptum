@@ -167,7 +167,6 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
         sortItem.setText(text[key]);
         sortItem.setKey(key);
 
-        listSort.set(p, sortItem);
         adapter.setListItem(p, sortItem);
         adapter.notifyItemChanged(p);
 

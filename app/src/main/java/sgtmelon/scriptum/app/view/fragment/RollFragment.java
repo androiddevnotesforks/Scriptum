@@ -485,9 +485,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         final RollItem rollItem = listRoll.get(p);
         rollItem.setCheck(!rollItem.isCheck());
 
-        listRoll.set(p, rollItem);
-        noteRepo.setListRoll(listRoll);
-
         adapter.setListItem(p, rollItem);
 
         final int check = HelpUtils.Note.getRollCheck(listRoll);
@@ -496,18 +493,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteItem.setChange(TimeUtils.getTime(context));
         noteItem.setText(check, listRoll.size());
 
-        noteRepo.setNoteItem(noteItem);
-
-        vm.setNoteRepo(noteRepo);
-
         if (checkSt.setAll(check, listRoll.size())) {
             binding.setNoteItem(noteItem);
             binding.executePendingBindings();
         }
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        viewModel.setNoteRepo(noteRepo);
-        noteCallback.setViewModel(viewModel);
+        noteCallback.getViewModel().setNoteRepo(noteRepo);
 
         if (rollItem.getId() == null) return;
 
@@ -579,9 +570,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 rollItem.setNoteId(ntId);
                 rollItem.setPosition(i);
                 rollItem.setId(db.daoRoll().insert(rollItem));
-
-                listRoll.set(i, rollItem);
             }
+
             noteRepo.setListRoll(listRoll);
             adapter.setList(listRoll);
         } else {
