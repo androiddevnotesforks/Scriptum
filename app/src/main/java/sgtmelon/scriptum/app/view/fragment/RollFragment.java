@@ -440,7 +440,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         //Если редактирование и текст в хранилище не пустой
         if (!noteSt.isCreate() && noteSt.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
-            menuControl.setStartColor(noteItem.getColor());
+            menuControl.setColorFrom(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
             noteRepo = db.daoNote().get(context, noteItem.getId());
@@ -634,7 +634,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 case InputDef.color:
                     final int color = Integer.parseInt(inputItem.getValueFrom());
 
-                    menuControl.setStartColor(noteItem.getColor());
+                    menuControl.setColorFrom(noteItem.getColor());
                     noteItem.setColor(color);
                     menuControl.startTint(color);
                     break;
@@ -700,7 +700,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 case InputDef.color:
                     final int colorTo = Integer.parseInt(inputItem.getValueTo());
 
-                    menuControl.setStartColor(noteItem.getColor());
+                    menuControl.setColorFrom(noteItem.getColor());
                     noteItem.setColor(colorTo);
                     menuControl.startTint(colorTo);
                     break;

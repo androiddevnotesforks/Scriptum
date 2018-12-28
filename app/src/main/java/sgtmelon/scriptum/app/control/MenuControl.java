@@ -35,8 +35,8 @@ public class MenuControl implements AnimIntf {
     private View indicator;
 
     private int valTheme;
-    private int statusStartColor, statusEndColor;
-    private int toolbarStartColor, toolbarEndColor;
+    private int statusColorFrom, statusColorTo;
+    private int toolbarColorFrom, toolbarColorTo;
 
     public MenuControl(Context context) {
         this.context = context;
@@ -46,7 +46,7 @@ public class MenuControl implements AnimIntf {
         final ValueAnimator.AnimatorUpdateListener updateListener = animator -> {
             final float position = animator.getAnimatedFraction();
 
-            int blended = ColorUtils.blend(statusStartColor, statusEndColor, position);
+            int blended = ColorUtils.blend(statusColorFrom, statusColorTo, position);
             if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.setStatusBarColor(blended);
             }
@@ -54,7 +54,7 @@ public class MenuControl implements AnimIntf {
             ColorDrawable background = new ColorDrawable(blended);
             indicator.setBackground(background);
 
-            blended = ColorUtils.blend(toolbarStartColor, toolbarEndColor, position);
+            blended = ColorUtils.blend(toolbarColorFrom, toolbarColorTo, position);
             background = new ColorDrawable(blended);
 
             if (valTheme != ThemeDef.dark) {
@@ -92,7 +92,7 @@ public class MenuControl implements AnimIntf {
         }
         indicator.setBackgroundColor(ColorUtils.get(context, color, true));
 
-        setStartColor(color);
+        setColorFrom(color);
     }
 
     /**
@@ -100,9 +100,9 @@ public class MenuControl implements AnimIntf {
      *
      * @param color - Начальный цвет
      */
-    public final void setStartColor(@ColorDef int color) {
-        statusStartColor = ColorUtils.get(context, color, statusOnDark);
-        toolbarStartColor = ColorUtils.get(context, color, false);
+    public final void setColorFrom(@ColorDef int color) {
+        statusColorFrom = ColorUtils.get(context, color, statusOnDark);
+        toolbarColorFrom = ColorUtils.get(context, color, false);
     }
 
     /**
@@ -111,10 +111,10 @@ public class MenuControl implements AnimIntf {
      * @param color - Конечный цвет
      */
     public final void startTint(@ColorDef int color) {
-        statusEndColor = ColorUtils.get(context, color, statusOnDark);
-        toolbarEndColor = ColorUtils.get(context, color, false);
+        statusColorTo = ColorUtils.get(context, color, statusOnDark);
+        toolbarColorTo = ColorUtils.get(context, color, false);
 
-        if (statusStartColor != statusEndColor) {
+        if (statusColorFrom != statusColorTo) {
             anim.start();
         }
     }

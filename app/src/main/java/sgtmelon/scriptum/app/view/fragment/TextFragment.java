@@ -138,9 +138,10 @@ public final class TextFragment extends NoteFragmentParent {
         dlgConvert.setPositiveListener((dialogInterface, i) -> {
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
-            final String[] textToRoll = noteItem.getText().split("\n");   //Получаем пункты списка
 
             db = RoomDb.provideDb(context);
+
+            final String[] textToRoll = noteItem.getText().split("\n");   //Получаем пункты списка
             final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
             noteItem.setChange(TimeUtils.getTime(context));
@@ -150,15 +151,9 @@ public final class TextFragment extends NoteFragmentParent {
             db.daoNote().update(noteItem);
             db.close();
 
-            noteRepo.setNoteItem(noteItem);
             noteRepo.setListRoll(listRoll);
 
-            vm.setNoteRepo(noteRepo);
-
-            final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-            viewModel.setNoteRepo(noteRepo);
-            noteCallback.setViewModel(viewModel);
-
+            noteCallback.getViewModel().setNoteRepo(noteRepo);
             noteCallback.setupFragment(false);
         });
     }
@@ -198,7 +193,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         //Если редактирование и текст в хранилище не пустой
         if (!noteSt.isCreate() && noteSt.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
-            menuControl.setStartColor(noteItem.getColor());
+            menuControl.setColorFrom(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
             noteRepo = db.daoNote().get(context, noteItem.getId());
@@ -206,9 +201,7 @@ public final class TextFragment extends NoteFragmentParent {
             db.close();
 
             vm.setNoteRepo(noteRepo);
-
             viewModel.setNoteRepo(noteRepo);
-            noteCallback.setViewModel(viewModel);
 
             onMenuEditClick(false);
 
@@ -226,10 +219,11 @@ public final class TextFragment extends NoteFragmentParent {
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
 
-        final NoteRepo noteRepo = vm.getNoteRepo();
-        final NoteItem noteItem = noteRepo.getNoteItem();
+        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
-        if (TextUtils.isEmpty(noteItem.getText())) return false;
+        if (TextUtils.isEmpty(noteItem.getText())) {
+            return false;
+        }
 
         noteItem.setChange(TimeUtils.getTime(context));
 
@@ -244,26 +238,20 @@ public final class TextFragment extends NoteFragmentParent {
         final NoteSt noteSt = viewModel.getNoteSt();
         if (noteSt.isCreate()) {
             noteSt.setCreate(false);
-            viewModel.setNoteSt(noteSt);
 
             if (!editModeChange) {
                 menuControl.setDrawable(true, true);
             }
 
-            final long id = db.daoNote().insert(noteItem);
-            noteItem.setId(id);
+            noteItem.setId(db.daoNote().insert(noteItem));
         } else {
             db.daoNote().update(noteItem);
         }
+
         db.daoRank().update(noteItem.getId(), noteItem.getRankId());
         db.close();
 
-        noteRepo.setNoteItem(noteItem);
-
-        vm.setNoteRepo(noteRepo);
-
-        viewModel.setNoteRepo(noteRepo);
-        noteCallback.setViewModel(viewModel);
+        viewModel.setNoteRepo(vm.getNoteRepo());
 
         inputControl.clear();
         bindInput();
@@ -279,30 +267,23 @@ public final class TextFragment extends NoteFragmentParent {
         final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
-            final NoteRepo noteRepo = vm.getNoteRepo();
-            final NoteItem noteItem = noteRepo.getNoteItem();
-
+            final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
             final CursorItem cursorItem = inputItem.getCursorItem();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
-                    final List<Long> rankId = stringConv.fromString(inputItem.getValueFrom());
+                    final List<Long> listRankId = stringConv.fromString(inputItem.getValueFrom());
 
-                    noteItem.setRankId(rankId);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
+                    noteItem.setRankId(listRankId);
                     break;
                 case InputDef.color:
-                    final int color = Integer.parseInt(inputItem.getValueFrom());
+                    menuControl.setColorFrom(noteItem.getColor());
 
-                    menuControl.setStartColor(noteItem.getColor());
+                    final int colorFrom = Integer.parseInt(inputItem.getValueFrom());
+                    noteItem.setColor(colorFrom);
 
-                    noteItem.setColor(color);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
-
-                    menuControl.startTint(color);
+                    menuControl.startTint(colorFrom);
                     break;
                 case InputDef.name:
                     assert cursorItem != null;
@@ -331,30 +312,23 @@ public final class TextFragment extends NoteFragmentParent {
         final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
-            final NoteRepo noteRepo = vm.getNoteRepo();
-            final NoteItem noteItem = noteRepo.getNoteItem();
-
+            final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
             final CursorItem cursorItem = inputItem.getCursorItem();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
-                    final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
+                    final List<Long> listRankId = stringConv.fromString(inputItem.getValueTo());
 
-                    noteItem.setRankId(rankId);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
+                    noteItem.setRankId(listRankId);
                     break;
                 case InputDef.color:
-                    final int color = Integer.parseInt(inputItem.getValueTo());
+                    menuControl.setColorFrom(noteItem.getColor());
 
-                    menuControl.setStartColor(noteItem.getColor());
+                    final int colorTo = Integer.parseInt(inputItem.getValueTo());
+                    noteItem.setColor(colorTo);
 
-                    noteItem.setColor(color);
-                    noteRepo.setNoteItem(noteItem);
-                    vm.setNoteRepo(noteRepo);
-
-                    menuControl.startTint(color);
+                    menuControl.startTint(colorTo);
                     break;
                 case InputDef.name:
                     assert cursorItem != null;
@@ -379,8 +353,7 @@ public final class TextFragment extends NoteFragmentParent {
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteSt noteSt = viewModel.getNoteSt();
+        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
         noteSt.setEdit(editMode);
 
         menuControl.setDrawable(
@@ -389,9 +362,6 @@ public final class TextFragment extends NoteFragmentParent {
         );
 
         bindEdit(editMode);
-
-        viewModel.setNoteSt(noteSt);
-        noteCallback.setViewModel(viewModel);
 
         noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
     }

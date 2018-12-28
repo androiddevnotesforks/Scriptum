@@ -254,7 +254,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
     }
 
     public final void startTintToolbar(@ColorDef int startColor, @ColorDef int endColor) {
-        menuControl.setStartColor(startColor);
+        menuControl.setColorFrom(startColor);
         menuControl.startTint(endColor);
     }
 
@@ -293,7 +293,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
         colorDialog.setArguments(noteItem.getColor());
         colorDialog.show(fm, DialogDef.COLOR);
 
-        menuControl.setStartColor(noteItem.getColor());
+        menuControl.setColorFrom(noteItem.getColor());
     }
 
     @Override
