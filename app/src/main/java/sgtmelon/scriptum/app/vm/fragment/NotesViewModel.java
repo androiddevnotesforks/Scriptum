@@ -18,28 +18,28 @@ import sgtmelon.scriptum.office.annot.def.BinDef;
  */
 public final class NotesViewModel extends AndroidViewModel {
 
-    private List<NoteRepo> listModel;
+    private List<NoteRepo> listNoteRepo;
 
     public NotesViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public List<NoteRepo> getListModel() {
-        return listModel;
+    public List<NoteRepo> getListNoteRepo() {
+        return listNoteRepo;
     }
 
-    public void setListModel(List<NoteRepo> listModel) {
-        this.listModel = listModel;
+    public void setListNoteRepo(List<NoteRepo> listNoteRepo) {
+        this.listNoteRepo = listNoteRepo;
     }
 
     public List<NoteRepo> loadData(@BinDef int bin) {
         final Context context = getApplication().getApplicationContext();
 
         final RoomDb db = RoomDb.provideDb(context);
-        listModel = db.daoNote().get(context, bin);
+        listNoteRepo = db.daoNote().get(context, bin);
         db.close();
 
-        return listModel;
+        return listNoteRepo;
     }
 
 }

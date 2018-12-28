@@ -141,7 +141,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getListModel().size());
+                bind(vm.getListNoteRepo().size());
             }
         };
 
@@ -151,7 +151,6 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
         adapter = new NoteAdapter(context);
-
         adapter.setClickListener(this);
         adapter.setLongClickListener(this);
 
@@ -168,7 +167,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         optionsDialog.setOnClickListener((dialogInterface, i) -> {
             final int p = optionsDialog.getPosition();
-            final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+            final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
 
             switch (noteItem.getType()) {
                 case TypeNoteDef.text:
@@ -235,8 +234,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         switch (item.getItemId()) {
             case R.id.preference_item:
-                final Intent intent = new Intent(context, PreferenceActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(context, PreferenceActivity.class));
                 return true;
         }
         return false;
@@ -246,7 +244,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        final long id = vm.getListModel().get(p).getNoteItem().getId();
+        final long id = vm.getListNoteRepo().get(p).getNoteItem().getId();
         final Intent intent = NoteActivity.getIntent(context, id);
 
         startActivity(intent);
@@ -256,7 +254,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+        final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
 
         String[] items = new String[0];
         switch (noteItem.getType()) {
@@ -287,7 +285,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onMenuCheckClick(int p) {
         Log.i(TAG, "onMenuCheckClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
         final NoteRepo noteRepo = listNoteRepo.get(p);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
@@ -308,11 +306,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         db.close();
 
         noteRepo.update(check);
-        noteRepo.setNoteItem(noteItem);
         noteRepo.update();
-
-        listNoteRepo.set(p, noteRepo);
-        vm.setListModel(listNoteRepo);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemChanged(p);
@@ -322,7 +316,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onMenuBindClick(int p) {
         Log.i(TAG, "onMenuBindClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
         final NoteRepo noteRepo = listNoteRepo.get(p);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
@@ -334,11 +328,6 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         db.daoNote().update(noteItem.getId(), noteItem.isStatus());
         db.close();
 
-        noteRepo.setNoteItem(noteItem);
-
-        listNoteRepo.set(p, noteRepo);
-        vm.setListModel(listNoteRepo);
-
         adapter.setList(listNoteRepo);
         adapter.notifyItemChanged(p);
     }
@@ -347,7 +336,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onMenuConvertClick(int p) {
         Log.i(TAG, "onMenuConvertClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
         final NoteRepo noteRepo = listNoteRepo.get(p);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
@@ -380,11 +369,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         }
         db.close();
 
-        noteRepo.setNoteItem(noteItem);
         noteRepo.update();
-
-        listNoteRepo.set(p, noteRepo);
-        vm.setListModel(listNoteRepo);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemChanged(p);
@@ -394,7 +379,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onMenuCopyClick(int p) {
         Log.i(TAG, "onMenuCopyClick");
 
-        final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+        final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
         HelpUtils.optionsCopy(context, noteItem);
     }
 
@@ -402,19 +387,20 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onMenuDeleteClick(int p) {
         Log.i(TAG, "onMenuDeleteClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
         final NoteRepo noteRepo = listNoteRepo.get(p);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), TimeUtils.getTime(context), true);
-        if (noteItem.isStatus()) db.daoNote().update(noteItem.getId(), false);
+        if (noteItem.isStatus()) {
+            db.daoNote().update(noteItem.getId(), false);
+        }
         db.close();
 
         noteRepo.update(false);
         listNoteRepo.remove(p);
-        vm.setListModel(listNoteRepo);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemRemoved(p);

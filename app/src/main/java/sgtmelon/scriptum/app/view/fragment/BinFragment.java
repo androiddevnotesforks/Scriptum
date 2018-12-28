@@ -156,12 +156,12 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
             db.daoNote().clearBin();
             db.close();
 
-            vm.setListModel(new ArrayList<>());
+            vm.setListNoteRepo(new ArrayList<>());
 
-            adapter.setList(vm.getListModel());
+            adapter.setList(vm.getListNoteRepo());
             adapter.notifyDataSetChanged();
 
-            mItemClearBin.setVisible(vm.getListModel().size() != 0);
+            mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
             bind(0);
         });
         dlgClearBin.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -173,7 +173,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getListModel().size());
+                bind(vm.getListNoteRepo().size());
             }
         };
 
@@ -213,7 +213,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         adapter.setList(listNoteRepo);
         adapter.notifyDataSetChanged();
 
-        mItemClearBin.setVisible(vm.getListModel().size() != 0);
+        mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
         bind(listNoteRepo.size());
     }
 
@@ -229,7 +229,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onItemClick(View view, int p) {
         Log.i(TAG, "onItemClick");
 
-        final long id = vm.getListModel().get(p).getNoteItem().getId();
+        final long id = vm.getListNoteRepo().get(p).getNoteItem().getId();
         final Intent intent = NoteActivity.getIntent(context, id);
 
         startActivity(intent);
@@ -249,7 +249,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onMenuRestoreClick(int p) {
         Log.i(TAG, "onMenuRestoreClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
         final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
@@ -257,17 +257,17 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         db.close();
 
         listNoteRepo.remove(p);
-        vm.setListModel(listNoteRepo);
+        vm.setListNoteRepo(listNoteRepo);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemRemoved(p);
 
-        mItemClearBin.setVisible(vm.getListModel().size() != 0);
+        mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
     }
 
     @Override
     public void onMenuCopyClick(int p) {
-        final NoteItem noteItem = vm.getListModel().get(p).getNoteItem();
+        final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
         HelpUtils.optionsCopy(context, noteItem);
     }
 
@@ -275,7 +275,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onMenuClearClick(int p) {
         Log.i(TAG, "onMenuClearClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListModel();
+        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
         final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
@@ -283,12 +283,12 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         db.close();
 
         listNoteRepo.remove(p);
-        vm.setListModel(listNoteRepo);
+        vm.setListNoteRepo(listNoteRepo);
 
         adapter.setList(listNoteRepo);
         adapter.notifyItemRemoved(p);
 
-        mItemClearBin.setVisible(vm.getListModel().size() != 0);
+        mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
     }
 
 }
