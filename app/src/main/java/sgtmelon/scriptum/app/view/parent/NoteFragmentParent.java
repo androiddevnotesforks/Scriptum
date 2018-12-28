@@ -39,7 +39,6 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.app.view.fragment.TextFragment;
-import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
 import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -322,9 +321,7 @@ public abstract class NoteFragmentParent extends Fragment implements View.OnClic
 
         vm.setNoteRepo(noteRepo);
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        viewModel.setNoteRepo(noteRepo);
-        noteCallback.setViewModel(viewModel);
+        noteCallback.getViewModel().setNoteRepo(noteRepo);
     }
 
     @Override

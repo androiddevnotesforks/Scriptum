@@ -25,7 +25,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RollAdapter;
-import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
@@ -217,9 +216,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        if (vm.isEmpty()) {
-            vm.setNoteRepo(viewModel.getNoteRepo());
+        final ActivityNoteViewModel vm = noteCallback.getViewModel();
+        if (this.vm.isEmpty()) {
+            this.vm.setNoteRepo(vm.getNoteRepo());
         }
 
         setupBinding();
@@ -228,15 +227,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         setupRecycler();
         setupEnter();
 
-        final NoteSt noteSt = viewModel.getNoteSt();
-
+        final NoteSt noteSt = vm.getNoteSt();
         onMenuEditClick(noteSt.isEdit());
-
         inputControl.setEnable(true);
-
         noteSt.setFirst(false);
-        viewModel.setNoteSt(noteSt);
-        noteCallback.setViewModel(viewModel);
     }
 
     @Override

@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
 import sgtmelon.scriptum.app.injection.component.FragmentComponent;
@@ -82,9 +81,9 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
-        if (vm.isEmpty()) {
-            vm.setNoteRepo(viewModel.getNoteRepo());
+        final ActivityNoteViewModel vm = noteCallback.getViewModel();
+        if (this.vm.isEmpty()) {
+            this.vm.setNoteRepo(vm.getNoteRepo());
         }
 
         setupBinding();
@@ -92,15 +91,10 @@ public final class TextFragment extends NoteFragmentParent {
         setupDialog();
         setupEnter();
 
-        final NoteSt noteSt = viewModel.getNoteSt();
-
+        final NoteSt noteSt = vm.getNoteSt();
         onMenuEditClick(noteSt.isEdit());
-
         inputControl.setEnable(true);
-
         noteSt.setFirst(false);
-        viewModel.setNoteSt(noteSt);
-        noteCallback.setViewModel(viewModel);
     }
 
     @Override
