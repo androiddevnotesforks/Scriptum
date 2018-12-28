@@ -60,13 +60,14 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
     private Context context;
     private RoomDb db;
+
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
     private RankAdapter adapter;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
-        private int dragStart, dragEnd;
+        private int dragFrom, dragTo;
 
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView,
@@ -85,7 +86,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             super.onSelectedChanged(viewHolder, actionState);
 
             if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-                dragStart = viewHolder.getAdapterPosition();
+                dragFrom = viewHolder.getAdapterPosition();
             }
         }
 
@@ -94,16 +95,14 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                               @NonNull RecyclerView.ViewHolder viewHolder) {
             super.clearView(recyclerView, viewHolder);
 
-            dragEnd = viewHolder.getAdapterPosition();
-            if (dragStart != dragEnd) {
+            dragTo = viewHolder.getAdapterPosition();
+            if (dragFrom != dragTo) {
                 db = RoomDb.provideDb(context);
-                final List<RankItem> listRank = db.daoRank().update(dragStart, dragEnd);
+                final List<RankItem> listRank = db.daoRank().update(dragFrom, dragTo);
                 db.daoNote().update(context);
                 db.close();
 
-                final RankRepo rankRepo = vm.getRankRepo();
-                rankRepo.setListRank(listRank);
-                vm.setRankRepo(rankRepo);
+                vm.getRankRepo().setListRank(listRank);
 
                 adapter.setList(listRank);
                 adapter.notifyDataSetChanged();
@@ -118,15 +117,14 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView,
                               RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            final int oldPs = viewHolder.getAdapterPosition();
-            final int newPs = target.getAdapterPosition();
+            final int positionFrom = viewHolder.getAdapterPosition();
+            final int positionTo = target.getAdapterPosition();
 
             final RankRepo rankRepo = vm.getRankRepo();
-            rankRepo.move(oldPs, newPs);
-            vm.setRankRepo(rankRepo);
+            rankRepo.move(positionFrom, positionTo);
 
             adapter.setList(rankRepo.getListRank());
-            adapter.notifyItemMoved(oldPs, newPs);
+            adapter.notifyItemMoved(positionFrom, positionTo);
 
             return true;
         }
@@ -158,11 +156,11 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        final FragmentComponent comFrg = DaggerFragmentComponent.builder()
+        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
                 .fragmentBlankModule(new FragmentBlankModule(this))
                 .fragmentArchModule(new FragmentArchModule(inflater, container))
                 .build();
-        comFrg.inject(this);
+        fragmentComponent.inject(this);
 
         frgView = binding.getRoot();
 
@@ -290,21 +288,19 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         renameDialog.setPositiveListener((dialogInterface, i) -> {
-            int p = renameDialog.getPosition();
+            final int p = renameDialog.getPosition();
 
-            RankRepo rankRepo = vm.getRankRepo();
-            RankItem rankItem = rankRepo.get(p);
+            final RankRepo rankRepo = vm.getRankRepo();
+
+            final RankItem rankItem = rankRepo.getListRank().get(p);
             rankItem.setName(renameDialog.getName());
+            rankRepo.getListName().set(p, renameDialog.getName().toUpperCase());
 
             db = RoomDb.provideDb(context);
             db.daoRank().update(rankItem);
             db.close();
 
-            rankRepo.set(p, rankItem);
-
             bind();
-
-            vm.setRankRepo(rankRepo);
 
             adapter.setListItem(p, rankItem);
             adapter.notifyItemChanged(p);
@@ -343,8 +339,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 final RankRepo rankRepo = vm.getRankRepo();
 
                 final int p = rankRepo.size();
-                final String name = clearEnter();
-                final RankItem rankItem = new RankItem(p, name);
+                final RankItem rankItem = new RankItem(p, clearEnter());
 
                 db = RoomDb.provideDb(context);
                 rankItem.setId(db.daoRank().insert(rankItem));
@@ -352,7 +347,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
                 rankRepo.add(p, rankItem);
 
-                vm.setRankRepo(rankRepo);
                 adapter.setList(rankRepo.getListRank());
 
                 if (rankRepo.size() == 1) {
@@ -376,8 +370,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         Log.i(TAG, "onLongClick");
 
         final int p = 0;
-        final String name = clearEnter();
-        final RankItem rankItem = new RankItem(p - 1, name);
+        final RankItem rankItem = new RankItem(p - 1, clearEnter());
 
         db = RoomDb.provideDb(context);
         rankItem.setId(db.daoRank().insert(rankItem));
@@ -386,7 +379,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         final RankRepo rankRepo = vm.getRankRepo();
         rankRepo.add(p, rankItem);
-        vm.setRankRepo(rankRepo);
 
         adapter.setList(rankRepo.getListRank());
 
@@ -410,15 +402,12 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         Log.i(TAG, "onItemClick");
 
         final RankRepo rankRepo = vm.getRankRepo();
-        final RankItem rankItem = rankRepo.get(p);
+        final RankItem rankItem = rankRepo.getListRank().get(p);
 
         switch (view.getId()) {
             case R.id.visible_button:
                 rankItem.setVisible(!rankItem.isVisible());
 
-                rankRepo.set(p, rankItem);
-
-                vm.setRankRepo(rankRepo);
                 adapter.setListItem(p, rankItem);
 
                 db = RoomDb.provideDb(context);
@@ -430,19 +419,20 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 if (!openSt.isOpen()) {
                     openSt.setOpen(true);
 
-                    renameDialog.setArguments(p, rankItem.getName(), new ArrayList<>(rankRepo.getListName()));
+                    renameDialog.setArguments(
+                            p, rankItem.getName(), new ArrayList<>(rankRepo.getListName())
+                    );
                     renameDialog.show(fm, DialogDef.RENAME);
                 }
                 break;
             case R.id.cancel_button:
                 db = RoomDb.provideDb(context);
-                db.daoRank().delete(rankRepo.get(p).getName());
+                db.daoRank().delete(rankItem.getName());
                 db.daoRank().update(p);
                 db.daoNote().update(context);
                 db.close();
 
                 rankRepo.remove(p);
-                vm.setRankRepo(rankRepo);
 
                 adapter.setList(rankRepo.getListRank());
                 adapter.notifyItemRemoved(p);
@@ -454,27 +444,22 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     public void onItemLongClick(View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
-        final RankRepo rankRepo = vm.getRankRepo();
+        final List<RankItem> listRank = vm.getRankRepo().getListRank();
 
         final boolean[] startAnim = adapter.getStartAnim();
-        final boolean clickVisible = rankRepo.get(p).isVisible();
+        final boolean clickVisible = listRank.get(p).isVisible();
 
-        for (int i = 0; i < rankRepo.size(); i++) {
+        for (int i = 0; i < listRank.size(); i++) {
             if (i == p) continue;
 
-            final RankItem rankItem = rankRepo.get(i);
-            final boolean isVisible = rankItem.isVisible();
+            final RankItem rankItem = listRank.get(i);
 
+            final boolean isVisible = rankItem.isVisible();
             if (clickVisible == isVisible) {
-                startAnim[i] = true;
                 rankItem.setVisible(!isVisible);
-                rankRepo.set(i, rankItem);
+                startAnim[i] = true;
             }
         }
-
-        final List<RankItem> listRank = rankRepo.getListRank();
-
-        vm.setRankRepo(rankRepo);
 
         adapter.setList(listRank);
         adapter.setStartAnim(startAnim);

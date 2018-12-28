@@ -37,14 +37,11 @@ public abstract class RankDao extends BaseDao {
     private List<RankItem> getComplex() {
         final List<RankItem> listRank = getSimple();
 
-        for (int i = 0; i < listRank.size(); i++) {
-            final RankItem rankItem = listRank.get(i);
+        for (RankItem rankItem : listRank) {
             final List<Long> listNoteId = rankItem.getNoteId();
 
             rankItem.setTextCount(getNoteCount(TypeNoteDef.text, listNoteId));
             rankItem.setRollCount(getNoteCount(TypeNoteDef.roll, listNoteId));
-
-            listRank.set(i, rankItem);
         }
 
         return listRank;
@@ -92,7 +89,7 @@ public abstract class RankDao extends BaseDao {
     /**
      * Добавление или удаление id заметки к категорииё
      *
-     * @param noteId - Id заметки
+     * @param noteId     - Id заметки
      * @param listRankId - Id категорий принадлежащих каметке
      */
     public void update(long noteId, List<Long> listRankId) {
@@ -108,9 +105,6 @@ public abstract class RankDao extends BaseDao {
             } else if (!check[i]) {
                 listId.remove(noteId);
             }
-
-            rankItem.setNoteId(listId);
-            listRank.set(i, rankItem);
         }
 
         updateRank(listRank);
@@ -152,12 +146,16 @@ public abstract class RankDao extends BaseDao {
                 if (end) {
                     listRank.remove(i);
                     listRank.add(newPosition, rankItem);
-                } else listRank.set(i, rankItem);
+                } else {
+                    listRank.set(i, rankItem);
+                }
             } else {
                 if (start) {
                     listRank.remove(i);
                     listRank.add(newPosition, rankItem);
-                } else listRank.set(i, rankItem);
+                } else {
+                    listRank.set(i, rankItem);
+                }
             }
         }
 
@@ -196,16 +194,15 @@ public abstract class RankDao extends BaseDao {
     }
 
     /**
-     * @param listNoteId   - Id заметок, которые нужно обновить
-     * @param listRank - Новый список категорий, с новыми позициями у категорий
+     * @param listNoteId - Id заметок, которые нужно обновить
+     * @param listRank   - Новый список категорий, с новыми позициями у категорий
      */
     private void update(List<Long> listNoteId, List<RankItem> listRank) {
         final List<NoteItem> listNote = getNote(listNoteId);
 
-        for (int i = 0; i < listNote.size(); i++) {
-            final NoteItem noteItem = listNote.get(i);
-
+        for (NoteItem noteItem : listNote) {
             final List<Long> idOld = noteItem.getRankId();
+
             final List<Long> idNew = new ArrayList<>();
             final List<Long> psNew = new ArrayList<>();
 
@@ -221,7 +218,6 @@ public abstract class RankDao extends BaseDao {
 
             noteItem.setRankId(idNew);
             noteItem.setRankPs(psNew);
-            listNote.set(i, noteItem);
         }
 
         updateNote(listNote);

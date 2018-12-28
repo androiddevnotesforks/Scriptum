@@ -38,15 +38,6 @@ public final class RankRepo {
         listName.add(position, rankItem.getName().toUpperCase());
     }
 
-    public void set(int position, RankItem rankItem) {
-        listRank.set(position, rankItem);
-        listName.set(position, rankItem.getName().toUpperCase());
-    }
-
-    public RankItem get(int position) {
-        return listRank.get(position);
-    }
-
     public void remove(int position) {
         listRank.remove(position);
         listName.remove(position);

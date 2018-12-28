@@ -71,21 +71,15 @@ abstract class BaseDao {
     void updateNote(List<Long> noteId, long rankId) {
         final List<NoteItem> listNote = getNote(noteId);
 
-        for (int i = 0; i < listNote.size(); i++) {
-            final NoteItem noteItem = listNote.get(i);
-
+        for (NoteItem noteItem: listNote) {
             //Убирает из списков ненужную категорию по id
             final List<Long> listRankId = noteItem.getRankId();
             final List<Long> listRankPs = noteItem.getRankPs();
+
             final int index = listRankId.indexOf(rankId);
 
             listRankId.remove(index);
             listRankPs.remove(index);
-
-            noteItem.setRankId(listRankId);
-            noteItem.setRankPs(listRankPs);
-
-            listNote.set(i, noteItem);
         }
 
         updateNote(listNote);
@@ -131,15 +125,8 @@ abstract class BaseDao {
     void clearRank(long noteId, List<Long> listRankId) {
         final List<RankItem> listRank = getRank(listRankId);
 
-        for (int i = 0; i < listRank.size(); i++) {
-            final RankItem rankItem = listRank.get(i);
-
-            //Убирает из списка необходимую дату создания заметки
-            final List<Long> listNoteId = rankItem.getNoteId();
-            listNoteId.remove(noteId);
-
-            rankItem.setNoteId(listNoteId);
-            listRank.set(i, rankItem);
+        for (RankItem rankItem : listRank){
+            rankItem.getNoteId().remove(noteId);
         }
 
         updateRank(listRank);
