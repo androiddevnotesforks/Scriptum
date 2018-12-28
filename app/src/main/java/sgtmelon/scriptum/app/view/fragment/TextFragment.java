@@ -223,10 +223,7 @@ public final class TextFragment extends NoteFragmentParent {
             inputControl.clear();
             bindInput();
         } else {
-            final SaveControl saveControl = noteCallback.getSaveControl();
-            saveControl.setNeedSave(false);
-            noteCallback.setSaveControl(saveControl);
-
+            noteCallback.getSaveControl().setNeedSave(false);
             activity.finish();
         }
     }
@@ -402,9 +399,7 @@ public final class TextFragment extends NoteFragmentParent {
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
 
-        final SaveControl saveControl = noteCallback.getSaveControl();
-        saveControl.setSaveHandlerEvent(editMode);
-        noteCallback.setSaveControl(saveControl);
+        noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
     }
 
     // TODO: 10.12.2018 вынести onMenuCheckClick в отдельный интерфейс только для RollFragment

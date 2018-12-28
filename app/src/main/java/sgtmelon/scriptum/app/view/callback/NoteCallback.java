@@ -14,8 +14,6 @@ public interface NoteCallback {
 
     SaveControl getSaveControl();
 
-    void setSaveControl(SaveControl saveControl);
-
     ActivityNoteViewModel getViewModel();
 
     void setViewModel(ActivityNoteViewModel viewModel);

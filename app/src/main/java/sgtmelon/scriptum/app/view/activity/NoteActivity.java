@@ -206,11 +206,6 @@ public final class NoteActivity extends BaseActivityParent
     }
 
     @Override
-    public void setSaveControl(SaveControl saveControl) {
-        this.saveControl = saveControl;
-    }
-
-    @Override
     public ActivityNoteViewModel getViewModel() {
         return vm;
     }

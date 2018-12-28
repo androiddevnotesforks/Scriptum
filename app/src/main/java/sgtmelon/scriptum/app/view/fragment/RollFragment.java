@@ -467,10 +467,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             inputControl.clear();
             bindInput();
         } else {
-            final SaveControl saveControl = noteCallback.getSaveControl();
-            saveControl.setNeedSave(false);
-            noteCallback.setSaveControl(saveControl);
-
+            noteCallback.getSaveControl().setNeedSave(false);
             activity.finish(); //Иначе завершаем активность
         }
     }
@@ -784,9 +781,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         viewModel.setNoteSt(noteSt);
         noteCallback.setViewModel(viewModel);
 
-        final SaveControl saveControl = noteCallback.getSaveControl();
-        saveControl.setSaveHandlerEvent(editMode);
-        noteCallback.setSaveControl(saveControl);
+        noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
     }
 
     @Override
