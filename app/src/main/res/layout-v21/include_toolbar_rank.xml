@@ -45,7 +45,7 @@
                             app:boolExpression='@{nameNotEmpty}'
                             app:enabled='@{nameNotEmpty}'
                             app:falseColor='@{R.attr.clSecond}'
-                            app:srcCompat="@drawable/ic_cancel_on"
+                            app:srcCompat="@drawable/ic_cancel_enter"
                             app:trueColor='@{R.attr.clIcon}'
                             tools:tint="?attr/clIcon"/>
 

@@ -47,13 +47,17 @@ public class SwitchButton extends AppCompatImageButton implements AnimIntf {
     }
 
     private void setupAttribute(AttributeSet attrs) {
-        final TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.SwitchButton);
+        final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.SwitchButton);
 
-        srcDisable = attributes.getResourceId(R.styleable.SwitchButton_srcDisable, R.drawable.ic_android);
-        srcSelect = attributes.getResourceId(R.styleable.SwitchButton_srcSelect, R.drawable.ic_android);
+        srcDisable = array.getResourceId(R.styleable.SwitchButton_srcDisable, R.drawable.ic_android);
+        srcSelect = array.getResourceId(R.styleable.SwitchButton_srcSelect, R.drawable.ic_android);
 
-        srcDisableAnim = attributes.getResourceId(R.styleable.SwitchButton_srcDisableAnim, R.drawable.ic_android);
-        srcSelectAnim = attributes.getResourceId(R.styleable.SwitchButton_srcSelectAnim, R.drawable.ic_android);
+        srcDisableAnim = array.getResourceId(
+                R.styleable.SwitchButton_srcDisableAnim, R.drawable.ic_android
+        );
+        srcSelectAnim = array.getResourceId(
+                R.styleable.SwitchButton_srcSelectAnim, R.drawable.ic_android
+        );
 
         final TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(R.attr.srcDisableColor, typedValue, true);
@@ -62,7 +66,7 @@ public class SwitchButton extends AppCompatImageButton implements AnimIntf {
         context.getTheme().resolveAttribute(R.attr.srcSelectColor, typedValue, true);
         srcSelectColor = ContextCompat.getColor(context, typedValue.resourceId);
 
-        attributes.recycle();
+        array.recycle();
     }
 
     @CallSuper

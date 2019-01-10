@@ -30,12 +30,16 @@ public final class SwitchButtonAnim extends SwitchButton {
     protected void setupDrawable() {
         super.setupDrawable();
 
-        final AnimatedVectorDrawable srcDisableAnim = (AnimatedVectorDrawable) ContextCompat.getDrawable(context, this.srcDisableAnim);
+        final AnimatedVectorDrawable srcDisableAnim = (AnimatedVectorDrawable)
+                ContextCompat.getDrawable(context, this.srcDisableAnim);
+
         if (srcDisableAnim != null) {
             srcDisableAnim.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP);
         }
 
-        final AnimatedVectorDrawable srcSelectAnim = (AnimatedVectorDrawable) ContextCompat.getDrawable(context, this.srcSelectAnim);
+        final AnimatedVectorDrawable srcSelectAnim = (AnimatedVectorDrawable)
+                ContextCompat.getDrawable(context, this.srcSelectAnim);
+
         if (srcSelectAnim != null) {
             srcSelectAnim.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP);
         }

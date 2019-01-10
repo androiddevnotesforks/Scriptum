@@ -121,8 +121,8 @@ public class MenuControl implements AnimIntf {
 
     @CallSuper
     public void setupDrawable() {
-        cancelOn = ColorUtils.getDrawable(context, R.drawable.ic_cancel_on, R.attr.clIcon);
-        cancelOff = ColorUtils.getDrawable(context, R.drawable.ic_cancel_off, R.attr.clIcon);
+        cancelOn = ColorUtils.getDrawable(context, R.drawable.ic_cancel_enter, R.attr.clIcon);
+        cancelOff = ColorUtils.getDrawable(context, R.drawable.ic_cancel_exit, R.attr.clIcon);
     }
 
     @Override

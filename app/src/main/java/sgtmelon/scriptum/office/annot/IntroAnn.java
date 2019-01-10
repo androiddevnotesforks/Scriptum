@@ -12,7 +12,7 @@ public @interface IntroAnn {
             R.drawable.ic_palette,
             R.drawable.ic_bind_roll,
             R.drawable.ic_rank,
-            R.drawable.ic_visible_off,
+            R.drawable.ic_visible_enter,
             R.drawable.ic_preference,
             R.drawable.ic_bin
     };
