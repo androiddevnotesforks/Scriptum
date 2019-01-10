@@ -220,9 +220,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
-        if (TextUtils.isEmpty(noteItem.getText())) {
-            return false;
-        }
+        if (TextUtils.isEmpty(noteItem.getText())) return false;
 
         noteItem.setChange(TimeUtils.getTime(context));
 

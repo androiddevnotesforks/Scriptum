@@ -186,7 +186,6 @@ public abstract class RankDao extends BaseDao {
             }
 
             rankItem.setPosition(i);
-            listRank.set(i, rankItem);
         }
 
         updateRank(listRank);

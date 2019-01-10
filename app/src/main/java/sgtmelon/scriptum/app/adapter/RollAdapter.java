@@ -105,7 +105,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             dragView = itemView.findViewById(R.id.drag_button);
 
             rollEnter.setOnTouchListener(this);
-            rollEnter.addTextChangedListener(this);
+//            rollEnter.addTextChangedListener(this); // TODO: 10.01.2019 исправить, добавить undo/redo
 
             dragView.setOnTouchListener(this);
         }
