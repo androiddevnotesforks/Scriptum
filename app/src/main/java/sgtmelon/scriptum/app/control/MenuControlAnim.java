@@ -27,10 +27,10 @@ public final class MenuControlAnim extends MenuControl {
         super.setupDrawable();
 
         final AnimatedVectorDrawable cancelOnAnim = (AnimatedVectorDrawable) ColorUtils.getDrawable(
-                context, R.drawable.ic_cancel_enter_anim, R.attr.clIcon
+                context, R.drawable.anim_cancel_enter, R.attr.clIcon
         );
         final AnimatedVectorDrawable cancelOffAnim = (AnimatedVectorDrawable) ColorUtils.getDrawable(
-                context, R.drawable.ic_cancel_exit_anim, R.attr.clIcon
+                context, R.drawable.anim_cancel_exit, R.attr.clIcon
         );
 
         animHdlr = new AnimHdlr(context, cancelOnAnim, cancelOffAnim);

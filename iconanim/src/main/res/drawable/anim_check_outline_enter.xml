@@ -1,0 +1,12 @@
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:drawable="@drawable/ic_check_outline_enter"
+                 tools:ignore="NewApi">
+
+    <target android:name="@string/anim_check_group"
+            android:animation="@animator/check_group_enter"/>
+
+    <target android:name="@string/anim_check_path"
+            android:animation="@animator/check_path_enter"/>
+
+</animated-vector>

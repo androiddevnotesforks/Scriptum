@@ -23,7 +23,28 @@
         <FrameLayout
                 android:id="@+id/fragment_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:visibility="invisible"/>
+
+        <sgtmelon.iconanim.library.SwitchButtonAnim
+                android:id="@+id/test_check_done"
+                style="@style/RankItem.Button"
+                android:layout_gravity="center_vertical|start"
+                android:layout_margin="16dp"
+                app:srcDisable="@drawable/ic_move"
+                app:srcDisableAnim="@drawable/anim_check_done_exit"
+                app:srcSelect="@drawable/ic_check_done"
+                app:srcSelectAnim="@drawable/anim_check_done_enter"/>
+
+        <sgtmelon.iconanim.library.SwitchButtonAnim
+                android:id="@+id/test_check_outline"
+                style="@style/RankItem.Button"
+                android:layout_gravity="center_vertical|end"
+                android:layout_margin="16dp"
+                app:srcDisable="@drawable/ic_move"
+                app:srcDisableAnim="@drawable/anim_check_outline_exit"
+                app:srcSelect="@drawable/ic_check_outline"
+                app:srcSelectAnim="@drawable/anim_check_outline_enter"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_fab"

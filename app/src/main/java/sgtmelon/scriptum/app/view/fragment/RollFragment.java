@@ -252,7 +252,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     }
 
     @Override
-    public void bindInput() {
+    public void bindInput() { // TODO: 10.01.2019 не работает кнопка save при нажатии на редактирование
         Log.i(TAG, "bindInput");
 
         binding.setUndoAccess(inputControl.isUndoAccess());

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <objectAnimator
+            android:duration="@android:integer/config_shortAnimTime"
+            android:interpolator="@android:anim/accelerate_decelerate_interpolator"
+            android:propertyName="pathData"
+            android:valueFrom="M 23.314 10.586 L 13.414 0.686 C 12.636 -0.092 11.364 -0.092 10.586 0.686 L 0.686 10.586 C -0.092 11.364 -0.092 12.636 0.686 13.414 L 12 2.101 L 23.314 13.414 C 24.092 12.636 24.092 11.364 23.314 10.586 Z M 0.686 10.586 C -0.092 11.364 -0.092 12.636 0.686 13.414 L 10.586 23.314 C 11.364 24.092 12.636 24.092 13.414 23.314 L 23.314 13.414 C 24.092 12.636 24.092 11.364 23.314 10.586 L 12 21.899 L 0.686 10.586 Z"
+            android:valueTo="M 16.58 7.59 L 12 3 C 12 3 12 3 12 3 L 7.42 7.59 C 7.89 8.06 8.36 8.53 8.83 9 L 12 5.83 L 15.17 9 C 15.64 8.53 16.11 8.06 16.58 7.59 Z M 8.83 15 C 8.36 15.47 7.89 15.94 7.42 16.41 L 12 21 C 12 21 12 21 12 21 L 16.58 16.41 C 16.58 16.41 16.11 15.94 15.17 15 L 12 18.17 L 8.83 15 Z"
+            android:valueType="pathType"/>
+
+</set>
