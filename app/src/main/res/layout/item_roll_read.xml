@@ -9,6 +9,7 @@
 
         <variable name="rollItem" type="sgtmelon.scriptum.app.model.item.RollItem"/>
         <variable name="keyBin" type="boolean"/>
+        <variable name="checkToggle" type="boolean"/>
 
     </data>
 
@@ -31,7 +32,8 @@
                 <CheckBox
                         android:id="@+id/roll_check"
                         style="@style/RollItem.Read.Check"
-                        android:checked='@{rollItem.check}'
+                        app:checkToggle='@{checkToggle}'
+                        app:checkState='@{rollItem.check}'
                         tools:checked="true"/>
 
                 <ImageButton

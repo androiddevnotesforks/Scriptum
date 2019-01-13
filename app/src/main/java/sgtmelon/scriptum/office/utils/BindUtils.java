@@ -5,12 +5,14 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.AttrRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
@@ -129,6 +131,20 @@ public final class BindUtils {
         view.setVisibility(currentTheme == visibleTheme
                 ? View.VISIBLE
                 : View.GONE);
+    }
+
+    /**
+     * @param toggle
+     * @param state
+     */
+    @BindingAdapter(value = {"checkToggle", "checkState"})
+    public static void setCheckBoxCheck(@NonNull CheckBox checkBox, boolean toggle,
+                                        boolean state) {
+        if (toggle) {
+            checkBox.toggle();
+        } else {
+            checkBox.setChecked(state);
+        }
     }
 
 }

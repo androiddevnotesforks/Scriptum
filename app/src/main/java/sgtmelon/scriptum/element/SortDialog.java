@@ -124,7 +124,9 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
         itemTouchHelper.attachToRecyclerView(recyclerView);
 
         final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
-        if (animator != null) animator.setSupportsChangeAnimations(false);
+        if (animator != null) {
+            animator.setSupportsChangeAnimations(false);
+        }
 
         return new AlertDialog.Builder(context)
                 .setTitle(getString(R.string.dialog_title_sort))

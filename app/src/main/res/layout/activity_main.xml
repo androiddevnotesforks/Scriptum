@@ -30,10 +30,10 @@
                 style="@style/RankItem.Button"
                 app:srcDisable="@drawable/ic_move"
                 app:srcDisableAnim="@drawable/anim_check_done_exit"
-                app:srcSelect="@drawable/ic_check_done"
                 app:srcDisableColor="?attr/clAccent"
-                app:srcSelectColor="?attr/clAccent"
-                app:srcSelectAnim="@drawable/anim_check_done_enter"/>
+                app:srcSelect="@drawable/ic_check_done"
+                app:srcSelectAnim="@drawable/anim_check_done_enter"
+                app:srcSelectColor="?attr/clAccent"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_fab"

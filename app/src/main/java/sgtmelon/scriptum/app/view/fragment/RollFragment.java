@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RollAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
@@ -293,6 +294,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         recyclerView = frgView.findViewById(R.id.roll_recycler);
 
+        final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
+        if (animator != null) {
+            animator.setSupportsChangeAnimations(false);
+        }
+
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
@@ -359,7 +365,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         checkSt.setAll(listRoll);
 
         adapter.setList(listRoll);
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemRangeChanged(0, listRoll.size());
+
+        adapter.setCheckToggle(false);
     }
 
     private void scrollToInsert(boolean scrollDown) {
@@ -763,6 +771,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             binding.executePendingBindings();
         }
 
+        adapter.setCheckToggle(true);
         updateAdapter();
 
         noteCallback.getViewModel().setNoteRepo(noteRepo);

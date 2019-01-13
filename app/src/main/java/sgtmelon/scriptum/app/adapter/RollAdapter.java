@@ -31,6 +31,8 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
     private InputIntf inputIntf;
     private BindIntf bindIntf;
 
+    private boolean checkToggle;
+
     public RollAdapter(Context context) {
         super(context);
     }
@@ -45,6 +47,10 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
     public void setBindIntf(BindIntf bindIntf) {
         this.bindIntf = bindIntf;
+    }
+
+    public void setCheckToggle(boolean checkToggle) {
+        this.checkToggle = checkToggle;
     }
 
     @NonNull
@@ -127,6 +133,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             } else {
                 bindingRead.setRollItem(rollItem);
                 bindingRead.setKeyBin(noteSt.isBin());
+                bindingRead.setCheckToggle(checkToggle);
                 bindingRead.executePendingBindings();
             }
         }

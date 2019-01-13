@@ -71,7 +71,9 @@ public final class ColorDialog extends DialogBlank implements ColorIntf.ClickLis
         recyclerView.setAdapter(adapter);
 
         final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
-        if (animator != null) animator.setSupportsChangeAnimations(false);
+        if (animator != null) {
+            animator.setSupportsChangeAnimations(false);
+        }
 
         return new AlertDialog.Builder(context)
                 .setTitle(title)

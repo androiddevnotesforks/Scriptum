@@ -44,7 +44,6 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
     // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
     // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
 
-
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private final PageSt pageSt = new PageSt();
