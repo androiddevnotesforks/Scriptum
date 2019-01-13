@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ToolbarNote" />
+    <style name="ToolbarNote"/>
 
     <style name="ToolbarNote.Enter" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:background">@android:color/transparent</item>
@@ -10,8 +10,8 @@
         <item name="android:maxLength">@integer/length_note_name</item>
         <item name="android:maxLines">1</item>
         <item name="android:scrollHorizontally">true</item>
-        <item name="android:textColor">?attr/clText</item>
-        <item name="android:textColorHint">?attr/clText</item>
+        <item name="android:textAppearance">@style/Appearance.Main</item>
+        <item name="android:textColorHint">?attr/clContentSecond</item>
     </style>
 
     <style name="ToolbarNote.Scroll">
@@ -25,8 +25,8 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:maxLength">@integer/length_note_name</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">?attr/clText</item>
-        <item name="android:textColorHint">?attr/clText</item>
+        <item name="android:textAppearance">@style/Appearance.Main</item>
+        <item name="android:textColorHint">?attr/clContentSecond</item>
         <item name="android:textIsSelectable">true</item>
     </style>
 

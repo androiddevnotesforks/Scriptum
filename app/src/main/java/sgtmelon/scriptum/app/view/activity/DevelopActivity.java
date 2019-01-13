@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
@@ -14,7 +15,7 @@ public final class DevelopActivity extends BaseActivityParent {
     private static final String TAG = DevelopActivity.class.getSimpleName();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_develop);

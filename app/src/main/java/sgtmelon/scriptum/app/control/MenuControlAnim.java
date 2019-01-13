@@ -27,10 +27,11 @@ public final class MenuControlAnim extends MenuControl {
         super.setupDrawable();
 
         final AnimatedVectorDrawable cancelOnAnim = (AnimatedVectorDrawable) ColorUtils.getDrawable(
-                context, R.drawable.anim_cancel_enter, R.attr.clIcon
+                context, R.drawable.anim_cancel_enter, R.attr.clContent
         );
+
         final AnimatedVectorDrawable cancelOffAnim = (AnimatedVectorDrawable) ColorUtils.getDrawable(
-                context, R.drawable.anim_cancel_exit, R.attr.clIcon
+                context, R.drawable.anim_cancel_exit, R.attr.clContent
         );
 
         animHdlr = new AnimHdlr(context, cancelOnAnim, cancelOffAnim);
@@ -40,8 +41,9 @@ public final class MenuControlAnim extends MenuControl {
     @Override
     public void setDrawable(boolean drawableOn, boolean needAnim) {
         if (!needAnim) {
-            if (drawableOn) toolbar.setNavigationIcon(cancelOn);
-            else toolbar.setNavigationIcon(cancelOff);
+            toolbar.setNavigationIcon(drawableOn
+                    ? cancelOn
+                    : cancelOff);
         } else {
             animHdlr.setAnimState(drawableOn);
             if (drawableOn) {

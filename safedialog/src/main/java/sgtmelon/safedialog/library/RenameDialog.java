@@ -101,11 +101,11 @@ public final class RenameDialog extends DialogBlank implements TextView.OnEditor
         outState.putStringArrayList(DialogAnn.VALUE, listName);
     }
 
-    public void setColorText(int colorText) {
+    public void setColorText(@ColorInt int colorText) {
         this.colorText = colorText;
     }
 
-    public void setColorHint(int colorHint) {
+    public void setColorHint(@ColorInt int colorHint) {
         this.colorHint = colorHint;
     }
 

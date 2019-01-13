@@ -21,10 +21,10 @@
                 android:id="@+id/info_image"
                 style="@style/Info.Icon"
                 android:contentDescription="@null"
-                app:imageColor='@{R.attr.clIcon}'
+                app:imageColor='@{R.attr.clContent}'
                 app:imageId='@{icon}'
                 tools:srcCompat="@mipmap/img_info_notes"
-                tools:tint="?attr/clIcon"/>
+                tools:tint="?attr/clContent"/>
 
         <TextView
                 android:id="@+id/info_title_text"

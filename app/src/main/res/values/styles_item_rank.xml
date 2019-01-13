@@ -17,7 +17,7 @@
         <item name="android:layout_marginBottom">@dimen/layout_8dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">?attr/clText</item>
+        <item name="android:textAppearance">@style/Appearance.Main</item>
         <item name="android:textSize">@dimen/text_16sp</item>
     </style>
 
@@ -26,7 +26,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">start</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">?attr/clSecond</item>
+        <item name="android:textAppearance">@style/Appearance.SubMain</item>
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 

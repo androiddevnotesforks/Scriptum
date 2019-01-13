@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.view.parent;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
@@ -20,7 +21,7 @@ public class BaseActivityParent extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         currentTheme = PrefUtils.getTheme(this);

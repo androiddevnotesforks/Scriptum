@@ -10,13 +10,12 @@
         <attr name="clBackgroundView" format="color"/>
         <attr name="clBackgroundEnter" format="color"/>
 
-        <attr name="clIcon" format="color"/>
-        <attr name="clText" format="color"/>
-        <attr name="clSecond" format="color"/>
+        <attr name="clContent" format="color"/>
+        <attr name="clContentSecond" format="color"/>
+        <attr name="clDisable" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="NoteTheme">
-        <attr name="clNoteInfoText" format="color"/>
         <attr name="clNoteIndicator" format="color"/>
     </declare-styleable>
 

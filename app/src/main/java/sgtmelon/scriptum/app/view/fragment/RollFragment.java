@@ -97,7 +97,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             super.clearView(recyclerView, viewHolder);
 
             dragTo = viewHolder.getAdapterPosition();
-            if (dragFrom != -1 && dragFrom != dragTo) {
+            if (dragFrom != RecyclerView.NO_POSITION && dragFrom != dragTo) {
                 inputControl.onRollMove(dragFrom, dragTo);
                 bindInput();
             }
@@ -252,7 +252,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     }
 
     @Override
-    public void bindInput() { // TODO: 10.01.2019 не работает кнопка save при нажатии на редактирование
+    public void bindInput() {
         Log.i(TAG, "bindInput");
 
         binding.setUndoAccess(inputControl.isUndoAccess());
@@ -572,8 +572,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         return true;
     }
 
-    // TODO: 16.12.2018 Приложение падает при свайпе пункта и потом undo/redo
-
     @Override
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
@@ -721,6 +719,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         );
 
         bindEdit(editMode);
+        bindInput();
 
         adapter.setNoteSt(noteSt);
         adapter.notifyDataSetChanged();
@@ -737,22 +736,32 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         noteItem.setChange(TimeUtils.getTime(context));
 
         final int size = noteRepo.getListRoll().size();
+        int check;
 
         db = RoomDb.provideDb(context);
         if (checkSt.isAll()) {
+            check = 0;
+
             noteRepo.update(CheckDef.notDone);
-            noteItem.setText(0, size);
+            noteItem.setText(check, size);
 
             db.daoRoll().update(noteItem.getId(), CheckDef.notDone);
             db.daoNote().update(noteItem);
         } else {
+            check = size;
+
             noteRepo.update(CheckDef.done);
-            noteItem.setText(size, size);
+            noteItem.setText(check, size);
 
             db.daoRoll().update(noteItem.getId(), CheckDef.done);
             db.daoNote().update(noteItem);
         }
         db.close();
+
+        if (checkSt.setAll(check, size)) {
+            binding.setNoteItem(noteItem);
+            binding.executePendingBindings();
+        }
 
         updateAdapter();
 

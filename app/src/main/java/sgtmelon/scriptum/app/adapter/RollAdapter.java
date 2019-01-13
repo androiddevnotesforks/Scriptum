@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.adapter;
 
 import android.content.Context;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
@@ -102,10 +100,10 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             bindingRead = null;
 
             rollEnter = itemView.findViewById(R.id.roll_enter);
-            dragView = itemView.findViewById(R.id.drag_button);
+            dragView = itemView.findViewById(R.id.click_button);
 
             rollEnter.setOnTouchListener(this);
-//            rollEnter.addTextChangedListener(this); // TODO: 10.01.2019 исправить, добавить undo/redo
+            rollEnter.addTextChangedListener(this); // TODO: 10.01.2019 исправить, добавить undo/redo
 
             dragView.setOnTouchListener(this);
         }
@@ -117,7 +115,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             bindingWrite = null;
 
             rollCheck = itemView.findViewById(R.id.roll_check);
-            clickView = itemView.findViewById(R.id.click_image);
+            clickView = itemView.findViewById(R.id.click_button);
 
             clickView.setOnClickListener(this);
         }
@@ -145,7 +143,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                dragListener.setDrag(view.getId() == R.id.drag_button);
+                dragListener.setDrag(view.getId() == R.id.click_button);
             }
 
             return false;
@@ -159,35 +157,37 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            final int p = getAdapterPosition();
-            if (p == -1) return;
-
-            final String textTo = charSequence.toString();
-            final int cursorTo = rollEnter.getSelectionEnd();
-
-            if (textFrom.equals(textTo)) return;
-
-            if (!TextUtils.isEmpty(textTo)) {
-                if (!TextUtils.isEmpty(textFrom)) {
-                    final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
-                    inputIntf.onRollChange(p, textFrom, textTo, cursorItem);
-
-                    textFrom = textTo;
-                    cursorFrom = cursorTo;
-                }
-            } else {
-                inputIntf.onRollRemove(p, textFrom);
-            }
-
-            bindIntf.bindInput();
+//            final int p = getAdapterPosition();
+//            if (p == -1) return;
+//
+//            final String textTo = charSequence.toString();
+//            final int cursorTo = rollEnter.getSelectionEnd();
+//
+//            if (textFrom.equals(textTo)) return;
+//
+//            if (!TextUtils.isEmpty(textTo)) {
+//                if (!TextUtils.isEmpty(textFrom)) {
+//                    final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
+//                    inputIntf.onRollChange(p, textFrom, textTo, cursorItem);
+//
+//                    textFrom = textTo;
+//                    cursorFrom = cursorTo;
+//                }
+//            } else {
+//                inputIntf.onRollRemove(p, textFrom);
+//            }
+//
+//            bindIntf.bindInput();
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
             final int p = getAdapterPosition();
-            if (!TextUtils.isEmpty(textFrom) && p != -1) {
+//            if (!TextUtils.isEmpty(textFrom) && p != -1) {
+            if (p != RecyclerView.NO_POSITION) {
                 rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
             }
+//            }
         }
 
     }

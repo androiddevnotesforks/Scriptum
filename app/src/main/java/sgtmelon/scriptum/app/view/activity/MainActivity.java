@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.iconanim.library.SwitchButtonAnim;
@@ -39,6 +40,11 @@ import sgtmelon.scriptum.office.st.PageSt;
 public final class MainActivity extends BaseActivityParent implements MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
+    // TODO: 13.01.2019 Для assert написать комментарии (assert value != null : "hello")
+    // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
+    // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
+
+
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private final PageSt pageSt = new PageSt();
@@ -55,12 +61,10 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
     // TODO: 11.01.2019 убрать
     private SwitchButtonAnim switchButtonAnim1;
     private boolean check1 = true;
-    private SwitchButtonAnim switchButtonAnim2;
-    private boolean check2 = true;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) // TODO: 11.01.2019 убрать
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -79,17 +83,11 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         }
 
         // TODO: 11.01.2019 убрать
-        switchButtonAnim1 = findViewById(R.id.test_check_done);
-        switchButtonAnim2 = findViewById(R.id.test_check_outline);
+        switchButtonAnim1 = findViewById(R.id.test_anim_button);
 
         switchButtonAnim1.setOnClickListener(v -> {
             check1 = !check1;
             switchButtonAnim1.setDrawable(check1, true);
-        });
-
-        switchButtonAnim2.setOnClickListener(v -> {
-            check2 = !check2;
-            switchButtonAnim2.setDrawable(check2, true);
         });
 
         setupNavigation(page);

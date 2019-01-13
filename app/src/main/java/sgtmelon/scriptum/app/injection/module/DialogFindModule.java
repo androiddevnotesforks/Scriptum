@@ -39,10 +39,10 @@ public final class DialogFindModule {
         final Resources.Theme theme = context.getTheme();
         final TypedValue attrs = new TypedValue();
 
-        theme.resolveAttribute(R.attr.clText, attrs, true);
+        theme.resolveAttribute(R.attr.clContent, attrs, true);
         renameDialog.setColorText(attrs.data);
 
-        theme.resolveAttribute(R.attr.clSecond, attrs, true);
+        theme.resolveAttribute(R.attr.clDisable, attrs, true);
         renameDialog.setColorHint(attrs.data);
 
         renameDialog.setTextHint(context.getString(R.string.hint_enter_rank_rename));

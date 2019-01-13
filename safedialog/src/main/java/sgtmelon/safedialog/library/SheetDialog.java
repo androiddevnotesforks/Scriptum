@@ -19,10 +19,8 @@ import sgtmelon.safedialog.office.annot.DialogAnn;
 public final class SheetDialog extends BottomSheetDialogFragment implements
         NavigationView.OnNavigationItemSelectedListener {
 
-    @LayoutRes
-    private int layout;
-    @IdRes
-    private int navigation;
+    @LayoutRes private int layout;
+    @IdRes private int navigation;
 
     private NavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener;
     private DialogInterface.OnDismissListener dismissListener;

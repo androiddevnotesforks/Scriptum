@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Appearance"/>
+
+    <style name="Appearance.Main">
+        <item name="android:textColor">?attr/clContent</item>
+    </style>
+
+    <style name="Appearance.SubMain">
+        <item name="android:textColor">?attr/clContentSecond</item>
+    </style>
+
+</resources>

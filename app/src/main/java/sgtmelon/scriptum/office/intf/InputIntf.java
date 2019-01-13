@@ -10,6 +10,8 @@ import sgtmelon.scriptum.app.model.item.CursorItem;
  */
 public interface InputIntf {
 
+    // TODO: 13.01.2019 Annotation NonNull/Nullable
+
     void onRankChange(List<Long> valueFrom, List<Long> valueTo);
 
     void onColorChange(int valueFrom, int valueTo);

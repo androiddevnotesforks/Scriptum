@@ -4,6 +4,6 @@
     <item android:color="?attr/clAccent"
           android:state_checked="true"/>
 
-    <item android:color="?attr/clSecond"/>
+    <item android:color="?attr/clContentSecond"/>
 
 </selector>

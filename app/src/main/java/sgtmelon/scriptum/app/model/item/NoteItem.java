@@ -163,6 +163,7 @@ public final class NoteItem {
         this.status = status;
     }
 
+    @NonNull
     public int[] getCheck() {
         final int[] check = new int[]{-1, 0};
 

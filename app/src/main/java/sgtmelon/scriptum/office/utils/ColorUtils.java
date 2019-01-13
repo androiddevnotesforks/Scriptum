@@ -8,8 +8,11 @@ import android.util.TypedValue;
 import android.view.MenuItem;
 
 import androidx.annotation.AttrRes;
+import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.FloatRange;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 import sgtmelon.scriptum.R;
@@ -22,19 +25,20 @@ public final class ColorUtils {
     /**
      * Получение цвета заметки в зависимости от темы и заднего фона
      *
-     * @param color  - Идентификатор цвета заметки
-     * @param onDark - Если элемент находится на тёмном фоне (например индикатор цвета заметки
+     * @param color    - Идентификатор цвета заметки
+     * @param needDark - Если элемент находится на тёмном фоне (например индикатор цвета заметки
      * @return - Один из стандартных цветов приложения
      */
-    public static int get(Context context, @ColorDef int color, boolean onDark) {
+    @ColorInt
+    public static int get(@NonNull Context context, @ColorDef int color, boolean needDark) {
         switch (PrefUtils.getTheme(context)) {
             case ThemeDef.light:
-                return onDark
+                return needDark
                         ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])
                         : ContextCompat.getColor(context, ColorAnn.cl_light[color]);
             case ThemeDef.dark:
             default:
-                return onDark
+                return needDark
                         ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])
                         : get(context, R.attr.clPrimary);
         }
@@ -46,26 +50,30 @@ public final class ColorUtils {
      * @param attr - Аттрибут цвета
      * @return - Цвет в записимости от отрибута
      */
-    public static int get(Context context, @AttrRes int attr) {
+    @ColorInt
+    public static int get(@NonNull Context context, @AttrRes int attr) {
         final TypedValue typedValue = new TypedValue();
         context.getTheme().resolveAttribute(attr, typedValue, true);
+
         return ContextCompat.getColor(context, typedValue.resourceId);
     }
 
     /**
      * Получение RGB промежуточного цвета в записимости от значения трансформации
      *
-     * @param from  - Цвет, от которого происходит переход
-     * @param to    - Цвет, к которому происходит переход
-     * @param ratio - Текущее положение трансформации
+     * @param colorFrom - Цвет, от которого происходит переход
+     * @param colorTo   - Цвет, к которому происходит переход
+     * @param ratio     - Текущее положение трансформации
      * @return - Промежуточный цвет
      */
-    public static int blend(int from, int to, @FloatRange(from = 0.0, to = 1.0) float ratio) {
+    @ColorInt
+    public static int blend(@ColorInt int colorFrom, @ColorInt int colorTo,
+                            @FloatRange(from = 0.0, to = 1.0) float ratio) {
         final float inverseRatio = 1f - ratio;
 
-        final float r = Color.red(to) * ratio + Color.red(from) * inverseRatio;
-        final float g = Color.green(to) * ratio + Color.green(from) * inverseRatio;
-        final float b = Color.blue(to) * ratio + Color.blue(from) * inverseRatio;
+        final float r = Color.red(colorTo) * ratio + Color.red(colorFrom) * inverseRatio;
+        final float g = Color.green(colorTo) * ratio + Color.green(colorFrom) * inverseRatio;
+        final float b = Color.blue(colorTo) * ratio + Color.blue(colorFrom) * inverseRatio;
 
         return Color.rgb((int) r, (int) g, (int) b);
     }
@@ -75,11 +83,11 @@ public final class ColorUtils {
      *
      * @param item - Элемент меню
      */
-    public static void tintMenuIcon(Context context, MenuItem item) {
+    public static void tintMenuIcon(@NonNull Context context, @NonNull MenuItem item) {
         final Drawable drawable = item.getIcon();
         final Drawable wrapDrawable = DrawableCompat.wrap(drawable);
 
-        final int color = get(context, R.attr.clIcon);
+        final int color = get(context, R.attr.clContent);
         DrawableCompat.setTint(wrapDrawable, color);
 
         item.setIcon(wrapDrawable);
@@ -92,13 +100,15 @@ public final class ColorUtils {
      * @param attr - Аттрибут цвета
      * @return - Покрашенное изображение
      */
-    public static Drawable getDrawable(Context context, @DrawableRes int id, @AttrRes int attr) {
+    @Nullable
+    public static Drawable getDrawable(@NonNull Context context, @DrawableRes int id,
+                                       @AttrRes int attr) {
         final Drawable drawable = ContextCompat.getDrawable(context, id);
 
+        if (drawable == null) return null;
+
         final int color = get(context, attr);
-        if (drawable != null) {
-            drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-        }
+        drawable.setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
 
         return drawable;
     }

@@ -2,10 +2,10 @@ package sgtmelon.iconanim.library;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
@@ -59,12 +59,8 @@ public class SwitchButton extends AppCompatImageButton implements AnimIntf {
                 R.styleable.SwitchButton_srcSelectAnim, R.drawable.ic_android
         );
 
-        final TypedValue typedValue = new TypedValue();
-        context.getTheme().resolveAttribute(R.attr.srcDisableColor, typedValue, true);
-        srcDisableColor = ContextCompat.getColor(context, typedValue.resourceId);
-
-        context.getTheme().resolveAttribute(R.attr.srcSelectColor, typedValue, true);
-        srcSelectColor = ContextCompat.getColor(context, typedValue.resourceId);
+        srcDisableColor = array.getColor(R.styleable.SwitchButton_srcDisableColor, Color.BLACK);
+        srcSelectColor = array.getColor(R.styleable.SwitchButton_srcSelectColor, Color.BLACK);
 
         array.recycle();
     }

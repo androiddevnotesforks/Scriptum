@@ -51,10 +51,10 @@
                     android:contentDescription="@null"
                     app:boolExpression='@{!enterEmpty}'
                     app:enabled='@{!enterEmpty}'
-                    app:falseColor='@{R.attr.clSecond}'
+                    app:falseColor='@{R.attr.clDisable}'
                     app:srcCompat="@drawable/ic_add"
                     app:trueColor='@{R.attr.clAccent}'
-                    tools:tint="?attr/clIcon"/>
+                    tools:tint="?attr/clAccent"/>
 
         </LinearLayout>
 

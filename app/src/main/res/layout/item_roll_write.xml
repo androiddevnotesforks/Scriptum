@@ -28,12 +28,12 @@
                 <CheckBox style="@style/RollItem.Write.Check"/>
 
                 <ImageButton
-                        android:id="@+id/drag_button"
+                        android:id="@+id/click_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
                         app:boolExpression='@{rollItem.check}'
                         app:trueColor='@{R.attr.clAccent}'
-                        app:falseColor='@{R.attr.clIcon}'
+                        app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_move"
                         tools:tint="?attr/clAccent"/>
 

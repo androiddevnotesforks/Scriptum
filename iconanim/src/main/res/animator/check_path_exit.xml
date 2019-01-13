@@ -2,7 +2,8 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
 
     <objectAnimator
-            android:duration="@android:integer/config_shortAnimTime"
+            android:duration="200"
+            android:startOffset="100"
             android:interpolator="@android:anim/accelerate_decelerate_interpolator"
             android:propertyName="pathData"
             android:valueFrom="M 23.314 10.586 L 13.414 0.686 C 12.636 -0.092 11.364 -0.092 10.586 0.686 L 0.686 10.586 C -0.092 11.364 -0.092 12.636 0.686 13.414 L 12 2.101 L 23.314 13.414 C 24.092 12.636 24.092 11.364 23.314 10.586 Z M 0.686 10.586 C -0.092 11.364 -0.092 12.636 0.686 13.414 L 10.586 23.314 C 11.364 24.092 12.636 24.092 13.414 23.314 L 23.314 13.414 C 24.092 12.636 24.092 11.364 23.314 10.586 L 12 21.899 L 0.686 10.586 Z"

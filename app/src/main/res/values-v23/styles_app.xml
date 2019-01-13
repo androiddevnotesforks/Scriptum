@@ -8,7 +8,7 @@
 
         <item name="android:windowLightStatusBar">true</item>
 
-        <item name="android:navigationBarColor">?attr/clSecond</item>
+        <item name="android:navigationBarColor">?attr/clContentSecond</item>
     </style>
 
     <style name="App.Dark.UI">

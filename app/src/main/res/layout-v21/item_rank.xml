@@ -32,8 +32,10 @@
                     android:layout_marginEnd="@dimen/layout_8dp"
                     app:srcDisable="@drawable/ic_visible_enter"
                     app:srcDisableAnim="@drawable/anim_visible_exit"
+                    app:srcDisableColor="?attr/clContent"
                     app:srcSelect="@drawable/ic_visible_exit"
-                    app:srcSelectAnim="@drawable/anim_visible_enter"/>
+                    app:srcSelectAnim="@drawable/anim_visible_enter"
+                    app:srcSelectColor="?attr/clAccent"/>
 
             <LinearLayout
                     android:layout_width="0dp"
@@ -71,7 +73,7 @@
                     style="@style/RankItem.Button"
                     android:layout_marginStart="@dimen/layout_8dp"
                     android:contentDescription="@null"
-                    android:tint="?attr/clIcon"
+                    android:tint="?attr/clContent"
                     app:srcCompat="@drawable/ic_cancel_enter"/>
 
         </LinearLayout>

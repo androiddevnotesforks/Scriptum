@@ -55,20 +55,20 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
 
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            final int positionOld = viewHolder.getAdapterPosition();
-            final int positionNew = target.getAdapterPosition();
+            final int positionFrom = viewHolder.getAdapterPosition();
+            final int positionTo = target.getAdapterPosition();
 
-            final SortItem sortItem = listSort.get(positionOld);
+            final SortItem sortItem = listSort.get(positionFrom);
 
-            listSort.remove(positionOld);
-            listSort.add(positionNew, sortItem);
+            listSort.remove(positionFrom);
+            listSort.add(positionTo, sortItem);
 
             adapter.setList(listSort);
-            adapter.notifyItemMoved(positionOld, positionNew);
+            adapter.notifyItemMoved(positionFrom, positionTo);
 
-            adapter.notifyItemChanged(positionOld == adapter.sortSt.getEnd()
-                    ? positionNew
-                    : positionOld);
+            adapter.notifyItemChanged(positionFrom == adapter.sortSt.getEnd()
+                    ? positionTo
+                    : positionFrom);
 
             keys = PrefUtils.getSortByList(listSort);
             setEnable();

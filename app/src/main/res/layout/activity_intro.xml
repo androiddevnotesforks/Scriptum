@@ -31,8 +31,8 @@
                 app:piv_animationType="worm"
                 app:piv_dynamicCount="true"
                 app:piv_interactiveAnimation="true"
-                app:piv_selectedColor="?attr/clIcon"
-                app:piv_unselectedColor="?attr/clSecond"
+                app:piv_selectedColor="?attr/clContent"
+                app:piv_unselectedColor="?attr/clDisable"
                 app:piv_viewPager="@id/intro_pager"/>
 
         <Button

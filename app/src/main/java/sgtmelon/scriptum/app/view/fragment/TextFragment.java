@@ -111,8 +111,8 @@ public final class TextFragment extends NoteFragmentParent {
     public void bindEdit(boolean editMode) {
         Log.i(TAG, "bindEdit: keyEdit=" + editMode);
 
-        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
         binding.setKeyEdit(editMode);
+        binding.setNoteItem(vm.getNoteRepo().getNoteItem());
 
         binding.executePendingBindings();
     }
@@ -359,6 +359,7 @@ public final class TextFragment extends NoteFragmentParent {
         );
 
         bindEdit(editMode);
+        bindInput();
 
         noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
     }

@@ -3,7 +3,7 @@
 
     <style name="NavigationView">
         <item name="android:background">?attr/clPrimary</item>
-        <item name="android:textColorSecondary">?attr/clSecond</item>
+        <item name="android:textColorSecondary">?attr/clContentSecond</item>
     </style>
 
     <style name="Card">
@@ -23,8 +23,8 @@
     </style>
 
     <style name="EditText" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">?attr/clText</item>
-        <item name="android:textColorHint">?attr/clSecond</item>
+        <item name="android:textColor">?attr/clContent</item>
+        <item name="android:textColorHint">?attr/clDisable</item>
     </style>
 
     <style name="Divider">

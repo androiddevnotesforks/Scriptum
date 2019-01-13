@@ -12,19 +12,18 @@
         <item name="clBackgroundView">@color/background_view_light</item>
         <item name="clBackgroundEnter">@color/background_enter_light</item>
 
-        <item name="clText">@color/text_light</item>
-        <item name="clIcon">@color/icon_light</item>
-        <item name="clSecond">@color/second_light</item>
+        <item name="clContent">@color/content_light</item>
+        <item name="clContentSecond">@color/content_second_light</item>
+        <item name="clDisable">@color/disable_light</item>
 
-        <item name="clNoteInfoText">?attr/clText</item>
-        <item name="clNoteIndicator">?attr/clIcon</item>
+        <item name="clNoteIndicator">?attr/clContent</item>
 
         <!-- Для switch button-->
-        <item name="srcDisableColor">?attr/clIcon</item>
+        <item name="srcDisableColor">?attr/clContent</item>
         <item name="srcSelectColor">?attr/clAccent</item>
 
         <item name="colorPrimary">?attr/clPrimary</item>
-        <item name="colorPrimaryDark">?attr/clSecond</item>
+        <item name="colorPrimaryDark">?attr/clContentSecond</item>
         <item name="colorAccent">?attr/clAccent</item>
 
         <item name="styleToolbar">@style/Toolbar.Light</item>
@@ -48,15 +47,14 @@
         <item name="clBackgroundView">@color/background_view_dark</item>
         <item name="clBackgroundEnter">@color/background_enter_dark</item>
 
-        <item name="clIcon">@color/icon_dark</item>
-        <item name="clText">@color/text_dark</item>
-        <item name="clSecond">@color/second_dark</item>
+        <item name="clContent">@color/content_dark</item>
+        <item name="clContentSecond">@color/content_second_dark</item>
+        <item name="clDisable">@color/disable_dark</item>
 
-        <item name="clNoteInfoText">?attr/clSecond</item>
         <item name="clNoteIndicator">?attr/clAccent</item>
 
-        <!-- Для switch button-->
-        <item name="srcDisableColor">?attr/clIcon</item>
+        <!-- Для вектора switch button-->
+        <item name="srcDisableColor">?attr/clContent</item>
         <item name="srcSelectColor">?attr/clAccent</item>
 
         <item name="colorPrimary">?attr/clPrimary</item>
@@ -101,17 +99,17 @@
     </style>
 
     <style name="PopupTheme.Light" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textColorPrimary">?attr/clText</item>
-        <item name="android:textColorSecondary">?attr/clText</item>
-        <item name="colorControlNormal">?attr/clIcon</item>
-        <item name="actionMenuTextColor">?attr/clText</item>
+        <item name="android:textColorPrimary">?attr/clContent</item>
+        <item name="android:textColorSecondary">?attr/clContent</item>
+        <item name="colorControlNormal">?attr/clContent</item>
+        <item name="actionMenuTextColor">?attr/clContent</item>
     </style>
 
     <style name="PopupTheme.Dark" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:textColorPrimary">?attr/clText</item>
-        <item name="android:textColorSecondary">?attr/clText</item>
-        <item name="colorControlNormal">?attr/clIcon</item>
-        <item name="actionMenuTextColor">?attr/clText</item>
+        <item name="android:textColorPrimary">?attr/clContent</item>
+        <item name="android:textColorSecondary">?attr/clContent</item>
+        <item name="colorControlNormal">?attr/clContent</item>
+        <item name="actionMenuTextColor">?attr/clContent</item>
     </style>
 
     <style name="Toolbar">

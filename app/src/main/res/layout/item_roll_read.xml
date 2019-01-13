@@ -26,14 +26,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
+                <!-- TODO добавить checkbox theme -->
+
                 <CheckBox
                         android:id="@+id/roll_check"
                         style="@style/RollItem.Read.Check"
                         android:checked='@{rollItem.check}'
                         tools:checked="true"/>
 
-                <ImageView
-                        android:id="@+id/click_image"
+                <ImageButton
+                        android:id="@+id/click_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
                         android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
