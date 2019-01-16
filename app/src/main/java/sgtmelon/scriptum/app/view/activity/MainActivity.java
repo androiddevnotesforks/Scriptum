@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.app.view.activity;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -16,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import sgtmelon.iconanim.library.SwitchButtonAnim;
 import sgtmelon.safedialog.library.SheetDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
@@ -57,11 +54,6 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
 
     private FloatingActionButton fab;
 
-    // TODO: 11.01.2019 убрать
-    private SwitchButtonAnim switchButtonAnim1;
-    private boolean check1 = true;
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP) // TODO: 11.01.2019 убрать
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
@@ -80,14 +72,6 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
 
             page = pageSt.getPage();
         }
-
-        // TODO: 11.01.2019 убрать
-        switchButtonAnim1 = findViewById(R.id.test_anim_button);
-
-        switchButtonAnim1.setOnClickListener(v -> {
-            check1 = !check1;
-            switchButtonAnim1.setDrawable(check1, true);
-        });
 
         setupNavigation(page);
     }

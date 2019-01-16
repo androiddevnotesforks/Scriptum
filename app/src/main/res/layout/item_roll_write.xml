@@ -27,13 +27,11 @@
 
                 <CheckBox style="@style/RollItem.Write.Check"/>
 
-                <sgtmelon.iconanim.library.SwitchButton
+                <ImageButton
                         android:id="@+id/click_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
-                        tools:srcSelect="@drawable/ic_move"
-                        app:boolExpression='@{true}'
-                        app:checkState='@{rollItem.check}'
+                        app:srcCompat="@drawable/ic_move"
                         tools:tint="?attr/clAccent"/>
 
             </FrameLayout>

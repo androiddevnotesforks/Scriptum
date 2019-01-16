@@ -2,7 +2,6 @@ package sgtmelon.scriptum.office.utils;
 
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,8 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
-import sgtmelon.iconanim.library.SwitchButton;
-import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
@@ -138,36 +135,6 @@ public final class BindUtils {
         } else {
             checkBox.setChecked(state);
         }
-    }
-
-    @BindingAdapter(value = {"boolExpression", "checkState"})
-    public static void setCheckSwitchButton(@NonNull SwitchButton switchButton,
-                                            boolean boolExpression, boolean state) {
-        final Context context = switchButton.getContext();
-
-        final int color = ColorUtils.get(context, state
-                ? R.attr.clAccent
-                : R.attr.clContent);
-
-        switchButton.setColorFilter(color);
-
-        switchButton.setSrcDisable(state
-                ? R.drawable.ic_check_done
-                : R.drawable.ic_check_outline);
-
-        switchButton.setSrcSelect(R.drawable.ic_move);
-
-        switchButton.setSrcDisableAnim(state
-                ? R.drawable.anim_check_done_enter
-                : R.drawable.anim_check_outline_enter);
-
-        switchButton.setSrcSelectAnim(state
-                ? R.drawable.anim_check_done_exit
-                : R.drawable.anim_check_outline_exit);
-
-        switchButton.setupDrawable();
-
-        switchButton.setDrawable(boolExpression, true);
     }
 
 }

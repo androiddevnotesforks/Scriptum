@@ -25,23 +25,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-        <FrameLayout android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:layout_gravity="center"
-                     android:background="@color/background_dark">
-
-            <sgtmelon.iconanim.library.SwitchButtonAnim
-                    android:id="@+id/test_anim_button"
-                    style="@style/RankItem.Button"
-                    app:srcDisable="@drawable/ic_move"
-                    app:srcDisableAnim="@drawable/anim_check_done_exit"
-                    app:srcDisableColor="?attr/clAccent"
-                    app:srcSelect="@drawable/ic_check_done"
-                    app:srcSelectAnim="@drawable/anim_check_done_enter"
-                    app:srcSelectColor="?attr/clAccent"/>
-
-        </FrameLayout>
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_fab"
                 style="?attr/styleFab"

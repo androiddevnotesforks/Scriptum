@@ -51,30 +51,6 @@ public class SwitchButton extends AppCompatImageButton implements AnimIntf {
         setupDrawable();
     }
 
-    public final void setSrcDisable(@DrawableRes int srcDisable) {
-        this.srcDisable = srcDisable;
-    }
-
-    public final void setSrcSelect(@DrawableRes int srcSelect) {
-        this.srcSelect = srcSelect;
-    }
-
-    public final void setSrcDisableAnim(@DrawableRes int srcDisableAnim) {
-        this.srcDisableAnim = srcDisableAnim;
-    }
-
-    public final void setSrcSelectAnim(@DrawableRes int srcSelectAnim) {
-        this.srcSelectAnim = srcSelectAnim;
-    }
-
-    public final void setSrcDisableColor(@ColorInt int srcDisableColor) {
-        this.srcDisableColor = srcDisableColor;
-    }
-
-    public final void setSrcSelectColor(@ColorInt int srcSelectColor) {
-        this.srcSelectColor = srcSelectColor;
-    }
-
     private void setupAttribute(AttributeSet attrs) {
         final TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.SwitchButton);
 

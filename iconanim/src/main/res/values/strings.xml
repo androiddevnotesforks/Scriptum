@@ -9,8 +9,4 @@
     <string name="anim_cancel_group">cancel_group</string>
     <string name="anim_cancel_path">cancel_path</string>
 
-    <string name="anim_check_group">check_group_path</string>
-    <string name="anim_check_path">check_done_up_path</string>
-    <string name="anim_check_mask">check_mask</string>
-
 </resources>

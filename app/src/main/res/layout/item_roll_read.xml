@@ -27,22 +27,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                <!-- TODO добавить checkbox theme -->
-
                 <CheckBox
                         android:id="@+id/roll_check"
                         style="@style/RollItem.Read.Check"
                         app:checkState='@{rollItem.check}'
                         app:checkToggle='@{checkToggle}'
-                        android:visibility="invisible"
                         tools:checked="true"/>
 
-                <sgtmelon.iconanim.library.SwitchButton
+                <ImageButton
                         android:id="@+id/click_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
-                        app:boolExpression='@{false}'
-                        app:checkState='@{rollItem.check}'
                         android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
 
             </FrameLayout>
