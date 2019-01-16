@@ -16,6 +16,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
+import sgtmelon.iconanim.library.SwitchButton;
+import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
@@ -25,6 +27,7 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef;
 public final class BindUtils {
 
     // TODO: 10.12.2018 разобраться с requireAll =
+    // TODO: 13.01.2019 комментарии
 
     /**
      * Установка цветового фильтра на основании результата логического выражения
@@ -39,10 +42,8 @@ public final class BindUtils {
         final Context context = imageButton.getContext();
 
         imageButton.setColorFilter(boolExpression
-                        ? sgtmelon.scriptum.office.utils.ColorUtils.get(context, trueColor)
-                        : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor),
-                PorterDuff.Mode.SRC_ATOP
-        );
+                        ? ColorUtils.get(context, trueColor)
+                        : ColorUtils.get(context, falseColor));
     }
 
     @BindingAdapter(value = {"boolExpression", "trueColor", "falseColor"})
@@ -51,18 +52,15 @@ public final class BindUtils {
         final Context context = textView.getContext();
 
         textView.setTextColor(boolExpression
-                ? sgtmelon.scriptum.office.utils.ColorUtils.get(context, trueColor)
-                : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor)
-        );
+                ? ColorUtils.get(context, trueColor)
+                : ColorUtils.get(context, falseColor));
     }
 
     @BindingAdapter("noteColor")
     public static void setCardBackgroundColor(CardView cardView, @ColorDef int color) {
         final Context context = cardView.getContext();
 
-        cardView.setCardBackgroundColor(
-                sgtmelon.scriptum.office.utils.ColorUtils.get(context, color, false)
-        );
+        cardView.setCardBackgroundColor(ColorUtils.get(context, color, false));
     }
 
     @BindingAdapter(value = {"noteColor", "viewOnDark"})
@@ -70,10 +68,7 @@ public final class BindUtils {
                                boolean viewOnDark) {
         final Context context = imageView.getContext();
 
-        imageView.setColorFilter(
-                sgtmelon.scriptum.office.utils.ColorUtils.get(context, color, viewOnDark),
-                PorterDuff.Mode.SRC_ATOP
-        );
+        imageView.setColorFilter(ColorUtils.get(context, color, viewOnDark));
     }
 
     @BindingAdapter(value = {"imageId", "imageColor"})
@@ -84,7 +79,7 @@ public final class BindUtils {
 
         if (drawable != null) {
             imageView.setImageDrawable(drawable);
-            imageView.setColorFilter(sgtmelon.scriptum.office.utils.ColorUtils.get(context, color), PorterDuff.Mode.SRC_ATOP);
+            imageView.setColorFilter(ColorUtils.get(context, color));
         }
     }
 
@@ -109,11 +104,9 @@ public final class BindUtils {
 
         imageButton.setColorFilter(boolExpression
                         ? extraExpression
-                        ? sgtmelon.scriptum.office.utils.ColorUtils.get(context, trueColor)
-                        : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor)
-                        : sgtmelon.scriptum.office.utils.ColorUtils.get(context, falseColor),
-                PorterDuff.Mode.SRC_ATOP
-        );
+                        ? ColorUtils.get(context, trueColor)
+                        : ColorUtils.get(context, falseColor)
+                        : ColorUtils.get(context, falseColor));
 
         imageButton.setEnabled(boolExpression && extraExpression);
     }
@@ -134,8 +127,8 @@ public final class BindUtils {
     }
 
     /**
-     * @param toggle
-     * @param state
+     * @param toggle - Просто изменить состояние для CheckBox или указать конкретное
+     * @param state  - Конкретное состояние для checkBox
      */
     @BindingAdapter(value = {"checkToggle", "checkState"})
     public static void setCheckBoxCheck(@NonNull CheckBox checkBox, boolean toggle,
@@ -145,6 +138,36 @@ public final class BindUtils {
         } else {
             checkBox.setChecked(state);
         }
+    }
+
+    @BindingAdapter(value = {"boolExpression", "checkState"})
+    public static void setCheckSwitchButton(@NonNull SwitchButton switchButton,
+                                            boolean boolExpression, boolean state) {
+        final Context context = switchButton.getContext();
+
+        final int color = ColorUtils.get(context, state
+                ? R.attr.clAccent
+                : R.attr.clContent);
+
+        switchButton.setColorFilter(color);
+
+        switchButton.setSrcDisable(state
+                ? R.drawable.ic_check_done
+                : R.drawable.ic_check_outline);
+
+        switchButton.setSrcSelect(R.drawable.ic_move);
+
+        switchButton.setSrcDisableAnim(state
+                ? R.drawable.anim_check_done_enter
+                : R.drawable.anim_check_outline_enter);
+
+        switchButton.setSrcSelectAnim(state
+                ? R.drawable.anim_check_done_exit
+                : R.drawable.anim_check_outline_exit);
+
+        switchButton.setupDrawable();
+
+        switchButton.setDrawable(boolExpression, true);
     }
 
 }

@@ -9,12 +9,4 @@
             android:valueTo="M 2 4.27 L 3.27 3 L 3.27 3 L 2 4.27 Z"
             android:valueType="pathType" />
 
-    <objectAnimator
-            android:duration="@android:integer/config_shortAnimTime"
-            android:interpolator="@android:anim/accelerate_decelerate_interpolator"
-            android:propertyName="fillColor"
-            android:valueFrom="?attr/srcDisableColor"
-            android:valueTo="?attr/srcSelectColor"
-            android:valueType="colorType" />
-
 </set>

@@ -5,11 +5,9 @@
 
     <data>
 
-        <import alias="v" type="android.view.View"/>
+        <import type="sgtmelon.scriptum.R"/>
 
         <variable name="rollItem" type="sgtmelon.scriptum.app.model.item.RollItem"/>
-        <variable name="keyBin" type="boolean"/>
-        <variable name="checkToggle" type="boolean"/>
 
     </data>
 
@@ -27,35 +25,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                <!-- TODO добавить checkbox theme -->
+                <CheckBox style="@style/RollItem.Write.Check"/>
 
-                <CheckBox
-                        android:id="@+id/roll_check"
-                        style="@style/RollItem.Read.Check"
-                        app:checkState='@{rollItem.check}'
-                        app:checkToggle='@{checkToggle}'
-                        android:visibility="invisible"
-                        tools:checked="true"/>
-
-                <sgtmelon.iconanim.library.SwitchButton
+                <sgtmelon.iconanim.library.SwitchButtonAnim
                         android:id="@+id/click_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
-                        app:boolExpression='@{false}'
+                        tools:srcSelect="@drawable/ic_move"
+                        app:boolExpression='@{true}'
                         app:checkState='@{rollItem.check}'
-                        android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
+                        tools:tint="?attr/clAccent"/>
 
             </FrameLayout>
 
-            <TextView
-                    android:id="@+id/roll_text"
-                    style="@style/RollItem.Read.Text"
+            <EditText
+                    android:id="@+id/roll_enter"
+                    style="@style/RollItem.Write.Enter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@null"
+                    android:importantForAutofill="noExcludeDescendants"
                     android:text='@{rollItem.text}'
+                    tools:targetApi="o"
                     tools:text="@string/test_note_roll"/>
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
+
 </layout>

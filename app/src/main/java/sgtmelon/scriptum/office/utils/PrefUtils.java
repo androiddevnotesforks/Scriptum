@@ -17,7 +17,7 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef;
 /**
  * Класс для работы с настройками приложения, а так же @Singleton для SharedPreferences
  */
-public final class PrefUtils {
+public final class PrefUtils { // TODO: 15.01.2019 переделать без передачи Context / Аннотировать NonNull/Nullable
 
     private static SharedPreferences preferences;
 

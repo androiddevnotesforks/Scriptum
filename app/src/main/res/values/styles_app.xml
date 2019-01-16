@@ -18,10 +18,6 @@
 
         <item name="clNoteIndicator">?attr/clContent</item>
 
-        <!-- Для switch button-->
-        <item name="srcDisableColor">?attr/clContent</item>
-        <item name="srcSelectColor">?attr/clAccent</item>
-
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clContentSecond</item>
         <item name="colorAccent">?attr/clAccent</item>
@@ -52,10 +48,6 @@
         <item name="clDisable">@color/disable_dark</item>
 
         <item name="clNoteIndicator">?attr/clAccent</item>
-
-        <!-- Для вектора switch button-->
-        <item name="srcDisableColor">?attr/clContent</item>
-        <item name="srcSelectColor">?attr/clAccent</item>
 
         <item name="colorPrimary">?attr/clPrimary</item>
         <item name="colorPrimaryDark">?attr/clPrimary</item>

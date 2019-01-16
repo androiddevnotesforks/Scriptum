@@ -8,6 +8,7 @@
         <attr name="srcSelect" format="reference"/>
         <attr name="srcSelectAnim" format="reference"/>
         <attr name="srcSelectColor" format="color"/>
+        <attr name="srcState" format="boolean"/>
     </declare-styleable>
 
 </resources>

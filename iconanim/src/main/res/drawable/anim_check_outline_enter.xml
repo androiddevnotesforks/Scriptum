@@ -10,4 +10,7 @@
     <target android:name="@string/anim_check_path"
             android:animation="@animator/check_path_enter"/>
 
+    <target android:name="@string/anim_check_mask"
+            android:animation="@animator/check_mask_enter"/>
+
 </animated-vector>

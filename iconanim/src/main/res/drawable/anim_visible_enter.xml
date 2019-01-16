@@ -10,7 +10,4 @@
     <target android:name="@string/anim_visible_strike_mask"
             android:animation="@animator/visible_strike_mask_enter"/>
 
-    <target android:name="@string/anim_visible_eye_path"
-            android:animation="@animator/visible_eye_path_enter"/>
-
 </animated-vector>

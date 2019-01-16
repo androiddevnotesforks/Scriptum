@@ -3,9 +3,11 @@ package sgtmelon.iconanim.library;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import sgtmelon.iconanim.office.hdlr.AnimHdlr;
@@ -16,7 +18,10 @@ import sgtmelon.iconanim.office.hdlr.AnimHdlr;
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public final class SwitchButtonAnim extends SwitchButton {
 
-    private AnimHdlr animHdlr;
+    @Nullable private AnimHdlr animHdlr;
+
+    @Nullable private AnimatedVectorDrawable drawableDisableAnim;
+    @Nullable private AnimatedVectorDrawable drawableSelectAnim;
 
     public SwitchButtonAnim(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -27,25 +32,29 @@ public final class SwitchButtonAnim extends SwitchButton {
     }
 
     @Override
-    protected void setupDrawable() {
+    public void setupDrawable() {
         super.setupDrawable();
 
-        final AnimatedVectorDrawable srcDisableAnim = (AnimatedVectorDrawable)
-                ContextCompat.getDrawable(context, this.srcDisableAnim);
+        if (srcDisableAnim != SRC_NULL) {
+            final Drawable srcDisableAnimCast = ContextCompat.getDrawable(context, srcDisableAnim);
+            if (!(srcDisableAnimCast instanceof AnimatedVectorDrawable)) return;
 
-        if (srcDisableAnim != null) {
-            srcDisableAnim.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP);
+            drawableDisableAnim = (AnimatedVectorDrawable) srcDisableAnimCast;
+            drawableDisableAnim.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP);
         }
 
-        final AnimatedVectorDrawable srcSelectAnim = (AnimatedVectorDrawable)
-                ContextCompat.getDrawable(context, this.srcSelectAnim);
+        if (srcSelectAnim != SRC_NULL) {
+            final Drawable srcSelectAnimCast = ContextCompat.getDrawable(context, srcSelectAnim);
+            if (!(srcSelectAnimCast instanceof AnimatedVectorDrawable)) return;
 
-        if (srcSelectAnim != null) {
-            srcSelectAnim.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP);
+            drawableSelectAnim = (AnimatedVectorDrawable) srcSelectAnimCast;
+            drawableSelectAnim.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP);
         }
 
-        animHdlr = new AnimHdlr(context, srcSelectAnim, srcDisableAnim);
-        animHdlr.setAnimation(this);
+        if (drawableSelectAnim != null && drawableDisableAnim != null) {
+            animHdlr = new AnimHdlr(context, drawableSelectAnim, drawableDisableAnim);
+            animHdlr.setAnimation(this);
+        }
     }
 
     @Override
@@ -54,7 +63,7 @@ public final class SwitchButtonAnim extends SwitchButton {
             setImageDrawable(select
                     ? drawableSelect
                     : drawableDisable);
-        } else {
+        } else if (animHdlr != null){
             animHdlr.setAnimState(select);
             if (select) {
                 setImageDrawable(animHdlr.getAnimOn());

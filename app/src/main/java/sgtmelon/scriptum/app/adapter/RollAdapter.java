@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.app.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+import sgtmelon.iconanim.library.SwitchButton;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
@@ -91,10 +93,9 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private final ItemRollReadBinding bindingRead;
 
         private EditText rollEnter;
-        private View dragView; //Кнопка для перетаскивания (< >)
 
-        private CheckBox rollCheck;   //Отметка о выполении
-        private View clickView;  //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
+        private CheckBox rollCheck;     //Отметка о выполении
+        private View clickView;         //Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
 
         private String textFrom = "";
         private int cursorFrom = 0;
@@ -106,12 +107,12 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             bindingRead = null;
 
             rollEnter = itemView.findViewById(R.id.roll_enter);
-            dragView = itemView.findViewById(R.id.click_button);
+            clickView = itemView.findViewById(R.id.click_button);
 
             rollEnter.setOnTouchListener(this);
             rollEnter.addTextChangedListener(this); // TODO: 10.01.2019 исправить, добавить undo/redo
 
-            dragView.setOnTouchListener(this);
+            clickView.setOnTouchListener(this);
         }
 
         RollHolder(ItemRollReadBinding bindingRead) {

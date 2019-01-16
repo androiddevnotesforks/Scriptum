@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Build;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 
@@ -14,9 +15,8 @@ import sgtmelon.iconanim.office.intf.AnimIntf;
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public final class AnimHdlr {
 
-    private final Context context;
-
     private final AnimatedVectorDrawable animOn, animOff;
+    private final int animTime;
 
     private final Handler animHandler = new Handler();;
     private final Runnable animRunnable;
@@ -25,11 +25,12 @@ public final class AnimHdlr {
 
     private AnimIntf animation;
 
-    public AnimHdlr(Context context, AnimatedVectorDrawable animOn, AnimatedVectorDrawable animOff) {
-        this.context = context;
-
+    public AnimHdlr(@NonNull Context context, @NonNull AnimatedVectorDrawable animOn,
+                    @NonNull AnimatedVectorDrawable animOff) {
         this.animOn = animOn;
         this.animOff = animOff;
+
+        animTime = context.getResources().getInteger(android.R.integer.config_shortAnimTime);
 
         animRunnable = () -> {
             if (animOn.isRunning() || animOff.isRunning()) {
@@ -41,7 +42,7 @@ public final class AnimHdlr {
     }
 
     public void waitAnimationEnd() {
-        animHandler.postDelayed(animRunnable, context.getResources().getInteger(android.R.integer.config_shortAnimTime));
+        animHandler.postDelayed(animRunnable, animTime);
     }
 
     public AnimatedVectorDrawable getAnimOn() {
