@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.item.NoteItem;
@@ -23,7 +25,7 @@ public final class HelpUtils {
      *
      * @param noteItem - Заметка для копирования
      */
-    public static void optionsCopy(Context context, NoteItem noteItem) {
+    public static void optionsCopy(@NonNull Context context, @NonNull NoteItem noteItem) {
         String copyText = "";
 
         if (!TextUtils.isEmpty(noteItem.getName())) {
@@ -56,7 +58,7 @@ public final class HelpUtils {
      *
      * @param view - Текущий фокус
      */
-    public static void hideKeyboard(Context context, View view) {
+    public static void hideKeyboard(@NonNull Context context, @Nullable View view) {
         final InputMethodManager inputMethodManager = (InputMethodManager)
                 context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -71,9 +73,10 @@ public final class HelpUtils {
          * @param listRoll - Список для проверки
          * @return - Количество отмеченных пунктов
          */
-        public static int getRollCheck(List<RollItem> listRoll) {
+        public static int getRollCheck(@NonNull List<RollItem> listRoll) {
             int rollCheck = 0;
-            for (RollItem rollItem : listRoll) {
+
+            for (final RollItem rollItem : listRoll) {
                 if (rollItem.isCheck()) {
                     rollCheck++;
                 }
@@ -86,10 +89,10 @@ public final class HelpUtils {
          * @param listRoll - Список для проверки
          * @return - Все ли пункты отмечены
          */
-        public static boolean isAllCheck(List<RollItem> listRoll) {
+        public static boolean isAllCheck(@NonNull List<RollItem> listRoll) {
             if (listRoll.size() == 0) return false;
 
-            for (RollItem rollItem : listRoll) {
+            for (final RollItem rollItem : listRoll) {
                 if (!rollItem.isCheck()) {
                     return false;
                 }

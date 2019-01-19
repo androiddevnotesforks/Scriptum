@@ -41,7 +41,7 @@ public class MenuControl implements AnimIntf {
     public MenuControl(Context context) {
         this.context = context;
 
-        valTheme = PrefUtils.getTheme(context);
+        valTheme = PrefUtils.getInstance(context).getTheme();
 
         final ValueAnimator.AnimatorUpdateListener updateListener = animator -> {
             final float position = animator.getAnimatedFraction();

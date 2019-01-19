@@ -31,7 +31,7 @@ public final class ColorUtils {
      */
     @ColorInt
     public static int get(@NonNull Context context, @ColorDef int color, boolean needDark) {
-        switch (PrefUtils.getTheme(context)) {
+        switch (PrefUtils.getInstance(context).getTheme()) {
             case ThemeDef.light:
                 return needDark
                         ? ContextCompat.getColor(context, ColorAnn.cl_dark[color])

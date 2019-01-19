@@ -116,7 +116,7 @@ public final class BindUtils {
     @BindingAdapter("visibleOn")
     public static void setVisibility(View view, @ThemeDef int visibleTheme) {
         final Context context = view.getContext();
-        final int currentTheme = PrefUtils.getTheme(context);
+        final int currentTheme = PrefUtils.getInstance(context).getTheme();
 
         view.setVisibility(currentTheme == visibleTheme
                 ? View.VISIBLE

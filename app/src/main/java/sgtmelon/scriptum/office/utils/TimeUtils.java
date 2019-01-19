@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import sgtmelon.scriptum.R;
 
 /**
@@ -16,26 +17,15 @@ import sgtmelon.scriptum.R;
  */
 public final class TimeUtils {
 
-    private static SimpleDateFormat dateFormat;
-
-    private static SimpleDateFormat getDateFormat(Context context){
-        if (dateFormat == null){
-            dateFormat = new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault());
-
-            synchronized (TimeUtils.class){
-                if (dateFormat == null){
-                    dateFormat = new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault());
-                }
-            }
-        }
-
-        return dateFormat;
+    @NonNull
+    private static SimpleDateFormat getDateFormat(@NonNull Context context) {
+        return new SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault());
     }
 
     /**
      * @return - Текущее время в нужном формате
      */
-    public static String getTime(Context context) {
+    public static String getTime(@NonNull Context context) {
         return getDateFormat(context).format(Calendar.getInstance().getTime());
     }
 
@@ -43,7 +33,7 @@ public final class TimeUtils {
      * @param date - Время создания/изменения заметки
      * @return - Время и дата в приятном виде
      */
-    public static String format(Context context, String date) {
+    static String format(@NonNull Context context, @NonNull String date) {
         final DateFormat formatOld = getDateFormat(context);
 
         try {

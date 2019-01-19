@@ -40,10 +40,10 @@ public final class SplashActivity extends AppCompatActivity {
     private void startNormal() {
         Log.i(TAG, "startNormal");
 
-        final boolean firstStart = PrefUtils.getFirstStart(this);
+        final boolean firstStart = PrefUtils.getInstance(this).getFirstStart();
 
         if (firstStart) {
-            PrefUtils.setFirstStart(this, false);
+            PrefUtils.getInstance(this).setFirstStart(false);
         }
 
         final Intent intent = new Intent(this, firstStart

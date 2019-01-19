@@ -93,7 +93,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
 
         if (ntCreate) {
             final String create = TimeUtils.getTime(context);
-            final int color = PrefUtils.getDefaultColor(context);
+            final int color = PrefUtils.getInstance(context).getDefaultColor();
 
             final NoteItem noteItem = new NoteItem(create, color, ntType);
             final StatusItem statusItem = new StatusItem(context, noteItem, false);

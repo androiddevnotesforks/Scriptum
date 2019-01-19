@@ -87,8 +87,7 @@ public final class NoteActivity extends BaseActivityParent
         final Bundle bundle = getIntent().getExtras();
         vm.setValue(bundle != null
                 ? bundle
-                : savedInstanceState
-        );
+                : savedInstanceState);
 
         saveControl = new SaveControl(this);
 

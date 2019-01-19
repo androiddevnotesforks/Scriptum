@@ -35,13 +35,13 @@ public final class SaveControl {
     public SaveControl(Context context) {
         this.context = context;
 
-        savePause = PrefUtils.getPauseSave(context);
-        saveAuto = PrefUtils.getAutoSave(context);
+        savePause = PrefUtils.getInstance(context).getPauseSave();
+        saveAuto = PrefUtils.getInstance(context).getAutoSave();
 
         if (saveAuto) {
             final Resources resources = context.getResources();
             final int[] timeArray = resources.getIntArray(R.array.pref_save_time_value);
-            saveTime = timeArray[PrefUtils.getSaveTime(context)];
+            saveTime = timeArray[PrefUtils.getInstance(context).getSaveTime()];
         }
     }
 

@@ -123,7 +123,7 @@ public final class DialogFindModule {
             colorDialog = new ColorDialog();
         }
 
-        switch (PrefUtils.getTheme(context)) {
+        switch (PrefUtils.getInstance(context).getTheme()) {
             case ThemeDef.light:
                 colorDialog.setFillColor(ColorAnn.cl_light);
                 colorDialog.setStrokeColor(ColorAnn.cl_dark);

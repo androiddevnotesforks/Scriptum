@@ -24,7 +24,7 @@ public class BaseActivityParent extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        currentTheme = PrefUtils.getTheme(this);
+        currentTheme = PrefUtils.getInstance(this).getTheme();
         switch (currentTheme) {
             case ThemeDef.light:
                 setTheme(R.style.App_Light_UI);
@@ -36,7 +36,7 @@ public class BaseActivityParent extends AppCompatActivity {
     }
 
     public final void isThemeChange() {
-        if (currentTheme == PrefUtils.getTheme(this)) return;
+        if (currentTheme == PrefUtils.getInstance(this).getTheme()) return;
 
         final Intent intent = getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

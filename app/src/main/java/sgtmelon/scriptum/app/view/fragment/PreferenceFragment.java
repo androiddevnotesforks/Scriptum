@@ -40,6 +40,8 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
     private final OpenSt openSt = new OpenSt();
 
     @Inject FragmentManager fm;
+    @Inject PrefUtils prefUtils;
+
     @Inject SortDialog sortDialog;
     @Inject ColorDialog colorDialog;
     @Inject InfoDialog infoDialog;
@@ -116,8 +118,8 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         Log.i(TAG, "setupNotePref");
 
         prefSort = findPreference(getString(R.string.pref_key_sort));
-        valSort = PrefUtils.getSort(activity);
-        prefSort.setSummary(PrefUtils.getSortSummary(activity, valSort));
+        valSort = prefUtils.getSort();
+        prefSort.setSummary(prefUtils.getSortSummary(valSort));
         prefSort.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
@@ -130,22 +132,22 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         sortDialog.setPositiveListener((dialogInterface, i) -> {
             valSort = sortDialog.getKeys();
-            PrefUtils.setSort(activity, valSort);
+            prefUtils.setSort(valSort);
 
-            final String summary = PrefUtils.getSortSummary(activity, valSort);
+            final String summary = prefUtils.getSortSummary(valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setNeutralListener((dialogInterface, i) -> {
             valSort = SortDef.def;
-            PrefUtils.setSort(activity, valSort);
+            prefUtils.setSort(valSort);
 
-            final String summary = PrefUtils.getSortSummary(activity, valSort);
+            final String summary = prefUtils.getSortSummary(valSort);
             prefSort.setSummary(summary);
         });
         sortDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
 
         prefColor = findPreference(getString(R.string.pref_key_color));
-        valColor = PrefUtils.getDefaultColor(activity);
+        valColor = prefUtils.getDefaultColor();
         prefColor.setSummary(getResources().getStringArray(R.array.pref_color_text)[valColor]);
         prefColor.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
@@ -161,7 +163,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             valColor = colorDialog.getCheck();
 
-            PrefUtils.setDefaultColor(activity, valColor);
+            prefUtils.setDefaultColor(valColor);
             prefColor.setSummary(getResources().getStringArray(R.array.pref_color_text)[valColor]);
         });
         colorDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -171,7 +173,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         Log.i(TAG, "setupSavePref");
 
         prefSaveTime = findPreference(getString(R.string.pref_key_save_time));
-        valSaveTime = PrefUtils.getSaveTime(activity);
+        valSaveTime = prefUtils.getSaveTime();
         prefSaveTime.setSummary(getResources().getStringArray(R.array.pref_save_time_text)[valSaveTime]);
         prefSaveTime.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
@@ -186,7 +188,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         dlgSaveTime.setPositiveListener((dialogInterface, i) -> {
             valSaveTime = dlgSaveTime.getCheck();
 
-            PrefUtils.setSaveTime(activity, valSaveTime);
+            prefUtils.setSaveTime(valSaveTime);
             prefSaveTime.setSummary(dlgSaveTime.getRows()[valSaveTime]);
         });
         dlgSaveTime.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -204,7 +206,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         Log.i(TAG, "setupAppPref");
 
         prefTheme = findPreference(getString(R.string.pref_key_theme));
-        valTheme = PrefUtils.getTheme(activity);
+        valTheme = prefUtils.getTheme();
         prefTheme.setSummary(getResources().getStringArray(R.array.pref_theme_text)[valTheme]);
         prefTheme.setOnPreferenceClickListener(preference -> {
             if (!openSt.isOpen()) {
@@ -219,7 +221,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         dlgTheme.setPositiveListener(((dialogInterface, i) -> {
             valTheme = dlgTheme.getCheck();
 
-            PrefUtils.setTheme(activity, valTheme);
+            prefUtils.setTheme(valTheme);
             prefTheme.setSummary(dlgTheme.getRows()[valTheme]);
 
             activity.isThemeChange();

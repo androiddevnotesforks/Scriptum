@@ -31,7 +31,7 @@ public final class MainTest extends ParentTest {
     public void setUp() throws Exception {
         super.setUp();
 
-        PrefUtils.setFirstStart(context, firstStart);
+        PrefUtils.getInstance(context).setFirstStart(firstStart);
     }
 
     @Test

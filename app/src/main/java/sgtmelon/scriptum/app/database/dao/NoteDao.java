@@ -48,7 +48,7 @@ public abstract class NoteDao extends BaseDao {
 
     public List<NoteRepo> get(Context context, @BinDef int bin) {
         final List<NoteRepo> listNoteRepo = new ArrayList<>();
-        final List<NoteItem> listNote = getNote(bin, PrefUtils.getSortNoteOrder(context));
+        final List<NoteItem> listNote = getNote(bin, PrefUtils.getInstance(context).getSortNoteOrder());
 
         final List<Long> rkVisible = getRankVisible();
 
@@ -88,7 +88,7 @@ public abstract class NoteDao extends BaseDao {
      * @param context - Контекст для получения сортировки
      */
     public void update(Context context) {
-        final List<NoteItem> listNote = getNote(BinDef.out, PrefUtils.getSortNoteOrder(context));
+        final List<NoteItem> listNote = getNote(BinDef.out, PrefUtils.getInstance(context).getSortNoteOrder());
         final List<Long> rkVisible = getRankVisible();
 
         for (int i = 0; i < listNote.size(); i++) {
