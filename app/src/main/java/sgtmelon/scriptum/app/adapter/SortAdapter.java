@@ -69,10 +69,10 @@ public final class SortAdapter extends ParentAdapter<SortItem, SortAdapter.SortH
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
             final int position = getAdapterPosition();
             if (position == sortSt.getEnd()) {
-                clickListener.onItemClick(view, position);
+                clickListener.onItemClick(v, position);
             }
         }
 

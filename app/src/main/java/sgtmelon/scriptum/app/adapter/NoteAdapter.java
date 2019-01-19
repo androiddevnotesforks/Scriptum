@@ -101,8 +101,8 @@ public final class NoteAdapter extends ParentAdapter<NoteRepo, NoteAdapter.NoteH
         }
 
         @Override
-        public void onClick(View view) {
-            clickListener.onItemClick(view, getAdapterPosition());
+        public void onClick(View v) {
+            clickListener.onItemClick(v, getAdapterPosition());
         }
 
         @Override

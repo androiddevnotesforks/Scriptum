@@ -180,7 +180,7 @@ public final class TextFragment extends NoteFragmentParent {
      * Нажатие на клавишу назад
      */
     @Override
-    public void onClick(View view) {
+    public void onClick(View v) {
         Log.i(TAG, "onClick");
 
         HelpUtils.hideKeyboard(context, activity.getCurrentFocus());

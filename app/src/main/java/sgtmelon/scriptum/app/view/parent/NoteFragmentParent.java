@@ -54,8 +54,8 @@ import sgtmelon.scriptum.office.utils.HelpUtils;
  * Класс родитель для фрагментов редактирования заметок
  * {@link TextFragment}, {@link RollFragment}
  */
-public abstract class NoteFragmentParent extends Fragment implements View.OnClickListener, BindIntf,
-        MenuIntf.Note.NoteMenuClick {
+public abstract class NoteFragmentParent extends Fragment implements
+        View.OnClickListener, BindIntf, MenuIntf.Note.NoteMenuClick {
 
     private static final String TAG = NoteFragmentParent.class.getSimpleName();
 

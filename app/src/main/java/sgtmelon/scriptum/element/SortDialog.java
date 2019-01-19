@@ -159,7 +159,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
     }
 
     @Override
-    public void onItemClick(View view, int p) {
+    public void onItemClick(@NonNull View view, int p) {
         final SortItem sortItem = listSort.get(p);
 
         final int key = sortItem.getKey() == SortDef.create

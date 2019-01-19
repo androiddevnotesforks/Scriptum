@@ -328,10 +328,10 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View v) {
         Log.i(TAG, "onClick");
 
-        switch (view.getId()) {
+        switch (v.getId()) {
             case R.id.cancel_button:
                 clearEnter();
                 break;
@@ -398,7 +398,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onItemClick(View view, int p) {
+    public void onItemClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemClick");
 
         final RankRepo rankRepo = vm.getRankRepo();
@@ -441,7 +441,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onItemLongClick(View view, int p) {
+    public void onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
         final List<RankItem> listRank = vm.getRankRepo().getListRank();

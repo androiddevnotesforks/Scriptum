@@ -241,7 +241,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public void onItemClick(View view, int p) {
+    public void onItemClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemClick");
 
         final long id = vm.getListNoteRepo().get(p).getNoteItem().getId();
@@ -251,7 +251,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public void onItemLongClick(View view, int p) {
+    public void onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
         final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();

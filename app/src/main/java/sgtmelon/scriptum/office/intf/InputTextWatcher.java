@@ -43,23 +43,23 @@ public final class InputTextWatcher implements TextWatcher {
         final String textTo = s.toString();
         final int cursorTo = view.getSelectionEnd();
 
-        if (!textFrom.equals(textTo)) {
-            final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
+        if (textFrom.equals(textTo)) return;
 
-            switch (tag) {
-                case InputDef.name:
-                    inputIntf.onNameChange(textFrom, textTo, cursorItem);
-                    break;
-                case InputDef.text:
-                    inputIntf.onTextChange(textFrom, textTo, cursorItem);
-                    break;
-            }
+        final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
 
-            textFrom = textTo;
-            cursorFrom = cursorTo;
-
-            bindIntf.bindInput();
+        switch (tag) {
+            case InputDef.name:
+                inputIntf.onNameChange(textFrom, textTo, cursorItem);
+                break;
+            case InputDef.text:
+                inputIntf.onTextChange(textFrom, textTo, cursorItem);
+                break;
         }
+
+        textFrom = textTo;
+        cursorFrom = cursorTo;
+
+        bindIntf.bindInput();
     }
 
     @Override

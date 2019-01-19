@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.app.adapter;
 
 import android.content.Context;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -13,7 +12,6 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-import sgtmelon.iconanim.library.SwitchButton;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
@@ -140,35 +138,36 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
             if (noteSt.isEdit()) return;
 
             final int p = getAdapterPosition();
             rollCheck.setChecked(!list.get(p).isCheck());
-            clickListener.onItemClick(view, p);
+            clickListener.onItemClick(v, p);
         }
 
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                dragListener.setDrag(view.getId() == R.id.click_button);
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                dragListener.setDrag(v.getId() == R.id.click_button);
             }
 
             return false;
         }
 
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            textFrom = charSequence.toString();
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            textFrom = s.toString();
             cursorFrom = rollEnter.getSelectionEnd();
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
 //            final int p = getAdapterPosition();
-//            if (p == -1) return;
 //
-//            final String textTo = charSequence.toString();
+//            if (p == RecyclerView.NO_POSITION) return;
+//
+//            final String textTo = s.toString();
 //            final int cursorTo = rollEnter.getSelectionEnd();
 //
 //            if (textFrom.equals(textTo)) return;
@@ -189,13 +188,14 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         }
 
         @Override
-        public void afterTextChanged(Editable editable) {
+        public void afterTextChanged(Editable s) {
             final int p = getAdapterPosition();
-//            if (!TextUtils.isEmpty(textFrom) && p != -1) {
-            if (p != RecyclerView.NO_POSITION) {
-                rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
-            }
-//            }
+
+            if (p == RecyclerView.NO_POSITION) return;
+
+            //            if (!TextUtils.isEmpty(textFrom) && p != -1) {
+            rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
+            //            }
         }
 
     }

@@ -105,19 +105,19 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
             final int p = getAdapterPosition();
 
-            switch (view.getId()) {
+            switch (v.getId()) {
                 case R.id.visible_button:
                     visibleButton.setDrawable(!list.get(p).isVisible(), true);
-                    clickListener.onItemClick(view, p);
+                    clickListener.onItemClick(v, p);
                     break;
                 case R.id.click_container:
-                    clickListener.onItemClick(view, p);
+                    clickListener.onItemClick(v, p);
                     break;
                 case R.id.cancel_button:
-                    clickListener.onItemClick(view, p);
+                    clickListener.onItemClick(v, p);
                     break;
             }
         }
@@ -129,9 +129,9 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
         }
 
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                dragListener.setDrag(view.getId() == R.id.click_container);
+        public boolean onTouch(View v, MotionEvent event) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                dragListener.setDrag(v.getId() == R.id.click_container);
             }
             return false;
         }

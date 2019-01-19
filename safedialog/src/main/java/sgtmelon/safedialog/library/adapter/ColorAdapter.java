@@ -131,7 +131,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
         }
 
         @Override
-        public void onClick(View view) {
+        public void onClick(View v) {
             final int oldCheck = check;                   //Сохраняем старую позицию
             final int newCheck = getAdapterPosition();    //Получаем новую
 

@@ -65,7 +65,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
-        private int dragFrom, dragTo;
+        private int dragFrom = RecyclerView.NO_POSITION;
+        private int dragTo;
 
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView,
@@ -87,9 +88,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
             super.onSelectedChanged(viewHolder, actionState);
 
+            if (dragFrom != RecyclerView.NO_POSITION) return;
+
             dragFrom = actionState == ItemTouchHelper.ACTION_STATE_DRAG
                     ? viewHolder.getAdapterPosition()
-                    : -1;
+                    : RecyclerView.NO_POSITION;
         }
 
         @Override
@@ -98,10 +101,15 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             super.clearView(recyclerView, viewHolder);
 
             dragTo = viewHolder.getAdapterPosition();
-            if (dragFrom != RecyclerView.NO_POSITION && dragFrom != dragTo) {
-                inputControl.onRollMove(dragFrom, dragTo);
-                bindInput();
-            }
+
+            if (dragFrom == RecyclerView.NO_POSITION
+                    || dragTo == RecyclerView.NO_POSITION
+                    || dragFrom == dragTo) return;
+
+            inputControl.onRollMove(dragFrom, dragTo);
+            bindInput();
+
+            dragFrom = RecyclerView.NO_POSITION;
         }
 
         @Override
@@ -413,7 +421,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
      * Нажатие на клавишу назад
      */
     @Override
-    public void onClick(View view) {
+    public void onClick(View v) {
         Log.i(TAG, "onClick");
 
         HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
@@ -453,7 +461,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
      * Обновление отметки пункта
      */
     @Override
-    public void onItemClick(View view, int p) {
+    public void onItemClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemClick");
 
         final NoteRepo noteRepo = vm.getNoteRepo();
@@ -485,7 +493,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     }
 
     @Override
-    public void afterRollChanged(int p, String text) {
+    public void afterRollChanged(int p, @NonNull String text) {
         Log.i(TAG, "afterRollChanged");
 
         final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();

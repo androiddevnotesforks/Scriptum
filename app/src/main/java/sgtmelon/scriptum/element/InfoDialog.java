@@ -48,10 +48,10 @@ public final class InfoDialog extends DialogBlank implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View view) {
+    public void onClick(View v) {
         if (++click == context.getResources().getInteger(R.integer.pref_logo_click_value)) {
             click = 0;
-            logoClick.onClick(view);
+            logoClick.onClick(v);
             getDialog().cancel();
         }
     }
