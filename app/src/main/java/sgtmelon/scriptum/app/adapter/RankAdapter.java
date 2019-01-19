@@ -40,7 +40,7 @@ public final class RankAdapter extends ParentAdapter<RankItem, RankAdapter.RankH
     }
 
     @Override
-    public void setList(List<RankItem> list) {
+    public void setList(@NonNull List<RankItem> list) {
         super.setList(list);
 
         startAnim = new boolean[list.size()];

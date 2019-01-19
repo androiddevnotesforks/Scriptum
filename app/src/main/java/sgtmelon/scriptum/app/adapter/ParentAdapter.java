@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 
@@ -29,13 +30,13 @@ public abstract class ParentAdapter<E, VH extends RecyclerView.ViewHolder>
     ItemIntf.DragListener dragListener;
     ItemIntf.RollWatcher rollWatcher;
 
-    ParentAdapter(Context context) {
+    ParentAdapter(@NonNull Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
     }
 
     @CallSuper
-    public void setList(List<E> list) {
+    public void setList(@NonNull List<E> list) {
         this.list.clear();
         this.list.addAll(list);
     }
@@ -45,19 +46,19 @@ public abstract class ParentAdapter<E, VH extends RecyclerView.ViewHolder>
         list.set(position, item);
     }
 
-    public final void setClickListener(ItemIntf.ClickListener clickListener) {
+    public final void setClickListener(@NonNull ItemIntf.ClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
-    public final void setLongClickListener(ItemIntf.LongClickListener longClickListener) {
+    public final void setLongClickListener(@NonNull ItemIntf.LongClickListener longClickListener) {
         this.longClickListener = longClickListener;
     }
 
-    public final void setDragListener(ItemIntf.DragListener dragListener) {
+    public final void setDragListener(@NonNull ItemIntf.DragListener dragListener) {
         this.dragListener = dragListener;
     }
 
-    public final void setRollWatcher(ItemIntf.RollWatcher rollWatcher) {
+    public final void setRollWatcher(@NonNull ItemIntf.RollWatcher rollWatcher) {
         this.rollWatcher = rollWatcher;
     }
 

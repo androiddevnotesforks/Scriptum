@@ -22,12 +22,12 @@ public final class SortAdapter extends ParentAdapter<SortItem, SortAdapter.SortH
 
     public final SortSt sortSt = new SortSt();
 
-    public SortAdapter(Context context) {
+    public SortAdapter(@NonNull Context context) {
         super(context);
     }
 
     @Override
-    public void setList(List<SortItem> list) {
+    public void setList(@NonNull List<SortItem> list) {
         super.setList(list);
         sortSt.updateEnd(list);
     }
@@ -44,36 +44,35 @@ public final class SortAdapter extends ParentAdapter<SortItem, SortAdapter.SortH
     @Override
     public void onBindViewHolder(@NonNull SortHolder holder, int position) {
         final SortItem item = list.get(position);
-        holder.bind(item, position, sortSt.getEnd());
+        final int sortEnd = sortSt.getEnd();
+
+        holder.bind(item, position, sortEnd);
+        holder.clickView.setOnClickListener((v) -> {
+            if (position == sortEnd) {
+                clickListener.onItemClick(v, position);
+            }
+        });
     }
 
-    final class SortHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static final class SortHolder extends RecyclerView.ViewHolder {
+
+        final View clickView;
 
         private final ItemSortBinding binding;
-        private final View clickView;
 
-        SortHolder(ItemSortBinding binding) {
+        SortHolder(@NonNull ItemSortBinding binding) {
             super(binding.getRoot());
 
             this.binding = binding;
 
             clickView = itemView.findViewById(R.id.click_container);
-            clickView.setOnClickListener(this);
         }
 
-        void bind(SortItem sortItem, int position, int sortEnd) {
+        void bind(@NonNull SortItem sortItem, int position, int sortEnd) {
             binding.setSortItem(sortItem);
             binding.setPosition(position);
             binding.setSortEnd(sortEnd);
             binding.executePendingBindings();
-        }
-
-        @Override
-        public void onClick(View v) {
-            final int position = getAdapterPosition();
-            if (position == sortSt.getEnd()) {
-                clickListener.onItemClick(v, position);
-            }
         }
 
     }
