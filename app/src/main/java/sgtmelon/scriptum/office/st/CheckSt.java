@@ -2,6 +2,7 @@ package sgtmelon.scriptum.office.st;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 
@@ -16,7 +17,7 @@ public final class CheckSt {
         return all;
     }
 
-    public void setAll(List<RollItem> listRoll) {
+    public void setAll(@NonNull List<RollItem> listRoll) {
         all = HelpUtils.Note.isAllCheck(listRoll);
     }
 

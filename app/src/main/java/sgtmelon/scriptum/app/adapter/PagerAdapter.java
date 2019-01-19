@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import sgtmelon.scriptum.app.view.activity.IntroActivity;
@@ -15,11 +16,11 @@ public final class PagerAdapter extends FragmentPagerAdapter {
 
     private final List<IntroFragment> itemList = new ArrayList<>();
 
-    public PagerAdapter(FragmentManager fm) {
+    public PagerAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }
 
-    public void addItem(IntroFragment introFragment) {
+    public void addItem(@NonNull IntroFragment introFragment) {
         itemList.add(introFragment);
     }
 

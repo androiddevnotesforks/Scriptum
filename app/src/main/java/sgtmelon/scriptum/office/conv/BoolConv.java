@@ -11,7 +11,9 @@ public final class BoolConv {
 
     @TypeConverter
     public int fromBool(boolean value) {
-        return value ? boolTrue : boolFalse;
+        return value
+                ? boolTrue
+                : boolFalse;
     }
 
     @TypeConverter

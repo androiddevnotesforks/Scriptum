@@ -34,7 +34,7 @@ public final class BindUtils {
      * @param falseColor     - Цвет если ложь
      */
     @BindingAdapter(value = {"boolExpression", "trueColor", "falseColor"})
-    public static void setTint(ImageButton imageButton, boolean boolExpression,
+    public static void setTint(@NonNull ImageButton imageButton, boolean boolExpression,
                                @AttrRes int trueColor, @AttrRes int falseColor) {
         final Context context = imageButton.getContext();
 
@@ -44,7 +44,7 @@ public final class BindUtils {
     }
 
     @BindingAdapter(value = {"boolExpression", "trueColor", "falseColor"})
-    public static void setTextColor(TextView textView, boolean boolExpression,
+    public static void setTextColor(@NonNull TextView textView, boolean boolExpression,
                                     @AttrRes int trueColor, @AttrRes int falseColor) {
         final Context context = textView.getContext();
 
@@ -54,14 +54,14 @@ public final class BindUtils {
     }
 
     @BindingAdapter("noteColor")
-    public static void setCardBackgroundColor(CardView cardView, @ColorDef int color) {
+    public static void setCardBackgroundColor(@NonNull CardView cardView, @ColorDef int color) {
         final Context context = cardView.getContext();
 
         cardView.setCardBackgroundColor(ColorUtils.get(context, color, false));
     }
 
     @BindingAdapter(value = {"noteColor", "viewOnDark"})
-    public static void setTint(ImageView imageView, @ColorDef int color,
+    public static void setTint(@NonNull ImageView imageView, @ColorDef int color,
                                boolean viewOnDark) {
         final Context context = imageView.getContext();
 
@@ -69,7 +69,7 @@ public final class BindUtils {
     }
 
     @BindingAdapter(value = {"imageId", "imageColor"})
-    public static void setImage(ImageView imageView, @DrawableRes int drawableId,
+    public static void setImage(@NonNull ImageView imageView, @DrawableRes int drawableId,
                                 @AttrRes int color) {
         final Context context = imageView.getContext();
         final Drawable drawable = ContextCompat.getDrawable(context, drawableId);
@@ -81,7 +81,7 @@ public final class BindUtils {
     }
 
     @BindingAdapter("time")
-    public static void setNoteTime(TextView textView, String time) {
+    public static void setNoteTime(@NonNull TextView textView, @NonNull String time) {
         textView.setText(TimeUtils.format(textView.getContext(), time));
     }
 
@@ -94,7 +94,7 @@ public final class BindUtils {
      *                        текстовое сообщение
      */
     @BindingAdapter(value = {"boolExpression", "extraExpression", "trueColor", "falseColor"})
-    public static void setTint(ImageButton imageButton, boolean boolExpression,
+    public static void setTint(@NonNull ImageButton imageButton, boolean boolExpression,
                                boolean extraExpression,
                                @AttrRes int trueColor, @AttrRes int falseColor) {
         final Context context = imageButton.getContext();
@@ -109,12 +109,12 @@ public final class BindUtils {
     }
 
     @BindingAdapter("enabled")
-    public static void setEnabled(ImageButton imageButton, boolean enabled) {
+    public static void setEnabled(@NonNull ImageButton imageButton, boolean enabled) {
         imageButton.setEnabled(enabled);
     }
 
     @BindingAdapter("visibleOn")
-    public static void setVisibility(View view, @ThemeDef int visibleTheme) {
+    public static void setVisibility(@NonNull View view, @ThemeDef int visibleTheme) {
         final Context context = view.getContext();
         final int currentTheme = PrefUtils.getInstance(context).getTheme();
 

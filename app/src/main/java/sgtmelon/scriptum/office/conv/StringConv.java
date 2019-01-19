@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.room.TypeConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
 
@@ -15,7 +16,7 @@ import sgtmelon.scriptum.office.annot.DbAnn;
 public final class StringConv {
 
     @TypeConverter
-    public List<Long> fromString(String value) {
+    public List<Long> fromString(@NonNull String value) {
         if (!value.equals(DbAnn.Value.NONE) && !value.equals("")) {
             final String[] stringArray = value.split(DbAnn.Value.DIVIDER);
             final List<Long> longList = new ArrayList<>();
