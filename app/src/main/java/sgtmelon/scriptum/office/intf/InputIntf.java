@@ -2,6 +2,7 @@ package sgtmelon.scriptum.office.intf;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 
@@ -10,21 +11,26 @@ import sgtmelon.scriptum.app.model.item.CursorItem;
  */
 public interface InputIntf {
 
-    // TODO: 13.01.2019 Annotation NonNull/Nullable
+    void setEnabled(boolean enabled);
 
-    void onRankChange(List<Long> valueFrom, List<Long> valueTo);
+    boolean getEnabled();
+
+    void onRankChange(@NonNull List<Long> valueFrom, @NonNull List<Long> valueTo);
 
     void onColorChange(int valueFrom, int valueTo);
 
-    void onNameChange(String valueFrom, String valueTo, CursorItem cursorItem);
+    void onNameChange(@NonNull String valueFrom, @NonNull String valueTo,
+                      @NonNull CursorItem cursorItem);
 
-    void onTextChange(String valueFrom, String valueTo, CursorItem cursorItem);
+    void onTextChange(@NonNull String valueFrom, @NonNull String valueTo,
+                      @NonNull CursorItem cursorItem);
 
-    void onRollChange(int p, String valueFrom, String valueTo, CursorItem cursorItem);
+    void onRollChange(int p, @NonNull String valueFrom, @NonNull String valueTo,
+                      @NonNull CursorItem cursorItem);
 
-    void onRollAdd(int p, String valueTo);
+    void onRollAdd(int p, @NonNull String valueTo);
 
-    void onRollRemove(int p, String valueFrom);
+    void onRollRemove(int p, @NonNull String valueFrom);
 
     void onRollMove(int valueFrom, int valueTo);
 

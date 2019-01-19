@@ -229,7 +229,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final NoteSt noteSt = viewModel.getNoteSt();
         onMenuEditClick(noteSt.isEdit());
-        inputControl.setEnable(true);
+        inputControl.setEnabled(true);
         noteSt.setFirst(false);
     }
 
@@ -592,10 +592,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
-        inputControl.setEnable(false);
         final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
+            inputControl.setEnabled(false);
+
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
             final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -649,9 +650,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     adapter.notifyItemMoved(positionStart, positionEnd);
                     break;
             }
+
+            if (inputItem.getTag() != InputDef.roll) {
+                inputControl.setEnabled(true);
+            }
         }
 
-        inputControl.setEnable(true);
         bindInput();
     }
 
@@ -659,10 +663,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onRedoClick() {
         Log.i(TAG, "onRedoClick");
 
-        inputControl.setEnable(false);
         final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
+            inputControl.setEnabled(false);
+
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
             final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -716,9 +721,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     adapter.notifyItemMoved(positionStart, positionEnd);
                     break;
             }
+
+            if (inputItem.getTag() != InputDef.roll) {
+                inputControl.setEnabled(true);
+            }
         }
 
-        inputControl.setEnable(true);
         bindInput();
     }
 

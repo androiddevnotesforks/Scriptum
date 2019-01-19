@@ -2,6 +2,7 @@ package sgtmelon.scriptum.app.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.fragment.RollFragment;
 import sgtmelon.scriptum.databinding.ItemRollReadBinding;
@@ -163,28 +165,28 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            final int p = getAdapterPosition();
-//
-//            if (p == RecyclerView.NO_POSITION) return;
-//
-//            final String textTo = s.toString();
-//            final int cursorTo = rollEnter.getSelectionEnd();
-//
-//            if (textFrom.equals(textTo)) return;
-//
-//            if (!TextUtils.isEmpty(textTo)) {
-//                if (!TextUtils.isEmpty(textFrom)) {
-//                    final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
-//                    inputIntf.onRollChange(p, textFrom, textTo, cursorItem);
-//
-//                    textFrom = textTo;
-//                    cursorFrom = cursorTo;
-//                }
-//            } else {
-//                inputIntf.onRollRemove(p, textFrom);
-//            }
-//
-//            bindIntf.bindInput();
+            final int p = getAdapterPosition();
+
+            if (p == RecyclerView.NO_POSITION) return;
+
+            final String textTo = s.toString();
+            final int cursorTo = rollEnter.getSelectionEnd();
+
+            if (textFrom.equals(textTo)) return;
+
+            if (!TextUtils.isEmpty(textTo)) {
+                if (!TextUtils.isEmpty(textFrom)) {
+                    final CursorItem cursorItem = new CursorItem(cursorFrom, cursorTo);
+                    inputIntf.onRollChange(p, textFrom, textTo, cursorItem);
+
+                    textFrom = textTo;
+                    cursorFrom = cursorTo;
+                }
+            } else {
+                inputIntf.onRollRemove(p, textFrom);
+            }
+
+            bindIntf.bindInput();
         }
 
         @Override
@@ -193,9 +195,13 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
 
             if (p == RecyclerView.NO_POSITION) return;
 
-            //            if (!TextUtils.isEmpty(textFrom) && p != -1) {
-            rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
-            //            }
+            if (!TextUtils.isEmpty(textFrom)) {
+                rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
+            }
+
+            if (!inputIntf.getEnabled()) {
+                inputIntf.setEnabled(true);
+            }
         }
 
     }

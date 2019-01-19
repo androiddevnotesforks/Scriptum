@@ -6,6 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
@@ -36,11 +37,7 @@ public final class InputControl implements InputIntf {
     private final List<InputItem> listInput = new ArrayList<>();
 
     private int position = -1;
-    private boolean enable; //Переменная для предотвращения записи первичного биндинга
-
-    public void setEnable(boolean enable) {
-        this.enable = enable;
-    }
+    private boolean enabled;    //Переменная для предотвращения записи каких-либо изменений
 
     public void clear() {
         listInput.clear();
@@ -80,7 +77,7 @@ public final class InputControl implements InputIntf {
     }
 
     private void add(InputItem inputItem) {
-        if (enable) {
+        if (enabled) {
             remove();
             listInput.add(inputItem);
             position++;
@@ -105,7 +102,17 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onRankChange(List<Long> valueFrom, List<Long> valueTo) {
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    @Override
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public void onRankChange(@NonNull List<Long> valueFrom, @NonNull List<Long> valueTo) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.rank)
                 .setValueFrom(TextUtils.join(DbAnn.Value.DIVIDER, valueFrom))
@@ -127,7 +134,7 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onNameChange(String valueFrom, String valueTo, CursorItem cursorItem) {
+    public void onNameChange(@NonNull String valueFrom, @NonNull String valueTo, @NonNull CursorItem cursorItem) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.name)
                 .setValueFrom(valueFrom)
@@ -139,7 +146,7 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onTextChange(String valueFrom, String valueTo, CursorItem cursorItem) {
+    public void onTextChange(@NonNull String valueFrom, @NonNull String valueTo, @NonNull CursorItem cursorItem) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.text)
                 .setValueFrom(valueFrom)
@@ -151,7 +158,7 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onRollChange(int p, String valueFrom, String valueTo, CursorItem cursorItem) {
+    public void onRollChange(int p, @NonNull String valueFrom, @NonNull String valueTo, @NonNull CursorItem cursorItem) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.roll)
                 .setPosition(p)
@@ -164,7 +171,7 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onRollAdd(int p, String valueTo) {
+    public void onRollAdd(int p, @NonNull String valueTo) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.rollAdd)
                 .setPosition(p)
@@ -176,7 +183,7 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public void onRollRemove(int p, String valueFrom) {
+    public void onRollRemove(int p, @NonNull String valueFrom) {
         final InputItem inputItem = new InputItem.Builder()
                 .setTag(InputDef.rollRemove)
                 .setPosition(p)
