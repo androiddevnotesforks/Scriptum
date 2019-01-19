@@ -621,6 +621,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 case InputDef.name:
                     assert cursorItem != null: "Cursor @NonNull for this tag";
 
+                    nameEnter.requestFocus();
                     nameEnter.setText(inputItem.getValueFrom());
                     nameEnter.setSelection(cursorItem.getValueFrom());
                     break;
@@ -631,6 +632,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     listRoll.get(position).setText(inputItem.getValueFrom());
 
                     adapter.setList(listRoll);
+                    adapter.setCursorPosition(cursorItem.getValueFrom());
                     adapter.notifyItemChanged(position);
                     break;
                 case InputDef.rollAdd:
@@ -699,8 +701,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                 case InputDef.name:
                     assert cursorItem != null: "Cursor @NonNull for this tag";
 
+                    nameEnter.requestFocus();
                     nameEnter.setText(inputItem.getValueTo());
-                    nameEnter.setSelection(cursorItem.getValueFrom());
+                    nameEnter.setSelection(cursorItem.getValueTo());
                     break;
                 case InputDef.roll:
                     assert cursorItem != null: "Cursor @NonNull for this tag";
@@ -709,6 +712,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     listRoll.get(position).setText(inputItem.getValueTo());
 
                     adapter.setList(listRoll);
+                    adapter.setCursorPosition(cursorItem.getValueTo());
                     adapter.notifyItemChanged(position);
                     break;
                 case InputDef.rollAdd:

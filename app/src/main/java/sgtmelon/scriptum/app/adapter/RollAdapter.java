@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,25 +35,30 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
     private BindIntf bindIntf;
 
     private boolean checkToggle;
+    private int cursorPosition = -1;
 
-    public RollAdapter(Context context) {
+    public RollAdapter(@NonNull Context context) {
         super(context);
     }
 
-    public void setNoteSt(NoteSt noteSt) {
+    public void setNoteSt(@NonNull NoteSt noteSt) {
         this.noteSt = noteSt;
     }
 
-    public void setInputIntf(InputIntf inputIntf) {
+    public void setInputIntf(@NonNull InputIntf inputIntf) {
         this.inputIntf = inputIntf;
     }
 
-    public void setBindIntf(BindIntf bindIntf) {
+    public void setBindIntf(@NonNull BindIntf bindIntf) {
         this.bindIntf = bindIntf;
     }
 
     public void setCheckToggle(boolean checkToggle) {
         this.checkToggle = checkToggle;
+    }
+
+    public void setCursorPosition(@IntRange(from = -1) int cursorPosition) {
+        this.cursorPosition = cursorPosition;
     }
 
     @NonNull
@@ -77,6 +83,11 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
     public void onBindViewHolder(@NonNull RollHolder holder, int position) {
         final RollItem item = list.get(position);
         holder.bind(item);
+
+        if (cursorPosition != -1) {
+            holder.setSelections(cursorPosition);
+            cursorPosition = -1;
+        }
     }
 
     @Override
@@ -127,7 +138,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             clickView.setOnClickListener(this);
         }
 
-        void bind(RollItem rollItem) {
+        void bind(@NonNull RollItem rollItem) {
             if (noteSt.isEdit()) {
                 bindingWrite.setRollItem(rollItem);
                 bindingWrite.executePendingBindings();
@@ -137,6 +148,11 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
                 bindingRead.setCheckToggle(checkToggle);
                 bindingRead.executePendingBindings();
             }
+        }
+
+        void setSelections(@IntRange(from = 0) int position) {
+            rollEnter.requestFocus();
+            rollEnter.setSelection(position);
         }
 
         @Override
@@ -183,7 +199,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
                     cursorFrom = cursorTo;
                 }
             } else {
-                inputIntf.onRollRemove(p, textFrom);
+                inputIntf.onRollRemove(p, list.get(p).toString());
             }
 
             bindIntf.bindInput();

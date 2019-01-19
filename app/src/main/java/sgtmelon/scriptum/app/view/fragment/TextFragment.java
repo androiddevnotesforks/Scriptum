@@ -286,12 +286,14 @@ public final class TextFragment extends NoteFragmentParent {
                 case InputDef.name:
                     assert cursorItem != null : "Cursor @NonNull for this tag";
 
+                    nameEnter.requestFocus();
                     nameEnter.setText(inputItem.getValueFrom());
                     nameEnter.setSelection(cursorItem.getValueFrom());
                     break;
                 case InputDef.text:
                     assert cursorItem != null : "Cursor @NonNull for this tag";
 
+                    textEnter.requestFocus();
                     textEnter.setText(inputItem.getValueFrom());
                     textEnter.setSelection(cursorItem.getValueFrom());
                     break;
@@ -333,12 +335,14 @@ public final class TextFragment extends NoteFragmentParent {
                 case InputDef.name:
                     assert cursorItem != null : "Cursor @NonNull for this tag";
 
+                    nameEnter.requestFocus();
                     nameEnter.setText(inputItem.getValueTo());
                     nameEnter.setSelection(cursorItem.getValueTo());
                     break;
                 case InputDef.text:
                     assert cursorItem != null : "Cursor @NonNull for this tag";
 
+                    textEnter.requestFocus();
                     textEnter.setText(inputItem.getValueTo());
                     textEnter.setSelection(cursorItem.getValueTo());
                     break;

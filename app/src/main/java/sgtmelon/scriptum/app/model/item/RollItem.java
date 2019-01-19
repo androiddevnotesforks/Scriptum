@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -44,7 +45,8 @@ public final class RollItem {
 
     }
 
-    public RollItem(String data) {
+    @Ignore
+    public RollItem(@NonNull String data) {
         try {
             final JSONObject jsonObject = new JSONObject(data);
 
