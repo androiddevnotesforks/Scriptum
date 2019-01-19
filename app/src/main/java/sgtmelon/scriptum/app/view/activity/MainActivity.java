@@ -37,10 +37,10 @@ import sgtmelon.scriptum.office.st.PageSt;
 public final class MainActivity extends BaseActivityParent implements MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
-    // TODO: 13.01.2019 Для assert написать комментарии (assert value != null : "hello")
     // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
     // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
     // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка
+    // TODO: 19.01.2019 Добавить перескакивание курсора при старте редактирования в нужное место
 
     private static final String TAG = MainActivity.class.getSimpleName();
 

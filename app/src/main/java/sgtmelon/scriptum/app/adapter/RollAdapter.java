@@ -111,7 +111,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
         private String textFrom = "";
         private int cursorFrom = 0;
 
-        RollHolder(ItemRollWriteBinding bindingWrite) {
+        RollHolder(@NonNull ItemRollWriteBinding bindingWrite) {
             super(bindingWrite.getRoot());
 
             this.bindingWrite = bindingWrite;
@@ -121,12 +121,12 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
             clickView = itemView.findViewById(R.id.click_button);
 
             rollEnter.setOnTouchListener(this);
-            rollEnter.addTextChangedListener(this); // TODO: 10.01.2019 исправить, добавить undo/redo
+            rollEnter.addTextChangedListener(this);
 
             clickView.setOnTouchListener(this);
         }
 
-        RollHolder(ItemRollReadBinding bindingRead) {
+        RollHolder(@NonNull ItemRollReadBinding bindingRead) {
             super(bindingRead.getRoot());
 
             this.bindingRead = bindingRead;

@@ -484,7 +484,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         noteCallback.getViewModel().setNoteRepo(noteRepo);
 
-        assert rollItem.getId() != null;
+        assert rollItem.getId() != null: "Roll from database with @NonNull id";
 
         db = RoomDb.provideDb(context);
         db.daoRoll().update(rollItem.getId(), rollItem.isCheck());
