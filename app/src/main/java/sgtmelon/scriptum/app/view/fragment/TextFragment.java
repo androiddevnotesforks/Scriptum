@@ -260,12 +260,13 @@ public final class TextFragment extends NoteFragmentParent {
     public void onUndoClick() {
         Log.i(TAG, "onUndoClick");
 
-        inputControl.setEnabled(false);
         final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
-            final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+            inputControl.setEnabled(false);
+
             final CursorItem cursorItem = inputItem.getCursorItem();
+            final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
@@ -283,21 +284,22 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.startTint(colorFrom);
                     break;
                 case InputDef.name:
-                    assert cursorItem != null;
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     nameEnter.setText(inputItem.getValueFrom());
                     nameEnter.setSelection(cursorItem.getValueFrom());
                     break;
                 case InputDef.text:
-                    assert cursorItem != null;
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     textEnter.setText(inputItem.getValueFrom());
                     textEnter.setSelection(cursorItem.getValueFrom());
                     break;
             }
+
+            inputControl.setEnabled(true);
         }
 
-        inputControl.setEnabled(true);
         bindInput();
     }
 
@@ -305,10 +307,11 @@ public final class TextFragment extends NoteFragmentParent {
     public void onRedoClick() {
         Log.i(TAG, "onRedoClick");
 
-        inputControl.setEnabled(false);
         final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
+            inputControl.setEnabled(false);
+
             final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
             final CursorItem cursorItem = inputItem.getCursorItem();
 
@@ -328,21 +331,22 @@ public final class TextFragment extends NoteFragmentParent {
                     menuControl.startTint(colorTo);
                     break;
                 case InputDef.name:
-                    assert cursorItem != null;
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     nameEnter.setText(inputItem.getValueTo());
                     nameEnter.setSelection(cursorItem.getValueTo());
                     break;
                 case InputDef.text:
-                    assert cursorItem != null;
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     textEnter.setText(inputItem.getValueTo());
                     textEnter.setSelection(cursorItem.getValueTo());
                     break;
             }
+
+            inputControl.setEnabled(true);
         }
 
-        inputControl.setEnabled(true);
         bindInput();
     }
 

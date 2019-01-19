@@ -32,6 +32,7 @@ import sgtmelon.scriptum.app.injection.component.FragmentComponent;
 import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
 import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
@@ -331,11 +332,10 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         super.setupEnter();
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
-            if (i == EditorInfo.IME_ACTION_NEXT) {
-                rollEnter.requestFocus();
-                return true;
-            }
-            return false;
+            if (i != EditorInfo.IME_ACTION_NEXT) return false;
+
+            rollEnter.requestFocus();
+            return true;
         });
 
         rollEnter = frgView.findViewById(R.id.roll_enter);
@@ -597,6 +597,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         if (inputItem != null) {
             inputControl.setEnabled(false);
 
+            final CursorItem cursorItem = inputItem.getCursorItem();
+
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
             final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -617,9 +619,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
+                    assert cursorItem != null: "Cursor @NonNull for this tag";
+
                     nameEnter.setText(inputItem.getValueFrom());
+                    nameEnter.setSelection(cursorItem.getValueFrom());
                     break;
                 case InputDef.roll:
+                    assert cursorItem != null: "Cursor @NonNull for this tag";
+
                     final int position = inputItem.getPosition();
                     listRoll.get(position).setText(inputItem.getValueFrom());
 
@@ -668,6 +675,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         if (inputItem != null) {
             inputControl.setEnabled(false);
 
+            final CursorItem cursorItem = inputItem.getCursorItem();
+
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
             final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -688,9 +697,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     menuControl.startTint(colorTo);
                     break;
                 case InputDef.name:
+                    assert cursorItem != null: "Cursor @NonNull for this tag";
+
                     nameEnter.setText(inputItem.getValueTo());
+                    nameEnter.setSelection(cursorItem.getValueFrom());
                     break;
                 case InputDef.roll:
+                    assert cursorItem != null: "Cursor @NonNull for this tag";
+
                     final int position = inputItem.getPosition();
                     listRoll.get(position).setText(inputItem.getValueTo());
 
