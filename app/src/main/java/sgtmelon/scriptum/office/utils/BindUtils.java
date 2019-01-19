@@ -39,8 +39,8 @@ public final class BindUtils {
         final Context context = imageButton.getContext();
 
         imageButton.setColorFilter(boolExpression
-                        ? ColorUtils.get(context, trueColor)
-                        : ColorUtils.get(context, falseColor));
+                ? ColorUtils.get(context, trueColor)
+                : ColorUtils.get(context, falseColor));
     }
 
     @BindingAdapter(value = {"boolExpression", "trueColor", "falseColor"})
@@ -100,10 +100,10 @@ public final class BindUtils {
         final Context context = imageButton.getContext();
 
         imageButton.setColorFilter(boolExpression
-                        ? extraExpression
-                        ? ColorUtils.get(context, trueColor)
-                        : ColorUtils.get(context, falseColor)
-                        : ColorUtils.get(context, falseColor));
+                ? extraExpression
+                ? ColorUtils.get(context, trueColor)
+                : ColorUtils.get(context, falseColor)
+                : ColorUtils.get(context, falseColor));
 
         imageButton.setEnabled(boolExpression && extraExpression);
     }

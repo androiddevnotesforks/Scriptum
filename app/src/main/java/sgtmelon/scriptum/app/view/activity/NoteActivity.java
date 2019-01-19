@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.SaveControl;
-import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
 import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
 import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
@@ -29,7 +28,6 @@ import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
-import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class NoteActivity extends BaseActivityParent
         implements NoteCallback, MenuIntf.Note.DeleteMenuClick {
@@ -43,7 +41,6 @@ public final class NoteActivity extends BaseActivityParent
 
     private SaveControl saveControl;
 
-    private RoomDb db;
     private TextFragment textFragment;
     private RollFragment rollFragment;
 
@@ -110,39 +107,30 @@ public final class NoteActivity extends BaseActivityParent
 
         saveControl.setNeedSave(false);
 
-        NoteItem noteItem = vm.getNoteRepo().getNoteItem();
-        NoteSt noteSt = vm.getNoteSt();
+        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+        final NoteSt noteSt = vm.getNoteSt();
 
         if (noteSt.isEdit() && !noteSt.isCreate()) {                  //Если это редактирование и не только что созданная заметка
-            FragmentNoteViewModel viewModel;
             switch (noteItem.getType()) {
                 case TypeNoteDef.text:
                     if (!textFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
-                        final int startColor = noteItem.getColor();
+                        final int colorFrom = noteItem.getColor();
+                        final int colorTo = vm.resetFragmentData(
+                                noteItem.getId(), textFragment.getViewModel()
+                        );
 
-                        final NoteRepo noteRepo = vm.loadData(noteItem.getId());
-                        noteItem = noteRepo.getNoteItem();
-
-                        viewModel = textFragment.getViewModel();
-                        viewModel.setNoteRepo(noteRepo);
-                        textFragment.setViewModel(viewModel);
-
-                        textFragment.startTintToolbar(startColor, noteItem.getColor());
+                        textFragment.startTintToolbar(colorFrom, colorTo);
                         textFragment.onMenuEditClick(false);
                     }
                     break;
                 case TypeNoteDef.roll:
                     if (!rollFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
-                        final int startColor = noteItem.getColor();
+                        final int colorFrom = noteItem.getColor();
+                        final int colorTo = vm.resetFragmentData(
+                                noteItem.getId(), rollFragment.getViewModel()
+                        );
 
-                        final NoteRepo noteRepo = vm.loadData(noteItem.getId());
-                        noteItem = noteRepo.getNoteItem();
-
-                        viewModel = rollFragment.getViewModel();
-                        viewModel.setNoteRepo(noteRepo);
-                        rollFragment.setViewModel(viewModel);
-
-                        rollFragment.startTintToolbar(startColor, noteItem.getColor());
+                        rollFragment.startTintToolbar(colorFrom, colorTo);
                         rollFragment.onMenuEditClick(false);
                         rollFragment.updateAdapter();
                     }
@@ -161,7 +149,9 @@ public final class NoteActivity extends BaseActivityParent
                     }
                     break;
             }
-        } else super.onBackPressed();   //Другие случаи (не редактирование)
+        } else {
+            super.onBackPressed();   //Другие случаи (не редактирование)
+        }
     }
 
     @Override
@@ -171,7 +161,6 @@ public final class NoteActivity extends BaseActivityParent
         if (!isSave) {
             final NoteSt noteSt = vm.getNoteSt();
             noteSt.setFirst(true);
-            vm.setNoteSt(noteSt);
         }
 
         final FragmentTransaction transaction = fm.beginTransaction();
@@ -214,12 +203,7 @@ public final class NoteActivity extends BaseActivityParent
     public void onMenuRestoreClick() {
         Log.i(TAG, "onMenuRestoreClick");
 
-        db = RoomDb.provideDb(this);
-        db.daoNote().update(
-                vm.getNoteRepo().getNoteItem().getId(), TimeUtils.getTime(this), false
-        );
-        db.close();
-
+        vm.onMenuRestoreClick();
         finish();
     }
 
@@ -227,38 +211,22 @@ public final class NoteActivity extends BaseActivityParent
     public void onMenuRestoreOpenClick() {
         Log.i(TAG, "onMenuRestoreOpenClick");
 
-        final NoteSt noteSt = vm.getNoteSt();
-        noteSt.setBin(false);
-
-        vm.setNoteSt(noteSt);
+        vm.onMenuRestoreOpenClick();
 
         final NoteRepo noteRepo = vm.getNoteRepo();
-        final NoteItem noteItem = noteRepo.getNoteItem();
-
-        noteItem.setChange(TimeUtils.getTime(this));
-        noteItem.setBin(false);
-        noteRepo.setNoteItem(noteItem);
-
-        vm.setNoteRepo(noteRepo);
-
-        db = RoomDb.provideDb(this);
-        db.daoNote().update(noteItem);
-        db.close();
-
         FragmentNoteViewModel viewModel;
+
         switch (vm.getNoteRepo().getNoteItem().getType()) {
             case TypeNoteDef.text:
                 viewModel = textFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
 
-                textFragment.setViewModel(viewModel);
                 textFragment.bindEdit(false);
                 break;
             case TypeNoteDef.roll:
                 viewModel = rollFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
 
-                rollFragment.setViewModel(viewModel);
                 rollFragment.bindEdit(false);
                 break;
         }
@@ -268,12 +236,7 @@ public final class NoteActivity extends BaseActivityParent
     public void onMenuClearClick() {
         Log.i(TAG, "onMenuClearClick");
 
-        db = RoomDb.provideDb(this);
-        db.daoNote().delete(vm.getNoteRepo().getNoteItem().getId());
-        db.close();
-
-        vm.setRepoNote(false);
-
+        vm.onMenuClearClick();
         finish();
     }
 
@@ -281,17 +244,7 @@ public final class NoteActivity extends BaseActivityParent
     public void onMenuDeleteClick() {
         Log.i(TAG, "onMenuDeleteClick");
 
-        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
-
-        db = RoomDb.provideDb(this);
-        db.daoNote().update(noteItem.getId(), TimeUtils.getTime(this), true);
-        if (noteItem.isStatus()) {
-            db.daoNote().update(noteItem.getId(), false);
-        }
-        db.close();
-
-        vm.setRepoNote(false);
-
+        vm.onMenuDeleteClick();
         finish();
     }
 

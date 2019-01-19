@@ -13,12 +13,16 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
+import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
+import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
-public final class ActivityNoteViewModel extends AndroidViewModel {
+public final class ActivityNoteViewModel extends AndroidViewModel implements
+        MenuIntf.Note.DeleteMenuClick {
 
     private final Context context;
 
@@ -62,10 +66,6 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         return noteSt;
     }
 
-    public void setNoteSt(NoteSt noteSt) {
-        this.noteSt = noteSt;
-    }
-
     public boolean isRankEmpty() {
         return rankEmpty;
     }
@@ -79,10 +79,6 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         noteRepo.getStatusItem().updateNote(noteItem, rankVisible);
 
         this.noteRepo = noteRepo;
-    }
-
-    public void setRepoNote(boolean status) {
-        noteRepo.update(status);
     }
 
     private void loadData() {
@@ -112,12 +108,60 @@ public final class ActivityNoteViewModel extends AndroidViewModel {
         db.close();
     }
 
-    public NoteRepo loadData(long id) {
+    @ColorDef
+    public int resetFragmentData(long id, @NonNull FragmentNoteViewModel viewModel) {
         db = RoomDb.provideDb(context);
         noteRepo = db.daoNote().get(context, id);
         db.close();
 
-        return noteRepo;
+        viewModel.setNoteRepo(noteRepo);
+
+        return noteRepo.getNoteItem().getColor();
+    }
+
+    @Override
+    public void onMenuRestoreClick() {
+        db = RoomDb.provideDb(context);
+        db.daoNote().update(
+                noteRepo.getNoteItem().getId(), TimeUtils.getTime(context), false
+        );
+        db.close();
+    }
+
+    @Override
+    public void onMenuRestoreOpenClick() {
+        noteSt.setBin(false);
+
+        final NoteItem noteItem = noteRepo.getNoteItem();
+        noteItem.setChange(TimeUtils.getTime(context));
+        noteItem.setBin(false);
+
+        db = RoomDb.provideDb(context);
+        db.daoNote().update(noteItem);
+        db.close();
+    }
+
+    @Override
+    public void onMenuClearClick() {
+        db = RoomDb.provideDb(context);
+        db.daoNote().delete(noteRepo.getNoteItem().getId());
+        db.close();
+
+        noteRepo.update(false);
+    }
+
+    @Override
+    public void onMenuDeleteClick() {
+        final NoteItem noteItem = noteRepo.getNoteItem();
+
+        db = RoomDb.provideDb(context);
+        db.daoNote().update(noteItem.getId(), TimeUtils.getTime(context), true);
+        if (noteItem.isStatus()) {
+            db.daoNote().update(noteItem.getId(), false);
+        }
+        db.close();
+
+        noteRepo.update(false);
     }
 
 }

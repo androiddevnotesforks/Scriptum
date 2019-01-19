@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{noteItem.bin ? v.VISIBLE : v.GONE}'
+                    android:visibility='@{noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE : v.GONE}'
+                    android:visibility='@{keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="visible">
 
                 <ImageButton

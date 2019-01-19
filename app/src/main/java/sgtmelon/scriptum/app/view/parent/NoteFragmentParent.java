@@ -254,17 +254,24 @@ public abstract class NoteFragmentParent extends Fragment implements
         );
     }
 
-    public final void startTintToolbar(@ColorDef int startColor, @ColorDef int endColor) {
-        menuControl.setColorFrom(startColor);
-        menuControl.startTint(endColor);
+    public final void startTintToolbar(@ColorDef int colorFrom, @ColorDef int colorTo) {
+        menuControl.setColorFrom(colorFrom);
+        menuControl.startTint(colorTo);
     }
 
     public final FragmentNoteViewModel getViewModel() {
         return vm;
     }
 
-    public final void setViewModel(FragmentNoteViewModel viewModel) {
-        vm = viewModel;
+    /**
+     * Нажатие на клавишу назад
+     */
+    @Override
+    public final void onClick(View v) {
+        Log.i(TAG, "onClick");
+
+        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+        activity.onBackPressed();
     }
 
     @Override
