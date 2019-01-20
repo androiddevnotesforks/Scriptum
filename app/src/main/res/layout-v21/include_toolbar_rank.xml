@@ -27,7 +27,7 @@
 
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     app:cardBackgroundColor="?attr/clBackgroundEnter"
                     app:cardCornerRadius="@dimen/radius_8dp"
                     app:cardUseCompatPadding="false">

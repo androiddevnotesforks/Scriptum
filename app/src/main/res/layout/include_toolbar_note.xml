@@ -30,7 +30,7 @@
 
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/layout_8dp"
                     android:layout_marginLeft="@dimen/layout_8dp"
                     android:layout_marginEnd="@dimen/layout_0dp"
@@ -81,7 +81,8 @@
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>
 
-        <View style="@style/Divider.Horizontal"/>
+        <View style="@style/Divider.Horizontal"
+              app:visibleOn='@{def.light}'/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
