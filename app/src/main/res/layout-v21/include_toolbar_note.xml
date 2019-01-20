@@ -27,18 +27,24 @@
                 app:contentInsetLeft="@dimen/layout_8dp"
                 app:contentInsetRight="@dimen/layout_8dp"
                 app:contentInsetStart="@dimen/layout_8dp"
+                app:contentInsetStartWithNavigation="56dp"
                 app:popupTheme="?attr/themePopup">
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:cardBackgroundColor="?attr/clBackgroundEnter"
+                    app:cardCornerRadius="@dimen/radius_8dp"
+                    app:cardUseCompatPadding="false">
 
             <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_24dp">
+                    android:padding="@dimen/layout_8dp">
 
                 <EditText
                         android:id="@+id/name_enter"
                         style="@style/ToolbarNote.Enter"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:hint="@string/hint_enter_name"
                         android:importantForAutofill="noExcludeDescendants"
                         android:text='@={noteItem.name}'
@@ -55,14 +61,14 @@
 
                     <TextView
                             style="@style/ToolbarNote.Text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:hint="@string/hint_view_name"
                             android:text='@{noteItem.name}'/>
 
                 </HorizontalScrollView>
 
             </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.appcompat.widget.Toolbar>
 

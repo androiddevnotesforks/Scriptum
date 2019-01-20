@@ -23,47 +23,54 @@
                 android:id="@+id/toolbar"
                 style="?attr/styleToolbar"
                 android:layout_gravity="center"
-                app:contentInsetEnd="@dimen/layout_8dp"
-                app:contentInsetLeft="@dimen/layout_8dp"
-                app:contentInsetRight="@dimen/layout_8dp"
-                app:contentInsetStart="@dimen/layout_8dp"
+                android:paddingLeft="@dimen/layout_8dp"
+                android:paddingRight="@dimen/layout_8dp"
+                app:contentInsetStartWithNavigation="56dp"
                 app:popupTheme="?attr/themePopup">
 
-            <FrameLayout
+            <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/layout_24dp"
-                    android:layout_marginEnd="@dimen/layout_24dp">
+                    android:layout_height="40dp"
+                    android:layout_marginStart="@dimen/layout_8dp"
+                    android:layout_marginLeft="@dimen/layout_8dp"
+                    android:layout_marginEnd="@dimen/layout_0dp"
+                    android:layout_marginRight="@dimen/layout_0dp"
+                    app:cardBackgroundColor="?attr/clBackgroundEnter"
+                    app:cardCornerRadius="@dimen/radius_8dp"
+                    app:cardUseCompatPadding="false">
 
-                <EditText
-                        android:id="@+id/name_enter"
-                        style="@style/ToolbarNote.Enter"
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_enter_name"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:text='@={noteItem.name}'
-                        android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
-                        tools:targetApi="o"
-                        tools:text="@string/test_note_name"/>
+                        android:padding="@dimen/layout_8dp">
 
-                <HorizontalScrollView
-                        style="@style/ToolbarNote.Scroll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
-                        tools:visibility="invisible">
+                    <EditText
+                            android:id="@+id/name_enter"
+                            style="@style/ToolbarNote.Enter"
+                            android:hint="@string/hint_enter_name"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:text='@={noteItem.name}'
+                            android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
+                            tools:targetApi="o"
+                            tools:text="@string/test_note_name"/>
 
-                    <TextView
-                            style="@style/ToolbarNote.Text"
-                            android:layout_width="wrap_content"
+                    <HorizontalScrollView
+                            style="@style/ToolbarNote.Scroll"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="@string/hint_view_name"
-                            android:text='@{noteItem.name}'/>
+                            android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
+                            tools:visibility="invisible">
 
-                </HorizontalScrollView>
+                        <TextView
+                                style="@style/ToolbarNote.Text"
+                                android:hint="@string/hint_view_name"
+                                android:text='@{noteItem.name}'/>
 
-            </FrameLayout>
+                    </HorizontalScrollView>
+
+                </FrameLayout>
+
+            </androidx.cardview.widget.CardView>
 
         </androidx.appcompat.widget.Toolbar>
 

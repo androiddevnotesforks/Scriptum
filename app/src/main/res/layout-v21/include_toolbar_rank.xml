@@ -22,14 +22,12 @@
                 android:id="@+id/toolbar"
                 style="?attr/styleToolbar"
                 app:contentInsetEnd="@dimen/layout_8dp"
-                app:contentInsetLeft="@dimen/layout_8dp"
-                app:contentInsetRight="@dimen/layout_8dp"
                 app:contentInsetStart="@dimen/layout_8dp"
                 app:popupTheme="?attr/themePopup">
 
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     app:cardBackgroundColor="?attr/clBackgroundEnter"
                     app:cardCornerRadius="@dimen/radius_8dp"
                     app:cardUseCompatPadding="false">
