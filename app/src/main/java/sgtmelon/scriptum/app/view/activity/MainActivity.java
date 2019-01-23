@@ -1,9 +1,15 @@
 package sgtmelon.scriptum.app.view.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -12,8 +18,10 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import sgtmelon.safedialog.library.SheetDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.ActivityComponent;
@@ -53,7 +61,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
     @Inject NotesFragment notesFragment;
     @Inject BinFragment binFragment;
     @Inject SheetDialog sheetDialog;
-
+    boolean revealShow = false;
     private FloatingActionButton fab;
 
     @Override
@@ -74,6 +82,46 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
 
             page = pageSt.getPage();
         }
+
+        final View view = findViewById(R.id.reveal_container);
+        view.setOnClickListener((v) -> {
+            if (Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) return;
+
+            final int cx = (view.getLeft() + view.getRight()) / 2;
+            final int cy = (view.getTop() + view.getBottom()) / 2;
+
+            final float maxRadius = (float) Math.hypot(view.getWidth(), view.getHeight());
+            final float minRadius = 0;
+
+            final Animator animator;
+
+            animator = ViewAnimationUtils.createCircularReveal(view, cx, cy,
+                    revealShow ? maxRadius : minRadius,
+                    revealShow ? minRadius : maxRadius
+            );
+
+            animator.setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+            animator.setInterpolator(new FastOutSlowInInterpolator());
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    if (!revealShow) {
+                        view.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.accent_dark));
+                    }
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (revealShow) {
+                        view.setBackgroundColor(Color.TRANSPARENT);
+                    }
+
+                    revealShow = !revealShow;
+                }
+            });
+
+            animator.start();
+        });
 
         setupNavigation(page);
     }
