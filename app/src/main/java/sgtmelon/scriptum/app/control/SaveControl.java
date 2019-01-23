@@ -54,16 +54,23 @@ public final class SaveControl {
     }
 
     public void setSaveHandlerEvent(boolean keyEdit) {
-        if (keyEdit) startSaveHandler();
-        else stopSaveHandler();
+        if (keyEdit) {
+            startSaveHandler();
+        } else {
+            stopSaveHandler();
+        }
     }
 
     private void startSaveHandler() {
-        if (saveAuto) saveHandler.postDelayed(saveRunnable, saveTime);
+        if (saveAuto) {
+            saveHandler.postDelayed(saveRunnable, saveTime);
+        }
     }
 
     private void stopSaveHandler() {
-        if (saveAuto) saveHandler.removeCallbacks(saveRunnable);
+        if (saveAuto) {
+            saveHandler.removeCallbacks(saveRunnable);
+        }
     }
 
     private void onSave() {
@@ -77,8 +84,11 @@ public final class SaveControl {
     public void onPauseSave(boolean keyEdit) {
         stopSaveHandler();
 
-        if (needSave && keyEdit && savePause) onSave();
-        else needSave = true;
+        if (needSave && keyEdit && savePause) {
+            onSave();
+        } else {
+            needSave = true;
+        }
     }
 
 }

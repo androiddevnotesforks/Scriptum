@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.office.st;
 
+import androidx.annotation.NonNull;
+
 /**
  * Состояние для фрагментов с заметками, необходимое для управления её редактированием
  */
@@ -47,4 +49,12 @@ public final class NoteSt {
         this.bin = bin;
     }
 
+    @NonNull
+    @Override
+    public String toString() {
+        return "create = " + create + "\n" +
+                "first = " + first + "\n" +
+                "edit = " + edit + "\n" +
+                "bin = " + bin;
+    }
 }

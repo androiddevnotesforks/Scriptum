@@ -7,6 +7,7 @@ import android.util.Log;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -44,7 +45,8 @@ public final class NoteActivity extends BaseActivityParent
     private TextFragment textFragment;
     private RollFragment rollFragment;
 
-    public static Intent getIntent(Context context, int type) {
+    @NonNull
+    public static Intent getIntent(@NonNull Context context, int type) {
         final Intent intent = new Intent(context, NoteActivity.class);
 
         intent.putExtra(IntentDef.NOTE_CREATE, true);
@@ -53,7 +55,8 @@ public final class NoteActivity extends BaseActivityParent
         return intent;
     }
 
-    public static Intent getIntent(Context context, long id) {
+    @NonNull
+    public static Intent getIntent(@NonNull Context context, long id) {
         final Intent intent = new Intent(context, NoteActivity.class);
 
         intent.putExtra(IntentDef.NOTE_CREATE, false);
@@ -221,13 +224,13 @@ public final class NoteActivity extends BaseActivityParent
                 viewModel = textFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
 
-                textFragment.bindEdit(false);
+                textFragment.onMenuEditClick(false);
                 break;
             case TypeNoteDef.roll:
                 viewModel = rollFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
 
-                rollFragment.bindEdit(false);
+                rollFragment.onMenuEditClick(false);
                 break;
         }
     }

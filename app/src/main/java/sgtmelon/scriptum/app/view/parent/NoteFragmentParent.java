@@ -149,7 +149,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     /**
      * Установка в биндинг слоя неизменяемых данных, как интерфейсы
      */
-    public abstract void setupBinding();
+    protected abstract void setupBinding();
 
     /**
      * Биндинг отображения элементов управления для конкретного режима редактирования
