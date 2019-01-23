@@ -37,36 +37,40 @@
                     app:cardCornerRadius="@dimen/radius_8dp"
                     app:cardUseCompatPadding="false">
 
-            <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/layout_8dp">
-
-                <EditText
-                        android:id="@+id/name_enter"
-                        style="@style/ToolbarNote.Enter"
-                        android:hint="@string/hint_enter_name"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:text='@={noteItem.name}'
-                        android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
-                        tools:targetApi="o"
-                        tools:text="@string/test_note_name"/>
-
-                <HorizontalScrollView
-                        style="@style/ToolbarNote.Scroll"
+                <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
-                        tools:visibility="invisible">
+                        android:padding="@dimen/layout_8dp">
 
-                    <TextView
-                            style="@style/ToolbarNote.Text"
-                            android:hint="@string/hint_view_name"
-                            android:text='@{noteItem.name}'/>
+                    <EditText
+                            android:id="@+id/name_enter"
+                            style="@style/ToolbarNote.Enter"
+                            android:hint="@string/hint_enter_name"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:paddingStart="@dimen/layout_8dp"
+                            android:paddingEnd="@dimen/layout_8dp"
+                            android:text='@={noteItem.name}'
+                            android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
+                            tools:targetApi="o"
+                            tools:text="@string/test_note_name"/>
 
-                </HorizontalScrollView>
+                    <HorizontalScrollView
+                            style="@style/ToolbarNote.Scroll"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/layout_8dp"
+                            android:paddingEnd="@dimen/layout_8dp"
+                            android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
+                            tools:visibility="invisible">
 
-            </FrameLayout>
+                        <TextView
+                                style="@style/ToolbarNote.Text"
+                                android:hint="@string/hint_view_name"
+                                android:text='@{noteItem.name}'/>
+
+                    </HorizontalScrollView>
+
+                </FrameLayout>
 
             </androidx.cardview.widget.CardView>
 

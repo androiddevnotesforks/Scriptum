@@ -49,6 +49,8 @@
                             style="@style/ToolbarNote.Enter"
                             android:hint="@string/hint_enter_name"
                             android:importantForAutofill="noExcludeDescendants"
+                            android:paddingLeft="@dimen/layout_8dp"
+                            android:paddingRight="@dimen/layout_8dp"
                             android:text='@={noteItem.name}'
                             android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
                             tools:targetApi="o"
@@ -58,6 +60,9 @@
                             style="@style/ToolbarNote.Scroll"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:clipToPadding="false"
+                            android:paddingLeft="@dimen/layout_8dp"
+                            android:paddingRight="@dimen/layout_8dp"
                             android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
                             tools:visibility="invisible">
 
