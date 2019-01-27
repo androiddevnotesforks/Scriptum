@@ -93,7 +93,6 @@ public final class TextFragment extends NoteFragmentParent {
 
         final NoteSt noteSt = vm.getNoteSt();
         onMenuEditClick(noteSt.isEdit());
-        inputControl.setEnabled(true);
         noteSt.setFirst(false);
     }
 
@@ -320,6 +319,9 @@ public final class TextFragment extends NoteFragmentParent {
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
+        inputControl.setEnabled(false);
+        inputControl.setChangeEnabled(false);
+
         final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
         noteSt.setEdit(editMode);
 
@@ -332,6 +334,9 @@ public final class TextFragment extends NoteFragmentParent {
         bindInput();
 
         noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
+
+        inputControl.setEnabled(true);
+        inputControl.setChangeEnabled(true);
     }
 
     // TODO: 10.12.2018 вынести onMenuCheckClick в отдельный интерфейс только для RollFragment

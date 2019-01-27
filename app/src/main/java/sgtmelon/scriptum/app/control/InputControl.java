@@ -31,13 +31,15 @@ import sgtmelon.scriptum.office.intf.InputIntf;
 public final class InputControl implements InputIntf {
 
     // TODO: 17.12.2018 хранить последние 200 изменений
+    // TODO: 27.01.2019 долгое нажатие (надо каким-то образом собирать последнюю информацию о изменённом view)
 
     private static final String TAG = InputControl.class.getSimpleName();
 
     private final List<InputItem> listInput = new ArrayList<>();
 
     private int position = -1;
-    private boolean enabled;    //Переменная для предотвращения записи каких-либо изменений
+    private boolean enabled;                // Переменная для предотвращения записи каких-либо изменений
+    private boolean changeEnabled = true;   // Переменная для дополнительного контроля (разрешения/запрета) изменения переменной enabled
 
     public void clear() {
         listInput.clear();
@@ -76,7 +78,7 @@ public final class InputControl implements InputIntf {
                 : null;
     }
 
-    private void add(InputItem inputItem) {
+    private void add(@NonNull InputItem inputItem) {
         if (enabled) {
             remove();
             listInput.add(inputItem);
@@ -107,8 +109,12 @@ public final class InputControl implements InputIntf {
     }
 
     @Override
-    public boolean getEnabled() {
-        return enabled;
+    public boolean isChangeEnabled() {
+        return changeEnabled;
+    }
+
+    public void setChangeEnabled(boolean changeEnabled) {
+        this.changeEnabled = changeEnabled;
     }
 
     @Override

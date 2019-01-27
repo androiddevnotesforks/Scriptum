@@ -230,7 +230,6 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final NoteSt noteSt = viewModel.getNoteSt();
         onMenuEditClick(noteSt.isEdit());
-        inputControl.setEnabled(true);
         noteSt.setFirst(false);
     }
 
@@ -444,7 +443,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         noteCallback.getViewModel().setNoteRepo(noteRepo);
 
-        assert rollItem.getId() != null: "Roll from database with @NonNull id";
+        assert rollItem.getId() != null : "Roll from database with @NonNull id";
 
         db = RoomDb.provideDb(context);
         db.daoRoll().update(rollItem.getId(), rollItem.isCheck());
@@ -563,6 +562,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             final NoteItem noteItem = noteRepo.getNoteItem();
             final List<RollItem> listRoll = noteRepo.getListRoll();
 
+            RollItem rollItem;
+
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
@@ -579,14 +580,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     menuControl.startTint(color);
                     break;
                 case InputDef.name:
-                    assert cursorItem != null: "Cursor @NonNull for this tag";
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     nameEnter.requestFocus();
                     nameEnter.setText(inputItem.getValueFrom());
                     nameEnter.setSelection(cursorItem.getValueFrom());
                     break;
                 case InputDef.roll:
-                    assert cursorItem != null: "Cursor @NonNull for this tag";
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     final int position = inputItem.getPosition();
                     listRoll.get(position).setText(inputItem.getValueFrom());
@@ -602,16 +603,18 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     adapter.notifyItemRemoved(inputItem.getPosition());
                     break;
                 case InputDef.rollRemove:
-                    listRoll.add(inputItem.getPosition(), new RollItem(inputItem.getValueFrom()));
+                    rollItem = new RollItem(inputItem.getValueFrom());
+                    listRoll.add(inputItem.getPosition(), rollItem);
 
                     adapter.setList(listRoll);
+                    adapter.setCursorPosition(rollItem.getText().length());
                     adapter.notifyItemInserted(inputItem.getPosition());
                     break;
                 case InputDef.rollMove:
                     final int positionStart = Integer.parseInt(inputItem.getValueTo());
                     final int positionEnd = Integer.parseInt(inputItem.getValueFrom());
 
-                    final RollItem rollItem = listRoll.get(positionStart);
+                    rollItem = listRoll.get(positionStart);
                     listRoll.remove(positionStart);
                     listRoll.add(positionEnd, rollItem);
 
@@ -643,6 +646,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             final NoteItem noteItem = noteRepo.getNoteItem();
             final List<RollItem> listRoll = noteRepo.getListRoll();
 
+            RollItem rollItem;
+
             switch (inputItem.getTag()) {
                 case InputDef.rank:
                     final StringConv stringConv = new StringConv();
@@ -659,14 +664,14 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     menuControl.startTint(colorTo);
                     break;
                 case InputDef.name:
-                    assert cursorItem != null: "Cursor @NonNull for this tag";
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     nameEnter.requestFocus();
                     nameEnter.setText(inputItem.getValueTo());
                     nameEnter.setSelection(cursorItem.getValueTo());
                     break;
                 case InputDef.roll:
-                    assert cursorItem != null: "Cursor @NonNull for this tag";
+                    assert cursorItem != null : "Cursor @NonNull for this tag";
 
                     final int position = inputItem.getPosition();
                     listRoll.get(position).setText(inputItem.getValueTo());
@@ -676,9 +681,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     adapter.notifyItemChanged(position);
                     break;
                 case InputDef.rollAdd:
-                    listRoll.add(inputItem.getPosition(), new RollItem(inputItem.getValueTo()));
+                    rollItem = new RollItem(inputItem.getValueTo());
+                    listRoll.add(inputItem.getPosition(), rollItem);
 
                     adapter.setList(listRoll);
+                    adapter.setCursorPosition(rollItem.getText().length());
                     adapter.notifyItemInserted(inputItem.getPosition());
                     break;
                 case InputDef.rollRemove:
@@ -691,7 +698,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
                     final int positionStart = Integer.parseInt(inputItem.getValueFrom());
                     final int positionEnd = Integer.parseInt(inputItem.getValueTo());
 
-                    final RollItem rollItem = listRoll.get(positionStart);
+                    rollItem = listRoll.get(positionStart);
                     listRoll.remove(positionStart);
                     listRoll.add(positionEnd, rollItem);
 
@@ -712,6 +719,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     public void onMenuEditClick(boolean editMode) {
         Log.i(TAG, "onMenuEditClick: " + editMode);
 
+        inputControl.setEnabled(false);
+        inputControl.setChangeEnabled(false);
+
         final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
         noteSt.setEdit(editMode);
 
@@ -727,6 +737,9 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         adapter.notifyDataSetChanged();
 
         noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
+
+        inputControl.setEnabled(true);
+        inputControl.setChangeEnabled(true);
     }
 
     @Override

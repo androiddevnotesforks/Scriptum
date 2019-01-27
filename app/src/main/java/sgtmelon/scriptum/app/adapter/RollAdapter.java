@@ -215,7 +215,7 @@ public final class RollAdapter extends ParentAdapter<RollItem, RollAdapter.RollH
                 rollWatcher.afterRollChanged(p, rollEnter.getText().toString());
             }
 
-            if (!inputIntf.getEnabled()) {
+            if (inputIntf.isChangeEnabled()) {
                 inputIntf.setEnabled(true);
             }
         }

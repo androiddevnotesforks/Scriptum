@@ -39,9 +39,10 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
 
     // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
     // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
-    // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка
+    // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
     // TODO: 19.01.2019 Добавить перескакивание курсора при старте редактирования в нужное место
     // TODO: 20.01.2019 Разобраться со стилями
+    // TODO: 27.01.2019 Добавить ещё одну тему
 
     private static final String TAG = MainActivity.class.getSimpleName();
 

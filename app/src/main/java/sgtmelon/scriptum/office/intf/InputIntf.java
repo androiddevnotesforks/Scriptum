@@ -13,7 +13,7 @@ public interface InputIntf {
 
     void setEnabled(boolean enabled);
 
-    boolean getEnabled();
+    boolean isChangeEnabled();
 
     void onRankChange(@NonNull List<Long> valueFrom, @NonNull List<Long> valueTo);
 
