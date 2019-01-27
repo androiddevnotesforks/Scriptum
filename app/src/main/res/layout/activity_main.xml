@@ -28,7 +28,35 @@
         <FrameLayout
                 android:id="@+id/reveal_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:id="@+id/reveal_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="invisible"
+                    tools:visibility="visible">
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Click 1"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Click 2"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Click 3"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_fab"

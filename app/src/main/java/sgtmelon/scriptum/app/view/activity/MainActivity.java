@@ -83,19 +83,21 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
             page = pageSt.getPage();
         }
 
-        final View view = findViewById(R.id.reveal_container);
-        view.setOnClickListener((v) -> {
+        final View revealContainer = findViewById(R.id.reveal_container);
+        final View revealContent = findViewById(R.id.reveal_content);
+
+        revealContainer.setOnClickListener((v) -> {
             if (Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) return;
 
-            final int cx = (view.getLeft() + view.getRight()) / 2;
-            final int cy = (view.getTop() + view.getBottom()) / 2;
+            final int cx = (revealContainer.getLeft() + revealContainer.getRight()) / 2;
+            final int cy = (revealContainer.getTop() + revealContainer.getBottom()) / 2;
 
-            final float maxRadius = (float) Math.hypot(view.getWidth(), view.getHeight());
+            final float maxRadius = (float) Math.hypot(revealContainer.getWidth(), revealContainer.getHeight());
             final float minRadius = 0;
 
             final Animator animator;
 
-            animator = ViewAnimationUtils.createCircularReveal(view, cx, cy,
+            animator = ViewAnimationUtils.createCircularReveal(revealContainer, cx, cy,
                     revealShow ? maxRadius : minRadius,
                     revealShow ? minRadius : maxRadius
             );
@@ -106,14 +108,16 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                 @Override
                 public void onAnimationStart(Animator animation) {
                     if (!revealShow) {
-                        view.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.accent_dark));
+                        revealContainer.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.accent_dark));
+                        revealContent.setVisibility(View.VISIBLE);
                     }
                 }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     if (revealShow) {
-                        view.setBackgroundColor(Color.TRANSPARENT);
+                        revealContainer.setBackgroundColor(Color.TRANSPARENT);
+                        revealContent.setVisibility(View.GONE);
                     }
 
                     revealShow = !revealShow;
