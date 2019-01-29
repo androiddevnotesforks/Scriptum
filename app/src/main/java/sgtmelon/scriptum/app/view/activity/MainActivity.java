@@ -32,17 +32,21 @@ import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.st.PageSt;
 
-// TODO: 22.11.2018 аннотация профессор
+
 
 public final class MainActivity extends BaseActivityParent implements MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
+    // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
+    
+    
     // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
     // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
     // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
     // TODO: 19.01.2019 Добавить перескакивание курсора при старте редактирования в нужное место
     // TODO: 20.01.2019 Разобраться со стилями
     // TODO: 27.01.2019 Добавить ещё одну тему
+    // TODO: 22.11.2018 аннотация профессор
 
     private static final String TAG = MainActivity.class.getSimpleName();
 

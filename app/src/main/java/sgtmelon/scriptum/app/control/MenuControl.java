@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import sgtmelon.iconanim.office.intf.AnimIntf;
 import sgtmelon.scriptum.R;
@@ -38,7 +39,7 @@ public class MenuControl implements AnimIntf {
     private int statusColorFrom, statusColorTo;
     private int toolbarColorFrom, toolbarColorTo;
 
-    public MenuControl(Context context) {
+    public MenuControl(@NonNull Context context) {
         this.context = context;
 
         valTheme = PrefUtils.getInstance(context).getTheme();
