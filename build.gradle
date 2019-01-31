@@ -4,12 +4,14 @@ buildscript {
 
     ext.kotlin_version = '1.2.71'
     ext.dagger_version = '2.13'
+    ext.espresso_version = '3.1.1'
 
     repositories {
         google()
         maven { url 'https://maven.google.com' }
         jcenter()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.3.0-alpha08'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+repositories {
+    mavenCentral()
+}
+
 android {
     compileSdkVersion 28
 
@@ -72,14 +76,14 @@ dependencies {
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
     implementation 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
 
+    testImplementation 'junit:junit:4.12'
+
     debugImplementation 'androidx.test:runner:1.1.1'
     debugImplementation 'androidx.test:rules:1.1.1'
     debugImplementation 'androidx.test.ext:junit:1.1.0'
-    debugImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    debugImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    debugImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
 
     implementation 'com.romandanylyk:pageindicatorview:1.0.1'
-}
-
-repositories {
-    mavenCentral()
 }
