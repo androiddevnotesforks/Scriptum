@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.app.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
@@ -15,6 +17,15 @@ public final class SplashActivity extends AppCompatActivity {
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
+    @NonNull
+    public static Intent getInstance(@NonNull Context context, long noteId) {
+        final Intent intent = new Intent(context, SplashActivity.class);
+        intent.putExtra(IntentDef.STATUS_OPEN, true);
+        intent.putExtra(IntentDef.NOTE_ID, noteId);
+
+        return intent;
     }
 
     @Override
@@ -40,10 +51,11 @@ public final class SplashActivity extends AppCompatActivity {
     private void startNormal() {
         Log.i(TAG, "startNormal");
 
-        final boolean firstStart = PrefUtils.getInstance(this).getFirstStart();
+        final PrefUtils prefUtils = PrefUtils.getInstance(this);
 
+        final boolean firstStart = prefUtils.getFirstStart();
         if (firstStart) {
-            PrefUtils.getInstance(this).setFirstStart(false);
+            prefUtils.setFirstStart(false);
         }
 
         final Intent intent = new Intent(this, firstStart

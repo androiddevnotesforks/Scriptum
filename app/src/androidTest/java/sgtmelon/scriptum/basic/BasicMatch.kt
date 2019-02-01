@@ -10,8 +10,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
-import org.hamcrest.Matchers
-import sgtmelon.scriptum.R
 
 open class BasicMatch {
 
@@ -24,8 +22,8 @@ open class BasicMatch {
     protected fun onDisplayText(@StringRes stringId: Int): ViewInteraction =
             onView(withText(stringId)).check(ViewAssertions.matches(isDisplayed()))
 
-    protected fun isChecked(@IdRes viewId: Int): ViewInteraction =
-            onView(withId(viewId)).check(ViewAssertions.matches(isChecked()))
+    protected fun isSelected(@IdRes viewId: Int): ViewInteraction =
+            onView(withId(viewId)).check(ViewAssertions.matches(isSelected()))
 
     protected fun onDisplay(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
             onView(allOf<View>(withId(viewId), withText(stringId))).check(matches(isDisplayed()))

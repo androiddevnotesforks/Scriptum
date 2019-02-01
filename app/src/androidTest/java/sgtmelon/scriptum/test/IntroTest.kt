@@ -19,7 +19,7 @@ import sgtmelon.scriptum.ui.screen.intro.IntroScreen
 class IntroTest : ParentTest() {
 
     @get:Rule
-    var testRule = ActivityTestRule(IntroActivity::class.java)
+    val testRule = ActivityTestRule(IntroActivity::class.java)
 
     override fun setUp() {
         super.setUp()
@@ -36,33 +36,27 @@ class IntroTest : ParentTest() {
     @Test
     fun test0_screenWork() {
         IntroScreen {
-            Thread.sleep(1000)
-
-            for (i in 0 until IntroAnn.count) {
+            for (i in 0 until IntroAnn.count - 1) {
                 assert {
                     onDisplayTitle(IntroAnn.title[i])
                     onDisplayDetails(IntroAnn.details[i])
                 }
 
-                onSwipeNext()
-                Thread.sleep(1000)
                 assert { isEnableEndButton(i) }
+                onSwipeNext()
             }
 
-            for (i in IntroAnn.count - 2 downTo 0) {
+            for (i in IntroAnn.count - 1 downTo 0) {
+                assert { isEnableEndButton(i) }
                 onSwipePrevious()
-                Thread.sleep(1000)
-                assert { isEnableEndButton(i) }
             }
 
-            for (i in 0 until IntroAnn.count) {
-                onSwipeNext()
-                Thread.sleep(1000)
+            for (i in 0 until IntroAnn.count - 1) {
                 assert { isEnableEndButton(i) }
+                onSwipeNext()
             }
 
             assert { onDisplayEndButton() }
-
             onClickEndButton()
         }
     }

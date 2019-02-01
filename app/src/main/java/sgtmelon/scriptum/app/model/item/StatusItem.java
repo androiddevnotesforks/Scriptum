@@ -5,7 +5,6 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 
 import java.util.List;
@@ -16,7 +15,6 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
-import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.utils.ColorUtils;
 
@@ -38,12 +36,7 @@ public final class StatusItem {
         this.context = context;
 
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-
-        final Intent intent = new Intent(context, SplashActivity.class);
-        intent.putExtra(IntentDef.STATUS_OPEN, true);
-        intent.putExtra(IntentDef.NOTE_ID, noteItem.getId());
-
-        stackBuilder.addNextIntent(intent);
+        stackBuilder.addNextIntent(SplashActivity.getInstance(context, noteItem.getId()));
 
         pendingIntent = stackBuilder.getPendingIntent((int) noteItem.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 

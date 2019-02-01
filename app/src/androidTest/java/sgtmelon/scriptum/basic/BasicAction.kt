@@ -10,7 +10,6 @@ import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import sgtmelon.scriptum.R
 
 class BasicAction {
 
@@ -30,10 +29,10 @@ class BasicAction {
     fun onScroll(@IdRes recyclerId: Int, position: Int): ViewInteraction =
             onView(withId(recyclerId)).perform(scrollToPosition<RecyclerView.ViewHolder>(position))
 
-    fun onSwipeLeft(@IdRes viewId: Int):
-            ViewInteraction = onView(withId(viewId)).perform(swipeLeft())
+    fun onSwipeLeft(@IdRes viewId: Int): ViewInteraction =
+            onView(withId(viewId)).perform(swipeLeft())
 
-    fun onSwipeRight(@IdRes viewId: Int):
-            ViewInteraction = onView(withId(viewId)).perform(swipeRight())
+    fun onSwipeRight(@IdRes viewId: Int): ViewInteraction =
+            onView(withId(viewId)).perform(swipeRight())
 
 }

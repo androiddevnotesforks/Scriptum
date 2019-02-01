@@ -11,8 +11,8 @@ class IntroAssert : BasicMatch() {
 
     fun onDisplayDetails(@StringRes details: Int) = onDisplay(R.id.info_details_text, details)
 
-    fun isEnableEndButton(screen: Int) =
-            isEnable(R.id.end_button, screen >= IntroAnn.count - 2)
+    fun isEnableEndButton(position: Int) =
+            isEnable(R.id.end_button, position == IntroAnn.count - 1)
 
     fun onDisplayEndButton() = onDisplay(R.id.end_button, R.string.info_intro_button)
 

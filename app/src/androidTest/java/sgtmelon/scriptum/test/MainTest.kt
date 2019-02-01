@@ -1,49 +1,41 @@
 package sgtmelon.scriptum.test
 
 import android.view.View
-import org.junit.Rule
-import org.junit.Test
-
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.filters.LargeTest
-import androidx.test.rule.ActivityTestRule
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.view.activity.SplashActivity
-
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.isSelected
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.filters.LargeTest
+import androidx.test.rule.ActivityTestRule
 import org.hamcrest.Matchers.allOf
+import org.junit.Rule
+import org.junit.Test
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.view.activity.SplashActivity
+import sgtmelon.scriptum.ui.screen.main.MainScreen
+import sgtmelon.scriptum.ui.screen.main.Page
 
 @LargeTest
 class MainTest : ParentTest() {
 
-    private val firstStart = true    //Показывать обучение или нет
-
-    @Rule
-    var activityTestRule = ActivityTestRule(SplashActivity::class.java)
-
-    override fun setUp() {
-        super.setUp()
-
-        prefUtils.firstStart = firstStart
-    }
+    @get:Rule
+    val testRule = ActivityTestRule(SplashActivity::class.java)
 
     @Test
-    @Throws(InterruptedException::class)
-    fun testApp() {
-        Thread.sleep(1000)
+    fun test0_emptyContent() {
+        MainScreen {
+            assert { isSelected(Page.NOTES) }
 
-        if (firstStart) {
-            val introTest = IntroTest()
-            introTest.test0_screenWork()
+            onNavigate(Page.RANK)
+            assert { isSelected(Page.RANK) }
+
+            onNavigate(Page.NOTES)
+            assert { isSelected(Page.NOTES) }
+
+            onNavigate(Page.BIN)
+            assert { isSelected(Page.BIN) }
         }
-
-        testEmptyContent()
     }
 
     /**
