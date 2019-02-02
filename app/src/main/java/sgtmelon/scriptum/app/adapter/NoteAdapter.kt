@@ -13,11 +13,14 @@ import sgtmelon.scriptum.app.view.fragment.NotesFragment
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.intf.ItemIntf
 
 /**
  * Адаптер списка заметок для [NotesFragment], [BinFragment]
  */
-class NoteAdapter(context: Context) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context) {
+class NoteAdapter(context: Context, clickListener: ItemIntf.ClickListener,
+                  private val longClickListener: ItemIntf.LongClickListener
+) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context, clickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TypeNoteDef.text) {
@@ -25,13 +28,13 @@ class NoteAdapter(context: Context) : ParentAdapter<NoteRepo, RecyclerView.ViewH
                     inflater, R.layout.item_note_text, parent, false
             )
 
-            NoteTextHolder(bindingText)
+            NoteTextHolder(bindingText, clickListener, longClickListener)
         } else {
             val bindingRoll = DataBindingUtil.inflate<ItemNoteRollBinding>(
                     inflater, R.layout.item_note_roll, parent, false
             )
 
-            NoteRollHolder(bindingRoll)
+            NoteRollHolder(bindingRoll, clickListener, longClickListener)
         }
     }
 
@@ -40,18 +43,8 @@ class NoteAdapter(context: Context) : ParentAdapter<NoteRepo, RecyclerView.ViewH
 
         if (holder is NoteTextHolder) {
             holder.bind(noteRepo.noteItem)
-
-            holder.clickView.setOnClickListener { v -> clickListener.onItemClick(v, position) }
-            holder.clickView.setOnLongClickListener { v ->
-                longClickListener.onItemLongClick(v, position)
-            }
         } else if (holder is NoteRollHolder) {
             holder.bind(noteRepo.noteItem, noteRepo.listRoll)
-
-            holder.clickView.setOnClickListener { v -> clickListener.onItemClick(v, position) }
-            holder.clickView.setOnLongClickListener { v ->
-                longClickListener.onItemLongClick(v, position)
-            }
         }
     }
 

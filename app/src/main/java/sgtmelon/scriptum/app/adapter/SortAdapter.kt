@@ -8,12 +8,14 @@ import sgtmelon.scriptum.app.adapter.holder.SortHolder
 import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.databinding.ItemSortBinding
 import sgtmelon.scriptum.element.SortDialog
+import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.st.SortSt
 
 /**
  * Адаптер для [SortDialog]
  */
-class SortAdapter(context: Context) : ParentAdapter<SortItem, SortHolder>(context) {
+class SortAdapter(context: Context, clickListener: ItemIntf.ClickListener)
+    : ParentAdapter<SortItem, SortHolder>(context, clickListener) {
 
     val sortSt = SortSt()
 
@@ -27,20 +29,11 @@ class SortAdapter(context: Context) : ParentAdapter<SortItem, SortHolder>(contex
                 inflater, R.layout.item_sort, parent, false
         )
 
-        return SortHolder(binding)
+        return SortHolder(binding, clickListener)
     }
 
     override fun onBindViewHolder(holder: SortHolder, position: Int) {
-        val item = list[position]
-        val sortEnd = sortSt.end
-
-        holder.bind(item, position, sortEnd)
-
-        holder.clickView.setOnClickListener { v ->
-            if (position == sortEnd) {
-                clickListener.onItemClick(v, position)
-            }
-        }
+        holder.bind(list[position], position, sortSt.end)
     }
 
 }

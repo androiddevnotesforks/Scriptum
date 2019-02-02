@@ -13,18 +13,12 @@ import java.util.*
  * @param <E>  - модель списка
  * @param <VH> - холдер для модели
  */
-abstract class ParentAdapter<E, VH : RecyclerView.ViewHolder> protected constructor(protected val context: Context) : RecyclerView.Adapter<VH>() {
+abstract class ParentAdapter<E, VH : RecyclerView.ViewHolder> protected constructor(
+        protected val context: Context, protected val clickListener: ItemIntf.ClickListener
+) : RecyclerView.Adapter<VH>() {
 
     protected val inflater: LayoutInflater = LayoutInflater.from(context)
-
     protected val list: MutableList<E> = ArrayList()
-
-    // TODO 02.02.19: Сделать Builder
-
-    lateinit var clickListener: ItemIntf.ClickListener
-    lateinit var longClickListener: ItemIntf.LongClickListener
-    lateinit var dragListener: ItemIntf.DragListener
-    lateinit var rollWatcher: ItemIntf.RollWatcher
 
     @CallSuper
     open fun setList(list: List<E>) {
@@ -33,7 +27,7 @@ abstract class ParentAdapter<E, VH : RecyclerView.ViewHolder> protected construc
     }
 
     @CallSuper
-    fun setListItem(position: Int, item: E) {
+    open fun setListItem(position: Int, item: E) {
         list[position] = item
     }
 

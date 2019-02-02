@@ -17,17 +17,32 @@ import sgtmelon.scriptum.office.intf.ItemIntf
  */
 @SuppressLint("ClickableViewAccessibility")
 class RankHolder(private val binding: ItemRankBinding,
+                 private val clickListener: ItemIntf.ClickListener,
+                 private val longClickListener: ItemIntf.LongClickListener,
                  private val dragListener: ItemIntf.DragListener) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 
-    val clickView: View = itemView.findViewById(R.id.click_container)
+    private val clickView: View = itemView.findViewById(R.id.click_container)
+    private val cancelButton: ImageButton = itemView.findViewById(R.id.cancel_button)
+
     val visibleButton: SwitchButton = itemView.findViewById(R.id.visible_button)
-    val cancelButton: ImageButton = itemView.findViewById(R.id.cancel_button)
 
     init {
+        clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }
+        cancelButton.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }
+
+        visibleButton.setOnClickListener { v ->
+            visibleButton.setDrawable(!binding.rankItem?.isVisible!!, true)
+            clickListener.onItemClick(v, adapterPosition)
+        }
+
+        visibleButton.setOnLongClickListener { v ->
+            longClickListener.onItemLongClick(v, adapterPosition)
+        }
+
         clickView.setOnTouchListener(this)
-        visibleButton.setOnTouchListener(this)
         cancelButton.setOnTouchListener(this)
+        visibleButton.setOnTouchListener(this)
     }
 
     fun bind(rankItem: RankItem) {

@@ -8,11 +8,15 @@ import sgtmelon.scriptum.app.adapter.holder.RankHolder
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.view.fragment.RankFragment
 import sgtmelon.scriptum.databinding.ItemRankBinding
+import sgtmelon.scriptum.office.intf.ItemIntf
 
 /**
  * Адаптер для [RankFragment]
  */
-class RankAdapter(context: Context) : ParentAdapter<RankItem, RankHolder>(context) {
+class RankAdapter(context: Context, clickListener: ItemIntf.ClickListener,
+                  private val longClickListener: ItemIntf.LongClickListener,
+                  private val dragListener: ItemIntf.DragListener
+) : ParentAdapter<RankItem, RankHolder>(context, clickListener) {
 
     var startAnim: BooleanArray? = null
 
@@ -25,7 +29,7 @@ class RankAdapter(context: Context) : ParentAdapter<RankItem, RankHolder>(contex
         val binding = DataBindingUtil.inflate<ItemRankBinding>(
                 inflater, R.layout.item_rank, parent, false
         )
-        return RankHolder(binding, dragListener)
+        return RankHolder(binding, clickListener, longClickListener, dragListener)
     }
 
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
@@ -33,18 +37,7 @@ class RankAdapter(context: Context) : ParentAdapter<RankItem, RankHolder>(contex
 
         holder.bind(item)
 
-        holder.clickView.setOnClickListener { v -> clickListener.onItemClick(v, position) }
-
         holder.visibleButton.setDrawable(item.isVisible, startAnim!![position])
-        holder.visibleButton.setOnClickListener { v ->
-            holder.visibleButton.setDrawable(!item.isVisible, true)
-            clickListener.onItemClick(v, position)
-        }
-        holder.visibleButton.setOnLongClickListener { v ->
-            longClickListener.onItemLongClick(v, position)
-        }
-
-        holder.cancelButton.setOnClickListener { v -> clickListener.onItemClick(v, position) }
 
         if (startAnim!![position]) {
             startAnim!![position] = false

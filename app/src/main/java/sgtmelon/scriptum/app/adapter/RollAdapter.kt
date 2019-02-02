@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.adapter
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.annotation.IntRange
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
@@ -15,40 +14,23 @@ import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.office.annot.def.TypeRollDef
 import sgtmelon.scriptum.office.intf.BindIntf
 import sgtmelon.scriptum.office.intf.InputIntf
-import sgtmelon.scriptum.office.intf.RollTextWatcher
+import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.st.NoteSt
 
 /**
  * Адаптер для [RollFragment]
  */
-class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
+class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
+                  private val dragListener: ItemIntf.DragListener,
+                  private val rollWatcher: ItemIntf.RollWatcher,
+                  private val inputIntf: InputIntf,
+                  private val bindIntf: BindIntf
+) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context, clickListener) {
 
-    private lateinit var noteSt: NoteSt
-    private lateinit var inputIntf: InputIntf
-    private lateinit var bindIntf: BindIntf
+    lateinit var noteSt: NoteSt
 
-    private var checkToggle: Boolean = false
-    private var cursorPosition = -1
-
-    fun setNoteSt(noteSt: NoteSt) {
-        this.noteSt = noteSt
-    }
-
-    fun setInputIntf(inputIntf: InputIntf) {
-        this.inputIntf = inputIntf
-    }
-
-    fun setBindIntf(bindIntf: BindIntf) {
-        this.bindIntf = bindIntf
-    }
-
-    fun setCheckToggle(checkToggle: Boolean) {
-        this.checkToggle = checkToggle
-    }
-
-    fun setCursorPosition(@IntRange(from = -1) cursorPosition: Int) {
-        this.cursorPosition = cursorPosition
-    }
+    var checkToggle: Boolean = false
+    var cursorPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == TypeRollDef.read) {
@@ -56,13 +38,13 @@ class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewH
                     inflater, R.layout.item_roll_read, parent, false
             )
 
-            RollReadHolder(bindingRead)
+            RollReadHolder(bindingRead, clickListener)
         } else {
             val bindingWrite = DataBindingUtil.inflate<ItemRollWriteBinding>(
                     inflater, R.layout.item_roll_write, parent, false
             )
 
-            RollWriteHolder(bindingWrite, dragListener)
+            RollWriteHolder(bindingWrite, dragListener, rollWatcher, inputIntf, bindIntf)
         }
     }
 
@@ -71,17 +53,8 @@ class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewH
 
         if (holder is RollReadHolder) {
             holder.bind(item, noteSt, checkToggle)
-
-            holder.clickView.setOnClickListener { v ->
-                holder.rollCheck.isChecked = !item.isCheck
-                clickListener.onItemClick(v, position)
-            }
         } else if (holder is RollWriteHolder) {
             holder.bind(item)
-
-            holder.rollEnter.addTextChangedListener(RollTextWatcher(
-                    holder.rollEnter, position, item, inputIntf, bindIntf, rollWatcher
-            ))
 
             if (cursorPosition != -1) {
                 holder.setSelections(cursorPosition)

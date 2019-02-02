@@ -107,8 +107,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        adapter = new SortAdapter(context);
-        adapter.setClickListener(this);
+        adapter = new SortAdapter(context, this);
 
         listSort.clear();
         for (String aKey : keys.split(SortDef.divider)) {
@@ -160,6 +159,8 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
 
     @Override
     public void onItemClick(@NonNull View view, int p) {
+        if (p == RecyclerView.NO_POSITION || p != adapter.getSortSt().getEnd()) return;
+
         final SortItem sortItem = listSort.get(p);
 
         final int key = sortItem.getKey() == SortDef.create

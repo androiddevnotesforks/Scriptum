@@ -150,10 +150,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        adapter = new NoteAdapter(context);
-        adapter.setClickListener(this);
-        adapter.setLongClickListener(this);
-
+        adapter = new NoteAdapter(context, this, this);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -244,6 +241,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     public void onItemClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemClick");
 
+        if (p == RecyclerView.NO_POSITION) return;
+
         final long id = vm.getListNoteRepo().get(p).getNoteItem().getId();
         final Intent intent = NoteActivity.getIntent(context, id);
 
@@ -253,6 +252,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     @Override
     public boolean onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
+
+        if (p == RecyclerView.NO_POSITION) return false;
 
         final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
 

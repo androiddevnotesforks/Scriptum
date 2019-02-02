@@ -1,6 +1,9 @@
 package sgtmelon.scriptum.app.adapter.holder
 
 import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
@@ -8,8 +11,11 @@ import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RollAdapter
+import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
+import sgtmelon.scriptum.office.intf.BindIntf
+import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.intf.ItemIntf
 
 /**
@@ -17,15 +23,21 @@ import sgtmelon.scriptum.office.intf.ItemIntf
  */
 @SuppressLint("ClickableViewAccessibility")
 class RollWriteHolder(private val binding: ItemRollWriteBinding,
-                      private val dragListener: ItemIntf.DragListener) : RecyclerView.ViewHolder(binding.root), View.OnTouchListener {
+                      private val dragListener: ItemIntf.DragListener,
+                      private val rollWatcher: ItemIntf.RollWatcher,
+                      private val inputIntf: InputIntf,
+                      private val bindIntf: BindIntf
+) : RecyclerView.ViewHolder(binding.root), View.OnTouchListener, TextWatcher {
 
     /**
      * Кнопка для перетаскивания
      */
-    val clickView: View = itemView.findViewById(R.id.click_button)
-    val rollEnter: EditText = itemView.findViewById(R.id.roll_enter)
+    private val clickView: View = itemView.findViewById(R.id.click_button)
+    private val rollEnter: EditText = itemView.findViewById(R.id.roll_enter)
 
     init {
+        rollEnter.addTextChangedListener(this)
+
         rollEnter.setOnTouchListener(this)
         clickView.setOnTouchListener(this)
     }
@@ -45,6 +57,49 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
             dragListener.setDrag(v.id == R.id.click_button)
         }
         return false
+    }
+
+    private var textFrom = ""
+    private var cursorFrom = 0
+
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+        textFrom = s.toString()
+        cursorFrom = rollEnter.selectionEnd
+    }
+
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        if (adapterPosition == RecyclerView.NO_POSITION) return
+
+        val textTo = s.toString()
+        val cursorTo = rollEnter.selectionEnd
+
+        if (textFrom == textTo) return
+
+        if (!TextUtils.isEmpty(textTo)) {
+            if (!TextUtils.isEmpty(textFrom)) {
+                val cursorItem = CursorItem(cursorFrom, cursorTo)
+                inputIntf.onRollChange(adapterPosition, textFrom, textTo, cursorItem)
+
+                textFrom = textTo
+                cursorFrom = cursorTo
+            }
+        } else {
+            inputIntf.onRollRemove(adapterPosition, binding.rollItem.toString())
+        }
+
+        bindIntf.bindInput()
+    }
+
+    override fun afterTextChanged(s: Editable) {
+        if (adapterPosition == RecyclerView.NO_POSITION) return
+
+        if (!TextUtils.isEmpty(textFrom)) {
+            rollWatcher.afterRollChanged(adapterPosition, rollEnter.text.toString())
+        }
+
+        if (inputIntf.isChangeEnabled) {
+            inputIntf.setEnabled(true)
+        }
     }
 
 }

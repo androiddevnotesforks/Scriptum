@@ -263,7 +263,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private void setupRecycler() {
         Log.i(TAG, "setupRecycler");
 
-        final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
+        final DefaultItemAnimator itemAnimator = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
                 bind(vm.getRankRepo().size());
@@ -271,17 +271,12 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         };
 
         recyclerView = frgView.findViewById(R.id.rank_recycler);
-        recyclerView.setItemAnimator(recyclerViewEndAnim);
+        recyclerView.setItemAnimator(itemAnimator);
 
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RankAdapter(context);
-
-        adapter.setClickListener(this);
-        adapter.setLongClickListener(this);
-        adapter.setDragListener(dragSt);
-
+        adapter = new RankAdapter(context, this, this, dragSt);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);
@@ -401,6 +396,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     public void onItemClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemClick");
 
+        if (p == RecyclerView.NO_POSITION) return;
+
         final RankRepo rankRepo = vm.getRankRepo();
         final RankItem rankItem = rankRepo.getListRank().get(p);
 
@@ -443,6 +440,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     @Override
     public boolean onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
+
+        if (p == RecyclerView.NO_POSITION) return false;
 
         final List<RankItem> listRank = vm.getRankRepo().getListRank();
 

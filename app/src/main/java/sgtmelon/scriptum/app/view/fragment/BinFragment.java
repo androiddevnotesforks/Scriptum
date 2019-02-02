@@ -182,10 +182,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        adapter = new NoteAdapter(context);
-        adapter.setClickListener(this);
-        adapter.setLongClickListener(this);
-
+        adapter = new NoteAdapter(context, this, this);
         recyclerView.setAdapter(adapter);
 
         optionsDialog.setOnClickListener((dialogInterface, i) -> {
@@ -228,6 +225,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onItemClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemClick");
 
+        if (p == RecyclerView.NO_POSITION) return;
+
         final long id = vm.getListNoteRepo().get(p).getNoteItem().getId();
         final Intent intent = NoteActivity.getIntent(context, id);
 
@@ -237,6 +236,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     @Override
     public boolean onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
+
+        if (p == RecyclerView.NO_POSITION) return false;
 
         final String[] items = context.getResources().getStringArray(R.array.dialog_menu_bin);
 

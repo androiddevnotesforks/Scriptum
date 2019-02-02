@@ -310,14 +310,11 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RollAdapter(context);
-        adapter.setNoteSt(noteCallback.getViewModel().getNoteSt());
-        adapter.setInputIntf(inputControl);
-        adapter.setBindIntf(this);
+        adapter = new RollAdapter(
+                context, this, dragSt, this, inputControl, this
+        );
 
-        adapter.setClickListener(this);
-        adapter.setDragListener(dragSt);
-        adapter.setRollWatcher(this);
+        adapter.setNoteSt(noteCallback.getViewModel().getNoteSt());
 
         recyclerView.setAdapter(adapter);
 
@@ -422,6 +419,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     @Override
     public void onItemClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemClick");
+
+        if (p == RecyclerView.NO_POSITION) return;
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final List<RollItem> listRoll = noteRepo.getListRoll();
