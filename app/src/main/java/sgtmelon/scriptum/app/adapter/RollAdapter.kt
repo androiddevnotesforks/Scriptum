@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.ViewGroup
 import androidx.annotation.IntRange
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.adapter.holder.RollHolder
+import sgtmelon.scriptum.app.adapter.holder.RollReadHolder
+import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.view.fragment.RollFragment
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
@@ -19,7 +21,7 @@ import sgtmelon.scriptum.office.st.NoteSt
 /**
  * Адаптер для [RollFragment]
  */
-class RollAdapter(context: Context) : ParentAdapter<RollItem, RollHolder>(context) {
+class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
 
     private lateinit var noteSt: NoteSt
     private lateinit var inputIntf: InputIntf
@@ -48,61 +50,49 @@ class RollAdapter(context: Context) : ParentAdapter<RollItem, RollHolder>(contex
         this.cursorPosition = cursorPosition
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RollHolder {
-        when (viewType) {
-            TypeRollDef.write -> {
-                val bindingWrite = DataBindingUtil.inflate<ItemRollWriteBinding>(
-                        inflater, R.layout.item_roll_write, parent, false
-                )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return if (viewType == TypeRollDef.read) {
+            val bindingRead = DataBindingUtil.inflate<ItemRollReadBinding>(
+                    inflater, R.layout.item_roll_read, parent, false
+            )
 
-                val rollHolder = RollHolder(bindingWrite)
-                rollHolder.dragListener = dragListener
+            RollReadHolder(bindingRead)
+        } else {
+            val bindingWrite = DataBindingUtil.inflate<ItemRollWriteBinding>(
+                    inflater, R.layout.item_roll_write, parent, false
+            )
 
-                return rollHolder
-            }
-            else -> {
-                val bindingRead = DataBindingUtil.inflate<ItemRollReadBinding>(
-                        inflater, R.layout.item_roll_read, parent, false
-                )
-
-                val rollHolder = RollHolder(bindingRead)
-                rollHolder.dragListener = dragListener
-
-                return rollHolder
-            }
+            RollWriteHolder(bindingWrite, dragListener)
         }
     }
 
-    override fun onBindViewHolder(holder: RollHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = list[position]
-        holder.bind(noteSt, item, checkToggle)
 
-        if (holder.rollEnter != null) {
-            val rollTextWatcher = RollTextWatcher(position, item)
-            rollTextWatcher.rollEnter = holder.rollEnter
-            rollTextWatcher.inputIntf = inputIntf
-            rollTextWatcher.bindIntf = bindIntf
-            rollTextWatcher.rollWatcher = rollWatcher
+        if (holder is RollReadHolder) {
+            holder.bind(item, noteSt, checkToggle)
 
-            holder.rollEnter.addTextChangedListener(rollTextWatcher)
-        }
-
-        holder.clickView.setOnClickListener { v ->
-            if (!noteSt.isEdit) {
-                holder.rollCheck!!.isChecked = !item.isCheck
+            holder.clickView.setOnClickListener { v ->
+                holder.rollCheck.isChecked = !item.isCheck
                 clickListener.onItemClick(v, position)
             }
-        }
+        } else if (holder is RollWriteHolder) {
+            holder.bind(item)
 
-        if (cursorPosition != -1) {
-            holder.setSelections(cursorPosition)
-            cursorPosition = -1
+            holder.rollEnter.addTextChangedListener(RollTextWatcher(
+                    holder.rollEnter, position, item, inputIntf, bindIntf, rollWatcher
+            ))
+
+            if (cursorPosition != -1) {
+                holder.setSelections(cursorPosition)
+                cursorPosition = -1
+            }
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (noteSt.isEdit) TypeRollDef.write
-        else TypeRollDef.read
+        return if (!noteSt.isEdit) TypeRollDef.read
+        else TypeRollDef.write
     }
 
 }

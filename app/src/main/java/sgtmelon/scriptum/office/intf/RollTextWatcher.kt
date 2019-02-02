@@ -8,26 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.RollItem
 
-class RollTextWatcher(private val position: Int, private val item: RollItem) : TextWatcher {
-
-    lateinit var rollEnter: EditText
-    lateinit var inputIntf: InputIntf
-    lateinit var bindIntf: BindIntf
-    lateinit var rollWatcher: ItemIntf.RollWatcher
+class RollTextWatcher(private val view: EditText, private val position: Int,
+                      private val item: RollItem, private val inputIntf: InputIntf,
+                      private val bindIntf: BindIntf,
+                      private val rollWatcher: ItemIntf.RollWatcher) : TextWatcher {
 
     private var textFrom = ""
     private var cursorFrom = 0
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
         textFrom = s.toString()
-        cursorFrom = rollEnter.selectionEnd
+        cursorFrom = view.selectionEnd
     }
 
     override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
         if (position == RecyclerView.NO_POSITION) return
 
         val textTo = s.toString()
-        val cursorTo = rollEnter.selectionEnd
+        val cursorTo = view.selectionEnd
 
         if (textFrom == textTo) return
 
@@ -50,7 +48,7 @@ class RollTextWatcher(private val position: Int, private val item: RollItem) : T
         if (position == RecyclerView.NO_POSITION) return
 
         if (!TextUtils.isEmpty(textFrom)) {
-            rollWatcher.afterRollChanged(position, rollEnter.text.toString())
+            rollWatcher.afterRollChanged(position, view.text.toString())
         }
 
         if (inputIntf.isChangeEnabled) {
