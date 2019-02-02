@@ -235,13 +235,15 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     }
 
     @Override
-    public void onItemLongClick(@NonNull View view, int p) {
+    public boolean onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
         final String[] items = context.getResources().getStringArray(R.array.dialog_menu_bin);
 
         optionsDialog.setArguments(items, p);
         optionsDialog.show(fm, DialogDef.OPTIONS);
+
+        return true;
     }
 
     @Override

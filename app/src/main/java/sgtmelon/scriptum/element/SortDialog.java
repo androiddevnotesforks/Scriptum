@@ -66,7 +66,7 @@ public final class SortDialog extends DialogBlank implements ItemIntf.ClickListe
             adapter.setList(listSort);
             adapter.notifyItemMoved(positionFrom, positionTo);
 
-            adapter.notifyItemChanged(positionFrom == adapter.sortSt.getEnd()
+            adapter.notifyItemChanged(positionFrom == adapter.getSortSt().getEnd()
                     ? positionTo
                     : positionFrom);
 

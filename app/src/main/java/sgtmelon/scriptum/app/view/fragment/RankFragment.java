@@ -441,7 +441,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onItemLongClick(@NonNull View view, int p) {
+    public boolean onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
         final List<RankItem> listRank = vm.getRankRepo().getListRank();
@@ -469,6 +469,8 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         db.daoRank().updateRank(listRank);
         db.daoNote().update(context);
         db.close();
+
+        return true;
     }
 
 }

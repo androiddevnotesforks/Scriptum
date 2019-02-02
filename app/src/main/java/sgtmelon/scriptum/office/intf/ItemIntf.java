@@ -11,7 +11,7 @@ public interface ItemIntf {
     }
 
     interface LongClickListener {
-        void onItemLongClick(@NonNull View view, int p);
+        boolean onItemLongClick(@NonNull View view, int p);
     }
 
     interface DragListener {

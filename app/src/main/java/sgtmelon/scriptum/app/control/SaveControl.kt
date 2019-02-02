@@ -14,8 +14,8 @@ import sgtmelon.scriptum.office.utils.PrefUtils
 class SaveControl(private val context: Context) {
 
     private val saveHandler = Handler()
-    private val savePause: Boolean
-    private val saveAuto: Boolean
+    private val savePause: Boolean = PrefUtils.getInstance(context).pauseSave
+    private val saveAuto: Boolean = PrefUtils.getInstance(context).autoSave
 
     private var saveTime: Int = 0
     private var noteMenuClick: MenuIntf.Note.NoteMenuClick? = null
@@ -31,9 +31,6 @@ class SaveControl(private val context: Context) {
     private var needSave = true
 
     init {
-        savePause = PrefUtils.getInstance(context).pauseSave
-        saveAuto = PrefUtils.getInstance(context).autoSave
-
         if (saveAuto) {
             val resources = context.resources
             val timeArray = resources.getIntArray(R.array.pref_save_time_value)

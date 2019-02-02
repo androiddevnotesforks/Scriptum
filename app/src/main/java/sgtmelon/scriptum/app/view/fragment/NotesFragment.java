@@ -251,7 +251,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
     }
 
     @Override
-    public void onItemLongClick(@NonNull View view, int p) {
+    public boolean onItemLongClick(@NonNull View view, int p) {
         Log.i(TAG, "onItemLongClick");
 
         final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
@@ -279,6 +279,8 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         optionsDialog.setArguments(items, p);
         optionsDialog.show(fm, DialogDef.OPTIONS);
+
+        return true;
     }
 
     @Override
