@@ -35,9 +35,7 @@ class RankAdapter(context: Context, clickListener: ItemIntf.ClickListener,
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
         val item = list[position]
 
-        holder.bind(item)
-
-        holder.visibleButton.setDrawable(item.isVisible, startAnim!![position])
+        holder.bind(item, startAnim!![position])
 
         if (startAnim!![position]) {
             startAnim!![position] = false

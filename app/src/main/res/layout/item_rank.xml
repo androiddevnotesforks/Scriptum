@@ -26,7 +26,7 @@
                 android:padding="@dimen/layout_8dp"
                 android:weightSum="1">
 
-            <sgtmelon.iconanim.library.SwitchButton
+            <sgtmelon.iconanim.widget.SwitchButton
                     android:id="@+id/visible_button"
                     style="@style/RankItem.Button"
                     android:layout_marginEnd="@dimen/layout_8dp"

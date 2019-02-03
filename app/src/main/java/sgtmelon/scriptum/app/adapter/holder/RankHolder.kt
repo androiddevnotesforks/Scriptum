@@ -5,7 +5,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.iconanim.library.SwitchButton
+import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.model.item.RankItem
@@ -24,8 +24,7 @@ class RankHolder(private val binding: ItemRankBinding,
 
     private val clickView: View = itemView.findViewById(R.id.click_container)
     private val cancelButton: ImageButton = itemView.findViewById(R.id.cancel_button)
-
-    val visibleButton: SwitchButton = itemView.findViewById(R.id.visible_button)
+    private val visibleButton: SwitchButton = itemView.findViewById(R.id.visible_button)
 
     init {
         clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }
@@ -45,7 +44,9 @@ class RankHolder(private val binding: ItemRankBinding,
         visibleButton.setOnTouchListener(this)
     }
 
-    fun bind(rankItem: RankItem) {
+    fun bind(rankItem: RankItem, startAnim: Boolean) {
+        visibleButton.setDrawable(rankItem.isVisible, startAnim)
+
         binding.rankItem = rankItem
         binding.executePendingBindings()
     }
