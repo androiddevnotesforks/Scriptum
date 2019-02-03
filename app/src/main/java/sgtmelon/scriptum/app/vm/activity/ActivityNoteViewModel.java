@@ -88,8 +88,8 @@ public final class ActivityNoteViewModel extends AndroidViewModel implements
         rankVisible = db.daoRank().getRankVisible();
 
         if (ntCreate) {
-            final String create = TimeUtils.getTime(context);
-            final int color = PrefUtils.getInstance(context).getDefaultColor();
+            final String create = TimeUtils.INSTANCE.getTime(context);
+            final int color = new PrefUtils(context).getDefaultColor();
 
             final NoteItem noteItem = new NoteItem(create, color, ntType);
             final StatusItem statusItem = new StatusItem(context, noteItem, false);
@@ -123,7 +123,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel implements
     public void onMenuRestoreClick() {
         db = RoomDb.provideDb(context);
         db.daoNote().update(
-                noteRepo.getNoteItem().getId(), TimeUtils.getTime(context), false
+                noteRepo.getNoteItem().getId(), TimeUtils.INSTANCE.getTime(context), false
         );
         db.close();
     }
@@ -133,7 +133,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel implements
         noteSt.setBin(false);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(TimeUtils.getTime(context));
+        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
         noteItem.setBin(false);
 
         db = RoomDb.provideDb(context);
@@ -155,7 +155,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel implements
         final NoteItem noteItem = noteRepo.getNoteItem();
 
         db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), TimeUtils.getTime(context), true);
+        db.daoNote().update(noteItem.getId(), TimeUtils.INSTANCE.getTime(context), true);
         if (noteItem.isStatus()) {
             db.daoNote().update(noteItem.getId(), false);
         }

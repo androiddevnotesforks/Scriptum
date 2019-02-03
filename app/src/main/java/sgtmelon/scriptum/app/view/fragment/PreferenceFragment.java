@@ -16,8 +16,8 @@ import javax.inject.Named;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
-import sgtmelon.safedialog.library.ColorDialog;
 import sgtmelon.safedialog.library.SingleDialog;
+import sgtmelon.safedialog.library.color.ColorDialog;
 import sgtmelon.scriptum.BuildConfig;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.component.DaggerPreferenceComponent;

@@ -14,10 +14,10 @@ import sgtmelon.scriptum.office.utils.PrefUtils
 class SaveControl(private val context: Context) {
 
     private val saveHandler = Handler()
-    private val savePause: Boolean = PrefUtils.getInstance(context).pauseSave
-    private val saveAuto: Boolean = PrefUtils.getInstance(context).autoSave
+    private val savePause: Boolean = PrefUtils(context).pauseSave
+    private val saveAuto: Boolean = PrefUtils(context).autoSave
 
-    private var saveTime: Int = 0
+    private val saveTime: Int
 
     private val saveRunnable = {
         onSave()
@@ -32,11 +32,10 @@ class SaveControl(private val context: Context) {
     var needSave = true
 
     init {
-        if (saveAuto) {
-            val resources = context.resources
-            val timeArray = resources.getIntArray(R.array.pref_save_time_value)
-            saveTime = timeArray[PrefUtils.getInstance(context).saveTime]
-        }
+        saveTime = if (saveAuto) {
+            val timeArray = context.resources.getIntArray(R.array.pref_save_time_value)
+            timeArray[PrefUtils(context).saveTime]
+        } else 0
     }
 
     fun setSaveHandlerEvent(isStart: Boolean) {

@@ -132,7 +132,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final Menu menu = toolbar.getMenu();
         MenuItem mItemSettings = menu.findItem(R.id.preference_item);
 
-        ColorUtils.tintMenuIcon(context, mItemSettings);
+        ColorUtils.INSTANCE.tintMenuIcon(context, mItemSettings);
     }
 
     private void setupRecycler() {
@@ -298,7 +298,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
                 ? CheckDef.notDone
                 : CheckDef.done;
 
-        noteItem.setChange(TimeUtils.getTime(context));
+        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
         noteItem.setText(check == CheckDef.notDone
                 ? 0
                 : checkText[1], checkText[1]);
@@ -343,7 +343,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final NoteRepo noteRepo = listNoteRepo.get(p);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(TimeUtils.getTime(context));
+        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
 
         db = RoomDb.provideDb(context);
         switch (noteItem.getType()) {
@@ -383,7 +383,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "onMenuCopyClick");
 
         final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
-        HelpUtils.optionsCopy(context, noteItem);
+        HelpUtils.INSTANCE.optionsCopy(context, noteItem);
     }
 
     @Override
@@ -396,7 +396,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final NoteItem noteItem = noteRepo.getNoteItem();
 
         db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), TimeUtils.getTime(context), true);
+        db.daoNote().update(noteItem.getId(), TimeUtils.INSTANCE.getTime(context), true);
         if (noteItem.isStatus()) {
             db.daoNote().update(noteItem.getId(), false);
         }

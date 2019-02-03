@@ -33,7 +33,7 @@ public final class PreferenceBlankModule {
     @NonNull
     @Provides
     PrefUtils providePrefUtils() {
-        return PrefUtils.getInstance(activity);
+        return new PrefUtils(activity);
     }
 
 }

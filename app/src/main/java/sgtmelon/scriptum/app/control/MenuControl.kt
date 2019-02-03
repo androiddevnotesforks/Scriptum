@@ -33,7 +33,7 @@ open class MenuControl(protected val context: Context,
     protected val cancelOff: Drawable = ColorUtils
             .getDrawable(context, R.drawable.ic_cancel_exit, R.attr.clContent)!!
 
-    private val valTheme: Int = PrefUtils.getInstance(context).theme
+    private val valTheme: Int = PrefUtils(context).theme
 
     private var statusColorFrom: Int = 0
     private var statusColorTo: Int = 0

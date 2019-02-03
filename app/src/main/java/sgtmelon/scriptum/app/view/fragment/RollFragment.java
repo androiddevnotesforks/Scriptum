@@ -284,7 +284,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             db = RoomDb.provideDb(context);
 
             final String text = db.daoRoll().getText(noteItem.getId());
-            noteItem.setChange(TimeUtils.getTime(context));
+            noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
             noteItem.setType(TypeNoteDef.text);
             noteItem.setText(text);
 
@@ -431,8 +431,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         adapter.setListItem(p, rollItem);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        final int check = HelpUtils.Note.getRollCheck(listRoll);
-        noteItem.setChange(TimeUtils.getTime(context));
+        final int check = HelpUtils.Note.INSTANCE.getRollCheck(listRoll);
+        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
         noteItem.setText(check, listRoll.size());
 
         if (checkSt.setAll(check, listRoll.size())) {
@@ -479,12 +479,12 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         if (listRoll.size() == 0) return false;
 
-        noteItem.setChange(TimeUtils.getTime(context));
-        noteItem.setText(HelpUtils.Note.getRollCheck(listRoll), listRoll.size());
+        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
+        noteItem.setText(HelpUtils.Note.INSTANCE.getRollCheck(listRoll), listRoll.size());
 
         //Переход в режим просмотра
         if (editModeChange) {
-            HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+            HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
             onMenuEditClick(false);
         }
 
@@ -747,7 +747,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(TimeUtils.getTime(context));
+        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
 
         final int size = noteRepo.getListRoll().size();
         int check;

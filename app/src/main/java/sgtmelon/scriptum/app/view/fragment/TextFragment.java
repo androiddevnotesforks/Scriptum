@@ -143,7 +143,7 @@ public final class TextFragment extends NoteFragmentParent {
             final String[] textToRoll = noteItem.getText().split("\n");   //Получаем пункты списка
             final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
 
-            noteItem.setChange(TimeUtils.getTime(context));
+            noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
             noteItem.setType(TypeNoteDef.roll);
             noteItem.setText(0, listRoll.size());
 
@@ -183,10 +183,10 @@ public final class TextFragment extends NoteFragmentParent {
 
         if (TextUtils.isEmpty(noteItem.getText())) return false;
 
-        noteItem.setChange(TimeUtils.getTime(context));
+        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
 
         if (editModeChange) {
-            HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+            HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
             onMenuEditClick(false);
         }
 

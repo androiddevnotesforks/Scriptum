@@ -9,13 +9,13 @@ import javax.inject.Named;
 import androidx.fragment.app.FragmentManager;
 import dagger.Module;
 import dagger.Provides;
-import sgtmelon.safedialog.library.ColorDialog;
 import sgtmelon.safedialog.library.MessageDialog;
 import sgtmelon.safedialog.library.MultiplyDialog;
 import sgtmelon.safedialog.library.OptionsDialog;
 import sgtmelon.safedialog.library.RenameDialog;
 import sgtmelon.safedialog.library.SheetDialog;
 import sgtmelon.safedialog.library.SingleDialog;
+import sgtmelon.safedialog.library.color.ColorDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.injection.ArchScope;
 import sgtmelon.scriptum.element.InfoDialog;
@@ -123,7 +123,7 @@ public final class DialogFindModule {
             colorDialog = new ColorDialog();
         }
 
-        switch (PrefUtils.getInstance(context).getTheme()) {
+        switch (new PrefUtils(context).getTheme()) {
             case ThemeDef.light:
                 colorDialog.setFillColor(ColorAnn.cl_light);
                 colorDialog.setStrokeColor(ColorAnn.cl_dark);

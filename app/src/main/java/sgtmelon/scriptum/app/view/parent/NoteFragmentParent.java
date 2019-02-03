@@ -22,9 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import sgtmelon.safedialog.library.ColorDialog;
 import sgtmelon.safedialog.library.MessageDialog;
 import sgtmelon.safedialog.library.MultiplyDialog;
+import sgtmelon.safedialog.library.color.ColorDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.app.control.MenuControl;
@@ -206,7 +206,7 @@ public abstract class NoteFragmentParent extends Fragment implements
         final String[] name = db.daoRank().getName();
         db.close();
 
-        dlgRank.setRows(name);
+        dlgRank.setName(name);
         dlgRank.setPositiveListener((dialogInterface, i) -> {
             final boolean[] check = dlgRank.getCheck();
 
@@ -265,7 +265,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     public final void onClick(View v) {
         Log.i(TAG, "onClick");
 
-        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
         activity.onBackPressed();
     }
 
@@ -273,7 +273,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     public final void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
 
-        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
@@ -289,7 +289,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     public final void onMenuColorClick() {
         Log.i(TAG, "onMenuColorClick");
 
-        HelpUtils.hideKeyboard(context, activity.getCurrentFocus());
+        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 

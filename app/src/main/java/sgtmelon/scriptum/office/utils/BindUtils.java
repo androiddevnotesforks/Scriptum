@@ -23,9 +23,6 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef;
  */
 public final class BindUtils {
 
-    // TODO: 10.12.2018 разобраться с requireAll =
-    // TODO: 13.01.2019 комментарии
-
     /**
      * Установка цветового фильтра на основании результата логического выражения
      *
@@ -39,8 +36,8 @@ public final class BindUtils {
         final Context context = imageButton.getContext();
 
         imageButton.setColorFilter(boolExpression
-                ? ColorUtils.get(context, trueColor)
-                : ColorUtils.get(context, falseColor));
+                ? ColorUtils.INSTANCE.get(context, trueColor)
+                : ColorUtils.INSTANCE.get(context, falseColor));
     }
 
     @BindingAdapter(value = {"boolExpression", "trueColor", "falseColor"})
@@ -49,23 +46,21 @@ public final class BindUtils {
         final Context context = textView.getContext();
 
         textView.setTextColor(boolExpression
-                ? ColorUtils.get(context, trueColor)
-                : ColorUtils.get(context, falseColor));
+                ? ColorUtils.INSTANCE.get(context, trueColor)
+                : ColorUtils.INSTANCE.get(context, falseColor));
     }
 
     @BindingAdapter("noteColor")
     public static void setCardBackgroundColor(@NonNull CardView cardView, @ColorDef int color) {
-        final Context context = cardView.getContext();
-
-        cardView.setCardBackgroundColor(ColorUtils.get(context, color, false));
+        final int background = ColorUtils.INSTANCE.get(cardView.getContext(), color, false);
+        cardView.setCardBackgroundColor(background);
     }
 
     @BindingAdapter(value = {"noteColor", "viewOnDark"})
     public static void setTint(@NonNull ImageView imageView, @ColorDef int color,
                                boolean viewOnDark) {
-        final Context context = imageView.getContext();
-
-        imageView.setColorFilter(ColorUtils.get(context, color, viewOnDark));
+        final int tint = ColorUtils.INSTANCE.get(imageView.getContext(), color, viewOnDark);
+        imageView.setColorFilter(tint);
     }
 
     @BindingAdapter(value = {"imageId", "imageColor"})
@@ -74,15 +69,14 @@ public final class BindUtils {
         final Context context = imageView.getContext();
         final Drawable drawable = ContextCompat.getDrawable(context, drawableId);
 
-        if (drawable != null) {
-            imageView.setImageDrawable(drawable);
-            imageView.setColorFilter(ColorUtils.get(context, color));
-        }
+        imageView.setImageDrawable(drawable);
+        imageView.setColorFilter(ColorUtils.INSTANCE.get(context, color));
+
     }
 
     @BindingAdapter("time")
     public static void setNoteTime(@NonNull TextView textView, @NonNull String time) {
-        textView.setText(TimeUtils.format(textView.getContext(), time));
+        textView.setText(TimeUtils.INSTANCE.format(textView.getContext(), time));
     }
 
     /**
@@ -101,9 +95,9 @@ public final class BindUtils {
 
         imageButton.setColorFilter(boolExpression
                 ? extraExpression
-                ? ColorUtils.get(context, trueColor)
-                : ColorUtils.get(context, falseColor)
-                : ColorUtils.get(context, falseColor));
+                ? ColorUtils.INSTANCE.get(context, trueColor)
+                : ColorUtils.INSTANCE.get(context, falseColor)
+                : ColorUtils.INSTANCE.get(context, falseColor));
 
         imageButton.setEnabled(boolExpression && extraExpression);
     }
@@ -115,8 +109,7 @@ public final class BindUtils {
 
     @BindingAdapter("visibleOn")
     public static void setVisibility(@NonNull View view, @ThemeDef int visibleTheme) {
-        final Context context = view.getContext();
-        final int currentTheme = PrefUtils.getInstance(context).getTheme();
+        final int currentTheme = new PrefUtils(view.getContext()).getTheme();
 
         view.setVisibility(currentTheme == visibleTheme
                 ? View.VISIBLE
@@ -128,8 +121,7 @@ public final class BindUtils {
      * @param state  - Конкретное состояние для checkBox
      */
     @BindingAdapter(value = {"checkToggle", "checkState"})
-    public static void setCheckBoxCheck(@NonNull CheckBox checkBox, boolean toggle,
-                                        boolean state) {
+    public static void setCheckBoxCheck(@NonNull CheckBox checkBox, boolean toggle, boolean state) {
         if (toggle) {
             checkBox.toggle();
         } else {

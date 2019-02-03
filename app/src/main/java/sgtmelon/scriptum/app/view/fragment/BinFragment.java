@@ -149,7 +149,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final Menu menu = toolbar.getMenu();
         mItemClearBin = menu.findItem(R.id.clear_item);
 
-        ColorUtils.tintMenuIcon(context, mItemClearBin);
+        ColorUtils.INSTANCE.tintMenuIcon(context, mItemClearBin);
 
         dlgClearBin.setPositiveListener((dialogInterface, i) -> {
             db = RoomDb.provideDb(context);
@@ -255,7 +255,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
 
         db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), TimeUtils.getTime(context), false);
+        db.daoNote().update(noteItem.getId(), TimeUtils.INSTANCE.getTime(context), false);
         db.close();
 
         listNoteRepo.remove(p);
@@ -269,7 +269,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     @Override
     public void onMenuCopyClick(int p) {
         final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
-        HelpUtils.optionsCopy(context, noteItem);
+        HelpUtils.INSTANCE.optionsCopy(context, noteItem);
     }
 
     @Override

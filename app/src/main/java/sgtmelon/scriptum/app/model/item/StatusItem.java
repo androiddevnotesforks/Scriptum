@@ -36,7 +36,7 @@ public final class StatusItem {
         this.context = context;
 
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(SplashActivity.getInstance(context, noteItem.getId()));
+        stackBuilder.addNextIntent(SplashActivity.Companion.getInstance(context, noteItem.getId()));
 
         pendingIntent = stackBuilder.getPendingIntent((int) noteItem.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -71,7 +71,7 @@ public final class StatusItem {
 
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(icon)
-                .setColor(ColorUtils.get(context, noteItem.getColor(), true))
+                .setColor(ColorUtils.INSTANCE.get(context, noteItem.getColor(), true))
                 .setContentTitle(noteItem.getName(context))
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)

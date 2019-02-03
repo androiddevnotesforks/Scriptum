@@ -35,7 +35,7 @@ public final class PreferenceActivity extends BaseActivityParent {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_preference));
 
-        final Drawable arrowIcon = ColorUtils.getDrawable(
+        final Drawable arrowIcon = ColorUtils.INSTANCE.getDrawable(
                 this, R.drawable.ic_cancel_exit, R.attr.clContent
         );
 

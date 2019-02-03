@@ -31,7 +31,7 @@ public final class DevelopActivity extends BaseActivityParent {
         db.close();
 
         final TextView prefText = findViewById(R.id.preference_text);
-        PrefUtils.getInstance(this).listAllPref(prefText);
+        new PrefUtils(this).listAllPref(prefText);
     }
 
 }
