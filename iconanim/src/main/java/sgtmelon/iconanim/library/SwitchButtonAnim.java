@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
-import sgtmelon.iconanim.office.hdlr.AnimHdlr;
+import sgtmelon.iconanim.office.hdlr.AnimHandler;
 
 /**
  * Версия {@link SwitchButton} с анимацией иконок при их смене
@@ -18,7 +18,7 @@ import sgtmelon.iconanim.office.hdlr.AnimHdlr;
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 public final class SwitchButtonAnim extends SwitchButton {
 
-    @Nullable private AnimHdlr animHdlr;
+    @Nullable private AnimHandler animHandler;
 
     @Nullable private AnimatedVectorDrawable drawableDisableAnim;
     @Nullable private AnimatedVectorDrawable drawableSelectAnim;
@@ -52,8 +52,8 @@ public final class SwitchButtonAnim extends SwitchButton {
         }
 
         if (drawableSelectAnim != null && drawableDisableAnim != null) {
-            animHdlr = new AnimHdlr(context, drawableSelectAnim, drawableDisableAnim);
-            animHdlr.setAnimation(this);
+            animHandler = new AnimHandler(context, drawableSelectAnim, drawableDisableAnim);
+            animHandler.setAnimation(this);
         }
     }
 
@@ -63,16 +63,16 @@ public final class SwitchButtonAnim extends SwitchButton {
             setImageDrawable(select
                     ? drawableSelect
                     : drawableDisable);
-        } else if (animHdlr != null){
-            animHdlr.setAnimState(select);
+        } else if (animHandler != null){
+            animHandler.setAnimState(select);
             if (select) {
-                setImageDrawable(animHdlr.getAnimOn());
-                animHdlr.startAnimOn();
+                setImageDrawable(animHandler.getAnimOn());
+                animHandler.startAnimOn();
             } else {
-                setImageDrawable(animHdlr.getAnimOff());
-                animHdlr.startAnimOff();
+                setImageDrawable(animHandler.getAnimOff());
+                animHandler.startAnimOff();
             }
-            animHdlr.waitAnimationEnd();
+            animHandler.waitAnimationEnd();
         }
     }
 

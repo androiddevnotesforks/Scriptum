@@ -167,19 +167,14 @@ public abstract class NoteFragmentParent extends Fragment implements
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            menuControl = new MenuControl(context);
+            menuControl = new MenuControl(context, activity.getWindow(), toolbar, indicator);
         } else {
-            menuControl = new MenuControlAnim(context);
+            menuControl = new MenuControlAnim(context, activity.getWindow(), toolbar, indicator);
         }
 
-        menuControl.setWindow(activity.getWindow());
-        menuControl.setToolbar(toolbar);
-        menuControl.setIndicator(indicator);
         menuControl.setColor(noteItem.getColor());
 
         final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
-
-        menuControl.setupDrawable();
         menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
 
         toolbar.setNavigationOnClickListener(this);

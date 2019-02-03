@@ -13,7 +13,7 @@ import sgtmelon.iconanim.office.intf.AnimIntf;
  * Handler для регистрации начала и конца анимации
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-public final class AnimHdlr {
+public final class AnimHandler {
 
     private final AnimatedVectorDrawable animOn, animOff;
     private final int animTime;
@@ -25,8 +25,8 @@ public final class AnimHdlr {
 
     private AnimIntf animation;
 
-    public AnimHdlr(@NonNull Context context, @NonNull AnimatedVectorDrawable animOn,
-                    @NonNull AnimatedVectorDrawable animOff) {
+    public AnimHandler(@NonNull Context context, @NonNull AnimatedVectorDrawable animOn,
+                       @NonNull AnimatedVectorDrawable animOff) {
         this.animOn = animOn;
         this.animOff = animOff;
 

@@ -23,10 +23,6 @@ public final class RankViewModel extends AndroidViewModel {
         return rankRepo;
     }
 
-    public void setRankRepo(RankRepo rankRepo) {
-        this.rankRepo = rankRepo;
-    }
-
     public RankRepo loadData() {
         final RoomDb db = RoomDb.provideDb(getApplication().getApplicationContext());
         rankRepo = db.daoRank().get();

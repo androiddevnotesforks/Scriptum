@@ -18,17 +18,18 @@ class SaveControl(private val context: Context) {
     private val saveAuto: Boolean = PrefUtils.getInstance(context).autoSave
 
     private var saveTime: Int = 0
-    private var noteMenuClick: MenuIntf.Note.NoteMenuClick? = null
 
     private val saveRunnable = {
         onSave()
-        startSaveHandler()
+        setSaveHandlerEvent(true)
     }
+
+    var noteMenuClick: MenuIntf.Note.NoteMenuClick? = null
 
     /**
      * Пауза срабатывает не только при сворачивании (если закрыли активность например)
      */
-    private var needSave = true
+    var needSave = true
 
     init {
         if (saveAuto) {
@@ -38,31 +39,23 @@ class SaveControl(private val context: Context) {
         }
     }
 
-    fun setNoteMenuClick(noteMenuClick: MenuIntf.Note.NoteMenuClick) {
-        this.noteMenuClick = noteMenuClick
-    }
+    fun setSaveHandlerEvent(isStart: Boolean) {
+        if (!saveAuto) return
 
-    fun setNeedSave(needSave: Boolean) {
-        this.needSave = needSave
-    }
-
-    fun setSaveHandlerEvent(keyEdit: Boolean) {
-        if (keyEdit) {
-            startSaveHandler()
-        } else {
-            stopSaveHandler()
-        }
-    }
-
-    private fun startSaveHandler() {
-        if (saveAuto) {
+        if (isStart) {
             saveHandler.postDelayed(saveRunnable, saveTime.toLong())
+        } else {
+            saveHandler.removeCallbacks(saveRunnable)
         }
     }
 
-    private fun stopSaveHandler() {
-        if (saveAuto) {
-            saveHandler.removeCallbacks(saveRunnable)
+    fun onPauseSave(keyEdit: Boolean) {
+        setSaveHandlerEvent(false)
+
+        if (needSave && keyEdit && savePause) {
+            onSave()
+        } else {
+            needSave = true
         }
     }
 
@@ -71,16 +64,6 @@ class SaveControl(private val context: Context) {
             Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    fun onPauseSave(keyEdit: Boolean) {
-        stopSaveHandler()
-
-        if (needSave && keyEdit && savePause) {
-            onSave()
-        } else {
-            needSave = true
         }
     }
 

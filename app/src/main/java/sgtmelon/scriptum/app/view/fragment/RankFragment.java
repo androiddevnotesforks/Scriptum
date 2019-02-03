@@ -98,7 +98,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             dragTo = viewHolder.getAdapterPosition();
             if (dragFrom != dragTo) {
                 db = RoomDb.provideDb(context);
-                final List<RankItem> listRank = db.daoRank().update(dragFrom, dragTo);
+                final List<RankItem> listRank = db.daoRank().update(dragFrom, dragTo); // TODO: 03.02.2019 ошибка сортировки
                 db.daoNote().update(context);
                 db.close();
 
