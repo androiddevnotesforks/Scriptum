@@ -19,11 +19,9 @@ import sgtmelon.scriptum.ui.screen.main.Page
 @LargeTest
 class MainTest : ParentTest() {
 
-    @get:Rule
-    val testRule = ActivityTestRule(SplashActivity::class.java)
+    @get:Rule val testRule = ActivityTestRule(SplashActivity::class.java)
 
-    @Test
-    fun test0_emptyContent() {
+    @Test fun test0_emptyContent() {
         MainScreen {
             assert { isSelected(Page.NOTES) }
 

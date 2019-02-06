@@ -18,8 +18,7 @@ import sgtmelon.scriptum.ui.screen.intro.IntroScreen
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class IntroTest : ParentTest() {
 
-    @get:Rule
-    val testRule = ActivityTestRule(IntroActivity::class.java)
+    @get:Rule val testRule = ActivityTestRule(IntroActivity::class.java)
 
     override fun setUp() {
         super.setUp()
@@ -33,8 +32,7 @@ class IntroTest : ParentTest() {
         prefUtils.firstStart = false
     }
 
-    @Test
-    fun test0_screenWork() {
+    @Test fun testContentAndScroll() {
         IntroScreen {
             for (i in 0 until IntroAnn.count - 1) {
                 assert {
