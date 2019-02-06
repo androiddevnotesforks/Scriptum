@@ -13,15 +13,13 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.safedialog.library.MessageDialog;
 import sgtmelon.safedialog.library.MultiplyDialog;
 import sgtmelon.safedialog.library.color.ColorDialog;
@@ -30,10 +28,7 @@ import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.MenuControlAnim;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
-import sgtmelon.scriptum.app.injection.component.FragmentComponent;
-import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
-import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
+import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
@@ -67,26 +62,22 @@ public abstract class NoteFragmentParent extends Fragment implements
     protected Activity activity;
     protected NoteCallback noteCallback;
 
-    @Inject
-    @Named(DialogDef.CONVERT)
-    protected MessageDialog dlgConvert;
+    protected MessageDialog convertDialog;
 
     protected EditText nameEnter;
 
-    @Inject protected FragmentManager fm;
+    protected FragmentManager fm;
     protected RoomDb db;
     protected View frgView;
-    @Inject protected FragmentNoteViewModel vm;
+    protected FragmentNoteViewModel vm;
 
     protected boolean rankEmpty;
 
     protected MenuControl menuControl;
     protected MenuIntf.Note.DeleteMenuClick deleteMenuClick;
 
-    @Inject ColorDialog colorDialog;
-    @Inject
-    @Named(DialogDef.RANK)
-    MultiplyDialog dlgRank;
+    private ColorDialog colorDialog;
+    private MultiplyDialog rankDialog;
 
     @Override
     public void onAttach(Context context) {
@@ -118,11 +109,12 @@ public abstract class NoteFragmentParent extends Fragment implements
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this))
-                .fragmentArchModule(new FragmentArchModule(inflater, container))
-                .build();
-        fragmentComponent.inject(this);
+        vm = ViewModelProviders.of(this).get(FragmentNoteViewModel.class);
+
+        fm = getFragmentManager();
+        convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm);
+        colorDialog = DialogFactory.INSTANCE.getColorDialog(context, fm);
+        rankDialog = DialogFactory.INSTANCE.getRankDialog(context, fm);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -206,9 +198,9 @@ public abstract class NoteFragmentParent extends Fragment implements
         final String[] name = db.daoRank().getName();
         db.close();
 
-        dlgRank.setName(name);
-        dlgRank.setPositiveListener((dialogInterface, i) -> {
-            final boolean[] check = dlgRank.getCheck();
+        rankDialog.setName(name);
+        rankDialog.setPositiveListener((dialogInterface, i) -> {
+            final boolean[] check = rankDialog.getCheck();
 
             db = RoomDb.provideDb(context);
             final Long[] id = db.daoRank().getId();
@@ -281,8 +273,8 @@ public abstract class NoteFragmentParent extends Fragment implements
         final boolean[] check = db.daoRank().getCheck(noteItem.getRankId());
         db.close();
 
-        dlgRank.setArguments(check);
-        dlgRank.show(fm, DialogDef.RANK);
+        rankDialog.setArguments(check);
+        rankDialog.show(fm, DialogDef.RANK);
     }
 
     @Override
@@ -331,7 +323,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     public final void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        dlgConvert.show(fm, DialogDef.CONVERT);
+        convertDialog.show(fm, DialogDef.CONVERT);
     }
 
 }

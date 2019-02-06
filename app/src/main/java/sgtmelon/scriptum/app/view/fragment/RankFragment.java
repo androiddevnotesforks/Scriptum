@@ -16,13 +16,13 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,10 +31,7 @@ import sgtmelon.safedialog.library.RenameDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RankAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
-import sgtmelon.scriptum.app.injection.component.FragmentComponent;
-import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
-import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
+import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.vm.fragment.RankViewModel;
@@ -53,10 +50,10 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private final DragListenerSt dragSt = new DragListenerSt();
     private final OpenSt openSt = new OpenSt();
 
-    @Inject FragmentManager fm;
-    @Inject FragmentRankBinding binding;
-    @Inject RankViewModel vm;
-    @Inject RenameDialog renameDialog;
+    private FragmentManager fm;
+    private FragmentRankBinding binding;
+    private RankViewModel vm;
+    private RenameDialog renameDialog;
 
     private Context context;
     private RoomDb db;
@@ -150,27 +147,25 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         bind();
     }
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this))
-                .fragmentArchModule(new FragmentArchModule(inflater, container))
-                .build();
-        fragmentComponent.inject(this);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rank, container, false);
 
-        frgView = binding.getRoot();
+        vm = ViewModelProviders.of(this).get(RankViewModel.class);
+        vm.loadData();
+
+        fm = getFragmentManager();
+        renameDialog = DialogFactory.INSTANCE.getRenameDialog(context, fm);
 
         if (savedInstanceState != null) {
             openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
         }
 
-        vm.loadData();
-
-        return frgView;
+        return frgView = binding.getRoot();
     }
 
     @Override

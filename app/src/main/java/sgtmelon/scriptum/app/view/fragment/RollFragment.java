@@ -16,10 +16,9 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +26,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RollAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
-import sgtmelon.scriptum.app.injection.component.FragmentComponent;
-import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
-import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
@@ -59,7 +54,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private final DragListenerSt dragSt = new DragListenerSt();
     private final CheckSt checkSt = new CheckSt();
 
-    @Inject FragmentRollBinding binding;
+    private FragmentRollBinding binding;
 
     private LinearLayoutManager layoutManager;
     private RollAdapter adapter;
@@ -173,6 +168,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private RecyclerView recyclerView;
     private EditText rollEnter;
 
+    @NonNull
     public static RollFragment getInstance(boolean rankEmpty) {
         Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
 
@@ -201,15 +197,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
-        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this))
-                .fragmentArchModule(new FragmentArchModule(inflater, container))
-                .build();
-        fragmentComponent.inject(this);
-
-        frgView = binding.getRoot();
-
-        return frgView;
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_roll, container, false);
+        return frgView = binding.getRoot();
     }
 
     @Override
@@ -277,8 +266,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "setupDialog");
         super.setupDialog();
 
-        dlgConvert.setMessage(getString(R.string.dialog_roll_convert_to_text));
-        dlgConvert.setPositiveListener((dialogInterface, i) -> {
+        convertDialog.setMessage(getString(R.string.dialog_roll_convert_to_text));
+        convertDialog.setPositiveListener((dialogInterface, i) -> {
             final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
             db = RoomDb.provideDb(context);

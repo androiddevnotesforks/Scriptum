@@ -11,16 +11,11 @@ import android.widget.EditText;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
-import sgtmelon.scriptum.app.injection.component.FragmentComponent;
-import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
-import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
@@ -42,7 +37,7 @@ public final class TextFragment extends NoteFragmentParent {
 
     private static final String TAG = TextFragment.class.getSimpleName();
 
-    @Inject FragmentTextBinding binding;
+    private FragmentTextBinding binding;
 
     private EditText textEnter;
 
@@ -65,15 +60,8 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
-        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this))
-                .fragmentArchModule(new FragmentArchModule(inflater, container))
-                .build();
-        fragmentComponent.inject(this);
-
-        frgView = binding.getRoot();
-
-        return frgView;
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text, container, false);
+        return frgView = binding.getRoot();
     }
 
     @Override
@@ -133,8 +121,8 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "setupDialog");
         super.setupDialog();
 
-        dlgConvert.setMessage(getString(R.string.dialog_text_convert_to_roll));
-        dlgConvert.setPositiveListener((dialogInterface, i) -> {
+        convertDialog.setMessage(getString(R.string.dialog_text_convert_to_roll));
+        convertDialog.setPositiveListener((dialogInterface, i) -> {
             final NoteRepo noteRepo = vm.getNoteRepo();
             final NoteItem noteItem = noteRepo.getNoteItem();
 

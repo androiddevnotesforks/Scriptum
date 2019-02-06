@@ -5,17 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.SaveControl;
-import sgtmelon.scriptum.app.injection.component.ActivityComponent;
-import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
-import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
@@ -37,8 +33,8 @@ public final class NoteActivity extends BaseActivityParent
 
     private static final String TAG = NoteActivity.class.getSimpleName();
 
-    @Inject ActivityNoteViewModel vm;
-    @Inject FragmentManager fm;
+    private FragmentManager fm;
+    private ActivityNoteViewModel vm;
 
     private SaveControl saveControl;
 
@@ -79,15 +75,11 @@ public final class NoteActivity extends BaseActivityParent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
 
-        final ActivityComponent activityComponent = DaggerActivityComponent.builder()
-                .activityBlankModule(new ActivityBlankModule(this))
-                .build();
-        activityComponent.inject(this);
+        fm = getSupportFragmentManager();
+        vm = ViewModelProviders.of(this).get(ActivityNoteViewModel.class);
 
         final Bundle bundle = getIntent().getExtras();
-        vm.setValue(bundle != null
-                ? bundle
-                : savedInstanceState);
+        vm.setValue(bundle != null ? bundle : savedInstanceState);
 
         saveControl = new SaveControl(this);
 

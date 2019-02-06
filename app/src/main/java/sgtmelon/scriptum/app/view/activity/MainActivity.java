@@ -8,17 +8,14 @@ import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import sgtmelon.safedialog.library.SheetDialog;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.injection.component.ActivityComponent;
-import sgtmelon.scriptum.app.injection.component.DaggerActivityComponent;
-import sgtmelon.scriptum.app.injection.module.blank.ActivityBlankModule;
+import sgtmelon.scriptum.app.factory.DialogFactory;
+import sgtmelon.scriptum.app.factory.FragmentFactory;
 import sgtmelon.scriptum.app.view.callback.MainCallback;
 import sgtmelon.scriptum.app.view.fragment.BinFragment;
 import sgtmelon.scriptum.app.view.fragment.NotesFragment;
@@ -33,13 +30,12 @@ import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.st.PageSt;
 
 
-
 public final class MainActivity extends BaseActivityParent implements MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
-    
-    
+
+
     // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
     // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
     // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
@@ -53,11 +49,11 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
     private final PageSt pageSt = new PageSt();
     private final OpenSt openSt = new OpenSt();
 
-    @Inject FragmentManager fm;
-    @Inject RankFragment rankFragment;
-    @Inject NotesFragment notesFragment;
-    @Inject BinFragment binFragment;
-    @Inject SheetDialog sheetDialog;
+    private FragmentManager fm;
+    private RankFragment rankFragment;
+    private NotesFragment notesFragment;
+    private BinFragment binFragment;
+    private SheetDialog sheetDialog;
 
     private FloatingActionButton fab;
 
@@ -67,10 +63,12 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ActivityComponent activityComponent = DaggerActivityComponent.builder()
-                .activityBlankModule(new ActivityBlankModule(this))
-                .build();
-        activityComponent.inject(this);
+        fm = getSupportFragmentManager();
+        rankFragment = FragmentFactory.INSTANCE.getRankFragment(fm);
+        notesFragment = FragmentFactory.INSTANCE.getNotesFragment(fm);
+        binFragment = FragmentFactory.INSTANCE.getBinFragment(fm);
+
+        sheetDialog = DialogFactory.INSTANCE.getSheetDialog(fm);
 
         int page = PageDef.notes;
         if (savedInstanceState != null) {

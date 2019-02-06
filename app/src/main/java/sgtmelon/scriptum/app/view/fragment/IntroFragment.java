@@ -7,16 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
-import sgtmelon.scriptum.app.injection.component.FragmentComponent;
-import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
-import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
 import sgtmelon.scriptum.databinding.IncludeInfoBinding;
 import sgtmelon.scriptum.office.annot.IntroAnn;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
@@ -26,31 +21,24 @@ public final class IntroFragment extends Fragment {
 
     private static final String TAG = IntroFragment.class.getSimpleName();
 
-    @Inject IncludeInfoBinding binding;
+    private IncludeInfoBinding binding;
 
     private PageSt pageSt;
     private View frgView;
     private LinearLayout container;
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this))
-                .fragmentArchModule(new FragmentArchModule(inflater, container))
-                .build();
-        fragmentComponent.inject(this);
-
-        frgView = binding.getRoot();
-
         if (savedInstanceState != null) {
             pageSt.setPage(savedInstanceState.getInt(IntentDef.STATE_PAGE));
         }
 
-        return frgView;
+        binding = DataBindingUtil.inflate(inflater, R.layout.include_info, container, false);
+        return frgView = binding.getRoot();
     }
 
     @Override

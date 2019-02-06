@@ -11,18 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
 import sgtmelon.safedialog.library.SingleDialog;
 import sgtmelon.safedialog.library.color.ColorDialog;
 import sgtmelon.scriptum.BuildConfig;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.injection.component.DaggerPreferenceComponent;
-import sgtmelon.scriptum.app.injection.component.PreferenceComponent;
-import sgtmelon.scriptum.app.injection.module.blank.PreferenceBlankModule;
+import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.view.activity.DevelopActivity;
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity;
 import sgtmelon.scriptum.element.InfoDialog;
@@ -39,21 +34,16 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
     private final OpenSt openSt = new OpenSt();
 
-    @Inject FragmentManager fm;
-    @Inject PrefUtils prefUtils;
-
-    @Inject SortDialog sortDialog;
-    @Inject ColorDialog colorDialog;
-    @Inject InfoDialog infoDialog;
-
-    @Inject
-    @Named(DialogDef.SAVE_TIME)
-    SingleDialog dlgSaveTime;
-    @Inject
-    @Named(DialogDef.THEME)
-    SingleDialog dlgTheme;
-
     private PreferenceActivity activity;
+
+    private PrefUtils prefUtils;
+    private FragmentManager fm;
+
+    private SortDialog sortDialog;
+    private ColorDialog colorDialog;
+    private InfoDialog infoDialog;
+    private SingleDialog saveTimeDialog;
+    private SingleDialog themeDialog;
 
     private Preference prefSort;
     private String valSort;
@@ -64,6 +54,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
     private Preference prefTheme;
     private int valTheme;
 
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -86,10 +77,14 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         activity = (PreferenceActivity) getActivity();
 
-        final PreferenceComponent preferenceComponent = DaggerPreferenceComponent.builder()
-                .preferenceBlankModule(new PreferenceBlankModule(activity))
-                .build();
-        preferenceComponent.inject(this);
+        prefUtils = new PrefUtils(activity);
+        fm = activity.getSupportFragmentManager();
+
+        sortDialog = DialogFactory.INSTANCE.getSortDialog(fm);
+        colorDialog = DialogFactory.INSTANCE.getColorDialog(activity, fm);
+        infoDialog = DialogFactory.INSTANCE.getInfoDialog(fm);
+        saveTimeDialog = DialogFactory.INSTANCE.getSaveTimeDialog(activity, fm);
+        themeDialog = DialogFactory.INSTANCE.getThemeDialog(activity, fm);
 
         if (savedInstanceState != null) {
             openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
@@ -179,19 +174,19 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
 
-                dlgSaveTime.setArguments(valSaveTime);
-                dlgSaveTime.show(fm, DialogDef.SAVE_TIME);
+                saveTimeDialog.setArguments(valSaveTime);
+                saveTimeDialog.show(fm, DialogDef.SAVE_TIME);
             }
             return true;
         });
 
-        dlgSaveTime.setPositiveListener((dialogInterface, i) -> {
-            valSaveTime = dlgSaveTime.getCheck();
+        saveTimeDialog.setPositiveListener((dialogInterface, i) -> {
+            valSaveTime = saveTimeDialog.getCheck();
 
             prefUtils.setSaveTime(valSaveTime);
-            prefSaveTime.setSummary(dlgSaveTime.getRows()[valSaveTime]);
+            prefSaveTime.setSummary(saveTimeDialog.getRows()[valSaveTime]);
         });
-        dlgSaveTime.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        saveTimeDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
 
         final CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
         prefAutoSave.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -212,21 +207,21 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
 
-                dlgTheme.setArguments(valTheme);
-                dlgTheme.show(fm, DialogDef.THEME);
+                themeDialog.setArguments(valTheme);
+                themeDialog.show(fm, DialogDef.THEME);
             }
             return true;
         });
 
-        dlgTheme.setPositiveListener(((dialogInterface, i) -> {
-            valTheme = dlgTheme.getCheck();
+        themeDialog.setPositiveListener(((dialogInterface, i) -> {
+            valTheme = themeDialog.getCheck();
 
             prefUtils.setTheme(valTheme);
-            prefTheme.setSummary(dlgTheme.getRows()[valTheme]);
+            prefTheme.setSummary(themeDialog.getRows()[valTheme]);
 
             activity.isThemeChange();
         }));
-        dlgTheme.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        themeDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
 
         final Preference prefRate = findPreference(getString(R.string.pref_key_rate));
         prefRate.setOnPreferenceClickListener(preference -> {

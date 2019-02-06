@@ -13,14 +13,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,10 +28,7 @@ import sgtmelon.safedialog.library.OptionsDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.NoteAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
-import sgtmelon.scriptum.app.injection.component.FragmentComponent;
-import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
-import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
+import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
@@ -56,14 +52,12 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
     private final OpenSt openSt = new OpenSt();
 
-    @Inject FragmentManager fm;
-    @Inject FragmentBinBinding binding;
-    @Inject NotesViewModel vm;
-    @Inject OptionsDialog optionsDialog;
+    private FragmentBinBinding binding;
+    private NotesViewModel vm;
 
-    @Inject
-    @Named(DialogDef.CLEAR_BIN)
-    MessageDialog dlgClearBin;
+    private FragmentManager fm;
+    private OptionsDialog optionsDialog;
+    private MessageDialog clearBinDialog;
 
     private NoteAdapter adapter;
     private Context context;
@@ -89,19 +83,20 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         updateAdapter();
     }
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this))
-                .fragmentArchModule(new FragmentArchModule(inflater, container))
-                .build();
-        fragmentComponent.inject(this);
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bin, container, false);
         frgView = binding.getRoot();
+
+        vm = ViewModelProviders.of(this).get(NotesViewModel.class);
+
+        fm = getFragmentManager();
+        optionsDialog = DialogFactory.INSTANCE.getOptionsDialog(fm);
+        clearBinDialog = DialogFactory.INSTANCE.getClearBinDialog(context, fm);
 
         if (savedInstanceState != null) {
             openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
@@ -139,7 +134,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
                     if (!openSt.isOpen()) {
                         openSt.setOpen(true);
 
-                        dlgClearBin.show(fm, DialogDef.CLEAR_BIN);
+                        clearBinDialog.show(fm, DialogDef.CLEAR_BIN);
                     }
                     return true;
             }
@@ -151,7 +146,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         ColorUtils.INSTANCE.tintMenuIcon(context, mItemClearBin);
 
-        dlgClearBin.setPositiveListener((dialogInterface, i) -> {
+        clearBinDialog.setPositiveListener((dialogInterface, i) -> {
             db = RoomDb.provideDb(context);
             db.daoNote().clearBin();
             db.close();
@@ -164,7 +159,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
             mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
             bind(0);
         });
-        dlgClearBin.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        clearBinDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
     }
 
     private void setupRecycler() {

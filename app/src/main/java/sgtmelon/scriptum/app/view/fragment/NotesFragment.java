@@ -13,13 +13,13 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +27,7 @@ import sgtmelon.safedialog.library.OptionsDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.NoteAdapter;
 import sgtmelon.scriptum.app.database.RoomDb;
-import sgtmelon.scriptum.app.injection.component.DaggerFragmentComponent;
-import sgtmelon.scriptum.app.injection.component.FragmentComponent;
-import sgtmelon.scriptum.app.injection.module.FragmentArchModule;
-import sgtmelon.scriptum.app.injection.module.blank.FragmentBlankModule;
+import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
@@ -57,10 +54,11 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
     public static boolean updateStatus = true; //Для единовременного обновления статус бара
 
-    @Inject FragmentManager fm;
-    @Inject FragmentNotesBinding binding;
-    @Inject NotesViewModel vm;
-    @Inject OptionsDialog optionsDialog;
+    private FragmentNotesBinding binding;
+    private NotesViewModel vm;
+
+    private FragmentManager fm;
+    private OptionsDialog optionsDialog;
 
     private Context context;
     private MainCallback mainCallback;
@@ -95,19 +93,19 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         if (updateStatus) updateStatus = false;
     }
 
-    @Nullable
+    @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        final FragmentComponent fragmentComponent = DaggerFragmentComponent.builder()
-                .fragmentBlankModule(new FragmentBlankModule(this))
-                .fragmentArchModule(new FragmentArchModule(inflater, container))
-                .build();
-        fragmentComponent.inject(this);
-
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notes, container, false);
         frgView = binding.getRoot();
+
+        vm = ViewModelProviders.of(this).get(NotesViewModel.class);
+
+        fm = getFragmentManager();
+        optionsDialog = DialogFactory.INSTANCE.getOptionsDialog(fm);
 
         setupToolbar();
         setupRecycler();
