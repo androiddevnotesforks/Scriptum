@@ -25,7 +25,6 @@ public @interface IntroAnn {
             R.string.info_intro_title_5,
             R.string.info_intro_title_6,
             R.string.info_intro_title_7
-
     };
 
     int[] details = new int[]{

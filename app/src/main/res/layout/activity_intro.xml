@@ -36,7 +36,7 @@
                 app:piv_viewPager="@id/intro_pager"/>
 
         <Button
-                android:id="@+id/end_button"
+                android:id="@+id/info_end_button"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

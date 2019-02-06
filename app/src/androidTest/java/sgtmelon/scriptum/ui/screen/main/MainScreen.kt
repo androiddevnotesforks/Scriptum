@@ -11,11 +11,11 @@ class MainScreen : ParentScreen() {
 
     fun assert(func: MainAssert.() -> Unit) = MainAssert().apply { func() }
 
-    fun onNavigate(page: Page) = action {
+    fun navigateTo(page: PAGE) = action {
         onClick(when (page) {
-            Page.RANK -> R.id.page_rank_item
-            Page.NOTES -> R.id.page_notes_item
-            Page.BIN -> R.id.page_bin_item
+            PAGE.RANK -> R.id.page_rank_item
+            PAGE.NOTES -> R.id.page_notes_item
+            PAGE.BIN -> R.id.page_bin_item
         })
     }
 

@@ -5,10 +5,19 @@ import sgtmelon.scriptum.basic.BasicMatch
 
 class MainAssert : BasicMatch() {
 
-    fun isSelected(page: Page) = isSelected(when (page) {
-        Page.RANK -> R.id.page_rank_item
-        Page.NOTES -> R.id.page_notes_item
-        Page.BIN -> R.id.page_bin_item
+    fun onDisplayContent(showFab: Boolean) {
+        onDisplay(R.id.menu_navigation)
+
+        when(showFab) {
+            true -> onDisplay(R.id.add_fab)
+            false -> doesNotDisplay(R.id.add_fab)
+        }
+    }
+
+    fun isSelected(page: PAGE) = isSelected(when (page) {
+        PAGE.RANK -> R.id.page_rank_item
+        PAGE.NOTES -> R.id.page_notes_item
+        PAGE.BIN -> R.id.page_bin_item
     })
 
 }

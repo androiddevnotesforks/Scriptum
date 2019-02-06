@@ -1,76 +1,87 @@
 package sgtmelon.scriptum.test
 
-import android.view.View
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import org.hamcrest.Matchers.allOf
 import org.junit.Rule
 import org.junit.Test
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.view.activity.SplashActivity
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.Page
+import sgtmelon.scriptum.ui.screen.main.PAGE
+import sgtmelon.scriptum.ui.screen.main.bin.BinScreen
+import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
+import sgtmelon.scriptum.ui.screen.main.rank.RankScreen
 
 @LargeTest
 class MainTest : ParentTest() {
 
     @get:Rule val testRule = ActivityTestRule(SplashActivity::class.java)
 
-    @Test fun test0_emptyContent() {
+    @Test fun testNavigation() {
         MainScreen {
-            assert { isSelected(Page.NOTES) }
+            assert {
+                isSelected(PAGE.NOTES)
+                onDisplayContent(showFab = true)
+            }
 
-            onNavigate(Page.RANK)
-            assert { isSelected(Page.RANK) }
+            navigateTo(PAGE.RANK)
+            assert {
+                isSelected(PAGE.RANK)
+                onDisplayContent(showFab = false)
+            }
 
-            onNavigate(Page.NOTES)
-            assert { isSelected(Page.NOTES) }
+            navigateTo(PAGE.NOTES)
+            assert {
+                isSelected(PAGE.NOTES)
+                onDisplayContent(showFab = true)
+            }
 
-            onNavigate(Page.BIN)
-            assert { isSelected(Page.BIN) }
+            navigateTo(PAGE.BIN)
+            assert {
+                isSelected(PAGE.BIN)
+                onDisplayContent(showFab = false)
+            }
         }
     }
 
-    /**
-     * Проверка пустых страниц, всё ли правильно отображается
-     */
-    private fun testEmptyContent() {
-        onView(ViewMatchers.withId(R.id.page_notes_item)).check(matches(isSelected()))
+    @Test fun testContentEmpty() {
+        db.clearAllTables()
 
-        onView(withId(R.id.preference_item)).check(matches(isDisplayed()))
+        MainScreen {
+            assert { isSelected(PAGE.NOTES) }
+            NotesScreen {
+                assert {
+                    onDisplayContent()
+                    onDisplayInfo()
+                }
+            }
 
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_container)))
-                .check(matches(isDisplayed()))
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_title_text)))
-                .check(matches(withText(R.string.info_notes_title)))
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_details_text)))
-                .check(matches(withText(R.string.info_notes_details)))
+            navigateTo(PAGE.RANK)
+            assert { isSelected(PAGE.RANK) }
+            RankScreen {
+                assert {
+                    onDisplayContent()
+                    onDisplayInfo()
+                }
+            }
 
-        onView(withId(R.id.page_rank_item)).perform(click())
+            navigateTo(PAGE.NOTES)
+            assert { isSelected(PAGE.NOTES) }
+            NotesScreen {
+                assert {
+                    onDisplayContent()
+                    onDisplayInfo()
+                }
+            }
 
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_container)))
-                .check(matches(isDisplayed()))
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_title_text)))
-                .check(matches(withText(R.string.info_rank_title)))
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_details_text)))
-                .check(matches(withText(R.string.info_rank_details)))
-
-        onView(withId(R.id.page_bin_item)).perform(click())
-
-        // TODO: 28.10.2018 не в иерархии
-        //onView(withId(R.id.clear_item)).check(matches(not(isDisplayed())));
-
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_container)))
-                .check(matches(isDisplayed()))
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_title_text)))
-                .check(matches(withText(R.string.info_bin_title)))
-        onView(allOf<View>(isDisplayed(), withId(R.id.info_details_text)))
-                .check(matches(withText(R.string.info_bin_details)))
+            navigateTo(PAGE.BIN)
+            assert { isSelected(PAGE.BIN) }
+            BinScreen {
+                assert {
+                    onDisplayContent()
+                    onDisplayInfo()
+                }
+            }
+        }
     }
 
 }

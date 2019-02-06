@@ -5,6 +5,7 @@ import androidx.annotation.CallSuper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.junit.After
 import org.junit.Before
+import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 /**
@@ -13,7 +14,9 @@ import sgtmelon.scriptum.office.utils.PrefUtils
 abstract class ParentTest {
 
     private val context: Context = getInstrumentation().targetContext
+
     val prefUtils = PrefUtils(context)
+    val db: RoomDb = RoomDb.provideDb(context)
 
     @Before
     @CallSuper

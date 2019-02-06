@@ -2,6 +2,7 @@ package sgtmelon.scriptum.app.database;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -19,7 +20,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 @Database(entities = {NoteItem.class, RollItem.class, RankItem.class}, version = 1)
 public abstract class RoomDb extends RoomDatabase {
 
-    public static RoomDb provideDb(Context context) {
+    public static RoomDb provideDb(@NonNull Context context) {
         return Room.databaseBuilder(context, RoomDb.class, BuildConfig.DB_NAME)
                 .allowMainThreadQueries()   // TODO: 27.09.2018 Сделай нормально
                 .build();
