@@ -5,7 +5,7 @@ import sgtmelon.scriptum.basic.BasicMatch
 
 class BinAssert : BasicMatch() {
 
-    fun onDisplayContent() { // TODO(Отображение списка/информации от bool)
+    fun onDisplayContent() { // TODO(Отображение списка/информации от bool) (объединить методы)
         onDisplayToolbar(R.id.toolbar, R.string.title_bin)
 
 //        doesNotDisplay(R.id.clear_item) //TODO исправить (может и быть)

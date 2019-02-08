@@ -13,10 +13,12 @@ class AddDialogUi : ParentUi() {
     fun assert(func: AddDialogAssert.() -> Unit) = AddDialogAssert().apply { func() }
 
     fun onClickItem(type: NoteType) = action {
-        onClick(when (type) {
-            NoteType.TEXT -> R.id.item_add_note
-            NoteType.ROLL -> R.id.item_add_roll
+        onClickText(when (type) {
+            NoteType.TEXT -> R.string.dialog_add_text
+            NoteType.ROLL -> R.string.dialog_add_roll
         })
     }
+
+    fun open() = action { onClick(R.id.add_fab) }
 
 }

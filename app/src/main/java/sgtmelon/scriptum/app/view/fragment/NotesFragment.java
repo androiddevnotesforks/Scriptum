@@ -124,7 +124,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         final Toolbar toolbar = frgView.findViewById(R.id.toolbar);
         toolbar.setTitle(getString(R.string.title_notes));
 
-        toolbar.inflateMenu(R.menu.fragment_note);
+        toolbar.inflateMenu(R.menu.fragment_notes);
         toolbar.setOnMenuItemClickListener(this);
 
         final Menu menu = toolbar.getMenu();

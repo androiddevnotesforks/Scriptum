@@ -110,7 +110,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         sheetDialog.setNavigationItemSelectedListener(menuItem -> {
             sheetDialog.dismiss();
 
-            final int type = menuItem.getItemId() == R.id.item_add_note
+            final int type = menuItem.getItemId() == R.id.item_add_text
                     ? TypeNoteDef.text
                     : TypeNoteDef.roll;
 

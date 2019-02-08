@@ -5,7 +5,7 @@
         <menu>
             <group android:checkableBehavior="single">
 
-                <item android:id="@+id/item_add_note"
+                <item android:id="@+id/item_add_text"
                       android:title="@string/dialog_add_text"/>
 
                 <item android:id="@+id/item_add_roll"

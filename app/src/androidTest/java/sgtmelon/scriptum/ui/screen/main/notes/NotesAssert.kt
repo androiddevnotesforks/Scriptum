@@ -5,7 +5,7 @@ import sgtmelon.scriptum.basic.BasicMatch
 
 class NotesAssert : BasicMatch() {
 
-    fun onDisplayContent() { // TODO(Отображение списка/информации от bool)
+    fun onDisplayContent() { // TODO(Отображение списка/информации от bool) (объединить методы)
         onDisplayToolbar(R.id.toolbar, R.string.title_notes)
         onDisplay(R.id.item_preference)
     }

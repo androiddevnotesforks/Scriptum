@@ -26,6 +26,7 @@
     </data>
 
     <LinearLayout
+            android:id="@+id/note_panel_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -41,6 +42,7 @@
                 android:paddingRight="@dimen/layout_8dp">
 
             <LinearLayout
+                    android:id="@+id/note_panel_bin_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -48,6 +50,7 @@
                     tools:visibility="invisible">
 
                 <ImageButton
+                        android:id="@+id/note_panel_restore_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore"
                         android:onClick='@{() -> deleteClick.onMenuRestoreClick()}'
@@ -55,6 +58,7 @@
                         app:srcCompat="@drawable/ic_restore"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_restore_open_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore_open"
                         android:onClick='@{() -> deleteClick.onMenuRestoreOpenClick()}'
@@ -62,6 +66,7 @@
                         app:srcCompat="@drawable/ic_restore_open"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_clear_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_clear"
                         android:onClick='@{() -> deleteClick.onMenuClearClick()}'
@@ -71,6 +76,7 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/note_panel_edit_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -78,6 +84,7 @@
                     tools:visibility="visible">
 
                 <ImageButton
+                        android:id="@+id/note_panel_undo_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:onClick='@{() -> noteClick.onUndoClick()}'
@@ -89,6 +96,7 @@
                         tools:tint="?attr/clDisable"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_redo_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:onClick='@{() -> noteClick.onRedoClick()}'
@@ -100,6 +108,7 @@
                         tools:tint="?attr/clDisable"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_rank_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:onClick='@{() -> noteClick.onMenuRankClick()}'
@@ -111,6 +120,7 @@
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_color_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
                         android:onClick='@{() -> noteClick.onMenuColorClick()}'
@@ -123,6 +133,7 @@
                         android:layout_weight="1"/>
 
                 <Button
+                        android:id="@+id/note_panel_save_button"
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> noteClick.onMenuSaveClick(true, true)}'
@@ -132,6 +143,7 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/note_panel_read_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -139,6 +151,7 @@
                     tools:visibility="invisible">
 
                 <ImageButton
+                        android:id="@+id/note_panel_check_button"
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.allCheck ? @string/menu_note_check_zero : @string/menu_note_check_all}'
                         android:onClick='@{() -> noteClick.onMenuCheckClick()}'
@@ -150,6 +163,7 @@
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_bind_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_status_bind"
                         android:onClick='@{() -> noteClick.onMenuBindClick()}'
@@ -161,6 +175,7 @@
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_convert_button"
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.type == def.text ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
                         android:onClick='@{() -> noteClick.onMenuConvertClick()}'
@@ -168,6 +183,7 @@
                         app:srcCompat="@drawable/ic_convert"/>
 
                 <ImageButton
+                        android:id="@+id/note_panel_delete_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_delete"
                         android:onClick='@{() -> deleteClick.onMenuDeleteClick()}'
@@ -180,6 +196,7 @@
                         android:layout_weight="1"/>
 
                 <Button
+                        android:id="@+id/note_panel_edit_button"
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> noteClick.onMenuEditClick(true)}'

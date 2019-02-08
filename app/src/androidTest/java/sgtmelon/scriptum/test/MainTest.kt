@@ -7,13 +7,25 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.Page
+import sgtmelon.scriptum.ui.screen.main.PAGE
 import sgtmelon.scriptum.ui.screen.main.bin.BinScreen
 import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
 import sgtmelon.scriptum.ui.screen.main.rank.RankScreen
 
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentTest() {
+
+    private val listPage: List<PAGE> = object : ArrayList<PAGE>() {
+        init {
+            add(PAGE.RANK)
+            add(PAGE.NOTES)
+            add(PAGE.BIN)
+            add(PAGE.RANK)
+            add(PAGE.BIN)
+            add(PAGE.NOTES)
+            add(PAGE.RANK)
+        }
+    }
 
     @get:Rule val testRule = ActivityTestRule(SplashActivity::class.java)
 
@@ -24,29 +36,17 @@ class MainTest : ParentTest() {
     }
 
     @Test fun testNavigation() {
-        val listPage: List<Page> = object : ArrayList<Page>() {
-            init {
-                add(Page.RANK)
-                add(Page.NOTES)
-                add(Page.BIN)
-                add(Page.RANK)
-                add(Page.BIN)
-                add(Page.NOTES)
-                add(Page.RANK)
-            }
-        }
-
         MainScreen {
             assert {
-                isSelected(Page.NOTES)
-                onDisplayContent(showFab = true)
+                isSelected(PAGE.NOTES)
+                onDisplayContent(PAGE.NOTES)
             }
 
             for (page in listPage) {
                 navigateTo(page)
                 assert {
                     isSelected(page)
-                    onDisplayContent(page == Page.NOTES)
+                    onDisplayContent(page)
                 }
             }
         }
@@ -55,23 +55,11 @@ class MainTest : ParentTest() {
     @Test fun testContentEmpty() {
         db.clearAllTables()
 
-        val listPage: List<Page> = object : ArrayList<Page>() {
-            init {
-                add(Page.RANK)
-                add(Page.NOTES)
-                add(Page.BIN)
-                add(Page.RANK)
-                add(Page.BIN)
-                add(Page.NOTES)
-                add(Page.RANK)
-            }
-        }
-
         MainScreen {
-            assert { isSelected(Page.NOTES) }
+            assert { isSelected(PAGE.NOTES) }
             NotesScreen {
                 assert {
-                    onDisplayContent()
+                    onDisplayContent() // TODO(Отображение списка/информации от bool) (объединить методы)
                     onDisplayInfo()
                 }
             }
@@ -81,19 +69,19 @@ class MainTest : ParentTest() {
                 assert { isSelected(page) }
 
                 when (page) {
-                    Page.RANK -> RankScreen {
+                    PAGE.RANK -> RankScreen {
+                        assert {
+                            onDisplayContent() // TODO(Отображение списка/информации от bool) (объединить методы)
+                            onDisplayInfo()
+                        }
+                    }
+                    PAGE.NOTES -> NotesScreen {
                         assert {
                             onDisplayContent()
                             onDisplayInfo()
                         }
                     }
-                    Page.NOTES -> NotesScreen {
-                        assert {
-                            onDisplayContent()
-                            onDisplayInfo()
-                        }
-                    }
-                    Page.BIN -> BinScreen {
+                    PAGE.BIN -> BinScreen {
                         assert {
                             onDisplayContent()
                             onDisplayInfo()

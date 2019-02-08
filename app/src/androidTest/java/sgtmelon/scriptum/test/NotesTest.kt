@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.test
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
@@ -8,12 +9,24 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
 import sgtmelon.scriptum.office.annot.def.NoteType
-import sgtmelon.scriptum.ui.dialog.AddDialogUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.Page
+import sgtmelon.scriptum.ui.screen.main.PAGE
+import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
+import sgtmelon.scriptum.ui.screen.note.roll.RollScreen
+import sgtmelon.scriptum.ui.screen.note.text.TextScreen
+import sgtmelon.scriptum.ui.widget.panel.STATE
 
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentTest() {
+
+    private val listAddNoteType: List<NoteType> = object : ArrayList<NoteType>() {
+        init {
+            add(NoteType.TEXT)
+            add(NoteType.ROLL)
+            add(NoteType.ROLL)
+            add(NoteType.TEXT)
+        }
+    }
 
     @get:Rule val testRule = ActivityTestRule(SplashActivity::class.java)
 
@@ -23,33 +36,48 @@ class NotesTest : ParentTest() {
         prefUtils.firstStart = false
     }
 
-    @Test fun addNoteText() {
+    @Test fun testAddDialog() {
         MainScreen {
-            assert { isSelected(Page.NOTES) }
-            onClickAdd()
+            assert { isSelected(PAGE.NOTES) }
 
-            AddDialogUi {
+            addDialog {
+                open()
                 assert { onDisplayContent() }
-                onClickItem(NoteType.TEXT)
+                pressBack()
             }
 
-            // TODO (Проверка экрана заметки)
-            pressBack()
-        }
-    }
+            for (noteType in listAddNoteType) {
+                addDialog {
+                    open()
+                    onClickItem(noteType)
+                }
 
-    @Test fun addNoteRoll() {
-        MainScreen {
-            assert { isSelected(Page.NOTES) }
-            onClickAdd()
+                when (noteType) {
+                    NoteType.TEXT -> {
+                        // TODO (Проверка экрана)
+                        TextScreen {
+                            assert { onDisplayContent(STATE.EDIT) }
+                            closeSoftKeyboard()
+                            pressBack()
+                        }
+                    }
+                    NoteType.ROLL -> {
+                        // TODO (Проверка экрана)
+                        RollScreen {
+                            assert { onDisplayContent(STATE.EDIT) }
+                            closeSoftKeyboard()
+                            pressBack()
+                        }
+                    }
+                }
 
-            AddDialogUi {
-                assert { onDisplayContent() }
-                onClickItem(NoteType.ROLL)
+                NotesScreen {
+                    assert {
+                        onDisplayContent() // TODO(Отображение списка/информации от bool) (объединить методы)
+                        onDisplayInfo()
+                    }
+                }
             }
-
-            // TODO (Проверка экрана заметки)
-            pressBack()
         }
     }
 
