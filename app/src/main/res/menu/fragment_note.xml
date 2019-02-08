@@ -4,7 +4,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:ignore="AlwaysShowAction">
 
-    <item android:id="@+id/preference_item"
+    <item android:id="@+id/item_preference"
           android:icon="@drawable/ic_preference"
           android:title="@string/menu_page_notes_preference"
           app:showAsAction="always"/>

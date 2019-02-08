@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.screen.main
 
-enum class PAGE {
+enum class Page {
     RANK,
     NOTES,
     BIN

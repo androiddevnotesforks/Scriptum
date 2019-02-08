@@ -2,10 +2,10 @@ package sgtmelon.scriptum.ui.screen.intro
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.IntroAnn
+import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.SCROLL
-import sgtmelon.scriptum.ui.screen.ParentScreen
 
-class IntroScreen: ParentScreen(){
+class IntroScreen: ParentUi(){
 
     companion object {
         operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply { func() }

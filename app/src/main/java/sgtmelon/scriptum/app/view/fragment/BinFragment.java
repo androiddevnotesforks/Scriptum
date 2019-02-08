@@ -130,7 +130,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         toolbar.inflateMenu(R.menu.fragment_bin);
         toolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.clear_item:
+                case R.id.item_clear:
                     if (!openSt.isOpen()) {
                         openSt.setOpen(true);
 
@@ -142,7 +142,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         });
 
         final Menu menu = toolbar.getMenu();
-        mItemClearBin = menu.findItem(R.id.clear_item);
+        mItemClearBin = menu.findItem(R.id.item_clear);
 
         ColorUtils.INSTANCE.tintMenuIcon(context, mItemClearBin);
 

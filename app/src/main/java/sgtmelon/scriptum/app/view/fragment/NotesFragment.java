@@ -128,7 +128,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         toolbar.setOnMenuItemClickListener(this);
 
         final Menu menu = toolbar.getMenu();
-        MenuItem mItemSettings = menu.findItem(R.id.preference_item);
+        MenuItem mItemSettings = menu.findItem(R.id.item_preference);
 
         ColorUtils.INSTANCE.tintMenuIcon(context, mItemSettings);
     }
@@ -228,7 +228,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "onMenuItemClick");
 
         switch (item.getItemId()) {
-            case R.id.preference_item:
+            case R.id.item_preference:
                 startActivity(new Intent(context, PreferenceActivity.class));
                 return true;
         }

@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.ui.screen.ParentScreen
+import sgtmelon.scriptum.ui.ParentUi
 
-class MainScreen : ParentScreen() {
+class MainScreen : ParentUi() {
 
     companion object {
         operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply { func() }
@@ -11,11 +11,13 @@ class MainScreen : ParentScreen() {
 
     fun assert(func: MainAssert.() -> Unit) = MainAssert().apply { func() }
 
-    fun navigateTo(page: PAGE) = action {
+    fun onClickAdd() = action { onClick(R.id.add_fab) }
+
+    fun navigateTo(page: Page) = action {
         onClick(when (page) {
-            PAGE.RANK -> R.id.page_rank_item
-            PAGE.NOTES -> R.id.page_notes_item
-            PAGE.BIN -> R.id.page_bin_item
+            Page.RANK -> R.id.item_page_rank
+            Page.NOTES -> R.id.item_page_notes
+            Page.BIN -> R.id.item_page_bin
         })
     }
 

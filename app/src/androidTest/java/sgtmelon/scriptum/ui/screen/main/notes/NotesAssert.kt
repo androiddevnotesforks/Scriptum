@@ -7,7 +7,7 @@ class NotesAssert : BasicMatch() {
 
     fun onDisplayContent() { // TODO(Отображение списка/информации от bool)
         onDisplayToolbar(R.id.toolbar, R.string.title_notes)
-        onDisplay(R.id.preference_item)
+        onDisplay(R.id.item_preference)
     }
 
     fun onDisplayList() = onDisplay(R.id.notes_recycler)

@@ -14,10 +14,10 @@ class MainAssert : BasicMatch() {
         }
     }
 
-    fun isSelected(page: PAGE) = isSelected(when (page) {
-        PAGE.RANK -> R.id.page_rank_item
-        PAGE.NOTES -> R.id.page_notes_item
-        PAGE.BIN -> R.id.page_bin_item
+    fun isSelected(page: Page) = isSelected(when (page) {
+        Page.RANK -> R.id.item_page_rank
+        Page.NOTES -> R.id.item_page_notes
+        Page.BIN -> R.id.item_page_bin
     })
 
 }

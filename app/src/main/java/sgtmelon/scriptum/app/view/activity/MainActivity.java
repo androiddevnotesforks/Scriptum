@@ -110,7 +110,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         sheetDialog.setNavigationItemSelectedListener(menuItem -> {
             sheetDialog.dismiss();
 
-            final int type = menuItem.getItemId() == R.id.note_text_item
+            final int type = menuItem.getItemId() == R.id.item_add_note
                     ? TypeNoteDef.text
                     : TypeNoteDef.roll;
 
@@ -141,13 +141,13 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
         int page = pageSt.getPage();
 
         switch (menuItem.getItemId()) {
-            case R.id.page_rank_item:
+            case R.id.item_page_rank:
                 page = PageDef.rank;
                 break;
-            case R.id.page_notes_item:
+            case R.id.item_page_notes:
                 page = PageDef.notes;
                 break;
-            case R.id.page_bin_item:
+            case R.id.item_page_bin:
                 page = PageDef.bin;
                 break;
         }

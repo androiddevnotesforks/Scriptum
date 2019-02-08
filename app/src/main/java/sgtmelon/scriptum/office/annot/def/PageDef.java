@@ -14,9 +14,9 @@ import sgtmelon.scriptum.R;
 public @interface PageDef {
 
     int[] itemId = new int[]{
-            R.id.page_rank_item,
-            R.id.page_notes_item,
-            R.id.page_bin_item,
+            R.id.item_page_rank,
+            R.id.item_page_notes,
+            R.id.item_page_bin,
     };
 
     int rank = 0, notes = 1, bin = 2;
