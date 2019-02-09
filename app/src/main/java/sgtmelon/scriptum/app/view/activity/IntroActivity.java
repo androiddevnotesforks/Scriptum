@@ -39,8 +39,8 @@ public final class IntroActivity extends AppCompatActivity
 
         final ViewPager viewPager = findViewById(R.id.intro_pager);
 
-        pageIndicator = findViewById(R.id.page_indicator);
-        pageButtonEnd = findViewById(R.id.info_end_button);
+        pageIndicator = findViewById(R.id.intro_page_indicator);
+        pageButtonEnd = findViewById(R.id.intro_end_button);
 
         pageButtonEnd.setOnClickListener(view -> {
             Intent intent = new Intent(IntroActivity.this, MainActivity.class);

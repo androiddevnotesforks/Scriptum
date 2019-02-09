@@ -12,8 +12,8 @@ class IntroAssert : BasicMatch() {
     }
 
     fun isEnableEndButton(position: Int) =
-            isEnable(R.id.info_end_button, position == IntroAnn.count - 1)
+            isEnable(R.id.intro_end_button, position == IntroAnn.count - 1)
 
-    fun onDisplayEndButton() = onDisplay(R.id.info_end_button, R.string.info_intro_button)
+    fun onDisplayEndButton() = onDisplay(R.id.intro_end_button, R.string.info_intro_button)
 
 }

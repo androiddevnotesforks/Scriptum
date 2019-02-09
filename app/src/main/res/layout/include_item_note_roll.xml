@@ -8,15 +8,20 @@
 
     </data>
 
-    <LinearLayout style="@style/NoteItem.Container.Roll" tools:ignore="UseCompoundDrawables">
+    <LinearLayout
+            android:id="@+id/note_roll_container"
+            style="@style/NoteItem.Container.Roll"
+            tools:ignore="UseCompoundDrawables">
 
         <ImageView
+                android:id="@+id/note_roll_check_image"
                 style="@style/NoteItem.Indicator"
                 android:contentDescription="@null"
                 android:src='@{rollItem != null &amp;&amp; rollItem.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
                 tools:srcCompat="@drawable/ic_check_done"/>
 
         <TextView
+                android:id="@+id/note_roll_text"
                 style="@style/NoteItem.Roll"
                 android:text='@{rollItem != null ? rollItem.text : ""}'
                 tools:text="@string/test_note_roll"/>

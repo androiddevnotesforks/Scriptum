@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.widget.panel
+package sgtmelon.scriptum.ui.widget.note.panel
 
 import sgtmelon.scriptum.ui.ParentUi
 

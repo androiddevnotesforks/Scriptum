@@ -93,7 +93,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
     private void setupNavigation(@PageDef int page) {
         Log.i(TAG, "setupNavigation");
 
-        fab = findViewById(R.id.add_fab);
+        fab = findViewById(R.id.main_add_fab);
         fab.setOnClickListener(view -> {
             if (!openSt.isOpen()) {
                 openSt.setOpen(true);
@@ -103,7 +103,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
             }
         });
 
-        final BottomNavigationView navigationView = findViewById(R.id.menu_navigation);
+        final BottomNavigationView navigationView = findViewById(R.id.main_menu_navigation);
         navigationView.setOnNavigationItemSelectedListener(this);
         navigationView.setSelectedItemId(PageDef.itemId[page]);
 
@@ -168,7 +168,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                         transaction.show(rankFragment);
                         rankFragment.onResume();
                     } else {
-                        transaction.add(R.id.fragment_container, rankFragment, FragmentDef.RANK);
+                        transaction.add(R.id.main_fragment_container, rankFragment, FragmentDef.RANK);
                     }
                 }
                 break;
@@ -181,7 +181,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                         transaction.show(notesFragment);
                         notesFragment.onResume();
                     } else {
-                        transaction.add(R.id.fragment_container, notesFragment, FragmentDef.NOTES);
+                        transaction.add(R.id.main_fragment_container, notesFragment, FragmentDef.NOTES);
                     }
                 }
                 break;
@@ -194,7 +194,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                         transaction.show(binFragment);
                         binFragment.onResume();
                     } else {
-                        transaction.add(R.id.fragment_container, binFragment, FragmentDef.BIN);
+                        transaction.add(R.id.main_fragment_container, binFragment, FragmentDef.BIN);
                     }
                 }
                 break;

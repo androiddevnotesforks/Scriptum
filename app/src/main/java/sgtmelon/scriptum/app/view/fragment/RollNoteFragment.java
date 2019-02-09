@@ -32,8 +32,8 @@ import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
-import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
-import sgtmelon.scriptum.databinding.FragmentRollBinding;
+import sgtmelon.scriptum.app.vm.activity.NoteActivityViewModel;
+import sgtmelon.scriptum.databinding.FragmentRollNoteBinding;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
@@ -46,15 +46,15 @@ import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
-public final class RollFragment extends NoteFragmentParent implements ItemIntf.ClickListener,
+public final class RollNoteFragment extends NoteFragmentParent implements ItemIntf.ClickListener,
         ItemIntf.RollWatcher {
 
-    private static final String TAG = RollFragment.class.getSimpleName();
+    private static final String TAG = RollNoteFragment.class.getSimpleName();
 
     private final DragListenerSt dragSt = new DragListenerSt();
     private final CheckSt checkSt = new CheckSt();
 
-    private FragmentRollBinding binding;
+    private FragmentRollNoteBinding binding;
 
     private LinearLayoutManager layoutManager;
     private RollAdapter adapter;
@@ -169,16 +169,16 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private EditText rollEnter;
 
     @NonNull
-    public static RollFragment getInstance(boolean rankEmpty) {
+    public static RollNoteFragment getInstance(boolean rankEmpty) {
         Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
 
-        final RollFragment rollFragment = new RollFragment();
+        final RollNoteFragment rollNoteFragment = new RollNoteFragment();
         final Bundle bundle = new Bundle();
 
         bundle.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
-        rollFragment.setArguments(bundle);
+        rollNoteFragment.setArguments(bundle);
 
-        return rollFragment;
+        return rollNoteFragment;
     }
 
     @Override
@@ -197,7 +197,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_roll, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_roll_note, container, false);
         return frgView = binding.getRoot();
     }
 
@@ -206,7 +206,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
         if (vm.isEmpty()) {
             vm.setNoteRepo(viewModel.getNoteRepo());
         }
@@ -289,7 +289,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
     private void setupRecycler() {
         Log.i(TAG, "setupRecycler");
 
-        recyclerView = frgView.findViewById(R.id.roll_recycler);
+        recyclerView = frgView.findViewById(R.id.roll_note_recycler);
 
         final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
         if (animator != null) {
@@ -323,8 +323,8 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
             return true;
         });
 
-        rollEnter = frgView.findViewById(R.id.roll_enter);
-        final ImageButton rollAdd = frgView.findViewById(R.id.add_button);
+        rollEnter = frgView.findViewById(R.id.roll_note_enter);
+        final ImageButton rollAdd = frgView.findViewById(R.id.roll_note_add_button);
 
         rollEnter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -479,7 +479,7 @@ public final class RollFragment extends NoteFragmentParent implements ItemIntf.C
 
         db = RoomDb.provideDb(context);
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
         if (noteSt.isCreate()) {
             noteSt.setCreate(false);

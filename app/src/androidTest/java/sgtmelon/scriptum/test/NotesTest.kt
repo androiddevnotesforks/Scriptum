@@ -11,10 +11,9 @@ import sgtmelon.scriptum.app.view.activity.SplashActivity
 import sgtmelon.scriptum.office.annot.def.NoteType
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.main.PAGE
-import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
-import sgtmelon.scriptum.ui.screen.note.roll.RollScreen
-import sgtmelon.scriptum.ui.screen.note.text.TextScreen
-import sgtmelon.scriptum.ui.widget.panel.STATE
+import sgtmelon.scriptum.ui.screen.note.roll.RollNoteScreen
+import sgtmelon.scriptum.ui.screen.note.text.TextNoteScreen
+import sgtmelon.scriptum.ui.widget.note.STATE
 
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentTest() {
@@ -38,7 +37,7 @@ class NotesTest : ParentTest() {
 
     @Test fun testAddDialog() {
         MainScreen {
-            assert { isSelected(PAGE.NOTES) }
+            assert { onDisplayContent(PAGE.NOTES) }
 
             addDialog {
                 open()
@@ -54,16 +53,14 @@ class NotesTest : ParentTest() {
 
                 when (noteType) {
                     NoteType.TEXT -> {
-                        // TODO (Проверка экрана)
-                        TextScreen {
+                        TextNoteScreen {
                             assert { onDisplayContent(STATE.EDIT) }
                             closeSoftKeyboard()
                             pressBack()
                         }
                     }
                     NoteType.ROLL -> {
-                        // TODO (Проверка экрана)
-                        RollScreen {
+                        RollNoteScreen {
                             assert { onDisplayContent(STATE.EDIT) }
                             closeSoftKeyboard()
                             pressBack()
@@ -71,12 +68,7 @@ class NotesTest : ParentTest() {
                     }
                 }
 
-                NotesScreen {
-                    assert {
-                        onDisplayContent() // TODO(Отображение списка/информации от bool) (объединить методы)
-                        onDisplayInfo()
-                    }
-                }
+                assert { onDisplayContent(PAGE.NOTES) }
             }
         }
     }

@@ -3,6 +3,9 @@ package sgtmelon.scriptum.ui.screen.main
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.AddDialogUi
+import sgtmelon.scriptum.ui.screen.main.bin.BinScreen
+import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
+import sgtmelon.scriptum.ui.screen.main.rank.RankScreen
 
 class MainScreen : ParentUi() {
 
@@ -11,7 +14,12 @@ class MainScreen : ParentUi() {
     }
 
     fun assert(func: MainAssert.() -> Unit) = MainAssert().apply { func() }
+
     fun addDialog(func: AddDialogUi.() -> Unit) = AddDialogUi().apply { func() }
+
+    fun rankScreen(func: RankScreen.() -> Unit) = RankScreen().apply { func() }
+    fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply { func() }
+    fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply { func() }
 
     fun navigateTo(page: PAGE) = action {
         onClick(when (page) {

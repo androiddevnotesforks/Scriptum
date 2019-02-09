@@ -22,6 +22,6 @@ class IntroScreen: ParentUi(){
         }
     }
 
-    fun onClickEndButton() = action { onClick(R.id.info_end_button) }
+    fun onClickEndButton() = action { onClick(R.id.intro_end_button) }
 
 }

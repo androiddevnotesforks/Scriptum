@@ -15,7 +15,7 @@ class SortHolder(private val binding: ItemSortBinding,
                  private val clickListener: ItemIntf.ClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    val clickView: View = itemView.findViewById(R.id.click_container)
+    private val clickView: View = itemView.findViewById(R.id.sort_click_container)
 
     init {
         clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition)}

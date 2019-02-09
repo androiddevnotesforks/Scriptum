@@ -5,22 +5,28 @@ import sgtmelon.scriptum.basic.BasicMatch
 
 class RankAssert : BasicMatch() {
 
-    fun onDisplayContent() { // TODO(Отображение списка/информации от bool) (объединить методы)
-//        onDisplayToolbar(R.id.toolbar, R.string.title_rank)
+    fun onDisplayContent(count: Int) {
+        onDisplay(R.id.rank_parent_container)
+
+        onDisplayToolbar()
+
+        if (count == 0) {
+            onDisplay(R.id.info_title_text, R.string.info_rank_title)
+            onDisplay(R.id.info_details_text, R.string.info_rank_details)
+            doesNotDisplay(R.id.rank_recycler)
+        } else {
+            doesNotDisplay(R.id.info_title_text, R.string.info_rank_title)
+            doesNotDisplay(R.id.info_details_text, R.string.info_notes_details)
+            onDisplay(R.id.rank_recycler)
+        }
     }
 
-    fun onDisplayList() = onDisplay(R.id.rank_recycler)
+    private fun onDisplayToolbar() {
+        onDisplay(R.id.toolbar_rank_container)
 
-    fun doesNotDisplayList() = doesNotDisplay(R.id.rank_recycler)
-
-    fun onDisplayInfo() {
-        onDisplay(R.id.info_title_text, R.string.info_rank_title)
-        onDisplay(R.id.info_details_text, R.string.info_rank_details)
-    }
-
-    fun doesNotDisplayInfo() {
-        doesNotDisplay(R.id.info_title_text, R.string.info_rank_title)
-        doesNotDisplay(R.id.info_details_text, R.string.info_notes_details)
+        onDisplay(R.id.toolbar_rank_cancel_button)
+        onDisplay(R.id.toolbar_rank_enter)
+        onDisplay(R.id.toolbar_rank_add_button)
     }
 
 }

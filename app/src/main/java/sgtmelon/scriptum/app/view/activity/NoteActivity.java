@@ -15,11 +15,11 @@ import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
-import sgtmelon.scriptum.app.view.fragment.RollFragment;
-import sgtmelon.scriptum.app.view.fragment.TextFragment;
+import sgtmelon.scriptum.app.view.fragment.RollNoteFragment;
+import sgtmelon.scriptum.app.view.fragment.TextNoteFragment;
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent;
-import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
-import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
+import sgtmelon.scriptum.app.vm.activity.NoteActivityViewModel;
+import sgtmelon.scriptum.app.vm.fragment.NoteFragmentViewModel;
 import sgtmelon.scriptum.office.annot.def.FragmentDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
@@ -34,12 +34,12 @@ public final class NoteActivity extends BaseActivityParent
     private static final String TAG = NoteActivity.class.getSimpleName();
 
     private FragmentManager fm;
-    private ActivityNoteViewModel vm;
+    private NoteActivityViewModel vm;
 
     private SaveControl saveControl;
 
-    private TextFragment textFragment;
-    private RollFragment rollFragment;
+    private TextNoteFragment textNoteFragment;
+    private RollNoteFragment rollNoteFragment;
 
     @NonNull
     public static Intent getIntent(@NonNull Context context, int type) {
@@ -76,7 +76,7 @@ public final class NoteActivity extends BaseActivityParent
         setContentView(R.layout.activity_note);
 
         fm = getSupportFragmentManager();
-        vm = ViewModelProviders.of(this).get(ActivityNoteViewModel.class);
+        vm = ViewModelProviders.of(this).get(NoteActivityViewModel.class);
 
         final Bundle bundle = getIntent().getExtras();
         vm.setValue(bundle != null ? bundle : savedInstanceState);
@@ -108,38 +108,38 @@ public final class NoteActivity extends BaseActivityParent
         if (noteSt.isEdit() && !noteSt.isCreate()) {                  //Если это редактирование и не только что созданная заметка
             switch (noteItem.getType()) {
                 case TypeNoteDef.text:
-                    if (!textFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
+                    if (!textNoteFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
                         final int colorFrom = noteItem.getColor();
                         final int colorTo = vm.resetFragmentData(
-                                noteItem.getId(), textFragment.getViewModel()
+                                noteItem.getId(), textNoteFragment.getViewModel()
                         );
 
-                        textFragment.startTintToolbar(colorFrom, colorTo);
-                        textFragment.onMenuEditClick(false);
+                        textNoteFragment.startTintToolbar(colorFrom, colorTo);
+                        textNoteFragment.onMenuEditClick(false);
                     }
                     break;
                 case TypeNoteDef.roll:
-                    if (!rollFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
+                    if (!rollNoteFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
                         final int colorFrom = noteItem.getColor();
                         final int colorTo = vm.resetFragmentData(
-                                noteItem.getId(), rollFragment.getViewModel()
+                                noteItem.getId(), rollNoteFragment.getViewModel()
                         );
 
-                        rollFragment.startTintToolbar(colorFrom, colorTo);
-                        rollFragment.onMenuEditClick(false);
-                        rollFragment.updateAdapter();
+                        rollNoteFragment.startTintToolbar(colorFrom, colorTo);
+                        rollNoteFragment.onMenuEditClick(false);
+                        rollNoteFragment.updateAdapter();
                     }
                     break;
             }
         } else if (noteSt.isCreate()) {     //Если только что создали заметку
             switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
                 case TypeNoteDef.text:
-                    if (!textFragment.onMenuSaveClick(true, false)) {
+                    if (!textNoteFragment.onMenuSaveClick(true, false)) {
                         super.onBackPressed();
                     }
                     break;
                 case TypeNoteDef.roll:
-                    if (!rollFragment.onMenuSaveClick(true, false)) {
+                    if (!rollNoteFragment.onMenuSaveClick(true, false)) {
                         super.onBackPressed();
                     }
                     break;
@@ -163,22 +163,22 @@ public final class NoteActivity extends BaseActivityParent
 
         switch (vm.getNoteRepo().getNoteItem().getType()) {
             case TypeNoteDef.text:
-                textFragment = isSave
-                        ? (TextFragment) fm.findFragmentByTag(FragmentDef.TEXT)
-                        : TextFragment.getInstance(vm.isRankEmpty());
+                textNoteFragment = isSave
+                        ? (TextNoteFragment) fm.findFragmentByTag(FragmentDef.TEXT)
+                        : TextNoteFragment.getInstance(vm.isRankEmpty());
 
-                saveControl.setNoteMenuClick(textFragment);
+                saveControl.setNoteMenuClick(textNoteFragment);
 
-                transaction.replace(R.id.fragment_container, textFragment, FragmentDef.TEXT);
+                transaction.replace(R.id.note_fragment_container, textNoteFragment, FragmentDef.TEXT);
                 break;
             case TypeNoteDef.roll:
-                rollFragment = isSave
-                        ? (RollFragment) fm.findFragmentByTag(FragmentDef.ROLL)
-                        : RollFragment.getInstance(vm.isRankEmpty());
+                rollNoteFragment = isSave
+                        ? (RollNoteFragment) fm.findFragmentByTag(FragmentDef.ROLL)
+                        : RollNoteFragment.getInstance(vm.isRankEmpty());
 
-                saveControl.setNoteMenuClick(rollFragment);
+                saveControl.setNoteMenuClick(rollNoteFragment);
 
-                transaction.replace(R.id.fragment_container, rollFragment, FragmentDef.ROLL);
+                transaction.replace(R.id.note_fragment_container, rollNoteFragment, FragmentDef.ROLL);
                 break;
         }
         transaction.commit();
@@ -190,7 +190,7 @@ public final class NoteActivity extends BaseActivityParent
     }
 
     @Override
-    public ActivityNoteViewModel getViewModel() {
+    public NoteActivityViewModel getViewModel() {
         return vm;
     }
 
@@ -209,20 +209,20 @@ public final class NoteActivity extends BaseActivityParent
         vm.onMenuRestoreOpenClick();
 
         final NoteRepo noteRepo = vm.getNoteRepo();
-        FragmentNoteViewModel viewModel;
+        NoteFragmentViewModel viewModel;
 
         switch (vm.getNoteRepo().getNoteItem().getType()) {
             case TypeNoteDef.text:
-                viewModel = textFragment.getViewModel();
+                viewModel = textNoteFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
 
-                textFragment.onMenuEditClick(false);
+                textNoteFragment.onMenuEditClick(false);
                 break;
             case TypeNoteDef.roll:
-                viewModel = rollFragment.getViewModel();
+                viewModel = rollNoteFragment.getViewModel();
                 viewModel.setNoteRepo(noteRepo);
 
-                rollFragment.onMenuEditClick(false);
+                rollNoteFragment.onMenuEditClick(false);
                 break;
         }
     }

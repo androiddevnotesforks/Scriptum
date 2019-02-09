@@ -25,14 +25,14 @@ public final class PreferenceActivity extends BaseActivityParent {
 
         getFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new PreferenceFragment())
+                .replace(R.id.preference_fragment_container, new PreferenceFragment())
                 .commit();
     }
 
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.toolbar_container);
         toolbar.setTitle(getString(R.string.title_preference));
 
         final Drawable arrowIcon = ColorUtils.INSTANCE.getDrawable(

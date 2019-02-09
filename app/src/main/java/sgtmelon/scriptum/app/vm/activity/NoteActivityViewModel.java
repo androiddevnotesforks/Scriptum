@@ -13,7 +13,7 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
+import sgtmelon.scriptum.app.vm.fragment.NoteFragmentViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.MenuIntf;
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
-public final class ActivityNoteViewModel extends AndroidViewModel implements
+public final class NoteActivityViewModel extends AndroidViewModel implements
         MenuIntf.Note.DeleteMenuClick {
 
     private final Context context;
@@ -39,7 +39,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel implements
 
     private RoomDb db;
 
-    public ActivityNoteViewModel(@NonNull Application application) {
+    public NoteActivityViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
     }
@@ -109,7 +109,7 @@ public final class ActivityNoteViewModel extends AndroidViewModel implements
     }
 
     @ColorDef
-    public int resetFragmentData(long id, @NonNull FragmentNoteViewModel viewModel) {
+    public int resetFragmentData(long id, @NonNull NoteFragmentViewModel viewModel) {
         db = RoomDb.provideDb(context);
         noteRepo = db.daoNote().get(context, id);
         db.close();

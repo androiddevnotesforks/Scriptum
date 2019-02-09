@@ -18,7 +18,7 @@
             app:elevation="@dimen/elevation_0dp">
 
         <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/toolbar_rank_container"
                 style="?attr/styleToolbar"
                 android:paddingLeft="@dimen/layout_8dp"
                 android:paddingRight="@dimen/layout_8dp"
@@ -36,7 +36,7 @@
                         android:layout_height="wrap_content">
 
                     <ImageButton
-                            android:id="@+id/cancel_button"
+                            android:id="@+id/toolbar_rank_cancel_button"
                             style="@style/Enter.Button"
                             android:contentDescription="@null"
                             app:boolExpression='@{nameNotEmpty}'
@@ -47,7 +47,7 @@
                             tools:tint="?attr/clDisable"/>
 
                     <EditText
-                            android:id="@+id/rank_enter"
+                            android:id="@+id/toolbar_rank_enter"
                             style="@style/Enter.Text"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                             tools:targetApi="o"/>
 
                     <ImageButton
-                            android:id="@+id/add_button"
+                            android:id="@+id/toolbar_rank_add_button"
                             style="@style/Enter.Button"
                             android:contentDescription="@null"
                             app:boolExpression='@{nameNotEmpty}'

@@ -22,8 +22,8 @@ import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
-import sgtmelon.scriptum.app.vm.activity.ActivityNoteViewModel;
-import sgtmelon.scriptum.databinding.FragmentTextBinding;
+import sgtmelon.scriptum.app.vm.activity.NoteActivityViewModel;
+import sgtmelon.scriptum.databinding.FragmentTextNoteBinding;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
@@ -33,24 +33,24 @@ import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
-public final class TextFragment extends NoteFragmentParent {
+public final class TextNoteFragment extends NoteFragmentParent {
 
-    private static final String TAG = TextFragment.class.getSimpleName();
+    private static final String TAG = TextNoteFragment.class.getSimpleName();
 
-    private FragmentTextBinding binding;
+    private FragmentTextNoteBinding binding;
 
     private EditText textEnter;
 
-    public static TextFragment getInstance(boolean rankEmpty) {
+    public static TextNoteFragment getInstance(boolean rankEmpty) {
         Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
 
-        final TextFragment textFragment = new TextFragment();
+        final TextNoteFragment textNoteFragment = new TextNoteFragment();
         final Bundle bundle = new Bundle();
 
         bundle.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
-        textFragment.setArguments(bundle);
+        textNoteFragment.setArguments(bundle);
 
-        return textFragment;
+        return textNoteFragment;
     }
 
     @NonNull
@@ -60,7 +60,7 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text_note, container, false);
         return frgView = binding.getRoot();
     }
 
@@ -69,7 +69,7 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        final ActivityNoteViewModel vm = noteCallback.getViewModel();
+        final NoteActivityViewModel vm = noteCallback.getViewModel();
         if (this.vm.isEmpty()) {
             this.vm.setNoteRepo(vm.getNoteRepo());
         }
@@ -150,7 +150,7 @@ public final class TextFragment extends NoteFragmentParent {
         Log.i(TAG, "setupEnter");
         super.setupEnter();
 
-        textEnter = frgView.findViewById(R.id.text_enter);
+        textEnter = frgView.findViewById(R.id.text_note_enter);
         textEnter.addTextChangedListener(
                 new InputTextWatcher(textEnter, InputDef.text, this, inputControl)
         );
@@ -180,7 +180,7 @@ public final class TextFragment extends NoteFragmentParent {
 
         db = RoomDb.provideDb(context);
 
-        final ActivityNoteViewModel viewModel = noteCallback.getViewModel();
+        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
         if (noteSt.isCreate()) {
             noteSt.setCreate(false);
@@ -327,7 +327,7 @@ public final class TextFragment extends NoteFragmentParent {
         inputControl.setChangeEnabled(true);
     }
 
-    // TODO: 10.12.2018 вынести onMenuCheckClick в отдельный интерфейс только для RollFragment
+    // TODO: 10.12.2018 вынести onMenuCheckClick в отдельный интерфейс только для RollNoteFragment
 
     @Override
     public void onMenuCheckClick() {

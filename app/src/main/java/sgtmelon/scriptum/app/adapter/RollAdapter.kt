@@ -8,7 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.app.model.item.RollItem
-import sgtmelon.scriptum.app.view.fragment.RollFragment
+import sgtmelon.scriptum.app.view.fragment.RollNoteFragment
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.office.annot.def.TypeRollDef
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.st.NoteSt
 
 /**
- * Адаптер для [RollFragment]
+ * Адаптер для [RollNoteFragment]
  */
 class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
                   private val dragListener: ItemIntf.DragListener,

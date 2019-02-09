@@ -206,12 +206,12 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        final Toolbar toolbar = frgView.findViewById(R.id.toolbar);
+        final Toolbar toolbar = frgView.findViewById(R.id.toolbar_rank_container);
         toolbar.setTitle(getString(R.string.title_rank));
 
-        final ImageButton rankCancel = frgView.findViewById(R.id.cancel_button);
-        final ImageButton rankAdd = frgView.findViewById(R.id.add_button);
-        rankEnter = frgView.findViewById(R.id.rank_enter);
+        final ImageButton rankCancel = frgView.findViewById(R.id.toolbar_rank_cancel_button);
+        final ImageButton rankAdd = frgView.findViewById(R.id.toolbar_rank_add_button);
+        rankEnter = frgView.findViewById(R.id.toolbar_rank_enter);
 
         rankEnter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -322,10 +322,10 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         Log.i(TAG, "onClick");
 
         switch (v.getId()) {
-            case R.id.cancel_button:
+            case R.id.toolbar_rank_cancel_button:
                 clearEnter();
                 break;
-            case R.id.add_button:
+            case R.id.toolbar_rank_add_button:
                 final RankRepo rankRepo = vm.getRankRepo();
 
                 final int p = rankRepo.size();

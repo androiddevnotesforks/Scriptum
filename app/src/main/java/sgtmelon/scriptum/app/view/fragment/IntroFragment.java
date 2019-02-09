@@ -46,7 +46,7 @@ public final class IntroFragment extends Fragment {
         Log.d(TAG, "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
 
-        container = frgView.findViewById(R.id.info_container);
+        container = frgView.findViewById(R.id.info_parent_container);
         bind();
     }
 

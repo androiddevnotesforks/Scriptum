@@ -24,6 +24,7 @@
     </data>
 
     <LinearLayout
+            android:id="@+id/text_note_parent_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -41,6 +42,7 @@
                 android:paddingBottom="@dimen/recycler_margin">
 
             <androidx.cardview.widget.CardView
+                    android:id="@+id/text_note_card"
                     style="@style/Card"
                     android:layout_height="match_parent"
                     app:cardBackgroundColor="?attr/clBackgroundView"
@@ -48,6 +50,7 @@
                     app:cardUseCompatPadding="false">
 
                 <ScrollView
+                        android:id="@+id/text_note_scroll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fillViewport="true">
@@ -57,7 +60,7 @@
                             android:layout_height="wrap_content">
 
                         <EditText
-                                android:id="@+id/text_enter"
+                                android:id="@+id/text_note_enter"
                                 style="@style/Text.Enter"
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
@@ -67,7 +70,7 @@
                                 tools:visibility="gone"/>
 
                         <TextView
-                                android:id="@+id/text_text"
+                                android:id="@+id/text_note_text"
                                 style="@style/Text.Read"
                                 android:text='@{noteItem.text}'
                                 android:visibility='@{!keyEdit ? v.VISIBLE : v.INVISIBLE}'

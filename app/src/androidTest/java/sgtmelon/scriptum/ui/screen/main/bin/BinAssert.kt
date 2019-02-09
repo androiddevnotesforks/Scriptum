@@ -5,24 +5,22 @@ import sgtmelon.scriptum.basic.BasicMatch
 
 class BinAssert : BasicMatch() {
 
-    fun onDisplayContent() { // TODO(Отображение списка/информации от bool) (объединить методы)
-        onDisplayToolbar(R.id.toolbar, R.string.title_bin)
+    fun onDisplayContent(count: Int) {
+        onDisplay(R.id.bin_parent_container)
 
-//        doesNotDisplay(R.id.clear_item) //TODO исправить (может и быть)
-    }
+        onDisplayToolbar(R.id.toolbar_container, R.string.title_bin)
 
-    fun onDisplayList() = onDisplay(R.id.bin_recycler)
+        if (count == 0) {
+            onDisplay(R.id.info_title_text, R.string.info_bin_title)
+            onDisplay(R.id.info_details_text, R.string.info_bin_details)
+            doesNotDisplay(R.id.bin_recycler)
+        } else {
+            onDisplay(R.id.item_clear)
 
-    fun doesNotDisplayList() = doesNotDisplay(R.id.bin_recycler)
-
-    fun onDisplayInfo() {
-        onDisplay(R.id.info_title_text, R.string.info_bin_title)
-        onDisplay(R.id.info_details_text, R.string.info_bin_details)
-    }
-
-    fun doesNotDisplayInfo() {
-        doesNotDisplay(R.id.info_title_text, R.string.info_bin_title)
-        doesNotDisplay(R.id.info_details_text, R.string.info_bin_details)
+            doesNotDisplay(R.id.info_title_text, R.string.info_bin_title)
+            doesNotDisplay(R.id.info_details_text, R.string.info_bin_details)
+            onDisplay(R.id.bin_recycler)
+        }
     }
 
 }

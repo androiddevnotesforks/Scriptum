@@ -1,6 +1,9 @@
 package sgtmelon.scriptum.ui.screen.main.notes
 
-class NotesScreen {
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
+
+class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     companion object {
         operator fun invoke(func: NotesScreen.() -> Unit) = NotesScreen().apply { func() }

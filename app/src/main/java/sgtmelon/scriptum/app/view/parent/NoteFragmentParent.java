@@ -32,9 +32,9 @@ import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
-import sgtmelon.scriptum.app.view.fragment.RollFragment;
-import sgtmelon.scriptum.app.view.fragment.TextFragment;
-import sgtmelon.scriptum.app.vm.fragment.FragmentNoteViewModel;
+import sgtmelon.scriptum.app.view.fragment.RollNoteFragment;
+import sgtmelon.scriptum.app.view.fragment.TextNoteFragment;
+import sgtmelon.scriptum.app.vm.fragment.NoteFragmentViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
@@ -47,7 +47,7 @@ import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
  * Класс родитель для фрагментов редактирования заметок
- * {@link TextFragment}, {@link RollFragment}
+ * {@link TextNoteFragment}, {@link RollNoteFragment}
  */
 public abstract class NoteFragmentParent extends Fragment implements
         View.OnClickListener, BindIntf, MenuIntf.Note.NoteMenuClick {
@@ -69,7 +69,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     protected FragmentManager fm;
     protected RoomDb db;
     protected View frgView;
-    protected FragmentNoteViewModel vm;
+    protected NoteFragmentViewModel vm;
 
     protected boolean rankEmpty;
 
@@ -109,7 +109,7 @@ public abstract class NoteFragmentParent extends Fragment implements
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        vm = ViewModelProviders.of(this).get(FragmentNoteViewModel.class);
+        vm = ViewModelProviders.of(this).get(NoteFragmentViewModel.class);
 
         fm = getFragmentManager();
         convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm);
@@ -154,8 +154,8 @@ public abstract class NoteFragmentParent extends Fragment implements
     protected void setupToolbar() {
         Log.i(TAG, "setupToolbar");
 
-        final Toolbar toolbar = frgView.findViewById(R.id.toolbar);
-        final View indicator = frgView.findViewById(R.id.color_view);
+        final Toolbar toolbar = frgView.findViewById(R.id.toolbar_note_container);
+        final View indicator = frgView.findViewById(R.id.toolbar_note_color_view);
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -235,7 +235,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     protected void setupEnter() {
         Log.i(TAG, "setupEnter");
 
-        nameEnter = frgView.findViewById(R.id.name_enter);
+        nameEnter = frgView.findViewById(R.id.toolbar_note_enter);
         nameEnter.addTextChangedListener(
                 new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
         );
@@ -246,7 +246,7 @@ public abstract class NoteFragmentParent extends Fragment implements
         menuControl.startTint(colorTo);
     }
 
-    public final FragmentNoteViewModel getViewModel() {
+    public final NoteFragmentViewModel getViewModel() {
         return vm;
     }
 

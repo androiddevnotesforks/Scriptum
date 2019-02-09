@@ -2,13 +2,13 @@ package sgtmelon.scriptum.app.vm.fragment;
 
 import androidx.lifecycle.ViewModel;
 import sgtmelon.scriptum.app.model.NoteRepo;
-import sgtmelon.scriptum.app.view.fragment.RollFragment;
-import sgtmelon.scriptum.app.view.fragment.TextFragment;
+import sgtmelon.scriptum.app.view.fragment.RollNoteFragment;
+import sgtmelon.scriptum.app.view.fragment.TextNoteFragment;
 
 /**
- * ViewModel для {@link TextFragment} и {@link RollFragment}
+ * ViewModel для {@link TextNoteFragment} и {@link RollNoteFragment}
  */
-public final class FragmentNoteViewModel extends ViewModel {
+public final class NoteFragmentViewModel extends ViewModel {
 
     private NoteRepo noteRepo;
 

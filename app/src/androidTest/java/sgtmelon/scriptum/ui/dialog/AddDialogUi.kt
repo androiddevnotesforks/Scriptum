@@ -19,6 +19,6 @@ class AddDialogUi : ParentUi() {
         })
     }
 
-    fun open() = action { onClick(R.id.add_fab) }
+    fun open() = action { onClick(R.id.main_add_fab) }
 
 }

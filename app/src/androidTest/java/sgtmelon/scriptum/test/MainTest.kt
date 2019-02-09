@@ -8,9 +8,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.main.PAGE
-import sgtmelon.scriptum.ui.screen.main.bin.BinScreen
-import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
-import sgtmelon.scriptum.ui.screen.main.rank.RankScreen
 
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentTest() {
@@ -37,57 +34,24 @@ class MainTest : ParentTest() {
 
     @Test fun testNavigation() {
         MainScreen {
-            assert {
-                isSelected(PAGE.NOTES)
-                onDisplayContent(PAGE.NOTES)
-            }
+            assert { onDisplayContent(PAGE.NOTES) }
 
             for (page in listPage) {
                 navigateTo(page)
-                assert {
-                    isSelected(page)
-                    onDisplayContent(page)
-                }
+                assert { onDisplayContent(page) }
             }
         }
     }
 
-    @Test fun testContentEmpty() {
+    @Test fun testDisplayInfo() {
         db.clearAllTables()
 
         MainScreen {
-            assert { isSelected(PAGE.NOTES) }
-            NotesScreen {
-                assert {
-                    onDisplayContent() // TODO(Отображение списка/информации от bool) (объединить методы)
-                    onDisplayInfo()
-                }
-            }
+            assert { onDisplayContent(PAGE.NOTES) }
 
             for (page in listPage) {
                 navigateTo(page)
-                assert { isSelected(page) }
-
-                when (page) {
-                    PAGE.RANK -> RankScreen {
-                        assert {
-                            onDisplayContent() // TODO(Отображение списка/информации от bool) (объединить методы)
-                            onDisplayInfo()
-                        }
-                    }
-                    PAGE.NOTES -> NotesScreen {
-                        assert {
-                            onDisplayContent()
-                            onDisplayInfo()
-                        }
-                    }
-                    PAGE.BIN -> BinScreen {
-                        assert {
-                            onDisplayContent()
-                            onDisplayInfo()
-                        }
-                    }
-                }
+                assert { onDisplayContent(page) }
             }
         }
     }

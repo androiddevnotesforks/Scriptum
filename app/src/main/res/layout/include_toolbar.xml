@@ -7,7 +7,7 @@
         app:elevation="@dimen/elevation_0dp">
 
     <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/toolbar_container"
             style="?attr/styleToolbar"
             app:popupTheme="?attr/themePopup"/>
 

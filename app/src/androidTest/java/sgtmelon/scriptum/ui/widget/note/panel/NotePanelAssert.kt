@@ -1,7 +1,8 @@
-package sgtmelon.scriptum.ui.widget.panel
+package sgtmelon.scriptum.ui.widget.note.panel
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.BasicMatch
+import sgtmelon.scriptum.ui.widget.note.STATE
 
 class NotePanelAssert : BasicMatch() {
 

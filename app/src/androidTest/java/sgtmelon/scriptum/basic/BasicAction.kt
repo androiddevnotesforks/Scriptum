@@ -35,4 +35,10 @@ class BasicAction {
     fun onSwipeRight(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).perform(swipeRight())
 
+    fun onSwipeUp(@IdRes viewId: Int): ViewInteraction =
+            onView(withId(viewId)).perform(swipeUp())
+
+    fun onSwipeDown(@IdRes viewId: Int): ViewInteraction =
+            onView(withId(viewId)).perform(swipeDown())
+
 }
