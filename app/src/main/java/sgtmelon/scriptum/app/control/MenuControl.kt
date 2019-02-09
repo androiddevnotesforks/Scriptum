@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.control
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.View
@@ -39,25 +38,24 @@ open class MenuControl(protected val context: Context,
     private var statusColorTo: Int = 0
     private var toolbarColorFrom: Int = 0
     private var toolbarColorTo: Int = 0
+    private var indicatorColorFrom: Int = 0
+    private var indicatorColorTo: Int = 0
 
     init {
         val updateListener = ValueAnimator.AnimatorUpdateListener {
             val position = it.animatedFraction
+            var blended: Int
 
-            var blended = ColorUtils.blend(statusColorFrom, statusColorTo, position)
             if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                blended = ColorUtils.blend(statusColorFrom, statusColorTo, position)
                 window.statusBarColor = blended
             }
 
-            var background = ColorDrawable(blended)
-            indicator.background = background
-
             blended = ColorUtils.blend(toolbarColorFrom, toolbarColorTo, position)
-            background = ColorDrawable(blended)
+            if (valTheme != ThemeDef.dark) toolbar.setBackgroundColor(blended)
 
-            if (valTheme != ThemeDef.dark) {
-                toolbar.background = background
-            }
+            blended = ColorUtils.blend(indicatorColorFrom, indicatorColorTo, position)
+            if (valTheme == ThemeDef.dark) indicator.setBackgroundColor(blended)
         }
 
         anim.addUpdateListener(updateListener)
@@ -76,33 +74,32 @@ open class MenuControl(protected val context: Context,
             }
             toolbar.setBackgroundColor(ColorUtils.get(context, color, false))
         }
+
         indicator.setBackgroundColor(ColorUtils.get(context, color, true))
 
         setColorFrom(color)
     }
 
     /**
-     * Установка начального цвета
-     *
-     * @param color - Начальный цвет
+     * Установка начального цвета, [color] - начальный цвет
      */
     fun setColorFrom(@ColorDef color: Int) {
         statusColorFrom = ColorUtils.get(context, color, statusOnDark)
-        toolbarColorFrom = ColorUtils.get(context, color, false)
+        toolbarColorFrom = ColorUtils.get(context, color, needDark = false)
+        indicatorColorFrom = ColorUtils.get(context, color, needDark = true)
     }
 
     /**
-     * Покраска UI элементов с анимацией
-     *
-     * @param color - Конечный цвет
+     * Покраска UI элементов с анимацией, [color] - конечный цвет
      */
     fun startTint(@ColorDef color: Int) {
         statusColorTo = ColorUtils.get(context, color, statusOnDark)
-        toolbarColorTo = ColorUtils.get(context, color, false)
+        toolbarColorTo = ColorUtils.get(context, color, needDark = false)
+        indicatorColorTo = ColorUtils.get(context, color, needDark = true)
 
-        if (statusColorFrom != statusColorTo) {
-            anim.start()
-        }
+        if (statusColorFrom != statusColorTo
+                || toolbarColorFrom != toolbarColorTo
+                || indicatorColorFrom != indicatorColorTo) anim.start()
     }
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {

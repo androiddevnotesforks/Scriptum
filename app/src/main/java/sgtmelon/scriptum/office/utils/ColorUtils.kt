@@ -28,7 +28,7 @@ object ColorUtils {
      * @return - Один из стандартных цветов приложения
      */
     @ColorInt
-    operator fun get(context: Context, @ColorDef color: Int, needDark: Boolean): Int {
+    fun get(context: Context, @ColorDef color: Int, needDark: Boolean): Int {
         return when (PrefUtils(context).theme) {
             ThemeDef.light -> {
                 if (needDark) ContextCompat.getColor(context, ColorAnn.cl_dark[color])
@@ -46,13 +46,10 @@ object ColorUtils {
     }
 
     /**
-     * Получение цвета по аттрибуту
-     *
-     * @param attr - Аттрибут цвета
-     * @return - Цвет в записимости от отрибута
+     * Получение цвета по аттрибуту, [attr] - аттрибут цвета
      */
     @ColorInt
-    operator fun get(context: Context, @AttrRes attr: Int): Int {
+    fun get(context: Context, @AttrRes attr: Int): Int {
         val typedValue = TypedValue()
 
         context.theme.resolveAttribute(attr, typedValue, true)
