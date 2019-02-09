@@ -163,6 +163,44 @@ public final class TextNoteFragment extends NoteFragmentParent {
         });
     }
 
+    /**
+     * Нажатие на клавишу назад
+     */
+    @Override
+    public void onClick(View v) {
+        Log.i(TAG, "onClick");
+
+        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
+
+        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
+        final NoteSt noteSt = viewModel.getNoteSt();
+
+        NoteRepo noteRepo = vm.getNoteRepo();
+        NoteItem noteItem = noteRepo.getNoteItem();
+
+        //Если редактирование и текст в хранилище не пустой
+        if (!noteSt.isCreate() && noteSt.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
+            menuControl.setColorFrom(noteItem.getColor());
+
+            db = RoomDb.provideDb(context);
+            noteRepo = db.daoNote().get(context, noteItem.getId());
+            noteItem = noteRepo.getNoteItem();
+            db.close();
+
+            vm.setNoteRepo(noteRepo);
+            viewModel.setNoteRepo(noteRepo);
+
+            onMenuEditClick(false);
+            menuControl.startTint(noteItem.getColor());
+
+            inputControl.clear();
+            bindInput();
+        } else {
+            noteCallback.getSaveControl().setNeedSave(false);
+            activity.finish();
+        }
+    }
+
     @Override
     public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");

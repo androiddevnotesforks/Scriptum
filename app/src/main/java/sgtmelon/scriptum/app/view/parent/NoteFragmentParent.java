@@ -250,17 +250,6 @@ public abstract class NoteFragmentParent extends Fragment implements
         return vm;
     }
 
-    /**
-     * Нажатие на клавишу назад
-     */
-    @Override
-    public final void onClick(View v) {
-        Log.i(TAG, "onClick");
-
-        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
-        activity.onBackPressed();
-    }
-
     @Override
     public final void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
