@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.main
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.rule.ActivityTestRule
@@ -6,6 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
+import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.main.PAGE
 
@@ -44,8 +45,6 @@ class MainTest : ParentTest() {
     }
 
     @Test fun testDisplayInfo() {
-        db.clearAllTables()
-
         MainScreen {
             assert { onDisplayContent(PAGE.NOTES) }
 

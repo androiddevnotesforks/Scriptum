@@ -24,7 +24,7 @@
                 android:id="@+id/note_roll_text"
                 style="@style/NoteItem.Roll"
                 android:text='@{rollItem != null ? rollItem.text : ""}'
-                tools:text="@string/test_note_roll"/>
+                tools:text="@string/preview_note_roll"/>
 
     </LinearLayout>
 

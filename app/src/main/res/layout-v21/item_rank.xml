@@ -12,13 +12,14 @@
     </data>
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/rank_parent_card"
             style="@style/Card"
             app:cardBackgroundColor="?attr/clBackgroundView"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false">
 
         <LinearLayout
-                android:id="@+id/click_container"
+                android:id="@+id/rank_click_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -27,7 +28,7 @@
                 android:weightSum="1">
 
             <sgtmelon.iconanim.widget.SwitchButtonAnim
-                    android:id="@+id/visible_button"
+                    android:id="@+id/rank_visible_button"
                     style="@style/RankItem.Button"
                     android:layout_marginEnd="@dimen/layout_8dp"
                     app:srcDisable="@drawable/ic_visible_enter"
@@ -44,32 +45,34 @@
                     android:orientation="vertical">
 
                 <TextView
-                        android:id="@+id/name_text"
+                        android:id="@+id/rank_name_text"
                         style="@style/RankItem.Name"
                         android:text='@{rankItem.name}'
-                        tools:text="@string/test_rank_name"/>
+                        tools:text="@string/preview_rank_name"/>
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
                     <TextView
+                            android:id="@+id/rank_text_count_text"
                             style="@style/RankItem.Info"
                             android:layout_marginEnd="@dimen/layout_4dp"
                             android:text='@{@string/list_item_rank_text_count + " " + rankItem.getTextCount()}'
-                            tools:text="@string/test_rank_text"/>
+                            tools:text="@string/preview_rank_text"/>
 
                     <TextView
+                            android:id="@+id/rank_roll_count_text"
                             style="@style/RankItem.Info"
                             android:text='@{@string/list_item_rank_roll_count + " " + rankItem.getRollCount()}'
-                            tools:text="@string/test_rank_roll"/>
+                            tools:text="@string/preview_rank_roll"/>
 
                 </LinearLayout>
 
             </LinearLayout>
 
             <ImageButton
-                    android:id="@+id/cancel_button"
+                    android:id="@+id/rank_cancel_button"
                     style="@style/RankItem.Button"
                     android:layout_marginStart="@dimen/layout_8dp"
                     android:contentDescription="@null"

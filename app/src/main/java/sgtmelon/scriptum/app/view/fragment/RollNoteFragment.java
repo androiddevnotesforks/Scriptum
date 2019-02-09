@@ -420,7 +420,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         adapter.setListItem(p, rollItem);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        final int check = HelpUtils.Note.INSTANCE.getRollCheck(listRoll);
+        final int check = HelpUtils.Note.INSTANCE.getCheckCount(listRoll);
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
         noteItem.setText(check, listRoll.size());
 
@@ -469,7 +469,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         if (listRoll.size() == 0) return false;
 
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
-        noteItem.setText(HelpUtils.Note.INSTANCE.getRollCheck(listRoll), listRoll.size());
+        noteItem.setText(HelpUtils.Note.INSTANCE.getCheckCount(listRoll), listRoll.size());
 
         //Переход в режим просмотра
         if (editModeChange) {

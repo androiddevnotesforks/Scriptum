@@ -14,6 +14,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/note_text_parent_card"
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
@@ -21,7 +22,7 @@
             tools:cardBackgroundColor="@color/note_green_light">
 
         <FrameLayout
-                android:id="@+id/click_container"
+                android:id="@+id/note_text_click_container"
                 style="@style/NoteItem.Click">
 
             <LinearLayout style="@style/NoteItem.Container">
@@ -33,15 +34,17 @@
                         android:orientation="vertical">
 
                     <TextView
+                            android:id="@+id/note_text_name_text"
                             style="@style/NoteItem.Name"
                             android:text='@{noteItem.name}'
                             android:visibility='@{text.isEmpty(noteItem.name) ? v.GONE : v.VISIBLE}'
-                            tools:text="@string/test_note_name"/>
+                            tools:text="@string/preview_note_name"/>
 
                     <TextView
+                            android:id="@+id/note_text_content_text"
                             style="@style/NoteItem.Text"
                             android:text='@{noteItem.text}'
-                            tools:text="@string/test_note_text"/>
+                            tools:text="@string/preview_note_text"/>
 
                     <include
                             layout="@layout/include_item_note_info"
@@ -50,6 +53,7 @@
                 </LinearLayout>
 
                 <ImageView
+                        android:id="@+id/note_text_color_view"
                         style="@style/NoteItem.Color.Vertical"
                         android:contentDescription="@null"
                         app:noteColor='@{noteItem.color}'

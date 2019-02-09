@@ -20,8 +20,8 @@ class RollReadHolder(private val binding: ItemRollReadBinding,
     /**
      * Кнопка, которая идёт поверх rollCheck, для полноценного эффекта нажатия
      */
-    private val clickView: View = itemView.findViewById(R.id.click_button)
-    private val rollCheck: CheckBox = itemView.findViewById(R.id.roll_check)
+    private val clickView: View = itemView.findViewById(R.id.roll_read_click_button)
+    private val rollCheck: CheckBox = itemView.findViewById(R.id.roll_read_check)
 
     init {
         clickView.setOnClickListener { v ->

@@ -58,6 +58,22 @@ public final class NoteItem {
         this.type = type;
     }
 
+    @Ignore
+    public NoteItem(@NonNull String create, @NonNull String change, @NonNull String name,
+                    @NonNull String text, int color, int type, @NonNull List<Long> rankPs,
+                    @NonNull List<Long> rankId, boolean bin, boolean status) {
+        this.create = create;
+        this.change = change;
+        this.name = name;
+        this.text = text;
+        this.color = color;
+        this.type = type;
+        this.rankPs = rankPs;
+        this.rankId = rankId;
+        this.bin = bin;
+        this.status = status;
+    }
+
     public long getId() {
         return id;
     }

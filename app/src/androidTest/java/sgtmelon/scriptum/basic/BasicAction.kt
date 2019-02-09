@@ -26,6 +26,10 @@ class BasicAction {
             onView(withId(recyclerId))
                     .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position, click()))
 
+    fun onLongClick(@IdRes recyclerId: Int, position: Int): ViewInteraction =
+            onView(withId(recyclerId))
+                    .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position, longClick()))
+
     fun onScroll(@IdRes recyclerId: Int, position: Int): ViewInteraction =
             onView(withId(recyclerId)).perform(scrollToPosition<RecyclerView.ViewHolder>(position))
 

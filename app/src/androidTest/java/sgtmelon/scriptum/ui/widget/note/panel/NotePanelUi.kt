@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.widget.note.panel
 
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.ui.ParentUi
 
 class NotePanelUi : ParentUi() {
@@ -11,5 +12,9 @@ class NotePanelUi : ParentUi() {
     }
 
     fun assert(func: NotePanelAssert.() -> Unit) = NotePanelAssert().apply { func() }
+
+    fun onClickSave() = action { onClick(R.id.note_panel_save_button) }
+
+    fun onClickEdit() = action { onClick(R.id.note_panel_edit_button) }
 
 }

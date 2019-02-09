@@ -34,7 +34,7 @@
                 app:boolExpression='@{position &lt;= sortEnd}'
                 app:trueColor='@{R.attr.clAccent}'
                 app:falseColor='@{R.attr.clDisable}'
-                tools:text="@string/test_sort_text"
+                tools:text="@string/preview_sort_text"
                 tools:textColor="?attr/clAccent"/>
 
         <ImageView

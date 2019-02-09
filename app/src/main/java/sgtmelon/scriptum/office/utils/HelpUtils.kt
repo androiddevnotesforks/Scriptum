@@ -18,9 +18,7 @@ import sgtmelon.scriptum.office.annot.def.TypeNoteDef
 object HelpUtils {
 
     /**
-     * Копирование текста заметки в память
-     *
-     * @param noteItem - Заметка для копирования
+     * Копирование текста заметки в память, [noteItem] - заметка для копирования
      */
     fun optionsCopy(context: Context, noteItem: NoteItem) {
         var copyText = ""
@@ -56,9 +54,7 @@ object HelpUtils {
     }
 
     /**
-     * Скрыть клавиатуру
-     *
-     * @param view - Текущий фокус
+     * Скрыть клавиатуру, где [view] - текущий фокус
      */
     fun hideKeyboard(context: Context, view: View?) {
         val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE)
@@ -72,10 +68,9 @@ object HelpUtils {
     object Note {
 
         /**
-         * @param listRoll - Список для проверки
-         * @return - Количество отмеченных пунктов
+         * [listRoll] - Список для проверки
          */
-        fun getRollCheck(listRoll: List<RollItem>): Int {
+        fun getCheckCount(listRoll: List<RollItem>): Int {
             var rollCheck = 0
 
             for (rollItem in listRoll) {
@@ -88,8 +83,7 @@ object HelpUtils {
         }
 
         /**
-         * @param listRoll - Список для проверки
-         * @return - Все ли пункты отмечены
+         * [listRoll] - Список для проверки
          */
         fun isAllCheck(listRoll: List<RollItem>): Boolean {
             if (listRoll.isEmpty()) return false
@@ -108,8 +102,7 @@ object HelpUtils {
     object Sort {
 
         /**
-         * @param listSort - Список моделей из диалога
-         * @return - Строка сортировки
+         * Получаем строку сортировки, [listSort] - список моделей из диалога
          */
         fun getSortByList(listSort: List<SortItem>): String {
             val order = StringBuilder()

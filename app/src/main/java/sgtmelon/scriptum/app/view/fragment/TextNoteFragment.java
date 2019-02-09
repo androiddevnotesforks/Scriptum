@@ -150,7 +150,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
         Log.i(TAG, "setupEnter");
         super.setupEnter();
 
-        textEnter = frgView.findViewById(R.id.text_note_enter);
+        textEnter = frgView.findViewById(R.id.text_note_content_enter);
         textEnter.addTextChangedListener(
                 new InputTextWatcher(textEnter, InputDef.text, this, inputControl)
         );

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.dialog
+package sgtmelon.scriptum.ui.dialog.add
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.NoteType

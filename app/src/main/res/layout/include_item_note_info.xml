@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:text='@{noteItem.type == def.roll ? noteItem.text : ""}'
                 android:visibility='@{noteItem.type == def.roll ?  v.VISIBLE : v.GONE}'
-                tools:text="@string/test_note_done"
+                tools:text="@string/preview_note_done"
                 tools:visibility="visible"/>
 
         <TextView
@@ -50,14 +50,14 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 app:time='@{noteItem.change}'
-                tools:text="@string/test_note_time"/>
+                tools:text="@string/preview_note_time"/>
 
         <TextView
                 android:id="@+id/note_info_create_text"
                 style="@style/NoteItem.Info"
                 android:layout_width="wrap_content"
                 app:time='@{noteItem.create}'
-                tools:text="@string/test_note_time"/>
+                tools:text="@string/preview_note_time"/>
 
     </LinearLayout>
 

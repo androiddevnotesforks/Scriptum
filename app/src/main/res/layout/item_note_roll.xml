@@ -16,6 +16,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/note_roll_parent_card"
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
@@ -23,7 +24,7 @@
             tools:cardBackgroundColor="?attr/clPrimary">
 
         <FrameLayout
-                android:id="@+id/click_container"
+                android:id="@+id/note_roll_click_container"
                 style="@style/NoteItem.Click">
 
             <LinearLayout style="@style/NoteItem.Container">
@@ -35,10 +36,11 @@
                         android:orientation="vertical">
 
                     <TextView
+                            android:id="@+id/note_roll_name_text"
                             style="@style/NoteItem.Name"
                             android:text='@{noteItem.name}'
                             android:visibility='@{text.isEmpty(noteItem.name) ? v.GONE : v.VISIBLE}'
-                            tools:text="@string/test_note_name"/>
+                            tools:text="@string/preview_note_name"/>
 
                     <include
                             layout="@layout/include_item_note_roll"
@@ -67,6 +69,7 @@
                 </LinearLayout>
 
                 <ImageView
+                        android:id="@+id/note_roll_color_view"
                         style="@style/NoteItem.Color.Vertical"
                         android:contentDescription="@null"
                         app:noteColor='@{noteItem.color}'

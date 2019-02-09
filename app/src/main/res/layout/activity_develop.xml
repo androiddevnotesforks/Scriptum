@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:padding="@dimen/layout_4dp"
-                android:text="@string/test_note_data_base"/>
+                android:text="@string/preview_note_data_base"/>
     </ScrollView>
 
     <View style="@style/Divider.Horizontal"/>
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:padding="@dimen/layout_4dp"
-                android:text="@string/test_roll_data_base"/>
+                android:text="@string/preview_roll_data_base"/>
     </ScrollView>
 
     <View style="@style/Divider.Horizontal"/>
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="@dimen/layout_4dp"
-                    android:text="@string/test_rank_data_base"/>
+                    android:text="@string/preview_rank_data_base"/>
         </ScrollView>
 
         <View style="@style/Divider.Vertical"/>
@@ -78,7 +78,7 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
                     android:padding="@dimen/layout_4dp"
-                    android:text="@string/test_preference"/>
+                    android:text="@string/preview_preference"/>
 
         </ScrollView>
 

@@ -22,9 +22,9 @@ class RankHolder(private val binding: ItemRankBinding,
                  private val dragListener: ItemIntf.DragListener) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 
-    private val clickView: View = itemView.findViewById(R.id.click_container)
-    private val cancelButton: ImageButton = itemView.findViewById(R.id.cancel_button)
-    private val visibleButton: SwitchButton = itemView.findViewById(R.id.visible_button)
+    private val clickView: View = itemView.findViewById(R.id.rank_click_container)
+    private val cancelButton: ImageButton = itemView.findViewById(R.id.rank_cancel_button)
+    private val visibleButton: SwitchButton = itemView.findViewById(R.id.rank_visible_button)
 
     init {
         clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }
@@ -53,7 +53,7 @@ class RankHolder(private val binding: ItemRankBinding,
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
-            dragListener.setDrag(v.id == R.id.click_container)
+            dragListener.setDrag(v.id == clickView.id)
         }
         return false
     }

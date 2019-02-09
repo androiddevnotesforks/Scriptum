@@ -16,7 +16,7 @@ class NoteTextHolder(private val binding: ItemNoteTextBinding,
                      private val longClickListener: ItemIntf.LongClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val clickView: View = itemView.findViewById(R.id.click_container)
+    private val clickView: View = itemView.findViewById(R.id.note_text_click_container)
 
     init {
         clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }

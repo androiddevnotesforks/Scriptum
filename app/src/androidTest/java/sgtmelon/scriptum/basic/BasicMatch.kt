@@ -1,15 +1,24 @@
 package sgtmelon.scriptum.basic
 
+import android.content.Context
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
+import sgtmelon.scriptum.office.utils.PrefUtils
 
 open class BasicMatch {
+
+    private val context: Context = getInstrumentation().targetContext
+    private val prefUtils = PrefUtils(context)
+
+    protected val theme: Int
+        get() = prefUtils.theme
 
     protected fun onDisplay(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isDisplayed()))
@@ -36,7 +45,6 @@ open class BasicMatch {
             onView(withId(viewId)).check(matches(not(isEnabled())))
         }
     }
-
 
 
     protected fun onDisplayText(@StringRes stringId: Int): ViewInteraction =

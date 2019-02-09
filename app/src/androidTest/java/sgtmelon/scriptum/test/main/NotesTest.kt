@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.main
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
@@ -9,11 +9,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
 import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.TestData
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.main.PAGE
 import sgtmelon.scriptum.ui.screen.note.roll.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.text.TextNoteScreen
-import sgtmelon.scriptum.ui.widget.note.STATE
+import sgtmelon.scriptum.ui.widget.note.State
 
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentTest() {
@@ -39,12 +41,6 @@ class NotesTest : ParentTest() {
         MainScreen {
             assert { onDisplayContent(PAGE.NOTES) }
 
-            addDialog {
-                open()
-                assert { onDisplayContent() }
-                pressBack()
-            }
-
             for (noteType in listAddNoteType) {
                 addDialog {
                     open()
@@ -54,14 +50,14 @@ class NotesTest : ParentTest() {
                 when (noteType) {
                     NoteType.TEXT -> {
                         TextNoteScreen {
-                            assert { onDisplayContent(STATE.EDIT) }
+                            assert { onDisplayContent(State.NEW) }
                             closeSoftKeyboard()
                             pressBack()
                         }
                     }
                     NoteType.ROLL -> {
                         RollNoteScreen {
-                            assert { onDisplayContent(STATE.EDIT) }
+                            assert { onDisplayContent(State.NEW) }
                             closeSoftKeyboard()
                             pressBack()
                         }
@@ -69,6 +65,41 @@ class NotesTest : ParentTest() {
                 }
 
                 assert { onDisplayContent(PAGE.NOTES) }
+            }
+        }
+    }
+
+    @Test fun testAddTextNote() {
+        MainScreen {
+            assert { onDisplayContent(PAGE.NOTES) }
+
+            addDialog {
+                open()
+                onClickItem(NoteType.TEXT)
+            }
+
+            TextNoteScreen {
+                addNote(TestData(context).textNoteItem)
+                pressBack()
+            }
+
+            assert { onDisplayContent(PAGE.NOTES) }
+        }
+    }
+
+    @Test fun testTextNoteDialogOpen() {
+        db.clearAllTables()
+
+        MainScreen {
+            notesScreen {
+                testAddTextNote()
+
+                onLongClickItem(0)
+
+                noteDialog { assert { onDisplayContent(TestData(context).textNoteItem) } }
+                pressBack()
+
+                assert { onDisplayContent(count) }
             }
         }
     }

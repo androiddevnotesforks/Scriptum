@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.ui.widget.note
 
-enum class STATE { // TODO state - NEW
+enum class State {
+    READ,
     BIN,
     EDIT,
-    READ
+    NEW
 }

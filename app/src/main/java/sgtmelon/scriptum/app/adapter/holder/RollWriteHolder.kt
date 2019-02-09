@@ -32,14 +32,14 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
     /**
      * Кнопка для перетаскивания
      */
-    private val clickView: View = itemView.findViewById(R.id.click_button)
-    private val rollEnter: EditText = itemView.findViewById(R.id.roll_enter)
+    private val dragView: View = itemView.findViewById(R.id.roll_write_drag_button)
+    private val rollEnter: EditText = itemView.findViewById(R.id.roll_write_enter)
 
     init {
         rollEnter.addTextChangedListener(this)
 
         rollEnter.setOnTouchListener(this)
-        clickView.setOnTouchListener(this)
+        dragView.setOnTouchListener(this)
     }
 
     fun bind(rollItem: RollItem) {
@@ -54,7 +54,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
-            dragListener.setDrag(v.id == R.id.click_button)
+            dragListener.setDrag(v.id == dragView.id)
         }
         return false
     }

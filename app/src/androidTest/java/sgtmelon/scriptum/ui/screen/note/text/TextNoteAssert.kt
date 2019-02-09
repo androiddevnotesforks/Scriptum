@@ -2,31 +2,32 @@ package sgtmelon.scriptum.ui.screen.note.text
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.BasicMatch
-import sgtmelon.scriptum.ui.widget.note.STATE
+import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.ui.widget.note.State
 import sgtmelon.scriptum.ui.widget.note.panel.NotePanelUi
 import sgtmelon.scriptum.ui.widget.note.toolbar.NoteToolbarUi
 
 class TextNoteAssert : BasicMatch() {
 
-    fun onDisplayContent(state: STATE) { // TODO добавить наполнение в зависимости от открывающегося экрана заметки (ENUM)
+    fun onDisplayContent(state: State) {
         onDisplay(R.id.text_note_parent_container)
 
-        onDisplay(R.id.text_note_card)
-        onDisplay(R.id.text_note_scroll)
+        onDisplay(R.id.text_note_content_card)
+        onDisplay(R.id.text_note_content_scroll)
 
         when(state) {
-            STATE.READ, STATE.BIN -> {
-                doesNotDisplay(R.id.text_note_enter)
-                onDisplay(R.id.text_note_text)
+            State.READ, State.BIN -> {
+                doesNotDisplay(R.id.text_note_content_enter)
+                onDisplay(R.id.text_note_content_text)
             }
-            STATE.EDIT -> {
-                onDisplay(R.id.text_note_enter)
-                doesNotDisplay(R.id.text_note_text)
+            State.EDIT, State.NEW -> {
+                onDisplay(R.id.text_note_content_enter)
+                doesNotDisplay(R.id.text_note_content_text)
             }
         }
 
         NoteToolbarUi { assert { onDisplayContent(state) } }
-        NotePanelUi { assert { onDisplayContent(state) } }
+        NotePanelUi { assert { onDisplayContent(state, NoteType.TEXT) } }
     }
 
 }

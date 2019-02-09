@@ -17,7 +17,7 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
                      private val longClickListener: ItemIntf.LongClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    private val clickView: View = itemView.findViewById(R.id.click_container)
+    private val clickView: View = itemView.findViewById(R.id.note_roll_click_container)
 
     init {
         clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }

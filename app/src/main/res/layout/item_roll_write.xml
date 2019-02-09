@@ -12,6 +12,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/roll_write_parent_card"
             style="@style/Card"
             app:cardBackgroundColor="?attr/clBackgroundView"
             app:cardCornerRadius="@dimen/radius_4dp"
@@ -28,7 +29,7 @@
                 <CheckBox style="@style/RollItem.Write.Check"/>
 
                 <ImageButton
-                        android:id="@+id/click_button"
+                        android:id="@+id/roll_write_drag_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
                         app:boolExpression='@{rollItem.check}'
@@ -40,7 +41,7 @@
             </FrameLayout>
 
             <EditText
-                    android:id="@+id/roll_enter"
+                    android:id="@+id/roll_write_enter"
                     style="@style/RollItem.Write.Enter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,7 +49,7 @@
                     android:importantForAutofill="noExcludeDescendants"
                     android:text='@{rollItem.text}'
                     tools:targetApi="o"
-                    tools:text="@string/test_note_roll"/>
+                    tools:text="@string/preview_note_roll"/>
 
         </LinearLayout>
 

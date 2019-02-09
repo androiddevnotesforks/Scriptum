@@ -11,4 +11,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     fun assert(func: RankAssert.() -> Unit) = RankAssert().apply { func() }
 
+    fun onLongClickItem(position: Int = positionRandom) =
+            action { onLongClick(recyclerId, position) }
+
 }

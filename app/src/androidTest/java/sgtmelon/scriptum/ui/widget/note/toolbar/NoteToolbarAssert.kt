@@ -2,22 +2,25 @@ package sgtmelon.scriptum.ui.widget.note.toolbar
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.BasicMatch
-import sgtmelon.scriptum.ui.widget.note.STATE
+import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.ui.widget.note.State
 
 class NoteToolbarAssert : BasicMatch() {
 
     // TODO (hint check) (focus on title check)
 
-    fun onDisplayContent(state: STATE) { // TODO (when theme dark - onDisplayIndicator R.id.toolbar_note_color_view)
+    fun onDisplayContent(state: State) {
         onDisplay(R.id.toolbar_note_container)
 
-        when(state) {
-            STATE.READ, STATE.BIN -> {
+        if (theme == ThemeDef.dark) onDisplay(R.id.toolbar_note_color_view)
+
+        when (state) {
+            State.READ, State.BIN -> {
                 doesNotDisplay(R.id.toolbar_note_enter)
                 onDisplay(R.id.toolbar_note_scroll)
                 onDisplay(R.id.toolbar_note_text)
             }
-            STATE.EDIT -> {
+            State.EDIT, State.NEW -> {
                 onDisplay(R.id.toolbar_note_enter)
                 doesNotDisplay(R.id.toolbar_note_scroll)
                 doesNotDisplay(R.id.toolbar_note_text)

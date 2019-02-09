@@ -42,7 +42,7 @@
                 android:paddingBottom="@dimen/recycler_margin">
 
             <androidx.cardview.widget.CardView
-                    android:id="@+id/text_note_card"
+                    android:id="@+id/text_note_content_card"
                     style="@style/Card"
                     android:layout_height="match_parent"
                     app:cardBackgroundColor="?attr/clBackgroundView"
@@ -50,7 +50,7 @@
                     app:cardUseCompatPadding="false">
 
                 <ScrollView
-                        android:id="@+id/text_note_scroll"
+                        android:id="@+id/text_note_content_scroll"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fillViewport="true">
@@ -60,7 +60,7 @@
                             android:layout_height="wrap_content">
 
                         <EditText
-                                android:id="@+id/text_note_enter"
+                                android:id="@+id/text_note_content_enter"
                                 style="@style/Text.Enter"
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
@@ -70,11 +70,11 @@
                                 tools:visibility="gone"/>
 
                         <TextView
-                                android:id="@+id/text_note_text"
+                                android:id="@+id/text_note_content_text"
                                 style="@style/Text.Read"
                                 android:text='@{noteItem.text}'
                                 android:visibility='@{!keyEdit ? v.VISIBLE : v.INVISIBLE}'
-                                tools:text="@string/test_note_text"/>
+                                tools:text="@string/preview_note_text"/>
 
                     </FrameLayout>
 

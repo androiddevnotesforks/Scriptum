@@ -14,6 +14,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
+            android:id="@+id/roll_read_parent_card"
             style="@style/Card"
             app:cardBackgroundColor="?attr/clBackgroundView"
             app:cardCornerRadius="@dimen/radius_4dp"
@@ -28,14 +29,14 @@
                     android:layout_height="match_parent">
 
                 <CheckBox
-                        android:id="@+id/roll_check"
+                        android:id="@+id/roll_read_check"
                         style="@style/RollItem.Read.Check"
                         app:checkState='@{rollItem.check}'
                         app:checkToggle='@{checkToggle}'
                         tools:checked="true"/>
 
                 <ImageButton
-                        android:id="@+id/click_button"
+                        android:id="@+id/roll_read_click_button"
                         style="@style/RollItem.Click"
                         android:contentDescription="@null"
                         android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
@@ -43,12 +44,12 @@
             </FrameLayout>
 
             <TextView
-                    android:id="@+id/roll_text"
+                    android:id="@+id/roll_read_text"
                     style="@style/RollItem.Read.Text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text='@{rollItem.text}'
-                    tools:text="@string/test_note_roll"/>
+                    tools:text="@string/preview_note_roll"/>
 
         </LinearLayout>
 

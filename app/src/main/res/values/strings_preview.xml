@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Test strings for layout -->
+
+    <!-- Item note test -->
+    <string name="preview_note_name" translatable="false">Не глупое заглавие заметки</string>
+
+    <string name="preview_note_text" translatable="false">
+        Хочется лежать на подушечках из манго и кушать очень мягкую маршмеллоу.
+        А когда проснёшься не забудь вкусно покушать снова. Снова и снова.
+        А так же не забудь надеть носочки, чтобы грело! Чтобы было тепло и уютно.
+    </string>
+
+    <string name="preview_note_roll" translatable="false">
+        Не пустой пункт для макета, ещё и текст длинный. Ваау.
+    </string>
+    <string name="preview_note_time" translatable="false">25 Авг 2018</string>
+    <string name="preview_note_done" translatable="false">3/5</string>
+
+    <string name="preview_rank_name" translatable="false">Название какой-нибудь категории</string>
+    <string name="preview_rank_text" translatable="false">Тексты: 1</string>
+    <string name="preview_rank_roll" translatable="false">Списки: 10</string>
+
+    <string name="preview_sort_text" translatable="false">Сортируй как хочешь</string>
+
+    <!-- Activity develop test -->
+    <string name="preview_note_data_base" translatable="false">Note Data Base:</string>
+    <string name="preview_roll_data_base" translatable="false">Roll Data Base:</string>
+    <string name="preview_rank_data_base" translatable="false">Rank Data Base:</string>
+    <string name="preview_preference" translatable="false">Preference:</string>
+
+</resources>

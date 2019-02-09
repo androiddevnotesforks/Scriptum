@@ -397,7 +397,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         final RankItem rankItem = rankRepo.getListRank().get(p);
 
         switch (view.getId()) {
-            case R.id.visible_button:
+            case R.id.rank_visible_button:
                 rankItem.setVisible(!rankItem.isVisible());
 
                 adapter.setListItem(p, rankItem);
@@ -407,7 +407,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                 db.daoNote().update(context);
                 db.close();
                 break;
-            case R.id.click_container:
+            case R.id.rank_click_container:
                 if (!openSt.isOpen()) {
                     openSt.setOpen(true);
 
@@ -417,7 +417,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
                     renameDialog.show(fm, DialogDef.RENAME);
                 }
                 break;
-            case R.id.cancel_button:
+            case R.id.rank_cancel_button:
                 db = RoomDb.provideDb(context);
                 db.daoRank().delete(rankItem.getName());
                 db.daoRank().update(p);
