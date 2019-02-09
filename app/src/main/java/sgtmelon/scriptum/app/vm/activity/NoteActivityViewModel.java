@@ -156,9 +156,9 @@ public final class NoteActivityViewModel extends AndroidViewModel implements
 
         db = RoomDb.provideDb(context);
         db.daoNote().update(noteItem.getId(), TimeUtils.INSTANCE.getTime(context), true);
-        if (noteItem.isStatus()) {
-            db.daoNote().update(noteItem.getId(), false);
-        }
+
+        if (noteItem.isStatus()) db.daoNote().update(noteItem.getId(), false);
+
         db.close();
 
         noteRepo.update(false);

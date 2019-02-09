@@ -94,6 +94,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         vm = ViewModelProviders.of(this).get(NotesViewModel.class);
 
+
         fm = getFragmentManager();
         optionsDialog = DialogFactory.INSTANCE.getOptionsDialog(fm);
         clearBinDialog = DialogFactory.INSTANCE.getClearBinDialog(context, fm);

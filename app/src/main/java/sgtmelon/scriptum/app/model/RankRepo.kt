@@ -6,7 +6,8 @@ import sgtmelon.scriptum.app.model.item.RankItem
  * Репозиторий категории
  */
 class RankRepo(private val listRank: MutableList<RankItem>,
-               private val listName: MutableList<String>) {
+               private val listName: MutableList<String>
+) {
 
     fun getListName(): List<String> {
         return listName

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -47,6 +48,7 @@ public abstract class RankDao extends BaseDao {
         return listRank;
     }
 
+    @NonNull
     public RankRepo get() {
         final List<RankItem> listRank = getComplex();
 

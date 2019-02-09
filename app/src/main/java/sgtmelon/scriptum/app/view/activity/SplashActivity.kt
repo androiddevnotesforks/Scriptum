@@ -31,12 +31,10 @@ class SplashActivity : AppCompatActivity() {
 
         val bundle = intent.extras
         if (bundle != null && bundle.getBoolean(IntentDef.STATUS_OPEN)) {
-            val intentMain = Intent(this, MainActivity::class.java)
-
-            val id = bundle.getLong(IntentDef.NOTE_ID)
-            val intentNote = NoteActivity.getIntent(this, id)
-
-            startActivities(arrayOf(intentMain, intentNote))
+            startActivities(arrayOf(
+                    Intent(this, MainActivity::class.java),
+                    NoteActivity.getIntent(this, bundle.getLong(IntentDef.NOTE_ID))
+            ))
         } else {
             startNormal()
         }
@@ -47,17 +45,15 @@ class SplashActivity : AppCompatActivity() {
     private fun startNormal() {
         Log.i(TAG, "startNormal")
 
-        val prefUtils = PrefUtils(this)
+        val prefUtils = PrefUtils(context = this)
 
         val firstStart = prefUtils.firstStart
-        if (firstStart) {
-            prefUtils.firstStart = false
-        }
+        if (firstStart) prefUtils.firstStart = false
 
-        val intent = Intent(this, if (firstStart)
-            IntroActivity::class.java
-        else
-            MainActivity::class.java)
+        val intent = Intent(this, when (firstStart) {
+            true -> IntroActivity::class.java
+            false -> MainActivity::class.java
+        })
 
         startActivity(intent)
     }
