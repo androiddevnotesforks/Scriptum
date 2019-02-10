@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.app.view.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -27,10 +25,8 @@ import sgtmelon.safedialog.library.MessageDialog;
 import sgtmelon.safedialog.library.OptionsDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.NoteAdapter;
-import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
-import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.fragment.BinViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
@@ -42,8 +38,6 @@ import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.OpenSt;
 import sgtmelon.scriptum.office.utils.ColorUtils;
-import sgtmelon.scriptum.office.utils.HelpUtils;
-import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class BinFragment extends Fragment implements ItemIntf.ClickListener,
         ItemIntf.LongClickListener, MenuIntf.Dialog.DeleteMenuClick {
@@ -61,7 +55,6 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
     private NoteAdapter adapter;
     private Context context;
-    private RoomDb db;
     private View frgView;
 
     private MenuItem mItemClearBin;
@@ -93,7 +86,6 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         frgView = binding.getRoot();
 
         vm = ViewModelProviders.of(this).get(BinViewModel.class);
-
 
         fm = getFragmentManager();
         optionsDialog = DialogFactory.INSTANCE.getOptionsDialog(fm);
@@ -148,16 +140,10 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         ColorUtils.INSTANCE.tintMenuIcon(context, mItemClearBin);
 
         clearBinDialog.setPositiveListener((dialogInterface, i) -> {
-            db = RoomDb.provideDb(context);
-            db.daoNote().clearBin();
-            db.close();
-
-            vm.setListNoteRepo(new ArrayList<>());
-
-            adapter.setList(vm.getListNoteRepo());
+            adapter.setList(vm.onClear());
             adapter.notifyDataSetChanged();
 
-            mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
+            mItemClearBin.setVisible(false);
             bind(0);
         });
         clearBinDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
@@ -169,7 +155,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getListNoteRepo().size());
+                bind(adapter.getItemCount());
             }
         };
 
@@ -205,7 +191,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         adapter.setList(listNoteRepo);
         adapter.notifyDataSetChanged();
 
-        mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
+        mItemClearBin.setVisible(adapter.getItemCount() != 0);
         bind(listNoteRepo.size());
     }
 
@@ -223,10 +209,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         if (p == RecyclerView.NO_POSITION) return;
 
-        final long id = vm.getListNoteRepo().get(p).getNoteItem().getId();
-        final Intent intent = NoteActivity.getIntent(context, id);
-
-        startActivity(intent);
+        startActivity(NoteActivity.getIntent(context, vm.getId(p)));
     }
 
     @Override
@@ -247,44 +230,25 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     public void onMenuRestoreClick(int p) {
         Log.i(TAG, "onMenuRestoreClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
-        final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
-
-        db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), TimeUtils.INSTANCE.getTime(context), false);
-        db.close();
-
-        listNoteRepo.remove(p);
-
-        adapter.setList(listNoteRepo);
+        adapter.setList(vm.onMenuRestore(p));
         adapter.notifyItemRemoved(p);
 
-        mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
+        mItemClearBin.setVisible(adapter.getItemCount() != 0);
     }
 
     @Override
     public void onMenuCopyClick(int p) {
-        final NoteItem noteItem = vm.getListNoteRepo().get(p).getNoteItem();
-        HelpUtils.INSTANCE.optionsCopy(context, noteItem);
+        vm.onMenuCopy(p);
     }
 
     @Override
     public void onMenuClearClick(int p) {
         Log.i(TAG, "onMenuClearClick");
 
-        final List<NoteRepo> listNoteRepo = vm.getListNoteRepo();
-        final NoteItem noteItem = listNoteRepo.get(p).getNoteItem();
-
-        db = RoomDb.provideDb(context);
-        db.daoNote().delete(noteItem.getId());
-        db.close();
-
-        listNoteRepo.remove(p);
-
-        adapter.setList(listNoteRepo);
+        adapter.setList(vm.onMenuClear(p));
         adapter.notifyItemRemoved(p);
 
-        mItemClearBin.setVisible(vm.getListNoteRepo().size() != 0);
+        mItemClearBin.setVisible(adapter.getItemCount() != 0);
     }
 
 }

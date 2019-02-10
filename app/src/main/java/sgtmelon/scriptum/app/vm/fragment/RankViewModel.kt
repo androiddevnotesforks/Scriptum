@@ -26,10 +26,10 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo
     }
 
-    fun onRename(position: Int, name: String): RankItem {
-        rankRepo.set(position, name)
+    fun onRename(p: Int, name: String): RankItem {
+        rankRepo.set(p, name)
 
-        val rankItem = rankRepo.listRank[position]
+        val rankItem = rankRepo.listRank[p]
 
         val db = RoomDb.provideDb(context)
         db.daoRank().update(rankItem)
@@ -38,7 +38,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankItem
     }
 
-    fun onAddEnd(name: String): List<RankItem> {
+    fun onAddEnd(name: String): MutableList<RankItem> {
         val p = rankRepo.size()
         val rankItem = RankItem(p, name)
 
@@ -51,7 +51,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo.listRank
     }
 
-    fun onAddStart(name: String): List<RankItem> {
+    fun onAddStart(name: String): MutableList<RankItem> {
         val p = 0
         val rankItem = RankItem(p - 1, name)
 
@@ -65,27 +65,24 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo.listRank
     }
 
-    fun onUpdateDrag(dragFrom: Int, dragTo: Int): List<RankItem> { // TODO: 03.02.2019 ошибка сортировки
+    fun onUpdateDrag(dragFrom: Int, dragTo: Int): MutableList<RankItem> { // TODO: 03.02.2019 ошибка сортировки
         val db = RoomDb.provideDb(context)
-        val listRank = db.daoRank().update(dragFrom, dragTo)
+        rankRepo.listRank.clear()
+        rankRepo.listRank.addAll(db.daoRank().update(dragFrom, dragTo))
         db.daoNote().update(context)
         db.close()
-
-        rankRepo.listRank.clear()
-        rankRepo.listRank.addAll(listRank)
-
 
         return rankRepo.listRank
     }
 
-    fun onUpdateMove(positionFrom: Int, positionTo: Int): List<RankItem> {
+    fun onUpdateMove(positionFrom: Int, positionTo: Int): MutableList<RankItem> {
         rankRepo.move(positionFrom, positionTo)
 
         return rankRepo.listRank
     }
 
-    fun onUpdateVisible(position: Int): RankItem {
-        val rankItem = rankRepo.listRank[position]
+    fun onUpdateVisible(p: Int): RankItem {
+        val rankItem = rankRepo.listRank[p]
         rankItem.isVisible = !rankItem.isVisible
 
         val db = RoomDb.provideDb(context)
@@ -96,23 +93,23 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankItem
     }
 
-    fun onUpdateVisible(listRank: List<RankItem>) {
+    fun onUpdateVisible(listRank: MutableList<RankItem>) {
         val db = RoomDb.provideDb(context)
         db.daoRank().updateRank(listRank)
         db.daoNote().update(context)
         db.close()
     }
 
-    fun onCancel(position: Int): List<RankItem> {
-        val rankItem = rankRepo.listRank[position]
+    fun onCancel(p: Int): MutableList<RankItem> {
+        val rankItem = rankRepo.listRank[p]
 
         val db = RoomDb.provideDb(context)
         db.daoRank().delete(rankItem.name)
-        db.daoRank().update(position)
+        db.daoRank().update(p)
         db.daoNote().update(context)
         db.close()
 
-        rankRepo.remove(position)
+        rankRepo.remove(p)
 
         return rankRepo.listRank
     }

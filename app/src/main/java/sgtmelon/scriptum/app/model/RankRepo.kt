@@ -9,11 +9,6 @@ class RankRepo(val listRank: MutableList<RankItem>,
                val listName: MutableList<String>
 ) {
 
-    fun setListRank(listRank: List<RankItem>) {
-        this.listRank.clear()
-        this.listRank.addAll(listRank)
-    }
-
     fun size(): Int = listRank.size
 
     fun set(position: Int, name: String) {
