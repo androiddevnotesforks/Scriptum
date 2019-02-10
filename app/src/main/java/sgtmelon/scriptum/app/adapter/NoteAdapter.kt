@@ -23,18 +23,21 @@ class NoteAdapter(context: Context, clickListener: ItemIntf.ClickListener,
 ) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context, clickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TypeNoteDef.text) {
-            val bindingText = DataBindingUtil.inflate<ItemNoteTextBinding>(
-                    inflater, R.layout.item_note_text, parent, false
-            )
+        return when (viewType) {
+            TypeNoteDef.text -> {
+                val bindingText = DataBindingUtil.inflate<ItemNoteTextBinding>(
+                        inflater, R.layout.item_note_text, parent, false
+                )
 
-            NoteTextHolder(bindingText, clickListener, longClickListener)
-        } else {
-            val bindingRoll = DataBindingUtil.inflate<ItemNoteRollBinding>(
-                    inflater, R.layout.item_note_roll, parent, false
-            )
+                NoteTextHolder(bindingText, clickListener, longClickListener)
+            }
+            else -> {
+                val bindingRoll = DataBindingUtil.inflate<ItemNoteRollBinding>(
+                        inflater, R.layout.item_note_roll, parent, false
+                )
 
-            NoteRollHolder(bindingRoll, clickListener, longClickListener)
+                NoteRollHolder(bindingRoll, clickListener, longClickListener)
+            }
         }
     }
 

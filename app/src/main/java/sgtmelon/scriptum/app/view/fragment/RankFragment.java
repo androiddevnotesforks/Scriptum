@@ -246,10 +246,12 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private void setupRecycler() {
         Log.i(TAG, "setupRecycler");
 
+        adapter = new RankAdapter(context, this, this, dragSt);
+
         final DefaultItemAnimator itemAnimator = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(vm.getRankRepo().size());
+                bind(adapter.getItemCount());
             }
         };
 
@@ -258,8 +260,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
-
-        adapter = new RankAdapter(context, this, this, dragSt);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchCallback);

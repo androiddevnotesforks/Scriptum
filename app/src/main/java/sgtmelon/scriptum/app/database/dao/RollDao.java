@@ -30,21 +30,22 @@ public abstract class RollDao extends BaseDao {
      * Запись пунктов после конвертирования из текстовой заметки
      *
      * @param noteId - Id заметки
-     * @param text   - Массив потенциальных пунктов
+     * @param text   - Текст потенциальных пунктов
      * @return - Список для {@link NoteRepo}
      */
-    public List<RollItem> insert(long noteId, String[] text) {
+    public List<RollItem> insert(long noteId, String text) {
+        final String[] textToRoll = text.split("\n");
         final List<RollItem> listRoll = new ArrayList<>();
 
         int p = 0;
-        for (String aText : text) {
-            if (TextUtils.isEmpty(aText)) continue;
+        for (String toRoll : textToRoll) {
+            if (TextUtils.isEmpty(toRoll)) continue;
 
             final RollItem rollItem = new RollItem();
             rollItem.setNoteId(noteId);
             rollItem.setPosition(p++);
             rollItem.setCheck(false);
-            rollItem.setText(aText);
+            rollItem.setText(toRoll);
 
             rollItem.setId(insert(rollItem));
 

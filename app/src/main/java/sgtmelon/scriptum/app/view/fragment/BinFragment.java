@@ -9,8 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -26,7 +24,6 @@ import sgtmelon.safedialog.library.OptionsDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.NoteAdapter;
 import sgtmelon.scriptum.app.factory.DialogFactory;
-import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.vm.fragment.BinViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
@@ -109,8 +106,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         outState.putBoolean(IntentDef.STATE_OPEN, openSt.isOpen());
     }
 
-    private void bind(int listSize) {
-        binding.setListEmpty(listSize == 0);
+    private void bind() {
+        binding.setListEmpty(adapter.getItemCount() == 0);
         binding.executePendingBindings();
     }
 
@@ -144,7 +141,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
             adapter.notifyDataSetChanged();
 
             mItemClearBin.setVisible(false);
-            bind(0);
+            bind();
         });
         clearBinDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
     }
@@ -152,19 +149,18 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private void setupRecycler() {
         Log.i(TAG, "setupRecycler");
 
+        adapter = new NoteAdapter(context, this, this);
+
         final DefaultItemAnimator recyclerViewEndAnim = new DefaultItemAnimator() {
             @Override
             public void onAnimationFinished(@NonNull RecyclerView.ViewHolder viewHolder) {
-                bind(adapter.getItemCount());
+                bind();
             }
         };
 
         recyclerView = frgView.findViewById(R.id.bin_recycler);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-        adapter = new NoteAdapter(context, this, this);
         recyclerView.setAdapter(adapter);
 
         optionsDialog.setOnClickListener((dialogInterface, i) -> {
@@ -186,13 +182,11 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private void updateAdapter() {
         Log.i(TAG, "updateAdapter");
 
-        final List<NoteRepo> listNoteRepo = vm.loadData(BinDef.in);
-
-        adapter.setList(listNoteRepo);
+        adapter.setList(vm.loadData(BinDef.in));
         adapter.notifyDataSetChanged();
 
         mItemClearBin.setVisible(adapter.getItemCount() != 0);
-        bind(listNoteRepo.size());
+        bind();
     }
 
     public void scrollTop() {
