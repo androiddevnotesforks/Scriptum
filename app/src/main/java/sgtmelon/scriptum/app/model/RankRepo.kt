@@ -5,25 +5,20 @@ import sgtmelon.scriptum.app.model.item.RankItem
 /**
  * Репозиторий категории
  */
-class RankRepo(private val listRank: MutableList<RankItem>,
-               private val listName: MutableList<String>
+class RankRepo(val listRank: MutableList<RankItem>,
+               val listName: MutableList<String>
 ) {
-
-    fun getListName(): List<String> {
-        return listName
-    }
-
-    fun getListRank(): List<RankItem> {
-        return listRank
-    }
 
     fun setListRank(listRank: List<RankItem>) {
         this.listRank.clear()
         this.listRank.addAll(listRank)
     }
 
-    fun size(): Int {
-        return listRank.size
+    fun size(): Int = listRank.size
+
+    fun set(position: Int, name: String) {
+        listRank[position].name = name
+        listName[position] = name.toUpperCase()
     }
 
     fun add(position: Int, rankItem: RankItem) {
@@ -36,11 +31,11 @@ class RankRepo(private val listRank: MutableList<RankItem>,
         listName.removeAt(position)
     }
 
-    fun move(positionOld: Int, positionNew: Int) {
-        val rankItem = listRank[positionOld]
+    fun move(positionFrom: Int, positionTo: Int) {
+        val rankItem = listRank[positionFrom]
 
-        remove(positionOld)
-        add(positionNew, rankItem)
+        remove(positionFrom)
+        add(positionTo, rankItem)
     }
 
 }

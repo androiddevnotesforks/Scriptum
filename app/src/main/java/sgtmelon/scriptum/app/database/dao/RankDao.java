@@ -116,14 +116,14 @@ public abstract class RankDao extends BaseDao {
     public abstract void update(RankItem rankItem);
 
     /**
-     * @param startDrag - Начальная позиция обновления
-     * @param endDrag   - Конечная позиция обновления
+     * @param dragFrom - Начальная позиция обновления
+     * @param dragTo   - Конечная позиция обновления
      */
-    public List<RankItem> update(int startDrag, int endDrag) {
-        final boolean startFirst = startDrag < endDrag;
+    public List<RankItem> update(int dragFrom, int dragTo) {
+        final boolean startFirst = dragFrom < dragTo;
 
-        final int iStart = startFirst ? startDrag : endDrag;
-        final int iEnd = startFirst ? endDrag : startDrag;
+        final int iStart = startFirst ? dragFrom : dragTo;
+        final int iEnd = startFirst ? dragTo : dragFrom;
         final int iAdd = startFirst ? -1 : 1;
 
         final List<RankItem> listRank = getComplex();
@@ -138,10 +138,10 @@ public abstract class RankDao extends BaseDao {
                 }
             }
 
-            final boolean start = i == startDrag;
-            final boolean end = i == endDrag;
+            final boolean start = i == dragFrom;
+            final boolean end = i == dragTo;
 
-            final int newPosition = start ? endDrag : i + iAdd;
+            final int newPosition = start ? dragTo : i + iAdd;
             rankItem.setPosition(newPosition);
 
             if (startFirst) {
