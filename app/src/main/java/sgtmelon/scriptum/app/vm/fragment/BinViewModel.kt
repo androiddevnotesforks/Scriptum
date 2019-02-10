@@ -4,13 +4,13 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
-import sgtmelon.scriptum.app.view.fragment.NotesFragment
+import sgtmelon.scriptum.app.view.fragment.BinFragment
 import sgtmelon.scriptum.office.annot.def.BinDef
 
 /**
- * ViewModel для [NotesFragment]
+ * ViewModel для [BinFragment]
  */
-class NotesViewModel(application: Application) : AndroidViewModel(application) {
+class BinViewModel(application: Application) : AndroidViewModel(application) {
 
     var listNoteRepo: List<NoteRepo> = ArrayList()
 

@@ -32,7 +32,7 @@ import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
-import sgtmelon.scriptum.app.vm.fragment.NotesViewModel;
+import sgtmelon.scriptum.app.vm.fragment.BinViewModel;
 import sgtmelon.scriptum.databinding.FragmentBinBinding;
 import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -53,7 +53,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
     private final OpenSt openSt = new OpenSt();
 
     private FragmentBinBinding binding;
-    private NotesViewModel vm;
+    private BinViewModel vm;
 
     private FragmentManager fm;
     private OptionsDialog optionsDialog;
@@ -92,7 +92,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bin, container, false);
         frgView = binding.getRoot();
 
-        vm = ViewModelProviders.of(this).get(NotesViewModel.class);
+        vm = ViewModelProviders.of(this).get(BinViewModel.class);
 
 
         fm = getFragmentManager();
