@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
-import sgtmelon.scriptum.app.vm.activity.NoteActivityViewModel;
+import sgtmelon.scriptum.app.vm.activity.NoteViewModel;
 
 /**
  * Интерфейс общения {@link NoteFragmentParent} и {@link NoteActivity}
@@ -17,6 +17,6 @@ public interface NoteCallback {
     SaveControl getSaveControl();
 
     @NonNull
-    NoteActivityViewModel getViewModel();
+    NoteViewModel getViewModel();
 
 }

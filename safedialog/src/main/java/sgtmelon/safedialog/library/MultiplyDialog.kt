@@ -12,9 +12,9 @@ class MultiplyDialog : DialogBlank() {
 
     lateinit var name: Array<String>
 
-    private var init: BooleanArray? = null
+    private lateinit var init: BooleanArray
 
-    var check: BooleanArray? = null
+    lateinit var check: BooleanArray
         private set
 
     fun setArguments(check: BooleanArray) {
@@ -29,18 +29,18 @@ class MultiplyDialog : DialogBlank() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        if (savedInstanceState != null) {
-            init = savedInstanceState.getBooleanArray(DialogAnn.INIT)
-            check = savedInstanceState.getBooleanArray(DialogAnn.VALUE)
-        } else if (bundle != null) {
-            init = bundle.getBooleanArray(DialogAnn.INIT)
-            check = bundle.getBooleanArray(DialogAnn.VALUE)
-        }
+        init = savedInstanceState?.getBooleanArray(DialogAnn.INIT)
+                ?: bundle?.getBooleanArray(DialogAnn.INIT)
+                ?: BooleanArray(size = 0)
+
+        check = savedInstanceState?.getBooleanArray(DialogAnn.VALUE)
+                ?: bundle?.getBooleanArray(DialogAnn.VALUE)
+                ?: BooleanArray(size = 0)
 
         return AlertDialog.Builder(context!!)
                 .setTitle(title)
                 .setMultiChoiceItems(name, check) { _, which, isChecked ->
-                    check?.set(which, isChecked)
+                    check[which] = isChecked
                     setEnable()
                 }
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)

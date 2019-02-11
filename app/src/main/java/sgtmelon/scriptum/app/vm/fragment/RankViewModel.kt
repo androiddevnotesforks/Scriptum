@@ -26,7 +26,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo
     }
 
-    fun onRename(p: Int, name: String): RankItem {
+    fun onDialogRename(p: Int, name: String): RankItem {
         rankRepo.set(p, name)
 
         val rankItem = rankRepo.listRank[p]

@@ -10,16 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.CallSuper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.safedialog.library.MessageDialog;
 import sgtmelon.safedialog.library.MultiplyDialog;
 import sgtmelon.safedialog.library.color.ColorDialog;
@@ -29,12 +25,10 @@ import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.MenuControlAnim;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.factory.DialogFactory;
-import sgtmelon.scriptum.app.model.NoteRepo;
-import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.view.callback.NoteCallback;
 import sgtmelon.scriptum.app.view.fragment.RollNoteFragment;
 import sgtmelon.scriptum.app.view.fragment.TextNoteFragment;
-import sgtmelon.scriptum.app.vm.fragment.NoteFragmentViewModel;
+import sgtmelon.scriptum.app.vm.fragment.note.ParentNoteViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
@@ -66,7 +60,7 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     protected EditText nameEnter;
 
-    protected NoteFragmentViewModel vm;
+    protected ParentNoteViewModel vm;
     protected FragmentManager fm;
     protected RoomDb db;
 
@@ -108,7 +102,6 @@ public abstract class NoteFragmentParent extends Fragment implements
                              @Nullable Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
 
-        vm = ViewModelProviders.of(this).get(NoteFragmentViewModel.class);
         fm = getFragmentManager();
 
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -154,7 +147,6 @@ public abstract class NoteFragmentParent extends Fragment implements
 
         final Toolbar toolbar = view.findViewById(R.id.toolbar_note_container);
         final View indicator = view.findViewById(R.id.toolbar_note_color_view);
-        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             menuControl = new MenuControl(context, activity.getWindow(), toolbar, indicator);
@@ -162,7 +154,7 @@ public abstract class NoteFragmentParent extends Fragment implements
             menuControl = new MenuControlAnim(context, activity.getWindow(), toolbar, indicator);
         }
 
-        menuControl.setColor(noteItem.getColor());
+        menuControl.setColor(vm.getNoteColor());
 
         final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
         menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
@@ -176,55 +168,17 @@ public abstract class NoteFragmentParent extends Fragment implements
 
         colorDialog.setTitle(getString(R.string.dialog_title_color));
         colorDialog.setPositiveListener((dialogInterface, i) -> {
-            int check = colorDialog.getCheck();
+            final int check = colorDialog.getCheck();
 
-            final NoteRepo noteRepo = vm.getNoteRepo();
-            final NoteItem noteItem = noteRepo.getNoteItem();
-
-            inputControl.onColorChange(noteItem.getColor(), check);
+            vm.onColorDialog(check);
             bindInput();
-
-            noteItem.setColor(check);
-            noteRepo.setNoteItem(noteItem);
-
-            vm.setNoteRepo(noteRepo);
 
             menuControl.startTint(check);
         });
 
-        db = RoomDb.provideDb(context);
-        final String[] name = db.daoRank().getName();
-        db.close();
-
-        rankDialog.setName(name);
+        rankDialog.setName(vm.getRankDialogName());
         rankDialog.setPositiveListener((dialogInterface, i) -> {
-            final boolean[] check = rankDialog.getCheck();
-
-            db = RoomDb.provideDb(context);
-            final Long[] id = db.daoRank().getId();
-            db.close();
-
-            final List<Long> rankId = new ArrayList<>();
-            final List<Long> rankPs = new ArrayList<>();
-
-            for (int j = 0; j < id.length; j++) {
-                if (check[j]) {
-                    rankId.add(id[j]);
-                    rankPs.add((long) j);
-                }
-            }
-
-            final NoteRepo noteRepo = vm.getNoteRepo();
-            final NoteItem noteItem = noteRepo.getNoteItem();
-
-            inputControl.onRankChange(noteItem.getRankId(), rankId);
-
-            noteItem.setRankId(rankId);
-            noteItem.setRankPs(rankPs);
-            noteRepo.setNoteItem(noteItem);
-
-            vm.setNoteRepo(noteRepo);
-
+            vm.onRankDialog(rankDialog.getCheck());
             bindInput();
         });
     }
@@ -244,7 +198,7 @@ public abstract class NoteFragmentParent extends Fragment implements
         menuControl.startTint(colorTo);
     }
 
-    public final NoteFragmentViewModel getViewModel() {
+    public final ParentNoteViewModel getViewModel() {
         return vm;
     }
 
@@ -254,13 +208,7 @@ public abstract class NoteFragmentParent extends Fragment implements
 
         HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
-        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
-
-        db = RoomDb.provideDb(context);
-        final boolean[] check = db.daoRank().getCheck(noteItem.getRankId());
-        db.close();
-
-        rankDialog.setArguments(check);
+        rankDialog.setArguments(vm.onMenuRank());
         rankDialog.show(fm, DialogDef.RANK);
     }
 
@@ -270,45 +218,27 @@ public abstract class NoteFragmentParent extends Fragment implements
 
         HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
-        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+        final int color = vm.getNoteColor();
 
-        colorDialog.setArguments(noteItem.getColor());
+        colorDialog.setArguments(color);
         colorDialog.show(fm, DialogDef.COLOR);
 
-        menuControl.setColorFrom(noteItem.getColor());
+        menuControl.setColorFrom(color);
     }
 
     @Override
     public final void onMenuBindClick() {
         Log.i(TAG, "onMenuBindClick");
 
-        final NoteRepo noteRepo = vm.getNoteRepo();
-        final NoteItem noteItem = noteRepo.getNoteItem();
-
-        if (!noteItem.isStatus()) {
-            noteItem.setStatus(true);
-            noteRepo.update(true);
-        } else {
-            noteItem.setStatus(false);
-            noteRepo.update(false);
-        }
-
-        bindEdit(false);
-
-        db = RoomDb.provideDb(context);
-        db.daoNote().update(noteItem.getId(), noteItem.isStatus());
-        db.close();
-
-        noteRepo.setNoteItem(noteItem);
-
-        vm.setNoteRepo(noteRepo);
-
-        noteCallback.getViewModel().setNoteRepo(noteRepo);
+        vm.onMenuBind();
+        bindEdit(false); // TODO save
     }
 
     @Override
     public final void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
+
+        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
         convertDialog.show(fm, DialogDef.CONVERT);
     }

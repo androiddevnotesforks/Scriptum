@@ -57,7 +57,7 @@ public final class NoteRepo {
      * При отметке всех пунктов
      */
     public void update(@CheckDef int rollCheck) {
-        for (RollItem rollItem : listRoll) {
+        for (final RollItem rollItem : listRoll) {
             rollItem.setCheck(rollCheck == CheckDef.done);
         }
     }

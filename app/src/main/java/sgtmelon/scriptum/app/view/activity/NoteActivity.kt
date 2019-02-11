@@ -11,7 +11,7 @@ import sgtmelon.scriptum.app.view.callback.NoteCallback
 import sgtmelon.scriptum.app.view.fragment.RollNoteFragment
 import sgtmelon.scriptum.app.view.fragment.TextNoteFragment
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent
-import sgtmelon.scriptum.app.vm.activity.NoteActivityViewModel
+import sgtmelon.scriptum.app.vm.activity.NoteViewModel
 import sgtmelon.scriptum.office.annot.def.FragmentDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef
@@ -43,7 +43,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         }
     }
 
-    private lateinit var vm: NoteActivityViewModel
+    private lateinit var vm: NoteViewModel
     private lateinit var saveControl: SaveControl
 
     private var textNoteFragment: TextNoteFragment? = null
@@ -59,7 +59,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
-        vm = ViewModelProviders.of(this).get(NoteActivityViewModel::class.java)
+        vm = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         vm.setValue(intent.extras ?: savedInstanceState)
 
         saveControl = SaveControl(this)
@@ -154,7 +154,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
 
     override fun getSaveControl(): SaveControl = saveControl
 
-    override fun getViewModel(): NoteActivityViewModel = vm
+    override fun getViewModel(): NoteViewModel = vm
 
     override fun onMenuRestoreClick() {
         vm.onMenuRestore()

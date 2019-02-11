@@ -13,14 +13,14 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.app.vm.fragment.NoteFragmentViewModel;
+import sgtmelon.scriptum.app.vm.fragment.note.ParentNoteViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
-public final class NoteActivityViewModel extends AndroidViewModel {
+public final class NoteViewModel extends AndroidViewModel {
 
     private final Context context;
 
@@ -37,7 +37,7 @@ public final class NoteActivityViewModel extends AndroidViewModel {
 
     private RoomDb db;
 
-    public NoteActivityViewModel(@NonNull Application application) {
+    public NoteViewModel(@NonNull Application application) {
         super(application);
         context = application.getApplicationContext();
     }
@@ -107,7 +107,7 @@ public final class NoteActivityViewModel extends AndroidViewModel {
     }
 
     @ColorDef
-    public int resetFragmentData(long id, @NonNull NoteFragmentViewModel viewModel) {
+    public int resetFragmentData(long id, @NonNull ParentNoteViewModel viewModel) {
         db = RoomDb.provideDb(context);
         noteRepo = db.daoNote().get(context, id);
         db.close();

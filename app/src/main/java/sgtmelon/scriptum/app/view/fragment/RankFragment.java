@@ -267,7 +267,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
 
         renameDialog.setPositiveListener((dialogInterface, i) -> {
             final int p = renameDialog.getPosition();
-            final RankItem rankItem = vm.onRename(p, renameDialog.getName());
+            final RankItem rankItem = vm.onDialogRename(p, renameDialog.getName());
 
             bind();
 

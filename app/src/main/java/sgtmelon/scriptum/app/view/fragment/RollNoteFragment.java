@@ -19,6 +19,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,12 +33,11 @@ import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
-import sgtmelon.scriptum.app.vm.activity.NoteActivityViewModel;
+import sgtmelon.scriptum.app.vm.activity.NoteViewModel;
+import sgtmelon.scriptum.app.vm.fragment.note.RollNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding;
-import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.StringConv;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.st.CheckSt;
@@ -199,6 +199,12 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         super.onCreateView(inflater, container, savedInstanceState);
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_roll_note, container, false);
+
+        vm = ViewModelProviders.of(this).get(RollNoteViewModel.class);
+        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
+        vm.setNoteCallback(noteCallback);
+        vm.setInputControl(inputControl);
+
         return binding.getRoot();
     }
 
@@ -206,18 +212,13 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
-        if (vm.isEmpty()) {
-            vm.setNoteRepo(viewModel.getNoteRepo());
-        }
-
         setupBinding();
         setupToolbar(view);
         setupDialog();
         setupRecycler(view);
         setupEnter(view);
 
-        final NoteSt noteSt = viewModel.getNoteSt();
+        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
         onMenuEditClick(noteSt.isEdit());
         noteSt.setFirst(false);
     }
@@ -267,23 +268,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         super.setupDialog();
 
         convertDialog.setMessage(getString(R.string.dialog_roll_convert_to_text));
-        convertDialog.setPositiveListener((dialogInterface, i) -> {
-            final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
-
-            db = RoomDb.provideDb(context);
-
-            final String text = db.daoRoll().getText(noteItem.getId());
-            noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
-            noteItem.setType(TypeNoteDef.text);
-            noteItem.setText(text);
-
-            db.daoNote().update(noteItem);
-            db.daoRoll().delete(noteItem.getId());
-            db.close();
-
-            noteCallback.getViewModel().setNoteRepo(vm.getNoteRepo());
-            noteCallback.setupFragment(false);
-        });
+        convertDialog.setPositiveListener((dialogInterface, i) -> vm.onConvertDialog());
     }
 
     private void setupRecycler(@NonNull View view) {
@@ -467,7 +452,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
         HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
-        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
+        final NoteViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
 
         NoteRepo noteRepo = vm.getNoteRepo();
@@ -519,7 +504,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
         db = RoomDb.provideDb(context);
 
-        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
+        final NoteViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
         if (noteSt.isCreate()) {
             noteSt.setCreate(false);
@@ -774,42 +759,12 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     public void onMenuCheckClick() {
         Log.i(TAG, "onMenuCheckClick");
 
-        final NoteRepo noteRepo = vm.getNoteRepo();
-        final NoteItem noteItem = noteRepo.getNoteItem();
-        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
-
-        final int size = noteRepo.getListRoll().size();
-        int check;
-
-        db = RoomDb.provideDb(context);
-        if (checkSt.isAll()) {
-            check = 0;
-
-            noteRepo.update(CheckDef.notDone);
-            noteItem.setText(check, size);
-
-            db.daoRoll().update(noteItem.getId(), CheckDef.notDone);
-            db.daoNote().update(noteItem);
-        } else {
-            check = size;
-
-            noteRepo.update(CheckDef.done);
-            noteItem.setText(check, size);
-
-            db.daoRoll().update(noteItem.getId(), CheckDef.done);
-            db.daoNote().update(noteItem);
-        }
-        db.close();
-
-        if (checkSt.setAll(check, size)) {
-            binding.setNoteItem(noteItem);
-            binding.executePendingBindings();
-        }
+        final NoteItem noteItem = ((RollNoteViewModel) vm).onMenuCheck(checkSt.isAll());
+        binding.setNoteItem(noteItem);
+        binding.executePendingBindings();
 
         adapter.setCheckToggle(true);
         updateAdapter();
-
-        noteCallback.getViewModel().setNoteRepo(noteRepo);
     }
 
 }

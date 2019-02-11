@@ -14,19 +14,19 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
-import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
-import sgtmelon.scriptum.app.vm.activity.NoteActivityViewModel;
+import sgtmelon.scriptum.app.vm.activity.NoteViewModel;
+import sgtmelon.scriptum.app.vm.fragment.note.TextNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.StringConv;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.st.NoteSt;
@@ -61,6 +61,12 @@ public final class TextNoteFragment extends NoteFragmentParent {
         super.onCreateView(inflater, container, savedInstanceState);
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text_note, container, false);
+
+        vm = ViewModelProviders.of(this).get(TextNoteViewModel.class);
+        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
+        vm.setNoteCallback(noteCallback);
+        vm.setInputControl(inputControl);
+
         return binding.getRoot();
     }
 
@@ -68,17 +74,12 @@ public final class TextNoteFragment extends NoteFragmentParent {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
-        if (vm.isEmpty()) {
-            vm.setNoteRepo(viewModel.getNoteRepo());
-        }
-
         setupBinding();
         setupToolbar(view);
         setupDialog();
         setupEnter(view);
 
-        final NoteSt noteSt = viewModel.getNoteSt();
+        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
         onMenuEditClick(noteSt.isEdit());
         noteSt.setFirst(false);
     }
@@ -121,25 +122,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
         super.setupDialog();
 
         convertDialog.setMessage(getString(R.string.dialog_text_convert_to_roll));
-        convertDialog.setPositiveListener((dialogInterface, i) -> {
-            final NoteRepo noteRepo = vm.getNoteRepo();
-            final NoteItem noteItem = noteRepo.getNoteItem();
-
-            db = RoomDb.provideDb(context);
-
-            final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), noteItem.getText());
-            noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
-            noteItem.setType(TypeNoteDef.roll);
-            noteItem.setText(0, listRoll.size());
-
-            db.daoNote().update(noteItem);
-            db.close();
-
-            noteRepo.setListRoll(listRoll);
-
-            noteCallback.getViewModel().setNoteRepo(noteRepo);
-            noteCallback.setupFragment(false);
-        });
+        convertDialog.setPositiveListener((dialogInterface, i) -> vm.onConvertDialog());
     }
 
     @Override
@@ -169,7 +152,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
         HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
-        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
+        final NoteViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
 
         NoteRepo noteRepo = vm.getNoteRepo();
@@ -215,7 +198,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
         db = RoomDb.provideDb(context);
 
-        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
+        final NoteViewModel viewModel = noteCallback.getViewModel();
         final NoteSt noteSt = viewModel.getNoteSt();
         if (noteSt.isCreate()) {
             noteSt.setCreate(false);
