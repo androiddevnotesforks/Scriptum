@@ -66,10 +66,9 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     protected EditText nameEnter;
 
+    protected NoteFragmentViewModel vm;
     protected FragmentManager fm;
     protected RoomDb db;
-    protected View frgView;
-    protected NoteFragmentViewModel vm;
 
     protected boolean rankEmpty;
 
@@ -110,18 +109,18 @@ public abstract class NoteFragmentParent extends Fragment implements
         Log.i(TAG, "onCreateView");
 
         vm = ViewModelProviders.of(this).get(NoteFragmentViewModel.class);
-
         fm = getFragmentManager();
-        convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm);
-        colorDialog = DialogFactory.INSTANCE.getColorDialog(context, fm);
-        rankDialog = DialogFactory.INSTANCE.getRankDialog(context, fm);
 
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm);
+        colorDialog = DialogFactory.INSTANCE.getColorDialog(context, fm);
+        rankDialog = DialogFactory.INSTANCE.getRankDialog(context, fm);
 
         final Bundle bundle = getArguments();
         if (bundle != null) {
@@ -129,7 +128,6 @@ public abstract class NoteFragmentParent extends Fragment implements
         } else if (savedInstanceState != null) {
             rankEmpty = savedInstanceState.getBoolean(IntentDef.RANK_EMPTY);
         }
-
     }
 
     @Override
@@ -151,11 +149,11 @@ public abstract class NoteFragmentParent extends Fragment implements
     public abstract void bindEdit(boolean editMode);
 
     @CallSuper
-    protected void setupToolbar() {
+    protected void setupToolbar(@NonNull View view) {
         Log.i(TAG, "setupToolbar");
 
-        final Toolbar toolbar = frgView.findViewById(R.id.toolbar_note_container);
-        final View indicator = frgView.findViewById(R.id.toolbar_note_color_view);
+        final Toolbar toolbar = view.findViewById(R.id.toolbar_note_container);
+        final View indicator = view.findViewById(R.id.toolbar_note_color_view);
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -232,10 +230,10 @@ public abstract class NoteFragmentParent extends Fragment implements
     }
 
     @CallSuper
-    protected void setupEnter() {
+    protected void setupEnter(@NonNull View view) {
         Log.i(TAG, "setupEnter");
 
-        nameEnter = frgView.findViewById(R.id.toolbar_note_enter);
+        nameEnter = view.findViewById(R.id.toolbar_note_enter);
         nameEnter.addTextChangedListener(
                 new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
         );

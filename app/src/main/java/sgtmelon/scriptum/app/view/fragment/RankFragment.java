@@ -49,16 +49,17 @@ public final class RankFragment extends Fragment implements View.OnClickListener
     private final DragListenerSt dragSt = new DragListenerSt();
     private final OpenSt openSt = new OpenSt();
 
-    private FragmentManager fm;
-    private FragmentRankBinding binding;
-    private RankViewModel vm;
-    private RenameDialog renameDialog;
-
     private Context context;
 
-    private RecyclerView recyclerView;
-    private LinearLayoutManager layoutManager;
+    private FragmentRankBinding binding;
+    private RankViewModel vm;
+    private FragmentManager fm;
+
+    private RenameDialog renameDialog;
+
     private RankAdapter adapter;
+    private LinearLayoutManager layoutManager;
+    private RecyclerView recyclerView;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
 
@@ -115,7 +116,6 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         }
     };
 
-    private View frgView;
     private EditText rankEnter;
 
     @Override
@@ -142,27 +142,27 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rank, container, false);
-
         vm = ViewModelProviders.of(this).get(RankViewModel.class);
         vm.loadData();
 
         fm = getFragmentManager();
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
+
         renameDialog = DialogFactory.INSTANCE.getRenameDialog(context, fm);
 
         if (savedInstanceState != null) {
             openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
         }
 
-        return frgView = binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onActivityCreated");
-        super.onActivityCreated(savedInstanceState);
-
-        setupToolbar();
-        setupRecycler();
+        setupToolbar(view);
+        setupRecycler(view);
     }
 
     @Override
@@ -191,15 +191,15 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         binding.executePendingBindings();
     }
 
-    private void setupToolbar() {
+    private void setupToolbar(@NonNull View view) {
         Log.i(TAG, "setupToolbar");
 
-        final Toolbar toolbar = frgView.findViewById(R.id.toolbar_rank_container);
+        final Toolbar toolbar = view.findViewById(R.id.toolbar_rank_container);
         toolbar.setTitle(getString(R.string.title_rank));
 
-        final ImageButton rankCancel = frgView.findViewById(R.id.toolbar_rank_cancel_button);
-        final ImageButton rankAdd = frgView.findViewById(R.id.toolbar_rank_add_button);
-        rankEnter = frgView.findViewById(R.id.toolbar_rank_enter);
+        final ImageButton rankCancel = view.findViewById(R.id.toolbar_rank_cancel_button);
+        final ImageButton rankAdd = view.findViewById(R.id.toolbar_rank_add_button);
+        rankEnter = view.findViewById(R.id.toolbar_rank_enter);
 
         rankEnter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -243,7 +243,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
         return name;
     }
 
-    private void setupRecycler() {
+    private void setupRecycler(@NonNull View view) {
         Log.i(TAG, "setupRecycler");
 
         adapter = new RankAdapter(context, this, this, dragSt);
@@ -255,7 +255,7 @@ public final class RankFragment extends Fragment implements View.OnClickListener
             }
         };
 
-        recyclerView = frgView.findViewById(R.id.rank_recycler);
+        recyclerView = view.findViewById(R.id.rank_recycler);
         recyclerView.setItemAnimator(itemAnimator);
 
         layoutManager = new LinearLayoutManager(context);

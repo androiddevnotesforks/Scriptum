@@ -56,7 +56,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     private FragmentRollNoteBinding binding;
 
-    private LinearLayoutManager layoutManager;
     private RollAdapter adapter;
 
     private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
@@ -165,7 +164,9 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     };
 
+    private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
+
     private EditText rollEnter;
 
     @NonNull
@@ -198,13 +199,12 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         super.onCreateView(inflater, container, savedInstanceState);
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_roll_note, container, false);
-        return frgView = binding.getRoot();
+        return binding.getRoot();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onActivityCreated");
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         final NoteActivityViewModel viewModel = noteCallback.getViewModel();
         if (vm.isEmpty()) {
@@ -212,10 +212,10 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         }
 
         setupBinding();
-        setupToolbar();
+        setupToolbar(view);
         setupDialog();
-        setupRecycler();
-        setupEnter();
+        setupRecycler(view);
+        setupEnter(view);
 
         final NoteSt noteSt = viewModel.getNoteSt();
         onMenuEditClick(noteSt.isEdit());
@@ -286,10 +286,10 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         });
     }
 
-    private void setupRecycler() {
+    private void setupRecycler(@NonNull View view) {
         Log.i(TAG, "setupRecycler");
 
-        recyclerView = frgView.findViewById(R.id.roll_note_recycler);
+        recyclerView = view.findViewById(R.id.roll_note_recycler);
 
         final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
         if (animator != null) {
@@ -312,9 +312,9 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     }
 
     @Override
-    protected void setupEnter() {
+    protected void setupEnter(@NonNull View view) {
         Log.i(TAG, "setupEnter");
-        super.setupEnter();
+        super.setupEnter(view);
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i != EditorInfo.IME_ACTION_NEXT) return false;
@@ -323,8 +323,8 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
             return true;
         });
 
-        rollEnter = frgView.findViewById(R.id.roll_note_enter);
-        final ImageButton rollAdd = frgView.findViewById(R.id.roll_note_add_button);
+        rollEnter = view.findViewById(R.id.roll_note_enter);
+        final ImageButton rollAdd = view.findViewById(R.id.roll_note_add_button);
 
         rollEnter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -343,8 +343,8 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
             }
         });
 
-        rollAdd.setOnClickListener(view -> scrollToInsert(true));
-        rollAdd.setOnLongClickListener(view -> {
+        rollAdd.setOnClickListener(v -> scrollToInsert(true));
+        rollAdd.setOnLongClickListener(v -> {
             scrollToInsert(false);
             return true;
         });

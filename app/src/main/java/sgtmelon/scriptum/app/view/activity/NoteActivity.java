@@ -29,6 +29,7 @@ import sgtmelon.scriptum.office.st.NoteSt;
 public final class NoteActivity extends BaseActivityParent
         implements NoteCallback, MenuIntf.Note.DeleteMenuClick {
 
+    // TODO: 11.02.2019 передавать vm в биндинг и оттуда вызывать методы управления
     //Если Id не существует то завершать активити
 
     private static final String TAG = NoteActivity.class.getSimpleName();

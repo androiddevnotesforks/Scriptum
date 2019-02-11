@@ -45,15 +45,14 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
     public static boolean updateStatus = true; //Для единовременного обновления статус бара
 
-    private FragmentNotesBinding binding;
-    private NotesViewModel vm;
-
-    private FragmentManager fm;
-    private OptionsDialog optionsDialog;
-
     private Context context;
     private MainCallback mainCallback;
-    private View frgView;
+
+    private FragmentNotesBinding binding;
+    private NotesViewModel vm;
+    private FragmentManager fm;
+
+    private OptionsDialog optionsDialog;
 
     private NoteAdapter adapter;
     private RecyclerView recyclerView;
@@ -90,17 +89,21 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notes, container, false);
-        frgView = binding.getRoot();
-
         vm = ViewModelProviders.of(this).get(NotesViewModel.class);
-
         fm = getFragmentManager();
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
+
         optionsDialog = DialogFactory.INSTANCE.getOptionsDialog(fm);
 
-        setupToolbar();
-        setupRecycler();
-
-        return frgView;
+        setupToolbar(view);
+        setupRecycler(view);
     }
 
     private void bind() {
@@ -108,10 +111,10 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         binding.executePendingBindings();
     }
 
-    private void setupToolbar() {
+    private void setupToolbar(@NonNull View view) {
         Log.i(TAG, "setupToolbar");
 
-        final Toolbar toolbar = frgView.findViewById(R.id.toolbar_container);
+        final Toolbar toolbar = view.findViewById(R.id.toolbar_container);
         toolbar.setTitle(getString(R.string.title_notes));
 
         toolbar.inflateMenu(R.menu.fragment_notes);
@@ -123,7 +126,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
         ColorUtils.INSTANCE.tintMenuIcon(context, mItemSettings);
     }
 
-    private void setupRecycler() {
+    private void setupRecycler(@NonNull View view) {
         Log.i(TAG, "setupRecycler");
 
         adapter = new NoteAdapter(context, this, this);
@@ -135,7 +138,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
             }
         };
 
-        recyclerView = frgView.findViewById(R.id.notes_recycler);
+        recyclerView = view.findViewById(R.id.notes_recycler);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);

@@ -43,18 +43,17 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
     private final OpenSt openSt = new OpenSt();
 
+    private Context context;
+
     private FragmentBinBinding binding;
     private BinViewModel vm;
-
     private FragmentManager fm;
+
     private OptionsDialog optionsDialog;
     private MessageDialog clearBinDialog;
 
-    private NoteAdapter adapter;
-    private Context context;
-    private View frgView;
-
     private MenuItem mItemClearBin;
+    private NoteAdapter adapter;
     private RecyclerView recyclerView;
 
     @Override
@@ -80,11 +79,17 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         Log.i(TAG, "onCreateView");
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bin, container, false);
-        frgView = binding.getRoot();
-
         vm = ViewModelProviders.of(this).get(BinViewModel.class);
-
         fm = getFragmentManager();
+
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.i(TAG, "onViewCreated");
+        super.onViewCreated(view, savedInstanceState);
+
         optionsDialog = DialogFactory.INSTANCE.getOptionsDialog(fm);
         clearBinDialog = DialogFactory.INSTANCE.getClearBinDialog(context, fm);
 
@@ -92,10 +97,8 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
             openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
         }
 
-        setupToolbar();
-        setupRecycler();
-
-        return frgView;
+        setupToolbar(view);
+        setupRecycler(view);
     }
 
     @Override
@@ -111,10 +114,10 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         binding.executePendingBindings();
     }
 
-    private void setupToolbar() {
+    private void setupToolbar(@NonNull View view) {
         Log.i(TAG, "setupToolbar");
 
-        final Toolbar toolbar = frgView.findViewById(R.id.toolbar_container);
+        final Toolbar toolbar = view.findViewById(R.id.toolbar_container);
         toolbar.setTitle(getString(R.string.title_bin));
 
         toolbar.inflateMenu(R.menu.fragment_bin);
@@ -146,7 +149,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
         clearBinDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
     }
 
-    private void setupRecycler() {
+    private void setupRecycler(@NonNull View view) {
         Log.i(TAG, "setupRecycler");
 
         adapter = new NoteAdapter(context, this, this);
@@ -158,7 +161,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
             }
         };
 
-        recyclerView = frgView.findViewById(R.id.bin_recycler);
+        recyclerView = view.findViewById(R.id.bin_recycler);
         recyclerView.setItemAnimator(recyclerViewEndAnim);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);

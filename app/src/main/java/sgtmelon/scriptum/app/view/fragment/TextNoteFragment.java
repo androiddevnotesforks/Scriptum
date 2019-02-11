@@ -61,25 +61,24 @@ public final class TextNoteFragment extends NoteFragmentParent {
         super.onCreateView(inflater, container, savedInstanceState);
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text_note, container, false);
-        return frgView = binding.getRoot();
+        return binding.getRoot();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onActivityCreated");
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        final NoteActivityViewModel vm = noteCallback.getViewModel();
-        if (this.vm.isEmpty()) {
-            this.vm.setNoteRepo(vm.getNoteRepo());
+        final NoteActivityViewModel viewModel = noteCallback.getViewModel();
+        if (vm.isEmpty()) {
+            vm.setNoteRepo(viewModel.getNoteRepo());
         }
 
         setupBinding();
-        setupToolbar();
+        setupToolbar(view);
         setupDialog();
-        setupEnter();
+        setupEnter(view);
 
-        final NoteSt noteSt = vm.getNoteSt();
+        final NoteSt noteSt = viewModel.getNoteSt();
         onMenuEditClick(noteSt.isEdit());
         noteSt.setFirst(false);
     }
@@ -128,9 +127,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
             db = RoomDb.provideDb(context);
 
-            final String[] textToRoll = noteItem.getText().split("\n");   //Получаем пункты списка
-            final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), textToRoll);
-
+            final List<RollItem> listRoll = db.daoRoll().insert(noteItem.getId(), noteItem.getText());
             noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
             noteItem.setType(TypeNoteDef.roll);
             noteItem.setText(0, listRoll.size());
@@ -146,14 +143,9 @@ public final class TextNoteFragment extends NoteFragmentParent {
     }
 
     @Override
-    protected void setupEnter() {
+    protected void setupEnter(@NonNull View view) {
         Log.i(TAG, "setupEnter");
-        super.setupEnter();
-
-        textEnter = frgView.findViewById(R.id.text_note_content_enter);
-        textEnter.addTextChangedListener(
-                new InputTextWatcher(textEnter, InputDef.text, this, inputControl)
-        );
+        super.setupEnter(view);
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i != EditorInfo.IME_ACTION_NEXT) return false;
@@ -161,6 +153,11 @@ public final class TextNoteFragment extends NoteFragmentParent {
             textEnter.requestFocus();
             return true;
         });
+
+        textEnter = view.findViewById(R.id.text_note_content_enter);
+        textEnter.addTextChangedListener(
+                new InputTextWatcher(textEnter, InputDef.text, this, inputControl)
+        );
     }
 
     /**
