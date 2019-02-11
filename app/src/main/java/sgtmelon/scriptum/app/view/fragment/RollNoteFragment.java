@@ -499,7 +499,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     }
 
     @Override
-    public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
+    public boolean onMenuSaveClick(boolean modeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
 
         final NoteRepo noteRepo = vm.getNoteRepo();
@@ -512,7 +512,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         noteItem.setText(HelpUtils.Note.INSTANCE.getCheckCount(listRoll), listRoll.size());
 
         //Переход в режим просмотра
-        if (editModeChange) {
+        if (modeChange) {
             HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
             onMenuEditClick(false);
         }
@@ -524,7 +524,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         if (noteSt.isCreate()) {
             noteSt.setCreate(false);
 
-            if (!editModeChange) {
+            if (!modeChange) {
                 menuControl.setDrawable(true, true);
             }
 

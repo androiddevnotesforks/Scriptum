@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.app.view.callback;
 
+import androidx.annotation.NonNull;
 import sgtmelon.scriptum.app.control.SaveControl;
 import sgtmelon.scriptum.app.view.activity.NoteActivity;
 import sgtmelon.scriptum.app.view.parent.NoteFragmentParent;
@@ -12,8 +13,10 @@ public interface NoteCallback {
 
     void setupFragment(boolean isSave);
 
+    @NonNull
     SaveControl getSaveControl();
 
+    @NonNull
     NoteActivityViewModel getViewModel();
 
 }

@@ -199,7 +199,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
     }
 
     @Override
-    public boolean onMenuSaveClick(boolean editModeChange, boolean showToast) {
+    public boolean onMenuSaveClick(boolean modeChange, boolean showToast) {
         Log.i(TAG, "onMenuSaveClick");
 
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
@@ -208,7 +208,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
 
-        if (editModeChange) {
+        if (modeChange) {
             HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
             onMenuEditClick(false);
         }
@@ -220,7 +220,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
         if (noteSt.isCreate()) {
             noteSt.setCreate(false);
 
-            if (!editModeChange) {
+            if (!modeChange) {
                 menuControl.setDrawable(true, true);
             }
 

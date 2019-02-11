@@ -231,7 +231,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         if (p == RecyclerView.NO_POSITION) return;
 
-        startActivity(NoteActivity.getIntent(context, vm.getId(p)));
+        startActivity(NoteActivity.Companion.getIntent(context, vm.getId(p)));
     }
 
     @Override

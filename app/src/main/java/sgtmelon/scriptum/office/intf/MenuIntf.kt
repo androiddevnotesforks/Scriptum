@@ -17,15 +17,13 @@ interface MenuIntf {
             fun onMenuDeleteClick()
         }
 
-        interface NoteMenuClick {
+        interface NoteMenuClick { // TODO: 10.12.2018 добавить длинное нажатие на кнопку undo/redo - для возвращение в один из концов
             /**
-             * @param editModeChange - Надо ли менять режим редактирования
-             * @param showToast      - Показывать уведомление о том, что заметка пуста
-             * @return - Сохранение успешно при возвращении true
+             * При успешном сохранении возвращает - true
+             * [modeChange] - Надо ли менять режим редактирования,
+             * [showToast]  - Показывать уведомление о том, что заметка пуста
              */
-            fun onMenuSaveClick(editModeChange: Boolean, showToast: Boolean): Boolean
-
-            // TODO: 10.12.2018 добавить длинное нажатие на кнопку undo/redo - для возвращение в один из концов
+            fun onMenuSaveClick(modeChange: Boolean, showToast: Boolean): Boolean
 
             fun onUndoClick()
 
@@ -36,7 +34,7 @@ interface MenuIntf {
             fun onMenuColorClick()
 
             /**
-             * @param editMode - Установка режима редактирования
+             * [editMode] - Установка режима редактирования
              */
             fun onMenuEditClick(editMode: Boolean)
 

@@ -24,7 +24,7 @@ class SaveControl(private val context: Context) {
         setSaveHandlerEvent(true)
     }
 
-    var noteMenuClick: MenuIntf.Note.NoteMenuClick? = null
+    lateinit var noteMenuClick: MenuIntf.Note.NoteMenuClick
 
     /**
      * Пауза срабатывает не только при сворачивании (если закрыли активность например)
@@ -41,28 +41,25 @@ class SaveControl(private val context: Context) {
     fun setSaveHandlerEvent(isStart: Boolean) {
         if (!saveAuto) return
 
-        if (isStart) {
-            saveHandler.postDelayed(saveRunnable, saveTime.toLong())
-        } else {
-            saveHandler.removeCallbacks(saveRunnable)
+        when (isStart) {
+            true -> saveHandler.postDelayed(saveRunnable, saveTime.toLong())
+            false -> saveHandler.removeCallbacks(saveRunnable)
         }
     }
 
     fun onPauseSave(keyEdit: Boolean) {
         setSaveHandlerEvent(false)
 
-        if (needSave && keyEdit && savePause) {
-            onSave()
-        } else {
-            needSave = true
+        when (needSave && keyEdit && savePause) {
+            true -> onSave()
+            false -> needSave = true
         }
     }
 
     private fun onSave() {
-        if (noteMenuClick!!.onMenuSaveClick(false, false)) {
-            Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show()
+        when (noteMenuClick.onMenuSaveClick(false, false)) {
+            true -> Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()
+            false -> Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show()
         }
     }
 

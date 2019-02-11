@@ -16,13 +16,11 @@ import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.vm.fragment.NoteFragmentViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.st.NoteSt;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
-public final class NoteActivityViewModel extends AndroidViewModel implements
-        MenuIntf.Note.DeleteMenuClick {
+public final class NoteActivityViewModel extends AndroidViewModel {
 
     private final Context context;
 
@@ -119,8 +117,7 @@ public final class NoteActivityViewModel extends AndroidViewModel implements
         return noteRepo.getNoteItem().getColor();
     }
 
-    @Override
-    public void onMenuRestoreClick() {
+    public void onMenuRestore() {
         db = RoomDb.provideDb(context);
         db.daoNote().update(
                 noteRepo.getNoteItem().getId(), TimeUtils.INSTANCE.getTime(context), false
@@ -128,8 +125,7 @@ public final class NoteActivityViewModel extends AndroidViewModel implements
         db.close();
     }
 
-    @Override
-    public void onMenuRestoreOpenClick() {
+    public void onMenuRestoreOpen() {
         noteSt.setBin(false);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
@@ -141,8 +137,7 @@ public final class NoteActivityViewModel extends AndroidViewModel implements
         db.close();
     }
 
-    @Override
-    public void onMenuClearClick() {
+    public void onMenuClear() {
         db = RoomDb.provideDb(context);
         db.daoNote().delete(noteRepo.getNoteItem().getId());
         db.close();
@@ -150,8 +145,7 @@ public final class NoteActivityViewModel extends AndroidViewModel implements
         noteRepo.update(false);
     }
 
-    @Override
-    public void onMenuDeleteClick() {
+    public void onMenuDelete() {
         final NoteItem noteItem = noteRepo.getNoteItem();
 
         db = RoomDb.provideDb(context);

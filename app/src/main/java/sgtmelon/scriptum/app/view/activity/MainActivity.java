@@ -114,7 +114,7 @@ public final class MainActivity extends BaseActivityParent implements MainCallba
                     ? TypeNoteDef.text
                     : TypeNoteDef.roll;
 
-            final Intent intent = NoteActivity.getIntent(MainActivity.this, type);
+            final Intent intent = NoteActivity.Companion.getIntent(MainActivity.this, type);
 
             startActivity(intent);
             return true;

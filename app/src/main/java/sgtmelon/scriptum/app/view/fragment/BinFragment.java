@@ -206,7 +206,7 @@ public final class BinFragment extends Fragment implements ItemIntf.ClickListene
 
         if (p == RecyclerView.NO_POSITION) return;
 
-        startActivity(NoteActivity.getIntent(context, vm.getId(p)));
+        startActivity(NoteActivity.Companion.getIntent(context, vm.getId(p)));
     }
 
     @Override
