@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
-import sgtmelon.scriptum.app.view.fragment.BinFragment
+import sgtmelon.scriptum.app.view.fragment.main.BinFragment
 import sgtmelon.scriptum.office.annot.def.BinDef
 import sgtmelon.scriptum.office.utils.HelpUtils
 import sgtmelon.scriptum.office.utils.TimeUtils

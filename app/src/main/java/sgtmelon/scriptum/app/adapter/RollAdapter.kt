@@ -8,7 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.app.model.item.RollItem
-import sgtmelon.scriptum.app.view.fragment.RollNoteFragment
+import sgtmelon.scriptum.app.view.fragment.note.RollNoteFragment
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.office.annot.def.TypeRollDef

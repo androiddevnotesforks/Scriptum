@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.view.callback.NoteCallback
-import sgtmelon.scriptum.app.view.fragment.RollNoteFragment
-import sgtmelon.scriptum.app.view.fragment.TextNoteFragment
+import sgtmelon.scriptum.app.view.fragment.note.RollNoteFragment
+import sgtmelon.scriptum.app.view.fragment.note.TextNoteFragment
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent
 import sgtmelon.scriptum.app.vm.activity.NoteViewModel
 import sgtmelon.scriptum.office.annot.def.FragmentDef

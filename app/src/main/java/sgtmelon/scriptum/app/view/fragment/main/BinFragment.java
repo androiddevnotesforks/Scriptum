@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.fragment;
+package sgtmelon.scriptum.app.view.fragment.main;
 
 import android.content.Context;
 import android.os.Bundle;

@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.RankRepo
 import sgtmelon.scriptum.app.model.item.RankItem
-import sgtmelon.scriptum.app.view.fragment.RankFragment
+import sgtmelon.scriptum.app.view.fragment.main.RankFragment
 
 /**
  * ViewModel для [RankFragment]

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.fragment;
+package sgtmelon.scriptum.app.view.fragment.note;
 
 import android.os.Bundle;
 import android.text.TextUtils;

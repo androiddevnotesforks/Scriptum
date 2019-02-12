@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
-import sgtmelon.scriptum.app.view.fragment.NotesFragment
+import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.office.annot.def.BinDef
 import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef

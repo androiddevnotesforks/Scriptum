@@ -18,7 +18,7 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.app.view.fragment.NotesFragment;
+import sgtmelon.scriptum.app.view.fragment.main.NotesFragment;
 import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
 import sgtmelon.scriptum.office.utils.PrefUtils;

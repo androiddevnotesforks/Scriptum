@@ -18,7 +18,7 @@ class SheetDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItem
     @LayoutRes private var layout: Int = 0
     @IdRes private var navigation: Int = 0
 
-    lateinit var navigationItemSelectedListener: NavigationView.OnNavigationItemSelectedListener
+    lateinit var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener
     lateinit var dismissListener: DialogInterface.OnDismissListener
 
     fun setArguments(@LayoutRes layout: Int, @IdRes navigation: Int) {
@@ -32,15 +32,13 @@ class SheetDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItem
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val bundle = arguments
+        layout = savedInstanceState?.getInt(DialogAnn.INIT)
+                ?: arguments?.getInt(DialogAnn.INIT)
+                ?: 0
 
-        if (savedInstanceState != null) {
-            layout = savedInstanceState.getInt(DialogAnn.INIT)
-            navigation = savedInstanceState.getInt(DialogAnn.VALUE)
-        } else if (bundle != null) {
-            layout = bundle.getInt(DialogAnn.INIT)
-            navigation = bundle.getInt(DialogAnn.VALUE)
-        }
+        navigation = savedInstanceState?.getInt(DialogAnn.VALUE)
+                ?: arguments?.getInt(DialogAnn.VALUE)
+                ?: 0
 
         val view = inflater.inflate(layout, container, false)
                 ?: throw NullPointerException("Id error, layout view is null")
@@ -65,7 +63,7 @@ class SheetDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItem
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        navigationItemSelectedListener.onNavigationItemSelected(menuItem)
+        itemSelectedListener.onNavigationItemSelected(menuItem)
         return false
     }
 
