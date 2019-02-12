@@ -20,6 +20,8 @@ class ColorDialog : DialogBlank(), ColorIntf.ClickListener {
     var check: Int = 0
         private set
 
+    //TODO value init below
+
     @IdRes var fillColor: IntArray? = null
     @IdRes var strokeColor: IntArray? = null
     @IdRes var checkColor: IntArray? = null
@@ -89,8 +91,7 @@ class ColorDialog : DialogBlank(), ColorIntf.ClickListener {
 
     override fun setEnable() {
         super.setEnable()
-
-        buttonPositive!!.isEnabled = init != check
+        buttonPositive.isEnabled = init != check
     }
 
     override fun onColorClick(p: Int) {

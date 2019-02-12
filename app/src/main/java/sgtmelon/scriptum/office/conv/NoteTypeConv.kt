@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.office.conv
 
 import androidx.room.TypeConverter
-import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.office.annot.key.NoteType
 
 class NoteTypeConv {
 

@@ -8,11 +8,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
-import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.test.TestData
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.PAGE
 import sgtmelon.scriptum.ui.screen.note.roll.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.text.TextNoteScreen
 import sgtmelon.scriptum.ui.widget.note.State
@@ -39,7 +38,7 @@ class NotesTest : ParentTest() {
 
     @Test fun testAddDialog() {
         MainScreen {
-            assert { onDisplayContent(PAGE.NOTES) }
+            assert { onDisplayContent() }
 
             for (noteType in listAddNoteType) {
                 addDialog {
@@ -64,14 +63,14 @@ class NotesTest : ParentTest() {
                     }
                 }
 
-                assert { onDisplayContent(PAGE.NOTES) }
+                assert { onDisplayContent() }
             }
         }
     }
 
     @Test fun testAddTextNote() {
         MainScreen {
-            assert { onDisplayContent(PAGE.NOTES) }
+            assert { onDisplayContent() }
 
             addDialog {
                 open()
@@ -83,7 +82,7 @@ class NotesTest : ParentTest() {
                 pressBack()
             }
 
-            assert { onDisplayContent(PAGE.NOTES) }
+            assert { onDisplayContent() }
         }
     }
 

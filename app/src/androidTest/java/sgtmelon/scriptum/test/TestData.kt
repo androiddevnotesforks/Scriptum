@@ -5,7 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestUtils
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.office.annot.ColorAnn
-import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.office.annot.key.NoteType
 
 import sgtmelon.scriptum.office.utils.TimeUtils
 

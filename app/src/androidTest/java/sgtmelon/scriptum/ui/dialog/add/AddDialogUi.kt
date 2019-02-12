@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.dialog.add
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 
 class AddDialogUi : ParentUi() {

@@ -8,7 +8,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.PAGE
 
 @RunWith(AndroidJUnit4::class)
 class BinTest : ParentTest() {
@@ -25,7 +24,7 @@ class BinTest : ParentTest() {
         db.clearAllTables()
 
         MainScreen {
-            assert { onDisplayContent(PAGE.NOTES) }
+            assert { onDisplayContent() }
 
             addDialog {
                 open()

@@ -7,7 +7,7 @@
 
         <import type="java.util.List"/>
         <import alias="v" type="android.view.View"/>
-        <import alias="noteType" type="sgtmelon.scriptum.office.annot.def.NoteType"/>
+        <import alias="noteType" type="sgtmelon.scriptum.office.annot.key.NoteType"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
 

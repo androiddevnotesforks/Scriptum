@@ -33,18 +33,21 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
     var cursorPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TypeRollDef.read) {
-            val bindingRead = DataBindingUtil.inflate<ItemRollReadBinding>(
-                    inflater, R.layout.item_roll_read, parent, false
-            )
+        return when (viewType == TypeRollDef.read) {
+            true -> {
+                val bindingRead = DataBindingUtil.inflate<ItemRollReadBinding>(
+                        inflater, R.layout.item_roll_read, parent, false
+                )
 
-            RollReadHolder(bindingRead, clickListener)
-        } else {
-            val bindingWrite = DataBindingUtil.inflate<ItemRollWriteBinding>(
-                    inflater, R.layout.item_roll_write, parent, false
-            )
+                RollReadHolder(bindingRead, clickListener)
+            }
+            false -> {
+                val bindingWrite = DataBindingUtil.inflate<ItemRollWriteBinding>(
+                        inflater, R.layout.item_roll_write, parent, false
+                )
 
-            RollWriteHolder(bindingWrite, dragListener, rollWatcher, inputIntf, bindIntf)
+                RollWriteHolder(bindingWrite, dragListener, rollWatcher, inputIntf, bindIntf)
+            }
         }
     }
 
@@ -63,9 +66,9 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
         }
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (!noteSt.isEdit) TypeRollDef.read
-        else TypeRollDef.write
+    override fun getItemViewType(position: Int) = when (!noteSt.isEdit) {
+        true -> TypeRollDef.read
+        false -> TypeRollDef.write
     }
 
 }

@@ -60,7 +60,7 @@ public abstract class NoteDao extends BaseDao {
             if (rkId.size() != 0 && !rkVisible.contains(rkId.get(0))) {
                 statusItem.cancelNote();
             } else {
-                if (noteItem.isStatus() && NotesFragment.updateStatus) {
+                if (noteItem.isStatus() && NotesFragment.Companion.getUpdateStatus()) {
                     statusItem.notifyNote();
                 }
 

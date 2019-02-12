@@ -13,7 +13,6 @@ import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef
-import sgtmelon.scriptum.office.conv.NoteTypeConv
 import sgtmelon.scriptum.office.intf.ItemIntf
 
 /**
@@ -53,7 +52,6 @@ class NoteAdapter(context: Context,
         }
     }
 
-    override fun getItemViewType(position: Int) =
-            NoteTypeConv().toInt(list[position].noteItem.type)
+    override fun getItemViewType(position: Int) = list[position].noteItem.type.ordinal
 
 }

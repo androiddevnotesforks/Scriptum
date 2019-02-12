@@ -12,9 +12,8 @@ import sgtmelon.scriptum.app.view.fragment.note.RollNoteFragment
 import sgtmelon.scriptum.app.view.fragment.note.TextNoteFragment
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent
 import sgtmelon.scriptum.app.vm.activity.NoteViewModel
-import sgtmelon.scriptum.office.annot.def.FragmentDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
-import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.MenuIntf
 
 // TODO: 11.02.2019 Передавать vm в биндинг и оттуда вызывать методы управления
@@ -126,23 +125,23 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         when (vm.noteRepo.noteItem.type) {
             NoteType.TEXT -> {
                 textNoteFragment = when (isSave) {
-                    true -> fm.findFragmentByTag(FragmentDef.TEXT) as TextNoteFragment
+                    true -> fm.findFragmentByTag(NoteType.TEXT.name) as TextNoteFragment
                     false -> TextNoteFragment.getInstance(vm.isRankEmpty)
                 }
 
                 saveCtrl.noteMenuClick = textNoteFragment as MenuIntf.Note.NoteMenuClick
 
-                transaction.replace(R.id.note_fragment_container, textNoteFragment!!, FragmentDef.TEXT)
+                transaction.replace(R.id.note_fragment_container, textNoteFragment!!, NoteType.TEXT.name)
             }
             NoteType.ROLL -> {
                 rollNoteFragment = when (isSave) {
-                    true -> fm.findFragmentByTag(FragmentDef.ROLL) as RollNoteFragment
+                    true -> fm.findFragmentByTag(NoteType.ROLL.name) as RollNoteFragment
                     false -> RollNoteFragment.getInstance(vm.isRankEmpty)
                 }
 
                 saveCtrl.noteMenuClick = rollNoteFragment as MenuIntf.Note.NoteMenuClick
 
-                transaction.replace(R.id.note_fragment_container, rollNoteFragment!!, FragmentDef.ROLL)
+                transaction.replace(R.id.note_fragment_container, rollNoteFragment!!, NoteType.ROLL.name)
             }
         }
 

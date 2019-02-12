@@ -2,8 +2,8 @@ package sgtmelon.scriptum.app.view.activity
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,16 +12,20 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.view.callback.MainCallback
+import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent
-import sgtmelon.scriptum.office.annot.def.*
+import sgtmelon.scriptum.office.annot.def.DialogDef
+import sgtmelon.scriptum.office.annot.def.IntentDef
+import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.annot.key.MainPage
 import sgtmelon.scriptum.office.st.OpenSt
-import sgtmelon.scriptum.office.st.PageSt
 
 
-class MainActivity : BaseActivityParent(), MainCallback, BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivityParent(),
+        MainCallback,
+        BottomNavigationView.OnNavigationItemSelectedListener {
 
     companion object {
-
         // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
         // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
         // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
@@ -30,12 +34,12 @@ class MainActivity : BaseActivityParent(), MainCallback, BottomNavigationView.On
         // TODO: 20.01.2019 Разобраться со стилями
         // TODO: 27.01.2019 Добавить ещё одну тему
         // TODO: 22.11.2018 аннотация профессор
-
-        private val TAG = MainActivity::class.java.simpleName
     }
 
-    private val pageSt = PageSt()
-    private val openSt = OpenSt()
+    private var firstStart: Boolean = true
+    private var page: Int = MainPage.Name.NOTES.ordinal
+
+    private val openState = OpenSt()
 
     private val fm by lazy { supportFragmentManager }
 
@@ -45,38 +49,31 @@ class MainActivity : BaseActivityParent(), MainCallback, BottomNavigationView.On
 
     private val sheetDialog by lazy { DialogFactory.getSheetDialog(fm) }
 
-    private val fab by lazy {findViewById<FloatingActionButton>(R.id.main_add_fab)}
+    private val fab by lazy { findViewById<FloatingActionButton>(R.id.main_add_fab) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Log.i(TAG, "onCreate")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var page = PageDef.notes
         if (savedInstanceState != null) {
-            pageSt.page = savedInstanceState.getInt(IntentDef.STATE_PAGE)
-            openSt.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
-
-            page = pageSt.page
+            page = savedInstanceState.getInt(IntentDef.STATE_PAGE)
+            openState.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
         }
 
-        setupNavigation(page)
+        setupNavigation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        Log.i(TAG, "onSaveInstanceState")
         super.onSaveInstanceState(outState)
 
-        outState.putInt(IntentDef.STATE_PAGE, pageSt.page)
-        outState.putBoolean(IntentDef.STATE_OPEN, openSt.isOpen)
+        outState.putInt(IntentDef.STATE_PAGE, page)
+        outState.putBoolean(IntentDef.STATE_OPEN, openState.isOpen)
     }
 
-    private fun setupNavigation(@PageDef page: Int) {
-        Log.i(TAG, "setupNavigation")
-
+    private fun setupNavigation() {
         fab.setOnClickListener {
-            if (!openSt.isOpen) {
-                openSt.isOpen = true
+            if (!openState.isOpen) {
+                openState.isOpen = true
 
                 sheetDialog.setArguments(R.layout.sheet_add, R.id.add_navigation)
                 sheetDialog.show(supportFragmentManager, DialogDef.SHEET)
@@ -85,7 +82,7 @@ class MainActivity : BaseActivityParent(), MainCallback, BottomNavigationView.On
 
         val navigationView = findViewById<BottomNavigationView>(R.id.main_menu_navigation)
         navigationView.setOnNavigationItemSelectedListener(this)
-        navigationView.selectedItemId = PageDef.itemId[page]
+        navigationView.selectedItemId = MainPage.id[page]
 
         sheetDialog.itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
             sheetDialog.dismiss()
@@ -98,93 +95,63 @@ class MainActivity : BaseActivityParent(), MainCallback, BottomNavigationView.On
             startActivity(NoteActivity.getIntent(this@MainActivity, type))
             return@OnNavigationItemSelectedListener true
         }
-        sheetDialog.dismissListener = DialogInterface.OnDismissListener { openSt.isOpen = false }
+        sheetDialog.dismissListener = DialogInterface.OnDismissListener { openState.isOpen = false }
     }
 
-    override fun changeFabState(show: Boolean) {
-        if (show) {
+    override fun changeFabState(show: Boolean) = when (show) {
+        true -> {
             fab.isEnabled = true
             fab.show()
-        } else {
+        }
+        false -> {
             fab.isEnabled = false
             fab.hide()
         }
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        Log.i(TAG, "onNavigationItemSelected")
-
-        val pageOld = pageSt.page
-        var page = pageSt.page
-
-        when (menuItem.itemId) {
-            R.id.item_page_rank -> page = PageDef.rank
-            R.id.item_page_notes -> page = PageDef.notes
-            R.id.item_page_bin -> page = PageDef.bin
+        val pageFrom = MainPage.Name.values()[page]
+        val pageTo = when (menuItem.itemId) {
+            R.id.item_page_rank -> MainPage.Name.RANK
+            R.id.item_page_notes -> MainPage.Name.NOTES
+            else -> MainPage.Name.BIN
         }
 
-        val scrollTop = page == pageSt.page
-        pageSt.page = page
+        page = pageTo.ordinal
 
         val transaction = fm.beginTransaction()
         transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
-        when (pageSt.page) {
-            PageDef.rank -> {
-                if (scrollTop) {
-                    rankFragment.scrollTop()
-                } else {
-                    changeFabState(false)
-
-                    if (fm.findFragmentByTag(FragmentDef.RANK) != null) {
-                        transaction.show(rankFragment)
-                        rankFragment.onResume()
-                    } else {
-                        transaction.add(R.id.main_fragment_container, rankFragment, FragmentDef.RANK)
-                    }
-                }
+        if (!firstStart && pageTo == pageFrom) {
+            when (pageTo) {
+                MainPage.Name.RANK -> rankFragment.scrollTop()
+                MainPage.Name.NOTES -> notesFragment.scrollTop()
+                MainPage.Name.BIN -> binFragment.scrollTop()
             }
-            PageDef.notes -> {
-                if (scrollTop) {
-                    notesFragment.scrollTop()
-                } else {
-                    changeFabState(true)
+        } else {
+            if (firstStart) firstStart = false
 
-                    if (fm.findFragmentByTag(FragmentDef.NOTES) != null) {
-                        transaction.show(notesFragment)
-                        notesFragment.onResume()
-                    } else {
-                        transaction.add(R.id.main_fragment_container, notesFragment, FragmentDef.NOTES)
-                    }
-                }
+            val fragmentTo: Fragment = when (pageTo) {
+                MainPage.Name.RANK -> rankFragment
+                MainPage.Name.NOTES -> notesFragment
+                MainPage.Name.BIN -> binFragment
             }
-            PageDef.bin -> {
-                if (scrollTop) {
-                    binFragment.scrollTop()
-                } else {
-                    changeFabState(false)
 
-                    if (fm.findFragmentByTag(FragmentDef.BIN) != null) {
-                        transaction.show(binFragment)
-                        binFragment.onResume()
-                    } else {
-                        transaction.add(R.id.main_fragment_container, binFragment, FragmentDef.BIN)
-                    }
-                }
+            changeFabState(fragmentTo is NotesFragment)
+
+            if (fm.findFragmentByTag(pageTo.name) != null) {
+                transaction.show(fragmentTo)
+                fragmentTo.onResume()
+            } else {
+                transaction.add(R.id.main_fragment_container, fragmentTo, pageTo.name)
             }
-        }
 
-        if (!scrollTop) {
-            when (pageOld) {
-                PageDef.rank -> if (fm.findFragmentByTag(FragmentDef.RANK) != null) {
-                    transaction.hide(rankFragment)
-                }
-                PageDef.notes -> if (fm.findFragmentByTag(FragmentDef.NOTES) != null) {
-                    transaction.hide(notesFragment)
-                }
-                PageDef.bin -> if (fm.findFragmentByTag(FragmentDef.BIN) != null) {
-                    transaction.hide(binFragment)
-                }
+            if (fm.findFragmentByTag(pageFrom.name) != null) {
+                transaction.hide(when (pageFrom) {
+                    MainPage.Name.RANK -> rankFragment
+                    MainPage.Name.NOTES -> notesFragment
+                    MainPage.Name.BIN -> binFragment
+                })
             }
         }
 

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.app.vm.fragment.note
 import android.app.Application
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.view.fragment.note.TextNoteFragment
-import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.TimeUtils
 
 /**

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.view.fragment.main
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -38,15 +37,14 @@ class BinFragment : Fragment(),
 
     private val openSt = OpenSt()
 
-    companion object {
-        private val TAG = BinFragment::class.java.simpleName
-    }
-
     private lateinit var binding: FragmentBinBinding
 
-    private val vm: BinViewModel by lazy { ViewModelProviders.of(this).get(BinViewModel::class.java) }
-
-    private val adapter by lazy { NoteAdapter(context!!, clickListener = this, longClickListener = this) }
+    private val vm: BinViewModel by lazy {
+        ViewModelProviders.of(this).get(BinViewModel::class.java)
+    }
+    private val adapter: NoteAdapter by lazy {
+        NoteAdapter(context!!, clickListener = this, longClickListener = this)
+    }
 
     private val toolbar by lazy { view!!.findViewById<Toolbar>(R.id.toolbar_container) }
     private val itemClearBin: MenuItem by lazy { toolbar.menu.findItem(R.id.item_clear) }
@@ -67,7 +65,6 @@ class BinFragment : Fragment(),
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        Log.i(TAG, "onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
         optionsDialog = DialogFactory.getOptionsDialog(fragmentManager)
@@ -77,7 +74,7 @@ class BinFragment : Fragment(),
             openSt.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
         }
 
-        setupToolbar(view)
+        setupToolbar()
         setupRecycler()
     }
 
@@ -91,7 +88,7 @@ class BinFragment : Fragment(),
         binding.executePendingBindings()
     }
 
-    private fun setupToolbar(view: View) {
+    private fun setupToolbar() {
         toolbar.title = getString(R.string.title_bin)
         toolbar.inflateMenu(R.menu.fragment_bin)
         toolbar.setOnMenuItemClickListener {
@@ -148,7 +145,7 @@ class BinFragment : Fragment(),
         bind()
     }
 
-    fun scrollTop() = recyclerView.smoothScrollToPosition(0)
+    fun scrollTop() = recyclerView?.smoothScrollToPosition(0)
 
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return

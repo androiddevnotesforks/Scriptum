@@ -6,22 +6,22 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.SplashActivity
+import sgtmelon.scriptum.office.annot.key.MainPage
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.PAGE
 
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentTest() {
 
-    private val listPage: List<PAGE> = object : ArrayList<PAGE>() {
+    private val listPage = object : ArrayList<MainPage.Name>() {
         init {
-            add(PAGE.RANK)
-            add(PAGE.NOTES)
-            add(PAGE.BIN)
-            add(PAGE.RANK)
-            add(PAGE.BIN)
-            add(PAGE.NOTES)
-            add(PAGE.RANK)
+            add(MainPage.Name.RANK)
+            add(MainPage.Name.NOTES)
+            add(MainPage.Name.BIN)
+            add(MainPage.Name.RANK)
+            add(MainPage.Name.BIN)
+            add(MainPage.Name.NOTES)
+            add(MainPage.Name.RANK)
         }
     }
 
@@ -35,7 +35,7 @@ class MainTest : ParentTest() {
 
     @Test fun testNavigation() {
         MainScreen {
-            assert { onDisplayContent(PAGE.NOTES) }
+            assert { onDisplayContent() }
 
             for (page in listPage) {
                 navigateTo(page)
@@ -46,7 +46,7 @@ class MainTest : ParentTest() {
 
     @Test fun testDisplayInfo() {
         MainScreen {
-            assert { onDisplayContent(PAGE.NOTES) }
+            assert { onDisplayContent() }
 
             for (page in listPage) {
                 navigateTo(page)

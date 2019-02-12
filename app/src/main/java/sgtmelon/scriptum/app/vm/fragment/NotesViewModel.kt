@@ -9,7 +9,7 @@ import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.office.annot.def.BinDef
 import sgtmelon.scriptum.office.annot.def.CheckDef
-import sgtmelon.scriptum.office.annot.def.NoteType
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.HelpUtils
 import sgtmelon.scriptum.office.utils.TimeUtils
 

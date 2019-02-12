@@ -17,7 +17,7 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
-import sgtmelon.scriptum.office.annot.def.NoteType;
+import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.conv.NoteTypeConv;
 
 /**

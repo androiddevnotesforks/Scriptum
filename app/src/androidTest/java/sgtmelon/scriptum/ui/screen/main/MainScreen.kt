@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.office.annot.key.MainPage
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.add.AddDialogUi
 import sgtmelon.scriptum.ui.screen.main.bin.BinScreen
@@ -20,11 +21,11 @@ class MainScreen : ParentUi() {
     fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply { func() }
     fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply { func() }
 
-    fun navigateTo(page: PAGE) = action {
+    fun navigateTo(page: MainPage.Name) = action {
         onClick(when (page) {
-            PAGE.RANK -> R.id.item_page_rank
-            PAGE.NOTES -> R.id.item_page_notes
-            PAGE.BIN -> R.id.item_page_bin
+            MainPage.Name.RANK -> R.id.item_page_rank
+            MainPage.Name.NOTES -> R.id.item_page_notes
+            MainPage.Name.BIN -> R.id.item_page_bin
         })
     }
 
