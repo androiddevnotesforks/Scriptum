@@ -17,15 +17,17 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
+import sgtmelon.scriptum.office.annot.def.NoteType;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
+import sgtmelon.scriptum.office.conv.NoteTypeConv;
 import sgtmelon.scriptum.office.conv.StringConv;
 
 /**
  * Элемент списка заметок {@link NoteRepo}
  */
 @Entity(tableName = DbAnn.Note.TABLE)
-@TypeConverters({BoolConv.class, StringConv.class})
+@TypeConverters({BoolConv.class, StringConv.class, NoteTypeConv.class})
 public final class NoteItem {
 
     @ColumnInfo(name = DbAnn.Note.ID)
@@ -39,7 +41,7 @@ public final class NoteItem {
     @ColumnInfo(name = DbAnn.Note.TEXT) private String text = "";
 
     @ColumnInfo(name = DbAnn.Note.COLOR) private int color;
-    @ColumnInfo(name = DbAnn.Note.TYPE) private int type;
+    @ColumnInfo(name = DbAnn.Note.TYPE) private NoteType type;
 
     @ColumnInfo(name = DbAnn.Note.RANK_PS) private List<Long> rankPs = new ArrayList<>();
     @ColumnInfo(name = DbAnn.Note.RANK_ID) private List<Long> rankId = new ArrayList<>();
@@ -55,12 +57,12 @@ public final class NoteItem {
     public NoteItem(@NonNull String create, @ColorDef int color, @TypeNoteDef int type) {
         this.create = create;
         this.color = color;
-        this.type = type;
+        this.type = type == 0 ? NoteType.TEXT : NoteType.ROLL ;
     }
 
     @Ignore
     public NoteItem(@NonNull String create, @NonNull String change, @NonNull String name,
-                    @NonNull String text, int color, int type, @NonNull List<Long> rankPs,
+                    @NonNull String text, int color, @NonNull NoteType type, @NonNull List<Long> rankPs,
                     @NonNull List<Long> rankId, boolean bin, boolean status) {
         this.create = create;
         this.change = change;
@@ -137,11 +139,12 @@ public final class NoteItem {
         this.color = color;
     }
 
-    public int getType() {
+    @NonNull
+    public NoteType getType() {
         return type;
     }
 
-    public void setType(@TypeNoteDef int type) {
+    public void setType(@NonNull NoteType type) {
         this.type = type;
     }
 
@@ -183,7 +186,7 @@ public final class NoteItem {
     public int[] getCheck() {
         final int[] check = new int[]{-1, 0};
 
-        if (type != TypeNoteDef.roll) return check;
+        if (type != NoteType.ROLL) return check;
 
         final String[] split = text.split(CheckDef.divider);
         if (split.length == 2) {

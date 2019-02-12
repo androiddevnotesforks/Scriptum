@@ -11,7 +11,6 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.TypeConverters;
 import androidx.room.Update;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
@@ -20,14 +19,12 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.view.fragment.main.NotesFragment;
 import sgtmelon.scriptum.office.annot.def.BinDef;
-import sgtmelon.scriptum.office.conv.BoolConv;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 
 /**
  * Класс для общения Dao заметок {@link RoomDb}
  */
 @Dao
-@TypeConverters({BoolConv.class})
 public abstract class NoteDao extends BaseDao {
 
     @Insert

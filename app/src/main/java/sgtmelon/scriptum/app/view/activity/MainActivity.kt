@@ -4,19 +4,14 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import sgtmelon.safedialog.library.SheetDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.view.callback.MainCallback
-import sgtmelon.scriptum.app.view.fragment.main.BinFragment
-import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
-import sgtmelon.scriptum.app.view.fragment.main.RankFragment
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent
 import sgtmelon.scriptum.office.annot.def.*
 import sgtmelon.scriptum.office.st.OpenSt
@@ -101,7 +96,7 @@ class MainActivity : BaseActivityParent(), MainCallback, BottomNavigationView.On
             }
 
             startActivity(NoteActivity.getIntent(this@MainActivity, type))
-            true
+            return@OnNavigationItemSelectedListener true
         }
         sheetDialog.dismissListener = DialogInterface.OnDismissListener { openSt.isOpen = false }
     }

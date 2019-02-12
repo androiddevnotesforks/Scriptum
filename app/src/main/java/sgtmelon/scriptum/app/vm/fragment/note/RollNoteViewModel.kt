@@ -5,7 +5,7 @@ import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.view.fragment.note.RollNoteFragment
 import sgtmelon.scriptum.office.annot.def.CheckDef
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.annot.def.NoteType
 import sgtmelon.scriptum.office.utils.TimeUtils
 
 /**
@@ -18,7 +18,7 @@ class RollNoteViewModel(application: Application) : ParentNoteViewModel(applicat
         val noteItem = noteRepo.noteItem
 
         noteItem.change = TimeUtils.getTime(context)
-        noteItem.type = TypeNoteDef.text
+        noteItem.type = NoteType.TEXT
         noteItem.text = db.daoRoll().getText(noteItem.id)
 
         db.daoNote().update(noteItem)

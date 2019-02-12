@@ -15,7 +15,6 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.view.activity.SplashActivity;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.utils.ColorUtils;
 
 /**
@@ -56,11 +55,11 @@ public final class StatusItem {
         String text = "";
 
         switch (noteItem.getType()) {
-            case TypeNoteDef.text:
+            case TEXT:
                 icon = R.drawable.notif_bind_text;
                 text = noteItem.getText();
                 break;
-            case TypeNoteDef.roll:
+            case ROLL:
                 icon = R.drawable.notif_bind_roll;
 
                 final RoomDb db = RoomDb.provideDb(context);

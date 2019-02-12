@@ -14,20 +14,16 @@ import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.BinDef;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.conv.BoolConv;
+import sgtmelon.scriptum.office.conv.NoteTypeConv;
 
 /**
  * Класс обеспечивающий базовую логику, которая используется в разных Dao
  * {@link NoteDao}, {@link RankDao}, {@link RollDao}
  */
 @Dao
-@TypeConverters({BoolConv.class})
+@TypeConverters({BoolConv.class, NoteTypeConv.class})
 abstract class BaseDao {
-
-    @Query("SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_ID IN(:id)")
-    abstract List<NoteItem> getNote(Long[] id);
 
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_ID IN(:id)")
@@ -57,7 +53,7 @@ abstract class BaseDao {
      */
     @Query("SELECT COUNT(NT_ID) FROM NOTE_TABLE " +
             "WHERE NT_TYPE = :type AND NT_ID IN(:noteId)")
-    abstract int getNoteCount(@TypeNoteDef int type, List<Long> noteId);
+    abstract int getNoteCount(int type, List<Long> noteId);
 
     @Update
     abstract void updateNote(List<NoteItem> listNote);
@@ -71,7 +67,7 @@ abstract class BaseDao {
     void updateNote(List<Long> noteId, long rankId) {
         final List<NoteItem> listNote = getNote(noteId);
 
-        for (NoteItem noteItem: listNote) {
+        for (NoteItem noteItem : listNote) {
             //Убирает из списков ненужную категорию по id
             final List<Long> listRankId = noteItem.getRankId();
             final List<Long> listRankPs = noteItem.getRankPs();
@@ -125,7 +121,7 @@ abstract class BaseDao {
     void clearRank(long noteId, List<Long> listRankId) {
         final List<RankItem> listRank = getRank(listRankId);
 
-        for (RankItem rankItem : listRank){
+        for (RankItem rankItem : listRank) {
             rankItem.getNoteId().remove(noteId);
         }
 

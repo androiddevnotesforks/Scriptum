@@ -9,18 +9,15 @@ import java.util.List;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.TypeConverters;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
-import sgtmelon.scriptum.office.conv.BoolConv;
 
 /**
  * Класс для общения Dao списка {@link RoomDb}
  */
 @Dao
-@TypeConverters({BoolConv.class})
 public abstract class RollDao extends BaseDao {
 
     @Insert

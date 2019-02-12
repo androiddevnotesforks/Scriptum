@@ -12,8 +12,8 @@ import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.SortItem
+import sgtmelon.scriptum.office.annot.def.NoteType
 import sgtmelon.scriptum.office.annot.def.SortDef
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
 
 object HelpUtils {
 
@@ -34,8 +34,8 @@ object HelpUtils {
          * В зависимости от типа составляем текст
          */
         when (noteItem.type) {
-            TypeNoteDef.text -> copyText += noteItem.text
-            TypeNoteDef.roll -> {
+            NoteType.TEXT -> copyText += noteItem.text
+            NoteType.ROLL -> {
                 val db = RoomDb.provideDb(context)
                 copyText = db.daoRoll().getText(noteItem.id)
                 db.close()

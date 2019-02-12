@@ -17,7 +17,8 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
+import sgtmelon.scriptum.office.annot.def.NoteType;
+import sgtmelon.scriptum.office.conv.NoteTypeConv;
 
 /**
  * Класс для общения Dao категорий {@link RoomDb}
@@ -41,8 +42,8 @@ public abstract class RankDao extends BaseDao {
         for (RankItem rankItem : listRank) {
             final List<Long> listNoteId = rankItem.getNoteId();
 
-            rankItem.setTextCount(getNoteCount(TypeNoteDef.text, listNoteId));
-            rankItem.setRollCount(getNoteCount(TypeNoteDef.roll, listNoteId));
+            rankItem.setTextCount(getNoteCount(new NoteTypeConv().toInt(NoteType.TEXT), listNoteId));
+            rankItem.setRollCount(getNoteCount(new NoteTypeConv().toInt(NoteType.ROLL), listNoteId));
         }
 
         return listRank;

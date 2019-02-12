@@ -33,7 +33,6 @@ import sgtmelon.scriptum.databinding.FragmentNotesBinding;
 import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.OptionsDef;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.utils.ColorUtils;
@@ -157,7 +156,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
             final NoteItem noteItem = vm.getNoteItem(p);
 
             switch (noteItem.getType()) {
-                case TypeNoteDef.text:
+                case TEXT:
                     switch (i) {
                         case OptionsDef.Notes.Text.bind:
                             onMenuBindClick(p);
@@ -173,7 +172,7 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
                             break;
                     }
                     break;
-                case TypeNoteDef.roll:
+                case ROLL:
                     switch (i) {
                         case OptionsDef.Notes.Roll.check:
                             onMenuCheckClick(p);
@@ -244,14 +243,14 @@ public final class NotesFragment extends Fragment implements Toolbar.OnMenuItemC
 
         String[] items = new String[0];
         switch (noteItem.getType()) {
-            case TypeNoteDef.text:
+            case TEXT:
                 items = context.getResources().getStringArray(R.array.dialog_menu_text);
 
                 items[0] = noteItem.isStatus()
                         ? context.getString(R.string.dialog_menu_status_unbind)
                         : context.getString(R.string.dialog_menu_status_bind);
                 break;
-            case TypeNoteDef.roll:
+            case ROLL:
                 items = context.getResources().getStringArray(R.array.dialog_menu_roll);
 
                 items[0] = noteItem.isAllCheck()

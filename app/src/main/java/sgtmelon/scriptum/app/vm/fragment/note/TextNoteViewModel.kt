@@ -3,7 +3,7 @@ package sgtmelon.scriptum.app.vm.fragment.note
 import android.app.Application
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.view.fragment.note.TextNoteFragment
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.annot.def.NoteType
 import sgtmelon.scriptum.office.utils.TimeUtils
 
 /**
@@ -18,7 +18,7 @@ class TextNoteViewModel(application: Application) : ParentNoteViewModel(applicat
         val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
 
         noteItem.change = TimeUtils.getTime(context)
-        noteItem.type = TypeNoteDef.roll
+        noteItem.type = NoteType.ROLL
         noteItem.setText(0, listRoll.size)
 
         db.daoNote().update(noteItem)

@@ -7,7 +7,7 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-        <import alias="def" type="sgtmelon.scriptum.office.annot.def.TypeNoteDef"/>
+        <import alias="noteType" type="sgtmelon.scriptum.office.annot.def.NoteType"/>
 
         <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
@@ -155,7 +155,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.allCheck ? @string/menu_note_check_zero : @string/menu_note_check_all}'
                         android:onClick='@{() -> noteClick.onMenuCheckClick()}'
-                        android:visibility='@{noteItem.type == def.roll ? v.VISIBLE : v.GONE}'
+                        android:visibility='@{noteItem.type == noteType.ROLL ? v.VISIBLE : v.GONE}'
                         app:boolExpression='@{noteItem.allCheck}'
                         app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_check_all"
@@ -167,7 +167,7 @@
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_status_bind"
                         android:onClick='@{() -> noteClick.onMenuBindClick()}'
-                        android:src='@{noteItem.type == def.text ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                        android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
                         app:boolExpression='@{noteItem.status}'
                         app:falseColor='@{R.attr.clContent}'
                         app:trueColor='@{R.attr.clAccent}'
@@ -177,7 +177,7 @@
                 <ImageButton
                         android:id="@+id/note_panel_convert_button"
                         style="@style/Enter.Button"
-                        android:contentDescription='@{noteItem.type == def.text ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
+                        android:contentDescription='@{noteItem.type == noteType.TEXT ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
                         android:onClick='@{() -> noteClick.onMenuConvertClick()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_convert"/>

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.app.view.parent.BaseActivityParent
 import sgtmelon.scriptum.app.vm.activity.NoteViewModel
 import sgtmelon.scriptum.office.annot.def.FragmentDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.annot.def.NoteType
 import sgtmelon.scriptum.office.intf.MenuIntf
 
 // TODO: 11.02.2019 Передавать vm в биндинг и оттуда вызывать методы управления
@@ -79,7 +79,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         val noteSt = vm.noteSt
 
         when (noteItem.type) {
-            TypeNoteDef.text -> {
+            NoteType.TEXT -> {
                 if (!textNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
                     if (noteSt.isEdit && !noteSt.isCreate) {
                         val colorFrom = noteItem.color
@@ -94,7 +94,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
                     super.onBackPressed()
                 }
             }
-            TypeNoteDef.roll -> {
+            NoteType.ROLL -> {
                 if (!rollNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
                     if (noteSt.isEdit && !noteSt.isCreate) {
                         val colorFrom = noteItem.color
@@ -124,7 +124,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
         when (vm.noteRepo.noteItem.type) {
-            TypeNoteDef.text -> {
+            NoteType.TEXT -> {
                 textNoteFragment = when (isSave) {
                     true -> fm.findFragmentByTag(FragmentDef.TEXT) as TextNoteFragment
                     false -> TextNoteFragment.getInstance(vm.isRankEmpty)
@@ -134,7 +134,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
 
                 transaction.replace(R.id.note_fragment_container, textNoteFragment!!, FragmentDef.TEXT)
             }
-            TypeNoteDef.roll -> {
+            NoteType.ROLL -> {
                 rollNoteFragment = when (isSave) {
                     true -> fm.findFragmentByTag(FragmentDef.ROLL) as RollNoteFragment
                     false -> RollNoteFragment.getInstance(vm.isRankEmpty)
@@ -163,11 +163,11 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
 
         val noteRepo = vm.noteRepo
         when (noteRepo.noteItem.type) {
-            TypeNoteDef.text -> {
+            NoteType.TEXT -> {
                 textNoteFragment!!.viewModel.noteRepo = noteRepo
                 textNoteFragment!!.onMenuEditClick(false)
             }
-            TypeNoteDef.roll -> {
+            NoteType.ROLL -> {
                 rollNoteFragment!!.viewModel.noteRepo = noteRepo
                 rollNoteFragment!!.onMenuEditClick(false)
             }

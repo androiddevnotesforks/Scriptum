@@ -9,7 +9,7 @@ import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.office.annot.def.BinDef
 import sgtmelon.scriptum.office.annot.def.CheckDef
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.annot.def.NoteType
 import sgtmelon.scriptum.office.utils.HelpUtils
 import sgtmelon.scriptum.office.utils.TimeUtils
 
@@ -84,18 +84,18 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
         val db = RoomDb.provideDb(context)
         when (noteItem.type) {
-            TypeNoteDef.text -> {
+            NoteType.TEXT -> {
                 val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
 
-                noteItem.type = TypeNoteDef.roll
+                noteItem.type = NoteType.ROLL
                 noteItem.setText(0, listRoll.size)
 
                 db.daoNote().update(noteItem)
 
                 noteRepo.listRoll = listRoll
             }
-            TypeNoteDef.roll -> {
-                noteItem.type = TypeNoteDef.text
+            NoteType.ROLL -> {
+                noteItem.type = NoteType.TEXT
                 noteItem.text = db.daoRoll().getText(noteItem.id)
 
                 db.daoNote().update(noteItem)

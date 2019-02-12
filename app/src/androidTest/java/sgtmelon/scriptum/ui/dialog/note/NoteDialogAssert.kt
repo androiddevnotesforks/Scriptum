@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.dialog.note
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.basic.BasicMatch
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.annot.def.NoteType
 
 class NoteDialogAssert : BasicMatch() {
 
@@ -16,7 +16,7 @@ class NoteDialogAssert : BasicMatch() {
             }
             false -> {
                 when (noteItem.type) {
-                    TypeNoteDef.text -> {
+                    NoteType.TEXT -> {
                         onDisplayText(when (noteItem.isStatus) {
                             true -> R.string.dialog_menu_status_unbind
                             false -> R.string.dialog_menu_status_bind
@@ -25,7 +25,7 @@ class NoteDialogAssert : BasicMatch() {
                         onDisplayText(R.string.dialog_menu_copy)
                         onDisplayText(R.string.dialog_menu_delete)
                     }
-                    TypeNoteDef.roll -> {
+                    NoteType.ROLL -> {
                         onDisplayText(when (noteItem.isAllCheck) {
                             true -> R.string.dialog_menu_check_zero
                             false -> R.string.dialog_menu_check_all
