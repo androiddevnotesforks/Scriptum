@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
@@ -15,10 +14,19 @@ import sgtmelon.scriptum.office.st.PageSt
 
 class IntroFragment : Fragment() {
 
-    lateinit var pageSt: PageSt
+    companion object {
+        fun getInstance(pageSt: PageSt): IntroFragment{
+            val introFragment = IntroFragment()
+            introFragment.pageSt = pageSt
 
+            return introFragment
+        }
+    }
+
+    private val parentContainer by lazy { view!!.findViewById<View>(R.id.info_parent_container) }
+
+    lateinit var pageSt: PageSt
     lateinit var binding: IncludeInfoBinding
-    lateinit var parentContainer: LinearLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -35,8 +43,6 @@ class IntroFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        parentContainer = view.findViewById(R.id.info_parent_container)
         bind()
     }
 
@@ -60,4 +66,5 @@ class IntroFragment : Fragment() {
 
         binding.executePendingBindings()
     }
+
 }

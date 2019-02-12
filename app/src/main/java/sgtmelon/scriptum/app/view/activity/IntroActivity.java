@@ -53,8 +53,7 @@ public final class IntroActivity extends AppCompatActivity
 
         IntroFragment introFragment;
         for (int i = 0; i < IntroAnn.count; i++) {
-            introFragment = new IntroFragment();
-            introFragment.setPageSt(new PageSt(i));
+            introFragment = IntroFragment.Companion.getInstance(new PageSt(i));
             pagerAdapter.addItem(introFragment);
         }
 

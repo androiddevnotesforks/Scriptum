@@ -43,8 +43,8 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         }
     }
 
-    private lateinit var vm: NoteViewModel
-    private lateinit var saveControl: SaveControl
+    private val vm by lazy { ViewModelProviders.of(this).get(NoteViewModel::class.java) }
+    private val saveCtrl: SaveControl by lazy { SaveControl(this) }
 
     private var textNoteFragment: TextNoteFragment? = null
     private var rollNoteFragment: RollNoteFragment? = null
@@ -52,17 +52,14 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
     override fun onPause() {
         super.onPause()
 
-        saveControl.onPauseSave(vm.noteSt.isEdit)
+        saveCtrl.onPauseSave(vm.noteSt.isEdit)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
-        vm = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         vm.setValue(intent.extras ?: savedInstanceState)
-
-        saveControl = SaveControl(this)
 
         setupFragment(savedInstanceState != null)
     }
@@ -76,7 +73,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
     }
 
     override fun onBackPressed() {
-        saveControl.needSave = false
+        saveCtrl.needSave = false
 
         val noteItem = vm.noteRepo.noteItem
         val noteSt = vm.noteSt
@@ -133,7 +130,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
                     false -> TextNoteFragment.getInstance(vm.isRankEmpty)
                 }
 
-                saveControl.noteMenuClick = textNoteFragment as MenuIntf.Note.NoteMenuClick
+                saveCtrl.noteMenuClick = textNoteFragment as MenuIntf.Note.NoteMenuClick
 
                 transaction.replace(R.id.note_fragment_container, textNoteFragment!!, FragmentDef.TEXT)
             }
@@ -143,7 +140,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
                     false -> RollNoteFragment.getInstance(vm.isRankEmpty)
                 }
 
-                saveControl.noteMenuClick = rollNoteFragment as MenuIntf.Note.NoteMenuClick
+                saveCtrl.noteMenuClick = rollNoteFragment as MenuIntf.Note.NoteMenuClick
 
                 transaction.replace(R.id.note_fragment_container, rollNoteFragment!!, FragmentDef.ROLL)
             }
@@ -152,7 +149,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         transaction.commit()
     }
 
-    override fun getSaveControl(): SaveControl = saveControl
+    override fun getSaveControl(): SaveControl = saveCtrl // TODO rename value
 
     override fun getViewModel(): NoteViewModel = vm
 
