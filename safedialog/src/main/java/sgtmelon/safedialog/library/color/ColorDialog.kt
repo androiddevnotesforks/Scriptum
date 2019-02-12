@@ -37,13 +37,13 @@ class ColorDialog : DialogBlank(), ColorIntf.ClickListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        if (savedInstanceState != null) {
-            init = savedInstanceState.getInt(DialogAnn.INIT)
-            check = savedInstanceState.getInt(DialogAnn.VALUE)
-        } else if (bundle != null) {
-            init = bundle.getInt(DialogAnn.INIT)
-            check = bundle.getInt(DialogAnn.VALUE)
-        }
+        init = savedInstanceState?.getInt(DialogAnn.INIT)
+                ?: bundle?.getInt(DialogAnn.INIT)
+                ?: 0
+
+        check = savedInstanceState?.getInt(DialogAnn.VALUE)
+                ?: bundle?.getInt(DialogAnn.VALUE)
+                ?: 0
 
         if (fillColor == null || strokeColor == null || checkColor == null) {
             throw NullPointerException("One of color arrays is null")
@@ -69,9 +69,7 @@ class ColorDialog : DialogBlank(), ColorIntf.ClickListener {
         recyclerView.adapter = adapter
 
         val animator = recyclerView.itemAnimator as SimpleItemAnimator?
-        if (animator != null) {
-            animator.supportsChangeAnimations = false
-        }
+        animator?.supportsChangeAnimations = false
 
         return AlertDialog.Builder(context!!)
                 .setTitle(title)

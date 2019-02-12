@@ -11,7 +11,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
     lateinit var onClickListener: DialogInterface.OnClickListener
 
-    private var items: Array<String>? = null
+    private lateinit var items: List<String>
 
     var position: Int = 0
         private set
@@ -28,16 +28,16 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        if (savedInstanceState != null) {
-            items = savedInstanceState.getStringArray(DialogAnn.INIT)
-            position = savedInstanceState.getInt(DialogAnn.VALUE)
-        } else if (bundle != null) {
-            items = bundle.getStringArray(DialogAnn.INIT)
-            position = bundle.getInt(DialogAnn.VALUE)
-        }
+        items = savedInstanceState?.getStringArray(DialogAnn.INIT)?.toList()
+                ?: bundle?.getStringArray(DialogAnn.INIT)?.toList()
+                ?: ArrayList()
+
+        position = savedInstanceState?.getInt(DialogAnn.VALUE)
+                ?: bundle?.getInt(DialogAnn.VALUE)
+                ?: 0
 
         return AlertDialog.Builder(context!!)
-                .setItems(items, this)
+                .setItems(items.toTypedArray(), this)
                 .setCancelable(true)
                 .create()
     }
@@ -45,7 +45,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putStringArray(DialogAnn.INIT, items)
+        outState.putStringArray(DialogAnn.INIT, items.toTypedArray())
         outState.putInt(DialogAnn.VALUE, position)
     }
 

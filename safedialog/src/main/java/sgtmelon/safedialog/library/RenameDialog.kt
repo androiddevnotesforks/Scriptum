@@ -23,8 +23,8 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     var position: Int = 0
         private set
 
-    private var listName: ArrayList<String>? = null
-    private var nameEnter: EditText? = null
+    private lateinit var listName: ArrayList<String>
+    private lateinit var nameEnter: EditText
 
     @ColorInt var colorText: Int = 0
     @ColorInt var colorHint: Int = 0
@@ -32,8 +32,7 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     var textHint: String = ""
     var textLength: Int = 0
 
-    val name: String
-        get() = nameEnter!!.text.toString()
+    val name: String get() = nameEnter.text.toString()
 
     fun setArguments(p: Int, title: String, listName: ArrayList<String>) {
         val bundle = Bundle()
@@ -48,26 +47,27 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        if (savedInstanceState != null) {
-            position = savedInstanceState.getInt(DialogAnn.POSITION)
-            title = savedInstanceState.getString(DialogAnn.INIT) ?: ""
-            listName = savedInstanceState.getStringArrayList(DialogAnn.VALUE)
-        } else if (bundle != null) {
-            position = bundle.getInt(DialogAnn.POSITION)
-            title = bundle.getString(DialogAnn.INIT) ?: ""
-            listName = bundle.getStringArrayList(DialogAnn.VALUE)
-        }
+        position = savedInstanceState?.getInt(DialogAnn.POSITION)
+                ?: bundle?.getInt(DialogAnn.POSITION)
+                ?: 0
+        title = savedInstanceState?.getString(DialogAnn.INIT)
+                ?: bundle?.getString(DialogAnn.INIT)
+                ?: ""
+
+        listName = savedInstanceState?.getStringArrayList(DialogAnn.VALUE)
+                ?: bundle?.getStringArrayList(DialogAnn.VALUE)
+                ?: ArrayList()
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
+
         nameEnter = view.findViewById(R.id.rename_enter)
+        nameEnter.setTextColor(colorText)
+        nameEnter.setHintTextColor(colorHint)
+        nameEnter.hint = textHint
+        nameEnter.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(textLength))
 
-        nameEnter!!.setTextColor(colorText)
-        nameEnter!!.setHintTextColor(colorHint)
-        nameEnter!!.hint = textHint
-        nameEnter!!.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(textLength))
-
-        nameEnter!!.setOnEditorActionListener(this)
-        nameEnter!!.addTextChangedListener(object : TextWatcher {
+        nameEnter.setOnEditorActionListener(this)
+        nameEnter.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
 
             }
@@ -100,14 +100,13 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
 
     override fun setEnable() {
         super.setEnable()
-
-        buttonPositive!!.isEnabled = !(TextUtils.isEmpty(name) || listName!!.contains(name.toUpperCase()))
+        buttonPositive.isEnabled = !(TextUtils.isEmpty(name) || listName.contains(name.toUpperCase()))
     }
 
     override fun onEditorAction(textView: TextView, i: Int, keyEvent: KeyEvent): Boolean {
         if (i == EditorInfo.IME_ACTION_DONE) {
-            if (!TextUtils.isEmpty(name) && !listName!!.contains(name.toUpperCase())) {
-                buttonPositive!!.callOnClick()
+            if (!TextUtils.isEmpty(name) && !listName.contains(name.toUpperCase())) {
+                buttonPositive.callOnClick()
                 return true
             }
         }

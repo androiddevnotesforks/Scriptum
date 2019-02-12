@@ -19,7 +19,8 @@ import sgtmelon.scriptum.office.intf.ItemIntf
 /**
  * Адаптер списка заметок для [NotesFragment], [BinFragment]
  */
-class NoteAdapter(context: Context, clickListener: ItemIntf.ClickListener,
+class NoteAdapter(context: Context,
+                  clickListener: ItemIntf.ClickListener,
                   private val longClickListener: ItemIntf.LongClickListener
 ) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context, clickListener) {
 

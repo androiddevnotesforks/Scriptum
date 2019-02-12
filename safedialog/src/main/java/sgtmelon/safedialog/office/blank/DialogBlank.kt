@@ -14,8 +14,8 @@ open class DialogBlank : DialogFragment() {
     lateinit var title: String
     lateinit var message: String
 
-    protected var buttonPositive: Button? = null
-    protected var buttonNeutral: Button? = null
+    protected lateinit var buttonPositive: Button
+    protected lateinit var buttonNeutral: Button
 
     var positiveListener: DialogInterface.OnClickListener? = null
     protected val onPositiveClick = DialogInterface.OnClickListener { dialogInterface, i ->
@@ -38,7 +38,6 @@ open class DialogBlank : DialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
-
         dismissListener?.onDismiss(dialog)
     }
 
