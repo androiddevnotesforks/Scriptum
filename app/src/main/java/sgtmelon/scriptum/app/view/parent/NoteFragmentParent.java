@@ -36,7 +36,7 @@ import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.intf.BindIntf;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.MenuIntf;
-import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 
 /**
@@ -156,8 +156,8 @@ public abstract class NoteFragmentParent extends Fragment implements
 
         menuControl.setColor(vm.getNoteColor());
 
-        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
-        menuControl.setDrawable(noteSt.isEdit() && !noteSt.isCreate(), false);
+        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+        menuControl.setDrawable(noteState.isEdit() && !noteState.isCreate(), false);
 
         toolbar.setNavigationOnClickListener(this);
     }

@@ -14,7 +14,7 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.conv.BoolConv;
+import sgtmelon.scriptum.office.converter.BoolConverter;
 
 import static androidx.room.ForeignKey.CASCADE;
 
@@ -28,7 +28,7 @@ import static androidx.room.ForeignKey.CASCADE;
                 onUpdate = CASCADE,
                 onDelete = CASCADE),
         indices = {@Index(DbAnn.Roll.NOTE_ID)})
-@TypeConverters({BoolConv.class})
+@TypeConverters({BoolConverter.class})
 public final class RollItem {
 
     @ColumnInfo(name = DbAnn.Roll.ID)

@@ -25,14 +25,14 @@ import sgtmelon.scriptum.element.SortDialog;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.def.SortDef;
-import sgtmelon.scriptum.office.st.OpenSt;
+import sgtmelon.scriptum.office.state.OpenState;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 
 public final class PreferenceFragment extends android.preference.PreferenceFragment {
 
     private static final String TAG = PreferenceFragment.class.getSimpleName();
 
-    private final OpenSt openSt = new OpenSt();
+    private final OpenState openState = new OpenState();
 
     private PreferenceActivity activity;
 
@@ -87,7 +87,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         themeDialog = DialogFactory.INSTANCE.getThemeDialog(activity, fm);
 
         if (savedInstanceState != null) {
-            openSt.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
+            openState.setOpen(savedInstanceState.getBoolean(IntentDef.STATE_OPEN));
         }
     }
 
@@ -106,7 +106,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         Log.i(TAG, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean(IntentDef.STATE_OPEN, openSt.isOpen());
+        outState.putBoolean(IntentDef.STATE_OPEN, openState.isOpen());
     }
 
     private void setupNotePref() {
@@ -116,8 +116,8 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         valSort = prefUtils.getSort();
         prefSort.setSummary(prefUtils.getSortSummary(valSort));
         prefSort.setOnPreferenceClickListener(preference -> {
-            if (!openSt.isOpen()) {
-                openSt.setOpen(true);
+            if (!openState.isOpen()) {
+                openState.setOpen(true);
 
                 sortDialog.setArguments(valSort);
                 sortDialog.show(fm, DialogDef.SORT);
@@ -139,14 +139,14 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             final String summary = prefUtils.getSortSummary(valSort);
             prefSort.setSummary(summary);
         });
-        sortDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        sortDialog.setDismissListener(dialogInterface -> openState.setOpen(false));
 
         prefColor = findPreference(getString(R.string.pref_key_color));
         valColor = prefUtils.getDefaultColor();
         prefColor.setSummary(getResources().getStringArray(R.array.pref_color_text)[valColor]);
         prefColor.setOnPreferenceClickListener(preference -> {
-            if (!openSt.isOpen()) {
-                openSt.setOpen(true);
+            if (!openState.isOpen()) {
+                openState.setOpen(true);
 
                 colorDialog.setArguments(valColor);
                 colorDialog.show(fm, DialogDef.COLOR);
@@ -161,7 +161,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             prefUtils.setDefaultColor(valColor);
             prefColor.setSummary(getResources().getStringArray(R.array.pref_color_text)[valColor]);
         });
-        colorDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        colorDialog.setDismissListener(dialogInterface -> openState.setOpen(false));
     }
 
     private void setupSavePref() {
@@ -171,8 +171,8 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         valSaveTime = prefUtils.getSaveTime();
         prefSaveTime.setSummary(getResources().getStringArray(R.array.pref_save_time_text)[valSaveTime]);
         prefSaveTime.setOnPreferenceClickListener(preference -> {
-            if (!openSt.isOpen()) {
-                openSt.setOpen(true);
+            if (!openState.isOpen()) {
+                openState.setOpen(true);
 
                 saveTimeDialog.setArguments(valSaveTime);
                 saveTimeDialog.show(fm, DialogDef.SAVE_TIME);
@@ -186,7 +186,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             prefUtils.setSaveTime(valSaveTime);
             prefSaveTime.setSummary(saveTimeDialog.getRows()[valSaveTime]);
         });
-        saveTimeDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        saveTimeDialog.setDismissListener(dialogInterface -> openState.setOpen(false));
 
         final CheckBoxPreference prefAutoSave = (CheckBoxPreference) findPreference(getString(R.string.pref_key_auto_save));
         prefAutoSave.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -204,8 +204,8 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
         valTheme = prefUtils.getTheme();
         prefTheme.setSummary(getResources().getStringArray(R.array.pref_theme_text)[valTheme]);
         prefTheme.setOnPreferenceClickListener(preference -> {
-            if (!openSt.isOpen()) {
-                openSt.setOpen(true);
+            if (!openState.isOpen()) {
+                openState.setOpen(true);
 
                 themeDialog.setArguments(valTheme);
                 themeDialog.show(fm, DialogDef.THEME);
@@ -221,7 +221,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
             activity.isThemeChange();
         }));
-        themeDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        themeDialog.setDismissListener(dialogInterface -> openState.setOpen(false));
 
         final Preference prefRate = findPreference(getString(R.string.pref_key_rate));
         prefRate.setOnPreferenceClickListener(preference -> {
@@ -240,8 +240,8 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
 
         final Preference prefOtherAbout = findPreference(getString(R.string.pref_key_about));
         prefOtherAbout.setOnPreferenceClickListener(preference -> {
-            if (!openSt.isOpen()) {
-                openSt.setOpen(true);
+            if (!openState.isOpen()) {
+                openState.setOpen(true);
 
                 infoDialog.show(fm, DialogDef.INFO);
             }
@@ -252,7 +252,7 @@ public final class PreferenceFragment extends android.preference.PreferenceFragm
             final Intent intent = new Intent(activity, DevelopActivity.class);
             startActivity(intent);
         });
-        infoDialog.setDismissListener(dialogInterface -> openSt.setOpen(false));
+        infoDialog.setDismissListener(dialogInterface -> openState.setOpen(false));
     }
 
 }

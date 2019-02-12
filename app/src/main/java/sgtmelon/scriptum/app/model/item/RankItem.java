@@ -11,14 +11,14 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.conv.BoolConv;
-import sgtmelon.scriptum.office.conv.StringConv;
+import sgtmelon.scriptum.office.converter.BoolConverter;
+import sgtmelon.scriptum.office.converter.StringConverter;
 
 /**
  * Элемент списка категорий {@link RankRepo}
  */
 @Entity(tableName = DbAnn.Rank.TABLE)
-@TypeConverters({BoolConv.class, StringConv.class})
+@TypeConverters({BoolConverter.class, StringConverter.class})
 public final class RankItem {
 
     @ColumnInfo(name = DbAnn.Rank.ID)

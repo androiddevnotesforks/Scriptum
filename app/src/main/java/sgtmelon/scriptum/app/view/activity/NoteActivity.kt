@@ -51,7 +51,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
     override fun onPause() {
         super.onPause()
 
-        saveCtrl.onPauseSave(vm.noteSt.isEdit)
+        saveCtrl.onPauseSave(vm.noteState.isEdit)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +66,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putBoolean(IntentDef.NOTE_CREATE, vm.noteSt.isCreate)
+        outState.putBoolean(IntentDef.NOTE_CREATE, vm.noteState.isCreate)
         outState.putInt(IntentDef.NOTE_TYPE, vm.ntType)
         outState.putLong(IntentDef.NOTE_ID, vm.ntId)
     }
@@ -75,7 +75,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         saveCtrl.needSave = false
 
         val noteItem = vm.noteRepo.noteItem
-        val noteSt = vm.noteSt
+        val noteSt = vm.noteState
 
         when (noteItem.type) {
             NoteType.TEXT -> {
@@ -114,7 +114,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
 
     override fun setupFragment(isSave: Boolean) {
         if (!isSave) {
-            val noteSt = vm.noteSt
+            val noteSt = vm.noteState
             noteSt.isFirst = true
         }
 

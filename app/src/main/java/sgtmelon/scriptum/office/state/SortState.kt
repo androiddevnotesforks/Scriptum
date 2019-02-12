@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.st
+package sgtmelon.scriptum.office.state
 
 import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.office.annot.def.SortDef
@@ -6,7 +6,7 @@ import sgtmelon.scriptum.office.annot.def.SortDef
 /**
  * Состояние для сортировки, определяющее позицию элемента [SortItem], до которого будет происходить сортировка
  */
-class SortSt {
+class SortState {
 
     var end: Int = 0
         private set

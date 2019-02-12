@@ -13,12 +13,14 @@ import sgtmelon.scriptum.office.intf.ItemIntf
 /**
  * Адаптер для [RankFragment]
  */
-class RankAdapter(context: Context, clickListener: ItemIntf.ClickListener,
-                  private val longClickListener: ItemIntf.LongClickListener,
-                  private val dragListener: ItemIntf.DragListener
+class RankAdapter(context: Context,
+                  clickListener: ItemIntf.ClickListener,
+                  private val longClickListener: ItemIntf.LongClickListener
 ) : ParentAdapter<RankItem, RankHolder>(context, clickListener) {
 
-    var startAnim: BooleanArray? = null
+    lateinit var dragListener: ItemIntf.DragListener
+
+    var startAnim: BooleanArray = BooleanArray(0)
 
     override fun setList(list: List<RankItem>) {
         super.setList(list)
@@ -35,11 +37,9 @@ class RankAdapter(context: Context, clickListener: ItemIntf.ClickListener,
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
         val item = list[position]
 
-        holder.bind(item, startAnim!![position])
+        holder.bind(item, startAnim[position])
 
-        if (startAnim!![position]) {
-            startAnim!![position] = false
-        }
+        if (startAnim[position]) startAnim[position] = false
     }
 
 }

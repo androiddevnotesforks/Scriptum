@@ -27,7 +27,7 @@ import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.intf.MenuIntf
-import sgtmelon.scriptum.office.st.OpenSt
+import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.ColorUtils
 
 class BinFragment : Fragment(),
@@ -35,7 +35,7 @@ class BinFragment : Fragment(),
         ItemIntf.LongClickListener,
         MenuIntf.Dialog.DeleteMenuClick {
 
-    private val openSt = OpenSt()
+    private val openSt = OpenState()
 
     private lateinit var binding: FragmentBinBinding
 

@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.office.st
+package sgtmelon.scriptum.office.state
 
 /**
  * Состояние для диалогов, сохраняющее открыт ли он
  */
-class OpenSt {
+class OpenState {
 
     var isOpen: Boolean = false
 

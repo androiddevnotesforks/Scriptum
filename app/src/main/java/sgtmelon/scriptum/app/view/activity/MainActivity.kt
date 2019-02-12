@@ -18,7 +18,7 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef
 import sgtmelon.scriptum.office.annot.key.MainPage
-import sgtmelon.scriptum.office.st.OpenSt
+import sgtmelon.scriptum.office.state.OpenState
 
 
 class MainActivity : BaseActivityParent(),
@@ -39,7 +39,7 @@ class MainActivity : BaseActivityParent(),
     private var firstStart: Boolean = true
     private var page: Int = MainPage.Name.NOTES.ordinal
 
-    private val openState = OpenSt()
+    private val openState = OpenState()
 
     private val fm by lazy { supportFragmentManager }
 

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.app.adapter.RollAdapter
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.office.intf.ItemIntf
-import sgtmelon.scriptum.office.st.NoteSt
+import sgtmelon.scriptum.office.state.NoteState
 
 /**
  * Держатель пункта списка в состоянии просмотра для [RollAdapter]
@@ -30,9 +30,9 @@ class RollReadHolder(private val binding: ItemRollReadBinding,
         }
     }
 
-    fun bind(rollItem: RollItem, noteSt: NoteSt, checkToggle: Boolean) {
+    fun bind(rollItem: RollItem, noteState: NoteState, checkToggle: Boolean) {
         binding.rollItem = rollItem
-        binding.keyBin = noteSt.isBin
+        binding.keyBin = noteState.isBin
         binding.checkToggle = checkToggle
 
         binding.executePendingBindings()

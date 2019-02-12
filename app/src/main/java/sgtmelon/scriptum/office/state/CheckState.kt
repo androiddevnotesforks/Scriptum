@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.st
+package sgtmelon.scriptum.office.state
 
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.office.utils.HelpUtils
@@ -6,7 +6,7 @@ import sgtmelon.scriptum.office.utils.HelpUtils
 /**
  * Состояние для отметок, определяющее отмечено ли всё в списке с элементами [RollItem]
  */
-class CheckSt {
+class CheckState {
 
     var isAll: Boolean = false
         private set

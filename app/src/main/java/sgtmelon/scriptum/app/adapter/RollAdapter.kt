@@ -15,7 +15,7 @@ import sgtmelon.scriptum.office.annot.def.TypeRollDef
 import sgtmelon.scriptum.office.intf.BindIntf
 import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.intf.ItemIntf
-import sgtmelon.scriptum.office.st.NoteSt
+import sgtmelon.scriptum.office.state.NoteState
 
 /**
  * Адаптер для [RollNoteFragment]
@@ -27,7 +27,7 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
                   private val bindIntf: BindIntf
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context, clickListener) {
 
-    lateinit var noteSt: NoteSt
+    lateinit var noteState: NoteState
 
     var checkToggle: Boolean = false
     var cursorPosition = -1
@@ -55,7 +55,7 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
         val item = list[position]
 
         if (holder is RollReadHolder) {
-            holder.bind(item, noteSt, checkToggle)
+            holder.bind(item, noteState, checkToggle)
         } else if (holder is RollWriteHolder) {
             holder.bind(item)
 
@@ -66,7 +66,7 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
         }
     }
 
-    override fun getItemViewType(position: Int) = when (!noteSt.isEdit) {
+    override fun getItemViewType(position: Int) = when (!noteState.isEdit) {
         true -> TypeRollDef.read
         false -> TypeRollDef.write
     }

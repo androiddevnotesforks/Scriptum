@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.conv;
+package sgtmelon.scriptum.office.converter;
 
 import android.text.TextUtils;
 
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.office.annot.DbAnn;
  * Преобразование String - List<Long>
  * В строке разделителем является DIVIDER {@link DbAnn}
  */
-public final class StringConv {
+public final class StringConverter {
 
     @TypeConverter
     public List<Long> fromString(@NonNull String value) {

@@ -19,15 +19,15 @@ import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
-import sgtmelon.scriptum.office.conv.BoolConv;
-import sgtmelon.scriptum.office.conv.NoteTypeConv;
-import sgtmelon.scriptum.office.conv.StringConv;
+import sgtmelon.scriptum.office.converter.BoolConverter;
+import sgtmelon.scriptum.office.converter.NoteTypeConverter;
+import sgtmelon.scriptum.office.converter.StringConverter;
 
 /**
  * Элемент списка заметок {@link NoteRepo}
  */
 @Entity(tableName = DbAnn.Note.TABLE)
-@TypeConverters({BoolConv.class, StringConv.class, NoteTypeConv.class})
+@TypeConverters({BoolConverter.class, StringConverter.class, NoteTypeConverter.class})
 public final class NoteItem {
 
     @ColumnInfo(name = DbAnn.Note.ID)

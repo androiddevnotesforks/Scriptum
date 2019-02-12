@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.office.st
+package sgtmelon.scriptum.office.state
 
 /**
  * Состояние для страниц, сохраняющее её номер
  */
-class PageSt(var page: Int = 0)
+class PageState(var page: Int = 0)

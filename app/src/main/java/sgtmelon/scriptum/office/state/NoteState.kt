@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.office.st
+package sgtmelon.scriptum.office.state
 
 /**
  * Состояние для фрагментов с заметками, необходимое для управления её редактированием
  */
-class NoteSt(var isCreate: Boolean) {
+class NoteState(var isCreate: Boolean) {
 
     var isEdit: Boolean = false
     var isBin: Boolean = false

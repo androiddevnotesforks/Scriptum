@@ -13,7 +13,7 @@ import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.PagerAdapter;
 import sgtmelon.scriptum.app.view.fragment.IntroFragment;
 import sgtmelon.scriptum.office.annot.IntroAnn;
-import sgtmelon.scriptum.office.st.PageSt;
+import sgtmelon.scriptum.office.state.PageState;
 
 public final class IntroActivity extends AppCompatActivity
         implements ViewPager.OnPageChangeListener {
@@ -53,7 +53,7 @@ public final class IntroActivity extends AppCompatActivity
 
         IntroFragment introFragment;
         for (int i = 0; i < IntroAnn.count; i++) {
-            introFragment = IntroFragment.Companion.getInstance(new PageSt(i));
+            introFragment = IntroFragment.Companion.getInstance(new PageState(i));
             pagerAdapter.addItem(introFragment);
         }
 

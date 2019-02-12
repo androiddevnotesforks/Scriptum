@@ -38,11 +38,11 @@ import sgtmelon.scriptum.app.vm.fragment.note.RollNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.conv.StringConv;
+import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.ItemIntf;
-import sgtmelon.scriptum.office.st.CheckSt;
-import sgtmelon.scriptum.office.st.DragListenerSt;
-import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.state.CheckState;
+import sgtmelon.scriptum.office.state.DragState;
+import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
@@ -51,8 +51,8 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     private static final String TAG = RollNoteFragment.class.getSimpleName();
 
-    private final DragListenerSt dragSt = new DragListenerSt();
-    private final CheckSt checkSt = new CheckSt();
+    private final DragState dragSt = new DragState();
+    private final CheckState checkState = new CheckState();
 
     private FragmentRollNoteBinding binding;
 
@@ -66,7 +66,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         @Override
         public int getMovementFlags(@NonNull RecyclerView recyclerView,
                                     @NonNull RecyclerView.ViewHolder viewHolder) {
-            final boolean isEdit = noteCallback.getViewModel().getNoteSt().isEdit();
+            final boolean isEdit = noteCallback.getViewModel().getNoteState().isEdit();
 
             final int flagsDrag = isEdit && dragSt.isDrag()
                     ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
@@ -218,9 +218,9 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         setupRecycler(view);
         setupEnter(view);
 
-        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
-        onMenuEditClick(noteSt.isEdit());
-        noteSt.setFirst(false);
+        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+        onMenuEditClick(noteState.isEdit());
+        noteState.setFirst(false);
     }
 
     @Override
@@ -288,7 +288,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
                 context, this, dragSt, this, inputControl, this
         );
 
-        adapter.setNoteSt(noteCallback.getViewModel().getNoteSt());
+        adapter.setNoteState(noteCallback.getViewModel().getNoteState());
 
         recyclerView.setAdapter(adapter);
 
@@ -340,7 +340,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
         final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
 
-        checkSt.setAll(listRoll);
+        checkState.setAll(listRoll);
 
         adapter.setList(listRoll);
         adapter.notifyItemRangeChanged(0, listRoll.size());
@@ -409,7 +409,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
         noteItem.setText(check, listRoll.size());
 
-        if (checkSt.setAll(check, listRoll.size())) {
+        if (checkState.setAll(check, listRoll.size())) {
             binding.setNoteItem(noteItem);
             binding.executePendingBindings();
         }
@@ -453,13 +453,13 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteSt noteSt = viewModel.getNoteSt();
+        final NoteState noteState = viewModel.getNoteState();
 
         NoteRepo noteRepo = vm.getNoteRepo();
         NoteItem noteItem = noteRepo.getNoteItem();
 
         //Если редактирование и текст в хранилище не пустой
-        if (!noteSt.isCreate() && noteSt.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
+        if (!noteState.isCreate() && noteState.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
             menuControl.setColorFrom(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
@@ -505,9 +505,9 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         db = RoomDb.provideDb(context);
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteSt noteSt = viewModel.getNoteSt();
-        if (noteSt.isCreate()) {
-            noteSt.setCreate(false);
+        final NoteState noteState = viewModel.getNoteState();
+        if (noteState.isCreate()) {
+            noteState.setCreate(false);
 
             if (!modeChange) {
                 menuControl.setDrawable(true, true);
@@ -579,8 +579,8 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
-                    final StringConv stringConv = new StringConv();
-                    final List<Long> rankId = stringConv.fromString(inputItem.getValueFrom());
+                    final StringConverter stringConverter = new StringConverter();
+                    final List<Long> rankId = stringConverter.fromString(inputItem.getValueFrom());
 
                     noteItem.setRankId(rankId);
                     break;
@@ -663,8 +663,8 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
-                    final StringConv stringConv = new StringConv();
-                    final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
+                    final StringConverter stringConverter = new StringConverter();
+                    final List<Long> rankId = stringConverter.fromString(inputItem.getValueTo());
 
                     noteItem.setRankId(rankId);
                     break;
@@ -735,18 +735,18 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         inputControl.setEnabled(false);
         inputControl.setChangeEnabled(false);
 
-        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
-        noteSt.setEdit(editMode);
+        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+        noteState.setEdit(editMode);
 
         menuControl.setDrawable(
-                editMode && !noteSt.isCreate(),
-                !noteSt.isCreate() && !noteSt.isFirst()
+                editMode && !noteState.isCreate(),
+                !noteState.isCreate() && !noteState.isFirst()
         );
 
         bindEdit(editMode);
         bindInput();
 
-        adapter.setNoteSt(noteSt);
+        adapter.setNoteState(noteState);
         adapter.notifyDataSetChanged();
 
         noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
@@ -759,7 +759,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     public void onMenuCheckClick() {
         Log.i(TAG, "onMenuCheckClick");
 
-        final NoteItem noteItem = ((RollNoteViewModel) vm).onMenuCheck(checkSt.isAll());
+        final NoteItem noteItem = ((RollNoteViewModel) vm).onMenuCheck(checkState.isAll());
         binding.setNoteItem(noteItem);
         binding.executePendingBindings();
 

@@ -1,8 +1,8 @@
-package sgtmelon.scriptum.office.conv
+package sgtmelon.scriptum.office.converter
 
 import androidx.room.TypeConverter
 
-class BoolConv {
+class BoolConverter {
 
     @TypeConverter
     fun fromBool(value: Boolean) = if (value) 1 else 0

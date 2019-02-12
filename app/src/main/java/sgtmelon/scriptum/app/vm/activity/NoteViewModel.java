@@ -16,7 +16,7 @@ import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.vm.fragment.note.ParentNoteViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
@@ -28,7 +28,7 @@ public final class NoteViewModel extends AndroidViewModel {
     private int ntType;
     private long ntId;
 
-    private NoteSt noteSt;
+    private NoteState noteState;
 
     private boolean rankEmpty;
 
@@ -60,8 +60,8 @@ public final class NoteViewModel extends AndroidViewModel {
         return ntId;
     }
 
-    public NoteSt getNoteSt() {
-        return noteSt;
+    public NoteState getNoteState() {
+        return noteState;
     }
 
     public boolean isRankEmpty() {
@@ -94,13 +94,13 @@ public final class NoteViewModel extends AndroidViewModel {
 
             noteRepo = new NoteRepo(noteItem, new ArrayList<>(), statusItem);
 
-            noteSt = new NoteSt(true);
-            noteSt.setBin(false);
+            noteState = new NoteState(true);
+            noteState.setBin(false);
         } else {
             noteRepo = db.daoNote().get(context, ntId);
 
-            noteSt = new NoteSt(false);
-            noteSt.setBin(noteRepo.getNoteItem().isBin());
+            noteState = new NoteState(false);
+            noteState.setBin(noteRepo.getNoteItem().isBin());
         }
 
         db.close();
@@ -126,7 +126,7 @@ public final class NoteViewModel extends AndroidViewModel {
     }
 
     public void onMenuRestoreOpen() {
-        noteSt.setBin(false);
+        noteState.setBin(false);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));

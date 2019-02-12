@@ -9,7 +9,7 @@ import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.databinding.ItemSortBinding
 import sgtmelon.scriptum.element.SortDialog
 import sgtmelon.scriptum.office.intf.ItemIntf
-import sgtmelon.scriptum.office.st.SortSt
+import sgtmelon.scriptum.office.state.SortState
 
 /**
  * Адаптер для [SortDialog]
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.office.st.SortSt
 class SortAdapter(context: Context, clickListener: ItemIntf.ClickListener)
     : ParentAdapter<SortItem, SortHolder>(context, clickListener) {
 
-    val sortSt = SortSt()
+    val sortSt = SortState()
 
     override fun setList(list: List<SortItem>) {
         super.setList(list)

@@ -27,9 +27,9 @@ import sgtmelon.scriptum.app.vm.fragment.note.TextNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
-import sgtmelon.scriptum.office.conv.StringConv;
+import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
-import sgtmelon.scriptum.office.st.NoteSt;
+import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
@@ -79,9 +79,9 @@ public final class TextNoteFragment extends NoteFragmentParent {
         setupDialog();
         setupEnter(view);
 
-        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
-        onMenuEditClick(noteSt.isEdit());
-        noteSt.setFirst(false);
+        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+        onMenuEditClick(noteState.isEdit());
+        noteState.setFirst(false);
     }
 
     @Override
@@ -153,13 +153,13 @@ public final class TextNoteFragment extends NoteFragmentParent {
         HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteSt noteSt = viewModel.getNoteSt();
+        final NoteState noteState = viewModel.getNoteState();
 
         NoteRepo noteRepo = vm.getNoteRepo();
         NoteItem noteItem = noteRepo.getNoteItem();
 
         //Если редактирование и текст в хранилище не пустой
-        if (!noteSt.isCreate() && noteSt.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
+        if (!noteState.isCreate() && noteState.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
             menuControl.setColorFrom(noteItem.getColor());
 
             db = RoomDb.provideDb(context);
@@ -199,9 +199,9 @@ public final class TextNoteFragment extends NoteFragmentParent {
         db = RoomDb.provideDb(context);
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteSt noteSt = viewModel.getNoteSt();
-        if (noteSt.isCreate()) {
-            noteSt.setCreate(false);
+        final NoteState noteState = viewModel.getNoteState();
+        if (noteState.isCreate()) {
+            noteState.setCreate(false);
 
             if (!modeChange) {
                 menuControl.setDrawable(true, true);
@@ -237,8 +237,8 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
-                    final StringConv stringConv = new StringConv();
-                    final List<Long> listRankId = stringConv.fromString(inputItem.getValueFrom());
+                    final StringConverter stringConverter = new StringConverter();
+                    final List<Long> listRankId = stringConverter.fromString(inputItem.getValueFrom());
 
                     noteItem.setRankId(listRankId);
                     break;
@@ -286,8 +286,8 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
             switch (inputItem.getTag()) {
                 case InputDef.rank:
-                    final StringConv stringConv = new StringConv();
-                    final List<Long> listRankId = stringConv.fromString(inputItem.getValueTo());
+                    final StringConverter stringConverter = new StringConverter();
+                    final List<Long> listRankId = stringConverter.fromString(inputItem.getValueTo());
 
                     noteItem.setRankId(listRankId);
                     break;
@@ -328,12 +328,12 @@ public final class TextNoteFragment extends NoteFragmentParent {
         inputControl.setEnabled(false);
         inputControl.setChangeEnabled(false);
 
-        final NoteSt noteSt = noteCallback.getViewModel().getNoteSt();
-        noteSt.setEdit(editMode);
+        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+        noteState.setEdit(editMode);
 
         menuControl.setDrawable(
-                editMode && !noteSt.isCreate(),
-                !noteSt.isCreate() && !noteSt.isFirst()
+                editMode && !noteState.isCreate(),
+                !noteState.isCreate() && !noteState.isFirst()
         );
 
         bindEdit(editMode);

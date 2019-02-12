@@ -10,14 +10,14 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 import sgtmelon.scriptum.office.annot.IntroAnn
 import sgtmelon.scriptum.office.annot.def.IntentDef
-import sgtmelon.scriptum.office.st.PageSt
+import sgtmelon.scriptum.office.state.PageState
 
 class IntroFragment : Fragment() {
 
     companion object {
-        fun getInstance(pageSt: PageSt): IntroFragment{
+        fun getInstance(pageState: PageState): IntroFragment{
             val introFragment = IntroFragment()
-            introFragment.pageSt = pageSt
+            introFragment.pageState = pageState
 
             return introFragment
         }
@@ -25,13 +25,13 @@ class IntroFragment : Fragment() {
 
     private val parentContainer by lazy { view!!.findViewById<View>(R.id.info_parent_container) }
 
-    lateinit var pageSt: PageSt
+    lateinit var pageState: PageState
     lateinit var binding: IncludeInfoBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         if (savedInstanceState != null){
-            pageSt.page = savedInstanceState.getInt(IntentDef.STATE_PAGE)
+            pageState.page = savedInstanceState.getInt(IntentDef.STATE_PAGE)
         }
 
         binding = DataBindingUtil.inflate(
@@ -48,7 +48,7 @@ class IntroFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(IntentDef.STATE_PAGE, pageSt.page)
+        outState.putInt(IntentDef.STATE_PAGE, pageState.page)
     }
 
     fun setChange(alpha: Float, scale: Float) {
@@ -58,7 +58,7 @@ class IntroFragment : Fragment() {
     }
 
     private fun bind() {
-        val page = pageSt.page
+        val page = pageState.page
 
         binding.icon = IntroAnn.icon[page]
         binding.title = IntroAnn.title[page]

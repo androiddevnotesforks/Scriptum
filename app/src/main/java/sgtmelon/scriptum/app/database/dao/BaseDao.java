@@ -14,15 +14,15 @@ import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.BinDef;
-import sgtmelon.scriptum.office.conv.BoolConv;
-import sgtmelon.scriptum.office.conv.NoteTypeConv;
+import sgtmelon.scriptum.office.converter.BoolConverter;
+import sgtmelon.scriptum.office.converter.NoteTypeConverter;
 
 /**
  * Класс обеспечивающий базовую логику, которая используется в разных Dao
  * {@link NoteDao}, {@link RankDao}, {@link RollDao}
  */
 @Dao
-@TypeConverters({BoolConv.class, NoteTypeConv.class})
+@TypeConverters({BoolConverter.class, NoteTypeConverter.class})
 abstract class BaseDao {
 
     @Query("SELECT * FROM NOTE_TABLE " +
