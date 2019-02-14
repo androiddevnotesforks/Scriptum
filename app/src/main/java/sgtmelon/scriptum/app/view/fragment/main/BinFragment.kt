@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.view.fragment.main
 
+import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,25 +39,34 @@ class BinFragment : Fragment(),
 
     private val openSt = OpenState()
 
+    private lateinit var activity: Activity
     private lateinit var binding: FragmentBinBinding
 
     private val vm: BinViewModel by lazy {
         ViewModelProviders.of(this).get(BinViewModel::class.java)
     }
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(context!!, clickListener = this, longClickListener = this)
+        NoteAdapter(activity, clickListener = this, longClickListener = this)
     }
 
     private val toolbar: Toolbar? by lazy {
         view?.findViewById<Toolbar>(R.id.toolbar_container)
     }
-    private val itemClearBin: MenuItem? by lazy { toolbar?.menu?.findItem(R.id.item_clear) }
+    private val itemClearBin: MenuItem? by lazy {
+        toolbar?.menu?.findItem(R.id.item_clear)
+    }
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.bin_recycler)
     }
 
     private lateinit var optionsDialog: OptionsDialog
     private lateinit var clearBinDialog: MessageDialog
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        activity = context as Activity
+    }
 
     override fun onResume() {
         super.onResume()
@@ -64,7 +75,9 @@ class BinFragment : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bin, container, false)
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_bin, container, false
+        )
         return binding.root
     }
 
@@ -72,7 +85,7 @@ class BinFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         optionsDialog = DialogFactory.getOptionsDialog(fragmentManager)
-        clearBinDialog = DialogFactory.getClearBinDialog(context!!, fragmentManager)
+        clearBinDialog = DialogFactory.getClearBinDialog(activity, fragmentManager)
 
         if (savedInstanceState != null) {
             openSt.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
@@ -108,7 +121,7 @@ class BinFragment : Fragment(),
             }
         }
 
-        ColorUtils.tintMenuIcon(context!!, itemClearBin)
+        ColorUtils.tintMenuIcon(activity, itemClearBin)
 
         clearBinDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             adapter.setList(vm.onClear())
@@ -156,7 +169,7 @@ class BinFragment : Fragment(),
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
 
-        startActivity(NoteActivity.getIntent(context!!, vm.getId(p)))
+        startActivity(NoteActivity.getIntent(activity, vm.getId(p)))
     }
 
     override fun onItemLongClick(view: View, p: Int): Boolean {

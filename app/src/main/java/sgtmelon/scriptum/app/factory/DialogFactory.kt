@@ -89,7 +89,8 @@ object DialogFactory {
             fm?.findFragmentByTag(DialogDef.SORT) as SortDialog? ?: SortDialog()
 
     fun getSaveTimeDialog(context: Context, fm: FragmentManager?): SingleDialog {
-        val dlgSaveTime = fm?.findFragmentByTag(DialogDef.SAVE_TIME) as SingleDialog? ?: SingleDialog()
+        val dlgSaveTime = fm?.findFragmentByTag(DialogDef.SAVE_TIME) as SingleDialog?
+                ?: SingleDialog()
 
         dlgSaveTime.title = context.getString(R.string.pref_save_time_title)
         dlgSaveTime.rows = context.resources.getStringArray(R.array.pref_save_time_text)

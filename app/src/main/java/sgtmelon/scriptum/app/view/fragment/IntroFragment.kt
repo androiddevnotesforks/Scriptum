@@ -39,7 +39,6 @@ class IntroFragment : Fragment() {
         binding = DataBindingUtil.inflate(
                 inflater, R.layout.include_info, container, false
         )
-
         return binding.root
     }
 

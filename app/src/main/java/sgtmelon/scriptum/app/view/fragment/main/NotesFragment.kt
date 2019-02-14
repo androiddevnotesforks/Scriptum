@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.view.fragment.main
 
+import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -29,6 +31,7 @@ import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.intf.MenuIntf
 import sgtmelon.scriptum.office.utils.ColorUtils
+import sgtmelon.scriptum.office.utils.DialogUtils
 
 class NotesFragment : Fragment(),
         ItemIntf.ClickListener,
@@ -42,9 +45,8 @@ class NotesFragment : Fragment(),
         var updateStatus = true
     }
 
-    private val mainCallback: MainCallback by lazy {
-        context as? MainCallback ?: throw ClassCastException("interface not implemented")
-    }
+    private lateinit var activity: Activity
+    private lateinit var mainCallback: MainCallback
 
     private lateinit var binding: FragmentNotesBinding
 
@@ -52,7 +54,7 @@ class NotesFragment : Fragment(),
         ViewModelProviders.of(this).get(NotesViewModel::class.java)
     }
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(context!!, clickListener = this, longClickListener = this)
+        NoteAdapter(activity, clickListener = this, longClickListener = this)
     }
 
     private val recyclerView: RecyclerView? by lazy {
@@ -60,6 +62,13 @@ class NotesFragment : Fragment(),
     }
 
     private lateinit var optionsDialog: OptionsDialog
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        activity = context as Activity
+        mainCallback = context as MainCallback
+    }
 
     override fun onResume() {
         super.onResume()
@@ -71,7 +80,9 @@ class NotesFragment : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_notes, container, false)
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_notes, container, false
+        )
         return binding.root
     }
 
@@ -103,7 +114,7 @@ class NotesFragment : Fragment(),
             }
         }
 
-        ColorUtils.tintMenuIcon(context!!, toolbar.menu.findItem(R.id.item_preference))
+        ColorUtils.tintMenuIcon(activity, toolbar.menu.findItem(R.id.item_preference))
     }
 
     private fun setupRecycler() {
@@ -159,40 +170,13 @@ class NotesFragment : Fragment(),
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
 
-        startActivity(NoteActivity.getIntent(context!!, vm.getId(p)))
+        startActivity(NoteActivity.getIntent(activity, vm.getId(p)))
     }
 
-    override fun onItemLongClick(view: View, p: Int): Boolean {
+    override fun onItemLongClick(view: View, p: Int): Boolean { // TODO (вынести в dialogFacroty - fillDialog)
         if (p == RecyclerView.NO_POSITION) return false
 
-        val noteItem = vm.getNoteItem(p)
-
-        var items = arrayOfNulls<String>(size = 0)
-        when (noteItem.type) {
-            NoteType.TEXT -> {
-                items = context!!.resources.getStringArray(R.array.dialog_menu_text)
-
-                items[0] = when (noteItem.isStatus) {
-                    true -> context!!.getString(R.string.dialog_menu_status_unbind)
-                    false -> context!!.getString(R.string.dialog_menu_status_bind)
-                }
-            }
-            NoteType.ROLL -> {
-                items = context!!.resources.getStringArray(R.array.dialog_menu_roll)
-
-                items[0] = when (noteItem.isAllCheck) {
-                    true -> context!!.getString(R.string.dialog_menu_check_zero)
-                    false -> context!!.getString(R.string.dialog_menu_check_all)
-                }
-
-                items[1] = when (noteItem.isStatus) {
-                    true -> context!!.getString(R.string.dialog_menu_status_unbind)
-                    false -> context!!.getString(R.string.dialog_menu_status_bind)
-                }
-            }
-        }
-
-        optionsDialog.setArguments(items, p)
+        optionsDialog.setArguments(DialogUtils.fillOptionsDialog(activity, vm.getNoteItem(p)), p)
         optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
 
         return true
