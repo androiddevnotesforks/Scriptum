@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.screen.intro
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.IntroAnn
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.SCROLL
+import sgtmelon.scriptum.ui.Scroll
 
 class IntroScreen: ParentUi(){
 
@@ -15,10 +15,10 @@ class IntroScreen: ParentUi(){
 
     val count: Int get() = IntroAnn.count
 
-    fun onSwipe(scroll: SCROLL) = action {
+    fun onSwipe(scroll: Scroll) = action {
         when(scroll) {
-            SCROLL.START -> onSwipeRight(R.id.intro_pager)
-            SCROLL.END -> onSwipeLeft(R.id.intro_pager)
+            Scroll.START -> onSwipeRight(R.id.intro_pager)
+            Scroll.END -> onSwipeLeft(R.id.intro_pager)
         }
     }
 

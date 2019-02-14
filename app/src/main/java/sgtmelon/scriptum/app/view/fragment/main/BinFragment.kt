@@ -46,9 +46,13 @@ class BinFragment : Fragment(),
         NoteAdapter(context!!, clickListener = this, longClickListener = this)
     }
 
-    private val toolbar by lazy { view!!.findViewById<Toolbar>(R.id.toolbar_container) }
-    private val itemClearBin: MenuItem by lazy { toolbar.menu.findItem(R.id.item_clear) }
-    private val recyclerView by lazy { view!!.findViewById<RecyclerView>(R.id.bin_recycler) }
+    private val toolbar: Toolbar? by lazy {
+        view?.findViewById<Toolbar>(R.id.toolbar_container)
+    }
+    private val itemClearBin: MenuItem? by lazy { toolbar?.menu?.findItem(R.id.item_clear) }
+    private val recyclerView: RecyclerView? by lazy {
+        view?.findViewById<RecyclerView>(R.id.bin_recycler)
+    }
 
     private lateinit var optionsDialog: OptionsDialog
     private lateinit var clearBinDialog: MessageDialog
@@ -89,9 +93,9 @@ class BinFragment : Fragment(),
     }
 
     private fun setupToolbar() {
-        toolbar.title = getString(R.string.title_bin)
-        toolbar.inflateMenu(R.menu.fragment_bin)
-        toolbar.setOnMenuItemClickListener {
+        toolbar?.title = getString(R.string.title_bin)
+        toolbar?.inflateMenu(R.menu.fragment_bin)
+        toolbar?.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_clear -> {
                     if (!openSt.isOpen) {
@@ -110,7 +114,7 @@ class BinFragment : Fragment(),
             adapter.setList(vm.onClear())
             adapter.notifyDataSetChanged()
 
-            itemClearBin.isVisible = false
+            itemClearBin?.isVisible = false
             bind()
         }
 
@@ -118,14 +122,14 @@ class BinFragment : Fragment(),
     }
 
     private fun setupRecycler() {
-        recyclerView.itemAnimator = object : DefaultItemAnimator() {
+        recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                 bind()
             }
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerView?.adapter = adapter
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, i ->
             val p = optionsDialog.position
@@ -141,11 +145,13 @@ class BinFragment : Fragment(),
         adapter.setList(vm.loadData(BinDef.`in`))
         adapter.notifyDataSetChanged()
 
-        itemClearBin.isVisible = adapter.itemCount != 0
+        itemClearBin?.isVisible = adapter.itemCount != 0
         bind()
     }
 
-    fun scrollTop() = recyclerView?.smoothScrollToPosition(0)
+    fun scrollTop() {
+        recyclerView?.smoothScrollToPosition(0)
+    }
 
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
@@ -166,7 +172,7 @@ class BinFragment : Fragment(),
         adapter.setList(vm.onMenuRestore(p))
         adapter.notifyItemRemoved(p)
 
-        itemClearBin.isVisible = adapter.itemCount != 0
+        itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
     override fun onMenuCopyClick(p: Int) = vm.onMenuCopy(p)
@@ -175,7 +181,7 @@ class BinFragment : Fragment(),
         adapter.setList(vm.onMenuClear(p))
         adapter.notifyItemRemoved(p)
 
-        itemClearBin.isVisible = adapter.itemCount != 0
+        itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
 }

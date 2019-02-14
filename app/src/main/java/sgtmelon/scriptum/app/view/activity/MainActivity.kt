@@ -27,7 +27,6 @@ class MainActivity : BaseActivityParent(),
 
     companion object {
         // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
-        // TODO: 13.01.2019 Annotation NonNull/Nullable везде где только можно (для override методов добавить nullable)
         // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
         // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
         // TODO: 19.01.2019 Добавить перескакивание курсора при старте редактирования в нужное место
@@ -110,7 +109,7 @@ class MainActivity : BaseActivityParent(),
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        val pageFrom = MainPage.Name.values()[page]
+        val pageFrom = enumValues<MainPage.Name>()[page]
         val pageTo = when (menuItem.itemId) {
             R.id.item_page_rank -> MainPage.Name.RANK
             R.id.item_page_notes -> MainPage.Name.NOTES

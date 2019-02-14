@@ -82,7 +82,9 @@ object ColorUtils {
      *
      * @param item - Элемент меню
      */
-    fun tintMenuIcon(context: Context, item: MenuItem) {
+    fun tintMenuIcon(context: Context, item: MenuItem?) {
+        if (item == null) return
+
         val drawable = item.icon
         val wrapDrawable = DrawableCompat.wrap(drawable)
 

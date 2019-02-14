@@ -23,7 +23,9 @@ class IntroFragment : Fragment() {
         }
     }
 
-    private val parentContainer by lazy { view!!.findViewById<View>(R.id.info_parent_container) }
+    private val parentContainer: View? by lazy {
+        view?.findViewById<View>(R.id.info_parent_container)
+    }
 
     lateinit var pageState: PageState
     lateinit var binding: IncludeInfoBinding
@@ -52,9 +54,9 @@ class IntroFragment : Fragment() {
     }
 
     fun setChange(alpha: Float, scale: Float) {
-        parentContainer.alpha = alpha
-        parentContainer.scaleX = scale
-        parentContainer.scaleY = scale
+        parentContainer?.alpha = alpha
+        parentContainer?.scaleX = scale
+        parentContainer?.scaleY = scale
     }
 
     private fun bind() {

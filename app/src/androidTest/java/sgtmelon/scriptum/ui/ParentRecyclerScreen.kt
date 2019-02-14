@@ -15,11 +15,11 @@ abstract class ParentRecyclerScreen(protected val recyclerId: Int) : ParentUi() 
     fun onClickItem(position: Int = positionRandom) =
             action { onClick(recyclerId, position) }
 
-    fun onScroll(scroll: SCROLL, time: Int = 1) = action {
+    fun onScroll(scroll: Scroll, time: Int = 1) = action {
         repeat(time) {
             when (scroll) {
-                SCROLL.START -> onSwipeDown(recyclerId)
-                SCROLL.END -> onSwipeUp(recyclerId)
+                Scroll.START -> onSwipeDown(recyclerId)
+                Scroll.END -> onSwipeUp(recyclerId)
             }
         }
     }

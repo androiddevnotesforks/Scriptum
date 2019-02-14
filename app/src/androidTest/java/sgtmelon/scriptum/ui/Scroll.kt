@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui
 
-enum class SCROLL {
+enum class Scroll {
     START,
     END
 }

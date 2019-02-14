@@ -21,7 +21,6 @@ class MainTest : ParentTest() {
             add(MainPage.Name.RANK)
             add(MainPage.Name.BIN)
             add(MainPage.Name.NOTES)
-            add(MainPage.Name.RANK)
         }
     }
 
@@ -37,9 +36,11 @@ class MainTest : ParentTest() {
         MainScreen {
             assert { onDisplayContent() }
 
-            for (page in listPage) {
-                navigateTo(page)
-                assert { onDisplayContent(page) }
+            repeat(times = 3) {
+                for (page in listPage) {
+                    navigateTo(page)
+                    assert { onDisplayContent(page) }
+                }
             }
         }
     }
@@ -48,9 +49,11 @@ class MainTest : ParentTest() {
         MainScreen {
             assert { onDisplayContent() }
 
-            for (page in listPage) {
-                navigateTo(page)
-                assert { onDisplayContent(page) }
+            repeat(times = 3) {
+                for (page in listPage) {
+                    navigateTo(page)
+                    assert { onDisplayContent(page) }
+                }
             }
         }
     }

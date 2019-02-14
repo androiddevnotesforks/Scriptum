@@ -51,8 +51,12 @@ class RankFragment : Fragment(),
 
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
-    private val recyclerView by lazy { view!!.findViewById<RecyclerView>(R.id.rank_recycler) }
-    private val rankEnter by lazy { view!!.findViewById<EditText>(R.id.toolbar_rank_enter) }
+    private val recyclerView: RecyclerView? by lazy {
+        view?.findViewById<RecyclerView>(R.id.rank_recycler)
+    }
+    private val rankEnter: EditText? by lazy {
+        view?.findViewById<EditText>(R.id.toolbar_rank_enter)
+    }
 
     private lateinit var renameDialog: RenameDialog
 
@@ -96,7 +100,7 @@ class RankFragment : Fragment(),
     }
 
     private fun bind() {
-        val name = rankEnter.text.toString().toUpperCase()
+        val name = rankEnter?.text.toString().toUpperCase()
 
         binding.nameNotEmpty = !TextUtils.isEmpty(name)
         binding.listNotContain = !vm.rankRepo.listName.contains(name)
@@ -110,7 +114,7 @@ class RankFragment : Fragment(),
         val rankCancel = view.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)
         val rankAdd = view.findViewById<ImageButton>(R.id.toolbar_rank_add_button)
 
-        rankEnter.addTextChangedListener(object : TextWatcher {
+        rankEnter?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
@@ -119,9 +123,9 @@ class RankFragment : Fragment(),
 
             override fun afterTextChanged(editable: Editable) {}
         })
-        rankEnter.setOnEditorActionListener { _, i, _ ->
+        rankEnter?.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_DONE) {
-                val name = rankEnter.text.toString().toUpperCase()
+                val name = rankEnter?.text.toString().toUpperCase()
 
                 if (!TextUtils.isEmpty(name) && !vm.rankRepo.listName.contains(name)) {
                     onClick(rankAdd)
@@ -140,8 +144,8 @@ class RankFragment : Fragment(),
     }
 
     private fun clearEnter(): String {
-        val name = rankEnter.text.toString()
-        rankEnter.setText("")
+        val name = rankEnter?.text.toString()
+        rankEnter?.setText("")
         return name
     }
 
@@ -150,14 +154,14 @@ class RankFragment : Fragment(),
         adapter.dragListener = touchCallback
         touchCallback.adapter = adapter
 
-        recyclerView.itemAnimator = object : DefaultItemAnimator() {
+        recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                 bind(adapter.itemCount)
             }
         }
 
-        recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = adapter
+        recyclerView?.layoutManager = layoutManager
+        recyclerView?.adapter = adapter
 
         val itemTouchHelper = ItemTouchHelper(touchCallback)
         itemTouchHelper.attachToRecyclerView(recyclerView)
@@ -181,7 +185,9 @@ class RankFragment : Fragment(),
         bind(adapter.itemCount)
     }
 
-    fun scrollTop() = recyclerView.smoothScrollToPosition(0)
+    fun scrollTop() {
+        recyclerView?.smoothScrollToPosition(0)
+    }
 
     override fun onClick(v: View) {
         when (v.id) {
@@ -197,10 +203,10 @@ class RankFragment : Fragment(),
                     adapter.notifyItemInserted(p)
                 } else {
                     if (layoutManager.findLastVisibleItemPosition() == p - 1) {
-                        recyclerView.scrollToPosition(p)
+                        recyclerView?.scrollToPosition(p)
                         adapter.notifyItemInserted(p)
                     } else {
-                        recyclerView.smoothScrollToPosition(p)
+                        recyclerView?.smoothScrollToPosition(p)
                         adapter.notifyDataSetChanged()
                     }
                 }
@@ -219,10 +225,10 @@ class RankFragment : Fragment(),
             adapter.notifyItemInserted(p)
         } else {
             if (layoutManager.findFirstVisibleItemPosition() == p) {
-                recyclerView.scrollToPosition(p)
+                recyclerView?.scrollToPosition(p)
                 adapter.notifyItemInserted(p)
             } else {
-                recyclerView.smoothScrollToPosition(p)
+                recyclerView?.smoothScrollToPosition(p)
                 adapter.notifyDataSetChanged()
             }
         }

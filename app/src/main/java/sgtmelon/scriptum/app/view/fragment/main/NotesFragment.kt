@@ -55,7 +55,9 @@ class NotesFragment : Fragment(),
         NoteAdapter(context!!, clickListener = this, longClickListener = this)
     }
 
-    private val recyclerView by lazy { view!!.findViewById<RecyclerView>(R.id.notes_recycler) }
+    private val recyclerView: RecyclerView? by lazy {
+        view?.findViewById<RecyclerView>(R.id.notes_recycler)
+    }
 
     private lateinit var optionsDialog: OptionsDialog
 
@@ -105,16 +107,16 @@ class NotesFragment : Fragment(),
     }
 
     private fun setupRecycler() {
-        recyclerView.itemAnimator = object : DefaultItemAnimator() {
+        recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                 bind()
             }
         }
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        recyclerView?.layoutManager = LinearLayoutManager(context)
+        recyclerView?.adapter = adapter
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 mainCallback.changeFabState(dy <= 0)
@@ -150,7 +152,9 @@ class NotesFragment : Fragment(),
         bind()
     }
 
-    fun scrollTop() = recyclerView?.smoothScrollToPosition(0)
+    fun scrollTop() {
+        recyclerView?.smoothScrollToPosition(0)
+    }
 
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return

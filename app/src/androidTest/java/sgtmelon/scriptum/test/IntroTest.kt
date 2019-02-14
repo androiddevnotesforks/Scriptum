@@ -6,7 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.view.activity.IntroActivity
-import sgtmelon.scriptum.ui.SCROLL
+import sgtmelon.scriptum.ui.Scroll
 import sgtmelon.scriptum.ui.screen.intro.IntroScreen
 
 /**
@@ -33,7 +33,7 @@ class IntroTest : ParentTest() {
         IntroScreen {
             for (position in 0 until count - 1) {
                 assert { onDisplayContent(position) }
-                onSwipe(SCROLL.END)
+                onSwipe(Scroll.END)
             }
         }
     }
@@ -42,19 +42,19 @@ class IntroTest : ParentTest() {
         IntroScreen {
             for (position in 0 until count - 1) {
                 assert { isEnableEndButton(position) }
-                onSwipe(SCROLL.END)
+                onSwipe(Scroll.END)
             }
 
             assert { onDisplayEndButton() }
 
             for (position in count - 1 downTo 0) {
                 assert { isEnableEndButton(position) }
-                onSwipe(SCROLL.START)
+                onSwipe(Scroll.START)
             }
 
             for (position in 0 until count - 1) {
                 assert { isEnableEndButton(position) }
-                onSwipe(SCROLL.END)
+                onSwipe(Scroll.END)
             }
 
             assert { onDisplayEndButton() }
