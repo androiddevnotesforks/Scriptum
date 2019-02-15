@@ -1,5 +1,7 @@
 package sgtmelon.safedialog.office.blank
 
+import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.widget.Button
 import androidx.annotation.CallSuper
@@ -10,6 +12,8 @@ import androidx.fragment.app.DialogFragment
  * Базовый класс диалогов для наследования
  */
 open class DialogBlank : DialogFragment() {
+
+    protected lateinit var activity: Activity
 
     lateinit var title: String
     lateinit var message: String
@@ -30,6 +34,12 @@ open class DialogBlank : DialogFragment() {
     }
 
     var dismissListener: DialogInterface.OnDismissListener? = null
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        activity = context as Activity
+    }
 
     override fun onStart() {
         super.onStart()

@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.app.view.fragment.main
 
+import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
@@ -40,13 +42,14 @@ class RankFragment : Fragment(),
 
     private val openState = OpenState()
 
+    private lateinit var activity: Activity
     private lateinit var binding: FragmentRankBinding
 
     private val vm: RankViewModel by lazy {
         ViewModelProviders.of(this).get(RankViewModel::class.java)
     }
     private val adapter: RankAdapter by lazy {
-        RankAdapter(context!!, clickListener = this, longClickListener = this)
+        RankAdapter(activity, clickListener = this, longClickListener = this)
     }
 
     private val layoutManager by lazy { LinearLayoutManager(context) }
@@ -60,11 +63,10 @@ class RankFragment : Fragment(),
 
     private lateinit var renameDialog: RenameDialog
 
-    override fun onResume() {
-        super.onResume()
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
 
-        updateAdapter()
-        bind()
+        activity = context as Activity
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -78,7 +80,7 @@ class RankFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        renameDialog = DialogFactory.getRenameDialog(context!!, fragmentManager)
+        renameDialog = DialogFactory.getRenameDialog(activity, fragmentManager)
 
         if (savedInstanceState != null) {
             openState.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
@@ -86,6 +88,13 @@ class RankFragment : Fragment(),
 
         setupToolbar(view)
         setupRecycler()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        updateAdapter()
+        bind()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

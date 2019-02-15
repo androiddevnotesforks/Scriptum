@@ -9,7 +9,7 @@ import sgtmelon.safedialog.office.blank.DialogBlank
 class MessageDialog : DialogBlank() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton(getString(R.string.dialog_btn_yes), onPositiveClick)

@@ -95,15 +95,15 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
 
         text = resources.getStringArray(R.array.pref_sort_text)
 
-        val recyclerView = RecyclerView(context!!)
+        val recyclerView = RecyclerView(activity)
 
-        val padding = context!!.resources.getInteger(R.integer.dlg_recycler_padding)
+        val padding = activity.resources.getInteger(R.integer.dlg_recycler_padding)
         recyclerView.setPadding(padding, padding, padding, padding)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter = SortAdapter(context!!, this)
+        adapter = SortAdapter(activity, this)
 
         listSort.clear()
         for (aKey in keys!!.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
@@ -124,7 +124,7 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
             animator.supportsChangeAnimations = false
         }
 
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setTitle(getString(R.string.dialog_title_sort))
                 .setView(recyclerView)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)

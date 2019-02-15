@@ -37,7 +37,7 @@ class MultiplyDialog : DialogBlank() {
                 ?: bundle?.getBooleanArray(DialogAnn.VALUE)
                 ?: BooleanArray(size = 0)
 
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setMultiChoiceItems(name, check) { _, which, isChecked ->
                     check[which] = isChecked

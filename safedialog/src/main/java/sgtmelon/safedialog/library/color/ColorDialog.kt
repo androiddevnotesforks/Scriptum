@@ -53,7 +53,7 @@ class ColorDialog : DialogBlank(), ColorIntf.ClickListener {
             throw ArrayIndexOutOfBoundsException("Color arrays should have equal length")
         }
 
-        val recyclerView = RecyclerView(context!!)
+        val recyclerView = RecyclerView(activity)
 
         val padding = 24
         recyclerView.setPadding(padding, padding, padding, padding)
@@ -73,7 +73,7 @@ class ColorDialog : DialogBlank(), ColorIntf.ClickListener {
         val animator = recyclerView.itemAnimator as SimpleItemAnimator?
         animator?.supportsChangeAnimations = false
 
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setView(recyclerView)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)

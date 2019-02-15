@@ -35,7 +35,7 @@ class SingleDialog : DialogBlank() {
                 ?: bundle?.getInt(DialogAnn.VALUE)
                 ?: 0
 
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setSingleChoiceItems(rows, check) { _, i ->
                     check = i

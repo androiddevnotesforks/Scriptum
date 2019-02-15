@@ -67,6 +67,12 @@ object HelpUtils {
 
     object Note {
 
+        fun List<RollItem>.getCheck(): Int { // TODO применить
+            var rollCheck = 0
+            this.forEach { if (it.isCheck) rollCheck++ }
+            return rollCheck
+        }
+
         /**
          * [listRoll] - Список для проверки
          */

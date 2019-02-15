@@ -26,7 +26,7 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
         view.findViewById<ImageView>(R.id.logo_image)
                 .setOnClickListener(this)
 
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setView(view)
                 .setCancelable(true)
                 .create()
@@ -39,7 +39,7 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        if (++click == context!!.resources.getInteger(R.integer.pref_logo_click_value)) {
+        if (++click == activity.resources.getInteger(R.integer.pref_logo_click_value)) {
             click = 0
             logoClick.onClick(v)
             dialog.cancel()

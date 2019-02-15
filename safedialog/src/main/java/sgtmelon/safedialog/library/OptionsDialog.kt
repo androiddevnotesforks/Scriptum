@@ -1,6 +1,8 @@
 package sgtmelon.safedialog.library
 
+import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -8,6 +10,8 @@ import androidx.fragment.app.DialogFragment
 import sgtmelon.safedialog.office.annot.DialogAnn
 
 class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
+
+    private lateinit var activity: Activity
 
     lateinit var onClickListener: DialogInterface.OnClickListener
 
@@ -25,6 +29,12 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
         arguments = bundle
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+
+        activity = context as Activity
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
@@ -36,7 +46,7 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
                 ?: bundle?.getInt(DialogAnn.VALUE)
                 ?: 0
 
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setItems(items.toTypedArray(), this)
                 .setCancelable(true)
                 .create()

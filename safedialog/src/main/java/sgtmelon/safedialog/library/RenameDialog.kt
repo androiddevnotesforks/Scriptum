@@ -81,7 +81,7 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
             }
         })
 
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(activity)
                 .setTitle(title)
                 .setView(view)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
