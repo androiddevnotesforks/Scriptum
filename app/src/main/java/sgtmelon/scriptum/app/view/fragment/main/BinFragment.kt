@@ -28,14 +28,13 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.intf.ItemIntf
-import sgtmelon.scriptum.office.intf.MenuIntf
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.ColorUtils
 
 class BinFragment : Fragment(),
         ItemIntf.ClickListener,
         ItemIntf.LongClickListener,
-        MenuIntf.Dialog.DeleteMenuClick {
+        DialogInterface.OnClickListener {
 
     private val openSt = OpenState()
 
@@ -144,14 +143,7 @@ class BinFragment : Fragment(),
         recyclerView?.layoutManager = LinearLayoutManager(context)
         recyclerView?.adapter = adapter
 
-        optionsDialog.onClickListener = DialogInterface.OnClickListener { _, i ->
-            val p = optionsDialog.position
-            when (i) {
-                OptionsDef.Bin.restore -> onMenuRestoreClick(p)
-                OptionsDef.Bin.copy -> onMenuCopyClick(p)
-                OptionsDef.Bin.clear -> onMenuClearClick(p)
-            }
-        }
+        optionsDialog.onClickListener = this
     }
 
     private fun updateAdapter() {
@@ -181,20 +173,24 @@ class BinFragment : Fragment(),
         return true
     }
 
-    override fun onMenuRestoreClick(p: Int) {
-        adapter.setList(vm.onMenuRestore(p))
-        adapter.notifyItemRemoved(p)
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+        val p = optionsDialog.position
 
-        itemClearBin?.isVisible = adapter.itemCount != 0
-    }
+        when (which) {
+            OptionsDef.Bin.restore -> {
+                itemClearBin?.isVisible = adapter.itemCount != 0
 
-    override fun onMenuCopyClick(p: Int) = vm.onMenuCopy(p)
+                adapter.setList(vm.onMenuRestore(p))
+                adapter.notifyItemRemoved(p)
+            }
+            OptionsDef.Bin.copy -> vm.onMenuCopy(p)
+            OptionsDef.Bin.clear -> {
+                itemClearBin?.isVisible = adapter.itemCount != 0
 
-    override fun onMenuClearClick(p: Int) {
-        adapter.setList(vm.onMenuClear(p))
-        adapter.notifyItemRemoved(p)
-
-        itemClearBin?.isVisible = adapter.itemCount != 0
+                adapter.setList(vm.onMenuClear(p))
+                adapter.notifyItemRemoved(p)
+            }
+        }
     }
 
 }

@@ -29,14 +29,13 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemIntf
-import sgtmelon.scriptum.office.intf.MenuIntf
 import sgtmelon.scriptum.office.utils.ColorUtils
 import sgtmelon.scriptum.office.utils.DialogUtils
 
 class NotesFragment : Fragment(),
         ItemIntf.ClickListener,
         ItemIntf.LongClickListener,
-        MenuIntf.Dialog.NoteMenuClick {
+        DialogInterface.OnClickListener {
 
     companion object {
         /**
@@ -106,12 +105,8 @@ class NotesFragment : Fragment(),
         toolbar.title = getString(R.string.title_notes)
         toolbar.inflateMenu(R.menu.fragment_notes)
         toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.item_preference) {
-                startActivity(Intent(context, PreferenceActivity::class.java))
-                return@setOnMenuItemClickListener true
-            } else {
-                return@setOnMenuItemClickListener false
-            }
+            startActivity(Intent(context, PreferenceActivity::class.java))
+            return@setOnMenuItemClickListener true
         }
 
         ColorUtils.tintMenuIcon(activity, toolbar.menu.findItem(R.id.item_preference))
@@ -134,26 +129,7 @@ class NotesFragment : Fragment(),
             }
         })
 
-        optionsDialog.onClickListener = DialogInterface.OnClickListener { _, i ->
-            val p = optionsDialog.position
-            val noteItem = vm.getNoteItem(p)
-
-            when (noteItem.type) {
-                NoteType.TEXT -> when (i) {
-                    OptionsDef.Notes.Text.bind -> onMenuBindClick(p)
-                    OptionsDef.Notes.Text.convert -> onMenuConvertClick(p)
-                    OptionsDef.Notes.Text.copy -> onMenuCopyClick(p)
-                    OptionsDef.Notes.Text.delete -> onMenuDeleteClick(p)
-                }
-                NoteType.ROLL -> when (i) {
-                    OptionsDef.Notes.Roll.check -> onMenuCheckClick(p)
-                    OptionsDef.Notes.Roll.bind -> onMenuBindClick(p)
-                    OptionsDef.Notes.Roll.convert -> onMenuConvertClick(p)
-                    OptionsDef.Notes.Roll.copy -> onMenuCopyClick(p)
-                    OptionsDef.Notes.Roll.delete -> onMenuDeleteClick(p)
-                }
-            }
-        }
+        optionsDialog.onClickListener = this
     }
 
     private fun updateAdapter() {
@@ -173,7 +149,7 @@ class NotesFragment : Fragment(),
         startActivity(NoteActivity.getIntent(activity, vm.getId(p)))
     }
 
-    override fun onItemLongClick(view: View, p: Int): Boolean { // TODO (вынести в dialogFacroty - fillDialog)
+    override fun onItemLongClick(view: View, p: Int): Boolean {
         if (p == RecyclerView.NO_POSITION) return false
 
         optionsDialog.setArguments(DialogUtils.fillOptionsDialog(activity, vm.getNoteItem(p)), p)
@@ -182,24 +158,45 @@ class NotesFragment : Fragment(),
         return true
     }
 
-    override fun onMenuCheckClick(p: Int) {
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+        val p = optionsDialog.position
+        val noteItem = vm.getNoteItem(p)
+
+        when (noteItem.type) {
+            NoteType.TEXT -> when (which) {
+                OptionsDef.Notes.Text.bind -> onMenuBindClick(p)
+                OptionsDef.Notes.Text.convert -> onMenuConvertClick(p)
+                OptionsDef.Notes.Text.copy -> onMenuCopyClick(p)
+                OptionsDef.Notes.Text.delete -> onMenuDeleteClick(p)
+            }
+            NoteType.ROLL -> when (which) {
+                OptionsDef.Notes.Roll.check -> onMenuCheckClick(p)
+                OptionsDef.Notes.Roll.bind -> onMenuBindClick(p)
+                OptionsDef.Notes.Roll.convert -> onMenuConvertClick(p)
+                OptionsDef.Notes.Roll.copy -> onMenuCopyClick(p)
+                OptionsDef.Notes.Roll.delete -> onMenuDeleteClick(p)
+            }
+        }
+    }
+
+    private fun onMenuCheckClick(p: Int) {
         adapter.setList(vm.onMenuCheck(p))
         adapter.notifyItemChanged(p)
     }
 
-    override fun onMenuBindClick(p: Int) {
+    private fun onMenuBindClick(p: Int) {
         adapter.setList(vm.onMenuBind(p))
         adapter.notifyItemChanged(p)
     }
 
-    override fun onMenuConvertClick(p: Int) {
+    private fun onMenuConvertClick(p: Int) {
         adapter.setList(vm.onMenuConvert(p))
         adapter.notifyItemChanged(p)
     }
 
-    override fun onMenuCopyClick(p: Int) = vm.onMenuCopy(p)
+    private fun onMenuCopyClick(p: Int) = vm.onMenuCopy(p)
 
-    override fun onMenuDeleteClick(p: Int) {
+    private fun onMenuDeleteClick(p: Int) {
         adapter.setList(vm.onMenuDelete(p))
         adapter.notifyItemRemoved(p)
     }

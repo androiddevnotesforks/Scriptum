@@ -47,31 +47,4 @@ interface MenuIntf {
 
     }
 
-    /**
-     * Интерфейс для меню при долгом нажатии на заметку
-     */
-    interface Dialog {
-
-        interface DeleteMenuClick {
-            fun onMenuRestoreClick(p: Int)
-
-            fun onMenuCopyClick(p: Int)
-
-            fun onMenuClearClick(p: Int)
-        }
-
-        interface NoteMenuClick {
-            fun onMenuCheckClick(p: Int)
-
-            fun onMenuBindClick(p: Int)
-
-            fun onMenuConvertClick(p: Int)
-
-            fun onMenuCopyClick(p: Int)
-
-            fun onMenuDeleteClick(p: Int)
-        }
-
-    }
-
 }
