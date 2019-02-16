@@ -11,6 +11,8 @@ import sgtmelon.scriptum.office.data.IntroData
 
 object AppUtils {
 
+    // TODO раскидать по разным Utils
+
     fun <T> ParentAdapter<T, RecyclerView.ViewHolder>.notifyItemChanged(list: MutableList<T>, p: Int) {
         setList(list)
         notifyItemChanged(p)
