@@ -12,6 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.ColorUtils
+import sgtmelon.scriptum.office.utils.ColorUtils.blend
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 /**
@@ -47,14 +48,14 @@ open class MenuControl(protected val context: Context,
             var blended: Int
 
             if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                blended = ColorUtils.blend(statusColorFrom, statusColorTo, position)
+                blended = statusColorFrom.blend(statusColorTo, position)
                 window.statusBarColor = blended
             }
 
-            blended = ColorUtils.blend(toolbarColorFrom, toolbarColorTo, position)
+            blended = toolbarColorFrom.blend(toolbarColorTo, position)
             if (valTheme != ThemeDef.dark) toolbar.setBackgroundColor(blended)
 
-            blended = ColorUtils.blend(indicatorColorFrom, indicatorColorTo, position)
+            blended = indicatorColorFrom.blend(indicatorColorTo, position)
             if (valTheme == ThemeDef.dark) indicator.setBackgroundColor(blended)
         }
 

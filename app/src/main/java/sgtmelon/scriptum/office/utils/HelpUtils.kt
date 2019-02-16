@@ -18,9 +18,9 @@ import sgtmelon.scriptum.office.annot.key.NoteType
 object HelpUtils {
 
     /**
-     * Копирование текста заметки в память, [noteItem] - заметка для копирования
+     * Копирование текста заметки в память
      */
-    fun optionsCopy(context: Context, noteItem: NoteItem) {
+    fun Context.copyToClipboard(noteItem: NoteItem) {
         var copyText = ""
 
         /**
@@ -36,7 +36,7 @@ object HelpUtils {
         when (noteItem.type) {
             NoteType.TEXT -> copyText += noteItem.text
             NoteType.ROLL -> {
-                val db = RoomDb.provideDb(context)
+                val db = RoomDb.provideDb(this)
                 copyText = db.daoRoll().getText(noteItem.id)
                 db.close()
             }
@@ -45,18 +45,18 @@ object HelpUtils {
         /**
          * Сохраняем данные в память
          */
-        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("NoteText", copyText) // TODO: 02.11.2018 вынеси
 
         clipboard.primaryClip = clip
 
-        Toast.makeText(context, context.getString(R.string.toast_text_copy), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, this.getString(R.string.toast_text_copy), Toast.LENGTH_SHORT).show()
     }
 
     /**
      * Скрыть клавиатуру, где [view] - текущий фокус
      */
-    fun hideKeyboard(context: Context, view: View?) {
+    fun hideKeyboard(context: Context, view: View?) { // TODO extension
         val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE)
                 as InputMethodManager
 
@@ -67,7 +67,7 @@ object HelpUtils {
 
     object Note {
 
-        fun List<RollItem>.getCheck(): Int { // TODO применить
+        fun List<RollItem>.getCheck(): Int { // TODO extension применить
             var rollCheck = 0
             this.forEach { if (it.isCheck) rollCheck++ }
             return rollCheck
@@ -88,17 +88,10 @@ object HelpUtils {
             return rollCheck
         }
 
-        /**
-         * [listRoll] - Список для проверки
-         */
-        fun isAllCheck(listRoll: List<RollItem>): Boolean {
-            if (listRoll.isEmpty()) return false
+        fun List<RollItem>.isAllCheck(): Boolean {
+            if (this.isEmpty()) return false
 
-            for (rollItem in listRoll) {
-                if (!rollItem.isCheck) {
-                    return false
-                }
-            }
+            this.forEach { if (!it.isCheck) return false }
 
             return true
         }
@@ -106,6 +99,19 @@ object HelpUtils {
     }
 
     object Sort {
+
+        fun MutableList<SortItem>.getSort() : String {
+            val order = StringBuilder()
+
+            for (i in indices) {
+                order.append(Integer.toString(this[i].key))
+                if (i != this.size - 1) {
+                    order.append(SortDef.divider)
+                }
+            }
+
+            return order.toString()
+        }
 
         /**
          * Получаем строку сортировки, [listSort] - список моделей из диалога

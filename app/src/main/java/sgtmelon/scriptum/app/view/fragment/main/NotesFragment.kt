@@ -29,8 +29,11 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemIntf
-import sgtmelon.scriptum.office.utils.ColorUtils
-import sgtmelon.scriptum.office.utils.DialogUtils
+import sgtmelon.scriptum.office.utils.AppUtils.notifyItemChanged
+import sgtmelon.scriptum.office.utils.AppUtils.notifyItemRemoved
+import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
+import sgtmelon.scriptum.office.utils.DialogUtils.setNotesArguments
+import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 
 class NotesFragment : Fragment(),
         ItemIntf.ClickListener,
@@ -60,7 +63,9 @@ class NotesFragment : Fragment(),
         view?.findViewById<RecyclerView>(R.id.notes_recycler)
     }
 
-    private lateinit var optionsDialog: OptionsDialog
+    private val optionsDialog: OptionsDialog by lazy {
+        DialogFactory.getOptionsDialog(fragmentManager)
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -88,8 +93,6 @@ class NotesFragment : Fragment(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        optionsDialog = DialogFactory.getOptionsDialog(fragmentManager)
-
         setupToolbar(view)
         setupRecycler()
     }
@@ -109,7 +112,7 @@ class NotesFragment : Fragment(),
             return@setOnMenuItemClickListener true
         }
 
-        ColorUtils.tintMenuIcon(activity, toolbar.menu.findItem(R.id.item_preference))
+        toolbar.menu.findItem(R.id.item_preference).tintIcon(activity)
     }
 
     private fun setupRecycler() {
@@ -146,13 +149,13 @@ class NotesFragment : Fragment(),
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
 
-        startActivity(NoteActivity.getIntent(activity, vm.getId(p)))
+        startActivity(NoteActivity.getIntent(activity, vm.getNoteItem(p).id))
     }
 
     override fun onItemLongClick(view: View, p: Int): Boolean {
         if (p == RecyclerView.NO_POSITION) return false
 
-        optionsDialog.setArguments(DialogUtils.fillOptionsDialog(activity, vm.getNoteItem(p)), p)
+        optionsDialog.setNotesArguments(activity, vm.getNoteItem(p), p)
         optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
 
         return true
@@ -164,41 +167,19 @@ class NotesFragment : Fragment(),
 
         when (noteItem.type) {
             NoteType.TEXT -> when (which) {
-                OptionsDef.Notes.Text.bind -> onMenuBindClick(p)
-                OptionsDef.Notes.Text.convert -> onMenuConvertClick(p)
-                OptionsDef.Notes.Text.copy -> onMenuCopyClick(p)
-                OptionsDef.Notes.Text.delete -> onMenuDeleteClick(p)
+                OptionsDef.Text.bind -> adapter.notifyItemChanged(vm.onMenuBind(p), p)
+                OptionsDef.Text.convert -> adapter.notifyItemChanged(vm.onMenuConvert(p), p)
+                OptionsDef.Text.copy -> activity.copyToClipboard(noteItem)
+                OptionsDef.Text.delete -> adapter.notifyItemRemoved(vm.onMenuDelete(p), p)
             }
             NoteType.ROLL -> when (which) {
-                OptionsDef.Notes.Roll.check -> onMenuCheckClick(p)
-                OptionsDef.Notes.Roll.bind -> onMenuBindClick(p)
-                OptionsDef.Notes.Roll.convert -> onMenuConvertClick(p)
-                OptionsDef.Notes.Roll.copy -> onMenuCopyClick(p)
-                OptionsDef.Notes.Roll.delete -> onMenuDeleteClick(p)
+                OptionsDef.Roll.check -> adapter.notifyItemChanged(vm.onMenuCheck(p), p)
+                OptionsDef.Roll.bind -> adapter.notifyItemChanged(vm.onMenuBind(p), p)
+                OptionsDef.Roll.convert -> adapter.notifyItemChanged(vm.onMenuConvert(p), p)
+                OptionsDef.Roll.copy -> activity.copyToClipboard(noteItem)
+                OptionsDef.Roll.delete -> adapter.notifyItemRemoved(vm.onMenuDelete(p), p)
             }
         }
-    }
-
-    private fun onMenuCheckClick(p: Int) {
-        adapter.setList(vm.onMenuCheck(p))
-        adapter.notifyItemChanged(p)
-    }
-
-    private fun onMenuBindClick(p: Int) {
-        adapter.setList(vm.onMenuBind(p))
-        adapter.notifyItemChanged(p)
-    }
-
-    private fun onMenuConvertClick(p: Int) {
-        adapter.setList(vm.onMenuConvert(p))
-        adapter.notifyItemChanged(p)
-    }
-
-    private fun onMenuCopyClick(p: Int) = vm.onMenuCopy(p)
-
-    private fun onMenuDeleteClick(p: Int) {
-        adapter.setList(vm.onMenuDelete(p))
-        adapter.notifyItemRemoved(p)
     }
 
 }

@@ -29,7 +29,10 @@ import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
-import sgtmelon.scriptum.office.utils.ColorUtils
+import sgtmelon.scriptum.office.utils.AppUtils.notifyItemRemoved
+import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
+import sgtmelon.scriptum.office.utils.DialogUtils.setBinArguments
+import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 
 class BinFragment : Fragment(),
         ItemIntf.ClickListener,
@@ -58,8 +61,12 @@ class BinFragment : Fragment(),
         view?.findViewById<RecyclerView>(R.id.bin_recycler)
     }
 
-    private lateinit var optionsDialog: OptionsDialog
-    private lateinit var clearBinDialog: MessageDialog
+    private val optionsDialog: OptionsDialog by lazy {
+        DialogFactory.getOptionsDialog(fragmentManager)
+    }
+    private val clearBinDialog: MessageDialog by lazy {
+        DialogFactory.getClearBinDialog(activity, fragmentManager)
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -82,9 +89,6 @@ class BinFragment : Fragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        optionsDialog = DialogFactory.getOptionsDialog(fragmentManager)
-        clearBinDialog = DialogFactory.getClearBinDialog(activity, fragmentManager)
 
         if (savedInstanceState != null) {
             openSt.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
@@ -120,7 +124,7 @@ class BinFragment : Fragment(),
             }
         }
 
-        ColorUtils.tintMenuIcon(activity, itemClearBin)
+        itemClearBin.tintIcon(activity)
 
         clearBinDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             adapter.setList(vm.onClear())
@@ -161,13 +165,13 @@ class BinFragment : Fragment(),
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
 
-        startActivity(NoteActivity.getIntent(activity, vm.getId(p)))
+        startActivity(NoteActivity.getIntent(activity, vm.getNoteItem(p).id))
     }
 
     override fun onItemLongClick(view: View, p: Int): Boolean {
         if (p == RecyclerView.NO_POSITION) return false
 
-        optionsDialog.setArguments(resources.getStringArray(R.array.dialog_menu_bin), p)
+        optionsDialog.setBinArguments(activity, p)
         optionsDialog.show(fragmentManager!!, DialogDef.OPTIONS)
 
         return true
@@ -179,16 +183,12 @@ class BinFragment : Fragment(),
         when (which) {
             OptionsDef.Bin.restore -> {
                 itemClearBin?.isVisible = adapter.itemCount != 0
-
-                adapter.setList(vm.onMenuRestore(p))
-                adapter.notifyItemRemoved(p)
+                adapter.notifyItemRemoved(vm.onMenuRestore(p), p)
             }
-            OptionsDef.Bin.copy -> vm.onMenuCopy(p)
+            OptionsDef.Bin.copy -> activity.copyToClipboard(vm.getNoteItem(p))
             OptionsDef.Bin.clear -> {
                 itemClearBin?.isVisible = adapter.itemCount != 0
-
-                adapter.setList(vm.onMenuClear(p))
-                adapter.notifyItemRemoved(p)
+                adapter.notifyItemRemoved(vm.onMenuClear(p), p)
             }
         }
     }

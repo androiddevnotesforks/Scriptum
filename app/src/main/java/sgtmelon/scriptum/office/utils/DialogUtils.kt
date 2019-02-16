@@ -1,13 +1,14 @@
 package sgtmelon.scriptum.office.utils
 
 import android.content.Context
+import sgtmelon.safedialog.library.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.office.annot.key.NoteType
 
 object DialogUtils {
 
-    fun fillOptionsDialog(context: Context, noteItem: NoteItem): Array<String> {
+    fun OptionsDialog.setNotesArguments(context: Context, noteItem: NoteItem, p: Int) {
         val items: Array<String>
 
         when (noteItem.type) {
@@ -35,7 +36,11 @@ object DialogUtils {
             }
         }
 
-        return items
+        setArguments(items, p)
+    }
+
+    fun OptionsDialog.setBinArguments(context: Context, p: Int) {
+        setArguments(context.resources.getStringArray(R.array.dialog_menu_bin), p)
     }
 
 }

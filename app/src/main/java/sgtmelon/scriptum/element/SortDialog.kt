@@ -16,15 +16,15 @@ import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.utils.HelpUtils
-import java.util.*
+import sgtmelon.scriptum.office.utils.HelpUtils.Sort.getSort
 
 class SortDialog : DialogBlank(), ItemIntf.ClickListener {
 
-    private val listSort = ArrayList<SortItem>()
+    private val listSort: MutableList<SortItem> = ArrayList()
 
-    private var init: String? = null
+    private var init: String = ""
 
-    var keys: String? = null
+    var keys: String = ""
         private set
 
     private lateinit var text: Array<String>
@@ -84,14 +84,13 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
-        if (savedInstanceState != null) {
-            init = savedInstanceState.getString(DialogAnn.INIT)
-            keys = savedInstanceState.getString(DialogAnn.VALUE)
-        } else if (bundle != null) {
-            init = bundle.getString(DialogAnn.INIT)
-            keys = bundle.getString(DialogAnn.VALUE)
-        }
+        init = savedInstanceState?.getString(DialogAnn.INIT)
+                ?: arguments?.getString(DialogAnn.INIT)
+                ?: ""
+
+        keys = savedInstanceState?.getString(DialogAnn.VALUE)
+                ?: arguments?.getString(DialogAnn.VALUE)
+                ?: ""
 
         text = resources.getStringArray(R.array.pref_sort_text)
 
@@ -106,7 +105,7 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
         adapter = SortAdapter(activity, this)
 
         listSort.clear()
-        for (aKey in keys!!.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
+        for (aKey in keys.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
             val key = Integer.parseInt(aKey)
             val sortItem = SortItem(text[key], key)
             listSort.add(sortItem)
@@ -144,8 +143,8 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
     override fun setEnable() {
         super.setEnable()
 
-        buttonPositive!!.isEnabled = !HelpUtils.Sort.getSortEqual(init!!, keys!!)
-        buttonNeutral!!.isEnabled = !HelpUtils.Sort.getSortEqual(SortDef.def, keys!!)
+        buttonPositive.isEnabled = !HelpUtils.Sort.getSortEqual(init, keys)
+        buttonNeutral.isEnabled = !HelpUtils.Sort.getSortEqual(SortDef.def, keys)
     }
 
     override fun onItemClick(view: View, p: Int) {
@@ -162,8 +161,10 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
         adapter.setListItem(p, sortItem)
         adapter.notifyItemChanged(p)
 
-        keys = HelpUtils.Sort.getSortByList(listSort)
+        keys = listSort.getSort()
         setEnable()
     }
 
 }
+
+

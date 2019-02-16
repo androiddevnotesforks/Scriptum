@@ -5,9 +5,9 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.view.fragment.main.BinFragment
 import sgtmelon.scriptum.office.annot.def.BinDef
-import sgtmelon.scriptum.office.utils.HelpUtils
 import sgtmelon.scriptum.office.utils.TimeUtils
 
 /**
@@ -38,11 +38,11 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
         return listNoteRepo
     }
 
-    fun getId(p: Int) = listNoteRepo[p].noteItem.id
+    fun getNoteItem(p: Int): NoteItem = listNoteRepo[p].noteItem
 
     fun onMenuRestore(p: Int): MutableList<NoteRepo> {
         val db = RoomDb.provideDb(context)
-        db.daoNote().update(getId(p), TimeUtils.getTime(context), false)
+        db.daoNote().update(getNoteItem(p).id, TimeUtils.getTime(context), false)
         db.close()
 
         listNoteRepo.removeAt(p)
@@ -50,11 +50,9 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
         return listNoteRepo
     }
 
-    fun onMenuCopy(p: Int) = HelpUtils.optionsCopy(context, listNoteRepo[p].noteItem)
-
     fun onMenuClear(p: Int): MutableList<NoteRepo> {
         val db = RoomDb.provideDb(context)
-        db.daoNote().delete(getId(p))
+        db.daoNote().delete(getNoteItem(p).id)
         db.close()
 
         listNoteRepo.removeAt(p)

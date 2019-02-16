@@ -59,38 +59,32 @@ object ColorUtils {
 
     /**
      * Получение RGB промежуточного цвета в записимости от значения трансформации
-     *
-     * @param colorFrom - Цвет, от которого происходит переход
-     * @param colorTo   - Цвет, к которому происходит переход
-     * @param ratio     - Текущее положение трансформации
-     * @return - Промежуточный цвет
+     * [ratio] - положение трансформации
+     * [this] - цвет от которого идёт трансформация
      */
     @ColorInt
-    fun blend(@ColorInt colorFrom: Int, @ColorInt colorTo: Int,
-              @FloatRange(from = 0.0, to = 1.0) ratio: Float): Int {
+    fun Int.blend(colorTo: Int, @FloatRange(from = 0.0, to = 1.0) ratio: Float): Int {
         val inverseRatio = 1f - ratio
 
-        val r = Color.red(colorTo) * ratio + Color.red(colorFrom) * inverseRatio
-        val g = Color.green(colorTo) * ratio + Color.green(colorFrom) * inverseRatio
-        val b = Color.blue(colorTo) * ratio + Color.blue(colorFrom) * inverseRatio
+        val r = Color.red(colorTo) * ratio + Color.red(this) * inverseRatio
+        val g = Color.green(colorTo) * ratio + Color.green(this) * inverseRatio
+        val b = Color.blue(colorTo) * ratio + Color.blue(this) * inverseRatio
 
         return Color.rgb(r.toInt(), g.toInt(), b.toInt())
     }
 
     /**
      * Покараска элемента меню в стандартный цвет
-     *
-     * @param item - Элемент меню
      */
-    fun tintMenuIcon(context: Context, item: MenuItem?) {
-        if (item == null) return
+    fun MenuItem?.tintIcon(context: Context) {
+        if (this == null) return
 
-        val drawable = item.icon
+        val drawable = this.icon
         val wrapDrawable = DrawableCompat.wrap(drawable)
 
         DrawableCompat.setTint(wrapDrawable, get(context, R.attr.clContent))
 
-        item.icon = wrapDrawable
+        this.icon = wrapDrawable
     }
 
     /**
