@@ -18,7 +18,6 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.view.fragment.main.NotesFragment;
-import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 
 /**
@@ -43,7 +42,7 @@ public abstract class NoteDao extends BaseDao {
         return new NoteRepo(noteItem, listRoll, statusItem);
     }
 
-    public List<NoteRepo> get(Context context, @BinDef int bin) {
+    public List<NoteRepo> get(Context context, boolean bin) {
         final List<NoteRepo> listNoteRepo = new ArrayList<>();
         final List<NoteItem> listNote = getNote(bin, new PrefUtils(context).getSortNoteOrder());
 
@@ -74,7 +73,7 @@ public abstract class NoteDao extends BaseDao {
     @Query("SELECT * FROM NOTE_TABLE " +
             "WHERE NT_BIN = :bin " +
             "ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC")
-    abstract List<NoteItem> get(@BinDef int bin);
+    abstract List<NoteItem> get(boolean bin);
 
     @Update
     public abstract void update(NoteItem noteItem);
@@ -85,7 +84,7 @@ public abstract class NoteDao extends BaseDao {
      * @param context - Контекст для получения сортировки
      */
     public void update(Context context) {
-        final List<NoteItem> listNote = getNote(BinDef.out, new PrefUtils(context).getSortNoteOrder());
+        final List<NoteItem> listNote = getNote(false, new PrefUtils(context).getSortNoteOrder());
         final List<Long> rkVisible = getRankVisible();
 
         for (int i = 0; i < listNote.size(); i++) {
@@ -134,7 +133,7 @@ public abstract class NoteDao extends BaseDao {
     }
 
     public void clearBin() {
-        final List<NoteItem> listNote = get(BinDef.in);
+        final List<NoteItem> listNote = get(true);
 
         for (int i = 0; i < listNote.size(); i++) {
             final NoteItem noteItem = listNote.get(i);
@@ -149,8 +148,8 @@ public abstract class NoteDao extends BaseDao {
     }
 
     public void listAll(TextView textView) {
-        final List<NoteItem> listNote = get(BinDef.in);
-        listNote.addAll(get(BinDef.out));
+        final List<NoteItem> listNote = get(true);
+        listNote.addAll(get(false));
 
         final String annotation = "Note Data Base:";
         textView.setText(annotation);

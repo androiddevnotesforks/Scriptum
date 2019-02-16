@@ -15,6 +15,7 @@ import sgtmelon.scriptum.app.vm.activity.NoteViewModel
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.MenuIntf
+import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 // TODO: 11.02.2019 Передавать vm в биндинг и оттуда вызывать методы управления
 // TODO: 11.02.2019 Если Id не существует то завершать активити
@@ -22,12 +23,11 @@ import sgtmelon.scriptum.office.intf.MenuIntf
 class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMenuClick {
 
     companion object {
-
-        fun getIntent(context: Context, type: Int): Intent {
+        fun getIntent(context: Context, type: NoteType): Intent {
             val intent = Intent(context, NoteActivity::class.java)
 
             intent.putExtra(IntentDef.NOTE_CREATE, true)
-            intent.putExtra(IntentDef.NOTE_TYPE, type)
+            intent.putExtra(IntentDef.NOTE_TYPE, type.ordinal)
 
             return intent
         }
@@ -42,7 +42,9 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         }
     }
 
-    private val vm by lazy { ViewModelProviders.of(this).get(NoteViewModel::class.java) }
+    private val vm by lazy {
+        ViewModelProviders.of(this).get(NoteViewModel::class.java)
+    }
     private val saveCtrl: SaveControl by lazy { SaveControl(this) }
 
     private var textNoteFragment: TextNoteFragment? = null
@@ -67,11 +69,11 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         super.onSaveInstanceState(outState)
 
         outState.putBoolean(IntentDef.NOTE_CREATE, vm.noteState.isCreate)
-        outState.putInt(IntentDef.NOTE_TYPE, vm.ntType)
+        outState.putInt(IntentDef.NOTE_TYPE, vm.noteType.ordinal)
         outState.putLong(IntentDef.NOTE_ID, vm.ntId)
     }
 
-    override fun onBackPressed() {
+    override fun onBackPressed() { // TODO переделать
         saveCtrl.needSave = false
 
         val noteItem = vm.noteRepo.noteItem
@@ -113,10 +115,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
     }
 
     override fun setupFragment(isSave: Boolean) {
-        if (!isSave) {
-            val noteSt = vm.noteState
-            noteSt.isFirst = true
-        }
+        if (!isSave) vm.noteState.isFirst = true
 
         val fm = supportFragmentManager
         val transaction = fm.beginTransaction()
@@ -152,10 +151,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
 
     override fun getViewModel(): NoteViewModel = vm
 
-    override fun onMenuRestoreClick() {
-        vm.onMenuRestore()
-        finish()
-    }
+    override fun onMenuRestoreClick() = beforeFinish { vm.onMenuRestore() }
 
     override fun onMenuRestoreOpenClick() {
         vm.onMenuRestoreOpen()
@@ -173,14 +169,8 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
         }
     }
 
-    override fun onMenuClearClick() {
-        vm.onMenuClear()
-        finish()
-    }
+    override fun onMenuClearClick() = beforeFinish { vm.onMenuClear() }
 
-    override fun onMenuDeleteClick() {
-        vm.onMenuDelete()
-        finish()
-    }
+    override fun onMenuDeleteClick() = beforeFinish { vm.onMenuDelete() }
 
 }

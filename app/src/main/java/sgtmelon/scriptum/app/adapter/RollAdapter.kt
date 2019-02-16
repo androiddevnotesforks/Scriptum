@@ -11,7 +11,6 @@ import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.view.fragment.note.RollNoteFragment
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.office.annot.def.TypeRollDef
 import sgtmelon.scriptum.office.intf.BindIntf
 import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.intf.ItemIntf
@@ -27,13 +26,18 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
                   private val bindIntf: BindIntf
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context, clickListener) {
 
+    private companion object {
+        const val read = 0
+        const val write = 1
+    }
+
     lateinit var noteState: NoteState
 
     var checkToggle: Boolean = false
     var cursorPosition = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType == TypeRollDef.read) {
+        return when (viewType == read) {
             true -> {
                 val bindingRead = DataBindingUtil.inflate<ItemRollReadBinding>(
                         inflater, R.layout.item_roll_read, parent, false
@@ -67,8 +71,8 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
     }
 
     override fun getItemViewType(position: Int) = when (!noteState.isEdit) {
-        true -> TypeRollDef.read
-        false -> TypeRollDef.write
+        true -> read
+        false -> write
     }
 
 }

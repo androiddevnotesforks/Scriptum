@@ -12,7 +12,7 @@ import sgtmelon.scriptum.app.view.fragment.main.BinFragment
 import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemIntf
 
 /**
@@ -24,15 +24,15 @@ class NoteAdapter(context: Context,
 ) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context, clickListener) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            TypeNoteDef.text -> {
+        return when (viewType == NoteType.TEXT.ordinal) {
+            true -> {
                 val bindingText = DataBindingUtil.inflate<ItemNoteTextBinding>(
                         inflater, R.layout.item_note_text, parent, false
                 )
 
                 NoteTextHolder(bindingText, clickListener, longClickListener)
             }
-            else -> {
+            false -> {
                 val bindingRoll = DataBindingUtil.inflate<ItemNoteRollBinding>(
                         inflater, R.layout.item_note_roll, parent, false
                 )

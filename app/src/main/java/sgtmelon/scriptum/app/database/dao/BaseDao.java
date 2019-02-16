@@ -13,7 +13,6 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.annot.def.BinDef;
 import sgtmelon.scriptum.office.converter.BoolConverter;
 import sgtmelon.scriptum.office.converter.NoteTypeConverter;
 
@@ -37,10 +36,11 @@ abstract class BaseDao {
      * @param sortKeys - Строка с сортировкой заметок
      * @return - Список заметок
      */
-    List<NoteItem> getNote(@BinDef int bin, String sortKeys) {
+    List<NoteItem> getNote(boolean bin, String sortKeys) {
+
         final SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + DbAnn.Note.TABLE +
-                        " WHERE " + DbAnn.Note.BIN + " = " + bin +
+                        " WHERE " + DbAnn.Note.BIN + " = " + new BoolConverter().fromBool(bin) + // TODO убрать
                         " ORDER BY " + sortKeys);
 
         return getNote(query);

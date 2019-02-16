@@ -17,7 +17,6 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.converter.BoolConverter;
 import sgtmelon.scriptum.office.converter.NoteTypeConverter;
@@ -54,10 +53,10 @@ public final class NoteItem {
     }
 
     @Ignore
-    public NoteItem(@NonNull String create, @ColorDef int color, @TypeNoteDef int type) {
+    public NoteItem(@NonNull String create, @ColorDef int color, @NonNull NoteType type) {
         this.create = create;
         this.color = color;
-        this.type = type == 0 ? NoteType.TEXT : NoteType.ROLL ;
+        this.type = type;
     }
 
     @Ignore

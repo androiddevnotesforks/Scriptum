@@ -1,7 +1,12 @@
 package sgtmelon.scriptum.office.utils
 
+import android.app.Activity
+import android.view.View
+import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.app.adapter.ParentAdapter
+import sgtmelon.scriptum.databinding.IncludeInfoBinding
+import sgtmelon.scriptum.office.annot.IntroAnn
 
 object AppUtils {
 
@@ -13,6 +18,33 @@ object AppUtils {
     fun <T> ParentAdapter<T, RecyclerView.ViewHolder>.notifyItemRemoved(list: MutableList<T>, p: Int) {
         setList(list)
         notifyItemRemoved(p)
+    }
+
+    fun Activity.beforeFinish(function: () -> Unit) {
+        function.invoke()
+        finish()
+    }
+
+    fun View.change(alpha: Float, scale: Float) {
+        this.alpha = alpha
+        this.scaleX = scale
+        this.scaleY = scale
+    }
+
+    fun IncludeInfoBinding.bind(page: Int) {
+        icon = IntroAnn.icon[page]
+        title = IntroAnn.title[page]
+        details = IntroAnn.details[page]
+
+        executePendingBindings()
+    }
+
+    fun EditText?.clear(): String {
+        if (this == null) return ""
+
+        val text = text.toString()
+        setText("")
+        return text
     }
 
 }

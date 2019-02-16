@@ -7,7 +7,6 @@ import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
-import sgtmelon.scriptum.office.annot.def.BinDef
 import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.TimeUtils
@@ -21,10 +20,10 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val listNoteRepo: MutableList<NoteRepo> = ArrayList()
 
-    fun loadData(@BinDef bin: Int): MutableList<NoteRepo> {
+    fun loadData(): MutableList<NoteRepo> {
         val db = RoomDb.provideDb(context)
         listNoteRepo.clear()
-        listNoteRepo.addAll(db.daoNote().get(context, bin))
+        listNoteRepo.addAll(db.daoNote().get(context, false))
         db.close()
 
         return listNoteRepo

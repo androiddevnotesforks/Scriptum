@@ -23,7 +23,6 @@ import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.app.vm.fragment.BinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
-import sgtmelon.scriptum.office.annot.def.BinDef
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
@@ -151,7 +150,7 @@ class BinFragment : Fragment(),
     }
 
     private fun updateAdapter() {
-        adapter.setList(vm.loadData(BinDef.`in`))
+        adapter.setList(vm.loadData())
         adapter.notifyDataSetChanged()
 
         itemClearBin?.isVisible = adapter.itemCount != 0
@@ -181,16 +180,12 @@ class BinFragment : Fragment(),
         val p = optionsDialog.position
 
         when (which) {
-            OptionsDef.Bin.restore -> {
-                itemClearBin?.isVisible = adapter.itemCount != 0
-                adapter.notifyItemRemoved(vm.onMenuRestore(p), p)
-            }
+            OptionsDef.Bin.restore -> adapter.notifyItemRemoved(vm.onMenuRestore(p), p)
             OptionsDef.Bin.copy -> activity.copyToClipboard(vm.getNoteItem(p))
-            OptionsDef.Bin.clear -> {
-                itemClearBin?.isVisible = adapter.itemCount != 0
-                adapter.notifyItemRemoved(vm.onMenuClear(p), p)
-            }
+            OptionsDef.Bin.clear -> adapter.notifyItemRemoved(vm.onMenuClear(p), p)
         }
+
+        itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
 }

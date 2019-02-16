@@ -24,7 +24,6 @@ import sgtmelon.scriptum.app.view.activity.PreferenceActivity
 import sgtmelon.scriptum.app.view.callback.MainCallback
 import sgtmelon.scriptum.app.vm.fragment.NotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
-import sgtmelon.scriptum.office.annot.def.BinDef
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.annot.key.NoteType
@@ -136,7 +135,7 @@ class NotesFragment : Fragment(),
     }
 
     private fun updateAdapter() {
-        adapter.setList(vm.loadData(BinDef.out))
+        adapter.setList(vm.loadData())
         adapter.notifyDataSetChanged()
 
         bind()

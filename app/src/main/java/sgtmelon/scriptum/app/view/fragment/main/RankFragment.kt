@@ -32,6 +32,7 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
+import sgtmelon.scriptum.office.utils.AppUtils.clear
 import java.util.*
 
 class RankFragment : Fragment(),
@@ -71,7 +72,9 @@ class RankFragment : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_rank, container, false)
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_rank, container, false
+        )
         vm.loadData()
 
         return binding.root
@@ -152,12 +155,6 @@ class RankFragment : Fragment(),
         rankAdd.setOnLongClickListener(this)
     }
 
-    private fun clearEnter(): String {
-        val name = rankEnter?.text.toString()
-        rankEnter?.setText("")
-        return name
-    }
-
     private fun setupRecycler() {
         val touchCallback = RankTouchControl(vm)
         adapter.dragListener = touchCallback
@@ -200,9 +197,9 @@ class RankFragment : Fragment(),
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.toolbar_rank_cancel_button -> clearEnter()
+            R.id.toolbar_rank_cancel_button -> rankEnter.clear()
             R.id.toolbar_rank_add_button -> {
-                adapter.setList(vm.onAddEnd(clearEnter()))
+                adapter.setList(vm.onAddEnd(rankEnter.clear()))
 
                 val size = adapter.itemCount
                 val p = size - 1
@@ -224,7 +221,7 @@ class RankFragment : Fragment(),
     }
 
     override fun onLongClick(view: View): Boolean {
-        adapter.setList(vm.onAddStart(clearEnter()))
+        adapter.setList(vm.onAddStart(rankEnter.clear()))
 
         val size = adapter.itemCount
         val p = 0

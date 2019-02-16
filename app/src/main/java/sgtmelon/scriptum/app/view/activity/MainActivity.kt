@@ -16,8 +16,8 @@ import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.app.view.parent.BaseActivityParent
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.IntentDef
-import sgtmelon.scriptum.office.annot.def.TypeNoteDef
 import sgtmelon.scriptum.office.annot.key.MainPage
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.state.OpenState
 
 
@@ -87,8 +87,8 @@ class MainActivity : BaseActivityParent(),
             sheetDialog.dismiss()
 
             val type = when (it.itemId) {
-                R.id.item_add_text -> TypeNoteDef.text
-                else -> TypeNoteDef.roll
+                R.id.item_add_text -> NoteType.TEXT
+                else -> NoteType.ROLL
             }
 
             startActivity(NoteActivity.getIntent(this@MainActivity, type))

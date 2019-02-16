@@ -16,6 +16,7 @@ import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.vm.fragment.note.ParentNoteViewModel;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
@@ -25,7 +26,7 @@ public final class NoteViewModel extends AndroidViewModel {
     private final Context context;
 
     private boolean ntCreate;
-    private int ntType;
+    private NoteType noteType;
     private long ntId;
 
     private NoteState noteState;
@@ -44,7 +45,7 @@ public final class NoteViewModel extends AndroidViewModel {
 
     public void setValue(Bundle bundle) {
         ntCreate = bundle.getBoolean(IntentDef.NOTE_CREATE);
-        ntType = bundle.getInt(IntentDef.NOTE_TYPE);
+        noteType = NoteType.values()[bundle.getInt(IntentDef.NOTE_TYPE)];
         ntId = bundle.getLong(IntentDef.NOTE_ID);
 
         if (noteRepo == null) {
@@ -52,8 +53,8 @@ public final class NoteViewModel extends AndroidViewModel {
         }
     }
 
-    public int getNtType() {
-        return ntType;
+    public NoteType getNoteType() {
+        return noteType;
     }
 
     public long getNtId() {
@@ -89,7 +90,7 @@ public final class NoteViewModel extends AndroidViewModel {
             final String create = TimeUtils.INSTANCE.getTime(context);
             final int color = new PrefUtils(context).getDefaultColor();
 
-            final NoteItem noteItem = new NoteItem(create, color, ntType);
+            final NoteItem noteItem = new NoteItem(create, color, noteType);
             final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
             noteRepo = new NoteRepo(noteItem, new ArrayList<>(), statusItem);
