@@ -13,11 +13,13 @@ object AppUtils {
 
     // TODO раскидать по разным Utils
 
+    //TODO вынести в родительский адаптер просто и добавить другие обновления
     fun <T> ParentAdapter<T, RecyclerView.ViewHolder>.notifyItemChanged(list: MutableList<T>, p: Int) {
         setList(list)
         notifyItemChanged(p)
     }
 
+    //TODO вынести в родительский адаптер просто и добавить другие обновления
     fun <T> ParentAdapter<T, RecyclerView.ViewHolder>.notifyItemRemoved(list: MutableList<T>, p: Int) {
         setList(list)
         notifyItemRemoved(p)

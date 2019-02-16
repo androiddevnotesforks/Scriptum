@@ -72,10 +72,8 @@ class MainActivity : BaseActivityParent(),
     }
 
     private fun setupNavigation() {
-        fab.setOnClickListener {// TODO сделать с помощью extension
-            if (!openState.isOpen) {
-                openState.isOpen = true
-
+        fab.setOnClickListener {
+            openState.tryInvoke {
                 sheetDialog.setArguments(R.layout.sheet_add, R.id.add_navigation)
                 sheetDialog.show(supportFragmentManager, DialogDef.SHEET)
             }
@@ -96,7 +94,7 @@ class MainActivity : BaseActivityParent(),
             startActivity(NoteActivity.getIntent(this@MainActivity, type))
             return@OnNavigationItemSelectedListener true
         }
-        sheetDialog.dismissListener = DialogInterface.OnDismissListener { openState.isOpen = false }
+        sheetDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun changeFabState(state: Boolean) = fab.setState(state)

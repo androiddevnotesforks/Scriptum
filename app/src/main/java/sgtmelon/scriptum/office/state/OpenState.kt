@@ -7,4 +7,15 @@ class OpenState {
 
     var isOpen: Boolean = false
 
+    fun tryInvoke(function: () -> Unit) {
+        if (!isOpen) {
+            isOpen = true
+            function.invoke()
+        }
+    }
+
+    fun clear() {
+        isOpen = false
+    }
+
 }

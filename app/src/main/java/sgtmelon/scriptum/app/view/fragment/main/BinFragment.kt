@@ -38,7 +38,7 @@ class BinFragment : Fragment(),
         ItemIntf.LongClickListener,
         DialogInterface.OnClickListener {
 
-    private val openSt = OpenState()
+    private val openState = OpenState()
 
     private lateinit var activity: Activity
     private lateinit var binding: FragmentBinBinding
@@ -90,7 +90,7 @@ class BinFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState != null) {
-            openSt.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            openState.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
         }
 
         setupToolbar()
@@ -99,7 +99,7 @@ class BinFragment : Fragment(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(IntentDef.STATE_OPEN, openSt.isOpen)
+        outState.putBoolean(IntentDef.STATE_OPEN, openState.isOpen)
     }
 
     private fun bind() {
@@ -111,29 +111,21 @@ class BinFragment : Fragment(),
         toolbar?.title = getString(R.string.title_bin)
         toolbar?.inflateMenu(R.menu.fragment_bin)
         toolbar?.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.item_clear -> {
-                    if (!openSt.isOpen) {
-                        openSt.isOpen = true
-                        clearBinDialog.show(fragmentManager, DialogDef.CLEAR_BIN)
-                    }
-                    true
-                }
-                else -> false
-            }
+            openState.tryInvoke { clearBinDialog.show(fragmentManager, DialogDef.CLEAR_BIN) }
+            return@setOnMenuItemClickListener true
         }
 
         itemClearBin.tintIcon(activity)
 
         clearBinDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            adapter.setList(vm.onClear())
+            adapter.setList(vm.onClear()) //TODO extension
             adapter.notifyDataSetChanged()
 
             itemClearBin?.isVisible = false
             bind()
         }
 
-        clearBinDialog.dismissListener = DialogInterface.OnDismissListener { openSt.isOpen = false }
+        clearBinDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     private fun setupRecycler() {
@@ -149,7 +141,7 @@ class BinFragment : Fragment(),
         optionsDialog.onClickListener = this
     }
 
-    private fun updateAdapter() {
+    private fun updateAdapter() { //TODO extension
         adapter.setList(vm.loadData())
         adapter.notifyDataSetChanged()
 

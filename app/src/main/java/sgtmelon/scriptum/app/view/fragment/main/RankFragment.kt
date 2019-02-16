@@ -181,7 +181,7 @@ class RankFragment : Fragment(),
             adapter.setListItem(p, rankItem)
             adapter.notifyItemChanged(p)
         }
-        renameDialog.dismissListener = DialogInterface.OnDismissListener { openState.isOpen = false }
+        renameDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     private fun updateAdapter() {
@@ -246,9 +246,7 @@ class RankFragment : Fragment(),
 
         when (view.id) {
             R.id.rank_visible_button -> adapter.setListItem(p, vm.onUpdateVisible(p))
-            R.id.rank_click_container -> if (!openState.isOpen) {
-                openState.isOpen = true
-
+            R.id.rank_click_container -> openState.tryInvoke {
                 val rankRepo = vm.rankRepo
                 val rankItem = rankRepo.listRank[p]
 
