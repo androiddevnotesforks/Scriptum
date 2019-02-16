@@ -19,7 +19,7 @@ import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.key.MainPage
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.state.OpenState
-
+import sgtmelon.scriptum.office.utils.AppUtils.setState
 
 class MainActivity : BaseActivityParent(),
         MainCallback,
@@ -48,7 +48,9 @@ class MainActivity : BaseActivityParent(),
 
     private val sheetDialog by lazy { DialogFactory.getSheetDialog(fm) }
 
-    private val fab by lazy { findViewById<FloatingActionButton>(R.id.main_add_fab) }
+    private val fab: FloatingActionButton by lazy {
+        findViewById<FloatingActionButton>(R.id.main_add_fab)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +72,7 @@ class MainActivity : BaseActivityParent(),
     }
 
     private fun setupNavigation() {
-        fab.setOnClickListener {
+        fab.setOnClickListener {// TODO сделать с помощью extension
             if (!openState.isOpen) {
                 openState.isOpen = true
 
@@ -97,18 +99,9 @@ class MainActivity : BaseActivityParent(),
         sheetDialog.dismissListener = DialogInterface.OnDismissListener { openState.isOpen = false }
     }
 
-    override fun changeFabState(show: Boolean) = when (show) {
-        true -> {
-            fab.isEnabled = true
-            fab.show()
-        }
-        false -> {
-            fab.isEnabled = false
-            fab.hide()
-        }
-    }
+    override fun changeFabState(state: Boolean) = fab.setState(state)
 
-    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
+    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean { // TODO Оптимизировать
         val pageFrom = enumValues<MainPage.Name>()[page]
         val pageTo = when (menuItem.itemId) {
             R.id.item_page_rank -> MainPage.Name.RANK

@@ -8,9 +8,9 @@ import sgtmelon.safedialog.library.color.ColorDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.element.InfoDialog
 import sgtmelon.scriptum.element.SortDialog
-import sgtmelon.scriptum.office.annot.ColorAnn
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.office.data.ColorData
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 object DialogFactory {
@@ -69,14 +69,14 @@ object DialogFactory {
 
         when (PrefUtils(context).theme) {
             ThemeDef.light -> {
-                dialog.fillColor = ColorAnn.cl_light
-                dialog.strokeColor = ColorAnn.cl_dark
-                dialog.checkColor = ColorAnn.cl_dark
+                dialog.fillColor = ColorData.light
+                dialog.strokeColor = ColorData.dark
+                dialog.checkColor = ColorData.dark
             }
             ThemeDef.dark -> {
-                dialog.fillColor = ColorAnn.cl_dark
-                dialog.strokeColor = ColorAnn.cl_dark
-                dialog.checkColor = ColorAnn.cl_light
+                dialog.fillColor = ColorData.dark
+                dialog.strokeColor = ColorData.dark
+                dialog.checkColor = ColorData.light
             }
         }
 

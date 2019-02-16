@@ -6,7 +6,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.MenuItem
-
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
@@ -14,9 +13,9 @@ import androidx.annotation.FloatRange
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.ColorAnn
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.office.data.ColorData
 
 object ColorUtils {
 
@@ -31,15 +30,15 @@ object ColorUtils {
     fun get(context: Context, @ColorDef color: Int, needDark: Boolean): Int {
         return when (PrefUtils(context).theme) {
             ThemeDef.light -> {
-                if (needDark) ContextCompat.getColor(context, ColorAnn.cl_dark[color])
-                else ContextCompat.getColor(context, ColorAnn.cl_light[color])
+                if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
+                else ContextCompat.getColor(context, ColorData.light[color])
             }
             ThemeDef.dark -> {
-                if (needDark) ContextCompat.getColor(context, ColorAnn.cl_dark[color])
+                if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
                 else get(context, R.attr.clPrimary)
             }
             else -> {
-                if (needDark) ContextCompat.getColor(context, ColorAnn.cl_dark[color])
+                if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
                 else get(context, R.attr.clPrimary)
             }
         }

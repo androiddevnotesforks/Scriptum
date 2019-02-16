@@ -7,6 +7,6 @@ import sgtmelon.scriptum.app.view.activity.MainActivity
  */
 interface MainCallback {
 
-    fun changeFabState(show: Boolean)
+    fun changeFabState(state: Boolean)
 
 }

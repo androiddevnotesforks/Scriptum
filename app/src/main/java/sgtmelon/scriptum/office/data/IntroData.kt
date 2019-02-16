@@ -1,13 +1,13 @@
-package sgtmelon.scriptum.office.annot;
+package sgtmelon.scriptum.office.data
 
-import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.R
 
 /**
  * Аннотация для отображения информации во вступлении
  */
-public @interface IntroAnn {
+object IntroData {
 
-    int[] icon = new int[]{
+    val icon = intArrayOf(
             R.drawable.ic_note_add,
             R.drawable.ic_palette,
             R.drawable.ic_bind_roll,
@@ -15,9 +15,9 @@ public @interface IntroAnn {
             R.drawable.ic_visible_enter,
             R.drawable.ic_preference,
             R.drawable.ic_bin
-    };
+    )
 
-    int[] title = new int[]{
+    val title = intArrayOf(
             R.string.info_intro_title_1,
             R.string.info_intro_title_2,
             R.string.info_intro_title_3,
@@ -25,9 +25,9 @@ public @interface IntroAnn {
             R.string.info_intro_title_5,
             R.string.info_intro_title_6,
             R.string.info_intro_title_7
-    };
+    )
 
-    int[] details = new int[]{
+    val details = intArrayOf(
             R.string.info_intro_details_1,
             R.string.info_intro_details_2,
             R.string.info_intro_details_3,
@@ -35,8 +35,8 @@ public @interface IntroAnn {
             R.string.info_intro_details_5,
             R.string.info_intro_details_6,
             R.string.info_intro_details_7
-    };
+    )
 
-    int count = icon.length;
+    val count = icon.size
 
 }

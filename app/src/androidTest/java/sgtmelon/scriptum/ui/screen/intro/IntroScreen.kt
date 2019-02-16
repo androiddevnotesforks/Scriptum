@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.intro
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.IntroAnn
+import sgtmelon.scriptum.office.data.IntroData
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.Scroll
 
@@ -13,7 +13,7 @@ class IntroScreen: ParentUi(){
 
     fun assert(func: IntroAssert.() -> Unit) = IntroAssert().apply { func() }
 
-    val count: Int get() = IntroAnn.count
+    val count: Int get() = IntroData.count
 
     fun onSwipe(scroll: Scroll) = action {
         when(scroll) {

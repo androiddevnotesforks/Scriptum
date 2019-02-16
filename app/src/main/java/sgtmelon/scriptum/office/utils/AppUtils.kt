@@ -4,9 +4,10 @@ import android.app.Activity
 import android.view.View
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import sgtmelon.scriptum.app.adapter.ParentAdapter
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
-import sgtmelon.scriptum.office.annot.IntroAnn
+import sgtmelon.scriptum.office.data.IntroData
 
 object AppUtils {
 
@@ -32,9 +33,9 @@ object AppUtils {
     }
 
     fun IncludeInfoBinding.bind(page: Int) {
-        icon = IntroAnn.icon[page]
-        title = IntroAnn.title[page]
-        details = IntroAnn.details[page]
+        icon = IntroData.icon[page]
+        title = IntroData.title[page]
+        details = IntroData.details[page]
 
         executePendingBindings()
     }
@@ -45,6 +46,15 @@ object AppUtils {
         val text = text.toString()
         setText("")
         return text
+    }
+
+    fun FloatingActionButton.setState(state: Boolean) {
+        isEnabled = state
+
+        when (state) {
+            true -> show()
+            false -> hide()
+        }
     }
 
 }
