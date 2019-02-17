@@ -5,17 +5,17 @@ package sgtmelon.scriptum.office.state
  */
 class OpenState {
 
-    var isOpen: Boolean = false
+    var value: Boolean = false
 
     fun tryInvoke(function: () -> Unit) {
-        if (!isOpen) {
-            isOpen = true
+        if (!value) {
+            value = true
             function.invoke()
         }
     }
 
     fun clear() {
-        isOpen = false
+        value = false
     }
 
 }

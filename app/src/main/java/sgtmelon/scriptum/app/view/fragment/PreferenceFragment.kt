@@ -76,7 +76,7 @@ class PreferenceFragment : android.preference.PreferenceFragment() {
         addPreferencesFromResource(R.xml.preference)
 
         if (savedInstanceState != null) {
-            openState.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            openState.value = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
         }
     }
 
@@ -91,7 +91,7 @@ class PreferenceFragment : android.preference.PreferenceFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putBoolean(IntentDef.STATE_OPEN, openState.isOpen)
+        outState.putBoolean(IntentDef.STATE_OPEN, openState.value)
     }
 
     private fun setupNotePref() {

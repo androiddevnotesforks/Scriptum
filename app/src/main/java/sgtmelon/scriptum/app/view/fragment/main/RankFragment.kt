@@ -86,7 +86,7 @@ class RankFragment : Fragment(),
         renameDialog = DialogFactory.getRenameDialog(activity, fragmentManager)
 
         if (savedInstanceState != null) {
-            openState.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            openState.value = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
         }
 
         setupToolbar(view)
@@ -103,7 +103,7 @@ class RankFragment : Fragment(),
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putBoolean(IntentDef.STATE_OPEN, openState.isOpen)
+        outState.putBoolean(IntentDef.STATE_OPEN, openState.value)
     }
 
     private fun bind(listSize: Int) {

@@ -89,7 +89,7 @@ class BinFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState != null) {
-            openState.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            openState.value = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
         }
 
         setupToolbar()
@@ -98,7 +98,7 @@ class BinFragment : Fragment(),
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(IntentDef.STATE_OPEN, openState.isOpen)
+        outState.putBoolean(IntentDef.STATE_OPEN, openState.value)
     }
 
     private fun bind() {

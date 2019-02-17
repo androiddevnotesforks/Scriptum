@@ -58,7 +58,7 @@ class MainActivity : BaseActivityParent(),
 
         if (savedInstanceState != null) {
             page = savedInstanceState.getInt(IntentDef.STATE_PAGE)
-            openState.isOpen = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            openState.value = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
         }
 
         setupNavigation()
@@ -68,7 +68,7 @@ class MainActivity : BaseActivityParent(),
         super.onSaveInstanceState(outState)
 
         outState.putInt(IntentDef.STATE_PAGE, page)
-        outState.putBoolean(IntentDef.STATE_OPEN, openState.isOpen)
+        outState.putBoolean(IntentDef.STATE_OPEN, openState.value)
     }
 
     private fun setupNavigation() {
