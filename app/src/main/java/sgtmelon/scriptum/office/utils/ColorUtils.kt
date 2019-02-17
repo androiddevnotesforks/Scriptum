@@ -88,14 +88,10 @@ object ColorUtils {
 
     /**
      * Получение покрашенного изображения
-     *
-     * @param id   - Идентификатор изображения
-     * @param attr - Аттрибут цвета
-     * @return - Покрашенное изображение
      */
-    fun getDrawable(context: Context, @DrawableRes id: Int, @AttrRes attr: Int): Drawable? {
-        val drawable = ContextCompat.getDrawable(context, id) ?: return null
-        drawable.setColorFilter(get(context, attr), PorterDuff.Mode.SRC_ATOP)
+    fun Context.getDrawable(@DrawableRes id: Int, @AttrRes attr: Int): Drawable? {
+        val drawable = ContextCompat.getDrawable(this, id) ?: return null
+        drawable.setColorFilter(get(this, attr), PorterDuff.Mode.SRC_ATOP)
 
         return drawable
     }

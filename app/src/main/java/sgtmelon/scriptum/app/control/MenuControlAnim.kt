@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.library.IconAnimUtil
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.utils.ColorUtils
+import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
 
 /**
  * Класс для контроля меню с использованием анимации | Для версий API >= 21
@@ -22,13 +22,11 @@ class MenuControlAnim(context: Context,
                       indicator: View
 ) : MenuControl(context, window, toolbar, indicator) {
 
-    private val cancelOnAnim = ColorUtils.getDrawable(
-            context, R.drawable.anim_cancel_enter, R.attr.clContent
-    ) as AnimatedVectorDrawable?
+    private val cancelOnAnim = context.getDrawable(R.drawable.anim_cancel_enter, R.attr.clContent)
+            as AnimatedVectorDrawable?
 
-    private val cancelOffAnim = ColorUtils.getDrawable(
-            context, R.drawable.anim_cancel_exit, R.attr.clContent
-    ) as AnimatedVectorDrawable?
+    private val cancelOffAnim = context.getDrawable(R.drawable.anim_cancel_exit, R.attr.clContent)
+            as AnimatedVectorDrawable?
 
     private val iconAnimUtil: IconAnimUtil = IconAnimUtil(
             context, cancelOnAnim!!, cancelOffAnim!!, this

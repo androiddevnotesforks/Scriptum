@@ -13,6 +13,7 @@ import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.ColorUtils
 import sgtmelon.scriptum.office.utils.ColorUtils.blend
+import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 /**
@@ -28,10 +29,8 @@ open class MenuControl(protected val context: Context,
 
     protected val anim: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
-    protected val cancelOn: Drawable = ColorUtils
-            .getDrawable(context, R.drawable.ic_cancel_enter, R.attr.clContent)!!
-    protected val cancelOff: Drawable = ColorUtils
-            .getDrawable(context, R.drawable.ic_cancel_exit, R.attr.clContent)!!
+    protected val cancelOn: Drawable = context.getDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)!!
+    protected val cancelOff: Drawable = context.getDrawable(R.drawable.ic_cancel_exit, R.attr.clContent)!!
 
     private val valTheme: Int = PrefUtils(context).theme
 
