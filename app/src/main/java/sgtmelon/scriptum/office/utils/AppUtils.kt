@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.office.utils
 
 import android.app.Activity
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import sgtmelon.scriptum.app.adapter.ParentAdapter
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 import sgtmelon.scriptum.office.data.IntroData
 
@@ -13,21 +13,16 @@ object AppUtils {
 
     // TODO раскидать по разным Utils
 
-    //TODO вынести в родительский адаптер просто и добавить другие обновления
-    fun <T> ParentAdapter<T, RecyclerView.ViewHolder>.notifyItemChanged(list: MutableList<T>, p: Int) {
-        setList(list)
-        notifyItemChanged(p)
-    }
-
-    //TODO вынести в родительский адаптер просто и добавить другие обновления
-    fun <T> ParentAdapter<T, RecyclerView.ViewHolder>.notifyItemRemoved(list: MutableList<T>, p: Int) {
-        setList(list)
-        notifyItemRemoved(p)
-    }
-
     fun Activity.beforeFinish(function: () -> Unit) {
         function.invoke()
         finish()
+    }
+
+    fun Activity.hideKeyboard() {
+        val view: View = currentFocus ?: return
+
+        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     fun View.change(alpha: Float, scale: Float) {

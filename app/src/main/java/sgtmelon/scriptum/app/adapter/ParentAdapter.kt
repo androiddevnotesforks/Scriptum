@@ -27,12 +27,37 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected construc
     }
 
     @CallSuper
-    open fun setListItem(position: Int, item: T) {
-        list[position] = item
+    open fun setListItem(p: Int, item: T) {
+        list[p] = item
     }
 
     override fun getItemCount(): Int {
         return list.size
+    }
+
+    fun notifyDataSetChanged(list: MutableList<T>) {
+        setList(list)
+        notifyDataSetChanged()
+    }
+
+    fun notifyItemChanged(list: MutableList<T>, p: Int) {
+        setList(list)
+        notifyItemChanged(p)
+    }
+
+    fun notifyItemChanged(item: T, p: Int) {
+        setListItem(p, item)
+        notifyItemChanged(p)
+    }
+
+    fun notifyItemRemoved(list: MutableList<T>, p: Int) {
+        setList(list)
+        notifyItemRemoved(p)
+    }
+
+    fun notifyItemInserted(list: MutableList<T>, p: Int) {
+        setList(list)
+        notifyItemInserted(p)
     }
 
 }

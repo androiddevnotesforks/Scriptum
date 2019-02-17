@@ -12,7 +12,7 @@ class CheckState {
     var isAll: Boolean = false
         private set
 
-    fun setAll(listRoll: List<RollItem>) {
+    fun setAll(listRoll: MutableList<RollItem>) {
         isAll = listRoll.isAllCheck()
     }
 

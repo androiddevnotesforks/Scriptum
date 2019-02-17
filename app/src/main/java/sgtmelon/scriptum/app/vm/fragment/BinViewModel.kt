@@ -18,7 +18,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
 
     private val listNoteRepo: MutableList<NoteRepo> = ArrayList()
 
-    fun loadData(): List<NoteRepo> {
+    fun loadData(): MutableList<NoteRepo> {
         val db = RoomDb.provideDb(context)
         listNoteRepo.clear()
         listNoteRepo.addAll(db.daoNote().get(context, true))

@@ -28,8 +28,6 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemIntf
-import sgtmelon.scriptum.office.utils.AppUtils.notifyItemChanged
-import sgtmelon.scriptum.office.utils.AppUtils.notifyItemRemoved
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 import sgtmelon.scriptum.office.utils.DialogUtils.setNotesArguments
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
@@ -135,9 +133,7 @@ class NotesFragment : Fragment(),
     }
 
     private fun updateAdapter() {
-        adapter.setList(vm.loadData())
-        adapter.notifyDataSetChanged()
-
+        adapter.notifyDataSetChanged(vm.loadData())
         bind()
     }
 

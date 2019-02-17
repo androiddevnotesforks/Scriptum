@@ -37,7 +37,7 @@ import sgtmelon.scriptum.office.intf.BindIntf;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.state.NoteState;
-import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.AppUtils;
 
 /**
  * Класс родитель для фрагментов редактирования заметок
@@ -206,7 +206,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     public final void onMenuRankClick() {
         Log.i(TAG, "onMenuRankClick");
 
-        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
+        AppUtils.INSTANCE.hideKeyboard(activity);
 
         rankDialog.setArguments(vm.onMenuRank());
         rankDialog.show(fm, DialogDef.RANK);
@@ -216,7 +216,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     public final void onMenuColorClick() {
         Log.i(TAG, "onMenuColorClick");
 
-        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
+        AppUtils.INSTANCE.hideKeyboard(activity);
 
         final int color = vm.getNoteColor();
 
@@ -238,8 +238,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     public final void onMenuConvertClick() {
         Log.i(TAG, "onMenuConvertClick");
 
-        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
-
+        AppUtils.INSTANCE.hideKeyboard(activity);
         convertDialog.show(fm, DialogDef.CONVERT);
     }
 

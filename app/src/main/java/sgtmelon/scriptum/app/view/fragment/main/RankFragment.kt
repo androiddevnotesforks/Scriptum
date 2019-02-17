@@ -178,16 +178,13 @@ class RankFragment : Fragment(),
 
             bind()
 
-            adapter.setListItem(p, rankItem)
-            adapter.notifyItemChanged(p)
+            adapter.notifyItemChanged(rankItem, p)
         }
         renameDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     private fun updateAdapter() {
-        adapter.setList(vm.loadData().listRank)
-        adapter.notifyDataSetChanged()
-
+        adapter.notifyDataSetChanged(vm.loadData().listRank)
         bind(adapter.itemCount)
     }
 
@@ -199,21 +196,20 @@ class RankFragment : Fragment(),
         when (v.id) {
             R.id.toolbar_rank_cancel_button -> rankEnter.clear()
             R.id.toolbar_rank_add_button -> {
-                adapter.setList(vm.onAddEnd(rankEnter.clear()))
-
+                val list = vm.onAddEnd(rankEnter.clear())
                 val size = adapter.itemCount
                 val p = size - 1
 
                 if (size == 1) {
                     bind(size)
-                    adapter.notifyItemInserted(p)
+                    adapter.notifyItemInserted(list, p)
                 } else {
                     if (layoutManager.findLastVisibleItemPosition() == p - 1) {
                         recyclerView?.scrollToPosition(p)
-                        adapter.notifyItemInserted(p)
+                        adapter.notifyItemInserted(list, p)
                     } else {
                         recyclerView?.smoothScrollToPosition(p)
-                        adapter.notifyDataSetChanged()
+                        adapter.notifyDataSetChanged(list)
                     }
                 }
             }
@@ -221,21 +217,20 @@ class RankFragment : Fragment(),
     }
 
     override fun onLongClick(view: View): Boolean {
-        adapter.setList(vm.onAddStart(rankEnter.clear()))
-
+        val list = vm.onAddStart(rankEnter.clear())
         val size = adapter.itemCount
         val p = 0
 
         if (size == 1) {
             bind(size)
-            adapter.notifyItemInserted(p)
+            adapter.notifyItemInserted(list, p)
         } else {
             if (layoutManager.findFirstVisibleItemPosition() == p) {
                 recyclerView?.scrollToPosition(p)
-                adapter.notifyItemInserted(p)
+                adapter.notifyItemInserted(list, p)
             } else {
                 recyclerView?.smoothScrollToPosition(p)
-                adapter.notifyDataSetChanged()
+                adapter.notifyDataSetChanged(list)
             }
         }
         return true
@@ -280,8 +275,7 @@ class RankFragment : Fragment(),
             }
         }
 
-        adapter.setList(listRank)
-        adapter.notifyDataSetChanged()
+        adapter.notifyDataSetChanged(listRank)
 
         vm.onUpdateVisible(listRank)
 

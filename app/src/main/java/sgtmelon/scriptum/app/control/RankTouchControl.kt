@@ -48,8 +48,7 @@ class RankTouchControl(private val vm: RankViewModel) : ItemTouchHelper.Callback
 
         val dragTo = viewHolder.adapterPosition
         if (dragFrom != dragTo) {
-            adapter.setList(vm.onUpdateDrag(dragFrom, dragTo))
-            adapter.notifyDataSetChanged()
+            adapter.notifyDataSetChanged(vm.onUpdateDrag(dragFrom, dragTo))
         }
     }
 

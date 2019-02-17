@@ -28,7 +28,6 @@ import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
-import sgtmelon.scriptum.office.utils.AppUtils.notifyItemRemoved
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 import sgtmelon.scriptum.office.utils.DialogUtils.setBinArguments
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
@@ -118,9 +117,7 @@ class BinFragment : Fragment(),
         itemClearBin.tintIcon(activity)
 
         clearBinDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            adapter.setList(vm.onClear()) //TODO extension
-            adapter.notifyDataSetChanged()
-
+            adapter.notifyDataSetChanged(vm.onClear())
             itemClearBin?.isVisible = false
             bind()
         }
@@ -141,10 +138,8 @@ class BinFragment : Fragment(),
         optionsDialog.onClickListener = this
     }
 
-    private fun updateAdapter() { //TODO extension
-        adapter.setList(vm.loadData())
-        adapter.notifyDataSetChanged()
-
+    private fun updateAdapter() {
+        adapter.notifyDataSetChanged(vm.loadData())
         itemClearBin?.isVisible = adapter.itemCount != 0
         bind()
     }

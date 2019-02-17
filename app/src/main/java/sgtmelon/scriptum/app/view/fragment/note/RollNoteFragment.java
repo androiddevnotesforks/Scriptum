@@ -43,6 +43,7 @@ import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.state.CheckState;
 import sgtmelon.scriptum.office.state.DragState;
 import sgtmelon.scriptum.office.state.NoteState;
+import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
@@ -117,8 +118,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
             listRoll.remove(p);
 
-            adapter.setList(listRoll);
-            adapter.notifyItemRemoved(p);
+            adapter.notifyItemRemoved(listRoll, p);
         }
 
         @Override
@@ -372,18 +372,16 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
         listRoll.add(p, rollItem);
 
-        adapter.setList(listRoll);
-
         final int visiblePs = scrollDown
                 ? layoutManager.findLastVisibleItemPosition() + 1
                 : layoutManager.findFirstVisibleItemPosition();
 
         if (visiblePs == p) {                          //Если видимая позиция равна позиции куда добавили пункт
             recyclerView.scrollToPosition(p);          //Прокручиваем до края, незаметно
-            adapter.notifyItemInserted(p);             //Добавляем элемент с анимацией
+            adapter.notifyItemInserted(listRoll, p);   //Добавляем элемент с анимацией
         } else {
             recyclerView.smoothScrollToPosition(p);    //Медленно прокручиваем, через весь список
-            adapter.notifyDataSetChanged();             //Добавляем элемент без анимации
+            adapter.notifyDataSetChanged(listRoll);    //Добавляем элемент без анимации
         }
     }
 
@@ -405,7 +403,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         adapter.setListItem(p, rollItem);
 
         final NoteItem noteItem = noteRepo.getNoteItem();
-        final int check = HelpUtils.Note.INSTANCE.getCheckCount(listRoll);
+        final int check = HelpUtils.Note.INSTANCE.getCheck(listRoll);
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
         noteItem.setText(check, listRoll.size());
 
@@ -433,8 +431,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         if (TextUtils.isEmpty(text)) {
             listRoll.remove(p);
 
-            adapter.setList(listRoll);
-            adapter.notifyItemRemoved(p);
+            adapter.notifyItemRemoved(listRoll, p);
         } else {
             final RollItem rollItem = listRoll.get(p);
             rollItem.setText(text);
@@ -450,7 +447,7 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     public void onClick(View v) {
         Log.i(TAG, "onClick");
 
-        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
+        AppUtils.INSTANCE.hideKeyboard(activity);
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
         final NoteState noteState = viewModel.getNoteState();
@@ -494,11 +491,11 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         if (listRoll.size() == 0) return false;
 
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
-        noteItem.setText(HelpUtils.Note.INSTANCE.getCheckCount(listRoll), listRoll.size());
+        noteItem.setText(HelpUtils.Note.INSTANCE.getCheck(listRoll), listRoll.size());
 
         //Переход в режим просмотра
         if (modeChange) {
-            HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
+            AppUtils.INSTANCE.hideKeyboard(activity);
             onMenuEditClick(false);
         }
 
@@ -605,23 +602,20 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
                     final int position = inputItem.getPosition();
                     listRoll.get(position).setText(inputItem.getValueFrom());
 
-                    adapter.setList(listRoll);
                     adapter.setCursorPosition(cursorItem.getValueFrom());
-                    adapter.notifyItemChanged(position);
+                    adapter.notifyItemChanged(listRoll, position);
                     break;
                 case InputDef.rollAdd:
                     listRoll.remove(inputItem.getPosition());
 
-                    adapter.setList(listRoll);
-                    adapter.notifyItemRemoved(inputItem.getPosition());
+                    adapter.notifyItemRemoved(listRoll, inputItem.getPosition());
                     break;
                 case InputDef.rollRemove:
                     rollItem = new RollItem(inputItem.getValueFrom());
                     listRoll.add(inputItem.getPosition(), rollItem);
 
-                    adapter.setList(listRoll);
                     adapter.setCursorPosition(rollItem.getText().length());
-                    adapter.notifyItemInserted(inputItem.getPosition());
+                    adapter.notifyItemInserted(listRoll, inputItem.getPosition());
                     break;
                 case InputDef.rollMove:
                     final int positionStart = Integer.parseInt(inputItem.getValueTo());
@@ -689,23 +683,19 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
                     final int position = inputItem.getPosition();
                     listRoll.get(position).setText(inputItem.getValueTo());
 
-                    adapter.setList(listRoll);
                     adapter.setCursorPosition(cursorItem.getValueTo());
-                    adapter.notifyItemChanged(position);
+                    adapter.notifyItemChanged(listRoll, position);
                     break;
                 case InputDef.rollAdd:
                     rollItem = new RollItem(inputItem.getValueTo());
                     listRoll.add(inputItem.getPosition(), rollItem);
 
-                    adapter.setList(listRoll);
                     adapter.setCursorPosition(rollItem.getText().length());
-                    adapter.notifyItemInserted(inputItem.getPosition());
+                    adapter.notifyItemInserted(listRoll, inputItem.getPosition());
                     break;
                 case InputDef.rollRemove:
                     listRoll.remove(inputItem.getPosition());
-
-                    adapter.setList(listRoll);
-                    adapter.notifyItemRemoved(inputItem.getPosition());
+                    adapter.notifyItemRemoved(listRoll, inputItem.getPosition());
                     break;
                 case InputDef.rollMove:
                     final int positionStart = Integer.parseInt(inputItem.getValueFrom());

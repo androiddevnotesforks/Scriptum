@@ -67,7 +67,7 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
 
             adapter.notifyItemChanged(position)
 
-            keys = HelpUtils.Sort.getSortByList(listSort)
+            keys = listSort.getSort()
 
             setEnable()
             return true
@@ -152,14 +152,12 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
 
         val sortItem = listSort[p]
 
-        val key = if (sortItem.key == SortDef.create) SortDef.change
-        else SortDef.create
+        val key = if (sortItem.key == SortDef.create) SortDef.change else SortDef.create
 
         sortItem.text = text[key]
         sortItem.key = key
 
-        adapter.setListItem(p, sortItem)
-        adapter.notifyItemChanged(p)
+        adapter.notifyItemChanged(sortItem, p)
 
         keys = listSort.getSort()
         setEnable()

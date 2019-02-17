@@ -30,7 +30,7 @@ import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.state.NoteState;
-import sgtmelon.scriptum.office.utils.HelpUtils;
+import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class TextNoteFragment extends NoteFragmentParent {
@@ -150,7 +150,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
     public void onClick(View v) {
         Log.i(TAG, "onClick");
 
-        HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
+        AppUtils.INSTANCE.hideKeyboard(activity);
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
         final NoteState noteState = viewModel.getNoteState();
@@ -192,7 +192,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
         noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
 
         if (modeChange) {
-            HelpUtils.INSTANCE.hideKeyboard(context, activity.getCurrentFocus());
+            AppUtils.INSTANCE.hideKeyboard(activity);
             onMenuEditClick(false);
         }
 
