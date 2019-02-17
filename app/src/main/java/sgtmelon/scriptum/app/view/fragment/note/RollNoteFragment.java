@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.app.view.fragment.note;
 
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -25,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RollAdapter;
+import sgtmelon.scriptum.app.control.RollTouchControl;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.CursorItem;
@@ -40,7 +40,6 @@ import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.state.CheckState;
-import sgtmelon.scriptum.office.state.DragState;
 import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
@@ -49,117 +48,11 @@ import sgtmelon.scriptum.office.utils.TimeUtils;
 public final class RollNoteFragment extends NoteFragmentParent implements ItemIntf.ClickListener,
         ItemIntf.RollWatcher {
 
-    private final DragState dragSt = new DragState();
     private final CheckState checkState = new CheckState();
 
     private FragmentRollNoteBinding binding;
 
     private RollAdapter adapter;
-
-    private final ItemTouchHelper.Callback touchCallback = new ItemTouchHelper.Callback() {
-
-        private int dragFrom = RecyclerView.NO_POSITION;
-        private int dragTo;
-
-        @Override
-        public int getMovementFlags(@NonNull RecyclerView recyclerView,
-                                    @NonNull RecyclerView.ViewHolder viewHolder) {
-            final boolean isEdit = noteCallback.getViewModel().getNoteState().isEdit();
-
-            final int flagsDrag = isEdit && dragSt.isDrag()
-                    ? ItemTouchHelper.UP | ItemTouchHelper.DOWN
-                    : 0;
-
-            final int flagsSwipe = isEdit
-                    ? ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT
-                    : 0;
-
-            return makeMovementFlags(flagsDrag, flagsSwipe);
-        }
-
-        @Override
-        public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
-            super.onSelectedChanged(viewHolder, actionState);
-
-            if (dragFrom != RecyclerView.NO_POSITION) return;
-
-            dragFrom = actionState == ItemTouchHelper.ACTION_STATE_DRAG
-                    ? viewHolder.getAdapterPosition()
-                    : RecyclerView.NO_POSITION;
-        }
-
-        @Override
-        public void clearView(@NonNull RecyclerView recyclerView,
-                              @NonNull RecyclerView.ViewHolder viewHolder) {
-            super.clearView(recyclerView, viewHolder);
-
-            dragTo = viewHolder.getAdapterPosition();
-
-            if (dragFrom == RecyclerView.NO_POSITION
-                    || dragTo == RecyclerView.NO_POSITION
-                    || dragFrom == dragTo) return;
-
-            inputControl.onRollMove(dragFrom, dragTo);
-            bindInput();
-
-            dragFrom = RecyclerView.NO_POSITION;
-        }
-
-        @Override
-        public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-            final int p = viewHolder.getAdapterPosition();
-            final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
-
-            inputControl.onRollRemove(p, listRoll.get(p).toString());
-            bindInput();
-
-            listRoll.remove(p);
-
-            adapter.notifyItemRemoved(listRoll, p);
-        }
-
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView,
-                              RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-            final int positionFrom = viewHolder.getAdapterPosition();
-            final int positionTo = target.getAdapterPosition();
-
-            final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
-            final RollItem rollItem = listRoll.get(positionFrom);
-
-            listRoll.remove(positionFrom);
-            listRoll.add(positionTo, rollItem);
-
-            adapter.setList(listRoll);
-            adapter.notifyItemMoved(positionFrom, positionTo);
-
-            return true;
-        }
-
-        @Override
-        public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
-                                @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
-                                int actionState, boolean isCurrentlyActive) {
-            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                final float itemWidth = viewHolder.itemView.getWidth();
-
-                //Конечная точка, где альфа = 0
-                final float targetX = itemWidth / 2;
-
-                //Сдвиг, между начальной точкой и конечной
-                final float translationX = dX > 0
-                        ? Math.abs(Math.min(dX, targetX))
-                        : Math.abs(Math.max(dX, -targetX));
-
-                final float alpha = 1.0f - translationX / targetX;
-
-                viewHolder.itemView.setAlpha((float) Math.max(alpha, 0.2));
-            }
-
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-        }
-
-    };
 
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
@@ -266,9 +159,15 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         layoutManager = new LinearLayoutManager(context);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new RollAdapter(
-                context, this, dragSt, this, inputControl, this
+        final RollTouchControl touchCallback = new RollTouchControl(
+                (RollNoteViewModel) vm, noteCallback, inputControl, this
         );
+
+        adapter = new RollAdapter(
+                context, this, touchCallback, this, inputControl, this
+        );
+
+        touchCallback.setAdapter(adapter);
 
         adapter.setNoteState(noteCallback.getViewModel().getNoteState());
 

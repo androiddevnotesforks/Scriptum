@@ -33,6 +33,8 @@ class MainActivity : BaseActivityParent(),
         // TODO: 20.01.2019 Разобраться со стилями
         // TODO: 27.01.2019 Добавить ещё одну тему
         // TODO: 22.11.2018 аннотация профессор
+
+        // TODO setHasFixedSize recyclerView
     }
 
     private var firstStart: Boolean = true
