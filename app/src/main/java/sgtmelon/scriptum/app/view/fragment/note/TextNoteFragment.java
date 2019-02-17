@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.view.fragment.note;
 
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,15 +34,11 @@ import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class TextNoteFragment extends NoteFragmentParent {
 
-    private static final String TAG = TextNoteFragment.class.getSimpleName();
-
     private FragmentTextNoteBinding binding;
 
     private EditText textEnter;
 
     public static TextNoteFragment getInstance(boolean rankEmpty) {
-        Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
-
         final TextNoteFragment textNoteFragment = new TextNoteFragment();
         final Bundle bundle = new Bundle();
 
@@ -57,7 +52,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text_note, container, false);
@@ -86,8 +80,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public void setupBinding() {
-        Log.i(TAG, "setupBinding");
-
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
         binding.setRankEmpty(rankEmpty);
@@ -96,8 +88,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public void bindEdit(boolean editMode) {
-        Log.i(TAG, "bindEdit: keyEdit=" + editMode);
-
         binding.setKeyEdit(editMode);
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
 
@@ -106,8 +96,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public void bindInput() {
-        Log.i(TAG, "bindInput");
-
         binding.setUndoAccess(inputControl.isUndoAccess());
         binding.setRedoAccess(inputControl.isRedoAccess());
         binding.setSaveEnabled(!TextUtils.isEmpty(textEnter.getText().toString()));
@@ -118,7 +106,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     protected void setupDialog() {
-        Log.i(TAG, "setupDialog");
         super.setupDialog();
 
         convertDialog.setMessage(getString(R.string.dialog_text_convert_to_roll));
@@ -127,7 +114,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     protected void setupEnter(@NonNull View view) {
-        Log.i(TAG, "setupEnter");
         super.setupEnter(view);
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
@@ -148,8 +134,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
      */
     @Override
     public void onClick(View v) {
-        Log.i(TAG, "onClick");
-
         AppUtils.INSTANCE.hideKeyboard(activity);
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
@@ -183,8 +167,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public boolean onMenuSaveClick(boolean modeChange, boolean showToast) {
-        Log.i(TAG, "onMenuSaveClick");
-
         final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
 
         if (TextUtils.isEmpty(noteItem.getText())) return false;
@@ -225,8 +207,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public void onUndoClick() {
-        Log.i(TAG, "onUndoClick");
-
         final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
@@ -274,8 +254,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public void onRedoClick() {
-        Log.i(TAG, "onRedoClick");
-
         final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
@@ -323,8 +301,6 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public void onMenuEditClick(boolean editMode) {
-        Log.i(TAG, "onMenuEditClick: " + editMode);
-
         inputControl.setEnabled(false);
         inputControl.setChangeEnabled(false);
 
@@ -349,7 +325,7 @@ public final class TextNoteFragment extends NoteFragmentParent {
 
     @Override
     public void onMenuCheckClick() {
-        Log.i(TAG, "onMenuCheckClick");
+
     }
 
 }

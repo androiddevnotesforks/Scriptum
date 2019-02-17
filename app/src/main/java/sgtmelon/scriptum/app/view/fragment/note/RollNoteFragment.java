@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +48,6 @@ import sgtmelon.scriptum.office.utils.TimeUtils;
 
 public final class RollNoteFragment extends NoteFragmentParent implements ItemIntf.ClickListener,
         ItemIntf.RollWatcher {
-
-    private static final String TAG = RollNoteFragment.class.getSimpleName();
 
     private final DragState dragSt = new DragState();
     private final CheckState checkState = new CheckState();
@@ -171,8 +168,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @NonNull
     public static RollNoteFragment getInstance(boolean rankEmpty) {
-        Log.i(TAG, "getInstance: rankEmpty=" + rankEmpty);
-
         final RollNoteFragment rollNoteFragment = new RollNoteFragment();
         final Bundle bundle = new Bundle();
 
@@ -184,7 +179,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void onResume() {
-        Log.i(TAG, "onResume");
         super.onResume();
 
         bindEnter(rollEnter.getText().toString());
@@ -195,7 +189,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
         super.onCreateView(inflater, container, savedInstanceState);
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_roll_note, container, false);
@@ -225,8 +218,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void setupBinding() {
-        Log.i(TAG, "setupBinding");
-
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
         binding.setRankEmpty(rankEmpty);
@@ -235,8 +226,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void bindEdit(boolean editMode) {
-        Log.i(TAG, "bindEdit: keyEdit=" + editMode);
-
         binding.setKeyEdit(editMode);
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
 
@@ -244,16 +233,12 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     }
 
     private void bindEnter(String enterText) {
-        Log.i(TAG, "bindEnter");
-
         binding.setEnterEmpty(TextUtils.isEmpty(enterText));
         binding.executePendingBindings();
     }
 
     @Override
     public void bindInput() {
-        Log.i(TAG, "bindInput");
-
         binding.setUndoAccess(inputControl.isUndoAccess());
         binding.setRedoAccess(inputControl.isRedoAccess());
         binding.setSaveEnabled(vm.getNoteRepo().getListRoll().size() != 0);
@@ -264,7 +249,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     protected void setupDialog() {
-        Log.i(TAG, "setupDialog");
         super.setupDialog();
 
         convertDialog.setMessage(getString(R.string.dialog_roll_convert_to_text));
@@ -272,8 +256,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     }
 
     private void setupRecycler(@NonNull View view) {
-        Log.i(TAG, "setupRecycler");
-
         recyclerView = view.findViewById(R.id.roll_note_recycler);
 
         final SimpleItemAnimator animator = (SimpleItemAnimator) recyclerView.getItemAnimator();
@@ -298,7 +280,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     protected void setupEnter(@NonNull View view) {
-        Log.i(TAG, "setupEnter");
         super.setupEnter(view);
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
@@ -336,8 +317,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     }
 
     public void updateAdapter() {
-        Log.i(TAG, "updateAdapter");
-
         final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
 
         checkState.setAll(listRoll);
@@ -349,8 +328,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     }
 
     private void scrollToInsert(boolean scrollDown) {
-        Log.i(TAG, "scrollToInsert");
-
         final String text = rollEnter.getText().toString();
 
         if (TextUtils.isEmpty(text)) return;
@@ -390,8 +367,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
      */
     @Override
     public void onItemClick(@NonNull View view, int p) {
-        Log.i(TAG, "onItemClick");
-
         if (p == RecyclerView.NO_POSITION) return;
 
         final NoteRepo noteRepo = vm.getNoteRepo();
@@ -424,8 +399,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void afterRollChanged(int p, @NonNull String text) {
-        Log.i(TAG, "afterRollChanged");
-
         final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
 
         if (TextUtils.isEmpty(text)) {
@@ -445,8 +418,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
      */
     @Override
     public void onClick(View v) {
-        Log.i(TAG, "onClick");
-
         AppUtils.INSTANCE.hideKeyboard(activity);
 
         final NoteViewModel viewModel = noteCallback.getViewModel();
@@ -482,8 +453,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public boolean onMenuSaveClick(boolean modeChange, boolean showToast) {
-        Log.i(TAG, "onMenuSaveClick");
-
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
         final List<RollItem> listRoll = noteRepo.getListRoll();
@@ -559,8 +528,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void onUndoClick() {
-        Log.i(TAG, "onUndoClick");
-
         final InputItem inputItem = inputControl.undo();
 
         if (inputItem != null) {
@@ -640,8 +607,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void onRedoClick() {
-        Log.i(TAG, "onRedoClick");
-
         final InputItem inputItem = inputControl.redo();
 
         if (inputItem != null) {
@@ -720,8 +685,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void onMenuEditClick(boolean editMode) {
-        Log.i(TAG, "onMenuEditClick: " + editMode);
-
         inputControl.setEnabled(false);
         inputControl.setChangeEnabled(false);
 
@@ -747,8 +710,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
     @Override
     public void onMenuCheckClick() {
-        Log.i(TAG, "onMenuCheckClick");
-
         final NoteItem noteItem = ((RollNoteViewModel) vm).onMenuCheck(checkState.isAll());
         binding.setNoteItem(noteItem);
         binding.executePendingBindings();

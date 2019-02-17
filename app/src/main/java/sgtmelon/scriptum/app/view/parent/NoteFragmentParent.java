@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,8 +45,6 @@ import sgtmelon.scriptum.office.utils.AppUtils;
 public abstract class NoteFragmentParent extends Fragment implements
         View.OnClickListener, BindIntf, MenuIntf.Note.NoteMenuClick {
 
-    private static final String TAG = NoteFragmentParent.class.getSimpleName();
-
     protected final InputControl inputControl = new InputControl();
 
     // TODO: 17.12.2018 сделать долгое нажатие undo/redo
@@ -61,7 +58,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     protected EditText nameEnter;
 
     protected ParentNoteViewModel vm;
-    protected FragmentManager fm;
+    private FragmentManager fm;
     protected RoomDb db;
 
     protected boolean rankEmpty;
@@ -73,8 +70,7 @@ public abstract class NoteFragmentParent extends Fragment implements
     private MultiplyDialog rankDialog;
 
     @Override
-    public void onAttach(Context context) {
-        Log.i(TAG, "onAttach");
+    public void onAttach(Context context) { // TODO as ?:
         super.onAttach(context);
 
         this.context = context;
@@ -84,14 +80,14 @@ public abstract class NoteFragmentParent extends Fragment implements
             noteCallback = (NoteCallback) context;
         } else {
             throw new ClassCastException(NoteCallback.class.getSimpleName() +
-                    " interface not installed in " + TAG);
+                    " interface not installed");
         }
 
         if (context instanceof MenuIntf.Note.DeleteMenuClick) {
             deleteMenuClick = (MenuIntf.Note.DeleteMenuClick) context;
         } else {
             throw new ClassCastException(MenuIntf.Note.DeleteMenuClick.class.getSimpleName() +
-                    " interface not installed in " + TAG);
+                    " interface not installed");
         }
 
     }
@@ -100,8 +96,6 @@ public abstract class NoteFragmentParent extends Fragment implements
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView");
-
         fm = getFragmentManager();
 
         return super.onCreateView(inflater, container, savedInstanceState);
@@ -143,8 +137,6 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     @CallSuper
     protected void setupToolbar(@NonNull View view) {
-        Log.i(TAG, "setupToolbar");
-
         final Toolbar toolbar = view.findViewById(R.id.toolbar_note_container);
         final View indicator = view.findViewById(R.id.toolbar_note_color_view);
 
@@ -164,8 +156,6 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     @CallSuper
     protected void setupDialog() {
-        Log.i(TAG, "setupDialog");
-
         colorDialog.setTitle(getString(R.string.dialog_title_color));
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             final int check = colorDialog.getCheck();
@@ -185,8 +175,6 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     @CallSuper
     protected void setupEnter(@NonNull View view) {
-        Log.i(TAG, "setupEnter");
-
         nameEnter = view.findViewById(R.id.toolbar_note_enter);
         nameEnter.addTextChangedListener(
                 new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
@@ -204,8 +192,6 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     @Override
     public final void onMenuRankClick() {
-        Log.i(TAG, "onMenuRankClick");
-
         AppUtils.INSTANCE.hideKeyboard(activity);
 
         rankDialog.setArguments(vm.onMenuRank());
@@ -214,8 +200,6 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     @Override
     public final void onMenuColorClick() {
-        Log.i(TAG, "onMenuColorClick");
-
         AppUtils.INSTANCE.hideKeyboard(activity);
 
         final int color = vm.getNoteColor();
@@ -228,16 +212,12 @@ public abstract class NoteFragmentParent extends Fragment implements
 
     @Override
     public final void onMenuBindClick() {
-        Log.i(TAG, "onMenuBindClick");
-
         vm.onMenuBind();
         bindEdit(false); // TODO save
     }
 
     @Override
     public final void onMenuConvertClick() {
-        Log.i(TAG, "onMenuConvertClick");
-
         AppUtils.INSTANCE.hideKeyboard(activity);
         convertDialog.show(fm, DialogDef.CONVERT);
     }
