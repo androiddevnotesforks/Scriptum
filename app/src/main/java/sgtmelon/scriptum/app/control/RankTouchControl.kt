@@ -4,7 +4,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.view.fragment.main.RankFragment
-import sgtmelon.scriptum.app.vm.fragment.RankViewModel
+import sgtmelon.scriptum.app.vm.fragment.main.RankViewModel
 import sgtmelon.scriptum.office.intf.ItemIntf
 
 /**

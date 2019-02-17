@@ -21,7 +21,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.view.activity.NoteActivity
-import sgtmelon.scriptum.app.vm.fragment.BinViewModel
+import sgtmelon.scriptum.app.vm.fragment.main.BinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.IntentDef

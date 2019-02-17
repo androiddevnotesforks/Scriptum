@@ -22,7 +22,7 @@ import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity
 import sgtmelon.scriptum.app.view.callback.MainCallback
-import sgtmelon.scriptum.app.vm.fragment.NotesViewModel
+import sgtmelon.scriptum.app.vm.fragment.main.NotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
