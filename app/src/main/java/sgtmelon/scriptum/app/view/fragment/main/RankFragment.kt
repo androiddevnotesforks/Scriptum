@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.safedialog.library.RenameDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RankAdapter
-import sgtmelon.scriptum.app.control.RankTouchControl
+import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.vm.fragment.main.RankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding

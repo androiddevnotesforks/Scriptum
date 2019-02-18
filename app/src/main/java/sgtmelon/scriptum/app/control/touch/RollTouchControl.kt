@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.control
+package sgtmelon.scriptum.app.control.touch
 
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
