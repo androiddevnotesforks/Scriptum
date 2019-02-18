@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.view.activity.IntroActivity"
+            android:name="sgtmelon.scriptum.app.ui.intro.IntroActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="sgtmelon.scriptum.app.ui.splash.SplashActivity"
             android:theme="@style/App.Intro">

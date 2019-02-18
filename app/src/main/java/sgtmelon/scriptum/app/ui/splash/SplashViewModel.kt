@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
-import sgtmelon.scriptum.app.view.activity.IntroActivity
+import sgtmelon.scriptum.app.ui.intro.IntroActivity
 import sgtmelon.scriptum.app.view.activity.MainActivity
 import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.office.utils.PrefUtils

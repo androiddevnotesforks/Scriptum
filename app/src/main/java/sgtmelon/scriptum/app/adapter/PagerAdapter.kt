@@ -2,8 +2,8 @@ package sgtmelon.scriptum.app.adapter
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import sgtmelon.scriptum.app.view.activity.IntroActivity
-import sgtmelon.scriptum.app.view.fragment.IntroFragment
+import sgtmelon.scriptum.app.ui.intro.IntroActivity
+import sgtmelon.scriptum.app.ui.intro.IntroFragment
 import java.util.*
 
 /**
@@ -15,6 +15,13 @@ class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     fun addItem(introFragment: IntroFragment) {
         itemList.add(introFragment)
+    }
+
+    fun notifyItem(position: Int, positionOffset: Float) {
+        val alpha = Math.max(0.2F, positionOffset)
+        val scale = Math.max(0.75F,  positionOffset)
+
+        getItem(position).setChange(alpha, scale)
     }
 
     override fun getItem(position: Int): IntroFragment {
