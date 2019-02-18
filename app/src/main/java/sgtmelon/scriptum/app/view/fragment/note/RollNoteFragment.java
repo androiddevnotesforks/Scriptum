@@ -16,7 +16,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -84,7 +83,9 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
                              @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_roll_note, container, false);
+        binding = AppUtils.INSTANCE.inflateBinding(
+                inflater, R.layout.fragment_roll_note, container, false
+        );
 
         vm = ViewModelProviders.of(this).get(RollNoteViewModel.class);
         vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());

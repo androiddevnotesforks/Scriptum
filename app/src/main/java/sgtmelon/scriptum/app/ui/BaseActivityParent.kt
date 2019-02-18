@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.parent
+package sgtmelon.scriptum.app.ui
 
 import android.content.Intent
 import android.os.Bundle

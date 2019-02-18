@@ -5,6 +5,10 @@ package sgtmelon.scriptum.office.state
  */
 class OpenState {
 
+    companion object {
+        const val KEY = "INTENT_STATE_OPEN"
+    }
+
     var value: Boolean = false
 
     fun tryInvoke(function: () -> Unit) {

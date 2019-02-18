@@ -75,9 +75,7 @@ object ColorUtils {
     /**
      * Покараска элемента меню в стандартный цвет
      */
-    fun MenuItem?.tintIcon(context: Context) {
-        if (this == null) return
-
+    fun MenuItem.tintIcon(context: Context) {
         val drawable = this.icon
         val wrapDrawable = DrawableCompat.wrap(drawable)
 

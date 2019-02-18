@@ -7,7 +7,6 @@ import androidx.annotation.StringDef;
  */
 @StringDef({
         IntentDef.STATE_PAGE,
-        IntentDef.STATE_OPEN,
 
         IntentDef.NOTE_CREATE,
         IntentDef.NOTE_ID,
@@ -17,8 +16,7 @@ import androidx.annotation.StringDef;
 })
 public @interface IntentDef {
 
-    String STATE_PAGE = "INTENT_STATE_PAGE",
-            STATE_OPEN = "INTENT_STATE_OPEN";
+    String STATE_PAGE = "INTENT_STATE_PAGE";
 
     String NOTE_CREATE = "INTENT_NOTE_CREATE",
             NOTE_ID = "INTENT_NOTE_ID",

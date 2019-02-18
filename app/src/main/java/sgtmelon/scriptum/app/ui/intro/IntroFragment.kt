@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 import sgtmelon.scriptum.office.utils.AppUtils.bind
 import sgtmelon.scriptum.office.utils.AppUtils.change
+import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
  * Фрагмент страницы для вступления [IntroActivity]
@@ -40,9 +40,7 @@ class IntroFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.include_info, container, false
-        )
+        binding = inflater.inflateBinding(R.layout.include_info, container)
         return binding.root
     }
 

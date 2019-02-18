@@ -12,7 +12,6 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
@@ -54,7 +53,9 @@ public final class TextNoteFragment extends NoteFragmentParent {
                              @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_text_note, container, false);
+        binding = AppUtils.INSTANCE.inflateBinding(
+                inflater, R.layout.fragment_text_note, container, false
+        );
 
         vm = ViewModelProviders.of(this).get(TextNoteViewModel.class);
         vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());

@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
+import sgtmelon.scriptum.app.ui.BaseActivityParent
 import sgtmelon.scriptum.app.view.callback.NoteCallback
 import sgtmelon.scriptum.app.view.fragment.note.RollNoteFragment
 import sgtmelon.scriptum.app.view.fragment.note.TextNoteFragment
-import sgtmelon.scriptum.app.view.parent.BaseActivityParent
 import sgtmelon.scriptum.app.vm.activity.NoteViewModel
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.key.NoteType

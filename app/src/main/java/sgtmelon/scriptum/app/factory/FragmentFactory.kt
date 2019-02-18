@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.app.factory
 
 import androidx.fragment.app.FragmentManager
-import sgtmelon.scriptum.app.view.fragment.main.BinFragment
-import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
-import sgtmelon.scriptum.app.view.fragment.main.RankFragment
+import sgtmelon.scriptum.app.ui.main.bin.BinFragment
+import sgtmelon.scriptum.app.ui.main.notes.NotesFragment
+import sgtmelon.scriptum.app.ui.main.rank.RankFragment
 import sgtmelon.scriptum.office.annot.key.MainPage
 
 object FragmentFactory {

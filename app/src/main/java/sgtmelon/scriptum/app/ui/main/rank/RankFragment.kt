@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.fragment.main
+package sgtmelon.scriptum.app.ui.main.rank
 
 import android.app.Activity
 import android.content.Context
@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -26,13 +25,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
-import sgtmelon.scriptum.app.vm.fragment.main.RankViewModel
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
+import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import java.util.*
 
 class RankFragment : Fragment(),
@@ -72,9 +70,7 @@ class RankFragment : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_rank, container, false
-        )
+        binding = inflater.inflateBinding(R.layout.fragment_rank, container)
         vm.loadData()
 
         return binding.root
@@ -86,7 +82,7 @@ class RankFragment : Fragment(),
         renameDialog = DialogFactory.getRenameDialog(activity, fragmentManager)
 
         if (savedInstanceState != null) {
-            openState.value = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
         setupToolbar(view)
@@ -103,7 +99,7 @@ class RankFragment : Fragment(),
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putBoolean(IntentDef.STATE_OPEN, openState.value)
+        outState.putBoolean(OpenState.KEY, openState.value)
     }
 
     private fun bind(listSize: Int) {

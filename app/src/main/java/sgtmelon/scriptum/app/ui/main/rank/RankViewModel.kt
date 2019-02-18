@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.vm.fragment.main
+package sgtmelon.scriptum.app.ui.main.rank
 
 import android.app.Application
 import android.content.Context
@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.RankRepo
 import sgtmelon.scriptum.app.model.item.RankItem
-import sgtmelon.scriptum.app.view.fragment.main.RankFragment
 
 /**
  * ViewModel для [RankFragment]

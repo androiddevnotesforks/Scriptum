@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.vm.fragment.main
+package sgtmelon.scriptum.app.ui.main.notes
 
 import android.app.Application
 import android.content.Context
@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
-import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
 import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.TimeUtils

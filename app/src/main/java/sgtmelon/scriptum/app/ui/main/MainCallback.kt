@@ -1,6 +1,4 @@
-package sgtmelon.scriptum.app.view.callback
-
-import sgtmelon.scriptum.app.view.activity.MainActivity
+package sgtmelon.scriptum.app.ui.main
 
 /**
  * Интерфейс для общения с [MainActivity]

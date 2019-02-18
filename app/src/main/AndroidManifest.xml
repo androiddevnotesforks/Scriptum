@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.view.activity.MainActivity"
+            android:name="sgtmelon.scriptum.app.ui.main.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -43,7 +43,7 @@
 
         <activity
             android:name="sgtmelon.scriptum.app.view.activity.NoteActivity"
-            android:parentActivityName="sgtmelon.scriptum.app.view.activity.MainActivity">
+            android:parentActivityName="sgtmelon.scriptum.app.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -53,7 +53,7 @@
         <activity
             android:name="sgtmelon.scriptum.app.view.activity.PreferenceActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName="sgtmelon.scriptum.app.view.activity.MainActivity">
+            android:parentActivityName="sgtmelon.scriptum.app.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

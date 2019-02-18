@@ -21,7 +21,6 @@ import sgtmelon.scriptum.app.view.activity.PreferenceActivity
 import sgtmelon.scriptum.element.InfoDialog
 import sgtmelon.scriptum.element.SortDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.PrefUtils
@@ -76,7 +75,7 @@ class PreferenceFragment : android.preference.PreferenceFragment() {
         addPreferencesFromResource(R.xml.preference)
 
         if (savedInstanceState != null) {
-            openState.value = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
     }
 
@@ -91,7 +90,7 @@ class PreferenceFragment : android.preference.PreferenceFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putBoolean(IntentDef.STATE_OPEN, openState.value)
+        outState.putBoolean(OpenState.KEY, openState.value)
     }
 
     private fun setupNotePref() {

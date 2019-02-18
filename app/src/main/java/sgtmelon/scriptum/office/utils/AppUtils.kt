@@ -2,9 +2,13 @@ package sgtmelon.scriptum.office.utils
 
 import android.app.Activity
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 import sgtmelon.scriptum.office.data.IntroData
@@ -54,6 +58,11 @@ object AppUtils {
             true -> show()
             false -> hide()
         }
+    }
+
+    fun <T : ViewDataBinding> LayoutInflater.inflateBinding(layoutId: Int, parent: ViewGroup?,
+                                                            attachToParent: Boolean = false): T {
+        return DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
     }
 
 }

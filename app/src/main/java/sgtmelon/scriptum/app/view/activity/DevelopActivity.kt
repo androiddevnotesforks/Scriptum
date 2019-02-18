@@ -3,7 +3,7 @@ package sgtmelon.scriptum.app.view.activity
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.database.RoomDb
-import sgtmelon.scriptum.app.view.parent.BaseActivityParent
+import sgtmelon.scriptum.app.ui.BaseActivityParent
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 class DevelopActivity : BaseActivityParent() {

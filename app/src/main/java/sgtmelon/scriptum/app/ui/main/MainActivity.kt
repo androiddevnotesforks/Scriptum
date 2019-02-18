@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.activity
+package sgtmelon.scriptum.app.ui.main
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -11,11 +11,11 @@ import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
-import sgtmelon.scriptum.app.view.callback.MainCallback
-import sgtmelon.scriptum.app.view.fragment.main.NotesFragment
-import sgtmelon.scriptum.app.view.parent.BaseActivityParent
+import sgtmelon.scriptum.app.ui.BaseActivityParent
+import sgtmelon.scriptum.app.ui.main.notes.NotesFragment
+
+import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.key.MainPage
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.state.OpenState
@@ -26,6 +26,8 @@ class MainActivity : BaseActivityParent(),
         BottomNavigationView.OnNavigationItemSelectedListener {
 
     companion object {
+        private const val PAGE_CURRENT = "INSTANCE_MAIN_PAGE_CURRENT"
+
         // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
         // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
         // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
@@ -42,13 +44,19 @@ class MainActivity : BaseActivityParent(),
 
     private val openState = OpenState()
 
-    private val fm by lazy { supportFragmentManager }
+    private val rankFragment by lazy {
+        FragmentFactory.getRankFragment(supportFragmentManager)
+    }
+    private val notesFragment by lazy {
+        FragmentFactory.getNotesFragment(supportFragmentManager)
+    }
+    private val binFragment by lazy {
+        FragmentFactory.getBinFragment(supportFragmentManager)
+    }
 
-    private val rankFragment by lazy { FragmentFactory.getRankFragment(fm) }
-    private val notesFragment by lazy { FragmentFactory.getNotesFragment(fm) }
-    private val binFragment by lazy { FragmentFactory.getBinFragment(fm) }
-
-    private val sheetDialog by lazy { DialogFactory.getSheetDialog(fm) }
+    private val sheetDialog by lazy {
+        DialogFactory.getSheetDialog(supportFragmentManager)
+    }
 
     private val fab: FloatingActionButton by lazy {
         findViewById<FloatingActionButton>(R.id.main_add_fab)
@@ -59,8 +67,8 @@ class MainActivity : BaseActivityParent(),
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState != null) {
-            page = savedInstanceState.getInt(IntentDef.STATE_PAGE)
-            openState.value = savedInstanceState.getBoolean(IntentDef.STATE_OPEN)
+            page = savedInstanceState.getInt(PAGE_CURRENT)
+            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
         setupNavigation()
@@ -69,8 +77,8 @@ class MainActivity : BaseActivityParent(),
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(IntentDef.STATE_PAGE, page)
-        outState.putBoolean(IntentDef.STATE_OPEN, openState.value)
+        outState.putInt(PAGE_CURRENT, page)
+        outState.putBoolean(OpenState.KEY, openState.value)
     }
 
     private fun setupNavigation() {
@@ -111,8 +119,8 @@ class MainActivity : BaseActivityParent(),
 
         page = pageTo.ordinal
 
-        val transaction = fm.beginTransaction()
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        val transaction = supportFragmentManager.beginTransaction()
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
         if (!firstStart && pageTo == pageFrom) {
             when (pageTo) {
@@ -131,14 +139,14 @@ class MainActivity : BaseActivityParent(),
 
             changeFabState(fragmentTo is NotesFragment)
 
-            if (fm.findFragmentByTag(pageTo.name) != null) {
+            if (supportFragmentManager.findFragmentByTag(pageTo.name) != null) {
                 transaction.show(fragmentTo)
                 fragmentTo.onResume()
             } else {
                 transaction.add(R.id.main_fragment_container, fragmentTo, pageTo.name)
             }
 
-            if (fm.findFragmentByTag(pageFrom.name) != null) {
+            if (supportFragmentManager.findFragmentByTag(pageFrom.name) != null) {
                 transaction.hide(when (pageFrom) {
                     MainPage.Name.RANK -> rankFragment
                     MainPage.Name.NOTES -> notesFragment

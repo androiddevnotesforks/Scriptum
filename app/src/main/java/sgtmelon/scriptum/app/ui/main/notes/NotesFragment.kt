@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view.fragment.main
+package sgtmelon.scriptum.app.ui.main.notes
 
 import android.app.Activity
 import android.content.Context
@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -19,15 +18,15 @@ import sgtmelon.safedialog.library.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
+import sgtmelon.scriptum.app.ui.main.MainCallback
 import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity
-import sgtmelon.scriptum.app.view.callback.MainCallback
-import sgtmelon.scriptum.app.vm.fragment.main.NotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 import sgtmelon.scriptum.office.utils.DialogUtils.setNotesArguments
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
@@ -81,9 +80,7 @@ class NotesFragment : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        binding = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_notes, container, false
-        )
+        binding = inflater.inflateBinding(R.layout.fragment_notes, container)
         return binding.root
     }
 
