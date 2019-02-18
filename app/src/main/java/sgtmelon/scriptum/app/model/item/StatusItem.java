@@ -14,7 +14,7 @@ import androidx.core.app.TaskStackBuilder;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
-import sgtmelon.scriptum.app.view.activity.SplashActivity;
+import sgtmelon.scriptum.app.ui.splash.SplashActivity;
 import sgtmelon.scriptum.office.utils.ColorUtils;
 
 /**
@@ -35,7 +35,7 @@ public final class StatusItem {
         this.context = context;
 
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(SplashActivity.Companion.getInstance(context, noteItem.getId()));
+        stackBuilder.addNextIntent(SplashActivity.Companion.getIntent(context, noteItem.getId()));
 
         pendingIntent = stackBuilder.getPendingIntent((int) noteItem.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 

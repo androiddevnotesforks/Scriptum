@@ -51,7 +51,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         viewPager.addOnPageChangeListener(this)
     }
 
-    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) { // TODO оптимизация extension
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         var targetAlpha = Math.max(0.2, (1 - positionOffset).toDouble()).toFloat()
         var targetScale = Math.max(0.75, (1 - positionOffset).toDouble()).toFloat()
 

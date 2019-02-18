@@ -45,7 +45,11 @@ class PrefUtils(context: Context) {
     var firstStart: Boolean
         get() {
             val def = resources.getBoolean(R.bool.pref_first_start_default)
-            return preferences.getBoolean(resources.getString(R.string.pref_first_start), def)
+            val value = preferences.getBoolean(resources.getString(R.string.pref_first_start), def)
+
+            if (value) firstStart = false
+
+            return value
         }
         set(isFirst) = preferences.edit().putBoolean(resources.getString(R.string.pref_first_start), isFirst).apply()
 
