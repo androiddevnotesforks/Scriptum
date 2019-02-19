@@ -99,11 +99,6 @@ class BinFragment : Fragment(),
         outState.putBoolean(OpenState.KEY, openState.value)
     }
 
-    override fun bind() {
-        binding.listEmpty = adapter.itemCount == 0
-        binding.executePendingBindings()
-    }
-
     private fun setupToolbar() {
         toolbar?.title = getString(R.string.title_bin)
         toolbar?.inflateMenu(R.menu.fragment_bin)
@@ -136,12 +131,17 @@ class BinFragment : Fragment(),
         }
     }
 
-    override fun notifyMenuClearBin() {
-        itemClearBin?.isVisible = adapter.itemCount != 0
+    override fun bind() {
+        binding.listEmpty = adapter.itemCount == 0
+        binding.executePendingBindings()
     }
 
     override fun scrollTop() {
         recyclerView?.smoothScrollToPosition(0)
+    }
+
+    override fun notifyMenuClearBin() {
+        itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
     override fun notifyDataSetChanged(list: MutableList<NoteRepo>) =
@@ -153,7 +153,7 @@ class BinFragment : Fragment(),
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
 
-        startActivity(NoteActivity.getIntent(activity, viewModel.getNoteItem(p).id))
+        startActivity(NoteActivity.getIntent(activity, viewModel.getNoteId(p)))
     }
 
     override fun onItemLongClick(view: View, p: Int): Boolean {

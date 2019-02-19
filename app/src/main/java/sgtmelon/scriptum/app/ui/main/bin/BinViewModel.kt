@@ -56,7 +56,9 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
         callback.notifyMenuClearBin()
     }
 
-    fun getNoteItem(p: Int): NoteItem = listNoteRepo[p].noteItem
+    private fun getNoteItem(p: Int): NoteItem = listNoteRepo[p].noteItem
+
+    fun getNoteId(p: Int): Long = getNoteItem(p).id
 
     private fun restoreItem(p: Int): MutableList<NoteRepo> {
         val db = RoomDb.provideDb(context)
