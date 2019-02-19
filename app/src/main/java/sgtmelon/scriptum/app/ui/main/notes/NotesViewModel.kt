@@ -109,7 +109,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         db.daoNote().update(noteItem)
         db.close()
 
-        noteRepo.update(check)
+        noteRepo.updateCheck(check)
         noteRepo.statusItem.updateNote(noteItem, true)
 
         return listNoteRepo
@@ -120,7 +120,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         val noteItem = noteRepo.noteItem
 
         noteItem.isStatus = !noteItem.isStatus
-        noteRepo.update(noteItem.isStatus)
+        noteRepo.updateStatus(noteItem.isStatus)
 
         val db = RoomDb.provideDb(context)
         db.daoNote().update(noteItem.id, noteItem.isStatus)
@@ -172,7 +172,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         if (noteItem.isStatus) db.daoNote().update(noteItem.id, false)
         db.close()
 
-        listNoteRepo[p].update(false)
+        listNoteRepo[p].updateStatus(false)
         listNoteRepo.removeAt(p)
 
         return listNoteRepo

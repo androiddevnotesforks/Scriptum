@@ -7,7 +7,7 @@ import sgtmelon.scriptum.app.control.InputControl
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.view.callback.NoteCallback
-import java.util.ArrayList
+import java.util.*
 
 abstract class ParentNoteViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -71,7 +71,7 @@ abstract class ParentNoteViewModel(application: Application) : AndroidViewModel(
         val noteItem = noteRepo.noteItem
 
         noteItem.isStatus = !noteItem.isStatus
-        noteRepo.update(noteItem.isStatus)
+        noteRepo.updateStatus(noteItem.isStatus)
 
         val db = RoomDb.provideDb(context)
         db.daoNote().update(noteItem.id, noteItem.isStatus)

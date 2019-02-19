@@ -143,7 +143,7 @@ public final class NoteViewModel extends AndroidViewModel {
         db.daoNote().delete(noteRepo.getNoteItem().getId());
         db.close();
 
-        noteRepo.update(false);
+        noteRepo.updateStatus(false);
     }
 
     public void onMenuDelete() {
@@ -156,7 +156,7 @@ public final class NoteViewModel extends AndroidViewModel {
 
         db.close();
 
-        noteRepo.update(false);
+        noteRepo.updateStatus(false);
     }
 
 }

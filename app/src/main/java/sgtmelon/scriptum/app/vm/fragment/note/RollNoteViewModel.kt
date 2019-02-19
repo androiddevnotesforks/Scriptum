@@ -35,7 +35,7 @@ class RollNoteViewModel(application: Application) : ParentNoteViewModel(applicat
         val size: Int = noteRepo.listRoll.size
         val check: Int = if (isAll) 0 else size
 
-        noteRepo.update(key)
+        noteRepo.updateCheck(key)
 
         val noteItem = noteRepo.noteItem
         noteItem.change = TimeUtils.getTime(context)

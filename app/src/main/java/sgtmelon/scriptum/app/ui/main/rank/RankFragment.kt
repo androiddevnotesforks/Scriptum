@@ -44,7 +44,7 @@ class RankFragment : Fragment(),
     private lateinit var activity: Activity
     private lateinit var binding: FragmentRankBinding
 
-    private val vm: RankViewModel by lazy {
+    private val viewModel: RankViewModel by lazy {
         ViewModelProviders.of(this).get(RankViewModel::class.java)
     }
     private val adapter: RankAdapter by lazy {
@@ -71,7 +71,8 @@ class RankFragment : Fragment(),
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = inflater.inflateBinding(R.layout.fragment_rank, container)
-        vm.loadData()
+
+        viewModel.loadData()
 
         return binding.root
     }
@@ -111,7 +112,7 @@ class RankFragment : Fragment(),
         val name = rankEnter?.text.toString().toUpperCase()
 
         binding.nameNotEmpty = !TextUtils.isEmpty(name)
-        binding.listNotContain = !vm.rankRepo.listName.contains(name)
+        binding.listNotContain = !viewModel.rankRepo.listName.contains(name)
         binding.executePendingBindings()
     }
 
@@ -135,7 +136,7 @@ class RankFragment : Fragment(),
             if (i == EditorInfo.IME_ACTION_DONE) {
                 val name = rankEnter?.text.toString().toUpperCase()
 
-                if (!TextUtils.isEmpty(name) && !vm.rankRepo.listName.contains(name)) {
+                if (!TextUtils.isEmpty(name) && !viewModel.rankRepo.listName.contains(name)) {
                     onClick(rankAdd)
                     return@setOnEditorActionListener true
                 } else {
@@ -152,7 +153,7 @@ class RankFragment : Fragment(),
     }
 
     private fun setupRecycler() {
-        val touchCallback = RankTouchControl(vm)
+        val touchCallback = RankTouchControl(viewModel)
         adapter.dragListener = touchCallback
         touchCallback.adapter = adapter
 
@@ -170,7 +171,7 @@ class RankFragment : Fragment(),
 
         renameDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             val p = renameDialog.position
-            val rankItem = vm.onDialogRename(p, renameDialog.name)
+            val rankItem = viewModel.onDialogRename(p, renameDialog.name)
 
             bind()
 
@@ -180,7 +181,7 @@ class RankFragment : Fragment(),
     }
 
     private fun updateAdapter() {
-        adapter.notifyDataSetChanged(vm.loadData().listRank)
+        adapter.notifyDataSetChanged(viewModel.loadData().listRank)
         bind(adapter.itemCount)
     }
 
@@ -192,7 +193,7 @@ class RankFragment : Fragment(),
         when (v.id) {
             R.id.toolbar_rank_cancel_button -> rankEnter.clear()
             R.id.toolbar_rank_add_button -> {
-                val list = vm.onAddEnd(rankEnter.clear())
+                val list = viewModel.onAddEnd(rankEnter.clear())
                 val size = adapter.itemCount
                 val p = size - 1
 
@@ -213,7 +214,7 @@ class RankFragment : Fragment(),
     }
 
     override fun onLongClick(view: View): Boolean {
-        val list = vm.onAddStart(rankEnter.clear())
+        val list = viewModel.onAddStart(rankEnter.clear())
         val size = adapter.itemCount
         val p = 0
 
@@ -236,16 +237,16 @@ class RankFragment : Fragment(),
         if (p == RecyclerView.NO_POSITION) return
 
         when (view.id) {
-            R.id.rank_visible_button -> adapter.setListItem(p, vm.onUpdateVisible(p))
+            R.id.rank_visible_button -> adapter.setListItem(p, viewModel.onUpdateVisible(p))
             R.id.rank_click_container -> openState.tryInvoke {
-                val rankRepo = vm.rankRepo
+                val rankRepo = viewModel.rankRepo
                 val rankItem = rankRepo.listRank[p]
 
                 renameDialog.setArguments(p, rankItem.name, ArrayList(rankRepo.listName))
                 renameDialog.show(fragmentManager, DialogDef.RENAME)
             }
             R.id.rank_cancel_button -> {
-                adapter.setList(vm.onCancel(p))
+                adapter.setList(viewModel.onCancel(p))
                 adapter.notifyItemRemoved(p)
             }
         }
@@ -254,7 +255,7 @@ class RankFragment : Fragment(),
     override fun onItemLongClick(view: View, p: Int): Boolean {
         if (p == RecyclerView.NO_POSITION) return false
 
-        val listRank = vm.rankRepo.listRank
+        val listRank = viewModel.rankRepo.listRank
 
         val startAnim = adapter.startAnim
         val clickVisible = listRank[p].isVisible
@@ -273,7 +274,7 @@ class RankFragment : Fragment(),
 
         adapter.notifyDataSetChanged(listRank)
 
-        vm.onUpdateVisible(listRank)
+        viewModel.onUpdateVisible(listRank)
 
         return true
     }
