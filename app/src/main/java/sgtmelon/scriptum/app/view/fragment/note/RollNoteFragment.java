@@ -267,8 +267,6 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
      */
     @Override
     public void onItemClick(@NonNull View view, int p) {
-        if (p == RecyclerView.NO_POSITION) return;
-
         final NoteRepo noteRepo = vm.getNoteRepo();
         final List<RollItem> listRoll = noteRepo.getListRoll();
 

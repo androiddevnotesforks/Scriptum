@@ -9,7 +9,7 @@ interface ItemIntf {
     }
 
     interface LongClickListener {
-        fun onItemLongClick(view: View, p: Int): Boolean
+        fun onItemLongClick(view: View, p: Int)
     }
 
     interface DragListener {

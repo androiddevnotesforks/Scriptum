@@ -11,6 +11,7 @@ import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
 
 /**
  * Держатель категори для [RankAdapter]
@@ -19,7 +20,8 @@ import sgtmelon.scriptum.office.intf.ItemIntf
 class RankHolder(private val binding: ItemRankBinding,
                  private val clickListener: ItemIntf.ClickListener,
                  private val longClickListener: ItemIntf.LongClickListener,
-                 private val dragListener: ItemIntf.DragListener) : RecyclerView.ViewHolder(binding.root),
+                 private val dragListener: ItemIntf.DragListener
+) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 
     private val clickView: View = itemView.findViewById(R.id.rank_click_container)
@@ -27,16 +29,22 @@ class RankHolder(private val binding: ItemRankBinding,
     private val visibleButton: SwitchButton = itemView.findViewById(R.id.rank_visible_button)
 
     init {
-        clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }
-        cancelButton.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }
+        clickView.setOnClickListener { v ->
+            checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
+        }
+        cancelButton.setOnClickListener { v ->
+            checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
+        }
 
         visibleButton.setOnClickListener { v ->
-            visibleButton.setDrawable(!binding.rankItem?.isVisible!!, true)
-            clickListener.onItemClick(v, adapterPosition)
+            checkNoPosition {
+                visibleButton.setDrawable(!binding.rankItem?.isVisible!!, true)
+                clickListener.onItemClick(v, adapterPosition)
+            }
         }
 
         visibleButton.setOnLongClickListener { v ->
-            longClickListener.onItemLongClick(v, adapterPosition)
+            checkNoPosition { longClickListener.onItemLongClick(v, adapterPosition) }
         }
 
         clickView.setOnTouchListener(this)

@@ -7,6 +7,7 @@ import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
 
 /**
  * Держатель заметки-текста для [NoteAdapter]
@@ -19,9 +20,11 @@ class NoteTextHolder(private val binding: ItemNoteTextBinding,
     private val clickView: View = itemView.findViewById(R.id.note_text_click_container)
 
     init {
-        clickView.setOnClickListener { v -> clickListener.onItemClick(v, adapterPosition) }
+        clickView.setOnClickListener { v ->
+            checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
+        }
         clickView.setOnLongClickListener { v ->
-            longClickListener.onItemLongClick(v, adapterPosition)
+            checkNoPosition { longClickListener.onItemLongClick(v, adapterPosition) }
         }
     }
 

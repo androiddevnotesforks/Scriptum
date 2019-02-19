@@ -2,13 +2,13 @@ package sgtmelon.scriptum.app.adapter
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RankHolder
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.ui.main.rank.RankFragment
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
  * Адаптер для [RankFragment]
@@ -20,7 +20,7 @@ class RankAdapter(context: Context,
 
     lateinit var dragListener: ItemIntf.DragListener
 
-    var startAnim: BooleanArray = BooleanArray(0)
+    var startAnim: BooleanArray = BooleanArray(size = 0)
 
     override fun setList(list: List<RankItem>) {
         super.setList(list)
@@ -28,9 +28,7 @@ class RankAdapter(context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankHolder {
-        val binding = DataBindingUtil.inflate<ItemRankBinding>(
-                inflater, R.layout.item_rank, parent, false
-        )
+        val binding: ItemRankBinding = inflater.inflateBinding(R.layout.item_rank, parent)
         return RankHolder(binding, clickListener, longClickListener, dragListener)
     }
 

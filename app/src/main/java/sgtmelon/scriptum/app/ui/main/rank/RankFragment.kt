@@ -234,8 +234,6 @@ class RankFragment : Fragment(),
     }
 
     override fun onItemClick(view: View, p: Int) {
-        if (p == RecyclerView.NO_POSITION) return
-
         when (view.id) {
             R.id.rank_visible_button -> adapter.setListItem(p, viewModel.onUpdateVisible(p))
             R.id.rank_click_container -> openState.tryInvoke {
@@ -252,9 +250,7 @@ class RankFragment : Fragment(),
         }
     }
 
-    override fun onItemLongClick(view: View, p: Int): Boolean {
-        if (p == RecyclerView.NO_POSITION) return false
-
+    override fun onItemLongClick(view: View, p: Int) {
         val listRank = viewModel.rankRepo.listRank
 
         val startAnim = adapter.startAnim
@@ -275,8 +271,6 @@ class RankFragment : Fragment(),
         adapter.notifyDataSetChanged(listRank)
 
         viewModel.onUpdateVisible(listRank)
-
-        return true
     }
 
 }

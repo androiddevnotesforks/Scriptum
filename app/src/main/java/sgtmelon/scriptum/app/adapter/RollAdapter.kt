@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.adapter
 
 import android.content.Context
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollReadHolder
@@ -15,6 +14,7 @@ import sgtmelon.scriptum.office.intf.BindIntf
 import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
  * Адаптер для [RollNoteFragment]
@@ -27,30 +27,30 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context, clickListener) {
 
     private companion object {
-        const val read = 0
-        const val write = 1
+        private const val UNDEFINED = -1
+
+        private const val read = 0
+        private const val write = 1
     }
 
     lateinit var noteState: NoteState
 
     var checkToggle: Boolean = false
-    var cursorPosition = -1
+    var cursorPosition = UNDEFINED
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType == read) {
             true -> {
-                val bindingRead = DataBindingUtil.inflate<ItemRollReadBinding>(
-                        inflater, R.layout.item_roll_read, parent, false
-                )
+                val binding: ItemRollReadBinding =
+                        inflater.inflateBinding(R.layout.item_roll_read, parent)
 
-                RollReadHolder(bindingRead, clickListener)
+                RollReadHolder(binding, clickListener)
             }
             false -> {
-                val bindingWrite = DataBindingUtil.inflate<ItemRollWriteBinding>(
-                        inflater, R.layout.item_roll_write, parent, false
-                )
+                val binding: ItemRollWriteBinding =
+                        inflater.inflateBinding(R.layout.item_roll_write, parent)
 
-                RollWriteHolder(bindingWrite, dragListener, rollWatcher, inputIntf, bindIntf)
+                RollWriteHolder(binding, dragListener, rollWatcher, inputIntf, bindIntf)
             }
         }
     }
@@ -58,14 +58,15 @@ class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = list[position]
 
-        if (holder is RollReadHolder) {
-            holder.bind(item, noteState, checkToggle)
-        } else if (holder is RollWriteHolder) {
-            holder.bind(item)
+        when (holder) {
+            is RollReadHolder -> holder.bind(item, noteState, checkToggle)
+            is RollWriteHolder -> {
+                holder.bind(item)
 
-            if (cursorPosition != -1) {
-                holder.setSelections(cursorPosition)
-                cursorPosition = -1
+                if (cursorPosition != UNDEFINED) {
+                    holder.setSelections(cursorPosition)
+                    cursorPosition = UNDEFINED
+                }
             }
         }
     }

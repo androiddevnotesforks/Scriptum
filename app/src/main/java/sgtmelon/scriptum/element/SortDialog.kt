@@ -62,7 +62,7 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
             adapter.setList(listSort)
             adapter.notifyItemMoved(positionFrom, positionTo)
 
-            val position = if (positionFrom == adapter.sortSt.end) positionTo
+            val position = if (positionFrom == adapter.sortState.end) positionTo
             else positionFrom
 
             adapter.notifyItemChanged(position)
@@ -148,7 +148,7 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
     }
 
     override fun onItemClick(view: View, p: Int) {
-        if (p == RecyclerView.NO_POSITION || p != adapter.sortSt.end) return
+        if (p == RecyclerView.NO_POSITION || p != adapter.sortState.end) return
 
         val sortItem = listSort[p]
 

@@ -148,19 +148,11 @@ class BinFragment : Fragment(),
     override fun notifyItemRemoved(list: MutableList<NoteRepo>, p: Int) =
             adapter.notifyItemRemoved(list, p)
 
-    override fun onItemClick(view: View, p: Int) {
-        if (p == RecyclerView.NO_POSITION) return
+    override fun onItemClick(view: View, p: Int) = startActivity(viewModel.openNote(p))
 
-        startActivity(viewModel.openNote(p))
-    }
-
-    override fun onItemLongClick(view: View, p: Int): Boolean {
-        if (p == RecyclerView.NO_POSITION) return false
-
+    override fun onItemLongClick(view: View, p: Int) {
         optionsDialog.setArguments(viewModel.showOptions(p), p)
         optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
-
-        return true
     }
 
 }

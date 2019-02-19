@@ -9,6 +9,7 @@ import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
 
 /**
  * Держатель пункта списка в состоянии просмотра для [RollAdapter]
@@ -25,8 +26,10 @@ class RollReadHolder(private val binding: ItemRollReadBinding,
 
     init {
         clickView.setOnClickListener { v ->
-            rollCheck.toggle()
-            clickListener.onItemClick(v, adapterPosition)
+            checkNoPosition {
+                rollCheck.toggle()
+                clickListener.onItemClick(v, adapterPosition)
+            }
         }
     }
 

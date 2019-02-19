@@ -11,7 +11,7 @@ class OpenState {
 
     var value: Boolean = false
 
-    fun tryInvoke(function: () -> Unit) {
+    inline fun tryInvoke(function: () -> Unit) {
         if (!value) {
             value = true
             function.invoke()
