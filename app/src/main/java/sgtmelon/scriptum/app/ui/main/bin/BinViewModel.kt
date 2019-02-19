@@ -3,9 +3,10 @@ package sgtmelon.scriptum.app.ui.main.bin
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
-import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 import sgtmelon.scriptum.office.utils.TimeUtils
@@ -46,23 +47,24 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
         callback.bind()
     }
 
+    fun openNote(p: Int) = NoteActivity.getIntent(context, listNoteRepo[p].noteItem.id)
+
+    fun showOptions(p: Int): Array<String> =
+            context.resources.getStringArray(R.array.dialog_menu_bin)
+
     fun onClickDialog(p: Int, which: Int) {
         when (which) {
             OptionsDef.Bin.restore -> callback.notifyItemRemoved(restoreItem(p), p)
-            OptionsDef.Bin.copy -> context.copyToClipboard(getNoteItem(p))
+            OptionsDef.Bin.copy -> context.copyToClipboard(listNoteRepo[p].noteItem)
             OptionsDef.Bin.clear -> callback.notifyItemRemoved(clearItem(p), p)
         }
 
         callback.notifyMenuClearBin()
     }
 
-    private fun getNoteItem(p: Int): NoteItem = listNoteRepo[p].noteItem
-
-    fun getNoteId(p: Int): Long = getNoteItem(p).id
-
     private fun restoreItem(p: Int): MutableList<NoteRepo> {
         val db = RoomDb.provideDb(context)
-        db.daoNote().update(getNoteItem(p).id, TimeUtils.getTime(context), false)
+        db.daoNote().update(listNoteRepo[p].noteItem.id, TimeUtils.getTime(context), false)
         db.close()
 
         listNoteRepo.removeAt(p)
@@ -72,7 +74,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun clearItem(p: Int): MutableList<NoteRepo> {
         val db = RoomDb.provideDb(context)
-        db.daoNote().delete(getNoteItem(p).id)
+        db.daoNote().delete(listNoteRepo[p].noteItem.id)
         db.close()
 
         listNoteRepo.removeAt(p)

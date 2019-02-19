@@ -20,10 +20,10 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     var position: Int = 0
         private set
 
-    fun setArguments(items: Array<String>, p: Int) {
+    fun setArguments(itemArray: Array<String>, p: Int) {
         val bundle = Bundle()
 
-        bundle.putStringArray(DialogAnn.INIT, items)
+        bundle.putStringArray(DialogAnn.INIT, itemArray)
         bundle.putInt(DialogAnn.VALUE, p)
 
         arguments = bundle

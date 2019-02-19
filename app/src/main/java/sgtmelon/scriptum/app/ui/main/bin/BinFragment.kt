@@ -20,14 +20,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.NoteRepo
-import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
-import sgtmelon.scriptum.office.utils.DialogUtils.setBinArguments
 
 class BinFragment : Fragment(),
         BinCallback,
@@ -153,14 +151,14 @@ class BinFragment : Fragment(),
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
 
-        startActivity(NoteActivity.getIntent(activity, viewModel.getNoteId(p)))
+        startActivity(viewModel.openNote(p))
     }
 
     override fun onItemLongClick(view: View, p: Int): Boolean {
         if (p == RecyclerView.NO_POSITION) return false
 
-        optionsDialog.setBinArguments(activity, p)
-        optionsDialog.show(fragmentManager!!, DialogDef.OPTIONS)
+        optionsDialog.setArguments(viewModel.showOptions(p), p)
+        optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
 
         return true
     }

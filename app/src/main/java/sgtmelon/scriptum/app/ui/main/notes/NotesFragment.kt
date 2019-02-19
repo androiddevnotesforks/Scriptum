@@ -18,23 +18,19 @@ import sgtmelon.safedialog.library.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
+import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.ui.main.MainCallback
-import sgtmelon.scriptum.app.view.activity.NoteActivity
 import sgtmelon.scriptum.app.view.activity.PreferenceActivity
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.def.OptionsDef
-import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
-import sgtmelon.scriptum.office.utils.DialogUtils.setNotesArguments
-import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 
 class NotesFragment : Fragment(),
+        NotesCallback,
         ItemIntf.ClickListener,
-        ItemIntf.LongClickListener,
-        DialogInterface.OnClickListener {
+        ItemIntf.LongClickListener {
 
     companion object {
         /**
@@ -48,7 +44,7 @@ class NotesFragment : Fragment(),
 
     private lateinit var binding: FragmentNotesBinding
 
-    private val vm: NotesViewModel by lazy {
+    private val viewModel: NotesViewModel by lazy {
         ViewModelProviders.of(this).get(NotesViewModel::class.java)
     }
     private val adapter: NoteAdapter by lazy {
@@ -70,17 +66,12 @@ class NotesFragment : Fragment(),
         mainCallback = context as MainCallback
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        updateAdapter()
-
-        if (updateStatus) updateStatus = false
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
+
+        viewModel.callback = this
+
         return binding.root
     }
 
@@ -91,9 +82,12 @@ class NotesFragment : Fragment(),
         setupRecycler()
     }
 
-    private fun bind() {
-        binding.listEmpty = adapter.itemCount == 0
-        binding.executePendingBindings()
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.onLoadData()
+
+        if (updateStatus) updateStatus = false
     }
 
     private fun setupToolbar(view: View) {
@@ -126,52 +120,42 @@ class NotesFragment : Fragment(),
             }
         })
 
-        optionsDialog.onClickListener = this
+        optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
+            viewModel.onClickDialog(optionsDialog.position, which)
+        }
     }
 
-    private fun updateAdapter() {
-        adapter.notifyDataSetChanged(vm.loadData())
-        bind()
+    override fun bind() {
+        binding.listEmpty = adapter.itemCount == 0
+        binding.executePendingBindings()
     }
 
-    fun scrollTop() {
+    override fun scrollTop() {
         recyclerView?.smoothScrollToPosition(0)
     }
+
+    override fun notifyDataSetChanged(list: MutableList<NoteRepo>) =
+            adapter.notifyDataSetChanged(list)
+
+    override fun notifyItemChanged(list: MutableList<NoteRepo>, p: Int) =
+            adapter.notifyItemChanged(list, p)
+
+    override fun notifyItemRemoved(list: MutableList<NoteRepo>, p: Int) =
+            adapter.notifyItemRemoved(list, p)
 
     override fun onItemClick(view: View, p: Int) {
         if (p == RecyclerView.NO_POSITION) return
 
-        startActivity(NoteActivity.getIntent(activity, vm.getNoteItem(p).id))
+        startActivity(viewModel.openNote(p))
     }
 
     override fun onItemLongClick(view: View, p: Int): Boolean {
         if (p == RecyclerView.NO_POSITION) return false
 
-        optionsDialog.setNotesArguments(activity, vm.getNoteItem(p), p)
+        optionsDialog.setArguments(viewModel.showOptions(p), p)
         optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
 
         return true
-    }
-
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        val p = optionsDialog.position
-        val noteItem = vm.getNoteItem(p)
-
-        when (noteItem.type) {
-            NoteType.TEXT -> when (which) {
-                OptionsDef.Text.bind -> adapter.notifyItemChanged(vm.onMenuBind(p), p)
-                OptionsDef.Text.convert -> adapter.notifyItemChanged(vm.onMenuConvert(p), p)
-                OptionsDef.Text.copy -> activity.copyToClipboard(noteItem)
-                OptionsDef.Text.delete -> adapter.notifyItemRemoved(vm.onMenuDelete(p), p)
-            }
-            NoteType.ROLL -> when (which) {
-                OptionsDef.Roll.check -> adapter.notifyItemChanged(vm.onMenuCheck(p), p)
-                OptionsDef.Roll.bind -> adapter.notifyItemChanged(vm.onMenuBind(p), p)
-                OptionsDef.Roll.convert -> adapter.notifyItemChanged(vm.onMenuConvert(p), p)
-                OptionsDef.Roll.copy -> activity.copyToClipboard(noteItem)
-                OptionsDef.Roll.delete -> adapter.notifyItemRemoved(vm.onMenuDelete(p), p)
-            }
-        }
     }
 
 }
