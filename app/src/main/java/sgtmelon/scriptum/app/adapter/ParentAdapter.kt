@@ -60,4 +60,9 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected construc
         notifyItemInserted(p)
     }
 
+    fun notifyItemMoved(from: Int, to: Int, list: MutableList<T>) {
+        setList(list)
+        notifyItemMoved(from, to)
+    }
+
 }

@@ -2,7 +2,10 @@ package sgtmelon.scriptum.app.ui.main.rank
 
 import android.app.Application
 import android.content.Context
+import android.text.TextUtils
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.AndroidViewModel
+import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.RankRepo
 import sgtmelon.scriptum.app.model.item.RankItem
@@ -10,7 +13,8 @@ import sgtmelon.scriptum.app.model.item.RankItem
 /**
  * ViewModel для [RankFragment]
  */
-class RankViewModel(application: Application) : AndroidViewModel(application) {
+class RankViewModel(application: Application) : AndroidViewModel(application),
+        RankTouchControl.Result {
 
     private val context: Context = application.applicationContext
 
@@ -41,12 +45,29 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         callback.notifyItemChanged(p, rankItem)
     }
 
-    fun onClickAdd(name: String, simpleClick: Boolean) = callback.addItem(when (simpleClick) {
-        true -> onAddEnd(name)
-        false -> onAddStart(name)
-    }, simpleClick)
+    fun getName(p: Int) = rankRepo.listRank[p].name
 
-    private fun onAddEnd(name: String): MutableList<RankItem> {
+    fun showRename() = ArrayList(rankRepo.listName)
+
+    fun onEditorClick(i: Int, name: String): Boolean {
+        if (i != EditorInfo.IME_ACTION_DONE) return false
+
+        if (!TextUtils.isEmpty(name) && !rankRepo.listName.contains(name)) {
+            onClickAdd(simpleClick = true)
+            return true
+        }
+
+        return false
+    }
+
+    fun onClickAdd(simpleClick: Boolean) = callback.addItem(simpleClick, when (simpleClick) {
+        true -> onAddEnd()
+        false -> onAddStart()
+    })
+
+    private fun onAddEnd(): MutableList<RankItem> {
+        val name = callback.clearEnter()
+
         val p = rankRepo.size()
         val rankItem = RankItem(p, name)
 
@@ -59,7 +80,9 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo.listRank
     }
 
-    private fun onAddStart(name: String): MutableList<RankItem> {
+    private fun onAddStart(): MutableList<RankItem> {
+        val name = callback.clearEnter()
+
         val p = 0
         val rankItem = RankItem(p - 1, name)
 
@@ -73,20 +96,19 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo.listRank
     }
 
-    fun onUpdateDrag(dragFrom: Int, dragTo: Int): MutableList<RankItem> { // TODO: 03.02.2019 ошибка сортировки
+    override fun onTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
         val db = RoomDb.provideDb(context)
         rankRepo.listRank.clear()
         rankRepo.listRank.addAll(db.daoRank().update(dragFrom, dragTo))
         db.daoNote().update(context)
         db.close()
 
-        return rankRepo.listRank
+        callback.notifyDataSetChanged(rankRepo.listRank)
     }
 
-    fun onUpdateMove(positionFrom: Int, positionTo: Int): MutableList<RankItem> {
-        rankRepo.move(positionFrom, positionTo)
-
-        return rankRepo.listRank
+    override fun onTouchMove(from: Int, to: Int) {
+        rankRepo.move(from, to)
+        callback.notifyItemMoved(from, to, rankRepo.listRank)
     }
 
     fun onClickVisible(p: Int) {

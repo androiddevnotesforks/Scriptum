@@ -10,7 +10,6 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
@@ -32,7 +31,6 @@ import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
-import java.util.*
 
 class RankFragment : Fragment(),
         RankCallback,
@@ -106,13 +104,13 @@ class RankFragment : Fragment(),
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_rank_container)
         toolbar.title = getString(R.string.title_rank)
 
-        val rankCancel = view.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)
+        val rankCancel: ImageButton = view.findViewById(R.id.toolbar_rank_cancel_button)
         rankCancel.setOnClickListener { rankEnter.clear() }
 
-        val rankAdd = view.findViewById<ImageButton>(R.id.toolbar_rank_add_button)
-        rankAdd.setOnClickListener { viewModel.onClickAdd(rankEnter.clear(), simpleClick = true) }
+        val rankAdd: ImageButton = view.findViewById(R.id.toolbar_rank_add_button)
+        rankAdd.setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
         rankAdd.setOnLongClickListener {
-            viewModel.onClickAdd(rankEnter.clear(), simpleClick = false)
+            viewModel.onClickAdd(simpleClick = false)
             return@setOnLongClickListener true
         }
 
@@ -126,15 +124,7 @@ class RankFragment : Fragment(),
             override fun afterTextChanged(editable: Editable) {}
         })
         rankEnter?.setOnEditorActionListener { _, i, _ ->
-            if (i != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
-
-            val name = rankEnter?.text.toString().toUpperCase()
-            if (!TextUtils.isEmpty(name) && !viewModel.rankRepo.listName.contains(name)) {
-                rankAdd.callOnClick()
-                return@setOnEditorActionListener true
-            }
-
-            return@setOnEditorActionListener false
+            viewModel.onEditorClick(i, rankEnter?.text.toString().toUpperCase())
         }
     }
 
@@ -148,12 +138,10 @@ class RankFragment : Fragment(),
                 bindList(adapter.itemCount)
             }
         }
-
         recyclerView?.layoutManager = layoutManager
         recyclerView?.adapter = adapter
 
-        val itemTouchHelper = ItemTouchHelper(touchCallback)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
+        ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
 
         renameDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onRenameDialog(renameDialog.position, renameDialog.name)
@@ -178,7 +166,9 @@ class RankFragment : Fragment(),
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun addItem(list: MutableList<RankItem>, simpleClick: Boolean) { // TODO при обычном добавлении нет анимации
+    override fun clearEnter(): String = rankEnter?.clear() ?: ""
+
+    override fun addItem(simpleClick: Boolean, list: MutableList<RankItem>) { // TODO при обычном добавлении нет анимации
         val p = if (simpleClick) list.size else 0
 
         if (list.size == 1) {
@@ -218,14 +208,14 @@ class RankFragment : Fragment(),
     override fun notifyItemRemoved(p: Int, list: MutableList<RankItem>) =
             adapter.notifyItemRemoved(p, list)
 
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>) =
+            adapter.notifyItemMoved(from, to, list)
+
     override fun onItemClick(view: View, p: Int) {
         when (view.id) {
             R.id.rank_visible_button -> viewModel.onClickVisible(p)
             R.id.rank_click_container -> openState.tryInvoke {
-                val rankRepo = viewModel.rankRepo
-                val rankItem = rankRepo.listRank[p]
-
-                renameDialog.setArguments(p, rankItem.name, ArrayList(rankRepo.listName))
+                renameDialog.setArguments(p, viewModel.getName(p), viewModel.showRename()) // TODO rename
                 renameDialog.show(fragmentManager, DialogDef.RENAME)
             }
             R.id.rank_cancel_button -> viewModel.onClickCancel(p)
