@@ -14,18 +14,21 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context: Context = application.applicationContext
 
+    lateinit var callback: RankCallback
+
     var rankRepo: RankRepo = RankRepo(ArrayList(), ArrayList())
         private set
 
-    fun loadData(): RankRepo {
+    fun onLoadData() {
         val db = RoomDb.provideDb(context)
         rankRepo = db.daoRank().get()
         db.close()
 
-        return rankRepo
+        callback.notifyDataSetChanged(rankRepo.listRank)
+        callback.bindList(rankRepo.size())
     }
 
-    fun onDialogRename(p: Int, name: String): RankItem {
+    fun onRenameDialog(p: Int, name: String) {
         rankRepo.set(p, name)
 
         val rankItem = rankRepo.listRank[p]
@@ -34,10 +37,16 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         db.daoRank().update(rankItem)
         db.close()
 
-        return rankItem
+        callback.bindToolbar()
+        callback.notifyItemChanged(p, rankItem)
     }
 
-    fun onAddEnd(name: String): MutableList<RankItem> {
+    fun onClickAdd(name: String, simpleClick: Boolean) = callback.addItem(when (simpleClick) {
+        true -> onAddEnd(name)
+        false -> onAddStart(name)
+    }, simpleClick)
+
+    private fun onAddEnd(name: String): MutableList<RankItem> {
         val p = rankRepo.size()
         val rankItem = RankItem(p, name)
 
@@ -50,7 +59,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo.listRank
     }
 
-    fun onAddStart(name: String): MutableList<RankItem> {
+    private fun onAddStart(name: String): MutableList<RankItem> {
         val p = 0
         val rankItem = RankItem(p - 1, name)
 
@@ -80,7 +89,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         return rankRepo.listRank
     }
 
-    fun onUpdateVisible(p: Int): RankItem {
+    fun onClickVisible(p: Int) {
         val rankItem = rankRepo.listRank[p]
         rankItem.isVisible = !rankItem.isVisible
 
@@ -89,17 +98,30 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
         db.daoNote().update(context)
         db.close()
 
-        return rankItem
+        callback.notifyVisible(p, rankItem)
     }
 
-    fun onUpdateVisible(listRank: MutableList<RankItem>) {
+    fun onLongClickVisible(p: Int) {
+        val listRank = rankRepo.listRank
+        val startAnim = BooleanArray(listRank.size)
+
+        val clickVisible = listRank[p].isVisible
+        listRank.forEachIndexed { index, rankItem ->
+            if (index == p || clickVisible != rankItem.isVisible) return@forEachIndexed
+
+            rankItem.isVisible = !rankItem.isVisible
+            startAnim[index] = true
+        }
+
+        callback.notifyVisible(startAnim, listRank)
+
         val db = RoomDb.provideDb(context)
         db.daoRank().updateRank(listRank)
         db.daoNote().update(context)
         db.close()
     }
 
-    fun onCancel(p: Int): MutableList<RankItem> {
+    fun onClickCancel(p: Int) {
         val rankItem = rankRepo.listRank[p]
 
         val db = RoomDb.provideDb(context)
@@ -110,7 +132,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application) {
 
         rankRepo.remove(p)
 
-        return rankRepo.listRank
+        callback.notifyItemRemoved(p, rankRepo.listRank)
     }
 
 }

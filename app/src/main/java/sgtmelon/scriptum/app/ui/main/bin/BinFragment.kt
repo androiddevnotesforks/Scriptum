@@ -125,7 +125,7 @@ class BinFragment : Fragment(),
         recyclerView?.adapter = adapter
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.onClickDialog(optionsDialog.position, which)
+            viewModel.onOptionsDialog(optionsDialog.position, which)
         }
     }
 
@@ -145,13 +145,13 @@ class BinFragment : Fragment(),
     override fun notifyDataSetChanged(list: MutableList<NoteRepo>) =
             adapter.notifyDataSetChanged(list)
 
-    override fun notifyItemRemoved(list: MutableList<NoteRepo>, p: Int) =
-            adapter.notifyItemRemoved(list, p)
+    override fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>) =
+            adapter.notifyItemRemoved(p, list)
 
     override fun onItemClick(view: View, p: Int) = startActivity(viewModel.openNote(p))
 
     override fun onItemLongClick(view: View, p: Int) {
-        optionsDialog.setArguments(viewModel.showOptions(p), p)
+        optionsDialog.setArguments(viewModel.showOptions(), p)
         optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
     }
 

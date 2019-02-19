@@ -40,7 +40,7 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected construc
         notifyDataSetChanged()
     }
 
-    fun notifyItemChanged(list: MutableList<T>, p: Int) {
+    fun notifyItemChanged(p: Int, list: MutableList<T>) {
         setList(list)
         notifyItemChanged(p)
     }
@@ -50,12 +50,12 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected construc
         notifyItemChanged(p)
     }
 
-    fun notifyItemRemoved(list: MutableList<T>, p: Int) {
+    fun notifyItemRemoved(p: Int, list: MutableList<T>) {
         setList(list)
         notifyItemRemoved(p)
     }
 
-    fun notifyItemInserted(list: MutableList<T>, p: Int) {
+    fun notifyItemInserted(p: Int, list: MutableList<T>) {
         setList(list)
         notifyItemInserted(p)
     }

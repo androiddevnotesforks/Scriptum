@@ -68,22 +68,22 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         return itemArray
     }
 
-    fun onClickDialog(p: Int, which: Int) {
+    fun onOptionsDialog(p: Int, which: Int) {
         val noteItem = listNoteRepo[p].noteItem
 
         when (noteItem.type) {
             NoteType.TEXT -> when (which) {
-                OptionsDef.Text.bind -> callback.notifyItemChanged(onMenuBind(p), p)
-                OptionsDef.Text.convert -> callback.notifyItemChanged(onMenuConvert(p), p)
+                OptionsDef.Text.bind -> callback.notifyItemChanged(p, onMenuBind(p))
+                OptionsDef.Text.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
                 OptionsDef.Text.copy -> context.copyToClipboard(noteItem)
-                OptionsDef.Text.delete -> callback.notifyItemRemoved(onMenuDelete(p), p)
+                OptionsDef.Text.delete -> callback.notifyItemRemoved(p, onMenuDelete(p))
             }
             NoteType.ROLL -> when (which) {
-                OptionsDef.Roll.check -> callback.notifyItemChanged(onMenuCheck(p), p)
-                OptionsDef.Roll.bind -> callback.notifyItemChanged(onMenuBind(p), p)
-                OptionsDef.Roll.convert -> callback.notifyItemChanged(onMenuConvert(p), p)
+                OptionsDef.Roll.check -> callback.notifyItemChanged(p, onMenuCheck(p))
+                OptionsDef.Roll.bind -> callback.notifyItemChanged(p, onMenuBind(p))
+                OptionsDef.Roll.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
                 OptionsDef.Roll.copy -> context.copyToClipboard(noteItem)
-                OptionsDef.Roll.delete -> callback.notifyItemRemoved(onMenuDelete(p), p)
+                OptionsDef.Roll.delete -> callback.notifyItemRemoved(p, onMenuDelete(p))
             }
         }
     }

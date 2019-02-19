@@ -49,14 +49,14 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
 
     fun openNote(p: Int) = NoteActivity.getIntent(context, listNoteRepo[p].noteItem.id)
 
-    fun showOptions(p: Int): Array<String> =
+    fun showOptions(): Array<String> =
             context.resources.getStringArray(R.array.dialog_menu_bin)
 
-    fun onClickDialog(p: Int, which: Int) {
+    fun onOptionsDialog(p: Int, which: Int) {
         when (which) {
-            OptionsDef.Bin.restore -> callback.notifyItemRemoved(restoreItem(p), p)
+            OptionsDef.Bin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
             OptionsDef.Bin.copy -> context.copyToClipboard(listNoteRepo[p].noteItem)
-            OptionsDef.Bin.clear -> callback.notifyItemRemoved(clearItem(p), p)
+            OptionsDef.Bin.clear -> callback.notifyItemRemoved(p, clearItem(p))
         }
 
         callback.notifyMenuClearBin()

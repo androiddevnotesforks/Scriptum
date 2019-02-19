@@ -13,8 +13,8 @@ interface NotesCallback {
 
     fun notifyDataSetChanged(list: MutableList<NoteRepo>)
 
-    fun notifyItemChanged(list: MutableList<NoteRepo>, p: Int)
+    fun notifyItemChanged(p: Int, list: MutableList<NoteRepo>)
 
-    fun notifyItemRemoved(list: MutableList<NoteRepo>, p: Int)
+    fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>)
 
 }

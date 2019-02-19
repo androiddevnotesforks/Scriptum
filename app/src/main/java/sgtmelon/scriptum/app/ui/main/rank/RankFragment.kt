@@ -25,6 +25,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
+import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemIntf
@@ -34,8 +35,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import java.util.*
 
 class RankFragment : Fragment(),
-        View.OnClickListener,
-        View.OnLongClickListener,
+        RankCallback,
         ItemIntf.ClickListener,
         ItemIntf.LongClickListener {
 
@@ -60,7 +60,9 @@ class RankFragment : Fragment(),
         view?.findViewById<EditText>(R.id.toolbar_rank_enter)
     }
 
-    private lateinit var renameDialog: RenameDialog
+    private val renameDialog: RenameDialog by lazy {
+        DialogFactory.getRenameDialog(activity, fragmentManager)
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -72,15 +74,13 @@ class RankFragment : Fragment(),
                               savedInstanceState: Bundle?): View {
         binding = inflater.inflateBinding(R.layout.fragment_rank, container)
 
-        viewModel.loadData()
+        viewModel.callback = this
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        renameDialog = DialogFactory.getRenameDialog(activity, fragmentManager)
 
         if (savedInstanceState != null) {
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
@@ -93,8 +93,7 @@ class RankFragment : Fragment(),
     override fun onResume() {
         super.onResume()
 
-        updateAdapter()
-        bind()
+        viewModel.onLoadData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -103,53 +102,40 @@ class RankFragment : Fragment(),
         outState.putBoolean(OpenState.KEY, openState.value)
     }
 
-    private fun bind(listSize: Int) {
-        binding.listEmpty = listSize == 0
-        bind()
-    }
-
-    private fun bind() {
-        val name = rankEnter?.text.toString().toUpperCase()
-
-        binding.nameNotEmpty = !TextUtils.isEmpty(name)
-        binding.listNotContain = !viewModel.rankRepo.listName.contains(name)
-        binding.executePendingBindings()
-    }
-
     private fun setupToolbar(view: View) {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_rank_container)
         toolbar.title = getString(R.string.title_rank)
 
         val rankCancel = view.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)
+        rankCancel.setOnClickListener { rankEnter.clear() }
+
         val rankAdd = view.findViewById<ImageButton>(R.id.toolbar_rank_add_button)
+        rankAdd.setOnClickListener { viewModel.onClickAdd(rankEnter.clear(), simpleClick = true) }
+        rankAdd.setOnLongClickListener {
+            viewModel.onClickAdd(rankEnter.clear(), simpleClick = false)
+            return@setOnLongClickListener true
+        }
 
         rankEnter?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                bind()
+                bindToolbar()
             }
 
             override fun afterTextChanged(editable: Editable) {}
         })
         rankEnter?.setOnEditorActionListener { _, i, _ ->
-            if (i == EditorInfo.IME_ACTION_DONE) {
-                val name = rankEnter?.text.toString().toUpperCase()
+            if (i != EditorInfo.IME_ACTION_DONE) return@setOnEditorActionListener false
 
-                if (!TextUtils.isEmpty(name) && !viewModel.rankRepo.listName.contains(name)) {
-                    onClick(rankAdd)
-                    return@setOnEditorActionListener true
-                } else {
-                    return@setOnEditorActionListener false
-                }
-            } else {
-                return@setOnEditorActionListener false
+            val name = rankEnter?.text.toString().toUpperCase()
+            if (!TextUtils.isEmpty(name) && !viewModel.rankRepo.listName.contains(name)) {
+                rankAdd.callOnClick()
+                return@setOnEditorActionListener true
             }
-        }
 
-        rankCancel.setOnClickListener(this)
-        rankAdd.setOnClickListener(this)
-        rankAdd.setOnLongClickListener(this)
+            return@setOnEditorActionListener false
+        }
     }
 
     private fun setupRecycler() {
@@ -159,7 +145,7 @@ class RankFragment : Fragment(),
 
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                bind(adapter.itemCount)
+                bindList(adapter.itemCount)
             }
         }
 
@@ -170,72 +156,71 @@ class RankFragment : Fragment(),
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         renameDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            val p = renameDialog.position
-            val rankItem = viewModel.onDialogRename(p, renameDialog.name)
-
-            bind()
-
-            adapter.notifyItemChanged(rankItem, p)
+            viewModel.onRenameDialog(renameDialog.position, renameDialog.name)
         }
         renameDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    private fun updateAdapter() {
-        adapter.notifyDataSetChanged(viewModel.loadData().listRank)
-        bind(adapter.itemCount)
+    override fun bindList(size: Int) {
+        binding.listEmpty = size == 0
+        bindToolbar()
     }
 
-    fun scrollTop() {
+    override fun bindToolbar() {
+        val name = rankEnter?.text.toString().toUpperCase()
+
+        binding.nameNotEmpty = !TextUtils.isEmpty(name)
+        binding.listNotContain = !viewModel.rankRepo.listName.contains(name)
+        binding.executePendingBindings()
+    }
+
+    override fun scrollTop() {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun onClick(v: View) {
-        when (v.id) {
-            R.id.toolbar_rank_cancel_button -> rankEnter.clear()
-            R.id.toolbar_rank_add_button -> {
-                val list = viewModel.onAddEnd(rankEnter.clear())
-                val size = adapter.itemCount
-                val p = size - 1
+    override fun addItem(list: MutableList<RankItem>, simpleClick: Boolean) { // TODO при обычном добавлении нет анимации
+        val p = if (simpleClick) list.size else 0
 
-                if (size == 1) {
-                    bind(size)
-                    adapter.notifyItemInserted(list, p)
-                } else {
-                    if (layoutManager.findLastVisibleItemPosition() == p - 1) {
-                        recyclerView?.scrollToPosition(p)
-                        adapter.notifyItemInserted(list, p)
-                    } else {
-                        recyclerView?.smoothScrollToPosition(p)
-                        adapter.notifyDataSetChanged(list)
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onLongClick(view: View): Boolean {
-        val list = viewModel.onAddStart(rankEnter.clear())
-        val size = adapter.itemCount
-        val p = 0
-
-        if (size == 1) {
-            bind(size)
-            adapter.notifyItemInserted(list, p)
+        if (list.size == 1) {
+            adapter.notifyItemInserted(p, list)
+            bindList(list.size)
         } else {
-            if (layoutManager.findFirstVisibleItemPosition() == p) {
+            val fastScroll = when (simpleClick) {
+                true -> layoutManager.findLastVisibleItemPosition() == p - 1
+                false -> layoutManager.findFirstVisibleItemPosition() == p
+            }
+
+            if (fastScroll) {
                 recyclerView?.scrollToPosition(p)
-                adapter.notifyItemInserted(list, p)
+                adapter.notifyItemInserted(p, list)
             } else {
                 recyclerView?.smoothScrollToPosition(p)
                 adapter.notifyDataSetChanged(list)
             }
         }
-        return true
+
     }
+
+    override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)
+
+    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>) {
+        adapter.setList(list)
+        adapter.startAnim = startAnim
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun notifyDataSetChanged(list: MutableList<RankItem>) =
+            adapter.notifyDataSetChanged(list)
+
+    override fun notifyItemChanged(p: Int, item: RankItem) =
+            adapter.notifyItemChanged(item, p)
+
+    override fun notifyItemRemoved(p: Int, list: MutableList<RankItem>) =
+            adapter.notifyItemRemoved(p, list)
 
     override fun onItemClick(view: View, p: Int) {
         when (view.id) {
-            R.id.rank_visible_button -> adapter.setListItem(p, viewModel.onUpdateVisible(p))
+            R.id.rank_visible_button -> viewModel.onClickVisible(p)
             R.id.rank_click_container -> openState.tryInvoke {
                 val rankRepo = viewModel.rankRepo
                 val rankItem = rankRepo.listRank[p]
@@ -243,34 +228,10 @@ class RankFragment : Fragment(),
                 renameDialog.setArguments(p, rankItem.name, ArrayList(rankRepo.listName))
                 renameDialog.show(fragmentManager, DialogDef.RENAME)
             }
-            R.id.rank_cancel_button -> {
-                adapter.setList(viewModel.onCancel(p))
-                adapter.notifyItemRemoved(p)
-            }
+            R.id.rank_cancel_button -> viewModel.onClickCancel(p)
         }
     }
 
-    override fun onItemLongClick(view: View, p: Int) {
-        val listRank = viewModel.rankRepo.listRank
-
-        val startAnim = adapter.startAnim
-        val clickVisible = listRank[p].isVisible
-
-        for (i in listRank.indices) {
-            if (i == p) continue
-
-            val rankItem = listRank[i]
-
-            val isVisible = rankItem.isVisible
-            if (clickVisible == isVisible) {
-                rankItem.isVisible = !isVisible
-                startAnim[i] = true
-            }
-        }
-
-        adapter.notifyDataSetChanged(listRank)
-
-        viewModel.onUpdateVisible(listRank)
-    }
+    override fun onItemLongClick(view: View, p: Int) = viewModel.onLongClickVisible(p)
 
 }

@@ -85,7 +85,7 @@ class RollTouchControl(private val vm: RollNoteViewModel,
 
         listRoll.removeAt(p)
 
-        adapter.notifyItemRemoved(listRoll, p)
+        adapter.notifyItemRemoved(p, listRoll)
     }
 
 
