@@ -17,7 +17,8 @@ import sgtmelon.scriptum.office.utils.TimeUtils
 /**
  * ViewModel для [BinFragment]
  */
-class BinViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
+class BinViewModel(application: Application) : AndroidViewModel(application),
+        LifecycleObserver {
 
     private val context: Context = application.applicationContext
 

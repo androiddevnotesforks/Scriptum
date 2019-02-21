@@ -22,29 +22,10 @@ import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMenuClick {
 
-    companion object {
-        fun getIntent(context: Context, type: NoteType): Intent {
-            val intent = Intent(context, NoteActivity::class.java)
-
-            intent.putExtra(IntentDef.NOTE_CREATE, true)
-            intent.putExtra(IntentDef.NOTE_TYPE, type.ordinal)
-
-            return intent
-        }
-
-        fun getIntent(context: Context, id: Long): Intent {
-            val intent = Intent(context, NoteActivity::class.java)
-
-            intent.putExtra(IntentDef.NOTE_CREATE, false)
-            intent.putExtra(IntentDef.NOTE_ID, id)
-
-            return intent
-        }
-    }
-
     private val vm by lazy {
         ViewModelProviders.of(this).get(NoteViewModel::class.java)
     }
+
     private val saveCtrl: SaveControl by lazy { SaveControl(this) }
 
     private var textNoteFragment: TextNoteFragment? = null
@@ -172,5 +153,25 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
     override fun onMenuClearClick() = beforeFinish { vm.onMenuClear() }
 
     override fun onMenuDeleteClick() = beforeFinish { vm.onMenuDelete() }
+
+    companion object {
+        fun getIntent(context: Context, type: NoteType): Intent {
+            val intent = Intent(context, NoteActivity::class.java)
+
+            intent.putExtra(IntentDef.NOTE_CREATE, true)
+            intent.putExtra(IntentDef.NOTE_TYPE, type.ordinal)
+
+            return intent
+        }
+
+        fun getIntent(context: Context, id: Long): Intent {
+            val intent = Intent(context, NoteActivity::class.java)
+
+            intent.putExtra(IntentDef.NOTE_CREATE, false)
+            intent.putExtra(IntentDef.NOTE_ID, id)
+
+            return intent
+        }
+    }
 
 }

@@ -19,7 +19,8 @@ import sgtmelon.scriptum.office.utils.TimeUtils
 /**
  * ViewModel для [NotesFragment]
  */
-class NotesViewModel(application: Application) : AndroidViewModel(application), LifecycleObserver {
+class NotesViewModel(application: Application) : AndroidViewModel(application),
+        LifecycleObserver {
 
     private val context: Context = application.applicationContext
 
@@ -36,6 +37,8 @@ class NotesViewModel(application: Application) : AndroidViewModel(application), 
 
         callback.notifyDataSetChanged(listNoteRepo)
         callback.bind()
+
+        if (updateStatus) updateStatus = false
     }
 
     fun clickNote(p: Int) =
@@ -181,6 +184,13 @@ class NotesViewModel(application: Application) : AndroidViewModel(application), 
         listNoteRepo.removeAt(p)
 
         return listNoteRepo
+    }
+
+    companion object {
+        /**
+         * Для единовременного обновления статус бара
+         */
+        var updateStatus = true
     }
 
 }

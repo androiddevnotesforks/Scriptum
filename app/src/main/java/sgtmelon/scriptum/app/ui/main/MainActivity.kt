@@ -25,20 +25,6 @@ class MainActivity : BaseActivityParent(),
         MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 
-    companion object {
-        private const val PAGE_CURRENT = "INSTANCE_MAIN_PAGE_CURRENT"
-
-        // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
-        // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
-        // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
-        // TODO: 19.01.2019 Добавить перескакивание курсора при старте редактирования в нужное место
-        // TODO: 20.01.2019 Разобраться со стилями
-        // TODO: 27.01.2019 Добавить ещё одну тему
-        // TODO: 22.11.2018 аннотация профессор
-
-        // TODO setHasFixedSize recyclerView
-    }
-
     private var firstStart: Boolean = true
     private var page: Int = MainPage.Name.NOTES.ordinal
 
@@ -157,6 +143,20 @@ class MainActivity : BaseActivityParent(),
 
         transaction.commit()
         return true
+    }
+
+    companion object {
+        private const val PAGE_CURRENT = "INSTANCE_MAIN_PAGE_CURRENT"
+
+        // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
+        // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
+        // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
+        // TODO: 19.01.2019 Добавить перескакивание курсора при старте редактирования в нужное место
+        // TODO: 20.01.2019 Разобраться со стилями
+        // TODO: 27.01.2019 Добавить ещё одну тему
+        // TODO: 22.11.2018 аннотация профессор
+
+        // TODO setHasFixedSize recyclerView
     }
 
 }

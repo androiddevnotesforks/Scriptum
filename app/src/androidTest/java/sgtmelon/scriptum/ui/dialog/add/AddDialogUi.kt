@@ -6,10 +6,6 @@ import sgtmelon.scriptum.ui.ParentUi
 
 class AddDialogUi : ParentUi() {
 
-    companion object {
-        operator fun invoke(func: AddDialogUi.() -> Unit) = AddDialogUi().apply { func() }
-    }
-
     fun assert(func: AddDialogAssert.() -> Unit) = AddDialogAssert().apply { func() }
 
     fun onClickItem(type: NoteType) = action {
@@ -20,5 +16,9 @@ class AddDialogUi : ParentUi() {
     }
 
     fun open() = action { onClick(R.id.main_add_fab) }
+
+    companion object {
+        operator fun invoke(func: AddDialogUi.() -> Unit) = AddDialogUi().apply { func() }
+    }
 
 }

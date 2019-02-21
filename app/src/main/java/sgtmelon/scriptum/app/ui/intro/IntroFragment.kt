@@ -16,20 +16,6 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  */
 class IntroFragment : Fragment() {
 
-    companion object {
-        private const val PAGE_CURRENT = "ARGUMENT_INTRO_PAGE_CURRENT"
-
-        fun getInstance(page: Int): IntroFragment {
-            val introFragment = IntroFragment()
-
-            val bundle = Bundle()
-            bundle.putInt(PAGE_CURRENT, page)
-
-            introFragment.arguments = bundle
-            return introFragment
-        }
-    }
-
     lateinit var binding: IncludeInfoBinding
 
     private var page: Int = -1
@@ -59,5 +45,19 @@ class IntroFragment : Fragment() {
     }
 
     fun setChange(alpha: Float, scale: Float) = parentContainer?.change(alpha, scale)
+
+    companion object {
+        private const val PAGE_CURRENT = "ARGUMENT_INTRO_PAGE_CURRENT"
+
+        fun getInstance(page: Int): IntroFragment {
+            val introFragment = IntroFragment()
+
+            val bundle = Bundle()
+            bundle.putInt(PAGE_CURRENT, page)
+
+            introFragment.arguments = bundle
+            return introFragment
+        }
+    }
 
 }

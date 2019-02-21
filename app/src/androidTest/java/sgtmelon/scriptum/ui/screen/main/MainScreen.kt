@@ -10,10 +10,6 @@ import sgtmelon.scriptum.ui.screen.main.rank.RankScreen
 
 class MainScreen : ParentUi() {
 
-    companion object {
-        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply { func() }
-    }
-
     fun assert(func: MainAssert.() -> Unit) = MainAssert().apply { func() }
     fun addDialog(func: AddDialogUi.() -> Unit) = AddDialogUi().apply { func() }
 
@@ -27,6 +23,10 @@ class MainScreen : ParentUi() {
             MainPage.Name.NOTES -> R.id.item_page_notes
             MainPage.Name.BIN -> R.id.item_page_bin
         })
+    }
+
+    companion object {
+        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply { func() }
     }
 
 }

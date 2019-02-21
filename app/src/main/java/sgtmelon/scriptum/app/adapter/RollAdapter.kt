@@ -27,13 +27,6 @@ class RollAdapter(context: Context,
                   private val bindIntf: BindIntf
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
 
-    private companion object {
-        private const val UNDEFINED = -1
-
-        private const val read = 0
-        private const val write = 1
-    }
-
     lateinit var noteState: NoteState
 
     var checkToggle: Boolean = false
@@ -75,6 +68,13 @@ class RollAdapter(context: Context,
     override fun getItemViewType(position: Int) = when (!noteState.isEdit) {
         true -> read
         false -> write
+    }
+
+    private companion object {
+        private const val UNDEFINED = -1
+
+        private const val read = 0
+        private const val write = 1
     }
 
 }

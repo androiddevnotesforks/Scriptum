@@ -10,10 +10,6 @@ import sgtmelon.scriptum.ui.widget.note.toolbar.NoteToolbarUi
 
 class TextNoteScreen : ParentUi() {
 
-    companion object {
-        operator fun invoke(func: TextNoteScreen.() -> Unit) = TextNoteScreen().apply { func() }
-    }
-
     fun assert(func: TextNoteAssert.() -> Unit) = TextNoteAssert().apply { func() }
 
     fun addNote(noteItem: NoteItem) = action {
@@ -26,6 +22,10 @@ class TextNoteScreen : ParentUi() {
         NotePanelUi { onClickSave() }
 
         assert { onDisplayContent(State.READ) }
+    }
+
+    companion object {
+        operator fun invoke(func: TextNoteScreen.() -> Unit) = TextNoteScreen().apply { func() }
     }
 
 }

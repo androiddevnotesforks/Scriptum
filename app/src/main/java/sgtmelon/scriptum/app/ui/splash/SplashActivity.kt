@@ -13,17 +13,6 @@ import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
  */
 class SplashActivity : AppCompatActivity(), SplashCallback {
 
-    companion object {
-        const val STATUS_OPEN = "INTENT_SPLASH_STATUS_OPEN"
-        const val NOTE_ID = "INTENT_SPLASH_NOTE_ID"
-
-        fun getIntent(context: Context, noteId: Long): Intent {
-            return Intent(context, SplashActivity::class.java)
-                    .putExtra(STATUS_OPEN, true)
-                    .putExtra(NOTE_ID, noteId)
-        }
-    }
-
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(SplashViewModel::class.java)
     }
@@ -44,5 +33,16 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
     override fun startFromNotification(arrayIntent: Array<Intent>) = startActivities(arrayIntent)
 
     override fun startNormal(intent: Intent) = startActivity(intent)
+
+    companion object {
+        const val STATUS_OPEN = "INTENT_SPLASH_STATUS_OPEN"
+        const val NOTE_ID = "INTENT_SPLASH_NOTE_ID"
+
+        fun getIntent(context: Context, noteId: Long): Intent {
+            return Intent(context, SplashActivity::class.java)
+                    .putExtra(STATUS_OPEN, true)
+                    .putExtra(NOTE_ID, noteId)
+        }
+    }
 
 }

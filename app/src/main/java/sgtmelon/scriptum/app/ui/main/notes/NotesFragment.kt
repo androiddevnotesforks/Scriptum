@@ -73,12 +73,6 @@ class NotesFragment : Fragment(), NotesCallback {
         setupRecycler()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        if (updateStatus) updateStatus = false
-    }
-
     private fun setupToolbar(view: View) {
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_container)
 
@@ -141,12 +135,5 @@ class NotesFragment : Fragment(), NotesCallback {
 
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>) =
             adapter.notifyItemRemoved(p, list)
-
-    companion object {
-        /**
-         * Для единовременного обновления статус бара
-         */
-        var updateStatus = true
-    }
 
 }

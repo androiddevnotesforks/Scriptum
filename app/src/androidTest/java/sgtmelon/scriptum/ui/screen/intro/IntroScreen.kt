@@ -7,10 +7,6 @@ import sgtmelon.scriptum.ui.Scroll
 
 class IntroScreen: ParentUi(){
 
-    companion object {
-        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply { func() }
-    }
-
     fun assert(func: IntroAssert.() -> Unit) = IntroAssert().apply { func() }
 
     val count: Int get() = IntroData.count
@@ -23,5 +19,9 @@ class IntroScreen: ParentUi(){
     }
 
     fun onClickEndButton() = action { onClick(R.id.intro_end_button) }
+
+    companion object {
+        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply { func() }
+    }
 
 }

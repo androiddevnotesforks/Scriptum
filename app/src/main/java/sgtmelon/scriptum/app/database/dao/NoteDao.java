@@ -17,7 +17,7 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.app.ui.main.notes.NotesFragment;
+import sgtmelon.scriptum.app.ui.main.notes.NotesViewModel;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 
 /**
@@ -59,7 +59,7 @@ public abstract class NoteDao extends BaseDao {
             if (rkId.size() != 0 && !rkVisible.contains(rkId.get(0))) {
                 statusItem.cancelNote();
             } else {
-                if (noteItem.isStatus() && NotesFragment.Companion.getUpdateStatus()) {
+                if (noteItem.isStatus() && NotesViewModel.Companion.getUpdateStatus()) {
                     statusItem.notifyNote();
                 }
 

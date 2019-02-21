@@ -7,14 +7,14 @@ class NotePanelUi : ParentUi() {
 
     // TODO Доступ через Text/Roll Note
 
-    companion object {
-        operator fun invoke(func: NotePanelUi.() -> Unit) = NotePanelUi().apply { func() }
-    }
-
     fun assert(func: NotePanelAssert.() -> Unit) = NotePanelAssert().apply { func() }
 
     fun onClickSave() = action { onClick(R.id.note_panel_save_button) }
 
     fun onClickEdit() = action { onClick(R.id.note_panel_edit_button) }
+
+    companion object {
+        operator fun invoke(func: NotePanelUi.() -> Unit) = NotePanelUi().apply { func() }
+    }
 
 }

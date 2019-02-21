@@ -28,10 +28,6 @@ class InputControl : InputIntf {
     // TODO: 17.12.2018 хранить последние 200 изменений
     // TODO: 27.01.2019 долгое нажатие (надо каким-то образом собирать последнюю информацию о изменённом view)
 
-    companion object {
-        private val TAG = InputControl::class.java.simpleName
-    }
-
     private val listInput = ArrayList<InputItem>()
 
     /**
@@ -208,6 +204,10 @@ class InputControl : InputIntf {
 
             Log.i(TAG, "i = " + i + " | " + inputItem.toString() + ps)
         }
+    }
+
+    companion object {
+        private val TAG = InputControl::class.java.simpleName
     }
 
 }
