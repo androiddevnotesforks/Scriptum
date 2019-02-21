@@ -29,13 +29,6 @@ import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 
 class NotesFragment : Fragment(), NotesCallback {
 
-    companion object {
-        /**
-         * Для единовременного обновления статус бара
-         */
-        var updateStatus = true
-    }
-
     private lateinit var activity: Activity
     private lateinit var mainCallback: MainCallback
 
@@ -68,6 +61,7 @@ class NotesFragment : Fragment(), NotesCallback {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
 
         viewModel.callback = this
+        lifecycle.addObserver(viewModel)
 
         return binding.root
     }
@@ -81,8 +75,6 @@ class NotesFragment : Fragment(), NotesCallback {
 
     override fun onResume() {
         super.onResume()
-
-        viewModel.onLoadData()
 
         if (updateStatus) updateStatus = false
     }
@@ -149,5 +141,12 @@ class NotesFragment : Fragment(), NotesCallback {
 
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>) =
             adapter.notifyItemRemoved(p, list)
+
+    companion object {
+        /**
+         * Для единовременного обновления статус бара
+         */
+        var updateStatus = true
+    }
 
 }
