@@ -69,21 +69,21 @@ class NotesFragment : Fragment(), NotesCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar(view)
+        setupToolbar()
         setupRecycler()
     }
 
-    private fun setupToolbar(view: View) {
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar_container)
+    private fun setupToolbar() {
+        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_container)
 
-        toolbar.title = getString(R.string.title_notes)
-        toolbar.inflateMenu(R.menu.fragment_notes)
-        toolbar.setOnMenuItemClickListener {
+        toolbar?.title = getString(R.string.title_notes)
+        toolbar?.inflateMenu(R.menu.fragment_notes)
+        toolbar?.setOnMenuItemClickListener {
             startActivity(Intent(context, PreferenceActivity::class.java))
             return@setOnMenuItemClickListener true
         }
 
-        toolbar.menu.findItem(R.id.item_preference).tintIcon(activity)
+        toolbar?.menu?.findItem(R.id.item_preference)?.tintIcon(activity)
     }
 
     private fun setupRecycler() {

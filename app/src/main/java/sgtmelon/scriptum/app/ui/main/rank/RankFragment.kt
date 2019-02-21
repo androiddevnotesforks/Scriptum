@@ -82,7 +82,7 @@ class RankFragment : Fragment(), RankCallback {
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
-        setupToolbar(view)
+        setupToolbar()
         setupRecycler()
     }
 
@@ -92,16 +92,16 @@ class RankFragment : Fragment(), RankCallback {
         outState.putBoolean(OpenState.KEY, openState.value)
     }
 
-    private fun setupToolbar(view: View) {
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar_rank_container)
-        toolbar.title = getString(R.string.title_rank)
+    private fun setupToolbar() {
+        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_rank_container)
+        toolbar?.title = getString(R.string.title_rank)
 
-        val rankCancel: ImageButton = view.findViewById(R.id.toolbar_rank_cancel_button)
-        rankCancel.setOnClickListener { rankEnter.clear() }
+        val rankCancel: ImageButton? = view?.findViewById(R.id.toolbar_rank_cancel_button)
+        rankCancel?.setOnClickListener { rankEnter.clear() }
 
-        val rankAdd: ImageButton = view.findViewById(R.id.toolbar_rank_add_button)
-        rankAdd.setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
-        rankAdd.setOnLongClickListener {
+        val rankAdd: ImageButton? = view?.findViewById(R.id.toolbar_rank_add_button)
+        rankAdd?.setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
+        rankAdd?.setOnLongClickListener {
             viewModel.onClickAdd(simpleClick = false)
             return@setOnLongClickListener true
         }
