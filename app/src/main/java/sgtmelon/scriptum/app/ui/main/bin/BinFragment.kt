@@ -102,15 +102,15 @@ class BinFragment : Fragment(), BinCallback {
         itemClearBin?.tintIcon(activity)
 
         clearBinDialog.positiveListener =
-                DialogInterface.OnClickListener { _, _ -> viewModel.clickClearBin() }
+                DialogInterface.OnClickListener { _, _ -> viewModel.onClickClearBin() }
 
         clearBinDialog.dismissListener =
                 DialogInterface.OnDismissListener { openState.clear() }
     }
 
     private fun setupRecycler() {
-        adapter.clickListener = ItemIntf.ClickListener { _, p -> viewModel.clickNote(p) }
-        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.showOptionsDialog(p) }
+        adapter.clickListener = ItemIntf.ClickListener { _, p -> viewModel.onClickNote(p) }
+        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
 
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
@@ -122,7 +122,7 @@ class BinFragment : Fragment(), BinCallback {
         recyclerView?.adapter = adapter
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.clickOptionsDialog(optionsDialog.position, which)
+            viewModel.onClickOptionsDialog(optionsDialog.position, which)
         }
     }
 

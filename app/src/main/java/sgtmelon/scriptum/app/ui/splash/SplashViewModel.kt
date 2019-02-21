@@ -19,7 +19,7 @@ class SplashViewModel : ViewModel() {
 
     private val prefUtils by lazy { PrefUtils(context) }
 
-    fun startApplication(bundle: Bundle?) {
+    fun onStartApplication(bundle: Bundle?) {
         if (bundle != null && bundle.getBoolean(SplashActivity.STATUS_OPEN)) {
             callback.startFromNotification(arrayOf(
                     Intent(context, MainActivity::class.java),

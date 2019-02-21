@@ -13,11 +13,10 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 /**
  * Адаптер для [RankFragment]
  */
-class RankAdapter(context: Context,
-                  private val clickListener: ItemIntf.ClickListener,
-                  private val longClickListener: ItemIntf.LongClickListener
-) : ParentAdapter<RankItem, RankHolder>(context) {
+class RankAdapter(context: Context) : ParentAdapter<RankItem, RankHolder>(context) {
 
+    lateinit var clickListener: ItemIntf.ClickListener
+    lateinit var longClickListener: ItemIntf.LongClickListener
     lateinit var dragListener: ItemIntf.DragListener
 
     var startAnim: BooleanArray = BooleanArray(size = 0)

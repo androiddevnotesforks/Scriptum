@@ -27,7 +27,7 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
         viewModel.context = this
         viewModel.callback = this
 
-        beforeFinish { viewModel.startApplication(intent.extras) }
+        beforeFinish { viewModel.onStartApplication(intent.extras) }
     }
 
     override fun startFromNotification(arrayIntent: Array<Intent>) = startActivities(arrayIntent)

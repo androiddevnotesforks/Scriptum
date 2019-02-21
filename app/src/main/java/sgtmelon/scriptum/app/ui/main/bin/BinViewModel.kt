@@ -38,7 +38,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application),
         callback.bind()
     }
 
-    fun clickClearBin() {
+    fun onClickClearBin() {
         val db = RoomDb.provideDb(context)
         db.daoNote().clearBin()
         db.close()
@@ -50,13 +50,13 @@ class BinViewModel(application: Application) : AndroidViewModel(application),
         callback.bind()
     }
 
-    fun clickNote(p: Int) =
+    fun onClickNote(p: Int) =
             callback.startNote(NoteActivity.getIntent(context, listNoteRepo[p].noteItem.id))
 
-    fun showOptionsDialog(p: Int) =
+    fun onShowOptionsDialog(p: Int) =
             callback.showOptionsDialog(context.resources.getStringArray(R.array.dialog_menu_bin), p)
 
-    fun clickOptionsDialog(p: Int, which: Int) {
+    fun onClickOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsDef.Bin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
             OptionsDef.Bin.copy -> context.copyToClipboard(listNoteRepo[p].noteItem)

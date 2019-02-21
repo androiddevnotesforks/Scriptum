@@ -32,10 +32,7 @@ import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
-class RankFragment : Fragment(),
-        RankCallback,
-        ItemIntf.ClickListener,
-        ItemIntf.LongClickListener {
+class RankFragment : Fragment(), RankCallback {
 
     private val openState = OpenState()
 
@@ -46,7 +43,7 @@ class RankFragment : Fragment(),
         ViewModelProviders.of(this).get(RankViewModel::class.java)
     }
     private val adapter: RankAdapter by lazy {
-        RankAdapter(activity, clickListener = this, longClickListener = this)
+        RankAdapter(activity)
     }
 
     private val layoutManager by lazy { LinearLayoutManager(context) }
@@ -73,6 +70,7 @@ class RankFragment : Fragment(),
         binding = inflater.inflateBinding(R.layout.fragment_rank, container)
 
         viewModel.callback = this
+        lifecycle.addObserver(viewModel)
 
         return binding.root
     }
@@ -86,12 +84,6 @@ class RankFragment : Fragment(),
 
         setupToolbar(view)
         setupRecycler()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.onLoadData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -129,6 +121,15 @@ class RankFragment : Fragment(),
     }
 
     private fun setupRecycler() {
+        adapter.clickListener = ItemIntf.ClickListener { view, p ->
+            when (view.id) {
+                R.id.rank_visible_button -> viewModel.onClickVisible(p)
+                R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
+                R.id.rank_cancel_button -> viewModel.onClickCancel(p)
+            }
+        }
+        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.onLongClickVisible(p) }
+
         val touchCallback = RankTouchControl(viewModel)
         adapter.dragListener = touchCallback
         touchCallback.adapter = adapter
@@ -191,6 +192,13 @@ class RankFragment : Fragment(),
 
     }
 
+    override fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>) {
+        openState.tryInvoke {
+            renameDialog.setArguments(p, name, listName)
+            renameDialog.show(fragmentManager, DialogDef.RENAME)
+        }
+    }
+
     override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)
 
     override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>) {
@@ -210,18 +218,5 @@ class RankFragment : Fragment(),
 
     override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>) =
             adapter.notifyItemMoved(from, to, list)
-
-    override fun onItemClick(view: View, p: Int) {
-        when (view.id) {
-            R.id.rank_visible_button -> viewModel.onClickVisible(p)
-            R.id.rank_click_container -> openState.tryInvoke {
-                renameDialog.setArguments(p, viewModel.getName(p), viewModel.showRename()) // TODO rename
-                renameDialog.show(fragmentManager, DialogDef.RENAME)
-            }
-            R.id.rank_cancel_button -> viewModel.onClickCancel(p)
-        }
-    }
-
-    override fun onItemLongClick(view: View, p: Int) = viewModel.onLongClickVisible(p)
 
 }

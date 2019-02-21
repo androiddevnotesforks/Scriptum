@@ -5,6 +5,9 @@ import android.content.Context
 import android.text.TextUtils
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.RankRepo
@@ -14,6 +17,7 @@ import sgtmelon.scriptum.app.model.item.RankItem
  * ViewModel для [RankFragment]
  */
 class RankViewModel(application: Application) : AndroidViewModel(application),
+        LifecycleObserver,
         RankTouchControl.Result {
 
     private val context: Context = application.applicationContext
@@ -23,6 +27,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     var rankRepo: RankRepo = RankRepo(ArrayList(), ArrayList())
         private set
 
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onLoadData() {
         val db = RoomDb.provideDb(context)
         rankRepo = db.daoRank().get()
@@ -31,6 +36,9 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         callback.notifyDataSetChanged(rankRepo.listRank)
         callback.bindList(rankRepo.size())
     }
+
+    fun onShowRenameDialog(p: Int) =
+            callback.showRenameDialog(p, rankRepo.listRank[p].name, ArrayList(rankRepo.listName))
 
     fun onRenameDialog(p: Int, name: String) {
         rankRepo.set(p, name)
@@ -44,10 +52,6 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         callback.bindToolbar()
         callback.notifyItemChanged(p, rankItem)
     }
-
-    fun getName(p: Int) = rankRepo.listRank[p].name
-
-    fun showRename() = ArrayList(rankRepo.listName)
 
     fun onEditorClick(i: Int, name: String): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false

@@ -87,8 +87,8 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private fun setupRecycler() {
-        adapter.clickListener = ItemIntf.ClickListener { _, p ->  viewModel.clickNote(p)}
-        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.showOptionsDialog(p) }
+        adapter.clickListener = ItemIntf.ClickListener { _, p -> viewModel.onClickNote(p) }
+        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
 
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
@@ -107,7 +107,7 @@ class NotesFragment : Fragment(), NotesCallback {
         })
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.clickOptionsDialog(optionsDialog.position, which)
+            viewModel.onClickOptionsDialog(optionsDialog.position, which)
         }
     }
 

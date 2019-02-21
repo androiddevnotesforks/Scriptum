@@ -41,10 +41,10 @@ class NotesViewModel(application: Application) : AndroidViewModel(application),
         if (updateStatus) updateStatus = false
     }
 
-    fun clickNote(p: Int) =
+    fun onClickNote(p: Int) =
             callback.startNote(NoteActivity.getIntent(context, listNoteRepo[p].noteItem.id))
 
-    fun showOptionsDialog(p: Int) {
+    fun onShowOptionsDialog(p: Int) {
         val noteItem = listNoteRepo[p].noteItem
         val itemArray: Array<String>
 
@@ -76,7 +76,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application),
         callback.showOptionsDialog(itemArray, p)
     }
 
-    fun clickOptionsDialog(p: Int, which: Int) {
+    fun onClickOptionsDialog(p: Int, which: Int) {
         val noteItem = listNoteRepo[p].noteItem
 
         when (noteItem.type) {

@@ -11,11 +11,13 @@ interface RankCallback {
 
     fun bindToolbar()
 
-    fun clearEnter(): String
-
     fun scrollTop()
 
+    fun clearEnter(): String
+
     fun addItem(simpleClick: Boolean, list: MutableList<RankItem>)
+
+    fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>)
 
     fun notifyVisible(p: Int, item: RankItem)
 
