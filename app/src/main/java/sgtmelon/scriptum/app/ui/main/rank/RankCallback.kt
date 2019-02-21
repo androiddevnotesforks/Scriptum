@@ -11,9 +11,11 @@ interface RankCallback {
 
     fun bindToolbar()
 
+    fun clearEnter(): String
+
     fun scrollTop()
 
-    fun addItem(list: MutableList<RankItem>, simpleClick: Boolean)
+    fun addItem(simpleClick: Boolean, list: MutableList<RankItem>)
 
     fun notifyVisible(p: Int, item: RankItem)
 
@@ -24,5 +26,7 @@ interface RankCallback {
     fun notifyItemChanged(p: Int, item: RankItem)
 
     fun notifyItemRemoved(p: Int, list: MutableList<RankItem>)
+
+    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>)
 
 }

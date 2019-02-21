@@ -27,10 +27,7 @@ import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 
-class NotesFragment : Fragment(),
-        NotesCallback,
-        ItemIntf.ClickListener,
-        ItemIntf.LongClickListener {
+class NotesFragment : Fragment(), NotesCallback {
 
     companion object {
         /**
@@ -48,7 +45,7 @@ class NotesFragment : Fragment(),
         ViewModelProviders.of(this).get(NotesViewModel::class.java)
     }
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(activity, clickListener = this, longClickListener = this)
+        NoteAdapter(activity)
     }
 
     private val recyclerView: RecyclerView? by lazy {
@@ -104,6 +101,9 @@ class NotesFragment : Fragment(),
     }
 
     private fun setupRecycler() {
+        adapter.clickListener = ItemIntf.ClickListener { _, p ->  viewModel.clickNote(p)}
+        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.showOptionsDialog(p) }
+
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                 bind()
@@ -121,7 +121,7 @@ class NotesFragment : Fragment(),
         })
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.onOptionsDialog(optionsDialog.position, which)
+            viewModel.clickOptionsDialog(optionsDialog.position, which)
         }
     }
 
@@ -134,6 +134,13 @@ class NotesFragment : Fragment(),
         recyclerView?.smoothScrollToPosition(0)
     }
 
+    override fun startNote(intent: Intent) = startActivity(intent)
+
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+        optionsDialog.setArguments(itemArray, p)
+        optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
+    }
+
     override fun notifyDataSetChanged(list: MutableList<NoteRepo>) =
             adapter.notifyDataSetChanged(list)
 
@@ -142,12 +149,5 @@ class NotesFragment : Fragment(),
 
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>) =
             adapter.notifyItemRemoved(p, list)
-
-    override fun onItemClick(view: View, p: Int) = startActivity(viewModel.openNote(p))
-
-    override fun onItemLongClick(view: View, p: Int) {
-        optionsDialog.setArguments(viewModel.showOptions(p), p)
-        optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
-    }
 
 }

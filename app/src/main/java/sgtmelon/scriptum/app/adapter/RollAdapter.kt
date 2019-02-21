@@ -19,12 +19,13 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 /**
  * Адаптер для [RollNoteFragment]
  */
-class RollAdapter(context: Context, clickListener: ItemIntf.ClickListener,
+class RollAdapter(context: Context,
+                  private val clickListener: ItemIntf.ClickListener,
                   private val dragListener: ItemIntf.DragListener,
                   private val rollWatcher: ItemIntf.RollWatcher,
                   private val inputIntf: InputIntf,
                   private val bindIntf: BindIntf
-) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context, clickListener) {
+) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
 
     private companion object {
         private const val UNDEFINED = -1

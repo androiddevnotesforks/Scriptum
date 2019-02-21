@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.office.intf.ItemIntf
 import java.util.*
 
 /**
@@ -14,7 +13,7 @@ import java.util.*
  * @param <VH> - холдер для модели
  */
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected constructor(
-        protected val context: Context, protected val clickListener: ItemIntf.ClickListener
+        protected val context: Context
 ) : RecyclerView.Adapter<VH>() {
 
     protected val inflater: LayoutInflater = LayoutInflater.from(context)

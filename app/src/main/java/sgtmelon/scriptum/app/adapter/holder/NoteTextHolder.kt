@@ -20,11 +20,12 @@ class NoteTextHolder(private val binding: ItemNoteTextBinding,
     private val clickView: View = itemView.findViewById(R.id.note_text_click_container)
 
     init {
-        clickView.setOnClickListener { v ->
+        clickView.setOnClickListener {v ->
             checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
         }
-        clickView.setOnLongClickListener { v ->
+        clickView.setOnLongClickListener {v ->
             checkNoPosition { longClickListener.onItemLongClick(v, adapterPosition) }
+            return@setOnLongClickListener true
         }
     }
 

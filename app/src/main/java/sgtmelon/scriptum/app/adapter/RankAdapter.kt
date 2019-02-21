@@ -14,9 +14,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Адаптер для [RankFragment]
  */
 class RankAdapter(context: Context,
-                  clickListener: ItemIntf.ClickListener,
+                  private val clickListener: ItemIntf.ClickListener,
                   private val longClickListener: ItemIntf.LongClickListener
-) : ParentAdapter<RankItem, RankHolder>(context, clickListener) {
+) : ParentAdapter<RankItem, RankHolder>(context) {
 
     lateinit var dragListener: ItemIntf.DragListener
 

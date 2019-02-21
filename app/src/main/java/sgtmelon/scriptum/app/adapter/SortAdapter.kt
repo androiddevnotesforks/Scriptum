@@ -14,8 +14,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 /**
  * Адаптер для [SortDialog]
  */
-class SortAdapter(context: Context, clickListener: ItemIntf.ClickListener)
-    : ParentAdapter<SortItem, SortHolder>(context, clickListener) {
+class SortAdapter(context: Context,
+                  private val clickListener: ItemIntf.ClickListener
+) : ParentAdapter<SortItem, SortHolder>(context) {
 
     val sortState = SortState()
 

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.ui.main.bin
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -27,10 +28,7 @@ import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 
-class BinFragment : Fragment(),
-        BinCallback,
-        ItemIntf.ClickListener,
-        ItemIntf.LongClickListener {
+class BinFragment : Fragment(), BinCallback {
 
     private val openState = OpenState()
 
@@ -41,7 +39,7 @@ class BinFragment : Fragment(),
         ViewModelProviders.of(this).get(BinViewModel::class.java)
     }
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(activity, clickListener = this, longClickListener = this)
+        NoteAdapter(activity)
     }
 
     private val toolbar: Toolbar? by lazy {
@@ -108,13 +106,16 @@ class BinFragment : Fragment(),
         itemClearBin?.tintIcon(activity)
 
         clearBinDialog.positiveListener =
-                DialogInterface.OnClickListener { _, _ -> viewModel.clearBin() }
+                DialogInterface.OnClickListener { _, _ -> viewModel.clickClearBin() }
 
         clearBinDialog.dismissListener =
                 DialogInterface.OnDismissListener { openState.clear() }
     }
 
     private fun setupRecycler() {
+        adapter.clickListener = ItemIntf.ClickListener { _, p -> viewModel.clickNote(p) }
+        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.showOptionsDialog(p) }
+
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                 bind()
@@ -125,7 +126,7 @@ class BinFragment : Fragment(),
         recyclerView?.adapter = adapter
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.onOptionsDialog(optionsDialog.position, which)
+            viewModel.clickOptionsDialog(optionsDialog.position, which)
         }
     }
 
@@ -138,6 +139,13 @@ class BinFragment : Fragment(),
         recyclerView?.smoothScrollToPosition(0)
     }
 
+    override fun startNote(intent: Intent) = startActivity(intent)
+
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+        optionsDialog.setArguments(itemArray, p)
+        optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
+    }
+
     override fun notifyMenuClearBin() {
         itemClearBin?.isVisible = adapter.itemCount != 0
     }
@@ -147,12 +155,5 @@ class BinFragment : Fragment(),
 
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>) =
             adapter.notifyItemRemoved(p, list)
-
-    override fun onItemClick(view: View, p: Int) = startActivity(viewModel.openNote(p))
-
-    override fun onItemLongClick(view: View, p: Int) {
-        optionsDialog.setArguments(viewModel.showOptions(), p)
-        optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
-    }
 
 }

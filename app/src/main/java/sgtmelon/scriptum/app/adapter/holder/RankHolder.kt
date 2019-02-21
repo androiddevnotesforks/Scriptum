@@ -45,6 +45,7 @@ class RankHolder(private val binding: ItemRankBinding,
 
         visibleButton.setOnLongClickListener { v ->
             checkNoPosition { longClickListener.onItemLongClick(v, adapterPosition) }
+            return@setOnLongClickListener true
         }
 
         clickView.setOnTouchListener(this)

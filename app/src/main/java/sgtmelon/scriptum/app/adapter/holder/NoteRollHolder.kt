@@ -26,6 +26,7 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
         }
         clickView.setOnLongClickListener { v ->
             checkNoPosition { longClickListener.onItemLongClick(v, adapterPosition) }
+            return@setOnLongClickListener true
         }
     }
 

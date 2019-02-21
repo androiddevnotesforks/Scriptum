@@ -18,10 +18,10 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 /**
  * Адаптер списка заметок для [NotesFragment], [BinFragment]
  */
-class NoteAdapter(context: Context,
-                  clickListener: ItemIntf.ClickListener,
-                  private val longClickListener: ItemIntf.LongClickListener
-) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context, clickListener) {
+class NoteAdapter(context: Context) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context) {
+
+    lateinit var clickListener: ItemIntf.ClickListener
+    lateinit var longClickListener: ItemIntf.LongClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType == NoteType.TEXT.ordinal) {

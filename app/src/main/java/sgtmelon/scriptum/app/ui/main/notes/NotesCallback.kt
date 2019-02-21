@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.app.ui.main.notes
 
+import android.content.Intent
 import sgtmelon.scriptum.app.model.NoteRepo
 
 /**
@@ -10,6 +11,10 @@ interface NotesCallback {
     fun bind()
 
     fun scrollTop()
+
+    fun startNote(intent: Intent)
+
+    fun showOptionsDialog(itemArray: Array<String>, p: Int)
 
     fun notifyDataSetChanged(list: MutableList<NoteRepo>)
 

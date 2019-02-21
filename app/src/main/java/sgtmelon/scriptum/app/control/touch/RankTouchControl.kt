@@ -4,13 +4,12 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.ui.main.rank.RankFragment
-import sgtmelon.scriptum.app.ui.main.rank.RankViewModel
 import sgtmelon.scriptum.office.intf.ItemIntf
 
 /**
  * Управление перетаскиванием для [RankFragment]
  */
-class RankTouchControl(private val vm: RankViewModel) : ItemTouchHelper.Callback(),
+class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(),
         ItemIntf.DragListener {
 
     lateinit var adapter: RankAdapter
@@ -48,21 +47,22 @@ class RankTouchControl(private val vm: RankViewModel) : ItemTouchHelper.Callback
 
         val dragTo = viewHolder.adapterPosition
         if (dragFrom != dragTo) {
-            adapter.notifyDataSetChanged(vm.onUpdateDrag(dragFrom, dragTo))
+            callback.onTouchClear(dragFrom, dragTo)
         }
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder): Boolean {
-        val positionFrom = viewHolder.adapterPosition
-        val positionTo = target.adapterPosition
-
-        adapter.setList(vm.onUpdateMove(positionFrom, positionTo))
-        adapter.notifyItemMoved(positionFrom, positionTo)
-
+        callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
         return true
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+
+    interface Result {
+        fun onTouchClear(dragFrom: Int, dragTo: Int)
+
+        fun onTouchMove(from: Int, to: Int)
+    }
 
 }
