@@ -128,6 +128,11 @@ class MainActivity : BaseActivityParent(),
             if (supportFragmentManager.findFragmentByTag(pageTo.name) != null) {
                 transaction.show(fragmentTo)
                 fragmentTo.onResume()
+                when (pageTo) {
+                    MainPage.Name.RANK -> rankFragment.onResume()
+                    MainPage.Name.NOTES -> notesFragment.onResume()
+                    MainPage.Name.BIN -> binFragment.onResume()
+                }
             } else {
                 transaction.add(R.id.main_fragment_container, fragmentTo, pageTo.name)
             }

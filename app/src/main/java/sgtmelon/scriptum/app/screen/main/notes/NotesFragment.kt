@@ -56,12 +56,17 @@ class NotesFragment : Fragment(), NotesCallback {
         mainCallback = context as MainCallback
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.onLoadData()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
 
         viewModel.callback = this
-        lifecycle.addObserver(viewModel)
 
         return binding.root
     }

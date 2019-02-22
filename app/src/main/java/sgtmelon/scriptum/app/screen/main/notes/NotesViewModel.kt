@@ -3,9 +3,6 @@ package sgtmelon.scriptum.app.screen.main.notes
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
@@ -19,8 +16,7 @@ import sgtmelon.scriptum.office.utils.TimeUtils
 /**
  * ViewModel для [NotesFragment]
  */
-class NotesViewModel(application: Application) : AndroidViewModel(application),
-        LifecycleObserver {
+class NotesViewModel(application: Application) : AndroidViewModel(application){
 
     private val context: Context = application.applicationContext
 
@@ -28,7 +24,6 @@ class NotesViewModel(application: Application) : AndroidViewModel(application),
 
     private val listNoteRepo: MutableList<NoteRepo> = ArrayList()
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     fun onLoadData() {
         val db = RoomDb.provideDb(context)
         listNoteRepo.clear()
