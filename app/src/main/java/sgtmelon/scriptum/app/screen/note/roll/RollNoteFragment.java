@@ -45,7 +45,6 @@ import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.screen.note.NoteCallback;
 import sgtmelon.scriptum.app.screen.note.NoteViewModel;
-import sgtmelon.scriptum.app.screen.note.ParentNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -86,7 +85,7 @@ public final class RollNoteFragment extends Fragment implements
 
     private EditText nameEnter;
 
-    private ParentNoteViewModel vm;
+    private RollNoteViewModel vm;
     private FragmentManager fm;
     private RoomDb db;
 
@@ -274,7 +273,7 @@ public final class RollNoteFragment extends Fragment implements
         recyclerView.setLayoutManager(layoutManager);
 
         final RollTouchControl touchCallback = new RollTouchControl(
-                (RollNoteViewModel) vm, noteCallback, inputControl, this
+                vm, noteCallback, inputControl, this
         );
 
         adapter = new RollAdapter(
@@ -335,7 +334,7 @@ public final class RollNoteFragment extends Fragment implements
         menuControl.startTint(colorTo);
     }
 
-    public ParentNoteViewModel getViewModel() {
+    public RollNoteViewModel getViewModel() {
         return vm;
     }
 

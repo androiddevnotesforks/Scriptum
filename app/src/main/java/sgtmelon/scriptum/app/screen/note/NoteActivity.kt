@@ -63,9 +63,12 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
                 if (!textNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
                     if (noteSt.isEdit && !noteSt.isCreate) {
                         val colorFrom = noteItem.color
-                        val colorTo = vm.resetFragmentData(noteItem.id, textNoteFragment!!.viewModel)
 
-                        textNoteFragment!!.startTintToolbar(colorFrom, colorTo)
+                        vm.resetFragmentData(noteItem.id)
+
+                        textNoteFragment!!.viewModel.noteRepo = vm.noteRepo
+
+                        textNoteFragment!!.startTintToolbar(colorFrom, vm.noteRepo.noteItem.color)
                         textNoteFragment!!.onMenuEditClick(false)
                     } else if (noteSt.isCreate) {
                         super.onBackPressed()
@@ -78,9 +81,12 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
                 if (!rollNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
                     if (noteSt.isEdit && !noteSt.isCreate) {
                         val colorFrom = noteItem.color
-                        val colorTo = vm.resetFragmentData(noteItem.id, rollNoteFragment!!.viewModel)
 
-                        rollNoteFragment!!.startTintToolbar(colorFrom, colorTo)
+                        vm.resetFragmentData(noteItem.id)
+
+                        rollNoteFragment!!.viewModel.noteRepo = vm.noteRepo
+
+                        rollNoteFragment!!.startTintToolbar(colorFrom, vm.noteRepo.noteItem.color)
                         rollNoteFragment!!.onMenuEditClick(false)
                         rollNoteFragment!!.updateAdapter()
                     } else if (noteSt.isCreate) {

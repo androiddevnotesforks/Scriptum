@@ -34,7 +34,6 @@ import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.screen.note.NoteCallback;
 import sgtmelon.scriptum.app.screen.note.NoteViewModel;
-import sgtmelon.scriptum.app.screen.note.ParentNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -67,7 +66,7 @@ public final class TextNoteFragment extends Fragment implements
 
     private EditText nameEnter;
 
-    private ParentNoteViewModel vm;
+    private TextNoteViewModel vm;
     private FragmentManager fm;
     private RoomDb db;
 
@@ -251,7 +250,7 @@ public final class TextNoteFragment extends Fragment implements
         menuControl.startTint(colorTo);
     }
 
-    public ParentNoteViewModel getViewModel() {
+    public TextNoteViewModel getViewModel() {
         return vm;
     }
 

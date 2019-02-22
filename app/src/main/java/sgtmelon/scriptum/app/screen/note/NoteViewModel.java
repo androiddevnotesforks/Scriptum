@@ -13,7 +13,6 @@ import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.state.NoteState;
@@ -106,15 +105,10 @@ public final class NoteViewModel extends AndroidViewModel {
         db.close();
     }
 
-    @ColorDef
-    public int resetFragmentData(long id, @NonNull ParentNoteViewModel viewModel) {
+    public void resetFragmentData(long id) {
         db = RoomDb.provideDb(context);
         noteRepo = db.daoNote().get(context, id);
         db.close();
-
-        viewModel.setNoteRepo(noteRepo);
-
-        return noteRepo.getNoteItem().getColor();
     }
 
     public void onMenuRestore() {
