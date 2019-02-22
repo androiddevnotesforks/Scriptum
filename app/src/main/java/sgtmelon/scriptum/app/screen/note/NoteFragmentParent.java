@@ -95,7 +95,6 @@ public abstract class NoteFragmentParent extends Fragment implements
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         fm = getFragmentManager();
-
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
