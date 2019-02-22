@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view;
+package sgtmelon.scriptum.app.screen.note.text;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,8 +19,8 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
-import sgtmelon.scriptum.app.vm.NoteViewModel;
-import sgtmelon.scriptum.app.vm.TextNoteViewModel;
+import sgtmelon.scriptum.app.screen.note.NoteFragmentParent;
+import sgtmelon.scriptum.app.screen.note.NoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;

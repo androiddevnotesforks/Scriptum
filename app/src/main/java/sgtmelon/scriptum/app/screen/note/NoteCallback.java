@@ -1,8 +1,7 @@
-package sgtmelon.scriptum.app.view;
+package sgtmelon.scriptum.app.screen.note;
 
 import androidx.annotation.NonNull;
 import sgtmelon.scriptum.app.control.SaveControl;
-import sgtmelon.scriptum.app.vm.NoteViewModel;
 
 /**
  * Интерфейс общения {@link NoteFragmentParent} и {@link NoteActivity}

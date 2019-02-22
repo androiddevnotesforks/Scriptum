@@ -1,8 +1,8 @@
-package sgtmelon.scriptum.app.vm
+package sgtmelon.scriptum.app.screen.note.text
 
 import android.app.Application
 import sgtmelon.scriptum.app.database.RoomDb
-import sgtmelon.scriptum.app.view.TextNoteFragment
+import sgtmelon.scriptum.app.screen.note.ParentNoteViewModel
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.TimeUtils
 

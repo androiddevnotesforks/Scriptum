@@ -14,7 +14,7 @@ import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.screen.BaseActivityParent
 import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
 
-import sgtmelon.scriptum.app.view.NoteActivity
+import sgtmelon.scriptum.app.screen.note.NoteActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.key.MainPage
 import sgtmelon.scriptum.office.annot.key.NoteType

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view;
+package sgtmelon.scriptum.app.screen.note;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +24,8 @@ import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.MenuControlAnim;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.factory.DialogFactory;
-import sgtmelon.scriptum.app.vm.ParentNoteViewModel;
+import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment;
+import sgtmelon.scriptum.app.screen.note.text.TextNoteFragment;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;

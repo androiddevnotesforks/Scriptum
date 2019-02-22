@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.view
+package sgtmelon.scriptum.app.screen.note
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,8 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.screen.BaseActivityParent
-import sgtmelon.scriptum.app.vm.NoteViewModel
+import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
+import sgtmelon.scriptum.app.screen.note.text.TextNoteFragment
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.MenuIntf

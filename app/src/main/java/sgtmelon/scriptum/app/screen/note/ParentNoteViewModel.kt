@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.vm
+package sgtmelon.scriptum.app.screen.note
 
 import android.app.Application
 import android.content.Context
@@ -6,7 +6,6 @@ import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.InputControl
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
-import sgtmelon.scriptum.app.view.NoteCallback
 import java.util.*
 
 abstract class ParentNoteViewModel(application: Application) : AndroidViewModel(application) {

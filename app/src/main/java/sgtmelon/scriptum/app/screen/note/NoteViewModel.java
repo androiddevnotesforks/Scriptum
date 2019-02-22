@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.vm;
+package sgtmelon.scriptum.app.screen.note;
 
 import android.app.Application;
 import android.content.Context;

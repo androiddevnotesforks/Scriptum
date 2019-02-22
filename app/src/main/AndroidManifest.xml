@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.view.NoteActivity"
+            android:name="sgtmelon.scriptum.app.screen.note.NoteActivity"
             android:parentActivityName="sgtmelon.scriptum.app.screen.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />

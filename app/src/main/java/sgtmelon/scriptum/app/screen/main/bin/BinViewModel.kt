@@ -9,7 +9,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
-import sgtmelon.scriptum.app.view.NoteActivity
+import sgtmelon.scriptum.app.screen.note.NoteActivity
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 import sgtmelon.scriptum.office.utils.TimeUtils

@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.app.screen.intro.IntroActivity
 import sgtmelon.scriptum.app.screen.main.MainActivity
-import sgtmelon.scriptum.app.view.NoteActivity
+import sgtmelon.scriptum.app.screen.note.NoteActivity
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 /**
