@@ -17,7 +17,7 @@ import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
-import sgtmelon.scriptum.app.ui.main.notes.NotesViewModel;
+import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 
 /**

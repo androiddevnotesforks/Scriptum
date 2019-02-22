@@ -4,9 +4,9 @@ import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.app.adapter.RollAdapter
-import sgtmelon.scriptum.app.view.callback.NoteCallback
-import sgtmelon.scriptum.app.view.fragment.note.RollNoteFragment
-import sgtmelon.scriptum.app.vm.fragment.note.RollNoteViewModel
+import sgtmelon.scriptum.app.view.NoteCallback
+import sgtmelon.scriptum.app.view.RollNoteFragment
+import sgtmelon.scriptum.app.vm.RollNoteViewModel
 import sgtmelon.scriptum.office.intf.BindIntf
 import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.intf.ItemIntf

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.office.intf
 
 import sgtmelon.scriptum.app.control.InputControl
-import sgtmelon.scriptum.app.view.parent.NoteFragmentParent
+import sgtmelon.scriptum.app.view.NoteFragmentParent
 
 /**
  * Интерфейс для обновления панели управления заметкой в [NoteFragmentParent]

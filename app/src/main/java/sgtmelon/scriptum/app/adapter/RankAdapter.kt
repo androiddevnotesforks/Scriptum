@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RankHolder
 import sgtmelon.scriptum.app.model.item.RankItem
-import sgtmelon.scriptum.app.ui.main.rank.RankFragment
+import sgtmelon.scriptum.app.screen.main.rank.RankFragment
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
