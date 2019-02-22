@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.app.screen.note.roll;
 
+import android.app.Activity;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -16,46 +19,85 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
+import sgtmelon.safedialog.library.MessageDialog;
+import sgtmelon.safedialog.library.MultiplyDialog;
+import sgtmelon.safedialog.library.color.ColorDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RollAdapter;
+import sgtmelon.scriptum.app.control.InputControl;
+import sgtmelon.scriptum.app.control.MenuControl;
+import sgtmelon.scriptum.app.control.MenuControlAnim;
 import sgtmelon.scriptum.app.control.touch.RollTouchControl;
 import sgtmelon.scriptum.app.database.RoomDb;
+import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
-import sgtmelon.scriptum.app.screen.note.NoteFragmentParent;
+import sgtmelon.scriptum.app.screen.note.NoteCallback;
 import sgtmelon.scriptum.app.screen.note.NoteViewModel;
+import sgtmelon.scriptum.app.screen.note.ParentNoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding;
+import sgtmelon.scriptum.office.annot.def.ColorDef;
+import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.converter.StringConverter;
+import sgtmelon.scriptum.office.intf.BindIntf;
+import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.state.CheckState;
 import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
 
-public final class RollNoteFragment extends NoteFragmentParent implements ItemIntf.ClickListener,
-        ItemIntf.RollWatcher {
+public final class RollNoteFragment extends Fragment implements
+        ItemIntf.ClickListener,
+        ItemIntf.RollWatcher,
+        View.OnClickListener,
+        BindIntf,
+        MenuIntf.Note.NoteMenuClick {
 
     private final CheckState checkState = new CheckState();
-
+    private final InputControl inputControl = new InputControl();
     private FragmentRollNoteBinding binding;
-
     private RollAdapter adapter;
-
     private LinearLayoutManager layoutManager;
     private RecyclerView recyclerView;
-
     private EditText rollEnter;
+
+    // TODO: 17.12.2018 сделать долгое нажатие undo/redo
+    private Context context;
+    private Activity activity;
+    private NoteCallback noteCallback;
+
+    private MessageDialog convertDialog;
+
+    private EditText nameEnter;
+
+    private ParentNoteViewModel vm;
+    private FragmentManager fm;
+    private RoomDb db;
+
+    private boolean rankEmpty;
+
+    private MenuControl menuControl;
+    private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
+
+    private ColorDialog colorDialog;
+    private MultiplyDialog rankDialog;
+
 
     @NonNull
     public static RollNoteFragment getInstance(boolean rankEmpty) {
@@ -67,6 +109,30 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
         return rollNoteFragment;
     }
+
+    @Override
+    public void onAttach(Context context) { // TODO as ?:
+        super.onAttach(context);
+
+        this.context = context;
+        activity = getActivity();
+
+        if (context instanceof NoteCallback) {
+            noteCallback = (NoteCallback) context;
+        } else {
+            throw new ClassCastException(NoteCallback.class.getSimpleName() +
+                    " interface not installed");
+        }
+
+        if (context instanceof MenuIntf.Note.DeleteMenuClick) {
+            deleteMenuClick = (MenuIntf.Note.DeleteMenuClick) context;
+        } else {
+            throw new ClassCastException(MenuIntf.Note.DeleteMenuClick.class.getSimpleName() +
+                    " interface not installed");
+        }
+
+    }
+
 
     @Override
     public void onResume() {
@@ -81,6 +147,8 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+
+        fm = getFragmentManager();
 
         binding = AppUtils.INSTANCE.inflateBinding(
                 inflater, R.layout.fragment_roll_note, container, false
@@ -98,6 +166,17 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm);
+        colorDialog = DialogFactory.INSTANCE.getColorDialog(context, fm);
+        rankDialog = DialogFactory.INSTANCE.getRankDialog(context, fm);
+
+        final Bundle bundle = getArguments();
+        if (bundle != null) {
+            rankEmpty = bundle.getBoolean(IntentDef.RANK_EMPTY);
+        } else if (savedInstanceState != null) {
+            rankEmpty = savedInstanceState.getBoolean(IntentDef.RANK_EMPTY);
+        }
+
         setupBinding();
         setupToolbar(view);
         setupDialog();
@@ -110,15 +189,19 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
     }
 
     @Override
-    public void setupBinding() {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
+    }
+
+    private void setupBinding() {
         binding.setNoteClick(this);
         binding.setDeleteClick(deleteMenuClick);
         binding.setRankEmpty(rankEmpty);
         binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
     }
 
-    @Override
-    public void bindEdit(boolean editMode) {
+    private void bindEdit(boolean editMode) {
         binding.setKeyEdit(editMode);
         binding.setNoteItem(vm.getNoteRepo().getNoteItem());
 
@@ -140,9 +223,40 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         binding.executePendingBindings();
     }
 
-    @Override
-    protected void setupDialog() {
-        super.setupDialog();
+    private void setupToolbar(@NonNull View view) {
+        final Toolbar toolbar = view.findViewById(R.id.toolbar_note_container);
+        final View indicator = view.findViewById(R.id.toolbar_note_color_view);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            menuControl = new MenuControl(context, activity.getWindow(), toolbar, indicator);
+        } else {
+            menuControl = new MenuControlAnim(context, activity.getWindow(), toolbar, indicator);
+        }
+
+        menuControl.setColor(vm.getNoteColor());
+
+        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+        menuControl.setDrawable(noteState.isEdit() && !noteState.isCreate(), false);
+
+        toolbar.setNavigationOnClickListener(this);
+    }
+
+    private void setupDialog() {
+        colorDialog.setTitle(getString(R.string.dialog_title_color));
+        colorDialog.setPositiveListener((dialogInterface, i) -> {
+            final int check = colorDialog.getCheck();
+
+            vm.onColorDialog(check);
+            bindInput();
+
+            menuControl.startTint(check);
+        });
+
+        rankDialog.setName(vm.getRankDialogName());
+        rankDialog.setPositiveListener((dialogInterface, i) -> {
+            vm.onRankDialog(rankDialog.getCheck());
+            bindInput();
+        });
 
         convertDialog.setMessage(getString(R.string.dialog_roll_convert_to_text));
         convertDialog.setPositiveListener((dialogInterface, i) -> vm.onConvertDialog());
@@ -177,10 +291,11 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
-    @Override
-    protected void setupEnter(@NonNull View view) {
-        super.setupEnter(view);
-
+    private void setupEnter(@NonNull View view) {
+        nameEnter = view.findViewById(R.id.toolbar_note_enter);
+        nameEnter.addTextChangedListener(
+                new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
+        );
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i != EditorInfo.IME_ACTION_NEXT) return false;
 
@@ -213,6 +328,15 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
             scrollToInsert(false);
             return true;
         });
+    }
+
+    public void startTintToolbar(@ColorDef int colorFrom, @ColorDef int colorTo) {
+        menuControl.setColorFrom(colorFrom);
+        menuControl.startTint(colorTo);
+    }
+
+    public ParentNoteViewModel getViewModel() {
+        return vm;
     }
 
     public void updateAdapter() {
@@ -603,6 +727,38 @@ public final class RollNoteFragment extends NoteFragmentParent implements ItemIn
 
         inputControl.setEnabled(true);
         inputControl.setChangeEnabled(true);
+    }
+
+    @Override
+    public void onMenuRankClick() {
+        AppUtils.INSTANCE.hideKeyboard(activity);
+
+        rankDialog.setArguments(vm.onMenuRank());
+        rankDialog.show(fm, DialogDef.RANK);
+    }
+
+    @Override
+    public void onMenuColorClick() {
+        AppUtils.INSTANCE.hideKeyboard(activity);
+
+        final int color = vm.getNoteColor();
+
+        colorDialog.setArguments(color);
+        colorDialog.show(fm, DialogDef.COLOR);
+
+        menuControl.setColorFrom(color);
+    }
+
+    @Override
+    public void onMenuBindClick() {
+        vm.onMenuBind();
+        bindEdit(false); // TODO save
+    }
+
+    @Override
+    public void onMenuConvertClick() {
+        AppUtils.INSTANCE.hideKeyboard(activity);
+        convertDialog.show(fm, DialogDef.CONVERT);
     }
 
     @Override

@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import sgtmelon.scriptum.app.control.SaveControl;
 
 /**
- * Интерфейс общения {@link NoteFragmentParent} и {@link NoteActivity}
+ * Интерфейс общения с {@link NoteActivity}
  */
 public interface NoteCallback {
 
