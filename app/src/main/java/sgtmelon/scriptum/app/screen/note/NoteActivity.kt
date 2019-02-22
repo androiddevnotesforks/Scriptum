@@ -136,6 +136,8 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
 
     override fun getViewModel(): NoteViewModel = vm
 
+    // TODO вынести интерфейс общения в сами фрагменты и saveCtrl
+
     override fun onMenuRestoreClick() = beforeFinish { vm.onMenuRestore() }
 
     override fun onMenuRestoreOpenClick() {
