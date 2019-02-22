@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.preference
+package sgtmelon.scriptum.app.screen.pref
 
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.Preference
+import android.preference.PreferenceFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,14 +25,14 @@ import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.PrefUtils
 
-class PreferenceFragment : android.preference.PreferenceFragment() {
+class PrefFragment : PreferenceFragment() {
 
     // TODO https://www.youtube.com/watch?v=PS9jhuHECEQ
     // TODO перенести theme на самый верх
 
     private val openState = OpenState()
 
-    private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
+    private val activity: PrefActivity by lazy { getActivity() as PrefActivity }
 
     private val prefUtils: PrefUtils by lazy { PrefUtils(activity) }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }

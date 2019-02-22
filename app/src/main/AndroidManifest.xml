@@ -51,7 +51,7 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.screen.preference.PreferenceActivity"
+            android:name="sgtmelon.scriptum.app.screen.pref.PrefActivity"
             android:configChanges="keyboardHidden"
             android:parentActivityName="sgtmelon.scriptum.app.screen.main.MainActivity">
             <intent-filter>
@@ -63,7 +63,7 @@
         <activity
             android:name="sgtmelon.scriptum.app.screen.develop.DevelopActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName="sgtmelon.scriptum.app.screen.preference.PreferenceActivity">
+            android:parentActivityName="sgtmelon.scriptum.app.screen.pref.PrefActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

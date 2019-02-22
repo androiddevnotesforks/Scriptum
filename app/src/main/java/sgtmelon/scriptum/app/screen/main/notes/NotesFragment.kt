@@ -20,7 +20,7 @@ import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.screen.main.MainCallback
-import sgtmelon.scriptum.app.screen.preference.PreferenceActivity
+import sgtmelon.scriptum.app.screen.pref.PrefActivity
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemIntf
@@ -79,7 +79,7 @@ class NotesFragment : Fragment(), NotesCallback {
         toolbar?.title = getString(R.string.title_notes)
         toolbar?.inflateMenu(R.menu.fragment_notes)
         toolbar?.setOnMenuItemClickListener {
-            startActivity(Intent(context, PreferenceActivity::class.java))
+            startActivity(Intent(context, PrefActivity::class.java))
             return@setOnMenuItemClickListener true
         }
 
