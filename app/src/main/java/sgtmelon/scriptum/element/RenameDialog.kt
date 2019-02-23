@@ -1,9 +1,8 @@
-package sgtmelon.safedialog.library
+package sgtmelon.scriptum.element
 
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
-import android.text.InputFilter
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
@@ -11,11 +10,11 @@ import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.R
 import sgtmelon.safedialog.office.annot.DialogAnn
 import sgtmelon.safedialog.office.blank.DialogBlank
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
 import java.util.*
 
 class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
@@ -25,12 +24,6 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
 
     private lateinit var listName: ArrayList<String>
     private lateinit var nameEnter: EditText
-
-    @ColorInt var colorText: Int = 0
-    @ColorInt var colorHint: Int = 0
-
-    var textHint: String = ""
-    var textLength: Int = 0
 
     val name: String get() = nameEnter.text.toString()
 
@@ -61,24 +54,18 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
 
         nameEnter = view.findViewById(R.id.rename_enter)
-        nameEnter.setTextColor(colorText)
-        nameEnter.setHintTextColor(colorHint)
-        nameEnter.hint = textHint
-        nameEnter.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(textLength))
+        nameEnter.setTextColor(activity.getColorAttr(R.attr.clContent))
+        nameEnter.setHintTextColor(activity.getColorAttr(R.attr.clDisable))
 
         nameEnter.setOnEditorActionListener(this)
         nameEnter.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-
-            }
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 setEnable()
             }
 
-            override fun afterTextChanged(editable: Editable) {
-
-            }
+            override fun afterTextChanged(editable: Editable) {}
         })
 
         return AlertDialog.Builder(activity)

@@ -70,7 +70,7 @@ class MainActivity : BaseActivityParent(),
     private fun setupNavigation() {
         fab.setOnClickListener {
             openState.tryInvoke {
-                sheetDialog.setArguments(R.layout.sheet_add, R.id.add_navigation)
+                sheetDialog.setArguments(R.layout.view_sheet_add, R.id.add_navigation)
                 sheetDialog.show(supportFragmentManager, DialogDef.SHEET)
             }
         }
@@ -128,11 +128,6 @@ class MainActivity : BaseActivityParent(),
             if (supportFragmentManager.findFragmentByTag(pageTo.name) != null) {
                 transaction.show(fragmentTo)
                 fragmentTo.onResume()
-                when (pageTo) {
-                    MainPage.Name.RANK -> rankFragment.onResume()
-                    MainPage.Name.NOTES -> notesFragment.onResume()
-                    MainPage.Name.BIN -> binFragment.onResume()
-                }
             } else {
                 transaction.add(R.id.main_fragment_container, fragmentTo, pageTo.name)
             }

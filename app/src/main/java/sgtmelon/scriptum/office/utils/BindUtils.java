@@ -36,8 +36,8 @@ public final class BindUtils {
         final Context context = imageButton.getContext();
 
         imageButton.setColorFilter(boolExpression
-                ? ColorUtils.INSTANCE.get(context, trueColor)
-                : ColorUtils.INSTANCE.get(context, falseColor));
+                ? ColorUtils.INSTANCE.getColorAttr(context, trueColor)
+                : ColorUtils.INSTANCE.getColorAttr(context, falseColor));
     }
 
     @BindingAdapter(value = {"boolExpression", "trueColor", "falseColor"})
@@ -46,8 +46,8 @@ public final class BindUtils {
         final Context context = textView.getContext();
 
         textView.setTextColor(boolExpression
-                ? ColorUtils.INSTANCE.get(context, trueColor)
-                : ColorUtils.INSTANCE.get(context, falseColor));
+                ? ColorUtils.INSTANCE.getColorAttr(context, trueColor)
+                : ColorUtils.INSTANCE.getColorAttr(context, falseColor));
     }
 
     @BindingAdapter("noteColor")
@@ -70,7 +70,7 @@ public final class BindUtils {
         final Drawable drawable = ContextCompat.getDrawable(context, drawableId);
 
         imageView.setImageDrawable(drawable);
-        imageView.setColorFilter(ColorUtils.INSTANCE.get(context, color));
+        imageView.setColorFilter(ColorUtils.INSTANCE.getColorAttr(context, color));
 
     }
 
@@ -95,9 +95,9 @@ public final class BindUtils {
 
         imageButton.setColorFilter(boolExpression
                 ? extraExpression
-                ? ColorUtils.INSTANCE.get(context, trueColor)
-                : ColorUtils.INSTANCE.get(context, falseColor)
-                : ColorUtils.INSTANCE.get(context, falseColor));
+                ? ColorUtils.INSTANCE.getColorAttr(context, trueColor)
+                : ColorUtils.INSTANCE.getColorAttr(context, falseColor)
+                : ColorUtils.INSTANCE.getColorAttr(context, falseColor));
 
         imageButton.setEnabled(boolExpression && extraExpression);
     }

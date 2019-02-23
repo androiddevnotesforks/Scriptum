@@ -50,6 +50,7 @@ import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
+import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.BindIntf;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
@@ -165,7 +166,7 @@ public final class RollNoteFragment extends Fragment implements
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm);
+        convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm, NoteType.ROLL);
         colorDialog = DialogFactory.INSTANCE.getColorDialog(context, fm);
         rankDialog = DialogFactory.INSTANCE.getRankDialog(context, fm);
 
@@ -257,7 +258,6 @@ public final class RollNoteFragment extends Fragment implements
             bindInput();
         });
 
-        convertDialog.setMessage(getString(R.string.dialog_roll_convert_to_text));
         convertDialog.setPositiveListener((dialogInterface, i) -> vm.onConvertDialog());
     }
 

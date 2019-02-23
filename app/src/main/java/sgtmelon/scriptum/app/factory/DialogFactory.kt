@@ -1,40 +1,30 @@
 package sgtmelon.scriptum.app.factory
 
 import android.content.Context
-import android.util.TypedValue
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.library.*
+import sgtmelon.safedialog.library.MessageDialog
+import sgtmelon.safedialog.library.MultiplyDialog
+import sgtmelon.safedialog.library.OptionsDialog
+import sgtmelon.safedialog.library.SingleDialog
 import sgtmelon.safedialog.library.color.ColorDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.element.InfoDialog
+import sgtmelon.scriptum.element.RenameDialog
+import sgtmelon.scriptum.element.SheetAddDialog
 import sgtmelon.scriptum.element.SortDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.ColorData
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 object DialogFactory {
 
-    fun getRenameDialog(context: Context, fm: FragmentManager?): RenameDialog {
-        val dialog = fm?.findFragmentByTag(DialogDef.RENAME) as RenameDialog? ?: RenameDialog()
+    fun getRenameDialog(fm: FragmentManager?): RenameDialog =
+            fm?.findFragmentByTag(DialogDef.RENAME) as RenameDialog? ?: RenameDialog()
 
-        val theme = context.theme
-        val attrs = TypedValue()
-
-        theme.resolveAttribute(R.attr.clContent, attrs, true)
-        dialog.colorText = attrs.data
-
-        theme.resolveAttribute(R.attr.clDisable, attrs, true)
-        dialog.colorHint = attrs.data
-
-        dialog.textHint = context.getString(R.string.hint_enter_rank_rename)
-        dialog.textLength = context.resources.getInteger(R.integer.length_note_name)
-
-        return dialog
-    }
-
-    fun getSheetDialog(fm: FragmentManager?): SheetDialog =
-            fm?.findFragmentByTag(DialogDef.SHEET) as SheetDialog? ?: SheetDialog()
+    fun getSheetDialog(fm: FragmentManager?): SheetAddDialog =
+            fm?.findFragmentByTag(DialogDef.SHEET) as SheetAddDialog? ?: SheetAddDialog()
 
     fun getOptionsDialog(fm: FragmentManager?): OptionsDialog =
             fm?.findFragmentByTag(DialogDef.OPTIONS) as OptionsDialog? ?: OptionsDialog()
@@ -48,10 +38,14 @@ object DialogFactory {
         return dialog
     }
 
-    fun getConvertDialog(context: Context, fm: FragmentManager?): MessageDialog {
+    fun getConvertDialog(context: Context, fm: FragmentManager?, noteType: NoteType): MessageDialog {
         val dialog = fm?.findFragmentByTag(DialogDef.CONVERT) as MessageDialog? ?: MessageDialog()
 
         dialog.title = context.getString(R.string.dialog_title_convert)
+        dialog.message = when(noteType) {
+            NoteType.TEXT -> context.getString(R.string.dialog_text_convert_to_roll)
+            NoteType.ROLL -> context.getString(R.string.dialog_roll_convert_to_text)
+        }
 
         return dialog
     }

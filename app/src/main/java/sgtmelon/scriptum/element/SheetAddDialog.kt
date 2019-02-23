@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.library
+package sgtmelon.scriptum.element
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView
 import sgtmelon.safedialog.office.annot.DialogAnn
 
 
-class SheetDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItemSelectedListener {
+class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItemSelectedListener {
 
     @LayoutRes private var layout: Int = 0
     @IdRes private var navigation: Int = 0

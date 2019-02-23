@@ -11,7 +11,7 @@
         tools:layout_gravity="center">
 
     <EditText
-            android:hint="@null"
+            android:hint="@string/hint_enter_rank_rename"
             android:id="@+id/rename_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +23,7 @@
             android:importantForAutofill="noExcludeDescendants"
             android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
             android:maxLines="1"
+            android:maxLength="@integer/length_rank_name"
             android:textSize="18sp"
             tools:targetApi="o"/>
 

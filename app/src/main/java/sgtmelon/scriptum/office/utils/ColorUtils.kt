@@ -35,11 +35,11 @@ object ColorUtils {
             }
             ThemeDef.dark -> {
                 if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
-                else get(context, R.attr.clPrimary)
+                else context.getColorAttr(R.attr.clPrimary)
             }
             else -> {
                 if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
-                else get(context, R.attr.clPrimary)
+                else context.getColorAttr(R.attr.clPrimary)
             }
         }
     }
@@ -48,12 +48,12 @@ object ColorUtils {
      * Получение цвета по аттрибуту, [attr] - аттрибут цвета
      */
     @ColorInt
-    fun get(context: Context, @AttrRes attr: Int): Int {
+    fun Context.getColorAttr(@AttrRes attr: Int): Int {
         val typedValue = TypedValue()
 
-        context.theme.resolveAttribute(attr, typedValue, true)
+        theme.resolveAttribute(attr, typedValue, true)
 
-        return ContextCompat.getColor(context, typedValue.resourceId)
+        return ContextCompat.getColor(this, typedValue.resourceId)
     }
 
     /**
@@ -79,7 +79,7 @@ object ColorUtils {
         val drawable = this.icon
         val wrapDrawable = DrawableCompat.wrap(drawable)
 
-        DrawableCompat.setTint(wrapDrawable, get(context, R.attr.clContent))
+        DrawableCompat.setTint(wrapDrawable, context.getColorAttr(R.attr.clContent))
 
         this.icon = wrapDrawable
     }
@@ -89,7 +89,7 @@ object ColorUtils {
      */
     fun Context.getDrawable(@DrawableRes id: Int, @AttrRes attr: Int): Drawable? {
         val drawable = ContextCompat.getDrawable(this, id) ?: return null
-        drawable.setColorFilter(get(this, attr), PorterDuff.Mode.SRC_ATOP)
+        drawable.setColorFilter(getColorAttr(attr), PorterDuff.Mode.SRC_ATOP)
 
         return drawable
     }

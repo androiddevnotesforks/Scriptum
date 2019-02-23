@@ -19,13 +19,13 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.safedialog.library.RenameDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.databinding.FragmentRankBinding
+import sgtmelon.scriptum.element.RenameDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
@@ -56,7 +56,7 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     private val renameDialog: RenameDialog by lazy {
-        DialogFactory.getRenameDialog(activity, fragmentManager)
+        DialogFactory.getRenameDialog(fragmentManager)
     }
 
     override fun onAttach(context: Context?) {
