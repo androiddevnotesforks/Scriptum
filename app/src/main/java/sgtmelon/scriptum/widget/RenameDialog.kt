@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.element
+package sgtmelon.scriptum.widget
 
 import android.app.Dialog
 import android.os.Bundle
@@ -11,8 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.office.annot.DialogAnn
-import sgtmelon.safedialog.office.blank.DialogBlank
+import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
 import java.util.*
@@ -30,9 +29,9 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     fun setArguments(p: Int, title: String, listName: ArrayList<String>) {
         val bundle = Bundle()
 
-        bundle.putInt(DialogAnn.POSITION, p)
-        bundle.putString(DialogAnn.INIT, title)
-        bundle.putStringArrayList(DialogAnn.VALUE, listName)
+        bundle.putInt(POSITION, p)
+        bundle.putString(INIT, title)
+        bundle.putStringArrayList(VALUE, listName)
 
         arguments = bundle
     }
@@ -40,15 +39,15 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        position = savedInstanceState?.getInt(DialogAnn.POSITION)
-                ?: bundle?.getInt(DialogAnn.POSITION)
+        position = savedInstanceState?.getInt(POSITION)
+                ?: bundle?.getInt(POSITION)
                 ?: 0
-        title = savedInstanceState?.getString(DialogAnn.INIT)
-                ?: bundle?.getString(DialogAnn.INIT)
+        title = savedInstanceState?.getString(INIT)
+                ?: bundle?.getString(INIT)
                 ?: ""
 
-        listName = savedInstanceState?.getStringArrayList(DialogAnn.VALUE)
-                ?: bundle?.getStringArrayList(DialogAnn.VALUE)
+        listName = savedInstanceState?.getStringArrayList(VALUE)
+                ?: bundle?.getStringArrayList(VALUE)
                 ?: ArrayList()
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
@@ -80,9 +79,9 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(DialogAnn.POSITION, position)
-        outState.putString(DialogAnn.INIT, title)
-        outState.putStringArrayList(DialogAnn.VALUE, listName)
+        outState.putInt(POSITION, position)
+        outState.putString(INIT, title)
+        outState.putStringArrayList(VALUE, listName)
     }
 
     override fun setEnable() {

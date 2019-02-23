@@ -19,9 +19,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProviders;
-import sgtmelon.safedialog.library.MessageDialog;
-import sgtmelon.safedialog.library.MultiplyDialog;
-import sgtmelon.safedialog.library.color.ColorDialog;
+import sgtmelon.safedialog.MessageDialog;
+import sgtmelon.safedialog.MultiplyDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.app.control.MenuControl;
@@ -47,6 +46,7 @@ import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
+import sgtmelon.scriptum.widget.color.ColorDialog;
 
 public final class TextNoteFragment extends Fragment implements
         View.OnClickListener, BindIntf, MenuIntf.Note.NoteMenuClick {
@@ -138,7 +138,7 @@ public final class TextNoteFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
 
         convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm, NoteType.TEXT);
-        colorDialog = DialogFactory.INSTANCE.getColorDialog(context, fm);
+        colorDialog = DialogFactory.INSTANCE.getColorDialog(fm);
         rankDialog = DialogFactory.INSTANCE.getRankDialog(context, fm);
 
         final Bundle bundle = getArguments();
@@ -207,7 +207,6 @@ public final class TextNoteFragment extends Fragment implements
     }
 
     private void setupDialog() {
-        colorDialog.setTitle(getString(R.string.dialog_title_color));
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             final int check = colorDialog.getCheck();
 

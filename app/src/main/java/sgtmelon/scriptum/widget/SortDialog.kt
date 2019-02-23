@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.element
+package sgtmelon.scriptum.widget
 
 import android.app.Dialog
 import android.os.Bundle
@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import sgtmelon.safedialog.office.annot.DialogAnn
-import sgtmelon.safedialog.office.blank.DialogBlank
+import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.SortAdapter
 import sgtmelon.scriptum.app.model.item.SortItem
@@ -77,19 +76,19 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
     fun setArguments(keys: String) {
         val bundle = Bundle()
 
-        bundle.putString(DialogAnn.INIT, keys)
-        bundle.putString(DialogAnn.VALUE, keys)
+        bundle.putString(INIT, keys)
+        bundle.putString(VALUE, keys)
 
         arguments = bundle
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        init = savedInstanceState?.getString(DialogAnn.INIT)
-                ?: arguments?.getString(DialogAnn.INIT)
+        init = savedInstanceState?.getString(INIT)
+                ?: arguments?.getString(INIT)
                 ?: ""
 
-        keys = savedInstanceState?.getString(DialogAnn.VALUE)
-                ?: arguments?.getString(DialogAnn.VALUE)
+        keys = savedInstanceState?.getString(VALUE)
+                ?: arguments?.getString(VALUE)
                 ?: ""
 
         text = resources.getStringArray(R.array.pref_sort_text)
@@ -136,8 +135,8 @@ class SortDialog : DialogBlank(), ItemIntf.ClickListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putString(DialogAnn.INIT, init)
-        outState.putString(DialogAnn.VALUE, keys)
+        outState.putString(INIT, init)
+        outState.putString(VALUE, keys)
     }
 
     override fun setEnable() {

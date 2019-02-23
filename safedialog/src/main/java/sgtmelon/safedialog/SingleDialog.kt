@@ -1,11 +1,8 @@
-package sgtmelon.safedialog.library
+package sgtmelon.safedialog
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.R
-import sgtmelon.safedialog.office.annot.DialogAnn
-import sgtmelon.safedialog.office.blank.DialogBlank
 
 class SingleDialog : DialogBlank() {
 
@@ -18,8 +15,8 @@ class SingleDialog : DialogBlank() {
     fun setArguments(check: Int) {
         val bundle = Bundle()
 
-        bundle.putInt(DialogAnn.INIT, check)
-        bundle.putInt(DialogAnn.VALUE, check)
+        bundle.putInt(INIT, check)
+        bundle.putInt(VALUE, check)
 
         arguments = bundle
     }
@@ -27,12 +24,12 @@ class SingleDialog : DialogBlank() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        init = savedInstanceState?.getInt(DialogAnn.INIT)
-                ?: bundle?.getInt(DialogAnn.INIT)
+        init = savedInstanceState?.getInt(INIT)
+                ?: bundle?.getInt(INIT)
                 ?: 0
 
-        check = savedInstanceState?.getInt(DialogAnn.VALUE)
-                ?: bundle?.getInt(DialogAnn.VALUE)
+        check = savedInstanceState?.getInt(VALUE)
+                ?: bundle?.getInt(VALUE)
                 ?: 0
 
         return AlertDialog.Builder(activity)
@@ -50,8 +47,8 @@ class SingleDialog : DialogBlank() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(DialogAnn.INIT, init)
-        outState.putInt(DialogAnn.VALUE, check)
+        outState.putInt(INIT, init)
+        outState.putInt(VALUE, check)
     }
 
     override fun setEnable() {

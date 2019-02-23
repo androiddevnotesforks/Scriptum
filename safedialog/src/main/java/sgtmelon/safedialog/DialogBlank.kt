@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.office.blank
+package sgtmelon.safedialog
 
 import android.app.Activity
 import android.content.Context
@@ -57,6 +57,12 @@ open class DialogBlank : DialogFragment() {
 
         buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
         buttonNeutral = dialog.getButton(DialogInterface.BUTTON_NEUTRAL)
+    }
+
+    companion object {
+        const val POSITION = "POSITION"
+        const val INIT = "INIT"
+        const val VALUE = "VALUE"
     }
 
 }

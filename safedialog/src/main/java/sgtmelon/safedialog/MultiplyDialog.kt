@@ -1,11 +1,8 @@
-package sgtmelon.safedialog.library
+package sgtmelon.safedialog
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.R
-import sgtmelon.safedialog.office.annot.DialogAnn
-import sgtmelon.safedialog.office.blank.DialogBlank
 import java.util.*
 
 class MultiplyDialog : DialogBlank() {
@@ -20,8 +17,8 @@ class MultiplyDialog : DialogBlank() {
     fun setArguments(check: BooleanArray) {
         val bundle = Bundle()
 
-        bundle.putBooleanArray(DialogAnn.INIT, check.clone())
-        bundle.putBooleanArray(DialogAnn.VALUE, check)
+        bundle.putBooleanArray(INIT, check.clone())
+        bundle.putBooleanArray(VALUE, check)
 
         arguments = bundle
     }
@@ -29,12 +26,12 @@ class MultiplyDialog : DialogBlank() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        init = savedInstanceState?.getBooleanArray(DialogAnn.INIT)
-                ?: bundle?.getBooleanArray(DialogAnn.INIT)
+        init = savedInstanceState?.getBooleanArray(INIT)
+                ?: bundle?.getBooleanArray(INIT)
                 ?: BooleanArray(size = 0)
 
-        check = savedInstanceState?.getBooleanArray(DialogAnn.VALUE)
-                ?: bundle?.getBooleanArray(DialogAnn.VALUE)
+        check = savedInstanceState?.getBooleanArray(VALUE)
+                ?: bundle?.getBooleanArray(VALUE)
                 ?: BooleanArray(size = 0)
 
         return AlertDialog.Builder(activity)
@@ -52,8 +49,8 @@ class MultiplyDialog : DialogBlank() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putBooleanArray(DialogAnn.INIT, init)
-        outState.putBooleanArray(DialogAnn.VALUE, check)
+        outState.putBooleanArray(INIT, init)
+        outState.putBooleanArray(VALUE, check)
     }
 
     override fun setEnable() {

@@ -1,7 +1,9 @@
 package sgtmelon.scriptum.office.utils
 
 import android.app.Activity
+import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,5 +74,9 @@ object AppUtils {
         function.invoke()
         return true
     }
+
+    fun Context.getDimen(value: Float) = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics
+    ).toInt()
 
 }

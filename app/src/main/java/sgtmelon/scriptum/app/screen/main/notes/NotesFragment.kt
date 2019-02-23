@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.safedialog.library.OptionsDialog
+import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory

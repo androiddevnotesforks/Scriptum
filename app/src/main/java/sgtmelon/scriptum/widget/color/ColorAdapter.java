@@ -1,9 +1,7 @@
-package sgtmelon.safedialog.library.color;
+package sgtmelon.scriptum.widget.color;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,43 +14,48 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import sgtmelon.safedialog.R;
-import sgtmelon.safedialog.office.intf.ColorIntf;
+import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.office.annot.def.ThemeDef;
+import sgtmelon.scriptum.office.data.ColorData;
+import sgtmelon.scriptum.office.utils.AppUtils;
+import sgtmelon.scriptum.office.utils.PrefUtils;
 
 public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
     private final Context context;
-    private final int count;
-    @Dimension private final int strokeDimen;
-
     private final LayoutInflater inflater;
 
-    @IdRes private int[] fillColor, strokeColor, checkColor;
+    private final int count;
+
+    @IdRes private final int[] fillColor, strokeColor, checkColor;
+    @Dimension private final int strokeDimen;
+
     private int check;
     private boolean[] visible;
 
     private ColorIntf.ClickListener clickListener;
 
-    public ColorAdapter(Context context, int count) {
+    public ColorAdapter(Context context) {
         this.context = context;
-        this.count = count;
-
         inflater = LayoutInflater.from(context);
 
-        final DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-        strokeDimen = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, metrics);
-    }
+        count = ColorData.INSTANCE.getSize();
 
-    public void setFillColor(int[] fillColor) {
-        this.fillColor = fillColor;
-    }
+        switch (new PrefUtils(context).getTheme()) {
+            case ThemeDef.light:
+                fillColor = ColorData.INSTANCE.getLight();
+                strokeColor = ColorData.INSTANCE.getDark();
+                checkColor = ColorData.INSTANCE.getDark();
+                break;
+            default:
+            case ThemeDef.dark:
+                fillColor = ColorData.INSTANCE.getDark();
+                strokeColor = ColorData.INSTANCE.getDark();
+                checkColor = ColorData.INSTANCE.getLight();
+                break;
+        }
 
-    public void setStrokeColor(int[] strokeColor) {
-        this.strokeColor = strokeColor;
-    }
-
-    public void setCheckColor(int[] checkColor) {
-        this.checkColor = checkColor;
+        strokeDimen = AppUtils.INSTANCE.getDimen(context, 1);
     }
 
     public void setCheck(int check) {

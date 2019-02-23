@@ -1,10 +1,8 @@
-package sgtmelon.safedialog.library
+package sgtmelon.safedialog
 
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.R
-import sgtmelon.safedialog.office.blank.DialogBlank
 
 class MessageDialog : DialogBlank() {
 

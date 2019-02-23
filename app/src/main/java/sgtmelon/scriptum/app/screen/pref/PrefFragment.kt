@@ -12,18 +12,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.library.SingleDialog
-import sgtmelon.safedialog.library.color.ColorDialog
+import sgtmelon.safedialog.SingleDialog
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.screen.develop.DevelopActivity
-import sgtmelon.scriptum.element.InfoDialog
-import sgtmelon.scriptum.element.SortDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.widget.InfoDialog
+import sgtmelon.scriptum.widget.SortDialog
+import sgtmelon.scriptum.widget.color.ColorDialog
 
 class PrefFragment : PreferenceFragment() {
 
@@ -41,7 +41,7 @@ class PrefFragment : PreferenceFragment() {
         DialogFactory.getSortDialog(fm)
     }
     private val colorDialog: ColorDialog by lazy {
-        DialogFactory.getColorDialog(activity, fm)
+        DialogFactory.getColorDialog(fm)
     }
     private val infoDialog: InfoDialog by lazy {
         DialogFactory.getInfoDialog(fm)

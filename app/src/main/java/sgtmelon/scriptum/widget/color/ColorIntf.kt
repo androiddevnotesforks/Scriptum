@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.office.intf
+package sgtmelon.scriptum.widget.color
 
 interface ColorIntf {
 

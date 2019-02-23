@@ -1,4 +1,4 @@
-package sgtmelon.safedialog.library
+package sgtmelon.safedialog
 
 import android.app.Activity
 import android.app.Dialog
@@ -7,7 +7,8 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import sgtmelon.safedialog.office.annot.DialogAnn
+import sgtmelon.safedialog.DialogBlank.Companion.INIT
+import sgtmelon.safedialog.DialogBlank.Companion.VALUE
 
 class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
@@ -23,8 +24,8 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     fun setArguments(itemArray: Array<String>, p: Int) {
         val bundle = Bundle()
 
-        bundle.putStringArray(DialogAnn.INIT, itemArray)
-        bundle.putInt(DialogAnn.VALUE, p)
+        bundle.putStringArray(DialogBlank.INIT, itemArray)
+        bundle.putInt(DialogBlank.VALUE, p)
 
         arguments = bundle
     }
@@ -38,12 +39,12 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        items = savedInstanceState?.getStringArray(DialogAnn.INIT)?.toList()
-                ?: bundle?.getStringArray(DialogAnn.INIT)?.toList()
+        items = savedInstanceState?.getStringArray(INIT)?.toList()
+                ?: bundle?.getStringArray(INIT)?.toList()
                 ?: ArrayList()
 
-        position = savedInstanceState?.getInt(DialogAnn.VALUE)
-                ?: bundle?.getInt(DialogAnn.VALUE)
+        position = savedInstanceState?.getInt(VALUE)
+                ?: bundle?.getInt(VALUE)
                 ?: 0
 
         return AlertDialog.Builder(activity)
@@ -55,8 +56,8 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putStringArray(DialogAnn.INIT, items.toTypedArray())
-        outState.putInt(DialogAnn.VALUE, position)
+        outState.putStringArray(INIT, items.toTypedArray())
+        outState.putInt(VALUE, position)
     }
 
     override fun onClick(dialogInterface: DialogInterface, i: Int) {

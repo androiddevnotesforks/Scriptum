@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.element
+package sgtmelon.scriptum.widget
 
 import android.content.DialogInterface
 import android.os.Bundle
@@ -10,7 +10,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
-import sgtmelon.safedialog.office.annot.DialogAnn
+import sgtmelon.safedialog.DialogBlank
 
 
 class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItemSelectedListener {
@@ -24,20 +24,20 @@ class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationI
     fun setArguments(@LayoutRes layout: Int, @IdRes navigation: Int) {
         val bundle = Bundle()
 
-        bundle.putInt(DialogAnn.INIT, layout)
-        bundle.putInt(DialogAnn.VALUE, navigation)
+        bundle.putInt(DialogBlank.INIT, layout)
+        bundle.putInt(DialogBlank.VALUE, navigation)
 
         arguments = bundle
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        layout = savedInstanceState?.getInt(DialogAnn.INIT)
-                ?: arguments?.getInt(DialogAnn.INIT)
+        layout = savedInstanceState?.getInt(DialogBlank.INIT)
+                ?: arguments?.getInt(DialogBlank.INIT)
                 ?: 0
 
-        navigation = savedInstanceState?.getInt(DialogAnn.VALUE)
-                ?: arguments?.getInt(DialogAnn.VALUE)
+        navigation = savedInstanceState?.getInt(DialogBlank.VALUE)
+                ?: arguments?.getInt(DialogBlank.VALUE)
                 ?: 0
 
         val view = inflater.inflate(layout, container, false)
@@ -52,8 +52,8 @@ class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationI
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(DialogAnn.INIT, layout)
-        outState.putInt(DialogAnn.VALUE, navigation)
+        outState.putInt(DialogBlank.INIT, layout)
+        outState.putInt(DialogBlank.VALUE, navigation)
     }
 
     override fun onDismiss(dialog: DialogInterface?) {

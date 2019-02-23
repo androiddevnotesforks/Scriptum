@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.app.model.item
 
 import sgtmelon.scriptum.app.adapter.SortAdapter
-import sgtmelon.scriptum.element.SortDialog
+import sgtmelon.scriptum.widget.SortDialog
 
 /**
  * Модель для сортировки [SortDialog], [SortAdapter]

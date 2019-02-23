@@ -27,9 +27,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
-import sgtmelon.safedialog.library.MessageDialog;
-import sgtmelon.safedialog.library.MultiplyDialog;
-import sgtmelon.safedialog.library.color.ColorDialog;
+import sgtmelon.safedialog.MessageDialog;
+import sgtmelon.safedialog.MultiplyDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RollAdapter;
 import sgtmelon.scriptum.app.control.InputControl;
@@ -61,6 +60,7 @@ import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
+import sgtmelon.scriptum.widget.color.ColorDialog;
 
 public final class RollNoteFragment extends Fragment implements
         ItemIntf.ClickListener,
@@ -167,7 +167,7 @@ public final class RollNoteFragment extends Fragment implements
         super.onViewCreated(view, savedInstanceState);
 
         convertDialog = DialogFactory.INSTANCE.getConvertDialog(context, fm, NoteType.ROLL);
-        colorDialog = DialogFactory.INSTANCE.getColorDialog(context, fm);
+        colorDialog = DialogFactory.INSTANCE.getColorDialog(fm);
         rankDialog = DialogFactory.INSTANCE.getRankDialog(context, fm);
 
         final Bundle bundle = getArguments();
@@ -242,7 +242,6 @@ public final class RollNoteFragment extends Fragment implements
     }
 
     private void setupDialog() {
-        colorDialog.setTitle(getString(R.string.dialog_title_color));
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             final int check = colorDialog.getCheck();
 
@@ -762,7 +761,7 @@ public final class RollNoteFragment extends Fragment implements
 
     @Override
     public void onMenuCheckClick() {
-        final NoteItem noteItem = ((RollNoteViewModel) vm).onMenuCheck(checkState.isAll());
+        final NoteItem noteItem = vm.onMenuCheck(checkState.isAll());
         binding.setNoteItem(noteItem);
         binding.executePendingBindings();
 

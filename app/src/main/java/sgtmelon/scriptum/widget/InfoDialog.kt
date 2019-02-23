@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.element
+package sgtmelon.scriptum.widget
 
 import android.app.Dialog
 import android.os.Bundle
@@ -6,8 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.office.annot.DialogAnn
-import sgtmelon.safedialog.office.blank.DialogBlank
+import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 
 class InfoDialog : DialogBlank(), View.OnClickListener {
@@ -18,7 +17,7 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (savedInstanceState != null) {
-            click = savedInstanceState.getInt(DialogAnn.VALUE)
+            click = savedInstanceState.getInt(VALUE)
         }
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_about, null)
@@ -35,7 +34,7 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(DialogAnn.VALUE, click)
+        outState.putInt(VALUE, click)
     }
 
     override fun onClick(v: View) {

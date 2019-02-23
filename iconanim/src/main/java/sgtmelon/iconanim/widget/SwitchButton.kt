@@ -12,8 +12,6 @@ import androidx.core.content.ContextCompat
 import sgtmelon.iconanim.R
 import sgtmelon.iconanim.library.IconAnimControl
 
-const val SRC_NULL = -1
-
 /**
  * Кнопка с автоматизацией процесса смены иконки
  */
@@ -63,6 +61,10 @@ open class SwitchButton(internal val context: Context, attrs: AttributeSet)
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         setImageDrawable(if (drawableOn) drawableSelect
         else drawableDisable)
+    }
+
+    companion object {
+        const val SRC_NULL = -1
     }
 
 }

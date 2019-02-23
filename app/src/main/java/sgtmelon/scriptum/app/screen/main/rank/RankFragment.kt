@@ -25,12 +25,12 @@ import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.databinding.FragmentRankBinding
-import sgtmelon.scriptum.element.RenameDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemIntf
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
+import sgtmelon.scriptum.widget.RenameDialog
 
 class RankFragment : Fragment(), RankCallback {
 
