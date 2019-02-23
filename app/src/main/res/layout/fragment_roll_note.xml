@@ -9,15 +9,16 @@
 
         <variable name="enterEmpty" type="boolean"/>
 
-        <variable name="noteClick"
-                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.NoteMenuClick"/>
-        <variable name="deleteClick"
-                  type="sgtmelon.scriptum.office.intf.MenuIntf.Note.DeleteMenuClick"/>
+        <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.roll.MenuCallback"/>
 
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
+
         <variable name="rankEmpty" type="boolean"/>
+
+        <!-- TODO если в заметке есть категории - значит выбрано -->
         <variable name="rankSelect" type="boolean"/>
+
         <variable name="saveEnabled" type="boolean"/>
 
     </data>
@@ -44,10 +45,9 @@
                  app:enterEmpty='@{enterEmpty}'
                  app:keyEdit='@{keyEdit}'/>
 
-        <include layout="@layout/include_note_panel"
-                 app:deleteClick='@{deleteClick}'
+        <include layout="@layout/include_roll_note_panel"
                  app:keyEdit='@{keyEdit}'
-                 app:noteClick='@{noteClick}'
+                 app:menuClick='@{menuClick}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'
                  app:rankSelect='@{rankSelect}'

@@ -135,10 +135,6 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onCheckClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun onBindClick() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

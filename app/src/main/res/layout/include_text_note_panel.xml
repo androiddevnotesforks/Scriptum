@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="sgtmelon.scriptum.R"/>
+        <import alias="v" type="android.view.View"/>
+        <import alias="noteType" type="sgtmelon.scriptum.office.annot.key.NoteType"/>
+
+        <variable name="keyEdit" type="boolean"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+
+        <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.text.MenuCallback"/>
+
+        <variable name="undoAccess" type="boolean"/>
+        <variable name="redoAccess" type="boolean"/>
+
+        <variable name="rankEmpty" type="boolean"/>
+
+        <!-- TODO если в заметке есть категории - значит выбрано -->
+        <variable name="rankSelect" type="boolean"/>
+
+        <variable name="saveEnabled" type="boolean"/>
+
+    </data>
+
+    <LinearLayout
+            android:id="@+id/note_panel_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_gravity="center">
+
+        <View style="@style/Divider.Horizontal"/>
+
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/clPrimary"
+                android:paddingLeft="@dimen/layout_8dp"
+                android:paddingRight="@dimen/layout_8dp">
+
+            <LinearLayout
+                    android:id="@+id/note_panel_bin_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:visibility='@{noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
+                    tools:visibility="invisible">
+
+                <ImageButton
+                        android:id="@+id/note_panel_restore_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_restore"
+                        android:onClick='@{() -> menuClick.onRestoreClick()}'
+                        android:tint="?attr/clContent"
+                        app:srcCompat="@drawable/ic_restore"/>
+
+                <ImageButton
+                        android:id="@+id/note_panel_restore_open_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_restore_open"
+                        android:onClick='@{() -> menuClick.onRestoreOpenClick()}'
+                        android:tint="?attr/clContent"
+                        app:srcCompat="@drawable/ic_restore_open"/>
+
+                <ImageButton
+                        android:id="@+id/note_panel_clear_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_clear"
+                        android:onClick='@{() -> menuClick.onClearClick()}'
+                        android:tint="?attr/clAccent"
+                        app:srcCompat="@drawable/ic_clear"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/note_panel_edit_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility='@{keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
+                    tools:visibility="visible">
+
+                <ImageButton
+                        android:id="@+id/note_panel_undo_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:onClick='@{() -> menuClick.onUndoClick()}'
+                        app:boolExpression='@{undoAccess}'
+                        app:enabled='@{undoAccess}'
+                        app:falseColor='@{R.attr.clDisable}'
+                        app:srcCompat="@drawable/ic_undo"
+                        app:trueColor='@{R.attr.clContent}'
+                        tools:tint="?attr/clDisable"/>
+
+                <ImageButton
+                        android:id="@+id/note_panel_redo_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:onClick='@{() -> menuClick.onRedoClick()}'
+                        app:boolExpression='@{redoAccess}'
+                        app:enabled='@{redoAccess}'
+                        app:falseColor='@{R.attr.clDisable}'
+                        app:srcCompat="@drawable/ic_redo"
+                        app:trueColor='@{R.attr.clContent}'
+                        tools:tint="?attr/clDisable"/>
+
+                <ImageButton
+                        android:id="@+id/note_panel_rank_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:onClick='@{() -> menuClick.onRankClick()}'
+                        app:boolExpression='@{!rankEmpty}'
+                        app:enabled='@{!rankEmpty}'
+                        app:falseColor='@{R.attr.clDisable}'
+                        app:srcCompat="@drawable/ic_rank"
+                        app:trueColor='@{rankSelect ? R.attr.clAccent : R.attr.clContent}'
+                        tools:tint="?attr/clAccent"/>
+
+                <ImageButton
+                        android:id="@+id/note_panel_color_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@null"
+                        android:onClick='@{() -> menuClick.onColorClick()}'
+                        android:tint="?attr/clContent"
+                        app:srcCompat="@drawable/ic_palette"/>
+
+                <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                <Button
+                        android:id="@+id/note_panel_save_button"
+                        style="@style/Enter.Button"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:onClick='@{() -> menuClick.onSaveClick(true)}'
+                        android:text="@string/menu_note_save"
+                        app:enabled='@{saveEnabled}'/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/note_panel_read_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:visibility='@{!keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
+                    tools:visibility="invisible">
+
+                <ImageButton
+                        android:id="@+id/note_panel_bind_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_status_bind"
+                        android:onClick='@{() -> menuClick.onBindClick()}'
+                        android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                        app:boolExpression='@{noteItem.status}'
+                        app:falseColor='@{R.attr.clContent}'
+                        app:trueColor='@{R.attr.clAccent}'
+                        tools:srcCompat="@drawable/ic_bind_roll"
+                        tools:tint="?attr/clAccent"/>
+
+                <ImageButton
+                        android:id="@+id/note_panel_convert_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription='@{noteItem.type == noteType.TEXT ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
+                        android:onClick='@{() -> menuClick.onConvertClick()}'
+                        android:tint="?attr/clContent"
+                        app:srcCompat="@drawable/ic_convert"/>
+
+                <ImageButton
+                        android:id="@+id/note_panel_delete_button"
+                        style="@style/Enter.Button"
+                        android:contentDescription="@string/menu_note_delete"
+                        android:onClick='@{() -> menuClick.onDeleteClick()}'
+                        android:tint="?attr/clContent"
+                        app:srcCompat="@drawable/ic_bin"/>
+
+                <View
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                <Button
+                        android:id="@+id/note_panel_edit_button"
+                        style="@style/Enter.Button"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:onClick='@{() -> menuClick.onEditClick(true)}'
+                        android:text="@string/menu_note_edit"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</layout>

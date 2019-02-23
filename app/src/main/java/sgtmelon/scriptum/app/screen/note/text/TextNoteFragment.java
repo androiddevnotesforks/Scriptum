@@ -74,7 +74,6 @@ public final class TextNoteFragment extends Fragment implements
     private boolean rankEmpty;
 
     private MenuControl menuControl;
-    private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
 
     private ColorDialog colorDialog;
     private MultiplyDialog rankDialog;
@@ -103,14 +102,6 @@ public final class TextNoteFragment extends Fragment implements
             throw new ClassCastException(NoteCallback.class.getSimpleName() +
                     " interface not installed");
         }
-
-        if (context instanceof MenuIntf.Note.DeleteMenuClick) {
-            deleteMenuClick = (MenuIntf.Note.DeleteMenuClick) context;
-        } else {
-            throw new ClassCastException(MenuIntf.Note.DeleteMenuClick.class.getSimpleName() +
-                    " interface not installed");
-        }
-
     }
 
     @NonNull
@@ -165,8 +156,7 @@ public final class TextNoteFragment extends Fragment implements
     }
 
     private void setupBinding() {
-        binding.setNoteClick(this);
-        binding.setDeleteClick(deleteMenuClick);
+        binding.setMenuClick(vm);
         binding.setRankEmpty(rankEmpty);
         binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
     }

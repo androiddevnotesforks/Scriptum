@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.app.screen.note.text
+package sgtmelon.scriptum.app.screen.note.roll
 
 /**
- * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragment]
+ * Интерфейс для общения [RollNoteViewModel] с [RollNoteFragment]
  */
 interface MenuCallback {
 
@@ -32,6 +32,8 @@ interface MenuCallback {
     /**
      * Режим просмотра
      */
+
+    fun onCheckClick()
 
     fun onBindClick()
 
