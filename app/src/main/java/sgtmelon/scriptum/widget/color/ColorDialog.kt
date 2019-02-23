@@ -38,8 +38,6 @@ class ColorDialog : DialogBlank(), ColorIntf.ClickListener {
                 ?: bundle?.getInt(VALUE)
                 ?: 0
 
-        title = activity.getString(R.string.dialog_title_color)
-
         val adapter = ColorAdapter(activity)
         adapter.setCheck(check)
         adapter.setClickListener(this)

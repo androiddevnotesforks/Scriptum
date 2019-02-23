@@ -19,8 +19,10 @@
 
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
+
         <variable name="rankEmpty" type="boolean"/>
         <variable name="rankSelect" type="boolean"/>
+
         <variable name="saveEnabled" type="boolean"/>
 
     </data>

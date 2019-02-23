@@ -57,7 +57,7 @@ class SaveControl(private val context: Context) {
     }
 
     private fun onSave() {
-        when (noteMenuClick.onMenuSaveClick(false, false)) {
+        when (noteMenuClick.onMenuSaveClick(false)) {
             true -> Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()
             false -> Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show()
         }

@@ -242,6 +242,7 @@ public final class RollNoteFragment extends Fragment implements
     }
 
     private void setupDialog() {
+        colorDialog.setTitle(activity.getString(R.string.dialog_title_color));
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             final int check = colorDialog.getCheck();
 
@@ -471,7 +472,7 @@ public final class RollNoteFragment extends Fragment implements
     }
 
     @Override
-    public boolean onMenuSaveClick(boolean modeChange, boolean showToast) {
+    public boolean onMenuSaveClick(boolean modeChange) {
         final NoteRepo noteRepo = vm.getNoteRepo();
         final NoteItem noteItem = noteRepo.getNoteItem();
         final List<RollItem> listRoll = noteRepo.getListRoll();

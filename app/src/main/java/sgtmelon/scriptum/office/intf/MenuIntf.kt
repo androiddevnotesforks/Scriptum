@@ -21,9 +21,8 @@ interface MenuIntf {
             /**
              * При успешном сохранении возвращает - true
              * [modeChange] - Надо ли менять режим редактирования,
-             * [showToast]  - Показывать уведомление о том, что заметка пуста
              */
-            fun onMenuSaveClick(modeChange: Boolean, showToast: Boolean): Boolean
+            fun onMenuSaveClick(modeChange: Boolean): Boolean
 
             fun onUndoClick()
 

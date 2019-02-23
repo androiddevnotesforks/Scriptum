@@ -60,7 +60,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
 
         when (noteItem.type) {
             NoteType.TEXT -> {
-                if (!textNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
+                if (!textNoteFragment!!.onMenuSaveClick(modeChange = true)) {
                     if (noteSt.isEdit && !noteSt.isCreate) {
                         val colorFrom = noteItem.color
 
@@ -78,7 +78,7 @@ class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMen
                 }
             }
             NoteType.ROLL -> {
-                if (!rollNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
+                if (!rollNoteFragment!!.onMenuSaveClick(modeChange = true)) {
                     if (noteSt.isEdit && !noteSt.isCreate) {
                         val colorFrom = noteItem.color
 
