@@ -8,6 +8,7 @@ import sgtmelon.scriptum.app.screen.intro.IntroActivity
 import sgtmelon.scriptum.app.screen.main.MainActivity
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 
@@ -24,8 +25,8 @@ class SplashViewModel : ViewModel() {
     fun onStartApplication(bundle: Bundle?) {
         if (bundle != null && bundle.getBoolean(SplashActivity.STATUS_OPEN)) {
             val noteIntent = context.getNoteIntent(
-                    NoteType.values()[bundle.getInt(SplashActivity.NOTE_TYPE)],
-                    bundle.getLong(SplashActivity.NOTE_ID)
+                    NoteType.values()[bundle.getInt(NoteData.Intent.TYPE)],
+                    bundle.getLong(NoteData.Intent.ID)
             )
 
             callback.startFromNotification(

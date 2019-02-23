@@ -54,6 +54,8 @@ class SaveControl(private val context: Context) {
         }
     }
 
+    // TODO интерфейс для результата
+
     private fun onSave() {
 //        when (noteMenuClick.onMenuSaveClick(false)) {
 //            true -> Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()

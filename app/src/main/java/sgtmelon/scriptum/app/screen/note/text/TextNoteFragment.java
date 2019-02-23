@@ -59,8 +59,6 @@ public final class TextNoteFragment extends Fragment implements
     private Activity activity;
     private NoteCallback noteCallback;
 
-    private MessageDialog convertDialog;
-
     private EditText nameEnter;
 
     private TextNoteViewModel vm;
@@ -73,6 +71,7 @@ public final class TextNoteFragment extends Fragment implements
 
     private ColorDialog colorDialog;
     private MultiplyDialog rankDialog;
+    private MessageDialog convertDialog;
 
 
     public static TextNoteFragment getInstance(@NonNull Long id) {
@@ -139,7 +138,6 @@ public final class TextNoteFragment extends Fragment implements
         setupToolbar(view);
         setupDialog();
         setupEnter(view);
-
 //        final NoteState noteState = noteCallback.getViewModel().getNoteState();
 //        onMenuEditClick(noteState.isEdit());
 //        noteState.setFirst(false);

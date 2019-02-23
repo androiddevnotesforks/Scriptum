@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 /**
@@ -38,14 +39,11 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
     companion object {
         const val STATUS_OPEN = "INTENT_SPLASH_STATUS_OPEN"
 
-        const val NOTE_TYPE = "INTENT_SPLASH_NOTE_TYPE"
-        const val NOTE_ID = "INTENT_SPLASH_NOTE_ID"
-
         fun getIntent(context: Context, noteType: NoteType, id: Long): Intent {
             return Intent(context, SplashActivity::class.java)
                     .putExtra(STATUS_OPEN, true)
-                    .putExtra(NOTE_TYPE, noteType.ordinal)
-                    .putExtra(NOTE_ID, id)
+                    .putExtra(NoteData.Intent.TYPE, noteType.ordinal)
+                    .putExtra(NoteData.Intent.ID, id)
         }
     }
 

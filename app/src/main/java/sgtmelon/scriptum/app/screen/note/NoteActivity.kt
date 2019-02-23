@@ -8,9 +8,10 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
-import sgtmelon.scriptum.app.screen.note.text.TextNoteFragment
+import sgtmelon.scriptum.app.screen.note.text.TextNoteFragmentNew
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.office.data.NoteData
 
 class NoteActivity : ParentActivity(), NoteCallback {
 
@@ -34,8 +35,8 @@ class NoteActivity : ParentActivity(), NoteCallback {
 
     override fun showTextFragment(id: Long, isSave: Boolean) {
         showFragment(NoteType.TEXT.name, when (isSave) {
-            true -> supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as TextNoteFragment
-            false -> TextNoteFragment.getInstance(id)
+            true -> supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as TextNoteFragmentNew
+            false -> TextNoteFragmentNew.getInstance(id)
         })
     }
 
@@ -53,13 +54,10 @@ class NoteActivity : ParentActivity(), NoteCallback {
             .commit()
 
     companion object {
-        const val NOTE_ID = "INTENT_NOTE_ID"
-        const val NOTE_TYPE = "INTENT_NOTE_TYPE"
-
-        fun Context.getNoteIntent(type:NoteType, id: Long? = NoteViewModel.UNDEFINED_ID): Intent {
+        fun Context.getNoteIntent(type:NoteType, id: Long? = NoteData.Default.ID): Intent {
             return Intent(this, NoteActivity::class.java)
-                    .putExtra(NOTE_ID, id)
-                    .putExtra(NOTE_TYPE, type.ordinal)
+                    .putExtra(NoteData.Intent.ID, id)
+                    .putExtra(NoteData.Intent.TYPE, type.ordinal)
         }
     }
 

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.app.screen.main
 
+
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.MenuItem
@@ -11,7 +12,6 @@ import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
-import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
@@ -95,17 +95,10 @@ class MainActivity : ParentActivity(),
     override fun changeFabState(state: Boolean) = fab.setState(state)
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean { // TODO Оптимизировать
-        val pageFrom = enumValues<MainPage.Name>()[page]
-        val pageTo = when (menuItem.itemId) {
-            R.id.item_page_rank -> MainPage.Name.RANK
-            R.id.item_page_notes -> MainPage.Name.NOTES
-            else -> MainPage.Name.BIN
-        }
+        val pageFrom = MainPage.Name.values()[page]
+        val pageTo = MainPage.getById(menuItem.itemId)
 
         page = pageTo.ordinal
-
-        val transaction = supportFragmentManager.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
         if (!firstStart && pageTo == pageFrom) {
             when (pageTo) {
@@ -116,14 +109,16 @@ class MainActivity : ParentActivity(),
         } else {
             if (firstStart) firstStart = false
 
-            val fragmentTo: Fragment = when (pageTo) {
-                MainPage.Name.RANK -> rankFragment
-                MainPage.Name.NOTES -> notesFragment
-                MainPage.Name.BIN -> binFragment
+            changeFabState(state = pageTo == MainPage.Name.NOTES)
+
+            val transaction = supportFragmentManager.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+
+            if (supportFragmentManager.findFragmentByTag(pageFrom.name) != null) {
+                transaction.hide(getFragmentByName(pageFrom))
             }
 
-            changeFabState(fragmentTo is NotesFragment)
-
+            val fragmentTo = getFragmentByName(pageTo)
             if (supportFragmentManager.findFragmentByTag(pageTo.name) != null) {
                 transaction.show(fragmentTo)
                 fragmentTo.onResume()
@@ -131,17 +126,16 @@ class MainActivity : ParentActivity(),
                 transaction.add(R.id.main_fragment_container, fragmentTo, pageTo.name)
             }
 
-            if (supportFragmentManager.findFragmentByTag(pageFrom.name) != null) {
-                transaction.hide(when (pageFrom) {
-                    MainPage.Name.RANK -> rankFragment
-                    MainPage.Name.NOTES -> notesFragment
-                    MainPage.Name.BIN -> binFragment
-                })
-            }
+            transaction.commit()
         }
 
-        transaction.commit()
         return true
+    }
+
+    private fun getFragmentByName(name: MainPage.Name): Fragment = when(name) {
+        MainPage.Name.RANK -> rankFragment
+        MainPage.Name.NOTES -> notesFragment
+        MainPage.Name.BIN -> binFragment
     }
 
     companion object {

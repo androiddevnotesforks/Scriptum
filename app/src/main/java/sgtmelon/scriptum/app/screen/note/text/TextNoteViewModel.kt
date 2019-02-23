@@ -2,21 +2,134 @@ package sgtmelon.scriptum.app.screen.note.text
 
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.InputControl
 import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.utils.TimeUtils
 import java.util.*
 
 /**
- * ViewModel для [TextNoteFragment]
+ * ViewModel для [TextNoteFragmentNew]
  */
-class TextNoteViewModel(application: Application) : AndroidViewModel(application), MenuCallback {
+class TextNoteViewModel(application: Application) : AndroidViewModel(application),
+        MenuCallback {
 
     private val context: Context = application.applicationContext
+
+    lateinit var callback: TextNoteCallback
+
+    private var id: Long = NoteData.Default.ID
+
+    fun setupData(bundle: Bundle?) {
+        id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
+    }
+
+    fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
+
+    override fun onRestoreClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onRestoreOpenClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onClearClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onUndoClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onRedoClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onRankClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onColorClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSaveClick(changeMode: Boolean): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onBindClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onConvertClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onDeleteClick() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onEditClick(mode: Boolean) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
+
+    /**
+     *
+     */
+
 
     lateinit var noteRepo: NoteRepo
 
@@ -50,7 +163,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         noteItem.color = check
     }
 
-    fun getRankDialogName() : Array<String> {
+    fun getRankDialogName(): Array<String> {
         val db = RoomDb.provideDb(context)
         val name: Array<String> = db.daoRank().name
         db.close()
@@ -102,54 +215,5 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         noteRepo.noteItem = noteItem
 //        noteCallback.viewModel.noteRepo = noteRepo
     }
-
-    override fun onRestoreClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onRestoreOpenClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onClearClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onUndoClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onRedoClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onRankClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onColorClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onSaveClick(changeMode: Boolean): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onBindClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onConvertClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onDeleteClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun onEditClick(mode: Boolean) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 
 }
