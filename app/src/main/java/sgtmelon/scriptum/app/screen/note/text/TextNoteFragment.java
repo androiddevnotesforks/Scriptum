@@ -27,12 +27,10 @@ import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.MenuControlAnim;
 import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.factory.DialogFactory;
-import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.screen.note.NoteCallback;
-import sgtmelon.scriptum.app.screen.note.NoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -43,9 +41,7 @@ import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.BindIntf;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.MenuIntf;
-import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.AppUtils;
-import sgtmelon.scriptum.office.utils.TimeUtils;
 import sgtmelon.scriptum.widget.color.ColorDialog;
 
 public final class TextNoteFragment extends Fragment implements
@@ -117,7 +113,7 @@ public final class TextNoteFragment extends Fragment implements
         );
 
         vm = ViewModelProviders.of(this).get(TextNoteViewModel.class);
-        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
+//        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
         vm.setNoteCallback(noteCallback);
         vm.setInputControl(inputControl);
 
@@ -144,9 +140,9 @@ public final class TextNoteFragment extends Fragment implements
         setupDialog();
         setupEnter(view);
 
-        final NoteState noteState = noteCallback.getViewModel().getNoteState();
-        onMenuEditClick(noteState.isEdit());
-        noteState.setFirst(false);
+//        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+//        onMenuEditClick(noteState.isEdit());
+//        noteState.setFirst(false);
     }
 
     @Override
@@ -158,7 +154,8 @@ public final class TextNoteFragment extends Fragment implements
     private void setupBinding() {
         binding.setMenuClick(vm);
         binding.setRankEmpty(rankEmpty);
-        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
+        binding.setRankSelect(true);
+//        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
     }
 
     private void bindEdit(boolean editMode) {
@@ -188,10 +185,11 @@ public final class TextNoteFragment extends Fragment implements
             menuControl = new MenuControlAnim(context, activity.getWindow(), toolbar, indicator);
         }
 
-        menuControl.setColor(vm.getNoteColor());
+        menuControl.setColor(ColorDef.red);
+//        menuControl.setColor(vm.getNoteColor());
 
-        final NoteState noteState = noteCallback.getViewModel().getNoteState();
-        menuControl.setDrawable(noteState.isEdit() && !noteState.isCreate(), false);
+//        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+//        menuControl.setDrawable(noteState.isEdit() && !noteState.isCreate(), false);
 
         toolbar.setNavigationOnClickListener(this);
     }
@@ -249,73 +247,73 @@ public final class TextNoteFragment extends Fragment implements
      */
     @Override
     public void onClick(View v) {
-        AppUtils.INSTANCE.hideKeyboard(activity);
-
-        final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteState noteState = viewModel.getNoteState();
-
-        NoteRepo noteRepo = vm.getNoteRepo();
-        NoteItem noteItem = noteRepo.getNoteItem();
-
-        //Если редактирование и текст в хранилище не пустой
-        if (!noteState.isCreate() && noteState.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
-            menuControl.setColorFrom(noteItem.getColor());
-
-            db = RoomDb.provideDb(context);
-            noteRepo = db.daoNote().get(context, noteItem.getId());
-            noteItem = noteRepo.getNoteItem();
-            db.close();
-
-            vm.setNoteRepo(noteRepo);
-            viewModel.setNoteRepo(noteRepo);
-
-            onMenuEditClick(false);
-            menuControl.startTint(noteItem.getColor());
-
-            inputControl.clear();
-            bindInput();
-        } else {
-            noteCallback.getSaveControl().setNeedSave(false);
-            activity.finish();
-        }
+//        AppUtils.INSTANCE.hideKeyboard(activity);
+//
+//        final NoteViewModel viewModel = noteCallback.getViewModel();
+//        final NoteState noteState = viewModel.getNoteState();
+//
+//        NoteRepo noteRepo = vm.getNoteRepo();
+//        NoteItem noteItem = noteRepo.getNoteItem();
+//
+//        //Если редактирование и текст в хранилище не пустой
+//        if (!noteState.isCreate() && noteState.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
+//            menuControl.setColorFrom(noteItem.getColor());
+//
+//            db = RoomDb.provideDb(context);
+//            noteRepo = db.daoNote().get(context, noteItem.getId());
+//            noteItem = noteRepo.getNoteItem();
+//            db.close();
+//
+//            vm.setNoteRepo(noteRepo);
+//            viewModel.setNoteRepo(noteRepo);
+//
+//            onMenuEditClick(false);
+//            menuControl.startTint(noteItem.getColor());
+//
+//            inputControl.clear();
+//            bindInput();
+//        } else {
+//            noteCallback.getSaveControl().setNeedSave(false);
+//            activity.finish();
+//        }
     }
 
     @Override
     public boolean onMenuSaveClick(boolean modeChange) {
-        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
-
-        if (TextUtils.isEmpty(noteItem.getText())) return false;
-
-        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
-
-        if (modeChange) {
-            AppUtils.INSTANCE.hideKeyboard(activity);
-            onMenuEditClick(false);
-        }
-
-        db = RoomDb.provideDb(context);
-
-        final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteState noteState = viewModel.getNoteState();
-        if (noteState.isCreate()) {
-            noteState.setCreate(false);
-
-            if (!modeChange) {
-                menuControl.setDrawable(true, true);
-            }
-
-            noteItem.setId(db.daoNote().insert(noteItem));
-        } else {
-            db.daoNote().update(noteItem);
-        }
-
-        db.daoRank().update(noteItem.getId(), noteItem.getRankId());
-        db.close();
-
-        viewModel.setNoteRepo(vm.getNoteRepo());
-
-        inputControl.clear();
-        bindInput();
+//        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+//
+//        if (TextUtils.isEmpty(noteItem.getText())) return false;
+//
+//        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
+//
+//        if (modeChange) {
+//            AppUtils.INSTANCE.hideKeyboard(activity);
+//            onMenuEditClick(false);
+//        }
+//
+//        db = RoomDb.provideDb(context);
+//
+//        final NoteViewModel viewModel = noteCallback.getViewModel();
+//        final NoteState noteState = viewModel.getNoteState();
+//        if (noteState.isCreate()) {
+//            noteState.setCreate(false);
+//
+//            if (!modeChange) {
+//                menuControl.setDrawable(true, true);
+//            }
+//
+//            noteItem.setId(db.daoNote().insert(noteItem));
+//        } else {
+//            db.daoNote().update(noteItem);
+//        }
+//
+//        db.daoRank().update(noteItem.getId(), noteItem.getRankId());
+//        db.close();
+//
+//        viewModel.setNoteRepo(vm.getNoteRepo());
+//
+//        inputControl.clear();
+//        bindInput();
 
         return true;
     }
@@ -416,24 +414,24 @@ public final class TextNoteFragment extends Fragment implements
 
     @Override
     public void onMenuEditClick(boolean editMode) {
-        inputControl.setEnabled(false);
-        inputControl.setChangeEnabled(false);
-
-        final NoteState noteState = noteCallback.getViewModel().getNoteState();
-        noteState.setEdit(editMode);
-
-        menuControl.setDrawable(
-                editMode && !noteState.isCreate(),
-                !noteState.isCreate() && !noteState.isFirst()
-        );
-
-        bindEdit(editMode);
-        bindInput();
-
-        noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
-
-        inputControl.setEnabled(true);
-        inputControl.setChangeEnabled(true);
+//        inputControl.setEnabled(false);
+//        inputControl.setChangeEnabled(false);
+//
+//        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+//        noteState.setEdit(editMode);
+//
+//        menuControl.setDrawable(
+//                editMode && !noteState.isCreate(),
+//                !noteState.isCreate() && !noteState.isFirst()
+//        );
+//
+//        bindEdit(editMode);
+//        bindInput();
+//
+//        noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
+//
+//        inputControl.setEnabled(true);
+//        inputControl.setChangeEnabled(true);
     }
 
     @Override

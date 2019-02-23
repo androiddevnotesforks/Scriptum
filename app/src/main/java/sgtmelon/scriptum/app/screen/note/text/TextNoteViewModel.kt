@@ -40,7 +40,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteRepo.listRoll = listRoll
 
-        noteCallback.viewModel.noteRepo = noteRepo
+//        noteCallback.viewModel.noteRepo = noteRepo
         noteCallback.setupFragment(false)
     }
 
@@ -100,7 +100,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         db.close()
 
         noteRepo.noteItem = noteItem
-        noteCallback.viewModel.noteRepo = noteRepo
+//        noteCallback.viewModel.noteRepo = noteRepo
     }
 
     override fun onRestoreClick() {

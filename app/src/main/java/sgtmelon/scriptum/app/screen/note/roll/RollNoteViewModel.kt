@@ -39,7 +39,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         db.daoRoll().delete(noteItem.id)
         db.close()
 
-        noteCallback.viewModel.noteRepo = noteRepo
+//        noteCallback.viewModel.noteRepo = noteRepo
         noteCallback.setupFragment(false)
     }
 
@@ -99,7 +99,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         db.close()
 
         noteRepo.noteItem = noteItem
-        noteCallback.viewModel.noteRepo = noteRepo
+//        noteCallback.viewModel.noteRepo = noteRepo
     }
 
     fun onMenuCheck(isAll: Boolean): NoteItem {
@@ -119,7 +119,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         db.daoNote().update(noteItem)
         db.close()
 
-        noteCallback.viewModel.noteRepo = noteRepo
+//        noteCallback.viewModel.noteRepo = noteRepo
 
         return noteItem
     }

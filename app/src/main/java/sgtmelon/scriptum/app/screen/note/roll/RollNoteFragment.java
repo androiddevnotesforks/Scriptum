@@ -14,7 +14,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -43,7 +42,6 @@ import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.screen.note.NoteCallback;
-import sgtmelon.scriptum.app.screen.note.NoteViewModel;
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.DialogDef;
@@ -56,7 +54,6 @@ import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.state.CheckState;
-import sgtmelon.scriptum.office.state.NoteState;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
 import sgtmelon.scriptum.office.utils.TimeUtils;
@@ -147,7 +144,7 @@ public final class RollNoteFragment extends Fragment implements
         );
 
         vm = ViewModelProviders.of(this).get(RollNoteViewModel.class);
-        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
+//        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
         vm.setNoteCallback(noteCallback);
         vm.setInputControl(inputControl);
 
@@ -175,9 +172,9 @@ public final class RollNoteFragment extends Fragment implements
         setupRecycler(view);
         setupEnter(view);
 
-        final NoteState noteState = noteCallback.getViewModel().getNoteState();
-        onMenuEditClick(noteState.isEdit());
-        noteState.setFirst(false);
+//        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+//        onMenuEditClick(noteState.isEdit());
+//        noteState.setFirst(false);
     }
 
     @Override
@@ -189,7 +186,8 @@ public final class RollNoteFragment extends Fragment implements
     private void setupBinding() {
         binding.setMenuClick(vm);
         binding.setRankEmpty(rankEmpty);
-        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
+        binding.setRankSelect(true);
+//        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
     }
 
     private void bindEdit(boolean editMode) {
@@ -224,10 +222,11 @@ public final class RollNoteFragment extends Fragment implements
             menuControl = new MenuControlAnim(context, activity.getWindow(), toolbar, indicator);
         }
 
-        menuControl.setColor(vm.getNoteColor());
+//        menuControl.setColor(vm.getNoteColor());
+        menuControl.setColor(ColorDef.red);
 
-        final NoteState noteState = noteCallback.getViewModel().getNoteState();
-        menuControl.setDrawable(noteState.isEdit() && !noteState.isCreate(), false);
+//        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+//        menuControl.setDrawable(noteState.isEdit() && !noteState.isCreate(), false);
 
         toolbar.setNavigationOnClickListener(this);
     }
@@ -273,7 +272,7 @@ public final class RollNoteFragment extends Fragment implements
 
         touchCallback.setAdapter(adapter);
 
-        adapter.setNoteState(noteCallback.getViewModel().getNoteState());
+//        adapter.setNoteState(noteCallback.getViewModel().getNoteState());
 
         recyclerView.setAdapter(adapter);
 
@@ -330,14 +329,14 @@ public final class RollNoteFragment extends Fragment implements
     }
 
     public void updateAdapter() {
-        final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
+//        final List<RollItem> listRoll = vm.getNoteRepo().getListRoll();
 
-        checkState.setAll(listRoll);
+//        checkState.setAll(listRoll);
 
-        adapter.setList(listRoll);
-        adapter.notifyItemRangeChanged(0, listRoll.size());
-
-        adapter.setCheckToggle(false);
+//        adapter.setList(listRoll);
+//        adapter.notifyItemRangeChanged(0, listRoll.size());
+//
+//        adapter.setCheckToggle(false);
     }
 
     private void scrollToInsert(boolean scrollDown) {
@@ -398,7 +397,7 @@ public final class RollNoteFragment extends Fragment implements
             binding.executePendingBindings();
         }
 
-        noteCallback.getViewModel().setNoteRepo(noteRepo);
+//        noteCallback.getViewModel().setNoteRepo(noteRepo);
 
         assert rollItem.getId() != null : "Roll from database with @NonNull id";
 
@@ -429,110 +428,110 @@ public final class RollNoteFragment extends Fragment implements
      */
     @Override
     public void onClick(View v) {
-        AppUtils.INSTANCE.hideKeyboard(activity);
-
-        final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteState noteState = viewModel.getNoteState();
-
-        NoteRepo noteRepo = vm.getNoteRepo();
-        NoteItem noteItem = noteRepo.getNoteItem();
-
-        //Если редактирование и текст в хранилище не пустой
-        if (!noteState.isCreate() && noteState.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
-            menuControl.setColorFrom(noteItem.getColor());
-
-            db = RoomDb.provideDb(context);
-            noteRepo = db.daoNote().get(context, noteItem.getId());
-            noteItem = noteRepo.getNoteItem();
-            db.close();
-
-            vm.setNoteRepo(noteRepo);
-            viewModel.setNoteRepo(noteRepo);
-
-            adapter.setList(noteRepo.getListRoll());
-
-            onMenuEditClick(false);
-            menuControl.startTint(noteItem.getColor());
-
-            inputControl.clear();
-            bindInput();
-        } else {
-            noteCallback.getSaveControl().setNeedSave(false);
-            activity.finish(); //Иначе завершаем активность
-        }
+//        AppUtils.INSTANCE.hideKeyboard(activity);
+//
+//        final NoteViewModel viewModel = noteCallback.getViewModel();
+//        final NoteState noteState = viewModel.getNoteState();
+//
+//        NoteRepo noteRepo = vm.getNoteRepo();
+//        NoteItem noteItem = noteRepo.getNoteItem();
+//
+//        //Если редактирование и текст в хранилище не пустой
+//        if (!noteState.isCreate() && noteState.isEdit() && !TextUtils.isEmpty(noteItem.getText())) {
+//            menuControl.setColorFrom(noteItem.getColor());
+//
+//            db = RoomDb.provideDb(context);
+//            noteRepo = db.daoNote().get(context, noteItem.getId());
+//            noteItem = noteRepo.getNoteItem();
+//            db.close();
+//
+//            vm.setNoteRepo(noteRepo);
+//            viewModel.setNoteRepo(noteRepo);
+//
+//            adapter.setList(noteRepo.getListRoll());
+//
+//            onMenuEditClick(false);
+//            menuControl.startTint(noteItem.getColor());
+//
+//            inputControl.clear();
+//            bindInput();
+//        } else {
+//            noteCallback.getSaveControl().setNeedSave(false);
+//            activity.finish(); //Иначе завершаем активность
+//        }
     }
 
     @Override
     public boolean onMenuSaveClick(boolean modeChange) {
-        final NoteRepo noteRepo = vm.getNoteRepo();
-        final NoteItem noteItem = noteRepo.getNoteItem();
-        final List<RollItem> listRoll = noteRepo.getListRoll();
-
-        if (listRoll.size() == 0) return false;
-
-        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
-        noteItem.setText(HelpUtils.Note.INSTANCE.getCheck(listRoll), listRoll.size());
-
-        //Переход в режим просмотра
-        if (modeChange) {
-            AppUtils.INSTANCE.hideKeyboard(activity);
-            onMenuEditClick(false);
-        }
-
-        db = RoomDb.provideDb(context);
-
-        final NoteViewModel viewModel = noteCallback.getViewModel();
-        final NoteState noteState = viewModel.getNoteState();
-        if (noteState.isCreate()) {
-            noteState.setCreate(false);
-
-            if (!modeChange) {
-                menuControl.setDrawable(true, true);
-            }
-
-            final long id = db.daoNote().insert(noteItem);
-            noteItem.setId(id);
-
-            //Запись в пунктов в БД
-            for (int i = 0; i < listRoll.size(); i++) {
-                final RollItem rollItem = listRoll.get(i);
-                rollItem.setNoteId(id);
-                rollItem.setPosition(i);
-                rollItem.setId(db.daoRoll().insert(rollItem));
-            }
-
-            adapter.setList(listRoll);
-        } else {
-            db.daoNote().update(noteItem);
-
-            for (int i = 0; i < listRoll.size(); i++) {
-                final RollItem rollItem = listRoll.get(i);
-
-                rollItem.setPosition(i);
-                if (rollItem.getId() == null) {
-                    rollItem.setId(db.daoRoll().insert(rollItem));
-                } else {
-                    db.daoRoll().update(rollItem.getId(), i, rollItem.getText());
-                }
-            }
-
-            adapter.setList(listRoll);
-
-            final List<Long> listRollId = new ArrayList<>();
-            for (RollItem rollItem : listRoll) {
-                listRollId.add(rollItem.getId());
-            }
-
-            db.daoRoll().delete(noteItem.getId(), listRollId);
-        }
-
-        db.daoRank().update(noteItem.getId(), noteItem.getRankId());
-        db.close();
-
-        viewModel.setNoteRepo(noteRepo);
-
-        inputControl.clear();
-        bindInput();
+//        final NoteRepo noteRepo = vm.getNoteRepo();
+//        final NoteItem noteItem = noteRepo.getNoteItem();
+//        final List<RollItem> listRoll = noteRepo.getListRoll();
+//
+//        if (listRoll.size() == 0) return false;
+//
+//        noteItem.setChange(TimeUtils.INSTANCE.getTime(context));
+//        noteItem.setText(HelpUtils.Note.INSTANCE.getCheck(listRoll), listRoll.size());
+//
+//        //Переход в режим просмотра
+//        if (modeChange) {
+//            AppUtils.INSTANCE.hideKeyboard(activity);
+//            onMenuEditClick(false);
+//        }
+//
+//        db = RoomDb.provideDb(context);
+//
+//        final NoteViewModel viewModel = noteCallback.getViewModel();
+//        final NoteState noteState = viewModel.getNoteState();
+//        if (noteState.isCreate()) {
+//            noteState.setCreate(false);
+//
+//            if (!modeChange) {
+//                menuControl.setDrawable(true, true);
+//            }
+//
+//            final long id = db.daoNote().insert(noteItem);
+//            noteItem.setId(id);
+//
+//            //Запись в пунктов в БД
+//            for (int i = 0; i < listRoll.size(); i++) {
+//                final RollItem rollItem = listRoll.get(i);
+//                rollItem.setNoteId(id);
+//                rollItem.setPosition(i);
+//                rollItem.setId(db.daoRoll().insert(rollItem));
+//            }
+//
+//            adapter.setList(listRoll);
+//        } else {
+//            db.daoNote().update(noteItem);
+//
+//            for (int i = 0; i < listRoll.size(); i++) {
+//                final RollItem rollItem = listRoll.get(i);
+//
+//                rollItem.setPosition(i);
+//                if (rollItem.getId() == null) {
+//                    rollItem.setId(db.daoRoll().insert(rollItem));
+//                } else {
+//                    db.daoRoll().update(rollItem.getId(), i, rollItem.getText());
+//                }
+//            }
+//
+//            adapter.setList(listRoll);
+//
+//            final List<Long> listRollId = new ArrayList<>();
+//            for (RollItem rollItem : listRoll) {
+//                listRollId.add(rollItem.getId());
+//            }
+//
+//            db.daoRoll().delete(noteItem.getId(), listRollId);
+//        }
+//
+//        db.daoRank().update(noteItem.getId(), noteItem.getRankId());
+//        db.close();
+//
+//        viewModel.setNoteRepo(noteRepo);
+//
+//        inputControl.clear();
+//        bindInput();
 
         return true;
     }
@@ -696,27 +695,27 @@ public final class RollNoteFragment extends Fragment implements
 
     @Override
     public void onMenuEditClick(boolean editMode) {
-        inputControl.setEnabled(false);
-        inputControl.setChangeEnabled(false);
-
-        final NoteState noteState = noteCallback.getViewModel().getNoteState();
-        noteState.setEdit(editMode);
-
-        menuControl.setDrawable(
-                editMode && !noteState.isCreate(),
-                !noteState.isCreate() && !noteState.isFirst()
-        );
-
-        bindEdit(editMode);
-        bindInput();
-
-        adapter.setNoteState(noteState);
-        adapter.notifyDataSetChanged();
-
-        noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
-
-        inputControl.setEnabled(true);
-        inputControl.setChangeEnabled(true);
+//        inputControl.setEnabled(false);
+//        inputControl.setChangeEnabled(false);
+//
+//        final NoteState noteState = noteCallback.getViewModel().getNoteState();
+//        noteState.setEdit(editMode);
+//
+//        menuControl.setDrawable(
+//                editMode && !noteState.isCreate(),
+//                !noteState.isCreate() && !noteState.isFirst()
+//        );
+//
+//        bindEdit(editMode);
+//        bindInput();
+//
+//        adapter.setNoteState(noteState);
+//        adapter.notifyDataSetChanged();
+//
+//        noteCallback.getSaveControl().setSaveHandlerEvent(editMode);
+//
+//        inputControl.setEnabled(true);
+//        inputControl.setChangeEnabled(true);
     }
 
     @Override

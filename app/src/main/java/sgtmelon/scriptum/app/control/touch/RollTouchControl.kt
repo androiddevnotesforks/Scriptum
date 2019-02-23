@@ -33,20 +33,21 @@ class RollTouchControl(private val vm: RollNoteViewModel,
 
     override fun getMovementFlags(recyclerView: RecyclerView,
                                   viewHolder: RecyclerView.ViewHolder): Int {
-        val isEdit = noteCallback.viewModel.noteState.isEdit
+//        val isEdit = noteCallback.viewModel.noteState.isEdit
+//
+//        val flagsDrag = when (isEdit && drag) {
+//            true -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
+//            false -> 0
+//        }
+//
+//        val flagsSwipe = when (isEdit) {
+//            true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+//            false -> 0
+//
+//        }
 
-        val flagsDrag = when (isEdit && drag) {
-            true -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
-            false -> 0
-        }
-
-        val flagsSwipe = when (isEdit) {
-            true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-            false -> 0
-
-        }
-
-        return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
+//        return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
+        return ItemTouchHelper.Callback.makeMovementFlags(0, 0)
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
