@@ -5,6 +5,4 @@ package sgtmelon.scriptum.app.screen.note.text
  */
 interface TextNoteCallback {
 
-
-
 }

@@ -152,7 +152,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onSaveClick(changeMode: Boolean) {
+    override fun onSaveClick(changeMode: Boolean): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

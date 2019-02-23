@@ -2,10 +2,8 @@ package sgtmelon.scriptum.app.control
 
 import android.content.Context
 import android.os.Handler
-import android.widget.Toast
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.intf.MenuIntf
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 /**
@@ -24,7 +22,7 @@ class SaveControl(private val context: Context) {
         setSaveHandlerEvent(true)
     }
 
-    lateinit var noteMenuClick: MenuIntf.Note.NoteMenuClick
+//    lateinit var noteMenuClick: MenuIntf.Note.NoteMenuClick
 
     /**
      * Пауза срабатывает не только при сворачивании (если закрыли активность например)
@@ -57,10 +55,10 @@ class SaveControl(private val context: Context) {
     }
 
     private fun onSave() {
-        when (noteMenuClick.onMenuSaveClick(false)) {
-            true -> Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()
-            false -> Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show()
-        }
+//        when (noteMenuClick.onMenuSaveClick(false)) {
+//            true -> Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()
+//            false -> Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show()
+//        }
     }
 
 }

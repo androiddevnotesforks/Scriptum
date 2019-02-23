@@ -52,7 +52,6 @@ import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.BindIntf;
 import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.ItemIntf;
-import sgtmelon.scriptum.office.intf.MenuIntf;
 import sgtmelon.scriptum.office.state.CheckState;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
@@ -63,8 +62,7 @@ public final class RollNoteFragment extends Fragment implements
         ItemIntf.ClickListener,
         ItemIntf.RollWatcher,
         View.OnClickListener,
-        BindIntf,
-        MenuIntf.Note.NoteMenuClick {
+        BindIntf{
 
     // TODO: 11.02.2019 Если Id не существует то завершать активити
 
@@ -92,7 +90,6 @@ public final class RollNoteFragment extends Fragment implements
     private boolean rankEmpty;
 
     private MenuControl menuControl;
-    private MenuIntf.Note.DeleteMenuClick deleteMenuClick;
 
     private ColorDialog colorDialog;
     private MultiplyDialog rankDialog;
@@ -463,7 +460,6 @@ public final class RollNoteFragment extends Fragment implements
 //        }
     }
 
-    @Override
     public boolean onMenuSaveClick(boolean modeChange) {
 //        final NoteRepo noteRepo = vm.getNoteRepo();
 //        final NoteItem noteItem = noteRepo.getNoteItem();
@@ -538,7 +534,6 @@ public final class RollNoteFragment extends Fragment implements
         return true;
     }
 
-    @Override
     public void onUndoClick() {
         final InputItem inputItem = inputControl.undo();
 
@@ -617,7 +612,6 @@ public final class RollNoteFragment extends Fragment implements
         bindInput();
     }
 
-    @Override
     public void onRedoClick() {
         final InputItem inputItem = inputControl.redo();
 
@@ -695,7 +689,6 @@ public final class RollNoteFragment extends Fragment implements
         bindInput();
     }
 
-    @Override
     public void onMenuEditClick(boolean editMode) {
 //        inputControl.setEnabled(false);
 //        inputControl.setChangeEnabled(false);
@@ -720,7 +713,6 @@ public final class RollNoteFragment extends Fragment implements
 //        inputControl.setChangeEnabled(true);
     }
 
-    @Override
     public void onMenuRankClick() {
         AppUtils.INSTANCE.hideKeyboard(activity);
 
@@ -728,7 +720,6 @@ public final class RollNoteFragment extends Fragment implements
         rankDialog.show(fm, DialogDef.RANK);
     }
 
-    @Override
     public void onMenuColorClick() {
         AppUtils.INSTANCE.hideKeyboard(activity);
 
@@ -740,19 +731,16 @@ public final class RollNoteFragment extends Fragment implements
         menuControl.setColorFrom(color);
     }
 
-    @Override
     public void onMenuBindClick() {
         vm.onMenuBind();
         bindEdit(false); // TODO save
     }
 
-    @Override
     public void onMenuConvertClick() {
         AppUtils.INSTANCE.hideKeyboard(activity);
         convertDialog.show(fm, DialogDef.CONVERT);
     }
 
-    @Override
     public void onMenuCheckClick() {
         final NoteItem noteItem = vm.onMenuCheck(checkState.isAll());
         binding.setNoteItem(noteItem);

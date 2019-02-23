@@ -27,7 +27,11 @@ interface MenuCallback {
 
     fun onColorClick()
 
-    fun onSaveClick(changeMode: Boolean)
+    /**
+     * При успешном сохранении возвращает - true
+     * [changeMode] - Надо ли менять режим редактирования,
+     */
+    fun onSaveClick(changeMode: Boolean): Boolean
 
     /**
      * Режим просмотра
@@ -39,6 +43,9 @@ interface MenuCallback {
 
     fun onDeleteClick()
 
+    /**
+     * [mode] - Установка режима редактирования
+     */
     fun onEditClick(mode: Boolean)
 
 }
