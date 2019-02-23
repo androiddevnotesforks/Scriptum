@@ -19,10 +19,8 @@
 
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
-
         <variable name="rankEmpty" type="boolean"/>
         <variable name="rankSelect" type="boolean"/>
-
         <variable name="saveEnabled" type="boolean"/>
 
     </data>
@@ -138,7 +136,7 @@
                         android:id="@+id/note_panel_save_button"
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:onClick='@{() -> noteClick.onMenuSaveClick(true, true)}'
+                        android:onClick='@{() -> noteClick.onMenuSaveClick(true)}'
                         android:text="@string/menu_note_save"
                         app:enabled='@{saveEnabled}'/>
 

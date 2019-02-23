@@ -82,10 +82,10 @@ class PrefUtils(context: Context) {
         get() = preferences.getInt(resources.getString(R.string.pref_key_theme), resources.getInteger(R.integer.pref_theme_default))
         set(@ThemeDef theme) = preferences.edit().putInt(resources.getString(R.string.pref_key_theme), theme).apply()
 
-    fun getSortSummary(keys: String): String {
+    fun getSortSummary(): String {
         val order = StringBuilder()
 
-        val keysArr = keys.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val keysArr = sort.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val keysName = resources.getStringArray(R.array.pref_sort_text)
 
         for (i in keysArr.indices) {
@@ -113,10 +113,10 @@ class PrefUtils(context: Context) {
 
         textView.append("\n\nNotes:")
         textView.append("\nColorDef: $defaultColor")
-        textView.append("\nPause:\t$pauseSave")
-        textView.append("\nSave:\t$autoSave")
-        textView.append("\nSTime:\t$saveTime")
-        textView.append("\nTheme:\t$theme")
+        textView.append("\nPause: $pauseSave")
+        textView.append("\nSave: $autoSave")
+        textView.append("\nSTime: $saveTime")
+        textView.append("\nTheme: $theme")
     }
 
 }

@@ -18,14 +18,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.screen.develop.DevelopActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.state.OpenState
-import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.widget.InfoDialog
 import sgtmelon.scriptum.widget.SortDialog
 import sgtmelon.scriptum.widget.color.ColorDialog
 
-class PrefFragment : PreferenceFragment() {
+class PrefFragment : PreferenceFragment(), PrefCallback {
 
     // TODO https://www.youtube.com/watch?v=PS9jhuHECEQ
     // TODO перенести theme на самый верх
@@ -33,9 +31,9 @@ class PrefFragment : PreferenceFragment() {
     private val openState = OpenState()
 
     private val activity: PrefActivity by lazy { getActivity() as PrefActivity }
-
-    private val prefUtils: PrefUtils by lazy { PrefUtils(activity) }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
+
+    private val viewModel: PrefViewModel by lazy { PrefViewModel(activity, this) }
 
     private val sortDialog: SortDialog by lazy {
         DialogFactory.getSortDialog(fm)
@@ -94,56 +92,30 @@ class PrefFragment : PreferenceFragment() {
     }
 
     private fun setupNotePref() {
-        sortPreference.summary = prefUtils.getSortSummary(prefUtils.sort)
-        sortPreference.setOnPreferenceClickListener {
-            openState.tryInvoke {
-                sortDialog.setArguments(prefUtils.sort)
-                sortDialog.show(fm, DialogDef.SORT)
-            }
-            return@setOnPreferenceClickListener true
-        }
+        sortPreference.setOnPreferenceClickListener { viewModel.onClickSortPreference() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            prefUtils.sort = sortDialog.keys
-            sortPreference.summary = prefUtils.getSortSummary(sortDialog.keys)
+            viewModel.onResultSortDialog(sortDialog.keys)
         }
         sortDialog.neutralListener = DialogInterface.OnClickListener { _, _ ->
-            prefUtils.sort = SortDef.def
-            sortPreference.summary = prefUtils.getSortSummary(SortDef.def)
+            viewModel.onResultSortDialog()
         }
         sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        colorPreference.summary = resources.getStringArray(R.array.pref_color_text)[prefUtils.defaultColor]
-        colorPreference.setOnPreferenceClickListener {
-            openState.tryInvoke {
-                colorDialog.setArguments(prefUtils.defaultColor)
-                colorDialog.show(fm, DialogDef.COLOR)
-            }
-            return@setOnPreferenceClickListener true
-        }
+        colorPreference.setOnPreferenceClickListener { viewModel.onClickColorPreference() }
 
         colorDialog.title = getString(R.string.pref_color_title)
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            prefUtils.defaultColor = colorDialog.check
-            colorPreference.summary = resources.getStringArray(R.array.pref_color_text)[colorDialog.check]
+            viewModel.onResultColorDialog(colorDialog.check)
         }
-
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     private fun setupSavePref() {
-        saveTimePreference.summary = resources.getStringArray(R.array.pref_save_time_text)[prefUtils.saveTime]
-        saveTimePreference.setOnPreferenceClickListener {
-            openState.tryInvoke {
-                saveTimeDialog.setArguments(prefUtils.saveTime)
-                saveTimeDialog.show(fm, DialogDef.SAVE_TIME)
-            }
-            return@setOnPreferenceClickListener true
-        }
+        saveTimePreference.setOnPreferenceClickListener { viewModel.onClickSaveTimePreference() }
 
         saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            prefUtils.saveTime = saveTimeDialog.check
-            saveTimePreference.summary = saveTimeDialog.rows[saveTimeDialog.check]
+            viewModel.onResultSaveTimeDialog(saveTimeDialog.check)
         }
         saveTimeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
@@ -157,19 +129,10 @@ class PrefFragment : PreferenceFragment() {
     }
 
     private fun setupAppPref() {
-        themePreference.summary = resources.getStringArray(R.array.pref_theme_text)[prefUtils.theme]
-        themePreference.setOnPreferenceClickListener {
-            openState.tryInvoke {
-                themeDialog.setArguments(prefUtils.theme)
-                themeDialog.show(fm, DialogDef.THEME)
-            }
-            return@setOnPreferenceClickListener true
-        }
+        themePreference.setOnPreferenceClickListener { viewModel.onClickThemePreference() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            prefUtils.theme = themeDialog.check
-            themePreference.summary = themeDialog.rows[themeDialog.check]
-
+            viewModel.onResultThemeDialog(themeDialog.check)
             activity.isThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
@@ -198,6 +161,42 @@ class PrefFragment : PreferenceFragment() {
             startActivity(Intent(activity, DevelopActivity::class.java))
         }
         infoDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+    }
+
+    override fun updateSortSummary(summary: String) {
+        sortPreference.summary = summary
+    }
+
+    override fun showSortDialog(sortKeys: String) = openState.tryInvoke {
+        sortDialog.setArguments(sortKeys)
+        sortDialog.show(fm, DialogDef.SORT)
+    }
+
+    override fun updateColorSummary(summary: String) {
+        colorPreference.summary = summary
+    }
+
+    override fun showColorDialog(check: Int) = openState.tryInvoke {
+        colorDialog.setArguments(check)
+        colorDialog.show(fm, DialogDef.COLOR)
+    }
+
+    override fun updateSaveTimeSummary(summary: String) {
+        saveTimePreference.summary = summary
+    }
+
+    override fun showSaveTimeDialog(check: Int) = openState.tryInvoke {
+        saveTimeDialog.setArguments(check)
+        saveTimeDialog.show(fm, DialogDef.SAVE_TIME)
+    }
+
+    override fun updateThemePrefSummary(summary: String) {
+        themePreference.summary = summary
+    }
+
+    override fun showThemeDialog(check: Int) = openState.tryInvoke {
+        themeDialog.setArguments(check)
+        themeDialog.show(fm, DialogDef.THEME)
     }
 
 }
