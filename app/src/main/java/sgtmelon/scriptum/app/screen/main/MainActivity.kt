@@ -11,17 +11,16 @@ import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
-import sgtmelon.scriptum.app.screen.BaseActivityParent
 import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
-
 import sgtmelon.scriptum.app.screen.note.NoteActivity
+import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.key.MainPage
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.setState
 
-class MainActivity : BaseActivityParent(),
+class MainActivity : ParentActivity(),
         MainCallback,
         BottomNavigationView.OnNavigationItemSelectedListener {
 

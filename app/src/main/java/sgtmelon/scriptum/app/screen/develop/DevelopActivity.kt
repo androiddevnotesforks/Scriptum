@@ -3,10 +3,10 @@ package sgtmelon.scriptum.app.screen.develop
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.database.RoomDb
-import sgtmelon.scriptum.app.screen.BaseActivityParent
+import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.utils.PrefUtils
 
-class DevelopActivity : BaseActivityParent() {
+class DevelopActivity : ParentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -80,6 +80,8 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        viewModel.updateSummary()
+
         setupNotePref()
         setupSavePref()
         setupAppPref()
@@ -133,7 +135,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultThemeDialog(themeDialog.check)
-            activity.isThemeChange()
+            activity.checkThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
@@ -143,11 +145,12 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
 
             try {
                 intent.data = Uri.parse(BuildConfig.MARKET_URL + activity.packageName)
+                startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
                 intent.data = Uri.parse(BuildConfig.BROWSER_URL + activity.packageName)
+                startActivity(intent)
             }
 
-            startActivity(intent)
             return@setOnPreferenceClickListener true
         }
 

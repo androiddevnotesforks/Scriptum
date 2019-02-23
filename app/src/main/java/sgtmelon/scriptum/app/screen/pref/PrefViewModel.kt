@@ -18,7 +18,7 @@ class PrefViewModel(context: Context, val callback: PrefCallback) {
     private val themeSummary: Array<String> =
             context.resources.getStringArray(R.array.pref_theme_text)
 
-    init {
+    fun updateSummary() {
         callback.updateSortSummary(prefUtils.getSortSummary())
         callback.updateColorSummary(colorSummary[prefUtils.defaultColor])
         callback.updateSaveTimeSummary(saveTimeSummary[prefUtils.saveTime])

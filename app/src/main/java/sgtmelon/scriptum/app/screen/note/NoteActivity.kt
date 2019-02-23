@@ -7,9 +7,9 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
-import sgtmelon.scriptum.app.screen.BaseActivityParent
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.app.screen.note.text.TextNoteFragment
+import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.intf.MenuIntf
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 // TODO: 11.02.2019 Передавать vm в биндинг и оттуда вызывать методы управления
 // TODO: 11.02.2019 Если Id не существует то завершать активити
 
-class NoteActivity : BaseActivityParent(), NoteCallback, MenuIntf.Note.DeleteMenuClick {
+class NoteActivity : ParentActivity(), NoteCallback, MenuIntf.Note.DeleteMenuClick {
 
     private val vm by lazy {
         ViewModelProviders.of(this).get(NoteViewModel::class.java)

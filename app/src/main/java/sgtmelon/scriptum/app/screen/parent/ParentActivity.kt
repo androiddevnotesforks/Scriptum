@@ -1,34 +1,32 @@
-package sgtmelon.scriptum.app.screen
+package sgtmelon.scriptum.app.screen.parent
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.def.ThemeDef
-import sgtmelon.scriptum.office.utils.PrefUtils
 
-abstract class BaseActivityParent : AppCompatActivity() {
+abstract class ParentActivity : AppCompatActivity(), ParentCallback{
 
-    @ThemeDef private var currentTheme: Int = 0
+    private val viewModel: ParentViewModel by lazy {
+        ViewModelProviders.of(this).get(ParentViewModel::class.java)
+    }
 
     override fun onResume() {
         super.onResume()
 
-        isThemeChange()
+        checkThemeChange()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        currentTheme = PrefUtils(this).theme
-        when (currentTheme) {
-            ThemeDef.light -> setTheme(R.style.App_Light_UI)
-            ThemeDef.dark -> setTheme(R.style.App_Dark_UI)
-        }
+        viewModel.callback = this
+        viewModel.onSetupTheme()
     }
 
-    fun isThemeChange() {
-        if (currentTheme == PrefUtils(this).theme) return
+    fun checkThemeChange() {
+        if (!viewModel.isThemeChange()) return
 
         val intent = intent
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
