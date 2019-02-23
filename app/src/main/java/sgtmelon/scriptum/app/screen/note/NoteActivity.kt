@@ -3,17 +3,14 @@ package sgtmelon.scriptum.app.screen.note
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.app.screen.note.text.TextNoteFragment
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
-import sgtmelon.scriptum.office.annot.def.IntentDef
 import sgtmelon.scriptum.office.annot.key.NoteType
-
-// TODO: 11.02.2019 Передавать vm в биндинг и оттуда вызывать методы управления
-// TODO: 11.02.2019 Если Id не существует то завершать активити
 
 class NoteActivity : ParentActivity(), NoteCallback {
 
@@ -21,72 +18,48 @@ class NoteActivity : ParentActivity(), NoteCallback {
         ViewModelProviders.of(this).get(NoteViewModel::class.java)
     }
 
-    private var textNoteFragment: TextNoteFragment? = null
-    private var rollNoteFragment: RollNoteFragment? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
-        viewModel.setValue(intent.extras ?: savedInstanceState)
-
-        setupFragment(savedInstanceState != null)
+        viewModel.callback = this
+        viewModel.setupData(intent.extras ?: savedInstanceState)
+        viewModel.setupFragment(savedInstanceState != null)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        outState.putBoolean(IntentDef.NOTE_CREATE, viewModel.noteState.isCreate)
-        outState.putInt(IntentDef.NOTE_TYPE, viewModel.noteType.ordinal)
-        outState.putLong(IntentDef.NOTE_ID, viewModel.ntId)
+        viewModel.saveData(outState)
     }
 
-    override fun setupFragment(isSave: Boolean) {
-        if (!isSave) viewModel.noteState.isFirst = true
-
-        val fm = supportFragmentManager
-        val transaction = fm.beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-
-        when (viewModel.noteRepo.noteItem.type) {
-            NoteType.TEXT -> {
-                textNoteFragment = when (isSave) {
-                    true -> fm.findFragmentByTag(NoteType.TEXT.name) as TextNoteFragment
-                    false -> TextNoteFragment.getInstance(viewModel.isRankEmpty)
-                }
-
-                transaction.replace(R.id.note_fragment_container, textNoteFragment!!, NoteType.TEXT.name)
-            }
-            NoteType.ROLL -> {
-                rollNoteFragment = when (isSave) {
-                    true -> fm.findFragmentByTag(NoteType.ROLL.name) as RollNoteFragment
-                    false -> RollNoteFragment.getInstance(viewModel.isRankEmpty)
-                }
-
-                transaction.replace(R.id.note_fragment_container, rollNoteFragment!!, NoteType.ROLL.name)
-            }
-        }
-
-        transaction.commit()
+    override fun showTextFragment(id: Long, isSave: Boolean) {
+        showFragment(NoteType.TEXT.name, when (isSave) {
+            true -> supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as TextNoteFragment
+            false -> TextNoteFragment.getInstance(id)
+        })
     }
+
+    override fun showRollFragment(id: Long, isSave: Boolean) {
+        showFragment(NoteType.ROLL.name, when (isSave) {
+            true -> supportFragmentManager.findFragmentByTag(NoteType.ROLL.name) as RollNoteFragment
+            false -> RollNoteFragment.getInstance(id)
+        })
+    }
+
+    private fun showFragment(key: String, fragment: Fragment) = supportFragmentManager
+            .beginTransaction()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .replace(R.id.note_fragment_container, fragment, key)
+            .commit()
 
     companion object {
-        fun getIntent(context: Context, type: NoteType): Intent {
-            val intent = Intent(context, NoteActivity::class.java)
+        const val NOTE_ID = "INTENT_NOTE_ID"
+        const val NOTE_TYPE = "INTENT_NOTE_TYPE"
 
-            intent.putExtra(IntentDef.NOTE_CREATE, true)
-            intent.putExtra(IntentDef.NOTE_TYPE, type.ordinal)
-
-            return intent
-        }
-
-        fun getIntent(context: Context, id: Long): Intent {
-            val intent = Intent(context, NoteActivity::class.java)
-
-            intent.putExtra(IntentDef.NOTE_CREATE, false)
-            intent.putExtra(IntentDef.NOTE_ID, id)
-
-            return intent
+        fun Context.getNoteIntent(type:NoteType, id: Long? = NoteViewModel.UNDEFINED_ID): Intent {
+            return Intent(this, NoteActivity::class.java)
+                    .putExtra(NOTE_ID, id)
+                    .putExtra(NOTE_TYPE, type.ordinal)
         }
     }
 

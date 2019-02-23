@@ -48,6 +48,7 @@ public final class TextNoteFragment extends Fragment implements
         View.OnClickListener, BindIntf, MenuIntf.Note.NoteMenuClick {
 
     // TODO: 17.12.2018 сделать долгое нажатие undo/redo
+    // TODO: 11.02.2019 Если Id не существует то завершать активити
 
     private final InputControl inputControl = new InputControl();
 
@@ -75,11 +76,11 @@ public final class TextNoteFragment extends Fragment implements
     private MultiplyDialog rankDialog;
 
 
-    public static TextNoteFragment getInstance(boolean rankEmpty) {
+    public static TextNoteFragment getInstance(@NonNull Long id) {
         final TextNoteFragment textNoteFragment = new TextNoteFragment();
         final Bundle bundle = new Bundle();
 
-        bundle.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
+        bundle.putLong(IntentDef.NOTE_ID, id);
         textNoteFragment.setArguments(bundle);
 
         return textNoteFragment;

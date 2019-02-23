@@ -35,7 +35,7 @@ public final class StatusItem {
         this.context = context;
 
         final TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addNextIntent(SplashActivity.Companion.getIntent(context, noteItem.getId()));
+        stackBuilder.addNextIntent(SplashActivity.Companion.getIntent(context, noteItem.getType(), noteItem.getId()));
 
         pendingIntent = stackBuilder.getPendingIntent((int) noteItem.getId(), PendingIntent.FLAG_UPDATE_CURRENT);
 

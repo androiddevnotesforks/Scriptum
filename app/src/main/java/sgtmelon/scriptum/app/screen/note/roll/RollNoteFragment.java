@@ -66,6 +66,8 @@ public final class RollNoteFragment extends Fragment implements
         BindIntf,
         MenuIntf.Note.NoteMenuClick {
 
+    // TODO: 11.02.2019 Если Id не существует то завершать активити
+
     private final CheckState checkState = new CheckState();
     private final InputControl inputControl = new InputControl();
     private FragmentRollNoteBinding binding;
@@ -97,11 +99,11 @@ public final class RollNoteFragment extends Fragment implements
 
 
     @NonNull
-    public static RollNoteFragment getInstance(boolean rankEmpty) {
+    public static RollNoteFragment getInstance(@NonNull Long id) {
         final RollNoteFragment rollNoteFragment = new RollNoteFragment();
         final Bundle bundle = new Bundle();
 
-        bundle.putBoolean(IntentDef.RANK_EMPTY, rankEmpty);
+        bundle.putLong(IntentDef.NOTE_ID, id);
         rollNoteFragment.setArguments(bundle);
 
         return rollNoteFragment;

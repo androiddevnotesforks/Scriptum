@@ -6,8 +6,10 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.app.screen.intro.IntroActivity
 import sgtmelon.scriptum.app.screen.main.MainActivity
-import sgtmelon.scriptum.app.screen.note.NoteActivity
+import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.PrefUtils
+
 
 /**
  * ViewModel для [SplashActivity]
@@ -21,10 +23,14 @@ class SplashViewModel : ViewModel() {
 
     fun onStartApplication(bundle: Bundle?) {
         if (bundle != null && bundle.getBoolean(SplashActivity.STATUS_OPEN)) {
-            callback.startFromNotification(arrayOf(
-                    Intent(context, MainActivity::class.java),
-                    NoteActivity.getIntent(context, bundle.getLong(SplashActivity.NOTE_ID))
-            ))
+            val noteIntent = context.getNoteIntent(
+                    NoteType.values()[bundle.getInt(SplashActivity.NOTE_TYPE)],
+                    bundle.getLong(SplashActivity.NOTE_ID)
+            )
+
+            callback.startFromNotification(
+                    arrayOf(Intent(context, MainActivity::class.java), noteIntent)
+            )
         } else {
             callback.startNormal(Intent(context, when (prefUtils.firstStart) {
                 true -> IntroActivity::class.java

@@ -12,7 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.app.screen.note.NoteActivity
+import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.key.MainPage
@@ -86,7 +86,7 @@ class MainActivity : ParentActivity(),
                 else -> NoteType.ROLL
             }
 
-            startActivity(NoteActivity.getIntent(this@MainActivity, type))
+            startActivity(getNoteIntent(type))
             return@OnNavigationItemSelectedListener true
         }
         sheetDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }

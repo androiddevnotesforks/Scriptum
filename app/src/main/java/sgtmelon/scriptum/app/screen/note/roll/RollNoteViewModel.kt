@@ -40,7 +40,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         db.close()
 
 //        noteCallback.viewModel.noteRepo = noteRepo
-        noteCallback.setupFragment(false)
+//        noteCallback.setupFragment(false)
     }
 
     fun onColorDialog(check: Int) {
