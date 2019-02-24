@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.database.dao;
+package sgtmelon.scriptum.app.room.dao;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -12,11 +12,11 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
+import sgtmelon.scriptum.app.room.RoomDb;
 import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui
 
-import sgtmelon.scriptum.basic.BasicAction
+import sgtmelon.scriptum.ui.basic.BasicAction
 
 abstract class ParentUi {
 

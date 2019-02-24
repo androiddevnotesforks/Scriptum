@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.database;
+package sgtmelon.scriptum.app.room;
 
 import android.content.Context;
 
@@ -7,12 +7,12 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import sgtmelon.scriptum.BuildConfig;
-import sgtmelon.scriptum.app.database.dao.NoteDao;
-import sgtmelon.scriptum.app.database.dao.RankDao;
-import sgtmelon.scriptum.app.database.dao.RollDao;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.room.dao.NoteDao;
+import sgtmelon.scriptum.app.room.dao.RankDao;
+import sgtmelon.scriptum.app.room.dao.RollDao;
 
 /**
  * Класс для общения с базой данных

@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef

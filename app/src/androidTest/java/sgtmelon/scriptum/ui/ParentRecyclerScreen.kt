@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui
 
 import sgtmelon.scriptum.TestUtils
-import sgtmelon.scriptum.basic.BasicValue
+import sgtmelon.scriptum.ui.basic.BasicValue
 
 abstract class ParentRecyclerScreen(protected val recyclerId: Int) : ParentUi() {
 

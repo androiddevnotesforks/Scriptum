@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.main.bin
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.BasicMatch
 
 class BinAssert : BasicMatch() {
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.database.dao;
+package sgtmelon.scriptum.app.room.dao;
 
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -9,9 +9,9 @@ import java.util.List;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.room.RoomDb;
 import sgtmelon.scriptum.office.annot.def.CheckDef;
 
 /**

@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.screen.intro
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.BasicMatch
 import sgtmelon.scriptum.office.data.IntroData
+import sgtmelon.scriptum.ui.basic.BasicMatch
 
 class IntroAssert : BasicMatch() {
 

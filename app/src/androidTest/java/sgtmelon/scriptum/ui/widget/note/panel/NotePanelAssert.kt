@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.widget.note.panel
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.BasicMatch
 import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.widget.note.State
 
 class NotePanelAssert : BasicMatch() {

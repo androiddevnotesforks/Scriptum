@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.widget.note.panel
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.widget.note.State
 
 class RollEnterPanelAssert : BasicMatch() {

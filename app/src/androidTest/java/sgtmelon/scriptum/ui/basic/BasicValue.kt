@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.basic
+package sgtmelon.scriptum.ui.basic
 
 import android.view.View
 import androidx.annotation.IdRes

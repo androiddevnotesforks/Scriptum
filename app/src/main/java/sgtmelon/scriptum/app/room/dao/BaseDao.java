@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.database.dao;
+package sgtmelon.scriptum.app.room.dao;
 
 import java.util.List;
 

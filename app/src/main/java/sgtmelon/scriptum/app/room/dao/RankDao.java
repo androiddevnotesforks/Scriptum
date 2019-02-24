@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.database.dao;
+package sgtmelon.scriptum.app.room.dao;
 
 import android.text.TextUtils;
 import android.widget.TextView;
@@ -13,10 +13,10 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import sgtmelon.scriptum.app.database.RoomDb;
 import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
+import sgtmelon.scriptum.app.room.RoomDb;
 import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.converter.NoteTypeConverter;
 

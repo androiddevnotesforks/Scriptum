@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.widget.note.toolbar
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.BasicMatch
 import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.widget.note.State
 
 class NoteToolbarAssert : BasicMatch() {

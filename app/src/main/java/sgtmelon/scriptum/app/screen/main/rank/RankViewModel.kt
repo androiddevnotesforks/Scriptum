@@ -6,9 +6,9 @@ import android.text.TextUtils
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
-import sgtmelon.scriptum.app.database.RoomDb
 import sgtmelon.scriptum.app.model.RankRepo
 import sgtmelon.scriptum.app.model.item.RankItem
+import sgtmelon.scriptum.app.room.RoomDb
 
 /**
  * ViewModel для [RankFragment]
