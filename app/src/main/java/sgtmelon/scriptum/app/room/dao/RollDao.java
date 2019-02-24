@@ -12,7 +12,6 @@ import androidx.room.Query;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.room.RoomDb;
-import sgtmelon.scriptum.office.annot.def.CheckDef;
 
 /**
  * Класс для общения Dao списка {@link RoomDb}
@@ -120,13 +119,13 @@ public abstract class RollDao extends BaseDao {
     /**
      * Обновление выполнения для всех пунктов
      *
-     * @param idNote - Id заметки
+     * @param id - Id заметки
      * @param check  - Состояние отметки
      */
     @Query("UPDATE ROLL_TABLE " +
             "SET RL_CHECK = :check " +
-            "WHERE RL_NOTE_ID = :idNote")
-    public abstract void update(long idNote, @CheckDef int check);
+            "WHERE RL_NOTE_ID = :id")
+    public abstract void updateAllCheck(long id, boolean check);
 
     /**
      * Удаление пунктов при сохранении после свайпа

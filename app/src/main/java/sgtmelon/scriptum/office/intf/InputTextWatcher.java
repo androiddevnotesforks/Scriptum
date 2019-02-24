@@ -17,18 +17,20 @@ public final class InputTextWatcher implements TextWatcher {
     private final EditText view;
     private final int tag;
 
-    private final BindIntf bindIntf;
+    private final Result result;
     private final InputIntf inputIntf;
 
     private String textFrom = "";
     private int cursorFrom = 0;
 
-    public InputTextWatcher(@NonNull EditText view, @InputDef int tag,
-                            @NonNull BindIntf bindIntf, @NonNull InputIntf inputIntf) {
+    // TODO nullable view
+
+    public InputTextWatcher(EditText view, @InputDef int tag,
+                            @NonNull Result result, @NonNull InputIntf inputIntf) {
         this.view = view;
         this.tag = tag;
 
-        this.bindIntf = bindIntf;
+        this.result = result;
         this.inputIntf = inputIntf;
     }
 
@@ -59,12 +61,16 @@ public final class InputTextWatcher implements TextWatcher {
         textFrom = textTo;
         cursorFrom = cursorTo;
 
-        bindIntf.bindInput();
+        result.onTextResult();
     }
 
     @Override
     public void afterTextChanged(Editable s) {
 
+    }
+
+    public interface Result {
+        void onTextResult();
     }
 
 }

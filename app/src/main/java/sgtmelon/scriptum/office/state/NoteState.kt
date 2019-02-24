@@ -3,10 +3,10 @@ package sgtmelon.scriptum.office.state
 /**
  * Состояние для фрагментов с заметками, необходимое для управления её редактированием
  */
-class NoteState(var isCreate: Boolean) {
+class NoteState(var isCreate: Boolean,
+                var isBin: Boolean = false) {
 
     var isEdit: Boolean = false
-    var isBin: Boolean = false
     var isFirst = true
 
     init {

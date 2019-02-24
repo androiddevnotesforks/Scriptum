@@ -2,20 +2,33 @@ package sgtmelon.scriptum.app.screen.note.text
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
+import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.safedialog.MessageDialog
 import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.control.MenuControl
+import sgtmelon.scriptum.app.control.MenuControlAnim
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
+import sgtmelon.scriptum.office.annot.def.ColorDef
+import sgtmelon.scriptum.office.annot.def.InputDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
+import sgtmelon.scriptum.office.intf.InputIntf
+import sgtmelon.scriptum.office.intf.InputTextWatcher
+import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.AppUtils.manage
 import sgtmelon.scriptum.widget.color.ColorDialog
@@ -28,6 +41,28 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
 
     private val viewModel: TextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java)
+    }
+
+    private val toolbar: Toolbar? by lazy {
+        view?.findViewById<Toolbar>(R.id.toolbar_note_container)
+    }
+    private val indicator: View?  by lazy {
+        view?.findViewById<View>(R.id.toolbar_note_color_view)
+    }
+
+    private val menuControl: MenuControl by lazy {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            MenuControl(activity, activity.window, toolbar, indicator)
+        } else {
+            MenuControlAnim(activity, activity.window, toolbar, indicator)
+        }
+    }
+
+    private val nameEnter: EditText? by lazy {
+        view?.findViewById<EditText>(R.id.toolbar_note_enter)
+    }
+    private val textEnter: EditText? by lazy {
+        view?.findViewById<EditText>(R.id.text_note_content_enter)
     }
 
     private val convertDialog: MessageDialog by lazy {
@@ -66,18 +101,78 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
         viewModel.saveData(outState)
     }
 
-    private fun setupBinding() { // TODO
+    override fun setupBinding(noteItem: NoteItem, rankEmpty: Boolean) {
         binding.menuClick = viewModel
-//        binding.rankEmpty = false
-//        binding.rankSelect = false
+        binding.rankEmpty = rankEmpty
     }
 
-    private fun bindEdit(mode: Boolean, noteItem: NoteItem) {
+    override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
         binding.keyEdit = mode
         binding.noteItem = noteItem
 
         binding.executePendingBindings()
     }
+
+    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean) {
+        binding.undoAccess = isUndoAccess
+        binding.redoAccess = isRedoAccess
+        binding.saveEnabled = !TextUtils.isEmpty(textEnter?.text.toString())
+
+        binding.executePendingBindings()
+    }
+
+    override fun setupToolbar(@ColorDef color: Int, noteState: NoteState) {
+        menuControl.setColor(color)
+        menuControl.setDrawable(
+                drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false
+        );
+
+        toolbar?.setNavigationOnClickListener { TODO("onArrowBack click") }
+    }
+
+    override fun setupDialog(rankNameArray: Array<String>) {
+        colorDialog.title = activity.getString(R.string.dialog_title_color)
+        colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onClickColorDialog(colorDialog.check)
+        }
+
+        rankDialog.name = rankNameArray
+        rankDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onClickRankDialog(rankDialog.check)
+        }
+
+        convertDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onClickConvertDialog()
+        }
+    }
+
+    override fun setupEnter(inputIntf: InputIntf) {
+        nameEnter?.addTextChangedListener(
+                InputTextWatcher(nameEnter, InputDef.name, viewModel, inputIntf)
+        )
+
+        nameEnter?.setOnEditorActionListener { _, i, _ ->
+            if (i != EditorInfo.IME_ACTION_NEXT) {
+                textEnter?.requestFocus()
+                return@setOnEditorActionListener true
+            }
+
+            return@setOnEditorActionListener false
+        }
+
+        textEnter?.addTextChangedListener(
+                InputTextWatcher(textEnter, InputDef.text, viewModel, inputIntf)
+        )
+    }
+
+    /**
+     *
+     */
+
+    override fun tintToolbar(color: Int) = menuControl.startTint(color)
+
+    override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
+            menuControl.setDrawable(drawableOn, needAnim)
 
     companion object {
         fun getInstance(id: Long): TextNoteFragmentNew {

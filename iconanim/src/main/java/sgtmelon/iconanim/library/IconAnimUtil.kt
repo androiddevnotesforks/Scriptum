@@ -11,8 +11,8 @@ import androidx.annotation.RequiresApi
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class IconAnimUtil(context: Context,
-                   val animOn: AnimatedVectorDrawable,
-                   val animOff: AnimatedVectorDrawable,
+                   val animOn: AnimatedVectorDrawable?,
+                   val animOff: AnimatedVectorDrawable?,
                    private val iconAnimControl: IconAnimControl) {
 
     private val animTime: Int = context.resources.getInteger(android.R.integer.config_shortAnimTime)
@@ -20,6 +20,8 @@ class IconAnimUtil(context: Context,
     private val animHandler = Handler()
 
     private val animRunnable: Runnable = Runnable {
+        if (animOn == null || animOff == null) return@Runnable
+
         if (animOn.isRunning || animOff.isRunning) {
             waitAnimationEnd()
         } else {

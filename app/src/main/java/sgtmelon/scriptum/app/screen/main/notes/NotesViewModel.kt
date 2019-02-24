@@ -9,7 +9,6 @@ import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
@@ -26,27 +25,27 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     lateinit var callback: NotesCallback
 
-    private val listNoteRepo: MutableList<NoteRepo> = ArrayList()
+    private val noteRepoList: MutableList<NoteRepo> = ArrayList()
 
     fun onLoadData() {
         val list = iRoomRepo.getNoteRepoList(fromBin = false)
 
-        listNoteRepo.clear()
-        listNoteRepo.addAll(list)
+        noteRepoList.clear()
+        noteRepoList.addAll(list)
 
-        callback.notifyDataSetChanged(listNoteRepo)
+        callback.notifyDataSetChanged(noteRepoList)
         callback.bind()
 
         if (updateStatus) updateStatus = false
     }
 
     fun onClickNote(p: Int) {
-        val noteItem = listNoteRepo[p].noteItem
+        val noteItem = noteRepoList[p].noteItem
         callback.startNote(context.getNoteIntent(noteItem.type, noteItem.id))
     }
 
     fun onShowOptionsDialog(p: Int) {
-        val noteItem = listNoteRepo[p].noteItem
+        val noteItem = noteRepoList[p].noteItem
         val itemArray: Array<String>
 
         when (noteItem.type) {
@@ -78,7 +77,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onClickOptionsDialog(p: Int, which: Int) {
-        val noteItem = listNoteRepo[p].noteItem
+        val noteItem = noteRepoList[p].noteItem
 
         when (noteItem.type) {
             NoteType.TEXT -> when (which) {
@@ -98,31 +97,25 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun onMenuCheck(p: Int): MutableList<NoteRepo> {
-        val noteRepo = listNoteRepo[p]
+        val noteRepo = noteRepoList[p]
         val noteItem = noteRepo.noteItem
 
         val checkText = noteItem.check
-        val check = when (checkText[0] == checkText[1]) {
-            true -> CheckDef.notDone
-            false -> CheckDef.done
-        }
+        val isAll = checkText[0] == checkText[1]
 
         noteItem.change = context.getTime()
-        noteItem.setText(when (check == CheckDef.notDone) {
-            true -> 0
-            false -> checkText[1]
-        }, checkText[1])
+        noteItem.setText(if (isAll) 0 else checkText[1], checkText[1])
 
-        iRoomRepo.updateNoteItemCheck(noteItem, check)
+        iRoomRepo.updateNoteItemCheck(noteItem, !isAll)
 
-        noteRepo.updateCheck(check)
+        noteRepo.updateCheck(!isAll)
         noteRepo.statusItem.updateNote(noteItem, true)
 
-        return listNoteRepo
+        return noteRepoList
     }
 
     private fun onMenuBind(p: Int): MutableList<NoteRepo> {
-        val noteRepo = listNoteRepo[p]
+        val noteRepo = noteRepoList[p]
         val noteItem = noteRepo.noteItem
 
         noteItem.isStatus = !noteItem.isStatus
@@ -130,11 +123,11 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
         iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
 
-        return listNoteRepo
+        return noteRepoList
     }
 
     private fun onMenuConvert(p: Int): MutableList<NoteRepo> { // TODO
-        val noteRepo = listNoteRepo[p]
+        val noteRepo = noteRepoList[p]
         val noteItem = noteRepo.noteItem
 
         noteItem.change = context.getTime()
@@ -165,16 +158,16 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
         noteRepo.statusItem.updateNote(noteItem, true)
 
-        return listNoteRepo
+        return noteRepoList
     }
 
     private fun onMenuDelete(p: Int): MutableList<NoteRepo> {
-        iRoomRepo.deleteNoteItem(listNoteRepo[p].noteItem.id)
+        iRoomRepo.deleteNoteItem(noteRepoList[p].noteItem.id)
 
-        listNoteRepo[p].updateStatus(false)
-        listNoteRepo.removeAt(p)
+        noteRepoList[p].updateStatus(false)
+        noteRepoList.removeAt(p)
 
-        return listNoteRepo
+        return noteRepoList
     }
 
     companion object {

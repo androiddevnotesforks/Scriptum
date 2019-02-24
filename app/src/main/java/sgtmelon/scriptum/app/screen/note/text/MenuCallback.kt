@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.app.screen.note.text
 
 /**
- * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragment]
+ * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragmentNew]
  */
 interface MenuCallback {
 

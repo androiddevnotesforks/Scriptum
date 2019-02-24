@@ -21,16 +21,16 @@ import sgtmelon.scriptum.office.utils.PrefUtils
  */
 open class MenuControl(protected val context: Context,
                        private val window: Window,
-                       protected val toolbar: Toolbar,
-                       private val indicator: View
+                       protected val toolbar: Toolbar?,
+                       private val indicator: View?
 ) : IconAnimControl {
 
     private val statusOnDark = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
 
     protected val anim: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
-    protected val cancelOn: Drawable = context.getDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)!!
-    protected val cancelOff: Drawable = context.getDrawable(R.drawable.ic_cancel_exit, R.attr.clContent)!!
+    protected val cancelOn: Drawable? = context.getDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
+    protected val cancelOff: Drawable? = context.getDrawable(R.drawable.ic_cancel_exit, R.attr.clContent)
 
     private val valTheme: Int = PrefUtils(context).theme
 
@@ -52,10 +52,10 @@ open class MenuControl(protected val context: Context,
             }
 
             blended = toolbarColorFrom.blend(toolbarColorTo, position)
-            if (valTheme != ThemeDef.dark) toolbar.setBackgroundColor(blended)
+            if (valTheme != ThemeDef.dark) toolbar?.setBackgroundColor(blended)
 
             blended = indicatorColorFrom.blend(indicatorColorTo, position)
-            if (valTheme == ThemeDef.dark) indicator.setBackgroundColor(blended)
+            if (valTheme == ThemeDef.dark) indicator?.setBackgroundColor(blended)
         }
 
         anim.addUpdateListener(updateListener)
@@ -72,10 +72,10 @@ open class MenuControl(protected val context: Context,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = ColorUtils.get(context, color, statusOnDark)
             }
-            toolbar.setBackgroundColor(ColorUtils.get(context, color, false))
+            toolbar?.setBackgroundColor(ColorUtils.get(context, color, false))
         }
 
-        indicator.setBackgroundColor(ColorUtils.get(context, color, true))
+        indicator?.setBackgroundColor(ColorUtils.get(context, color, true))
 
         setColorFrom(color)
     }
@@ -103,7 +103,7 @@ open class MenuControl(protected val context: Context,
     }
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
-        toolbar.navigationIcon = if (drawableOn) cancelOn else cancelOff
+        toolbar?.navigationIcon = if (drawableOn) cancelOn else cancelOff
     }
 
 }

@@ -50,7 +50,6 @@ import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.BindIntf;
-import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.intf.ItemIntf;
 import sgtmelon.scriptum.office.state.CheckState;
 import sgtmelon.scriptum.office.utils.AppUtils;
@@ -281,9 +280,10 @@ public final class RollNoteFragment extends Fragment implements
 
     private void setupEnter(@NonNull View view) {
         nameEnter = view.findViewById(R.id.toolbar_note_enter);
-        nameEnter.addTextChangedListener(
-                new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
-        );
+//        nameEnter.addTextChangedListener(
+//                new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
+//        );
+
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i != EditorInfo.IME_ACTION_NEXT) return false;
 

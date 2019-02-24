@@ -39,7 +39,6 @@ import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.converter.StringConverter;
 import sgtmelon.scriptum.office.intf.BindIntf;
-import sgtmelon.scriptum.office.intf.InputTextWatcher;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.widget.color.ColorDialog;
 
@@ -114,7 +113,7 @@ public final class TextNoteFragment extends Fragment implements
         vm = ViewModelProviders.of(this).get(TextNoteViewModel.class);
 //        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
         vm.setNoteCallback(noteCallback);
-        vm.setInputControl(inputControl);
+//        vm.setInputControl(inputControl);
 
         return binding.getRoot();
     }
@@ -138,6 +137,7 @@ public final class TextNoteFragment extends Fragment implements
         setupToolbar(view);
         setupDialog();
         setupEnter(view);
+
 //        final NoteState noteState = noteCallback.getViewModel().getNoteState();
 //        onMenuEditClick(noteState.isEdit());
 //        noteState.setFirst(false);
@@ -152,7 +152,7 @@ public final class TextNoteFragment extends Fragment implements
     private void setupBinding() {
         binding.setMenuClick(vm);
         binding.setRankEmpty(rankEmpty);
-        binding.setRankSelect(true);
+//        binding.setRankSelect(true);
 //        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
     }
 
@@ -168,7 +168,7 @@ public final class TextNoteFragment extends Fragment implements
         binding.setUndoAccess(inputControl.isUndoAccess());
         binding.setRedoAccess(inputControl.isRedoAccess());
         binding.setSaveEnabled(!TextUtils.isEmpty(textEnter.getText().toString()));
-        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
+//        binding.setRankSelect(vm.getNoteRepo().getNoteItem().getRankId().size() != 0);
 
         binding.executePendingBindings();
     }
@@ -197,26 +197,26 @@ public final class TextNoteFragment extends Fragment implements
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             final int check = colorDialog.getCheck();
 
-            vm.onColorDialog(check);
+            vm.onClickColorDialog(check);
             bindInput();
 
             menuControl.startTint(check);
         });
 
-        rankDialog.setName(vm.getRankDialogName());
+//        rankDialog.setName(vm.getRankDialogName());
         rankDialog.setPositiveListener((dialogInterface, i) -> {
-            vm.onRankDialog(rankDialog.getCheck());
+            vm.onClickRankDialog(rankDialog.getCheck());
             bindInput();
         });
 
-        convertDialog.setPositiveListener((dialogInterface, i) -> vm.onConvertDialog());
+        convertDialog.setPositiveListener((dialogInterface, i) -> vm.onClickConvertDialog());
     }
 
     private void setupEnter(@NonNull View view) {
         nameEnter = view.findViewById(R.id.toolbar_note_enter);
-        nameEnter.addTextChangedListener(
-                new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
-        );
+//        nameEnter.addTextChangedListener(
+//                new InputTextWatcher(nameEnter, InputDef.name, this, inputControl)
+//        );
 
         nameEnter.setOnEditorActionListener((textView, i, keyEvent) -> {
             if (i != EditorInfo.IME_ACTION_NEXT) return false;
@@ -226,9 +226,9 @@ public final class TextNoteFragment extends Fragment implements
         });
 
         textEnter = view.findViewById(R.id.text_note_content_enter);
-        textEnter.addTextChangedListener(
-                new InputTextWatcher(textEnter, InputDef.text, this, inputControl)
-        );
+//        textEnter.addTextChangedListener(
+//                new InputTextWatcher(textEnter, InputDef.text, this, inputControl)
+//        );
     }
 
     public void startTintToolbar(@ColorDef int colorFrom, @ColorDef int colorTo) {

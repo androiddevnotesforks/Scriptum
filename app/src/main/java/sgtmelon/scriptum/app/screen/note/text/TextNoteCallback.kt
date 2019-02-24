@@ -1,8 +1,36 @@
 package sgtmelon.scriptum.app.screen.note.text
 
+import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.office.annot.def.ColorDef
+import sgtmelon.scriptum.office.intf.InputIntf
+import sgtmelon.scriptum.office.state.NoteState
+
 /**
- * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragment]
+ * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragmentNew]
  */
 interface TextNoteCallback {
+
+    /**
+     * Установка элементов для биндинга, которые постоянные
+     */
+    fun setupBinding(noteItem: NoteItem, rankEmpty: Boolean)
+
+    fun bindEdit(mode: Boolean, noteItem: NoteItem)
+
+    fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)
+
+    fun setupToolbar(@ColorDef color: Int, noteState: NoteState)
+
+    fun setupDialog(rankNameArray: Array<String> )
+
+    fun setupEnter(inputIntf: InputIntf)
+
+    /**
+     *
+     */
+
+    fun tintToolbar(@ColorDef color: Int)
+
+    fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
 }

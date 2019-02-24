@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.repository
 
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
-import sgtmelon.scriptum.office.annot.def.CheckDef
 
 /**
  * Интерфейс для общения с [RoomRepo]
@@ -21,6 +20,11 @@ interface IRoomRepo {
      *
      */
 
+    fun getRankVisibleList(): List<Long>
+
+    fun getNoteRepo(id: Long): NoteRepo
+
+    fun getRankDialogName(): Array<String>
 
     /**
      *
@@ -31,7 +35,7 @@ interface IRoomRepo {
      *
      */
 
-    fun updateNoteItemCheck(noteItem: NoteItem, @CheckDef check: Int)
+    fun updateNoteItemCheck(noteItem: NoteItem, check: Boolean)
 
     fun updateNoteItemBind(id: Long, status: Boolean)
 

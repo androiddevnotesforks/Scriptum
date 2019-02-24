@@ -15,7 +15,6 @@ import androidx.room.TypeConverters;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.NoteRepo;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.annot.def.CheckDef;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
 import sgtmelon.scriptum.office.converter.BoolConverter;
@@ -127,9 +126,10 @@ public final class NoteItem {
     }
 
     public void setText(int rollCheck, int rollCount) {
-        text = rollCheck + CheckDef.divider + rollCount;
+        text = rollCheck + "/" + rollCount;
     }
 
+    @ColorDef
     public int getColor() {
         return color;
     }
@@ -187,7 +187,7 @@ public final class NoteItem {
 
         if (type != NoteType.ROLL) return check;
 
-        final String[] split = text.split(CheckDef.divider);
+        final String[] split = text.split("/");
         if (split.length == 2) {
             for (int i = 0; i < 2; i++) {
                 check[i] = Integer.parseInt(split[i]);

@@ -45,18 +45,15 @@ class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(con
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            setImageDrawable(if (drawableOn)
-                drawableSelect
-            else
-                drawableDisable)
+            setImageDrawable(if (drawableOn) drawableSelect else drawableDisable)
         } else if (iconAnimUtil != null) {
             iconAnimUtil.animState = drawableOn
             if (drawableOn) {
                 setImageDrawable(iconAnimUtil.animOn)
-                iconAnimUtil.animOn.start()
+                iconAnimUtil.animOn?.start()
             } else {
                 setImageDrawable(iconAnimUtil.animOff)
-                iconAnimUtil.animOff.start()
+                iconAnimUtil.animOff?.start()
             }
             iconAnimUtil.waitAnimationEnd()
         }

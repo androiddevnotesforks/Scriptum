@@ -4,7 +4,6 @@ import android.content.Context
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.room.RoomDb
-import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 class RoomRepo(private val context: Context) : IRoomRepo {
@@ -17,10 +16,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun getNoteRepoList(fromBin: Boolean): MutableList<NoteRepo> {
         db = RoomDb.provideDb(context)
-        val noteRepoList: MutableList<NoteRepo> = db.daoNote().get(context, fromBin)
+        val list = db.daoNote().get(context, fromBin)
         db.close()
 
-        return noteRepoList
+        return list
     }
 
     override fun clearBin() {
@@ -41,15 +40,43 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         db.close()
     }
 
+    /**
+     *
+     */
+
+    override fun getRankVisibleList(): List<Long> {
+        db = RoomDb.provideDb(context)
+        val list = db.daoRank().rankVisible
+        db.close()
+
+        return list
+    }
+
+    override fun getNoteRepo(id: Long): NoteRepo {
+        db = RoomDb.provideDb(context)
+        val noteRepo = db.daoNote().get(context, id)
+        db.close()
+
+        return noteRepo
+    }
+
+    override fun getRankDialogName(): Array<String> {
+        db = RoomDb.provideDb(context)
+        val array = db.daoRank().name
+        db.close()
+
+        return array
+    }
+
 
     /**
      * NotesViewModel
      */
 
 
-    override fun updateNoteItemCheck(noteItem: NoteItem, @CheckDef check: Int) {
+    override fun updateNoteItemCheck(noteItem: NoteItem, check: Boolean) {
         db = RoomDb.provideDb(context)
-        db.daoRoll().update(noteItem.id, check)
+        db.daoRoll().updateAllCheck(noteItem.id, check)
         db.daoNote().update(noteItem)
         db.close()
     }
@@ -78,6 +105,11 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      *
      */
 
+
+
+    /**
+     *
+     */
 
     companion object {
         fun getInstance(context: Context): IRoomRepo = RoomRepo(context)

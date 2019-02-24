@@ -18,8 +18,8 @@ import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class MenuControlAnim(context: Context,
                       window: Window,
-                      toolbar: Toolbar,
-                      indicator: View
+                      toolbar: Toolbar?,
+                      indicator: View?
 ) : MenuControl(context, window, toolbar, indicator) {
 
     private val cancelOnAnim = context.getDrawable(R.drawable.anim_cancel_enter, R.attr.clContent)
@@ -29,21 +29,20 @@ class MenuControlAnim(context: Context,
             as AnimatedVectorDrawable?
 
     private val iconAnimUtil: IconAnimUtil = IconAnimUtil(
-            context, cancelOnAnim!!, cancelOffAnim!!, this
+            context, cancelOnAnim, cancelOffAnim, this
     )
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            toolbar.navigationIcon = if (drawableOn) cancelOn
-            else cancelOff
+            toolbar?.navigationIcon = if (drawableOn) cancelOn else cancelOff
         } else {
             iconAnimUtil.animState = drawableOn
             if (drawableOn) {
-                toolbar.navigationIcon = iconAnimUtil.animOn
-                iconAnimUtil.animOn.start()
+                toolbar?.navigationIcon = iconAnimUtil.animOn
+                iconAnimUtil.animOn?.start()
             } else {
-                toolbar.navigationIcon = iconAnimUtil.animOff
-                iconAnimUtil.animOff.start()
+                toolbar?.navigationIcon = iconAnimUtil.animOff
+                iconAnimUtil.animOff?.start()
             }
             iconAnimUtil.waitAnimationEnd()
         }

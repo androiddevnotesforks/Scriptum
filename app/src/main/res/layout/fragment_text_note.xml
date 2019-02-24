@@ -7,18 +7,14 @@
 
         <import alias="v" type="android.view.View"/>
 
+        <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.text.MenuCallback"/>
+        <variable name="rankEmpty" type="boolean"/>
+
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
         <variable name="keyEdit" type="boolean"/>
 
-        <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.text.MenuCallback"/>
-
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
-
-        <variable name="rankEmpty" type="boolean"/>
-
-        <!-- TODO если в заметке есть категории - значит выбрано -->
-        <variable name="rankSelect" type="boolean"/>
 
         <variable name="saveEnabled" type="boolean"/>
 
@@ -90,7 +86,6 @@
                  app:menuClick='@{menuClick}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'
-                 app:rankSelect='@{rankSelect}'
                  app:redoAccess='@{redoAccess}'
                  app:saveEnabled='@{saveEnabled}'
                  app:undoAccess='@{undoAccess}'/>
