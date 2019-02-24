@@ -11,7 +11,7 @@ import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
-import sgtmelon.scriptum.office.utils.TimeUtils
+import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 
 /**
@@ -104,7 +104,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application){
             false -> CheckDef.done
         }
 
-        noteItem.change = TimeUtils.getTime(context)
+        noteItem.change = context.getTime()
         noteItem.setText(when (check == CheckDef.notDone) {
             true -> 0
             false -> checkText[1]
@@ -139,7 +139,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application){
         val noteRepo = listNoteRepo[p]
         val noteItem = noteRepo.noteItem
 
-        noteItem.change = TimeUtils.getTime(context)
+        noteItem.change = context.getTime()
 
         val db = RoomDb.provideDb(context)
         when (noteItem.type) {
@@ -174,7 +174,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application){
         val noteItem = listNoteRepo[p].noteItem
 
         val db = RoomDb.provideDb(context)
-        db.daoNote().update(noteItem.id, TimeUtils.getTime(context), true)
+        db.daoNote().update(noteItem.id, context.getTime(), true)
         if (noteItem.isStatus) db.daoNote().update(noteItem.id, false)
         db.close()
 

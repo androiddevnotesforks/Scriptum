@@ -16,12 +16,11 @@ object TimeUtils {
         return SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault())
     }
 
+
     /**
-     * @return - Текущее время в нужном формате
+     * Текущее время в нужном формате
      */
-    fun getTime(context: Context): String {
-        return getDateFormat(context).format(Calendar.getInstance().time)
-    }
+    fun Context.getTime(): String = getDateFormat(this).format(Calendar.getInstance().time)
 
     /**
      * @param date - Время создания/изменения заметки

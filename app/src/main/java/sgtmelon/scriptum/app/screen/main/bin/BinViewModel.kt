@@ -5,11 +5,11 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteRepo
-import sgtmelon.scriptum.app.room.RoomDb
+import sgtmelon.scriptum.app.repository.IRoomRepo
+import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
-import sgtmelon.scriptum.office.utils.TimeUtils
 
 /**
  * ViewModel для [BinFragment]
@@ -17,36 +17,35 @@ import sgtmelon.scriptum.office.utils.TimeUtils
 class BinViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context: Context = application.applicationContext
+    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: BinCallback
 
-    private val listNoteRepo: MutableList<NoteRepo> = ArrayList()
+    private val noteRepoList: MutableList<NoteRepo> = ArrayList()
 
     fun onLoadData() {
-        val db = RoomDb.provideDb(context)
-        listNoteRepo.clear()
-        listNoteRepo.addAll(db.daoNote().get(context, true))
-        db.close()
+        val list = iRoomRepo.getNoteRepoList(fromBin = true)
 
-        callback.notifyDataSetChanged(listNoteRepo)
+        noteRepoList.clear()
+        noteRepoList.addAll(list)
+
+        callback.notifyDataSetChanged(noteRepoList)
         callback.notifyMenuClearBin()
         callback.bind()
     }
 
     fun onClickClearBin() {
-        val db = RoomDb.provideDb(context)
-        db.daoNote().clearBin()
-        db.close()
+        iRoomRepo.clearBin()
 
-        listNoteRepo.clear()
+        noteRepoList.clear()
 
-        callback.notifyDataSetChanged(listNoteRepo)
+        callback.notifyDataSetChanged(noteRepoList)
         callback.notifyMenuClearBin()
         callback.bind()
     }
 
     fun onClickNote(p: Int) {
-        val noteItem = listNoteRepo[p].noteItem
+        val noteItem = noteRepoList[p].noteItem
         callback.startNote(context.getNoteIntent(noteItem.type, noteItem.id))
     }
 
@@ -56,7 +55,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     fun onClickOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsDef.Bin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
-            OptionsDef.Bin.copy -> context.copyToClipboard(listNoteRepo[p].noteItem)
+            OptionsDef.Bin.copy -> context.copyToClipboard(noteRepoList[p].noteItem)
             OptionsDef.Bin.clear -> callback.notifyItemRemoved(p, clearItem(p))
         }
 
@@ -64,23 +63,19 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun restoreItem(p: Int): MutableList<NoteRepo> {
-        val db = RoomDb.provideDb(context)
-        db.daoNote().update(listNoteRepo[p].noteItem.id, TimeUtils.getTime(context), false)
-        db.close()
+        iRoomRepo.restoreNoteItem(noteRepoList[p].noteItem.id)
 
-        listNoteRepo.removeAt(p)
+        noteRepoList.removeAt(p)
 
-        return listNoteRepo
+        return noteRepoList
     }
 
     private fun clearItem(p: Int): MutableList<NoteRepo> {
-        val db = RoomDb.provideDb(context)
-        db.daoNote().delete(listNoteRepo[p].noteItem.id)
-        db.close()
+        iRoomRepo.clearNoteItem(noteRepoList[p].noteItem.id)
 
-        listNoteRepo.removeAt(p)
+        noteRepoList.removeAt(p)
 
-        return listNoteRepo
+        return noteRepoList
     }
 
 }

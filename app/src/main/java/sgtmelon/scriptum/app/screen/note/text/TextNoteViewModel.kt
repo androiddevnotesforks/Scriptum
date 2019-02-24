@@ -10,7 +10,7 @@ import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
-import sgtmelon.scriptum.office.utils.TimeUtils
+import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import java.util.*
 
 /**
@@ -144,7 +144,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         val db = RoomDb.provideDb(context)
         val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
 
-        noteItem.change = TimeUtils.getTime(context)
+        noteItem.change = context.getTime()
         noteItem.type = NoteType.ROLL
         noteItem.setText(0, listRoll.size)
 

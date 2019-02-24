@@ -10,7 +10,7 @@ import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.def.CheckDef
 import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.office.utils.TimeUtils
+import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import java.util.*
 
 /**
@@ -31,7 +31,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         val db = RoomDb.provideDb(context)
         val noteItem = noteRepo.noteItem
 
-        noteItem.change = TimeUtils.getTime(context)
+        noteItem.change = context.getTime()
         noteItem.type = NoteType.TEXT
         noteItem.text = db.daoRoll().getText(noteItem.id)
 
@@ -111,7 +111,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         noteRepo.updateCheck(key)
 
         val noteItem = noteRepo.noteItem
-        noteItem.change = TimeUtils.getTime(context)
+        noteItem.change = context.getTime()
         noteItem.setText(check, size)
 
         val db = RoomDb.provideDb(context)
