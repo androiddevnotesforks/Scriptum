@@ -5,6 +5,8 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.repository.IRoomRepo
+import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.def.CheckDef
@@ -17,19 +19,20 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 /**
  * ViewModel для [NotesFragment]
  */
-class NotesViewModel(application: Application) : AndroidViewModel(application){
+class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     private val context: Context = application.applicationContext
+    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: NotesCallback
 
     private val listNoteRepo: MutableList<NoteRepo> = ArrayList()
 
     fun onLoadData() {
-        val db = RoomDb.provideDb(context)
+        val list = iRoomRepo.getNoteRepoList(fromBin = false)
+
         listNoteRepo.clear()
-        listNoteRepo.addAll(db.daoNote().get(context, false))
-        db.close()
+        listNoteRepo.addAll(list)
 
         callback.notifyDataSetChanged(listNoteRepo)
         callback.bind()
@@ -110,10 +113,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application){
             false -> checkText[1]
         }, checkText[1])
 
-        val db = RoomDb.provideDb(context)
-        db.daoRoll().update(noteItem.id, check)
-        db.daoNote().update(noteItem)
-        db.close()
+        iRoomRepo.updateNoteItemCheck(noteItem, check)
 
         noteRepo.updateCheck(check)
         noteRepo.statusItem.updateNote(noteItem, true)
@@ -128,14 +128,12 @@ class NotesViewModel(application: Application) : AndroidViewModel(application){
         noteItem.isStatus = !noteItem.isStatus
         noteRepo.updateStatus(noteItem.isStatus)
 
-        val db = RoomDb.provideDb(context)
-        db.daoNote().update(noteItem.id, noteItem.isStatus)
-        db.close()
+        iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
 
         return listNoteRepo
     }
 
-    private fun onMenuConvert(p: Int): MutableList<NoteRepo> {
+    private fun onMenuConvert(p: Int): MutableList<NoteRepo> { // TODO
         val noteRepo = listNoteRepo[p]
         val noteItem = noteRepo.noteItem
 
@@ -171,12 +169,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application){
     }
 
     private fun onMenuDelete(p: Int): MutableList<NoteRepo> {
-        val noteItem = listNoteRepo[p].noteItem
-
-        val db = RoomDb.provideDb(context)
-        db.daoNote().update(noteItem.id, context.getTime(), true)
-        if (noteItem.isStatus) db.daoNote().update(noteItem.id, false)
-        db.close()
+        iRoomRepo.deleteNoteItem(listNoteRepo[p].noteItem.id)
 
         listNoteRepo[p].updateStatus(false)
         listNoteRepo.removeAt(p)
