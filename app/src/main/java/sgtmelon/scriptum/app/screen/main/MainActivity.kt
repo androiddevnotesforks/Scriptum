@@ -16,7 +16,7 @@ import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.key.MainPage
-import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.setState
 
@@ -81,12 +81,7 @@ class MainActivity : ParentActivity(),
         sheetDialog.itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
             sheetDialog.dismiss()
 
-            val type = when (it.itemId) {
-                R.id.item_add_text -> NoteType.TEXT
-                else -> NoteType.ROLL
-            }
-
-            startActivity(getNoteIntent(type))
+            startActivity(getNoteIntent(NoteData.getTypeById(it.itemId)))
             return@OnNavigationItemSelectedListener true
         }
         sheetDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }

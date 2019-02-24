@@ -4,6 +4,8 @@ import sgtmelon.scriptum.R
 
 object MainPage {
 
+    enum class Name { RANK, NOTES, BIN }
+
     val id = intArrayOf(R.id.item_page_rank, R.id.item_page_notes, R.id.item_page_bin)
 
     fun getById(id: Int): Name = when (id) {
@@ -12,7 +14,5 @@ object MainPage {
         R.id.item_page_bin -> Name.BIN
         else -> throw NoSuchFieldException("Id doesn't match any of page")
     }
-
-    enum class Name { RANK, NOTES, BIN }
 
 }
