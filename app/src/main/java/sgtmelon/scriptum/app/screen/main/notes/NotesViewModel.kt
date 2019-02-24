@@ -76,7 +76,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         callback.showOptionsDialog(itemArray, p)
     }
 
-    fun onClickOptionsDialog(p: Int, which: Int) {
+    fun onResultOptionsDialog(p: Int, which: Int) {
         val noteItem = noteRepoList[p].noteItem
 
         when (noteItem.type) {

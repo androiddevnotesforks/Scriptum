@@ -26,6 +26,8 @@ interface IRoomRepo {
 
     fun getRankDialogName(): Array<String>
 
+    fun getRankCheck(rankId: List<Long>): BooleanArray
+
     /**
      *
      */
@@ -38,6 +40,8 @@ interface IRoomRepo {
     fun updateNoteItemCheck(noteItem: NoteItem, check: Boolean)
 
     fun updateNoteItemBind(id: Long, status: Boolean)
+
+    fun updateNoteItem(noteItem: NoteItem)
 
     fun convertNoteItem(noteRepo: NoteRepo)
 

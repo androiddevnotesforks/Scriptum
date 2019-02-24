@@ -128,7 +128,7 @@ class BinFragment : Fragment(), BinCallback {
         recyclerView?.adapter = adapter
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.onClickOptionsDialog(optionsDialog.position, which)
+            viewModel.onResultOptionsDialog(optionsDialog.position, which)
         }
     }
 

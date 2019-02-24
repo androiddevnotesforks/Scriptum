@@ -33,4 +33,14 @@ interface TextNoteCallback {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
+    /**
+     *
+     */
+
+    fun showRankDialog(rankCheck: BooleanArray)
+
+    fun showColorDialog(color: Int)
+
+    fun showConvertDialog()
+
 }

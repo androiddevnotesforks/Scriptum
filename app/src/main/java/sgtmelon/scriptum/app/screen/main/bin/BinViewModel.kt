@@ -52,7 +52,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     fun onShowOptionsDialog(p: Int) =
             callback.showOptionsDialog(context.resources.getStringArray(R.array.dialog_menu_bin), p)
 
-    fun onClickOptionsDialog(p: Int, which: Int) {
+    fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsDef.Bin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
             OptionsDef.Bin.copy -> context.copyToClipboard(noteRepoList[p].noteItem)

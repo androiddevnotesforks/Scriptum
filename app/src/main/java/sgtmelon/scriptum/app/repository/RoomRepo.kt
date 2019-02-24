@@ -69,6 +69,14 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
 
+    override fun getRankCheck(rankId: List<Long>): BooleanArray {
+        db = RoomDb.provideDb(context)
+        val array = db.daoRank().getCheck(rankId)
+        db.close()
+
+        return array
+    }
+
     /**
      * NotesViewModel
      */
@@ -84,6 +92,12 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun updateNoteItemBind(id: Long, status: Boolean) {
         db = RoomDb.provideDb(context)
         db.daoNote().update(id, status)
+        db.close()
+    }
+
+    override fun updateNoteItem(noteItem: NoteItem) {
+        db = RoomDb.provideDb(context)
+        db.daoNote().update(noteItem)
         db.close()
     }
 

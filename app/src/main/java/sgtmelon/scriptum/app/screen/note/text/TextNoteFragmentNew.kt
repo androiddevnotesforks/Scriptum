@@ -21,14 +21,17 @@ import sgtmelon.scriptum.app.control.MenuControl
 import sgtmelon.scriptum.app.control.MenuControlAnim
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.office.annot.def.ColorDef
+import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.InputDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.intf.InputTextWatcher
 import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.AppUtils.manage
 import sgtmelon.scriptum.widget.color.ColorDialog
@@ -36,6 +39,7 @@ import sgtmelon.scriptum.widget.color.ColorDialog
 class TextNoteFragmentNew : Fragment(), TextNoteCallback {
 
     private lateinit var activity: Activity
+    private lateinit var noteCallback: NoteCallback
 
     private lateinit var binding: FragmentTextNoteBinding
 
@@ -79,6 +83,7 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
         super.onAttach(context)
 
         activity = context as Activity
+        noteCallback = context as NoteCallback
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +91,7 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
         binding = inflater.inflateBinding(R.layout.fragment_text_note, container)
 
         viewModel.callback = this
+        viewModel.noteCallback = noteCallback
 
         return binding.root
     }
@@ -125,7 +131,7 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
         menuControl.setColor(color)
         menuControl.setDrawable(
                 drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false
-        );
+        )
 
         toolbar?.setNavigationOnClickListener { TODO("onArrowBack click") }
     }
@@ -133,16 +139,16 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
     override fun setupDialog(rankNameArray: Array<String>) {
         colorDialog.title = activity.getString(R.string.dialog_title_color)
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onClickColorDialog(colorDialog.check)
+            viewModel.onResultColorDialog(colorDialog.check)
         }
 
         rankDialog.name = rankNameArray
         rankDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onClickRankDialog(rankDialog.check)
+            viewModel.onResultRankDialog(rankDialog.check)
         }
 
         convertDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onClickConvertDialog()
+            viewModel.onResultConvertDialog()
         }
     }
 
@@ -173,6 +179,28 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
 
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
+
+    override fun showRankDialog(rankCheck: BooleanArray) {
+        activity.hideKeyboard()
+
+        rankDialog.setArguments(rankCheck)
+        rankDialog.show(fragmentManager, DialogDef.RANK)
+    }
+
+    override fun showColorDialog(color: Int) {
+        activity.hideKeyboard()
+
+        colorDialog.setArguments(color)
+        colorDialog.show(fragmentManager, DialogDef.COLOR)
+
+        menuControl.setColorFrom(color)
+    }
+
+    override fun showConvertDialog() {
+        activity.hideKeyboard()
+
+        convertDialog.show(fragmentManager, DialogDef.CONVERT)
+    }
 
     companion object {
         fun getInstance(id: Long): TextNoteFragmentNew {

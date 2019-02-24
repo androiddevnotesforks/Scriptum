@@ -33,7 +33,6 @@ import sgtmelon.scriptum.app.room.RoomDb;
 import sgtmelon.scriptum.app.screen.note.NoteCallback;
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
-import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
@@ -112,7 +111,7 @@ public final class TextNoteFragment extends Fragment implements
 
         vm = ViewModelProviders.of(this).get(TextNoteViewModel.class);
 //        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
-        vm.setNoteCallback(noteCallback);
+//        vm.setNoteCallback(noteCallback);
 //        vm.setInputControl(inputControl);
 
         return binding.getRoot();
@@ -197,7 +196,7 @@ public final class TextNoteFragment extends Fragment implements
         colorDialog.setPositiveListener((dialogInterface, i) -> {
             final int check = colorDialog.getCheck();
 
-            vm.onClickColorDialog(check);
+            vm.onResultColorDialog(check);
             bindInput();
 
             menuControl.startTint(check);
@@ -205,11 +204,11 @@ public final class TextNoteFragment extends Fragment implements
 
 //        rankDialog.setName(vm.getRankDialogName());
         rankDialog.setPositiveListener((dialogInterface, i) -> {
-            vm.onClickRankDialog(rankDialog.getCheck());
+            vm.onResultRankDialog(rankDialog.getCheck());
             bindInput();
         });
 
-        convertDialog.setPositiveListener((dialogInterface, i) -> vm.onClickConvertDialog());
+        convertDialog.setPositiveListener((dialogInterface, i) -> vm.onResultConvertDialog());
     }
 
     private void setupEnter(@NonNull View view) {
@@ -426,40 +425,6 @@ public final class TextNoteFragment extends Fragment implements
 //
 //        inputControl.setEnabled(true);
 //        inputControl.setChangeEnabled(true);
-    }
-
-    public void onMenuRankClick() {
-        AppUtils.INSTANCE.hideKeyboard(activity);
-
-        rankDialog.setArguments(vm.onMenuRank());
-        rankDialog.show(fm, DialogDef.RANK);
-    }
-
-    public void onMenuColorClick() {
-        AppUtils.INSTANCE.hideKeyboard(activity);
-
-        final int color = vm.getNoteColor();
-
-        colorDialog.setArguments(color);
-        colorDialog.show(fm, DialogDef.COLOR);
-
-        menuControl.setColorFrom(color);
-    }
-
-    public void onMenuBindClick() {
-        vm.onMenuBind();
-        bindEdit(false); // TODO save
-    }
-
-    public void onMenuConvertClick() {
-        AppUtils.INSTANCE.hideKeyboard(activity);
-        convertDialog.show(fm, DialogDef.CONVERT);
-    }
-
-    // TODO: 10.12.2018 вынести onMenuCheckClick в отдельный интерфейс только для RollNoteFragment
-
-    public void onMenuCheckClick() {
-
     }
 
 }
