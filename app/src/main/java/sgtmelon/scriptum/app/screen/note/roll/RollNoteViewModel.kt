@@ -18,7 +18,9 @@ import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
+import sgtmelon.scriptum.office.state.CheckState
 import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
 import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
@@ -48,6 +50,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     private lateinit var noteState: NoteState
     private lateinit var rankVisibleList: List<Long>
 
+    private val checkState = CheckState()
+
     fun setupData(bundle: Bundle?) {
         id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
 
@@ -72,6 +76,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         callback.setupToolbar(noteRepo.noteItem.color, noteState)
         callback.setupDialog(iRoomRepo.getRankDialogName())
         callback.setupEnter(inputControl)
+        callback.setupRecycler()
 
         onEditClick(noteState.isEdit)
         noteState.isFirst = false
@@ -120,12 +125,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         callback.notifyItemMoved(from, to, listRoll)
     }
 
-
-    /**
-     *
-     */
-
-
     override fun onRestoreClick() {
         iRoomRepo.restoreNoteItem(noteRepo.noteItem.id)
         noteCallback.finish()
@@ -169,7 +168,21 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onCheckClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val size: Int = noteRepo.listRoll.size
+        val isAll = checkState.isAll
+
+        noteRepo.updateCheck(!isAll)
+
+        val noteItem = noteRepo.noteItem
+        noteItem.change = context.getTime()
+        noteItem.setText(if (isAll) 0 else size, size)
+
+        iRoomRepo.updateRollCheck(noteItem, !isAll)
+
+        callback.bindNoteItem(noteItem)
+        callback.changeCheckToggle(state = true)
+
+        onUpdateData()
     }
 
     override fun onBindClick() {
@@ -217,6 +230,12 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.isChangeEnabled = true
     }
 
+    fun onUpdateData() {
+        checkState.setAll(noteRepo.listRoll)
+        callback.notifyDataSetChanged(noteRepo.listRoll)
+        callback.changeCheckToggle(state = false)
+    }
+
     fun onClickAdd(simpleClick: Boolean) {
         val text = callback.clearEnter()
 
@@ -238,6 +257,25 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         noteRepo.listRoll.add(p, rollItem)
 
         callback.scrollToItem(simpleClick, p, noteRepo.listRoll)
+    }
+
+    fun onClickItemCheck(p: Int) {
+        val listRoll = noteRepo.listRoll
+
+        val rollItem = listRoll[p]
+        rollItem.isCheck = !rollItem.isCheck
+
+        callback.notifyListItem(p, rollItem)
+
+        val noteItem = noteRepo.noteItem
+        val check = listRoll.getCheck()
+
+        noteItem.change = context.getTime()
+        noteItem.setText(check, listRoll.size)
+
+        if (checkState.setAll(check, listRoll.size)) callback.bindNoteItem(noteItem)
+
+        iRoomRepo.updateRollCheck(rollItem, noteItem)
     }
 
     fun onResultColorDialog(check: Int) {
@@ -284,31 +322,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         iRoomRepo.convertToText(noteRepo.noteItem)
 
         noteCallback.showTextFragment(noteRepo.noteItem.id, isSave = false)
-    }
-
-
-    /**
-     *
-     */
-
-
-    fun onMenuCheck(isAll: Boolean): NoteItem {
-        val size: Int = noteRepo.listRoll.size
-
-        noteRepo.updateCheck(!isAll)
-
-        val noteItem = noteRepo.noteItem
-        noteItem.change = context.getTime()
-        noteItem.setText(if (isAll) 0 else size, size)
-
-        val db = RoomDb.provideDb(context)
-        db.daoRoll().updateAllCheck(noteItem.id, !isAll)
-        db.daoNote().update(noteItem)
-        db.close()
-
-//        noteCallback.viewModel.noteRepo = noteRepo
-
-        return noteItem
     }
 
 }

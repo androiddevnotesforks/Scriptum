@@ -38,6 +38,7 @@ import sgtmelon.scriptum.office.AppTextWatcher
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
@@ -104,6 +105,12 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         noteCallback = context as NoteCallback
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.onUpdateData()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_roll_note, container)
@@ -159,6 +166,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         (recyclerView?.itemAnimator as SimpleItemAnimator?)?.supportsChangeAnimations = false
 
         // TODO adapter click listener
+        adapter.clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) }
 
         val touchCallback = RollTouchControl(viewModel)
         adapter.dragListener = touchCallback
@@ -209,6 +217,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         bindEnter()
     }
 
+    override fun bindNoteItem(noteItem: NoteItem) {
+        binding.noteItem = noteItem
+        binding.executePendingBindings()
+    }
+
     override fun bindEnter() {
         binding.enterEmpty = TextUtils.isEmpty(rollEnter?.text.toString())
 
@@ -245,9 +258,20 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
     }
 
+    override fun changeCheckToggle(state: Boolean) {
+        adapter.checkToggle = state
+    }
+
     override fun updateNoteState(noteState: NoteState) {
         adapter.noteState = noteState
         adapter.notifyDataSetChanged()
+    }
+
+    override fun notifyListItem(p: Int, item: RollItem) = adapter.setListItem(p, item)
+
+    override fun notifyDataSetChanged(list: MutableList<RollItem>) {
+        adapter.setList(list)
+        adapter.notifyItemRangeChanged(0, list.size)
     }
 
     override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) =

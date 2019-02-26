@@ -26,7 +26,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     var rankRepo: RankRepo = RankRepo(ArrayList(), ArrayList())
         private set
 
-    fun onLoadData() {
+    fun onUpdateData() {
         val db = RoomDb.provideDb(context)
         rankRepo = db.daoRank().get()
         db.close()

@@ -4,6 +4,7 @@ import android.content.Context
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RankItem
+import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
@@ -135,6 +136,22 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         db.close()
 
         return id
+    }
+
+    override fun updateRollCheck(rollItem: RollItem, noteItem: NoteItem) { // TODO переделать
+        rollItem.id?.let {
+            db = RoomDb.provideDb(context)
+            db.daoRoll().update(it, rollItem.isCheck)
+            db.daoNote().update(noteItem)
+            db.close()
+        }
+    }
+
+    override fun updateRollCheck(noteItem: NoteItem, isAll: Boolean) {
+        db = RoomDb.provideDb(context)
+        db.daoRoll().updateAllCheck(noteItem.id, isAll)
+        db.daoNote().update(noteItem)
+        db.close()
     }
 
     /**

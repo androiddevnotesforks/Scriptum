@@ -30,6 +30,8 @@ interface RollNoteCallback {
 
     fun bindEdit(mode: Boolean, noteItem: NoteItem)
 
+    fun bindNoteItem(noteItem: NoteItem)
+
     fun bindEnter()
 
     fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean)
@@ -42,7 +44,13 @@ interface RollNoteCallback {
 
     fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
 
+    fun changeCheckToggle(state: Boolean)
+
     fun updateNoteState(noteState: NoteState)
+
+    fun notifyListItem(p: Int, item: RollItem)
+
+    fun notifyDataSetChanged(list: MutableList<RollItem>)
 
     fun notifyItemRemoved(p: Int, list: MutableList<RollItem>)
 

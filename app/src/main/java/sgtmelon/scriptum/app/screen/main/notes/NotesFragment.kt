@@ -59,7 +59,7 @@ class NotesFragment : Fragment(), NotesCallback {
     override fun onResume() {
         super.onResume()
 
-        viewModel.onLoadData()
+        viewModel.onUpdateData()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
