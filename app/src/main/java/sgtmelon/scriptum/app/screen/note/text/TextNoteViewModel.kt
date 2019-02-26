@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.screen.note.text
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
@@ -118,7 +119,31 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onColorClick() = callback.showColorDialog(noteRepo.noteItem.color)
 
     override fun onSaveClick(changeMode: Boolean): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val noteItem = noteRepo.noteItem
+
+        if (TextUtils.isEmpty(noteItem.text)) return false
+
+        noteItem.change = context.getTime()
+
+        if (changeMode) {
+            callback.hideKeyboard()
+            onEditClick(mode = false)
+        }
+
+        iRoomRepo.saveTextNote(noteItem, noteState.isCreate)?.let { noteItem.id = it }
+
+        if (noteState.isCreate) {
+            noteState.isCreate = false
+
+            if (!changeMode) {
+                callback.changeToolbarIcon(drawableOn = true, needAnim = true)
+            }
+        }
+
+        inputControl.clear()
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+
+        return true
     }
 
     override fun onBindClick() {

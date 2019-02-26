@@ -29,6 +29,8 @@ interface TextNoteCallback {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
+    fun hideKeyboard()
+
     fun showRankDialog(rankCheck: BooleanArray)
 
     fun showColorDialog(color: Int)

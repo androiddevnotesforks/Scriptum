@@ -179,15 +179,17 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
 
+    override fun hideKeyboard() = activity.hideKeyboard()
+
     override fun showRankDialog(rankCheck: BooleanArray) {
-        activity.hideKeyboard()
+        hideKeyboard()
 
         rankDialog.setArguments(rankCheck)
         rankDialog.show(fragmentManager, DialogDef.RANK)
     }
 
     override fun showColorDialog(color: Int) {
-        activity.hideKeyboard()
+        hideKeyboard()
 
         menuControl.setColorFrom(color)
 
@@ -196,7 +198,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     override fun showConvertDialog() {
-        activity.hideKeyboard()
+        hideKeyboard()
 
         convertDialog.show(fragmentManager, DialogDef.CONVERT)
     }

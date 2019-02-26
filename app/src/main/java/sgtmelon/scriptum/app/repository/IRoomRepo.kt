@@ -34,6 +34,8 @@ interface IRoomRepo {
 
     fun getRankId(): Array<Long>
 
+    fun saveTextNote(noteItem: NoteItem, isCreate: Boolean): Long?
+
     /**
      *
      */

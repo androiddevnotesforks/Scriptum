@@ -110,6 +110,23 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return array
     }
 
+    override fun saveTextNote(noteItem: NoteItem, isCreate: Boolean): Long? {
+        db = RoomDb.provideDb(context)
+
+        val id = when (isCreate) {
+            true -> db.daoNote().insert(noteItem)
+            false -> {
+                db.daoNote().update(noteItem);
+                null
+            }
+        }
+
+        db.daoRank().update(noteItem.id, noteItem.rankId)
+        db.close()
+
+        return id
+    }
+
     /**
      * NotesViewModel
      */
@@ -145,7 +162,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     /**
      *
      */
-
 
 
     /**
