@@ -1,11 +1,10 @@
-package sgtmelon.scriptum.office.intf;
+package sgtmelon.scriptum.app.control.input;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.app.model.item.CursorItem;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 

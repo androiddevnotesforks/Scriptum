@@ -26,7 +26,7 @@ import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
@@ -126,14 +126,14 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     private fun setupRecycler() {
-        adapter.clickListener = ItemIntf.ClickListener { view, p ->
+        adapter.clickListener = ItemListener.ClickListener { view, p ->
             when (view.id) {
                 R.id.rank_visible_button -> viewModel.onClickVisible(p)
                 R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
                 R.id.rank_cancel_button -> viewModel.onClickCancel(p)
             }
         }
-        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.onLongClickVisible(p) }
+        adapter.longClickListener = ItemListener.LongClickListener { _, p -> viewModel.onLongClickVisible(p) }
 
         val touchCallback = RankTouchControl(viewModel)
         adapter.dragListener = touchCallback

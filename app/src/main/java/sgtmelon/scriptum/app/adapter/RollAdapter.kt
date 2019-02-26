@@ -6,13 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
+import sgtmelon.scriptum.app.control.input.InputIntf
+import sgtmelon.scriptum.app.control.touch.BindIntf
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.office.intf.BindIntf
-import sgtmelon.scriptum.office.intf.InputIntf
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
@@ -20,9 +20,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Адаптер для [RollNoteFragment]
  */
 class RollAdapter(context: Context,
-                  private val clickListener: ItemIntf.ClickListener,
-                  private val dragListener: ItemIntf.DragListener,
-                  private val rollWatcher: ItemIntf.RollWatcher,
+                  private val clickListener: ItemListener.ClickListener,
+                  private val dragListener: ItemListener.DragListener,
+                  private val rollWatcher: ItemListener.RollWatcher,
                   private val inputIntf: InputIntf,
                   private val bindIntf: BindIntf
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {

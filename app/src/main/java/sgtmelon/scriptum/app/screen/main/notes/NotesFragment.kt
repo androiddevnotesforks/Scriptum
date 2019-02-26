@@ -23,7 +23,7 @@ import sgtmelon.scriptum.app.screen.main.MainCallback
 import sgtmelon.scriptum.app.screen.pref.PrefActivity
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 
@@ -92,8 +92,8 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private fun setupRecycler() {
-        adapter.clickListener = ItemIntf.ClickListener { _, p -> viewModel.onClickNote(p) }
-        adapter.longClickListener = ItemIntf.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
+        adapter.clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) }
+        adapter.longClickListener = ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
 
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {

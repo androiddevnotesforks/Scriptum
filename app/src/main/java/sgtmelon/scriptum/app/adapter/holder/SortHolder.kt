@@ -6,13 +6,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.SortAdapter
 import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.databinding.ItemSortBinding
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 
 /**
  * Держатель сортировки для [SortAdapter]
  */
 class SortHolder(private val binding: ItemSortBinding,
-                 private val clickListener: ItemIntf.ClickListener
+                 private val clickListener: ItemListener.ClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.sort_click_container)

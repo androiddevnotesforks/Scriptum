@@ -13,11 +13,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.SortAdapter
 import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.office.annot.def.SortDef
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.HelpUtils
 import sgtmelon.scriptum.office.utils.HelpUtils.Sort.getSort
 
-class SortDialog : DialogBlank(), ItemIntf.ClickListener {
+class SortDialog : DialogBlank(), ItemListener.ClickListener {
 
     private val listSort: MutableList<SortItem> = ArrayList()
 

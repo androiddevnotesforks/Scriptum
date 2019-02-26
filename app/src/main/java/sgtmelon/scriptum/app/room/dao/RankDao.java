@@ -17,8 +17,8 @@ import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.room.RoomDb;
+import sgtmelon.scriptum.app.room.converter.NoteTypeConverter;
 import sgtmelon.scriptum.office.annot.key.NoteType;
-import sgtmelon.scriptum.office.converter.NoteTypeConverter;
 
 /**
  * Класс для общения Dao категорий {@link RoomDb}

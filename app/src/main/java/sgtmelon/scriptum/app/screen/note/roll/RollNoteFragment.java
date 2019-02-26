@@ -30,9 +30,10 @@ import sgtmelon.safedialog.MessageDialog;
 import sgtmelon.safedialog.MultiplyDialog;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.adapter.RollAdapter;
-import sgtmelon.scriptum.app.control.InputControl;
 import sgtmelon.scriptum.app.control.MenuControl;
 import sgtmelon.scriptum.app.control.MenuControlAnim;
+import sgtmelon.scriptum.app.control.input.InputControl;
+import sgtmelon.scriptum.app.control.touch.BindIntf;
 import sgtmelon.scriptum.app.control.touch.RollTouchControl;
 import sgtmelon.scriptum.app.factory.DialogFactory;
 import sgtmelon.scriptum.app.model.NoteRepo;
@@ -41,6 +42,7 @@ import sgtmelon.scriptum.app.model.item.InputItem;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.room.RoomDb;
+import sgtmelon.scriptum.app.room.converter.StringConverter;
 import sgtmelon.scriptum.app.screen.note.NoteCallback;
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
@@ -48,9 +50,7 @@ import sgtmelon.scriptum.office.annot.def.DialogDef;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 import sgtmelon.scriptum.office.annot.def.IntentDef;
 import sgtmelon.scriptum.office.annot.key.NoteType;
-import sgtmelon.scriptum.office.converter.StringConverter;
-import sgtmelon.scriptum.office.intf.BindIntf;
-import sgtmelon.scriptum.office.intf.ItemIntf;
+import sgtmelon.scriptum.office.intf.ItemListener;
 import sgtmelon.scriptum.office.state.CheckState;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.HelpUtils;
@@ -58,8 +58,8 @@ import sgtmelon.scriptum.office.utils.TimeUtils;
 import sgtmelon.scriptum.widget.color.ColorDialog;
 
 public final class RollNoteFragment extends Fragment implements
-        ItemIntf.ClickListener,
-        ItemIntf.RollWatcher,
+        ItemListener.ClickListener,
+        ItemListener.RollWatcher,
         View.OnClickListener,
         BindIntf{
 
@@ -144,7 +144,7 @@ public final class RollNoteFragment extends Fragment implements
         vm = ViewModelProviders.of(this).get(RollNoteViewModel.class);
 //        vm.setNoteRepo(noteCallback.getViewModel().getNoteRepo());
         vm.setNoteCallback(noteCallback);
-        vm.setInputControl(inputControl);
+//        vm.setInputControl(inputControl);
 
         return binding.getRoot();
     }

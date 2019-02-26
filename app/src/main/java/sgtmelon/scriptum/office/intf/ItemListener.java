@@ -4,7 +4,11 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-public interface ItemIntf {
+/**
+ * Интерфейс для обработки нажатий на элементы
+ * На Java, чтобы использовать lambda в Kotlin
+ */
+public interface ItemListener {
 
     interface ClickListener {
         void onItemClick(@NonNull View view, int p);

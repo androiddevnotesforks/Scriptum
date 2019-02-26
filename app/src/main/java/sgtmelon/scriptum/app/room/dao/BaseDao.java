@@ -12,9 +12,9 @@ import androidx.sqlite.db.SupportSQLiteQuery;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
+import sgtmelon.scriptum.app.room.converter.BoolConverter;
+import sgtmelon.scriptum.app.room.converter.NoteTypeConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.converter.BoolConverter;
-import sgtmelon.scriptum.office.converter.NoteTypeConverter;
 
 /**
  * Класс обеспечивающий базовую логику, которая используется в разных Dao

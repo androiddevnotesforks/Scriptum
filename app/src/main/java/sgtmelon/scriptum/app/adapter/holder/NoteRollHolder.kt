@@ -7,15 +7,15 @@ import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
 
 /**
  * Держатель заметки-списка для [NoteAdapter]
  */
 class NoteRollHolder(private val binding: ItemNoteRollBinding,
-                     private val clickListener: ItemIntf.ClickListener,
-                     private val longClickListener: ItemIntf.LongClickListener
+                     private val clickListener: ItemListener.ClickListener,
+                     private val longClickListener: ItemListener.LongClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.note_roll_click_container)

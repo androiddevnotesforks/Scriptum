@@ -12,7 +12,7 @@ import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
@@ -20,8 +20,8 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  */
 class NoteAdapter(context: Context) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context) {
 
-    lateinit var clickListener: ItemIntf.ClickListener
-    lateinit var longClickListener: ItemIntf.LongClickListener
+    lateinit var clickListener: ItemListener.ClickListener
+    lateinit var longClickListener: ItemListener.LongClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType == NoteType.TEXT.ordinal) {

@@ -19,6 +19,8 @@ import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.MenuControl
 import sgtmelon.scriptum.app.control.MenuControlAnim
+import sgtmelon.scriptum.app.control.input.InputIntf
+import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.screen.note.NoteCallback
@@ -28,8 +30,6 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.def.InputDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
-import sgtmelon.scriptum.office.intf.InputIntf
-import sgtmelon.scriptum.office.intf.InputTextWatcher
 import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding

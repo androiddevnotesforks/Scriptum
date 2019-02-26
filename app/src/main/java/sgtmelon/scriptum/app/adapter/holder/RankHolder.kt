@@ -10,7 +10,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.databinding.ItemRankBinding
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
 
 /**
@@ -18,9 +18,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
  */
 @SuppressLint("ClickableViewAccessibility")
 class RankHolder(private val binding: ItemRankBinding,
-                 private val clickListener: ItemIntf.ClickListener,
-                 private val longClickListener: ItemIntf.LongClickListener,
-                 private val dragListener: ItemIntf.DragListener
+                 private val clickListener: ItemListener.ClickListener,
+                 private val longClickListener: ItemListener.LongClickListener,
+                 private val dragListener: ItemListener.DragListener
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 

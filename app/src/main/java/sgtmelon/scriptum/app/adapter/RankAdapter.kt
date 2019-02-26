@@ -7,7 +7,7 @@ import sgtmelon.scriptum.app.adapter.holder.RankHolder
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.screen.main.rank.RankFragment
 import sgtmelon.scriptum.databinding.ItemRankBinding
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
@@ -15,9 +15,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  */
 class RankAdapter(context: Context) : ParentAdapter<RankItem, RankHolder>(context) {
 
-    lateinit var clickListener: ItemIntf.ClickListener
-    lateinit var longClickListener: ItemIntf.LongClickListener
-    lateinit var dragListener: ItemIntf.DragListener
+    lateinit var clickListener: ItemListener.ClickListener
+    lateinit var longClickListener: ItemListener.LongClickListener
+    lateinit var dragListener: ItemListener.DragListener
 
     var startAnim: BooleanArray = BooleanArray(size = 0)
 

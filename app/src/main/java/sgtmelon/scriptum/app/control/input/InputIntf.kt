@@ -1,6 +1,5 @@
-package sgtmelon.scriptum.office.intf
+package sgtmelon.scriptum.app.control.input
 
-import sgtmelon.scriptum.app.control.InputControl
 import sgtmelon.scriptum.app.model.item.CursorItem
 
 /**

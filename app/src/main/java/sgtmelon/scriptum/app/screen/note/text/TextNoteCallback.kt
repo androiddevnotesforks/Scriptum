@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.app.screen.note.text
 
+import sgtmelon.scriptum.app.control.input.InputIntf
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.state.NoteState
 
 /**

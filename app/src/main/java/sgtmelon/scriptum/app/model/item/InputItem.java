@@ -2,7 +2,7 @@ package sgtmelon.scriptum.app.model.item;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import sgtmelon.scriptum.app.control.InputControl;
+import sgtmelon.scriptum.app.control.input.InputControl;
 import sgtmelon.scriptum.office.annot.def.InputDef;
 
 /**

@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.SortHolder
 import sgtmelon.scriptum.app.model.item.SortItem
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.state.SortState
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.widget.SortDialog
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.widget.SortDialog
  * Адаптер для [SortDialog]
  */
 class SortAdapter(context: Context,
-                  private val clickListener: ItemIntf.ClickListener
+                  private val clickListener: ItemListener.ClickListener
 ) : ParentAdapter<SortItem, SortHolder>(context) {
 
     val sortState = SortState()

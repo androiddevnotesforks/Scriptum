@@ -13,8 +13,8 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.room.converter.BoolConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.converter.BoolConverter;
 
 import static androidx.room.ForeignKey.CASCADE;
 

@@ -4,8 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
-import sgtmelon.scriptum.app.control.InputControl
 import sgtmelon.scriptum.app.control.SaveControl
+import sgtmelon.scriptum.app.control.input.InputControl
+import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.StatusItem
@@ -14,7 +15,6 @@ import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
-import sgtmelon.scriptum.office.intf.InputTextWatcher
 import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime

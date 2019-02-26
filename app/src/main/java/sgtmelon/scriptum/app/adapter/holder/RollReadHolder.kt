@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RollAdapter
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
-import sgtmelon.scriptum.office.intf.ItemIntf
+import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
 
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
  * Держатель пункта списка в состоянии просмотра для [RollAdapter]
  */
 class RollReadHolder(private val binding: ItemRollReadBinding,
-                     private val clickListener: ItemIntf.ClickListener
+                     private val clickListener: ItemListener.ClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     /**

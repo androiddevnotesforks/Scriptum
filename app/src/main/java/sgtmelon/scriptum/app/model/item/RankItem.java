@@ -10,9 +10,9 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.app.model.RankRepo;
+import sgtmelon.scriptum.app.room.converter.BoolConverter;
+import sgtmelon.scriptum.app.room.converter.StringConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
-import sgtmelon.scriptum.office.converter.BoolConverter;
-import sgtmelon.scriptum.office.converter.StringConverter;
 
 /**
  * Элемент списка категорий {@link RankRepo}

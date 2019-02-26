@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.converter;
+package sgtmelon.scriptum.app.room.converter;
 
 import android.text.TextUtils;
 
