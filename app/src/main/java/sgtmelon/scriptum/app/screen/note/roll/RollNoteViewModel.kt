@@ -5,12 +5,18 @@ import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.InputControl
+import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.item.StatusItem
+import sgtmelon.scriptum.app.repository.IRoomRepo
+import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
+import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import java.util.*
 
@@ -21,12 +27,48 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     private val context: Context = application.applicationContext
 
+    private val prefUtils = PrefUtils(context)
+    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
+
     lateinit var callback: RollNoteCallback
+    lateinit var noteCallback: NoteCallback
+
+    private val inputControl: InputControl = InputControl()
+    private val saveControl: SaveControl = SaveControl(context)
 
     private var id: Long = NoteData.Default.ID
 
+    lateinit var noteRepo: NoteRepo
+
+    private lateinit var noteState: NoteState
+    private lateinit var rankVisibleList: List<Long>
+
     fun setupData(bundle: Bundle?) {
         id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
+
+        if (::noteRepo.isInitialized) return
+
+        rankVisibleList = iRoomRepo.getRankVisibleList()
+
+        if (id == NoteData.Default.ID) {
+            val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.ROLL)
+            val statusItem = StatusItem(context, noteItem, false)
+
+            noteRepo = NoteRepo(noteItem, ArrayList(), statusItem)
+
+            noteState = NoteState(isCreate = true)
+        } else {
+            noteRepo = iRoomRepo.getNoteRepo(id)
+
+            noteState = NoteState(isCreate = false, isBin = noteRepo.noteItem.isBin)
+        }
+
+//        callback.setupBinding(noteRepo.noteItem, rankVisibleList.isEmpty())
+//        callback.setupToolbar(noteRepo.noteItem.color, noteState)
+//        callback.setupDialog(iRoomRepo.getRankDialogName())
+
+        onEditClick(noteState.isEdit)
+        noteState.isFirst = false
     }
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
@@ -133,12 +175,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     /**
      *
      */
-
-
-    lateinit var noteRepo: NoteRepo
-
-    lateinit var noteCallback: NoteCallback
-    lateinit var inputControl: InputControl
 
     fun getNoteColor(): Int = noteRepo.noteItem.color
 

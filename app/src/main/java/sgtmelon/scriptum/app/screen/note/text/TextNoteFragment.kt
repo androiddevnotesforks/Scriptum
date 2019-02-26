@@ -36,6 +36,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.AppUtils.manage
 import sgtmelon.scriptum.widget.color.ColorDialog
 
+/**
+ * Фрагмент для отображения тектовой заметки
+ */
 class TextNoteFragment : Fragment(), TextNoteCallback {
 
     private lateinit var activity: Activity
@@ -203,12 +206,11 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     companion object {
-        fun getInstance(id: Long): TextNoteFragment {
-            val fragment = TextNoteFragment()
+        private operator fun invoke(func: TextNoteFragment.() -> Unit) =
+                TextNoteFragment().apply { func() }
 
-            fragment.arguments = Bundle().manage { putLong(NoteData.Intent.ID, id) }
-
-            return fragment
+        fun getInstance(id: Long) = TextNoteFragment {
+            arguments = Bundle().manage { putLong(NoteData.Intent.ID, id) }
         }
     }
 
