@@ -31,9 +31,9 @@ interface TextNoteCallback {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
-    fun setNameText(text: String, cursor: Int)
+    fun changeName(text: String, cursor: Int)
 
-    fun setContentText(text: String, cursor: Int)
+    fun changeText(text: String, cursor: Int)
 
     fun hideKeyboard()
 

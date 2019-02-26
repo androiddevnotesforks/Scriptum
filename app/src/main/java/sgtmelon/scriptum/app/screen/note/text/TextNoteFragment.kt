@@ -184,13 +184,13 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
 
-    override fun setNameText(text: String, cursor: Int) {
+    override fun changeName(text: String, cursor: Int) {
         nameEnter?.requestFocus()
         nameEnter?.setText(text)
         nameEnter?.setSelection(cursor)
     }
 
-    override fun setContentText(text: String, cursor: Int) {
+    override fun changeText(text: String, cursor: Int) {
         textEnter?.requestFocus()
         textEnter?.setText(text)
         textEnter?.setSelection(cursor)

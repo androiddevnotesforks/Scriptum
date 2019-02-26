@@ -10,6 +10,8 @@ import sgtmelon.scriptum.app.control.input.InputDef;
  */
 public final class InputItem {
 
+    // TODO extension для получения valueFrom - valueTo по ключу boolean
+
     private final int tag;
     private final int position;
 

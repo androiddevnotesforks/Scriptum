@@ -107,7 +107,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         noteCallback.finish()
     }
 
-    override fun onUndoClick() {
+    override fun onUndoClick() { // TODO сократить в один приватный метод
         val inputItem = inputControl.undo()
 
         if (inputItem != null) {
@@ -127,9 +127,9 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
                     callback.tintToolbar(colorFrom, colorTo)
                 }
                 InputDef.name ->
-                    callback.setNameText(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
+                    callback.changeName(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
                 InputDef.text ->
-                    callback.setContentText(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
+                    callback.changeText(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
             }
 
             inputControl.setEnabled(true)
@@ -138,7 +138,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
     }
 
-    override fun onRedoClick() {
+    override fun onRedoClick() { // TODO сократить в один приватный метод
         val inputItem = inputControl.redo()
 
         if (inputItem != null) {
@@ -158,9 +158,9 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
                     callback.tintToolbar(colorFrom, colorTo)
                 }
                 InputDef.name ->
-                    callback.setNameText(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
+                    callback.changeName(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
                 InputDef.text ->
-                    callback.setContentText(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
+                    callback.changeText(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
 
             }
 
