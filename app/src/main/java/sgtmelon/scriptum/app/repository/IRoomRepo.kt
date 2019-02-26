@@ -28,6 +28,10 @@ interface IRoomRepo {
 
     fun getRankCheck(rankId: List<Long>): BooleanArray
 
+    fun convertToRoll(noteRepo: NoteRepo): NoteRepo
+
+    fun getRankId(): Array<Long>
+
     /**
      *
      */
@@ -42,8 +46,6 @@ interface IRoomRepo {
     fun updateNoteItemBind(id: Long, status: Boolean)
 
     fun updateNoteItem(noteItem: NoteItem)
-
-    fun convertNoteItem(noteRepo: NoteRepo)
 
     fun deleteNoteItem(id: Long)
 

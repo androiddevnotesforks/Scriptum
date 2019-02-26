@@ -11,7 +11,6 @@ import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
-import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
@@ -22,7 +21,7 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import java.util.*
 
 /**
- * ViewModel для [TextNoteFragmentNew]
+ * ViewModel для [TextNoteFragment]
  */
 class TextNoteViewModel(application: Application) : AndroidViewModel(application),
         MenuCallback,
@@ -159,40 +158,10 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.isChangeEnabled = true
     }
 
-
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
-
-
     fun onResultConvertDialog() {
-        val noteItem = noteRepo.noteItem
+        noteRepo = iRoomRepo.convertToRoll(noteRepo)
 
-        val db = RoomDb.provideDb(context)
-        val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
-
-        noteItem.change = context.getTime()
-        noteItem.type = NoteType.ROLL
-        noteItem.setText(0, listRoll.size)
-
-        db.daoNote().update(noteItem)
-        db.close()
-
-        noteRepo.listRoll = listRoll
-
-        // TODO
-//        noteCallback.viewModel.noteRepo = noteRepo
-//        noteCallback.setupFragment(false)
+        noteCallback.showRollFragment(noteRepo.noteItem.id, false)
     }
 
     fun onResultColorDialog(check: Int) {
@@ -205,16 +174,14 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onResultRankDialog(check: BooleanArray) {
-        val db = RoomDb.provideDb(context)
-        val id: Array<Long> = db.daoRank().id
-        db.close()
+        val idArray: Array<Long> = iRoomRepo.getRankId()
 
         val rankId = ArrayList<Long>()
         val rankPs = ArrayList<Long>()
 
-        for (i in id.indices) {
+        for (i in idArray.indices) {
             if (check[i]) {
-                rankId.add(id[i])
+                rankId.add(idArray[i])
                 rankPs.add(i.toLong())
             }
         }

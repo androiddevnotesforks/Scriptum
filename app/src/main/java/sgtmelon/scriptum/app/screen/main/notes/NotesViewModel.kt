@@ -132,9 +132,10 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
         noteItem.change = context.getTime()
 
-        val db = RoomDb.provideDb(context)
         when (noteItem.type) {
             NoteType.TEXT -> {
+                val db = RoomDb.provideDb(context)
+
                 val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
 
                 noteItem.type = NoteType.ROLL
@@ -143,8 +144,12 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
                 db.daoNote().update(noteItem)
 
                 noteRepo.listRoll = listRoll
+
+                db.close()
             }
             NoteType.ROLL -> {
+                val db = RoomDb.provideDb(context)
+
                 noteItem.type = NoteType.TEXT
                 noteItem.text = db.daoRoll().getText(noteItem.id)
 
@@ -152,9 +157,10 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
                 db.daoRoll().delete(noteItem.id)
 
                 noteRepo.listRoll = ArrayList()
+
+                db.close()
             }
         }
-        db.close()
 
         noteRepo.statusItem.updateNote(noteItem, true)
 

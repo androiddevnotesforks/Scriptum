@@ -36,7 +36,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.AppUtils.manage
 import sgtmelon.scriptum.widget.color.ColorDialog
 
-class TextNoteFragmentNew : Fragment(), TextNoteCallback {
+class TextNoteFragment : Fragment(), TextNoteCallback {
 
     private lateinit var activity: Activity
     private lateinit var noteCallback: NoteCallback
@@ -203,8 +203,8 @@ class TextNoteFragmentNew : Fragment(), TextNoteCallback {
     }
 
     companion object {
-        fun getInstance(id: Long): TextNoteFragmentNew {
-            val fragment = TextNoteFragmentNew()
+        fun getInstance(id: Long): TextNoteFragment {
+            val fragment = TextNoteFragment()
 
             fragment.arguments = Bundle().manage { putLong(NoteData.Intent.ID, id) }
 

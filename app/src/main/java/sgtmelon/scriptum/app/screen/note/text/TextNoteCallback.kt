@@ -6,7 +6,7 @@ import sgtmelon.scriptum.office.intf.InputIntf
 import sgtmelon.scriptum.office.state.NoteState
 
 /**
- * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragmentNew]
+ * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragment]
  */
 interface TextNoteCallback {
 
