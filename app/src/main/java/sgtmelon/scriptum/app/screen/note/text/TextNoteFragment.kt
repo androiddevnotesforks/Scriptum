@@ -174,10 +174,27 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         binding.executePendingBindings()
     }
 
+    override fun tintToolbar(from: Int, to: Int) {
+        menuControl.setColorFrom(from)
+        menuControl.startTint(to)
+    }
+
     override fun tintToolbar(color: Int) = menuControl.startTint(color)
 
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
+
+    override fun setNameText(text: String, cursor: Int) {
+        nameEnter?.requestFocus()
+        nameEnter?.setText(text)
+        nameEnter?.setSelection(cursor)
+    }
+
+    override fun setContentText(text: String, cursor: Int) {
+        textEnter?.requestFocus()
+        textEnter?.setText(text)
+        textEnter?.setSelection(cursor)
+    }
 
     override fun hideKeyboard() = activity.hideKeyboard()
 

@@ -25,9 +25,15 @@ interface TextNoteCallback {
 
     fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)
 
+    fun tintToolbar(@ColorDef from: Int, @ColorDef to: Int)
+
     fun tintToolbar(@ColorDef color: Int)
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
+
+    fun setNameText(text: String, cursor: Int)
+
+    fun setContentText(text: String, cursor: Int)
 
     fun hideKeyboard()
 

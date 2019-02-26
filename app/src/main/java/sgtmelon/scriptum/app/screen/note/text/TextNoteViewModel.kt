@@ -7,12 +7,14 @@ import android.text.TextUtils
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
+import sgtmelon.scriptum.app.control.input.InputDef
 import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
+import sgtmelon.scriptum.app.room.converter.StringConverter
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
@@ -106,11 +108,66 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onUndoClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val inputItem = inputControl.undo()
+
+        if (inputItem != null) {
+            inputControl.setEnabled(false)
+
+            val noteItem = noteRepo.noteItem
+
+            when (inputItem.tag) {
+                InputDef.rank ->
+                    noteItem.rankId = StringConverter().fromString(inputItem.valueFrom)
+                InputDef.color -> {
+                    val colorFrom = noteItem.color
+                    val colorTo = Integer.parseInt(inputItem.valueFrom)
+
+                    noteItem.color = colorTo
+
+                    callback.tintToolbar(colorFrom, colorTo)
+                }
+                InputDef.name ->
+                    callback.setNameText(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
+                InputDef.text ->
+                    callback.setContentText(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
+            }
+
+            inputControl.setEnabled(true)
+        }
+
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
     }
 
     override fun onRedoClick() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val inputItem = inputControl.redo()
+
+        if (inputItem != null) {
+            inputControl.setEnabled(false)
+
+            val noteItem = noteRepo.noteItem
+
+            when (inputItem.tag) {
+                InputDef.rank ->
+                    noteItem.rankId = StringConverter().fromString(inputItem.valueTo)
+                InputDef.color -> {
+                    val colorFrom = noteItem.color
+                    val colorTo = Integer.parseInt(inputItem.valueTo)
+
+                    noteItem.color = colorTo
+
+                    callback.tintToolbar(colorFrom, colorTo)
+                }
+                InputDef.name ->
+                    callback.setNameText(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
+                InputDef.text ->
+                    callback.setContentText(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
+
+            }
+
+            inputControl.setEnabled(true)
+        }
+
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
     }
 
     override fun onRankClick() =

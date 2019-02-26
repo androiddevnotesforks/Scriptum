@@ -102,7 +102,7 @@ class InputControl : InputCallback {
 
     override fun setEnabled(enabled: Boolean) {
         this.enabled = enabled
-    }
+    } // TODO extension
 
     override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) {
         val inputItem = InputItem.Builder()
