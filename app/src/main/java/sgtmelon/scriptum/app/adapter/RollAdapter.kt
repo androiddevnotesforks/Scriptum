@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
-import sgtmelon.scriptum.app.control.input.InputIntf
+import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.control.touch.BindIntf
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
@@ -23,7 +23,7 @@ class RollAdapter(context: Context,
                   private val clickListener: ItemListener.ClickListener,
                   private val dragListener: ItemListener.DragListener,
                   private val rollWatcher: ItemListener.RollWatcher,
-                  private val inputIntf: InputIntf,
+                  private val inputCallback: InputCallback,
                   private val bindIntf: BindIntf
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
 
@@ -44,7 +44,7 @@ class RollAdapter(context: Context,
                 val binding: ItemRollWriteBinding =
                         inflater.inflateBinding(R.layout.item_roll_write, parent)
 
-                RollWriteHolder(binding, dragListener, rollWatcher, inputIntf, bindIntf)
+                RollWriteHolder(binding, dragListener, rollWatcher, inputCallback, bindIntf)
             }
         }
     }

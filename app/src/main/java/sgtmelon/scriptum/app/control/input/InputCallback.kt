@@ -5,7 +5,7 @@ import sgtmelon.scriptum.app.model.item.CursorItem
 /**
  * Интерфейс для общения с [InputControl]
  */
-interface InputIntf {
+interface InputCallback {
 
     val isChangeEnabled: Boolean
 

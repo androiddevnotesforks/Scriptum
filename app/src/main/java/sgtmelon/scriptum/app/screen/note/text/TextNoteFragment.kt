@@ -19,7 +19,8 @@ import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.MenuControl
 import sgtmelon.scriptum.app.control.MenuControlAnim
-import sgtmelon.scriptum.app.control.input.InputIntf
+import sgtmelon.scriptum.app.control.input.InputCallback
+import sgtmelon.scriptum.app.control.input.InputDef
 import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.NoteItem
@@ -27,7 +28,6 @@ import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.def.InputDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.state.NoteState
@@ -155,9 +155,9 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
-    override fun setupEnter(inputIntf: InputIntf) {
+    override fun setupEnter(inputCallback: InputCallback) {
         nameEnter?.addTextChangedListener(
-                InputTextWatcher(nameEnter, InputDef.name, viewModel, inputIntf)
+                InputTextWatcher(nameEnter, InputDef.name, viewModel, inputCallback)
         )
 
         nameEnter?.setOnEditorActionListener { _, i, _ ->
@@ -170,7 +170,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
 
         textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputDef.text, viewModel, inputIntf)
+                InputTextWatcher(textEnter, InputDef.text, viewModel, inputCallback)
         )
     }
 

@@ -11,7 +11,7 @@ import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RollAdapter
-import sgtmelon.scriptum.app.control.input.InputIntf
+import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.control.touch.BindIntf
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.RollItem
@@ -25,7 +25,7 @@ import sgtmelon.scriptum.office.intf.ItemListener
 class RollWriteHolder(private val binding: ItemRollWriteBinding,
                       private val dragListener: ItemListener.DragListener,
                       private val rollWatcher: ItemListener.RollWatcher,
-                      private val inputIntf: InputIntf,
+                      private val inputCallback: InputCallback,
                       private val bindIntf: BindIntf
 ) : RecyclerView.ViewHolder(binding.root), View.OnTouchListener, TextWatcher {
 
@@ -78,13 +78,13 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
         if (!TextUtils.isEmpty(textTo)) {
             if (!TextUtils.isEmpty(textFrom)) {
                 val cursorItem = CursorItem(cursorFrom, cursorTo)
-                inputIntf.onRollChange(adapterPosition, textFrom, textTo, cursorItem)
+                inputCallback.onRollChange(adapterPosition, textFrom, textTo, cursorItem)
 
                 textFrom = textTo
                 cursorFrom = cursorTo
             }
         } else {
-            inputIntf.onRollRemove(adapterPosition, binding.rollItem.toString())
+            inputCallback.onRollRemove(adapterPosition, binding.rollItem.toString())
         }
 
         bindIntf.bindInput()
@@ -97,8 +97,8 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
             rollWatcher.afterRollChanged(adapterPosition, rollEnter.text.toString())
         }
 
-        if (inputIntf.isChangeEnabled) {
-            inputIntf.setEnabled(true)
+        if (inputCallback.isChangeEnabled) {
+            inputCallback.setEnabled(true)
         }
     }
 

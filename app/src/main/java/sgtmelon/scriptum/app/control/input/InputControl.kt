@@ -5,7 +5,6 @@ import android.util.Log
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.InputItem
 import sgtmelon.scriptum.office.annot.DbAnn
-import sgtmelon.scriptum.office.annot.def.InputDef
 import java.util.*
 
 /**
@@ -22,7 +21,7 @@ import java.util.*
  * Roll swipe   - Номер пункта : значение
  * Roll move    - Перемещение (до/после)
  */
-class InputControl : InputIntf {
+class InputControl : InputCallback {
 
     // TODO: 17.12.2018 хранить последние 200 изменений
     // TODO: 27.01.2019 долгое нажатие (надо каким-то образом собирать последнюю информацию о изменённом view)

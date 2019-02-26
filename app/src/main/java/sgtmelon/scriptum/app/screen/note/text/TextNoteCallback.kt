@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.app.screen.note.text
 
-import sgtmelon.scriptum.app.control.input.InputIntf
+import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.state.NoteState
@@ -23,7 +23,7 @@ interface TextNoteCallback {
 
     fun setupDialog(rankNameArray: Array<String> )
 
-    fun setupEnter(inputIntf: InputIntf)
+    fun setupEnter(inputCallback: InputCallback)
 
     /**
      *

@@ -75,7 +75,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
-    override fun onTextResult() =
+    override fun onInputTextChangeResult() =
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
 
     override fun onRestoreClick() {

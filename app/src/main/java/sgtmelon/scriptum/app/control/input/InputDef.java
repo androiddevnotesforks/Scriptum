@@ -1,7 +1,6 @@
-package sgtmelon.scriptum.office.annot.def;
+package sgtmelon.scriptum.app.control.input;
 
 import androidx.annotation.IntDef;
-import sgtmelon.scriptum.app.control.input.InputControl;
 import sgtmelon.scriptum.app.model.item.InputItem;
 
 /**

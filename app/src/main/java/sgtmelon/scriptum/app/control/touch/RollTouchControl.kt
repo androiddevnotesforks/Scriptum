@@ -4,7 +4,7 @@ import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.app.adapter.RollAdapter
-import sgtmelon.scriptum.app.control.input.InputIntf
+import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteViewModel
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.office.intf.ItemListener
  */
 class RollTouchControl(private val vm: RollNoteViewModel,
                        private val noteCallback: NoteCallback,
-                       private val inputIntf: InputIntf,
+                       private val inputCallback: InputCallback,
                        private val bindIntf: BindIntf
 ) : ItemTouchHelper.Callback(),
         ItemListener.DragListener {
@@ -70,7 +70,7 @@ class RollTouchControl(private val vm: RollNoteViewModel,
                 || dragTo == RecyclerView.NO_POSITION
                 || dragFrom == dragTo) return
 
-        inputIntf.onRollMove(dragFrom, dragTo)
+        inputCallback.onRollMove(dragFrom, dragTo)
         bindIntf.bindInput()
 
         dragFrom = RecyclerView.NO_POSITION
@@ -80,7 +80,7 @@ class RollTouchControl(private val vm: RollNoteViewModel,
         val p = viewHolder.adapterPosition
         val listRoll = vm.noteRepo.listRoll
 
-        inputIntf.onRollRemove(p, listRoll[p].toString())
+        inputCallback.onRollRemove(p, listRoll[p].toString())
         bindIntf.bindInput()
 
         listRoll.removeAt(p)
