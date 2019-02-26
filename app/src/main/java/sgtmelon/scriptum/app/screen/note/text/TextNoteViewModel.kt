@@ -24,8 +24,8 @@ import java.util.*
  * ViewModel для [TextNoteFragment]
  */
 class TextNoteViewModel(application: Application) : AndroidViewModel(application),
-        MenuCallback,
-        InputTextWatcher.Result {
+        InputTextWatcher.Result,
+        MenuCallback {
 
     private val context: Context = application.applicationContext
 
@@ -40,7 +40,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
     private var id: Long = NoteData.Default.ID
 
-    lateinit var noteRepo: NoteRepo
+    private lateinit var noteRepo: NoteRepo
 
     private lateinit var noteState: NoteState
     private lateinit var rankVisibleList: List<Long>
@@ -65,9 +65,10 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             noteState = NoteState(isCreate = false, isBin = noteRepo.noteItem.isBin)
         }
 
-        callback.setupBinding(noteRepo.noteItem, rankVisibleList.isEmpty())
+        callback.setupBinding(rankVisibleList.isEmpty())
         callback.setupToolbar(noteRepo.noteItem.color, noteState)
         callback.setupDialog(iRoomRepo.getRankDialogName())
+        callback.setupEnter(inputControl)
 
         onEditClick(noteState.isEdit)
         noteState.isFirst = false
@@ -126,6 +127,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteRepo.updateStatus(noteItem.isStatus)
 
+        callback.bindEdit(noteState.isEdit, noteItem)
+
         iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
     }
 
@@ -158,12 +161,6 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.isChangeEnabled = true
     }
 
-    fun onResultConvertDialog() {
-        noteRepo = iRoomRepo.convertToRoll(noteRepo)
-
-        noteCallback.showRollFragment(noteRepo.noteItem.id, false)
-    }
-
     fun onResultColorDialog(check: Int) {
         val noteItem = noteRepo.noteItem
         inputControl.onColorChange(noteItem.color, check)
@@ -194,6 +191,12 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         noteItem.rankPs = rankPs
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+    }
+
+    fun onResultConvertDialog() {
+        iRoomRepo.convertToRoll(noteRepo.noteItem)
+
+        noteCallback.showRollFragment(noteRepo.noteItem.id, isSave = false)
     }
 
 }

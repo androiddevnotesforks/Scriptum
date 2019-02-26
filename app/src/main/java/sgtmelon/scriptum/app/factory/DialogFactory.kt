@@ -35,6 +35,17 @@ object DialogFactory {
         return dialog
     }
 
+    fun getRankDialog(context: Context, fm: FragmentManager?): MultiplyDialog {
+        val dlgRank = fm?.findFragmentByTag(DialogDef.RANK) as MultiplyDialog? ?: MultiplyDialog()
+
+        dlgRank.title = context.getString(R.string.dialog_title_rank)
+
+        return dlgRank
+    }
+
+    fun getColorDialog(fm: FragmentManager?): ColorDialog =
+            fm?.findFragmentByTag(DialogDef.COLOR) as ColorDialog? ?: ColorDialog()
+
     fun getConvertDialog(context: Context, fm: FragmentManager?, type: NoteType): MessageDialog {
         val dialog = fm?.findFragmentByTag(DialogDef.CONVERT) as MessageDialog? ?: MessageDialog()
 
@@ -46,17 +57,6 @@ object DialogFactory {
 
         return dialog
     }
-
-    fun getRankDialog(context: Context, fm: FragmentManager?): MultiplyDialog {
-        val dlgRank = fm?.findFragmentByTag(DialogDef.RANK) as MultiplyDialog? ?: MultiplyDialog()
-
-        dlgRank.title = context.getString(R.string.dialog_title_rank)
-
-        return dlgRank
-    }
-
-    fun getColorDialog(fm: FragmentManager?): ColorDialog =
-            fm?.findFragmentByTag(DialogDef.COLOR) as ColorDialog? ?: ColorDialog()
 
     fun getSortDialog(fm: FragmentManager?): SortDialog =
             fm?.findFragmentByTag(DialogDef.SORT) as SortDialog? ?: SortDialog()

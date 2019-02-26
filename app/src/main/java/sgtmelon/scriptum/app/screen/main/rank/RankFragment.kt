@@ -42,11 +42,9 @@ class RankFragment : Fragment(), RankCallback {
     private val viewModel: RankViewModel by lazy {
         ViewModelProviders.of(this).get(RankViewModel::class.java)
     }
-    private val adapter: RankAdapter by lazy {
-        RankAdapter(activity)
-    }
 
-    private val layoutManager by lazy { LinearLayoutManager(context) }
+    private val adapter: RankAdapter by lazy { RankAdapter(activity) }
+    private val layoutManager by lazy { LinearLayoutManager(activity) }
 
     private val recyclerView: RecyclerView? by lazy {
         view?.findViewById<RecyclerView>(R.id.rank_recycler)
@@ -133,11 +131,12 @@ class RankFragment : Fragment(), RankCallback {
                 R.id.rank_cancel_button -> viewModel.onClickCancel(p)
             }
         }
-        adapter.longClickListener = ItemListener.LongClickListener { _, p -> viewModel.onLongClickVisible(p) }
+        adapter.longClickListener = ItemListener.LongClickListener { _, p ->
+            viewModel.onLongClickVisible(p)
+        }
 
         val touchCallback = RankTouchControl(viewModel)
         adapter.dragListener = touchCallback
-        touchCallback.adapter = adapter
 
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {

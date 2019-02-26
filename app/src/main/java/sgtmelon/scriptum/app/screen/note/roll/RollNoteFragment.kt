@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.note.text
+package sgtmelon.scriptum.app.screen.note.roll
 
 import android.app.Activity
 import android.content.Context
@@ -11,22 +11,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.MessageDialog
 import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.adapter.RollAdapter
 import sgtmelon.scriptum.app.control.MenuControl
 import sgtmelon.scriptum.app.control.MenuControlAnim
 import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.control.input.InputDef
 import sgtmelon.scriptum.app.control.input.InputTextWatcher
+import sgtmelon.scriptum.app.control.touch.RollTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.screen.note.NoteCallback
-import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
-import sgtmelon.scriptum.office.annot.def.ColorDef
+import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.office.AppTextWatcher
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
@@ -37,17 +45,17 @@ import sgtmelon.scriptum.office.utils.AppUtils.manage
 import sgtmelon.scriptum.widget.color.ColorDialog
 
 /**
- * Фрагмент для отображения тектовой заметки
+ * Фрагмент для отображения заметки списка
  */
-class TextNoteFragment : Fragment(), TextNoteCallback {
+class RollNoteFragment : Fragment(), RollNoteCallback {
 
     private lateinit var activity: Activity
     private lateinit var noteCallback: NoteCallback
 
-    private lateinit var binding: FragmentTextNoteBinding
+    private lateinit var binding: FragmentRollNoteBinding
 
-    private val viewModel: TextNoteViewModel by lazy {
-        ViewModelProviders.of(this).get(TextNoteViewModel::class.java)
+    private val viewModel: RollNoteViewModel by lazy {
+        ViewModelProviders.of(this).get(RollNoteViewModel::class.java)
     }
 
     private val toolbar: Toolbar? by lazy {
@@ -65,11 +73,17 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
+    private val adapter: RollAdapter by lazy { RollAdapter(activity) }
+    private val layoutManager by lazy { LinearLayoutManager(activity) }
+
     private val nameEnter: EditText? by lazy {
         view?.findViewById<EditText>(R.id.toolbar_note_enter)
     }
-    private val textEnter: EditText? by lazy {
-        view?.findViewById<EditText>(R.id.text_note_content_enter)
+    private val rollEnter: EditText? by lazy {
+        view?.findViewById<EditText>(R.id.roll_note_enter)
+    }
+    private val recyclerView: RecyclerView? by lazy {
+        view?.findViewById<RecyclerView>(R.id.roll_note_recycler)
     }
 
     private val rankDialog: MultiplyDialog by lazy {
@@ -79,7 +93,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         DialogFactory.getColorDialog(fragmentManager)
     }
     private val convertDialog: MessageDialog by lazy {
-        DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.TEXT)
+        DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.ROLL)
     }
 
     override fun onAttach(context: Context?) {
@@ -91,7 +105,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = inflater.inflateBinding(R.layout.fragment_text_note, container)
+        binding = inflater.inflateBinding(R.layout.fragment_roll_note, container)
 
         viewModel.callback = this
         viewModel.noteCallback = noteCallback
@@ -115,7 +129,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         binding.rankEmpty = rankEmpty
     }
 
-    override fun setupToolbar(@ColorDef color: Int, noteState: NoteState) {
+    override fun setupToolbar(color: Int, noteState: NoteState) {
         menuControl.setColor(color)
         menuControl.setDrawable(
                 drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false
@@ -140,6 +154,20 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
+    override fun setupRecycler() {
+        (recyclerView?.itemAnimator as SimpleItemAnimator?)?.supportsChangeAnimations = false
+
+        // TODO adapter click listener
+
+        val touchCallback = RollTouchControl(viewModel)
+        adapter.dragListener = touchCallback
+
+        recyclerView?.layoutManager = layoutManager
+        recyclerView?.adapter = adapter
+
+        ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
+    }
+
     override fun setupEnter(inputCallback: InputCallback) {
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputDef.name, viewModel, inputCallback)
@@ -147,37 +175,74 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
         nameEnter?.setOnEditorActionListener { _, i, _ ->
             if (i != EditorInfo.IME_ACTION_NEXT) {
-                textEnter?.requestFocus()
+                rollEnter?.requestFocus()
                 return@setOnEditorActionListener true
             }
 
             return@setOnEditorActionListener false
         }
 
-        textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputDef.text, viewModel, inputCallback)
-        )
+        rollEnter?.addTextChangedListener(object : AppTextWatcher() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                super.onTextChanged(s, start, before, count)
+                bindEnter()
+            }
+        })
+
+        val rollAdd: ImageButton? = view?.findViewById(R.id.roll_note_add_button)
+
+        // TODO
+//        rollAdd?.setOnClickListener { scrollToInsert(true) }
+//        rollAdd?.setOnLongClickListener {
+//            scrollToInsert(false)
+//            return@setOnLongClickListener true
+//        }
     }
+
+    /**
+     *
+     */
 
     override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
         binding.keyEdit = mode
         binding.noteItem = noteItem
 
+        bindEnter()
+    }
+
+    override fun bindEnter() {
+        binding.enterEmpty = TextUtils.isEmpty(rollEnter?.getText().toString())
+
         binding.executePendingBindings()
     }
 
-    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean) {
+    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) {
         binding.undoAccess = isUndoAccess
         binding.redoAccess = isRedoAccess
-        binding.saveEnabled = !TextUtils.isEmpty(textEnter?.text.toString())
+        binding.saveEnabled = isSaveEnable
 
         binding.executePendingBindings()
     }
 
     override fun tintToolbar(color: Int) = menuControl.startTint(color)
 
+    /**
+     *
+     */
+
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
+
+    override fun updateNoteState(noteState: NoteState) {
+        adapter.noteState = noteState
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) =
+            adapter.notifyItemRemoved(p, list)
+
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>) =
+            adapter.notifyItemMoved(from, to, list)
 
     override fun showRankDialog(rankCheck: BooleanArray) {
         activity.hideKeyboard()
@@ -202,10 +267,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     companion object {
-        private operator fun invoke(func: TextNoteFragment.() -> Unit) =
-                TextNoteFragment().apply { func() }
+        private operator fun invoke(func: RollNoteFragment.() -> Unit) =
+                RollNoteFragment().apply { func() }
 
-        fun getInstance(id: Long) = TextNoteFragment {
+        fun getInstance(id: Long) = RollNoteFragment {
             arguments = Bundle().manage { putLong(NoteData.Intent.ID, id) }
         }
     }

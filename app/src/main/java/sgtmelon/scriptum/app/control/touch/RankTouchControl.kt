@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.control.touch
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.app.adapter.RankAdapter
 import sgtmelon.scriptum.app.screen.main.rank.RankFragment
 import sgtmelon.scriptum.office.intf.ItemListener
 
@@ -11,8 +10,6 @@ import sgtmelon.scriptum.office.intf.ItemListener
  */
 class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(),
         ItemListener.DragListener {
-
-    lateinit var adapter: RankAdapter
 
     private var drag = false
 

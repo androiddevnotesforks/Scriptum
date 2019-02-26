@@ -3,24 +3,13 @@ package sgtmelon.scriptum.app.control.touch
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.app.adapter.RollAdapter
-import sgtmelon.scriptum.app.control.input.InputCallback
-import sgtmelon.scriptum.app.screen.note.NoteCallback
-import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
-import sgtmelon.scriptum.app.screen.note.roll.RollNoteViewModel
 import sgtmelon.scriptum.office.intf.ItemListener
 
 /**
  * Управление перетаскиванием для [RollNoteFragment]
  */
-class RollTouchControl(private val vm: RollNoteViewModel,
-                       private val noteCallback: NoteCallback,
-                       private val inputCallback: InputCallback,
-                       private val bindIntf: BindIntf
-) : ItemTouchHelper.Callback(),
+class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(),
         ItemListener.DragListener {
-
-    lateinit var adapter: RollAdapter
 
     private var drag = false
 
@@ -32,21 +21,23 @@ class RollTouchControl(private val vm: RollNoteViewModel,
 
     override fun getMovementFlags(recyclerView: RecyclerView,
                                   viewHolder: RecyclerView.ViewHolder): Int {
-//        val isEdit = noteCallback.viewModel.noteState.isEdit
-//
-//        val flagsDrag = when (isEdit && drag) {
-//            true -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
-//            false -> 0
-//        }
-//
-//        val flagsSwipe = when (isEdit) {
-//            true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-//            false -> 0
-//
-//        }
+        val isEdit = callback.getEditMode()
 
-//        return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
-        return ItemTouchHelper.Callback.makeMovementFlags(0, 0)
+        // TODO
+//        val isEdit = noteCallback.viewModel.noteState.isEdit
+
+        val flagsDrag = when (isEdit && drag) {
+            true -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            false -> 0
+        }
+
+        val flagsSwipe = when (isEdit) {
+            true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            false -> 0
+
+        }
+
+        return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -70,39 +61,17 @@ class RollTouchControl(private val vm: RollNoteViewModel,
                 || dragTo == RecyclerView.NO_POSITION
                 || dragFrom == dragTo) return
 
-        inputCallback.onRollMove(dragFrom, dragTo)
-        bindIntf.bindInput()
+        callback.onTouchClear(dragFrom, dragTo)
 
         dragFrom = RecyclerView.NO_POSITION
     }
 
-    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-        val p = viewHolder.adapterPosition
-        val listRoll = vm.noteRepo.listRoll
-
-        inputCallback.onRollRemove(p, listRoll[p].toString())
-        bindIntf.bindInput()
-
-        listRoll.removeAt(p)
-
-        adapter.notifyItemRemoved(p, listRoll)
-    }
-
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) =
+            callback.onTouchSwipe(viewHolder.adapterPosition)
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder): Boolean {
-        val positionFrom = viewHolder.adapterPosition
-        val positionTo = target.adapterPosition
-
-        val listRoll = vm.noteRepo.listRoll
-        val rollItem = listRoll[positionFrom]
-
-        listRoll.removeAt(positionFrom)
-        listRoll.add(positionTo, rollItem)
-
-        adapter.setList(listRoll)
-        adapter.notifyItemMoved(positionFrom, positionTo)
-
+        callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
         return true
     }
 
@@ -131,5 +100,14 @@ class RollTouchControl(private val vm: RollNoteViewModel,
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
+    interface Result {
+        fun getEditMode(): Boolean
+
+        fun onTouchClear(dragFrom: Int, dragTo: Int)
+
+        fun onTouchSwipe(p: Int)
+
+        fun onTouchMove(from: Int, to: Int)
+    }
 
 }

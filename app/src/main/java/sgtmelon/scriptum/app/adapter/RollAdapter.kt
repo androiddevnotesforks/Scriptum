@@ -9,7 +9,6 @@ import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.control.touch.BindIntf
 import sgtmelon.scriptum.app.model.item.RollItem
-import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.office.intf.ItemListener
@@ -19,13 +18,14 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 /**
  * Адаптер для [RollNoteFragment]
  */
-class RollAdapter(context: Context,
-                  private val clickListener: ItemListener.ClickListener,
-                  private val dragListener: ItemListener.DragListener,
-                  private val rollWatcher: ItemListener.RollWatcher,
-                  private val inputCallback: InputCallback,
-                  private val bindIntf: BindIntf
-) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
+class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
+
+    lateinit var clickListener: ItemListener.ClickListener
+    lateinit var dragListener: ItemListener.DragListener
+
+    lateinit var rollWatcher: ItemListener.RollWatcher
+    lateinit var inputCallback: InputCallback
+    lateinit var bindIntf: BindIntf
 
     lateinit var noteState: NoteState
 

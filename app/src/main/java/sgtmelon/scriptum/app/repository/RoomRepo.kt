@@ -78,20 +78,28 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return array
     }
 
-    override fun convertToRoll(noteRepo: NoteRepo): NoteRepo {
-        val noteItem = noteRepo.noteItem
-
+    override fun convertToRoll(noteItem: NoteItem) {
         db = RoomDb.provideDb(context)
-        noteRepo.listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
 
+        val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
         noteItem.change = context.getTime()
         noteItem.type = NoteType.ROLL
-        noteItem.setText(0, noteRepo.listRoll.size)
+        noteItem.setText(0, listRoll.size)
 
         db.daoNote().update(noteItem)
         db.close()
+    }
 
-        return noteRepo
+    override fun convertToText(noteItem: NoteItem) {
+        db = RoomDb.provideDb(context)
+
+        noteItem.change = context.getTime()
+        noteItem.type = NoteType.TEXT
+        noteItem.text = db.daoRoll().getText(noteItem.id)
+
+        db.daoNote().update(noteItem)
+        db.daoRoll().delete(noteItem.id)
+        db.close()
     }
 
     override fun getRankId(): Array<Long> {

@@ -9,18 +9,14 @@
         <import alias="v" type="android.view.View"/>
         <import alias="noteType" type="sgtmelon.scriptum.office.annot.key.NoteType"/>
 
-        <variable name="keyEdit" type="boolean"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
-
         <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.roll.MenuCallback"/>
+        <variable name="rankEmpty" type="boolean"/>
+
+        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="keyEdit" type="boolean"/>
 
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
-
-        <variable name="rankEmpty" type="boolean"/>
-
-        <!-- TODO если в заметке есть категории - значит выбрано -->
-        <variable name="rankSelect" type="boolean"/>
 
         <variable name="saveEnabled" type="boolean"/>
 
@@ -117,7 +113,7 @@
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{rankSelect ? R.attr.clAccent : R.attr.clContent}'
+                        app:trueColor='@{!noteItem.getRankId().isEmpty() ? R.attr.clAccent : R.attr.clContent}'
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton

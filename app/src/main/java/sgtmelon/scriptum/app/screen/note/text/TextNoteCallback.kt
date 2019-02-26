@@ -13,11 +13,7 @@ interface TextNoteCallback {
     /**
      * Установка элементов для биндинга, которые постоянные
      */
-    fun setupBinding(noteItem: NoteItem, rankEmpty: Boolean)
-
-    fun bindEdit(mode: Boolean, noteItem: NoteItem)
-
-    fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)
+    fun setupBinding(rankEmpty: Boolean)
 
     fun setupToolbar(@ColorDef color: Int, noteState: NoteState)
 
@@ -25,17 +21,13 @@ interface TextNoteCallback {
 
     fun setupEnter(inputCallback: InputCallback)
 
-    /**
-     *
-     */
+    fun bindEdit(mode: Boolean, noteItem: NoteItem)
+
+    fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)
 
     fun tintToolbar(@ColorDef color: Int)
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
-
-    /**
-     *
-     */
 
     fun showRankDialog(rankCheck: BooleanArray)
 

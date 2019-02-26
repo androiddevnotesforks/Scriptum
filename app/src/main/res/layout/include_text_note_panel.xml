@@ -12,8 +12,8 @@
         <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.text.MenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="keyEdit" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="keyEdit" type="boolean"/>
 
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
