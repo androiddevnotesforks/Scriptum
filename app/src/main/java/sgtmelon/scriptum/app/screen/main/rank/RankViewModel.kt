@@ -8,6 +8,8 @@ import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.model.RankRepo
 import sgtmelon.scriptum.app.model.item.RankItem
+import sgtmelon.scriptum.app.repository.IRoomRepo
+import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.RoomDb
 
 /**
@@ -17,6 +19,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         RankTouchControl.Result {
 
     private val context: Context = application.applicationContext
+    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: RankCallback
 
@@ -59,40 +62,19 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         return false
     }
 
-    fun onClickAdd(simpleClick: Boolean) = callback.addItem(simpleClick, when (simpleClick) {
-        true -> onAddEnd()
-        false -> onAddStart()
-    })
-
-    private fun onAddEnd(): MutableList<RankItem> {
+    fun onClickAdd(simpleClick: Boolean) {
         val name = callback.clearEnter()
 
-        val p = rankRepo.size()
-        val rankItem = RankItem(p, name)
+        if (name.isEmpty()) return
 
-        val db = RoomDb.provideDb(context)
-        rankItem.id = db.daoRank().insert(rankItem)
-        db.close()
+        val p = if (simpleClick) rankRepo.size() else 0
+
+        val rankItem = RankItem(if (simpleClick) p else -1, name)
+        rankItem.id = iRoomRepo.insertRank(p, rankItem)
 
         rankRepo.add(p, rankItem)
 
-        return rankRepo.listRank
-    }
-
-    private fun onAddStart(): MutableList<RankItem> {
-        val name = callback.clearEnter()
-
-        val p = 0
-        val rankItem = RankItem(p - 1, name)
-
-        val db = RoomDb.provideDb(context)
-        rankItem.id = db.daoRank().insert(rankItem)
-        db.daoRank().update(p)
-        db.close()
-
-        rankRepo.add(p, rankItem)
-
-        return rankRepo.listRank
+        callback.scrollToItem(simpleClick, rankRepo.listRank)
     }
 
     override fun onTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки

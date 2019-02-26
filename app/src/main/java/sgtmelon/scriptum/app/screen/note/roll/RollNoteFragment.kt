@@ -39,6 +39,7 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.AppUtils.manage
@@ -190,13 +191,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         })
 
         val rollAdd: ImageButton? = view?.findViewById(R.id.roll_note_add_button)
-
-        // TODO
-//        rollAdd?.setOnClickListener { scrollToInsert(true) }
-//        rollAdd?.setOnLongClickListener {
-//            scrollToInsert(false)
-//            return@setOnLongClickListener true
-//        }
+        rollAdd?.setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
+        rollAdd?.setOnLongClickListener {
+            viewModel.onClickAdd(simpleClick = false)
+            return@setOnLongClickListener true
+        }
     }
 
     /**
@@ -211,7 +210,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun bindEnter() {
-        binding.enterEmpty = TextUtils.isEmpty(rollEnter?.getText().toString())
+        binding.enterEmpty = TextUtils.isEmpty(rollEnter?.text.toString())
 
         binding.executePendingBindings()
     }
@@ -226,12 +225,25 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun tintToolbar(color: Int) = menuControl.startTint(color)
 
-    /**
-     *
-     */
-
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
+
+    override fun clearEnter(): String = rollEnter?.clear() ?: ""
+
+    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
+        val fastScroll = when (simpleClick) {
+            true -> layoutManager.findLastVisibleItemPosition() == p - 1
+            false -> layoutManager.findFirstVisibleItemPosition() == p
+        }
+
+        if (fastScroll) {
+            recyclerView?.scrollToPosition(p)
+            adapter.notifyItemInserted(p, list)
+        } else {
+            recyclerView?.smoothScrollToPosition(p)
+            adapter.notifyDataSetChanged(list)
+        }
+    }
 
     override fun updateNoteState(noteState: NoteState) {
         adapter.noteState = noteState

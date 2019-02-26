@@ -38,6 +38,10 @@ interface RollNoteCallback {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
+    fun clearEnter(): String
+
+    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
+
     fun updateNoteState(noteState: NoteState)
 
     fun notifyItemRemoved(p: Int, list: MutableList<RollItem>)

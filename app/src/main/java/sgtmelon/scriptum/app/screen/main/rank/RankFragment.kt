@@ -173,7 +173,7 @@ class RankFragment : Fragment(), RankCallback {
 
     override fun clearEnter(): String = rankEnter?.clear() ?: ""
 
-    override fun addItem(simpleClick: Boolean, list: MutableList<RankItem>) { // TODO при обычном добавлении нет анимации
+    override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>) {
         val p = if (simpleClick) list.size else 0
 
         if (list.size == 1) {
@@ -181,7 +181,7 @@ class RankFragment : Fragment(), RankCallback {
             bindList(list.size)
         } else {
             val fastScroll = when (simpleClick) {
-                true -> layoutManager.findLastVisibleItemPosition() == p - 1
+                true -> layoutManager.findLastVisibleItemPosition() == p - 2
                 false -> layoutManager.findFirstVisibleItemPosition() == p
             }
 

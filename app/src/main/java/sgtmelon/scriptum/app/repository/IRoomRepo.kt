@@ -2,6 +2,7 @@ package sgtmelon.scriptum.app.repository
 
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.item.RankItem
 
 /**
  * Интерфейс для общения с [RoomRepo]
@@ -35,6 +36,8 @@ interface IRoomRepo {
     fun getRankId(): Array<Long>
 
     fun saveTextNote(noteItem: NoteItem, isCreate: Boolean): Long?
+
+    fun insertRank(p: Int, rankItem: RankItem): Long
 
     /**
      *

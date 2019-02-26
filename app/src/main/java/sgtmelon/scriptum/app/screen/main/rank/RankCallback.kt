@@ -15,7 +15,7 @@ interface RankCallback {
 
     fun clearEnter(): String
 
-    fun addItem(simpleClick: Boolean, list: MutableList<RankItem>)
+    fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>)
 
     fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>)
 

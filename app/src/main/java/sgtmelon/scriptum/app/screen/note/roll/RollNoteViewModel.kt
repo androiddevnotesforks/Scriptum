@@ -10,6 +10,7 @@ import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.control.touch.RollTouchControl
 import sgtmelon.scriptum.app.model.NoteRepo
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
@@ -20,7 +21,6 @@ import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
-import java.util.*
 
 /**
  * ViewModel для [RollNoteFragment]
@@ -43,7 +43,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     private var id: Long = NoteData.Default.ID
 
-    lateinit var noteRepo: NoteRepo
+    private lateinit var noteRepo: NoteRepo
 
     private lateinit var noteState: NoteState
     private lateinit var rankVisibleList: List<Long>
@@ -119,25 +119,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         callback.notifyItemMoved(from, to, listRoll)
     }
-
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
 
 
     /**
@@ -236,6 +217,29 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.isChangeEnabled = true
     }
 
+    fun onClickAdd(simpleClick: Boolean) {
+        val text = callback.clearEnter()
+
+        if (text.isEmpty()) return
+
+        val p = if (simpleClick) noteRepo.listRoll.size else 0
+
+        val rollItem = RollItem()
+        rollItem.noteId = noteRepo.noteItem.id
+        rollItem.text = text
+
+        inputControl.onRollAdd(p, rollItem.toString())
+
+        callback.bindInput(
+                inputControl.isUndoAccess, inputControl.isRedoAccess,
+                isSaveEnable = noteRepo.listRoll.size != 0
+        )
+
+        noteRepo.listRoll.add(p, rollItem)
+
+        callback.scrollToItem(simpleClick, p, noteRepo.listRoll)
+    }
+
     fun onResultColorDialog(check: Int) {
         val noteItem = noteRepo.noteItem
         inputControl.onColorChange(noteItem.color, check)
@@ -281,20 +285,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteCallback.showTextFragment(noteRepo.noteItem.id, isSave = false)
     }
-
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
 
 
     /**
