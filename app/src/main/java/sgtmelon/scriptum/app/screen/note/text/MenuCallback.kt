@@ -9,43 +9,43 @@ interface MenuCallback {
      * Внутри корзины
      */
 
-    fun onRestoreClick()
+    fun onMenuRestore()
 
-    fun onRestoreOpenClick()
+    fun onMenuRestoreOpen()
 
-    fun onClearClick()
+    fun onMenuClear()
 
     /**
      * Режим редактирования
      */
 
-    fun onUndoClick()
+    fun onMenuUndo()
 
-    fun onRedoClick()
+    fun onMenuRedo()
 
-    fun onRankClick()
+    fun onMenuRank()
 
-    fun onColorClick()
+    fun onMenuColor()
 
     /**
      * При успешном сохранении возвращает - true
      * [changeMode] - Надо ли менять режим редактирования,
      */
-    fun onSaveClick(changeMode: Boolean): Boolean
+    fun onMenuSave(changeMode: Boolean): Boolean
 
     /**
      * Режим просмотра
      */
 
-    fun onBindClick()
+    fun onMenuBind()
 
-    fun onConvertClick()
+    fun onMenuConvert()
 
-    fun onDeleteClick()
+    fun onMenuDelete()
 
     /**
      * [mode] - Установка режима редактирования
      */
-    fun onEditClick(mode: Boolean)
+    fun onMenuEdit(mode: Boolean)
 
 }

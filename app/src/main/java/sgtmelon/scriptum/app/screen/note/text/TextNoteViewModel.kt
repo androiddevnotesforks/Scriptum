@@ -73,7 +73,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         callback.setupDialog(iRoomRepo.getRankDialogName())
         callback.setupEnter(inputControl)
 
-        onEditClick(noteState.isEdit)
+        onMenuEdit(noteState.isEdit)
         noteState.isFirst = false
     }
 
@@ -82,24 +82,24 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onInputTextChangeResult() =
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
 
-    override fun onRestoreClick() {
+    override fun onMenuRestore() {
         iRoomRepo.restoreNoteItem(noteRepo.noteItem.id)
         noteCallback.finish()
     }
 
-    override fun onRestoreOpenClick() {
+    override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
         val noteItem = noteRepo.noteItem
         noteItem.change = context.getTime()
         noteItem.isBin = false
 
-        onEditClick(mode = false) // TODO исправить работу иконки назад (происходит анимация)
+        onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
 
         iRoomRepo.updateNoteItem(noteItem)
     }
 
-    override fun onClearClick() {
+    override fun onMenuClear() {
         iRoomRepo.clearNoteItem(noteRepo.noteItem.id)
 
         noteRepo.updateStatus(status = false)
@@ -107,7 +107,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         noteCallback.finish()
     }
 
-    override fun onUndoClick() { // TODO сократить в один приватный метод
+    override fun onMenuUndo() { // TODO сократить в один приватный метод
         val inputItem = inputControl.undo()
 
         if (inputItem != null) {
@@ -138,7 +138,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
     }
 
-    override fun onRedoClick() { // TODO сократить в один приватный метод
+    override fun onMenuRedo() { // TODO сократить в один приватный метод
         val inputItem = inputControl.redo()
 
         if (inputItem != null) {
@@ -170,12 +170,12 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
     }
 
-    override fun onRankClick() =
+    override fun onMenuRank() =
             callback.showRankDialog(iRoomRepo.getRankCheck(noteRepo.noteItem.rankId))
 
-    override fun onColorClick() = callback.showColorDialog(noteRepo.noteItem.color)
+    override fun onMenuColor() = callback.showColorDialog(noteRepo.noteItem.color)
 
-    override fun onSaveClick(changeMode: Boolean): Boolean {
+    override fun onMenuSave(changeMode: Boolean): Boolean {
         val noteItem = noteRepo.noteItem
 
         if (TextUtils.isEmpty(noteItem.text)) return false
@@ -184,7 +184,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         if (changeMode) {
             callback.hideKeyboard()
-            onEditClick(mode = false)
+            onMenuEdit(mode = false)
         }
 
         iRoomRepo.saveTextNote(noteItem, noteState.isCreate)?.let { noteItem.id = it }
@@ -203,7 +203,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         return true
     }
 
-    override fun onBindClick() {
+    override fun onMenuBind() {
         val noteItem = noteRepo.noteItem
         noteItem.isStatus = !noteItem.isStatus
 
@@ -214,16 +214,16 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
     }
 
-    override fun onConvertClick() = callback.showConvertDialog()
+    override fun onMenuConvert() = callback.showConvertDialog()
 
-    override fun onDeleteClick() {
+    override fun onMenuDelete() {
         noteRepo.updateStatus(status = false)
 
         iRoomRepo.deleteNoteItem(noteRepo.noteItem.id)
         noteCallback.finish()
     }
 
-    override fun onEditClick(mode: Boolean) {
+    override fun onMenuEdit(mode: Boolean) {
         inputControl.setEnabled(false)
         inputControl.isChangeEnabled = false
 

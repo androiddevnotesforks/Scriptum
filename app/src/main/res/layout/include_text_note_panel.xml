@@ -50,7 +50,7 @@
                         android:id="@+id/note_panel_restore_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore"
-                        android:onClick='@{() -> menuClick.onRestoreClick()}'
+                        android:onClick='@{() -> menuClick.onMenuRestore()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_restore"/>
 
@@ -58,7 +58,7 @@
                         android:id="@+id/note_panel_restore_open_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_restore_open"
-                        android:onClick='@{() -> menuClick.onRestoreOpenClick()}'
+                        android:onClick='@{() -> menuClick.onMenuRestoreOpen()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_restore_open"/>
 
@@ -66,7 +66,7 @@
                         android:id="@+id/note_panel_clear_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_clear"
-                        android:onClick='@{() -> menuClick.onClearClick()}'
+                        android:onClick='@{() -> menuClick.onMenuClear()}'
                         android:tint="?attr/clAccent"
                         app:srcCompat="@drawable/ic_clear"/>
 
@@ -84,7 +84,7 @@
                         android:id="@+id/note_panel_undo_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:onClick='@{() -> menuClick.onUndoClick()}'
+                        android:onClick='@{() -> menuClick.onMenuUndo()}'
                         app:boolExpression='@{undoAccess}'
                         app:enabled='@{undoAccess}'
                         app:falseColor='@{R.attr.clDisable}'
@@ -96,7 +96,7 @@
                         android:id="@+id/note_panel_redo_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:onClick='@{() -> menuClick.onRedoClick()}'
+                        android:onClick='@{() -> menuClick.onMenuRedo()}'
                         app:boolExpression='@{redoAccess}'
                         app:enabled='@{redoAccess}'
                         app:falseColor='@{R.attr.clDisable}'
@@ -108,7 +108,7 @@
                         android:id="@+id/note_panel_rank_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:onClick='@{() -> menuClick.onRankClick()}'
+                        android:onClick='@{() -> menuClick.onMenuRank()}'
                         app:boolExpression='@{!rankEmpty}'
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clDisable}'
@@ -120,7 +120,7 @@
                         android:id="@+id/note_panel_color_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@null"
-                        android:onClick='@{() -> menuClick.onColorClick()}'
+                        android:onClick='@{() -> menuClick.onMenuColor()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_palette"/>
 
@@ -133,7 +133,7 @@
                         android:id="@+id/note_panel_save_button"
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:onClick='@{() -> menuClick.onSaveClick(true)}'
+                        android:onClick='@{() -> menuClick.onMenuSave(true)}'
                         android:text="@string/menu_note_save"
                         app:enabled='@{saveEnabled}'/>
 
@@ -151,7 +151,7 @@
                         android:id="@+id/note_panel_bind_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_status_bind"
-                        android:onClick='@{() -> menuClick.onBindClick()}'
+                        android:onClick='@{() -> menuClick.onMenuBind()}'
                         android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
                         app:boolExpression='@{noteItem.status}'
                         app:falseColor='@{R.attr.clContent}'
@@ -163,7 +163,7 @@
                         android:id="@+id/note_panel_convert_button"
                         style="@style/Enter.Button"
                         android:contentDescription='@{noteItem.type == noteType.TEXT ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
-                        android:onClick='@{() -> menuClick.onConvertClick()}'
+                        android:onClick='@{() -> menuClick.onMenuConvert()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_convert"/>
 
@@ -171,7 +171,7 @@
                         android:id="@+id/note_panel_delete_button"
                         style="@style/Enter.Button"
                         android:contentDescription="@string/menu_note_delete"
-                        android:onClick='@{() -> menuClick.onDeleteClick()}'
+                        android:onClick='@{() -> menuClick.onMenuDelete()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_bin"/>
 
@@ -184,7 +184,7 @@
                         android:id="@+id/note_panel_edit_button"
                         style="@style/Enter.Button"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:onClick='@{() -> menuClick.onEditClick(true)}'
+                        android:onClick='@{() -> menuClick.onMenuEdit(true)}'
                         android:text="@string/menu_note_edit"/>
 
             </LinearLayout>

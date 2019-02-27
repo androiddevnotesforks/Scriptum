@@ -78,7 +78,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         callback.setupEnter(inputControl)
         callback.setupRecycler()
 
-        onEditClick(noteState.isEdit)
+        onMenuEdit(noteState.isEdit)
         noteState.isFirst = false
     }
 
@@ -125,24 +125,24 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         callback.notifyItemMoved(from, to, listRoll)
     }
 
-    override fun onRestoreClick() {
+    override fun onMenuRestore() {
         iRoomRepo.restoreNoteItem(noteRepo.noteItem.id)
         noteCallback.finish()
     }
 
-    override fun onRestoreOpenClick() {
+    override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
         val noteItem = noteRepo.noteItem
         noteItem.change = context.getTime()
         noteItem.isBin = false
 
-        onEditClick(mode = false) // TODO исправить работу иконки назад (происходит анимация)
+        onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
 
         iRoomRepo.updateNoteItem(noteItem)
     }
 
-    override fun onClearClick() {
+    override fun onMenuClear() {
         iRoomRepo.clearNoteItem(noteRepo.noteItem.id)
 
         noteRepo.updateStatus(status = false)
@@ -150,24 +150,24 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         noteCallback.finish()
     }
 
-    override fun onUndoClick() {
+    override fun onMenuUndo() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onRedoClick() {
+    override fun onMenuRedo() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onRankClick() =
+    override fun onMenuRank() =
             callback.showRankDialog(iRoomRepo.getRankCheck(noteRepo.noteItem.rankId))
 
-    override fun onColorClick() = callback.showColorDialog(noteRepo.noteItem.color)
+    override fun onMenuColor() = callback.showColorDialog(noteRepo.noteItem.color)
 
-    override fun onSaveClick(changeMode: Boolean): Boolean {
+    override fun onMenuSave(changeMode: Boolean): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun onCheckClick() {
+    override fun onMenuCheck() {
         val size: Int = noteRepo.listRoll.size
         val isAll = checkState.isAll
 
@@ -185,7 +185,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         onUpdateData()
     }
 
-    override fun onBindClick() {
+    override fun onMenuBind() {
         val noteItem = noteRepo.noteItem
         noteItem.isStatus = !noteItem.isStatus
 
@@ -196,16 +196,16 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
     }
 
-    override fun onConvertClick() = callback.showConvertDialog()
+    override fun onMenuConvert() = callback.showConvertDialog()
 
-    override fun onDeleteClick() {
+    override fun onMenuDelete() {
         noteRepo.updateStatus(status = false)
 
         iRoomRepo.deleteNoteItem(noteRepo.noteItem.id)
         noteCallback.finish()
     }
 
-    override fun onEditClick(mode: Boolean) {
+    override fun onMenuEdit(mode: Boolean) {
         inputControl.setEnabled(false)
         inputControl.isChangeEnabled = false
 
