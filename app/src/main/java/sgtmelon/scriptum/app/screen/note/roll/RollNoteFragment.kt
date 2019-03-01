@@ -269,6 +269,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun notifyListItem(p: Int, item: RollItem) = adapter.setListItem(p, item)
 
+    override fun notifyList(list: MutableList<RollItem>) = adapter.setList(list)
+
     override fun notifyDataSetChanged(list: MutableList<RollItem>) {
         adapter.setList(list)
         adapter.notifyItemRangeChanged(0, list.size)
@@ -279,6 +281,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>) =
             adapter.notifyItemMoved(from, to, list)
+
+    override fun hideKeyboard() = activity.hideKeyboard()
 
     override fun showRankDialog(rankCheck: BooleanArray) {
         activity.hideKeyboard()

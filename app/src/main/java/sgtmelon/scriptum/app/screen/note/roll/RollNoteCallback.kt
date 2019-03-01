@@ -50,11 +50,15 @@ interface RollNoteCallback {
 
     fun notifyListItem(p: Int, item: RollItem)
 
+    fun notifyList(list: MutableList<RollItem>)
+
     fun notifyDataSetChanged(list: MutableList<RollItem>)
 
     fun notifyItemRemoved(p: Int, list: MutableList<RollItem>)
 
     fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>)
+
+    fun hideKeyboard()
 
     fun showRankDialog(rankCheck: BooleanArray)
 

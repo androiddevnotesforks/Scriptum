@@ -164,7 +164,73 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuColor() = callback.showColorDialog(noteRepo.noteItem.color)
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val noteItem = noteRepo.noteItem
+        val listRoll = noteRepo.listRoll
+
+        if (listRoll.size == 0) return false
+
+        noteItem.change = context.getTime()
+        noteItem.setText(listRoll.getCheck(), listRoll.size)
+
+        /**
+         * Переход в режим просмотра
+         */
+        if (changeMode) {
+            callback.hideKeyboard()
+            onMenuEdit(false)
+        }
+
+        val db = RoomDb.provideDb(context)
+
+        if (noteState.isCreate) {
+            noteState.isCreate = false
+
+            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
+
+            val id = db.daoNote().insert(noteItem)
+            noteItem.id = id
+
+            /**
+             * Запись в пунктов в БД
+             */
+            for (i in 0 until listRoll.size) {
+                val rollItem = listRoll[i]
+                rollItem.noteId = id
+                rollItem.position = i
+                rollItem.setId(db.daoRoll().insert(rollItem))
+            }
+        } else {
+            db.daoNote().update(noteItem)
+
+            for (i in 0 until listRoll.size) {
+                val rollItem = listRoll[i]
+                rollItem.position = i
+
+                if (rollItem.id == null) {
+                    rollItem.setId(db.daoRoll().insert(rollItem))
+                } else {
+                    db.daoRoll().update(rollItem.id!!, i, rollItem.text) // TODO
+                }
+            }
+
+            val listRollId = ArrayList<Long?>()
+            listRoll.forEach { listRollId.add(it.id) }
+
+            db.daoRoll().delete(noteItem.id, listRollId)
+        }
+
+        callback.notifyList(listRoll)
+
+        db.daoRank().update(noteItem.id, noteItem.rankId)
+        db.close()
+
+        inputControl.clear()
+        callback.bindInput(
+                inputControl.isUndoAccess, inputControl.isRedoAccess,
+                isSaveEnable = noteRepo.listRoll.size != 0
+        )
+
+        return true
     }
 
     override fun onMenuCheck() {
