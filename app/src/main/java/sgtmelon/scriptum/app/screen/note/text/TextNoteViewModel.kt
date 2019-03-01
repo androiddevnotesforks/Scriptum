@@ -107,8 +107,12 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         noteCallback.finish()
     }
 
-    override fun onMenuUndo() { // TODO сократить в один приватный метод
-        val inputItem = inputControl.undo()
+    override fun onMenuUndo() = onMenuUndoRedo(undo = true)
+
+    override fun onMenuRedo() = onMenuUndoRedo(undo = false)
+
+    private fun onMenuUndoRedo(undo: Boolean) {
+        val inputItem = if (undo) inputControl.undo() else inputControl.redo()
 
         if (inputItem != null) {
             inputControl.setEnabled(false)
@@ -117,50 +121,21 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
             when (inputItem.tag) {
                 InputDef.rank ->
-                    noteItem.rankId = StringConverter().fromString(inputItem.valueFrom)
+                    noteItem.rankId = StringConverter().fromString(inputItem.getValue(undo))
                 InputDef.color -> {
                     val colorFrom = noteItem.color
-                    val colorTo = Integer.parseInt(inputItem.valueFrom)
+                    val colorTo = Integer.parseInt(inputItem.getValue(undo))
 
                     noteItem.color = colorTo
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputDef.name ->
-                    callback.changeName(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
-                InputDef.text ->
-                    callback.changeText(inputItem.valueFrom, inputItem.cursorItem!!.valueFrom)
-            }
-
-            inputControl.setEnabled(true)
-        }
-
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
-    }
-
-    override fun onMenuRedo() { // TODO сократить в один приватный метод
-        val inputItem = inputControl.redo()
-
-        if (inputItem != null) {
-            inputControl.setEnabled(false)
-
-            val noteItem = noteRepo.noteItem
-
-            when (inputItem.tag) {
-                InputDef.rank ->
-                    noteItem.rankId = StringConverter().fromString(inputItem.valueTo)
-                InputDef.color -> {
-                    val colorFrom = noteItem.color
-                    val colorTo = Integer.parseInt(inputItem.valueTo)
-
-                    noteItem.color = colorTo
-
-                    callback.tintToolbar(colorFrom, colorTo)
-                }
-                InputDef.name ->
-                    callback.changeName(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
-                InputDef.text ->
-                    callback.changeText(inputItem.valueTo, inputItem.cursorItem!!.valueTo)
+                InputDef.name -> callback.changeName(
+                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
+                )
+                InputDef.text -> callback.changeText(
+                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
+                )
 
             }
 

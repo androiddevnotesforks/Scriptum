@@ -5,8 +5,8 @@ package sgtmelon.scriptum.app.model.item
  */
 class CursorItem(val valueFrom: Int, val valueTo: Int) {
 
-    override fun toString(): String {
-        return "valueFrom = $valueFrom | valueTo = $valueTo"
-    }
+    fun getValue(undo: Boolean) = if (undo) valueFrom else valueTo
+
+    override fun toString() = "valueFrom = $valueFrom | valueTo = $valueTo"
 
 }

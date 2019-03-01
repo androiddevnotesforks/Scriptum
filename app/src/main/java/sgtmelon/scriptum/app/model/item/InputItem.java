@@ -53,6 +53,11 @@ public final class InputItem {
         return valueTo;
     }
 
+    @NonNull
+    public String getValue(boolean undo) {
+        return undo ? valueFrom : valueTo;
+    }
+
     @Nullable
     public CursorItem getCursorItem() {
         return cursorItem;
