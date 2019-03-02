@@ -163,7 +163,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     override fun onMenuColor() = callback.showColorDialog(noteRepo.noteItem.color)
 
-    override fun onMenuSave(changeMode: Boolean): Boolean {
+    override fun onMenuSave(changeMode: Boolean): Boolean { // TODO перенести в roomRepo общение с бд
         val noteItem = noteRepo.noteItem
         val listRoll = noteRepo.listRoll
 
@@ -206,10 +206,11 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
                 val rollItem = listRoll[i]
                 rollItem.position = i
 
-                if (rollItem.id == null) {
+                val id = rollItem.id
+                if (id == null) {
                     rollItem.setId(db.daoRoll().insert(rollItem))
                 } else {
-                    db.daoRoll().update(rollItem.id!!, i, rollItem.text) // TODO
+                    db.daoRoll().update(id, i, rollItem.text)
                 }
             }
 
@@ -219,10 +220,10 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             db.daoRoll().delete(noteItem.id, listRollId)
         }
 
-        callback.notifyList(listRoll)
-
         db.daoRank().update(noteItem.id, noteItem.rankId)
         db.close()
+
+        callback.notifyList(listRoll)
 
         inputControl.clear()
         callback.bindInput(

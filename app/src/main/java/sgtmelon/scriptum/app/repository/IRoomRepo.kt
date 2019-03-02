@@ -38,6 +38,8 @@ interface IRoomRepo {
 
     fun saveTextNote(noteItem: NoteItem, isCreate: Boolean): Long?
 
+    fun saveRollNote(noteRepo: NoteRepo): NoteRepo
+
     fun insertRank(p: Int, rankItem: RankItem): Long
 
     fun updateRollCheck(rollItem: RollItem, noteItem: NoteItem)

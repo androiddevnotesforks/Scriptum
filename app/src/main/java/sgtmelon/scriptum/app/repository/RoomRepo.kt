@@ -129,6 +129,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return id
     }
 
+    override fun saveRollNote(noteRepo: NoteRepo): NoteRepo {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun insertRank(p: Int, rankItem: RankItem): Long {
         db = RoomDb.provideDb(context)
         val id = db.daoRank().insert(rankItem)
