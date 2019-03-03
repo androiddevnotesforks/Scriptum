@@ -112,25 +112,71 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return array
     }
 
-    override fun saveTextNote(noteItem: NoteItem, isCreate: Boolean): Long? {
+    override fun saveTextNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo {
+        val noteItem = noteRepo.noteItem
+
         db = RoomDb.provideDb(context)
 
-        val id = when (isCreate) {
-            true -> db.daoNote().insert(noteItem)
-            false -> {
-                db.daoNote().update(noteItem);
-                null
-            }
+        if (isCreate) {
+            noteItem.id = db.daoNote().insert(noteItem)
+        } else {
+            db.daoNote().update(noteItem);
         }
 
         db.daoRank().update(noteItem.id, noteItem.rankId)
         db.close()
 
-        return id
+        return noteRepo
     }
 
-    override fun saveRollNote(noteRepo: NoteRepo): NoteRepo {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun saveRollNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo {
+        val noteItem = noteRepo.noteItem
+        val listRoll = noteRepo.listRoll
+
+        db = RoomDb.provideDb(context)
+
+        if (isCreate) {
+            val id = db.daoNote().insert(noteItem)
+            noteItem.id = id
+
+            /**
+             * Запись в пунктов в БД
+             */
+            listRoll.forEachIndexed { index, rollItem ->
+                rollItem.apply {
+                    noteId = id
+                    position = index
+                    setId(db.daoRoll().insert(rollItem))
+                }
+            }
+        } else {
+            db.daoNote().update(noteItem)
+
+            val listSaveId = ArrayList<Long?>()
+
+            listRoll.forEachIndexed { index, rollItem ->
+                rollItem.position = index
+
+                val id = rollItem.id
+                if (id == null) {
+                    rollItem.setId(db.daoRoll().insert(rollItem))
+                } else {
+                    db.daoRoll().update(id, index, rollItem.text)
+                }
+
+                listSaveId.add(id)
+            }
+
+            /**
+             * Удаление пунктов, которые swipe
+             */
+            db.daoRoll().delete(noteItem.id, listSaveId)
+        }
+
+        db.daoRank().update(noteItem.id, noteItem.rankId)
+        db.close()
+
+        return noteRepo
     }
 
     override fun insertRank(p: Int, rankItem: RankItem): Long {

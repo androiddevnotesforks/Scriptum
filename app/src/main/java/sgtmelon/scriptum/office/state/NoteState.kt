@@ -6,6 +6,8 @@ package sgtmelon.scriptum.office.state
 class NoteState(var isCreate: Boolean,
                 var isBin: Boolean = false) {
 
+    // TODO extension для if(isCreate)
+
     var isEdit: Boolean = false
     var isFirst = true
 

@@ -60,18 +60,18 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             val statusItem = StatusItem(context, noteItem, false)
 
             noteRepo = NoteRepo(noteItem, ArrayList(), statusItem)
-
             noteState = NoteState(isCreate = true)
         } else {
             noteRepo = iRoomRepo.getNoteRepo(id)
-
             noteState = NoteState(isCreate = false, isBin = noteRepo.noteItem.isBin)
         }
 
-        callback.setupBinding(rankVisibleList.isEmpty())
-        callback.setupToolbar(noteRepo.noteItem.color, noteState)
-        callback.setupDialog(iRoomRepo.getRankDialogName())
-        callback.setupEnter(inputControl)
+        callback.apply {
+            setupBinding(rankVisibleList.isEmpty())
+            setupToolbar(noteRepo.noteItem.color, noteState)
+            setupDialog(iRoomRepo.getRankDialogName())
+            setupEnter(inputControl)
+        }
 
         onMenuEdit(noteState.isEdit)
         noteState.isFirst = false
@@ -90,13 +90,14 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        val noteItem = noteRepo.noteItem
-        noteItem.change = context.getTime()
-        noteItem.isBin = false
+        noteRepo.noteItem.apply {
+            change = context.getTime()
+            isBin = false
+        }
 
         onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
 
-        iRoomRepo.updateNoteItem(noteItem)
+        iRoomRepo.updateNoteItem(noteRepo.noteItem)
     }
 
     override fun onMenuClear() {
@@ -162,7 +163,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             onMenuEdit(mode = false)
         }
 
-        iRoomRepo.saveTextNote(noteItem, noteState.isCreate)?.let { noteItem.id = it }
+        noteRepo = iRoomRepo.saveTextNote(noteRepo, noteState.isCreate)
 
         if (noteState.isCreate) {
             noteState.isCreate = false
@@ -199,23 +200,29 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuEdit(mode: Boolean) {
-        inputControl.setEnabled(false)
-        inputControl.isChangeEnabled = false
+        inputControl.apply {
+            setEnabled(false)
+            isChangeEnabled = false
+        }
 
         noteState.isEdit = mode
 
-        callback.changeToolbarIcon(
-                drawableOn = mode && !noteState.isCreate,
-                needAnim = !noteState.isCreate && !noteState.isFirst
-        )
+        callback.apply {
+            changeToolbarIcon(
+                    drawableOn = mode && !noteState.isCreate,
+                    needAnim = !noteState.isCreate && !noteState.isFirst
+            )
 
-        callback.bindEdit(mode, noteRepo.noteItem)
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+            bindEdit(mode, noteRepo.noteItem)
+            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+        }
 
         saveControl.setSaveHandlerEvent(mode)
 
-        inputControl.setEnabled(true)
-        inputControl.isChangeEnabled = true
+        inputControl.apply {
+            setEnabled(true)
+            isChangeEnabled = true
+        }
     }
 
     fun onResultColorDialog(check: Int) {
@@ -223,20 +230,20 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
-        callback.tintToolbar(check)
+        callback.apply {
+            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+            tintToolbar(check)
+        }
     }
 
     fun onResultRankDialog(check: BooleanArray) {
-        val idArray: Array<Long> = iRoomRepo.getRankId()
-
         val rankId = ArrayList<Long>()
         val rankPs = ArrayList<Long>()
 
-        for (i in idArray.indices) {
-            if (check[i]) {
-                rankId.add(idArray[i])
-                rankPs.add(i.toLong())
+        iRoomRepo.getRankId().forEachIndexed { index, l ->
+            if (check[index]) {
+                rankId.add(l)
+                rankPs.add(index.toLong())
             }
         }
 

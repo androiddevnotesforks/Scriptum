@@ -36,9 +36,9 @@ interface IRoomRepo {
 
     fun getRankId(): Array<Long>
 
-    fun saveTextNote(noteItem: NoteItem, isCreate: Boolean): Long?
+    fun saveTextNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo
 
-    fun saveRollNote(noteRepo: NoteRepo): NoteRepo
+    fun saveRollNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo
 
     fun insertRank(p: Int, rankItem: RankItem): Long
 

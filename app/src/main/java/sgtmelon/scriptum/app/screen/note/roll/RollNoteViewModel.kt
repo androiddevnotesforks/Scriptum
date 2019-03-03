@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.screen.note.roll
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
@@ -14,7 +15,6 @@ import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
-import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
@@ -52,6 +52,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     private val checkState = CheckState()
 
+    private val isSaveEnable = noteRepo.listRoll.size != 0
+
     fun setupData(bundle: Bundle?) {
         id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
 
@@ -72,11 +74,13 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             noteState = NoteState(isCreate = false, isBin = noteRepo.noteItem.isBin)
         }
 
-        callback.setupBinding(rankVisibleList.isEmpty())
-        callback.setupToolbar(noteRepo.noteItem.color, noteState)
-        callback.setupDialog(iRoomRepo.getRankDialogName())
-        callback.setupEnter(inputControl)
-        callback.setupRecycler()
+        callback.apply {
+            setupBinding(rankVisibleList.isEmpty())
+            setupToolbar(noteRepo.noteItem.color, noteState)
+            setupDialog(iRoomRepo.getRankDialogName())
+            setupEnter(inputControl)
+            setupRecycler()
+        }
 
         onMenuEdit(noteState.isEdit)
         noteState.isFirst = false
@@ -84,20 +88,15 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
-    override fun onInputTextChangeResult() = callback.bindInput(
-            inputControl.isUndoAccess, inputControl.isRedoAccess,
-            isSaveEnable = noteRepo.listRoll.size != 0
-    )
+    override fun onInputTextChangeResult() =
+            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
     override fun getEditMode() = noteState.isEdit
 
     override fun onTouchClear(dragFrom: Int, dragTo: Int) {
         inputControl.onRollMove(dragFrom, dragTo)
 
-        callback.bindInput(
-                inputControl.isUndoAccess, inputControl.isRedoAccess,
-                isSaveEnable = noteRepo.listRoll.size != 0
-        )
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
     }
 
     override fun onTouchSwipe(p: Int) {
@@ -105,10 +104,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         inputControl.onRollRemove(p, listRoll[p].toString())
 
-        callback.bindInput(
-                inputControl.isUndoAccess, inputControl.isRedoAccess,
-                isSaveEnable = noteRepo.listRoll.size != 0
-        )
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
         listRoll.removeAt(p)
 
@@ -133,13 +129,14 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        val noteItem = noteRepo.noteItem
-        noteItem.change = context.getTime()
-        noteItem.isBin = false
+        noteRepo.noteItem.apply {
+            change = context.getTime()
+            isBin = false
+        }
 
         onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
 
-        iRoomRepo.updateNoteItem(noteItem)
+        iRoomRepo.updateNoteItem(noteRepo.noteItem)
     }
 
     override fun onMenuClear() {
@@ -163,14 +160,15 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     override fun onMenuColor() = callback.showColorDialog(noteRepo.noteItem.color)
 
-    override fun onMenuSave(changeMode: Boolean): Boolean { // TODO перенести в roomRepo общение с бд
-        val noteItem = noteRepo.noteItem
+    override fun onMenuSave(changeMode: Boolean): Boolean {
         val listRoll = noteRepo.listRoll
 
-        if (listRoll.size == 0) return false
+        if (noteRepo.listRoll.size == 0) return false
 
-        noteItem.change = context.getTime()
-        noteItem.setText(listRoll.getCheck(), listRoll.size)
+        noteRepo.noteItem.apply {
+            change = context.getTime()
+            setText(listRoll.getCheck(), listRoll.size)
+        }
 
         /**
          * Переход в режим просмотра
@@ -180,56 +178,25 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             onMenuEdit(false)
         }
 
-        val db = RoomDb.provideDb(context)
+        noteRepo = iRoomRepo.saveRollNote(noteRepo, noteState.isCreate)
+
+        // TODO проверить id
+        noteRepo.listRoll.forEach {
+            Log.i("HERE", "id = ${it.id} | ps = ${it.position} | text = ${it.text}")
+        }
 
         if (noteState.isCreate) {
             noteState.isCreate = false
 
-            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
-
-            val id = db.daoNote().insert(noteItem)
-            noteItem.id = id
-
-            /**
-             * Запись в пунктов в БД
-             */
-            for (i in 0 until listRoll.size) {
-                val rollItem = listRoll[i]
-                rollItem.noteId = id
-                rollItem.position = i
-                rollItem.setId(db.daoRoll().insert(rollItem))
+            if (!changeMode) {
+                callback.changeToolbarIcon(drawableOn = true, needAnim = true)
             }
-        } else {
-            db.daoNote().update(noteItem)
-
-            for (i in 0 until listRoll.size) {
-                val rollItem = listRoll[i]
-                rollItem.position = i
-
-                val id = rollItem.id
-                if (id == null) {
-                    rollItem.setId(db.daoRoll().insert(rollItem))
-                } else {
-                    db.daoRoll().update(id, i, rollItem.text)
-                }
-            }
-
-            val listRollId = ArrayList<Long?>()
-            listRoll.forEach { listRollId.add(it.id) }
-
-            db.daoRoll().delete(noteItem.id, listRollId)
         }
-
-        db.daoRank().update(noteItem.id, noteItem.rankId)
-        db.close()
 
         callback.notifyList(listRoll)
 
         inputControl.clear()
-        callback.bindInput(
-                inputControl.isUndoAccess, inputControl.isRedoAccess,
-                isSaveEnable = noteRepo.listRoll.size != 0
-        )
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
         return true
     }
@@ -273,53 +240,56 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuEdit(mode: Boolean) {
-        inputControl.setEnabled(false)
-        inputControl.isChangeEnabled = false
+        inputControl.apply {
+            setEnabled(false)
+            isChangeEnabled = false
+        }
 
         noteState.isEdit = mode
 
-        callback.changeToolbarIcon(
-                drawableOn = mode && !noteState.isCreate,
-                needAnim = !noteState.isCreate && !noteState.isFirst
-        )
+        callback.apply {
+            changeToolbarIcon(
+                    drawableOn = mode && !noteState.isCreate,
+                    needAnim = !noteState.isCreate && !noteState.isFirst
+            )
 
-        callback.bindEdit(mode, noteRepo.noteItem)
-        callback.bindInput(
-                inputControl.isUndoAccess, inputControl.isRedoAccess,
-                isSaveEnable = noteRepo.listRoll.size != 0
-        )
-
-        callback.updateNoteState(noteState)
+            bindEdit(mode, noteRepo.noteItem)
+            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+            updateNoteState(noteState)
+        }
 
         saveControl.setSaveHandlerEvent(mode)
 
-        inputControl.setEnabled(true)
-        inputControl.isChangeEnabled = true
+        inputControl.apply {
+            setEnabled(true)
+            isChangeEnabled = true
+        }
     }
 
     fun onUpdateData() {
         checkState.setAll(noteRepo.listRoll)
-        callback.notifyDataSetChanged(noteRepo.listRoll)
-        callback.changeCheckToggle(state = false)
+
+        callback.apply {
+            notifyDataSetChanged(noteRepo.listRoll)
+            changeCheckToggle(state = false)
+        }
     }
 
     fun onClickAdd(simpleClick: Boolean) {
-        val text = callback.clearEnter()
+        val textEnter = callback.clearEnter()
 
-        if (text.isEmpty()) return
+        if (textEnter.isEmpty()) return
 
         val p = if (simpleClick) noteRepo.listRoll.size else 0
 
-        val rollItem = RollItem()
-        rollItem.noteId = noteRepo.noteItem.id
-        rollItem.text = text
+        val rollItem = RollItem().apply {
+            noteId = noteRepo.noteItem.id
+            text = textEnter
+        }
 
         inputControl.onRollAdd(p, rollItem.toString())
 
-        callback.bindInput(
-                inputControl.isUndoAccess, inputControl.isRedoAccess,
-                isSaveEnable = noteRepo.listRoll.size != 0
-        )
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
         noteRepo.listRoll.add(p, rollItem)
 
@@ -350,25 +320,20 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
-        callback.bindInput(
-                inputControl.isUndoAccess, inputControl.isRedoAccess,
-                isSaveEnable = noteRepo.listRoll.size != 0
-        )
-        callback.tintToolbar(check)
+        callback.apply {
+            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+            tintToolbar(check)
+        }
     }
 
     fun onResultRankDialog(check: BooleanArray) {
-        val db = RoomDb.provideDb(context)
-        val id: Array<Long> = db.daoRank().id
-        db.close()
-
         val rankId = ArrayList<Long>()
         val rankPs = ArrayList<Long>()
 
-        for (i in id.indices) {
-            if (check[i]) {
-                rankId.add(id[i])
-                rankPs.add(i.toLong())
+        iRoomRepo.getRankId().forEachIndexed { index, l ->
+            if (check[index]) {
+                rankId.add(l)
+                rankPs.add(index.toLong())
             }
         }
 
@@ -379,10 +344,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         noteItem.rankId = rankId
         noteItem.rankPs = rankPs
 
-        callback.bindInput(
-                inputControl.isUndoAccess, inputControl.isRedoAccess,
-                isSaveEnable = noteRepo.listRoll.size != 0
-        )
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
     }
 
     fun onResultConvertDialog() {
