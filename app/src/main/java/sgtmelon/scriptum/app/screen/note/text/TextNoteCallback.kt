@@ -25,6 +25,8 @@ interface TextNoteCallback {
 
     fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)
 
+    fun trySave(): Boolean
+
     fun tintToolbar(@ColorDef from: Int, @ColorDef to: Int)
 
     fun tintToolbar(@ColorDef color: Int)

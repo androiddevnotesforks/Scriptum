@@ -31,4 +31,10 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         else -> callback.finish()
     }
 
+    fun trySave(): Boolean = when (type) {
+        NoteType.TEXT -> callback.trySaveTextFragment()
+        NoteType.ROLL -> callback.trySaveRollFragment()
+        else -> false
+    }
+
 }

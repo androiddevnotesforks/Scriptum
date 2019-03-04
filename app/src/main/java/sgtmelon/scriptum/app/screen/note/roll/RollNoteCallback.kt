@@ -24,10 +24,6 @@ interface RollNoteCallback {
 
     fun setupEnter(inputCallback: InputCallback)
 
-    /**
-     *
-     */
-
     fun bindEdit(mode: Boolean, noteItem: NoteItem)
 
     fun bindNoteItem(noteItem: NoteItem)
@@ -35,6 +31,8 @@ interface RollNoteCallback {
     fun bindEnter()
 
     fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean)
+
+    fun trySave(): Boolean
 
     fun tintToolbar(@ColorDef from: Int, @ColorDef to: Int)
 

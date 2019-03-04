@@ -9,6 +9,10 @@ interface NoteCallback {
 
     fun showRollFragment(id: Long, isSave: Boolean)
 
+    fun trySaveTextFragment(): Boolean
+
+    fun trySaveRollFragment(): Boolean
+
     fun finish()
 
 }

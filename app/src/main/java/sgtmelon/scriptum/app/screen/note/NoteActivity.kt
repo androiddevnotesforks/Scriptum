@@ -53,8 +53,20 @@ class NoteActivity : ParentActivity(), NoteCallback {
             .replace(R.id.note_fragment_container, fragment, key)
             .commit()
 
+    override fun trySaveTextFragment() =
+            (supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as?
+                    TextNoteFragment)?.trySave() ?: false
+
+    override fun trySaveRollFragment() =
+            (supportFragmentManager.findFragmentByTag(NoteType.ROLL.name) as?
+                    RollNoteFragment)?.trySave() ?: false
+
+    override fun onBackPressed() {
+        if (!viewModel.trySave()) super.onBackPressed()
+    }
+
     companion object {
-        fun Context.getNoteIntent(type:NoteType, id: Long? = NoteData.Default.ID): Intent {
+        fun Context.getNoteIntent(type: NoteType, id: Long? = NoteData.Default.ID): Intent {
             return Intent(this, NoteActivity::class.java)
                     .putExtra(NoteData.Intent.ID, id)
                     .putExtra(NoteData.Intent.TYPE, type.ordinal)
@@ -63,6 +75,7 @@ class NoteActivity : ParentActivity(), NoteCallback {
 
     // todo backClick
 
+    /*
     //@Override
     //    public void onBackPressed() {
     //        Log.i(TAG, "onBackPressed");
@@ -115,5 +128,45 @@ class NoteActivity : ParentActivity(), NoteCallback {
     //            super.onBackPressed();   //Другие случаи (не редактирование)
     //        }
     //    }
+    */
+
+    // saveCtrl.needSave = false
+    //
+    //        val noteItem = vm.noteRepo.noteItem
+    //        val noteSt = vm.noteState
+    //
+    //        when (noteItem.type) {
+    //            NoteType.TEXT -> {
+    //                if (!textNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
+    //                    if (noteSt.isEdit && !noteSt.isCreate) {
+    //                        val colorFrom = noteItem.color
+    //                        val colorTo = vm.resetFragmentData(noteItem.id, textNoteFragment!!.viewModel)
+    //
+    //                        textNoteFragment!!.startTintToolbar(colorFrom, colorTo)
+    //                        textNoteFragment!!.onMenuEditClick(false)
+    //                    } else if (noteSt.isCreate) {
+    //                        super.onBackPressed()
+    //                    }
+    //                } else {
+    //                    super.onBackPressed()
+    //                }
+    //            }
+    //            NoteType.ROLL -> {
+    //                if (!rollNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
+    //                    if (noteSt.isEdit && !noteSt.isCreate) {
+    //                        val colorFrom = noteItem.color
+    //                        val colorTo = vm.resetFragmentData(noteItem.id, rollNoteFragment!!.viewModel)
+    //
+    //                        rollNoteFragment!!.startTintToolbar(colorFrom, colorTo)
+    //                        rollNoteFragment!!.onMenuEditClick(false)
+    //                        rollNoteFragment!!.updateAdapter()
+    //                    } else if (noteSt.isCreate) {
+    //                        super.onBackPressed()
+    //                    }
+    //                } else {
+    //                    super.onBackPressed()
+    //                }
+    //            }
+    //        }
 
 }
