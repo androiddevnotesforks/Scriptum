@@ -33,7 +33,6 @@ import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
-import sgtmelon.scriptum.office.utils.AppUtils.manage
 import sgtmelon.scriptum.widget.color.ColorDialog
 
 /**
@@ -159,25 +158,21 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         )
     }
 
-    override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
-        binding.keyEdit = mode
-        binding.noteItem = noteItem
+    override fun bindEdit(mode: Boolean, noteItem: NoteItem) =
+            binding.apply {
+                keyEdit = mode
+                this.noteItem = noteItem
+            }.executePendingBindings()
 
-        binding.executePendingBindings()
-    }
+    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean) =
+            binding.apply {
+                undoAccess = isUndoAccess
+                redoAccess = isRedoAccess
+                saveEnabled = !TextUtils.isEmpty(textEnter?.text.toString())
+            }.executePendingBindings()
 
-    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean) {
-        binding.undoAccess = isUndoAccess
-        binding.redoAccess = isRedoAccess
-        binding.saveEnabled = !TextUtils.isEmpty(textEnter?.text.toString())
-
-        binding.executePendingBindings()
-    }
-
-    override fun tintToolbar(from: Int, to: Int) {
-        menuControl.setColorFrom(from)
-        menuControl.startTint(to)
-    }
+    override fun tintToolbar(from: Int, to: Int) =
+            menuControl.apply { setColorFrom(from) }.startTint(to)
 
     override fun tintToolbar(color: Int) = menuControl.startTint(color)
 
@@ -185,15 +180,19 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
             menuControl.setDrawable(drawableOn, needAnim)
 
     override fun changeName(text: String, cursor: Int) {
-        nameEnter?.requestFocus()
-        nameEnter?.setText(text)
-        nameEnter?.setSelection(cursor)
+        nameEnter?.apply {
+            requestFocus()
+            setText(text)
+            setSelection(cursor)
+        }
     }
 
     override fun changeText(text: String, cursor: Int) {
-        textEnter?.requestFocus()
-        textEnter?.setText(text)
-        textEnter?.setSelection(cursor)
+        textEnter?.apply {
+            requestFocus()
+            setText(text)
+            setSelection(cursor)
+        }
     }
 
     override fun hideKeyboard() = activity.hideKeyboard()
@@ -221,11 +220,8 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     companion object {
-        private operator fun invoke(func: TextNoteFragment.() -> Unit) =
-                TextNoteFragment().apply { func() }
-
-        fun getInstance(id: Long) = TextNoteFragment {
-            arguments = Bundle().manage { putLong(NoteData.Intent.ID, id) }
+        fun getInstance(id: Long) = TextNoteFragment().apply {
+            arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }
         }
     }
 

@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,6 +23,7 @@ import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.databinding.FragmentRankBinding
+import sgtmelon.scriptum.office.AppTextWatcher
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.state.OpenState
@@ -109,14 +108,10 @@ class RankFragment : Fragment(), RankCallback {
             return@setOnLongClickListener true
         }
 
-        rankEnter?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+        rankEnter?.addTextChangedListener(object : AppTextWatcher() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 bindToolbar()
             }
-
-            override fun afterTextChanged(editable: Editable) {}
         })
         rankEnter?.setOnEditorActionListener { _, i, _ ->
             viewModel.onEditorClick(i, rankEnter?.text.toString().toUpperCase())
@@ -196,20 +191,19 @@ class RankFragment : Fragment(), RankCallback {
 
     }
 
-    override fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>) {
-        openState.tryInvoke {
-            renameDialog.setArguments(p, name, listName)
-            renameDialog.show(fragmentManager, DialogDef.RENAME)
-        }
-    }
+    override fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>) =
+            openState.tryInvoke {
+                renameDialog.setArguments(p, name, listName)
+                renameDialog.show(fragmentManager, DialogDef.RENAME)
+            }
 
     override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)
 
-    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>) {
-        adapter.setList(list)
-        adapter.startAnim = startAnim
-        adapter.notifyDataSetChanged()
-    }
+    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>) =
+            adapter.apply {
+                setList(list)
+                this.startAnim = startAnim
+            }.notifyDataSetChanged()
 
     override fun notifyDataSetChanged(list: MutableList<RankItem>) =
             adapter.notifyDataSetChanged(list)

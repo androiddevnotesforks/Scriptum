@@ -43,7 +43,6 @@ import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
-import sgtmelon.scriptum.office.utils.AppUtils.manage
 import sgtmelon.scriptum.widget.color.ColorDialog
 
 /**
@@ -193,7 +192,6 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
         rollEnter?.addTextChangedListener(object : AppTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                super.onTextChanged(s, start, before, count)
                 bindEnter()
             }
         })
@@ -217,24 +215,20 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         bindEnter()
     }
 
-    override fun bindNoteItem(noteItem: NoteItem) {
-        binding.noteItem = noteItem
-        binding.executePendingBindings()
-    }
+    override fun bindNoteItem(noteItem: NoteItem) =
+            binding.apply { this.noteItem = noteItem }.executePendingBindings()
 
     override fun bindEnter() {
         binding.enterEmpty = TextUtils.isEmpty(rollEnter?.text.toString())
-
         binding.executePendingBindings()
     }
 
-    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) {
-        binding.undoAccess = isUndoAccess
-        binding.redoAccess = isRedoAccess
-        binding.saveEnabled = isSaveEnable
-
-        binding.executePendingBindings()
-    }
+    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) =
+            binding.apply {
+                undoAccess = isUndoAccess
+                redoAccess = isRedoAccess
+                saveEnabled = isSaveEnable
+            }.executePendingBindings()
 
     override fun tintToolbar(color: Int) = menuControl.startTint(color)
 
@@ -262,19 +256,15 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         adapter.checkToggle = state
     }
 
-    override fun updateNoteState(noteState: NoteState) {
-        adapter.noteState = noteState
-        adapter.notifyDataSetChanged()
-    }
+    override fun updateNoteState(noteState: NoteState) =
+            adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
 
     override fun notifyListItem(p: Int, item: RollItem) = adapter.setListItem(p, item)
 
     override fun notifyList(list: MutableList<RollItem>) = adapter.setList(list)
 
-    override fun notifyDataSetChanged(list: MutableList<RollItem>) {
-        adapter.setList(list)
-        adapter.notifyItemRangeChanged(0, list.size)
-    }
+    override fun notifyDataSetChanged(list: MutableList<RollItem>) =
+            adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
 
     override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) =
             adapter.notifyItemRemoved(p, list)
@@ -307,11 +297,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     companion object {
-        private operator fun invoke(func: RollNoteFragment.() -> Unit) =
-                RollNoteFragment().apply { func() }
-
-        fun getInstance(id: Long) = RollNoteFragment {
-            arguments = Bundle().manage { putLong(NoteData.Intent.ID, id) }
+        fun getInstance(id: Long) = RollNoteFragment().apply {
+            arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }
         }
     }
 
