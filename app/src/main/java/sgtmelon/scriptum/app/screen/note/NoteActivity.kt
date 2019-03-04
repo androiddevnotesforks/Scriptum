@@ -61,4 +61,59 @@ class NoteActivity : ParentActivity(), NoteCallback {
         }
     }
 
+    // todo backClick
+
+    //@Override
+    //    public void onBackPressed() {
+    //        Log.i(TAG, "onBackPressed");
+    //
+    //        saveControl.setNeedSave(false);
+    //
+    //        final NoteItem noteItem = vm.getNoteRepo().getNoteItem();
+    //        final NoteSt noteSt = vm.getNoteSt();
+    //
+    //        if (noteSt.isEdit() && !noteSt.isCreate()) {                  //Если это редактирование и не только что созданная заметка
+    //            switch (noteItem.getType()) {
+    //                case TypeNoteDef.text:
+    //                    if (!textFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
+    //                        final int colorFrom = noteItem.getColor();
+    //                        final int colorTo = vm.resetFragmentData(
+    //                                noteItem.getId(), textFragment.getViewModel()
+    //                        );
+    //
+    //                        textFragment.startTintToolbar(colorFrom, colorTo);
+    //                        textFragment.onMenuEditClick(false);
+    //                    }
+    //                    break;
+    //                case TypeNoteDef.roll:
+    //                    if (!rollFragment.onMenuSaveClick(true, false)) {   //Если сохранение не выполнено, возвращает старое
+    //                        final int colorFrom = noteItem.getColor();
+    //                        final int colorTo = vm.resetFragmentData(
+    //                                noteItem.getId(), rollFragment.getViewModel()
+    //                        );
+    //
+    //                        rollFragment.startTintToolbar(colorFrom, colorTo);
+    //                        rollFragment.onMenuEditClick(false);
+    //                        rollFragment.updateAdapter();
+    //                    }
+    //                    break;
+    //            }
+    //        } else if (noteSt.isCreate()) {     //Если только что создали заметку
+    //            switch (noteItem.getType()) {   //Если сохранение не выполнено, выход без сохранения
+    //                case TypeNoteDef.text:
+    //                    if (!textFragment.onMenuSaveClick(true, false)) {
+    //                        super.onBackPressed();
+    //                    }
+    //                    break;
+    //                case TypeNoteDef.roll:
+    //                    if (!rollFragment.onMenuSaveClick(true, false)) {
+    //                        super.onBackPressed();
+    //                    }
+    //                    break;
+    //            }
+    //        } else {
+    //            super.onBackPressed();   //Другие случаи (не редактирование)
+    //        }
+    //    }
+
 }

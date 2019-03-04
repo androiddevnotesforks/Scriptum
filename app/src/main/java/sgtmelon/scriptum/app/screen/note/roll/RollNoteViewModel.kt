@@ -275,6 +275,26 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun onClickBackArrow() {
+        if (!noteState.isCreate && noteState.isEdit) {
+            callback.hideKeyboard()
+
+            val colorFrom = noteRepo.noteItem.color
+
+            noteRepo = iRoomRepo.getNoteRepo(id)
+            callback.notifyDataSetChanged(noteRepo.listRoll)
+
+            onMenuEdit(mode = false)
+            callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
+
+            inputControl.clear()
+            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+        } else {
+            saveControl.needSave = false
+            noteCallback.finish()
+        }
+    }
+
     fun onClickAdd(simpleClick: Boolean) {
         val textEnter = callback.clearEnter()
 

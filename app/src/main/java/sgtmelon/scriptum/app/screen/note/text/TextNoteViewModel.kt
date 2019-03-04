@@ -154,7 +154,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuSave(changeMode: Boolean): Boolean {
         val noteItem = noteRepo.noteItem
 
-        if (TextUtils.isEmpty(noteItem.text)) return false
+        if (TextUtils.isEmpty(noteRepo.noteItem.text)) return false
 
         noteItem.change = context.getTime()
 
@@ -222,6 +222,25 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.apply {
             setEnabled(true)
             isChangeEnabled = true
+        }
+    }
+
+    fun onClickBackArrow() {
+        if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
+            callback.hideKeyboard()
+
+            val colorFrom = noteRepo.noteItem.color
+
+            noteRepo = iRoomRepo.getNoteRepo(id)
+
+            onMenuEdit(mode = false)
+            callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
+
+            inputControl.clear()
+            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+        } else {
+            saveControl.needSave = false
+            noteCallback.finish()
         }
     }
 

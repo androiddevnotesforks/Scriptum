@@ -115,12 +115,12 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     override fun setupToolbar(@ColorDef color: Int, noteState: NoteState) {
-        menuControl.setColor(color)
-        menuControl.setDrawable(
-                drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false
-        )
+        menuControl.apply {
+            setColor(color)
+            setDrawable(drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false)
+        }
 
-        toolbar?.setNavigationOnClickListener { TODO("onArrowBack click") }
+        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
 
     override fun setupDialog(rankNameArray: Array<String>) {
