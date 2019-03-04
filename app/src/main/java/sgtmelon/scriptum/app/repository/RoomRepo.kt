@@ -13,6 +13,9 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     private lateinit var db: RoomDb
 
+    // TODO think about itn
+    private fun openRoom() = RoomDb.provideDb(context)
+
     /**
      * BinViewModel
      */
@@ -25,23 +28,12 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return list
     }
 
-    override fun clearBin() {
-        db = RoomDb.provideDb(context)
-        db.daoNote().clearBin()
-        db.close()
-    }
+    override fun clearBin() = openRoom().apply { daoNote().clearBin() }.close()
 
-    override fun restoreNoteItem(id: Long) {
-        db = RoomDb.provideDb(context)
-        db.daoNote().update(id, context.getTime(), false)
-        db.close()
-    }
+    override fun restoreNoteItem(id: Long) =
+            openRoom().apply { daoNote().update(id, context.getTime(), false) }.close()
 
-    override fun clearNoteItem(id: Long) {
-        db = RoomDb.provideDb(context)
-        db.daoNote().delete(id)
-        db.close()
-    }
+    override fun clearNoteItem(id: Long) = openRoom().apply { daoNote().delete(id) }.close()
 
     /**
      *
@@ -80,29 +72,26 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return array
     }
 
-    override fun convertToRoll(noteItem: NoteItem) {
-        db = RoomDb.provideDb(context)
+    override fun convertToRoll(noteItem: NoteItem) = openRoom().apply {
+        val size = daoRoll().insert(noteItem.id, noteItem.text).size
 
-        val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
-        noteItem.change = context.getTime()
-        noteItem.type = NoteType.ROLL
-        noteItem.setText(0, listRoll.size)
+        noteItem.apply {
+            change = context.getTime()
+            type = NoteType.ROLL
+            setText(0, size)
+        }
+    }.close()
 
-        db.daoNote().update(noteItem)
-        db.close()
-    }
+    override fun convertToText(noteItem: NoteItem) = openRoom().apply {
+        noteItem.apply {
+            change = context.getTime()
+            type = NoteType.TEXT
+            text = daoRoll().getText(noteItem.id)
+        }
 
-    override fun convertToText(noteItem: NoteItem) {
-        db = RoomDb.provideDb(context)
-
-        noteItem.change = context.getTime()
-        noteItem.type = NoteType.TEXT
-        noteItem.text = db.daoRoll().getText(noteItem.id)
-
-        db.daoNote().update(noteItem)
-        db.daoRoll().delete(noteItem.id)
-        db.close()
-    }
+        daoNote().update(noteItem)
+        daoRoll().delete(noteItem.id)
+    }.close()
 
     override fun getRankId(): Array<Long> {
         db = RoomDb.provideDb(context)
@@ -189,51 +178,41 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun updateRollCheck(rollItem: RollItem, noteItem: NoteItem) { // TODO переделать
-        rollItem.id?.let {
-            db = RoomDb.provideDb(context)
-            db.daoRoll().update(it, rollItem.isCheck)
-            db.daoNote().update(noteItem)
-            db.close()
+        rollItem.id?.let { id ->
+            openRoom().apply {
+                daoRoll().update(id, rollItem.isCheck)
+                daoNote().update(noteItem)
+            }.close()
         }
     }
 
-    override fun updateRollCheck(noteItem: NoteItem, isAll: Boolean) {
-        db = RoomDb.provideDb(context)
-        db.daoRoll().updateAllCheck(noteItem.id, isAll)
-        db.daoNote().update(noteItem)
-        db.close()
-    }
+    override fun updateRollCheck(noteItem: NoteItem, isAll: Boolean) =
+            openRoom().apply {
+                daoRoll().updateAllCheck(noteItem.id, isAll)
+                daoNote().update(noteItem)
+            }.close()
 
     /**
      * NotesViewModel
      */
 
 
-    override fun updateNoteItemCheck(noteItem: NoteItem, check: Boolean) {
-        db = RoomDb.provideDb(context)
-        db.daoRoll().updateAllCheck(noteItem.id, check)
-        db.daoNote().update(noteItem)
-        db.close()
-    }
+    override fun updateNoteItemCheck(noteItem: NoteItem, check: Boolean) =
+            openRoom().apply {
+                daoRoll().updateAllCheck(noteItem.id, check)
+                daoNote().update(noteItem)
+            }.close()
 
-    override fun updateNoteItemBind(id: Long, status: Boolean) {
-        db = RoomDb.provideDb(context)
-        db.daoNote().update(id, status)
-        db.close()
-    }
+    override fun updateNoteItemBind(id: Long, status: Boolean) =
+            openRoom().apply { daoNote().update(id, status) }.close()
 
-    override fun updateNoteItem(noteItem: NoteItem) {
-        db = RoomDb.provideDb(context)
-        db.daoNote().update(noteItem)
-        db.close()
-    }
+    override fun updateNoteItem(noteItem: NoteItem) =
+            openRoom().apply { daoNote().update(noteItem) }.close()
 
-    override fun deleteNoteItem(id: Long) {
-        db = RoomDb.provideDb(context)
-        db.daoNote().update(id, context.getTime(), true)
-        db.daoNote().update(id, false)
-        db.close()
-    }
+    override fun deleteNoteItem(id: Long) = openRoom().apply {
+        daoNote().update(id, context.getTime(), true)
+        daoNote().update(id, false)
+    }.close()
 
 
     /**

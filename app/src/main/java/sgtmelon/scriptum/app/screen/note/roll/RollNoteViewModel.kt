@@ -52,7 +52,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     private val checkState = CheckState()
 
-    private val isSaveEnable = noteRepo.listRoll.size != 0
+    private val isSaveEnable by lazy { noteRepo.listRoll.size != 0 }
 
     fun setupData(bundle: Bundle?) {
         id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
