@@ -230,9 +230,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
                 saveEnabled = isSaveEnable
             }.executePendingBindings()
 
-    override fun trySave(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun onPressBack()= viewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) =
             menuControl.apply { setColorFrom(from) }.startTint(to)

@@ -295,6 +295,30 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
+    fun onPressBack(): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+// saveCtrl.needSave = false
+        //
+        //        val noteItem = vm.noteRepo.noteItem
+        //        val noteSt = vm.noteState
+
+//      if (!rollNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
+//          if (noteSt.isEdit && !noteSt.isCreate) {
+//              val colorFrom = noteItem.color
+//              val colorTo = vm.resetFragmentData(noteItem.id, rollNoteFragment!!.viewModel)
+//
+//              rollNoteFragment!!.startTintToolbar(colorFrom, colorTo)
+//              rollNoteFragment!!.onMenuEditClick(false)
+//              rollNoteFragment!!.updateAdapter()
+//          } else if (noteSt.isCreate) {
+//              super.onBackPressed()
+//          }
+//      } else {
+//          super.onBackPressed()
+//      }
+    }
+
     fun onClickAdd(simpleClick: Boolean) {
         val textEnter = callback.clearEnter()
 

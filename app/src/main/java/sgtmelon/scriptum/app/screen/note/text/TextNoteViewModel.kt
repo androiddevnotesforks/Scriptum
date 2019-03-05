@@ -237,11 +237,50 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
 
             inputControl.clear()
-            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+            // TODo проверить
+//            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
         } else {
             saveControl.needSave = false
             noteCallback.finish()
         }
+    }
+
+    fun onPressBack(): Boolean {
+        saveControl.needSave = false
+
+        if (!onMenuSave(changeMode = true)) {
+            if (!noteState.isCreate &&noteState.isEdit && id != NoteData.Default.ID) {
+                val colorFrom = noteRepo.noteItem.color
+
+                noteRepo = iRoomRepo.getNoteRepo(id)
+
+                onMenuEdit(mode = false)
+                callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
+
+                inputControl.clear()
+                // TODo проверить
+//            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+
+//        if (!textNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
+//                    if (noteSt.isEdit && !noteSt.isCreate) {
+//                        val colorFrom = noteItem.color
+//                        val colorTo = vm.resetFragmentData(noteItem.id, textNoteFragment!!.viewModel)
+//
+//                        textNoteFragment!!.startTintToolbar(colorFrom, colorTo)
+//                        textNoteFragment!!.onMenuEditClick(false)
+//                    } else if (noteSt.isCreate) {
+//                        super.onBackPressed()
+//                    }
+//                } else {
+//                    super.onBackPressed()
+//                }
     }
 
     fun onResultColorDialog(check: Int) {

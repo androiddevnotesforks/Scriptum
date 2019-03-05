@@ -9,9 +9,9 @@ interface NoteCallback {
 
     fun showRollFragment(id: Long, isSave: Boolean)
 
-    fun trySaveTextFragment(): Boolean
+    fun onPressBackText(): Boolean
 
-    fun trySaveRollFragment(): Boolean
+    fun onPressBackRoll(): Boolean
 
     fun finish()
 

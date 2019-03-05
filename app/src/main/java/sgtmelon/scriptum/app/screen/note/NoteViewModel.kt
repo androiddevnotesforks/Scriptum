@@ -31,9 +31,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
         else -> callback.finish()
     }
 
-    fun trySave(): Boolean = when (type) {
-        NoteType.TEXT -> callback.trySaveTextFragment()
-        NoteType.ROLL -> callback.trySaveRollFragment()
+    fun onPressBack(): Boolean = when (type) {
+        NoteType.TEXT -> callback.onPressBackText()
+        NoteType.ROLL -> callback.onPressBackRoll()
         else -> false
     }
 

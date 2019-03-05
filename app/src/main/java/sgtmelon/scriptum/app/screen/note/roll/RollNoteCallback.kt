@@ -32,7 +32,7 @@ interface RollNoteCallback {
 
     fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean)
 
-    fun trySave(): Boolean
+    fun onPressBack(): Boolean
 
     fun tintToolbar(@ColorDef from: Int, @ColorDef to: Int)
 
