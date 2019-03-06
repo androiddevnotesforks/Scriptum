@@ -20,9 +20,9 @@ interface RollNoteCallback {
 
     fun setupDialog(rankNameArray: Array<String> )
 
-    fun setupRecycler()
-
     fun setupEnter(inputCallback: InputCallback)
+
+    fun setupRecycler(inputCallback: InputCallback)
 
     fun bindEdit(mode: Boolean, noteItem: NoteItem)
 

@@ -7,7 +7,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.app.control.input.InputCallback
-import sgtmelon.scriptum.app.control.touch.BindIntf
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
@@ -24,9 +23,8 @@ class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewH
     lateinit var clickListener: ItemListener.ClickListener
     lateinit var dragListener: ItemListener.DragListener
 
-    lateinit var rollWatcher: ItemListener.RollWatcher
+    lateinit var textChangeCallback: RollWriteHolder.TextChange
     lateinit var inputCallback: InputCallback
-    lateinit var bindIntf: BindIntf
 
     lateinit var noteState: NoteState
 
@@ -45,7 +43,7 @@ class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewH
                 val binding: ItemRollWriteBinding =
                         inflater.inflateBinding(R.layout.item_roll_write, parent)
 
-                RollWriteHolder(binding, dragListener, rollWatcher, inputCallback, bindIntf)
+                RollWriteHolder(binding, dragListener, textChangeCallback, inputCallback)
             }
         }
     }

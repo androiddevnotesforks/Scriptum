@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.app.adapter.holder
 
-import android.annotation.SuppressLint
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RollAdapter
 import sgtmelon.scriptum.app.control.input.InputCallback
-import sgtmelon.scriptum.app.control.touch.BindIntf
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
@@ -21,12 +19,10 @@ import sgtmelon.scriptum.office.intf.ItemListener
 /**
  * Держатель пункта списка в состоянии редактирования для [RollAdapter]
  */
-@SuppressLint("ClickableViewAccessibility")
 class RollWriteHolder(private val binding: ItemRollWriteBinding,
                       private val dragListener: ItemListener.DragListener,
-                      private val rollWatcher: ItemListener.RollWatcher,
-                      private val inputCallback: InputCallback,
-                      private val bindIntf: BindIntf
+                      private val textChangeCallback: TextChange,
+                      private val inputCallback: InputCallback
 ) : RecyclerView.ViewHolder(binding.root), View.OnTouchListener, TextWatcher {
 
     /**
@@ -87,19 +83,24 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
             inputCallback.onRollRemove(adapterPosition, binding.rollItem.toString())
         }
 
-        bindIntf.bindInput()
+        textChangeCallback.onResultInputRollChange()
     }
 
     override fun afterTextChanged(s: Editable) {
         if (adapterPosition == RecyclerView.NO_POSITION) return
 
         if (!TextUtils.isEmpty(textFrom)) {
-            rollWatcher.afterRollChanged(adapterPosition, rollEnter.text.toString())
+            textChangeCallback.onResultInputRollAfter(adapterPosition, rollEnter.text.toString())
         }
 
         if (inputCallback.isChangeEnabled) {
             inputCallback.setEnabled(true)
         }
+    }
+
+    interface TextChange {
+        fun onResultInputRollChange()
+        fun onResultInputRollAfter(p: Int, text: String)
     }
 
 }

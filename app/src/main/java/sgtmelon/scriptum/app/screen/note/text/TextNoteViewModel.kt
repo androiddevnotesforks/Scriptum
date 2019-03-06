@@ -30,7 +30,7 @@ import java.util.*
  */
 class TextNoteViewModel(application: Application) : AndroidViewModel(application),
         SaveControl.Result,
-        InputTextWatcher.Result,
+        InputTextWatcher.TextChange,
         MenuCallback {
 
     private val context: Context = application.applicationContext

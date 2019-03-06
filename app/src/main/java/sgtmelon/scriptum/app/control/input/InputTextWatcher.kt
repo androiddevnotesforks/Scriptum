@@ -10,7 +10,7 @@ import sgtmelon.scriptum.app.model.item.CursorItem
  */
 class InputTextWatcher(private val view: EditText?,
                        @param:InputDef private val tag: Int,
-                       private val result: Result,
+                       private val textChangeCallback: TextChange,
                        private val inputCallback: InputCallback
 ) : TextWatcher {
 
@@ -30,7 +30,7 @@ class InputTextWatcher(private val view: EditText?,
 
         val cursorItem = CursorItem(cursorFrom, cursorTo)
 
-        //TODO вынести в интерфейс результата
+        //TODO вынести в интерфейс результата (или нет)
         when (tag) {
             InputDef.name -> inputCallback.onNameChange(textFrom, textTo, cursorItem)
             InputDef.text -> inputCallback.onTextChange(textFrom, textTo, cursorItem)
@@ -39,12 +39,12 @@ class InputTextWatcher(private val view: EditText?,
         textFrom = textTo
         cursorFrom = cursorTo
 
-        result.onResultInputTextChange()
+        textChangeCallback.onResultInputTextChange()
     }
 
     override fun afterTextChanged(s: Editable) {}
 
-    interface Result {
+    interface TextChange {
         fun onResultInputTextChange()
     }
 

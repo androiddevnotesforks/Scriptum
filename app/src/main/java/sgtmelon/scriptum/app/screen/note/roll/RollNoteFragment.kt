@@ -166,21 +166,6 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
     }
 
-    override fun setupRecycler() {
-        (recyclerView?.itemAnimator as SimpleItemAnimator?)?.supportsChangeAnimations = false
-
-        // TODO adapter click listener
-        adapter.clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) }
-
-        val touchCallback = RollTouchControl(viewModel)
-        adapter.dragListener = touchCallback
-
-        recyclerView?.layoutManager = layoutManager
-        recyclerView?.adapter = adapter
-
-        ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
-    }
-
     override fun setupEnter(inputCallback: InputCallback) {
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputDef.name, viewModel, inputCallback)
@@ -209,9 +194,23 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
     }
 
-    /**
-     *
-     */
+    override fun setupRecycler(inputCallback: InputCallback) {
+        (recyclerView?.itemAnimator as SimpleItemAnimator?)?.supportsChangeAnimations = false
+
+        val touchCallback = RollTouchControl(viewModel)
+
+        adapter.apply {
+            clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) }
+            dragListener = touchCallback
+            this.inputCallback = inputCallback
+            textChangeCallback = viewModel
+        }
+
+        recyclerView?.layoutManager = layoutManager
+        recyclerView?.adapter = adapter
+
+        ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
+    }
 
     override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
         binding.keyEdit = mode
