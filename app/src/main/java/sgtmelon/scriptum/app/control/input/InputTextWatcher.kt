@@ -39,13 +39,13 @@ class InputTextWatcher(private val view: EditText?,
         textFrom = textTo
         cursorFrom = cursorTo
 
-        result.onInputTextChangeResult()
+        result.onResultInputTextChange()
     }
 
     override fun afterTextChanged(s: Editable) {}
 
     interface Result {
-        fun onInputTextChangeResult()
+        fun onResultInputTextChange()
     }
 
 }

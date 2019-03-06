@@ -11,26 +11,26 @@ class RankRepo(val listRank: MutableList<RankItem>,
 
     fun size(): Int = listRank.size
 
-    fun set(position: Int, name: String) {
-        listRank[position].name = name
-        listName[position] = name.toUpperCase()
+    fun set(p: Int, name: String) {
+        listRank[p].name = name
+        listName[p] = name.toUpperCase()
     }
 
-    fun add(position: Int, rankItem: RankItem) {
-        listRank.add(position, rankItem)
-        listName.add(position, rankItem.name.toUpperCase())
+    fun add(p: Int, item: RankItem) {
+        listRank.add(p, item)
+        listName.add(p, item.name.toUpperCase())
     }
 
-    fun remove(position: Int) {
-        listRank.removeAt(position)
-        listName.removeAt(position)
+    fun remove(p: Int) {
+        listRank.removeAt(p)
+        listName.removeAt(p)
     }
 
-    fun move(positionFrom: Int, positionTo: Int) {
-        val rankItem = listRank[positionFrom]
+    fun move(from: Int, to: Int) {
+        val item = listRank[from]
 
-        remove(positionFrom)
-        add(positionTo, rankItem)
+        remove(from)
+        add(to, item)
     }
 
 }

@@ -77,7 +77,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         callback.scrollToItem(simpleClick, rankRepo.listRank)
     }
 
-    override fun onTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
+    override fun onResultTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
         val db = RoomDb.provideDb(context)
         rankRepo.listRank.clear()
         rankRepo.listRank.addAll(db.daoRank().update(dragFrom, dragTo))
@@ -87,9 +87,11 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         callback.notifyDataSetChanged(rankRepo.listRank)
     }
 
-    override fun onTouchMove(from: Int, to: Int) {
+    override fun onResultTouchMove(from: Int, to: Int): Boolean {
         rankRepo.move(from, to)
         callback.notifyItemMoved(from, to, rankRepo.listRank)
+
+        return true
     }
 
     fun onClickVisible(p: Int) {

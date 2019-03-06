@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -78,5 +80,14 @@ object AppUtils {
     fun Context.getDimen(value: Float) = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics
     ).toInt()
+
+    fun Context.showToast(@StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) =
+            Toast.makeText(this, getText(stringId), length).show()
+
+    fun <T> MutableList<T>.swap(from: Int, to: Int) {
+        val item = get(from)
+        removeAt(from)
+        add(to, item)
+    }
 
 }

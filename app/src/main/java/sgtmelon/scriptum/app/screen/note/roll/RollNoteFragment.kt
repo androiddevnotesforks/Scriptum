@@ -126,6 +126,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         viewModel.setupData(arguments ?: savedInstanceState)
     }
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.onPause()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         viewModel.saveData(outState)

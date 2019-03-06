@@ -21,11 +21,7 @@ class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
 
     override fun getMovementFlags(recyclerView: RecyclerView,
                                   viewHolder: RecyclerView.ViewHolder): Int {
-        val flagsDrag = when (drag) {
-            true -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
-            false -> 0
-        }
-
+        val flagsDrag = if (drag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
         val flagsSwipe = 0
 
         return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
@@ -44,22 +40,19 @@ class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
 
         val dragTo = viewHolder.adapterPosition
         if (dragFrom != dragTo) {
-            callback.onTouchClear(dragFrom, dragTo)
+            callback.onResultTouchClear(dragFrom, dragTo)
         }
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder): Boolean {
-        callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
-        return true
-    }
+                        target: RecyclerView.ViewHolder) =
+            callback.onResultTouchMove(viewHolder.adapterPosition, target.adapterPosition)
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
     interface Result {
-        fun onTouchClear(dragFrom: Int, dragTo: Int)
-
-        fun onTouchMove(from: Int, to: Int)
+        fun onResultTouchClear(dragFrom: Int, dragTo: Int)
+        fun onResultTouchMove(from: Int, to: Int): Boolean
     }
 
 }

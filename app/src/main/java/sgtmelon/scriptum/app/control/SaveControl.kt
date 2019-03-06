@@ -9,32 +9,26 @@ import sgtmelon.scriptum.office.utils.PrefUtils
 /**
  * Класс контроля сохранений заметки
  */
-class SaveControl(private val context: Context) {
+class SaveControl(private val context: Context, private val result: Result) {
 
     private val saveHandler = Handler()
     private val savePause: Boolean = PrefUtils(context).pauseSave
     private val saveAuto: Boolean = PrefUtils(context).autoSave
 
-    private val saveTime: Int
-
-    private val saveRunnable = {
-        onSave()
-        setSaveHandlerEvent(true)
+    private val saveTime: Int = when (saveAuto) {
+        true -> context.resources.getIntArray(R.array.pref_save_time_value)[PrefUtils(context).saveTime]
+        false -> 0
     }
 
-//    lateinit var noteMenuClick: MenuIntf.Note.NoteMenuClick
+    private val saveRunnable = {
+        result.onResultSaveControl()
+        setSaveHandlerEvent(true)
+    }
 
     /**
      * Пауза срабатывает не только при сворачивании (если закрыли активность например)
      */
     var needSave = true
-
-    init {
-        saveTime = if (saveAuto) {
-            val timeArray = context.resources.getIntArray(R.array.pref_save_time_value)
-            timeArray[PrefUtils(context).saveTime]
-        } else 0
-    }
 
     fun setSaveHandlerEvent(isStart: Boolean) {
         if (!saveAuto) return
@@ -49,18 +43,13 @@ class SaveControl(private val context: Context) {
         setSaveHandlerEvent(false)
 
         when (needSave && keyEdit && savePause) {
-            true -> onSave()
+            true -> result.onResultSaveControl()
             false -> needSave = true
         }
     }
 
-    // TODO интерфейс для результата
-
-    private fun onSave() {
-//        when (noteMenuClick.onMenuSaveClick(false)) {
-//            true -> Toast.makeText(context, context.getString(R.string.toast_note_save_done), Toast.LENGTH_SHORT).show()
-//            false -> Toast.makeText(context, context.getString(R.string.toast_note_save_error), Toast.LENGTH_SHORT).show()
-//        }
+    interface Result {
+        fun onResultSaveControl()
     }
 
 }

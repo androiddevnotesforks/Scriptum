@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.lifecycle.AndroidViewModel
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
 import sgtmelon.scriptum.app.control.input.InputDef
@@ -19,6 +20,7 @@ import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.AppUtils.showToast
 import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import java.util.*
@@ -27,6 +29,7 @@ import java.util.*
  * ViewModel для [TextNoteFragment]
  */
 class TextNoteViewModel(application: Application) : AndroidViewModel(application),
+        SaveControl.Result,
         InputTextWatcher.Result,
         MenuCallback {
 
@@ -39,7 +42,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     lateinit var noteCallback: NoteCallback
 
     private val inputControl: InputControl = InputControl()
-    private val saveControl: SaveControl = SaveControl(context)
+    private val saveControl: SaveControl = SaveControl(context, result = this)
 
     private var id: Long = NoteData.Default.ID
 
@@ -79,7 +82,12 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
-    override fun onInputTextChangeResult() =
+    override fun onResultSaveControl() = context.showToast(when (onMenuSave(changeMode = false)) {
+        true -> R.string.toast_note_save_done
+        false -> R.string.toast_note_save_error
+    })
+
+    override fun onResultInputTextChange() =
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
 
     override fun onMenuRestore() {
@@ -161,21 +169,17 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         if (changeMode) {
             callback.hideKeyboard()
             onMenuEdit(mode = false)
+            inputControl.clear()
         }
 
         noteRepo = iRoomRepo.saveTextNote(noteRepo, noteState.isCreate)
 
+        // TODO extension
         if (noteState.isCreate) {
             noteState.isCreate = false
 
-            if (!changeMode) {
-                callback.changeToolbarIcon(drawableOn = true, needAnim = true)
-            }
+            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
-
-        // TODO если не меняется changeMode то что
-        inputControl.clear()
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
 
         return true
     }
@@ -225,6 +229,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             isChangeEnabled = true
         }
     }
+
+    fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
     fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {

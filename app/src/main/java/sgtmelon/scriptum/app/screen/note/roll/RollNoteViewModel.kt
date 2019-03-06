@@ -5,6 +5,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.recyclerview.widget.ItemTouchHelper
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
 import sgtmelon.scriptum.app.control.input.InputTextWatcher
@@ -20,6 +22,8 @@ import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.state.CheckState
 import sgtmelon.scriptum.office.state.NoteState
+import sgtmelon.scriptum.office.utils.AppUtils.showToast
+import sgtmelon.scriptum.office.utils.AppUtils.swap
 import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
 import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
@@ -28,6 +32,7 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  * ViewModel для [RollNoteFragment]
  */
 class RollNoteViewModel(application: Application) : AndroidViewModel(application),
+        SaveControl.Result,
         InputTextWatcher.Result,
         RollTouchControl.Result,
         MenuCallback {
@@ -41,7 +46,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     lateinit var noteCallback: NoteCallback
 
     private val inputControl: InputControl = InputControl()
-    private val saveControl: SaveControl = SaveControl(context)
+    private val saveControl: SaveControl = SaveControl(context, result = this)
 
     private var id: Long = NoteData.Default.ID
 
@@ -88,18 +93,35 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
-    override fun onInputTextChangeResult() =
+    override fun onResultSaveControl() = context.showToast(when (onMenuSave(changeMode = false)) {
+        true -> R.string.toast_note_save_done
+        false -> R.string.toast_note_save_error
+    })
+
+    override fun onResultInputTextChange() =
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
-    override fun getEditMode() = noteState.isEdit
+    override fun onResultTouchFlags(drag: Boolean): Int {
+        val flagsDrag = when (noteState.isEdit && drag) {
+            true -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
+            false -> 0
+        }
 
-    override fun onTouchClear(dragFrom: Int, dragTo: Int) {
+        val flagsSwipe = when (noteState.isEdit) {
+            true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            false -> 0
+        }
+
+        return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
+    }
+
+    override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         inputControl.onRollMove(dragFrom, dragTo)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
     }
 
-    override fun onTouchSwipe(p: Int) {
+    override fun onResultTouchSwipe(p: Int) {
         val listRoll = noteRepo.listRoll
 
         inputControl.onRollRemove(p, listRoll[p].toString())
@@ -111,14 +133,9 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         callback.notifyItemRemoved(p, listRoll)
     }
 
-    override fun onTouchMove(from: Int, to: Int) {
-        val listRoll = noteRepo.listRoll
-        val rollItem = listRoll[from]
-
-        listRoll.removeAt(from)
-        listRoll.add(to, rollItem)
-
-        callback.notifyItemMoved(from, to, listRoll)
+    override fun onResultTouchMove(from: Int, to: Int): Boolean {
+        callback.notifyItemMoved(from, to, noteRepo.listRoll.apply { swap(from, to) })
+        return true
     }
 
     override fun onMenuRestore() {
@@ -176,6 +193,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         if (changeMode) {
             callback.hideKeyboard()
             onMenuEdit(false)
+            inputControl.clear()
         }
 
         noteRepo = iRoomRepo.saveRollNote(noteRepo, noteState.isCreate)
@@ -194,10 +212,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         }
 
         callback.notifyList(listRoll)
-
-        // TODO если не меняется changeMode то что
-        inputControl.clear()
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
         return true
     }
@@ -266,6 +280,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             isChangeEnabled = true
         }
     }
+
+    fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
     fun onUpdateData() {
         checkState.setAll(noteRepo.listRoll)
