@@ -243,20 +243,20 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onPressBack(): Boolean {
+        if (!noteState.isEdit) return false
+
         saveControl.needSave = false
 
         return if (!onMenuSave(changeMode = true)) {
-            if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
-                onRestoreData()
-            }
-
-            true
+            if (!noteState.isCreate) onRestoreData() else false
         } else {
-            false
+            true
         }
     }
 
-    private fun onRestoreData() {
+    private fun onRestoreData(): Boolean {
+        if (id == NoteData.Default.ID) return false
+
         val colorFrom = noteRepo.noteItem.color
         noteRepo = iRoomRepo.getNoteRepo(id)
 
@@ -264,6 +264,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
 
         inputControl.clear()
+
+        return true
     }
 
     fun onResultColorDialog(check: Int) {

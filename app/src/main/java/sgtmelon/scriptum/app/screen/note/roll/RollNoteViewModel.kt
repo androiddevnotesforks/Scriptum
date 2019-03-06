@@ -60,7 +60,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     private val checkState = CheckState()
 
-    private val isSaveEnable by lazy { noteRepo.listRoll.size != 0 }
+    private val isSaveEnable get() = noteRepo.listRoll.size != 0
 
     fun setupData(bundle: Bundle?) {
         id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
@@ -479,20 +479,20 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onPressBack(): Boolean {
+        if (!noteState.isEdit) return false
+
         saveControl.needSave = false
 
         return if (!onMenuSave(changeMode = true)) {
-            if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
-                onRestoreData()
-            }
-
-            true
+            if (!noteState.isCreate) onRestoreData() else false
         } else {
-            false
+            true
         }
     }
 
-    private fun onRestoreData() {
+    private fun onRestoreData(): Boolean {
+        if (id == NoteData.Default.ID) return false
+
         val colorFrom = noteRepo.noteItem.color
         noteRepo = iRoomRepo.getNoteRepo(id)
 
@@ -501,6 +501,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
 
         inputControl.clear()
+
+        return true
     }
 
     fun onClickAdd(simpleClick: Boolean) {
@@ -516,10 +518,9 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         inputControl.onRollAdd(p, rollItem.toString())
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
-
         noteRepo.listRoll.add(p, rollItem)
 
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
         callback.scrollToItem(simpleClick, p, noteRepo.listRoll)
     }
 

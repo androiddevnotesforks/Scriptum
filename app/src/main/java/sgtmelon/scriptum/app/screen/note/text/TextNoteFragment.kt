@@ -176,7 +176,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
                 saveEnabled = !TextUtils.isEmpty(textEnter?.text.toString())
             }.executePendingBindings()
 
-    override fun onPressBack()= viewModel.onPressBack()
+    override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) =
             menuControl.apply { setColorFrom(from) }.startTint(to)

@@ -7,6 +7,7 @@ import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 class RoomRepo(private val context: Context) : IRoomRepo {
@@ -48,6 +49,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun getNoteRepo(id: Long): NoteRepo {
+        if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
+
         db = RoomDb.provideDb(context)
         val noteRepo = db.daoNote().get(context, id)
         db.close()
