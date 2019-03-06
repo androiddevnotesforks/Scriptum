@@ -173,6 +173,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             }
         }
 
+        // TODO если не меняется changeMode то что
         inputControl.clear()
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
 
@@ -228,17 +229,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
             callback.hideKeyboard()
-
-            val colorFrom = noteRepo.noteItem.color
-
-            noteRepo = iRoomRepo.getNoteRepo(id)
-
-            onMenuEdit(mode = false)
-            callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
-
-            inputControl.clear()
-            // TODo проверить
-//            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+            onRestoreData()
         } else {
             saveControl.needSave = false
             noteCallback.finish()
@@ -248,39 +239,25 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     fun onPressBack(): Boolean {
         saveControl.needSave = false
 
-        if (!onMenuSave(changeMode = true)) {
-            if (!noteState.isCreate &&noteState.isEdit && id != NoteData.Default.ID) {
-                val colorFrom = noteRepo.noteItem.color
-
-                noteRepo = iRoomRepo.getNoteRepo(id)
-
-                onMenuEdit(mode = false)
-                callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
-
-                inputControl.clear()
-                // TODo проверить
-//            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
-                return true
-            } else {
-                return false
+        return if (!onMenuSave(changeMode = true)) {
+            if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
+                onRestoreData()
             }
-        } else {
-            return false
-        }
 
-//        if (!textNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
-//                    if (noteSt.isEdit && !noteSt.isCreate) {
-//                        val colorFrom = noteItem.color
-//                        val colorTo = vm.resetFragmentData(noteItem.id, textNoteFragment!!.viewModel)
-//
-//                        textNoteFragment!!.startTintToolbar(colorFrom, colorTo)
-//                        textNoteFragment!!.onMenuEditClick(false)
-//                    } else if (noteSt.isCreate) {
-//                        super.onBackPressed()
-//                    }
-//                } else {
-//                    super.onBackPressed()
-//                }
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun onRestoreData() {
+        val colorFrom = noteRepo.noteItem.color
+        noteRepo = iRoomRepo.getNoteRepo(id)
+
+        onMenuEdit(mode = false)
+        callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
+
+        inputControl.clear()
     }
 
     fun onResultColorDialog(check: Int) {

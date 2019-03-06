@@ -195,6 +195,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         callback.notifyList(listRoll)
 
+        // TODO если не меняется changeMode то что
         inputControl.clear()
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
@@ -276,19 +277,9 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onClickBackArrow() {
-        if (!noteState.isCreate && noteState.isEdit) {
+        if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
             callback.hideKeyboard()
-
-            val colorFrom = noteRepo.noteItem.color
-
-            noteRepo = iRoomRepo.getNoteRepo(id)
-            callback.notifyDataSetChanged(noteRepo.listRoll)
-
-            onMenuEdit(mode = false)
-            callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
-
-            inputControl.clear()
-            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+            onRestoreData()
         } else {
             saveControl.needSave = false
             noteCallback.finish()
@@ -296,27 +287,28 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onPressBack(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        saveControl.needSave = false
 
-// saveCtrl.needSave = false
-        //
-        //        val noteItem = vm.noteRepo.noteItem
-        //        val noteSt = vm.noteState
+        return if (!onMenuSave(changeMode = true)) {
+            if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
+                onRestoreData()
+            }
 
-//      if (!rollNoteFragment!!.onMenuSaveClick(modeChange = true, showToast = false)) {
-//          if (noteSt.isEdit && !noteSt.isCreate) {
-//              val colorFrom = noteItem.color
-//              val colorTo = vm.resetFragmentData(noteItem.id, rollNoteFragment!!.viewModel)
-//
-//              rollNoteFragment!!.startTintToolbar(colorFrom, colorTo)
-//              rollNoteFragment!!.onMenuEditClick(false)
-//              rollNoteFragment!!.updateAdapter()
-//          } else if (noteSt.isCreate) {
-//              super.onBackPressed()
-//          }
-//      } else {
-//          super.onBackPressed()
-//      }
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun onRestoreData() {
+        val colorFrom = noteRepo.noteItem.color
+        noteRepo = iRoomRepo.getNoteRepo(id)
+
+        callback.notifyDataSetChanged(noteRepo.listRoll)
+        onMenuEdit(mode = false)
+        callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
+
+        inputControl.clear()
     }
 
     fun onClickAdd(simpleClick: Boolean) {
@@ -325,7 +317,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         if (textEnter.isEmpty()) return
 
         val p = if (simpleClick) noteRepo.listRoll.size else 0
-
         val rollItem = RollItem().apply {
             noteId = noteRepo.noteItem.id
             text = textEnter
