@@ -15,8 +15,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import sgtmelon.scriptum.app.model.data.IntroData
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
-import sgtmelon.scriptum.office.data.IntroData
 
 object AppUtils {
 

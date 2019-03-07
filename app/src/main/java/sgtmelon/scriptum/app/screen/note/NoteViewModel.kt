@@ -3,8 +3,8 @@ package sgtmelon.scriptum.app.screen.note
 import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
-import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.office.data.NoteData
+import sgtmelon.scriptum.app.model.data.NoteData
+import sgtmelon.scriptum.app.model.key.NoteType
 
 class NoteViewModel(application: Application) : AndroidViewModel(application) {
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.state
+package sgtmelon.scriptum.app.model.state
 
 import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.office.annot.def.SortDef

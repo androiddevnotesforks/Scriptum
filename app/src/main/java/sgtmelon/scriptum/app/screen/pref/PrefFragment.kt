@@ -16,12 +16,12 @@ import sgtmelon.safedialog.SingleDialog
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
+import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.app.screen.develop.DevelopActivity
+import sgtmelon.scriptum.dialog.ColorDialog
+import sgtmelon.scriptum.dialog.InfoDialog
+import sgtmelon.scriptum.dialog.SortDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.state.OpenState
-import sgtmelon.scriptum.widget.InfoDialog
-import sgtmelon.scriptum.widget.SortDialog
-import sgtmelon.scriptum.widget.color.ColorDialog
 
 class PrefFragment : PreferenceFragment(), PrefCallback {
 

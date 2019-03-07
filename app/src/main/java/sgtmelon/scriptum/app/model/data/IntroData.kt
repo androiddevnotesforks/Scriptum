@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.data
+package sgtmelon.scriptum.app.model.data
 
 import sgtmelon.scriptum.R
 

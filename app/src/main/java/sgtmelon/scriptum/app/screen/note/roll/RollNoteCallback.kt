@@ -3,8 +3,8 @@ package sgtmelon.scriptum.app.screen.note.roll
 import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
+import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.state.NoteState
 
 /**
  * Интерфейс для общения [RollNoteViewModel] с [RollNoteFragment]

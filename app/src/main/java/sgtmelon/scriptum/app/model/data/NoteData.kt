@@ -1,7 +1,7 @@
-package sgtmelon.scriptum.office.data
+package sgtmelon.scriptum.app.model.data
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.app.model.key.NoteType
 
 object NoteData {
 

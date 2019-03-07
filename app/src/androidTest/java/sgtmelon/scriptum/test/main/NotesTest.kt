@@ -7,8 +7,8 @@ import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.splash.SplashActivity
-import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.test.TestData
 import sgtmelon.scriptum.ui.screen.main.MainScreen

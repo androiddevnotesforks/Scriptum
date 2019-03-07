@@ -105,8 +105,6 @@ class InputControl : InputCallback {
         this.enabled = enabled
     } // TODO extension (disableEnabled)
 
-    // TODO проверить работу
-
     override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) =
             add(InputItem(InputDef.rank,
                     TextUtils.join(DbAnn.Value.DIVIDER, valueFrom),

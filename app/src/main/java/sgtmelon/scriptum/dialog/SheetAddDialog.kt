@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.widget
+package sgtmelon.scriptum.dialog
 
 import android.content.DialogInterface
 import android.os.Bundle

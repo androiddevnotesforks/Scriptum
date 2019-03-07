@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.key.MainPage
+import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.add.AddDialogUi
 import sgtmelon.scriptum.ui.screen.main.bin.BinScreen

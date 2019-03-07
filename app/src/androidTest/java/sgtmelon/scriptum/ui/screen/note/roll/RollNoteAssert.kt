@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.note.roll
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.widget.note.State
 import sgtmelon.scriptum.ui.widget.note.panel.NotePanelUi

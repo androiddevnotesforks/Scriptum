@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.dialog.note
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.item.NoteItem
-import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
 class NoteDialogAssert : BasicMatch() {

@@ -2,8 +2,8 @@ package sgtmelon.scriptum.app.screen.note.text
 
 import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.state.NoteState
 
 /**
  * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragment]

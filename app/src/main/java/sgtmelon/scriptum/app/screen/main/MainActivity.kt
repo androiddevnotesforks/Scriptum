@@ -12,12 +12,12 @@ import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
+import sgtmelon.scriptum.app.model.data.NoteData
+import sgtmelon.scriptum.app.model.key.MainPage
+import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.key.MainPage
-import sgtmelon.scriptum.office.data.NoteData
-import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.setState
 
 class MainActivity : ParentActivity(),

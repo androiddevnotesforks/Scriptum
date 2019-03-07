@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.state
+package sgtmelon.scriptum.app.model.state
 
 /**
  * Состояние для фрагментов с заметками, необходимое для управления её редактированием

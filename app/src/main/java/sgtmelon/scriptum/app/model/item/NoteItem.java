@@ -14,12 +14,12 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.key.NoteType;
 import sgtmelon.scriptum.app.room.converter.BoolConverter;
 import sgtmelon.scriptum.app.room.converter.NoteTypeConverter;
 import sgtmelon.scriptum.app.room.converter.StringConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
-import sgtmelon.scriptum.office.annot.key.NoteType;
 
 /**
  * Элемент списка заметок {@link NoteRepo}

@@ -4,11 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModel
+import sgtmelon.scriptum.app.model.data.NoteData
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.intro.IntroActivity
 import sgtmelon.scriptum.app.screen.main.MainActivity
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.utils.PrefUtils
 
 

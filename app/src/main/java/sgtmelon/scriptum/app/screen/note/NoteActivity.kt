@@ -7,11 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.model.data.NoteData
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.app.screen.note.text.TextNoteFragment
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
-import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.office.data.NoteData
 
 class NoteActivity : ParentActivity(), NoteCallback {
 

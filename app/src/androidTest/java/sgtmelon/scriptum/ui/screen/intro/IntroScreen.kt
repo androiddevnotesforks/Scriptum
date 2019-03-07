@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.intro
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.data.IntroData
+import sgtmelon.scriptum.app.model.data.IntroData
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.Scroll
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.widget.color;
+package sgtmelon.scriptum.app.adapter;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
@@ -15,8 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
+import sgtmelon.scriptum.app.model.data.ColorData;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
-import sgtmelon.scriptum.office.data.ColorData;
+import sgtmelon.scriptum.office.intf.ItemListener;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.PrefUtils;
 
@@ -33,7 +34,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
     private int check;
     private boolean[] visible;
 
-    private ColorIntf.ClickListener clickListener;
+    private ItemListener.ClickListener  clickListener;
 
     public ColorAdapter(Context context) {
         this.context = context;
@@ -65,7 +66,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
         visible[check] = true;
     }
 
-    public void setClickListener(ColorIntf.ClickListener clickListener) {
+    public void setClickListener(ItemListener.ClickListener  clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -138,7 +139,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
             final int oldCheck = check;                   //Сохраняем старую позицию
             final int newCheck = getAdapterPosition();    //Получаем новую
 
-            clickListener.onColorClick(newCheck);
+            clickListener.onItemClick(v, newCheck);
 
             if (oldCheck != newCheck) {             //Если выбранный цвет не совпадает с тем, на который нажали
                 check = newCheck;                   //Присваиваем новую позицию

@@ -21,10 +21,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.state.OpenState
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 

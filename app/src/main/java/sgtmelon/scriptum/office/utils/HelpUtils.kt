@@ -9,9 +9,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.SortItem
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.office.annot.def.SortDef
-import sgtmelon.scriptum.office.annot.key.NoteType
 
 object HelpUtils {
 

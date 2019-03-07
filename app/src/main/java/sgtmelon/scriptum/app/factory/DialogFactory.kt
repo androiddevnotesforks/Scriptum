@@ -7,13 +7,9 @@ import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.safedialog.SingleDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.model.key.NoteType
+import sgtmelon.scriptum.dialog.*
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.widget.InfoDialog
-import sgtmelon.scriptum.widget.RenameDialog
-import sgtmelon.scriptum.widget.SheetAddDialog
-import sgtmelon.scriptum.widget.SortDialog
-import sgtmelon.scriptum.widget.color.ColorDialog
 
 object DialogFactory {
 

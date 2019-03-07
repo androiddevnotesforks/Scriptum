@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.app.room.converter
 
 import androidx.room.TypeConverter
-import sgtmelon.scriptum.office.annot.key.NoteType
+import sgtmelon.scriptum.app.model.key.NoteType
 
 class NoteTypeConverter {
 

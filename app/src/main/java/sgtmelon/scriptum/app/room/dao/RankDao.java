@@ -16,9 +16,9 @@ import androidx.room.Update;
 import sgtmelon.scriptum.app.model.RankRepo;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
+import sgtmelon.scriptum.app.model.key.NoteType;
 import sgtmelon.scriptum.app.room.RoomDb;
 import sgtmelon.scriptum.app.room.converter.NoteTypeConverter;
-import sgtmelon.scriptum.office.annot.key.NoteType;
 
 /**
  * Класс для общения Dao категорий {@link RoomDb}

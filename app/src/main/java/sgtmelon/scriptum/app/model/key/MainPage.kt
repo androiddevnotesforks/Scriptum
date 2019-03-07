@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.annot.key
+package sgtmelon.scriptum.app.model.key
 
 import sgtmelon.scriptum.R
 

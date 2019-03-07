@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.state
+package sgtmelon.scriptum.app.model.state
 
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.office.utils.HelpUtils.Note.isAllCheck

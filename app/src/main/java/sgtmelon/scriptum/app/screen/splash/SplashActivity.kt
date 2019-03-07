@@ -6,8 +6,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProviders
-import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.office.data.NoteData
+import sgtmelon.scriptum.app.model.data.NoteData
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 /**

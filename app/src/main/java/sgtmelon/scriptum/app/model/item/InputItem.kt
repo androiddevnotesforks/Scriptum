@@ -24,7 +24,7 @@ class InputItem(
 
     fun getValue(undo: Boolean) = if (undo) valueFrom else valueTo
 
-    override fun toString(): String { // TODO прибрать
+    override fun toString(): String {
         val stringPosition = if (position != -1) " | position = $position" else ""
 
         val stringValueFrom = "from = " + if (valueFrom != "") valueFrom else "empty"

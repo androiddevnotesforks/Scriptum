@@ -8,8 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.PagerAdapter
+import sgtmelon.scriptum.app.model.data.IntroData
 import sgtmelon.scriptum.app.screen.main.MainActivity
-import sgtmelon.scriptum.office.data.IntroData
 import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 /**

@@ -30,20 +30,20 @@ import sgtmelon.scriptum.app.control.input.InputDef
 import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.control.touch.RollTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
+import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
+import sgtmelon.scriptum.app.model.key.NoteType
+import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.office.AppTextWatcher
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.annot.key.NoteType
-import sgtmelon.scriptum.office.data.NoteData
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
-import sgtmelon.scriptum.widget.color.ColorDialog
 
 /**
  * Фрагмент для отображения заметки списка

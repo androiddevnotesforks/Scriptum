@@ -22,8 +22,4 @@ public interface ItemListener {
         void setDrag(boolean drag);
     }
 
-    interface RollWatcher {
-        void afterRollChanged(int p, @NonNull String text);
-    }
-
 }

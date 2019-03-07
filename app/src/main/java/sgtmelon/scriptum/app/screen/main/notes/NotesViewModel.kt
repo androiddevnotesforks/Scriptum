@@ -5,12 +5,12 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.def.OptionsDef
-import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 

@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RollAdapter
 import sgtmelon.scriptum.app.model.item.RollItem
+import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.state.NoteState
 import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
 
 /**

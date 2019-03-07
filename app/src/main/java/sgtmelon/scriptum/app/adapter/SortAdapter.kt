@@ -5,10 +5,10 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.SortHolder
 import sgtmelon.scriptum.app.model.item.SortItem
+import sgtmelon.scriptum.app.model.state.SortState
+import sgtmelon.scriptum.dialog.SortDialog
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.state.SortState
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
-import sgtmelon.scriptum.widget.SortDialog
 
 
 /**
