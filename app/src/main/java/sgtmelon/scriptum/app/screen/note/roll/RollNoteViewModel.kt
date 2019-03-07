@@ -1,16 +1,17 @@
 package sgtmelon.scriptum.app.screen.note.roll
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
+import sgtmelon.scriptum.app.control.input.InputDef
 import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.control.touch.RollTouchControl
 import sgtmelon.scriptum.app.model.NoteRepo
@@ -19,6 +20,7 @@ import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
+import sgtmelon.scriptum.app.room.converter.StringConverter
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.office.annot.key.NoteType
 import sgtmelon.scriptum.office.data.NoteData
@@ -180,172 +182,76 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         noteCallback.finish()
     }
 
-    override fun onMenuUndo() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onMenuUndo() = onMenuUndoRedo(undo = true)
 
-        //Log.i(TAG, "onUndoClick");
-        //
-        //        final InputItem inputItem = inputControl.undo();
-        //
-        //        if (inputItem != null) {
-        //            inputControl.setEnabled(false);
-        //
-        //            final CursorItem cursorItem = inputItem.getCursorItem();
-        //
-        //            final NoteRepo noteRepo = vm.getNoteRepo();
-        //            final NoteItem noteItem = noteRepo.getNoteItem();
-        //            final List<RollItem> listRoll = noteRepo.getListRoll();
-        //
-        //            RollItem rollItem;
-        //
-        //            switch (inputItem.getTag()) {
-        //                case InputDef.rank:
-        //                    final StringConv stringConv = new StringConv();
-        //                    final List<Long> rankId = stringConv.fromString(inputItem.getValueFrom());
-        //
-        //                    noteItem.setRankId(rankId);
-        //                    break;
-        //                case InputDef.color:
-        //                    menuControl.setColorFrom(noteItem.getColor());
-        //
-        //                    final int color = Integer.parseInt(inputItem.getValueFrom());
-        //                    noteItem.setColor(color);
-        //
-        //                    menuControl.startTint(color);
-        //                    break;
-        //                case InputDef.name:
-        //                    assert cursorItem != null : "Cursor @NonNull for this tag";
-        //
-        //                    nameEnter.requestFocus();
-        //                    nameEnter.setText(inputItem.getValueFrom());
-        //                    nameEnter.setSelection(cursorItem.getValueFrom());
-        //                    break;
-        //                case InputDef.roll:
-        //                    assert cursorItem != null : "Cursor @NonNull for this tag";
-        //
-        //                    final int position = inputItem.getPosition();
-        //                    listRoll.get(position).setText(inputItem.getValueFrom());
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.setCursorPosition(cursorItem.getValueFrom());
-        //                    adapter.notifyItemChanged(position);
-        //                    break;
-        //                case InputDef.rollAdd:
-        //                    listRoll.remove(inputItem.getPosition());
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.notifyItemRemoved(inputItem.getPosition());
-        //                    break;
-        //                case InputDef.rollRemove:
-        //                    rollItem = new RollItem(inputItem.getValueFrom());
-        //                    listRoll.add(inputItem.getPosition(), rollItem);
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.setCursorPosition(rollItem.getText().length());
-        //                    adapter.notifyItemInserted(inputItem.getPosition());
-        //                    break;
-        //                case InputDef.rollMove:
-        //                    final int positionStart = Integer.parseInt(inputItem.getValueTo());
-        //                    final int positionEnd = Integer.parseInt(inputItem.getValueFrom());
-        //
-        //                    rollItem = listRoll.get(positionStart);
-        //                    listRoll.remove(positionStart);
-        //                    listRoll.add(positionEnd, rollItem);
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.notifyItemMoved(positionStart, positionEnd);
-        //                    break;
-        //            }
-        //
-        //            if (inputItem.getTag() != InputDef.roll) {
-        //                inputControl.setEnabled(true);
-        //            }
-        //        }
-        //
-        //        bindInput();
-    }
+    override fun onMenuRedo() = onMenuUndoRedo(undo = false)
 
-    override fun onMenuRedo() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    @SuppressLint("SwitchIntDef") // TODO
+    private fun onMenuUndoRedo(undo: Boolean) {
+        val inputItem = if (undo) inputControl.undo() else inputControl.redo()
 
-        //final InputItem inputItem = inputControl.redo();
-        //
-        //        if (inputItem != null) {
-        //            inputControl.setEnabled(false);
-        //
-        //            final CursorItem cursorItem = inputItem.getCursorItem();
-        //
-        //            final NoteRepo noteRepo = vm.getNoteRepo();
-        //            final NoteItem noteItem = noteRepo.getNoteItem();
-        //            final List<RollItem> listRoll = noteRepo.getListRoll();
-        //
-        //            RollItem rollItem;
-        //
-        //            switch (inputItem.getTag()) {
-        //                case InputDef.rank:
-        //                    final StringConv stringConv = new StringConv();
-        //                    final List<Long> rankId = stringConv.fromString(inputItem.getValueTo());
-        //
-        //                    noteItem.setRankId(rankId);
-        //                    break;
-        //                case InputDef.color:
-        //                    menuControl.setColorFrom(noteItem.getColor());
-        //
-        //                    final int colorTo = Integer.parseInt(inputItem.getValueTo());
-        //                    noteItem.setColor(colorTo);
-        //
-        //                    menuControl.startTint(colorTo);
-        //                    break;
-        //                case InputDef.name:
-        //                    assert cursorItem != null : "Cursor @NonNull for this tag";
-        //
-        //                    nameEnter.requestFocus();
-        //                    nameEnter.setText(inputItem.getValueTo());
-        //                    nameEnter.setSelection(cursorItem.getValueTo());
-        //                    break;
-        //                case InputDef.roll:
-        //                    assert cursorItem != null : "Cursor @NonNull for this tag";
-        //
-        //                    final int position = inputItem.getPosition();
-        //                    listRoll.get(position).setText(inputItem.getValueTo());
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.setCursorPosition(cursorItem.getValueTo());
-        //                    adapter.notifyItemChanged(position);
-        //                    break;
-        //                case InputDef.rollAdd:
-        //                    rollItem = new RollItem(inputItem.getValueTo());
-        //                    listRoll.add(inputItem.getPosition(), rollItem);
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.setCursorPosition(rollItem.getText().length());
-        //                    adapter.notifyItemInserted(inputItem.getPosition());
-        //                    break;
-        //                case InputDef.rollRemove:
-        //                    listRoll.remove(inputItem.getPosition());
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.notifyItemRemoved(inputItem.getPosition());
-        //                    break;
-        //                case InputDef.rollMove:
-        //                    final int positionStart = Integer.parseInt(inputItem.getValueFrom());
-        //                    final int positionEnd = Integer.parseInt(inputItem.getValueTo());
-        //
-        //                    rollItem = listRoll.get(positionStart);
-        //                    listRoll.remove(positionStart);
-        //                    listRoll.add(positionEnd, rollItem);
-        //
-        //                    adapter.setList(listRoll);
-        //                    adapter.notifyItemMoved(positionStart, positionEnd);
-        //                    break;
-        //            }
-        //
-        //            if (inputItem.getTag() != InputDef.roll) {
-        //                inputControl.setEnabled(true);
-        //            }
-        //        }
-        //
-        //        bindInput();
+        if (inputItem != null) {
+            inputControl.setEnabled(false)
+
+            val noteItem = noteRepo.noteItem
+
+            when (inputItem.tag) {
+                InputDef.rank ->
+                    noteItem.rankId = StringConverter().fromString(inputItem.getValue(undo))
+                InputDef.color -> {
+                    val colorFrom = noteItem.color
+                    val colorTo = Integer.parseInt(inputItem.getValue(undo))
+
+                    noteItem.color = colorTo
+
+                    callback.tintToolbar(colorFrom, colorTo)
+                }
+                InputDef.name -> callback.changeName(
+                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
+                )
+                InputDef.roll -> {
+                    val p = inputItem.position
+                    with(noteRepo.listRoll) {
+                        get(p).text = inputItem.getValue(undo)
+                        callback.notifyItemChanged(
+                                p, inputItem.cursorItem!!.getValue(undo), list = this
+                        )
+                    }
+                }
+                InputDef.rollAdd, InputDef.rollRemove -> {
+                    val p = inputItem.position
+
+                    val tag = inputItem.tag
+                    if (tag == InputDef.rollAdd && undo || tag == InputDef.rollRemove && !undo) {
+                        with(noteRepo.listRoll) {
+                            removeAt(p)
+                            callback.notifyItemRemoved(p, list = this)
+                        }
+                    } else {
+                        val rollItem = RollItem(inputItem.getValue(undo))
+                        with(noteRepo.listRoll) {
+                            add(p, rollItem)
+                            callback.notifyItemInserted(p, rollItem.text.length, list = this)
+                        }
+                    }
+                }
+                InputDef.rollMove -> {
+                    val from = Integer.parseInt(inputItem.getValue(!undo))
+                    val to = Integer.parseInt(inputItem.getValue(undo))
+
+                    with(noteRepo.listRoll) {
+                        swap(from, to)
+                        callback.notifyItemMoved(from, to, list = this)
+                    }
+                }
+            }
+
+            if (inputItem.tag != InputDef.roll) {
+                inputControl.setEnabled(true)
+            }
+        }
+
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
     }
 
     override fun onMenuRank() =
@@ -373,11 +279,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         }
 
         noteRepo = iRoomRepo.saveRollNote(noteRepo, noteState.isCreate)
-
-        // TODO проверить id
-        noteRepo.listRoll.forEach {
-            Log.i("HERE", "id = ${it.id} | ps = ${it.position} | text = ${it.text}")
-        }
 
         if (noteState.isCreate) {
             noteState.isCreate = false

@@ -143,9 +143,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
                         inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
                 )
                 InputDef.text -> callback.changeText(
-                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
+                        inputItem.getValue(undo),  inputItem.cursorItem!!.getValue(undo)
                 )
-
             }
 
             inputControl.setEnabled(true)

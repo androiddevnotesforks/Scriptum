@@ -234,7 +234,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
                 saveEnabled = isSaveEnable
             }.executePendingBindings()
 
-    override fun onPressBack()= viewModel.onPressBack()
+    override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) =
             menuControl.apply { setColorFrom(from) }.startTint(to)
@@ -243,6 +243,14 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
+
+    override fun changeName(text: String, cursor: Int) {
+        nameEnter?.apply {
+            requestFocus()
+            setText(text)
+            setSelection(cursor)
+        }
+    }
 
     override fun clearEnter(): String = rollEnter?.clear() ?: ""
 
@@ -274,6 +282,20 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun notifyDataSetChanged(list: MutableList<RollItem>) =
             adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
+
+    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>) {
+        adapter.apply {
+            cursorPosition = cursor
+            notifyItemInserted(p, list)
+        }
+    }
+
+    override fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>) {
+        adapter.apply {
+            cursorPosition = cursor
+            notifyItemChanged(p, list)
+        }
+    }
 
     override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) =
             adapter.notifyItemRemoved(p, list)

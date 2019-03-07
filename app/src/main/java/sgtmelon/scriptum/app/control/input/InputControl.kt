@@ -2,6 +2,7 @@ package sgtmelon.scriptum.app.control.input
 
 import android.text.TextUtils
 import android.util.Log
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.InputItem
 import sgtmelon.scriptum.office.annot.DbAnn
@@ -102,106 +103,44 @@ class InputControl : InputCallback {
 
     override fun setEnabled(enabled: Boolean) {
         this.enabled = enabled
-    } // TODO extension
+    } // TODO extension (disableEnabled)
 
-    override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.rank)
-                .setValueFrom(TextUtils.join(DbAnn.Value.DIVIDER, valueFrom))
-                .setValueTo(TextUtils.join(DbAnn.Value.DIVIDER, valueTo))
-                .create()
+    // TODO проверить работу
 
-        add(inputItem)
-    }
+    override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) =
+            add(InputItem(InputDef.rank,
+                    TextUtils.join(DbAnn.Value.DIVIDER, valueFrom),
+                    TextUtils.join(DbAnn.Value.DIVIDER, valueTo)
+            ))
 
-    override fun onColorChange(valueFrom: Int, valueTo: Int) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.color)
-                .setValueFrom(Integer.toString(valueFrom))
-                .setValueTo(Integer.toString(valueTo))
-                .create()
+    override fun onColorChange(valueFrom: Int, valueTo: Int) =
+            add(InputItem(InputDef.color, valueFrom.toString(), valueTo.toString()))
 
-        add(inputItem)
-    }
+    override fun onNameChange(valueFrom: String, valueTo: String, cursorItem: CursorItem) =
+            add(InputItem(InputDef.name, valueFrom, valueTo, cursorItem))
 
-    override fun onNameChange(valueFrom: String, valueTo: String,
-                              cursorItem: CursorItem) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.name)
-                .setValueFrom(valueFrom)
-                .setValueTo(valueTo)
-                .setCursorItem(cursorItem)
-                .create()
+    override fun onTextChange(valueFrom: String, valueTo: String, cursorItem: CursorItem) =
+            add(InputItem(InputDef.text, valueFrom, valueTo, cursorItem))
 
-        add(inputItem)
-    }
+    override fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursorItem: CursorItem) =
+            add(InputItem(InputDef.roll, valueFrom, valueTo, cursorItem, p))
 
-    override fun onTextChange(valueFrom: String, valueTo: String,
-                              cursorItem: CursorItem) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.text)
-                .setValueFrom(valueFrom)
-                .setValueTo(valueTo)
-                .setCursorItem(cursorItem)
-                .create()
+    override fun onRollAdd(p: Int, valueTo: String) =
+            add(InputItem(InputDef.rollAdd, "", valueTo, null, p))
 
-        add(inputItem)
-    }
+    override fun onRollRemove(p: Int, valueFrom: String) =
+            add(InputItem(InputDef.rollRemove, valueFrom, "", null, p))
 
-    override fun onRollChange(p: Int, valueFrom: String, valueTo: String,
-                              cursorItem: CursorItem) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.roll)
-                .setPosition(p)
-                .setValueFrom(valueFrom)
-                .setValueTo(valueTo)
-                .setCursorItem(cursorItem)
-                .create()
-
-        add(inputItem)
-    }
-
-    override fun onRollAdd(p: Int, valueTo: String) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.rollAdd)
-                .setPosition(p)
-                .setValueFrom("")
-                .setValueTo(valueTo)
-                .create()
-
-        add(inputItem)
-    }
-
-    override fun onRollRemove(p: Int, valueFrom: String) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.rollRemove)
-                .setPosition(p)
-                .setValueFrom(valueFrom)
-                .setValueTo("")
-                .create()
-
-        add(inputItem)
-    }
-
-    override fun onRollMove(valueFrom: Int, valueTo: Int) {
-        val inputItem = InputItem.Builder()
-                .setTag(InputDef.rollMove)
-                .setValueFrom(Integer.toString(valueFrom))
-                .setValueTo(Integer.toString(valueTo))
-                .create()
-
-        add(inputItem)
-    }
+    override fun onRollMove(valueFrom: Int, valueTo: Int) =
+            add(InputItem(InputDef.rollMove, valueFrom.toString(), valueTo.toString()))
 
     private fun listAll() {
+        if (!BuildConfig.DEBUG) return
+
         Log.i(TAG, "listAll:")
-
         for (i in listInput.indices) {
-            val inputItem = listInput[i]
-            val ps = if (position == i) " | cursor = $position"
-            else ""
-
-            Log.i(TAG, "i = " + i + " | " + inputItem.toString() + ps)
+            val ps = if (position == i) " | cursor = $position" else ""
+            Log.i(TAG, "i = " + i + " | " + listInput[i].toString() + ps)
         }
     }
 

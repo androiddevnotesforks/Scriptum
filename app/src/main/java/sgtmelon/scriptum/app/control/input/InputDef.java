@@ -7,8 +7,6 @@ import sgtmelon.scriptum.app.model.item.InputItem;
  * Аннотация для {@link InputItem#tag}, {@link InputControl}
  */
 @IntDef({
-        InputDef.indefinite,
-
         InputDef.rank,
         InputDef.color,
 
@@ -21,9 +19,6 @@ import sgtmelon.scriptum.app.model.item.InputItem;
         InputDef.rollMove
 })
 public @interface InputDef {
-
-    int indefinite = -1; //Не использовать
-
     int rank = 0;
     int color = 1;
 
@@ -34,5 +29,4 @@ public @interface InputDef {
     int rollAdd = 5;
     int rollRemove = 6;
     int rollMove = 7;
-
 }

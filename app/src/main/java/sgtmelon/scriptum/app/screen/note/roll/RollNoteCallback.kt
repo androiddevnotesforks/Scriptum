@@ -40,6 +40,8 @@ interface RollNoteCallback {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
+    fun changeName(text: String, cursor: Int)
+
     fun clearEnter(): String
 
     fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
@@ -53,6 +55,10 @@ interface RollNoteCallback {
     fun notifyList(list: MutableList<RollItem>)
 
     fun notifyDataSetChanged(list: MutableList<RollItem>)
+
+    fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>)
+
+    fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>)
 
     fun notifyItemRemoved(p: Int, list: MutableList<RollItem>)
 
