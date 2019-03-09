@@ -7,7 +7,7 @@ import android.os.Build
 import android.util.AttributeSet
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import sgtmelon.iconanim.library.IconAnimUtil
+import sgtmelon.iconanim.IconAnimControl
 
 /**
  * Версия [SwitchButton] с анимацией иконок при их смене
@@ -15,7 +15,7 @@ import sgtmelon.iconanim.library.IconAnimUtil
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(context, attrs) {
 
-    private val iconAnimUtil: IconAnimUtil?
+    private val iconAnimControl: IconAnimControl?
 
     private val drawableDisableAnim: AnimatedVectorDrawable?
     private val drawableSelectAnim: AnimatedVectorDrawable?
@@ -37,25 +37,27 @@ class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(con
             drawableSelectAnim = null
         }
 
-        iconAnimUtil = if (drawableSelectAnim != null && drawableDisableAnim != null) {
-            IconAnimUtil(getContext(), drawableSelectAnim, drawableDisableAnim, this)
-        } else null
+        iconAnimControl = if (drawableSelectAnim != null && drawableDisableAnim != null) {
+            IconAnimControl(getContext(), drawableSelectAnim, drawableDisableAnim, this)
+        } else {
+            null
+        }
 
     }
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         if (!needAnim) {
             setImageDrawable(if (drawableOn) drawableSelect else drawableDisable)
-        } else if (iconAnimUtil != null) {
-            iconAnimUtil.animState = drawableOn
+        } else if (iconAnimControl != null) {
+            iconAnimControl.animState = drawableOn
             if (drawableOn) {
-                setImageDrawable(iconAnimUtil.animOn)
-                iconAnimUtil.animOn?.start()
+                setImageDrawable(iconAnimControl.animOn)
+                iconAnimControl.animOn?.start()
             } else {
-                setImageDrawable(iconAnimUtil.animOff)
-                iconAnimUtil.animOff?.start()
+                setImageDrawable(iconAnimControl.animOff)
+                iconAnimControl.animOff?.start()
             }
-            iconAnimUtil.waitAnimationEnd()
+            iconAnimControl.waitAnimationEnd()
         }
     }
 

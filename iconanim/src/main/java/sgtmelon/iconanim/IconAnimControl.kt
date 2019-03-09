@@ -1,4 +1,4 @@
-package sgtmelon.iconanim.library
+package sgtmelon.iconanim
 
 import android.content.Context
 import android.graphics.drawable.AnimatedVectorDrawable
@@ -10,10 +10,10 @@ import androidx.annotation.RequiresApi
  * Handler для регистрации начала и конца анимации
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class IconAnimUtil(context: Context,
-                   val animOn: AnimatedVectorDrawable?,
-                   val animOff: AnimatedVectorDrawable?,
-                   private val iconAnimControl: IconAnimControl) {
+class IconAnimControl(context: Context,
+                      val animOn: AnimatedVectorDrawable?,
+                      val animOff: AnimatedVectorDrawable?,
+                      private val callback: Callback) {
 
     private val animTime: Int = context.resources.getInteger(android.R.integer.config_shortAnimTime)
 
@@ -25,7 +25,7 @@ class IconAnimUtil(context: Context,
         if (animOn.isRunning || animOff.isRunning) {
             waitAnimationEnd()
         } else {
-            iconAnimControl.setDrawable(animState, false)
+            callback.setDrawable(animState, false)
         }
     }
 
@@ -33,6 +33,10 @@ class IconAnimUtil(context: Context,
 
     fun waitAnimationEnd() {
         animHandler.postDelayed(animRunnable, animTime.toLong())
+    }
+
+    interface Callback {
+        fun setDrawable(drawableOn: Boolean, needAnim: Boolean)
     }
 
 }

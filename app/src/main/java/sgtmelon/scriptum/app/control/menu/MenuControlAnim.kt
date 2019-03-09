@@ -8,7 +8,7 @@ import android.view.Window
 
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.iconanim.library.IconAnimUtil
+import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
 
@@ -28,7 +28,7 @@ class MenuControlAnim(context: Context,
     private val cancelOffAnim = context.getDrawable(R.drawable.anim_cancel_exit, R.attr.clContent)
             as AnimatedVectorDrawable?
 
-    private val iconAnimUtil: IconAnimUtil = IconAnimUtil(
+    private val iconAnimControl: IconAnimControl = IconAnimControl(
             context, cancelOnAnim, cancelOffAnim, this
     )
 
@@ -36,15 +36,15 @@ class MenuControlAnim(context: Context,
         if (!needAnim) {
             toolbar?.navigationIcon = if (drawableOn) cancelOn else cancelOff
         } else {
-            iconAnimUtil.animState = drawableOn
+            iconAnimControl.animState = drawableOn
             if (drawableOn) {
-                toolbar?.navigationIcon = iconAnimUtil.animOn
-                iconAnimUtil.animOn?.start()
+                toolbar?.navigationIcon = iconAnimControl.animOn
+                iconAnimControl.animOn?.start()
             } else {
-                toolbar?.navigationIcon = iconAnimUtil.animOff
-                iconAnimUtil.animOff?.start()
+                toolbar?.navigationIcon = iconAnimControl.animOff
+                iconAnimControl.animOff?.start()
             }
-            iconAnimUtil.waitAnimationEnd()
+            iconAnimControl.waitAnimationEnd()
         }
     }
 

@@ -9,14 +9,16 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.core.content.ContextCompat
+import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.iconanim.R
-import sgtmelon.iconanim.library.IconAnimControl
 
 /**
  * Кнопка с автоматизацией процесса смены иконки
  */
-open class SwitchButton(internal val context: Context, attrs: AttributeSet)
-    : AppCompatImageButton(context, attrs), IconAnimControl {
+open class SwitchButton(internal val context:
+                        Context, attrs: AttributeSet
+) : AppCompatImageButton(context, attrs),
+        IconAnimControl.Callback {
 
     @DrawableRes protected val srcDisable: Int
     @DrawableRes protected val srcSelect: Int

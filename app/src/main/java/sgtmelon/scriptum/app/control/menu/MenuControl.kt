@@ -7,7 +7,7 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.iconanim.library.IconAnimControl
+import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
@@ -23,7 +23,7 @@ open class MenuControl(protected val context: Context,
                        private val window: Window,
                        protected val toolbar: Toolbar?,
                        private val indicator: View?
-) : IconAnimControl {
+) : IconAnimControl.Callback {
 
     private val statusOnDark = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
 
