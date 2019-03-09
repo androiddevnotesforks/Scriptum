@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui
+package sgtmelon.scriptum.data
 
 enum class Scroll {
     START,

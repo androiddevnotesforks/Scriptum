@@ -1,8 +1,8 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.data
 
 import android.content.Context
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestUtils
+import sgtmelon.scriptum.TestUtils.random
 import sgtmelon.scriptum.app.model.data.ColorData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.key.NoteType
@@ -15,7 +15,7 @@ class TestData(private val context: Context) {
             create = context.getTime()
             name = context.getString(R.string.test_note_name)
             text = context.getString(R.string.test_note_text)
-            color = TestUtils.random(0 until ColorData.size)
+            color = (0 until ColorData.size).random()
             type = NoteType.TEXT
         }
 

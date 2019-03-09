@@ -5,12 +5,12 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 
 class RankAssert : BasicMatch() {
 
-    fun onDisplayContent(count: Int) {
+    fun onDisplayContent(empty: Boolean) {
         onDisplay(R.id.rank_parent_container)
 
         onDisplayToolbar()
 
-        if (count == 0) {
+        if (empty) {
             onDisplay(R.id.info_title_text, R.string.info_rank_title)
             onDisplay(R.id.info_details_text, R.string.info_rank_details)
             doesNotDisplay(R.id.rank_recycler)

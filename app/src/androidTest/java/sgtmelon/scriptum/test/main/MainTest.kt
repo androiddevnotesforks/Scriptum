@@ -34,7 +34,10 @@ class MainTest : ParentTest() {
 
     @Test fun testNavigation() {
         MainScreen {
-            assert { onDisplayContent() }
+            assert {
+                onDisplayContent()
+                onDisplayContent(MainPage.Name.NOTES)
+            }
 
             repeat(times = 3) {
                 for (page in listPage) {
@@ -46,8 +49,13 @@ class MainTest : ParentTest() {
     }
 
     @Test fun testDisplayInfo() {
+        db.clearAllTables()
+
         MainScreen {
-            assert { onDisplayContent() }
+            assert {
+                onDisplayContent()
+                onDisplayContent(MainPage.Name.NOTES)
+            }
 
             repeat(times = 3) {
                 for (page in listPage) {

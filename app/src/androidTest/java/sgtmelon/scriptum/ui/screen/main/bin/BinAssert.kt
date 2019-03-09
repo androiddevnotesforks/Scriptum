@@ -5,12 +5,12 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 
 class BinAssert : BasicMatch() {
 
-    fun onDisplayContent(count: Int) {
+    fun onDisplayContent(empty: Boolean) {
         onDisplay(R.id.bin_parent_container)
 
         onDisplayToolbar(R.id.toolbar_container, R.string.title_bin)
 
-        if (count == 0) {
+        if (empty) {
             onDisplay(R.id.info_title_text, R.string.info_bin_title)
             onDisplay(R.id.info_details_text, R.string.info_bin_details)
             doesNotDisplay(R.id.bin_recycler)

@@ -9,9 +9,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.splash.SplashActivity
+import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.test.TestData
 import sgtmelon.scriptum.ui.screen.main.MainScreen
+import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.roll.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.text.TextNoteScreen
 import sgtmelon.scriptum.ui.widget.note.State
@@ -90,7 +91,9 @@ class NotesTest : ParentTest() {
         db.clearAllTables()
 
         MainScreen {
-            notesScreen {
+            assert { onDisplayContent() }
+
+            NotesScreen {
                 testAddTextNote()
 
                 onLongClickItem(0)
@@ -98,7 +101,7 @@ class NotesTest : ParentTest() {
                 noteDialog { assert { onDisplayContent(TestData(context).textNoteItem) } }
                 pressBack()
 
-                assert { onDisplayContent(count) }
+                assert { onDisplayContent(empty = count == 0) }
             }
         }
     }

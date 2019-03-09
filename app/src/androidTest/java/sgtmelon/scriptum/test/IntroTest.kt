@@ -6,7 +6,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.screen.intro.IntroActivity
-import sgtmelon.scriptum.ui.Scroll
+import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.ui.screen.intro.IntroScreen
 
 /**
