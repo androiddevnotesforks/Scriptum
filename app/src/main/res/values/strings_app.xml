@@ -115,30 +115,7 @@
     <string name="about_app_for">for Android</string>
     <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>
     <string name="about_app_logo_designer">Designer:\nPoplekina Arina</string>
-    <string name="about_app_used_libraries">Used libraries:</string>
-    <string name="about_app_libraries" translatable="false">
-        androidx.lifecycle:\n\t
-            lifecycle-extensions:2.0.0-beta01\n\t
-            lifecycle-compiler:2.0.0-beta01\n
-
-        androidx.room:\n\t
-            room-runtime:2.0.0-beta01\n\t
-            room-testing:2.0.0-beta01\n\t
-            room-compiler:2.0.0-beta01\n
-
-        androidx.appcompat:appcompat:1.0.0-beta01\n
-        androidx.legacy:legacy-support-v4:1.0.0-beta01\n
-        androidx.cardview:cardview:1.0.0-beta01\n
-
-        androidx.vectordrawable:\n\t
-            vectordrawable:1.0.0-beta01\n\t
-            vectordrawable-animated:1.0.0-beta01\n
-
-        com.google.android.material:material:1.0.0-beta01\n
-
-        com.romandanylyk:pageindicatorview:1.0.1
-    </string>
-    <string name="about_app_version">App version: 1.0.0</string>
+    <string name="about_app_version">App version: 1.1.0</string>
 
 
     <!-- EditText hint -->
