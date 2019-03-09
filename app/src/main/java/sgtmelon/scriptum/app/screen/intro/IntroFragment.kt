@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 import sgtmelon.scriptum.office.utils.AppUtils.bind
-import sgtmelon.scriptum.office.utils.AppUtils.change
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
@@ -44,7 +43,11 @@ class IntroFragment : Fragment() {
         outState.putInt(PAGE_CURRENT, page)
     }
 
-    fun setChange(alpha: Float, scale: Float) = parentContainer?.change(alpha, scale)
+    fun setChange(alpha: Float, scale: Float) = parentContainer?.apply {
+        this.alpha = alpha
+        scaleX = scale
+        scaleY = scale
+    }
 
     companion object {
         private const val PAGE_CURRENT = "ARGUMENT_INTRO_PAGE_CURRENT"

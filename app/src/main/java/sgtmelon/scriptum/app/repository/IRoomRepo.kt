@@ -24,7 +24,7 @@ interface IRoomRepo {
 
     fun getRankVisibleList(): List<Long>
 
-    fun getNoteRepo(id: Long): NoteModel
+    fun getNoteModel(id: Long): NoteModel
 
     fun getRankDialogName(): Array<String>
 

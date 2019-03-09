@@ -34,12 +34,6 @@ object AppUtils {
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    fun View.change(alpha: Float, scale: Float) {
-        this.alpha = alpha
-        this.scaleX = scale
-        this.scaleY = scale
-    }
-
     fun IncludeInfoBinding.bind(page: Int) {
         icon = IntroData.icon[page]
         title = IntroData.title[page]

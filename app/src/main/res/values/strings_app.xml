@@ -39,7 +39,7 @@
 
 
     <!-- Name of channels & groups-->
-    <string name="notification_channel_id" translatable="false">handy_notes_channel_id</string>
+    <string name="notification_channel_id" translatable="false">scriptum_channel_id</string>
 
     <string name="notification_channel">Notes</string>
     <string name="notification_group">Notes</string>

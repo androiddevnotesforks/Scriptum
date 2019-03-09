@@ -11,12 +11,12 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 class TestData(private val context: Context) {
 
     val textNoteItem: NoteItem
-        get() = NoteItem(context.getTime(), "",
-                context.getString(R.string.test_note_name),
-                context.getString(R.string.test_note_text),
-                TestUtils.random(0 until ColorData.size), NoteType.TEXT,
-                ArrayList<Long>(), ArrayList<Long>(),
-                false, false
-        )
+        get() = NoteItem().apply {
+            create = context.getTime()
+            name = context.getString(R.string.test_note_name)
+            text = context.getString(R.string.test_note_text)
+            color = TestUtils.random(0 until ColorData.size)
+            type = NoteType.TEXT
+        }
 
 }

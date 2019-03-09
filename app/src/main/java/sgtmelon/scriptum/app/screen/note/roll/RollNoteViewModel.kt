@@ -58,7 +58,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     private lateinit var noteModel: NoteModel
 
     private lateinit var noteState: NoteState
-    private lateinit var rankVisibleList: List<Long>
+    private lateinit var listRankVisible: List<Long>
 
     private val iconState = IconState()
 
@@ -70,7 +70,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         if (::noteModel.isInitialized) return
 
-        rankVisibleList = iRoomRepo.getRankVisibleList()
+        listRankVisible = iRoomRepo.getRankVisibleList()
 
         if (id == NoteData.Default.ID) {
             val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.ROLL)
@@ -80,13 +80,13 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
             noteState = NoteState(isCreate = true)
         } else {
-            noteModel = iRoomRepo.getNoteRepo(id)
+            noteModel = iRoomRepo.getNoteModel(id)
 
             noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
         }
 
         callback.apply {
-            setupBinding(rankVisibleList.isEmpty())
+            setupBinding(listRankVisible.isEmpty())
             setupToolbar(noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankDialogName())
             setupEnter(inputControl)
@@ -265,7 +265,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteModel.noteItem.apply {
             change = context.getTime()
-            setText(listRoll.getCheck(), listRoll.size)
+            setRollText(listRoll.getCheck(), listRoll.size)
         }
 
         /**
@@ -278,6 +278,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         }
 
         noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
+        noteModel.statusItem.updateNote(noteModel.noteItem)
 
         noteState.ifCreate {
             if (!changeMode) {
@@ -298,7 +299,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         val noteItem = noteModel.noteItem
         noteItem.change = context.getTime()
-        noteItem.setText(if (isAll) 0 else size, size)
+        noteItem.setRollText(if (isAll) 0 else size, size)
 
         iRoomRepo.updateRollCheck(noteItem, !isAll)
 
@@ -392,7 +393,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         if (id == NoteData.Default.ID) return false
 
         val colorFrom = noteModel.noteItem.color
-        noteModel = iRoomRepo.getNoteRepo(id)
+        noteModel = iRoomRepo.getNoteModel(id)
 
         callback.notifyDataSetChanged(noteModel.listRoll)
         onMenuEdit(mode = false)
@@ -434,7 +435,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         val check = listRoll.getCheck()
 
         noteItem.change = context.getTime()
-        noteItem.setText(check, listRoll.size)
+        noteItem.setRollText(check, listRoll.size)
 
         if (checkState.setAll(check, listRoll.size)) callback.bindNoteItem(noteItem)
 
@@ -469,6 +470,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteItem.rankId = rankId
         noteItem.rankPs = rankPs
+
+        noteModel.statusItem.updateNote(noteModel.noteItem, listRankVisible)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
     }

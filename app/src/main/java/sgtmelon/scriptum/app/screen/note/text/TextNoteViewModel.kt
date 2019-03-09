@@ -50,7 +50,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     private lateinit var noteModel: NoteModel
 
     private lateinit var noteState: NoteState
-    private lateinit var rankVisibleList: List<Long>
+    private lateinit var listRankVisible: List<Long>
 
     private val iconState = IconState()
 
@@ -59,7 +59,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         if (::noteModel.isInitialized) return
 
-        rankVisibleList = iRoomRepo.getRankVisibleList()
+        listRankVisible = iRoomRepo.getRankVisibleList()
 
         if (id == NoteData.Default.ID) {
             val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.TEXT)
@@ -68,12 +68,12 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             noteModel = NoteModel(noteItem, ArrayList(), statusItem)
             noteState = NoteState(isCreate = true)
         } else {
-            noteModel = iRoomRepo.getNoteRepo(id)
+            noteModel = iRoomRepo.getNoteModel(id)
             noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
         }
 
         callback.apply {
-            setupBinding(rankVisibleList.isEmpty())
+            setupBinding(listRankVisible.isEmpty())
             setupToolbar(noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankDialogName())
             setupEnter(inputControl)
@@ -258,7 +258,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         if (id == NoteData.Default.ID) return false
 
         val colorFrom = noteModel.noteItem.color
-        noteModel = iRoomRepo.getNoteRepo(id)
+        noteModel = iRoomRepo.getNoteModel(id)
 
         onMenuEdit(mode = false)
         callback.tintToolbar(colorFrom, noteModel.noteItem.color)

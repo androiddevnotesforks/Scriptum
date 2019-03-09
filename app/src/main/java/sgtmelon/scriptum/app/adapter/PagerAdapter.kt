@@ -11,25 +11,16 @@ import java.util.*
  */
 class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
-    private val itemList = ArrayList<IntroFragment>()
+    private val listItem = ArrayList<IntroFragment>()
 
-    fun addItem(introFragment: IntroFragment) {
-        itemList.add(introFragment)
-    }
+    fun addItem(introFragment: IntroFragment) = listItem.add(introFragment)
 
-    fun notifyItem(position: Int, positionOffset: Float) {
-        val alpha = Math.max(0.2F, positionOffset)
-        val scale = Math.max(0.75F,  positionOffset)
+    fun notifyItem(position: Int, positionOffset: Float) = getItem(position)
+            .setChange(Math.max(0.2F, positionOffset), Math.max(0.75F, positionOffset))
 
-        getItem(position).setChange(alpha, scale)
-    }
 
-    override fun getItem(position: Int): IntroFragment {
-        return itemList[position]
-    }
+    override fun getItem(position: Int) = listItem[position]
 
-    override fun getCount(): Int {
-        return itemList.size
-    }
+    override fun getCount() = listItem.size
 
 }

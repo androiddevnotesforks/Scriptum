@@ -48,7 +48,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return list
     }
 
-    override fun getNoteRepo(id: Long): NoteModel {
+    override fun getNoteModel(id: Long): NoteModel {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 
         db = RoomDb.provideDb(context)
@@ -81,7 +81,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         noteItem.apply {
             change = context.getTime()
             type = NoteType.ROLL
-            setText(0, size)
+            setRollText(0, size)
         }
     }.close()
 
@@ -128,17 +128,16 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         db = RoomDb.provideDb(context)
 
         if (isCreate) {
-            val id = db.daoNote().insert(noteItem)
-            noteItem.id = id
+            noteItem.id = db.daoNote().insert(noteItem)
 
             /**
              * Запись в пунктов в БД
              */
             listRoll.forEachIndexed { index, rollItem ->
                 rollItem.apply {
-                    noteId = id
+                    noteId = noteItem.id
                     position = index
-                    setId(db.daoRoll().insert(rollItem))
+                    id = db.daoRoll().insert(rollItem)
                 }
             }
         } else {
@@ -151,7 +150,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
                 val id = rollItem.id
                 if (id == null) {
-                    rollItem.setId(db.daoRoll().insert(rollItem))
+                    rollItem.id = db.daoRoll().insert(rollItem)
                 } else {
                     db.daoRoll().update(id, index, rollItem.text)
                 }

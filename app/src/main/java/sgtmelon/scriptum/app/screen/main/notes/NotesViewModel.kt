@@ -104,12 +104,12 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         val isAll = checkText[0] == checkText[1]
 
         noteItem.change = context.getTime()
-        noteItem.setText(if (isAll) 0 else checkText[1], checkText[1])
+        noteItem.setRollText(if (isAll) 0 else checkText[1], checkText[1])
 
         iRoomRepo.updateNoteItemCheck(noteItem, !isAll)
 
         noteRepo.updateCheck(!isAll)
-        noteRepo.statusItem.updateNote(noteItem, true)
+        noteRepo.statusItem.updateNote(noteItem)
 
         return listNoteModel
     }
@@ -139,7 +139,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
                 val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
 
                 noteItem.type = NoteType.ROLL
-                noteItem.setText(0, listRoll.size)
+                noteItem.setRollText(0, listRoll.size)
 
                 db.daoNote().update(noteItem)
 
@@ -162,7 +162,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        noteRepo.statusItem.updateNote(noteItem, true)
+        noteRepo.statusItem.updateNote(noteItem)
 
         return listNoteModel
     }
