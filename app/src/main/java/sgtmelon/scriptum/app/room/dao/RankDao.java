@@ -13,7 +13,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import sgtmelon.scriptum.app.model.RankRepo;
+import sgtmelon.scriptum.app.model.RankModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RankItem;
 import sgtmelon.scriptum.app.model.key.NoteType;
@@ -50,7 +50,7 @@ public abstract class RankDao extends BaseDao {
     }
 
     @NonNull
-    public RankRepo get() {
+    public RankModel get() {
         final List<RankItem> listRank = getComplex();
 
         final List<String> listName = new ArrayList<>();
@@ -58,7 +58,7 @@ public abstract class RankDao extends BaseDao {
             listName.add(item.getName().toUpperCase());
         }
 
-        return new RankRepo(listRank, listName);
+        return new RankModel(listRank, listName);
     }
 
     /**

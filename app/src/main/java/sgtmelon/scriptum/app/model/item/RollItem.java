@@ -12,14 +12,14 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.room.converter.BoolConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
 
 import static androidx.room.ForeignKey.CASCADE;
 
 /**
- * Элемент списка заметок {@link NoteRepo}
+ * Элемент списка заметок {@link NoteModel}
  */
 @Entity(tableName = DbAnn.Roll.TABLE,
         foreignKeys = @ForeignKey(entity = NoteItem.class,

@@ -23,22 +23,22 @@ import sgtmelon.safedialog.MessageDialog
 import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RollAdapter
-import sgtmelon.scriptum.app.control.MenuControl
-import sgtmelon.scriptum.app.control.MenuControlAnim
 import sgtmelon.scriptum.app.control.input.InputCallback
-import sgtmelon.scriptum.app.control.input.InputDef
-import sgtmelon.scriptum.app.control.input.InputTextWatcher
+import sgtmelon.scriptum.app.control.menu.MenuControl
+import sgtmelon.scriptum.app.control.menu.MenuControlAnim
 import sgtmelon.scriptum.app.control.touch.RollTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
+import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.screen.note.NoteCallback
+import sgtmelon.scriptum.app.watcher.AppTextWatcher
+import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.dialog.ColorDialog
-import sgtmelon.scriptum.office.AppTextWatcher
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.clear
@@ -168,7 +168,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun setupEnter(inputCallback: InputCallback) {
         nameEnter?.addTextChangedListener(
-                InputTextWatcher(nameEnter, InputDef.name, viewModel, inputCallback)
+                InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
 
         nameEnter?.setOnEditorActionListener { _, i, _ ->

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.app.screen.main.notes
 
 import android.content.Intent
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 
 /**
  * Интерфейс для общения [NotesViewModel] и [NotesFragment]
@@ -16,10 +16,10 @@ interface NotesCallback {
 
     fun showOptionsDialog(itemArray: Array<String>, p: Int)
 
-    fun notifyDataSetChanged(list: MutableList<NoteRepo>)
+    fun notifyDataSetChanged(list: MutableList<NoteModel>)
 
-    fun notifyItemChanged(p: Int, list: MutableList<NoteRepo>)
+    fun notifyItemChanged(p: Int, list: MutableList<NoteModel>)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>)
+    fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)
 
 }

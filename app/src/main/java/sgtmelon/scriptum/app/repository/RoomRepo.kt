@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.app.repository
 
 import android.content.Context
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RankItem
@@ -21,7 +21,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      * BinViewModel
      */
 
-    override fun getNoteRepoList(fromBin: Boolean): MutableList<NoteRepo> {
+    override fun getNoteRepoList(fromBin: Boolean): MutableList<NoteModel> {
         db = RoomDb.provideDb(context)
         val list = db.daoNote().get(context, fromBin)
         db.close()
@@ -48,7 +48,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return list
     }
 
-    override fun getNoteRepo(id: Long): NoteRepo {
+    override fun getNoteRepo(id: Long): NoteModel {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 
         db = RoomDb.provideDb(context)
@@ -104,8 +104,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return array
     }
 
-    override fun saveTextNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo {
-        val noteItem = noteRepo.noteItem
+    override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean): NoteModel {
+        val noteItem = noteModel.noteItem
 
         db = RoomDb.provideDb(context)
 
@@ -118,12 +118,12 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         db.daoRank().update(noteItem.id, noteItem.rankId)
         db.close()
 
-        return noteRepo
+        return noteModel
     }
 
-    override fun saveRollNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo {
-        val noteItem = noteRepo.noteItem
-        val listRoll = noteRepo.listRoll
+    override fun saveRollNote(noteModel: NoteModel, isCreate: Boolean): NoteModel {
+        val noteItem = noteModel.noteItem
+        val listRoll = noteModel.listRoll
 
         db = RoomDb.provideDb(context)
 
@@ -168,7 +168,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         db.daoRank().update(noteItem.id, noteItem.rankId)
         db.close()
 
-        return noteRepo
+        return noteModel
     }
 
     override fun insertRank(p: Int, rankItem: RankItem): Long {

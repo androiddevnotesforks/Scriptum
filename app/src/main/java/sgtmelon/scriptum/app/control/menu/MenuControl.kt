@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.control
+package sgtmelon.scriptum.app.control.menu
 
 import android.animation.ValueAnimator
 import android.content.Context

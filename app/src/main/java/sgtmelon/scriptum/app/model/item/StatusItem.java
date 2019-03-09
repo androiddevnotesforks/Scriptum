@@ -12,13 +12,13 @@ import java.util.List;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.TaskStackBuilder;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.room.RoomDb;
 import sgtmelon.scriptum.app.screen.splash.SplashActivity;
 import sgtmelon.scriptum.office.utils.ColorUtils;
 
 /**
- * Управление закреплением заметки в статус баре {@link NoteRepo}
+ * Управление закреплением заметки в статус баре {@link NoteModel}
  */
 public final class StatusItem {
 

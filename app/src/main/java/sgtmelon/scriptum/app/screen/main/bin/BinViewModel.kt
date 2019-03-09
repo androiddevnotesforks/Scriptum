@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
@@ -21,15 +21,15 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
 
     lateinit var callback: BinCallback
 
-    private val noteRepoList: MutableList<NoteRepo> = ArrayList()
+    private val listNoteModel: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
         val list = iRoomRepo.getNoteRepoList(fromBin = true)
 
-        noteRepoList.clear()
-        noteRepoList.addAll(list)
+        listNoteModel.clear()
+        listNoteModel.addAll(list)
 
-        callback.notifyDataSetChanged(noteRepoList)
+        callback.notifyDataSetChanged(listNoteModel)
         callback.notifyMenuClearBin()
         callback.bind()
     }
@@ -37,15 +37,15 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     fun onClickClearBin() {
         iRoomRepo.clearBin()
 
-        noteRepoList.clear()
+        listNoteModel.clear()
 
-        callback.notifyDataSetChanged(noteRepoList)
+        callback.notifyDataSetChanged(listNoteModel)
         callback.notifyMenuClearBin()
         callback.bind()
     }
 
     fun onClickNote(p: Int) {
-        val noteItem = noteRepoList[p].noteItem
+        val noteItem = listNoteModel[p].noteItem
         callback.startNote(context.getNoteIntent(noteItem.type, noteItem.id))
     }
 
@@ -55,27 +55,27 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsDef.Bin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
-            OptionsDef.Bin.copy -> context.copyToClipboard(noteRepoList[p].noteItem)
+            OptionsDef.Bin.copy -> context.copyToClipboard(listNoteModel[p].noteItem)
             OptionsDef.Bin.clear -> callback.notifyItemRemoved(p, clearItem(p))
         }
 
         callback.notifyMenuClearBin()
     }
 
-    private fun restoreItem(p: Int): MutableList<NoteRepo> {
-        iRoomRepo.restoreNoteItem(noteRepoList[p].noteItem.id)
+    private fun restoreItem(p: Int): MutableList<NoteModel> {
+        iRoomRepo.restoreNoteItem(listNoteModel[p].noteItem.id)
 
-        noteRepoList.removeAt(p)
+        listNoteModel.removeAt(p)
 
-        return noteRepoList
+        return listNoteModel
     }
 
-    private fun clearItem(p: Int): MutableList<NoteRepo> {
-        iRoomRepo.clearNoteItem(noteRepoList[p].noteItem.id)
+    private fun clearItem(p: Int): MutableList<NoteModel> {
+        iRoomRepo.clearNoteItem(listNoteModel[p].noteItem.id)
 
-        noteRepoList.removeAt(p)
+        listNoteModel.removeAt(p)
 
-        return noteRepoList
+        return listNoteModel
     }
 
 }

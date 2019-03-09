@@ -6,7 +6,7 @@ import android.text.TextUtils
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
-import sgtmelon.scriptum.app.model.RankRepo
+import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
@@ -23,25 +23,25 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
     lateinit var callback: RankCallback
 
-    var rankRepo: RankRepo = RankRepo(ArrayList(), ArrayList())
+    var rankModel: RankModel = RankModel(ArrayList(), ArrayList())
         private set
 
     fun onUpdateData() {
         val db = RoomDb.provideDb(context)
-        rankRepo = db.daoRank().get()
+        rankModel = db.daoRank().get()
         db.close()
 
-        callback.notifyDataSetChanged(rankRepo.listRank)
-        callback.bindList(rankRepo.size())
+        callback.notifyDataSetChanged(rankModel.listRank)
+        callback.bindList(rankModel.size())
     }
 
     fun onShowRenameDialog(p: Int) =
-            callback.showRenameDialog(p, rankRepo.listRank[p].name, ArrayList(rankRepo.listName))
+            callback.showRenameDialog(p, rankModel.listRank[p].name, ArrayList(rankModel.listName))
 
     fun onRenameDialog(p: Int, name: String) {
-        rankRepo.set(p, name)
+        rankModel.set(p, name)
 
-        val rankItem = rankRepo.listRank[p]
+        val rankItem = rankModel.listRank[p]
 
         val db = RoomDb.provideDb(context)
         db.daoRank().update(rankItem)
@@ -54,7 +54,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     fun onEditorClick(i: Int, name: String): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        if (!TextUtils.isEmpty(name) && !rankRepo.listName.contains(name)) {
+        if (!TextUtils.isEmpty(name) && !rankModel.listName.contains(name)) {
             onClickAdd(simpleClick = true)
             return true
         }
@@ -67,35 +67,35 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         if (name.isEmpty()) return
 
-        val p = if (simpleClick) rankRepo.size() else 0
+        val p = if (simpleClick) rankModel.size() else 0
 
         val rankItem = RankItem(if (simpleClick) p else -1, name)
         rankItem.id = iRoomRepo.insertRank(p, rankItem)
 
-        rankRepo.add(p, rankItem)
+        rankModel.add(p, rankItem)
 
-        callback.scrollToItem(simpleClick, rankRepo.listRank)
+        callback.scrollToItem(simpleClick, rankModel.listRank)
     }
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
         val db = RoomDb.provideDb(context)
-        rankRepo.listRank.clear()
-        rankRepo.listRank.addAll(db.daoRank().update(dragFrom, dragTo))
+        rankModel.listRank.clear()
+        rankModel.listRank.addAll(db.daoRank().update(dragFrom, dragTo))
         db.daoNote().update(context)
         db.close()
 
-        callback.notifyDataSetChanged(rankRepo.listRank)
+        callback.notifyDataSetChanged(rankModel.listRank)
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
-        rankRepo.move(from, to)
-        callback.notifyItemMoved(from, to, rankRepo.listRank)
+        rankModel.move(from, to)
+        callback.notifyItemMoved(from, to, rankModel.listRank)
 
         return true
     }
 
     fun onClickVisible(p: Int) {
-        val rankItem = rankRepo.listRank[p]
+        val rankItem = rankModel.listRank[p]
         rankItem.isVisible = !rankItem.isVisible
 
         val db = RoomDb.provideDb(context)
@@ -107,7 +107,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     }
 
     fun onLongClickVisible(p: Int) {
-        val listRank = rankRepo.listRank
+        val listRank = rankModel.listRank
         val startAnim = BooleanArray(listRank.size)
 
         val clickVisible = listRank[p].isVisible
@@ -127,7 +127,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     }
 
     fun onClickCancel(p: Int) {
-        val rankItem = rankRepo.listRank[p]
+        val rankItem = rankModel.listRank[p]
 
         val db = RoomDb.provideDb(context)
         db.daoRank().delete(rankItem.name)
@@ -135,9 +135,9 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         db.daoNote().update(context)
         db.close()
 
-        rankRepo.remove(p)
+        rankModel.remove(p)
 
-        callback.notifyItemRemoved(p, rankRepo.listRank)
+        callback.notifyItemRemoved(p, rankModel.listRank)
     }
 
 }

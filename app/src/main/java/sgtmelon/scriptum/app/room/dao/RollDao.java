@@ -9,7 +9,7 @@ import java.util.List;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.room.RoomDb;
 
@@ -27,7 +27,7 @@ public abstract class RollDao extends BaseDao {
      *
      * @param noteId - Id заметки
      * @param text   - Текст потенциальных пунктов
-     * @return - Список для {@link NoteRepo}
+     * @return - Список для {@link NoteModel}
      */
     public List<RollItem> insert(long noteId, String text) {
         final String[] textToRoll = text.split("\n");

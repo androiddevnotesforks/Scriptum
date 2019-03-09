@@ -11,10 +11,10 @@ import sgtmelon.scriptum.office.annot.DbAnn
 /**
  * Репозиторий заметки
  */
-class NoteRepo(@field:Embedded var noteItem: NoteItem,
-               @field:Relation(parentColumn = DbAnn.Note.ID, entityColumn = DbAnn.Roll.NOTE_ID)
+class NoteModel(@field:Embedded var noteItem: NoteItem,
+                @field:Relation(parentColumn = DbAnn.Note.ID, entityColumn = DbAnn.Roll.NOTE_ID)
                var listRoll: MutableList<RollItem>,
-               @field:Ignore var statusItem: StatusItem) {
+                @field:Ignore var statusItem: StatusItem) {
 
     /**
      * При отметке всех пунктов

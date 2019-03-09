@@ -5,8 +5,8 @@ import sgtmelon.scriptum.app.model.item.RankItem
 /**
  * Репозиторий категории
  */
-class RankRepo(val listRank: MutableList<RankItem>,
-               val listName: MutableList<String>
+class RankModel(val listRank: MutableList<RankItem>,
+                val listName: MutableList<String>
 ) {
 
     fun size(): Int = listRank.size

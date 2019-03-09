@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.app.screen.main.bin
 
 import android.content.Intent
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 
 /**
  * Интерфейс для общения [BinViewModel] и [BinFragment]
@@ -18,8 +18,8 @@ interface BinCallback {
 
     fun notifyMenuClearBin()
 
-    fun notifyDataSetChanged(list: MutableList<NoteRepo>)
+    fun notifyDataSetChanged(list: MutableList<NoteModel>)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>)
+    fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)
 
 }

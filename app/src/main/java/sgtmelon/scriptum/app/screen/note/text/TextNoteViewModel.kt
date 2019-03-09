@@ -8,18 +8,18 @@ import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
-import sgtmelon.scriptum.app.control.input.InputDef
-import sgtmelon.scriptum.app.control.input.InputTextWatcher
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.StatusItem
+import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.converter.StringConverter
 import sgtmelon.scriptum.app.screen.note.NoteCallback
+import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
 import sgtmelon.scriptum.office.utils.PrefUtils
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
@@ -46,7 +46,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
     private var id: Long = NoteData.Default.ID
 
-    private lateinit var noteRepo: NoteRepo
+    private lateinit var noteModel: NoteModel
 
     private lateinit var noteState: NoteState
     private lateinit var rankVisibleList: List<Long>
@@ -54,7 +54,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     fun setupData(bundle: Bundle?) {
         id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
 
-        if (::noteRepo.isInitialized) return
+        if (::noteModel.isInitialized) return
 
         rankVisibleList = iRoomRepo.getRankVisibleList()
 
@@ -62,16 +62,16 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.TEXT)
             val statusItem = StatusItem(context, noteItem, false)
 
-            noteRepo = NoteRepo(noteItem, ArrayList(), statusItem)
+            noteModel = NoteModel(noteItem, ArrayList(), statusItem)
             noteState = NoteState(isCreate = true)
         } else {
-            noteRepo = iRoomRepo.getNoteRepo(id)
-            noteState = NoteState(isCreate = false, isBin = noteRepo.noteItem.isBin)
+            noteModel = iRoomRepo.getNoteRepo(id)
+            noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
         }
 
         callback.apply {
             setupBinding(rankVisibleList.isEmpty())
-            setupToolbar(noteRepo.noteItem.color, noteState)
+            setupToolbar(noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankDialogName())
             setupEnter(inputControl)
         }
@@ -91,27 +91,27 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
 
     override fun onMenuRestore() {
-        iRoomRepo.restoreNoteItem(noteRepo.noteItem.id)
+        iRoomRepo.restoreNoteItem(noteModel.noteItem.id)
         noteCallback.finish()
     }
 
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        noteRepo.noteItem.apply {
+        noteModel.noteItem.apply {
             change = context.getTime()
             isBin = false
         }
 
         onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
 
-        iRoomRepo.updateNoteItem(noteRepo.noteItem)
+        iRoomRepo.updateNoteItem(noteModel.noteItem)
     }
 
     override fun onMenuClear() {
-        iRoomRepo.clearNoteItem(noteRepo.noteItem.id)
+        iRoomRepo.clearNoteItem(noteModel.noteItem.id)
 
-        noteRepo.updateStatus(status = false)
+        noteModel.updateStatus(status = false)
 
         noteCallback.finish()
     }
@@ -126,12 +126,12 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         if (inputItem != null) {
             inputControl.setEnabled(false)
 
-            val noteItem = noteRepo.noteItem
+            val noteItem = noteModel.noteItem
 
             when (inputItem.tag) {
-                InputDef.rank ->
+                InputAction.rank ->
                     noteItem.rankId = StringConverter().fromString(inputItem.getValue(undo))
-                InputDef.color -> {
+                InputAction.color -> {
                     val colorFrom = noteItem.color
                     val colorTo = Integer.parseInt(inputItem.getValue(undo))
 
@@ -139,10 +139,10 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputDef.name -> callback.changeName(
+                InputAction.name -> callback.changeName(
                         inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
                 )
-                InputDef.text -> callback.changeText(
+                InputAction.text -> callback.changeText(
                         inputItem.getValue(undo),  inputItem.cursorItem!!.getValue(undo)
                 )
             }
@@ -154,14 +154,14 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuRank() =
-            callback.showRankDialog(iRoomRepo.getRankCheck(noteRepo.noteItem.rankId))
+            callback.showRankDialog(iRoomRepo.getRankCheck(noteModel.noteItem.rankId))
 
-    override fun onMenuColor() = callback.showColorDialog(noteRepo.noteItem.color)
+    override fun onMenuColor() = callback.showColorDialog(noteModel.noteItem.color)
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
 
-        if (TextUtils.isEmpty(noteRepo.noteItem.text)) return false
+        if (TextUtils.isEmpty(noteModel.noteItem.text)) return false
 
         noteItem.change = context.getTime()
 
@@ -171,7 +171,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             inputControl.clear()
         }
 
-        noteRepo = iRoomRepo.saveTextNote(noteRepo, noteState.isCreate)
+        noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
 
         // TODO extension
         if (noteState.isCreate) {
@@ -184,10 +184,10 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuBind() {
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
         noteItem.isStatus = !noteItem.isStatus
 
-        noteRepo.updateStatus(noteItem.isStatus)
+        noteModel.updateStatus(noteItem.isStatus)
 
         callback.bindEdit(noteState.isEdit, noteItem)
 
@@ -197,9 +197,9 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuConvert() = callback.showConvertDialog()
 
     override fun onMenuDelete() {
-        noteRepo.updateStatus(status = false)
+        noteModel.updateStatus(status = false)
 
-        iRoomRepo.deleteNoteItem(noteRepo.noteItem.id)
+        iRoomRepo.deleteNoteItem(noteModel.noteItem.id)
         noteCallback.finish()
     }
 
@@ -217,7 +217,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
                     needAnim = !noteState.isCreate && !noteState.isFirst
             )
 
-            bindEdit(mode, noteRepo.noteItem)
+            bindEdit(mode, noteModel.noteItem)
             bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
         }
 
@@ -256,11 +256,11 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     private fun onRestoreData(): Boolean {
         if (id == NoteData.Default.ID) return false
 
-        val colorFrom = noteRepo.noteItem.color
-        noteRepo = iRoomRepo.getNoteRepo(id)
+        val colorFrom = noteModel.noteItem.color
+        noteModel = iRoomRepo.getNoteRepo(id)
 
         onMenuEdit(mode = false)
-        callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
+        callback.tintToolbar(colorFrom, noteModel.noteItem.color)
 
         inputControl.clear()
 
@@ -268,7 +268,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onResultColorDialog(check: Int) {
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
@@ -289,7 +289,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             }
         }
 
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
 
         inputControl.onRankChange(noteItem.rankId, rankId)
 
@@ -300,9 +300,9 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onResultConvertDialog() {
-        iRoomRepo.convertToRoll(noteRepo.noteItem)
+        iRoomRepo.convertToRoll(noteModel.noteItem)
 
-        noteCallback.showRollFragment(noteRepo.noteItem.id, isSave = false)
+        noteCallback.showRollFragment(noteModel.noteItem.id, isSave = false)
     }
 
 }

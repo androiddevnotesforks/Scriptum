@@ -9,13 +9,13 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-import sgtmelon.scriptum.app.model.RankRepo;
+import sgtmelon.scriptum.app.model.RankModel;
 import sgtmelon.scriptum.app.room.converter.BoolConverter;
 import sgtmelon.scriptum.app.room.converter.StringConverter;
 import sgtmelon.scriptum.office.annot.DbAnn;
 
 /**
- * Элемент списка категорий {@link RankRepo}
+ * Элемент списка категорий {@link RankModel}
  */
 @Entity(tableName = DbAnn.Rank.TABLE)
 @TypeConverters({BoolConverter.class, StringConverter.class})

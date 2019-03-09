@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.app.adapter.holder.NoteTextHolder
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.main.bin.BinFragment
 import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 /**
  * Адаптер списка заметок для [NotesFragment], [BinFragment]
  */
-class NoteAdapter(context: Context) : ParentAdapter<NoteRepo, RecyclerView.ViewHolder>(context) {
+class NoteAdapter(context: Context) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>(context) {
 
     lateinit var clickListener: ItemListener.ClickListener
     lateinit var longClickListener: ItemListener.LongClickListener

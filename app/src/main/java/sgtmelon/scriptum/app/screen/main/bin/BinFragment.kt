@@ -20,7 +20,7 @@ import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
@@ -152,10 +152,10 @@ class BinFragment : Fragment(), BinCallback {
         itemClearBin?.isVisible = adapter.itemCount != 0
     }
 
-    override fun notifyDataSetChanged(list: MutableList<NoteRepo>) =
+    override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
             adapter.notifyDataSetChanged(list)
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>) =
+    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
             adapter.notifyItemRemoved(p, list)
 
 }

@@ -13,7 +13,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import sgtmelon.scriptum.R;
-import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.key.NoteType;
 import sgtmelon.scriptum.app.room.converter.BoolConverter;
 import sgtmelon.scriptum.app.room.converter.NoteTypeConverter;
@@ -22,7 +22,7 @@ import sgtmelon.scriptum.office.annot.DbAnn;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 
 /**
- * Элемент списка заметок {@link NoteRepo}
+ * Элемент списка заметок {@link NoteModel}
  */
 @Entity(tableName = DbAnn.Note.TABLE)
 @TypeConverters({BoolConverter.class, StringConverter.class, NoteTypeConverter.class})

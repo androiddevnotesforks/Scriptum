@@ -12,7 +12,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import sgtmelon.scriptum.app.model.NoteRepo;
+import sgtmelon.scriptum.app.model.NoteModel;
 import sgtmelon.scriptum.app.model.item.NoteItem;
 import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
@@ -33,17 +33,17 @@ public abstract class NoteDao extends BaseDao {
             "WHERE NT_ID = :id")
     public abstract NoteItem get(long id);
 
-    public NoteRepo get(Context context, long id) {
+    public NoteModel get(Context context, long id) {
         final NoteItem noteItem = get(id);
         final List<RollItem> listRoll = getRoll(id);
 
         final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-        return new NoteRepo(noteItem, listRoll, statusItem);
+        return new NoteModel(noteItem, listRoll, statusItem);
     }
 
-    public List<NoteRepo> get(Context context, boolean bin) {
-        final List<NoteRepo> listNoteRepo = new ArrayList<>();
+    public List<NoteModel> get(Context context, boolean bin) {
+        final List<NoteModel> listNoteModel = new ArrayList<>();
         final List<NoteItem> listNote = getNote(bin, new PrefUtils(context).getSortNoteOrder());
 
         final List<Long> rkVisible = getRankVisible();
@@ -53,7 +53,7 @@ public abstract class NoteDao extends BaseDao {
             final List<RollItem> listRoll = getRollView(noteItem.getId());
             final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-            final NoteRepo noteRepo = new NoteRepo(noteItem, listRoll, statusItem);
+            final NoteModel noteModel = new NoteModel(noteItem, listRoll, statusItem);
 
             final List<Long> rkId = noteItem.getRankId();
             if (rkId.size() != 0 && !rkVisible.contains(rkId.get(0))) {
@@ -63,11 +63,11 @@ public abstract class NoteDao extends BaseDao {
                     statusItem.notifyNote();
                 }
 
-                noteRepo.setStatusItem(statusItem);
-                listNoteRepo.add(noteRepo);
+                noteModel.setStatusItem(statusItem);
+                listNoteModel.add(noteModel);
             }
         }
-        return listNoteRepo;
+        return listNoteModel;
     }
 
     @Query("SELECT * FROM NOTE_TABLE " +

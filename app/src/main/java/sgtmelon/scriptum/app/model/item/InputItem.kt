@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.app.model.item
 
 import sgtmelon.scriptum.app.control.input.InputControl
-import sgtmelon.scriptum.app.control.input.InputDef
+import sgtmelon.scriptum.app.model.key.InputAction
 
 /**
  * Модель для [InputControl]
  */
 class InputItem(
-        @param:InputDef val tag: Int,
+        val tag: Int,
         private val valueFrom: String,
         private val valueTo: String,
         val cursorItem: CursorItem? = null,
@@ -15,7 +15,7 @@ class InputItem(
 ) {
 
     init {
-        if (tag == InputDef.name || tag == InputDef.text || tag == InputDef.roll) {
+        if (tag == InputAction.name || tag == InputAction.text || tag == InputAction.roll) {
             if (cursorItem == null) {
                 throw NullPointerException(InputItem::class.java.simpleName + "#cursorItem is null")
             }

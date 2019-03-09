@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
@@ -25,27 +25,27 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     lateinit var callback: NotesCallback
 
-    private val noteRepoList: MutableList<NoteRepo> = ArrayList()
+    private val listNoteModel: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
         val list = iRoomRepo.getNoteRepoList(fromBin = false)
 
-        noteRepoList.clear()
-        noteRepoList.addAll(list)
+        listNoteModel.clear()
+        listNoteModel.addAll(list)
 
-        callback.notifyDataSetChanged(noteRepoList)
+        callback.notifyDataSetChanged(listNoteModel)
         callback.bind()
 
         if (updateStatus) updateStatus = false
     }
 
     fun onClickNote(p: Int) {
-        val noteItem = noteRepoList[p].noteItem
+        val noteItem = listNoteModel[p].noteItem
         callback.startNote(context.getNoteIntent(noteItem.type, noteItem.id))
     }
 
     fun onShowOptionsDialog(p: Int) {
-        val noteItem = noteRepoList[p].noteItem
+        val noteItem = listNoteModel[p].noteItem
         val itemArray: Array<String>
 
         when (noteItem.type) {
@@ -77,7 +77,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun onResultOptionsDialog(p: Int, which: Int) {
-        val noteItem = noteRepoList[p].noteItem
+        val noteItem = listNoteModel[p].noteItem
 
         when (noteItem.type) {
             NoteType.TEXT -> when (which) {
@@ -96,8 +96,8 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    private fun onMenuCheck(p: Int): MutableList<NoteRepo> {
-        val noteRepo = noteRepoList[p]
+    private fun onMenuCheck(p: Int): MutableList<NoteModel> {
+        val noteRepo = listNoteModel[p]
         val noteItem = noteRepo.noteItem
 
         val checkText = noteItem.check
@@ -111,11 +111,11 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         noteRepo.updateCheck(!isAll)
         noteRepo.statusItem.updateNote(noteItem, true)
 
-        return noteRepoList
+        return listNoteModel
     }
 
-    private fun onMenuBind(p: Int): MutableList<NoteRepo> {
-        val noteRepo = noteRepoList[p]
+    private fun onMenuBind(p: Int): MutableList<NoteModel> {
+        val noteRepo = listNoteModel[p]
         val noteItem = noteRepo.noteItem
 
         noteItem.isStatus = !noteItem.isStatus
@@ -123,11 +123,11 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
         iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
 
-        return noteRepoList
+        return listNoteModel
     }
 
-    private fun onMenuConvert(p: Int): MutableList<NoteRepo> { // TODO
-        val noteRepo = noteRepoList[p]
+    private fun onMenuConvert(p: Int): MutableList<NoteModel> { // TODO
+        val noteRepo = listNoteModel[p]
         val noteItem = noteRepo.noteItem
 
         noteItem.change = context.getTime()
@@ -164,16 +164,16 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
         noteRepo.statusItem.updateNote(noteItem, true)
 
-        return noteRepoList
+        return listNoteModel
     }
 
-    private fun onMenuDelete(p: Int): MutableList<NoteRepo> {
-        iRoomRepo.deleteNoteItem(noteRepoList[p].noteItem.id)
+    private fun onMenuDelete(p: Int): MutableList<NoteModel> {
+        iRoomRepo.deleteNoteItem(listNoteModel[p].noteItem.id)
 
-        noteRepoList[p].updateStatus(false)
-        noteRepoList.removeAt(p)
+        listNoteModel[p].updateStatus(false)
+        listNoteModel.removeAt(p)
 
-        return noteRepoList
+        return listNoteModel
     }
 
     companion object {

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office
+package sgtmelon.scriptum.app.watcher
 
 import android.text.Editable
 import android.text.TextWatcher

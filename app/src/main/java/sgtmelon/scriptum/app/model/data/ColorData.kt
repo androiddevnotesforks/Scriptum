@@ -7,7 +7,9 @@ import sgtmelon.scriptum.R
  */
 object ColorData {
 
-    //Цвета для заметок
+    /**
+     * Цвета для заметок
+     */
     val light = intArrayOf(
             R.color.note_red_light, R.color.note_purple_light,
             R.color.note_indigo_light, R.color.note_blue_light,

@@ -109,6 +109,8 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
         return count;
     }
 
+    // TODO !! вынести в отдельный класс
+
     final class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
             Animation.AnimationListener {
 

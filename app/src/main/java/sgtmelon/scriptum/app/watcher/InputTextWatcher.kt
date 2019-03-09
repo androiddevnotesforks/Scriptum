@@ -1,28 +1,28 @@
-package sgtmelon.scriptum.app.control.input
+package sgtmelon.scriptum.app.watcher
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.widget.EditText
+import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.model.item.CursorItem
+import sgtmelon.scriptum.app.model.key.InputAction
 
 /**
  * Контроллер ввода текста для [InputControl]
  */
 class InputTextWatcher(private val view: EditText?,
-                       @param:InputDef private val tag: Int,
+                       private val tag: Int,
                        private val textChangeCallback: TextChange,
                        private val inputCallback: InputCallback
-) : TextWatcher {
+) : AppTextWatcher() {
 
     private var textFrom = ""
     private var cursorFrom = 0
 
-    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
         textFrom = s.toString()
         cursorFrom = view?.selectionEnd ?: 0
     }
 
-    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
         val textTo = s.toString()
         val cursorTo = view?.selectionEnd ?: 0
 
@@ -30,10 +30,9 @@ class InputTextWatcher(private val view: EditText?,
 
         val cursorItem = CursorItem(cursorFrom, cursorTo)
 
-        //TODO вынести в интерфейс результата (или нет)
         when (tag) {
-            InputDef.name -> inputCallback.onNameChange(textFrom, textTo, cursorItem)
-            InputDef.text -> inputCallback.onTextChange(textFrom, textTo, cursorItem)
+            InputAction.name -> inputCallback.onNameChange(textFrom, textTo, cursorItem)
+            InputAction.text -> inputCallback.onTextChange(textFrom, textTo, cursorItem)
         }
 
         textFrom = textTo
@@ -41,8 +40,6 @@ class InputTextWatcher(private val view: EditText?,
 
         textChangeCallback.onResultInputTextChange()
     }
-
-    override fun afterTextChanged(s: Editable) {}
 
     interface TextChange {
         fun onResultInputTextChange()

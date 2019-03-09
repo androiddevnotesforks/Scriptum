@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.app.repository
 
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.model.item.RollItem
@@ -10,7 +10,7 @@ import sgtmelon.scriptum.app.model.item.RollItem
  */
 interface IRoomRepo {
 
-    fun getNoteRepoList(fromBin: Boolean): MutableList<NoteRepo>
+    fun getNoteRepoList(fromBin: Boolean): MutableList<NoteModel>
 
     fun clearBin()
 
@@ -24,7 +24,7 @@ interface IRoomRepo {
 
     fun getRankVisibleList(): List<Long>
 
-    fun getNoteRepo(id: Long): NoteRepo
+    fun getNoteRepo(id: Long): NoteModel
 
     fun getRankDialogName(): Array<String>
 
@@ -36,9 +36,9 @@ interface IRoomRepo {
 
     fun getRankId(): Array<Long>
 
-    fun saveTextNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo
+    fun saveTextNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
 
-    fun saveRollNote(noteRepo: NoteRepo, isCreate: Boolean): NoteRepo
+    fun saveRollNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
 
     fun insertRank(p: Int, rankItem: RankItem): Long
 

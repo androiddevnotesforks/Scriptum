@@ -18,7 +18,7 @@ import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.screen.main.MainCallback
 import sgtmelon.scriptum.app.screen.pref.PrefActivity
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
@@ -132,13 +132,13 @@ class NotesFragment : Fragment(), NotesCallback {
         optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
     }
 
-    override fun notifyDataSetChanged(list: MutableList<NoteRepo>) =
+    override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
             adapter.notifyDataSetChanged(list)
 
-    override fun notifyItemChanged(p: Int, list: MutableList<NoteRepo>) =
+    override fun notifyItemChanged(p: Int, list: MutableList<NoteModel>) =
             adapter.notifyItemChanged(p, list)
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<NoteRepo>) =
+    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
             adapter.notifyItemRemoved(p, list)
 
 }

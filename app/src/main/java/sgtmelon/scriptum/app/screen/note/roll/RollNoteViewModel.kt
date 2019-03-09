@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.app.screen.note.roll
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
@@ -11,14 +10,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
-import sgtmelon.scriptum.app.control.input.InputDef
-import sgtmelon.scriptum.app.control.input.InputTextWatcher
 import sgtmelon.scriptum.app.control.touch.RollTouchControl
-import sgtmelon.scriptum.app.model.NoteRepo
+import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.StatusItem
+import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.CheckState
 import sgtmelon.scriptum.app.model.state.NoteState
@@ -26,6 +24,7 @@ import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.converter.StringConverter
 import sgtmelon.scriptum.app.screen.note.NoteCallback
+import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
 import sgtmelon.scriptum.office.utils.AppUtils.swap
 import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
@@ -55,19 +54,19 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     private var id: Long = NoteData.Default.ID
 
-    private lateinit var noteRepo: NoteRepo
+    private lateinit var noteModel: NoteModel
 
     private lateinit var noteState: NoteState
     private lateinit var rankVisibleList: List<Long>
 
     private val checkState = CheckState()
 
-    private val isSaveEnable get() = noteRepo.listRoll.size != 0
+    private val isSaveEnable get() = noteModel.listRoll.size != 0
 
     fun setupData(bundle: Bundle?) {
         id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
 
-        if (::noteRepo.isInitialized) return
+        if (::noteModel.isInitialized) return
 
         rankVisibleList = iRoomRepo.getRankVisibleList()
 
@@ -75,18 +74,18 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.ROLL)
             val statusItem = StatusItem(context, noteItem, false)
 
-            noteRepo = NoteRepo(noteItem, ArrayList(), statusItem)
+            noteModel = NoteModel(noteItem, ArrayList(), statusItem)
 
             noteState = NoteState(isCreate = true)
         } else {
-            noteRepo = iRoomRepo.getNoteRepo(id)
+            noteModel = iRoomRepo.getNoteRepo(id)
 
-            noteState = NoteState(isCreate = false, isBin = noteRepo.noteItem.isBin)
+            noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
         }
 
         callback.apply {
             setupBinding(rankVisibleList.isEmpty())
-            setupToolbar(noteRepo.noteItem.color, noteState)
+            setupToolbar(noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankDialogName())
             setupEnter(inputControl)
             setupRecycler(inputControl)
@@ -110,7 +109,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
 
     override fun onResultInputRollAfter(p: Int, text: String) { // TODO handler (чтобы была возможность написать что-то обратно
-        with(noteRepo.listRoll) {
+        with(noteModel.listRoll) {
             if (TextUtils.isEmpty(text)) {
                 callback.notifyItemRemoved(p, apply { removeAt(p) })
             } else {
@@ -140,7 +139,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onResultTouchSwipe(p: Int) {
-        val listRoll = noteRepo.listRoll
+        val listRoll = noteModel.listRoll
 
         inputControl.onRollRemove(p, listRoll[p].toString())
 
@@ -152,32 +151,32 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
-        callback.notifyItemMoved(from, to, noteRepo.listRoll.apply { swap(from, to) })
+        callback.notifyItemMoved(from, to, noteModel.listRoll.apply { swap(from, to) })
         return true
     }
 
     override fun onMenuRestore() {
-        iRoomRepo.restoreNoteItem(noteRepo.noteItem.id)
+        iRoomRepo.restoreNoteItem(noteModel.noteItem.id)
         noteCallback.finish()
     }
 
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        noteRepo.noteItem.apply {
+        noteModel.noteItem.apply {
             change = context.getTime()
             isBin = false
         }
 
         onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
 
-        iRoomRepo.updateNoteItem(noteRepo.noteItem)
+        iRoomRepo.updateNoteItem(noteModel.noteItem)
     }
 
     override fun onMenuClear() {
-        iRoomRepo.clearNoteItem(noteRepo.noteItem.id)
+        iRoomRepo.clearNoteItem(noteModel.noteItem.id)
 
-        noteRepo.updateStatus(status = false)
+        noteModel.updateStatus(status = false)
 
         noteCallback.finish()
     }
@@ -186,19 +185,18 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     override fun onMenuRedo() = onMenuUndoRedo(undo = false)
 
-    @SuppressLint("SwitchIntDef") // TODO
     private fun onMenuUndoRedo(undo: Boolean) {
         val inputItem = if (undo) inputControl.undo() else inputControl.redo()
 
         if (inputItem != null) {
             inputControl.setEnabled(false)
 
-            val noteItem = noteRepo.noteItem
+            val noteItem = noteModel.noteItem
 
             when (inputItem.tag) {
-                InputDef.rank ->
+                InputAction.rank ->
                     noteItem.rankId = StringConverter().fromString(inputItem.getValue(undo))
-                InputDef.color -> {
+                InputAction.color -> {
                     val colorFrom = noteItem.color
                     val colorTo = Integer.parseInt(inputItem.getValue(undo))
 
@@ -206,47 +204,47 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputDef.name -> callback.changeName(
+                InputAction.name -> callback.changeName(
                         inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
                 )
-                InputDef.roll -> {
+                InputAction.roll -> {
                     val p = inputItem.position
-                    with(noteRepo.listRoll) {
+                    with(noteModel.listRoll) {
                         get(p).text = inputItem.getValue(undo)
                         callback.notifyItemChanged(
                                 p, inputItem.cursorItem!!.getValue(undo), list = this
                         )
                     }
                 }
-                InputDef.rollAdd, InputDef.rollRemove -> {
+                InputAction.rollAdd, InputAction.rollRemove -> {
                     val p = inputItem.position
 
                     val tag = inputItem.tag
-                    if (tag == InputDef.rollAdd && undo || tag == InputDef.rollRemove && !undo) {
-                        with(noteRepo.listRoll) {
+                    if (tag == InputAction.rollAdd && undo || tag == InputAction.rollRemove && !undo) {
+                        with(noteModel.listRoll) {
                             removeAt(p)
                             callback.notifyItemRemoved(p, list = this)
                         }
                     } else {
                         val rollItem = RollItem(inputItem.getValue(undo))
-                        with(noteRepo.listRoll) {
+                        with(noteModel.listRoll) {
                             add(p, rollItem)
                             callback.notifyItemInserted(p, rollItem.text.length, list = this)
                         }
                     }
                 }
-                InputDef.rollMove -> {
+                InputAction.rollMove -> {
                     val from = Integer.parseInt(inputItem.getValue(!undo))
                     val to = Integer.parseInt(inputItem.getValue(undo))
 
-                    with(noteRepo.listRoll) {
+                    with(noteModel.listRoll) {
                         swap(from, to)
                         callback.notifyItemMoved(from, to, list = this)
                     }
                 }
             }
 
-            if (inputItem.tag != InputDef.roll) {
+            if (inputItem.tag != InputAction.roll) {
                 inputControl.setEnabled(true)
             }
         }
@@ -255,16 +253,16 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuRank() =
-            callback.showRankDialog(iRoomRepo.getRankCheck(noteRepo.noteItem.rankId))
+            callback.showRankDialog(iRoomRepo.getRankCheck(noteModel.noteItem.rankId))
 
-    override fun onMenuColor() = callback.showColorDialog(noteRepo.noteItem.color)
+    override fun onMenuColor() = callback.showColorDialog(noteModel.noteItem.color)
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        val listRoll = noteRepo.listRoll
+        val listRoll = noteModel.listRoll
 
-        if (noteRepo.listRoll.size == 0) return false
+        if (noteModel.listRoll.size == 0) return false
 
-        noteRepo.noteItem.apply {
+        noteModel.noteItem.apply {
             change = context.getTime()
             setText(listRoll.getCheck(), listRoll.size)
         }
@@ -278,7 +276,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             inputControl.clear()
         }
 
-        noteRepo = iRoomRepo.saveRollNote(noteRepo, noteState.isCreate)
+        noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
 
         if (noteState.isCreate) {
             noteState.isCreate = false
@@ -294,12 +292,12 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuCheck() {
-        val size: Int = noteRepo.listRoll.size
+        val size: Int = noteModel.listRoll.size
         val isAll = checkState.isAll
 
-        noteRepo.updateCheck(!isAll)
+        noteModel.updateCheck(!isAll)
 
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
         noteItem.change = context.getTime()
         noteItem.setText(if (isAll) 0 else size, size)
 
@@ -312,10 +310,10 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuBind() {
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
         noteItem.isStatus = !noteItem.isStatus
 
-        noteRepo.updateStatus(noteItem.isStatus)
+        noteModel.updateStatus(noteItem.isStatus)
 
         callback.bindEdit(noteState.isEdit, noteItem)
 
@@ -325,9 +323,9 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuConvert() = callback.showConvertDialog()
 
     override fun onMenuDelete() {
-        noteRepo.updateStatus(status = false)
+        noteModel.updateStatus(status = false)
 
-        iRoomRepo.deleteNoteItem(noteRepo.noteItem.id)
+        iRoomRepo.deleteNoteItem(noteModel.noteItem.id)
         noteCallback.finish()
     }
 
@@ -345,7 +343,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
                     needAnim = !noteState.isCreate && !noteState.isFirst
             )
 
-            bindEdit(mode, noteRepo.noteItem)
+            bindEdit(mode, noteModel.noteItem)
             bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
             updateNoteState(noteState)
         }
@@ -361,10 +359,10 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
     fun onUpdateData() {
-        checkState.setAll(noteRepo.listRoll)
+        checkState.setAll(noteModel.listRoll)
 
         callback.apply {
-            notifyDataSetChanged(noteRepo.listRoll)
+            notifyDataSetChanged(noteModel.listRoll)
             changeCheckToggle(state = false)
         }
     }
@@ -394,12 +392,12 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     private fun onRestoreData(): Boolean {
         if (id == NoteData.Default.ID) return false
 
-        val colorFrom = noteRepo.noteItem.color
-        noteRepo = iRoomRepo.getNoteRepo(id)
+        val colorFrom = noteModel.noteItem.color
+        noteModel = iRoomRepo.getNoteRepo(id)
 
-        callback.notifyDataSetChanged(noteRepo.listRoll)
+        callback.notifyDataSetChanged(noteModel.listRoll)
         onMenuEdit(mode = false)
-        callback.tintToolbar(colorFrom, noteRepo.noteItem.color)
+        callback.tintToolbar(colorFrom, noteModel.noteItem.color)
 
         inputControl.clear()
 
@@ -411,29 +409,29 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         if (textEnter.isEmpty()) return
 
-        val p = if (simpleClick) noteRepo.listRoll.size else 0
+        val p = if (simpleClick) noteModel.listRoll.size else 0
         val rollItem = RollItem().apply {
-            noteId = noteRepo.noteItem.id
+            noteId = noteModel.noteItem.id
             text = textEnter
         }
 
         inputControl.onRollAdd(p, rollItem.toString())
 
-        noteRepo.listRoll.add(p, rollItem)
+        noteModel.listRoll.add(p, rollItem)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
-        callback.scrollToItem(simpleClick, p, noteRepo.listRoll)
+        callback.scrollToItem(simpleClick, p, noteModel.listRoll)
     }
 
     fun onClickItemCheck(p: Int) {
-        val listRoll = noteRepo.listRoll
+        val listRoll = noteModel.listRoll
 
         val rollItem = listRoll[p]
         rollItem.isCheck = !rollItem.isCheck
 
         callback.notifyListItem(p, rollItem)
 
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
         val check = listRoll.getCheck()
 
         noteItem.change = context.getTime()
@@ -445,7 +443,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onResultColorDialog(check: Int) {
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
@@ -466,7 +464,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             }
         }
 
-        val noteItem = noteRepo.noteItem
+        val noteItem = noteModel.noteItem
 
         inputControl.onRankChange(noteItem.rankId, rankId)
 
@@ -477,9 +475,9 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onResultConvertDialog() {
-        iRoomRepo.convertToText(noteRepo.noteItem)
+        iRoomRepo.convertToText(noteModel.noteItem)
 
-        noteCallback.showTextFragment(noteRepo.noteItem.id, isSave = false)
+        noteCallback.showTextFragment(noteModel.noteItem.id, isSave = false)
     }
 
 }

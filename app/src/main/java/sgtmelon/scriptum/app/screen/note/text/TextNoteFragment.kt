@@ -17,17 +17,17 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.safedialog.MessageDialog
 import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.control.MenuControl
-import sgtmelon.scriptum.app.control.MenuControlAnim
 import sgtmelon.scriptum.app.control.input.InputCallback
-import sgtmelon.scriptum.app.control.input.InputDef
-import sgtmelon.scriptum.app.control.input.InputTextWatcher
+import sgtmelon.scriptum.app.control.menu.MenuControl
+import sgtmelon.scriptum.app.control.menu.MenuControlAnim
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.screen.note.NoteCallback
+import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.office.annot.def.ColorDef
@@ -146,7 +146,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     override fun setupEnter(inputCallback: InputCallback) {
         nameEnter?.addTextChangedListener(
-                InputTextWatcher(nameEnter, InputDef.name, viewModel, inputCallback)
+                InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
 
         nameEnter?.setOnEditorActionListener { _, i, _ ->
@@ -159,7 +159,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
 
         textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputDef.text, viewModel, inputCallback)
+                InputTextWatcher(textEnter, InputAction.text, viewModel, inputCallback)
         )
     }
 
