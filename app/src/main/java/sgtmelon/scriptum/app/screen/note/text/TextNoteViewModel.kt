@@ -52,7 +52,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     private lateinit var rankVisibleList: List<Long>
 
     fun setupData(bundle: Bundle?) {
-        id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
+        if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         if (::noteModel.isInitialized) return
 

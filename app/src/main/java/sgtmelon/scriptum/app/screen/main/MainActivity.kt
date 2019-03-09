@@ -3,9 +3,10 @@ package sgtmelon.scriptum.app.screen.main
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.MenuItem
+import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -20,12 +21,11 @@ import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.utils.AppUtils.setState
 
-class MainActivity : ParentActivity(),
-        MainCallback,
-        BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : ParentActivity(), MainCallback {
 
-    private var firstStart: Boolean = true
-    private var page: Int = MainPage.Name.NOTES.ordinal
+    private val viewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
 
     private val openState = OpenState()
 
@@ -52,21 +52,23 @@ class MainActivity : ParentActivity(),
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState != null) {
-            page = savedInstanceState.getInt(PAGE_CURRENT)
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
-        setupNavigation()
+        viewModel.apply {
+            callback = this@MainActivity
+            setupData(savedInstanceState)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(PAGE_CURRENT, page)
         outState.putBoolean(OpenState.KEY, openState.value)
+        viewModel.saveData(outState)
     }
 
-    private fun setupNavigation() {
+    override fun setupNavigation(@IdRes itemId: Int) {
         fab.setOnClickListener {
             openState.tryInvoke {
                 sheetDialog.setArguments(R.layout.view_sheet_add, R.id.add_navigation)
@@ -74,9 +76,10 @@ class MainActivity : ParentActivity(),
             }
         }
 
-        val navigationView = findViewById<BottomNavigationView>(R.id.main_menu_navigation)
-        navigationView.setOnNavigationItemSelectedListener(this)
-        navigationView.selectedItemId = MainPage.id[page]
+        findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
+            setOnNavigationItemSelectedListener { viewModel.onSelectItem(it.itemId) }
+            selectedItemId = itemId
+        }
 
         sheetDialog.itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
             sheetDialog.dismiss()
@@ -89,53 +92,41 @@ class MainActivity : ParentActivity(),
 
     override fun changeFabState(state: Boolean) = fab.setState(state)
 
-    override fun onNavigationItemSelected(menuItem: MenuItem): Boolean { // TODO Оптимизировать
-        val pageFrom = MainPage.Name.values()[page]
-        val pageTo = MainPage.getById(menuItem.itemId)
-
-        page = pageTo.ordinal
-
-        if (!firstStart && pageTo == pageFrom) {
-            when (pageTo) {
-                MainPage.Name.RANK -> rankFragment.scrollTop()
-                MainPage.Name.NOTES -> notesFragment.scrollTop()
-                MainPage.Name.BIN -> binFragment.scrollTop()
-            }
-        } else {
-            if (firstStart) firstStart = false
-
-            changeFabState(state = pageTo == MainPage.Name.NOTES)
-
-            val transaction = supportFragmentManager.beginTransaction()
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-
-            if (supportFragmentManager.findFragmentByTag(pageFrom.name) != null) {
-                transaction.hide(getFragmentByName(pageFrom))
-            }
-
-            val fragmentTo = getFragmentByName(pageTo)
-            if (supportFragmentManager.findFragmentByTag(pageTo.name) != null) {
-                transaction.show(fragmentTo)
-                fragmentTo.onResume()
-            } else {
-                transaction.add(R.id.main_fragment_container, fragmentTo, pageTo.name)
-            }
-
-            transaction.commit()
-        }
-
-        return true
+    override fun scrollTop(name: MainPage.Name) = when (name) {
+        MainPage.Name.RANK -> rankFragment.scrollTop()
+        MainPage.Name.NOTES -> notesFragment.scrollTop()
+        MainPage.Name.BIN -> binFragment.scrollTop()
     }
 
-    private fun getFragmentByName(name: MainPage.Name): Fragment = when(name) {
+    override fun showPage(pageFrom: MainPage.Name, pageTo: MainPage.Name) {
+        with(supportFragmentManager) {
+            beginTransaction().apply {
+                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+
+                if (findFragmentByTag(pageFrom.name) != null) {
+                    hide(getFragmentByName(pageFrom))
+                }
+
+                val fragmentTo = getFragmentByName(pageTo)
+                if (findFragmentByTag(pageTo.name) != null) {
+                    show(fragmentTo)
+                    fragmentTo.onResume()
+                } else {
+                    add(R.id.main_fragment_container, fragmentTo, pageTo.name)
+                }
+
+                commit()
+            }
+        }
+    }
+
+    private fun getFragmentByName(name: MainPage.Name): Fragment = when (name) {
         MainPage.Name.RANK -> rankFragment
         MainPage.Name.NOTES -> notesFragment
         MainPage.Name.BIN -> binFragment
     }
 
     companion object {
-        private const val PAGE_CURRENT = "INSTANCE_MAIN_PAGE_CURRENT"
-
         // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
         // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
         // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)

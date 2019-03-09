@@ -64,7 +64,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     private val isSaveEnable get() = noteModel.listRoll.size != 0
 
     fun setupData(bundle: Bundle?) {
-        id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
+        if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         if (::noteModel.isInitialized) return
 

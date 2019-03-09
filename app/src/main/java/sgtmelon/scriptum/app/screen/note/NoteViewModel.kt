@@ -14,10 +14,10 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
     private var type: NoteType? = null
 
     fun setupData(bundle: Bundle?) {
-        id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
+        if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+
         type = NoteType.values()
-                .getOrNull(index = bundle?.getInt(NoteData.Intent.TYPE)
-                        ?: NoteData.Default.TYPE)
+                .getOrNull(index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE)
     }
 
     fun saveData(bundle: Bundle) {

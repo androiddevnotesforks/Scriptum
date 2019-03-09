@@ -7,7 +7,7 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-        <import alias="noteType" type="sgtmelon.scriptum.office.annot.key.NoteType"/>
+        <import alias="noteType" type="sgtmelon.scriptum.app.model.key.NoteType"/>
 
         <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.text.MenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
