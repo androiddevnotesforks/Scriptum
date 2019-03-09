@@ -38,7 +38,7 @@
 
                     <ImageButton
                             android:id="@+id/toolbar_rank_cancel_button"
-                            style="@style/Enter.Button"
+                            style="@style/Button.Small"
                             android:contentDescription="@null"
                             app:boolExpression='@{nameNotEmpty}'
                             app:enabled='@{nameNotEmpty}'
@@ -49,7 +49,7 @@
 
                     <EditText
                             android:id="@+id/toolbar_rank_enter"
-                            style="@style/Enter.Text"
+                            style="@style/EditText.SingleRow"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -63,7 +63,7 @@
 
                     <ImageButton
                             android:id="@+id/toolbar_rank_add_button"
-                            style="@style/Enter.Button"
+                            style="@style/Button.Small"
                             android:contentDescription="@null"
                             app:srcCompat="@drawable/ic_rank"
                             app:boolExpression='@{nameNotEmpty}'

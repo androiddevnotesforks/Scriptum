@@ -15,11 +15,11 @@
 
     <LinearLayout
             android:id="@+id/info_parent_container"
-            style="@style/Info.Container">
+            style="@style/Container.Info">
 
         <ImageView
                 android:id="@+id/info_image"
-                style="@style/Info.Icon"
+                style="@style/Image.Info"
                 android:contentDescription="@null"
                 app:imageColor='@{R.attr.clContent}'
                 app:imageId='@{icon}'
@@ -28,13 +28,13 @@
 
         <TextView
                 android:id="@+id/info_title_text"
-                style="@style/Info.Title"
+                style="@style/Text.Info.Title"
                 android:text='@{context.getString(title)}'
                 tools:text="@string/info_notes_title"/>
 
         <TextView
                 android:id="@+id/info_details_text"
-                style="@style/Info.Details"
+                style="@style/Text.Info.Details"
                 android:text='@{context.getString(details)}'
                 tools:text="@string/info_notes_details"/>
 

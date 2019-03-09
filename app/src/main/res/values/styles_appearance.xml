@@ -7,7 +7,7 @@
         <item name="android:textColor">?attr/clContent</item>
     </style>
 
-    <style name="Appearance.SubMain">
+    <style name="Appearance.Second">
         <item name="android:textColor">?attr/clContentSecond</item>
     </style>
 

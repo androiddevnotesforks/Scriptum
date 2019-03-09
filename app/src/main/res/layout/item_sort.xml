@@ -22,14 +22,14 @@
 
         <ImageView
                 android:id="@+id/sort_bracket_left_image"
-                style="@style/SortItem.Bracket"
+                style="@style/Image.SortItem"
                 android:contentDescription="@null"
                 android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
                 app:srcCompat="@drawable/ic_bracket_left"/>
 
         <TextView
                 android:id="@+id/sort_text"
-                style="@style/SortItem.Text"
+                style="@style/Text.SortItem"
                 android:text='@{sortItem.text}'
                 app:boolExpression='@{position &lt;= sortEnd}'
                 app:trueColor='@{R.attr.clAccent}'
@@ -39,7 +39,7 @@
 
         <ImageView
                 android:id="@+id/sort_bracket_right_image"
-                style="@style/SortItem.Bracket"
+                style="@style/Image.SortItem"
                 android:contentDescription="@null"
                 android:visibility='@{position == sortEnd ? v.VISIBLE : v.INVISIBLE}'
                 app:srcCompat="@drawable/ic_bracket_right"/>

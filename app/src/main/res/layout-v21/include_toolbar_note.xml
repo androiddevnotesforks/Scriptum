@@ -37,7 +37,7 @@
 
                 <EditText
                         android:id="@+id/toolbar_note_enter"
-                        style="@style/ToolbarNote.Enter"
+                        style="@style/EditText.ToolbarNote"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/hint_enter_name"
@@ -49,7 +49,7 @@
 
                 <HorizontalScrollView
                         android:id="@+id/toolbar_note_scroll"
-                        style="@style/ToolbarNote.Scroll"
+                        style="@style/Container.ToolbarNote.Scroll"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility='@{!keyEdit ? v.VISIBLE : v.GONE}'
@@ -57,7 +57,7 @@
 
                     <TextView
                             android:id="@+id/toolbar_note_text"
-                            style="@style/ToolbarNote.Text"
+                            style="@style/Text.ToolbarNote"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:hint="@string/hint_view_name"
@@ -71,7 +71,7 @@
 
         <View
                 android:id="@+id/toolbar_note_color_view"
-                style="@style/NoteItem.Color.Horizontal"
+                style="@style/Image.Color.Horizontal"
                 app:visibleOn='@{def.dark}'
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>

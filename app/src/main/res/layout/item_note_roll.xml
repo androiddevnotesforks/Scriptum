@@ -25,9 +25,9 @@
 
         <FrameLayout
                 android:id="@+id/note_roll_click_container"
-                style="@style/NoteItem.Click">
+                style="@style/Container.NoteItem.Click">
 
-            <LinearLayout style="@style/NoteItem.Container">
+            <LinearLayout style="@style/Container.NoteItem.Content">
 
                 <LinearLayout
                         android:layout_width="0dp"
@@ -37,7 +37,7 @@
 
                     <TextView
                             android:id="@+id/note_roll_name_text"
-                            style="@style/NoteItem.Name"
+                            style="@style/Text.NoteItem.Name"
                             android:text='@{noteItem.name}'
                             android:visibility='@{text.isEmpty(noteItem.name) ? v.GONE : v.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
@@ -70,7 +70,7 @@
 
                 <ImageView
                         android:id="@+id/note_roll_color_view"
-                        style="@style/NoteItem.Color.Vertical"
+                        style="@style/Image.Color.Vertical"
                         android:contentDescription="@null"
                         app:noteColor='@{noteItem.color}'
                         app:viewOnDark='@{true}'

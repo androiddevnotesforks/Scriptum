@@ -29,7 +29,7 @@
 
             <sgtmelon.iconanim.widget.SwitchButton
                     android:id="@+id/rank_visible_button"
-                    style="@style/RankItem.Button"
+                    style="@style/Button.RankItem"
                     android:layout_marginEnd="@dimen/layout_8dp"
                     android:layout_marginRight="@dimen/layout_8dp"
                     app:srcDisable="@drawable/ic_visible_enter"
@@ -47,7 +47,7 @@
 
                 <TextView
                         android:id="@+id/rank_name_text"
-                        style="@style/RankItem.Name"
+                        style="@style/Text.RankItem.Name"
                         android:text='@{rankItem.name}'
                         tools:text="@string/preview_rank_name"/>
 
@@ -57,7 +57,7 @@
 
                     <TextView
                             android:id="@+id/rank_text_count_text"
-                            style="@style/RankItem.Info"
+                            style="@style/Text.RankItem.Info"
                             android:layout_marginEnd="@dimen/layout_4dp"
                             android:layout_marginRight="@dimen/layout_4dp"
                             android:text='@{@string/list_item_rank_text_count + " " + rankItem.getTextCount()}'
@@ -65,7 +65,7 @@
 
                     <TextView
                             android:id="@+id/rank_roll_count_text"
-                            style="@style/RankItem.Info"
+                            style="@style/Text.RankItem.Info"
                             android:text='@{@string/list_item_rank_roll_count + " " + rankItem.getRollCount()}'
                             tools:text="@string/preview_rank_roll"/>
 
@@ -75,7 +75,7 @@
 
             <ImageButton
                     android:id="@+id/rank_cancel_button"
-                    style="@style/RankItem.Button"
+                    style="@style/Button.RankItem"
                     android:layout_marginStart="@dimen/layout_8dp"
                     android:layout_marginLeft="@dimen/layout_8dp"
                     android:contentDescription="@null"

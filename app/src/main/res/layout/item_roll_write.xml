@@ -26,11 +26,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                <CheckBox style="@style/RollItem.Write.Check"/>
+                <CheckBox style="@style/Button.RollItem.Write"/>
 
                 <ImageButton
                         android:id="@+id/roll_write_drag_button"
-                        style="@style/RollItem.Click"
+                        style="@style/Container.RollItem.Click"
                         android:contentDescription="@null"
                         app:boolExpression='@{rollItem.check}'
                         app:trueColor='@{R.attr.clAccent}'
@@ -42,9 +42,7 @@
 
             <EditText
                     android:id="@+id/roll_write_enter"
-                    style="@style/RollItem.Write.Enter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/EditText.RollItem.Write"
                     android:hint="@null"
                     android:importantForAutofill="noExcludeDescendants"
                     android:text='@{rollItem.text}'

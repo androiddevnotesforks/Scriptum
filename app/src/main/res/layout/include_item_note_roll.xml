@@ -10,19 +10,20 @@
 
     <LinearLayout
             android:id="@+id/note_roll_container"
-            style="@style/NoteItem.Container.Roll"
+            style="@style/Container.NoteItem"
+            android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
 
         <ImageView
                 android:id="@+id/note_roll_check_image"
-                style="@style/NoteItem.Indicator"
+                style="@style/Image.NoteItem.Check"
                 android:contentDescription="@null"
                 android:src='@{rollItem != null &amp;&amp; rollItem.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
                 tools:srcCompat="@drawable/ic_check_done"/>
 
         <TextView
                 android:id="@+id/note_roll_text"
-                style="@style/NoteItem.Roll"
+                style="@style/Text.NoteItem.Roll"
                 android:text='@{rollItem != null ? rollItem.text : ""}'
                 tools:text="@string/preview_note_roll"/>
 

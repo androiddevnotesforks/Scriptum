@@ -58,7 +58,7 @@
 
                         <EditText
                                 android:id="@+id/text_note_content_enter"
-                                style="@style/Text.Enter"
+                                style="@style/EditText.TextNote.Enter"
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
                                 android:text='@={noteItem.text}'
@@ -68,7 +68,7 @@
 
                         <TextView
                                 android:id="@+id/text_note_content_text"
-                                style="@style/Text.Read"
+                                style="@style/EditText.TextNote.Read"
                                 android:text='@{noteItem.text}'
                                 android:visibility='@{!keyEdit ? v.VISIBLE : v.INVISIBLE}'
                                 tools:text="@string/preview_note_text"/>

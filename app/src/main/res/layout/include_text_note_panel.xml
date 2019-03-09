@@ -48,7 +48,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_restore_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@string/menu_note_restore"
                         android:onClick='@{() -> menuClick.onMenuRestore()}'
                         android:tint="?attr/clContent"
@@ -56,7 +56,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_restore_open_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@string/menu_note_restore_open"
                         android:onClick='@{() -> menuClick.onMenuRestoreOpen()}'
                         android:tint="?attr/clContent"
@@ -64,7 +64,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_clear_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@string/menu_note_clear"
                         android:onClick='@{() -> menuClick.onMenuClear()}'
                         android:tint="?attr/clAccent"
@@ -82,7 +82,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_undo_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@null"
                         android:onClick='@{() -> menuClick.onMenuUndo()}'
                         app:boolExpression='@{undoAccess}'
@@ -94,7 +94,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_redo_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@null"
                         android:onClick='@{() -> menuClick.onMenuRedo()}'
                         app:boolExpression='@{redoAccess}'
@@ -106,7 +106,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_rank_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@null"
                         android:onClick='@{() -> menuClick.onMenuRank()}'
                         app:boolExpression='@{!rankEmpty}'
@@ -118,7 +118,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_color_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@null"
                         android:onClick='@{() -> menuClick.onMenuColor()}'
                         android:tint="?attr/clContent"
@@ -131,7 +131,7 @@
 
                 <Button
                         android:id="@+id/note_panel_save_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> menuClick.onMenuSave(true)}'
                         android:text="@string/menu_note_save"
@@ -149,7 +149,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_bind_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@string/menu_note_status_bind"
                         android:onClick='@{() -> menuClick.onMenuBind()}'
                         android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
@@ -161,7 +161,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_convert_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription='@{noteItem.type == noteType.TEXT ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
                         android:onClick='@{() -> menuClick.onMenuConvert()}'
                         android:tint="?attr/clContent"
@@ -169,7 +169,7 @@
 
                 <ImageButton
                         android:id="@+id/note_panel_delete_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:contentDescription="@string/menu_note_delete"
                         android:onClick='@{() -> menuClick.onMenuDelete()}'
                         android:tint="?attr/clContent"
@@ -182,7 +182,7 @@
 
                 <Button
                         android:id="@+id/note_panel_edit_button"
-                        style="@style/Enter.Button"
+                        style="@style/Button.Small"
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> menuClick.onMenuEdit(true)}'
                         android:text="@string/menu_note_edit"/>
