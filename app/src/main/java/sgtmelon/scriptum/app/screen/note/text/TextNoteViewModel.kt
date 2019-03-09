@@ -14,6 +14,7 @@ import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
+import sgtmelon.scriptum.app.model.state.IconState
 import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
@@ -51,6 +52,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     private lateinit var noteState: NoteState
     private lateinit var rankVisibleList: List<Long>
 
+    private val iconState = IconState()
+
     fun setupData(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
@@ -76,8 +79,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             setupEnter(inputControl)
         }
 
-        onMenuEdit(noteState.isEdit)
-        noteState.isFirst = false
+        iconState.notAnimate { onMenuEdit(noteState.isEdit) }
     }
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
@@ -103,7 +105,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             isBin = false
         }
 
-        onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
+        iconState.notAnimate { onMenuEdit(mode = false) }
 
         iRoomRepo.updateNoteItem(noteModel.noteItem)
     }
@@ -143,7 +145,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
                         inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
                 )
                 InputAction.text -> callback.changeText(
-                        inputItem.getValue(undo),  inputItem.cursorItem!!.getValue(undo)
+                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
                 )
             }
 
@@ -173,11 +175,10 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
 
-        // TODO extension
-        if (noteState.isCreate) {
-            noteState.isCreate = false
-
-            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
+        noteState.ifCreate {
+            if (!changeMode) {
+                callback.changeToolbarIcon(drawableOn = true, needAnim = true)
+            }
         }
 
         return true
@@ -214,7 +215,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         callback.apply {
             changeToolbarIcon(
                     drawableOn = mode && !noteState.isCreate,
-                    needAnim = !noteState.isCreate && !noteState.isFirst
+                    needAnim = !noteState.isCreate && iconState.animate
             )
 
             bindEdit(mode, noteModel.noteItem)

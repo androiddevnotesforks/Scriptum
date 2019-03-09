@@ -19,6 +19,7 @@ import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.CheckState
+import sgtmelon.scriptum.app.model.state.IconState
 import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
@@ -59,8 +60,9 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     private lateinit var noteState: NoteState
     private lateinit var rankVisibleList: List<Long>
 
-    private val checkState = CheckState()
+    private val iconState = IconState()
 
+    private val checkState = CheckState()
     private val isSaveEnable get() = noteModel.listRoll.size != 0
 
     fun setupData(bundle: Bundle?) {
@@ -91,8 +93,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             setupRecycler(inputControl)
         }
 
-        onMenuEdit(noteState.isEdit)
-        noteState.isFirst = false
+        iconState.notAnimate { onMenuEdit(noteState.isEdit) }
     }
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
@@ -168,7 +169,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             isBin = false
         }
 
-        onMenuEdit(mode = false) // TODO исправить работу иконки назад (происходит анимация)
+        iconState.notAnimate { onMenuEdit(mode = false) }
 
         iRoomRepo.updateNoteItem(noteModel.noteItem)
     }
@@ -278,9 +279,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
 
-        if (noteState.isCreate) {
-            noteState.isCreate = false
-
+        noteState.ifCreate {
             if (!changeMode) {
                 callback.changeToolbarIcon(drawableOn = true, needAnim = true)
             }
@@ -340,7 +339,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         callback.apply {
             changeToolbarIcon(
                     drawableOn = mode && !noteState.isCreate,
-                    needAnim = !noteState.isCreate && !noteState.isFirst
+                    needAnim = !noteState.isCreate && iconState.animate
             )
 
             bindEdit(mode, noteModel.noteItem)
