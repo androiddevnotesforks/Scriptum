@@ -23,8 +23,6 @@ class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boole
 
     // TODO: 29.08.2018 Добавить кнопки к уведомлениям, чтобы была возможность их открепить
 
-    // TODO !! не обновляется statusbar внутри заметки (доделать во Roll/Text ViewModel)
-
     private val pendingIntent: PendingIntent? = TaskStackBuilder.create(context).apply {
         addNextIntent(SplashActivity.getIntent(context, noteItem.type, noteItem.id))
     }.getPendingIntent(noteItem.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)

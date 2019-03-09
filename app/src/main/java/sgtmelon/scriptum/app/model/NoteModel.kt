@@ -13,7 +13,7 @@ import sgtmelon.scriptum.office.annot.DbAnn
  */
 class NoteModel(@field:Embedded var noteItem: NoteItem,
                 @field:Relation(parentColumn = DbAnn.Note.ID, entityColumn = DbAnn.Roll.NOTE_ID)
-               var listRoll: MutableList<RollItem>,
+                var listRoll: MutableList<RollItem>,
                 @field:Ignore var statusItem: StatusItem) {
 
     /**
@@ -25,5 +25,8 @@ class NoteModel(@field:Embedded var noteItem: NoteItem,
         true -> statusItem.notifyNote()
         false -> statusItem.cancelNote()
     }
+
+    fun updateStatus(listRankVisible: List<Long>) =
+            statusItem.updateNote(noteItem, listRankVisible)
 
 }

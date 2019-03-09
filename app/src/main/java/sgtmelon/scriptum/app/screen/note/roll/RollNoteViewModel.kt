@@ -81,6 +81,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             noteState = NoteState(isCreate = true)
         } else {
             noteModel = iRoomRepo.getNoteModel(id)
+            noteModel.updateStatus(listRankVisible)
 
             noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
         }
@@ -278,7 +279,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         }
 
         noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
-        noteModel.statusItem.updateNote(noteModel.noteItem)
+        noteModel.updateStatus(listRankVisible)
 
         noteState.ifCreate {
             if (!changeMode) {
@@ -300,6 +301,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         val noteItem = noteModel.noteItem
         noteItem.change = context.getTime()
         noteItem.setRollText(if (isAll) 0 else size, size)
+
+        noteModel.updateStatus(listRankVisible)
 
         iRoomRepo.updateRollCheck(noteItem, !isAll)
 
@@ -439,6 +442,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
         if (checkState.setAll(check, listRoll.size)) callback.bindNoteItem(noteItem)
 
+        noteModel.updateStatus(listRankVisible)
+
         iRoomRepo.updateRollCheck(rollItem, noteItem)
     }
 
@@ -446,6 +451,8 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         val noteItem = noteModel.noteItem
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
+
+        noteModel.updateStatus(listRankVisible)
 
         callback.apply {
             bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
@@ -471,7 +478,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
         noteItem.rankId = rankId
         noteItem.rankPs = rankPs
 
-        noteModel.statusItem.updateNote(noteModel.noteItem, listRankVisible)
+        noteModel.updateStatus(listRankVisible)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
     }

@@ -69,6 +69,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             noteState = NoteState(isCreate = true)
         } else {
             noteModel = iRoomRepo.getNoteModel(id)
+            noteModel.updateStatus(listRankVisible)
+
             noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
         }
 
@@ -174,6 +176,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         }
 
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
+        noteModel.updateStatus(listRankVisible)
 
         noteState.ifCreate {
             if (!changeMode) {
@@ -273,6 +276,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
+        noteModel.updateStatus(listRankVisible)
+
         callback.apply {
             bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
             tintToolbar(check)
@@ -296,6 +301,8 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         noteItem.rankId = rankId
         noteItem.rankPs = rankPs
+
+        noteModel.updateStatus(listRankVisible)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
     }
