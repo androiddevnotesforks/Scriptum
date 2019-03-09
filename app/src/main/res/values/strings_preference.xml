@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Settings -->
-
     <string name="pref_first_start" translatable="false">key_first_start</string>
+
+
+    <!-- App -->
+    <string name="pref_app_header">App</string>
+
+    <string name="pref_theme_title">Theme</string>
+    <string name="pref_theme_summary">Selected theme</string>
+    <string name="pref_key_theme" translatable="false">key_theme</string>
+
+    <string-array name="pref_theme_text">
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
 
     <!-- Note -->
     <string name="pref_note_header">Notes</string>
@@ -38,6 +50,7 @@
         <item>White</item>
     </string-array>
 
+    <!-- Save -->
     <string name="pref_save_header">Save</string>
 
     <string name="pref_pause_save_title">Save when application paused</string>
@@ -58,17 +71,9 @@
         <item>7 minutes</item>
     </string-array>
 
+
     <!-- Other -->
-    <string name="pref_app_header">App</string>
-
-    <string name="pref_theme_title">Theme</string>
-    <string name="pref_theme_summary">Selected theme</string>
-    <string name="pref_key_theme" translatable="false">key_theme</string>
-
-    <string-array name="pref_theme_text">
-        <item>Light</item>
-        <item>Dark</item>
-    </string-array>
+    <string name="pref_other_header">Other</string>
 
     <string name="pref_rate_title">Rate</string>
     <string name="pref_key_rate" translatable="false">key_rate</string>

@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Settings -->
+    <!-- App -->
+    <string name="pref_app_header">Приложение</string>
+
+    <string name="pref_theme_title">Тема</string>
+    <string name="pref_theme_summary">Выбранная тема</string>
+
+    <string-array name="pref_theme_text">
+        <item>Светлая</item>
+        <item>Тёмная</item>
+    </string-array>
+
 
     <!-- Note -->
     <string name="pref_note_header">Заметки</string>
@@ -34,6 +44,8 @@
         <item>Белый</item>
     </string-array>
 
+
+    <!-- Save -->
     <string name="pref_save_header">Сохранение</string>
 
     <string name="pref_pause_save_title">Сохранение при остановке приложения</string>
@@ -51,16 +63,9 @@
         <item>7 минут</item>
     </string-array>
 
+
     <!-- Other -->
-    <string name="pref_app_header">Приложение</string>
-
-    <string name="pref_theme_title">Тема</string>
-    <string name="pref_theme_summary">Выбранная тема</string>
-
-    <string-array name="pref_theme_text">
-        <item>Светлая</item>
-        <item>Тёмная</item>
-    </string-array>
+    <string name="pref_other_header">Прочее</string>
 
     <string name="pref_rate_title">Оценить</string>
 
