@@ -8,6 +8,8 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
+    fun onClickPreference() = action { onClick(R.id.item_preference) }
+
     fun onLongClickItem(position: Int = positionRandom) =
             action { onLongClick(recyclerId, position) }
 

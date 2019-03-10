@@ -14,7 +14,7 @@ class TextNoteScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun addNote(noteItem: NoteItem) = action {
+    fun addNote(noteItem: NoteItem) = action { // TODO применить
         assert { onDisplayContent(State.NEW) }
 
         NoteToolbar { enterName(noteItem.name) }

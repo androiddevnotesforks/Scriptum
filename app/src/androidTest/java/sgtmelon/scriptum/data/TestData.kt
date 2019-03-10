@@ -13,6 +13,7 @@ class TestData(private val context: Context) {
     val textNoteItem: NoteItem
         get() = NoteItem().apply {
             create = context.getTime()
+            change = context.getTime()
             name = context.getString(R.string.test_note_name)
             text = context.getString(R.string.test_note_text)
             color = (0 until ColorData.size).random()

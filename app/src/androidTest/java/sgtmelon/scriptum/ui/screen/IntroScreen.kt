@@ -27,18 +27,18 @@ class IntroScreen: ParentUi(){
 
     class Assert : BasicMatch() {
 
+        fun onDisplayContent() {
+            onDisplay(R.id.intro_pager)
+            onDisplay(R.id.intro_page_indicator)
+        }
+
         fun onDisplayContent(position: Int) {
             onDisplay(R.id.info_title_text, IntroData.title[position])
             onDisplay(R.id.info_details_text, IntroData.details[position])
         }
 
-        fun isEnableEndButton(position: Int) {
-            with (position == IntroData.count -1) {
-                if (this) Thread.sleep(100)
-
-                isEnable(R.id.intro_end_button, enable = this)
-            }
-        }
+        fun isEnableEndButton(position: Int) =
+                isEnable(R.id.intro_end_button, enable = position == IntroData.count -1)
 
         fun onDisplayEndButton() = onDisplay(R.id.intro_end_button, R.string.info_intro_button)
 

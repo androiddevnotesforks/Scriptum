@@ -7,11 +7,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.AddDialog
 import sgtmelon.scriptum.ui.dialog.NoteDialog
+import sgtmelon.scriptum.ui.screen.PreferenceScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -20,62 +20,26 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentTest() {
 
-    private val listAddNoteType: List<NoteType> = object : ArrayList<NoteType>() {
-        init {
-            add(NoteType.TEXT)
-            add(NoteType.ROLL)
-            add(NoteType.ROLL)
-            add(NoteType.TEXT)
-        }
-    }
-
     override fun setUp() {
         super.setUp()
 
         prefUtils.firstStart = false
     }
 
-    @Test fun testAddDialog() {
-        db.apply { clearAllTables() }.close()
+    @Test fun openPreference() {
         testRule.launchActivity(Intent())
 
         MainScreen {
             assert { onDisplayContent() }
 
-            for (noteType in listAddNoteType) {
-                NotesScreen {
-                    assert { onDisplayContent(empty = true) }
-
-                    onClickFab()
-                    AddDialog {
-                        assert { onDisplayContent() }
-                        onClickItem(noteType)
-                    }
-
-                    when (noteType) {
-                        NoteType.TEXT -> {
-                            TextNoteScreen {
-                                assert { onDisplayContent(State.NEW) }
-                                closeSoftKeyboard()
-                                pressBack()
-                            }
-                        }
-                        NoteType.ROLL -> {
-                            RollNoteScreen {
-                                assert { onDisplayContent(State.NEW) }
-                                closeSoftKeyboard()
-                                pressBack()
-                            }
-                        }
-                    }
-
-                    assert { onDisplayContent(empty = true) }
-                }
+            NotesScreen {
+                onClickPreference()
+                PreferenceScreen { assert { onDisplayContent() } }
             }
         }
     }
 
-    @Test fun testAddTextNote() {
+    @Test fun showTextNoteInListAfterCreate() {
         db.apply { clearAllTables() }.close()
         testRule.launchActivity(Intent())
 
@@ -92,7 +56,9 @@ class NotesTest : ParentTest() {
                 }
 
                 TextNoteScreen {
-                    addNote(TestData(context).textNoteItem)
+                    db.apply { daoNote().insert(TestData(context).textNoteItem) }.close()
+
+                    closeSoftKeyboard()
                     pressBack()
                 }
 
@@ -101,10 +67,42 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun testTextNoteDialogOpen() {
-        db.clearAllTables()
+    @Test fun showRollNoteInListAfterCreate() {
+        TODO (reason = "create rollNote insert in TestData")
+
+        db.apply { clearAllTables() }.close()
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            assert { onDisplayContent() }
+
+            NotesScreen {
+                assert { onDisplayContent(empty = true) }
+
+                onClickFab()
+                AddDialog {
+                    assert { onDisplayContent() }
+                    onClickItem(NoteType.TEXT)
+                }
+
+                RollNoteScreen {
+//                    db.apply { daoNote().insert(TestData(context).textNoteItem) }.close() TODO
+
+                    closeSoftKeyboard()
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun showTextNoteDialog() {
         val noteItem = TestData(context).textNoteItem
-        db.daoNote().insert(noteItem)
+        db.apply {
+            clearAllTables()
+            daoNote().insert(noteItem)
+        }.close()
 
         testRule.launchActivity(Intent())
 
@@ -121,6 +119,10 @@ class NotesTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
             }
         }
+    }
+
+    @Test fun showRollNoteDialog() {
+        TODO (reason = "create rollNote insert in TestData")
     }
 
 }
