@@ -11,4 +11,8 @@
         While you\'re traveling with me
     </string>
 
+    <string name="test_roll_text" translatable="false">
+        The Sun Ain\'t Gonna Shine Anymore
+    </string>
+
 </resources>
