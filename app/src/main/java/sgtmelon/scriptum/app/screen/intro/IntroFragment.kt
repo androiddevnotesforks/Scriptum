@@ -17,7 +17,7 @@ class IntroFragment : Fragment() {
 
     lateinit var binding: IncludeInfoBinding
 
-    private var page: Int = -1
+    private var page: Int = UNDEFINED
 
     private val parentContainer: View? by lazy {
         view?.findViewById<View>(R.id.info_parent_container)
@@ -33,9 +33,10 @@ class IntroFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         page = savedInstanceState?.getInt(PAGE_CURRENT)
-                ?: arguments!!.getInt(PAGE_CURRENT)
+                ?: arguments?.getInt(PAGE_CURRENT)
+                ?: UNDEFINED
 
-        binding.bind(page)
+        if (page != UNDEFINED) binding.bind(page)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -51,15 +52,10 @@ class IntroFragment : Fragment() {
 
     companion object {
         private const val PAGE_CURRENT = "ARGUMENT_INTRO_PAGE_CURRENT"
+        private const val UNDEFINED = -1
 
-        fun getInstance(page: Int): IntroFragment {
-            val introFragment = IntroFragment()
-
-            val bundle = Bundle()
-            bundle.putInt(PAGE_CURRENT, page)
-
-            introFragment.arguments = bundle
-            return introFragment
+        fun getInstance(page: Int) = IntroFragment().apply {
+            arguments = Bundle().apply { putInt(PAGE_CURRENT, page) }
         }
     }
 

@@ -1,21 +1,21 @@
 package sgtmelon.scriptum.test.main
 
+import android.content.Intent
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.app.screen.splash.SplashActivity
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.ui.dialog.AddDialog
+import sgtmelon.scriptum.ui.dialog.NoteDialog
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
-import sgtmelon.scriptum.ui.screen.note.roll.RollNoteScreen
-import sgtmelon.scriptum.ui.screen.note.text.TextNoteScreen
-import sgtmelon.scriptum.ui.widget.note.State
+import sgtmelon.scriptum.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentTest() {
@@ -29,8 +29,6 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @get:Rule val testRule = ActivityTestRule(SplashActivity::class.java)
-
     override fun setUp() {
         super.setUp()
 
@@ -38,70 +36,89 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun testAddDialog() {
+        db.apply { clearAllTables() }.close()
+        testRule.launchActivity(Intent())
+
         MainScreen {
             assert { onDisplayContent() }
 
             for (noteType in listAddNoteType) {
-                addDialog {
-                    open()
-                    onClickItem(noteType)
-                }
+                NotesScreen {
+                    assert { onDisplayContent(empty = true) }
 
-                when (noteType) {
-                    NoteType.TEXT -> {
-                        TextNoteScreen {
-                            assert { onDisplayContent(State.NEW) }
-                            closeSoftKeyboard()
-                            pressBack()
+                    onClickFab()
+                    AddDialog {
+                        assert { onDisplayContent() }
+                        onClickItem(noteType)
+                    }
+
+                    when (noteType) {
+                        NoteType.TEXT -> {
+                            TextNoteScreen {
+                                assert { onDisplayContent(State.NEW) }
+                                closeSoftKeyboard()
+                                pressBack()
+                            }
+                        }
+                        NoteType.ROLL -> {
+                            RollNoteScreen {
+                                assert { onDisplayContent(State.NEW) }
+                                closeSoftKeyboard()
+                                pressBack()
+                            }
                         }
                     }
-                    NoteType.ROLL -> {
-                        RollNoteScreen {
-                            assert { onDisplayContent(State.NEW) }
-                            closeSoftKeyboard()
-                            pressBack()
-                        }
-                    }
-                }
 
-                assert { onDisplayContent() }
+                    assert { onDisplayContent(empty = true) }
+                }
             }
         }
     }
 
     @Test fun testAddTextNote() {
-        MainScreen {
-            assert { onDisplayContent() }
-
-            addDialog {
-                open()
-                onClickItem(NoteType.TEXT)
-            }
-
-            TextNoteScreen {
-                addNote(TestData(context).textNoteItem)
-                pressBack()
-            }
-
-            assert { onDisplayContent() }
-        }
-    }
-
-    @Test fun testTextNoteDialogOpen() {
-        db.clearAllTables()
+        db.apply { clearAllTables() }.close()
+        testRule.launchActivity(Intent())
 
         MainScreen {
             assert { onDisplayContent() }
 
             NotesScreen {
-                testAddTextNote()
+                assert { onDisplayContent(empty = true) }
 
-                onLongClickItem(0)
+                onClickFab()
+                AddDialog {
+                    assert { onDisplayContent() }
+                    onClickItem(NoteType.TEXT)
+                }
 
-                noteDialog { assert { onDisplayContent(TestData(context).textNoteItem) } }
+                TextNoteScreen {
+                    addNote(TestData(context).textNoteItem)
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun testTextNoteDialogOpen() {
+        db.clearAllTables()
+        val noteItem = TestData(context).textNoteItem
+        db.daoNote().insert(noteItem)
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            assert { onDisplayContent() }
+
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
                 pressBack()
 
-                assert { onDisplayContent(empty = count == 0) }
+                assert { onDisplayContent(empty = false) }
             }
         }
     }

@@ -1,12 +1,10 @@
 package sgtmelon.scriptum.test.main
 
+import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.MainPage
-import sgtmelon.scriptum.app.screen.splash.SplashActivity
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 
@@ -24,12 +22,13 @@ class MainTest : ParentTest() {
         }
     }
 
-    @get:Rule val testRule = ActivityTestRule(SplashActivity::class.java)
-
     override fun setUp() {
         super.setUp()
 
         prefUtils.firstStart = false
+
+        db.apply { clearAllTables() }.close()
+        testRule.launchActivity(Intent())
     }
 
     @Test fun testNavigation() {
@@ -49,8 +48,6 @@ class MainTest : ParentTest() {
     }
 
     @Test fun testDisplayInfo() {
-        db.clearAllTables()
-
         MainScreen {
             assert {
                 onDisplayContent()
@@ -65,5 +62,6 @@ class MainTest : ParentTest() {
             }
         }
     }
+
 
 }

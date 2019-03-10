@@ -1,24 +1,20 @@
 package sgtmelon.scriptum.test.main
 
+import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.MainPage
-import sgtmelon.scriptum.app.screen.splash.SplashActivity
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.dialog.clear.ClearDialogUi
-import sgtmelon.scriptum.ui.dialog.note.NoteDialogUi
+import sgtmelon.scriptum.ui.dialog.ClearDialog
+import sgtmelon.scriptum.ui.dialog.NoteDialog
+import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.bin.BinScreen
-import sgtmelon.scriptum.ui.screen.main.notes.NotesScreen
+import sgtmelon.scriptum.ui.screen.main.NotesScreen
 
 @RunWith(AndroidJUnit4::class)
 class BinTest : ParentTest() {
-
-    @get:Rule val testRule = ActivityTestRule(SplashActivity::class.java)
 
     override fun setUp() {
         super.setUp()
@@ -27,13 +23,16 @@ class BinTest : ParentTest() {
     }
 
     @Test fun testClearBin() {
-        db.clearAllTables()
-        with(TestData(context).textNoteItem) {
-            isBin = true
-            repeat(times = 5) {
-                db.daoNote().insert(this)
+        db.apply {
+            clearAllTables()
+
+            with(TestData(context).textNoteItem) {
+                isBin = true
+                repeat(times = 5) { daoNote().insert(this) }
             }
-        }
+        }.close()
+
+        testRule.launchActivity(Intent())
 
         MainScreen {
             assert { onDisplayContent() }
@@ -43,7 +42,7 @@ class BinTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
 
                 onClickClearBin()
-                ClearDialogUi {
+                ClearDialog {
                     assert { onDisplayContent() }
                     onClickNo()
                 }
@@ -51,7 +50,7 @@ class BinTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
 
                 onClickClearBin()
-                ClearDialogUi {
+                ClearDialog {
                     assert { onDisplayContent() }
                     onClickYes()
                 }
@@ -62,10 +61,13 @@ class BinTest : ParentTest() {
     }
 
     @Test fun testNoteRestore() {
-        db.clearAllTables()
-
         val noteItem = TestData(context).textNoteItem.apply { isBin = true }
-        db.daoNote().insert(noteItem)
+        db.apply {
+            clearAllTables()
+            daoNote().insert(noteItem)
+        }.close()
+
+        testRule.launchActivity(Intent())
 
         MainScreen {
             assert { onDisplayContent() }
@@ -75,7 +77,7 @@ class BinTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
 
                 onLongClickItem()
-                NoteDialogUi {
+                NoteDialog {
                     assert { onDisplayContent(noteItem) }
                     onClickRestore()
                 }
@@ -89,10 +91,13 @@ class BinTest : ParentTest() {
     }
 
     @Test fun testNoteClear() {
-        db.clearAllTables()
-
         val noteItem = TestData(context).textNoteItem.apply { isBin = true }
-        db.daoNote().insert(noteItem)
+        db.apply {
+            clearAllTables()
+            daoNote().insert(noteItem)
+        }.close()
+
+        testRule.launchActivity(Intent())
 
         MainScreen {
             assert { onDisplayContent() }
@@ -102,11 +107,12 @@ class BinTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
 
                 onLongClickItem()
-                NoteDialogUi {
+                NoteDialog {
                     assert { onDisplayContent(noteItem) }
                     onClickClear()
                 }
 
+                Thread.sleep(300)
                 assert { onDisplayContent(empty = true) }
             }
 

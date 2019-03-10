@@ -1,13 +1,14 @@
 package sgtmelon.scriptum.test
 
+import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.rule.ActivityTestRule
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.app.screen.intro.IntroActivity
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.ui.screen.intro.IntroScreen
+import sgtmelon.scriptum.ui.screen.IntroScreen
+import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест для [IntroActivity]
@@ -15,18 +16,12 @@ import sgtmelon.scriptum.ui.screen.intro.IntroScreen
 @RunWith(AndroidJUnit4::class)
 class IntroTest : ParentTest() {
 
-    @get:Rule val testRule = ActivityTestRule(IntroActivity::class.java)
-
     override fun setUp() {
         super.setUp()
 
         prefUtils.firstStart = true
-    }
 
-    override fun tearDown() {
-        super.tearDown()
-
-        prefUtils.firstStart = false
+        testRule.launchActivity(Intent())
     }
 
     @Test fun testContent() {
@@ -60,6 +55,13 @@ class IntroTest : ParentTest() {
             assert { onDisplayEndButton() }
 
             onClickEndButton()
+        }
+
+        MainScreen {
+            assert {
+                onDisplayContent()
+                onDisplayContent(MainPage.Name.NOTES)
+            }
         }
     }
 

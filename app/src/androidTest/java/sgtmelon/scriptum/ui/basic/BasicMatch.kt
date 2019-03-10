@@ -38,14 +38,8 @@ open class BasicMatch {
     protected fun isSelected(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isSelected()))
 
-    protected fun isEnable(@IdRes viewId: Int, enable: Boolean) {
-        if (enable) {
-            onView(withId(viewId)).check(matches(isEnabled()))
-        } else {
-            onView(withId(viewId)).check(matches(not(isEnabled())))
-        }
-    }
-
+    protected fun isEnable(@IdRes viewId: Int, enable: Boolean): ViewInteraction =
+            onView(withId(viewId)).check(matches(if (enable) isEnabled() else not(isEnabled())))
 
     protected fun onDisplayText(@StringRes stringId: Int): ViewInteraction =
             onView(withText(stringId)).check(matches(isDisplayed()))
