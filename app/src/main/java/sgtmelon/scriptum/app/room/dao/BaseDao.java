@@ -56,29 +56,29 @@ abstract class BaseDao {
     abstract int getNoteCount(int type, List<Long> noteId);
 
     @Update
-    abstract void updateNote(List<NoteItem> listNote);
+    abstract void updateNote(List<NoteItem> noteList);
 
     /**
      * Обновление при удалении категории
      *
-     * @param noteId - Id заметок принадлижащих к категории
+     * @param noteIdList - Id заметок принадлижащих к категории
      * @param rankId - Id категории, которую удалили
      */
-    void updateNote(List<Long> noteId, long rankId) {
-        final List<NoteItem> listNote = getNote(noteId);
+    void updateNote(List<Long> noteIdList, long rankId) {
+        final List<NoteItem> noteList = getNote(noteIdList);
 
-        for (NoteItem noteItem : listNote) {
+        for (NoteItem noteItem : noteList) {
             //Убирает из списков ненужную категорию по id
-            final List<Long> listRankId = noteItem.getRankId();
-            final List<Long> listRankPs = noteItem.getRankPs();
+            final List<Long> rankIdList = noteItem.getRankId();
+            final List<Long> rankPsList = noteItem.getRankPs();
 
-            final int index = listRankId.indexOf(rankId);
+            final int index = rankIdList.indexOf(rankId);
 
-            listRankId.remove(index);
-            listRankPs.remove(index);
+            rankIdList.remove(index);
+            rankPsList.remove(index);
         }
 
-        updateNote(listNote);
+        updateNote(noteList);
     }
 
     /**
@@ -112,20 +112,20 @@ abstract class BaseDao {
     abstract List<RankItem> getRank(List<Long> id);
 
     @Update
-    public abstract void updateRank(List<RankItem> listRank);
+    public abstract void updateRank(List<RankItem> rankList);
 
     /**
      * @param noteId     - Id заметки, которую необходимо убрать из категории
-     * @param listRankId - Массив из id категорий, принадлежащих заметке
+     * @param rankIdList - Массив из id категорий, принадлежащих заметке
      */
-    void clearRank(long noteId, List<Long> listRankId) {
-        final List<RankItem> listRank = getRank(listRankId);
+    void clearRank(long noteId, List<Long> rankIdList) {
+        final List<RankItem> rankList = getRank(rankIdList);
 
-        for (RankItem rankItem : listRank) {
+        for (final RankItem rankItem : rankList) {
             rankItem.getNoteId().remove(noteId);
         }
 
-        updateRank(listRank);
+        updateRank(rankList);
     }
 
 }

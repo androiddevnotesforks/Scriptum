@@ -9,6 +9,7 @@ import org.junit.Before
 import org.junit.Rule
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.splash.SplashActivity
+import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.PrefUtils
 
@@ -24,7 +25,10 @@ abstract class ParentTest {
     protected val context: Context = getInstrumentation().targetContext
 
     val prefUtils = PrefUtils(context)
+
+    val testData = TestData(context)
     val db: RoomDb = RoomDb.provideDb(context)
+
 
     @Before
     @CallSuper

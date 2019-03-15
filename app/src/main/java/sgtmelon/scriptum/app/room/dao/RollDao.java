@@ -31,7 +31,7 @@ public abstract class RollDao extends BaseDao {
      */
     public List<RollItem> insert(long noteId, String text) {
         final String[] textToRoll = text.split("\n");
-        final List<RollItem> listRoll = new ArrayList<>();
+        final List<RollItem> rollList = new ArrayList<>();
 
         int p = 0;
         for (String toRoll : textToRoll) {
@@ -45,10 +45,10 @@ public abstract class RollDao extends BaseDao {
 
             rollItem.setId(insert(rollItem));
 
-            listRoll.add(rollItem);
+            rollList.add(rollItem);
         }
 
-        return listRoll;
+        return rollList;
     }
 
     @Query("SELECT * FROM ROLL_TABLE " +
@@ -58,16 +58,16 @@ public abstract class RollDao extends BaseDao {
     /**
      * Получение текста для текстовой заметки на основе списка
      *
-     * @param idNote - Id заметки
+     * @param noteId - Id заметки
      * @return - Строка для текстовой заметки
      */
-    public String getText(long idNote) {
-        final List<RollItem> listRoll = getRoll(idNote);
+    public String getText(long noteId) {
+        final List<RollItem> rollList = getRoll(noteId);
 
         final StringBuilder text = new StringBuilder();
-        for (int i = 0; i < listRoll.size(); i++) {
+        for (int i = 0; i < rollList.size(); i++) {
             if (i != 0) text.append("\n");
-            text.append(listRoll.get(i).getText());
+            text.append(rollList.get(i).getText());
         }
 
         return text.toString();
@@ -81,20 +81,20 @@ public abstract class RollDao extends BaseDao {
      * @return - Строка для уведомления
      */
     public String getText(long idNote, String check) {
-        final List<RollItem> listRoll = getRoll(idNote);
+        final List<RollItem> rollList = getRoll(idNote);
 
         final StringBuilder text = new StringBuilder();
         text.append(check).append(" |");
 
-        for (int i = 0; i < listRoll.size(); i++) {
-            final RollItem rollItem = listRoll.get(i);
+        for (int i = 0; i < rollList.size(); i++) {
+            final RollItem rollItem = rollList.get(i);
 
             if (rollItem.isCheck()) text.append(" \u2713 ");
             else text.append(" - ");
 
             text.append(rollItem.getText());
 
-            if (i != listRoll.size() - 1) text.append(" |");
+            if (i != rollList.size() - 1) text.append(" |");
         }
 
         return text.toString();
@@ -145,13 +145,13 @@ public abstract class RollDao extends BaseDao {
     public abstract void delete(long idNote);
 
     public void listAll(TextView textView) {
-        final List<RollItem> listRoll = get();
+        final List<RollItem> rollList = get();
 
         final String annotation = "Roll Data Base:";
         textView.setText(annotation);
 
-        for (int i = 0; i < listRoll.size(); i++) {
-            final RollItem rollItem = listRoll.get(i);
+        for (int i = 0; i < rollList.size(); i++) {
+            final RollItem rollItem = rollList.get(i);
 
             textView.append("\n\n" +
                     "ID: " + rollItem.getId() + " | " +
@@ -162,6 +162,7 @@ public abstract class RollDao extends BaseDao {
             final String text = rollItem.getText();
             textView.append("TX: " + text.substring(0, Math.min(text.length(), 45))
                     .replace("\n", " "));
+
             if (text.length() > 40) textView.append("...");
         }
     }

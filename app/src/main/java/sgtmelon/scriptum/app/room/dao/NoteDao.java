@@ -35,28 +35,28 @@ public abstract class NoteDao extends BaseDao {
 
     public NoteModel get(Context context, long id) {
         final NoteItem noteItem = get(id);
-        final List<RollItem> listRoll = getRoll(id);
+        final List<RollItem> rollList = getRoll(id);
 
         final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-        return new NoteModel(noteItem, listRoll, statusItem);
+        return new NoteModel(noteItem, rollList, statusItem);
     }
 
     public List<NoteModel> get(Context context, boolean bin) {
-        final List<NoteModel> listNoteModel = new ArrayList<>();
-        final List<NoteItem> listNote = getNote(bin, new PrefUtils(context).getSortNoteOrder());
+        final List<NoteModel> noteModelList = new ArrayList<>();
+        final List<NoteItem> noteList = getNote(bin, new PrefUtils(context).getSortNoteOrder());
 
-        final List<Long> rkVisible = getRankVisible();
+        final List<Long> rankVisibleList = getRankVisible();
 
-        for (int i = 0; i < listNote.size(); i++) {
-            final NoteItem noteItem = listNote.get(i);
-            final List<RollItem> listRoll = getRollView(noteItem.getId());
+        for (int i = 0; i < noteList.size(); i++) {
+            final NoteItem noteItem = noteList.get(i);
+            final List<RollItem> rollList = getRollView(noteItem.getId());
             final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-            final NoteModel noteModel = new NoteModel(noteItem, listRoll, statusItem);
+            final NoteModel noteModel = new NoteModel(noteItem, rollList, statusItem);
 
-            final List<Long> rkId = noteItem.getRankId();
-            if (rkId.size() != 0 && !rkVisible.contains(rkId.get(0))) {
+            final List<Long> rankIdList = noteItem.getRankId();
+            if (rankIdList.size() != 0 && !rankVisibleList.contains(rankIdList.get(0))) {
                 statusItem.cancelNote();
             } else {
                 if (noteItem.isStatus() && NotesViewModel.Companion.getUpdateStatus()) {
@@ -64,10 +64,10 @@ public abstract class NoteDao extends BaseDao {
                 }
 
                 noteModel.setStatusItem(statusItem);
-                listNoteModel.add(noteModel);
+                noteModelList.add(noteModel);
             }
         }
-        return listNoteModel;
+        return noteModelList;
     }
 
     @Query("SELECT * FROM NOTE_TABLE " +
@@ -84,15 +84,15 @@ public abstract class NoteDao extends BaseDao {
      * @param context - Контекст для получения сортировки
      */
     public void update(Context context) {
-        final List<NoteItem> listNote = getNote(false, new PrefUtils(context).getSortNoteOrder());
-        final List<Long> rkVisible = getRankVisible();
+        final List<NoteItem> noteList = getNote(false, new PrefUtils(context).getSortNoteOrder());
+        final List<Long> rankVisibleList = getRankVisible();
 
-        for (int i = 0; i < listNote.size(); i++) {
-            final NoteItem noteItem = listNote.get(i);
+        for (int i = 0; i < noteList.size(); i++) {
+            final NoteItem noteItem = noteList.get(i);
             final StatusItem statusItem = new StatusItem(context, noteItem, false);
 
-            final List<Long> rkId = noteItem.getRankId();
-            if (rkId.size() != 0 && !rkVisible.contains(rkId.get(0))) {
+            final List<Long> rankIdList = noteItem.getRankId();
+            if (rankIdList.size() != 0 && !rankVisibleList.contains(rankIdList.get(0))) {
                 statusItem.cancelNote();
             } else if (noteItem.isStatus()) {
                 statusItem.notifyNote();
@@ -133,29 +133,29 @@ public abstract class NoteDao extends BaseDao {
     }
 
     public void clearBin() {
-        final List<NoteItem> listNote = get(true);
+        final List<NoteItem> noteList = get(true);
 
-        for (int i = 0; i < listNote.size(); i++) {
-            final NoteItem noteItem = listNote.get(i);
+        for (int i = 0; i < noteList.size(); i++) {
+            final NoteItem noteItem = noteList.get(i);
 
-            final List<Long> rkId = noteItem.getRankId();
-            if (rkId.size() != 0) {
-                clearRank(noteItem.getId(), rkId);
+            final List<Long> rankIdList = noteItem.getRankId();
+            if (rankIdList.size() != 0) {
+                clearRank(noteItem.getId(), rankIdList);
             }
         }
 
-        delete(listNote);
+        delete(noteList);
     }
 
     public void listAll(TextView textView) {
-        final List<NoteItem> listNote = get(true);
-        listNote.addAll(get(false));
+        final List<NoteItem> noteList = get(true);
+        noteList.addAll(get(false));
 
         final String annotation = "Note Data Base:";
         textView.setText(annotation);
 
-        for (int i = 0; i < listNote.size(); i++) {
-            final NoteItem noteItem = listNote.get(i);
+        for (int i = 0; i < noteList.size(); i++) {
+            final NoteItem noteItem = noteList.get(i);
 
             textView.append("\n\n" +
                     "ID: " + noteItem.getId() + " | " +

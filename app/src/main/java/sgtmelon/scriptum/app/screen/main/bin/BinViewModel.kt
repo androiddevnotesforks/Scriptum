@@ -21,31 +21,35 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
 
     lateinit var callback: BinCallback
 
-    private val listNoteModel: MutableList<NoteModel> = ArrayList()
+    private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
         val list = iRoomRepo.getNoteRepoList(fromBin = true)
 
-        listNoteModel.clear()
-        listNoteModel.addAll(list)
+        noteModelList.clear()
+        noteModelList.addAll(list)
 
-        callback.notifyDataSetChanged(listNoteModel)
-        callback.notifyMenuClearBin()
-        callback.bind()
+        callback.apply {
+            notifyDataSetChanged(noteModelList)
+            notifyMenuClearBin()
+            bind()
+        }
     }
 
     fun onClickClearBin() {
         iRoomRepo.clearBin()
 
-        listNoteModel.clear()
+        noteModelList.clear()
 
-        callback.notifyDataSetChanged(listNoteModel)
-        callback.notifyMenuClearBin()
-        callback.bind()
+        callback.apply {
+            notifyDataSetChanged(noteModelList)
+            notifyMenuClearBin()
+            bind()
+        }
     }
 
     fun onClickNote(p: Int) {
-        val noteItem = listNoteModel[p].noteItem
+        val noteItem = noteModelList[p].noteItem
         callback.startNote(context.getNoteIntent(noteItem.type, noteItem.id))
     }
 
@@ -55,7 +59,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsDef.Bin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
-            OptionsDef.Bin.copy -> context.copyToClipboard(listNoteModel[p].noteItem)
+            OptionsDef.Bin.copy -> context.copyToClipboard(noteModelList[p].noteItem)
             OptionsDef.Bin.clear -> callback.notifyItemRemoved(p, clearItem(p))
         }
 
@@ -63,19 +67,17 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun restoreItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.restoreNoteItem(listNoteModel[p].noteItem.id)
+        iRoomRepo.restoreNoteItem(noteModelList[p].noteItem.id)
 
-        listNoteModel.removeAt(p)
-
-        return listNoteModel
+        noteModelList.removeAt(p)
+        return noteModelList
     }
 
     private fun clearItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.clearNoteItem(listNoteModel[p].noteItem.id)
+        iRoomRepo.clearNoteItem(noteModelList[p].noteItem.id)
 
-        listNoteModel.removeAt(p)
-
-        return listNoteModel
+        noteModelList.removeAt(p)
+        return noteModelList
     }
 
 }

@@ -19,13 +19,13 @@ public final class StringConverter {
     public List<Long> fromString(@NonNull String value) {
         if (!value.equals(DbAnn.Value.NONE) && !value.equals("")) {
             final String[] stringArray = value.split(DbAnn.Value.DIVIDER);
-            final List<Long> listLong = new ArrayList<>();
+            final List<Long> longList = new ArrayList<>();
 
-            for (String str : stringArray) {
-                listLong.add(Long.parseLong(str));
+            for (final String str : stringArray) {
+                longList.add(Long.parseLong(str));
             }
 
-            return listLong;
+            return longList;
         } else {
             return new ArrayList<>();
         }

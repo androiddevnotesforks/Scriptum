@@ -31,17 +31,17 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         rankModel = db.daoRank().get()
         db.close()
 
-        callback.notifyDataSetChanged(rankModel.listRank)
+        callback.notifyDataSetChanged(rankModel.itemList)
         callback.bindList(rankModel.size())
     }
 
     fun onShowRenameDialog(p: Int) =
-            callback.showRenameDialog(p, rankModel.listRank[p].name, ArrayList(rankModel.listName))
+            callback.showRenameDialog(p, rankModel.itemList[p].name, ArrayList(rankModel.nameList))
 
     fun onRenameDialog(p: Int, name: String) {
         rankModel.set(p, name)
 
-        val rankItem = rankModel.listRank[p]
+        val rankItem = rankModel.itemList[p]
 
         val db = RoomDb.provideDb(context)
         db.daoRank().update(rankItem)
@@ -54,7 +54,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     fun onEditorClick(i: Int, name: String): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        if (!TextUtils.isEmpty(name) && !rankModel.listName.contains(name)) {
+        if (!TextUtils.isEmpty(name) && !rankModel.nameList.contains(name)) {
             onClickAdd(simpleClick = true)
             return true
         }
@@ -74,28 +74,28 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         rankModel.add(p, rankItem)
 
-        callback.scrollToItem(simpleClick, rankModel.listRank)
+        callback.scrollToItem(simpleClick, rankModel.itemList)
     }
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
         val db = RoomDb.provideDb(context)
-        rankModel.listRank.clear()
-        rankModel.listRank.addAll(db.daoRank().update(dragFrom, dragTo))
+        rankModel.itemList.clear()
+        rankModel.itemList.addAll(db.daoRank().update(dragFrom, dragTo))
         db.daoNote().update(context)
         db.close()
 
-        callback.notifyDataSetChanged(rankModel.listRank)
+        callback.notifyDataSetChanged(rankModel.itemList)
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
         rankModel.move(from, to)
-        callback.notifyItemMoved(from, to, rankModel.listRank)
+        callback.notifyItemMoved(from, to, rankModel.itemList)
 
         return true
     }
 
     fun onClickVisible(p: Int) {
-        val rankItem = rankModel.listRank[p]
+        val rankItem = rankModel.itemList[p]
         rankItem.isVisible = !rankItem.isVisible
 
         val db = RoomDb.provideDb(context)
@@ -107,27 +107,27 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     }
 
     fun onLongClickVisible(p: Int) {
-        val listRank = rankModel.listRank
-        val startAnim = BooleanArray(listRank.size)
+        val rankList = rankModel.itemList
+        val startAnim = BooleanArray(rankList.size)
 
-        val clickVisible = listRank[p].isVisible
-        listRank.forEachIndexed { index, rankItem ->
+        val clickVisible = rankList[p].isVisible
+        rankList.forEachIndexed { index, rankItem ->
             if (index == p || clickVisible != rankItem.isVisible) return@forEachIndexed
 
             rankItem.isVisible = !rankItem.isVisible
             startAnim[index] = true
         }
 
-        callback.notifyVisible(startAnim, listRank)
+        callback.notifyVisible(startAnim, rankList)
 
         val db = RoomDb.provideDb(context)
-        db.daoRank().updateRank(listRank)
+        db.daoRank().updateRank(rankList)
         db.daoNote().update(context)
         db.close()
     }
 
     fun onClickCancel(p: Int) {
-        val rankItem = rankModel.listRank[p]
+        val rankItem = rankModel.itemList[p]
 
         val db = RoomDb.provideDb(context)
         db.daoRank().delete(rankItem.name)
@@ -137,7 +137,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         rankModel.remove(p)
 
-        callback.notifyItemRemoved(p, rankModel.listRank)
+        callback.notifyItemRemoved(p, rankModel.itemList)
     }
 
 }

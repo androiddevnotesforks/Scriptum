@@ -23,6 +23,8 @@ import sgtmelon.scriptum.office.utils.AppUtils.setState
 
 class MainActivity : ParentActivity(), MainCallback {
 
+    // TODO -- rename (example: listSong -> songList)
+
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java)
     }

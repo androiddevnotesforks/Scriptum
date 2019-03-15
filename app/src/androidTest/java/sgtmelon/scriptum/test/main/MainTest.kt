@@ -18,7 +18,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentTest() {
 
-    private val listPage = object : ArrayList<MainPage.Name>() {
+    private val pageList = object : ArrayList<MainPage.Name>() {
         init {
             add(MainPage.Name.RANK)
             add(MainPage.Name.NOTES)
@@ -41,7 +41,7 @@ class MainTest : ParentTest() {
             assert { onDisplayContent() }
 
             repeat(times = 3) {
-                for (page in listPage) {
+                for (page in pageList) {
                     navigateTo(page)
                     assert { onDisplayContent(page) }
                 }
@@ -63,7 +63,7 @@ class MainTest : ParentTest() {
             assert { onDisplayContent() }
 
             repeat(times = 3) {
-                for (page in listPage) {
+                for (page in pageList) {
                     navigateTo(page)
                     assert { onDisplayContent(page) }
                 }

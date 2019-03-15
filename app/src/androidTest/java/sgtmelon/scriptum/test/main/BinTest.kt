@@ -26,7 +26,7 @@ class BinTest : ParentTest() {
         db.apply {
             clearAllTables()
 
-            with(TestData(context).textNoteItem) {
+            with(TestData(context).textNote) {
                 isBin = true
                 repeat(times = 5) { daoNote().insert(this) }
             }
@@ -61,7 +61,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun testNoteRestore() {
-        val noteItem = TestData(context).textNoteItem.apply { isBin = true }
+        val noteItem = TestData(context).textNote.apply { isBin = true }
         db.apply {
             clearAllTables()
             daoNote().insert(noteItem)
@@ -91,7 +91,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun testNoteClear() {
-        val noteItem = TestData(context).textNoteItem.apply { isBin = true }
+        val noteItem = TestData(context).textNote.apply { isBin = true }
         db.apply {
             clearAllTables()
             daoNote().insert(noteItem)

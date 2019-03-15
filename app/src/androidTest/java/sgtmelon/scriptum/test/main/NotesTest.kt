@@ -8,7 +8,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.AddDialog
 import sgtmelon.scriptum.ui.dialog.NoteDialog
@@ -59,7 +58,7 @@ class NotesTest : ParentTest() {
                 TextNoteScreen {
                     assert { onDisplayContent(State.NEW) }
 
-                    db.apply { daoNote().insert(TestData(context).textNoteItem) }.close()
+                    testData.insertTextNote()
 
                     closeSoftKeyboard()
                     pressBack()
@@ -89,15 +88,7 @@ class NotesTest : ParentTest() {
                 RollNoteScreen {
                     assert { onDisplayContent(State.NEW) }
 
-                    db.apply {
-                        with(TestData(context)) {
-                            val id = daoNote().insert(rollNoteItem)
-                            listRollItem.forEach {
-                                it.noteId = id
-                                daoRoll().insert(it)
-                            }
-                        }
-                    }.close()
+                    testData.insertRollNote()
 
                     closeSoftKeyboard()
                     pressBack()
@@ -109,12 +100,8 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun showTextNoteDialog() {
-
-        val noteItem = TestData(context).textNoteItem
-        db.apply {
-            clearAllTables()
-            daoNote().insert(noteItem)
-        }.close()
+        testData.clearAllData()
+        val noteItem = testData.insertTextNote()
 
         testRule.launchActivity(Intent())
 
@@ -134,17 +121,8 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun showRollNoteDialog() {
-        val testData = TestData(context)
-        val noteItem = testData.rollNoteItem
-
-        db.apply {
-            clearAllTables()
-            val id = daoNote().insert(noteItem)
-            testData.listRollItem.forEach {
-                it.noteId = id
-                daoRoll().insert(it)
-            }
-        }.close()
+        testData.clearAllData()
+        val noteItem = testData.insertRollNote()
 
         testRule.launchActivity(Intent())
 
@@ -161,6 +139,34 @@ class NotesTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
             }
         }
+    }
+
+    @Test fun bindTextNote() {
+        // TODO (reasong = "не знаю как проверить")
+        testData.clearAllData()
+        val noteItem = testData.insertTextNote()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            assert { onDisplayContent() }
+
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun bindRollNote() {
+
     }
 
 }

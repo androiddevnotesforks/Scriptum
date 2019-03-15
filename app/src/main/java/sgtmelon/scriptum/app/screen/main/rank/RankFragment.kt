@@ -158,7 +158,7 @@ class RankFragment : Fragment(), RankCallback {
         val name = rankEnter?.text.toString().toUpperCase()
 
         binding.nameNotEmpty = !TextUtils.isEmpty(name)
-        binding.listNotContain = !viewModel.rankModel.listName.contains(name)
+        binding.listNotContain = !viewModel.rankModel.nameList.contains(name)
         binding.executePendingBindings()
     }
 
