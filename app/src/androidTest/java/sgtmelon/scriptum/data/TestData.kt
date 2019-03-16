@@ -15,7 +15,7 @@ class TestData(private val context: Context) {
 
     // TODO testRoomDao
 
-    private val dataBase: RoomDb get() = RoomDb.provideDb(context)
+    private val dataBase: RoomDb get() = RoomDb.getInstance(context)
 
     val textNote: NoteItem
         get() = NoteItem().apply {

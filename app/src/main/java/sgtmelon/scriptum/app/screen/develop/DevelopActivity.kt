@@ -12,7 +12,7 @@ class DevelopActivity : ParentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_develop)
 
-        val db = RoomDb.provideDb(this)
+        val db = RoomDb.getInstance(context = this)
         db.daoNote().listAll(findViewById(R.id.note_text))
         db.daoRoll().listAll(findViewById(R.id.roll_text))
         db.daoRank().listAll(findViewById(R.id.rank_text))

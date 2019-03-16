@@ -26,8 +26,8 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     var rankModel: RankModel = RankModel(ArrayList(), ArrayList())
         private set
 
-    fun onUpdateData() {
-        val db = RoomDb.provideDb(context)
+    fun onUpdateData() { // TODO !! repo
+        val db = RoomDb.getInstance(context)
         rankModel = db.daoRank().get()
         db.close()
 
@@ -43,7 +43,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         val rankItem = rankModel.itemList[p]
 
-        val db = RoomDb.provideDb(context)
+        val db = RoomDb.getInstance(context)
         db.daoRank().update(rankItem)
         db.close()
 
@@ -78,7 +78,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     }
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
-        val db = RoomDb.provideDb(context)
+        val db = RoomDb.getInstance(context)
         rankModel.itemList.clear()
         rankModel.itemList.addAll(db.daoRank().update(dragFrom, dragTo))
         db.daoNote().update(context)
@@ -98,7 +98,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         val rankItem = rankModel.itemList[p]
         rankItem.isVisible = !rankItem.isVisible
 
-        val db = RoomDb.provideDb(context)
+        val db = RoomDb.getInstance(context)
         db.daoRank().update(rankItem)
         db.daoNote().update(context)
         db.close()
@@ -120,7 +120,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         callback.notifyVisible(startAnim, rankList)
 
-        val db = RoomDb.provideDb(context)
+        val db = RoomDb.getInstance(context)
         db.daoRank().updateRank(rankList)
         db.daoNote().update(context)
         db.close()
@@ -129,7 +129,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     fun onClickCancel(p: Int) {
         val rankItem = rankModel.itemList[p]
 
-        val db = RoomDb.provideDb(context)
+        val db = RoomDb.getInstance(context)
         db.daoRank().delete(rankItem.name)
         db.daoRank().update(p)
         db.daoNote().update(context)

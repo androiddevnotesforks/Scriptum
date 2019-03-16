@@ -27,8 +27,7 @@ abstract class ParentTest {
     val prefUtils = Preference(context)
 
     val testData = TestData(context)
-    val db: RoomDb = RoomDb.provideDb(context)
-
+    val db: RoomDb = RoomDb.getInstance(context)
 
     @Before
     @CallSuper

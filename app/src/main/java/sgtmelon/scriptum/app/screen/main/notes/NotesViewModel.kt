@@ -126,7 +126,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         return listNoteModel
     }
 
-    private fun onMenuConvert(p: Int): MutableList<NoteModel> { // TODO
+    private fun onMenuConvert(p: Int): MutableList<NoteModel> { // TODO !! repo
         val noteRepo = listNoteModel[p]
         val noteItem = noteRepo.noteItem
 
@@ -134,7 +134,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
         when (noteItem.type) {
             NoteType.TEXT -> {
-                val db = RoomDb.provideDb(context)
+                val db = RoomDb.getInstance(context)
 
                 val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
 
@@ -148,7 +148,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
                 db.close()
             }
             NoteType.ROLL -> {
-                val db = RoomDb.provideDb(context)
+                val db = RoomDb.getInstance(context)
 
                 noteItem.type = NoteType.TEXT
                 noteItem.text = db.daoRoll().getText(noteItem.id)

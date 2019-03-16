@@ -34,7 +34,7 @@ object HelpUtils {
         when (noteItem.type) {
             NoteType.TEXT -> copyText += noteItem.text
             NoteType.ROLL -> {
-                val db = RoomDb.provideDb(this)
+                val db = RoomDb.getInstance(context = this)
                 copyText = db.daoRoll().getText(noteItem.id)
                 db.close()
             }

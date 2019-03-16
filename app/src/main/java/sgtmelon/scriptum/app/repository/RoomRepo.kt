@@ -15,14 +15,14 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     private lateinit var db: RoomDb
 
     // TODO think about itn
-    private fun openRoom() = RoomDb.provideDb(context)
+    private fun openRoom() = RoomDb.getInstance(context)
 
     /**
      * BinViewModel
      */
 
     override fun getNoteRepoList(fromBin: Boolean): MutableList<NoteModel> {
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
         val list = db.daoNote().get(context, fromBin)
         db.close()
 
@@ -41,7 +41,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      */
 
     override fun getRankVisibleList(): List<Long> {
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
         val list = db.daoRank().rankVisible
         db.close()
 
@@ -51,7 +51,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun getNoteModel(id: Long): NoteModel {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
         val noteRepo = db.daoNote().get(context, id)
         db.close()
 
@@ -59,7 +59,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun getRankDialogName(): Array<String> {
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
         val array = db.daoRank().name
         db.close()
 
@@ -68,7 +68,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
 
     override fun getRankCheck(rankId: List<Long>): BooleanArray {
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
         val array = db.daoRank().getCheck(rankId)
         db.close()
 
@@ -97,7 +97,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }.close()
 
     override fun getRankId(): Array<Long> {
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
         val array: Array<Long> = db.daoRank().id
         db.close()
 
@@ -107,7 +107,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean): NoteModel {
         val noteItem = noteModel.noteItem
 
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
 
         if (isCreate) {
             noteItem.id = db.daoNote().insert(noteItem)
@@ -125,7 +125,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         val noteItem = noteModel.noteItem
         val listRoll = noteModel.listRoll
 
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
 
         if (isCreate) {
             noteItem.id = db.daoNote().insert(noteItem)
@@ -171,7 +171,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun insertRank(p: Int, rankItem: RankItem): Long {
-        db = RoomDb.provideDb(context)
+        db = RoomDb.getInstance(context)
         val id = db.daoRank().insert(rankItem)
         if (p != 0) db.daoRank().update(p)
         db.close()

@@ -54,7 +54,7 @@ class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boole
             NoteType.ROLL -> {
                 icon = R.drawable.notif_bind_roll
 
-                val db = RoomDb.provideDb(context)
+                val db = RoomDb.getInstance(context) // TODO !! repo
                 text = db.daoRoll().getText(noteItem.id, noteItem.text)
                 db.close()
             }
