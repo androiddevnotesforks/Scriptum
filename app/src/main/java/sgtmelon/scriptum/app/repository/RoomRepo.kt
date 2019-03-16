@@ -12,6 +12,8 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 class RoomRepo(private val context: Context) : IRoomRepo {
 
+    // TODO !! заменить db на openRoom (добавить extension для возврата val)
+
     private lateinit var db: RoomDb
 
     // TODO think about itn
@@ -21,10 +23,12 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      * BinViewModel
      */
 
-    override fun getNoteRepoList(fromBin: Boolean): MutableList<NoteModel> {
-        db = RoomDb.getInstance(context)
-        val list = db.daoNote().get(context, fromBin)
-        db.close()
+    override fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel> {
+        var list: MutableList<NoteModel> = ArrayList()
+
+        openRoom().apply {
+            list = daoNote().get(context, fromBin)
+        }.close()
 
         return list
     }
@@ -41,9 +45,11 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      */
 
     override fun getRankVisibleList(): List<Long> {
-        db = RoomDb.getInstance(context)
-        val list = db.daoRank().rankVisible
-        db.close()
+        var list: List<Long> = ArrayList()
+
+        openRoom().apply {
+            list = db.daoRank().rankVisible
+        }.close()
 
         return list
     }
@@ -52,10 +58,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 
         db = RoomDb.getInstance(context)
-        val noteRepo = db.daoNote().get(context, id)
+        val noteModel = db.daoNote().get(context, id)
         db.close()
 
-        return noteRepo
+        return noteModel
     }
 
     override fun getRankDialogName(): Array<String> {

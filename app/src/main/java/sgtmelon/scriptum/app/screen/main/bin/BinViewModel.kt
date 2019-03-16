@@ -24,7 +24,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
-        val list = iRoomRepo.getNoteRepoList(fromBin = true)
+        val list = iRoomRepo.getNoteModelList(fromBin = true)
 
         noteModelList.clear()
         noteModelList.addAll(list)

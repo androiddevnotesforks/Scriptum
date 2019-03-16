@@ -40,14 +40,13 @@ class NoteAdapter(context: Context) : ParentAdapter<NoteModel, RecyclerView.View
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val noteRepo = list[position]
-
-        when (holder) {
-            is NoteTextHolder -> holder.bind(noteRepo.noteItem)
-            is NoteRollHolder -> holder.bind(noteRepo.noteItem, noteRepo.listRoll)
-        }
-    }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
+            with(list[position]) {
+                when (holder) {
+                    is NoteTextHolder -> holder.bind(noteItem)
+                    is NoteRollHolder -> holder.bind(noteItem, listRoll)
+                }
+            }
 
     override fun getItemViewType(position: Int) = list[position].noteItem.type.ordinal
 

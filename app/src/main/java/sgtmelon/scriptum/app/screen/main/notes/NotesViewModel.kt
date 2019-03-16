@@ -28,7 +28,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     private val listNoteModel: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
-        val list = iRoomRepo.getNoteRepoList(fromBin = false)
+        val list = iRoomRepo.getNoteModelList(fromBin = false)
 
         listNoteModel.clear()
         listNoteModel.addAll(list)
@@ -97,38 +97,36 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun onMenuCheck(p: Int): MutableList<NoteModel> {
-        val noteRepo = listNoteModel[p]
-        val noteItem = noteRepo.noteItem
+        with(listNoteModel[p]) {
+            val checkText = noteItem.check
+            val isAll = checkText[0] == checkText[1]
 
-        val checkText = noteItem.check
-        val isAll = checkText[0] == checkText[1]
+            noteItem.change = context.getTime()
+            noteItem.setRollText(if (isAll) 0 else checkText[1], checkText[1])
 
-        noteItem.change = context.getTime()
-        noteItem.setRollText(if (isAll) 0 else checkText[1], checkText[1])
+            iRoomRepo.updateNoteItemCheck(noteItem, !isAll)
 
-        iRoomRepo.updateNoteItemCheck(noteItem, !isAll)
-
-        noteRepo.updateCheck(!isAll)
-        noteRepo.statusItem.updateNote(noteItem)
+            updateCheck(!isAll)
+            statusItem.updateNote(noteItem)
+        }
 
         return listNoteModel
     }
 
     private fun onMenuBind(p: Int): MutableList<NoteModel> {
-        val noteRepo = listNoteModel[p]
-        val noteItem = noteRepo.noteItem
+        with (listNoteModel[p]) {
+            noteItem.isStatus = !noteItem.isStatus
+            updateStatus(noteItem.isStatus)
 
-        noteItem.isStatus = !noteItem.isStatus
-        noteRepo.updateStatus(noteItem.isStatus)
-
-        iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
+            iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
+        }
 
         return listNoteModel
     }
 
     private fun onMenuConvert(p: Int): MutableList<NoteModel> { // TODO !! repo
-        val noteRepo = listNoteModel[p]
-        val noteItem = noteRepo.noteItem
+        val noteModel = listNoteModel[p]
+        val noteItem = noteModel.noteItem
 
         noteItem.change = context.getTime()
 
@@ -143,7 +141,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
                 db.daoNote().update(noteItem)
 
-                noteRepo.listRoll = listRoll
+                noteModel.listRoll = listRoll
 
                 db.close()
             }
@@ -156,13 +154,13 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
                 db.daoNote().update(noteItem)
                 db.daoRoll().delete(noteItem.id)
 
-                noteRepo.listRoll = ArrayList()
+                noteModel.listRoll = ArrayList()
 
                 db.close()
             }
         }
 
-        noteRepo.statusItem.updateNote(noteItem)
+        noteModel.statusItem.updateNote(noteItem)
 
         return listNoteModel
     }

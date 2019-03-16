@@ -10,7 +10,7 @@ import sgtmelon.scriptum.app.model.item.RollItem
  */
 interface IRoomRepo {
 
-    fun getNoteRepoList(fromBin: Boolean): MutableList<NoteModel>
+    fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel>
 
     fun clearBin()
 
