@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Handler
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 /**
  * Класс контроля сохранений заметки
@@ -12,11 +12,11 @@ import sgtmelon.scriptum.office.utils.PrefUtils
 class SaveControl(private val context: Context, private val result: Result) {
 
     private val saveHandler = Handler()
-    private val savePause: Boolean = PrefUtils(context).pauseSave
-    private val saveAuto: Boolean = PrefUtils(context).autoSave
+    private val savePause: Boolean = Preference(context).pauseSave
+    private val saveAuto: Boolean = Preference(context).autoSave
 
     private val saveTime: Int = when (saveAuto) {
-        true -> context.resources.getIntArray(R.array.pref_save_time_value)[PrefUtils(context).saveTime]
+        true -> context.resources.getIntArray(R.array.pref_save_time_value)[Preference(context).saveTime]
         false -> 0
     }
 

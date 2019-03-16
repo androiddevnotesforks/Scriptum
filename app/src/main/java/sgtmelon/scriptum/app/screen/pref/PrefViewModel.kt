@@ -3,11 +3,11 @@ package sgtmelon.scriptum.app.screen.pref
 import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.SortDef
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 class PrefViewModel(context: Context, val callback: PrefCallback) {
 
-    private val prefUtils = PrefUtils(context)
+    private val prefUtils = Preference(context)
 
     private val colorSummary: Array<String> =
             context.resources.getStringArray(R.array.pref_color_text)

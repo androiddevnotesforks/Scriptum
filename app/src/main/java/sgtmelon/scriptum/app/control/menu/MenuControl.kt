@@ -14,7 +14,7 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.ColorUtils
 import sgtmelon.scriptum.office.utils.ColorUtils.blend
 import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 /**
  * Класс для контроля меню | Для версий API < 21
@@ -32,7 +32,7 @@ open class MenuControl(protected val context: Context,
     protected val cancelOn: Drawable? = context.getDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
     protected val cancelOff: Drawable? = context.getDrawable(R.drawable.ic_cancel_exit, R.attr.clContent)
 
-    private val valTheme: Int = PrefUtils(context).theme
+    private val valTheme: Int = Preference(context).theme
 
     private var statusColorFrom: Int = 0
     private var statusColorTo: Int = 0

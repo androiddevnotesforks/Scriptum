@@ -10,12 +10,12 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 open class BasicMatch {
 
     private val context: Context = getInstrumentation().targetContext
-    private val prefUtils = PrefUtils(context)
+    private val prefUtils = Preference(context)
 
     protected val theme: Int
         get() = prefUtils.theme

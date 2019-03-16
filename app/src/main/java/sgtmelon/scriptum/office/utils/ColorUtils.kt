@@ -28,7 +28,7 @@ object ColorUtils {
      */
     @ColorInt
     fun get(context: Context, @ColorDef color: Int, needDark: Boolean): Int {
-        return when (PrefUtils(context).theme) {
+        return when (Preference(context).theme) {
             ThemeDef.light -> {
                 if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
                 else ContextCompat.getColor(context, ColorData.light[color])

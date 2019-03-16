@@ -11,7 +11,7 @@ import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.splash.SplashActivity
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.office.annot.def.ThemeDef
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 /**
  * Родительский класс включающий в себе объявление часто используемых переменных
@@ -24,7 +24,7 @@ abstract class ParentTest {
 
     protected val context: Context = getInstrumentation().targetContext
 
-    val prefUtils = PrefUtils(context)
+    val prefUtils = Preference(context)
 
     val testData = TestData(context)
     val db: RoomDb = RoomDb.provideDb(context)

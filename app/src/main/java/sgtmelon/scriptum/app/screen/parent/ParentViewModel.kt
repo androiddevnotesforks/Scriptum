@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.ThemeDef
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 class ParentViewModel(application: Application): AndroidViewModel(application) {
 
-    private val prefUtils = PrefUtils(application.applicationContext)
+    private val prefUtils = Preference(application.applicationContext)
 
     lateinit var callback: ParentCallback
 

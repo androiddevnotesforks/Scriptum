@@ -14,7 +14,7 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef
 /**
  * Класс для работы с настройками приложения, а так же @Singleton для SharedPreferences
  */
-class PrefUtils(context: Context) {
+class Preference(context: Context) {
 
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val resources: Resources = context.resources
@@ -51,16 +51,16 @@ class PrefUtils(context: Context) {
 
             return value
         }
-        set(isFirst) = preferences.edit().putBoolean(resources.getString(R.string.pref_first_start), isFirst).apply()
+        set(value) = preferences.edit().putBoolean(resources.getString(R.string.pref_first_start), value).apply()
 
     var sort: String
         get() = preferences.getString(resources.getString(R.string.pref_key_sort), SortDef.def)
                 ?: SortDef.def
-        set(sort) = preferences.edit().putString(resources.getString(R.string.pref_key_sort), sort).apply()
+        set(value) = preferences.edit().putString(resources.getString(R.string.pref_key_sort), value).apply()
 
     var defaultColor: Int
         get() = preferences.getInt(resources.getString(R.string.pref_key_color), resources.getInteger(R.integer.pref_color_default))
-        set(@ColorDef color) = preferences.edit().putInt(resources.getString(R.string.pref_key_color), color).apply()
+        set(@ColorDef value) = preferences.edit().putInt(resources.getString(R.string.pref_key_color), value).apply()
 
     val pauseSave: Boolean
         get() {
@@ -76,11 +76,11 @@ class PrefUtils(context: Context) {
 
     var saveTime: Int
         get() = preferences.getInt(resources.getString(R.string.pref_key_save_time), resources.getInteger(R.integer.pref_save_time_default))
-        set(saveTime) = preferences.edit().putInt(resources.getString(R.string.pref_key_save_time), saveTime).apply()
+        set(value) = preferences.edit().putInt(resources.getString(R.string.pref_key_save_time), value).apply()
 
     var theme: Int
         get() = preferences.getInt(resources.getString(R.string.pref_key_theme), resources.getInteger(R.integer.pref_theme_default))
-        set(@ThemeDef theme) = preferences.edit().putInt(resources.getString(R.string.pref_key_theme), theme).apply()
+        set(@ThemeDef value) = preferences.edit().putInt(resources.getString(R.string.pref_key_theme), value).apply()
 
     fun getSortSummary(): String {
         val order = StringBuilder()

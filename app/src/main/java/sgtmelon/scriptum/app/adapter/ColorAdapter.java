@@ -19,7 +19,7 @@ import sgtmelon.scriptum.app.model.data.ColorData;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 import sgtmelon.scriptum.office.intf.ItemListener;
 import sgtmelon.scriptum.office.utils.AppUtils;
-import sgtmelon.scriptum.office.utils.PrefUtils;
+import sgtmelon.scriptum.office.utils.Preference;
 
 public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
@@ -42,7 +42,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
         count = ColorData.INSTANCE.getSize();
 
-        switch (new PrefUtils(context).getTheme()) {
+        switch (new Preference(context).getTheme()) {
             case ThemeDef.light:
                 fillColor = ColorData.INSTANCE.getLight();
                 strokeColor = ColorData.INSTANCE.getDark();

@@ -4,7 +4,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 class DevelopActivity : ParentActivity() {
 
@@ -18,7 +18,7 @@ class DevelopActivity : ParentActivity() {
         db.daoRank().listAll(findViewById(R.id.rank_text))
         db.close()
 
-        PrefUtils(context = this).listAllPref(findViewById(R.id.preference_text))
+        Preference(context = this).listAllPref(findViewById(R.id.preference_text))
     }
 
 }

@@ -3,7 +3,7 @@ package sgtmelon.scriptum
 import sgtmelon.scriptum.app.screen.intro.IntroActivity
 import sgtmelon.scriptum.app.screen.main.MainActivity
 import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 /**
  * Описание сценариев для тестов
@@ -16,7 +16,7 @@ class Scenario {
     class Intro {
 
         /**
-         * Проверка запуска, в записимости от ключа [PrefUtils.firstStart]
+         * Проверка запуска, в записимости от ключа [Preference.firstStart]
          */
 
         /**

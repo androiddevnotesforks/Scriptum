@@ -29,7 +29,7 @@ import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
 import sgtmelon.scriptum.office.utils.AppUtils.swap
 import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 /**
@@ -44,7 +44,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
     private val context: Context = application.applicationContext
 
-    private val prefUtils = PrefUtils(context)
+    private val prefUtils = Preference(context)
     private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: RollNoteCallback

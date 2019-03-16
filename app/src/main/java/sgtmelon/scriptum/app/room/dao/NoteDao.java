@@ -18,7 +18,7 @@ import sgtmelon.scriptum.app.model.item.RollItem;
 import sgtmelon.scriptum.app.model.item.StatusItem;
 import sgtmelon.scriptum.app.room.RoomDb;
 import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel;
-import sgtmelon.scriptum.office.utils.PrefUtils;
+import sgtmelon.scriptum.office.utils.Preference;
 
 /**
  * Класс для общения Dao заметок {@link RoomDb}
@@ -44,7 +44,7 @@ public abstract class NoteDao extends BaseDao {
 
     public List<NoteModel> get(Context context, boolean bin) {
         final List<NoteModel> noteModelList = new ArrayList<>();
-        final List<NoteItem> noteList = getNote(bin, new PrefUtils(context).getSortNoteOrder());
+        final List<NoteItem> noteList = getNote(bin, new Preference(context).getSortNoteOrder());
 
         final List<Long> rankVisibleList = getRankVisible();
 
@@ -84,7 +84,7 @@ public abstract class NoteDao extends BaseDao {
      * @param context - Контекст для получения сортировки
      */
     public void update(Context context) {
-        final List<NoteItem> noteList = getNote(false, new PrefUtils(context).getSortNoteOrder());
+        final List<NoteItem> noteList = getNote(false, new Preference(context).getSortNoteOrder());
         final List<Long> rankVisibleList = getRankVisible();
 
         for (int i = 0; i < noteList.size(); i++) {

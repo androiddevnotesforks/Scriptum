@@ -9,7 +9,7 @@ import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.intro.IntroActivity
 import sgtmelon.scriptum.app.screen.main.MainActivity
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 
 
 /**
@@ -20,7 +20,7 @@ class SplashViewModel : ViewModel() {
     lateinit var context: Context
     lateinit var callback: SplashCallback
 
-    private val prefUtils by lazy { PrefUtils(context) }
+    private val prefUtils by lazy { Preference(context) }
 
     fun onStartApplication(bundle: Bundle?) {
         if (bundle != null && bundle.getBoolean(SplashActivity.STATUS_OPEN)) {

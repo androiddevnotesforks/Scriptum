@@ -22,7 +22,7 @@ import sgtmelon.scriptum.app.room.converter.StringConverter
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
-import sgtmelon.scriptum.office.utils.PrefUtils
+import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import java.util.*
 
@@ -36,7 +36,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
     private val context: Context = application.applicationContext
 
-    private val prefUtils = PrefUtils(context)
+    private val prefUtils = Preference(context)
     private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: TextNoteCallback
