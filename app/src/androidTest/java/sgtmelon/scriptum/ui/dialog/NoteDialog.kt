@@ -14,6 +14,8 @@ class NoteDialog : ParentUi() {
 
     fun onClickClear() = action { onClickText(R.string.dialog_menu_clear) }
 
+    fun onClickCopy() = action { onClickText(R.string.dialog_menu_copy) }
+
     companion object {
         operator fun invoke(func: NoteDialog.() -> Unit) = NoteDialog().apply { func() }
     }

@@ -48,7 +48,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         var list: List<Long> = ArrayList()
 
         openRoom().apply {
-            list = db.daoRank().rankVisible
+            list = daoRank().rankVisible
         }.close()
 
         return list

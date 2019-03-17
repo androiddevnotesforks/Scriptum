@@ -7,6 +7,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.NoteType
+import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.AddDialog
@@ -39,6 +40,87 @@ class NotesTest : ParentTest() {
         }
     }
 
+    @Test fun scrollList() {
+        testData.apply {
+            clearAllData()
+            repeat(times = 10) { insertText() }
+            repeat(times = 10) { insertRoll() }
+        }
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            assert {
+                onDisplayContent()
+                onDisplayFab(visible = true)
+            }
+
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+                onScroll(Scroll.END, time = 4)
+            }
+
+            assert { onDisplayFab(visible = false) }
+
+            NotesScreen {
+                onScroll(Scroll.START, time = 4)
+                assert { onDisplayContent(empty = false) }
+            }
+
+            assert { onDisplayFab(visible = true) }
+        }
+    }
+
+    @Test fun openTextNote() {
+        testData.apply {
+            clearAllData()
+            insertText()
+        }
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            assert { onDisplayContent() }
+
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onClickItem(position = 0)
+                TextNoteScreen {
+                    assert { onDisplayContent(State.READ) }
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun openRollNote() {
+        testData.apply {
+            clearAllData()
+            insertRoll()
+        }
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            assert { onDisplayContent() }
+
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onClickItem(position = 0)
+                RollNoteScreen {
+                    assert { onDisplayContent(State.READ) }
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
     @Test fun showTextNoteInListAfterCreate() {
         db.apply { clearAllTables() }.close()
         testRule.launchActivity(Intent())
@@ -58,7 +140,7 @@ class NotesTest : ParentTest() {
                 TextNoteScreen {
                     assert { onDisplayContent(State.NEW) }
 
-                    testData.insertTextNote()
+                    testData.insertText()
 
                     closeSoftKeyboard()
                     pressBack()
@@ -88,7 +170,7 @@ class NotesTest : ParentTest() {
                 RollNoteScreen {
                     assert { onDisplayContent(State.NEW) }
 
-                    testData.insertRollNote()
+                    testData.insertRoll()
 
                     closeSoftKeyboard()
                     pressBack()
@@ -101,7 +183,7 @@ class NotesTest : ParentTest() {
 
     @Test fun showTextNoteDialog() {
         testData.clearAllData()
-        val noteItem = testData.insertTextNote()
+        val noteItem = testData.insertText()
 
         testRule.launchActivity(Intent())
 
@@ -122,7 +204,7 @@ class NotesTest : ParentTest() {
 
     @Test fun showRollNoteDialog() {
         testData.clearAllData()
-        val noteItem = testData.insertRollNote()
+        val noteItem = testData.insertRoll()
 
         testRule.launchActivity(Intent())
 
@@ -141,10 +223,10 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun bindTextNote() {
+    fun bindTextNote() {
         // TODO (reasong = "не знаю как проверить")
         testData.clearAllData()
-        val noteItem = testData.insertTextNote()
+        val noteItem = testData.insertText()
 
         testRule.launchActivity(Intent())
 
@@ -165,7 +247,7 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun bindRollNote() {
+    fun bindRollNote() {
 
     }
 

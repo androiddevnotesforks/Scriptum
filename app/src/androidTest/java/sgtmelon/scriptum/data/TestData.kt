@@ -27,7 +27,7 @@ class TestData(private val context: Context) {
             type = NoteType.TEXT
         }
 
-    val rollNote: NoteItem
+    private val rollNote: NoteItem
         get() = NoteItem().apply {
             create = context.getTime()
             change = context.getTime()
@@ -37,7 +37,7 @@ class TestData(private val context: Context) {
             type = NoteType.ROLL
         }
 
-    val listRoll = object : ArrayList<RollItem>() {
+    private val listRoll = object : ArrayList<RollItem>() {
         init {
             for (i in 0 until 10) {
                 add(RollItem().apply {
@@ -51,7 +51,7 @@ class TestData(private val context: Context) {
 
     fun clearAllData() = dataBase.apply { clearAllTables() }.close()
 
-    fun insertTextNote(noteItem: NoteItem = textNote): NoteItem {
+    fun insertText(noteItem: NoteItem = textNote): NoteItem {
         dataBase.apply {
             noteItem.id = daoNote().insert(noteItem)
         }.close()
@@ -59,8 +59,8 @@ class TestData(private val context: Context) {
         return noteItem
     }
 
-    fun insertRollNote(noteItem: NoteItem = rollNote,
-                       listRoll: List<RollItem> = this.listRoll): NoteItem {
+    fun insertRoll(noteItem: NoteItem = rollNote, listRoll: List<RollItem> = this.listRoll)
+            : NoteItem {
         dataBase.apply {
             noteItem.id = daoNote().insert(noteItem)
             listRoll.forEach {
@@ -70,6 +70,17 @@ class TestData(private val context: Context) {
         }.close()
 
         return noteItem
+    }
+
+    fun insertTextToBin(noteItem: NoteItem = textNote): NoteItem {
+        noteItem.isBin = true
+        return insertText(noteItem)
+    }
+
+    fun insertRollToBin(noteItem: NoteItem = rollNote, listRoll: List<RollItem> = this.listRoll)
+            : NoteItem {
+        noteItem.isBin = true
+        return insertRoll(noteItem)
     }
 
 }

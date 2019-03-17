@@ -23,8 +23,17 @@ import sgtmelon.scriptum.office.utils.AppUtils.setState
 
 class MainActivity : ParentActivity(), MainCallback {
 
+    // TODO !! План
+    /**
+     * 1. Покрытие приложения тестами
+     * 2. Разбор с бд
+     * 3. Введение многопоточности
+     */
+
     // TODO -- rename (example: listSong -> songList)
     // TODO разбраться с dao
+    // TODO Добавить перескакивание курсора при старте редактирования в нужное место
+    // TODO setHasFixedSize recyclerView
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java)
@@ -127,18 +136,6 @@ class MainActivity : ParentActivity(), MainCallback {
         MainPage.Name.RANK -> rankFragment
         MainPage.Name.NOTES -> notesFragment
         MainPage.Name.BIN -> binFragment
-    }
-
-    companion object {
-        // TODO: 28.01.2019 перевести приложение на Kotlin + RxJava + Spek
-        // TODO: 13.01.2019 Добавить getAdapterPosition safety - RecyclerView.NO_POSITION check
-        // TODO: 16.01.2019 сделать блокировку кнопки изменить сохранить при работе анимации крестик-стрелка (если анимируется - не нажимать)
-        // TODO: 19.01.2019 Добавить перескакивание курсора при старте редактирования в нужное место
-        // TODO: 20.01.2019 Разобраться со стилями
-        // TODO: 27.01.2019 Добавить ещё одну тему
-        // TODO: 22.11.2018 аннотация профессор
-
-        // TODO setHasFixedSize recyclerView
     }
 
 }

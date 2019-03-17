@@ -35,24 +35,27 @@ class MainScreen : ParentUi() {
             when (page) {
                 MainPage.Name.RANK -> {
                     isSelected(R.id.item_page_rank)
-                    doesNotDisplay(R.id.main_add_fab)
+                    onDisplayFab(visible = false)
 
                     RankScreen { assert { onDisplayContent(empty = count == 0) } }
                 }
                 MainPage.Name.NOTES -> {
                     isSelected(R.id.item_page_notes)
-                    onDisplay(R.id.main_add_fab)
+                    onDisplayFab(visible = true)
 
                     NotesScreen { assert { onDisplayContent(empty = count == 0) } }
                 }
                 MainPage.Name.BIN -> {
                     isSelected(R.id.item_page_bin)
-                    doesNotDisplay(R.id.main_add_fab)
+                    onDisplayFab(visible = false)
 
                     BinScreen { assert { onDisplayContent(empty = count == 0) } }
                 }
             }
         }
+
+        fun onDisplayFab(visible: Boolean) =
+                if (visible) onDisplay(R.id.main_add_fab) else doesNotDisplay(R.id.main_add_fab)
 
     }
 
