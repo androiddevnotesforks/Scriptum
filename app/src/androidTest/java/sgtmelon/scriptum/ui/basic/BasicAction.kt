@@ -19,6 +19,9 @@ class BasicAction {
     fun onClick(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).perform(click())
 
+    fun onLongClick(@IdRes viewId: Int): ViewInteraction =
+            onView(withId(viewId)).perform(longClick())
+
     fun onClickText(@StringRes stringId: Int): ViewInteraction =
             onView(withText(stringId)).perform(click())
 

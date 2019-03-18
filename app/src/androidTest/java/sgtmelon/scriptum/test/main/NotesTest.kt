@@ -223,6 +223,7 @@ class NotesTest : ParentTest() {
         }
     }
 
+    // TODO (don't know how do it)
     fun bindTextNote() {
         // TODO (reasong = "не знаю как проверить")
         testData.clearAllData()
@@ -247,6 +248,7 @@ class NotesTest : ParentTest() {
         }
     }
 
+    // TODO (don't know how do it)
     fun bindRollNote() {
 
     }

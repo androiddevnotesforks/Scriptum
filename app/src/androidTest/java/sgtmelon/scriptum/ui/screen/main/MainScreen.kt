@@ -19,6 +19,14 @@ class MainScreen : ParentUi() {
         })
     }
 
+    fun scrollTop(page: MainPage.Name) = action {
+        onLongClick(when (page) {
+            MainPage.Name.RANK -> R.id.item_page_rank
+            MainPage.Name.NOTES -> R.id.item_page_notes
+            MainPage.Name.BIN -> R.id.item_page_bin
+        })
+    }
+
     companion object {
         operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply { func() }
     }
@@ -35,20 +43,14 @@ class MainScreen : ParentUi() {
             when (page) {
                 MainPage.Name.RANK -> {
                     isSelected(R.id.item_page_rank)
-                    onDisplayFab(visible = false)
-
                     RankScreen { assert { onDisplayContent(empty = count == 0) } }
                 }
                 MainPage.Name.NOTES -> {
                     isSelected(R.id.item_page_notes)
-                    onDisplayFab(visible = true)
-
                     NotesScreen { assert { onDisplayContent(empty = count == 0) } }
                 }
                 MainPage.Name.BIN -> {
                     isSelected(R.id.item_page_bin)
-                    onDisplayFab(visible = false)
-
                     BinScreen { assert { onDisplayContent(empty = count == 0) } }
                 }
             }
