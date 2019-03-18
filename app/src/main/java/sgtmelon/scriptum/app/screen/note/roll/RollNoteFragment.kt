@@ -59,33 +59,14 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         ViewModelProviders.of(this).get(RollNoteViewModel::class.java)
     }
 
-    private val toolbar: Toolbar? by lazy {
-        view?.findViewById<Toolbar>(R.id.toolbar_note_container)
-    }
-    private val indicator: View?  by lazy {
-        view?.findViewById<View>(R.id.toolbar_note_color_view)
-    }
-
-    private val menuControl: MenuControl by lazy {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            MenuControl(activity, activity.window, toolbar, indicator)
-        } else {
-            MenuControlAnim(activity, activity.window, toolbar, indicator)
-        }
-    }
+    private lateinit var menuControl: MenuControl
 
     private val adapter: RollAdapter by lazy { RollAdapter(activity) }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
-    private val nameEnter: EditText? by lazy {
-        view?.findViewById<EditText>(R.id.toolbar_note_enter)
-    }
-    private val rollEnter: EditText? by lazy {
-        view?.findViewById<EditText>(R.id.roll_note_enter)
-    }
-    private val recyclerView: RecyclerView? by lazy {
-        view?.findViewById<RecyclerView>(R.id.roll_note_recycler)
-    }
+    private var nameEnter: EditText? = null
+    private var rollEnter: EditText? = null
+    private var recyclerView: RecyclerView? = null
 
     private val rankDialog: MultiplyDialog by lazy {
         DialogFactory.getRankDialog(activity, fragmentManager)
@@ -142,6 +123,15 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun setupToolbar(color: Int, noteState: NoteState) {
+        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
+        val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
+
+        menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            MenuControl(activity, activity.window, toolbar, indicator)
+        } else {
+            MenuControlAnim(activity, activity.window, toolbar, indicator)
+        }
+
         menuControl.apply {
             setColor(color)
             setDrawable(drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false)
@@ -167,12 +157,13 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun setupEnter(inputCallback: InputCallback) {
+        nameEnter = view?.findViewById(R.id.toolbar_note_enter)
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
 
         nameEnter?.setOnEditorActionListener { _, i, _ ->
-            if (i != EditorInfo.IME_ACTION_NEXT) {
+            if (i == EditorInfo.IME_ACTION_NEXT) {
                 rollEnter?.requestFocus()
                 return@setOnEditorActionListener true
             }
@@ -180,6 +171,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
             return@setOnEditorActionListener false
         }
 
+        rollEnter = view?.findViewById(R.id.roll_note_enter)
         rollEnter?.addTextChangedListener(object : AppTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 bindEnter()
@@ -195,6 +187,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun setupRecycler(inputCallback: InputCallback) {
+        recyclerView = view?.findViewById(R.id.roll_note_recycler)
         (recyclerView?.itemAnimator as SimpleItemAnimator?)?.supportsChangeAnimations = false
 
         val touchCallback = RollTouchControl(viewModel)

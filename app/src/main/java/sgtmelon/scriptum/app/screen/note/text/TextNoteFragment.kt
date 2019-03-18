@@ -49,27 +49,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java)
     }
 
-    private val toolbar: Toolbar? by lazy {
-        view?.findViewById<Toolbar>(R.id.toolbar_note_container)
-    }
-    private val indicator: View?  by lazy {
-        view?.findViewById<View>(R.id.toolbar_note_color_view)
-    }
+    private lateinit var menuControl: MenuControl
 
-    private val menuControl: MenuControl by lazy {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            MenuControl(activity, activity.window, toolbar, indicator)
-        } else {
-            MenuControlAnim(activity, activity.window, toolbar, indicator)
-        }
-    }
-
-    private val nameEnter: EditText? by lazy {
-        view?.findViewById<EditText>(R.id.toolbar_note_enter)
-    }
-    private val textEnter: EditText? by lazy {
-        view?.findViewById<EditText>(R.id.text_note_content_enter)
-    }
+    private var nameEnter: EditText? = null
+    private var textEnter: EditText? = null
 
     private val rankDialog: MultiplyDialog by lazy {
         DialogFactory.getRankDialog(activity, fragmentManager)
@@ -101,7 +84,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setupData(arguments ?: savedInstanceState)
+        viewModel.setupData(savedInstanceState ?: arguments)
     }
 
     override fun onPause() {
@@ -120,6 +103,15 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     override fun setupToolbar(@ColorDef color: Int, noteState: NoteState) {
+        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
+        val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
+
+        menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            MenuControl(activity, activity.window, toolbar, indicator)
+        } else {
+            MenuControlAnim(activity, activity.window, toolbar, indicator)
+        }
+
         menuControl.apply {
             setColor(color)
             setDrawable(drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false)
@@ -145,12 +137,12 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     override fun setupEnter(inputCallback: InputCallback) {
+        nameEnter = view?.findViewById(R.id.toolbar_note_enter)
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
-
         nameEnter?.setOnEditorActionListener { _, i, _ ->
-            if (i != EditorInfo.IME_ACTION_NEXT) {
+            if (i == EditorInfo.IME_ACTION_NEXT) {
                 textEnter?.requestFocus()
                 return@setOnEditorActionListener true
             }
@@ -158,6 +150,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
             return@setOnEditorActionListener false
         }
 
+        textEnter = view?.findViewById(R.id.text_note_content_enter)
         textEnter?.addTextChangedListener(
                 InputTextWatcher(textEnter, InputAction.text, viewModel, inputCallback)
         )

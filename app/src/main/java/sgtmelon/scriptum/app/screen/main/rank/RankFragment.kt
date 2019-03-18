@@ -45,12 +45,8 @@ class RankFragment : Fragment(), RankCallback {
     private val adapter: RankAdapter by lazy { RankAdapter(activity) }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
-    private val recyclerView: RecyclerView? by lazy {
-        view?.findViewById<RecyclerView>(R.id.rank_recycler)
-    }
-    private val rankEnter: EditText? by lazy {
-        view?.findViewById<EditText>(R.id.toolbar_rank_enter)
-    }
+    private var recyclerView: RecyclerView? = null
+    private var rankEnter: EditText? = null
 
     private val renameDialog: RenameDialog by lazy {
         DialogFactory.getRenameDialog(fragmentManager)
@@ -108,6 +104,7 @@ class RankFragment : Fragment(), RankCallback {
             return@setOnLongClickListener true
         }
 
+        rankEnter = view?.findViewById(R.id.toolbar_rank_enter)
         rankEnter?.addTextChangedListener(object : AppTextWatcher() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 bindToolbar()
@@ -133,6 +130,7 @@ class RankFragment : Fragment(), RankCallback {
         val touchCallback = RankTouchControl(viewModel)
         adapter.dragListener = touchCallback
 
+        recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                 bindList(adapter.itemCount)

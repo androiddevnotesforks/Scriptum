@@ -90,11 +90,11 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     }
 
     override fun onEditorAction(textView: TextView, i: Int, keyEvent: KeyEvent): Boolean {
-        if (i == EditorInfo.IME_ACTION_DONE) {
-            if (!TextUtils.isEmpty(name) && !listName.contains(name.toUpperCase())) {
-                buttonPositive.callOnClick()
-                return true
-            }
+        if (i != EditorInfo.IME_ACTION_DONE) return false
+
+        if (!TextUtils.isEmpty(name) && !listName.contains(name.toUpperCase())) {
+            buttonPositive.callOnClick()
+            return true
         }
 
         return false

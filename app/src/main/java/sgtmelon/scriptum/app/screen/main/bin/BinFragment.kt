@@ -42,15 +42,9 @@ class BinFragment : Fragment(), BinCallback {
         NoteAdapter(activity)
     }
 
-    private val toolbar: Toolbar? by lazy {
-        view?.findViewById<Toolbar>(R.id.toolbar_container)
-    }
-    private val itemClearBin: MenuItem? by lazy {
-        toolbar?.menu?.findItem(R.id.item_clear)
-    }
-    private val recyclerView: RecyclerView? by lazy {
-        view?.findViewById<RecyclerView>(R.id.bin_recycler)
-    }
+    private var toolbar: Toolbar? = null
+    private var itemClearBin: MenuItem? = null
+    private var recyclerView: RecyclerView? = null
 
     private val optionsDialog: OptionsDialog by lazy {
         DialogFactory.getOptionsDialog(fragmentManager)
@@ -98,6 +92,7 @@ class BinFragment : Fragment(), BinCallback {
     }
 
     private fun setupToolbar() {
+        toolbar = view?.findViewById(R.id.toolbar_container)
         toolbar?.title = getString(R.string.title_bin)
         toolbar?.inflateMenu(R.menu.fragment_bin)
         toolbar?.setOnMenuItemClickListener {
@@ -105,6 +100,7 @@ class BinFragment : Fragment(), BinCallback {
             return@setOnMenuItemClickListener true
         }
 
+        itemClearBin = toolbar?.menu?.findItem(R.id.item_clear)
         itemClearBin?.tintIcon(activity)
 
         clearBinDialog.positiveListener =
@@ -118,6 +114,7 @@ class BinFragment : Fragment(), BinCallback {
         adapter.clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) }
         adapter.longClickListener = ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
 
+        recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
                 bind()

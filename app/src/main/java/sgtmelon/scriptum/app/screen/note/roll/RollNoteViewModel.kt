@@ -68,22 +68,22 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     fun setupData(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
-        if (::noteModel.isInitialized) return
+        if (!::noteModel.isInitialized) {
+            listRankVisible = iRoomRepo.getRankVisibleList()
 
-        listRankVisible = iRoomRepo.getRankVisibleList()
+            if (id == NoteData.Default.ID) {
+                val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.ROLL)
+                val statusItem = StatusItem(context, noteItem, false)
 
-        if (id == NoteData.Default.ID) {
-            val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.ROLL)
-            val statusItem = StatusItem(context, noteItem, false)
+                noteModel = NoteModel(noteItem, ArrayList(), statusItem)
 
-            noteModel = NoteModel(noteItem, ArrayList(), statusItem)
+                noteState = NoteState(isCreate = true)
+            } else {
+                noteModel = iRoomRepo.getNoteModel(id)
+                noteModel.updateStatus(listRankVisible)
 
-            noteState = NoteState(isCreate = true)
-        } else {
-            noteModel = iRoomRepo.getNoteModel(id)
-            noteModel.updateStatus(listRankVisible)
-
-            noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
+                noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
+            }
         }
 
         callback.apply {

@@ -19,9 +19,7 @@ class IntroFragment : Fragment() {
 
     private var page: Int = UNDEFINED
 
-    private val parentContainer: View? by lazy {
-        view?.findViewById<View>(R.id.info_parent_container)
-    }
+    private var parentContainer: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -31,6 +29,8 @@ class IntroFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        parentContainer = view.findViewById(R.id.info_parent_container)
 
         page = savedInstanceState?.getInt(PAGE_CURRENT)
                 ?: arguments?.getInt(PAGE_CURRENT)
