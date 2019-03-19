@@ -5,11 +5,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestUtils.random
 import sgtmelon.scriptum.app.model.data.ColorData
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
+import java.util.UUID.randomUUID
 
 class TestData(private val context: Context) {
 
@@ -17,7 +19,7 @@ class TestData(private val context: Context) {
 
     private val dataBase: RoomDb get() = RoomDb.getInstance(context)
 
-    val textNote: NoteItem
+    private val textNote: NoteItem
         get() = NoteItem().apply {
             create = context.getTime()
             change = context.getTime()
@@ -48,6 +50,9 @@ class TestData(private val context: Context) {
             }
         }
     }
+
+    private val rankItem: RankItem
+        get() = RankItem().apply { name = randomUUID().toString() }
 
     fun clearAllData() = dataBase.apply { clearAllTables() }.close()
 
@@ -80,7 +85,15 @@ class TestData(private val context: Context) {
     fun insertRollToBin(noteItem: NoteItem = rollNote, listRoll: List<RollItem> = this.listRoll)
             : NoteItem {
         noteItem.isBin = true
-        return insertRoll(noteItem)
+        return insertRoll(noteItem, listRoll)
+    }
+
+    fun fillNotes(times: Int = 10) = repeat(times) {
+        if (Math.random() < 0.5) insertText() else insertRoll()
+    }
+
+    fun fillBin(times: Int = 10) = repeat(times) {
+        if (Math.random() < 0.5) insertTextToBin() else insertRollToBin()
     }
 
 }

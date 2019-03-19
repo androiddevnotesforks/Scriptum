@@ -27,12 +27,29 @@ class NotesTest : ParentTest() {
         prefUtils.firstStart = false
     }
 
+    @Test fun contentEmpty() {
+        testData.clearAllData()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen { NotesScreen { assert { onDisplayContent(empty = true) } } }
+    }
+
+    @Test fun contentList() {
+        testData.apply {
+            clearAllData()
+            fillNotes()
+        }
+
+        testRule.launchActivity(Intent())
+
+        MainScreen { NotesScreen { assert { onDisplayContent(empty = false) } } }
+    }
+
     @Test fun openPreference() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
                 onClickPreference()
                 PreferenceScreen { assert { onDisplayContent() } }
@@ -43,29 +60,19 @@ class NotesTest : ParentTest() {
     @Test fun scrollList() {
         testData.apply {
             clearAllData()
-            repeat(times = 10) { insertText() }
-            repeat(times = 10) { insertRoll() }
+            fillNotes(times = 20)
         }
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert {
-                onDisplayContent()
-                onDisplayFab(visible = true)
-            }
+            assert { onDisplayFab(visible = true) }
 
-            NotesScreen {
-                assert { onDisplayContent(empty = false) }
-                onScroll(Scroll.END, time = 4)
-            }
+            NotesScreen { onScroll(Scroll.END, time = 4) }
 
             assert { onDisplayFab(visible = false) }
 
-            NotesScreen {
-                onScroll(Scroll.START, time = 4)
-                assert { onDisplayContent(empty = false) }
-            }
+            NotesScreen { onScroll(Scroll.START, time = 4) }
 
             assert { onDisplayFab(visible = true) }
         }
@@ -80,8 +87,6 @@ class NotesTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -105,8 +110,6 @@ class NotesTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -126,8 +129,6 @@ class NotesTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
                 assert { onDisplayContent(empty = true) }
 
@@ -156,8 +157,6 @@ class NotesTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
                 assert { onDisplayContent(empty = true) }
 
@@ -182,20 +181,17 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun showTextNoteDialog() {
-        testData.clearAllData()
-        val noteItem = testData.insertText()
+        val noteItem = testData.apply { clearAllData() }.insertText()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
-                assert { onDisplayContent(empty = false) }
-
                 onLongClickItem(position = 0)
-                NoteDialog { assert { onDisplayContent(noteItem) } }
-                pressBack()
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    pressBack()
+                }
 
                 assert { onDisplayContent(empty = false) }
             }
@@ -203,20 +199,17 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun showRollNoteDialog() {
-        testData.clearAllData()
-        val noteItem = testData.insertRoll()
+        val noteItem = testData.apply { clearAllData() }.insertRoll()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
-                assert { onDisplayContent(empty = false) }
-
                 onLongClickItem(position = 0)
-                NoteDialog { assert { onDisplayContent(noteItem) } }
-                pressBack()
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    pressBack()
+                }
 
                 assert { onDisplayContent(empty = false) }
             }
@@ -226,26 +219,21 @@ class NotesTest : ParentTest() {
     // TODO (don't know how do it)
     fun bindTextNote() {
         // TODO (reasong = "не знаю как проверить")
-        testData.clearAllData()
-        val noteItem = testData.insertText()
-
-        testRule.launchActivity(Intent())
-
-        MainScreen {
-            assert { onDisplayContent() }
-
-            NotesScreen {
-                assert { onDisplayContent(empty = false) }
-
-                onLongClickItem(position = 0)
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-
-                }
-
-                assert { onDisplayContent(empty = false) }
-            }
-        }
+//        testData.clearAllData()
+//        val noteItem = testData.insertText()
+//
+//        testRule.launchActivity(Intent())
+//
+//        MainScreen {
+//            assert { onDisplayContent() }
+//
+//            NotesScreen {
+//                onLongClickItem(position = 0)
+//                NoteDialog {
+//                    assert { onDisplayContent(noteItem) }
+//                }
+//            }
+//        }
     }
 
     // TODO (don't know how do it)

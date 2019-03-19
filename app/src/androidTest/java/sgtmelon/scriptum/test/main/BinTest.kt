@@ -30,26 +30,44 @@ class BinTest : ParentTest() {
         prefUtils.firstStart = false
     }
 
-    @Test fun scrollList() {
+    @Test fun contentEmpty() {
+        testData.clearAllData()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            navigateTo(MainPage.Name.BIN)
+            BinScreen { assert { onDisplayContent(empty = true) } }
+        }
+    }
+
+    @Test fun contentList() {
         testData.apply {
             clearAllData()
-            repeat(times = 10) { insertTextToBin() }
-            repeat(times = 10) { insertRollToBin() }
+            fillBin()
         }
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
             navigateTo(MainPage.Name.BIN)
+            BinScreen { assert { onDisplayContent(empty = false) } }
+        }
+    }
 
+    @Test fun scrollList() {
+        testData.apply {
+            clearAllData()
+            fillBin(times = 20)
+        }
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            navigateTo(MainPage.Name.BIN)
             BinScreen {
-                assert { onDisplayContent(empty = false) }
-
                 onScroll(Scroll.END, time = 4)
                 onScroll(Scroll.START, time = 4)
-
-                assert { onDisplayContent(empty = false) }
             }
         }
     }
@@ -63,9 +81,7 @@ class BinTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
             navigateTo(MainPage.Name.BIN)
-
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -89,9 +105,7 @@ class BinTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
             navigateTo(MainPage.Name.BIN)
-
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -116,9 +130,7 @@ class BinTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
             navigateTo(MainPage.Name.BIN)
-
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -142,21 +154,18 @@ class BinTest : ParentTest() {
     }
 
     @Test fun showTextNoteDialog() {
-        testData.clearAllData()
-        val noteItem = testData.insertTextToBin()
+        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
             navigateTo(MainPage.Name.BIN)
-
             BinScreen {
-                assert { onDisplayContent(empty = false) }
-
                 onLongClickItem(position = 0)
-                NoteDialog { assert { onDisplayContent(noteItem) } }
-                pressBack()
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    pressBack()
+                }
 
                 assert { onDisplayContent(empty = false) }
             }
@@ -164,21 +173,18 @@ class BinTest : ParentTest() {
     }
 
     @Test fun showRollNoteDialog() {
-        testData.clearAllData()
-        val noteItem = testData.insertRollToBin()
+        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
             navigateTo(MainPage.Name.BIN)
-
             BinScreen {
-                assert { onDisplayContent(empty = false) }
-
                 onLongClickItem(position = 0)
-                NoteDialog { assert { onDisplayContent(noteItem) } }
-                pressBack()
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    pressBack()
+                }
 
                 assert { onDisplayContent(empty = false) }
             }
@@ -186,14 +192,11 @@ class BinTest : ParentTest() {
     }
 
     @Test fun restoreTextNote() {
-        testData.clearAllData()
-        val noteItem = testData.insertTextToBin()
+        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             navigateTo(MainPage.Name.BIN)
             BinScreen {
                 assert { onDisplayContent(empty = false) }
@@ -213,14 +216,11 @@ class BinTest : ParentTest() {
     }
 
     @Test fun restoreRollNote() {
-        testData.clearAllData()
-        val noteItem = testData.insertRollToBin()
+        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             navigateTo(MainPage.Name.BIN)
             BinScreen {
                 assert { onDisplayContent(empty = false) }
@@ -241,18 +241,13 @@ class BinTest : ParentTest() {
 
     // TODO (compare text)
     fun copyTextNote() {
-        testData.clearAllData()
-        val noteItem = testData.insertTextToBin()
+        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             navigateTo(MainPage.Name.BIN)
             BinScreen {
-                assert { onDisplayContent(empty = false) }
-
                 onLongClickItem()
                 NoteDialog {
                     assert { onDisplayContent(noteItem) }
@@ -267,18 +262,13 @@ class BinTest : ParentTest() {
 
     // TODO (compare text)
     fun copyRollNote() {
-        testData.clearAllData()
-        val noteItem = testData.insertRollToBin()
+        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             navigateTo(MainPage.Name.BIN)
             BinScreen {
-                assert { onDisplayContent(empty = false) }
-
                 onLongClickItem()
                 NoteDialog {
                     assert { onDisplayContent(noteItem) }
@@ -292,14 +282,11 @@ class BinTest : ParentTest() {
     }
 
     @Test fun clearTextNote() {
-        testData.clearAllData()
-        val noteItem = testData.insertTextToBin()
+        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             navigateTo(MainPage.Name.BIN)
             BinScreen {
                 assert { onDisplayContent(empty = false) }
@@ -320,14 +307,11 @@ class BinTest : ParentTest() {
     }
 
     @Test fun clearRollNote() {
-        testData.clearAllData()
-        val noteItem = testData.insertRollToBin()
+        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             navigateTo(MainPage.Name.BIN)
             BinScreen {
                 assert { onDisplayContent(empty = false) }

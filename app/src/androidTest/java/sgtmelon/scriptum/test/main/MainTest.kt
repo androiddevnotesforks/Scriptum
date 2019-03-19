@@ -38,12 +38,16 @@ class MainTest : ParentTest() {
         prefUtils.firstStart = false
     }
 
+    @Test fun contentDisplay() {
+        testRule.launchActivity(Intent())
+
+        MainScreen { assert { onDisplayContent() } }
+    }
+
     @Test fun navigationWork() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             repeat(times = 3) {
                 for (page in pageList) {
                     navigateTo(page)
@@ -56,20 +60,13 @@ class MainTest : ParentTest() {
     @Test fun rightFirstFragment() {
         testRule.launchActivity(Intent())
 
-        MainScreen {
-            assert {
-                onDisplayContent()
-                onDisplayContent(MainPage.Name.NOTES)
-            }
-        }
+        MainScreen { assert { onDisplayContent(MainPage.Name.NOTES) } }
     }
 
     @Test fun rightFragmentPlacementAndFabVisibility() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             repeat(times = 3) {
                 for (page in pageList) {
                     navigateTo(page)
@@ -86,8 +83,6 @@ class MainTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             onClickFab()
             AddDialog { assert { onDisplayContent() } }
         }
@@ -97,8 +92,6 @@ class MainTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             onClickFab()
             AddDialog {
                 assert { onDisplayContent() }
@@ -117,8 +110,6 @@ class MainTest : ParentTest() {
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             onClickFab()
             AddDialog {
                 assert { onDisplayContent() }
@@ -136,19 +127,15 @@ class MainTest : ParentTest() {
     // TODO (no tests)
     fun scrollTopRank() {}
 
-    // TODO (assert)
     @Test fun scrollTopNotes() {
         testData.apply {
             clearAllData()
-            repeat(times = 10) { insertText() }
-            repeat(times = 10) { insertRoll() }
+            fillNotes(times = 20)
         }
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)
@@ -158,18 +145,15 @@ class MainTest : ParentTest() {
         }
     }
 
-    // TODO (assert)
     @Test fun scrollTopBin() {
         testData.apply {
             clearAllData()
-            repeat(times = 10) { insertTextToBin() }
-            repeat(times = 10) { insertRollToBin() }
+            fillBin(times = 20)
         }
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
             navigateTo(MainPage.Name.BIN)
 
             BinScreen {
