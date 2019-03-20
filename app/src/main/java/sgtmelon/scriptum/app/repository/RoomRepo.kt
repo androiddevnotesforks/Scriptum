@@ -161,7 +161,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                     db.daoRoll().update(id, index, rollItem.text)
                 }
 
-                listSaveId.add(id)
+                listSaveId.add(rollItem.id)
             }
 
             /**
