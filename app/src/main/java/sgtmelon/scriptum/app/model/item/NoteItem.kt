@@ -31,8 +31,8 @@ class NoteItem {
     @ColumnInfo(name = DbAnn.Note.COLOR) @get:ColorDef var color: Int = 0
     @ColumnInfo(name = DbAnn.Note.TYPE) var type: NoteType = NoteType.TEXT
 
-    @ColumnInfo(name = DbAnn.Note.RANK_PS) var rankPs: List<Long> = ArrayList()
-    @ColumnInfo(name = DbAnn.Note.RANK_ID) var rankId: List<Long> = ArrayList()
+    @ColumnInfo(name = DbAnn.Note.RANK_PS) var rankPs: MutableList<Long> = ArrayList()
+    @ColumnInfo(name = DbAnn.Note.RANK_ID) var rankId: MutableList<Long> = ArrayList()
 
     @ColumnInfo(name = DbAnn.Note.BIN) var isBin = false
     @ColumnInfo(name = DbAnn.Note.STATUS) var isStatus = false

@@ -16,7 +16,7 @@ class RankItem {
 
     @ColumnInfo(name = DbAnn.Rank.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0
 
-    @ColumnInfo(name = DbAnn.Rank.NOTE_ID) var noteId: List<Long> = ArrayList()
+    @ColumnInfo(name = DbAnn.Rank.NOTE_ID) var noteId: MutableList<Long> = ArrayList()
     @ColumnInfo(name = DbAnn.Rank.POSITION) var position: Int = 0
     @ColumnInfo(name = DbAnn.Rank.NAME) var name: String = ""
     @ColumnInfo(name = DbAnn.Rank.VISIBLE) var isVisible = true
