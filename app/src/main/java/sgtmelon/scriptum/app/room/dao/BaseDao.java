@@ -40,7 +40,7 @@ abstract class BaseDao {
 
         final SimpleSQLiteQuery query = new SimpleSQLiteQuery(
                 "SELECT * FROM " + DbAnn.Note.TABLE +
-                        " WHERE " + DbAnn.Note.BIN + " = " + new BoolConverter().fromBool(bin) + // TODO убрать
+                        " WHERE " + DbAnn.Note.BIN + " = " + new BoolConverter().toInt(bin) + // TODO убрать
                         " ORDER BY " + sortKeys);
 
         return getNote(query);

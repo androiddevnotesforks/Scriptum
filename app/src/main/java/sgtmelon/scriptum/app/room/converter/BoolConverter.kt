@@ -1,14 +1,15 @@
 package sgtmelon.scriptum.app.room.converter
 
+import androidx.annotation.IntRange
 import androidx.room.TypeConverter
 
 class BoolConverter {
 
     @TypeConverter
-    fun fromBool(value: Boolean) = if (value) trueValue else falseValue
+    fun toInt(value: Boolean) = if (value) trueValue else falseValue
 
     @TypeConverter
-    fun toBool(value: Int) = value == trueValue
+    fun toBool(@IntRange(from = 0, to = 1) value: Int) = value == trueValue
 
     private companion object {
         const val trueValue = 1
