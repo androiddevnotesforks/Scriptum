@@ -197,7 +197,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
             when (inputItem.tag) {
                 InputAction.rank ->
-                    noteItem.rankId = StringConverter().fromString(inputItem.getValue(undo))
+                    noteItem.rankId = StringConverter().toList(inputItem.getValue(undo))
                 InputAction.color -> {
                     val colorFrom = noteItem.color
                     val colorTo = Integer.parseInt(inputItem.getValue(undo))

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 
 repositories {
@@ -62,8 +63,8 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$arch_ver"
 
     implementation "androidx.room:room-runtime:$arch_ver"
+    kapt "androidx.room:room-compiler:$arch_ver"
     testImplementation "androidx.room:room-testing:$arch_ver"
-    annotationProcessor "androidx.room:room-compiler:$arch_ver"
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.cardview:cardview:1.0.0'

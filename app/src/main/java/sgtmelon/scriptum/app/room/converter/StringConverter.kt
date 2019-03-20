@@ -11,17 +11,17 @@ import java.util.*
 class StringConverter {
 
     @TypeConverter
-    fun fromString(value: String): List<Long> = ArrayList<Long>().apply {
-        if (value != DbAnn.Value.NONE && value.isNotEmpty()) {
-            value.split(DbAnn.Value.DIVIDER.toRegex())
+    fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
+        if (string != DbAnn.Value.NONE && string.isNotEmpty()) {
+            string.split(DbAnn.Value.DIVIDER.toRegex())
                     .dropLastWhile { it.isEmpty() }
                     .forEach { add(it.toLong()) }
         }
     }
 
     @TypeConverter
-    fun toString(value: List<Long>?) = if (value != null && value.isNotEmpty()) {
-        value.joinToString(DbAnn.Value.DIVIDER)
+    fun toString(list: List<Long>?) = if (list != null && list.isNotEmpty()) {
+        list.joinToString(DbAnn.Value.DIVIDER)
     } else {
         DbAnn.Value.NONE
     }
