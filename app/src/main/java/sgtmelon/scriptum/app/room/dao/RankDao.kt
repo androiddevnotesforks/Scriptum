@@ -17,7 +17,7 @@ interface RankDao : BaseDao {
     @get:Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
     val count: Long
 
-    @get:Query(value = "SELECT * FROM RANK_TABLE " + "ORDER BY RK_POSITION ASC")
+    @get:Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
     val simple: MutableList<RankItem>
 
     private val complex: MutableList<RankItem>
@@ -34,10 +34,10 @@ interface RankDao : BaseDao {
             return rankList
         }
 
-    @get:Query(value = "SELECT RK_NAME FROM RANK_TABLE " + "ORDER BY RK_POSITION")
+    @get:Query(value = "SELECT RK_NAME FROM RANK_TABLE ORDER BY RK_POSITION")
     val name: Array<String>
 
-    @get:Query(value = "SELECT RK_ID FROM RANK_TABLE " + "ORDER BY RK_POSITION")
+    @get:Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
     val id: Array<Long>
 
     @Insert
@@ -58,7 +58,7 @@ interface RankDao : BaseDao {
      * @param name - Уникальное имя категории
      * @return - Модель категории
      */
-    @Query("SELECT * FROM RANK_TABLE " + "WHERE RK_NAME = :name")
+    @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_NAME = :name")
     fun get(name: String): RankItem
 
     fun getCheck(id: List<Long>): BooleanArray {

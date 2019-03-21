@@ -47,7 +47,7 @@ interface RollDao : BaseDao {
         return rollList
     }
 
-    @Query(value = "SELECT * FROM ROLL_TABLE " + "ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
+    @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
     fun get(): List<RollItem>
 
     /**
@@ -97,9 +97,7 @@ interface RollDao : BaseDao {
         return text.toString()
     }
 
-    @Query(value = "UPDATE ROLL_TABLE " +
-            "SET RL_POSITION = :position, RL_TEXT = :text " +
-            "WHERE RL_ID = :id")
+    @Query(value = "UPDATE ROLL_TABLE SET RL_POSITION = :position, RL_TEXT = :text WHERE RL_ID = :id")
     fun update(id: Long, position: Int, text: String)
 
     /**
@@ -108,9 +106,7 @@ interface RollDao : BaseDao {
      * @param id    - Id пункта
      * @param check - Состояние отметки
      */
-    @Query(value = "UPDATE ROLL_TABLE " +
-            "SET RL_CHECK = :check " +
-            "WHERE RL_ID = :id")
+    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_ID = :id")
     fun update(id: Long, check: Boolean)
 
     /**
@@ -119,9 +115,7 @@ interface RollDao : BaseDao {
      * @param id - Id заметки
      * @param check  - Состояние отметки
      */
-    @Query(value = "UPDATE ROLL_TABLE " +
-            "SET RL_CHECK = :check " +
-            "WHERE RL_NOTE_ID = :id")
+    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_NOTE_ID = :id")
     fun updateAllCheck(id: Long, check: Boolean)
 
     /**
@@ -130,13 +124,13 @@ interface RollDao : BaseDao {
      * @param idNote - Id заметки
      * @param idSave - Id, которые остались в заметке
      */
-    @Query(value = "DELETE FROM ROLL_TABLE " + "WHERE RL_NOTE_ID = :idNote AND RL_ID NOT IN (:idSave)")
+    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote AND RL_ID NOT IN (:idSave)")
     fun delete(idNote: Long, idSave: List<Long>)
 
     /**
      * @param idNote - Id удаляемой заметки
      */
-    @Query(value = "DELETE FROM ROLL_TABLE " + "WHERE RL_NOTE_ID = :idNote")
+    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote")
     fun delete(idNote: Long)
 
 }

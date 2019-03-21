@@ -19,7 +19,7 @@ interface NoteDao : BaseDao {
     @Insert
     fun insert(noteItem: NoteItem): Long
 
-    @Query(value = "SELECT * FROM NOTE_TABLE " + "WHERE NT_ID = :id")
+    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
     fun get(id: Long): NoteItem
 
     fun get(context: Context, id: Long): NoteModel {
@@ -59,9 +59,8 @@ interface NoteDao : BaseDao {
         return noteModelList
     }
 
-    @Query(value = "SELECT * FROM NOTE_TABLE " +
-            "WHERE NT_BIN = :bin " +
-            "ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC")
+    @Query(value = """SELECT * FROM NOTE_TABLE WHERE NT_BIN = :bin
+        ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC""")
     fun get(bin: Boolean): MutableList<NoteItem>
 
     @Update
@@ -89,14 +88,10 @@ interface NoteDao : BaseDao {
         }
     }
 
-    @Query(value = "UPDATE NOTE_TABLE " +
-            "SET NT_CHANGE = :change, NT_BIN = :bin " +
-            "WHERE NT_ID = :id")
+    @Query(value = "UPDATE NOTE_TABLE SET NT_CHANGE = :change, NT_BIN = :bin WHERE NT_ID = :id")
     fun update(id: Long, change: String, bin: Boolean)
 
-    @Query(value = "UPDATE NOTE_TABLE " +
-            "SET NT_STATUS = :status " +
-            "WHERE NT_ID = :id")
+    @Query(value = "UPDATE NOTE_TABLE SET NT_STATUS = :status WHERE NT_ID = :id")
     fun update(id: Long, status: Boolean)
 
     @Delete
