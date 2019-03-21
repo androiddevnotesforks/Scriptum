@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.app.room.dao
 
 import android.text.TextUtils
-import android.widget.TextView
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -139,28 +138,5 @@ interface RollDao : BaseDao {
      */
     @Query(value = "DELETE FROM ROLL_TABLE " + "WHERE RL_NOTE_ID = :idNote")
     fun delete(idNote: Long)
-
-    fun listAll(textView: TextView) {
-        val rollList = get()
-
-        val annotation = "Roll Data Base:"
-        textView.text = annotation
-
-        for (i in rollList.indices) {
-            val rollItem = rollList[i]
-
-            textView.append("\n\n" +
-                    "ID: " + rollItem.id + " | " +
-                    "ID_NT: " + rollItem.noteId + " | " +
-                    "PS: " + rollItem.position + " | " +
-                    "CH: " + rollItem.isCheck + "\n")
-
-            val text = rollItem.text
-            textView.append("TX: " + text.substring(0, Math.min(text.length, 45))
-                    .replace("\n", " "))
-
-            if (text.length > 40) textView.append("...")
-        }
-    }
 
 }

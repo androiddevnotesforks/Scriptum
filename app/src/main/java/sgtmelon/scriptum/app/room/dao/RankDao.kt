@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.app.room.dao
 
-import android.text.TextUtils
-import android.widget.TextView
 import androidx.room.*
 import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.item.RankItem
@@ -223,24 +221,6 @@ interface RankDao : BaseDao {
         }
 
         delete(rankItem)
-    }
-
-    fun listAll(textView: TextView) {
-        val rankList = simple
-
-        val annotation = "Rank Data Base: "
-        textView.text = annotation
-
-        for (i in rankList.indices) {
-            val rankItem = rankList[i]
-
-            textView.append("\n\n" +
-                    "ID: " + rankItem.id + " | " +
-                    "PS: " + rankItem.position + "\n" +
-                    "NM: " + rankItem.name + "\n" +
-                    "CR: " + TextUtils.join(", ", rankItem.noteId) + "\n" +
-                    "VS: " + rankItem.isVisible)
-        }
     }
 
 }

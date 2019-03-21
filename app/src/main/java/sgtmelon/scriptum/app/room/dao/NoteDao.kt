@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.app.room.dao
 
 import android.content.Context
-import android.text.TextUtils
-import android.widget.TextView
 import androidx.room.*
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.item.NoteItem
@@ -136,45 +134,6 @@ interface NoteDao : BaseDao {
         }
 
         delete(noteList)
-    }
-
-    fun listAll(textView: TextView) {
-        val noteList = get(true)
-        noteList.addAll(get(false))
-
-        val annotation = "Note Data Base:"
-        textView.text = annotation
-
-        for (i in noteList.indices) {
-            val noteItem = noteList[i]
-
-            textView.append("\n\n" +
-                    "ID: " + noteItem.id + " | " +
-                    "CR: " + noteItem.create + " | " +
-                    "CH: " + noteItem.change + "\n")
-
-            val name = noteItem.name
-            if (!TextUtils.isEmpty(name)) {
-                textView.append("NM: $name\n")
-            }
-
-            val text = noteItem.text
-            textView.append("TX: " + text.substring(0, Math.min(text.length, 45))
-                    .replace("\n", " "))
-
-            if (text.length > 40) {
-                textView.append("...")
-            }
-
-            textView.append("\n")
-
-            textView.append("CL: " + noteItem.color + " | " +
-                    "TP: " + noteItem.type + " | " +
-                    "BN: " + noteItem.isBin + "\n" +
-                    "RK ID: " + TextUtils.join(", ", noteItem.rankId) + " | " +
-                    "RK PS: " + TextUtils.join(", ", noteItem.rankPs) + "\n" +
-                    "ST: " + noteItem.isStatus)
-        }
     }
 
 }
