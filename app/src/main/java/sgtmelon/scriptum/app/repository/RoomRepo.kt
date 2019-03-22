@@ -20,7 +20,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     private fun openRoom() = RoomDb.getInstance(context)
 
     /**
-     * BinViewModel
+     *
      */
 
     override fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel> {
@@ -39,10 +39,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             openRoom().apply { daoNote().update(id, context.getTime(), false) }.close()
 
     override fun clearNoteItem(id: Long) = openRoom().apply { daoNote().delete(id) }.close()
-
-    /**
-     *
-     */
 
     override fun getRankVisibleList(): List<Long> {
         var list: List<Long> = ArrayList()
@@ -71,7 +67,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         return array
     }
-
 
     override fun getRankCheck(rankId: List<Long>): BooleanArray {
         db = RoomDb.getInstance(context)
@@ -149,7 +144,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         } else {
             db.daoNote().update(noteItem)
 
-            val listSaveId = ArrayList<Long?>()
+            val listSaveId = ArrayList<Long>()
 
             listRoll.forEachIndexed { index, rollItem ->
                 rollItem.position = index
@@ -161,7 +156,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                     db.daoRoll().update(id, index, rollItem.text)
                 }
 
-                listSaveId.add(rollItem.id)
+                rollItem.id?.let { listSaveId.add(it) }
             }
 
             /**
@@ -200,11 +195,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 daoNote().update(noteItem)
             }.close()
 
-    /**
-     * NotesViewModel
-     */
-
-
     override fun updateNoteItemCheck(noteItem: NoteItem, check: Boolean) =
             openRoom().apply {
                 daoRoll().updateAllCheck(noteItem.id, check)
@@ -222,15 +212,21 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         daoNote().update(id, false)
     }.close()
 
+    override fun deleteRank(name: String, p: Int) {
+        openRoom().apply {
+            val rankItem = daoRank().get(name)
 
-    /**
-     *
-     */
+            with(rankItem.noteId) {
+                if (size != 0) {
+                    daoRank().updateNote(this, rankItem.id)
+                }
+            }
 
-
-    /**
-     *
-     */
+            daoRank().delete(rankItem)
+            daoRank().update(p)
+            daoNote().update(context)
+        }.close()
+    }
 
     companion object {
         fun getInstance(context: Context): IRoomRepo = RoomRepo(context)

@@ -212,15 +212,4 @@ interface RankDao : BaseDao {
     @Delete
     fun delete(rankItem: RankItem)
 
-    fun delete(name: String) {
-        val rankItem = get(name)
-
-        val noteIdList = rankItem.noteId
-        if (noteIdList.size != 0) {
-            updateNote(noteIdList, rankItem.id)
-        }
-
-        delete(rankItem)
-    }
-
 }

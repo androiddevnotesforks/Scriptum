@@ -18,10 +18,6 @@ interface IRoomRepo {
 
     fun clearNoteItem(id: Long)
 
-    /**
-     *
-     */
-
     fun getRankVisibleList(): List<Long>
 
     fun getNoteModel(id: Long): NoteModel
@@ -46,15 +42,6 @@ interface IRoomRepo {
 
     fun updateRollCheck(noteItem: NoteItem, isAll: Boolean)
 
-    /**
-     *
-     */
-
-
-    /**
-     *
-     */
-
     fun updateNoteItemCheck(noteItem: NoteItem, check: Boolean)
 
     fun updateNoteItemBind(id: Long, status: Boolean)
@@ -62,5 +49,7 @@ interface IRoomRepo {
     fun updateNoteItem(noteItem: NoteItem)
 
     fun deleteNoteItem(id: Long)
+
+    fun deleteRank(name: String, p: Int)
 
 }

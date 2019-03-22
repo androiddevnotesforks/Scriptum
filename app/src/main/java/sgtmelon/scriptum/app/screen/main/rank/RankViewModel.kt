@@ -127,13 +127,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     }
 
     fun onClickCancel(p: Int) {
-        val rankItem = rankModel.itemList[p]
-
-        val db = RoomDb.getInstance(context)
-        db.daoRank().delete(rankItem.name)
-        db.daoRank().update(p)
-        db.daoNote().update(context)
-        db.close()
+        iRoomRepo.deleteRank(rankModel.itemList[p].name, p)
 
         rankModel.remove(p)
 
