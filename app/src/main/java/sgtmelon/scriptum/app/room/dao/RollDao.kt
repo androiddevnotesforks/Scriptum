@@ -15,8 +15,7 @@ import java.util.*
 @Dao
 interface RollDao : BaseDao {
 
-    @Insert
-    fun insert(rollItem: RollItem): Long
+    @Insert fun insert(rollItem: RollItem): Long
 
     /**
      * Запись пунктов после конвертирования из текстовой заметки
@@ -50,6 +49,17 @@ interface RollDao : BaseDao {
     @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
     fun get(): List<RollItem>
 
+    @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote ORDER BY RL_POSITION")
+    fun get(idNote: Long): MutableList<RollItem>
+
+    /**
+     * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
+     */
+    @Query(value = """SELECT * FROM ROLL_TABLE
+            WHERE RL_NOTE_ID = :idNote AND RL_POSITION BETWEEN 0 AND 3
+            ORDER BY RL_POSITION ASC""")
+    fun getView(idNote: Long): MutableList<RollItem>
+
     /**
      * Получение текста для текстовой заметки на основе списка
      *
@@ -57,7 +67,7 @@ interface RollDao : BaseDao {
      * @return - Строка для текстовой заметки
      */
     fun getText(noteId: Long): String {
-        val rollList = getRoll(noteId)
+        val rollList = get(noteId)
 
         val text = StringBuilder()
         for (i in rollList.indices) {
@@ -76,7 +86,7 @@ interface RollDao : BaseDao {
      * @return - Строка для уведомления
      */
     fun getText(idNote: Long, check: String): String {
-        val rollList = getRoll(idNote)
+        val rollList = get(idNote)
 
         val text = StringBuilder()
         text.append(check).append(" |")
@@ -84,10 +94,8 @@ interface RollDao : BaseDao {
         for (i in rollList.indices) {
             val rollItem = rollList[i]
 
-            if (rollItem.isCheck)
-                text.append(" \u2713 ")
-            else
-                text.append(" - ")
+            if (rollItem.isCheck) text.append(" \u2713 ")
+            else text.append(" - ")
 
             text.append(rollItem.text)
 

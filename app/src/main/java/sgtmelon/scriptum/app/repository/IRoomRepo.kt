@@ -48,6 +48,8 @@ interface IRoomRepo {
 
     fun updateNoteItem(noteItem: NoteItem)
 
+    fun updateStatus()
+
     fun deleteNoteItem(id: Long)
 
     fun deleteRank(name: String, p: Int)

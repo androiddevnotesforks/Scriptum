@@ -12,7 +12,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     private fun openRoom() = RoomDb.getInstance(context)
 
     override fun listRankTable(textView: TextView) {
-        val rankList: MutableList<RankItem> = ArrayList()
+        val rankList = ArrayList<RankItem>()
 
         openRoom().apply { rankList.addAll(daoRank().simple) }.close()
 
@@ -33,7 +33,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     }
 
     override fun listNoteTable(textView: TextView) {
-        val noteList: MutableList<NoteItem> = ArrayList()
+        val noteList = ArrayList<NoteItem>()
 
         openRoom().apply {
             noteList.addAll(daoNote().get(true))
@@ -66,7 +66,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     }
 
     override fun listRollTable(textView: TextView) {
-        val rollList: MutableList<RollItem> = ArrayList()
+        val rollList = ArrayList<RollItem>()
 
         openRoom().apply { rollList.addAll(daoRoll().get()) }.close()
 

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.office.annot.DbAnn
  */
 class NoteModel(@field:Embedded var noteItem: NoteItem,
                 @field:Relation(parentColumn = DbAnn.Note.ID, entityColumn = DbAnn.Roll.NOTE_ID)
-                var listRoll: MutableList<RollItem>,
+                val listRoll: MutableList<RollItem>,
                 @field:Ignore var statusItem: StatusItem) {
 
     /**

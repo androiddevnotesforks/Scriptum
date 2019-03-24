@@ -141,7 +141,8 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
                 db.daoNote().update(noteItem)
 
-                noteModel.listRoll = listRoll
+                noteModel.listRoll.clear()
+                noteModel.listRoll.addAll(listRoll)
 
                 db.close()
             }
@@ -154,7 +155,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
                 db.daoNote().update(noteItem)
                 db.daoRoll().delete(noteItem.id)
 
-                noteModel.listRoll = ArrayList()
+                noteModel.listRoll.clear()
 
                 db.close()
             }

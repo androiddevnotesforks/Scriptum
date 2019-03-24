@@ -1,16 +1,24 @@
 package sgtmelon.scriptum.app.repository
 
 import android.content.Context
+import androidx.sqlite.db.SimpleSQLiteQuery
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.model.item.RollItem
+import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.RoomDb
+import sgtmelon.scriptum.app.room.converter.BoolConverter
+import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel
+import sgtmelon.scriptum.office.annot.DbAnn
+import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 class RoomRepo(private val context: Context) : IRoomRepo {
+
+    private val preference = Preference(context)
 
     // TODO !! заменить db на openRoom (добавить extension для возврата val)
 
@@ -24,28 +32,81 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      */
 
     override fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel> {
-        var list: MutableList<NoteModel> = ArrayList()
+        val list = ArrayList<NoteModel>()
 
         openRoom().apply {
-            list = daoNote().get(context, fromBin)
+            val rankVisible = daoRank().rankVisible
+
+            daoNote().get(getNoteListQuery(preference.sortNoteOrder, fromBin)).forEach {
+                val rollList = daoRoll().getView(it.id)
+                val statusItem = StatusItem(context, it, notify = false)
+
+                val noteModel = NoteModel(it, rollList, statusItem)
+
+                if (it.rankId.isNotEmpty() && !rankVisible.contains(it.rankId[0])) {
+                    statusItem.cancelNote()
+                } else {
+                    if (it.isStatus && NotesViewModel.updateStatus) {
+                        statusItem.notifyNote()
+                    }
+
+                    noteModel.statusItem = statusItem
+                    list.add(noteModel)
+                }
+            }
         }.close()
 
         return list
     }
 
-    override fun clearBin() = openRoom().apply { daoNote().clearBin() }.close()
+    private fun getNoteListQuery(sortOrder: String, fromBin: Boolean) = SimpleSQLiteQuery(
+            "SELECT * FROM " + DbAnn.Note.TABLE +
+                    " WHERE " + DbAnn.Note.BIN + " = " + BoolConverter().toInt(fromBin) +
+                    " ORDER BY " + sortOrder)
+
+    override fun clearBin() = openRoom().apply {
+        val noteList = daoNote().get(true)
+
+        noteList.forEach {
+            if (it.rankId.isNotEmpty()) {
+                clearRank(it.id, it.rankId)
+            }
+        }
+
+        daoNote().delete(noteList)
+    }.close()
 
     override fun restoreNoteItem(id: Long) =
             openRoom().apply { daoNote().update(id, context.getTime(), false) }.close()
 
-    override fun clearNoteItem(id: Long) = openRoom().apply { daoNote().delete(id) }.close()
+    /**
+     * Удаление заметки с отчисткой категории
+     */
+    override fun clearNoteItem(id: Long) = openRoom().apply {
+        with(daoNote().get(id)) {
+            if (rankId.isNotEmpty()) {
+                clearRank(id, rankId)
+            }
+
+            daoNote().delete(noteItem = this)
+        }
+    }.close()
+
+    /**
+     * [noteId] - Id заметки, которую надо убрать из категории
+     * [rankIdList] - Массив из id категорий, принадлежащих заметке
+     */
+    private fun clearRank(noteId: Long, rankIdList: List<Long>) = openRoom().apply {
+        with(daoRank().get(rankIdList)) {
+            forEach { it.noteId.remove(noteId) }
+            daoRank().update(rankList = this)
+        }
+    }.close()
 
     override fun getRankVisibleList(): List<Long> {
-        var list: List<Long> = ArrayList()
+        val list = ArrayList<Long>()
 
-        openRoom().apply {
-            list = daoRank().rankVisible
-        }.close()
+        openRoom().apply { list.addAll(daoRank().rankVisible) }.close()
 
         return list
     }
@@ -54,7 +115,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 
         db = RoomDb.getInstance(context)
-        val noteModel = db.daoNote().get(context, id)
+        val noteItem = db.daoNote().get(id)
+        val rollList = db.daoRoll().get(id)
+
+        val noteModel = NoteModel(noteItem, rollList, StatusItem(context, noteItem, notify = false))
         db.close()
 
         return noteModel
@@ -108,16 +172,15 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean): NoteModel {
         val noteItem = noteModel.noteItem
 
-        db = RoomDb.getInstance(context)
+        openRoom().apply {
+            if (isCreate) {
+                noteItem.id = daoNote().insert(noteItem)
+            } else {
+                daoNote().update(noteItem)
+            }
 
-        if (isCreate) {
-            noteItem.id = db.daoNote().insert(noteItem)
-        } else {
-            db.daoNote().update(noteItem);
-        }
-
-        db.daoRank().update(noteItem.id, noteItem.rankId)
-        db.close()
+            daoRank().update(noteItem.id, noteItem.rankId)
+        }.close()
 
         return noteModel
     }
@@ -207,6 +270,23 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun updateNoteItem(noteItem: NoteItem) =
             openRoom().apply { daoNote().update(noteItem) }.close()
 
+    /**
+     * Обновление элементов списка в статус баре
+     */
+    override fun updateStatus() = openRoom().apply {
+        val rankVisible = daoRank().rankVisible
+
+        daoNote().get(getNoteListQuery(preference.sortNoteOrder, fromBin = false)).forEach {
+            val statusItem = StatusItem(context, it, notify = false)
+
+            if (it.rankId.isNotEmpty() && !rankVisible.contains(it.rankId[0])) {
+                statusItem.cancelNote()
+            } else if (it.isStatus) {
+                statusItem.notifyNote()
+            }
+        }
+    }.close()
+
     override fun deleteNoteItem(id: Long) = openRoom().apply {
         daoNote().update(id, context.getTime(), true)
         daoNote().update(id, false)
@@ -214,19 +294,31 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun deleteRank(name: String, p: Int) {
         openRoom().apply {
-            val rankItem = daoRank().get(name)
+            with(daoRank().get(name)) {
+                if (noteId.isNotEmpty()) {
+                    val noteList = daoNote().getNote(noteId)
 
-            with(rankItem.noteId) {
-                if (size != 0) {
-                    daoRank().updateNote(this, rankItem.id)
+                    /**
+                     * Убирает из списков ненужную категорию по id
+                     */
+                    noteList.forEach {
+                        val index = it.rankId.indexOf(id)
+
+                        it.rankId.removeAt(index)
+                        it.rankPs.removeAt(index)
+                    }
+
+                    daoNote().updateNote(noteList)
                 }
+
+                daoRank().delete(rankItem = this)
             }
 
-            daoRank().delete(rankItem)
             daoRank().update(p)
-            daoNote().update(context)
+            updateStatus()
         }.close()
     }
+
 
     companion object {
         fun getInstance(context: Context): IRoomRepo = RoomRepo(context)

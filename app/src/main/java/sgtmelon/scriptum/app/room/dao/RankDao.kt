@@ -14,11 +14,20 @@ import java.util.*
 @Dao
 interface RankDao : BaseDao {
 
+    /**
+     * Лист с id категорий, которые видны
+     */
+    @get:Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
+    val rankVisible: List<Long>
+
     @get:Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
     val count: Long
 
     @get:Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
     val simple: MutableList<RankItem>
+
+    @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
+    fun get(idList: List<Long>): List<RankItem>
 
     private val complex: MutableList<RankItem>
         get() {
@@ -40,8 +49,7 @@ interface RankDao : BaseDao {
     @get:Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
     val id: Array<Long>
 
-    @Insert
-    fun insert(rankItem: RankItem): Long
+    @Insert fun insert(rankItem: RankItem): Long
 
     fun get(): RankModel {
         val rankList = complex
@@ -94,11 +102,12 @@ interface RankDao : BaseDao {
             }
         }
 
-        updateRank(rankList)
+        update(rankList)
     }
 
-    @Update
-    fun update(rankItem: RankItem)
+    @Update fun update(rankItem: RankItem)
+
+    @Update fun update(rankList: List<RankItem>)
 
     /**
      * @param dragFrom - Начальная позиция обновления
@@ -150,7 +159,7 @@ interface RankDao : BaseDao {
             rankList.reverse()
         }
 
-        updateRank(rankList)
+        update(rankList)
         update(noteIdList, rankList)
 
         return rankList
@@ -175,7 +184,7 @@ interface RankDao : BaseDao {
             rankItem.position = i
         }
 
-        updateRank(rankList)
+        update(rankList)
         update(noteIdList, rankList)
     }
 
@@ -209,7 +218,6 @@ interface RankDao : BaseDao {
         updateNote(noteList)
     }
 
-    @Delete
-    fun delete(rankItem: RankItem)
+    @Delete fun delete(rankItem: RankItem)
 
 }
