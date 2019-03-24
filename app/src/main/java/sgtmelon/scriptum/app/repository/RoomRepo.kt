@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.repository
 import android.content.Context
 import androidx.sqlite.db.SimpleSQLiteQuery
 import sgtmelon.scriptum.app.model.NoteModel
+import sgtmelon.scriptum.app.model.data.ColorData.size
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RankItem
@@ -140,26 +141,97 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return array
     }
 
-    override fun convertToRoll(noteItem: NoteItem) = openRoom().apply {
-        val size = daoRoll().insert(noteItem.id, noteItem.text).size
+    override fun convertToRoll(noteModel: NoteModel): NoteModel {
+        openRoom().apply {
+            noteModel.apply {
+                listRoll.clear()
 
-        noteItem.apply {
-            change = context.getTime()
-            type = NoteType.ROLL
-            setRollText(0, size)
-        }
-    }.close()
+                val textToRoll = noteItem.text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
+                        .toTypedArray()
 
-    override fun convertToText(noteItem: NoteItem) = openRoom().apply {
-        noteItem.apply {
-            change = context.getTime()
-            type = NoteType.TEXT
-            text = daoRoll().getText(noteItem.id)
-        }
+                var p = 0
+                for (toRoll in textToRoll) {
+                    if (toRoll.isEmpty()) continue
 
-        daoNote().update(noteItem)
-        daoRoll().delete(noteItem.id)
-    }.close()
+                    listRoll.add(RollItem().apply {
+                        noteId = noteItem.id
+                        position = p++
+                        text = toRoll
+                        id = daoRoll().insert(rollItem = this)
+                    })
+                }
+
+                noteItem.apply {
+                    change = context.getTime()
+                    type = NoteType.ROLL
+                    setRollText(0, size)
+                }
+            }
+        }.close()
+
+        return noteModel
+    }
+
+    override fun convertToText(noteModel: NoteModel): NoteModel {
+        openRoom().apply {
+            noteModel.apply {
+                noteItem.apply {
+                    change = context.getTime()
+                    type = NoteType.TEXT
+                    text = StringBuilder().apply {
+                        daoRoll().get(noteItem.id).forEachIndexed { i, item ->
+                            if (i != 0) append("\n")
+                            append(item.text)
+                        }
+                    }.toString()
+                }
+
+                daoNote().update(noteItem)
+                daoRoll().delete(noteItem.id)
+
+                listRoll.clear()
+            }
+        }.close()
+
+        return noteModel
+    }
+
+    /**
+     * Получение текста для текстовой заметки на основе списка
+     */
+    override fun getTextFromRollNote(noteId: Long): String {
+        val builder = StringBuilder()
+
+        openRoom().apply {
+            daoRoll().get(noteId).forEachIndexed { i, item ->
+                builder.apply {
+                    if (i != 0) append("\n")
+                    append(item.text)
+                }
+            }
+        }.close()
+
+        return builder.toString()
+    }
+
+    /**
+     * Получение текста для уведомления на основе списка
+     */
+    override fun getTextForStatus(noteId: Long, check: String) = StringBuilder().apply {
+        openRoom().apply {
+            with(daoRoll().get(noteId)) {
+                append("$check |")
+
+                forEachIndexed { i, item ->
+                    if (item.isCheck) append(" \u2713 ") else append(" - ")
+
+                    append(item.text)
+
+                    if (i != size - 1) append(" |")
+                }
+            }
+        }.close()
+    }.toString()
 
     override fun getRankId(): Array<Long> {
         db = RoomDb.getInstance(context)

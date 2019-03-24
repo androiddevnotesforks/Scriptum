@@ -3,14 +3,13 @@ package sgtmelon.scriptum.office.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.text.TextUtils
 import android.widget.Toast
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.app.room.RoomDb
+import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.office.annot.def.SortDef
 
 object HelpUtils {
@@ -24,20 +23,14 @@ object HelpUtils {
         /**
          * Если есть название то добавляем его
          */
-        if (!TextUtils.isEmpty(noteItem.name)) {
-            copyText = noteItem.name + "\n"
-        }
+        if (noteItem.name.isNotEmpty()) copyText = noteItem.name + "\n"
 
         /**
          * В зависимости от типа составляем текст
          */
-        when (noteItem.type) {
-            NoteType.TEXT -> copyText += noteItem.text
-            NoteType.ROLL -> {
-                val db = RoomDb.getInstance(this)
-                copyText = db.daoRoll().getText(noteItem.id)
-                db.close()
-            }
+        copyText += when (noteItem.type) {
+            NoteType.TEXT -> noteItem.text
+            NoteType.ROLL -> RoomRepo.getInstance(context = this).getTextFromRollNote(noteItem.id)
         }
 
         /**

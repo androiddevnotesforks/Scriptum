@@ -6,13 +6,12 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
-
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.app.room.RoomDb
+import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.screen.splash.SplashActivity
 import sgtmelon.scriptum.office.utils.ColorUtils
 
@@ -53,10 +52,7 @@ class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boole
             }
             NoteType.ROLL -> {
                 icon = R.drawable.notif_bind_roll
-
-                val db = RoomDb.getInstance(context) // TODO !! repo
-                text = db.daoRoll().getText(noteItem.id, noteItem.text)
-                db.close()
+                text = RoomRepo.getInstance(context).getTextForStatus(noteItem.id, noteItem.text) //  TODO !!
             }
         }
 

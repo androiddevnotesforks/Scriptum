@@ -8,7 +8,6 @@ import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
-import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
@@ -114,7 +113,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun onMenuBind(p: Int): MutableList<NoteModel> {
-        with (listNoteModel[p]) {
+        with(listNoteModel[p]) {
             noteItem.isStatus = !noteItem.isStatus
             updateStatus(noteItem.isStatus)
 
@@ -124,44 +123,15 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         return listNoteModel
     }
 
-    private fun onMenuConvert(p: Int): MutableList<NoteModel> { // TODO !! repo
-        val noteModel = listNoteModel[p]
-        val noteItem = noteModel.noteItem
-
-        noteItem.change = context.getTime()
-
-        when (noteItem.type) {
-            NoteType.TEXT -> {
-                val db = RoomDb.getInstance(context)
-
-                val listRoll = db.daoRoll().insert(noteItem.id, noteItem.text)
-
-                noteItem.type = NoteType.ROLL
-                noteItem.setRollText(0, listRoll.size)
-
-                db.daoNote().update(noteItem)
-
-                noteModel.listRoll.clear()
-                noteModel.listRoll.addAll(listRoll)
-
-                db.close()
-            }
-            NoteType.ROLL -> {
-                val db = RoomDb.getInstance(context)
-
-                noteItem.type = NoteType.TEXT
-                noteItem.text = db.daoRoll().getText(noteItem.id)
-
-                db.daoNote().update(noteItem)
-                db.daoRoll().delete(noteItem.id)
-
-                noteModel.listRoll.clear()
-
-                db.close()
+    private fun onMenuConvert(p: Int): MutableList<NoteModel> {
+        listNoteModel[p] = with(listNoteModel[p]) {
+            when (noteItem.type) {
+                NoteType.TEXT -> iRoomRepo.convertToRoll(noteModel = this)
+                NoteType.ROLL -> iRoomRepo.convertToText(noteModel = this)
             }
         }
 
-        noteModel.statusItem.updateNote(noteItem)
+        with(listNoteModel[p]) { statusItem.updateNote(this.noteItem) } // TODO !! проверить обновление
 
         return listNoteModel
     }

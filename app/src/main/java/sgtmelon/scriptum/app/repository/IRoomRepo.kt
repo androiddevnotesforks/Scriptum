@@ -26,9 +26,13 @@ interface IRoomRepo {
 
     fun getRankCheck(rankId: List<Long>): BooleanArray
 
-    fun convertToRoll(noteItem: NoteItem)
+    fun convertToRoll(noteModel: NoteModel): NoteModel
 
-    fun convertToText(noteItem: NoteItem)
+    fun convertToText(noteModel: NoteModel): NoteModel
+
+    fun getTextFromRollNote(noteId: Long): String
+
+    fun getTextForStatus(noteId: Long, check: String): String
 
     fun getRankId(): Array<Long>
 
