@@ -34,4 +34,12 @@ interface NoteDao : BaseDao {
         ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC""")
     fun get(bin: Boolean): MutableList<NoteItem>
 
+    /**
+     * @param type   - Тип заметки
+     * @param idList - Id заметок
+     * @return - Количество заметок по датам создания
+     */
+    @Query(value = "SELECT COUNT(NT_ID) FROM NOTE_TABLE WHERE NT_ID IN(:idList) AND NT_TYPE = :type")
+    fun getCount(idList: List<Long>, type: Int): Int // TODO !! проверить конвертирование типов
+
 }

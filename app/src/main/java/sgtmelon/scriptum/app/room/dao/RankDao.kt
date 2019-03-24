@@ -1,11 +1,8 @@
 package sgtmelon.scriptum.app.room.dao
 
 import androidx.room.*
-import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.item.RankItem
-import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.RoomDb
-import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
 import java.util.*
 
 /**
@@ -29,20 +26,6 @@ interface RankDao : BaseDao {
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
     fun get(idList: List<Long>): List<RankItem>
 
-    private val complex: MutableList<RankItem>
-        get() {
-            val rankList = simple
-
-            for (rankItem in rankList) {
-                val noteIdList = rankItem.noteId
-
-                rankItem.textCount = getNoteCount(NoteTypeConverter().toInt(NoteType.TEXT), noteIdList)
-                rankItem.rollCount = getNoteCount(NoteTypeConverter().toInt(NoteType.ROLL), noteIdList)
-            }
-
-            return rankList
-        }
-
     @get:Query(value = "SELECT RK_NAME FROM RANK_TABLE ORDER BY RK_POSITION")
     val name: Array<String>
 
@@ -50,17 +33,6 @@ interface RankDao : BaseDao {
     val id: Array<Long>
 
     @Insert fun insert(rankItem: RankItem): Long
-
-    fun get(): RankModel {
-        val rankList = complex
-
-        val nameList = ArrayList<String>()
-        for (item in rankList) {
-            nameList.add(item.name.toUpperCase())
-        }
-
-        return RankModel(rankList, nameList)
-    }
 
     /**
      * @param name - Уникальное имя категории
@@ -81,107 +53,22 @@ interface RankDao : BaseDao {
         return check
     }
 
-    /**
-     * Добавление или удаление id заметки к категорииё
-     *
-     * @param noteId     - Id заметки
-     * @param rankIdList - Id категорий принадлежащих каметке
-     */
-    fun update(noteId: Long, rankIdList: List<Long>) {
-        val rankList = simple
-        val check = getCheck(rankIdList)
-
-        for (i in rankList.indices) {
-            val rankItem = rankList[i]
-            val noteIdList = rankItem.noteId
-
-            if (check[i] && !noteIdList.contains(noteId)) {
-                noteIdList.add(noteId)
-            } else if (!check[i]) {
-                noteIdList.remove(noteId)
-            }
-        }
-
-        update(rankList)
-    }
-
     @Update fun update(rankItem: RankItem)
 
     @Update fun update(rankList: List<RankItem>)
 
     /**
-     * @param dragFrom - Начальная позиция обновления
-     * @param dragTo   - Конечная позиция обновления
+     * @param p - Позиция удаления категории
      */
-    fun update(dragFrom: Int, dragTo: Int): List<RankItem> {
-        val startFirst = dragFrom < dragTo
-
-        val iStart = if (startFirst) dragFrom else dragTo
-        val iEnd = if (startFirst) dragTo else dragFrom
-        val iAdd = if (startFirst) -1 else 1
-
-        val rankList = complex
-        val noteIdList = ArrayList<Long>()
-
-        for (i in iStart..iEnd) {
-            val rankItem = rankList[i]
-
-            for (id in rankItem.noteId) {
-                if (!noteIdList.contains(id)) {
-                    noteIdList.add(id)
-                }
-            }
-
-            val start = i == dragFrom
-            val end = i == dragTo
-
-            val newPosition = if (start) dragTo else i + iAdd
-            rankItem.position = newPosition
-
-            if (startFirst) {
-                if (end) {
-                    rankList.removeAt(i)
-                    rankList.add(newPosition, rankItem)
-                } else {
-                    rankList[i] = rankItem
-                }
-            } else {
-                if (start) {
-                    rankList.removeAt(i)
-                    rankList.add(newPosition, rankItem)
-                } else {
-                    rankList[i] = rankItem
-                }
-            }
-        }
-
-        if (rankList[0].position != 0) {
-            rankList.reverse()
-        }
-
-        update(rankList)
-        update(noteIdList, rankList)
-
-        return rankList
-    }
-
-    /**
-     * @param position - Позиция удаления категории
-     */
-    fun update(position: Int) {
+    fun update(p: Int) {
         val rankList = simple
         val noteIdList = ArrayList<Long>()
 
-        for (i in position until rankList.size) {
-            val rankItem = rankList[i]
-
-            for (id in rankItem.noteId) {
-                if (!noteIdList.contains(id)) {
-                    noteIdList.add(id)
-                }
+        for (i in p until rankList.size) {
+            rankList[i].apply {
+                noteId.forEach { if (!noteIdList.contains(it)) noteIdList.add(it) }
+                position = i
             }
-
-            rankItem.position = i
         }
 
         update(rankList)
@@ -192,7 +79,7 @@ interface RankDao : BaseDao {
      * @param noteIdList - Id заметок, которые нужно обновить
      * @param rankList   - Новый список категорий, с новыми позициями у категорий
      */
-    private fun update(noteIdList: List<Long>, rankList: List<RankItem>) {
+    fun update(noteIdList: List<Long>, rankList: List<RankItem>) {
         val noteList = getNote(noteIdList)
 
         for (noteItem in noteList) {

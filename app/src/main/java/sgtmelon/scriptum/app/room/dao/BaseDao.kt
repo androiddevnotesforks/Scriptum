@@ -19,15 +19,6 @@ interface BaseDao {
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:id)")
     fun getNote(id: List<Long>): List<NoteItem>
 
-    /**
-     * @param type   - Тип заметки
-     * @param noteId - Id заметок
-     * @return - Количество заметок по датам создания
-     */
-    @Query(value = """SELECT COUNT(NT_ID) FROM NOTE_TABLE
-        WHERE NT_TYPE = :type AND NT_ID IN(:noteId)""")
-    fun getNoteCount(type: Int, noteId: List<Long>): Int
-
     @Update fun updateNote(noteList: List<NoteItem>)
 
 }

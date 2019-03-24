@@ -26,10 +26,8 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     var rankModel: RankModel = RankModel(ArrayList(), ArrayList())
         private set
 
-    fun onUpdateData() { // TODO !! repo
-        val db = RoomDb.getInstance(context)
-        rankModel = db.daoRank().get()
-        db.close()
+    fun onUpdateData() {
+        rankModel = iRoomRepo.getRankModel()
 
         callback.notifyDataSetChanged(rankModel.itemList)
         callback.bindList(rankModel.size())
@@ -78,11 +76,13 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     }
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
-        val db = RoomDb.getInstance(context)
-        rankModel.itemList.clear()
-        rankModel.itemList.addAll(db.daoRank().update(dragFrom, dragTo))
-        iRoomRepo.updateStatus()
-        db.close()
+        iRoomRepo.apply {
+            rankModel.apply {
+                itemList.clear()
+                itemList.addAll(updateRank(dragFrom, dragTo))
+            }
+            updateStatus()
+        }
 
         callback.notifyDataSetChanged(rankModel.itemList)
     }

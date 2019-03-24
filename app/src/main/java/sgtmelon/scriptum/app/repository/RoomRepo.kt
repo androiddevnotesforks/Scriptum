@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.repository
 import android.content.Context
 import androidx.sqlite.db.SimpleSQLiteQuery
 import sgtmelon.scriptum.app.model.NoteModel
+import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.data.ColorData.size
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
@@ -12,6 +13,7 @@ import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.room.converter.BoolConverter
+import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.office.annot.DbAnn
 import sgtmelon.scriptum.office.utils.Preference
@@ -250,9 +252,9 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             } else {
                 daoNote().update(noteItem)
             }
-
-            daoRank().update(noteItem.id, noteItem.rankId)
         }.close()
+
+        updateRank(noteItem.id, noteItem.rankId)
 
         return noteModel
     }
@@ -261,50 +263,68 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         val noteItem = noteModel.noteItem
         val listRoll = noteModel.listRoll
 
-        db = RoomDb.getInstance(context)
+        openRoom().apply {
+            if (isCreate) {
+                noteItem.id = daoNote().insert(noteItem)
 
-        if (isCreate) {
-            noteItem.id = db.daoNote().insert(noteItem)
-
-            /**
-             * Запись в пунктов в БД
-             */
-            listRoll.forEachIndexed { index, rollItem ->
-                rollItem.apply {
-                    noteId = noteItem.id
-                    position = index
-                    id = db.daoRoll().insert(rollItem)
+                /**
+                 * Запись в пунктов в БД
+                 */
+                listRoll.forEachIndexed { index, rollItem ->
+                    rollItem.apply {
+                        noteId = noteItem.id
+                        position = index
+                        id = daoRoll().insert(rollItem)
+                    }
                 }
-            }
-        } else {
-            db.daoNote().update(noteItem)
+            } else {
+                daoNote().update(noteItem)
 
-            val listSaveId = ArrayList<Long>()
+                val idSaveList = ArrayList<Long>()
 
-            listRoll.forEachIndexed { index, rollItem ->
-                rollItem.position = index
+                listRoll.forEachIndexed { index, rollItem ->
+                    rollItem.position = index
 
-                val id = rollItem.id
-                if (id == null) {
-                    rollItem.id = db.daoRoll().insert(rollItem)
-                } else {
-                    db.daoRoll().update(id, index, rollItem.text)
+                    val id = rollItem.id
+                    if (id == null) {
+                        rollItem.id = daoRoll().insert(rollItem)
+                    } else {
+                        daoRoll().update(id, index, rollItem.text)
+                    }
+
+                    rollItem.id?.let { idSaveList.add(it) }
                 }
 
-                rollItem.id?.let { listSaveId.add(it) }
+                /**
+                 * Удаление пунктов, которые swipe
+                 */
+                daoRoll().delete(noteItem.id, idSaveList)
             }
+        }.close()
 
-            /**
-             * Удаление пунктов, которые swipe
-             */
-            db.daoRoll().delete(noteItem.id, listSaveId)
-        }
-
-        db.daoRank().update(noteItem.id, noteItem.rankId)
-        db.close()
+        updateRank(noteItem.id, noteItem.rankId)
 
         return noteModel
     }
+
+    /**
+     * Добавление или удаление id заметки к категорииё
+     * [rankIdList] - Id категорий принадлежащих заметке
+     */
+    private fun updateRank(noteId: Long, rankIdList: List<Long>) = openRoom().apply {
+        val list = daoRank().simple
+        val check = daoRank().getCheck(rankIdList)
+
+        list.forEachIndexed { i, item ->
+            if (check[i] && !item.noteId.contains(noteId)) {
+                item.noteId.add(noteId)
+            } else if (!check[i]) {
+                item.noteId.remove(noteId)
+            }
+        }
+
+        daoRank().update(list)
+    }.close()
 
     override fun insertRank(p: Int, rankItem: RankItem): Long {
         db = RoomDb.getInstance(context)
@@ -364,33 +384,104 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         daoNote().update(id, false)
     }.close()
 
-    override fun deleteRank(name: String, p: Int) {
-        openRoom().apply {
-            with(daoRank().get(name)) {
-                if (noteId.isNotEmpty()) {
-                    val noteList = daoNote().getNote(noteId)
+    override fun deleteRank(name: String, p: Int) = openRoom().apply {
+        with(daoRank().get(name)) {
+            if (noteId.isNotEmpty()) {
+                val noteList = daoNote().getNote(noteId)
 
-                    /**
-                     * Убирает из списков ненужную категорию по id
-                     */
-                    noteList.forEach {
-                        val index = it.rankId.indexOf(id)
+                /**
+                 * Убирает из списков ненужную категорию по id
+                 */
+                noteList.forEach {
+                    val index = it.rankId.indexOf(id)
 
-                        it.rankId.removeAt(index)
-                        it.rankPs.removeAt(index)
-                    }
-
-                    daoNote().updateNote(noteList)
+                    it.rankId.removeAt(index)
+                    it.rankPs.removeAt(index)
                 }
 
-                daoRank().delete(rankItem = this)
+                daoNote().updateNote(noteList)
             }
 
-            daoRank().update(p)
-            updateStatus()
-        }.close()
+            daoRank().delete(rankItem = this)
+        }
+
+        daoRank().update(p)
+        updateStatus()
+    }.close()
+
+    override fun getRankModel(): RankModel {
+        val list = getRankComplexList()
+
+        return RankModel(list, ArrayList<String>().apply {
+            list.forEach { add(it.name.toUpperCase()) }
+        })
     }
 
+    override fun updateRank(dragFrom: Int, dragTo: Int): List<RankItem> { // TODO разобрать
+        val startFirst = dragFrom < dragTo
+
+        val iStart = if (startFirst) dragFrom else dragTo
+        val iEnd = if (startFirst) dragTo else dragFrom
+        val iAdd = if (startFirst) -1 else 1
+
+        val rankList = getRankComplexList()
+        val noteIdList = ArrayList<Long>()
+
+        for (i in iStart..iEnd) {
+            val rankItem = rankList[i]
+
+            for (id in rankItem.noteId) {
+                if (!noteIdList.contains(id)) {
+                    noteIdList.add(id)
+                }
+            }
+
+            val start = i == dragFrom
+            val end = i == dragTo
+
+            val newPosition = if (start) dragTo else i + iAdd
+            rankItem.position = newPosition
+
+            if (startFirst) {
+                if (end) {
+                    rankList.removeAt(i)
+                    rankList.add(newPosition, rankItem)
+                } else {
+                    rankList[i] = rankItem
+                }
+            } else {
+                if (start) {
+                    rankList.removeAt(i)
+                    rankList.add(newPosition, rankItem)
+                } else {
+                    rankList[i] = rankItem
+                }
+            }
+        }
+
+        if (rankList[0].position != 0) rankList.reverse()
+
+        openRoom().apply {
+            daoRank().update(rankList)
+            daoRank().update(noteIdList, rankList)
+        }.close()
+
+        return rankList
+    }
+
+    private fun getRankComplexList(): MutableList<RankItem> {  // TODO !! добавить конвертирование типов
+        val list = ArrayList<RankItem>()
+
+        openRoom().apply {
+            list.addAll(daoRank().simple)
+            list.forEach {
+                it.textCount = daoNote().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
+                it.rollCount = daoNote().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
+            }
+        }.close()
+
+        return list
+    }
 
     companion object {
         fun getInstance(context: Context): IRoomRepo = RoomRepo(context)

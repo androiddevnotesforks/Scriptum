@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.app.repository
 
 import sgtmelon.scriptum.app.model.NoteModel
+import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.model.item.RollItem
@@ -57,5 +58,9 @@ interface IRoomRepo {
     fun deleteNoteItem(id: Long)
 
     fun deleteRank(name: String, p: Int)
+
+    fun getRankModel(): RankModel
+
+    fun updateRank(dragFrom: Int, dragTo: Int): List<RankItem>
 
 }
