@@ -2,7 +2,7 @@ package sgtmelon.scriptum.app.repository
 
 import android.widget.TextView
 
-interface IDeveloperRepo {
+interface IDevelopRepo {
 
     fun listRankTable(textView: TextView)
 
