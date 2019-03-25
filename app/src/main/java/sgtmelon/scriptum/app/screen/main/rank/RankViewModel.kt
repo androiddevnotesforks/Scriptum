@@ -42,7 +42,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         val rankItem = rankModel.itemList[p]
 
         val db = RoomDb.getInstance(context)
-        db.daoRank().update(rankItem)
+        db.getRankDao().update(rankItem)
         db.close()
 
         callback.bindToolbar()
@@ -99,7 +99,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         rankItem.isVisible = !rankItem.isVisible
 
         val db = RoomDb.getInstance(context)
-        db.daoRank().update(rankItem)
+        db.getRankDao().update(rankItem)
         iRoomRepo.updateStatus()
         db.close()
 
@@ -121,7 +121,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         callback.notifyVisible(startAnim, rankList)
 
         val db = RoomDb.getInstance(context)
-        db.daoRank().update(rankList)
+        db.getRankDao().update(rankList)
         iRoomRepo.updateStatus()
         db.close()
     }

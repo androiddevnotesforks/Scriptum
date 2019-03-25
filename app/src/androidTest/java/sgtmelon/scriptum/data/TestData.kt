@@ -58,7 +58,7 @@ class TestData(private val context: Context) {
 
     fun insertText(noteItem: NoteItem = textNote): NoteItem {
         dataBase.apply {
-            noteItem.id = daoNote().insert(noteItem)
+            noteItem.id = getNoteDao().insert(noteItem)
         }.close()
 
         return noteItem
@@ -67,10 +67,10 @@ class TestData(private val context: Context) {
     fun insertRoll(noteItem: NoteItem = rollNote, listRoll: List<RollItem> = this.listRoll)
             : NoteItem {
         dataBase.apply {
-            noteItem.id = daoNote().insert(noteItem)
+            noteItem.id = getNoteDao().insert(noteItem)
             listRoll.forEach {
                 it.noteId = noteItem.id
-                daoRoll().insert(it)
+                getRollDao().insert(it)
             }
         }.close()
 

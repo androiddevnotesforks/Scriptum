@@ -14,7 +14,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     override fun listRankTable(textView: TextView) {
         val rankList = ArrayList<RankItem>()
 
-        openRoom().apply { rankList.addAll(daoRank().simple) }.close()
+        openRoom().apply { rankList.addAll(getRankDao().simple) }.close()
 
         textView.apply {
             text = ""
@@ -36,8 +36,8 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
         val noteList = ArrayList<NoteItem>()
 
         openRoom().apply {
-            noteList.addAll(daoNote().get(true))
-            noteList.addAll(daoNote().get(false))
+            noteList.addAll(getNoteDao().get(true))
+            noteList.addAll(getNoteDao().get(false))
         }.close()
 
         textView.apply {
@@ -68,7 +68,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     override fun listRollTable(textView: TextView) {
         val rollList = ArrayList<RollItem>()
 
-        openRoom().apply { rollList.addAll(daoRoll().get()) }.close()
+        openRoom().apply { rollList.addAll(getRollDao().get()) }.close()
 
         textView.apply {
             text = ""

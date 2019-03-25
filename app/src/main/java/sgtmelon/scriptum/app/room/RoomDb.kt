@@ -18,11 +18,11 @@ import sgtmelon.scriptum.app.room.dao.RollDao
 @Database(entities = [NoteItem::class, RollItem::class, RankItem::class], version = 1)
 abstract class RoomDb : RoomDatabase() {
 
-    abstract fun daoNote(): NoteDao
+    abstract fun getNoteDao(): NoteDao
 
-    abstract fun daoRoll(): RollDao
+    abstract fun getRollDao(): RollDao
 
-    abstract fun daoRank(): RankDao
+    abstract fun getRankDao(): RankDao
 
     companion object {
         fun getInstance(context: Context): RoomDb {
