@@ -3,14 +3,17 @@ package sgtmelon.scriptum.app.room.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.TypeConverters
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.room.RoomDb
+import sgtmelon.scriptum.app.room.converter.BoolConverter
 
 /**
  * Класс для общения Dao списка [RoomDb]
  */
 @Dao
-interface RollDao : BaseDao {
+@TypeConverters(BoolConverter::class)
+interface RollDao {
 
     @Insert fun insert(rollItem: RollItem): Long
 

@@ -92,7 +92,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 clearRank(id, rankId)
             }
 
-            getNoteDao().delete(noteItem = this)
+            getNoteDao().delete(item = this)
         }
     }.close()
 
@@ -138,10 +138,19 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun getRankCheck(rankId: List<Long>): BooleanArray {
         db = RoomDb.getInstance(context)
-        val array = db.getRankDao().getCheck(rankId)
+        val array = getRankCheck(rankId, db)
         db.close()
 
         return array
+    }
+
+    private fun getRankCheck(rankId: List<Long>, db: RoomDb): BooleanArray = with(db) {
+        val rankList = getRankDao().simple
+        val check = BooleanArray(rankList.size)
+
+        rankList.forEachIndexed { i, item -> check[i] = rankId.contains(item.id) }
+
+        return check
     }
 
     override fun convertToRoll(noteModel: NoteModel): NoteModel {
@@ -309,7 +318,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      */
     private fun updateRank(noteId: Long, rankIdList: List<Long>) = openRoom().apply {
         val list = getRankDao().simple
-        val check = getRankDao().getCheck(rankIdList)
+        val check = getRankCheck(rankIdList, db = this)
 
         list.forEachIndexed { i, item ->
             if (check[i] && !item.noteId.contains(noteId)) {
@@ -323,13 +332,59 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }.close()
 
     override fun insertRank(p: Int, rankItem: RankItem): Long {
-        db = RoomDb.getInstance(context)
-        val id = db.getRankDao().insert(rankItem)
-        if (p != 0) db.getRankDao().update(p)
-        db.close()
+        var id: Long = 0
+
+        openRoom().apply {
+            id = getRankDao().insert(rankItem)
+            if (p != 0) updateRankFromPosition(p, db = this)
+        }.close()
 
         return id
     }
+
+    /**
+     * @param p - Позиция удаления категории
+     */
+    private fun updateRankFromPosition(p: Int, db: RoomDb) = with(db) {
+        val rankList = getRankDao().simple
+        val noteIdList = java.util.ArrayList<Long>()
+
+        for (i in p until rankList.size) {
+            rankList[i].apply {
+                noteId.forEach { if (!noteIdList.contains(it)) noteIdList.add(it) }
+                position = i
+            }
+        }
+
+        getRankDao().update(rankList)
+        updateNoteRankPosition(noteIdList, rankList, db = this)
+    }
+
+    /**
+     * @param noteIdList - Id заметок, которые нужно обновить
+     * @param rankList   - Новый список категорий, с новыми позициями у категорий
+     */
+    private fun updateNoteRankPosition(noteIdList: List<Long>, rankList: List<RankItem>, db: RoomDb) =
+            with(db.getNoteDao()) {
+                val noteList = get(noteIdList)
+
+                noteList.forEach { item ->
+                    val newIdList = ArrayList<Long>()
+                    val newPsList = ArrayList<Long>()
+
+                    rankList.forEach {
+                        if (item.rankId.contains(it.id)) {
+                            newIdList.add(it.id)
+                            newPsList.add(it.position.toLong())
+                        }
+                    }
+
+                    item.rankId = newIdList
+                    item.rankPs = newPsList
+                }
+
+                update(noteList)
+            }
 
     override fun updateRollCheck(rollItem: RollItem, noteItem: NoteItem) { // TODO переделать
         rollItem.id?.let { id ->
@@ -383,7 +438,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun deleteRank(name: String, p: Int) = openRoom().apply {
         with(getRankDao().get(name)) {
             if (noteId.isNotEmpty()) {
-                val noteList = getNoteDao().getNote(noteId)
+                val noteList = getNoteDao().get(noteId)
 
                 /**
                  * Убирает из списков ненужную категорию по id
@@ -395,13 +450,13 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                     it.rankPs.removeAt(index)
                 }
 
-                getNoteDao().updateNote(noteList)
+                getNoteDao().update(noteList)
             }
 
             getRankDao().delete(rankItem = this)
         }
 
-        getRankDao().update(p)
+        updateRankFromPosition(p, this)
         updateStatus()
     }.close()
 
@@ -459,11 +514,12 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         openRoom().apply {
             getRankDao().update(rankList)
-            getRankDao().update(noteIdList, rankList)
+            updateNoteRankPosition(noteIdList, rankList, db = this)
         }.close()
 
         return rankList
     }
+
 
     private fun getRankComplexList(): MutableList<RankItem> {  // TODO !! добавить конвертирование типов
         val list = ArrayList<RankItem>()
