@@ -30,7 +30,7 @@ object HelpUtils {
          */
         copyText += when (noteItem.type) {
             NoteType.TEXT -> noteItem.text
-            NoteType.ROLL -> RoomRepo.getInstance(context = this).getTextFromRollNote(noteItem.id)
+            NoteType.ROLL -> RoomRepo.getInstance(context = this).getCopyRoll(noteItem.id)
         }
 
         /**

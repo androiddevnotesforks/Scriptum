@@ -14,6 +14,7 @@ import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.room.converter.BoolConverter
 import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.app.room.dao.RollDao
 import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.office.annot.DbAnn
 import sgtmelon.scriptum.office.utils.Preference
@@ -180,12 +181,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 noteItem.apply {
                     change = context.getTime()
                     type = NoteType.TEXT
-                    text = StringBuilder().apply {
-                        daoRoll().get(noteItem.id).forEachIndexed { i, item ->
-                            if (i != 0) append("\n")
-                            append(item.text)
-                        }
-                    }.toString()
+                    text = getTextFromRollNote(daoRoll(), noteItem.id)
                 }
 
                 daoNote().update(noteItem)
@@ -201,20 +197,20 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     /**
      * Получение текста для текстовой заметки на основе списка
      */
-    override fun getTextFromRollNote(noteId: Long): String {
+    override fun getCopyRoll(noteId: Long): String {
         val builder = StringBuilder()
 
-        openRoom().apply {
-            daoRoll().get(noteId).forEachIndexed { i, item ->
-                builder.apply {
-                    if (i != 0) append("\n")
-                    append(item.text)
-                }
-            }
-        }.close()
+        openRoom().apply { builder.append(getTextFromRollNote(daoRoll(), noteId)) }.close()
 
         return builder.toString()
     }
+
+    private fun getTextFromRollNote(rollDao: RollDao, noteId: Long) = StringBuilder().apply {
+        rollDao.get(noteId).forEachIndexed { i, item ->
+            if (i != 0) append("\n")
+            append(item.text)
+        }
+    }.toString()
 
     /**
      * Получение текста для уведомления на основе списка

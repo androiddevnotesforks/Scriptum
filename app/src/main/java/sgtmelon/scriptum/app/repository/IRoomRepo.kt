@@ -31,7 +31,7 @@ interface IRoomRepo {
 
     fun convertToText(noteModel: NoteModel): NoteModel
 
-    fun getTextFromRollNote(noteId: Long): String
+    fun getCopyRoll(noteId: Long): String
 
     fun getTextForStatus(noteId: Long, check: String): String
 
