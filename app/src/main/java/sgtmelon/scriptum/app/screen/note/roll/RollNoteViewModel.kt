@@ -484,7 +484,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun onResultConvertDialog() {
-        iRoomRepo.convertToText(noteModel.noteItem)
+        iRoomRepo.convertToText(noteModel)
 
         // TODO !! status update
 

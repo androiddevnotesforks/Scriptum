@@ -14,11 +14,11 @@ class MultiplyDialog : DialogBlank() {
     lateinit var check: BooleanArray
         private set
 
-    fun setArguments(check: BooleanArray) {
+    fun setArguments(checkArray: BooleanArray) {
         val bundle = Bundle()
 
-        bundle.putBooleanArray(INIT, check.clone())
-        bundle.putBooleanArray(VALUE, check)
+        bundle.putBooleanArray(INIT, checkArray.clone())
+        bundle.putBooleanArray(VALUE, checkArray)
 
         arguments = bundle
     }
