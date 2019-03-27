@@ -36,8 +36,8 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
         val noteList = ArrayList<NoteItem>()
 
         openRoom().apply {
-            noteList.addAll(getNoteDao().get(true))
-            noteList.addAll(getNoteDao().get(false))
+            noteList.addAll(getNoteDao()[true])
+            noteList.addAll(getNoteDao()[false])
         }.close()
 
         textView.apply {

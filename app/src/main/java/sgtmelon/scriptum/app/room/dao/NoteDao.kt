@@ -30,17 +30,17 @@ interface NoteDao {
     @Query(value = "UPDATE NOTE_TABLE SET NT_STATUS = :status WHERE NT_ID = :id")
     fun update(id: Long, status: Boolean)
 
-    @RawQuery fun get(query: SupportSQLiteQuery): List<NoteItem>
+    @RawQuery operator fun get(query: SupportSQLiteQuery): List<NoteItem>
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
-    fun get(id: Long): NoteItem
+    operator fun get(id: Long): NoteItem
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
-    fun get(idList: List<Long>): List<NoteItem>
+    operator fun get(idList: List<Long>): List<NoteItem>
 
     @Query(value = """SELECT * FROM NOTE_TABLE WHERE NT_BIN = :bin
         ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC""")
-    fun get(bin: Boolean): MutableList<NoteItem>
+    operator fun get(bin: Boolean): MutableList<NoteItem>
 
     /**
      * @param idList - Id заметок

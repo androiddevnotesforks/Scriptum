@@ -14,6 +14,7 @@ import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.room.converter.BoolConverter
 import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.app.room.dao.RankDao
 import sgtmelon.scriptum.app.room.dao.RollDao
 import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel
 import sgtmelon.scriptum.office.annot.DbAnn
@@ -28,34 +29,31 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     private lateinit var db: RoomDb
 
-    // TODO think about itn
+    // TODO think about it
     private fun openRoom() = RoomDb.getInstance(context)
 
-    /**
-     *
-     */
+    private fun getNoteListQuery(fromBin: Boolean) = SimpleSQLiteQuery(
+            "SELECT * FROM ${DbAnn.Note.TABLE}" +
+                    " WHERE ${DbAnn.Note.BIN } = ${BoolConverter().toInt(fromBin)}" +
+                    " ORDER BY ${preference.sortNoteOrder}")
 
     override fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel> {
         val list = ArrayList<NoteModel>()
 
         openRoom().apply {
-            val rankVisible = getRankDao().rankVisible
+            val rankVisibleList = getRankDao().rankVisibleList
 
-            getNoteDao().get(getNoteListQuery(preference.sortNoteOrder, fromBin)).forEach {
-                val rollList = getRollDao().getView(it.id)
+            getNoteDao()[getNoteListQuery(fromBin)].forEach {
                 val statusItem = StatusItem(context, it, notify = false)
 
-                val noteModel = NoteModel(it, rollList, statusItem)
-
-                if (it.rankId.isNotEmpty() && !rankVisible.contains(it.rankId[0])) {
+                if (it.rankId.isNotEmpty() && !rankVisibleList.contains(it.rankId[0])) {
                     statusItem.cancelNote()
                 } else {
                     if (it.isStatus && NotesViewModel.updateStatus) {
                         statusItem.notifyNote()
                     }
 
-                    noteModel.statusItem = statusItem
-                    list.add(noteModel)
+                    list.add(NoteModel(it, getRollDao().getView(it.id), statusItem))
                 }
             }
         }.close()
@@ -63,17 +61,13 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return list
     }
 
-    private fun getNoteListQuery(sortOrder: String, fromBin: Boolean) = SimpleSQLiteQuery(
-            "SELECT * FROM " + DbAnn.Note.TABLE +
-                    " WHERE " + DbAnn.Note.BIN + " = " + BoolConverter().toInt(fromBin) +
-                    " ORDER BY " + sortOrder)
-
     override fun clearBin() = openRoom().apply {
-        val noteList = getNoteDao().get(true)
+        val noteList = getNoteDao()[true]
 
+        // TODO filter
         noteList.forEach {
             if (it.rankId.isNotEmpty()) {
-                clearRank(it.id, it.rankId)
+                clearRank(it.id, it.rankId, getRankDao())
             }
         }
 
@@ -87,9 +81,9 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      * Удаление заметки с отчисткой категории
      */
     override fun clearNoteItem(id: Long) = openRoom().apply {
-        with(getNoteDao().get(id)) {
+        with(getNoteDao()[id]) {
             if (rankId.isNotEmpty()) {
-                clearRank(id, rankId)
+                clearRank(id, rankId, getRankDao())
             }
 
             getNoteDao().delete(item = this)
@@ -100,17 +94,17 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      * [noteId] - Id заметки, которую надо убрать из категории
      * [rankIdList] - Массив из id категорий, принадлежащих заметке
      */
-    private fun clearRank(noteId: Long, rankIdList: List<Long>) = openRoom().apply {
-        with(getRankDao().get(rankIdList)) {
+    private fun clearRank(noteId: Long, rankIdList: List<Long>, rankDao: RankDao) = with(rankDao) {
+        with(get(rankIdList)) {
             forEach { it.noteId.remove(noteId) }
-            getRankDao().update(rankList = this)
+            update(rankList = this)
         }
-    }.close()
+    }
 
     override fun getRankVisibleList(): List<Long> {
         val list = ArrayList<Long>()
 
-        openRoom().apply { list.addAll(getRankDao().rankVisible) }.close()
+        openRoom().apply { list.addAll(getRankDao().rankVisibleList) }.close()
 
         return list
     }
@@ -119,8 +113,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 
         db = RoomDb.getInstance(context)
-        val noteItem = db.getNoteDao().get(id)
-        val rollList = db.getRollDao().get(id)
+        val noteItem = db.getNoteDao()[id]
+        val rollList = db.getRollDao()[id]
 
         val noteModel = NoteModel(noteItem, rollList, StatusItem(context, noteItem, notify = false))
         db.close()
@@ -215,7 +209,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     private fun getTextFromRollNote(rollDao: RollDao, noteId: Long) = StringBuilder().apply {
-        rollDao.get(noteId).forEachIndexed { i, item ->
+        rollDao[noteId].forEachIndexed { i, item ->
             if (i != 0) append("\n")
             append(item.text)
         }
@@ -226,7 +220,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      */
     override fun getTextForStatus(noteId: Long, check: String) = StringBuilder().apply {
         openRoom().apply {
-            with(getRollDao().get(noteId)) {
+            with(getRollDao()[noteId]) {
                 append("$check |")
 
                 forEachIndexed { i, item ->
@@ -417,9 +411,9 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      * Обновление элементов списка в статус баре
      */
     override fun updateStatus() = openRoom().apply {
-        val rankVisible = getRankDao().rankVisible
+        val rankVisible = getRankDao().rankVisibleList
 
-        getNoteDao().get(getNoteListQuery(preference.sortNoteOrder, fromBin = false)).forEach {
+        getNoteDao()[getNoteListQuery(fromBin = false)].forEach {
             val statusItem = StatusItem(context, it, notify = false)
 
             if (it.rankId.isNotEmpty() && !rankVisible.contains(it.rankId[0])) {
@@ -438,9 +432,9 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }.close()
 
     override fun deleteRank(name: String, p: Int) = openRoom().apply {
-        with(getRankDao().get(name)) {
+        with(getRankDao()[name]) {
             if (noteId.isNotEmpty()) {
-                val noteList = getNoteDao().get(noteId)
+                val noteList = getNoteDao()[noteId]
 
                 /**
                  * Убирает из списков ненужную категорию по id

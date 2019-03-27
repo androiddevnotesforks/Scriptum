@@ -16,7 +16,7 @@ interface RankDao {
      * Лист с id категорий, которые видны
      */
     @get:Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
-    val rankVisible: List<Long>
+    val rankVisibleList: List<Long>
 
     @get:Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
     val count: Long
@@ -40,7 +40,7 @@ interface RankDao {
      * @return - Модель категории
      */
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_NAME = :name")
-    fun get(name: String): RankItem
+    operator fun get(name: String): RankItem
 
     @Update fun update(rankItem: RankItem)
 

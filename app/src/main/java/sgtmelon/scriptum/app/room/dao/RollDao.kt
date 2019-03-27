@@ -21,7 +21,7 @@ interface RollDao {
     fun get(): List<RollItem>
 
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote ORDER BY RL_POSITION")
-    fun get(idNote: Long): MutableList<RollItem>
+    operator fun get(idNote: Long): MutableList<RollItem>
 
     /**
      * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
