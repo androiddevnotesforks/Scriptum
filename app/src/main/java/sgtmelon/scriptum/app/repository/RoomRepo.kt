@@ -81,7 +81,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }.close()
 
     override fun restoreNoteItem(id: Long) =
-            openRoom().apply { getNoteDao().update(id, context.getTime(), false) }.close()
+            openRoom().apply { getNoteDao().update(id, context.getTime(), bin = false) }.close()
 
     /**
      * Удаление заметки с отчисткой категории
@@ -431,8 +431,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }.close()
 
     override fun deleteNoteItem(id: Long) = openRoom().apply {
-        getNoteDao().update(id, context.getTime(), true)
-        getNoteDao().update(id, false)
+        getNoteDao().apply {
+            update(id, context.getTime(), bin = true)
+            update(id, status = false)
+        }
     }.close()
 
     override fun deleteRank(name: String, p: Int) = openRoom().apply {
