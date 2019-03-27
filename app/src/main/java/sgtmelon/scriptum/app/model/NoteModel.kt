@@ -6,13 +6,13 @@ import androidx.room.Relation
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.item.StatusItem
-import sgtmelon.scriptum.office.annot.DbAnn
+import sgtmelon.scriptum.app.model.key.DbField
 
 /**
  * Репозиторий заметки
  */
 class NoteModel(@field:Embedded var noteItem: NoteItem,
-                @field:Relation(parentColumn = DbAnn.Note.ID, entityColumn = DbAnn.Roll.NOTE_ID)
+                @field:Relation(parentColumn = DbField.Note.ID, entityColumn = DbField.Roll.NOTE_ID)
                 val listRoll: MutableList<RollItem>,
                 @field:Ignore var statusItem: StatusItem) {
 

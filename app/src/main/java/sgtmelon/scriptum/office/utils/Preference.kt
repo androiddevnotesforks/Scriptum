@@ -6,7 +6,7 @@ import android.content.res.Resources
 import android.preference.PreferenceManager
 import android.widget.TextView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.DbAnn
+import sgtmelon.scriptum.app.model.key.DbField
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
@@ -30,7 +30,7 @@ class Preference(context: Context) {
             val order = StringBuilder()
             for (aKey in keysArr) {
                 val key = Integer.parseInt(aKey)
-                order.append(DbAnn.Note.orders[key])
+                order.append(DbField.Note.orders[key])
 
                 if (key != SortDef.create && key != SortDef.change) {
                     order.append(SortDef.divider)

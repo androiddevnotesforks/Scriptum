@@ -17,7 +17,7 @@ import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.app.room.dao.RankDao
 import sgtmelon.scriptum.app.room.dao.RollDao
 import sgtmelon.scriptum.app.screen.main.notes.NotesViewModel
-import sgtmelon.scriptum.office.annot.DbAnn
+import sgtmelon.scriptum.app.model.key.DbField
 import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
@@ -33,8 +33,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     private fun openRoom() = RoomDb.getInstance(context)
 
     private fun getNoteListQuery(fromBin: Boolean) = SimpleSQLiteQuery(
-            "SELECT * FROM ${DbAnn.Note.TABLE}" +
-                    " WHERE ${DbAnn.Note.BIN } = ${BoolConverter().toInt(fromBin)}" +
+            "SELECT * FROM ${DbField.Note.TABLE}" +
+                    " WHERE ${DbField.Note.BIN } = ${BoolConverter().toInt(fromBin)}" +
                     " ORDER BY ${preference.sortNoteOrder}")
 
     override fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel> {

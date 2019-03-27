@@ -6,7 +6,7 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.InputItem
 import sgtmelon.scriptum.app.model.key.InputAction
-import sgtmelon.scriptum.office.annot.DbAnn
+import sgtmelon.scriptum.app.model.key.DbField
 import java.util.*
 
 /**
@@ -107,10 +107,7 @@ class InputControl : InputCallback {
     } // TODO extension (disableEnabled)
 
     override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) =
-            add(InputItem(InputAction.rank,
-                    TextUtils.join(DbAnn.Value.DIVIDER, valueFrom),
-                    TextUtils.join(DbAnn.Value.DIVIDER, valueTo)
-            ))
+            add(InputItem(InputAction.rank, valueFrom.joinToString(), valueTo.joinToString()))
 
     override fun onColorChange(valueFrom: Int, valueTo: Int) =
             add(InputItem(InputAction.color, valueFrom.toString(), valueTo.toString()))

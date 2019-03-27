@@ -5,37 +5,37 @@ import android.text.TextUtils
 import androidx.room.*
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
+import sgtmelon.scriptum.app.model.key.DbField.Note
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.room.converter.BoolConverter
 import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.app.room.converter.StringConverter
-import sgtmelon.scriptum.office.annot.DbAnn
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import java.util.*
 
 /**
  * Элемент списка заметок [NoteModel]
  */
-@Entity(tableName = DbAnn.Note.TABLE)
+@Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, StringConverter::class, NoteTypeConverter::class)
 class NoteItem {
 
-    @ColumnInfo(name = DbAnn.Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0
+    @ColumnInfo(name = Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0
 
-    @ColumnInfo(name = DbAnn.Note.CREATE) var create = ""
-    @ColumnInfo(name = DbAnn.Note.CHANGE) var change = ""
+    @ColumnInfo(name = Note.CREATE) var create = ""
+    @ColumnInfo(name = Note.CHANGE) var change = ""
 
-    @ColumnInfo(name = DbAnn.Note.NAME) var name = ""
-    @ColumnInfo(name = DbAnn.Note.TEXT) var text = ""
+    @ColumnInfo(name = Note.NAME) var name = ""
+    @ColumnInfo(name = Note.TEXT) var text = ""
 
-    @ColumnInfo(name = DbAnn.Note.COLOR) @get:ColorDef var color: Int = 0
-    @ColumnInfo(name = DbAnn.Note.TYPE) var type: NoteType = NoteType.TEXT
+    @ColumnInfo(name = Note.COLOR) @get:ColorDef var color: Int = 0
+    @ColumnInfo(name = Note.TYPE) var type: NoteType = NoteType.TEXT
 
-    @ColumnInfo(name = DbAnn.Note.RANK_PS) var rankPs: MutableList<Long> = ArrayList()
-    @ColumnInfo(name = DbAnn.Note.RANK_ID) var rankId: MutableList<Long> = ArrayList()
+    @ColumnInfo(name = Note.RANK_PS) var rankPs: MutableList<Long> = ArrayList()
+    @ColumnInfo(name = Note.RANK_ID) var rankId: MutableList<Long> = ArrayList()
 
-    @ColumnInfo(name = DbAnn.Note.BIN) var isBin = false
-    @ColumnInfo(name = DbAnn.Note.STATUS) var isStatus = false
+    @ColumnInfo(name = Note.BIN) var isBin = false
+    @ColumnInfo(name = Note.STATUS) var isStatus = false
 
     val check: IntArray
         get() {
