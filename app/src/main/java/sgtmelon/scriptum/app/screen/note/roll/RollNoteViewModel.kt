@@ -158,7 +158,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuRestore() {
-        iRoomRepo.restoreNoteItem(noteModel.noteItem.id)
+        iRoomRepo.restoreNote(noteModel.noteItem.id)
         noteCallback.finish()
     }
 
@@ -176,7 +176,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuClear() {
-        iRoomRepo.clearNoteItem(noteModel.noteItem.id)
+        iRoomRepo.clearNote(noteModel.noteItem.id)
 
         noteModel.updateStatus(status = false)
 
@@ -328,7 +328,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuDelete() {
         noteModel.updateStatus(status = false)
 
-        iRoomRepo.deleteNoteItem(noteModel.noteItem.id)
+        iRoomRepo.deleteNote(noteModel.noteItem.id)
         noteCallback.finish()
     }
 

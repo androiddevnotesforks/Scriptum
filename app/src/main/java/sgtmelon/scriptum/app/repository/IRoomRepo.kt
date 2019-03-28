@@ -11,13 +11,15 @@ import sgtmelon.scriptum.app.model.item.RollItem
  */
 interface IRoomRepo {
 
-    fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel>
+    fun getNoteModelList(bin: Boolean): MutableList<NoteModel>
 
     fun clearBin()
 
-    fun restoreNoteItem(id: Long)
+    fun deleteNote(id: Long)
 
-    fun clearNoteItem(id: Long)
+    fun restoreNote(id: Long)
+
+    fun clearNote(id: Long)
 
     fun getRankVisibleList(): List<Long>
 
@@ -54,8 +56,6 @@ interface IRoomRepo {
     fun updateNoteItem(noteItem: NoteItem)
 
     fun updateStatus()
-
-    fun deleteNoteItem(id: Long)
 
     fun deleteRank(name: String, p: Int)
 

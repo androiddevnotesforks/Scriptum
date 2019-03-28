@@ -27,7 +27,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     private val listNoteModel: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
-        val list = iRoomRepo.getNoteModelList(fromBin = false)
+        val list = iRoomRepo.getNoteModelList(bin = false)
 
         listNoteModel.clear()
         listNoteModel.addAll(list)
@@ -137,7 +137,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun onMenuDelete(p: Int): MutableList<NoteModel> {
-        iRoomRepo.deleteNoteItem(listNoteModel[p].noteItem.id)
+        iRoomRepo.deleteNote(listNoteModel[p].noteItem.id)
 
         listNoteModel[p].updateStatus(false)
         listNoteModel.removeAt(p)

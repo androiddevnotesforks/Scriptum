@@ -37,13 +37,13 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                     " WHERE ${DbField.Note.BIN } = ${BoolConverter().toInt(fromBin)}" +
                     " ORDER BY ${preference.sortNoteOrder}")
 
-    override fun getNoteModelList(fromBin: Boolean): MutableList<NoteModel> {
+    override fun getNoteModelList(bin: Boolean): MutableList<NoteModel> {
         val list = ArrayList<NoteModel>()
 
         openRoom().apply {
             val rankVisibleList = getRankDao().rankVisibleList
 
-            getNoteDao()[getNoteListQuery(fromBin)].forEach {
+            getNoteDao()[getNoteListQuery(bin)].forEach {
                 val statusItem = StatusItem(context, it, notify = false)
 
                 if (it.rankId.isNotEmpty() && !rankVisibleList.contains(it.rankId[0])) {
@@ -62,30 +62,29 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun clearBin() = openRoom().apply {
-        val noteList = getNoteDao()[true]
-
-        // TODO filter
-        noteList.forEach {
-            if (it.rankId.isNotEmpty()) {
-                clearRank(it.id, it.rankId, getRankDao())
-            }
+        val noteList = getNoteDao()[true].apply {
+            forEach { clearRank(it.id, it.rankId, getRankDao()) }
         }
 
         getNoteDao().delete(noteList)
     }.close()
 
-    override fun restoreNoteItem(id: Long) =
+    override fun deleteNote(id: Long) = openRoom().apply {
+        getNoteDao().apply {
+            update(id, context.getTime(), bin = true)
+            update(id, status = false)
+        }
+    }.close()
+
+    override fun restoreNote(id: Long) =
             openRoom().apply { getNoteDao().update(id, context.getTime(), bin = false) }.close()
 
     /**
      * Удаление заметки с отчисткой категории
      */
-    override fun clearNoteItem(id: Long) = openRoom().apply {
+    override fun clearNote(id: Long) = openRoom().apply {
         with(getNoteDao()[id]) {
-            if (rankId.isNotEmpty()) {
-                clearRank(id, rankId, getRankDao())
-            }
-
+            clearRank(id, rankId, getRankDao())
             getNoteDao().delete(item = this)
         }
     }.close()
@@ -95,6 +94,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      * [rankIdList] - Массив из id категорий, принадлежащих заметке
      */
     private fun clearRank(noteId: Long, rankIdList: List<Long>, rankDao: RankDao) = with(rankDao) {
+        if (rankIdList.isEmpty()) return@with
+
         with(get(rankIdList)) {
             forEach { it.noteId.remove(noteId) }
             update(rankList = this)
@@ -421,13 +422,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             } else if (it.isStatus) {
                 statusItem.notifyNote()
             }
-        }
-    }.close()
-
-    override fun deleteNoteItem(id: Long) = openRoom().apply {
-        getNoteDao().apply {
-            update(id, context.getTime(), bin = true)
-            update(id, status = false)
         }
     }.close()
 

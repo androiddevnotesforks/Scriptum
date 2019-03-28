@@ -24,7 +24,7 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
-        val list = iRoomRepo.getNoteModelList(fromBin = true)
+        val list = iRoomRepo.getNoteModelList(bin = true)
 
         noteModelList.clear()
         noteModelList.addAll(list)
@@ -67,14 +67,14 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun restoreItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.restoreNoteItem(noteModelList[p].noteItem.id)
+        iRoomRepo.restoreNote(noteModelList[p].noteItem.id)
 
         noteModelList.removeAt(p)
         return noteModelList
     }
 
     private fun clearItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.clearNoteItem(noteModelList[p].noteItem.id)
+        iRoomRepo.clearNote(noteModelList[p].noteItem.id)
 
         noteModelList.removeAt(p)
         return noteModelList
