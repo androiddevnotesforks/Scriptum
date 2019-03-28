@@ -28,7 +28,7 @@ android {
         buildConfigField "String", "BROWSER_URL", '"https://play.google.com/sore/apps/details?id="'
 
     }
-    
+
     dataBinding {
         enabled = true
     }
@@ -45,7 +45,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -62,7 +62,7 @@ dependencies {
     def arch_ver = "2.0.0"
 
     implementation "androidx.lifecycle:lifecycle-extensions:$arch_ver"
-    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$arch_ver"
+    kapt "androidx.lifecycle:lifecycle-compiler:$arch_ver"
 
     implementation "androidx.room:room-runtime:$arch_ver"
     kapt "androidx.room:room-compiler:$arch_ver"
