@@ -28,6 +28,9 @@ import java.util.*
 
 /**
  * ViewModel для [TextNoteFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class TextNoteViewModel(application: Application) : AndroidViewModel(application),
         SaveControl.Result,
@@ -50,7 +53,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     private lateinit var noteModel: NoteModel
 
     private lateinit var noteState: NoteState
-    private lateinit var listRankVisible: List<Long>
+    private lateinit var rankIdVisibleList: List<Long>
 
     private val iconState = IconState()
 
@@ -58,7 +61,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         if (!::noteModel.isInitialized) {
-            listRankVisible = iRoomRepo.getRankVisibleList()
+            rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
             if (id == NoteData.Default.ID) {
                 val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.TEXT)
@@ -68,16 +71,16 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
                 noteState = NoteState(isCreate = true)
             } else {
                 noteModel = iRoomRepo.getNoteModel(id)
-                noteModel.updateStatus(listRankVisible)
+                noteModel.updateStatus(rankIdVisibleList)
 
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
             }
         }
 
         callback.apply {
-            setupBinding(listRankVisible.isEmpty())
+            setupBinding(rankIdVisibleList.isEmpty())
             setupToolbar(noteModel.noteItem.color, noteState)
-            setupDialog(iRoomRepo.getRankDialogName())
+            setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
         }
 
@@ -95,7 +98,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
 
     override fun onMenuRestore() {
-        iRoomRepo.restoreNote(noteModel.noteItem.id)
+        iRoomRepo.restoreNote(noteModel.noteItem)
         noteCallback.finish()
     }
 
@@ -109,11 +112,11 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         iconState.notAnimate { onMenuEdit(mode = false) }
 
-        iRoomRepo.updateNoteItem(noteModel.noteItem)
+        iRoomRepo.updateNote(noteModel.noteItem)
     }
 
     override fun onMenuClear() {
-        iRoomRepo.clearNote(noteModel.noteItem.id)
+        iRoomRepo.clearNote(noteModel.noteItem)
 
         noteModel.updateStatus(status = false)
 
@@ -158,7 +161,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuRank() =
-            callback.showRankDialog(iRoomRepo.getRankCheck(noteModel.noteItem.rankId))
+            callback.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteItem))
 
     override fun onMenuColor() = callback.showColorDialog(noteModel.noteItem.color)
 
@@ -176,7 +179,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         }
 
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
-        noteModel.updateStatus(listRankVisible)
+        noteModel.updateStatus(rankIdVisibleList)
 
         noteState.ifCreate {
             if (!changeMode) {
@@ -195,7 +198,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         callback.bindEdit(noteState.isEdit, noteItem)
 
-        iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
+        iRoomRepo.updateNote(noteItem)
     }
 
     override fun onMenuConvert() = callback.showConvertDialog()
@@ -203,7 +206,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     override fun onMenuDelete() {
         noteModel.updateStatus(status = false)
 
-        iRoomRepo.deleteNote(noteModel.noteItem.id)
+        iRoomRepo.deleteNote(noteModel.noteItem)
         noteCallback.finish()
     }
 
@@ -276,7 +279,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
-        noteModel.updateStatus(listRankVisible)
+        noteModel.updateStatus(rankIdVisibleList)
 
         callback.apply {
             bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
@@ -288,10 +291,10 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         val rankId = ArrayList<Long>()
         val rankPs = ArrayList<Long>()
 
-        iRoomRepo.getRankId().forEachIndexed { index, l ->
-            if (check[index]) {
-                rankId.add(l)
-                rankPs.add(index.toLong())
+        iRoomRepo.getRankIdList().forEachIndexed { i, id ->
+            if (check[i]) {
+                rankId.add(id)
+                rankPs.add(i.toLong())
             }
         }
 
@@ -302,7 +305,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
         noteItem.rankId = rankId
         noteItem.rankPs = rankPs
 
-        noteModel.updateStatus(listRankVisible)
+        noteModel.updateStatus(rankIdVisibleList)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
     }

@@ -16,6 +16,9 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 /**
  * ViewModel для [NotesFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -101,9 +104,9 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
             val isAll = checkText[0] == checkText[1]
 
             noteItem.change = context.getTime()
-            noteItem.setRollText(if (isAll) 0 else checkText[1], checkText[1])
+            noteItem.setCompleteText(if (isAll) 0 else checkText[1], checkText[1])
 
-            iRoomRepo.updateNoteItemCheck(noteItem, !isAll)
+            iRoomRepo.updateRollCheck(noteItem, !isAll)
 
             updateCheck(!isAll)
             statusItem.updateNote(noteItem)
@@ -117,7 +120,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
             noteItem.isStatus = !noteItem.isStatus
             updateStatus(noteItem.isStatus)
 
-            iRoomRepo.updateNoteItemBind(noteItem.id, noteItem.isStatus)
+            iRoomRepo.updateNote(noteItem)
         }
 
         return listNoteModel
@@ -137,7 +140,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun onMenuDelete(p: Int): MutableList<NoteModel> {
-        iRoomRepo.deleteNote(listNoteModel[p].noteItem.id)
+        iRoomRepo.deleteNote(listNoteModel[p].noteItem)
 
         listNoteModel[p].updateStatus(false)
         listNoteModel.removeAt(p)

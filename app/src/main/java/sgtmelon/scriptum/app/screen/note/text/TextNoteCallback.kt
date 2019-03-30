@@ -7,6 +7,9 @@ import sgtmelon.scriptum.office.annot.def.ColorDef
 
 /**
  * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 interface TextNoteCallback {
 
@@ -17,7 +20,7 @@ interface TextNoteCallback {
 
     fun setupToolbar(@ColorDef color: Int, noteState: NoteState)
 
-    fun setupDialog(rankNameArray: Array<String> )
+    fun setupDialog(rankNameArray: List<String>)
 
     fun setupEnter(inputCallback: InputCallback)
 

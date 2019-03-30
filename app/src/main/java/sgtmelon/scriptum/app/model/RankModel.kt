@@ -4,10 +4,19 @@ import sgtmelon.scriptum.app.model.item.RankItem
 
 /**
  * Репозиторий категории
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
-class RankModel(val itemList: MutableList<RankItem>,
-                val nameList: MutableList<String>
-) {
+class RankModel(val itemList: MutableList<RankItem>) {
+
+    // TODO rename потому что по факту это репозиторий
+
+    val nameList: MutableList<String>
+
+    init {
+        nameList = ArrayList<String>().apply { itemList.forEach { add(it.name.toUpperCase()) } }
+    }
 
     fun size(): Int = itemList.size
 

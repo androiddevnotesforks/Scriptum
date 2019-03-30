@@ -47,6 +47,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
  * Фрагмент для отображения заметки списка
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class RollNoteFragment : Fragment(), RollNoteCallback {
 
@@ -140,8 +143,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
 
-    override fun setupDialog(rankNameArray: Array<String>) {
-        rankDialog.name = rankNameArray
+    override fun setupDialog(rankNameList: List<String>) {
+        rankDialog.name = rankNameList
         rankDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultRankDialog(rankDialog.check)
         }

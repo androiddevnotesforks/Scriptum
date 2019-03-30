@@ -7,6 +7,9 @@ import sgtmelon.scriptum.app.room.converter.BoolConverter
 
 /**
  * Класс для общения Dao категорий [RoomDb]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 @Dao
 @TypeConverters(BoolConverter::class)
@@ -16,7 +19,7 @@ interface RankDao {
      * Лист с id категорий, которые видны
      */
     @get:Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
-    val rankVisibleList: List<Long>
+    val rankIdVisibleList: List<Long>
 
     @get:Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
     val count: Long
@@ -25,13 +28,13 @@ interface RankDao {
     val simple: MutableList<RankItem>
 
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
-    fun get(idList: List<Long>): List<RankItem>
+    operator fun get(idList: List<Long>): List<RankItem>
 
     @get:Query(value = "SELECT RK_NAME FROM RANK_TABLE ORDER BY RK_POSITION")
-    val name: Array<String>
+    val name: List<String>
 
     @get:Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
-    val id: Array<Long>
+    val id: List<Long>
 
     @Insert fun insert(rankItem: RankItem): Long
 

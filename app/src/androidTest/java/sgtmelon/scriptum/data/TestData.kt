@@ -34,7 +34,7 @@ class TestData(private val context: Context) {
             create = context.getTime()
             change = context.getTime()
             name = context.getString(R.string.test_note_name)
-            setRollText(listRoll.getCheck(), listRoll.size)
+            setCompleteText(listRoll.getCheck(), listRoll.size)
             color = (0 until ColorData.size).random()
             type = NoteType.ROLL
         }

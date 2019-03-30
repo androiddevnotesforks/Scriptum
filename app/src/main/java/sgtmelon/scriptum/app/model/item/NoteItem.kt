@@ -14,7 +14,10 @@ import sgtmelon.scriptum.office.annot.def.ColorDef
 import java.util.*
 
 /**
- * Элемент списка заметок [NoteModel]
+ * Элемент информации о заметки для [NoteModel]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, StringConverter::class, NoteTypeConverter::class)
@@ -65,8 +68,11 @@ class NoteItem {
 
     fun getStatusName(context: Context): String = if (TextUtils.isEmpty(name)) context.getString(R.string.hint_view_name) else name
 
-    fun setRollText(rollCheck: Int, rollCount: Int) {
-        text = rollCheck.toString() + "/" + rollCount
+    fun setCompleteText(check: Int, size: Int) {
+        text = "${check.toString()}/$size"
     }
 
+    fun splitTextForRoll() = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
+    
 }

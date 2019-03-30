@@ -9,12 +9,15 @@ import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.model.key.DbField
 
 /**
- * Репозиторий заметки
+ * Модель заметки
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
-class NoteModel(@field:Embedded var noteItem: NoteItem,
+class NoteModel(@field:Embedded val noteItem: NoteItem,
                 @field:Relation(parentColumn = DbField.Note.ID, entityColumn = DbField.Roll.NOTE_ID)
                 val listRoll: MutableList<RollItem>,
-                @field:Ignore var statusItem: StatusItem) {
+                @field:Ignore val statusItem: StatusItem) {
 
     /**
      * При отметке всех пунктов

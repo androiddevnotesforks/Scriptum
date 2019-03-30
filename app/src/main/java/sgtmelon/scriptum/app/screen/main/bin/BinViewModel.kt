@@ -13,6 +13,9 @@ import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 
 /**
  * ViewModel для [BinFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class BinViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -67,14 +70,14 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     private fun restoreItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.restoreNote(noteModelList[p].noteItem.id)
+        iRoomRepo.restoreNote(noteModelList[p].noteItem)
 
         noteModelList.removeAt(p)
         return noteModelList
     }
 
     private fun clearItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.clearNote(noteModelList[p].noteItem.id)
+        iRoomRepo.clearNote(noteModelList[p].noteItem)
 
         noteModelList.removeAt(p)
         return noteModelList

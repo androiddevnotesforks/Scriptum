@@ -14,6 +14,9 @@ import sgtmelon.scriptum.app.room.RoomDb
 
 /**
  * ViewModel для [RankFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class RankViewModel(application: Application) : AndroidViewModel(application),
         RankTouchControl.Result {
@@ -23,7 +26,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
     lateinit var callback: RankCallback
 
-    var rankModel: RankModel = RankModel(ArrayList(), ArrayList())
+    var rankModel: RankModel = RankModel(ArrayList())
         private set
 
     fun onUpdateData() {
@@ -81,7 +84,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
                 itemList.clear()
                 itemList.addAll(updateRank(dragFrom, dragTo))
             }
-            updateStatus()
+            notifyStatusBar()
         }
 
         callback.notifyDataSetChanged(rankModel.itemList)
@@ -100,7 +103,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         val db = RoomDb.getInstance(context)
         db.getRankDao().update(rankItem)
-        iRoomRepo.updateStatus()
+        iRoomRepo.notifyStatusBar()
         db.close()
 
         callback.notifyVisible(p, rankItem)
@@ -122,12 +125,13 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         val db = RoomDb.getInstance(context)
         db.getRankDao().update(rankList)
-        iRoomRepo.updateStatus()
+        iRoomRepo.notifyStatusBar()
         db.close()
     }
 
     fun onClickCancel(p: Int) {
         iRoomRepo.deleteRank(rankModel.itemList[p].name, p)
+        iRoomRepo.notifyStatusBar()
 
         rankModel.remove(p)
 

@@ -10,6 +10,9 @@ import sgtmelon.scriptum.app.room.converter.BoolConverter
 
 /**
  * Класс для общения Dao списка [RoomDb]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 @Dao
 @TypeConverters(BoolConverter::class)
@@ -55,11 +58,11 @@ interface RollDao {
     /**
      * Удаление пунктов при сохранении после свайпа
      *
-     * @param idNote - Id заметки
-     * @param idSave - Id, которые остались в заметке
+     * @param noteId - Id заметки
+     * @param idSaveList - Id, которые остались в заметке
      */
-    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote AND RL_ID NOT IN (:idSave)")
-    fun delete(idNote: Long, idSave: List<Long>)
+    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId AND RL_ID NOT IN (:idSaveList)")
+    fun delete(noteId: Long, idSaveList: List<Long>)
 
     /**
      * @param idNote - Id удаляемой заметки

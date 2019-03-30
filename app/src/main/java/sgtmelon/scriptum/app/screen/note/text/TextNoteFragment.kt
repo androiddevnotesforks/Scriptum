@@ -37,6 +37,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
  * Фрагмент для отображения тектовой заметки
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class TextNoteFragment : Fragment(), TextNoteCallback {
 
@@ -120,7 +123,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
 
-    override fun setupDialog(rankNameArray: Array<String>) {
+    override fun setupDialog(rankNameArray: List<String>) {
         rankDialog.name = rankNameArray
         rankDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultRankDialog(rankDialog.check)

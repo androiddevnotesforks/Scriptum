@@ -5,9 +5,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import java.util.*
 
+/**
+ * Диалог с check-выбором пунктов
+ *
+ * @author SerjantArbuz
+ * @version 1.0
+ */
 class MultiplyDialog : DialogBlank() {
 
-    lateinit var name: Array<String>
+    lateinit var name: List<String>
 
     private lateinit var init: BooleanArray
 
@@ -36,7 +42,7 @@ class MultiplyDialog : DialogBlank() {
 
         return AlertDialog.Builder(activity)
                 .setTitle(title)
-                .setMultiChoiceItems(name, check) { _, which, isChecked ->
+                .setMultiChoiceItems(name.toTypedArray(), check) { _, which, isChecked ->
                     check[which] = isChecked
                     setEnable()
                 }

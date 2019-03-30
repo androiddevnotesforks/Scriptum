@@ -8,6 +8,9 @@ import sgtmelon.scriptum.office.annot.def.ColorDef
 
 /**
  * Интерфейс для общения [RollNoteViewModel] с [RollNoteFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 interface RollNoteCallback {
 
@@ -18,7 +21,7 @@ interface RollNoteCallback {
 
     fun setupToolbar(@ColorDef color: Int, noteState: NoteState)
 
-    fun setupDialog(rankNameArray: Array<String> )
+    fun setupDialog(rankNameList: List<String>)
 
     fun setupEnter(inputCallback: InputCallback)
 

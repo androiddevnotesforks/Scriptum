@@ -9,6 +9,9 @@ import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
 
 /**
  * Класс для общения Dao заметок [RoomDb]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 @Dao
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
@@ -23,12 +26,6 @@ interface NoteDao {
     @Update fun update(item: NoteItem)
 
     @Update fun update(list: List<NoteItem>)
-
-    @Query(value = "UPDATE NOTE_TABLE SET NT_CHANGE = :change, NT_BIN = :bin WHERE NT_ID = :id")
-    fun update(id: Long, change: String, bin: Boolean)
-
-    @Query(value = "UPDATE NOTE_TABLE SET NT_STATUS = :status WHERE NT_ID = :id")
-    fun update(id: Long, status: Boolean)
 
     @RawQuery operator fun get(query: SupportSQLiteQuery): List<NoteItem>
 
