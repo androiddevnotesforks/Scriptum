@@ -124,8 +124,9 @@ class MainTest : ParentTest() {
         }
     }
 
-    // TODO (no tests)
-    fun scrollTopRank() {}
+    fun scrollTopRank() {
+        TODO("no tests")
+    }
 
     @Test fun scrollTopNotes() {
         testData.apply {

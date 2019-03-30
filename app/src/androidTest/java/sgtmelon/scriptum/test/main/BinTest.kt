@@ -239,8 +239,9 @@ class BinTest : ParentTest() {
         }
     }
 
-    // TODO (compare text)
     fun copyTextNote() {
+        TODO ("compare text")
+
         val noteItem = testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
@@ -260,8 +261,9 @@ class BinTest : ParentTest() {
         }
     }
 
-    // TODO (compare text)
     fun copyRollNote() {
+        TODO ("compare text")
+
         val noteItem = testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())

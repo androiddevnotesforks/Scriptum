@@ -216,29 +216,28 @@ class NotesTest : ParentTest() {
         }
     }
 
-    // TODO (don't know how do it)
     fun bindTextNote() {
-        // TODO (reasong = "не знаю как проверить")
-//        testData.clearAllData()
-//        val noteItem = testData.insertText()
-//
-//        testRule.launchActivity(Intent())
-//
-//        MainScreen {
-//            assert { onDisplayContent() }
-//
-//            NotesScreen {
-//                onLongClickItem(position = 0)
-//                NoteDialog {
-//                    assert { onDisplayContent(noteItem) }
-//                }
-//            }
-//        }
+        TODO ("не знаю как проверить")
+
+        testData.clearAllData()
+        val noteItem = testData.insertText()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            assert { onDisplayContent() }
+
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                }
+            }
+        }
     }
 
-    // TODO (don't know how do it)
     fun bindRollNote() {
-
+        TODO ("don't know how do it")
     }
 
 }

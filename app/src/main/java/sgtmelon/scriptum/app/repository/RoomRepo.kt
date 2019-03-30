@@ -25,7 +25,7 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  * @param context для открытия [RoomDb] и получения данных из [Preference]
  *
  * @author SerjantArbuz
- * @version 1.0
+ * @version 1.1
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 
@@ -46,8 +46,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             getNoteDao()[getNoteListQuery(bin)].forEach {
                 val statusItem = StatusItem(context, it, notify = false)
 
-                val isFirstRankVisible = rankIdVisibleList.contains(it.rankId[0])
-                if (it.rankId.isNotEmpty() and !isFirstRankVisible) {
+                if (it.rankId.isNotEmpty() && !rankIdVisibleList.contains(it.rankId[0])) {
                     statusItem.cancelNote()
                 } else {
                     if (it.isStatus && NotesViewModel.updateStatus) {
@@ -139,6 +138,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 type = NoteType.ROLL
                 setCompleteText(check = 0, size = listRoll.size)
             }
+
+            getNoteDao().update(noteItem)
         }.close()
     }
 
@@ -200,7 +201,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun saveRollNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {
-        if (noteItem.type != NoteType.TEXT)
+        if (noteItem.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
         openRoom().apply {
@@ -325,7 +326,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         for (i in iStart..iEnd) {
             val rankItem = rankList[i]
-            rankItem.noteId.forEach { if(noteIdList.contains(it)) noteIdList.add(it) }
+            rankItem.noteId.forEach { if (noteIdList.contains(it)) noteIdList.add(it) }
 
             val start = i == dragFrom
             val end = i == dragTo
