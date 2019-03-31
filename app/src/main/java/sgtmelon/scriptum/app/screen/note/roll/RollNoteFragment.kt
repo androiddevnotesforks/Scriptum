@@ -176,9 +176,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
         rollEnter = view?.findViewById(R.id.roll_note_enter)
         rollEnter?.addTextChangedListener(object : AppTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                bindEnter()
-            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+                    bindEnter()
         })
 
         val rollAdd: ImageButton? = view?.findViewById(R.id.roll_note_add_button)
@@ -191,7 +190,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun setupRecycler(inputCallback: InputCallback) {
         recyclerView = view?.findViewById(R.id.roll_note_recycler)
-        (recyclerView?.itemAnimator as SimpleItemAnimator?)?.supportsChangeAnimations = false
+        (recyclerView?.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
 
         val touchCallback = RollTouchControl(viewModel)
 

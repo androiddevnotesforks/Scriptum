@@ -25,7 +25,7 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  * @param context для открытия [RoomDb] и получения данных из [Preference]
  *
  * @author SerjantArbuz
- * @version 1.1
+ * @version 1.2
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 
@@ -314,7 +314,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun getRankModel() = RankModel(getCompleteRankList())
 
-    override fun updateRank(dragFrom: Int, dragTo: Int): List<RankItem> { // TODO разобрать
+    override fun updateRank(dragFrom: Int, dragTo: Int): List<RankItem> { // TODO оптимизировать
         val startFirst = dragFrom < dragTo
 
         val iStart = if (startFirst) dragFrom else dragTo
@@ -342,7 +342,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             }
         }
 
-        if (rankList[0].position != 0) rankList.reverse()
+        rankList.sortBy { it.position }
 
         openRoom().apply {
             getRankDao().update(rankList)
@@ -350,6 +350,18 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         }.close()
 
         return rankList
+    }
+
+    // TODO прибрать private
+
+    private fun getCompleteRankList() = ArrayList<RankItem>().apply {
+        openRoom().apply {
+            addAll(getRankDao().simple)
+            forEach {
+                it.textCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
+                it.rollCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
+            }
+        }.close()
     }
 
     /**
@@ -414,16 +426,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         getRankDao().update(list)
     }.close()
-
-    private fun getCompleteRankList() = ArrayList<RankItem>().apply {
-        openRoom().apply {
-            addAll(getRankDao().simple)
-            forEach {
-                it.textCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
-                it.rollCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
-            }
-        }.close()
-    }
 
     /**
      * Удаление связи между Rank и Note

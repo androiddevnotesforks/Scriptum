@@ -7,10 +7,8 @@ import android.widget.Toast
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
-import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.repository.RoomRepo
-import sgtmelon.scriptum.office.annot.def.SortDef
 
 object HelpUtils {
 
@@ -56,43 +54,6 @@ object HelpUtils {
             if (this.isEmpty()) return false
 
             this.forEach { if (!it.isCheck) return false }
-
-            return true
-        }
-
-    }
-
-    object Sort {
-
-        /**
-         * Получаем строку сортировки, [this] - список моделей из диалога
-         */
-        fun MutableList<SortItem>.getSort(): String {
-            val order = StringBuilder()
-
-            for (i in indices) {
-                order.append(Integer.toString(this[i].key))
-                if (i != this.size - 1) {
-                    order.append(SortDef.divider)
-                }
-            }
-
-            return order.toString()
-        }
-
-        fun getSortEqual(keys1: String, keys2: String): Boolean {
-            val keysArr1 = keys1.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val keysArr2 = keys2.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-
-            for (i in keysArr1.indices) {
-                if (keysArr1[i] != keysArr2[i]) {
-                    return false
-                }
-
-                if (keysArr1[i] == Integer.toString(SortDef.create) || keysArr1[i] == Integer.toString(SortDef.change)) {
-                    break
-                }
-            }
 
             return true
         }

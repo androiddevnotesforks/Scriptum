@@ -6,6 +6,7 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
@@ -13,6 +14,7 @@ import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.AddDialog
 import sgtmelon.scriptum.ui.dialog.NoteDialog
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
+import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -216,28 +218,119 @@ class NotesTest : ParentTest() {
         }
     }
 
-    fun bindTextNote() {
-        TODO ("не знаю как проверить")
+    // TODO check roll
 
-        testData.clearAllData()
-        val noteItem = testData.insertText()
+    // TODO bind text/roll
+
+    @Test fun convertTextNoteToRoll() {
+        val noteItem = testData.apply { clearAllData() }.insertText()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
-            assert { onDisplayContent() }
-
             NotesScreen {
+                onClickItem(position = 0)
+                TextNoteScreen {
+                    assert { onDisplayContent(State.READ) }
+                    pressBack()
+                }
+
                 onLongClickItem(position = 0)
                 NoteDialog {
                     assert { onDisplayContent(noteItem) }
+                    onClickConvert(noteItem.type)
                 }
+
+                noteItem.type = NoteType.ROLL
+
+                onClickItem(position = 0)
+                RollNoteScreen {
+                    assert { onDisplayContent(State.READ) }
+                    pressBack()
+                }
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
             }
         }
     }
 
-    fun bindRollNote() {
-        TODO ("don't know how do it")
+    @Test fun convertRollNoteToText() {
+        val noteItem = testData.apply { clearAllData() }.insertRoll()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            NotesScreen {
+                onClickItem(position = 0)
+                RollNoteScreen {
+                    assert { onDisplayContent(State.READ) }
+                    pressBack()
+                }
+
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickConvert(noteItem.type)
+                }
+
+                noteItem.type = NoteType.TEXT
+
+                onClickItem(position = 0)
+                TextNoteScreen {
+                    assert { onDisplayContent(State.READ) }
+                    pressBack()
+                }
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
+    }
+
+    // TODO copy text
+
+    @Test fun deleteTextNote() {
+        testData.apply { clearAllData() }.insertText()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onLongClickItem(position = 0)
+                NoteDialog { onClickDelete() }
+
+                assert { onDisplayContent(empty = true) }
+            }
+
+            navigateTo(MainPage.Name.BIN)
+
+            BinScreen { assert { onDisplayContent(empty = false) } }
+        }
+    }
+
+    @Test fun deleteRollNote() {
+        testData.apply { clearAllData() }.insertRoll()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onLongClickItem(position = 0)
+                NoteDialog { onClickDelete() }
+
+                assert { onDisplayContent(empty = true) }
+            }
+
+            navigateTo(MainPage.Name.BIN)
+
+            BinScreen { assert { onDisplayContent(empty = false) } }
+        }
+
     }
 
 }

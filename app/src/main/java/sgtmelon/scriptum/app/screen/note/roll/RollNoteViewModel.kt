@@ -489,8 +489,6 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
     fun onResultConvertDialog() {
         iRoomRepo.convertToText(noteModel)
 
-        // TODO !! status update
-
         noteCallback.showTextFragment(noteModel.noteItem.id, isSave = false)
     }
 

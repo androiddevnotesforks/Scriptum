@@ -12,6 +12,8 @@ class RankModel(val itemList: MutableList<RankItem>) {
 
     // TODO rename потому что по факту это репозиторий
 
+    // TODO !! сделать trim для вводимых категорий
+
     val nameList: MutableList<String>
 
     init {

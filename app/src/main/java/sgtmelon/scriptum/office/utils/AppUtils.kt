@@ -14,7 +14,6 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import sgtmelon.scriptum.app.model.data.IntroData
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 
@@ -48,15 +47,6 @@ object AppUtils {
         val text = text.toString()
         setText("")
         return text
-    }
-
-    fun FloatingActionButton.setState(state: Boolean) {
-        isEnabled = state
-
-        when (state) {
-            true -> show()
-            false -> hide()
-        }
     }
 
     fun <T : ViewDataBinding> LayoutInflater.inflateBinding(layoutId: Int, parent: ViewGroup?,

@@ -134,7 +134,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
             }
         }
 
-        with(listNoteModel[p]) { statusItem.updateNote(this.noteItem) } // TODO !! проверить обновление
+        with(listNoteModel[p]) { statusItem.updateNote(noteItem) }
 
         return listNoteModel
     }

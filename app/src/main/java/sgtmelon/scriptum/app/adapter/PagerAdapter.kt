@@ -18,7 +18,6 @@ class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     fun notifyItem(position: Int, positionOffset: Float) = getItem(position)
             .setChange(Math.max(0.2F, positionOffset), Math.max(0.75F, positionOffset))
 
-
     override fun getItem(position: Int) = listItem[position]
 
     override fun getCount() = listItem.size

@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.app.screen.main
 
-
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -16,11 +17,20 @@ import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.app.model.state.OpenState
+import sgtmelon.scriptum.app.screen.main.bin.BinFragment
+import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.app.screen.main.rank.RankFragment
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.utils.AppUtils.setState
 
+/**
+ * Экран отвечающий за отображение главного меню и фрагментов
+ * [RankFragment], [NotesFragment], [BinFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
+ */
 class MainActivity : ParentActivity(), MainCallback {
 
     // TODO !! План
@@ -30,8 +40,6 @@ class MainActivity : ParentActivity(), MainCallback {
      * 3. Введение многопоточности
      */
 
-    // TODO -- rename (example: listSong -> songList)
-    // TODO разбраться с dao
     // TODO Добавить перескакивание курсора при старте редактирования в нужное место
     // TODO setHasFixedSize recyclerView
 
@@ -136,6 +144,15 @@ class MainActivity : ParentActivity(), MainCallback {
         MainPage.Name.RANK -> rankFragment
         MainPage.Name.NOTES -> notesFragment
         MainPage.Name.BIN -> binFragment
+    }
+
+    companion object {
+        fun getIntent(context: Context) = Intent(context, MainActivity::class.java)
+
+        private fun FloatingActionButton.setState(state: Boolean) {
+            if (state) show() else  hide()
+            isEnabled = state
+        }
     }
 
 }

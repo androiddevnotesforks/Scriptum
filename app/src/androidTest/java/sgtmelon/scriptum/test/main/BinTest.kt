@@ -20,7 +20,6 @@ import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
-
 @RunWith(AndroidJUnit4::class)
 class BinTest : ParentTest() {
 
@@ -82,6 +81,7 @@ class BinTest : ParentTest() {
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -106,6 +106,7 @@ class BinTest : ParentTest() {
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -131,6 +132,7 @@ class BinTest : ParentTest() {
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
@@ -160,6 +162,7 @@ class BinTest : ParentTest() {
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 onLongClickItem(position = 0)
                 NoteDialog {
@@ -179,6 +182,7 @@ class BinTest : ParentTest() {
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 onLongClickItem(position = 0)
                 NoteDialog {
@@ -192,49 +196,51 @@ class BinTest : ParentTest() {
     }
 
     @Test fun restoreTextNote() {
-        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
+        testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
+            NotesScreen { assert { onDisplayContent(empty = true) } }
+
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
-                onLongClickItem()
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    onClickRestore()
-                }
+                onLongClickItem(position = 0)
+                NoteDialog { onClickRestore() }
 
                 assert { onDisplayContent(empty = true) }
             }
 
             navigateTo(MainPage.Name.NOTES)
+
             NotesScreen { assert { onDisplayContent(empty = false) } }
         }
     }
 
     @Test fun restoreRollNote() {
-        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
+        testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
+            NotesScreen { assert { onDisplayContent(empty = true) } }
+
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
-                onLongClickItem()
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    onClickRestore()
-                }
+                onLongClickItem(position = 0)
+                NoteDialog { onClickRestore() }
 
                 assert { onDisplayContent(empty = true) }
             }
 
             navigateTo(MainPage.Name.NOTES)
+
             NotesScreen { assert { onDisplayContent(empty = false) } }
         }
     }
@@ -248,12 +254,10 @@ class BinTest : ParentTest() {
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
-                onLongClickItem()
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    onClickCopy()
-                }
+                onLongClickItem(position = 0)
+                NoteDialog { onClickCopy() }
 
                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE)
                         as ClipboardManager?
@@ -270,65 +274,61 @@ class BinTest : ParentTest() {
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
-                onLongClickItem()
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    onClickCopy()
-                }
+                onLongClickItem(position = 0)
+                NoteDialog { onClickCopy() }
 
                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE)
-                        as ClipboardManager?
+                        as? ClipboardManager
             }
         }
     }
 
     @Test fun clearTextNote() {
-        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
+        testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
-                onLongClickItem()
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    onClickClear()
-                }
+                onLongClickItem(position = 0)
+                NoteDialog { onClickClear() }
 
                 Thread.sleep(300)
                 assert { onDisplayContent(empty = true) }
             }
 
             navigateTo(MainPage.Name.NOTES)
+
             NotesScreen { assert { onDisplayContent(empty = true) } }
         }
     }
 
     @Test fun clearRollNote() {
-        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
+        testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
+
             BinScreen {
                 assert { onDisplayContent(empty = false) }
 
-                onLongClickItem()
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    onClickClear()
-                }
+                onLongClickItem(position = 0)
+                NoteDialog { onClickClear() }
 
                 Thread.sleep(300)
                 assert { onDisplayContent(empty = true) }
             }
 
             navigateTo(MainPage.Name.NOTES)
+
             NotesScreen { assert { onDisplayContent(empty = true) } }
         }
     }

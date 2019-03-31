@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.app.screen.intro
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -14,17 +13,16 @@ import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 /**
  * Экран со вступительным туториалом
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     private val pagerAdapter = PagerAdapter(supportFragmentManager)
 
-    private val pageIndicator: View by lazy {
-        findViewById<View>(R.id.intro_page_indicator)
-    }
-    private val pageButtonEnd: Button by lazy {
-        findViewById<Button>(R.id.intro_end_button)
-    }
+    private val pageIndicator: View by lazy { findViewById<View>(R.id.intro_page_indicator) }
+    private val pageButtonEnd: Button by lazy { findViewById<Button>(R.id.intro_end_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,21 +32,21 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun setupViewPager() {
-        pageButtonEnd.setOnClickListener {
-            beforeFinish {
-                startActivity(Intent(this@IntroActivity, MainActivity::class.java))
+        pageButtonEnd.apply {
+            alpha = 0f
+            isEnabled = false
+            setOnClickListener {
+                beforeFinish { startActivity(MainActivity.getIntent(context = this@IntroActivity)) }
             }
         }
 
-        pageButtonEnd.alpha = 0f
-        pageButtonEnd.isEnabled = false
-
         for (i in 0 until IntroData.count) pagerAdapter.addItem(IntroFragment.getInstance(i))
 
-        val viewPager = findViewById<ViewPager>(R.id.intro_pager)
-        viewPager.adapter = pagerAdapter
-        viewPager.offscreenPageLimit = pagerAdapter.count - 1
-        viewPager.addOnPageChangeListener(this)
+        findViewById<ViewPager>(R.id.intro_pager).apply {
+            adapter = pagerAdapter
+            offscreenPageLimit = pagerAdapter.count - 1
+            addOnPageChangeListener(this@IntroActivity)
+        }
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

@@ -14,8 +14,6 @@ import sgtmelon.scriptum.app.adapter.SortAdapter
 import sgtmelon.scriptum.app.model.item.SortItem
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.HelpUtils
-import sgtmelon.scriptum.office.utils.HelpUtils.Sort.getSort
 
 class SortDialog : DialogBlank(), ItemListener.ClickListener {
 
@@ -142,8 +140,8 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
     override fun setEnable() {
         super.setEnable()
 
-        buttonPositive.isEnabled = !HelpUtils.Sort.getSortEqual(init, keys)
-        buttonNeutral.isEnabled = !HelpUtils.Sort.getSortEqual(SortDef.def, keys)
+        buttonPositive.isEnabled = !isSortEqual(init, keys)
+        buttonNeutral.isEnabled = !isSortEqual(SortDef.def, keys)
     }
 
     override fun onItemClick(view: View, p: Int) {
@@ -161,6 +159,30 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
         keys = listSort.getSort()
         setEnable()
     }
+
+    // TODO revert
+    private fun isSortEqual(keys1: String, keys2: String): Boolean {
+        val keysArr1 = keys1.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val keysArr2 = keys2.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+
+        for (i in keysArr1.indices) {
+            if (keysArr1[i] != keysArr2[i]) {
+                return false
+            }
+
+            if (keysArr1[i] == Integer.toString(SortDef.create) || keysArr1[i] == Integer.toString(SortDef.change)) {
+                break
+            }
+        }
+
+        return true
+    }
+
+    /**
+     * Получаем строку сортировки
+     */
+    private fun MutableList<SortItem>.getSort() =
+            joinToString(separator = SortDef.divider) { it.key.toString() }
 
 }
 

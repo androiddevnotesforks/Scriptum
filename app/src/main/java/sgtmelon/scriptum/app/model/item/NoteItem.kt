@@ -40,6 +40,7 @@ class NoteItem {
     @ColumnInfo(name = Note.BIN) var isBin = false
     @ColumnInfo(name = Note.STATUS) var isStatus = false
 
+    // TODO переделать
     val check: IntArray
         get() {
             val check = intArrayOf(-1, 0)

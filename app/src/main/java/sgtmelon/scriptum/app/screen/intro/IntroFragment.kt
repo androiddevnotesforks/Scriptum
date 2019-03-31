@@ -12,19 +12,22 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
  * Фрагмент страницы для вступления [IntroActivity]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 class IntroFragment : Fragment() {
 
-    lateinit var binding: IncludeInfoBinding
+    private var binding: IncludeInfoBinding? = null
 
     private var page: Int = UNDEFINED
 
     private var parentContainer: View? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+                              savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.include_info, container)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -36,7 +39,7 @@ class IntroFragment : Fragment() {
                 ?: arguments?.getInt(PAGE_CURRENT)
                 ?: UNDEFINED
 
-        if (page != UNDEFINED) binding.bind(page)
+        if (page != UNDEFINED) binding?.bind(page)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -44,6 +47,9 @@ class IntroFragment : Fragment() {
         outState.putInt(PAGE_CURRENT, page)
     }
 
+    /**
+     * Обновление отображения контента страницы
+     */
     fun setChange(alpha: Float, scale: Float) = parentContainer?.apply {
         this.alpha = alpha
         scaleX = scale

@@ -78,7 +78,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         callback.scrollToItem(simpleClick, rankModel.itemList)
     }
 
-    override fun onResultTouchClear(dragFrom: Int, dragTo: Int) { // TODO: 03.02.2019 ошибка сортировки
+    override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         iRoomRepo.apply {
             rankModel.apply {
                 itemList.clear()

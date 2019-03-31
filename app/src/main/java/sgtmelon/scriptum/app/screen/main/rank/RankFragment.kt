@@ -106,9 +106,8 @@ class RankFragment : Fragment(), RankCallback {
 
         rankEnter = view?.findViewById(R.id.toolbar_rank_enter)
         rankEnter?.addTextChangedListener(object : AppTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                bindToolbar()
-            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+                    bindToolbar()
         })
         rankEnter?.setOnEditorActionListener { _, i, _ ->
             viewModel.onEditorClick(i, rankEnter?.text.toString().toUpperCase())

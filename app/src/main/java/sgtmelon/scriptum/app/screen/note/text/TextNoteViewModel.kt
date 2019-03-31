@@ -313,8 +313,6 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     fun onResultConvertDialog() {
         noteModel = iRoomRepo.convertToRoll(noteModel)
 
-        // TODO !! status update
-
         noteCallback.showRollFragment(noteModel.noteItem.id, isSave = false)
     }
 
