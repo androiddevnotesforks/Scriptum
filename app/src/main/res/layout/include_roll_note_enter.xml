@@ -22,9 +22,7 @@
             android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
             tools:layout_gravity="center">
 
-        <View style="@style/Divider.Horizontal"
-              android:layout_marginLeft="@dimen/layout_4dp"
-              android:layout_marginRight="@dimen/layout_4dp"/>
+        <View style="@style/Divider.Horizontal"/>
 
         <LinearLayout
                 android:layout_width="match_parent"

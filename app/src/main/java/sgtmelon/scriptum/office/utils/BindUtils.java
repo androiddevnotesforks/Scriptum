@@ -79,29 +79,6 @@ public final class BindUtils {
         textView.setText(TimeUtils.INSTANCE.format(textView.getContext(), time));
     }
 
-    /**
-     * Блокирование кнопки и установка на неё цветового фильтра в зависимости
-     * от логического выражения и дополнительного выражения
-     *
-     * @param boolExpression  - Логическое выржение, от которого зависит иконка и блокировка
-     * @param extraExpression - Дополнительный параметр для контроля, например список содержит
-     *                        текстовое сообщение
-     */
-    @BindingAdapter(value = {"boolExpression", "extraExpression", "trueColor", "falseColor"})
-    public static void setTint(@NonNull ImageButton imageButton, boolean boolExpression,
-                               boolean extraExpression,
-                               @AttrRes int trueColor, @AttrRes int falseColor) {
-        final Context context = imageButton.getContext();
-
-        imageButton.setColorFilter(boolExpression
-                ? extraExpression
-                ? ColorUtils.INSTANCE.getColorAttr(context, trueColor)
-                : ColorUtils.INSTANCE.getColorAttr(context, falseColor)
-                : ColorUtils.INSTANCE.getColorAttr(context, falseColor));
-
-        imageButton.setEnabled(boolExpression && extraExpression);
-    }
-
     @BindingAdapter("enabled")
     public static void setEnabled(@NonNull ImageButton imageButton, boolean enabled) {
         imageButton.setEnabled(enabled);

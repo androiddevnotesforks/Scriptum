@@ -44,9 +44,15 @@ object AppUtils {
     fun EditText?.clear(): String {
         if (this == null) return ""
 
-        val text = text.toString()
+        val text = getClearText()
         setText("")
         return text
+    }
+
+    fun EditText?.getClearText(): String {
+        if (this == null) return ""
+
+        return text.toString().trim().replace("\\s+".toRegex()," ")
     }
 
     fun <T : ViewDataBinding> LayoutInflater.inflateBinding(layoutId: Int, parent: ViewGroup?,

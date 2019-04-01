@@ -1,13 +1,9 @@
 package sgtmelon.scriptum.test.main
 
 
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
-import org.junit.runner.RunWith
 import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
@@ -20,7 +16,6 @@ import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
-@RunWith(AndroidJUnit4::class)
 class BinTest : ParentTest() {
 
     override fun setUp() {
@@ -245,45 +240,7 @@ class BinTest : ParentTest() {
         }
     }
 
-    fun copyTextNote() {
-        TODO ("compare text")
-
-        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
-
-        testRule.launchActivity(Intent())
-
-        MainScreen {
-            navigateTo(MainPage.Name.BIN)
-
-            BinScreen {
-                onLongClickItem(position = 0)
-                NoteDialog { onClickCopy() }
-
-                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE)
-                        as ClipboardManager?
-            }
-        }
-    }
-
-    fun copyRollNote() {
-        TODO ("compare text")
-
-        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
-
-        testRule.launchActivity(Intent())
-
-        MainScreen {
-            navigateTo(MainPage.Name.BIN)
-
-            BinScreen {
-                onLongClickItem(position = 0)
-                NoteDialog { onClickCopy() }
-
-                val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE)
-                        as? ClipboardManager
-            }
-        }
-    }
+    // TODO copy text
 
     @Test fun clearTextNote() {
         testData.apply { clearAllData() }.insertTextToBin()

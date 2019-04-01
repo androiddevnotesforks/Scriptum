@@ -2,9 +2,7 @@ package sgtmelon.scriptum.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
@@ -13,6 +11,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.watcher.AppTextWatcher
+import sgtmelon.scriptum.office.utils.AppUtils.getClearText
 import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
 import java.util.*
 
@@ -24,7 +24,7 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     private lateinit var listName: ArrayList<String>
     private lateinit var nameEnter: EditText
 
-    val name: String get() = nameEnter.text.toString()
+    val name: String get() = nameEnter.getClearText()
 
     fun setArguments(p: Int, title: String, listName: ArrayList<String>) {
         val bundle = Bundle()
@@ -57,14 +57,9 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
         nameEnter.setHintTextColor(activity.getColorAttr(R.attr.clDisable))
 
         nameEnter.setOnEditorActionListener(this)
-        nameEnter.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
-                setEnable()
-            }
-
-            override fun afterTextChanged(editable: Editable) {}
+        nameEnter.addTextChangedListener(object : AppTextWatcher() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+                    setEnable()
         })
 
         return AlertDialog.Builder(activity)
@@ -79,9 +74,11 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        outState.putInt(POSITION, position)
-        outState.putString(INIT, title)
-        outState.putStringArrayList(VALUE, listName)
+        outState.apply {
+            putInt(POSITION, position)
+            putString(INIT, title)
+            putStringArrayList(VALUE, listName)
+        }
     }
 
     override fun setEnable() {

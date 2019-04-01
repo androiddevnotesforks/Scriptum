@@ -7,8 +7,8 @@
 
         <import type="sgtmelon.scriptum.R"/>
 
-        <variable name="nameNotEmpty" type="boolean"/>
-        <variable name="listNotContain" type="boolean"/>
+        <variable name="enableClear" type="boolean"/>
+        <variable name="enableAdd" type="boolean"/>
 
     </data>
 
@@ -40,8 +40,8 @@
                             android:id="@+id/toolbar_rank_cancel_button"
                             style="@style/Button.Small"
                             android:contentDescription="@null"
-                            app:boolExpression='@{nameNotEmpty}'
-                            app:enabled='@{nameNotEmpty}'
+                            app:boolExpression='@{enableClear}'
+                            app:enabled='@{enableClear}'
                             app:falseColor='@{R.attr.clDisable}'
                             app:srcCompat="@drawable/ic_cancel_enter"
                             app:trueColor='@{R.attr.clContent}'
@@ -66,8 +66,8 @@
                             style="@style/Button.Small"
                             android:contentDescription="@null"
                             app:srcCompat="@drawable/ic_rank"
-                            app:boolExpression='@{nameNotEmpty}'
-                            app:extraExpression='@{listNotContain}'
+                            app:boolExpression='@{enableAdd}'
+                            app:enabled='@{enableAdd}'
                             app:falseColor='@{R.attr.clDisable}'
                             app:trueColor='@{R.attr.clAccent}'
                             tools:tint="?attr/clAccent"/>

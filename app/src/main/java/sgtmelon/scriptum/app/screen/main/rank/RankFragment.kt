@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,14 +28,21 @@ import sgtmelon.scriptum.dialog.RenameDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.clear
+import sgtmelon.scriptum.office.utils.AppUtils.getClearText
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
+/**
+ * Фрагмент для отображения списка категорий - [RankItem]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
+ */
 class RankFragment : Fragment(), RankCallback {
 
     private val openState = OpenState()
 
     private lateinit var activity: Activity
-    private lateinit var binding: FragmentRankBinding
+    private var binding: FragmentRankBinding? = null
 
     private val viewModel: RankViewModel by lazy {
         ViewModelProviders.of(this).get(RankViewModel::class.java)
@@ -65,12 +71,12 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+                              savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_rank, container)
 
         viewModel.callback = this
 
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -131,9 +137,8 @@ class RankFragment : Fragment(), RankCallback {
 
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
-            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                bindList(adapter.itemCount)
-            }
+            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) =
+                    bindList(adapter.itemCount)
         }
         recyclerView?.layoutManager = layoutManager
         recyclerView?.adapter = adapter
@@ -147,16 +152,17 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     override fun bindList(size: Int) {
-        binding.listEmpty = size == 0
+        binding?.listEmpty = size == 0
         bindToolbar()
     }
 
     override fun bindToolbar() {
-        val name = rankEnter?.text.toString().toUpperCase()
+        val name = rankEnter?.getClearText()?.toUpperCase() ?: ""
 
-        binding.nameNotEmpty = !TextUtils.isEmpty(name)
-        binding.listNotContain = !viewModel.rankModel.nameList.contains(name)
-        binding.executePendingBindings()
+        binding?.apply {
+            enableClear = rankEnter?.text.toString().isNotEmpty()
+            enableAdd = name.isNotEmpty() && !viewModel.rankModel.nameList.contains(name)
+        }?.executePendingBindings()
     }
 
     override fun scrollTop() {

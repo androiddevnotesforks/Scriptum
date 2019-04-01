@@ -9,7 +9,7 @@ class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onClickFab() =  action { onClick(R.id.main_add_fab) }
+    fun onClickFab() = action { onClick(R.id.main_add_fab) }
 
     fun navigateTo(page: MainPage.Name) = action {
         onClick(when (page) {
