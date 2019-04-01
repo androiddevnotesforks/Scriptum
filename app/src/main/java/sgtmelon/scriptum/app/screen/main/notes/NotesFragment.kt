@@ -19,6 +19,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.NoteModel
+import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.screen.main.MainCallback
 import sgtmelon.scriptum.app.screen.pref.PrefActivity
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
@@ -27,25 +28,28 @@ import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 
+/**
+ * Фрагмент для отображения списка заметок - [NoteItem]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
+ */
 class NotesFragment : Fragment(), NotesCallback {
 
     private lateinit var activity: Activity
     private lateinit var mainCallback: MainCallback
 
-    private lateinit var binding: FragmentNotesBinding
+    private var binding: FragmentNotesBinding? = null
 
     private val viewModel: NotesViewModel by lazy {
         ViewModelProviders.of(this).get(NotesViewModel::class.java)
     }
-    private val adapter: NoteAdapter by lazy {
-        NoteAdapter(activity)
-    }
+
+    private val adapter by lazy { NoteAdapter(activity) }
 
     private var recyclerView: RecyclerView? = null
 
-    private val optionsDialog: OptionsDialog by lazy {
-        DialogFactory.getOptionsDialog(fragmentManager)
-    }
+    private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -61,12 +65,12 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+                              savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
 
         viewModel.callback = this
 
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,27 +81,27 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private fun setupToolbar() {
-        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_container)
+        view?.findViewById<Toolbar>(R.id.toolbar_container)?.apply {
+            title = getString(R.string.title_notes)
+            inflateMenu(R.menu.fragment_notes)
 
-        toolbar?.title = getString(R.string.title_notes)
-        toolbar?.inflateMenu(R.menu.fragment_notes)
-        toolbar?.setOnMenuItemClickListener {
-            startActivity(Intent(context, PrefActivity::class.java))
-            return@setOnMenuItemClickListener true
+            setOnMenuItemClickListener {
+                startActivity(Intent(context, PrefActivity::class.java))
+                return@setOnMenuItemClickListener true
+            }
+            menu?.findItem(R.id.item_preference)?.tintIcon(activity)
         }
-
-        toolbar?.menu?.findItem(R.id.item_preference)?.tintIcon(activity)
     }
 
     private fun setupRecycler() {
-        adapter.clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) }
-        adapter.longClickListener = ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
+        adapter.apply {
+            clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) }
+            longClickListener = ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
+        }
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
-            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) {
-                bind()
-            }
+            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
         }
 
         recyclerView?.layoutManager = LinearLayoutManager(context)
@@ -116,8 +120,9 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     override fun bind() {
-        binding.listEmpty = adapter.itemCount == 0
-        binding.executePendingBindings()
+        binding?.apply {
+            listEmpty = adapter.itemCount == 0
+        }?.executePendingBindings()
     }
 
     override fun scrollTop() {
@@ -126,10 +131,10 @@ class NotesFragment : Fragment(), NotesCallback {
 
     override fun startNote(intent: Intent) = startActivity(intent)
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
-        optionsDialog.setArguments(itemArray, p)
-        optionsDialog.show(fragmentManager, DialogDef.OPTIONS)
-    }
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) =
+            optionsDialog.apply {
+                setArguments(itemArray, p)
+            }.show(fragmentManager, DialogDef.OPTIONS)
 
     override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
             adapter.notifyDataSetChanged(list)

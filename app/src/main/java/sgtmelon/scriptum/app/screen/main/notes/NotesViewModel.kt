@@ -117,7 +117,7 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun onMenuBind(p: Int): MutableList<NoteModel> {
         with(listNoteModel[p]) {
-            noteItem.isStatus = !noteItem.isStatus
+            noteItem.apply { isStatus = !isStatus }
             updateStatus(noteItem.isStatus)
 
             iRoomRepo.updateNote(noteItem)

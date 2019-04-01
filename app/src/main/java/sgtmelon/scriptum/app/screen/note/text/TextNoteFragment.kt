@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +13,6 @@ import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import sgtmelon.safedialog.MessageDialog
-import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.control.menu.MenuControl
@@ -29,7 +26,6 @@ import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
-import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
@@ -43,10 +39,12 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  */
 class TextNoteFragment : Fragment(), TextNoteCallback {
 
+    // TODO openState
+
     private lateinit var activity: Activity
     private lateinit var noteCallback: NoteCallback
 
-    private lateinit var binding: FragmentTextNoteBinding
+    private var binding: FragmentTextNoteBinding? = null
 
     private val viewModel: TextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java)
@@ -57,13 +55,9 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     private var nameEnter: EditText? = null
     private var textEnter: EditText? = null
 
-    private val rankDialog: MultiplyDialog by lazy {
-        DialogFactory.getRankDialog(activity, fragmentManager)
-    }
-    private val colorDialog: ColorDialog by lazy {
-        DialogFactory.getColorDialog(fragmentManager)
-    }
-    private val convertDialog: MessageDialog by lazy {
+    private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
+    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
+    private val convertDialog by lazy {
         DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.TEXT)
     }
 
@@ -81,7 +75,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         viewModel.callback = this
         viewModel.noteCallback = noteCallback
 
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -95,14 +89,12 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         viewModel.onPause()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.saveData(outState)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply { viewModel.saveData(bundle = this) })
 
     override fun setupBinding(rankEmpty: Boolean) {
-        binding.menuClick = viewModel
-        binding.rankEmpty = rankEmpty
+        binding?.menuClick = viewModel
+        binding?.rankEmpty = rankEmpty
     }
 
     override fun setupToolbar(@ColorDef color: Int, noteState: NoteState) {
@@ -124,14 +116,18 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     override fun setupDialog(rankNameArray: List<String>) {
-        rankDialog.name = rankNameArray
-        rankDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultRankDialog(rankDialog.check)
+        rankDialog.apply {
+            name = rankNameArray
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                viewModel.onResultRankDialog(rankDialog.check)
+            }
         }
 
-        colorDialog.title = activity.getString(R.string.dialog_title_color)
-        colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultColorDialog(colorDialog.check)
+        colorDialog.apply {
+            title = getString(R.string.dialog_title_color)
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                viewModel.onResultColorDialog(colorDialog.check)
+            }
         }
 
         convertDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -159,18 +155,20 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         )
     }
 
-    override fun bindEdit(mode: Boolean, noteItem: NoteItem) =
-            binding.apply {
-                keyEdit = mode
-                this.noteItem = noteItem
-            }.executePendingBindings()
+    override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
+        binding?.apply {
+            keyEdit = mode
+            this.noteItem = noteItem
+        }?.executePendingBindings()
+    }
 
-    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean) =
-            binding.apply {
-                undoAccess = isUndoAccess
-                redoAccess = isRedoAccess
-                saveEnabled = !TextUtils.isEmpty(textEnter?.text.toString())
-            }.executePendingBindings()
+    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean) {
+        binding?.apply {
+            undoAccess = isUndoAccess
+            redoAccess = isRedoAccess
+            saveEnabled = textEnter?.text.toString().isNotEmpty()
+        }?.executePendingBindings()
+    }
 
     override fun onPressBack() = viewModel.onPressBack()
 
@@ -212,8 +210,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
         menuControl.setColorFrom(color)
 
-        colorDialog.setArguments(color)
-        colorDialog.show(fragmentManager, DialogDef.COLOR)
+        colorDialog.apply { setArguments(color) }.show(fragmentManager, DialogDef.COLOR)
     }
 
     override fun showConvertDialog() {

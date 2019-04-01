@@ -191,8 +191,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
     }
 
     override fun onMenuBind() {
-        val noteItem = noteModel.noteItem
-        noteItem.isStatus = !noteItem.isStatus
+        val noteItem = noteModel.noteItem.apply { isStatus = !isStatus }
 
         noteModel.updateStatus(noteItem.isStatus)
 

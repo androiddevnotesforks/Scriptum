@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import sgtmelon.safedialog.MessageDialog
-import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.RollAdapter
 import sgtmelon.scriptum.app.control.input.InputCallback
@@ -38,7 +36,6 @@ import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.watcher.AppTextWatcher
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
-import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.clear
@@ -53,10 +50,12 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  */
 class RollNoteFragment : Fragment(), RollNoteCallback {
 
+    // TODO openState
+
     private lateinit var activity: Activity
     private lateinit var noteCallback: NoteCallback
 
-    private lateinit var binding: FragmentRollNoteBinding
+    private var binding: FragmentRollNoteBinding? = null
 
     private val viewModel: RollNoteViewModel by lazy {
         ViewModelProviders.of(this).get(RollNoteViewModel::class.java)
@@ -71,13 +70,9 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     private var rollEnter: EditText? = null
     private var recyclerView: RecyclerView? = null
 
-    private val rankDialog: MultiplyDialog by lazy {
-        DialogFactory.getRankDialog(activity, fragmentManager)
-    }
-    private val colorDialog: ColorDialog by lazy {
-        DialogFactory.getColorDialog(fragmentManager)
-    }
-    private val convertDialog: MessageDialog by lazy {
+    private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
+    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
+    private val convertDialog by lazy {
         DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.ROLL)
     }
 
@@ -101,7 +96,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         viewModel.callback = this
         viewModel.noteCallback = noteCallback
 
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -115,14 +110,12 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         viewModel.onPause()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.saveData(outState)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply { viewModel.saveData(bundle = this) })
 
     override fun setupBinding(rankEmpty: Boolean) {
-        binding.menuClick = viewModel
-        binding.rankEmpty = rankEmpty
+        binding?.menuClick = viewModel
+        binding?.rankEmpty = rankEmpty
     }
 
     override fun setupToolbar(color: Int, noteState: NoteState) {
@@ -144,14 +137,18 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun setupDialog(rankNameList: List<String>) {
-        rankDialog.name = rankNameList
-        rankDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultRankDialog(rankDialog.check)
+        rankDialog.apply {
+            name = rankNameList
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                viewModel.onResultRankDialog(rankDialog.check)
+            }
         }
 
-        colorDialog.title = activity.getString(R.string.dialog_title_color)
-        colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultColorDialog(colorDialog.check)
+        colorDialog.apply {
+            title = getString(R.string.dialog_title_color)
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                viewModel.onResultColorDialog(colorDialog.check)
+            }
         }
 
         convertDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -208,26 +205,28 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
-        binding.keyEdit = mode
-        binding.noteItem = noteItem
+        binding?.keyEdit = mode
+        binding?.noteItem = noteItem
 
         bindEnter()
     }
 
-    override fun bindNoteItem(noteItem: NoteItem) =
-            binding.apply { this.noteItem = noteItem }.executePendingBindings()
-
-    override fun bindEnter() {
-        binding.enterEmpty = TextUtils.isEmpty(rollEnter?.text.toString())
-        binding.executePendingBindings()
+    override fun bindNoteItem(noteItem: NoteItem) {
+        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
     }
 
-    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) =
-            binding.apply {
-                undoAccess = isUndoAccess
-                redoAccess = isRedoAccess
-                saveEnabled = isSaveEnable
-            }.executePendingBindings()
+    override fun bindEnter() {
+        binding?.enterEmpty = TextUtils.isEmpty(rollEnter?.text.toString())
+        binding?.executePendingBindings()
+    }
+
+    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) {
+        binding?.apply {
+            undoAccess = isUndoAccess
+            redoAccess = isRedoAccess
+            saveEnabled = isSaveEnable
+        }?.executePendingBindings()
+    }
 
     override fun onPressBack() = viewModel.onPressBack()
 

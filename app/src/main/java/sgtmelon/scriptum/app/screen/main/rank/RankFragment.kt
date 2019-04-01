@@ -24,7 +24,6 @@ import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.app.watcher.AppTextWatcher
 import sgtmelon.scriptum.databinding.FragmentRankBinding
-import sgtmelon.scriptum.dialog.RenameDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.clear
@@ -35,28 +34,26 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент для отображения списка категорий - [RankItem]
  *
  * @author SerjantArbuz
- * @version 1.0
+ * @version 1.1
  */
 class RankFragment : Fragment(), RankCallback {
 
-    private val openState = OpenState()
-
     private lateinit var activity: Activity
+
     private var binding: FragmentRankBinding? = null
 
     private val viewModel: RankViewModel by lazy {
         ViewModelProviders.of(this).get(RankViewModel::class.java)
     }
 
-    private val adapter: RankAdapter by lazy { RankAdapter(activity) }
+    private val adapter by lazy { RankAdapter(activity) }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
     private var recyclerView: RecyclerView? = null
     private var rankEnter: EditText? = null
 
-    private val renameDialog: RenameDialog by lazy {
-        DialogFactory.getRenameDialog(fragmentManager)
-    }
+    private val openState = OpenState()
+    private val renameDialog by lazy { DialogFactory.getRenameDialog(fragmentManager) }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -90,11 +87,8 @@ class RankFragment : Fragment(), RankCallback {
         setupRecycler()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putBoolean(OpenState.KEY, openState.value)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply { putBoolean(OpenState.KEY, openState.value) })
 
     private fun setupToolbar() {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_rank_container)
@@ -121,19 +115,21 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     private fun setupRecycler() {
-        adapter.clickListener = ItemListener.ClickListener { view, p ->
-            when (view.id) {
-                R.id.rank_visible_button -> viewModel.onClickVisible(p)
-                R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
-                R.id.rank_cancel_button -> viewModel.onClickCancel(p)
-            }
-        }
-        adapter.longClickListener = ItemListener.LongClickListener { _, p ->
-            viewModel.onLongClickVisible(p)
-        }
-
         val touchCallback = RankTouchControl(viewModel)
-        adapter.dragListener = touchCallback
+
+        adapter.apply {
+            clickListener = ItemListener.ClickListener { view, p ->
+                when (view.id) {
+                    R.id.rank_visible_button -> viewModel.onClickVisible(p)
+                    R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
+                    R.id.rank_cancel_button -> viewModel.onClickCancel(p)
+                }
+            }
+            longClickListener = ItemListener.LongClickListener { _, p ->
+                viewModel.onLongClickVisible(p)
+            }
+            dragListener = touchCallback
+        }
 
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
@@ -145,10 +141,12 @@ class RankFragment : Fragment(), RankCallback {
 
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
 
-        renameDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onRenameDialog(renameDialog.position, renameDialog.name)
+        renameDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                viewModel.onRenameDialog(position, name)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
-        renameDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun bindList(size: Int) {
@@ -196,8 +194,9 @@ class RankFragment : Fragment(), RankCallback {
 
     override fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>) =
             openState.tryInvoke {
-                renameDialog.setArguments(p, name, listName)
-                renameDialog.show(fragmentManager, DialogDef.RENAME)
+                renameDialog.apply {
+                    setArguments(p, name, listName)
+                }.show(fragmentManager, DialogDef.RENAME)
             }
 
     override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)

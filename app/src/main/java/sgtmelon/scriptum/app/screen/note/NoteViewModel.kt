@@ -20,9 +20,9 @@ class NoteViewModel(application: Application) : AndroidViewModel(application) {
                 .getOrNull(index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE)
     }
 
-    fun saveData(bundle: Bundle) {
-        bundle.putLong(NoteData.Intent.ID, id)
-        bundle.putInt(NoteData.Intent.TYPE, type?.ordinal ?: NoteData.Default.TYPE)
+    fun saveData(bundle: Bundle) = with(bundle) {
+        putLong(NoteData.Intent.ID, id)
+        putInt(NoteData.Intent.TYPE, type?.ordinal ?: NoteData.Default.TYPE)
     }
 
     fun setupFragment(isSave: Boolean) = when (type) {

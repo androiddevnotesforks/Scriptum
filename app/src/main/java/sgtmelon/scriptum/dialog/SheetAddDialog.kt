@@ -49,12 +49,12 @@ class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationI
         return view
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply {
+                putInt(DialogBlank.INIT, layout)
+                putInt(DialogBlank.VALUE, navigation)
+            })
 
-        outState.putInt(DialogBlank.INIT, layout)
-        outState.putInt(DialogBlank.VALUE, navigation)
-    }
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)

@@ -87,11 +87,8 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
         setupAppPref()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putBoolean(OpenState.KEY, openState.value)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply { putBoolean(OpenState.KEY, openState.value) })
 
     private fun setupNotePref() {
         sortPreference.setOnPreferenceClickListener { viewModel.onClickSortPreference() }

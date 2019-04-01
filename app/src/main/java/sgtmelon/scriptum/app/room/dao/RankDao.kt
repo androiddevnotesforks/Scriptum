@@ -45,10 +45,10 @@ interface RankDao {
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_NAME = :name")
     operator fun get(name: String): RankItem
 
-    @Update fun update(rankItem: RankItem)
+    @Update fun update(item: RankItem)
 
-    @Update fun update(rankList: List<RankItem>)
+    @Update fun update(list: List<RankItem>)
 
-    @Delete fun delete(rankItem: RankItem)
+    @Delete fun delete(item: RankItem)
 
 }

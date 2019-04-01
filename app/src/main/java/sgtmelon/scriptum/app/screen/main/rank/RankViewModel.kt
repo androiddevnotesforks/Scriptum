@@ -10,13 +10,12 @@ import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.repository.IRoomRepo
 import sgtmelon.scriptum.app.repository.RoomRepo
-import sgtmelon.scriptum.app.room.RoomDb
 
 /**
  * ViewModel для [RankFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
+ * @version 1.1
  */
 class RankViewModel(application: Application) : AndroidViewModel(application),
         RankTouchControl.Result {
@@ -44,9 +43,7 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         val rankItem = rankModel.itemList[p]
 
-        val db = RoomDb.getInstance(context)
-        db.getRankDao().update(rankItem)
-        db.close()
+        iRoomRepo.updateRank(rankItem)
 
         callback.bindToolbar()
         callback.notifyItemChanged(p, rankItem)
@@ -70,8 +67,9 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         val p = if (simpleClick) rankModel.size() else 0
 
-        val rankItem = RankItem(if (simpleClick) p else -1, name)
-        rankItem.id = iRoomRepo.insertRank(p, rankItem)
+        val rankItem = RankItem(if (simpleClick) p else -1, name).apply {
+            id = iRoomRepo.insertRank(p, rankItem = this)
+        }
 
         rankModel.add(p, rankItem)
 
@@ -80,12 +78,8 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         iRoomRepo.apply {
-            rankModel.apply {
-                itemList.clear()
-                itemList.addAll(updateRank(dragFrom, dragTo))
-            }
-            notifyStatusBar()
-        }
+            rankModel.apply { itemList.apply { clear() }.addAll(updateRank(dragFrom, dragTo)) }
+        }.notifyStatusBar()
 
         callback.notifyDataSetChanged(rankModel.itemList)
     }
@@ -98,13 +92,10 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     }
 
     fun onClickVisible(p: Int) {
-        val rankItem = rankModel.itemList[p]
-        rankItem.isVisible = !rankItem.isVisible
+        val rankItem = rankModel.itemList[p].apply { isVisible = !isVisible }
 
-        val db = RoomDb.getInstance(context)
-        db.getRankDao().update(rankItem)
+        iRoomRepo.updateRank(rankItem)
         iRoomRepo.notifyStatusBar()
-        db.close()
 
         callback.notifyVisible(p, rankItem)
     }
@@ -123,10 +114,8 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         callback.notifyVisible(startAnim, rankList)
 
-        val db = RoomDb.getInstance(context)
-        db.getRankDao().update(rankList)
+        iRoomRepo.updateRank(rankList)
         iRoomRepo.notifyStatusBar()
-        db.close()
     }
 
     fun onClickCancel(p: Int) {

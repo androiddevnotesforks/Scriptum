@@ -130,12 +130,11 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
                 .create()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putString(INIT, init)
-        outState.putString(VALUE, keys)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply {
+                putString(INIT, init)
+                putString(VALUE, keys)
+            })
 
     override fun setEnable() {
         super.setEnable()

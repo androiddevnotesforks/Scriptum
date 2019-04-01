@@ -352,6 +352,12 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return rankList
     }
 
+    override fun updateRank(rankItem: RankItem) =
+            openRoom().apply { getRankDao().update(rankItem) }.close()
+
+    override fun updateRank(rankList: List<RankItem>) =
+            openRoom().apply { getRankDao().update(rankList) }.close()
+
     // TODO прибрать private
 
     private fun getCompleteRankList() = ArrayList<RankItem>().apply {
@@ -438,7 +444,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         rankDao[noteItem.rankId].apply {
             forEach { it.noteId.remove(noteItem.id) }
-            rankDao.update(rankList = this)
+            rankDao.update(list = this)
         }
     }
 

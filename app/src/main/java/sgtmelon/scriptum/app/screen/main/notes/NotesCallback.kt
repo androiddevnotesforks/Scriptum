@@ -5,6 +5,9 @@ import sgtmelon.scriptum.app.model.NoteModel
 
 /**
  * Интерфейс для общения [NotesViewModel] и [NotesFragment]
+ *
+ * @author SerjantArbuz
+ * @version 1.0
  */
 interface NotesCallback {
 

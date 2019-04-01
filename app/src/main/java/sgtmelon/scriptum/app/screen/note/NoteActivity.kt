@@ -23,15 +23,15 @@ class NoteActivity : ParentActivity(), NoteCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
-        viewModel.callback = this
-        viewModel.setupData(intent.extras ?: savedInstanceState)
-        viewModel.setupFragment(savedInstanceState != null)
+        viewModel.apply {
+            callback = this@NoteActivity
+            setupData(intent.extras ?: savedInstanceState)
+            setupFragment(savedInstanceState != null)
+        }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.saveData(outState)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply { viewModel.saveData(bundle = this) })
 
     override fun showTextFragment(id: Long, isSave: Boolean) {
         showFragment(NoteType.TEXT.name, when (isSave) {

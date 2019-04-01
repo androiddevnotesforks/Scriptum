@@ -31,11 +31,8 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
                 .create()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putInt(VALUE, click)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply { putInt(VALUE, click) })
 
     override fun onClick(v: View) {
         if (++click == activity.resources.getInteger(R.integer.pref_logo_click_value)) {

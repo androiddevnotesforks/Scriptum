@@ -42,10 +42,8 @@ class IntroFragment : Fragment() {
         if (page != UNDEFINED) binding?.bind(page)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(PAGE_CURRENT, page)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply { putInt(PAGE_CURRENT, page) })
 
     /**
      * Обновление отображения контента страницы

@@ -47,25 +47,14 @@ class MainActivity : ParentActivity(), MainCallback {
         ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 
+    private val rankFragment by lazy { FragmentFactory.getRankFragment(supportFragmentManager) }
+    private val notesFragment by lazy { FragmentFactory.getNotesFragment(supportFragmentManager) }
+    private val binFragment by lazy { FragmentFactory.getBinFragment(supportFragmentManager) }
+
     private val openState = OpenState()
+    private val sheetDialog by lazy { DialogFactory.getSheetDialog(supportFragmentManager) }
 
-    private val rankFragment by lazy {
-        FragmentFactory.getRankFragment(supportFragmentManager)
-    }
-    private val notesFragment by lazy {
-        FragmentFactory.getNotesFragment(supportFragmentManager)
-    }
-    private val binFragment by lazy {
-        FragmentFactory.getBinFragment(supportFragmentManager)
-    }
-
-    private val sheetDialog by lazy {
-        DialogFactory.getSheetDialog(supportFragmentManager)
-    }
-
-    private val fab: FloatingActionButton by lazy {
-        findViewById<FloatingActionButton>(R.id.main_add_fab)
-    }
+    private val fab by lazy { findViewById<FloatingActionButton>(R.id.main_add_fab) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,12 +70,11 @@ class MainActivity : ParentActivity(), MainCallback {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        outState.putBoolean(OpenState.KEY, openState.value)
-        viewModel.saveData(outState)
-    }
+    override fun onSaveInstanceState(outState: Bundle) =
+            super.onSaveInstanceState(outState.apply {
+                putBoolean(OpenState.KEY, openState.value)
+                viewModel.saveData(bundle = this)
+            })
 
     override fun setupNavigation(@IdRes itemId: Int) {
         fab.setOnClickListener {
@@ -150,7 +138,7 @@ class MainActivity : ParentActivity(), MainCallback {
         fun getIntent(context: Context) = Intent(context, MainActivity::class.java)
 
         private fun FloatingActionButton.setState(state: Boolean) {
-            if (state) show() else  hide()
+            if (state) show() else hide()
             isEnabled = state
         }
     }

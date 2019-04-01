@@ -12,7 +12,7 @@ import sgtmelon.scriptum.app.model.key.NoteType
  * Интерфейс для общения с [RoomRepo]
  *
  * @author SerjantArbuz
- * @version 1.0
+ * @version 1.1
  */
 interface IRoomRepo {
 
@@ -104,5 +104,9 @@ interface IRoomRepo {
     fun getRankModel(): RankModel
 
     fun updateRank(dragFrom: Int, dragTo: Int): List<RankItem>
+
+    fun updateRank(rankItem: RankItem)
+
+    fun updateRank(rankList: List<RankItem>)
 
 }
