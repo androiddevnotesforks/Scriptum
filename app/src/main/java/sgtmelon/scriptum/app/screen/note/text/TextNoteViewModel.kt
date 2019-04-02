@@ -1,10 +1,8 @@
 package sgtmelon.scriptum.app.screen.note.text
 
 import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
@@ -16,30 +14,22 @@ import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.IconState
 import sgtmelon.scriptum.app.model.state.NoteState
-import sgtmelon.scriptum.app.repository.IRoomRepo
-import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.converter.StringConverter
+import sgtmelon.scriptum.app.screen.ParentViewModel
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
-import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
-import java.util.*
 
 /**
  * ViewModel для [TextNoteFragment]
  *
  * @author SerjantArbuz
  */
-class TextNoteViewModel(application: Application) : AndroidViewModel(application),
+class TextNoteViewModel(application: Application) : ParentViewModel(application),
         SaveControl.Result,
         InputTextWatcher.TextChange,
         MenuCallback {
-
-    private val context: Context = application.applicationContext
-
-    private val prefUtils = Preference(context)
-    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: TextNoteCallback
     lateinit var noteCallback: NoteCallback
@@ -63,7 +53,7 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
             rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
             if (id == NoteData.Default.ID) {
-                val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.TEXT)
+                val noteItem = NoteItem(context.getTime(), preference.defaultColor, NoteType.TEXT)
                 val statusItem = StatusItem(context, noteItem, false)
 
                 noteModel = NoteModel(noteItem, ArrayList(), statusItem)
@@ -300,8 +290,10 @@ class TextNoteViewModel(application: Application) : AndroidViewModel(application
 
         inputControl.onRankChange(noteItem.rankId, rankId)
 
-        noteItem.rankId = rankId
-        noteItem.rankPs = rankPs
+        noteItem.apply {
+            this.rankId = rankId
+            this.rankPs = rankPs
+        }
 
         noteModel.updateStatus(rankIdVisibleList)
 

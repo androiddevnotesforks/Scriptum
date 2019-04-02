@@ -313,7 +313,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun getRankModel() = RankModel(getCompleteRankList())
 
-    override fun updateRank(dragFrom: Int, dragTo: Int): List<RankItem> { // TODO оптимизировать
+    override fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankItem> { // TODO оптимизировать
         val startFirst = dragFrom < dragTo
 
         val iStart = if (startFirst) dragFrom else dragTo

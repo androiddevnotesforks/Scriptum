@@ -1,10 +1,8 @@
 package sgtmelon.scriptum.app.screen.note.roll
 
 import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.text.TextUtils
-import androidx.lifecycle.AndroidViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
@@ -21,15 +19,13 @@ import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.CheckState
 import sgtmelon.scriptum.app.model.state.IconState
 import sgtmelon.scriptum.app.model.state.NoteState
-import sgtmelon.scriptum.app.repository.IRoomRepo
-import sgtmelon.scriptum.app.repository.RoomRepo
 import sgtmelon.scriptum.app.room.converter.StringConverter
+import sgtmelon.scriptum.app.screen.ParentViewModel
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
 import sgtmelon.scriptum.office.utils.AppUtils.swap
 import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
-import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 
 /**
@@ -37,17 +33,12 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  *
  * @author SerjantArbuz
  */
-class RollNoteViewModel(application: Application) : AndroidViewModel(application),
+class RollNoteViewModel(application: Application) : ParentViewModel(application),
         SaveControl.Result,
         InputTextWatcher.TextChange,
         RollWriteHolder.TextChange,
         RollTouchControl.Result,
         MenuCallback {
-
-    private val context: Context = application.applicationContext
-
-    private val prefUtils = Preference(context)
-    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: RollNoteCallback
     lateinit var noteCallback: NoteCallback
@@ -74,7 +65,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
             rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
             if (id == NoteData.Default.ID) {
-                val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.ROLL)
+                val noteItem = NoteItem(context.getTime(), preference.defaultColor, NoteType.ROLL)
                 val statusItem = StatusItem(context, noteItem, notify = false)
 
                 noteModel = NoteModel(noteItem, ArrayList(), statusItem)

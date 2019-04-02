@@ -102,7 +102,7 @@ interface IRoomRepo {
 
     fun getRankModel(): RankModel
 
-    fun updateRank(dragFrom: Int, dragTo: Int): List<RankItem>
+    fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankItem>
 
     fun updateRank(rankItem: RankItem)
 

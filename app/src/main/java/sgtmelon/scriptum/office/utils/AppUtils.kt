@@ -80,4 +80,9 @@ object AppUtils {
         add(to, item)
     }
 
+    fun <E> MutableCollection<E>.clearAndAdd(replace: MutableList<E>) {
+        clear()
+        addAll(replace)
+    }
+
 }

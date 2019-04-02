@@ -1,14 +1,12 @@
 package sgtmelon.scriptum.app.screen.main.bin
 
 import android.app.Application
-import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
-import sgtmelon.scriptum.app.repository.IRoomRepo
-import sgtmelon.scriptum.app.repository.RoomRepo
+import sgtmelon.scriptum.app.screen.ParentViewModel
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.def.OptionsDef
+import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 
 /**
@@ -16,20 +14,14 @@ import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
  *
  * @author SerjantArbuz
  */
-class BinViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val context: Context = application.applicationContext
-    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
+class BinViewModel(application: Application) : ParentViewModel(application) {
 
     lateinit var callback: BinCallback
 
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
-        val list = iRoomRepo.getNoteModelList(bin = true)
-
-        noteModelList.clear()
-        noteModelList.addAll(list)
+        noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = true))
 
         callback.apply {
             notifyDataSetChanged(noteModelList)
@@ -50,9 +42,8 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun onClickNote(p: Int) {
-        val noteItem = noteModelList[p].noteItem
-        callback.startNote(context.getNoteIntent(noteItem.type, noteItem.id))
+    fun onClickNote(p: Int) = with(noteModelList[p].noteItem) {
+        callback.startNote(context.getNoteIntent(type, id))
     }
 
     fun onShowOptionsDialog(p: Int) =
@@ -71,15 +62,13 @@ class BinViewModel(application: Application) : AndroidViewModel(application) {
     private fun restoreItem(p: Int): MutableList<NoteModel> {
         iRoomRepo.restoreNote(noteModelList[p].noteItem)
 
-        noteModelList.removeAt(p)
-        return noteModelList
+        return noteModelList.apply { removeAt(p) }
     }
 
     private fun clearItem(p: Int): MutableList<NoteModel> {
         iRoomRepo.clearNote(noteModelList[p].noteItem)
 
-        noteModelList.removeAt(p)
-        return noteModelList
+        return noteModelList.apply { removeAt(p) }
     }
 
 }

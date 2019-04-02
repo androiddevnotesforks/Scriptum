@@ -1,26 +1,21 @@
 package sgtmelon.scriptum.app.screen.main.rank
 
 import android.app.Application
-import android.content.Context
 import android.text.TextUtils
 import android.view.inputmethod.EditorInfo
-import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.item.RankItem
-import sgtmelon.scriptum.app.repository.IRoomRepo
-import sgtmelon.scriptum.app.repository.RoomRepo
+import sgtmelon.scriptum.app.screen.ParentViewModel
+import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
 
 /**
  * ViewModel для [RankFragment]
  *
  * @author SerjantArbuz
  */
-class RankViewModel(application: Application) : AndroidViewModel(application),
+class RankViewModel(application: Application) : ParentViewModel(application),
         RankTouchControl.Result {
-
-    private val context: Context = application.applicationContext
-    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
     lateinit var callback: RankCallback
 
@@ -30,8 +25,10 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     fun onUpdateData() {
         rankModel = iRoomRepo.getRankModel()
 
-        callback.notifyDataSetChanged(rankModel.itemList)
-        callback.bindList(rankModel.size())
+        callback.apply {
+            notifyDataSetChanged(rankModel.itemList)
+            bindList(rankModel.size())
+        }
     }
 
     fun onShowRenameDialog(p: Int) =
@@ -41,11 +38,12 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
         rankModel.set(p, name)
 
         val rankItem = rankModel.itemList[p]
-
         iRoomRepo.updateRank(rankItem)
 
-        callback.bindToolbar()
-        callback.notifyItemChanged(p, rankItem)
+        callback.apply {
+            bindToolbar()
+            notifyItemChanged(p, rankItem)
+        }
     }
 
     fun onEditorClick(i: Int, name: String): Boolean {
@@ -77,8 +75,9 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         iRoomRepo.apply {
-            rankModel.apply { itemList.apply { clear() }.addAll(updateRank(dragFrom, dragTo)) }
-        }.notifyStatusBar()
+            rankModel.itemList.clearAndAdd(updateRank(dragFrom, dragTo))
+            notifyStatusBar()
+        }
 
         callback.notifyDataSetChanged(rankModel.itemList)
     }
@@ -93,8 +92,10 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
     fun onClickVisible(p: Int) {
         val rankItem = rankModel.itemList[p].apply { isVisible = !isVisible }
 
-        iRoomRepo.updateRank(rankItem)
-        iRoomRepo.notifyStatusBar()
+        iRoomRepo.apply {
+            updateRank(rankItem)
+            notifyStatusBar()
+        }
 
         callback.notifyVisible(p, rankItem)
     }
@@ -113,13 +114,17 @@ class RankViewModel(application: Application) : AndroidViewModel(application),
 
         callback.notifyVisible(startAnim, rankList)
 
-        iRoomRepo.updateRank(rankList)
-        iRoomRepo.notifyStatusBar()
+        iRoomRepo.apply {
+            updateRank(rankList)
+            notifyStatusBar()
+        }
     }
 
     fun onClickCancel(p: Int) {
-        iRoomRepo.deleteRank(rankModel.itemList[p].name, p)
-        iRoomRepo.notifyStatusBar()
+        iRoomRepo.apply {
+            deleteRank(rankModel.itemList[p].name, p)
+            notifyStatusBar()
+        }
 
         rankModel.remove(p)
 

@@ -2,11 +2,11 @@ package sgtmelon.scriptum.app.screen.note
 
 import android.app.Application
 import android.os.Bundle
-import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.key.NoteType
+import sgtmelon.scriptum.app.screen.ParentViewModel
 
-class NoteViewModel(application: Application) : AndroidViewModel(application) {
+class NoteViewModel(application: Application) : ParentViewModel(application) {
 
     lateinit var callback: NoteCallback
 

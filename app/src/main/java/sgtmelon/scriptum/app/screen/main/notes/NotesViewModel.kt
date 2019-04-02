@@ -1,48 +1,41 @@
 package sgtmelon.scriptum.app.screen.main.notes
 
 import android.app.Application
-import android.content.Context
-import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.app.repository.IRoomRepo
-import sgtmelon.scriptum.app.repository.RoomRepo
+import sgtmelon.scriptum.app.screen.ParentViewModel
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.office.annot.def.OptionsDef
+import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
-
 
 /**
  * ViewModel для [NotesFragment]
  *
  * @author SerjantArbuz
  */
-class NotesViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val context: Context = application.applicationContext
-    private val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
+class NotesViewModel(application: Application) : ParentViewModel(application) {
 
     lateinit var callback: NotesCallback
 
     private val listNoteModel: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
-        val list = iRoomRepo.getNoteModelList(bin = false)
+        listNoteModel.clearAndAdd(iRoomRepo.getNoteModelList(bin = false))
 
-        listNoteModel.clear()
-        listNoteModel.addAll(list)
+        callback.apply {
+            notifyDataSetChanged(listNoteModel)
+            bind()
+        }
 
-        callback.notifyDataSetChanged(listNoteModel)
-        callback.bind()
 
         if (updateStatus) updateStatus = false
     }
 
-    fun onClickNote(p: Int) {
-        val noteItem = listNoteModel[p].noteItem
-        callback.startNote(context.getNoteIntent(noteItem.type, noteItem.id))
+    fun onClickNote(p: Int) = with(listNoteModel[p].noteItem){
+        callback.startNote(context.getNoteIntent(type, id))
     }
 
     fun onShowOptionsDialog(p: Int) {
@@ -142,9 +135,8 @@ class NotesViewModel(application: Application) : AndroidViewModel(application) {
         iRoomRepo.deleteNote(listNoteModel[p].noteItem)
 
         listNoteModel[p].updateStatus(false)
-        listNoteModel.removeAt(p)
 
-        return listNoteModel
+        return listNoteModel.apply { removeAt(p) }
     }
 
     companion object {
