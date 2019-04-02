@@ -15,7 +15,6 @@ import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
  * Экран со вступительным туториалом
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 

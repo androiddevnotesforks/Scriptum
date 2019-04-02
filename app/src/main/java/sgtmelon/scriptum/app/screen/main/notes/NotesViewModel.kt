@@ -18,7 +18,6 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  * ViewModel для [NotesFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class NotesViewModel(application: Application) : AndroidViewModel(application) {
 

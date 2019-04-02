@@ -6,7 +6,6 @@ import sgtmelon.scriptum.app.model.item.RankItem
  * Репозиторий категории
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class RankModel(val itemList: MutableList<RankItem>) {
 

@@ -30,7 +30,6 @@ import java.util.*
  * ViewModel для [TextNoteFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class TextNoteViewModel(application: Application) : AndroidViewModel(application),
         SaveControl.Result,

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.parent
+package sgtmelon.scriptum.app.screen.app
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -6,11 +6,16 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.Preference
 
-class ParentViewModel(application: Application): AndroidViewModel(application) {
+/**
+ * ViewModel для [AppActivity]
+ *
+ * @author SerjantArbuz
+ */
+class AppViewModel(application: Application): AndroidViewModel(application) {
 
     private val prefUtils = Preference(application.applicationContext)
 
-    lateinit var callback: ParentCallback
+    lateinit var callback: AppCallback
 
     @ThemeDef private var currentTheme: Int = 0
 

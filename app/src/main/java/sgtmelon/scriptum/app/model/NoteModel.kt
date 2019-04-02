@@ -12,7 +12,6 @@ import sgtmelon.scriptum.app.model.key.DbField
  * Модель заметки
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class NoteModel(@field:Embedded val noteItem: NoteItem,
                 @field:Relation(parentColumn = DbField.Note.ID, entityColumn = DbField.Roll.NOTE_ID)

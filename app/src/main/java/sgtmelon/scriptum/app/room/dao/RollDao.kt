@@ -12,7 +12,6 @@ import sgtmelon.scriptum.app.room.converter.BoolConverter
  * Класс для общения Dao списка [RoomDb]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 @Dao
 @TypeConverters(BoolConverter::class)

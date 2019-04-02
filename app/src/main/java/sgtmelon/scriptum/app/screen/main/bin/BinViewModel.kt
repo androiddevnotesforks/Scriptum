@@ -15,7 +15,6 @@ import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
  * ViewModel для [BinFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class BinViewModel(application: Application) : AndroidViewModel(application) {
 

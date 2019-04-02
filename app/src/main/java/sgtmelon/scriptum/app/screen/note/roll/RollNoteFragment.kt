@@ -47,7 +47,6 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент для отображения заметки списка
  *
  * @author SerjantArbuz
- * @version 1.1
  */
 class RollNoteFragment : Fragment(), RollNoteCallback {
 

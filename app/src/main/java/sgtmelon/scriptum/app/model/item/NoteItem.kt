@@ -17,7 +17,6 @@ import java.util.*
  * Элемент информации о заметки для [NoteModel]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, StringConverter::class, NoteTypeConverter::class)

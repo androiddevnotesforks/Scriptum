@@ -9,7 +9,6 @@ import java.util.*
  * Диалог с check-выбором пунктов
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class MultiplyDialog : DialogBlank() {
 

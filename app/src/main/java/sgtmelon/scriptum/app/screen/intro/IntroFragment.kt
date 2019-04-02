@@ -14,7 +14,6 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент страницы для вступления [IntroActivity]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class IntroFragment : Fragment() {
 

@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.key.NoteType
+import sgtmelon.scriptum.app.screen.app.AppActivity
 import sgtmelon.scriptum.app.screen.note.roll.RollNoteFragment
 import sgtmelon.scriptum.app.screen.note.text.TextNoteFragment
-import sgtmelon.scriptum.app.screen.parent.ParentActivity
 
-class NoteActivity : ParentActivity(), NoteCallback {
+class NoteActivity : AppActivity(), NoteCallback {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(NoteViewModel::class.java)

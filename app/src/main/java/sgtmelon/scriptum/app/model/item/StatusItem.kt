@@ -19,7 +19,6 @@ import sgtmelon.scriptum.office.utils.ColorUtils
  * Управление закреплением заметки в статус баре [NoteModel]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boolean) {
 

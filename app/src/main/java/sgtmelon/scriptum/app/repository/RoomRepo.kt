@@ -25,7 +25,6 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  * @param context для открытия [RoomDb] и получения данных из [Preference]
  *
  * @author SerjantArbuz
- * @version 1.2
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 

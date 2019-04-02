@@ -32,7 +32,6 @@ import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
  * Фрагмент для отображения списка заметок - [NoteItem]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class NotesFragment : Fragment(), NotesCallback {
 

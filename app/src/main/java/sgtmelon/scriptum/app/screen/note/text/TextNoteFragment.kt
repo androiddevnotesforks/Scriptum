@@ -36,7 +36,6 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент для отображения тектовой заметки
  *
  * @author SerjantArbuz
- * @version 1.1
  */
 class TextNoteFragment : Fragment(), TextNoteCallback {
 

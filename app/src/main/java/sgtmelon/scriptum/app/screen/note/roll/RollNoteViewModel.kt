@@ -36,7 +36,6 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  * ViewModel для [RollNoteFragment]
  *
  * @author SerjantArbuz
- * @version 1.1
  */
 class RollNoteViewModel(application: Application) : AndroidViewModel(application),
         SaveControl.Result,

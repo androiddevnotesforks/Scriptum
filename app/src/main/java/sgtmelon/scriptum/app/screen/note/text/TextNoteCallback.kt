@@ -9,7 +9,6 @@ import sgtmelon.scriptum.office.annot.def.ColorDef
  * Интерфейс для общения [TextNoteViewModel] с [TextNoteFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 interface TextNoteCallback {
 

@@ -11,7 +11,6 @@ import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
  * Класс для общения Dao заметок [RoomDb]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 @Dao
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)

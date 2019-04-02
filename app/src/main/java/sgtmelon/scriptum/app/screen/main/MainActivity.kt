@@ -17,11 +17,11 @@ import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.app.model.state.OpenState
+import sgtmelon.scriptum.app.screen.app.AppActivity
 import sgtmelon.scriptum.app.screen.main.bin.BinFragment
 import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
 import sgtmelon.scriptum.app.screen.main.rank.RankFragment
 import sgtmelon.scriptum.app.screen.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.app.screen.parent.ParentActivity
 import sgtmelon.scriptum.office.annot.def.DialogDef
 
 /**
@@ -29,9 +29,8 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
  * [RankFragment], [NotesFragment], [BinFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
-class MainActivity : ParentActivity(), MainCallback {
+class MainActivity : AppActivity(), MainCallback {
 
     // TODO !! План
     /**

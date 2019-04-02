@@ -31,7 +31,6 @@ import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
  * Фрагмент для отображения списка удалённых заметок - [NoteItem]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 class BinFragment : Fragment(), BinCallback {
 

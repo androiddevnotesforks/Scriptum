@@ -34,7 +34,6 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент для отображения списка категорий - [RankItem]
  *
  * @author SerjantArbuz
- * @version 1.2
  */
 class RankFragment : Fragment(), RankCallback {
 

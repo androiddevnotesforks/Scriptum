@@ -3,10 +3,10 @@ package sgtmelon.scriptum.app.screen.develop
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.repository.DevelopRepo
-import sgtmelon.scriptum.app.screen.parent.ParentActivity
+import sgtmelon.scriptum.app.screen.app.AppActivity
 import sgtmelon.scriptum.office.utils.Preference
 
-class DevelopActivity : ParentActivity() {
+class DevelopActivity : AppActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

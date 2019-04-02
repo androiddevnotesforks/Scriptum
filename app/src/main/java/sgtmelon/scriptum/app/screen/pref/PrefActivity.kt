@@ -3,10 +3,10 @@ package sgtmelon.scriptum.app.screen.pref
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.screen.parent.ParentActivity
+import sgtmelon.scriptum.app.screen.app.AppActivity
 import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
 
-class PrefActivity : ParentActivity() {
+class PrefActivity : AppActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

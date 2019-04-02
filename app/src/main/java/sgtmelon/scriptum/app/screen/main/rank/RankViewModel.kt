@@ -15,7 +15,6 @@ import sgtmelon.scriptum.app.repository.RoomRepo
  * ViewModel для [RankFragment]
  *
  * @author SerjantArbuz
- * @version 1.1
  */
 class RankViewModel(application: Application) : AndroidViewModel(application),
         RankTouchControl.Result {

@@ -12,7 +12,6 @@ import sgtmelon.scriptum.app.model.key.NoteType
  * Интерфейс для общения с [RoomRepo]
  *
  * @author SerjantArbuz
- * @version 1.1
  */
 interface IRoomRepo {
 

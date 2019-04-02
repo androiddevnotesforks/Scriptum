@@ -6,7 +6,6 @@ import sgtmelon.scriptum.app.model.item.RankItem
  * Интерфейс для общения [RankViewModel] и [RankFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
  */
 interface RankCallback {
 
