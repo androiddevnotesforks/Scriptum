@@ -39,11 +39,10 @@ interface NoteDao {
     operator fun get(bin: Boolean): MutableList<NoteItem>
 
     /**
-     * @param idList - Id заметок
-     * @param type   - Тип заметки
-     * @return - Количество заметок по датам создания
+     * @param idList список id заметок привязанных к категории
+     * @return Количество заметок с id из списка и определённого типа
      */
     @Query(value = "SELECT COUNT(NT_ID) FROM NOTE_TABLE WHERE NT_ID IN(:idList) AND NT_TYPE = :type")
-    fun getCount(idList: List<Long>, type: Int): Int // TODO !! проверить конвертирование типов
+    fun getCount(idList: List<Long>, type: Int): Int
 
 }
