@@ -32,6 +32,7 @@ import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.NoteState
+import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.watcher.AppTextWatcher
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
@@ -46,11 +47,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент для отображения заметки списка
  *
  * @author SerjantArbuz
- * @version 1.0
+ * @version 1.1
  */
 class RollNoteFragment : Fragment(), RollNoteCallback {
-
-    // TODO openState
 
     private lateinit var activity: Activity
     private lateinit var noteCallback: NoteCallback
@@ -70,6 +69,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     private var rollEnter: EditText? = null
     private var recyclerView: RecyclerView? = null
 
+    private val openState = OpenState()
     private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
     private val convertDialog by lazy {
@@ -102,6 +102,10 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState != null) {
+            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
+        }
+
         viewModel.setupData(arguments ?: savedInstanceState)
     }
 
@@ -111,7 +115,10 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { viewModel.saveData(bundle = this) })
+            super.onSaveInstanceState(outState.apply {
+                putBoolean(OpenState.KEY, openState.value)
+                viewModel.saveData(bundle = this)
+            })
 
     override fun setupBinding(rankEmpty: Boolean) {
         binding?.menuClick = viewModel
@@ -142,17 +149,21 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultRankDialog(rankDialog.check)
             }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         colorDialog.apply {
-            title = getString(R.string.dialog_title_color)
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultColorDialog(colorDialog.check)
             }
-        }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }.title = activity.getString(R.string.dialog_title_color)
 
-        convertDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultConvertDialog()
+        convertDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                viewModel.onResultConvertDialog()
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
     }
 
@@ -177,18 +188,16 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
                     bindEnter()
         })
 
-        val rollAdd: ImageButton? = view?.findViewById(R.id.roll_note_add_button)
-        rollAdd?.setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
-        rollAdd?.setOnLongClickListener {
-            viewModel.onClickAdd(simpleClick = false)
-            return@setOnLongClickListener true
+        view?.findViewById<ImageButton>(R.id.roll_note_add_button)?.apply {
+            setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
+            setOnLongClickListener {
+                viewModel.onClickAdd(simpleClick = false)
+                return@setOnLongClickListener true
+            }
         }
     }
 
     override fun setupRecycler(inputCallback: InputCallback) {
-        recyclerView = view?.findViewById(R.id.roll_note_recycler)
-        (recyclerView?.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
-
         val touchCallback = RollTouchControl(viewModel)
 
         adapter.apply {
@@ -197,6 +206,9 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
             this.inputCallback = inputCallback
             textChangeCallback = viewModel
         }
+
+        recyclerView = view?.findViewById(R.id.roll_note_recycler)
+        (recyclerView?.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
 
         recyclerView?.layoutManager = layoutManager
         recyclerView?.adapter = adapter
@@ -299,25 +311,20 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun hideKeyboard() = activity.hideKeyboard()
 
-    override fun showRankDialog(rankCheck: BooleanArray) {
-        activity.hideKeyboard()
-
-        rankDialog.setArguments(rankCheck)
-        rankDialog.show(fragmentManager, DialogDef.RANK)
+    override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
+        hideKeyboard()
+        rankDialog.apply { setArguments(rankCheck) }.show(fragmentManager, DialogDef.RANK)
     }
 
-    override fun showColorDialog(color: Int) {
-        activity.hideKeyboard()
-
+    override fun showColorDialog(color: Int) = openState.tryInvoke {
         menuControl.setColorFrom(color)
 
-        colorDialog.setArguments(color)
-        colorDialog.show(fragmentManager, DialogDef.COLOR)
+        hideKeyboard()
+        colorDialog.apply { setArguments(color) }.show(fragmentManager, DialogDef.COLOR)
     }
 
-    override fun showConvertDialog() {
-        activity.hideKeyboard()
-
+    override fun showConvertDialog() = openState.tryInvoke {
+        hideKeyboard()
         convertDialog.show(fragmentManager, DialogDef.CONVERT)
     }
 

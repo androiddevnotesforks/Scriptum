@@ -34,7 +34,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент для отображения списка категорий - [RankItem]
  *
  * @author SerjantArbuz
- * @version 1.1
+ * @version 1.2
  */
 class RankFragment : Fragment(), RankCallback {
 
@@ -91,17 +91,20 @@ class RankFragment : Fragment(), RankCallback {
             super.onSaveInstanceState(outState.apply { putBoolean(OpenState.KEY, openState.value) })
 
     private fun setupToolbar() {
-        val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_rank_container)
-        toolbar?.title = getString(R.string.title_rank)
+        view?.findViewById<Toolbar>(R.id.toolbar_rank_container)?.apply {
+            title = getString(R.string.title_rank)
+        }
 
-        val rankCancel: ImageButton? = view?.findViewById(R.id.toolbar_rank_cancel_button)
-        rankCancel?.setOnClickListener { rankEnter.clear() }
+        view?.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)?.apply {
+            setOnClickListener { rankEnter.clear() }
+        }
 
-        val rankAdd: ImageButton? = view?.findViewById(R.id.toolbar_rank_add_button)
-        rankAdd?.setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
-        rankAdd?.setOnLongClickListener {
-            viewModel.onClickAdd(simpleClick = false)
-            return@setOnLongClickListener true
+        view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
+            setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
+            setOnLongClickListener {
+                viewModel.onClickAdd(simpleClick = false)
+                return@setOnLongClickListener true
+            }
         }
 
         rankEnter = view?.findViewById(R.id.toolbar_rank_enter)

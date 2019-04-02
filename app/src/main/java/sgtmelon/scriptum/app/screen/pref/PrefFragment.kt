@@ -118,13 +118,13 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
         }
         saveTimeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        val autoSavePreference = findPreference(getString(R.string.pref_key_auto_save)) as CheckBoxPreference
-        autoSavePreference.setOnPreferenceChangeListener { _, newValue ->
+        val autoSavePreference = findPreference(getString(R.string.pref_key_auto_save)) as? CheckBoxPreference
+        autoSavePreference?.setOnPreferenceChangeListener { _, newValue ->
             saveTimePreference.isEnabled = newValue as Boolean
             return@setOnPreferenceChangeListener true
         }
 
-        saveTimePreference.isEnabled = autoSavePreference.isChecked
+        saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
     }
 
     private fun setupAppPref() {
@@ -136,8 +136,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        val ratePreference = findPreference(getString(R.string.pref_key_rate))
-        ratePreference.setOnPreferenceClickListener {
+        findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
 
             try {
@@ -151,16 +150,17 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
             return@setOnPreferenceClickListener true
         }
 
-        val aboutPreference = findPreference(getString(R.string.pref_key_about))
-        aboutPreference.setOnPreferenceClickListener {
+        findPreference(getString(R.string.pref_key_about)).setOnPreferenceClickListener {
             openState.tryInvoke { infoDialog.show(fm, DialogDef.INFO) }
             return@setOnPreferenceClickListener true
         }
 
-        infoDialog.logoClick = View.OnClickListener {
-            startActivity(Intent(activity, DevelopActivity::class.java))
+        infoDialog.apply {
+            logoClick = View.OnClickListener {
+                startActivity(Intent(activity, DevelopActivity::class.java))
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
-        infoDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun updateSortSummary(summary: String) {
@@ -168,8 +168,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
     }
 
     override fun showSortDialog(sortKeys: String) = openState.tryInvoke {
-        sortDialog.setArguments(sortKeys)
-        sortDialog.show(fm, DialogDef.SORT)
+        sortDialog.apply { setArguments(sortKeys) }.show(fm, DialogDef.SORT)
     }
 
     override fun updateColorSummary(summary: String) {
@@ -177,8 +176,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
     }
 
     override fun showColorDialog(check: Int) = openState.tryInvoke {
-        colorDialog.setArguments(check)
-        colorDialog.show(fm, DialogDef.COLOR)
+        colorDialog.apply { setArguments(check) }.show(fm, DialogDef.COLOR)
     }
 
     override fun updateSaveTimeSummary(summary: String) {
@@ -186,8 +184,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
     }
 
     override fun showSaveTimeDialog(check: Int) = openState.tryInvoke {
-        saveTimeDialog.setArguments(check)
-        saveTimeDialog.show(fm, DialogDef.SAVE_TIME)
+        saveTimeDialog.apply { setArguments(check) }.show(fm, DialogDef.SAVE_TIME)
     }
 
     override fun updateThemePrefSummary(summary: String) {
@@ -195,8 +192,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
     }
 
     override fun showThemeDialog(check: Int) = openState.tryInvoke {
-        themeDialog.setArguments(check)
-        themeDialog.show(fm, DialogDef.THEME)
+        themeDialog.apply { setArguments(check) }.show(fm, DialogDef.THEME)
     }
 
 }

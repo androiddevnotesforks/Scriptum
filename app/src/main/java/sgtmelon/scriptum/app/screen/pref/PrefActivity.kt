@@ -21,12 +21,10 @@ class PrefActivity : ParentActivity() {
                 .commit()
     }
 
-    private fun setupToolbar() {
-        val toolbar: Toolbar = findViewById(R.id.toolbar_container)
-
-        toolbar.title = getString(R.string.title_preference)
-        toolbar.navigationIcon = getDrawable(R.drawable.ic_cancel_exit, R.attr.clContent)
-        toolbar.setNavigationOnClickListener { finish() }
+    private fun setupToolbar() = findViewById<Toolbar>(R.id.toolbar_container).apply {
+        title = getString(R.string.title_preference)
+        navigationIcon = getDrawable(R.drawable.ic_cancel_exit, R.attr.clContent)
+        setNavigationOnClickListener { finish() }
     }
 
 }

@@ -36,7 +36,7 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
  * ViewModel для [RollNoteFragment]
  *
  * @author SerjantArbuz
- * @version 1.0
+ * @version 1.1
  */
 class RollNoteViewModel(application: Application) : AndroidViewModel(application),
         SaveControl.Result,
@@ -76,7 +76,7 @@ class RollNoteViewModel(application: Application) : AndroidViewModel(application
 
             if (id == NoteData.Default.ID) {
                 val noteItem = NoteItem(context.getTime(), prefUtils.defaultColor, NoteType.ROLL)
-                val statusItem = StatusItem(context, noteItem, false)
+                val statusItem = StatusItem(context, noteItem, notify = false)
 
                 noteModel = NoteModel(noteItem, ArrayList(), statusItem)
 

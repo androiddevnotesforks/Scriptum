@@ -23,6 +23,7 @@ import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.NoteState
+import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.app.screen.note.NoteCallback
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
@@ -35,11 +36,9 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  * Фрагмент для отображения тектовой заметки
  *
  * @author SerjantArbuz
- * @version 1.0
+ * @version 1.1
  */
 class TextNoteFragment : Fragment(), TextNoteCallback {
-
-    // TODO openState
 
     private lateinit var activity: Activity
     private lateinit var noteCallback: NoteCallback
@@ -55,6 +54,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     private var nameEnter: EditText? = null
     private var textEnter: EditText? = null
 
+    private val openState = OpenState()
     private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
     private val convertDialog by lazy {
@@ -81,6 +81,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (savedInstanceState != null) {
+            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
+        }
+
         viewModel.setupData(savedInstanceState ?: arguments)
     }
 
@@ -90,7 +94,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { viewModel.saveData(bundle = this) })
+            super.onSaveInstanceState(outState.apply {
+                putBoolean(OpenState.KEY, openState.value)
+                viewModel.saveData(bundle = this)
+            })
 
     override fun setupBinding(rankEmpty: Boolean) {
         binding?.menuClick = viewModel
@@ -121,17 +128,21 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultRankDialog(rankDialog.check)
             }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         colorDialog.apply {
-            title = getString(R.string.dialog_title_color)
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultColorDialog(colorDialog.check)
             }
-        }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }.title = activity.getString(R.string.dialog_title_color)
 
-        convertDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultConvertDialog()
+        convertDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                viewModel.onResultConvertDialog()
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
     }
 
@@ -198,24 +209,20 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     override fun hideKeyboard() = activity.hideKeyboard()
 
-    override fun showRankDialog(rankCheck: BooleanArray) {
+    override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()
-
-        rankDialog.setArguments(rankCheck)
-        rankDialog.show(fragmentManager, DialogDef.RANK)
+        rankDialog.apply { setArguments(rankCheck) }.show(fragmentManager, DialogDef.RANK)
     }
 
-    override fun showColorDialog(color: Int) {
-        hideKeyboard()
-
+    override fun showColorDialog(color: Int) = openState.tryInvoke {
         menuControl.setColorFrom(color)
 
+        hideKeyboard()
         colorDialog.apply { setArguments(color) }.show(fragmentManager, DialogDef.COLOR)
     }
 
-    override fun showConvertDialog() {
+    override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-
         convertDialog.show(fragmentManager, DialogDef.CONVERT)
     }
 
