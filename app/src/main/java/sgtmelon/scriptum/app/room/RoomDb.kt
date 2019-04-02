@@ -15,7 +15,7 @@ import sgtmelon.scriptum.app.room.dao.RollDao
 /**
  * Класс для общения с базой данных
  */
-@Database(entities = [NoteItem::class, RollItem::class, RankItem::class], version = 1)
+@Database(entities = [NoteItem::class, RollItem::class, RankItem::class], version = 2)
 abstract class RoomDb : RoomDatabase() {
 
     abstract fun getNoteDao(): NoteDao
