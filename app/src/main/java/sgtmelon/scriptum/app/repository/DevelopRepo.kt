@@ -12,16 +12,16 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     private fun openRoom() = RoomDb.getInstance(context)
 
     override fun listRankTable(textView: TextView) {
-        val rankList = ArrayList<RankItem>()
+        val list: MutableList<RankItem>
 
-        openRoom().apply { rankList.addAll(getRankDao().simple) }.close()
+        openRoom().apply { list = getRankDao().simple }.close()
 
         textView.apply {
             text = ""
             append("Rank table:")
         }
 
-        rankList.forEach {
+        list.forEach {
             textView.apply {
                 append("\n\n")
                 append("ID: ${it.id} | PS: ${it.position}\n")
@@ -33,11 +33,10 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     }
 
     override fun listNoteTable(textView: TextView) {
-        val noteList = ArrayList<NoteItem>()
+        val list: MutableList<NoteItem>
 
         openRoom().apply {
-            noteList.addAll(getNoteDao()[true])
-            noteList.addAll(getNoteDao()[false])
+            with(getNoteDao()) { list = get(true).apply { addAll(get(false)) } }
         }.close()
 
         textView.apply {
@@ -45,7 +44,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
             append("Note table:")
         }
 
-        noteList.forEach {
+        list.forEach {
             val text = it.text.substring(0, Math.min(it.text.length, 40))
                     .replace("\n", " ")
 
@@ -66,16 +65,16 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     }
 
     override fun listRollTable(textView: TextView) {
-        val rollList = ArrayList<RollItem>()
+        val list: List<RollItem>
 
-        openRoom().apply { rollList.addAll(getRollDao().get()) }.close()
+        openRoom().apply { list = getRollDao().get() }.close()
 
         textView.apply {
             text = ""
             append("Roll table:")
         }
 
-        rollList.forEach {
+        list.forEach {
             val text = it.text.substring(0, Math.min(it.text.length, 40))
                     .replace("\n", " ")
 
