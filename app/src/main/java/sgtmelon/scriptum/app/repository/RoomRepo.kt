@@ -30,7 +30,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     private val preference = Preference(context)
 
-    private lateinit var db: RoomDb
     private fun openRoom() = RoomDb.getInstance(context)
 
     private fun getNoteListQuery(bin: Boolean) = SimpleSQLiteQuery(
@@ -93,12 +92,14 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun getNoteModel(id: Long): NoteModel {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 
-        db = RoomDb.getInstance(context)
-        val noteItem = db.getNoteDao()[id]
-        val noteModel = NoteModel(
-                noteItem, db.getRollDao()[id], StatusItem(context, noteItem, notify = false)
-        )
-        db.close()
+        val noteModel: NoteModel
+
+        openRoom().apply {
+            val noteItem = getNoteDao()[id]
+            val statusItem = StatusItem(context, noteItem, notify = false)
+
+            noteModel = NoteModel(noteItem, getRollDao()[id], statusItem)
+        }.close()
 
         return noteModel
     }
@@ -108,10 +109,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun getRankCheckArray(noteItem: NoteItem): BooleanArray {
-        db = RoomDb.getInstance(context)
-        val array = calculateRankCheckArray(noteItem, db)
-        db.close()
-
+        val array: BooleanArray
+        openRoom().apply { array = calculateRankCheckArray(noteItem, db = this) }.close()
         return array
     }
 
@@ -245,7 +244,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun insertRank(p: Int, rankItem: RankItem): Long {
-        var id: Long = 0
+        val id: Long
 
         openRoom().apply {
             id = getRankDao().insert(rankItem)
