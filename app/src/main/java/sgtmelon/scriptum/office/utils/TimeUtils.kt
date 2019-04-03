@@ -20,7 +20,7 @@ object TimeUtils {
     /**
      * Текущее время в нужном формате
      */
-    fun Context.getTime(): String = getDateFormat(this).format(Calendar.getInstance().time)
+    fun Context.getTime(): String = getDateFormat(context = this).format(Calendar.getInstance().time)
 
     /**
      * @param date - Время создания/изменения заметки
