@@ -1,15 +1,16 @@
 package sgtmelon.scriptum.app.model.data
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.model.item.ColorItem
+import sgtmelon.scriptum.office.annot.def.ThemeDef
 
 /**
- * Описание цветов приложения
+ * Описание цветов заметок
+ *
+ * @author SerjantArbuz
  */
 object ColorData {
 
-    /**
-     * Цвета для заметок
-     */
     val light = intArrayOf(
             R.color.note_red_light, R.color.note_purple_light,
             R.color.note_indigo_light, R.color.note_blue_light,
@@ -28,6 +29,16 @@ object ColorData {
             R.color.note_white_dark
     )
 
-    val size = light.size
+    val size = if (light.size == dark.size) light.size else {
+        throw IndexOutOfBoundsException("Arrays have different size")
+    }
+
+    fun getColorList(theme: Int) = ArrayList<ColorItem>().apply {
+        for (i in 0 until size) add(if (theme == ThemeDef.light) {
+            ColorItem(light[i], dark[i], dark[i])
+        } else {
+            ColorItem(dark[i], dark[i], light[i])
+        })
+    }
 
 }

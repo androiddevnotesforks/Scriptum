@@ -34,6 +34,8 @@ import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
  */
 class BinFragment : Fragment(), BinCallback {
 
+    // TODO double open note - поправить
+
     private lateinit var activity: Activity
 
     private var binding: FragmentBinBinding? = null

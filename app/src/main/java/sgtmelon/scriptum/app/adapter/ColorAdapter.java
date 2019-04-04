@@ -9,14 +9,15 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import java.util.List;
+
 import androidx.annotation.Dimension;
-import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.app.model.data.ColorData;
-import sgtmelon.scriptum.office.annot.def.ThemeDef;
+import sgtmelon.scriptum.app.model.item.ColorItem;
 import sgtmelon.scriptum.office.intf.ItemListener;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.Preference;
@@ -26,36 +27,20 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
     private final Context context;
     private final LayoutInflater inflater;
 
-    private final int count;
+    private final List<ColorItem> colorList;
 
-    @IdRes private final int[] fillColor, strokeColor, checkColor;
     @Dimension private final int strokeDimen;
 
     private int check;
     private boolean[] visible;
 
-    private ItemListener.ClickListener  clickListener;
+    private ItemListener.ClickListener clickListener;
 
     public ColorAdapter(Context context) {
         this.context = context;
         inflater = LayoutInflater.from(context);
 
-        count = ColorData.INSTANCE.getSize();
-
-        switch (new Preference(context).getTheme()) {
-            case ThemeDef.light:
-                fillColor = ColorData.INSTANCE.getLight();
-                strokeColor = ColorData.INSTANCE.getDark();
-                checkColor = ColorData.INSTANCE.getDark();
-                break;
-            default:
-            case ThemeDef.dark:
-                fillColor = ColorData.INSTANCE.getDark();
-                strokeColor = ColorData.INSTANCE.getDark();
-                checkColor = ColorData.INSTANCE.getLight();
-                break;
-        }
-
+        colorList = ColorData.INSTANCE.getColorList(new Preference(context).getTheme());
         strokeDimen = AppUtils.INSTANCE.getDimen(context, 1);
     }
 
@@ -66,7 +51,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
         visible[check] = true;
     }
 
-    public void setClickListener(ItemListener.ClickListener  clickListener) {
+    public void setClickListener(ItemListener.ClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
@@ -79,9 +64,10 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
     @Override
     public void onBindViewHolder(@NonNull ColorHolder holder, int position) {
-        final int fillColor = ContextCompat.getColor(context, this.fillColor[position]);
-        final int strokeColor = ContextCompat.getColor(context, this.strokeColor[position]);
-        final int checkColor = ContextCompat.getColor(context, this.checkColor[position]);
+        final ColorItem colorItem = colorList.get(position);
+        final int fillColor = ContextCompat.getColor(context, colorItem.getFill());
+        final int strokeColor = ContextCompat.getColor(context, colorItem.getStroke());
+        final int checkColor = ContextCompat.getColor(context, colorItem.getCheck());
 
         if (holder.clBackground.getBackground() instanceof GradientDrawable) {
             final GradientDrawable drawable = (GradientDrawable) holder.clBackground.getBackground();
@@ -106,7 +92,7 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
     @Override
     public int getItemCount() {
-        return count;
+        return colorList.size();
     }
 
     // TODO !! вынести в отдельный класс

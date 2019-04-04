@@ -20,40 +20,39 @@ class ColorDialog : DialogBlank() {
         private set
 
     fun setArguments(check: Int) {
-        val bundle = Bundle()
-
-        bundle.putInt(INIT, check)
-        bundle.putInt(VALUE, check)
-
-        arguments = bundle
+        arguments = Bundle().apply {
+            putInt(INIT, check)
+            putInt(VALUE, check)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
-
         init = savedInstanceState?.getInt(INIT)
-                ?: bundle?.getInt(INIT)
-                ?: 0
+                ?: arguments?.getInt(INIT)
+                        ?: 0
 
         check = savedInstanceState?.getInt(VALUE)
-                ?: bundle?.getInt(VALUE)
-                ?: 0
+                ?: arguments?.getInt(VALUE)
+                        ?: 0
 
         val adapter = ColorAdapter(activity)
         adapter.setCheck(check)
         adapter.setClickListener { _, p ->
-                check = p
-                setEnable()
+            check = p
+            setEnable()
         }
 
         val padding = 24
 
-        val recyclerView = RecyclerView(activity)
-        recyclerView.setPadding(padding, padding, padding, padding)
-        recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
-        recyclerView.layoutManager = GridLayoutManager(activity, activity.resources.getInteger(R.integer.column_color))
+        val recyclerView = RecyclerView(activity).apply {
+            setPadding(padding, padding, padding, padding)
+            overScrollMode = View.OVER_SCROLL_NEVER
+            layoutManager = GridLayoutManager(activity, resources.getInteger(R.integer.column_color))
+
+            (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
+        }
+
         recyclerView.adapter = adapter
-        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
         return AlertDialog.Builder(activity)
                 .setTitle(title)

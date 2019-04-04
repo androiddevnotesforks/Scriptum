@@ -35,6 +35,8 @@ import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
  */
 class NotesFragment : Fragment(), NotesCallback {
 
+    // TODO double open note - поправить
+
     private lateinit var activity: Activity
     private lateinit var mainCallback: MainCallback
 

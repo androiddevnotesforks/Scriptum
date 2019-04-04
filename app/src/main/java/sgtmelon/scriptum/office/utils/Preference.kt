@@ -82,41 +82,35 @@ class Preference(context: Context) {
         get() = preferences.getInt(resources.getString(R.string.pref_key_theme), resources.getInteger(R.integer.pref_theme_default))
         set(@ThemeDef value) = preferences.edit().putInt(resources.getString(R.string.pref_key_theme), value).apply()
 
-    fun getSortSummary(): String {
-        val order = StringBuilder()
-
+    fun getSortSummary() = StringBuilder().apply {
         val keysArr = sort.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val keysName = resources.getStringArray(R.array.pref_sort_text)
 
         for (i in keysArr.indices) {
             val key = Integer.parseInt(keysArr[i])
 
-            var summary = keysName[key]
-            if (i != 0) {
-                summary = summary.replace(resources.getString(R.string.pref_sort_summary_start), "").replaceFirst(" ".toRegex(), "")
+            val summary = keysName[key].apply {
+                if (i != 0) {
+                    replace(resources.getString(R.string.pref_sort_summary_start), "").replaceFirst(" ".toRegex(), "")
+                }
             }
 
-            order.append(summary)
-            if (key != SortDef.create && key != SortDef.change) {
-                order.append(SortDef.divider)
-            } else
-                break
+            append(summary)
 
+            if (key != SortDef.create && key != SortDef.change) append(SortDef.divider) else break
         }
+    }.toString()
 
-        return order.toString()
-    }
+    fun listAllPref(textView: TextView) = with(textView) {
+        append("\n\nSort:")
+        append("\nNt: $sort")
 
-    fun listAllPref(textView: TextView) {
-        textView.append("\n\nSort:")
-        textView.append("\nNt: $sort")
-
-        textView.append("\n\nNotes:")
-        textView.append("\nColorDef: $defaultColor")
-        textView.append("\nPause: $pauseSave")
-        textView.append("\nSave: $autoSave")
-        textView.append("\nSTime: $saveTime")
-        textView.append("\nTheme: $theme")
+        append("\n\nNotes:")
+        append("\nColorDef: $defaultColor")
+        append("\nPause: $pauseSave")
+        append("\nSave: $autoSave")
+        append("\nSTime: $saveTime")
+        append("\nTheme: $theme")
     }
 
 }
