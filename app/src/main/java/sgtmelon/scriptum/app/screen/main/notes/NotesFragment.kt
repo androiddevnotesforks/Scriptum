@@ -46,7 +46,12 @@ class NotesFragment : Fragment(), NotesCallback {
         ViewModelProviders.of(this).get(NotesViewModel::class.java)
     }
 
-    private val adapter by lazy { NoteAdapter(activity) }
+    private val adapter by lazy {
+        NoteAdapter(activity,
+                ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) },
+                ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
+        )
+    }
 
     private var recyclerView: RecyclerView? = null
 
@@ -95,11 +100,6 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private fun setupRecycler() {
-        adapter.apply {
-            clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) }
-            longClickListener = ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
-        }
-
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()

@@ -20,6 +20,8 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  */
 class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
 
+    // TODO убрать в конструктор
+
     lateinit var clickListener: ItemListener.ClickListener
     lateinit var dragListener: ItemListener.DragListener
 

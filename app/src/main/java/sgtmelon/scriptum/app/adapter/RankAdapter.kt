@@ -15,6 +15,8 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
  */
 class RankAdapter(context: Context) : ParentAdapter<RankItem, RankHolder>(context) {
 
+    // TODO убрать в конструктор
+
     lateinit var clickListener: ItemListener.ClickListener
     lateinit var longClickListener: ItemListener.LongClickListener
     lateinit var dragListener: ItemListener.DragListener

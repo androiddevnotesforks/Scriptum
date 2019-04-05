@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.ColorAdapter
+import sgtmelon.scriptum.office.intf.ItemListener
 
 class ColorDialog : DialogBlank() {
 
@@ -35,15 +36,13 @@ class ColorDialog : DialogBlank() {
                 ?: arguments?.getInt(VALUE)
                         ?: 0
 
-        val adapter = ColorAdapter(activity)
-        adapter.setCheck(check)
-        adapter.setClickListener { _, p ->
+        val adapter = ColorAdapter(activity, ItemListener.ClickListener { _, p ->
             check = p
             setEnable()
-        }
+        })
+        adapter.setCheck(check)
 
         val padding = 24
-
         val recyclerView = RecyclerView(activity).apply {
             setPadding(padding, padding, padding, padding)
             overScrollMode = View.OVER_SCROLL_NEVER

@@ -22,6 +22,9 @@ import sgtmelon.scriptum.office.intf.ItemListener;
 import sgtmelon.scriptum.office.utils.AppUtils;
 import sgtmelon.scriptum.office.utils.Preference;
 
+/**
+ * Адаптер списка цветов приложения для [ColorDialog]
+ */
 public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorHolder> {
 
     private final Context context;
@@ -30,14 +33,14 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
     private final List<ColorItem> colorList;
 
     @Dimension private final int strokeDimen;
-
+    private final ItemListener.ClickListener clickListener;
     private int check;
     private boolean[] visible;
 
-    private ItemListener.ClickListener clickListener;
-
-    public ColorAdapter(Context context) {
+    public ColorAdapter(Context context, ItemListener.ClickListener clickListener) {
         this.context = context;
+        this.clickListener = clickListener;
+
         inflater = LayoutInflater.from(context);
 
         colorList = ColorData.INSTANCE.getColorList(new Preference(context).getTheme());
@@ -49,10 +52,6 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
         visible = new boolean[getItemCount()];
         visible[check] = true;
-    }
-
-    public void setClickListener(ItemListener.ClickListener clickListener) {
-        this.clickListener = clickListener;
     }
 
     @NonNull
