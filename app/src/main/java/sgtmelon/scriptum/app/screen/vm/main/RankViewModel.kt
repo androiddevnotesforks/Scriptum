@@ -65,7 +65,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
 
         val p = if (simpleClick) rankModel.size() else 0
 
-        val rankItem = RankItem(if (simpleClick) p else -1, name).apply {
+        val rankItem = RankItem(position = if (simpleClick) p else -1, name = name).apply {
             id = iRoomRepo.insertRank(p, rankItem = this)
         }
 

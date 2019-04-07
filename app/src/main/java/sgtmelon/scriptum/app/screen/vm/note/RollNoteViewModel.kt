@@ -67,7 +67,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
             if (id == NoteData.Default.ID) {
-                val noteItem = NoteItem(context.getTime(), preference.defaultColor, NoteType.ROLL)
+                val noteItem = NoteItem(
+                        create = context.getTime(),
+                        color = preference.defaultColor,
+                        type = NoteType.ROLL
+                )
                 val statusItem = StatusItem(context, noteItem, notify = false)
 
                 noteModel = NoteModel(noteItem, ArrayList(), statusItem)

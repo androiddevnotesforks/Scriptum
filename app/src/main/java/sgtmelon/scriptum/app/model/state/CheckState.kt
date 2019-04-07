@@ -23,8 +23,8 @@ class CheckState {
     fun setAll(check: Int, size: Int): Boolean {
         val all = check == size
 
-        if (this.isAll != all) {
-            this.isAll = all
+        if (isAll != all) {
+            isAll = all
             return true
         }
 

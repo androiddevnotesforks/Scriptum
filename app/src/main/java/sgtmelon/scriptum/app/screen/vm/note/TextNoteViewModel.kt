@@ -55,7 +55,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
             if (id == NoteData.Default.ID) {
-                val noteItem = NoteItem(context.getTime(), preference.defaultColor, NoteType.TEXT)
+                val noteItem = NoteItem(
+                        create = context.getTime(),
+                        color = preference.defaultColor,
+                        type = NoteType.TEXT
+                )
                 val statusItem = StatusItem(context, noteItem, false)
 
                 noteModel = NoteModel(noteItem, ArrayList(), statusItem)
