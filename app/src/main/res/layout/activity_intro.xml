@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        tools:context=".app.screen.intro.IntroActivity">
+        tools:context=".app.screen.view.IntroActivity">
 
     <androidx.viewpager.widget.ViewPager
             android:id="@+id/intro_pager"

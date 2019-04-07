@@ -1,8 +1,8 @@
 package sgtmelon.scriptum
 
-import sgtmelon.scriptum.app.screen.intro.IntroActivity
-import sgtmelon.scriptum.app.screen.main.MainActivity
-import sgtmelon.scriptum.app.screen.main.notes.NotesFragment
+import sgtmelon.scriptum.app.screen.view.IntroActivity
+import sgtmelon.scriptum.app.screen.view.MainActivity
+import sgtmelon.scriptum.app.screen.view.NotesFragment
 import sgtmelon.scriptum.office.utils.Preference
 
 /**

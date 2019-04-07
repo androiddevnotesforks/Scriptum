@@ -4,7 +4,7 @@
 
     <data>
 
-        <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.roll.MenuCallback"/>
+        <variable name="menuCallback" type="sgtmelon.scriptum.app.screen.callback.RollNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
@@ -43,7 +43,7 @@
 
         <include layout="@layout/include_roll_note_panel"
                  app:keyEdit='@{keyEdit}'
-                 app:menuClick='@{menuClick}'
+                 app:menuCallback='@{menuCallback}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'
                  app:redoAccess='@{redoAccess}'

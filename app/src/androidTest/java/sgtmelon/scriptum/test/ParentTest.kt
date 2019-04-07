@@ -8,7 +8,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import sgtmelon.scriptum.app.room.RoomDb
-import sgtmelon.scriptum.app.screen.splash.SplashActivity
+import sgtmelon.scriptum.app.screen.view.SplashActivity
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.Preference

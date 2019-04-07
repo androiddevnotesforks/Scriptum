@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.app.screen.intro.IntroActivity
+import sgtmelon.scriptum.app.screen.view.IntroActivity
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.ui.screen.IntroScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen

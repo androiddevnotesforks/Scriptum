@@ -2,8 +2,8 @@ package sgtmelon.scriptum.app.adapter
 
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import sgtmelon.scriptum.app.screen.intro.IntroActivity
-import sgtmelon.scriptum.app.screen.intro.IntroFragment
+import sgtmelon.scriptum.app.screen.view.IntroActivity
+import sgtmelon.scriptum.app.screen.view.IntroFragment
 import java.util.*
 
 /**

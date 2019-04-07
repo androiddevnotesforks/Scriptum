@@ -7,7 +7,7 @@
 
         <import alias="v" type="android.view.View"/>
 
-        <variable name="menuClick" type="sgtmelon.scriptum.app.screen.note.text.MenuCallback"/>
+        <variable name="menuCallback" type="sgtmelon.scriptum.app.screen.callback.TextNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
@@ -83,7 +83,7 @@
 
         <include layout="@layout/include_text_note_panel"
                  app:keyEdit='@{keyEdit}'
-                 app:menuClick='@{menuClick}'
+                 app:menuCallback='@{menuCallback}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'
                  app:redoAccess='@{redoAccess}'

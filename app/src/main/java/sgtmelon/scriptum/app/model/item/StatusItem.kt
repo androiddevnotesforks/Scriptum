@@ -12,7 +12,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.repository.RoomRepo
-import sgtmelon.scriptum.app.screen.splash.SplashActivity
+import sgtmelon.scriptum.app.screen.view.SplashActivity
 import sgtmelon.scriptum.office.utils.ColorUtils
 
 /**
