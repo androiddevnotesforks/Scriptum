@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.main
 
 import android.app.Activity
 import android.content.Context
@@ -22,8 +22,8 @@ import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.model.state.OpenState
-import sgtmelon.scriptum.app.screen.callback.RankCallback
-import sgtmelon.scriptum.app.screen.vm.RankViewModel
+import sgtmelon.scriptum.app.screen.callback.main.RankCallback
+import sgtmelon.scriptum.app.screen.vm.main.RankViewModel
 import sgtmelon.scriptum.app.watcher.AppTextWatcher
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
@@ -44,7 +44,9 @@ class RankFragment : Fragment(), RankCallback {
     private var binding: FragmentRankBinding? = null
 
     private val viewModel: RankViewModel by lazy {
-        ViewModelProviders.of(this).get(RankViewModel::class.java)
+        ViewModelProviders.of(this).get(RankViewModel::class.java).apply {
+            callback = this@RankFragment
+        }
     }
 
     private val adapter by lazy { RankAdapter(activity) }
@@ -71,9 +73,6 @@ class RankFragment : Fragment(), RankCallback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_rank, container)
-
-        viewModel.callback = this
-
         return binding?.root
     }
 

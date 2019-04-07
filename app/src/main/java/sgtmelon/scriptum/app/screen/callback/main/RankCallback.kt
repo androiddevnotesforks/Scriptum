@@ -1,6 +1,8 @@
-package sgtmelon.scriptum.app.screen.callback
+package sgtmelon.scriptum.app.screen.callback.main
 
 import sgtmelon.scriptum.app.model.item.RankItem
+import sgtmelon.scriptum.app.screen.view.main.RankFragment
+import sgtmelon.scriptum.app.screen.vm.main.RankViewModel
 
 /**
  * Интерфейс для общения [RankViewModel] и [RankFragment]

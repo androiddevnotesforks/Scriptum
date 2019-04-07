@@ -8,8 +8,8 @@ import sgtmelon.scriptum.app.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.app.adapter.holder.NoteTextHolder
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.app.screen.view.BinFragment
-import sgtmelon.scriptum.app.screen.view.NotesFragment
+import sgtmelon.scriptum.app.screen.view.main.BinFragment
+import sgtmelon.scriptum.app.screen.view.main.NotesFragment
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.office.intf.ItemListener

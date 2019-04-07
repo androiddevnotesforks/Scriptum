@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.main
 
 import android.app.Activity
 import android.content.Context
@@ -20,9 +20,10 @@ import sgtmelon.scriptum.app.adapter.NoteAdapter
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.item.NoteItem
-import sgtmelon.scriptum.app.screen.callback.MainCallback
-import sgtmelon.scriptum.app.screen.callback.NotesCallback
-import sgtmelon.scriptum.app.screen.vm.NotesViewModel
+import sgtmelon.scriptum.app.screen.callback.main.MainCallback
+import sgtmelon.scriptum.app.screen.callback.main.NotesCallback
+import sgtmelon.scriptum.app.screen.view.pref.PrefActivity
+import sgtmelon.scriptum.app.screen.vm.main.NotesViewModel
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
@@ -44,7 +45,9 @@ class NotesFragment : Fragment(), NotesCallback {
     private var binding: FragmentNotesBinding? = null
 
     private val viewModel: NotesViewModel by lazy {
-        ViewModelProviders.of(this).get(NotesViewModel::class.java)
+        ViewModelProviders.of(this).get(NotesViewModel::class.java).apply {
+            callback = this@NotesFragment
+        }
     }
 
     private val adapter by lazy {
@@ -74,9 +77,6 @@ class NotesFragment : Fragment(), NotesCallback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
-
-        viewModel.callback = this
-
         return binding?.root
     }
 

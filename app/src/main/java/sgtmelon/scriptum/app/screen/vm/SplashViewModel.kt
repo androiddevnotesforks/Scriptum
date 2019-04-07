@@ -1,28 +1,24 @@
 package sgtmelon.scriptum.app.screen.vm
 
-import android.content.Context
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.callback.SplashCallback
-import sgtmelon.scriptum.app.screen.view.IntroActivity
-import sgtmelon.scriptum.app.screen.view.MainActivity
-import sgtmelon.scriptum.app.screen.view.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.view.SplashActivity
-import sgtmelon.scriptum.office.utils.Preference
-
+import sgtmelon.scriptum.app.screen.view.intro.IntroActivity
+import sgtmelon.scriptum.app.screen.view.main.MainActivity
+import sgtmelon.scriptum.app.screen.view.note.NoteActivity.Companion.getNoteIntent
 
 /**
  * ViewModel для [SplashActivity]
+ *
+ * @author SerjantArbuz
  */
-class SplashViewModel : ViewModel() {
+class SplashViewModel(application: Application) : ParentViewModel(application) {
 
-    lateinit var context: Context
     lateinit var callback: SplashCallback
-
-    private val prefUtils by lazy { Preference(context) }
 
     fun onStartApplication(bundle: Bundle?) {
         if (bundle != null && bundle.getBoolean(SplashActivity.STATUS_OPEN)) {
@@ -35,7 +31,7 @@ class SplashViewModel : ViewModel() {
                     arrayOf(Intent(context, MainActivity::class.java), noteIntent)
             )
         } else {
-            callback.startNormal(Intent(context, when (prefUtils.firstStart) {
+            callback.startNormal(Intent(context, when (preference.firstStart) {
                 true -> IntroActivity::class.java
                 false -> MainActivity::class.java
             }))

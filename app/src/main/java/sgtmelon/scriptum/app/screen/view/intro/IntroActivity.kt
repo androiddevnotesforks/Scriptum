@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.intro
 
 import android.os.Bundle
 import android.view.View
@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.PagerAdapter
 import sgtmelon.scriptum.app.model.data.IntroData
+import sgtmelon.scriptum.app.screen.view.main.MainActivity
 import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 /**

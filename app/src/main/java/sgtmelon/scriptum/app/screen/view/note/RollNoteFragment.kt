@@ -1,81 +1,101 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.note
 
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.adapter.RollAdapter
 import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.control.menu.MenuControl
 import sgtmelon.scriptum.app.control.menu.MenuControlAnim
+import sgtmelon.scriptum.app.control.touch.RollTouchControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.item.NoteItem
+import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.key.InputAction
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.model.state.OpenState
-import sgtmelon.scriptum.app.screen.callback.NoteCallback
-import sgtmelon.scriptum.app.screen.callback.TextNoteCallback
-import sgtmelon.scriptum.app.screen.vm.TextNoteViewModel
+import sgtmelon.scriptum.app.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.app.screen.callback.note.roll.RollNoteCallback
+import sgtmelon.scriptum.app.screen.vm.note.RollNoteViewModel
+import sgtmelon.scriptum.app.watcher.AppTextWatcher
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
-import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
-import sgtmelon.scriptum.office.annot.def.ColorDef
+import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
+import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.office.utils.AppUtils.clear
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
- * Фрагмент для отображения тектовой заметки
+ * Фрагмент для отображения заметки списка
  *
  * @author SerjantArbuz
  */
-class TextNoteFragment : Fragment(), TextNoteCallback {
+class RollNoteFragment : Fragment(), RollNoteCallback {
 
     private lateinit var activity: Activity
-    private lateinit var noteCallback: NoteCallback
+    private lateinit var parentCallback: NoteCallback
 
-    private var binding: FragmentTextNoteBinding? = null
+    private var binding: FragmentRollNoteBinding? = null
 
-    private val viewModel: TextNoteViewModel by lazy {
-        ViewModelProviders.of(this).get(TextNoteViewModel::class.java)
+    private val viewModel: RollNoteViewModel by lazy {
+        ViewModelProviders.of(this).get(RollNoteViewModel::class.java).apply {
+            callback = this@RollNoteFragment
+            noteCallback = parentCallback
+        }
     }
 
     private lateinit var menuControl: MenuControl
 
+    private val adapter: RollAdapter by lazy { RollAdapter(activity) }
+    private val layoutManager by lazy { LinearLayoutManager(activity) }
+
     private var nameEnter: EditText? = null
-    private var textEnter: EditText? = null
+    private var rollEnter: EditText? = null
+    private var recyclerView: RecyclerView? = null
 
     private val openState = OpenState()
     private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
     private val convertDialog by lazy {
-        DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.TEXT)
+        DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.ROLL)
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
 
         activity = context as Activity
-        noteCallback = context as NoteCallback
+        parentCallback = context as NoteCallback
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.onUpdateData()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = inflater.inflateBinding(R.layout.fragment_text_note, container)
-
-        viewModel.callback = this
-        viewModel.noteCallback = noteCallback
-
+        binding = inflater.inflateBinding(R.layout.fragment_roll_note, container)
         return binding?.root
     }
 
@@ -86,7 +106,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
-        viewModel.setupData(savedInstanceState ?: arguments)
+        viewModel.setupData(arguments ?: savedInstanceState)
     }
 
     override fun onPause() {
@@ -105,7 +125,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         binding?.rankEmpty = rankEmpty
     }
 
-    override fun setupToolbar(@ColorDef color: Int, noteState: NoteState) {
+    override fun setupToolbar(color: Int, noteState: NoteState) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
@@ -123,9 +143,9 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
     }
 
-    override fun setupDialog(rankNameArray: List<String>) {
+    override fun setupDialog(rankNameList: List<String>) {
         rankDialog.apply {
-            name = rankNameArray
+            name = rankNameList
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 viewModel.onResultRankDialog(rankDialog.check)
             }
@@ -152,33 +172,71 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
+
         nameEnter?.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_NEXT) {
-                textEnter?.requestFocus()
+                rollEnter?.requestFocus()
                 return@setOnEditorActionListener true
             }
 
             return@setOnEditorActionListener false
         }
 
-        textEnter = view?.findViewById(R.id.text_note_content_enter)
-        textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputAction.text, viewModel, inputCallback)
-        )
+        rollEnter = view?.findViewById(R.id.roll_note_enter)
+        rollEnter?.addTextChangedListener(object : AppTextWatcher() {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+                    bindEnter()
+        })
+
+        view?.findViewById<ImageButton>(R.id.roll_note_add_button)?.apply {
+            setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
+            setOnLongClickListener {
+                viewModel.onClickAdd(simpleClick = false)
+                return@setOnLongClickListener true
+            }
+        }
+    }
+
+    override fun setupRecycler(inputCallback: InputCallback) {
+        val touchCallback = RollTouchControl(viewModel)
+
+        adapter.apply {
+            clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) }
+            dragListener = touchCallback
+            this.inputCallback = inputCallback
+            textChangeCallback = viewModel
+        }
+
+        recyclerView = view?.findViewById(R.id.roll_note_recycler)
+        (recyclerView?.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
+
+        recyclerView?.layoutManager = layoutManager
+        recyclerView?.adapter = adapter
+
+        ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
     }
 
     override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
-        binding?.apply {
-            keyEdit = mode
-            this.noteItem = noteItem
-        }?.executePendingBindings()
+        binding?.keyEdit = mode
+        binding?.noteItem = noteItem
+
+        bindEnter()
     }
 
-    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean) {
+    override fun bindNoteItem(noteItem: NoteItem) {
+        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
+    }
+
+    override fun bindEnter() {
+        binding?.enterEmpty = TextUtils.isEmpty(rollEnter?.text.toString())
+        binding?.executePendingBindings()
+    }
+
+    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) {
         binding?.apply {
             undoAccess = isUndoAccess
             redoAccess = isRedoAccess
-            saveEnabled = textEnter?.text.toString().isNotEmpty()
+            saveEnabled = isSaveEnable
         }?.executePendingBindings()
     }
 
@@ -200,13 +258,56 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
-    override fun changeText(text: String, cursor: Int) {
-        textEnter?.apply {
-            requestFocus()
-            setText(text)
-            setSelection(cursor)
+    override fun clearEnter(): String = rollEnter?.clear() ?: ""
+
+    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
+        val fastScroll = when (simpleClick) {
+            true -> layoutManager.findLastVisibleItemPosition() == p - 1
+            false -> layoutManager.findFirstVisibleItemPosition() == p
+        }
+
+        if (fastScroll) {
+            recyclerView?.scrollToPosition(p)
+            adapter.notifyItemInserted(p, list)
+        } else {
+            recyclerView?.smoothScrollToPosition(p)
+            adapter.notifyDataSetChanged(list)
         }
     }
+
+    override fun changeCheckToggle(state: Boolean) {
+        adapter.checkToggle = state
+    }
+
+    override fun updateNoteState(noteState: NoteState) =
+            adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
+
+    override fun notifyListItem(p: Int, item: RollItem) = adapter.setListItem(p, item)
+
+    override fun notifyList(list: MutableList<RollItem>) = adapter.setList(list)
+
+    override fun notifyDataSetChanged(list: MutableList<RollItem>) =
+            adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
+
+    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>) {
+        adapter.apply {
+            cursorPosition = cursor
+            notifyItemInserted(p, list)
+        }
+    }
+
+    override fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>) {
+        adapter.apply {
+            cursorPosition = cursor
+            notifyItemChanged(p, list)
+        }
+    }
+
+    override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) =
+            adapter.notifyItemRemoved(p, list)
+
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>) =
+            adapter.notifyItemMoved(from, to, list)
 
     override fun hideKeyboard() = activity.hideKeyboard()
 
@@ -228,7 +329,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     companion object {
-        fun getInstance(id: Long) = TextNoteFragment().apply {
+        fun getInstance(id: Long) = RollNoteFragment().apply {
             arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }
         }
     }

@@ -1,7 +1,9 @@
-package sgtmelon.scriptum.app.screen.callback
+package sgtmelon.scriptum.app.screen.callback.main
 
 import android.content.Intent
 import sgtmelon.scriptum.app.model.NoteModel
+import sgtmelon.scriptum.app.screen.view.main.NotesFragment
+import sgtmelon.scriptum.app.screen.vm.main.NotesViewModel
 
 /**
  * Интерфейс для общения [NotesViewModel] и [NotesFragment]

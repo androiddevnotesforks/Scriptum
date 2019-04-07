@@ -14,11 +14,15 @@ import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 
 /**
  * Стартовый экран приложения
+ *
+ * @author SerjantArbuz
  */
 class SplashActivity : AppCompatActivity(), SplashCallback {
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(SplashViewModel::class.java)
+        ViewModelProviders.of(this).get(SplashViewModel::class.java).apply {
+            callback = this@SplashActivity
+        }
     }
 
     init {
@@ -27,9 +31,6 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.context = this
-        viewModel.callback = this
 
         beforeFinish { viewModel.onStartApplication(intent.extras) }
     }

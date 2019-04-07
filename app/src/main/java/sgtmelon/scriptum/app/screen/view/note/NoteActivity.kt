@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.note
 
 import android.content.Context
 import android.content.Intent
@@ -9,13 +9,21 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.app.screen.callback.NoteCallback
-import sgtmelon.scriptum.app.screen.vm.NoteViewModel
+import sgtmelon.scriptum.app.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.app.screen.view.AppActivity
+import sgtmelon.scriptum.app.screen.vm.note.NoteViewModel
 
+/**
+ * Экран для отображения заметки - [TextNoteFragment], [RollNoteFragment]
+ *
+ * @author SerjantArbuz
+ */
 class NoteActivity : AppActivity(), NoteCallback {
 
     private val viewModel by lazy {
-        ViewModelProviders.of(this).get(NoteViewModel::class.java)
+        ViewModelProviders.of(this).get(NoteViewModel::class.java).apply {
+            callback = this@NoteActivity
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +31,6 @@ class NoteActivity : AppActivity(), NoteCallback {
         setContentView(R.layout.activity_note)
 
         viewModel.apply {
-            callback = this@NoteActivity
             setupData(intent.extras ?: savedInstanceState)
             setupFragment(savedInstanceState != null)
         }

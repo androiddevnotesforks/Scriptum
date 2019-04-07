@@ -15,7 +15,7 @@ import sgtmelon.scriptum.app.room.RoomDb
 import sgtmelon.scriptum.app.room.converter.BoolConverter
 import sgtmelon.scriptum.app.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.app.room.dao.RankDao
-import sgtmelon.scriptum.app.screen.vm.NotesViewModel
+import sgtmelon.scriptum.app.screen.vm.main.NotesViewModel
 import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 

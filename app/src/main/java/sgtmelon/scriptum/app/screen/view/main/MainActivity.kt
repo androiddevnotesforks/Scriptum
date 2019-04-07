@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.main
 
 import android.content.Context
 import android.content.DialogInterface
@@ -17,9 +17,10 @@ import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.model.data.NoteData
 import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.app.model.state.OpenState
-import sgtmelon.scriptum.app.screen.callback.MainCallback
-import sgtmelon.scriptum.app.screen.view.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.app.screen.vm.MainViewModel
+import sgtmelon.scriptum.app.screen.callback.main.MainCallback
+import sgtmelon.scriptum.app.screen.view.AppActivity
+import sgtmelon.scriptum.app.screen.view.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.app.screen.vm.main.MainViewModel
 import sgtmelon.scriptum.office.annot.def.DialogDef
 
 /**
@@ -41,7 +42,9 @@ class MainActivity : AppActivity(), MainCallback {
     // TODO setHasFixedSize recyclerView
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProviders.of(this).get(MainViewModel::class.java)
+        ViewModelProviders.of(this).get(MainViewModel::class.java).apply {
+            callback = this@MainActivity
+        }
     }
 
     private val rankFragment by lazy { FragmentFactory.getRankFragment(supportFragmentManager) }
@@ -61,10 +64,7 @@ class MainActivity : AppActivity(), MainCallback {
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
-        viewModel.apply {
-            callback = this@MainActivity
-            setupData(savedInstanceState)
-        }
+        viewModel.setupData(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle) =

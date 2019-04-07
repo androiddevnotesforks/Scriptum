@@ -1,10 +1,16 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.pref
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.screen.view.AppActivity
 import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
 
+/**
+ * Активити для отображения [PrefFragment]
+ *
+ * @author SerjantArbuz
+ */
 class PrefActivity : AppActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

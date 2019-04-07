@@ -1,10 +1,11 @@
-package sgtmelon.scriptum.app.screen.vm
+package sgtmelon.scriptum.app.screen.vm.main
 
 import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
-import sgtmelon.scriptum.app.screen.callback.BinCallback
-import sgtmelon.scriptum.app.screen.view.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.app.screen.callback.main.BinCallback
+import sgtmelon.scriptum.app.screen.view.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.app.screen.vm.ParentViewModel
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard

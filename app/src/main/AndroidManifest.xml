@@ -22,7 +22,7 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.screen.view.IntroActivity"
+            android:name="sgtmelon.scriptum.app.screen.view.intro.IntroActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:parentActivityName="sgtmelon.scriptum.app.screen.view.SplashActivity"
             android:theme="@style/App.Intro">
@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.screen.view.MainActivity"
+            android:name="sgtmelon.scriptum.app.screen.view.main.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -42,8 +42,8 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.screen.view.NoteActivity"
-            android:parentActivityName="sgtmelon.scriptum.app.screen.view.MainActivity">
+            android:name="sgtmelon.scriptum.app.screen.view.note.NoteActivity"
+            android:parentActivityName="sgtmelon.scriptum.app.screen.view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -51,9 +51,9 @@
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.app.screen.view.PrefActivity"
+            android:name="sgtmelon.scriptum.app.screen.view.pref.PrefActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName="sgtmelon.scriptum.app.screen.view.MainActivity">
+            android:parentActivityName="sgtmelon.scriptum.app.screen.view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -63,7 +63,7 @@
         <activity
             android:name="sgtmelon.scriptum.app.screen.view.DevelopActivity"
             android:configChanges="keyboardHidden"
-            android:parentActivityName="sgtmelon.scriptum.app.screen.view.PrefActivity">
+            android:parentActivityName="sgtmelon.scriptum.app.screen.view.pref.PrefActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

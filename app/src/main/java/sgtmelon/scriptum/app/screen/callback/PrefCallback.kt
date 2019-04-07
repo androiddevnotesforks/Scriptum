@@ -1,7 +1,12 @@
 package sgtmelon.scriptum.app.screen.callback
 
+import sgtmelon.scriptum.app.screen.view.pref.PrefFragment
+import sgtmelon.scriptum.app.screen.vm.PrefViewModel
+
 /**
  * Интерфейс для общения [PrefViewModel] с [PrefFragment]
+ *
+ * @author SerjantArbuz
  */
 interface PrefCallback {
 

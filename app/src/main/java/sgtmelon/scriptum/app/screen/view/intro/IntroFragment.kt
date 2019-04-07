@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.intro
 
 import android.os.Bundle
 import android.view.LayoutInflater

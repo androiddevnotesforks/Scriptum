@@ -16,7 +16,9 @@ import sgtmelon.scriptum.app.screen.vm.AppViewModel
 abstract class AppActivity : AppCompatActivity(), AppCallback {
 
     private val viewModel: AppViewModel by lazy {
-        ViewModelProviders.of(this).get(AppViewModel::class.java)
+        ViewModelProviders.of(this).get(AppViewModel::class.java).apply {
+            callback = this@AppActivity
+        }
     }
 
     override fun onResume() {
@@ -28,7 +30,7 @@ abstract class AppActivity : AppCompatActivity(), AppCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.apply { callback = this@AppActivity }.onSetupTheme()
+        viewModel.onSetupTheme()
     }
 
     fun checkThemeChange() {

@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.app.screen.vm
+package sgtmelon.scriptum.app.screen.vm.main
 
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.app.model.key.MainPage
-import sgtmelon.scriptum.app.screen.callback.MainCallback
+import sgtmelon.scriptum.app.screen.callback.main.MainCallback
 
 /**
  * ViewModel для [MainActivity]

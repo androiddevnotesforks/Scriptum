@@ -1,10 +1,14 @@
-package sgtmelon.scriptum.app.screen.callback
+package sgtmelon.scriptum.app.screen.callback.main
 
 import android.content.Intent
 import sgtmelon.scriptum.app.model.NoteModel
+import sgtmelon.scriptum.app.screen.view.main.BinFragment
+import sgtmelon.scriptum.app.screen.vm.main.BinViewModel
 
 /**
  * Интерфейс для общения [BinViewModel] и [BinFragment]
+ *
+ * @author SerjantArbuz
  */
 interface BinCallback {
 

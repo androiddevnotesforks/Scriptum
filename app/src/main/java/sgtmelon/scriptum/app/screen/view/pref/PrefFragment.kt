@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.pref
 
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
@@ -12,18 +12,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.SingleDialog
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.app.screen.callback.PrefCallback
+import sgtmelon.scriptum.app.screen.view.DevelopActivity
 import sgtmelon.scriptum.app.screen.vm.PrefViewModel
-import sgtmelon.scriptum.dialog.ColorDialog
-import sgtmelon.scriptum.dialog.InfoDialog
-import sgtmelon.scriptum.dialog.SortDialog
 import sgtmelon.scriptum.office.annot.def.DialogDef
 
+/**
+ * Экран настроек приложения
+ *
+ * @author SerjantArbuz
+ */
 class PrefFragment : PreferenceFragment(), PrefCallback {
 
     // TODO https://www.youtube.com/watch?v=PS9jhuHECEQ
@@ -36,21 +38,11 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
 
     private val viewModel: PrefViewModel by lazy { PrefViewModel(activity, this) }
 
-    private val sortDialog: SortDialog by lazy {
-        DialogFactory.getSortDialog(fm)
-    }
-    private val colorDialog: ColorDialog by lazy {
-        DialogFactory.getColorDialog(fm)
-    }
-    private val infoDialog: InfoDialog by lazy {
-        DialogFactory.getInfoDialog(fm)
-    }
-    private val saveTimeDialog: SingleDialog by lazy {
-        DialogFactory.getSaveTimeDialog(activity, fm)
-    }
-    private val themeDialog: SingleDialog by lazy {
-        DialogFactory.getThemeDialog(activity, fm)
-    }
+    private val sortDialog by lazy { DialogFactory.getSortDialog(fm) }
+    private val colorDialog by lazy { DialogFactory.getColorDialog(fm) }
+    private val infoDialog by lazy { DialogFactory.getInfoDialog(fm) }
+    private val saveTimeDialog by lazy { DialogFactory.getSaveTimeDialog(activity, fm) }
+    private val themeDialog by lazy { DialogFactory.getThemeDialog(activity, fm) }
 
     private val sortPreference: Preference by lazy { findPreference(getString(R.string.pref_key_sort)) }
     private val colorPreference: Preference by lazy { findPreference(getString(R.string.pref_key_color)) }

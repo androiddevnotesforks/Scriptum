@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.vm
+package sgtmelon.scriptum.app.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
@@ -20,9 +20,10 @@ import sgtmelon.scriptum.app.model.state.CheckState
 import sgtmelon.scriptum.app.model.state.IconState
 import sgtmelon.scriptum.app.model.state.NoteState
 import sgtmelon.scriptum.app.room.converter.StringConverter
-import sgtmelon.scriptum.app.screen.callback.NoteCallback
-import sgtmelon.scriptum.app.screen.callback.RollNoteCallback
-import sgtmelon.scriptum.app.screen.callback.RollNoteMenuCallback
+import sgtmelon.scriptum.app.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.app.screen.callback.note.roll.RollNoteCallback
+import sgtmelon.scriptum.app.screen.callback.note.roll.RollNoteMenuCallback
+import sgtmelon.scriptum.app.screen.vm.ParentViewModel
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
 import sgtmelon.scriptum.office.utils.AppUtils.swap

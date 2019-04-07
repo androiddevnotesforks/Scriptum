@@ -2,7 +2,7 @@ package sgtmelon.scriptum.app.control.touch
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.app.screen.view.RankFragment
+import sgtmelon.scriptum.app.screen.view.main.RankFragment
 import sgtmelon.scriptum.office.intf.ItemListener
 
 /**

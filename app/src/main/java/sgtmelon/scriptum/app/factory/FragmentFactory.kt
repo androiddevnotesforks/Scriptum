@@ -2,9 +2,9 @@ package sgtmelon.scriptum.app.factory
 
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.app.model.key.MainPage
-import sgtmelon.scriptum.app.screen.view.BinFragment
-import sgtmelon.scriptum.app.screen.view.NotesFragment
-import sgtmelon.scriptum.app.screen.view.RankFragment
+import sgtmelon.scriptum.app.screen.view.main.BinFragment
+import sgtmelon.scriptum.app.screen.view.main.NotesFragment
+import sgtmelon.scriptum.app.screen.view.main.RankFragment
 
 object FragmentFactory {
 

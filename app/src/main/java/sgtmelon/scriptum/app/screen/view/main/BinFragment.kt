@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.app.screen.view
+package sgtmelon.scriptum.app.screen.view.main
 
 import android.app.Activity
 import android.content.Context
@@ -21,8 +21,8 @@ import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.state.OpenState
-import sgtmelon.scriptum.app.screen.callback.BinCallback
-import sgtmelon.scriptum.app.screen.vm.BinViewModel
+import sgtmelon.scriptum.app.screen.callback.main.BinCallback
+import sgtmelon.scriptum.app.screen.vm.main.BinViewModel
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
@@ -43,7 +43,9 @@ class BinFragment : Fragment(), BinCallback {
     private var binding: FragmentBinBinding? = null
 
     private val viewModel: BinViewModel by lazy {
-        ViewModelProviders.of(this).get(BinViewModel::class.java)
+        ViewModelProviders.of(this).get(BinViewModel::class.java).apply {
+            callback = this@BinFragment
+        }
     }
 
     private val adapter by lazy {
@@ -76,9 +78,6 @@ class BinFragment : Fragment(), BinCallback {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_bin, container)
-
-        viewModel.callback = this
-
         return binding?.root
     }
 

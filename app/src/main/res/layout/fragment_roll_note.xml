@@ -4,7 +4,7 @@
 
     <data>
 
-        <variable name="menuCallback" type="sgtmelon.scriptum.app.screen.callback.RollNoteMenuCallback"/>
+        <variable name="menuCallback" type="sgtmelon.scriptum.app.screen.callback.note.roll.RollNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>

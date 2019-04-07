@@ -1,9 +1,11 @@
-package sgtmelon.scriptum.app.screen.callback
+package sgtmelon.scriptum.app.screen.callback.note.roll
 
 import sgtmelon.scriptum.app.control.input.InputCallback
 import sgtmelon.scriptum.app.model.item.NoteItem
 import sgtmelon.scriptum.app.model.item.RollItem
 import sgtmelon.scriptum.app.model.state.NoteState
+import sgtmelon.scriptum.app.screen.view.note.RollNoteFragment
+import sgtmelon.scriptum.app.screen.vm.note.RollNoteViewModel
 import sgtmelon.scriptum.office.annot.def.ColorDef
 
 /**
