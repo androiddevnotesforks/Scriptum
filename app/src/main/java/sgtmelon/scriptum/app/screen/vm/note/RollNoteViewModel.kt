@@ -223,7 +223,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
                             callback.notifyItemRemoved(p, list = this)
                         }
                     } else {
-                        val rollItem = RollItem(inputItem.getValue(undo))
+                        val rollItem = RollItem[inputItem.getValue(undo)]
                         with(noteModel.listRoll) {
                             add(p, rollItem)
                             callback.notifyItemInserted(p, rollItem.text.length, list = this)

@@ -4,12 +4,12 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import org.json.JSONObject
 import sgtmelon.scriptum.app.model.NoteModel
-import sgtmelon.scriptum.app.room.converter.BoolConverter
-import sgtmelon.scriptum.app.model.key.DbField.Roll
 import sgtmelon.scriptum.app.model.key.DbField.Note
+import sgtmelon.scriptum.app.model.key.DbField.Roll
+import sgtmelon.scriptum.app.room.converter.BoolConverter
 
 /**
- * Элемент списка заметок [NoteModel]
+ * Элемент списка пунктов в [NoteModel]
  */
 @Entity(tableName = Roll.TABLE,
         foreignKeys = [ForeignKey(
@@ -22,28 +22,13 @@ import sgtmelon.scriptum.app.model.key.DbField.Note
         indices = [Index(Roll.NOTE_ID)]
 )
 @TypeConverters(BoolConverter::class)
-class RollItem {
-
-    @ColumnInfo(name = Roll.ID) @PrimaryKey(autoGenerate = true) var id: Long? = null
-
-    @ColumnInfo(name = Roll.NOTE_ID) var noteId: Long = 0
-    @ColumnInfo(name = Roll.POSITION) var position: Int = 0
-    @ColumnInfo(name = Roll.CHECK) var isCheck = false
-    @ColumnInfo(name = Roll.TEXT) var text = ""
-
-    constructor()
-
-    @Ignore constructor(data: String) {
-        with(JSONObject(data)) {
-            id = getLong(Roll.ID)
-            id = if (id != -1L) id else null
-
-            noteId = getLong(Roll.NOTE_ID)
-            position = getInt(Roll.POSITION)
-            isCheck = getBoolean(Roll.CHECK)
-            text = getString(Roll.TEXT)
-        }
-    }
+class RollItem(
+        @ColumnInfo(name = Roll.ID) @PrimaryKey(autoGenerate = true) var id: Long? = null,
+        @ColumnInfo(name = Roll.NOTE_ID) var noteId: Long = 0,
+        @ColumnInfo(name = Roll.POSITION) var position: Int = 0,
+        @ColumnInfo(name = Roll.CHECK) var isCheck: Boolean = false,
+        @ColumnInfo(name = Roll.TEXT) var text: String = ""
+) {
 
     override fun toString() = JSONObject().apply {
         put(Roll.ID, if (id != null) id else -1L)
@@ -52,5 +37,19 @@ class RollItem {
         put(Roll.CHECK, isCheck)
         put(Roll.TEXT, text)
     }.toString()
+
+    companion object {
+        operator fun get(data: String) = with(JSONObject(data)){
+            val id = getLong(Roll.ID)
+
+            return@with RollItem(
+                    if (id != -1L) id else null,
+                    getLong(Roll.NOTE_ID),
+                    getInt(Roll.POSITION),
+                    getBoolean(Roll.CHECK),
+                    getString(Roll.TEXT)
+            )
+        }
+    }
 
 }
