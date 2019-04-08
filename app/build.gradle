@@ -59,14 +59,12 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    def arch_ver = "2.0.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:$arch_version"
+    kapt "androidx.lifecycle:lifecycle-compiler:$arch_version"
 
-    implementation "androidx.lifecycle:lifecycle-extensions:$arch_ver"
-    kapt "androidx.lifecycle:lifecycle-compiler:$arch_ver"
-
-    implementation "androidx.room:room-runtime:$arch_ver"
-    kapt "androidx.room:room-compiler:$arch_ver"
-    testImplementation "androidx.room:room-testing:$arch_ver"
+    implementation "androidx.room:room-runtime:$arch_version"
+    kapt "androidx.room:room-compiler:$arch_version"
+    testImplementation "androidx.room:room-testing:$arch_version"
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -80,6 +78,11 @@ dependencies {
     debugImplementation 'androidx.test:runner:1.1.1'
     debugImplementation 'androidx.test:rules:1.1.1'
     debugImplementation 'androidx.test.ext:junit:1.1.0'
+
+    testImplementation "org.powermock:powermock-module-junit4:$mock_version"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$mock_version"
+    testImplementation "org.powermock:powermock-api-mockito:$mock_version"
+    testImplementation "org.powermock:powermock-classloading-xstream:$mock_version"
 
     debugImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     debugImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"

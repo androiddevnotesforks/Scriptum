@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.app.adapter.holder
 
 import android.text.Editable
-import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
@@ -32,20 +31,18 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
     private val rollEnter: EditText = itemView.findViewById(R.id.roll_write_enter)
 
     init {
-        rollEnter.addTextChangedListener(this)
-
-        rollEnter.setOnTouchListener(this)
+        rollEnter.apply {
+            addTextChangedListener(this@RollWriteHolder)
+            setOnTouchListener(this@RollWriteHolder)
+        }
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(rollItem: RollItem) {
-        binding.rollItem = rollItem
-        binding.executePendingBindings()
-    }
+    fun bind(rollItem: RollItem) = binding.apply { this.rollItem = rollItem }.executePendingBindings()
 
-    fun setSelections(@IntRange(from = 0) position: Int) {
-        rollEnter.requestFocus()
-        rollEnter.setSelection(position)
+    fun setSelections(@IntRange(from = 0) position: Int) = rollEnter.apply {
+        requestFocus()
+        setSelection(position)
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -71,8 +68,8 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
         if (textFrom == textTo) return
 
-        if (!TextUtils.isEmpty(textTo)) {
-            if (!TextUtils.isEmpty(textFrom)) {
+        if (textTo.isNotEmpty()) {
+            if (textFrom.isNotEmpty()) {
                 val cursorItem = CursorItem(cursorFrom, cursorTo)
                 inputCallback.onRollChange(adapterPosition, textFrom, textTo, cursorItem)
 
@@ -89,7 +86,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
     override fun afterTextChanged(s: Editable) {
         if (adapterPosition == RecyclerView.NO_POSITION) return
 
-        if (!TextUtils.isEmpty(textFrom)) {
+        if (textFrom.isNotEmpty()) {
             textChangeCallback.onResultInputRollAfter(adapterPosition, rollEnter.text.toString())
         }
 

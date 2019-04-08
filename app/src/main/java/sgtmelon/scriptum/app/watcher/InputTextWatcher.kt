@@ -2,11 +2,14 @@ package sgtmelon.scriptum.app.watcher
 
 import android.widget.EditText
 import sgtmelon.scriptum.app.control.input.InputCallback
+import sgtmelon.scriptum.app.control.input.InputControl
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.key.InputAction
 
 /**
  * Контроллер ввода текста для [InputControl]
+ *
+ * @author SerjantArbuz
  */
 class InputTextWatcher(private val view: EditText?,
                        private val tag: Int,

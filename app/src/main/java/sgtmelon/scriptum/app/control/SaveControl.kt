@@ -9,7 +9,9 @@ import sgtmelon.scriptum.office.utils.Preference
 /**
  * Класс контроля сохранений заметки
  */
-class SaveControl(private val context: Context, private val result: Result) {
+class SaveControl(context: Context, private val result: Result) {
+
+    // TODO вынести отсюда Preference
 
     private val saveHandler = Handler()
     private val savePause: Boolean = Preference(context).pauseSave

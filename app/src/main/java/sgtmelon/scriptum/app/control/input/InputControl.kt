@@ -1,12 +1,10 @@
 package sgtmelon.scriptum.app.control.input
 
-import android.text.TextUtils
 import android.util.Log
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.app.model.item.CursorItem
 import sgtmelon.scriptum.app.model.item.InputItem
 import sgtmelon.scriptum.app.model.key.InputAction
-import sgtmelon.scriptum.app.model.key.DbField
 import java.util.*
 
 /**

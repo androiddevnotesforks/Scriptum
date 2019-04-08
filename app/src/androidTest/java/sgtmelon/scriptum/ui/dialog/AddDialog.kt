@@ -16,8 +16,6 @@ class AddDialog : ParentUi() {
         })
     }
 
-    fun open() = action { onClick(R.id.main_add_fab) }
-
     companion object {
         operator fun invoke(func: AddDialog.() -> Unit) = AddDialog().apply { func() }
     }

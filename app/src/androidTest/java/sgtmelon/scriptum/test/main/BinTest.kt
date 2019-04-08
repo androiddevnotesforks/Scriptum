@@ -36,10 +36,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun contentList() {
-        testData.apply {
-            clearAllData()
-            fillBin()
-        }
+        testData.apply { clearAllData() }.fillBin()
 
         testRule.launchActivity(Intent())
 
@@ -50,10 +47,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun scrollList() {
-        testData.apply {
-            clearAllData()
-            fillBin(times = 20)
-        }
+        testData.apply { clearAllData() }.fillBin(times = 20)
 
         testRule.launchActivity(Intent())
 
@@ -67,10 +61,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun openTextNote() {
-        testData.apply {
-            clearAllData()
-            insertTextToBin()
-        }
+        testData.apply { clearAllData() }.insertTextToBin()
 
         testRule.launchActivity(Intent())
 
@@ -92,10 +83,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun openRollNote() {
-        testData.apply {
-            clearAllData()
-            insertRollToBin()
-        }
+        testData.apply { clearAllData() }.insertRollToBin()
 
         testRule.launchActivity(Intent())
 

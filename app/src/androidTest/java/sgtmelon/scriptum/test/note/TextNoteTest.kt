@@ -1,4 +1,3 @@
 package sgtmelon.scriptum.test.note
 
-class TextNoteTest {
-}
+class TextNoteTest

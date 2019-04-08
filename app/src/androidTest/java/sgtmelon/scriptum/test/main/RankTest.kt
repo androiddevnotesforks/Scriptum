@@ -1,4 +1,3 @@
 package sgtmelon.scriptum.test.main
 
-class RankTest {
-}
+class RankTest

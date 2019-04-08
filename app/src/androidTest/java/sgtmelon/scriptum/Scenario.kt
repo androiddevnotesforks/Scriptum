@@ -1,6 +1,8 @@
 package sgtmelon.scriptum
 
+import sgtmelon.scriptum.app.screen.view.SplashActivity
 import sgtmelon.scriptum.app.screen.view.intro.IntroActivity
+import sgtmelon.scriptum.app.screen.view.main.BinFragment
 import sgtmelon.scriptum.app.screen.view.main.MainActivity
 import sgtmelon.scriptum.app.screen.view.main.NotesFragment
 import sgtmelon.scriptum.office.utils.Preference
@@ -11,13 +13,24 @@ import sgtmelon.scriptum.office.utils.Preference
 class Scenario {
 
     /**
-     * [IntroActivity]
+     * [SplashActivity]
      */
-    class Intro {
+    class Splash {
 
         /**
          * Проверка запуска, в записимости от ключа [Preference.firstStart]
          */
+
+        /**
+         * Проверка открытия заметки из уведомления - текст / список
+         */
+
+    }
+
+    /**
+     * [IntroActivity]
+     */
+    class Intro {
 
         /**
          * Проверка правильности отображения контента на страницах
@@ -68,9 +81,7 @@ class Scenario {
 
     }
 
-    class Rank {
-
-    }
+    class Rank
 
     /**
      * [NotesFragment]

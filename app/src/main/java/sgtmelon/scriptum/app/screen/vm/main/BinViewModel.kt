@@ -4,6 +4,7 @@ import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.screen.callback.main.BinCallback
+import sgtmelon.scriptum.app.screen.view.main.BinFragment
 import sgtmelon.scriptum.app.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.vm.ParentViewModel
 import sgtmelon.scriptum.office.annot.def.OptionsDef

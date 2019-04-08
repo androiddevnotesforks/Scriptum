@@ -2,7 +2,6 @@ package sgtmelon.scriptum.dialog
 
 import android.app.Dialog
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.inputmethod.EditorInfo
@@ -41,14 +40,14 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
 
         position = savedInstanceState?.getInt(POSITION)
                 ?: bundle?.getInt(POSITION)
-                ?: 0
+                        ?: 0
         title = savedInstanceState?.getString(INIT)
                 ?: bundle?.getString(INIT)
-                ?: ""
+                        ?: ""
 
         listName = savedInstanceState?.getStringArrayList(VALUE)
                 ?: bundle?.getStringArrayList(VALUE)
-                ?: ArrayList()
+                        ?: ArrayList()
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
 
@@ -80,13 +79,13 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive.isEnabled = !(TextUtils.isEmpty(name) || listName.contains(name.toUpperCase()))
+        buttonPositive.isEnabled = name.isNotEmpty() && !listName.contains(name.toUpperCase())
     }
 
     override fun onEditorAction(textView: TextView, i: Int, keyEvent: KeyEvent): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        if (!TextUtils.isEmpty(name) && !listName.contains(name.toUpperCase())) {
+        if (name.isNotEmpty() && !listName.contains(name.toUpperCase())) {
             buttonPositive.callOnClick()
             return true
         }

@@ -12,9 +12,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.app.control.input.InputControl
 import sgtmelon.scriptum.app.factory.DialogFactory
 import sgtmelon.scriptum.app.factory.FragmentFactory
 import sgtmelon.scriptum.app.model.data.NoteData
+import sgtmelon.scriptum.app.model.item.StatusItem
 import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.app.model.state.OpenState
 import sgtmelon.scriptum.app.screen.callback.main.MainCallback
@@ -31,15 +33,24 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
  */
 class MainActivity : AppActivity(), MainCallback {
 
-    // TODO !! План
-    /**
-     * 1. Покрытие приложения тестами
-     * 2. Разбор с бд
-     * 3. Введение многопоточности
-     */
-
     // TODO Добавить перескакивание курсора при старте редактирования в нужное место
     // TODO setHasFixedSize recyclerView
+
+    // TODO Перед релизом
+    /**
+     * 1. Доделать [InputControl] (доработать функционал)
+     * 2. Доделать [StatusItem] (добавить кнопки и пр.)
+     * 3.
+     * 4.
+     * 5. Проверить всё
+     * 6. Релиз
+     */
+
+    /**
+     * Для следующего релиза:
+     * 1. Добавить многопоточность (экраны загрузки)
+     * 2. Добавить paging
+     */
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java).apply {

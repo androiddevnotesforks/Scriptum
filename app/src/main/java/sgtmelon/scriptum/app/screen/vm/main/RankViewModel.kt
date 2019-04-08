@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.app.screen.vm.main
 
 import android.app.Application
-import android.text.TextUtils
 import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.app.control.touch.RankTouchControl
 import sgtmelon.scriptum.app.model.RankModel
 import sgtmelon.scriptum.app.model.item.RankItem
 import sgtmelon.scriptum.app.screen.callback.main.RankCallback
+import sgtmelon.scriptum.app.screen.view.main.RankFragment
 import sgtmelon.scriptum.app.screen.vm.ParentViewModel
 import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
 
@@ -50,7 +50,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
     fun onEditorClick(i: Int, name: String): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        if (!TextUtils.isEmpty(name) && !rankModel.nameList.contains(name)) {
+        if (name.isNotEmpty() && !rankModel.nameList.contains(name)) {
             onClickAdd(simpleClick = true)
             return true
         }

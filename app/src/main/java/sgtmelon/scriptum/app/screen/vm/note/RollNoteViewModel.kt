@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.recyclerview.widget.ItemTouchHelper
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.adapter.holder.RollWriteHolder
@@ -23,6 +22,7 @@ import sgtmelon.scriptum.app.room.converter.StringConverter
 import sgtmelon.scriptum.app.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.app.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.app.screen.callback.note.roll.RollNoteMenuCallback
+import sgtmelon.scriptum.app.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.app.screen.vm.ParentViewModel
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
@@ -111,7 +111,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onResultInputRollAfter(p: Int, text: String) { // TODO handler (чтобы была возможность написать что-то обратно
         with(noteModel.listRoll) {
-            if (TextUtils.isEmpty(text)) {
+            if (text.isEmpty()) {
                 callback.notifyItemRemoved(p, apply { removeAt(p) })
             } else {
                 callback.notifyListItem(p, get(p).apply { this.text = text })

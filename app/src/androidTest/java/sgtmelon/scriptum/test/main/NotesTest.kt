@@ -38,10 +38,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun contentList() {
-        testData.apply {
-            clearAllData()
-            fillNotes()
-        }
+        testData.apply { clearAllData() }.fillNotes()
 
         testRule.launchActivity(Intent())
 
@@ -60,10 +57,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun scrollList() {
-        testData.apply {
-            clearAllData()
-            fillNotes(times = 20)
-        }
+        testData.apply { clearAllData() }.fillNotes(times = 20)
 
         testRule.launchActivity(Intent())
 
@@ -81,10 +75,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun openTextNote() {
-        testData.apply {
-            clearAllData()
-            insertText()
-        }
+        testData.apply { clearAllData() }.insertText()
 
         testRule.launchActivity(Intent())
 
@@ -104,10 +95,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun openRollNote() {
-        testData.apply {
-            clearAllData()
-            insertRoll()
-        }
+        testData.apply { clearAllData() }.insertRoll()
 
         testRule.launchActivity(Intent())
 

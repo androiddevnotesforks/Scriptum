@@ -5,9 +5,12 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.app.screen.callback.main.MainCallback
+import sgtmelon.scriptum.app.screen.view.main.MainActivity
 
 /**
  * ViewModel для [MainActivity]
+ *
+ * @author SerjantArbuz
  */
 class MainViewModel : ViewModel() {
 

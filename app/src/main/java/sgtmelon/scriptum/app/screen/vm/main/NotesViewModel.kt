@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.model.NoteModel
 import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.app.screen.callback.main.NotesCallback
+import sgtmelon.scriptum.app.screen.view.main.NotesFragment
 import sgtmelon.scriptum.app.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.app.screen.vm.ParentViewModel
 import sgtmelon.scriptum.office.annot.def.OptionsDef

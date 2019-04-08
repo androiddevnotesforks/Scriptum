@@ -3,6 +3,7 @@ package sgtmelon.scriptum.app.screen.vm
 import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.screen.callback.AppCallback
+import sgtmelon.scriptum.app.screen.view.AppActivity
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 
 /**

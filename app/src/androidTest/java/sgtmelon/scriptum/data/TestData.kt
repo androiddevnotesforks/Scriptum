@@ -57,9 +57,7 @@ class TestData(private val context: Context) {
     fun clearAllData() = dataBase.apply { clearAllTables() }.close()
 
     fun insertText(noteItem: NoteItem = textNote): NoteItem {
-        dataBase.apply {
-            noteItem.id = getNoteDao().insert(noteItem)
-        }.close()
+        dataBase.apply { noteItem.id = getNoteDao().insert(noteItem) }.close()
 
         return noteItem
     }

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.app.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import android.text.TextUtils
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.app.control.SaveControl
 import sgtmelon.scriptum.app.control.input.InputControl
@@ -18,6 +17,7 @@ import sgtmelon.scriptum.app.room.converter.StringConverter
 import sgtmelon.scriptum.app.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.app.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.app.screen.callback.note.text.TextNoteMenuCallback
+import sgtmelon.scriptum.app.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.app.screen.vm.ParentViewModel
 import sgtmelon.scriptum.app.watcher.InputTextWatcher
 import sgtmelon.scriptum.office.utils.AppUtils.showToast
@@ -163,7 +163,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuSave(changeMode: Boolean): Boolean {
         val noteItem = noteModel.noteItem
 
-        if (TextUtils.isEmpty(noteModel.noteItem.text)) return false
+        if (noteModel.noteItem.text.isEmpty()) return false
 
         noteItem.change = context.getTime()
 

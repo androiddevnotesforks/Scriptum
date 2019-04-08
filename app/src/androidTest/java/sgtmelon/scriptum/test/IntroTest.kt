@@ -15,20 +15,6 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
 @RunWith(AndroidJUnit4::class)
 class IntroTest : ParentTest() {
 
-    @Test fun showActivityOnFirstStart() {
-        prefUtils.firstStart = true
-        testRule.launchActivity(Intent())
-
-        IntroScreen { assert { onDisplayContent() } }
-    }
-
-    @Test fun notShowActivityAfterFirstStart() {
-        prefUtils.firstStart = false
-        testRule.launchActivity(Intent())
-
-        MainScreen { assert { onDisplayContent() } }
-    }
-
     @Test fun rightContentPlacement() {
         prefUtils.firstStart = true
         testRule.launchActivity(Intent())

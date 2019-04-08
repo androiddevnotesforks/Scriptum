@@ -129,10 +129,7 @@ class MainTest : ParentTest() {
     }
 
     @Test fun scrollTopNotes() {
-        testData.apply {
-            clearAllData()
-            fillNotes(times = 20)
-        }
+        testData.apply { clearAllData() }.fillNotes(times = 20)
 
         testRule.launchActivity(Intent())
 
@@ -147,10 +144,7 @@ class MainTest : ParentTest() {
     }
 
     @Test fun scrollTopBin() {
-        testData.apply {
-            clearAllData()
-            fillBin(times = 20)
-        }
+        testData.apply { clearAllData() }.fillBin(times = 20)
 
         testRule.launchActivity(Intent())
 

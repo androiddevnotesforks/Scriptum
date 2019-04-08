@@ -33,7 +33,7 @@ open class BasicMatch {
             onView(allOf(withId(viewId), withText(stringId))).check(matches(not(isDisplayed())))
 
     protected fun onDisplayToolbar(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
-            onView(allOf(withParent(withId(viewId)), withText(stringId))).check(matches(isDisplayed()));
+            onView(allOf(withParent(withId(viewId)), withText(stringId))).check(matches(isDisplayed()))
 
     protected fun isSelected(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isSelected()))

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -224,11 +223,12 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun bindNoteItem(noteItem: NoteItem) {
-        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
+        binding?.noteItem = noteItem
+        binding?.executePendingBindings()
     }
 
     override fun bindEnter() {
-        binding?.enterEmpty = TextUtils.isEmpty(rollEnter?.text.toString())
+        binding?.enterEmpty = rollEnter?.text.toString().isEmpty() == true
         binding?.executePendingBindings()
     }
 
