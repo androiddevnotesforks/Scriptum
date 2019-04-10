@@ -8,7 +8,7 @@
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
 
-        <variable name="sortItem" type="sgtmelon.scriptum.app.model.item.SortItem"/>
+        <variable name="sortItem" type="sgtmelon.scriptum.model.item.SortItem"/>
         <variable name="position" type="int"/>
         <variable name="sortEnd" type="int"/>
 

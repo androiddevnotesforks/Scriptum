@@ -3,14 +3,12 @@ package sgtmelon.scriptum.dialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.adapter.ColorAdapter
 import sgtmelon.scriptum.office.intf.ItemListener
 
 class ColorDialog : DialogBlank() {

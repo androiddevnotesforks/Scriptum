@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.key.MainPage
+import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 

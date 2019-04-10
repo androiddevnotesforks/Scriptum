@@ -7,7 +7,7 @@
 
         <import alias="v" type="android.view.View"/>
 
-        <variable name="rankItem" type="sgtmelon.scriptum.app.model.item.RankItem"/>
+        <variable name="rankItem" type="sgtmelon.scriptum.model.item.RankItem"/>
 
     </data>
 

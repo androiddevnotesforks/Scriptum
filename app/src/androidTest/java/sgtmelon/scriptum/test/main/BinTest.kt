@@ -4,9 +4,9 @@ package sgtmelon.scriptum.test.main
 import android.content.Intent
 import androidx.test.espresso.Espresso.pressBack
 import org.junit.Test
-import sgtmelon.scriptum.app.model.key.MainPage
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.ClearDialog
 import sgtmelon.scriptum.ui.dialog.NoteDialog
@@ -21,7 +21,7 @@ class BinTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        prefUtils.firstStart = false
+        preference.firstStart = false
     }
 
     @Test fun contentEmpty() {

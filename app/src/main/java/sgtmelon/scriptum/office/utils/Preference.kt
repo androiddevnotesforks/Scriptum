@@ -6,7 +6,7 @@ import android.content.res.Resources
 import android.preference.PreferenceManager
 import android.widget.TextView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.key.DbField
+import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef

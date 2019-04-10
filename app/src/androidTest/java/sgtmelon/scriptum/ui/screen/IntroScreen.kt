@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.data.IntroData
 import sgtmelon.scriptum.data.Scroll
+import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 

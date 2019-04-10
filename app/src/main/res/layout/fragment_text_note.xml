@@ -7,10 +7,10 @@
 
         <import alias="v" type="android.view.View"/>
 
-        <variable name="menuCallback" type="sgtmelon.scriptum.app.screen.callback.note.text.TextNoteMenuCallback"/>
+        <variable name="menuCallback" type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="keyEdit" type="boolean"/>
 
         <variable name="undoAccess" type="boolean"/>

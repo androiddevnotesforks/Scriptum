@@ -14,8 +14,8 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.app.model.data.IntroData
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
+import sgtmelon.scriptum.model.data.IntroData
 
 object AppUtils {
 

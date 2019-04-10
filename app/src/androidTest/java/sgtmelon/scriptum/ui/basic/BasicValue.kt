@@ -9,7 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.hamcrest.Description
 import org.hamcrest.TypeSafeMatcher
 
-
+/**
+ * Класс содержащий стандартные методы подсчёта значений ui
+ *
+ * @author SerjantArbuz
+ */
 class BasicValue {
 
     fun getCount(@IdRes recyclerId: Int): Int {

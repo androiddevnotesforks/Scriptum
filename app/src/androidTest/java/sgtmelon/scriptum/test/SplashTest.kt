@@ -5,8 +5,8 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.app.screen.view.SplashActivity
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.screen.IntroScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -22,21 +22,21 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 class SplashTest : ParentTest() {
 
     @Test fun showIntroOnFirstStart() {
-        prefUtils.firstStart = true
+        preference.firstStart = true
         testRule.launchActivity(Intent())
 
         IntroScreen { assert { onDisplayContent() } }
     }
 
     @Test fun notShowIntroAfterFirstStart() {
-        prefUtils.firstStart = false
+        preference.firstStart = false
         testRule.launchActivity(Intent())
 
         MainScreen { assert { onDisplayContent() } }
     }
 
     @Test fun openTextNoteFromStatusBar() {
-        prefUtils.firstStart = false
+        preference.firstStart = false
 
         val noteItem = testData.apply { clearAllData() }.insertText()
         testRule.launchActivity(SplashActivity.getIntent(context, noteItem.type, noteItem.id))
@@ -49,7 +49,7 @@ class SplashTest : ParentTest() {
     }
 
     @Test fun openRollNoteFromStatusBar() {
-        prefUtils.firstStart = false
+        preference.firstStart = false
 
         val noteItem = testData.apply { clearAllData() }.insertRoll()
         testRule.launchActivity(SplashActivity.getIntent(context, noteItem.type, noteItem.id))

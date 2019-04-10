@@ -5,10 +5,10 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.widget.Toast
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.item.NoteItem
-import sgtmelon.scriptum.app.model.item.RollItem
-import sgtmelon.scriptum.app.model.key.NoteType
-import sgtmelon.scriptum.app.repository.RoomRepo
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.RoomRepo
 
 object HelpUtils {
 

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.adapter.SortAdapter
-import sgtmelon.scriptum.app.model.item.SortItem
+import sgtmelon.scriptum.adapter.SortAdapter
+import sgtmelon.scriptum.model.item.SortItem
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.intf.ItemListener
 

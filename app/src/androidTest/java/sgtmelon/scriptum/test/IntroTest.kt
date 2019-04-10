@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.app.screen.view.intro.IntroActivity
 import sgtmelon.scriptum.data.Scroll
+import sgtmelon.scriptum.screen.view.intro.IntroActivity
 import sgtmelon.scriptum.ui.screen.IntroScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
 class IntroTest : ParentTest() {
 
     @Test fun rightContentPlacement() {
-        prefUtils.firstStart = true
+        preference.firstStart = true
         testRule.launchActivity(Intent())
 
         IntroScreen {
@@ -28,7 +28,7 @@ class IntroTest : ParentTest() {
     }
 
     @Test fun endButtonEnable() {
-        prefUtils.firstStart = true
+        preference.firstStart = true
         testRule.launchActivity(Intent())
 
         IntroScreen {
@@ -54,7 +54,7 @@ class IntroTest : ParentTest() {
     }
 
     @Test fun endButtonWork() {
-        prefUtils.firstStart = true
+        preference.firstStart = true
         testRule.launchActivity(Intent())
 
         IntroScreen {

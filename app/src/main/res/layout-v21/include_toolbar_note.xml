@@ -10,7 +10,7 @@
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
         <variable name="keyEdit" type="boolean"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
 
     </data>
 

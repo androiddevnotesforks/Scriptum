@@ -2,9 +2,9 @@ package sgtmelon.scriptum.ui.screen.note
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.item.NoteItem
-import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.widget.NotePanel

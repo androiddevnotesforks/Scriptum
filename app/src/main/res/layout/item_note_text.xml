@@ -9,7 +9,7 @@
         <import alias="text" type="android.text.TextUtils"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
 
     </data>
 

@@ -1,9 +1,15 @@
 package sgtmelon.scriptum.ui
 
+import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.TestUtils.random
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.ui.basic.BasicValue
 
+/**
+ * Родительский класс для экранов содержащих [RecyclerView]
+ *
+ * @author SerjnatArbuz
+ */
 abstract class ParentRecyclerScreen(protected val recyclerId: Int) : ParentUi() {
 
     private val value: BasicValue = BasicValue()

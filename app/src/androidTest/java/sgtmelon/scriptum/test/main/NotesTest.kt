@@ -6,10 +6,10 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.app.model.key.MainPage
-import sgtmelon.scriptum.app.model.key.NoteType
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.AddDialog
 import sgtmelon.scriptum.ui.dialog.NoteDialog
@@ -26,7 +26,7 @@ class NotesTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        prefUtils.firstStart = false
+        preference.firstStart = false
     }
 
     @Test fun contentEmpty() {

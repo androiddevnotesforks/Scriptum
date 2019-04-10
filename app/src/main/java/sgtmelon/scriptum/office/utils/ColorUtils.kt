@@ -13,7 +13,7 @@ import androidx.annotation.FloatRange
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.data.ColorData
+import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 

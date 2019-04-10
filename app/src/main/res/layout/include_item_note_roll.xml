@@ -4,7 +4,7 @@
 
     <data>
 
-        <variable name="rollItem" type="sgtmelon.scriptum.app.model.item.RollItem"/>
+        <variable name="rollItem" type="sgtmelon.scriptum.model.item.RollItem"/>
 
     </data>
 

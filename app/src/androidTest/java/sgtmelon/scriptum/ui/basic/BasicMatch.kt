@@ -12,13 +12,17 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import sgtmelon.scriptum.office.utils.Preference
 
-open class BasicMatch {
+/**
+ * Класс содержащий стандартные проверки для ui
+ *
+ * @author SerjantArbuz
+ */
+abstract class BasicMatch {
 
     private val context: Context = getInstrumentation().targetContext
-    private val prefUtils = Preference(context)
+    private val preference = Preference(context)
 
-    protected val theme: Int
-        get() = prefUtils.theme
+    protected val theme: Int get() = preference.theme
 
     protected fun onDisplay(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isDisplayed()))

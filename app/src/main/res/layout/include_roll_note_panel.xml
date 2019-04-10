@@ -7,12 +7,12 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-        <import alias="noteType" type="sgtmelon.scriptum.app.model.key.NoteType"/>
+        <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
-        <variable name="menuCallback" type="sgtmelon.scriptum.app.screen.callback.note.roll.RollNoteMenuCallback"/>
+        <variable name="menuCallback" type="sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.app.model.item.NoteItem"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="keyEdit" type="boolean"/>
 
         <variable name="undoAccess" type="boolean"/>

@@ -11,6 +11,11 @@ import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 
+/**
+ * Класс содержащий стандартные действия над элементами ui
+ *
+ * @author SerjantArbuz
+ */
 class BasicAction {
 
     fun onEnter(@IdRes viewId: Int, text: String): ViewInteraction =

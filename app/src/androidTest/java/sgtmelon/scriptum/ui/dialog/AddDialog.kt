@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.app.model.key.NoteType
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
