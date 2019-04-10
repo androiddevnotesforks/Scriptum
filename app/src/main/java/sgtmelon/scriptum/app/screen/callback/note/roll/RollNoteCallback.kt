@@ -28,6 +28,8 @@ interface RollNoteCallback {
 
     fun setupRecycler(inputCallback: InputCallback)
 
+    fun setupPanel()
+
     fun bindEdit(mode: Boolean, noteItem: NoteItem)
 
     fun bindNoteItem(noteItem: NoteItem)

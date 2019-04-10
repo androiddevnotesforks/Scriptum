@@ -24,7 +24,11 @@ interface RollNoteMenuCallback {
 
     fun onMenuUndo()
 
+    fun onMenuLongUndo()
+
     fun onMenuRedo()
+
+    fun onMenuLongRedo()
 
     fun onMenuRank()
 

@@ -166,6 +166,18 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         )
     }
 
+    override fun setupPanel() {
+        view?.findViewById<View>(R.id.note_panel_undo_button)?.setOnLongClickListener {
+            viewModel.onMenuLongUndo()
+            return@setOnLongClickListener true
+        }
+
+        view?.findViewById<View>(R.id.note_panel_redo_button)?.setOnLongClickListener {
+            viewModel.onMenuLongRedo()
+            return@setOnLongClickListener true
+        }
+    }
+
     override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
         binding?.apply {
             keyEdit = mode
