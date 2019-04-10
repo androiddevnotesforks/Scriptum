@@ -84,6 +84,7 @@ dependencies {
     testImplementation "org.powermock:powermock-api-mockito:$mock_version"
     testImplementation "org.powermock:powermock-classloading-xstream:$mock_version"
 
+    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
     debugImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     debugImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
 
