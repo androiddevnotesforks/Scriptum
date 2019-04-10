@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.test.main
 
 import android.content.Intent
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,6 +14,7 @@ import sgtmelon.scriptum.ui.dialog.AddDialog
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.ui.screen.main.RankScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -44,13 +43,7 @@ class MainTest : ParentTest() {
         preference.firstStart = false
     }
 
-    @Test fun contentDisplay() {
-        testRule.launchActivity(Intent())
-
-        MainScreen { assert { onDisplayContent() } }
-    }
-
-    @Test fun navigationWork() {
+    @Test fun correctScreenOnMenuClick() {
         testRule.launchActivity(Intent())
 
         MainScreen {
@@ -63,29 +56,26 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun rightFirstFragment() {
+    @Test fun startScreen() {
         testRule.launchActivity(Intent())
 
         MainScreen { assert { onDisplayContent(MainPage.Name.NOTES) } }
     }
 
-    @Test fun rightFragmentPlacementAndFabVisibility() {
+    @Test fun addFabVisibility() {
         testRule.launchActivity(Intent())
 
         MainScreen {
             repeat(times = 3) {
                 for (page in pageList) {
                     navigateTo(page)
-                    assert {
-                        onDisplayFab(visible = page == MainPage.Name.NOTES)
-                        onDisplayContent(page)
-                    }
+                    assert { onDisplayFab(visible = page == MainPage.Name.NOTES) }
                 }
             }
         }
     }
 
-    @Test fun fabOpenAddDialog() {
+    @Test fun openAddDialog() {
         testRule.launchActivity(Intent())
 
         MainScreen {
@@ -94,44 +84,43 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun fabCreateTextNote() {
+    @Test fun addDialogCreateTextNote() {
         testRule.launchActivity(Intent())
 
         MainScreen {
             onClickFab()
-            AddDialog {
-                assert { onDisplayContent() }
-                onClickItem(NoteType.TEXT)
-            }
+            AddDialog { onClickItem(NoteType.TEXT) }
 
-            TextNoteScreen {
-                assert { onDisplayContent(State.NEW) }
-                closeSoftKeyboard()
-                pressBack()
-            }
+            TextNoteScreen { assert { onDisplayContent(State.NEW) } }
         }
     }
 
-    @Test fun fabCreateRollNote() {
+    @Test fun addDialogCreateRollNote() {
         testRule.launchActivity(Intent())
 
         MainScreen {
             onClickFab()
-            AddDialog {
-                assert { onDisplayContent() }
-                onClickItem(NoteType.ROLL)
-            }
+            AddDialog { onClickItem(NoteType.ROLL) }
 
-            RollNoteScreen {
-                assert { onDisplayContent(State.NEW) }
-                closeSoftKeyboard()
-                pressBack()
-            }
+            RollNoteScreen { assert { onDisplayContent(State.NEW) } }
         }
     }
 
-    fun scrollTopRank() {
-        TODO("no tests")
+    @Test fun scrollTopRank() {
+        testData.apply { clearAllData() }.fillRank(times = 20)
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            navigateTo(MainPage.Name.RANK)
+
+            RankScreen {
+                assert { onDisplayContent(empty = false) }
+                onScroll(Scroll.END, time = 4)
+            }
+
+            scrollTop(MainPage.Name.RANK)
+        }
     }
 
     @Test fun scrollTopNotes() {

@@ -23,6 +23,8 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentTest() {
 
+    // TODO extension launchActivity()
+
     override fun setUp() {
         super.setUp()
 
@@ -56,7 +58,7 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun scrollList() {
+    @Test fun addFabVisibilityOnScroll() {
         testData.apply { clearAllData() }.fillNotes(times = 20)
 
         testRule.launchActivity(Intent())
@@ -114,8 +116,61 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun showTextNoteInListAfterCreate() {
-        db.apply { clearAllTables() }.close()
+    @Test fun createTextNoteAndReturnWithoutSave() {
+        testData.clearAllData()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            NotesScreen {
+                assert { onDisplayContent(empty = true) }
+
+                onClickFab()
+                AddDialog {
+                    assert { onDisplayContent() }
+                    onClickItem(NoteType.TEXT)
+                }
+
+                TextNoteScreen {
+                    assert { onDisplayContent(State.NEW) }
+                    closeSoftKeyboard()
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = true) }
+            }
+        }
+    }
+
+    @Test fun createRollNoteAndReturnWithoutSave() {
+        testData.clearAllData()
+
+        testRule.launchActivity(Intent())
+
+        MainScreen {
+            NotesScreen {
+                assert { onDisplayContent(empty = true) }
+
+                onClickFab()
+                AddDialog {
+                    assert { onDisplayContent() }
+                    onClickItem(NoteType.ROLL)
+                }
+
+                RollNoteScreen {
+                    assert { onDisplayContent(State.NEW) }
+                    closeSoftKeyboard()
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun createTextNoteAndReturnWithSave() {
+        testData.clearAllData()
+
         testRule.launchActivity(Intent())
 
         MainScreen {
@@ -142,8 +197,9 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun showRollNoteInListAfterCreate() {
-        db.apply { clearAllTables() }.close()
+    @Test fun createRollNoteAndReturnWithSave() {
+        testData.clearAllData()
+
         testRule.launchActivity(Intent())
 
         MainScreen {
@@ -170,7 +226,7 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun showTextNoteDialog() {
+    @Test fun openTextNoteDialog() {
         val noteItem = testData.apply { clearAllData() }.insertText()
 
         testRule.launchActivity(Intent())
@@ -188,7 +244,7 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun showRollNoteDialog() {
+    @Test fun openRollNoteDialog() {
         val noteItem = testData.apply { clearAllData() }.insertRoll()
 
         testRule.launchActivity(Intent())
@@ -206,9 +262,29 @@ class NotesTest : ParentTest() {
         }
     }
 
-    // TODO check roll
+    @Test fun checkAllRollNote() {
+        TODO("not create")
+    }
 
-    // TODO bind text/roll
+    @Test fun uncheckAllRollNote() {
+        TODO("not create")
+    }
+
+    @Test fun bindTextNote() {
+        TODO("not create")
+    }
+
+    @Test fun unbindTextNote() {
+        TODO("not create")
+    }
+
+    @Test fun bindRollNote() {
+        TODO("not create")
+    }
+
+    @Test fun unbindRollNote() {
+        TODO("not create")
+    }
 
     @Test fun convertTextNoteToRoll() {
         val noteItem = testData.apply { clearAllData() }.insertText()
@@ -276,7 +352,13 @@ class NotesTest : ParentTest() {
         }
     }
 
-    // TODO copy text
+    @Test fun copyTextNote() {
+        TODO("not create")
+    }
+
+    @Test fun copyRollNote() {
+        TODO("not create")
+    }
 
     @Test fun deleteTextNote() {
         testData.apply { clearAllData() }.insertText()

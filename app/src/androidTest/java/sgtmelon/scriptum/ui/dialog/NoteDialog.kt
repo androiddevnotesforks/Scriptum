@@ -31,6 +31,8 @@ class NoteDialog : ParentUi() {
 
     class Assert : BasicMatch() {
 
+        // TODO потесить чтобы были падения при изменение флагов (хотя действия с диалогом всё тестят (см выше))
+
         fun onDisplayContent(noteItem: NoteItem) {
             when (noteItem.isBin) {
                 true -> {

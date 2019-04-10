@@ -51,10 +51,15 @@ class TestData(private val context: Context) {
         }
     }
 
-    private val rankItem: RankItem
-        get() = RankItem().apply { name = randomUUID().toString() }
+    private val rankItem: RankItem get() = RankItem(name = randomUUID().toString())
 
     fun clearAllData() = dataBase.apply { clearAllTables() }.close()
+
+    fun insertRank(rankItem: RankItem = this.rankItem): RankItem {
+        dataBase.apply { rankItem.id = getRankDao().insert(rankItem) }.close()
+
+        return rankItem
+    }
 
     fun insertText(noteItem: NoteItem = textNote): NoteItem {
         dataBase.apply { noteItem.id = getNoteDao().insert(noteItem) }.close()
@@ -84,6 +89,14 @@ class TestData(private val context: Context) {
             : NoteItem {
         noteItem.isBin = true
         return insertRoll(noteItem, listRoll)
+    }
+
+    fun fillRank(times: Int = 10) = (0..times).forEach {
+        insertRank(rankItem.apply {
+            name = "$it | $name"
+            position = it
+            isVisible = Math.random() < 0.5
+        })
     }
 
     fun fillNotes(times: Int = 10) = repeat(times) {

@@ -25,6 +25,7 @@ class MainScreen : ParentUi() {
             MainPage.Name.NOTES -> R.id.item_page_notes
             MainPage.Name.BIN -> R.id.item_page_bin
         })
+        Thread.sleep(100)
     }
 
     companion object {

@@ -11,11 +11,13 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест для [IntroActivity]
+ *
+ * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class IntroTest : ParentTest() {
 
-    @Test fun rightContentPlacement() {
+    @Test fun contentPlacement() {
         preference.firstStart = true
         testRule.launchActivity(Intent())
 

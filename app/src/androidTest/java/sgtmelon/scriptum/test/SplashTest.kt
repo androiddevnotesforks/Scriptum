@@ -7,11 +7,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.SplashActivity
+import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
 import sgtmelon.scriptum.ui.screen.IntroScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
-
 
 /**
  * Тест для [SplashActivity]
@@ -21,25 +21,25 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentTest() {
 
-    @Test fun showIntroOnFirstStart() {
+    @Test fun openIntroScreen() {
         preference.firstStart = true
         testRule.launchActivity(Intent())
 
         IntroScreen { assert { onDisplayContent() } }
     }
 
-    @Test fun notShowIntroAfterFirstStart() {
+    @Test fun openMainScreen() {
         preference.firstStart = false
         testRule.launchActivity(Intent())
 
         MainScreen { assert { onDisplayContent() } }
     }
 
-    @Test fun openTextNoteFromStatusBar() {
+    @Test fun openStatusItemText() {
         preference.firstStart = false
 
         val noteItem = testData.apply { clearAllData() }.insertText()
-        testRule.launchActivity(SplashActivity.getIntent(context, noteItem.type, noteItem.id))
+        testRule.launchActivity(context.getSplashIntent(noteItem))
 
         TextNoteScreen {
             assert { onDisplayContent(State.READ) }
@@ -48,11 +48,11 @@ class SplashTest : ParentTest() {
         MainScreen { assert { onDisplayContent() } }
     }
 
-    @Test fun openRollNoteFromStatusBar() {
+    @Test fun openStatusItemRoll() {
         preference.firstStart = false
 
         val noteItem = testData.apply { clearAllData() }.insertRoll()
-        testRule.launchActivity(SplashActivity.getIntent(context, noteItem.type, noteItem.id))
+        testRule.launchActivity(context.getSplashIntent(noteItem))
 
         RollNoteScreen {
             assert { onDisplayContent(State.READ) }

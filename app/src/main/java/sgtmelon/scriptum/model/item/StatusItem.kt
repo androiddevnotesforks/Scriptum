@@ -13,7 +13,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.utils.ColorUtils
 import sgtmelon.scriptum.repository.RoomRepo
-import sgtmelon.scriptum.screen.view.SplashActivity
+import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
 
 /**
  * Управление закреплением заметки в статус баре [NoteModel]
@@ -25,7 +25,7 @@ class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boole
     // TODO: 29.08.2018 Добавить кнопки к уведомлениям, чтобы была возможность их открепить
 
     private val pendingIntent: PendingIntent? = TaskStackBuilder.create(context).apply {
-        addNextIntent(SplashActivity.getIntent(context, noteItem.type, noteItem.id))
+        addNextIntent(context.getSplashIntent(noteItem))
     }.getPendingIntent(noteItem.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
 
     private lateinit var noteItem: NoteItem
