@@ -311,12 +311,74 @@ class NotesTest : ParentTest() {
         }
     }
 
+    @Test fun rollNoteDialogCheckAllFromEmpty() {
+        val listRoll = testData.listRoll.apply { forEach { it.isCheck = false } }
+        val noteItem = testData.apply { clearAllData() }.insertRoll(listRoll = listRoll)
+
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickCheckAll()
+                }
+
+                noteItem.setCompleteText(listRoll.size, listRoll.size)
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
+    }
+
     @Test fun rollNoteDialogCheckAll() {
-        TODO("not create")
+        val listRoll = testData.listRoll.apply {
+            forEach { it.isCheck = false }
+            get(0).isCheck = true
+        }
+
+        val noteItem = testData.apply { clearAllData() }.insertRoll(listRoll = listRoll)
+
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickCheckAll()
+                }
+
+                noteItem.setCompleteText(listRoll.size, listRoll.size)
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
     }
 
     @Test fun rollNoteDialogUncheckAll() {
-        TODO("not create")
+        val listRoll = testData.listRoll.apply { forEach { it.isCheck = true } }
+        val noteItem = testData.apply { clearAllData() }.insertRoll(listRoll = listRoll)
+
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickUncheck()
+                }
+
+                noteItem.setCompleteText(0, listRoll.size)
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
     }
 
     @Test fun rollNoteDialogBind() {

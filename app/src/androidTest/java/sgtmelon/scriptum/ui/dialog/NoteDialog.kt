@@ -10,20 +10,31 @@ class NoteDialog : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onClickRestore() = action { onClickText(R.string.dialog_menu_restore) }
+    fun onClickCheckAll() = waitClose { action { onClickText(R.string.dialog_menu_check_all) } }
 
-    fun onClickClear() = action { onClickText(R.string.dialog_menu_clear) }
+    fun onClickUncheck() = waitClose { action { onClickText(R.string.dialog_menu_check_zero) } }
 
-    fun onClickCopy() = action { onClickText(R.string.dialog_menu_copy) }
+    fun onClickRestore() = waitClose { action { onClickText(R.string.dialog_menu_restore) } }
 
-    fun onClickConvert(noteType: NoteType) = action {
-        onClickText(when (noteType) {
-            NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
-            NoteType.ROLL -> R.string.dialog_menu_convert_to_text
-        })
+    fun onClickClear() = waitClose { action { onClickText(R.string.dialog_menu_clear) } }
+
+    fun onClickCopy() = waitClose { action { onClickText(R.string.dialog_menu_copy) } }
+
+    fun onClickConvert(noteType: NoteType) = waitClose {
+        action {
+            onClickText(when (noteType) {
+                NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
+                NoteType.ROLL -> R.string.dialog_menu_convert_to_text
+            })
+        }
     }
 
-    fun onClickDelete() = action { onClickText(R.string.dialog_menu_delete) }
+    fun onClickDelete() = waitClose { action { onClickText(R.string.dialog_menu_delete) } }
+
+    private fun waitClose(func: () -> Unit) {
+        func.invoke()
+        Thread.sleep(500)
+    }
 
     companion object {
         operator fun invoke(func: NoteDialog.() -> Unit) = NoteDialog().apply { func() }
@@ -43,22 +54,21 @@ class NoteDialog : ParentUi() {
                 false -> {
                     when (noteItem.type) {
                         NoteType.TEXT -> {
-                            onDisplayText(when (noteItem.isStatus) {
-                                true -> R.string.dialog_menu_status_unbind
-                                false -> R.string.dialog_menu_status_bind
+                            onDisplayText(if (noteItem.isStatus) {
+                                R.string.dialog_menu_status_unbind
+                            } else {
+                                R.string.dialog_menu_status_bind
                             })
                             onDisplayText(R.string.dialog_menu_convert_to_roll)
                             onDisplayText(R.string.dialog_menu_copy)
                             onDisplayText(R.string.dialog_menu_delete)
                         }
                         NoteType.ROLL -> {
-                            onDisplayText(when (noteItem.isAllCheck) {
-                                true -> R.string.dialog_menu_check_zero
-                                false -> R.string.dialog_menu_check_all
-                            })
-                            onDisplayText(when (noteItem.isStatus) {
-                                true -> R.string.dialog_menu_status_unbind
-                                false -> R.string.dialog_menu_status_bind
+                            onDisplayText(if (noteItem.isAllCheck) R.string.dialog_menu_check_zero else R.string.dialog_menu_check_all)
+                            onDisplayText(if (noteItem.isStatus) {
+                                R.string.dialog_menu_status_unbind
+                            } else {
+                                R.string.dialog_menu_status_bind
                             })
                             onDisplayText(R.string.dialog_menu_convert_to_text)
                             onDisplayText(R.string.dialog_menu_copy)

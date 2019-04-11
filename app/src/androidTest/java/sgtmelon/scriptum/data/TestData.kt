@@ -39,7 +39,7 @@ class TestData(private val context: Context) {
             type = NoteType.ROLL
         }
 
-    private val listRoll = object : ArrayList<RollItem>() {
+    val listRoll = object : ArrayList<RollItem>() {
         init {
             for (i in 0 until 10) {
                 add(RollItem().apply {

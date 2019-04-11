@@ -188,7 +188,7 @@ private class Scenario {
          *
          * #  Список:
          * #  Открыть :: [NotesTest.rollNoteDialogOpen]
-         * # Выполнить всё :: [NotesTest.rollNoteDialogCheckAll]
+         * # Выполнить всё :: [NotesTest.rollNoteDialogCheckAllFromEmpty], [NotesTest.rollNoteDialogCheckAll]
          * # Снять выделения :: [NotesTest.rollNoteDialogUncheckAll]
          * # Прикрепить к статус бару :: [NotesTest.rollNoteDialogBind]
          * #  Открепить от статус бара :: [NotesTest.rollNoteDialogUnbind]
