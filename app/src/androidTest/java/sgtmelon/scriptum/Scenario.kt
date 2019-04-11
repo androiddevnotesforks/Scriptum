@@ -10,12 +10,15 @@ import sgtmelon.scriptum.test.main.RankTest
 /**
  * Описание сценариев для тестов
  *
+ * Значения:
+ * UI - Проверяется UI тестом
+ * UI/CONTROL - Проверяется UI тестом с контролем тестировщика
+ * MANUAL - Проверяется вручную тестировщиком
+ *
  * @author SerjantArbuz
  */
 @Suppress("unused")
-class Scenario {
-
-    // TODO сценарии из книги (поворот экрана и прочее)
+private class Scenario {
 
     /**
      * Сценарии для [SplashTest]
@@ -23,17 +26,17 @@ class Scenario {
     class Splash {
 
         /**
-         * 1. UI - Открытие приветствия
+         * UI - Открытие приветствия :: [SplashTest.introScreenOpen]
          */
 
         /**
-         * 2. UI - Открытие главного экрана
+         * UI - Открытие главного экрана :: [SplashTest.mainScreenOpen]
          */
 
         /**
-         * 3. UI - Открытие заметок через уведомление
-         *      #Текст
-         *      #Список
+         * UI - Открытие заметок через уведомление
+         * # Текст :: [SplashTest.statusTextNoteOpen]
+         * # Список :: [SplashTest.statusRollNoteOpen]
          */
 
     }
@@ -44,15 +47,15 @@ class Scenario {
     class Intro {
 
         /**
-         * 1. UI - Расположение контента на страницах
+         * UI - Расположение контента на страницах :: [IntroTest.contentPlacement]
          */
 
         /**
-         * 2. UI - Доступ к кнопке end
+         * UI - Доступ к кнопке end :: [IntroTest.endButtonEnable]
          */
 
         /**
-         * 3. UI - Работа кнопки end
+         * UI - Работа кнопки end :: [IntroTest.endButtonWork]
          */
 
     }
@@ -63,36 +66,34 @@ class Scenario {
     class Main {
 
         /**
-         * 1. UI - Отображение правильного экрана при нажатии на пункт меню
+         * UI - Стартовый экран :: [MainTest.startScreen]
          */
 
         /**
-         * 2. UI - Стартовый экран
+         * UI - Отображение правильного экрана при нажатии на пункт меню :: [MainTest.menuClickCorrectScreen]
          */
 
         /**
-         * 3. UI - Отображения кнопки добавить
+         * UI - Отображения кнопки добавить :: [MainTest.addFabVisible]
          */
 
         /**
-         * 4. UI - Открытие диалога добавления заметки
+         * UI - Работа диалога добавления заметки
+         * # Открытие диалога :: [MainTest.addDialogOpen]
+         * # Создать текст :: [MainTest.addDialogCreateTextNote]
+         * # Создать список :: [MainTest.addDialogCreateRollNote]
          */
 
         /**
-         * 5. HANDLE - Поворот диалога добавления заметки
+         * UI/CONTROL - Скроллинга страниц до верха
+         * # Категории :: [MainTest.rankScreenScrollTop]
+         * # Заметки :: [MainTest.notesScreenScrollTop]
+         * # Корзина :: [MainTest.binScreenScrollTop]
          */
 
         /**
-         * 6. UI - Работа диалога добавления заметки
-         *      #Создать текст
-         *      #Создать список
-         */
-
-        /**
-         * 7. UI/CONTROL - Скроллинга страниц до верха
-         *      #Категории
-         *      #Заметки
-         *      #Корзина
+         * MANUAL - Поворот экрана
+         * # Диалог добавления заметки
          */
 
     }
@@ -100,7 +101,43 @@ class Scenario {
     /**
      * Сценарии для [RankTest]
      */
-    class Rank
+    class Rank { // TODO
+
+        /**
+         * UI - Контент
+         * # Пусто :: [RankTest.contentEmpty]
+         * # Список :: [RankTest.contentList]
+         **/
+
+        /**
+         * UI/CONTROL - Скроллинг списка :: [RankTest.listScroll]
+         */
+
+        /**
+         * UI - Работа toolbar'а добавления категории
+         * # Доступ к кнопке добавить :: [RankTest.toolbarEnterAddEnable]
+         * # Работа кнопки отчистки :: [RankTest.toolbarEnterClear]
+         * # Добавление категории в начало :: [RankTest.toolbarEnterAddStart]
+         * # Добавление категории в конец :: [RankTest.toolbarEnterAddEnd]
+         */
+
+        /**
+         * UI - Управление категорией
+         * # Видимость категории :: [RankTest.rankVisible]
+         * # Удаление категории :: [RankTest.rankClear]
+         */
+
+        /**
+         * UI - Работа диалога переименовывания :: [RankTest.renameDialogWork]
+         */
+
+        /**
+         * MANUAL - Поворот экрана
+         * # Контент
+         * # Диалог переименовывания
+         */
+
+    }
 
     /**
      * Сценарии для [NotesTest]
@@ -108,85 +145,62 @@ class Scenario {
     class Notes {
 
         /**
-         * 1. UI - Контент
-         *      #Пусто
-         *      #Список
+         * UI - Контент
+         * # Пусто :: [NotesTest.contentEmpty]
+         * # Список :: [NotesTest.contentList]
          **/
 
         /**
-         * 2. HANDLE - Контент после поворота
-         *      #Пусто
-         *      #Список
+         * UI - Открытие настроек :: [NotesTest.openPreference]
          */
 
         /**
-         * 3. UI - Открытие настроек
+         * UI - Видимость кнопки добавить при скроллинге :: [NotesTest.addFabVisibleOnScroll]
          */
 
         /**
-         * 4. UI - Видимость кнопки добавить при скроллинге
+         * UI - Открытие заметки
+         * # Текст :: [NotesTest.textNoteOpen]
+         * #  Список :: [NotesTest.rollNoteOpen]
          */
 
         /**
-         * 5. UI - Открытие заметки
-         *      #Текст
-         *      #Список
+         * UI - Создание заметки и возврат назад без сохранения
+         * # Текст :: [NotesTest.textNoteCreateAndReturn]
+         * # Список :: [NotesTest.rollNoteCreateAndReturn]
          */
 
         /**
-         * 6. UI - Создание заметки и возврат назад без сохранения
-         *      #Текст
-         *      #Список
+         * UI - Создание заметки и возврат назад с сохранением
+         * #  Текст :: [NotesTest.textNoteCreateAndReturnWithSave]
+         * #  Список :: [NotesTest.rollNoteCreateAndReturnWithSave]
          */
 
         /**
-         * 7. UI - Создание заметки и возврат назад с сохранением
-         *      #Текст
-         *      #Список
+         * UI - Работа диалога управления заметкой
+         * #  Текст:
+         * #  Открыть :: [NotesTest.textNoteDialogOpen]
+         * #  Прикрепить к статус бару :: [NotesTest.textNoteDialogBind]
+         * #  Открепить от статус бара :: [NotesTest.textNoteDialogUnbind]
+         * #  Конвертировать :: [NotesTest.textNoteDialogConvert]
+         * #  Копировать текст :: [NotesTest.textNoteDialogCopy]
+         * #  Удаление :: [NotesTest.textNoteDialogDelete]
+         *
+         * #  Список:
+         * #  Открыть :: [NotesTest.rollNoteDialogOpen]
+         * # Выполнить всё :: [NotesTest.rollNoteDialogCheckAll]
+         * # Снять выделения :: [NotesTest.rollNoteDialogUncheckAll]
+         * # Прикрепить к статус бару :: [NotesTest.rollNoteDialogBind]
+         * #  Открепить от статус бара :: [NotesTest.rollNoteDialogUnbind]
+         * #  Конвертировать :: [NotesTest.rollNoteDialogConvert]
+         * #  Копировать текст :: [NotesTest.rollNoteDialogCopy]
+         * #  Удаление :: [NotesTest.rollNoteDialogDelete]
          */
 
         /**
-         * 8. UI - Открытие диалога управления заметкой
-         *      #Текст
-         *      #Список
-         */
-
-        /**
-         * 9. HANDLE - Поворот диалога управления заметкой
-         *      #Текст
-         *      #Список
-         */
-
-        /**
-         * 10. UI - Отметка пунктов списка
-         *      #Выполнить всё
-         *      #Снять выделения
-         */
-
-        /**
-         * 11. UI/CONTROL - Прикрепить/открепить заметку к статус бару
-         *      #Прикрепить текст
-         *      #Открепить текст
-         *      #Прикрепить список
-         *      #Открепить список
-         */
-
-        /**
-         * 12. UI - Конвертирование заметки
-         *      #Текст
-         *      #Список
-         */
-
-        /**
-         * 13. UI - Копирование текста заметки
-         *      #Текст
-         *      #Список
-         */
-
-        /**
-         * 14. UI - Удаление заметки
-         *      #Текст
-         *      #Список
+         * MANUAL - Поворот экрана
+         * # Контент
+         * # Диалог управления заметкой
          */
 
     }
@@ -197,35 +211,45 @@ class Scenario {
     class Bin {
 
         /**
-         * 1. Проверка контента
+         * UI - Контент
+         * #  Пусто :: [BinTest.contentEmpty]
+         * #  Список :: [BinTest.contentList]
+         **/
+
+        /**
+         * UI/CONTROL - Скроллинг списка :: [BinTest.listScroll]
          */
 
         /**
-         * 2. Скроллинг списка до конца и обратно
+         * UI - Открытие заметки
+         * #  Текст :: [BinTest.textNoteOpen]
+         * #  Список :: [BinTest.rollNoteOpen]
          */
 
         /**
-         * 3. Проверка открытия заметки - текст / список
+         * UI - Работы диалога отчистки корзины :: [BinTest.clearDialogWork]
          */
 
         /**
-         * 4. Проверка работы диалога отчистки корзины
+         * UI - Работа диалога управления заметкой
+         * #  Текст:
+         * #  Открыть :: [BinTest.textNoteDialogOpen]
+         * #  Восстановить :: [BinTest.textNoteDialogRestore]
+         * #  Копировать текст :: [BinTest.textNoteDialogCopy]
+         * #  Отчистить :: [BinTest.textNoteDialogClear]
+         *
+         * #  Список:
+         * #  Открыть :: [BinTest.rollNoteDialogOpen]
+         * #  Восстановить :: [BinTest.rollNoteDialogRestore]
+         * #  Копировать текст :: [BinTest.rollNoteDialogCopy]
+         * #  Отчистить :: [BinTest.rollNoteDialogClear]
          */
 
         /**
-         * 5. Проверка открытия диалога управления заметкой - текст / список
-         */
-
-        /**
-         * 6. Проверка восстановления заметки - текст / список
-         */
-
-        /**
-         * 7. Проверка копирования текста - текст / список
-         */
-
-        /**
-         * 8. Проверка удаления заметки - текст / список
+         * MANUAL - Поворот экрана
+         * #  Контент
+         * # Диалог отчистки корзины
+         * # Диалог управления заметкой
          */
 
     }

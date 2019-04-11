@@ -6,20 +6,28 @@ import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
-class IntroScreen: ParentUi(){
+class IntroScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
     val count: Int get() = IntroData.count
 
     fun onSwipe(scroll: Scroll) = action {
-        when(scroll) {
+        when (scroll) {
             Scroll.START -> onSwipeRight(R.id.intro_pager)
             Scroll.END -> onSwipeLeft(R.id.intro_pager)
         }
     }
 
     fun onClickEndButton() = action { onClick(R.id.intro_end_button) }
+
+    fun passThrough(scroll: Scroll) = (when (scroll) {
+        Scroll.START -> count - 1 downTo 0
+        Scroll.END -> 0 until count - 1
+    }).forEach {
+        assert { isEnableEndButton(it) }
+        onSwipe(scroll)
+    }
 
     companion object {
         operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply { func() }
@@ -38,7 +46,7 @@ class IntroScreen: ParentUi(){
         }
 
         fun isEnableEndButton(position: Int) =
-                isEnable(R.id.intro_end_button, enable = position == IntroData.count -1)
+                isEnable(R.id.intro_end_button, enable = position == IntroData.count - 1)
 
         fun onDisplayEndButton() = onDisplay(R.id.intro_end_button, R.string.info_intro_button)
 

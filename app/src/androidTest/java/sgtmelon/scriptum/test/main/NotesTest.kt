@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.test.main
 
-import android.content.Intent
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -10,6 +9,7 @@ import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.AddDialog
 import sgtmelon.scriptum.ui.dialog.NoteDialog
@@ -20,10 +20,13 @@ import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
+/**
+ * Тест работы [NotesFragment]
+ *
+ * @author SerjantArbuz
+ */
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentTest() {
-
-    // TODO extension launchActivity()
 
     override fun setUp() {
         super.setUp()
@@ -32,24 +35,18 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun contentEmpty() {
-        testData.clearAllData()
-
-        testRule.launchActivity(Intent())
+        beforeLaunch { testData.clearAllData() }
 
         MainScreen { NotesScreen { assert { onDisplayContent(empty = true) } } }
     }
 
     @Test fun contentList() {
-        testData.apply { clearAllData() }.fillNotes()
-
-        testRule.launchActivity(Intent())
+        beforeLaunch { testData.apply { clearAllData() }.fillNotes() }
 
         MainScreen { NotesScreen { assert { onDisplayContent(empty = false) } } }
     }
 
-    @Test fun openPreference() {
-        testRule.launchActivity(Intent())
-
+    @Test fun openPreference() = launch {
         MainScreen {
             NotesScreen {
                 onClickPreference()
@@ -58,10 +55,8 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun addFabVisibilityOnScroll() {
-        testData.apply { clearAllData() }.fillNotes(times = 20)
-
-        testRule.launchActivity(Intent())
+    @Test fun addFabVisibleOnScroll() {
+        beforeLaunch { testData.apply { clearAllData() }.fillNotes(times = 20) }
 
         MainScreen {
             assert { onDisplayFab(visible = true) }
@@ -76,10 +71,8 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun openTextNote() {
-        testData.apply { clearAllData() }.insertText()
-
-        testRule.launchActivity(Intent())
+    @Test fun textNoteOpen() {
+        beforeLaunch { testData.apply { clearAllData() }.insertText() }
 
         MainScreen {
             NotesScreen {
@@ -96,10 +89,8 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun openRollNote() {
-        testData.apply { clearAllData() }.insertRoll()
-
-        testRule.launchActivity(Intent())
+    @Test fun rollNoteOpen() {
+        beforeLaunch { testData.apply { clearAllData() }.insertRoll() }
 
         MainScreen {
             NotesScreen {
@@ -116,10 +107,8 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun createTextNoteAndReturnWithoutSave() {
-        testData.clearAllData()
-
-        testRule.launchActivity(Intent())
+    @Test fun textNoteCreateAndReturn() {
+        beforeLaunch { testData.clearAllData() }
 
         MainScreen {
             NotesScreen {
@@ -142,10 +131,8 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun createRollNoteAndReturnWithoutSave() {
-        testData.clearAllData()
-
-        testRule.launchActivity(Intent())
+    @Test fun rollNoteCreateAndReturn() {
+        beforeLaunch { testData.clearAllData() }
 
         MainScreen {
             NotesScreen {
@@ -168,10 +155,8 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun createTextNoteAndReturnWithSave() {
-        testData.clearAllData()
-
-        testRule.launchActivity(Intent())
+    @Test fun textNoteCreateAndReturnWithSave() {
+        beforeLaunch { testData.clearAllData() }
 
         MainScreen {
             NotesScreen {
@@ -197,10 +182,8 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun createRollNoteAndReturnWithSave() {
-        testData.clearAllData()
-
-        testRule.launchActivity(Intent())
+    @Test fun rollNoteCreateAndReturnWithSave() {
+        beforeLaunch { testData.clearAllData() }
 
         MainScreen {
             NotesScreen {
@@ -226,10 +209,11 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun openTextNoteDialog() {
+
+    @Test fun textNoteDialogOpen() {
         val noteItem = testData.apply { clearAllData() }.insertText()
 
-        testRule.launchActivity(Intent())
+        launch()
 
         MainScreen {
             NotesScreen {
@@ -244,52 +228,18 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun openRollNoteDialog() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
-
-        testRule.launchActivity(Intent())
-
-        MainScreen {
-            NotesScreen {
-                onLongClickItem(position = 0)
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    pressBack()
-                }
-
-                assert { onDisplayContent(empty = false) }
-            }
-        }
-    }
-
-    @Test fun checkAllRollNote() {
+    @Test fun textNoteDialogBind() {
         TODO("not create")
     }
 
-    @Test fun uncheckAllRollNote() {
+    @Test fun textNoteDialogUnbind() {
         TODO("not create")
     }
 
-    @Test fun bindTextNote() {
-        TODO("not create")
-    }
-
-    @Test fun unbindTextNote() {
-        TODO("not create")
-    }
-
-    @Test fun bindRollNote() {
-        TODO("not create")
-    }
-
-    @Test fun unbindRollNote() {
-        TODO("not create")
-    }
-
-    @Test fun convertTextNoteToRoll() {
+    @Test fun textNoteDialogConvert() {
         val noteItem = testData.apply { clearAllData() }.insertText()
 
-        testRule.launchActivity(Intent())
+        launch()
 
         MainScreen {
             NotesScreen {
@@ -319,10 +269,68 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun convertRollNoteToText() {
+    @Test fun textNoteDialogCopy() {
+        TODO("not create")
+    }
+
+    @Test fun textNoteDialogDelete() {
+        beforeLaunch { testData.apply { clearAllData() }.insertText() }
+
+        MainScreen {
+            NotesScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onLongClickItem(position = 0)
+                NoteDialog { onClickDelete() }
+
+                assert { onDisplayContent(empty = true) }
+            }
+
+            navigateTo(MainPage.Name.BIN)
+
+            BinScreen { assert { onDisplayContent(empty = false) } }
+        }
+    }
+
+
+    @Test fun rollNoteDialogOpen() {
         val noteItem = testData.apply { clearAllData() }.insertRoll()
 
-        testRule.launchActivity(Intent())
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun rollNoteDialogCheckAll() {
+        TODO("not create")
+    }
+
+    @Test fun rollNoteDialogUncheckAll() {
+        TODO("not create")
+    }
+
+    @Test fun rollNoteDialogBind() {
+        TODO("not create")
+    }
+
+    @Test fun rollNoteDialogUnbind() {
+        TODO("not create")
+    }
+
+    @Test fun rollNoteDialogConvert() {
+        val noteItem = testData.apply { clearAllData() }.insertRoll()
+
+        launch()
 
         MainScreen {
             NotesScreen {
@@ -352,39 +360,14 @@ class NotesTest : ParentTest() {
         }
     }
 
-    @Test fun copyTextNote() {
+    @Test fun rollNoteDialogCopy() {
         TODO("not create")
     }
 
-    @Test fun copyRollNote() {
-        TODO("not create")
-    }
-
-    @Test fun deleteTextNote() {
-        testData.apply { clearAllData() }.insertText()
-
-        testRule.launchActivity(Intent())
-
-        MainScreen {
-            NotesScreen {
-                assert { onDisplayContent(empty = false) }
-
-                onLongClickItem(position = 0)
-                NoteDialog { onClickDelete() }
-
-                assert { onDisplayContent(empty = true) }
-            }
-
-            navigateTo(MainPage.Name.BIN)
-
-            BinScreen { assert { onDisplayContent(empty = false) } }
-        }
-    }
-
-    @Test fun deleteRollNote() {
+    @Test fun rollNoteDialogDelete() {
         testData.apply { clearAllData() }.insertRoll()
 
-        testRule.launchActivity(Intent())
+        launch()
 
         MainScreen {
             NotesScreen {

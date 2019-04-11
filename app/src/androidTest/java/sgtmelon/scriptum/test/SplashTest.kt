@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.test
 
-import android.content.Intent
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
@@ -21,25 +20,23 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentTest() {
 
-    @Test fun openIntroScreen() {
-        preference.firstStart = true
-        testRule.launchActivity(Intent())
+    @Test fun introScreenOpen() {
+        beforeLaunch { preference.firstStart = true }
 
         IntroScreen { assert { onDisplayContent() } }
     }
 
-    @Test fun openMainScreen() {
-        preference.firstStart = false
-        testRule.launchActivity(Intent())
+    @Test fun mainScreenOpen() {
+        beforeLaunch { preference.firstStart = false }
 
         MainScreen { assert { onDisplayContent() } }
     }
 
-    @Test fun openStatusItemText() {
-        preference.firstStart = false
-
+    @Test fun statusTextNoteOpen() {
         val noteItem = testData.apply { clearAllData() }.insertText()
-        testRule.launchActivity(context.getSplashIntent(noteItem))
+        beforeLaunch(context.getSplashIntent(noteItem)) {
+            preference.firstStart = false
+        }
 
         TextNoteScreen {
             assert { onDisplayContent(State.READ) }
@@ -48,11 +45,11 @@ class SplashTest : ParentTest() {
         MainScreen { assert { onDisplayContent() } }
     }
 
-    @Test fun openStatusItemRoll() {
-        preference.firstStart = false
-
+    @Test fun statusRollNoteOpen() {
         val noteItem = testData.apply { clearAllData() }.insertRoll()
-        testRule.launchActivity(context.getSplashIntent(noteItem))
+        beforeLaunch(context.getSplashIntent(noteItem)) {
+            preference.firstStart = false
+        }
 
         RollNoteScreen {
             assert { onDisplayContent(State.READ) }

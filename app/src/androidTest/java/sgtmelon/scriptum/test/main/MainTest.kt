@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.test.main
 
-import android.content.Intent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -43,9 +42,11 @@ class MainTest : ParentTest() {
         preference.firstStart = false
     }
 
-    @Test fun correctScreenOnMenuClick() {
-        testRule.launchActivity(Intent())
+    @Test fun startScreen() = launch {
+        MainScreen { assert { onDisplayContent(MainPage.Name.NOTES) } }
+    }
 
+    @Test fun menuClickCorrectScreen() = launch {
         MainScreen {
             repeat(times = 3) {
                 for (page in pageList) {
@@ -56,15 +57,7 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun startScreen() {
-        testRule.launchActivity(Intent())
-
-        MainScreen { assert { onDisplayContent(MainPage.Name.NOTES) } }
-    }
-
-    @Test fun addFabVisibility() {
-        testRule.launchActivity(Intent())
-
+    @Test fun addFabVisible() = launch {
         MainScreen {
             repeat(times = 3) {
                 for (page in pageList) {
@@ -75,18 +68,14 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun openAddDialog() {
-        testRule.launchActivity(Intent())
-
+    @Test fun addDialogOpen() = launch {
         MainScreen {
             onClickFab()
             AddDialog { assert { onDisplayContent() } }
         }
     }
 
-    @Test fun addDialogCreateTextNote() {
-        testRule.launchActivity(Intent())
-
+    @Test fun addDialogCreateTextNote() = launch {
         MainScreen {
             onClickFab()
             AddDialog { onClickItem(NoteType.TEXT) }
@@ -95,9 +84,7 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun addDialogCreateRollNote() {
-        testRule.launchActivity(Intent())
-
+    @Test fun addDialogCreateRollNote() = launch {
         MainScreen {
             onClickFab()
             AddDialog { onClickItem(NoteType.ROLL) }
@@ -106,10 +93,8 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun scrollTopRank() {
-        testData.apply { clearAllData() }.fillRank(times = 20)
-
-        testRule.launchActivity(Intent())
+    @Test fun rankScreenScrollTop() {
+        beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }
 
         MainScreen {
             navigateTo(MainPage.Name.RANK)
@@ -123,10 +108,8 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun scrollTopNotes() {
-        testData.apply { clearAllData() }.fillNotes(times = 20)
-
-        testRule.launchActivity(Intent())
+    @Test fun notesScreenScrollTop() {
+        beforeLaunch { testData.apply { clearAllData() }.fillNotes(times = 20) }
 
         MainScreen {
             NotesScreen {
@@ -138,10 +121,8 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun scrollTopBin() {
-        testData.apply { clearAllData() }.fillBin(times = 20)
-
-        testRule.launchActivity(Intent())
+    @Test fun binScreenScrollTop() {
+        beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)

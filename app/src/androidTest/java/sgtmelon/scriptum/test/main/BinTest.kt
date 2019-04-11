@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.test.main
 
 
-import android.content.Intent
 import androidx.test.espresso.Espresso.pressBack
 import org.junit.Test
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.dialog.ClearDialog
 import sgtmelon.scriptum.ui.dialog.NoteDialog
@@ -16,6 +16,11 @@ import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
+/**
+ * Тест работы [BinFragment]
+ *
+ * @author SerjantArbuz
+ */
 class BinTest : ParentTest() {
 
     override fun setUp() {
@@ -25,9 +30,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun contentEmpty() {
-        testData.clearAllData()
-
-        testRule.launchActivity(Intent())
+        beforeLaunch { testData.clearAllData() }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -36,9 +39,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun contentList() {
-        testData.apply { clearAllData() }.fillBin()
-
-        testRule.launchActivity(Intent())
+        beforeLaunch { testData.apply { clearAllData() }.fillBin() }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -46,10 +47,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun scrollList() {
-        testData.apply { clearAllData() }.fillBin(times = 20)
-
-        testRule.launchActivity(Intent())
+    @Test fun listScroll() {
+        beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -60,10 +59,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun openTextNote() {
-        testData.apply { clearAllData() }.insertTextToBin()
-
-        testRule.launchActivity(Intent())
+    @Test fun textNoteOpen() {
+        beforeLaunch { testData.apply { clearAllData() }.insertTextToBin() }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -82,10 +79,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun openRollNote() {
-        testData.apply { clearAllData() }.insertRollToBin()
-
-        testRule.launchActivity(Intent())
+    @Test fun rollNoteOpen() {
+        beforeLaunch { testData.apply { clearAllData() }.insertRollToBin() }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -104,14 +99,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun deleteAllNotes() {
-        testData.apply {
-            clearAllData()
-            repeat(times = 5) { insertTextToBin() }
-            repeat(times = 5) { insertRollToBin() }
-        }
-
-        testRule.launchActivity(Intent())
+    @Test fun clearDialogWork() {
+        beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -138,10 +127,11 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun showTextNoteDialog() {
+
+    @Test fun textNoteDialogOpen() {
         val noteItem = testData.apply { clearAllData() }.insertTextToBin()
 
-        testRule.launchActivity(Intent())
+        launch()
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -158,30 +148,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun showRollNoteDialog() {
-        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
-
-        testRule.launchActivity(Intent())
-
-        MainScreen {
-            navigateTo(MainPage.Name.BIN)
-
-            BinScreen {
-                onLongClickItem(position = 0)
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    pressBack()
-                }
-
-                assert { onDisplayContent(empty = false) }
-            }
-        }
-    }
-
-    @Test fun restoreTextNote() {
-        testData.apply { clearAllData() }.insertTextToBin()
-
-        testRule.launchActivity(Intent())
+    @Test fun textNoteDialogRestore() {
+        beforeLaunch { testData.apply { clearAllData() }.insertTextToBin() }
 
         MainScreen {
             NotesScreen { assert { onDisplayContent(empty = true) } }
@@ -203,43 +171,12 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun restoreRollNote() {
-        testData.apply { clearAllData() }.insertRollToBin()
-
-        testRule.launchActivity(Intent())
-
-        MainScreen {
-            NotesScreen { assert { onDisplayContent(empty = true) } }
-
-            navigateTo(MainPage.Name.BIN)
-
-            BinScreen {
-                assert { onDisplayContent(empty = false) }
-
-                onLongClickItem(position = 0)
-                NoteDialog { onClickRestore() }
-
-                assert { onDisplayContent(empty = true) }
-            }
-
-            navigateTo(MainPage.Name.NOTES)
-
-            NotesScreen { assert { onDisplayContent(empty = false) } }
-        }
-    }
-
-    @Test fun copyTextNote() {
+    @Test fun textNoteDialogCopy() {
         TODO("not create")
     }
 
-    @Test fun copyRollNote() {
-        TODO("not create")
-    }
-
-    @Test fun clearTextNote() {
-        testData.apply { clearAllData() }.insertTextToBin()
-
-        testRule.launchActivity(Intent())
+    @Test fun textNoteDialogClear() {
+        beforeLaunch { testData.apply { clearAllData() }.insertTextToBin() }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)
@@ -260,10 +197,56 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun clearRollNote() {
-        testData.apply { clearAllData() }.insertRollToBin()
 
-        testRule.launchActivity(Intent())
+    @Test fun rollNoteDialogOpen() {
+        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
+
+        launch()
+
+        MainScreen {
+            navigateTo(MainPage.Name.BIN)
+
+            BinScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    pressBack()
+                }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun rollNoteDialogRestore() {
+        beforeLaunch { testData.apply { clearAllData() }.insertRollToBin() }
+
+        MainScreen {
+            NotesScreen { assert { onDisplayContent(empty = true) } }
+
+            navigateTo(MainPage.Name.BIN)
+
+            BinScreen {
+                assert { onDisplayContent(empty = false) }
+
+                onLongClickItem(position = 0)
+                NoteDialog { onClickRestore() }
+
+                assert { onDisplayContent(empty = true) }
+            }
+
+            navigateTo(MainPage.Name.NOTES)
+
+            NotesScreen { assert { onDisplayContent(empty = false) } }
+        }
+    }
+
+    @Test fun rollNoteDialogCopy() {
+        TODO("not create")
+    }
+
+    @Test fun rollNoteDialogClear() {
+        beforeLaunch { testData.apply { clearAllData() }.insertRollToBin() }
 
         MainScreen {
             navigateTo(MainPage.Name.BIN)

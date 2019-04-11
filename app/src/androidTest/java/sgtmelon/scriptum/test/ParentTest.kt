@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test
 
 import android.content.Context
+import android.content.Intent
 import androidx.annotation.CallSuper
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
@@ -40,6 +41,16 @@ abstract class ParentTest {
 
     @After @CallSuper open fun tearDown() {
 
+    }
+
+    protected fun beforeLaunch(intent: Intent = Intent(), func: () -> Unit) {
+        func.invoke()
+        launch(intent)
+    }
+
+    protected fun launch(intent: Intent = Intent(), func: () -> Unit = {}) {
+        testRule.launchActivity(intent)
+        func.invoke()
     }
 
 }
