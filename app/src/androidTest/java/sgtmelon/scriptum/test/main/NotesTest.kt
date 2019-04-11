@@ -163,7 +163,7 @@ class NotesTest : ParentTest() {
                     pressBack()
                 }
 
-                assert { onDisplayContent(empty = false) }
+                assert { onDisplayContent(empty = true) }
             }
         }
     }

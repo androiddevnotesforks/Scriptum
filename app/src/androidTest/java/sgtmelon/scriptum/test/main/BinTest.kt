@@ -228,7 +228,13 @@ class BinTest : ParentTest() {
         }
     }
 
-    // TODO copy text
+    @Test fun copyTextNote() {
+        TODO("not create")
+    }
+
+    @Test fun copyRollNote() {
+        TODO("not create")
+    }
 
     @Test fun clearTextNote() {
         testData.apply { clearAllData() }.insertTextToBin()
