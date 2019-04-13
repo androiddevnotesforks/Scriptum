@@ -27,13 +27,13 @@ abstract class BasicMatch {
     protected fun onDisplay(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isDisplayed()))
 
-    protected fun doesNotDisplay(@IdRes viewId: Int): ViewInteraction =
+    protected fun notDisplay(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(not(isDisplayed())))
 
     protected fun onDisplay(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
             onView(allOf(withId(viewId), withText(stringId))).check(matches(isDisplayed()))
 
-    protected fun doesNotDisplay(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
+    protected fun notDisplay(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
             onView(allOf(withId(viewId), withText(stringId))).check(matches(not(isDisplayed())))
 
     protected fun onDisplayToolbar(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
@@ -50,5 +50,8 @@ abstract class BasicMatch {
 
     protected fun onDisplay(@IdRes viewId: Int, string: String): ViewInteraction =
             onView(allOf(withId(viewId), withText(string))).check(matches(isDisplayed()))
+
+    protected fun onDisplayHint(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
+            onView(allOf(withId(viewId), withHint(stringId))).check(matches(isDisplayed()))
 
 }

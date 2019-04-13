@@ -27,14 +27,14 @@ class NoteToolbar : ParentUi() {
 
             when (state) {
                 State.READ, State.BIN -> {
-                    doesNotDisplay(R.id.toolbar_note_enter)
+                    notDisplay(R.id.toolbar_note_enter)
                     onDisplay(R.id.toolbar_note_scroll)
                     onDisplay(R.id.toolbar_note_text)
                 }
                 State.EDIT, State.NEW -> {
                     onDisplay(R.id.toolbar_note_enter)
-                    doesNotDisplay(R.id.toolbar_note_scroll)
-                    doesNotDisplay(R.id.toolbar_note_text)
+                    notDisplay(R.id.toolbar_note_scroll)
+                    notDisplay(R.id.toolbar_note_text)
                 }
             }
         }

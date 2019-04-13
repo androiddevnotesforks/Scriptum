@@ -40,12 +40,12 @@ class TextNoteScreen : ParentUi() {
 
             when(state) {
                 State.READ, State.BIN -> {
-                    doesNotDisplay(R.id.text_note_content_enter)
+                    notDisplay(R.id.text_note_content_enter)
                     onDisplay(R.id.text_note_content_text)
                 }
                 State.EDIT, State.NEW -> {
                     onDisplay(R.id.text_note_content_enter)
-                    doesNotDisplay(R.id.text_note_content_text)
+                    notDisplay(R.id.text_note_content_text)
                 }
             }
 

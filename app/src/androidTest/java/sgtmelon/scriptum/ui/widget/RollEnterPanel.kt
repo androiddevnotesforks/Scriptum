@@ -20,9 +20,9 @@ class RollEnterPanel : ParentUi() {
         fun onDisplayContent(state: State) {
             when (state) {
                 State.READ, State.BIN -> {
-                    doesNotDisplay(R.id.roll_note_enter_container)
-                    doesNotDisplay(R.id.roll_note_enter)
-                    doesNotDisplay(R.id.roll_note_add_button)
+                    notDisplay(R.id.roll_note_enter_container)
+                    notDisplay(R.id.roll_note_enter)
+                    notDisplay(R.id.roll_note_add_button)
                 }
                 State.EDIT, State.NEW -> {
                     onDisplay(R.id.roll_note_enter_container)

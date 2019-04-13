@@ -14,7 +14,7 @@ abstract class ParentRecyclerScreen(protected val recyclerId: Int) : ParentUi() 
 
     private val value: BasicValue = BasicValue()
 
-    val count = value.getCount(recyclerId)
+    val count: Int get() = value.getCount(recyclerId)
 
     protected val positionRandom: Int get() = (0 until count - 1).random()
 

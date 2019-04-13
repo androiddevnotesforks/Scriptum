@@ -28,10 +28,10 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
             if (empty) {
                 onDisplay(R.id.info_title_text, R.string.info_notes_title)
                 onDisplay(R.id.info_details_text, R.string.info_notes_details)
-                doesNotDisplay(R.id.notes_recycler)
+                notDisplay(R.id.notes_recycler)
             } else {
-                doesNotDisplay(R.id.info_title_text, R.string.info_notes_title)
-                doesNotDisplay(R.id.info_details_text, R.string.info_notes_details)
+                notDisplay(R.id.info_title_text, R.string.info_notes_title)
+                notDisplay(R.id.info_details_text, R.string.info_notes_details)
                 onDisplay(R.id.notes_recycler)
             }
         }

@@ -58,7 +58,7 @@ class MainScreen : ParentUi() {
         }
 
         fun onDisplayFab(visible: Boolean) =
-                if (visible) onDisplay(R.id.main_add_fab) else doesNotDisplay(R.id.main_add_fab)
+                if (visible) onDisplay(R.id.main_add_fab) else notDisplay(R.id.main_add_fab)
 
     }
 

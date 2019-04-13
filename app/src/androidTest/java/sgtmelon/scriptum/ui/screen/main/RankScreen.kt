@@ -25,10 +25,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             if (empty) {
                 onDisplay(R.id.info_title_text, R.string.info_rank_title)
                 onDisplay(R.id.info_details_text, R.string.info_rank_details)
-                doesNotDisplay(R.id.rank_recycler)
+                notDisplay(R.id.rank_recycler)
             } else {
-                doesNotDisplay(R.id.info_title_text, R.string.info_rank_title)
-                doesNotDisplay(R.id.info_details_text, R.string.info_notes_details)
+                notDisplay(R.id.info_title_text, R.string.info_rank_title)
+                notDisplay(R.id.info_details_text, R.string.info_notes_details)
                 onDisplay(R.id.rank_recycler)
             }
         }

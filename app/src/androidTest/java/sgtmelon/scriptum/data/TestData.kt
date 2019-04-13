@@ -19,7 +19,7 @@ class TestData(private val context: Context) {
 
     private val dataBase: RoomDb get() = RoomDb.getInstance(context)
 
-    private val textNote: NoteItem
+    val textNote: NoteItem
         get() = NoteItem().apply {
             create = context.getTime()
             change = context.getTime()
@@ -29,7 +29,7 @@ class TestData(private val context: Context) {
             type = NoteType.TEXT
         }
 
-    private val rollNote: NoteItem
+    val rollNote: NoteItem
         get() = NoteItem().apply {
             create = context.getTime()
             change = context.getTime()

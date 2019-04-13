@@ -228,12 +228,55 @@ class NotesTest : ParentTest() {
         }
     }
 
+    /**
+     * TODO check
+     */
     @Test fun textNoteDialogBind() {
-        TODO("not create")
+        val noteItem = testData.apply { clearAllData() }.insertText()
+
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickBind()
+                }
+
+                noteItem.isStatus = true
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
     }
 
+    /**
+     * TODO check
+     */
     @Test fun textNoteDialogUnbind() {
-        TODO("not create")
+        val noteItem = with(testData) {
+            clearAllData()
+            return@with insertText(textNote.apply { isStatus = true })
+        }
+
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickUnbind()
+                }
+
+                noteItem.isStatus = false
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
     }
 
     @Test fun textNoteDialogConvert() {
@@ -381,12 +424,55 @@ class NotesTest : ParentTest() {
         }
     }
 
+    /**
+     * TODO check
+     */
     @Test fun rollNoteDialogBind() {
-        TODO("not create")
+        val noteItem = testData.apply { clearAllData() }.insertRoll()
+
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickBind()
+                }
+
+                noteItem.isStatus = true
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
     }
 
+    /**
+     * TODO check
+     */
     @Test fun rollNoteDialogUnbind() {
-        TODO("not create")
+        val noteItem = with(testData) {
+            clearAllData()
+            return@with insertRoll(rollNote.apply { isStatus = true })
+        }
+
+        launch()
+
+        MainScreen {
+            NotesScreen {
+                onLongClickItem(position = 0)
+                NoteDialog {
+                    assert { onDisplayContent(noteItem) }
+                    onClickUnbind()
+                }
+
+                noteItem.isStatus = false
+
+                onLongClickItem(position = 0)
+                NoteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
     }
 
     @Test fun rollNoteDialogConvert() {

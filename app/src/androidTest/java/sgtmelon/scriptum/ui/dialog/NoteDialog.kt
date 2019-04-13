@@ -14,9 +14,9 @@ class NoteDialog : ParentUi() {
 
     fun onClickUncheck() = waitClose { action { onClickText(R.string.dialog_menu_check_zero) } }
 
-    fun onClickRestore() = waitClose { action { onClickText(R.string.dialog_menu_restore) } }
+    fun onClickBind() = waitClose { action { onClickText(R.string.dialog_menu_status_bind) } }
 
-    fun onClickClear() = waitClose { action { onClickText(R.string.dialog_menu_clear) } }
+    fun onClickUnbind() = waitClose { action { onClickText(R.string.dialog_menu_status_unbind) } }
 
     fun onClickCopy() = waitClose { action { onClickText(R.string.dialog_menu_copy) } }
 
@@ -30,6 +30,10 @@ class NoteDialog : ParentUi() {
     }
 
     fun onClickDelete() = waitClose { action { onClickText(R.string.dialog_menu_delete) } }
+
+    fun onClickRestore() = waitClose { action { onClickText(R.string.dialog_menu_restore) } }
+
+    fun onClickClear() = waitClose { action { onClickText(R.string.dialog_menu_clear) } }
 
     private fun waitClose(func: () -> Unit) {
         func.invoke()

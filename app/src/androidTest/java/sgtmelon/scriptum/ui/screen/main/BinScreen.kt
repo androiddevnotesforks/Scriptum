@@ -27,12 +27,12 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
             if (empty) {
                 onDisplay(R.id.info_title_text, R.string.info_bin_title)
                 onDisplay(R.id.info_details_text, R.string.info_bin_details)
-                doesNotDisplay(R.id.bin_recycler)
+                notDisplay(R.id.bin_recycler)
             } else {
                 onDisplay(R.id.item_clear)
 
-                doesNotDisplay(R.id.info_title_text, R.string.info_bin_title)
-                doesNotDisplay(R.id.info_details_text, R.string.info_bin_details)
+                notDisplay(R.id.info_title_text, R.string.info_bin_title)
+                notDisplay(R.id.info_details_text, R.string.info_bin_details)
                 onDisplay(R.id.bin_recycler)
             }
         }
