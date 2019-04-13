@@ -9,12 +9,12 @@ import sgtmelon.scriptum.screen.view.main.RankFragment
 object FragmentFactory {
 
     fun getRankFragment(fm: FragmentManager?): RankFragment =
-            fm?.findFragmentByTag(MainPage.Name.RANK.name) as RankFragment? ?: RankFragment()
+            fm?.findFragmentByTag(MainPage.RANK.name) as RankFragment? ?: RankFragment()
 
     fun getNotesFragment(fm: FragmentManager?): NotesFragment =
-            fm?.findFragmentByTag(MainPage.Name.NOTES.name) as NotesFragment? ?: NotesFragment()
+            fm?.findFragmentByTag(MainPage.NOTES.name) as NotesFragment? ?: NotesFragment()
 
     fun getBinFragment(fm: FragmentManager?): BinFragment =
-            fm?.findFragmentByTag(MainPage.Name.BIN.name) as BinFragment? ?: BinFragment()
+            fm?.findFragmentByTag(MainPage.BIN.name) as BinFragment? ?: BinFragment()
 
 }

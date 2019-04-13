@@ -8,11 +8,7 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.dialog.ClearDialog
-import sgtmelon.scriptum.ui.dialog.NoteDialog
-import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -33,8 +29,8 @@ class BinTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
-            BinScreen { assert { onDisplayContent(empty = true) } }
+            navigateTo(MainPage.BIN)
+            binScreen { assert { onDisplayContent(empty = true) } }
         }
     }
 
@@ -42,8 +38,8 @@ class BinTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillBin() }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
-            BinScreen { assert { onDisplayContent(empty = false) } }
+            navigateTo(MainPage.BIN)
+            binScreen { assert { onDisplayContent(empty = false) } }
         }
     }
 
@@ -51,8 +47,8 @@ class BinTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
-            BinScreen {
+            navigateTo(MainPage.BIN)
+            binScreen {
                 onScroll(Scroll.END, time = 4)
                 onScroll(Scroll.START, time = 4)
             }
@@ -63,9 +59,9 @@ class BinTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.insertTextToBin() }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 assert { onDisplayContent(empty = false) }
 
                 onClickItem(position = 0)
@@ -83,9 +79,9 @@ class BinTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.insertRollToBin() }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 assert { onDisplayContent(empty = false) }
 
                 onClickItem(position = 0)
@@ -99,28 +95,61 @@ class BinTest : ParentTest() {
         }
     }
 
+
+    @Test fun clearDialogOpen() {
+        beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
+
+        MainScreen {
+            navigateTo(MainPage.BIN)
+
+            binScreen {
+                onClickClearBin()
+                clearDialog { assert { onDisplayContent() } }
+            }
+        }
+    }
+
+    @Test fun clearDialogCloseSoft() {
+        beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
+
+        MainScreen {
+            navigateTo(MainPage.BIN)
+
+            binScreen {
+                onClickClearBin()
+                clearDialog { onCloseSoft() }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
+    @Test fun clearDialogCloseCancel() {
+        beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
+
+        MainScreen {
+            navigateTo(MainPage.BIN)
+
+            binScreen {
+                onClickClearBin()
+                clearDialog { onClickNo() }
+
+                assert { onDisplayContent(empty = false) }
+            }
+        }
+    }
+
     @Test fun clearDialogWork() {
         beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 assert { onDisplayContent(empty = false) }
 
                 onClickClearBin()
-                ClearDialog {
-                    assert { onDisplayContent() }
-                    onClickNo()
-                }
-
-                assert { onDisplayContent(empty = false) }
-
-                onClickClearBin()
-                ClearDialog {
-                    assert { onDisplayContent() }
-                    onClickYes()
-                }
+                clearDialog { onClickYes() }
 
                 assert { onDisplayContent(empty = true) }
             }
@@ -134,14 +163,24 @@ class BinTest : ParentTest() {
         launch()
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 onLongClickItem(position = 0)
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    pressBack()
-                }
+                noteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
+    }
+
+    @Test fun textNoteDialogClose() {
+        beforeLaunch { testData.apply { clearAllData() }.insertTextToBin() }
+
+        MainScreen {
+            navigateTo(MainPage.BIN)
+
+            binScreen {
+                onLongClickItem(position = 0)
+                noteDialog { onCloseSoft() }
 
                 assert { onDisplayContent(empty = false) }
             }
@@ -152,48 +191,44 @@ class BinTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.insertTextToBin() }
 
         MainScreen {
-            NotesScreen { assert { onDisplayContent(empty = true) } }
+            notesScreen { assert { onDisplayContent(empty = true) } }
 
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 assert { onDisplayContent(empty = false) }
 
                 onLongClickItem(position = 0)
-                NoteDialog { onClickRestore() }
+                noteDialog { onClickRestore() }
 
                 assert { onDisplayContent(empty = true) }
             }
 
-            navigateTo(MainPage.Name.NOTES)
+            navigateTo(MainPage.NOTES)
 
-            NotesScreen { assert { onDisplayContent(empty = false) } }
+            notesScreen { assert { onDisplayContent(empty = false) } }
         }
-    }
-
-    @Test fun textNoteDialogCopy() {
-        TODO("not create")
     }
 
     @Test fun textNoteDialogClear() {
         beforeLaunch { testData.apply { clearAllData() }.insertTextToBin() }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 assert { onDisplayContent(empty = false) }
 
                 onLongClickItem(position = 0)
-                NoteDialog { onClickClear() }
+                noteDialog { onClickClear() }
 
                 Thread.sleep(300)
                 assert { onDisplayContent(empty = true) }
             }
 
-            navigateTo(MainPage.Name.NOTES)
+            navigateTo(MainPage.NOTES)
 
-            NotesScreen { assert { onDisplayContent(empty = true) } }
+            notesScreen { assert { onDisplayContent(empty = true) } }
         }
     }
 
@@ -204,14 +239,24 @@ class BinTest : ParentTest() {
         launch()
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 onLongClickItem(position = 0)
-                NoteDialog {
-                    assert { onDisplayContent(noteItem) }
-                    pressBack()
-                }
+                noteDialog { assert { onDisplayContent(noteItem) } }
+            }
+        }
+    }
+
+    @Test fun rollNoteDialogClose() {
+        beforeLaunch { testData.apply { clearAllData() }.insertRollToBin() }
+
+        MainScreen {
+            navigateTo(MainPage.BIN)
+
+            binScreen {
+                onLongClickItem(position = 0)
+                noteDialog { onCloseSoft() }
 
                 assert { onDisplayContent(empty = false) }
             }
@@ -222,48 +267,44 @@ class BinTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.insertRollToBin() }
 
         MainScreen {
-            NotesScreen { assert { onDisplayContent(empty = true) } }
+            notesScreen { assert { onDisplayContent(empty = true) } }
 
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 assert { onDisplayContent(empty = false) }
 
                 onLongClickItem(position = 0)
-                NoteDialog { onClickRestore() }
+                noteDialog { onClickRestore() }
 
                 assert { onDisplayContent(empty = true) }
             }
 
-            navigateTo(MainPage.Name.NOTES)
+            navigateTo(MainPage.NOTES)
 
-            NotesScreen { assert { onDisplayContent(empty = false) } }
+            notesScreen { assert { onDisplayContent(empty = false) } }
         }
-    }
-
-    @Test fun rollNoteDialogCopy() {
-        TODO("not create")
     }
 
     @Test fun rollNoteDialogClear() {
         beforeLaunch { testData.apply { clearAllData() }.insertRollToBin() }
 
         MainScreen {
-            navigateTo(MainPage.Name.BIN)
+            navigateTo(MainPage.BIN)
 
-            BinScreen {
+            binScreen {
                 assert { onDisplayContent(empty = false) }
 
                 onLongClickItem(position = 0)
-                NoteDialog { onClickClear() }
+                noteDialog { onClickClear() }
 
                 Thread.sleep(300)
                 assert { onDisplayContent(empty = true) }
             }
 
-            navigateTo(MainPage.Name.NOTES)
+            navigateTo(MainPage.NOTES)
 
-            NotesScreen { assert { onDisplayContent(empty = true) } }
+            notesScreen { assert { onDisplayContent(empty = true) } }
         }
     }
 

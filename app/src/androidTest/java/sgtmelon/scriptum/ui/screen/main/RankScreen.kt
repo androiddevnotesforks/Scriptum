@@ -1,19 +1,21 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
+/**
+ * Класс для ui контроля экрана [RankFragment]
+ *
+ * @author SerjantArbuz
+ */
 class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
     fun onLongClickItem(position: Int = positionRandom) =
             action { onLongClick(recyclerId, position) }
-
-    companion object {
-        operator fun invoke(func: RankScreen.() -> Unit) = RankScreen().apply { func() }
-    }
 
     class Assert : BasicMatch() {
 

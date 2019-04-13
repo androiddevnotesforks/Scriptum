@@ -3,12 +3,19 @@ package sgtmelon.scriptum.ui.screen.note
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.screen.view.note.NoteActivity
+import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.widget.NotePanel
 import sgtmelon.scriptum.ui.widget.NoteToolbar
 import sgtmelon.scriptum.ui.widget.RollEnterPanel
 
+/**
+ * Класс для ui контроля экрана [NoteActivity], [RollNoteFragment]
+ *
+ * @author SerjantArbuz
+ */
 class RollNoteScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }

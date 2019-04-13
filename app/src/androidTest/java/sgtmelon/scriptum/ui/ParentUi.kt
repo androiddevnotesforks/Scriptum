@@ -11,4 +11,9 @@ abstract class ParentUi {
 
     protected fun action(func: BasicAction.() -> Unit) = BasicAction().apply { func() }
 
+    protected fun wait(time: Long, func: () -> Unit = {}) {
+        Thread.sleep(time)
+        func()
+    }
+
 }

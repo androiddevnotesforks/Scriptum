@@ -11,10 +11,10 @@ class NoteState(var isCreate: Boolean, var isBin: Boolean = false) {
         isEdit = isCreate
     }
 
-    inline fun ifCreate(function: () -> Unit) {
+    inline fun ifCreate(func: () -> Unit) {
         if (isCreate) {
             isCreate = false
-            function.invoke()
+            func()
         }
     }
 

@@ -36,6 +36,8 @@ class MainActivity : AppActivity(), MainCallback {
     // TODO Добавить перескакивание курсора при старте редактирования в нужное место
     // TODO setHasFixedSize recyclerView
 
+    // TODO если отчистить базу данных то закреплённые уведомления останутся
+
     // TODO Перед релизом
     /**
      * 1. Доделать [InputControl] (доработать функционал)
@@ -109,13 +111,13 @@ class MainActivity : AppActivity(), MainCallback {
 
     override fun changeFabState(state: Boolean) = fab.setState(state)
 
-    override fun scrollTop(name: MainPage.Name) = when (name) {
-        MainPage.Name.RANK -> rankFragment.scrollTop()
-        MainPage.Name.NOTES -> notesFragment.scrollTop()
-        MainPage.Name.BIN -> binFragment.scrollTop()
+    override fun scrollTop(mainPage: MainPage) = when (mainPage) {
+        MainPage.RANK -> rankFragment.scrollTop()
+        MainPage.NOTES -> notesFragment.scrollTop()
+        MainPage.BIN -> binFragment.scrollTop()
     }
 
-    override fun showPage(pageFrom: MainPage.Name, pageTo: MainPage.Name) {
+    override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
         with(supportFragmentManager) {
             beginTransaction().apply {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -137,10 +139,10 @@ class MainActivity : AppActivity(), MainCallback {
         }
     }
 
-    private fun getFragmentByName(name: MainPage.Name): Fragment = when (name) {
-        MainPage.Name.RANK -> rankFragment
-        MainPage.Name.NOTES -> notesFragment
-        MainPage.Name.BIN -> binFragment
+    private fun getFragmentByName(mainPage: MainPage): Fragment = when (mainPage) {
+        MainPage.RANK -> rankFragment
+        MainPage.NOTES -> notesFragment
+        MainPage.BIN -> binFragment
     }
 
     companion object {

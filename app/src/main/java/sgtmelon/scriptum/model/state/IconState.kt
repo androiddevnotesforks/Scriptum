@@ -9,7 +9,7 @@ class IconState {
 
     fun notAnimate(func: () -> Unit) {
         animate = false
-        func.invoke()
+        func()
         animate = true
     }
 

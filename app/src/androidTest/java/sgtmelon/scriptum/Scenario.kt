@@ -26,15 +26,15 @@ private class Scenario {
     class Splash {
 
         /**
-         * UI - Открытие приветствия :: [SplashTest.introScreenOpen]
+         * UI - Открыть приветствие :: [SplashTest.introScreenOpen]
          */
 
         /**
-         * UI - Открытие главного экрана :: [SplashTest.mainScreenOpen]
+         * UI - Открыть главный экран :: [SplashTest.mainScreenOpen]
          */
 
         /**
-         * UI - Открытие заметок через уведомление
+         * UI - Открыть заметку через уведомление
          * # Текст :: [SplashTest.statusTextNoteOpen]
          * # Список :: [SplashTest.statusRollNoteOpen]
          */
@@ -79,7 +79,12 @@ private class Scenario {
 
         /**
          * UI - Работа диалога добавления заметки
-         * # Открытие диалога :: [MainTest.addDialogOpen]
+         * # Открыть :: [MainTest.addDialogOpen]
+         *
+         * # Закрыть:
+         * # Кнопкой назад :: [MainTest.addDialogCloseSoft]
+         * # Свайпом вниз :: [MainTest.addDialogCloseSwipe]
+         *
          * # Создать текст :: [MainTest.addDialogCreateTextNote]
          * # Создать список :: [MainTest.addDialogCreateRollNote]
          */
@@ -151,7 +156,11 @@ private class Scenario {
          **/
 
         /**
-         * UI - Открытие настроек :: [NotesTest.openPreference]
+         * UI - Открыть настройки :: [NotesTest.openPreference]
+         */
+
+        /**
+         * UI/CONTROL - Скроллинг списка :: [NotesTest.listScroll]
          */
 
         /**
@@ -159,9 +168,9 @@ private class Scenario {
          */
 
         /**
-         * UI - Открытие заметки
+         * UI - Открыть заметку
          * # Текст :: [NotesTest.textNoteOpen]
-         * #  Список :: [NotesTest.rollNoteOpen]
+         * # Список :: [NotesTest.rollNoteOpen]
          */
 
         /**
@@ -172,29 +181,31 @@ private class Scenario {
 
         /**
          * UI - Создание заметки и возврат назад с сохранением
-         * #  Текст :: [NotesTest.textNoteCreateAndReturnWithSave]
-         * #  Список :: [NotesTest.rollNoteCreateAndReturnWithSave]
+         * # Текст :: [NotesTest.textNoteCreateAndReturnWithSave]
+         * # Список :: [NotesTest.rollNoteCreateAndReturnWithSave]
          */
 
         /**
-         * UI - Работа диалога управления заметкой
-         * #  Текст:
-         * #  Открыть :: [NotesTest.textNoteDialogOpen]
-         * #  Прикрепить к статус бару :: [NotesTest.textNoteDialogBind]
-         * #  Открепить от статус бара :: [NotesTest.textNoteDialogUnbind]
-         * #  Конвертировать :: [NotesTest.textNoteDialogConvert]
-         * #  Копировать текст :: [NotesTest.textNoteDialogCopy]
-         * #  Удаление :: [NotesTest.textNoteDialogDelete]
+         * UI/CONTROL/MANUAL - Работа диалога управления заметкой
+         * # Текст:
+         * # Открыть :: [NotesTest.textNoteDialogOpen]
+         * # Закрыть :: [NotesTest.textNoteDialogClose]
+         * # Прикрепить к статус бару :: [NotesTest.textNoteDialogBind]
+         * # Открепить от статус бара :: [NotesTest.textNoteDialogUnbind]
+         * # Конвертировать :: [NotesTest.textNoteDialogConvert]
+         * # Копировать текст
+         * # Удаление :: [NotesTest.textNoteDialogDelete]
          *
-         * #  Список:
-         * #  Открыть :: [NotesTest.rollNoteDialogOpen]
+         * # Список:
+         * # Открыть :: [NotesTest.rollNoteDialogOpen]
+         * # Закрыть :: [NotesTest.rollNoteDialogClose]
          * # Выполнить всё :: [NotesTest.rollNoteDialogCheckAllFromEmpty], [NotesTest.rollNoteDialogCheckAll]
          * # Снять выделения :: [NotesTest.rollNoteDialogUncheckAll]
          * # Прикрепить к статус бару :: [NotesTest.rollNoteDialogBind]
-         * #  Открепить от статус бара :: [NotesTest.rollNoteDialogUnbind]
-         * #  Конвертировать :: [NotesTest.rollNoteDialogConvert]
-         * #  Копировать текст :: [NotesTest.rollNoteDialogCopy]
-         * #  Удаление :: [NotesTest.rollNoteDialogDelete]
+         * # Открепить от статус бара :: [NotesTest.rollNoteDialogUnbind]
+         * # Конвертировать :: [NotesTest.rollNoteDialogConvert]
+         * # Копировать текст
+         * # Удаление :: [NotesTest.rollNoteDialogDelete]
          */
 
         /**
@@ -212,8 +223,8 @@ private class Scenario {
 
         /**
          * UI - Контент
-         * #  Пусто :: [BinTest.contentEmpty]
-         * #  Список :: [BinTest.contentList]
+         * # Пусто :: [BinTest.contentEmpty]
+         * # Список :: [BinTest.contentList]
          **/
 
         /**
@@ -221,33 +232,42 @@ private class Scenario {
          */
 
         /**
-         * UI - Открытие заметки
-         * #  Текст :: [BinTest.textNoteOpen]
-         * #  Список :: [BinTest.rollNoteOpen]
+         * UI - Открыть заметку
+         * # Текст :: [BinTest.textNoteOpen]
+         * # Список :: [BinTest.rollNoteOpen]
          */
 
         /**
          * UI - Работы диалога отчистки корзины :: [BinTest.clearDialogWork]
+         * # Открыть :: [BinTest.clearDialogOpen]
+         *
+         * # Закрыть:
+         * # Кнопкой назад :: [BinTest.clearDialogCloseSoft]
+         * # Кнопкой нет :: [BinTest.clearDialogCloseCancel]
+         *
+         * # Результат работы :: [BinTest.clearDialogWork]
          */
 
         /**
-         * UI - Работа диалога управления заметкой
-         * #  Текст:
-         * #  Открыть :: [BinTest.textNoteDialogOpen]
-         * #  Восстановить :: [BinTest.textNoteDialogRestore]
-         * #  Копировать текст :: [BinTest.textNoteDialogCopy]
-         * #  Отчистить :: [BinTest.textNoteDialogClear]
+         * UI/MANUAL - Работа диалога управления заметкой
+         * # Текст:
+         * # Открыть :: [BinTest.textNoteDialogOpen]
+         * # Закрыть :: [BinTest.textNoteDialogClose]
+         * # Восстановить :: [BinTest.textNoteDialogRestore]
+         * # Копировать текст
+         * # Отчистить :: [BinTest.textNoteDialogClear]
          *
-         * #  Список:
-         * #  Открыть :: [BinTest.rollNoteDialogOpen]
-         * #  Восстановить :: [BinTest.rollNoteDialogRestore]
-         * #  Копировать текст :: [BinTest.rollNoteDialogCopy]
-         * #  Отчистить :: [BinTest.rollNoteDialogClear]
+         * # Список:
+         * # Открыть :: [BinTest.rollNoteDialogOpen]
+         * # Закрыть :: [BinTest.rollNoteDialogClose]
+         * # Восстановить :: [BinTest.rollNoteDialogRestore]
+         * # Копировать текст
+         * # Отчистить :: [BinTest.rollNoteDialogClear]
          */
 
         /**
          * MANUAL - Поворот экрана
-         * #  Контент
+         * # Контент
          * # Диалог отчистки корзины
          * # Диалог управления заметкой
          */

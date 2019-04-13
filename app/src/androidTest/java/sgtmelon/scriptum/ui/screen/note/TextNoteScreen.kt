@@ -5,11 +5,18 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.screen.view.note.NoteActivity
+import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.widget.NotePanel
 import sgtmelon.scriptum.ui.widget.NoteToolbar
 
+/**
+ * Класс для ui контроля экрана [NoteActivity], [TextNoteFragment]
+ *
+ * @author SerjantArbuz
+ */
 class TextNoteScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }

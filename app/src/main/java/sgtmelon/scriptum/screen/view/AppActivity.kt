@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.screen.callback.AppCallback
 import sgtmelon.scriptum.screen.vm.AppViewModel
 
@@ -21,16 +22,21 @@ abstract class AppActivity : AppCompatActivity(), AppCallback {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.onSetupTheme()
+    }
+
     override fun onResume() {
         super.onResume()
 
         checkThemeChange()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel.onSetupTheme()
+    override fun onStart() {
+        super.onStart()
+        AppIdlingResource.worker.stopHardWork()
     }
 
     fun checkThemeChange() {

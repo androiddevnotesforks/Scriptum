@@ -2,34 +2,43 @@ package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.dialog.AddDialog
 
+/**
+ * Класс для ui контроля экрана [MainActivity]
+ *
+ * @author SerjantArbuz
+ */
 class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
+    fun rankScreen(func: RankScreen.() -> Unit) = RankScreen().apply { func() }
+    fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply { func() }
+    fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply { func() }
+
+    fun addDialog(func: AddDialog.() -> Unit) = AddDialog().apply { func() }
+
     fun onClickFab() = action { onClick(R.id.main_add_fab) }
 
-    fun navigateTo(page: MainPage.Name) = action {
+    fun navigateTo(page: MainPage) = action {
         onClick(when (page) {
-            MainPage.Name.RANK -> R.id.item_page_rank
-            MainPage.Name.NOTES -> R.id.item_page_notes
-            MainPage.Name.BIN -> R.id.item_page_bin
+            MainPage.RANK -> R.id.item_page_rank
+            MainPage.NOTES -> R.id.item_page_notes
+            MainPage.BIN -> R.id.item_page_bin
         })
     }
 
-    fun scrollTop(page: MainPage.Name) = action {
+    fun scrollTop(page: MainPage) = action {
         onLongClick(when (page) {
-            MainPage.Name.RANK -> R.id.item_page_rank
-            MainPage.Name.NOTES -> R.id.item_page_notes
-            MainPage.Name.BIN -> R.id.item_page_bin
+            MainPage.RANK -> R.id.item_page_rank
+            MainPage.NOTES -> R.id.item_page_notes
+            MainPage.BIN -> R.id.item_page_bin
         })
         Thread.sleep(100)
-    }
-
-    companion object {
-        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply { func() }
     }
 
     class Assert : BasicMatch() {
@@ -40,26 +49,19 @@ class MainScreen : ParentUi() {
             onDisplay(R.id.main_menu_navigation)
         }
 
-        fun onDisplayContent(page: MainPage.Name) {
-            when (page) {
-                MainPage.Name.RANK -> {
-                    isSelected(R.id.item_page_rank)
-                    RankScreen { assert { onDisplayContent(empty = count == 0) } }
-                }
-                MainPage.Name.NOTES -> {
-                    isSelected(R.id.item_page_notes)
-                    NotesScreen { assert { onDisplayContent(empty = count == 0) } }
-                }
-                MainPage.Name.BIN -> {
-                    isSelected(R.id.item_page_bin)
-                    BinScreen { assert { onDisplayContent(empty = count == 0) } }
-                }
-            }
+        fun onDisplayContent(page: MainPage) = when (page) {
+            MainPage.RANK -> isSelected(R.id.item_page_rank)
+            MainPage.NOTES -> isSelected(R.id.item_page_notes)
+            MainPage.BIN -> isSelected(R.id.item_page_bin)
         }
 
         fun onDisplayFab(visible: Boolean) =
                 if (visible) onDisplay(R.id.main_add_fab) else notDisplay(R.id.main_add_fab)
 
+    }
+
+    companion object {
+        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply { func() }
     }
 
 }

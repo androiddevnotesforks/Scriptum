@@ -1,11 +1,18 @@
 package sgtmelon.scriptum.ui.dialog
 
+import androidx.test.espresso.Espresso.pressBack
+import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
+/**
+ * Класс для ui контроля диалога [MultiplyDialog] при долгом нажатии на заметку
+ *
+ * @author SerjantArbuz
+ */
 class NoteDialog : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
@@ -17,8 +24,6 @@ class NoteDialog : ParentUi() {
     fun onClickBind() = waitClose { action { onClickText(R.string.dialog_menu_status_bind) } }
 
     fun onClickUnbind() = waitClose { action { onClickText(R.string.dialog_menu_status_unbind) } }
-
-    fun onClickCopy() = waitClose { action { onClickText(R.string.dialog_menu_copy) } }
 
     fun onClickConvert(noteType: NoteType) = waitClose {
         action {
@@ -35,18 +40,14 @@ class NoteDialog : ParentUi() {
 
     fun onClickClear() = waitClose { action { onClickText(R.string.dialog_menu_clear) } }
 
+    fun onCloseSoft() = pressBack()
+
     private fun waitClose(func: () -> Unit) {
-        func.invoke()
+        func()
         Thread.sleep(500)
     }
 
-    companion object {
-        operator fun invoke(func: NoteDialog.() -> Unit) = NoteDialog().apply { func() }
-    }
-
     class Assert : BasicMatch() {
-
-        // TODO потесить чтобы были падения при изменение флагов (хотя действия с диалогом всё тестят (см выше))
 
         fun onDisplayContent(noteItem: NoteItem) {
             when (noteItem.isBin) {

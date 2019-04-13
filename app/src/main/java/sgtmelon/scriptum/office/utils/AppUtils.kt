@@ -21,8 +21,8 @@ object AppUtils {
 
     // TODO раскидать по разным Utils
 
-    fun Activity.beforeFinish(function: () -> Unit) {
-        function.invoke()
+    fun Activity.beforeFinish(func: () -> Unit) {
+        func()
         finish()
     }
 
@@ -60,10 +60,10 @@ object AppUtils {
         return DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
     }
 
-    fun RecyclerView.ViewHolder.checkNoPosition(function: () -> Unit): Boolean {
+    fun RecyclerView.ViewHolder.checkNoPosition(func: () -> Unit): Boolean {
         if (adapterPosition == RecyclerView.NO_POSITION) return false
 
-        function.invoke()
+        func()
         return true
     }
 

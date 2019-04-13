@@ -16,8 +16,8 @@ interface MainCallback {
 
     fun changeFabState(state: Boolean)
 
-    fun scrollTop(name: MainPage.Name)
+    fun scrollTop(mainPage: MainPage)
 
-    fun showPage(pageFrom: MainPage.Name, pageTo: MainPage.Name)
+    fun showPage(pageFrom: MainPage, pageTo: MainPage)
 
 }

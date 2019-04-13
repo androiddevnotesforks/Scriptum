@@ -11,7 +11,6 @@ import org.junit.Rule
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.Preference
-import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.screen.view.SplashActivity
 
 /**
@@ -30,7 +29,6 @@ abstract class ParentTest {
     val preference = Preference(context)
 
     val testData = TestData(context)
-    val db: RoomDb = RoomDb.getInstance(context)
 
     @Before @CallSuper open fun setUp() {
         when (Math.random() < 0.5) {
@@ -44,13 +42,18 @@ abstract class ParentTest {
     }
 
     protected fun beforeLaunch(intent: Intent = Intent(), func: () -> Unit) {
-        func.invoke()
+        func()
         launch(intent)
     }
 
     protected fun launch(intent: Intent = Intent(), func: () -> Unit = {}) {
         testRule.launchActivity(intent)
-        func.invoke()
+        func()
+    }
+
+    protected fun wait(time: Long, func: () -> Unit = {}) {
+        Thread.sleep(time)
+        func()
     }
 
 }

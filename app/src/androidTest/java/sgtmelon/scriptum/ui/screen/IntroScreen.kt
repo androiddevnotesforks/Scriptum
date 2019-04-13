@@ -3,9 +3,16 @@ package sgtmelon.scriptum.ui.screen
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.data.IntroData
+import sgtmelon.scriptum.screen.view.intro.IntroActivity
+import sgtmelon.scriptum.screen.view.intro.IntroFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
+/**
+ * Класс для ui контроля экрана [IntroActivity], [IntroFragment]
+ *
+ * @author SerjantArbuz
+ */
 class IntroScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }

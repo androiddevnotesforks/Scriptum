@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.PagerAdapter
+import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.office.utils.AppUtils.beforeFinish
 import sgtmelon.scriptum.screen.view.main.MainActivity
@@ -35,6 +36,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             alpha = 0f
             isEnabled = false
             setOnClickListener {
+                AppIdlingResource.worker.startHardWork()
                 beforeFinish { startActivity(MainActivity.getIntent(context = this@IntroActivity)) }
             }
         }
