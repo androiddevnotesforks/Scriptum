@@ -181,7 +181,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         if (changeMode) {
             callback.hideKeyboard()
             onMenuEdit(mode = false)
-            inputControl.clear()
+            inputControl.reset()
         }
 
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
@@ -217,8 +217,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuEdit(mode: Boolean) {
         inputControl.apply {
-            setEnabled(false)
             isChangeEnabled = false
+            setEnabled(false)
         }
 
         noteState.isEdit = mode
@@ -236,8 +236,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         saveControl.setSaveHandlerEvent(mode)
 
         inputControl.apply {
-            setEnabled(true)
             isChangeEnabled = true
+            setEnabled(true)
         }
     }
 
@@ -274,7 +274,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         onMenuEdit(mode = false)
         callback.tintToolbar(colorFrom, noteModel.noteItem.color)
 
-        inputControl.clear()
+        inputControl.reset()
 
         return true
     }

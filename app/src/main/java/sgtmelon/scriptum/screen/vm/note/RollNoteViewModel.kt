@@ -284,7 +284,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         if (changeMode) {
             callback.hideKeyboard()
             onMenuEdit(false)
-            inputControl.clear()
+            inputControl.reset()
         }
 
         noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
@@ -410,7 +410,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         onMenuEdit(mode = false)
         callback.tintToolbar(colorFrom, noteModel.noteItem.color)
 
-        inputControl.clear()
+        inputControl.reset()
 
         return true
     }

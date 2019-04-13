@@ -13,43 +13,105 @@ class InputControlTest {
         inputControl.logEnabled = false
     }
 
-    @Test fun `add changes to list on not enable`() = with(inputControl) {
-        onRankChange(valueFrom = listOf(0, 1), valueTo = listOf(0))
-        assertNull(undo())
+    @Test fun `add changes to list and UNDO on not enable`() {
+        inputControl.onRankChange(valueFrom = listOf(0, 1), valueTo = listOf(0))
+
+        assert { undoFail() }
     }
 
-    @Test fun `add changes to list on enable`() = with(inputControl) {
-        setEnabled(true)
-        onRankChange(valueFrom = listOf(0, 1), valueTo = listOf(0))
-        assertNotNull(undo())
+    @Test fun `add changes to list and REDO on not enable`() {
+        inputControl.apply {
+            onRankChange(valueFrom = listOf(0, 1), valueTo = listOf(0))
+            undo()
+        }
+
+        assert { redoFail() }
     }
 
-    fun `call undo on empty list`() = assertNull(inputControl.undo())
-
-    fun `call undo at first position`() = with(inputControl) {
-        onColorChange(valueFrom = 0, valueTo = 1)
-        undo()
-
-        assertNull(undo())
+    @Test fun `call UNDO on empty list`() {
+        assert { undoFail() }
     }
 
-    fun `call undo on`() = with(inputControl) {
-        // TODO
-        onColorChange(valueFrom = 0, valueTo = 1)
-        assertNotNull(undo())
+    @Test fun `call REDO on empty list`() {
+        assert { redoFail() }
     }
 
-    fun `call redo on empty list`() = assertNull(inputControl.redo())
+    @Test fun `call UNDO at extreme position`() {
+        inputControl.apply {
+            setEnabled(true)
+            onRankChange(rankValueFrom, rankValueTo)
+            undo()
+        }
 
-    fun `call redo on lat position`() = with(inputControl) {
-        onColorChange(valueFrom = 0, valueTo = 1)
-        assertNull(redo())
+        assert { undoFail() }
     }
 
-    fun `call redo on`() = with(inputControl) {
-        onColorChange(valueFrom = 0, valueTo = 1)
-        undo()
-        assertNotNull(redo())
+    @Test fun `call REDO at extreme position`() {
+        inputControl.apply {
+            setEnabled(true)
+            onRankChange(rankValueFrom, rankValueTo)
+        }
+
+        assert { redoFail() }
+    }
+
+    @Test fun `call UNDO success`() {
+        inputControl.apply {
+            setEnabled(true)
+            onRankChange(rankValueFrom, rankValueTo)
+        }
+
+        assert { undoSuccess() }
+    }
+
+    @Test fun `call REDO success`() {
+        inputControl.apply {
+            setEnabled(true)
+            onRankChange(rankValueFrom, rankValueTo)
+            undo()
+        }
+
+        assert { redoSuccess() }
+    }
+
+    @Test fun `remove list items after add position`() {
+        inputControl.apply {
+            setEnabled(true)
+            onRankChange(rankValueFrom, rankValueTo)
+            undo()
+            onRankChange(rankValueFrom, rankValueTo)
+        }
+
+        assert { redoFail() }
+    }
+
+    @Test fun `input control reset`() {
+        inputControl.apply {
+            setEnabled(true)
+            onRankChange(rankValueFrom, rankValueTo)
+            reset()
+        }
+
+        assert { undoFail() }
+    }
+
+    fun assert(func: Assert.() -> Unit) = Assert(inputControl).apply { func() }
+
+    class Assert(private val inputControl: InputControl) {
+
+        fun undoFail() = assertNull(inputControl.undo())
+
+        fun undoSuccess() = assertNotNull(inputControl.undo())
+
+        fun redoFail() = assertNull(inputControl.redo())
+
+        fun redoSuccess() = assertNotNull(inputControl.redo())
+
+    }
+
+    companion object {
+        val rankValueFrom = listOf<Long>(0, 1, 2, 3)
+        val rankValueTo = listOf<Long>(0, 1)
     }
 
 }

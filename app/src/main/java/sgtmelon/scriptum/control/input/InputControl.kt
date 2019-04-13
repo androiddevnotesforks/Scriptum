@@ -41,25 +41,23 @@ class InputControl : InputCallback {
     /**
      * Переменная для предотвращения записи каких-либо изменений
      */
-    private var enabled: Boolean = false
+    private var enabled = false
 
     /**
      * Проверка доступна ли отмена
      *
      * @return - Есть куда возвращаться или нет
      */
-    val isUndoAccess: Boolean
-        get() = listInput.size != 0 && position != -1
+    val isUndoAccess get() = listInput.size != 0 && position != -1
 
     /**
      * Проверка доступен ли возврат
      *
      * @return - Есть куда возвращаться или нет
      */
-    val isRedoAccess: Boolean
-        get() = listInput.size != 0 && position != listInput.size - 1
+    val isRedoAccess get() = listInput.size != 0 && position != listInput.size - 1
 
-    fun clear() {
+    fun reset() {
         listInput.clear()
         position = -1
     }
