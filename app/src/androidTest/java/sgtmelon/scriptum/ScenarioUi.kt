@@ -8,7 +8,7 @@ import sgtmelon.scriptum.test.main.NotesTest
 import sgtmelon.scriptum.test.main.RankTest
 
 /**
- * Описание сценариев для тестов
+ * Описание сценариев для UI тестов
  *
  * Значения:
  * UI - Проверяется UI тестом
@@ -18,7 +18,7 @@ import sgtmelon.scriptum.test.main.RankTest
  * @author SerjantArbuz
  */
 @Suppress("unused")
-private class Scenario {
+private class ScenarioUi {
 
     /**
      * Сценарии для [SplashTest]

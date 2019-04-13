@@ -27,6 +27,10 @@ class InputControl : InputCallback {
     // TODO: 27.01.2019 долгое нажатие (надо каким-то образом собирать последнюю информацию о изменённом view)
     // TODO: 10.12.2018 добавить длинное нажатие на кнопку undo/redo - для возвращение в один из концов
 
+    // TODO разобраться в переменных enabled и isChangeEnabled
+
+    var logEnabled = BuildConfig.DEBUG
+
     private val listInput = ArrayList<InputItem>()
 
     /**
@@ -38,11 +42,6 @@ class InputControl : InputCallback {
      * Переменная для предотвращения записи каких-либо изменений
      */
     private var enabled: Boolean = false
-
-    /**
-     * Переменная для дополнительного контроля (разрешения/запрета) изменения переменной enabled
-     */
-    override var isChangeEnabled = true
 
     /**
      * Проверка доступна ли отмена
@@ -100,9 +99,14 @@ class InputControl : InputCallback {
         listAll()
     }
 
+    /**
+     * Переменная для дополнительного контроля (разрешения/запрета) изменения переменной enabled
+     */
+    override var isChangeEnabled = true
+
     override fun setEnabled(enabled: Boolean) {
         this.enabled = enabled
-    } // TODO extension (disableEnabled)
+    }
 
     override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) =
             add(InputItem(InputAction.rank, valueFrom.joinToString(), valueTo.joinToString()))
@@ -129,7 +133,7 @@ class InputControl : InputCallback {
             add(InputItem(InputAction.rollMove, valueFrom.toString(), valueTo.toString()))
 
     private fun listAll() {
-        if (!BuildConfig.DEBUG) return
+        if (!logEnabled) return
 
         Log.i(TAG, "listAll:")
         for (i in listInput.indices) {

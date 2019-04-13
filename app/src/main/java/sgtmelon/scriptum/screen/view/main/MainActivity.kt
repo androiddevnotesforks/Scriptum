@@ -37,6 +37,7 @@ class MainActivity : AppActivity(), MainCallback {
     // TODO setHasFixedSize recyclerView
 
     // TODO если отчистить базу данных то закреплённые уведомления останутся
+    // TODO Ошибка с inputControl при добавлении в список нового пункта
 
     // TODO Перед релизом
     /**

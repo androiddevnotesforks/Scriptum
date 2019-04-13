@@ -7,7 +7,7 @@ import sgtmelon.scriptum.model.item.CursorItem
  */
 interface InputCallback {
 
-    val isChangeEnabled: Boolean
+    var isChangeEnabled: Boolean
 
     fun setEnabled(enabled: Boolean)
 
