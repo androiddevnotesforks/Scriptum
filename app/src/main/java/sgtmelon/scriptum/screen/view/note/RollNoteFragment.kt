@@ -35,7 +35,6 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.clearAndGetText
 import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
@@ -272,7 +271,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
     }
 
-    override fun clearEnter() = rollEnter.clearAndGetText()
+    override fun clearEnter(): String {
+        val text = rollEnter?.text?.toString() ?: ""
+        rollEnter?.setText("")
+        return text
+    }
 
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
         val fastScroll = when (simpleClick) {

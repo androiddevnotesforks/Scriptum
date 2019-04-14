@@ -186,16 +186,20 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
     /**
-     * TODO реализовать
+     * TODO переделать
      */
-    override fun onMenuLongUndo() = context.showToast(R.string.dialog_menu_delete)
+    override fun onMenuLongUndo() {
+        while (inputControl.isUndoAccess) onMenuUndoRedo(isUndo = true)
+    }
 
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     /**
-     * TODO реализовать
+     * TODO переделать
      */
-    override fun onMenuLongRedo() = context.showToast(R.string.dialog_menu_delete)
+    override fun onMenuLongRedo() {
+        while (inputControl.isRedoAccess) onMenuUndoRedo(isUndo = false)
+    }
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
         val item = if (isUndo) inputControl.undo() else inputControl.redo()

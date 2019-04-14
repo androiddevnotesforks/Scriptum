@@ -25,7 +25,6 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.clearAndGetTrimText
 import sgtmelon.scriptum.office.utils.AppUtils.getClearText
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
@@ -166,7 +165,11 @@ class RankFragment : Fragment(), RankCallback {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun clearEnter(): String = rankEnter?.clearAndGetTrimText() ?: ""
+    override fun clearEnter(): String {
+        val text = rankEnter.getClearText()
+        rankEnter?.setText("")
+        return text
+    }
 
     override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>) {
         val p = if (simpleClick) list.size else 0
