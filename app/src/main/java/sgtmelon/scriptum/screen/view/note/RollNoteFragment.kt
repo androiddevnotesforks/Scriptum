@@ -65,7 +65,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     private lateinit var menuControl: MenuControl
 
-    private val adapter: RollAdapter by lazy { RollAdapter(activity) }
+    private val adapter: RollAdapter by lazy {
+        RollAdapter(activity,
+                ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) }, viewModel
+        )
+    }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
     private var nameEnter: EditText? = null
@@ -200,10 +204,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         val touchCallback = RollTouchControl(viewModel)
 
         adapter.apply {
-            clickListener = ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) }
             dragListener = touchCallback
             this.inputCallback = inputCallback
-            textChangeCallback = viewModel
         }
 
         recyclerView = view?.findViewById(R.id.roll_note_recycler)

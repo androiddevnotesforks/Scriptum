@@ -49,7 +49,15 @@ class RankFragment : Fragment(), RankCallback {
         }
     }
 
-    private val adapter by lazy { RankAdapter(activity) }
+    private val adapter by lazy {
+        RankAdapter(activity, ItemListener.ClickListener { view, p ->
+            when (view.id) {
+                R.id.rank_visible_button -> viewModel.onClickVisible(p)
+                R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
+                R.id.rank_cancel_button -> viewModel.onClickCancel(p)
+            }
+        }, ItemListener.LongClickListener { _, p -> viewModel.onLongClickVisible(p) })
+    }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
     private var recyclerView: RecyclerView? = null
@@ -120,19 +128,7 @@ class RankFragment : Fragment(), RankCallback {
     private fun setupRecycler() {
         val touchCallback = RankTouchControl(viewModel)
 
-        adapter.apply {
-            clickListener = ItemListener.ClickListener { view, p ->
-                when (view.id) {
-                    R.id.rank_visible_button -> viewModel.onClickVisible(p)
-                    R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
-                    R.id.rank_cancel_button -> viewModel.onClickCancel(p)
-                }
-            }
-            longClickListener = ItemListener.LongClickListener { _, p ->
-                viewModel.onLongClickVisible(p)
-            }
-            dragListener = touchCallback
-        }
+        adapter.dragListener = touchCallback
 
         recyclerView = view?.findViewById(R.id.rank_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {

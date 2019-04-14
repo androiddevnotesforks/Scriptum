@@ -17,15 +17,15 @@ import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 
 /**
  * Адаптер для [RollNoteFragment]
+ *
+ * @author SerjantArbuz
  */
-class RollAdapter(context: Context) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
+class RollAdapter(context: Context,
+                  private val clickListener: ItemListener.ClickListener,
+                  private val textChangeCallback: RollWriteHolder.TextChange
+) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
 
-    // TODO убрать в конструктор
-
-    lateinit var clickListener: ItemListener.ClickListener
     lateinit var dragListener: ItemListener.DragListener
-
-    lateinit var textChangeCallback: RollWriteHolder.TextChange
     lateinit var inputCallback: InputCallback
 
     lateinit var noteState: NoteState

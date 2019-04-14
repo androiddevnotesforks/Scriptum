@@ -12,13 +12,14 @@ import sgtmelon.scriptum.screen.view.main.RankFragment
 
 /**
  * Адаптер для [RankFragment]
+ *
+ * @author SerjantArbuz
  */
-class RankAdapter(context: Context) : ParentAdapter<RankItem, RankHolder>(context) {
+class RankAdapter(context: Context,
+                  val clickListener: ItemListener.ClickListener,
+                  val longClickListener: ItemListener.LongClickListener
+) : ParentAdapter<RankItem, RankHolder>(context) {
 
-    // TODO убрать в конструктор
-
-    lateinit var clickListener: ItemListener.ClickListener
-    lateinit var longClickListener: ItemListener.LongClickListener
     lateinit var dragListener: ItemListener.DragListener
 
     var startAnim: BooleanArray = BooleanArray(size = 0)
