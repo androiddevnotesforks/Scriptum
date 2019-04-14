@@ -46,7 +46,7 @@ class NoteItem(
             val split = text.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             if (split.size == 2) {
                 for (i in 0..1) {
-                    check[i] = Integer.parseInt(split[i])
+                    check[i] = split[i].toInt()
                 }
             }
 

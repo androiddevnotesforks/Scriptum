@@ -2,7 +2,6 @@ package sgtmelon.scriptum.control.input
 
 import android.util.Log
 import sgtmelon.scriptum.BuildConfig
-import sgtmelon.scriptum.model.item.CursorItem
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.key.InputAction
 import java.util.*
@@ -27,8 +26,6 @@ class InputControl : InputCallback {
     // TODO: 27.01.2019 долгое нажатие (надо каким-то образом собирать последнюю информацию о изменённом view)
     // TODO: 10.12.2018 добавить длинное нажатие на кнопку undo/redo - для возвращение в один из концов
 
-    // TODO разобраться в переменных enabled и isChangeEnabled
-
     var logEnabled = BuildConfig.DEBUG
 
     private val listInput = ArrayList<InputItem>()
@@ -37,11 +34,6 @@ class InputControl : InputCallback {
      * Позиция в массиве
      */
     private var position = -1
-
-    /**
-     * Переменная для предотвращения записи каких-либо изменений
-     */
-    private var enabled = false
 
     /**
      * Проверка доступна ли отмена
@@ -73,7 +65,7 @@ class InputControl : InputCallback {
     }
 
     private fun add(inputItem: InputItem) {
-        if (enabled) {
+        if (isEnabled) {
             remove()
             listInput.add(inputItem)
             position++
@@ -98,12 +90,14 @@ class InputControl : InputCallback {
     }
 
     /**
-     * Переменная для дополнительного контроля (разрешения/запрета) изменения переменной enabled
+     * Переменная для предотвращения записи каких-либо изменений
      */
-    override var isChangeEnabled = true
+    override var isEnabled = false
 
-    override fun setEnabled(enabled: Boolean) {
-        this.enabled = enabled
+    override fun makeNotEnabled(func: () -> Unit) {
+        isEnabled = false
+        func()
+        isEnabled = true
     }
 
     override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) =
@@ -112,14 +106,14 @@ class InputControl : InputCallback {
     override fun onColorChange(valueFrom: Int, valueTo: Int) =
             add(InputItem(InputAction.color, valueFrom.toString(), valueTo.toString()))
 
-    override fun onNameChange(valueFrom: String, valueTo: String, cursorItem: CursorItem) =
-            add(InputItem(InputAction.name, valueFrom, valueTo, cursorItem))
+    override fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
+            add(InputItem(InputAction.name, valueFrom, valueTo, cursor))
 
-    override fun onTextChange(valueFrom: String, valueTo: String, cursorItem: CursorItem) =
-            add(InputItem(InputAction.text, valueFrom, valueTo, cursorItem))
+    override fun onTextChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
+            add(InputItem(InputAction.text, valueFrom, valueTo, cursor))
 
-    override fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursorItem: CursorItem) =
-            add(InputItem(InputAction.roll, valueFrom, valueTo, cursorItem, p))
+    override fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
+            add(InputItem(InputAction.roll, valueFrom, valueTo, cursor, p))
 
     override fun onRollAdd(p: Int, valueTo: String) =
             add(InputItem(InputAction.rollAdd, "", valueTo, null, p))

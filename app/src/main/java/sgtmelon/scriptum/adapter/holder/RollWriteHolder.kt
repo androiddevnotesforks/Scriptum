@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.model.item.CursorItem
+import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.office.intf.ItemListener
 
@@ -20,9 +20,11 @@ import sgtmelon.scriptum.office.intf.ItemListener
  */
 class RollWriteHolder(private val binding: ItemRollWriteBinding,
                       private val dragListener: ItemListener.DragListener,
-                      private val textChangeCallback: TextChange,
+                      private val textChangeCallback: RollWriteHolder.TextChange,
                       private val inputCallback: InputCallback
-) : RecyclerView.ViewHolder(binding.root), View.OnTouchListener, TextWatcher {
+) : RecyclerView.ViewHolder(binding.root),
+        View.OnTouchListener,
+        TextWatcher {
 
     /**
      * Кнопка для перетаскивания
@@ -38,7 +40,11 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(rollItem: RollItem) = binding.apply { this.rollItem = rollItem }.executePendingBindings()
+    fun bind(rollItem: RollItem) = inputCallback.makeNotEnabled {
+        binding.apply { this.rollItem = rollItem }.executePendingBindings()
+    }
+
+    // TODO ошибка при быстром добавлении / удалении
 
     fun setSelections(@IntRange(from = 0) position: Int) = rollEnter.apply {
         requestFocus()
@@ -70,7 +76,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
         if (textTo.isNotEmpty()) {
             if (textFrom.isNotEmpty()) {
-                val cursorItem = CursorItem(cursorFrom, cursorTo)
+                val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
                 inputCallback.onRollChange(adapterPosition, textFrom, textTo, cursorItem)
 
                 textFrom = textTo
@@ -88,10 +94,6 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
         if (textFrom.isNotEmpty()) {
             textChangeCallback.onResultInputRollAfter(adapterPosition, rollEnter.text.toString())
-        }
-
-        if (inputCallback.isChangeEnabled) {
-            inputCallback.setEnabled(true)
         }
     }
 

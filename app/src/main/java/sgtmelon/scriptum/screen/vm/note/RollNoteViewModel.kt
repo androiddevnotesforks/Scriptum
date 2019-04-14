@@ -182,81 +182,63 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteCallback.finish()
     }
 
-    override fun onMenuUndo() = onMenuUndoRedo(undo = true)
+    override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
     /**
      * TODO реализовать
      */
     override fun onMenuLongUndo() = context.showToast(R.string.dialog_menu_delete)
 
-    override fun onMenuRedo() = onMenuUndoRedo(undo = false)
+    override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     /**
      * TODO реализовать
      */
-    override fun onMenuLongRedo()  = context.showToast(R.string.dialog_menu_delete)
+    override fun onMenuLongRedo() = context.showToast(R.string.dialog_menu_delete)
 
-    private fun onMenuUndoRedo(undo: Boolean) {
-        val inputItem = if (undo) inputControl.undo() else inputControl.redo()
+    private fun onMenuUndoRedo(isUndo: Boolean) {
+        val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
-        if (inputItem != null) {
-            inputControl.setEnabled(false)
-
+        if (item != null) inputControl.makeNotEnabled {
             val noteItem = noteModel.noteItem
+            val listRoll = noteModel.listRoll
 
-            when (inputItem.tag) {
-                InputAction.rank ->
-                    noteItem.rankId = StringConverter().toList(inputItem.getValue(undo))
+            when (item.tag) {
+                InputAction.rank -> noteItem.rankId = StringConverter().toList(item[isUndo])
                 InputAction.color -> {
                     val colorFrom = noteItem.color
-                    val colorTo = Integer.parseInt(inputItem.getValue(undo))
+                    val colorTo = item[isUndo].toInt()
 
                     noteItem.color = colorTo
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(
-                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
-                )
+                InputAction.name -> callback.changeName(item[isUndo], item.cursor!![isUndo])
                 InputAction.roll -> {
-                    val p = inputItem.position
-                    with(noteModel.listRoll) {
-                        get(p).text = inputItem.getValue(undo)
-                        callback.notifyItemChanged(
-                                p, inputItem.cursorItem!!.getValue(undo), list = this
-                        )
-                    }
+                    listRoll[item.p].text = item[isUndo]
+                    callback.notifyItemChanged(item.p, item.cursor!![isUndo], listRoll)
                 }
                 InputAction.rollAdd, InputAction.rollRemove -> {
-                    val p = inputItem.position
+                    val isAddUndo = isUndo && item.tag == InputAction.rollAdd
+                    val isRemoveRedo = !isUndo && item.tag == InputAction.rollRemove
 
-                    val tag = inputItem.tag
-                    if (tag == InputAction.rollAdd && undo || tag == InputAction.rollRemove && !undo) {
-                        with(noteModel.listRoll) {
-                            removeAt(p)
-                            callback.notifyItemRemoved(p, list = this)
-                        }
+                    if (isAddUndo || isRemoveRedo) {
+                        listRoll.removeAt(item.p)
+                        callback.notifyItemRemoved(item.p, listRoll)
                     } else {
-                        val rollItem = RollItem[inputItem.getValue(undo)]
-                        with(noteModel.listRoll) {
-                            add(p, rollItem)
-                            callback.notifyItemInserted(p, rollItem.text.length, list = this)
-                        }
+                        val rollItem = RollItem[item[isUndo]]
+
+                        listRoll.add(item.p, rollItem)
+                        callback.notifyItemInserted(item.p, rollItem.text.length, listRoll)
                     }
                 }
                 InputAction.rollMove -> {
-                    val from = Integer.parseInt(inputItem.getValue(!undo))
-                    val to = Integer.parseInt(inputItem.getValue(undo))
+                    val from = item[!isUndo].toInt()
+                    val to = item[isUndo].toInt()
 
-                    with(noteModel.listRoll) {
-                        swap(from, to)
-                        callback.notifyItemMoved(from, to, list = this)
-                    }
+                    listRoll.swap(from, to)
+                    callback.notifyItemMoved(from, to, listRoll)
                 }
-            }
-
-            if (inputItem.tag != InputAction.roll) {
-                inputControl.setEnabled(true)
             }
         }
 
@@ -340,12 +322,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteCallback.finish()
     }
 
-    override fun onMenuEdit(mode: Boolean) {
-        inputControl.apply {
-            setEnabled(false)
-            isChangeEnabled = false
-        }
-
+    override fun onMenuEdit(mode: Boolean) = inputControl.makeNotEnabled {
         noteState.isEdit = mode
 
         callback.apply {
@@ -360,11 +337,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         saveControl.setSaveHandlerEvent(mode)
-
-        inputControl.apply {
-            setEnabled(true)
-            isChangeEnabled = true
-        }
     }
 
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)

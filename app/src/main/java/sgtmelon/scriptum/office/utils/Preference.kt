@@ -29,7 +29,7 @@ class Preference(context: Context) {
 
             val order = StringBuilder()
             for (aKey in keysArr) {
-                val key = Integer.parseInt(aKey)
+                val key = aKey.toInt()
                 order.append(DbField.Note.orders[key])
 
                 if (key != SortDef.create && key != SortDef.change) {
@@ -87,7 +87,7 @@ class Preference(context: Context) {
         val keysName = resources.getStringArray(R.array.pref_sort_text)
 
         for (i in keysArr.indices) {
-            val key = Integer.parseInt(keysArr[i])
+            val key = keysArr[i].toInt()
 
             val summary = keysName[key].apply {
                 if (i != 0) {

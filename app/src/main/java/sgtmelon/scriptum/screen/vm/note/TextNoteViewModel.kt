@@ -119,48 +119,39 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteCallback.finish()
     }
 
-    override fun onMenuUndo() = onMenuUndoRedo(undo = true)
+    override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
     /**
      * TODO реализовать
      */
     override fun onMenuLongUndo() = context.showToast(R.string.dialog_menu_delete)
 
-    override fun onMenuRedo() = onMenuUndoRedo(undo = false)
+    override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     /**
      * TODO реализовать
      */
-    override fun onMenuLongRedo()  = context.showToast(R.string.dialog_menu_delete)
+    override fun onMenuLongRedo() = context.showToast(R.string.dialog_menu_delete)
 
-    private fun onMenuUndoRedo(undo: Boolean) {
-        val inputItem = if (undo) inputControl.undo() else inputControl.redo()
+    private fun onMenuUndoRedo(isUndo: Boolean) {
+        val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
-        if (inputItem != null) {
-            inputControl.setEnabled(false)
-
+        if (item != null) inputControl.makeNotEnabled {
             val noteItem = noteModel.noteItem
 
-            when (inputItem.tag) {
-                InputAction.rank ->
-                    noteItem.rankId = StringConverter().toList(inputItem.getValue(undo))
+            when (item.tag) {
+                InputAction.rank -> noteItem.rankId = StringConverter().toList(item[isUndo])
                 InputAction.color -> {
                     val colorFrom = noteItem.color
-                    val colorTo = Integer.parseInt(inputItem.getValue(undo))
+                    val colorTo = item[isUndo].toInt()
 
                     noteItem.color = colorTo
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(
-                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
-                )
-                InputAction.text -> callback.changeText(
-                        inputItem.getValue(undo), inputItem.cursorItem!!.getValue(undo)
-                )
+                InputAction.name -> callback.changeName(item[isUndo], item.cursor!![isUndo])
+                InputAction.text -> callback.changeText(item[isUndo], item.cursor!![isUndo])
             }
-
-            inputControl.setEnabled(true)
         }
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
@@ -215,12 +206,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteCallback.finish()
     }
 
-    override fun onMenuEdit(mode: Boolean) {
-        inputControl.apply {
-            isChangeEnabled = false
-            setEnabled(false)
-        }
-
+    override fun onMenuEdit(mode: Boolean) = inputControl.makeNotEnabled {
         noteState.isEdit = mode
 
         callback.apply {
@@ -234,11 +220,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         saveControl.setSaveHandlerEvent(mode)
-
-        inputControl.apply {
-            isChangeEnabled = true
-            setEnabled(true)
-        }
     }
 
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)

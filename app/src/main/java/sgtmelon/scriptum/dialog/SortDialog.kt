@@ -103,7 +103,7 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
 
         listSort.clear()
         for (aKey in keys.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
-            val key = Integer.parseInt(aKey)
+            val key = aKey.toInt()
             val sortItem = SortItem(text[key], key)
             listSort.add(sortItem)
         }

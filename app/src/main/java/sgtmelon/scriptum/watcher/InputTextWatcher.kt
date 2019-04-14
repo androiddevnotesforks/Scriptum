@@ -3,7 +3,7 @@ package sgtmelon.scriptum.watcher
 import android.widget.EditText
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.model.item.CursorItem
+import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.key.InputAction
 
 /**
@@ -31,7 +31,7 @@ class InputTextWatcher(private val view: EditText?,
 
         if (textFrom == textTo) return
 
-        val cursorItem = CursorItem(cursorFrom, cursorTo)
+        val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
 
         when (tag) {
             InputAction.name -> inputCallback.onNameChange(textFrom, textTo, cursorItem)

@@ -38,7 +38,7 @@ class InputControlTest {
 
     @Test fun `call UNDO at extreme position`() {
         inputControl.apply {
-            setEnabled(true)
+            isEnabled = true
             onRankChange(rankValueFrom, rankValueTo)
             undo()
         }
@@ -48,7 +48,7 @@ class InputControlTest {
 
     @Test fun `call REDO at extreme position`() {
         inputControl.apply {
-            setEnabled(true)
+            isEnabled = true
             onRankChange(rankValueFrom, rankValueTo)
         }
 
@@ -57,7 +57,7 @@ class InputControlTest {
 
     @Test fun `call UNDO success`() {
         inputControl.apply {
-            setEnabled(true)
+            isEnabled = true
             onRankChange(rankValueFrom, rankValueTo)
         }
 
@@ -66,7 +66,7 @@ class InputControlTest {
 
     @Test fun `call REDO success`() {
         inputControl.apply {
-            setEnabled(true)
+            isEnabled = true
             onRankChange(rankValueFrom, rankValueTo)
             undo()
         }
@@ -76,7 +76,7 @@ class InputControlTest {
 
     @Test fun `remove list items after add position`() {
         inputControl.apply {
-            setEnabled(true)
+            isEnabled = true
             onRankChange(rankValueFrom, rankValueTo)
             undo()
             onRankChange(rankValueFrom, rankValueTo)
@@ -87,7 +87,7 @@ class InputControlTest {
 
     @Test fun `input control reset`() {
         inputControl.apply {
-            setEnabled(true)
+            isEnabled = true
             onRankChange(rankValueFrom, rankValueTo)
             reset()
         }
