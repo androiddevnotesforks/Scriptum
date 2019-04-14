@@ -36,8 +36,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     lateinit var callback: TextNoteCallback
     lateinit var noteCallback: NoteCallback
 
-    private val inputControl: InputControl = InputControl()
-    private val saveControl: SaveControl = SaveControl(context, result = this)
+    private val inputControl = InputControl()
+    private val saveControl = SaveControl(context, result = this)
 
     private var id: Long = NoteData.Default.ID
 
@@ -122,16 +122,20 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
     /**
-     * TODO реализовать
+     * TODO переделать
      */
-    override fun onMenuLongUndo() = context.showToast(R.string.dialog_menu_delete)
+    override fun onMenuLongUndo() {
+        while (inputControl.isUndoAccess) onMenuUndoRedo(isUndo = true)
+    }
 
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
 
     /**
-     * TODO реализовать
+     * TODO переделать
      */
-    override fun onMenuLongRedo() = context.showToast(R.string.dialog_menu_delete)
+    override fun onMenuLongRedo() {
+        while (inputControl.isRedoAccess) onMenuUndoRedo(isUndo = false)
+    }
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
         val item = if (isUndo) inputControl.undo() else inputControl.redo()

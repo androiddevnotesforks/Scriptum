@@ -41,10 +41,18 @@ object AppUtils {
         executePendingBindings()
     }
 
-    fun EditText?.clear(): String {
+    fun EditText?.clearAndGetTrimText(): String {
         if (this == null) return ""
 
         val text = getClearText()
+        setText("")
+        return text
+    }
+
+    fun EditText?.clearAndGetText(): String {
+        if (this == null) return ""
+
+        val text = text.toString()
         setText("")
         return text
     }

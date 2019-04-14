@@ -45,8 +45,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     lateinit var callback: RollNoteCallback
     lateinit var noteCallback: NoteCallback
 
-    private val inputControl: InputControl = InputControl()
-    private val saveControl: SaveControl = SaveControl(context, result = this)
+    private val inputControl = InputControl()
+    private val saveControl = SaveControl(context, result = this)
 
     private var id: Long = NoteData.Default.ID
 
@@ -91,6 +91,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
             setupRecycler(inputControl)
+            setupPanel()
         }
 
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }

@@ -34,7 +34,7 @@ object ColorData {
     }
 
     fun getColorList(theme: Int) = ArrayList<ColorItem>().apply {
-        for (i in 0 until size) add(if (theme == ThemeDef.light) {
+        for (i in 0 until ColorData.size) add(if (theme == ThemeDef.light) {
             ColorItem(light[i], dark[i], dark[i])
         } else {
             ColorItem(dark[i], dark[i], light[i])
