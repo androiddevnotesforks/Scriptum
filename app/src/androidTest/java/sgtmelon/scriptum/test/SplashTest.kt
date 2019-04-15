@@ -7,10 +7,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
-import sgtmelon.scriptum.ui.screen.IntroScreen
-import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
-import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.ui.screen.SplashScreen
 
 /**
  * Тест для [SplashActivity]
@@ -23,13 +20,13 @@ class SplashTest : ParentTest() {
     @Test fun introScreenOpen() {
         beforeLaunch { preference.firstStart = true }
 
-        IntroScreen { assert { onDisplayContent() } }
+        SplashScreen { introScreen() }
     }
 
     @Test fun mainScreenOpen() {
         beforeLaunch { preference.firstStart = false }
 
-        MainScreen { assert { onDisplayContent() } }
+        SplashScreen { mainScreen() }
     }
 
     @Test fun statusTextNoteOpen() {
@@ -38,11 +35,10 @@ class SplashTest : ParentTest() {
             preference.firstStart = false
         }
 
-        TextNoteScreen {
-            assert { onDisplayContent(State.READ) }
-            pressBack()
+        SplashScreen {
+            textNoteScreen(State.READ) { pressBack() }
+            mainScreen()
         }
-        MainScreen { assert { onDisplayContent() } }
     }
 
     @Test fun statusRollNoteOpen() {
@@ -51,11 +47,10 @@ class SplashTest : ParentTest() {
             preference.firstStart = false
         }
 
-        RollNoteScreen {
-            assert { onDisplayContent(State.READ) }
-            pressBack()
+        SplashScreen {
+            rollNoteScreen(State.READ) { pressBack() }
+            mainScreen()
         }
-        MainScreen { assert { onDisplayContent() } }
     }
 
 }

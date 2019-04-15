@@ -10,8 +10,6 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
-import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
-import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Тест работы [MainActivity]
@@ -38,28 +36,27 @@ class MainTest : ParentTest() {
         preference.firstStart = false
     }
 
-    @Test fun startScreen() = launch { MainScreen { assert { onDisplayContent(MainPage.NOTES) } } }
+    @Test fun startScreen() = afterLaunch {
+        MainScreen { assert { onDisplayContent(MainPage.NOTES) } }
+    }
 
-    @Test fun menuClickCorrectScreen() = launch {
+    @Test fun menuClickCorrectScreen() = afterLaunch {
         MainScreen {
             repeat(times = 3) {
                 for (page in pageList) {
-                    navigateTo(page)
-
-                    assert { onDisplayContent(page) }
-
                     when (page) {
                         MainPage.RANK -> rankScreen { assert { onDisplayContent(empty = count == 0) } }
                         MainPage.NOTES -> notesScreen { assert { onDisplayContent(empty = count == 0) } }
                         MainPage.BIN -> binScreen { assert { onDisplayContent(empty = count == 0) } }
                     }
 
+                    assert { onDisplayContent(page) }
                 }
             }
         }
     }
 
-    @Test fun addFabVisible() = launch {
+    @Test fun addFabVisible() = afterLaunch {
         MainScreen {
             repeat(times = 3) {
                 for (page in pageList) {
@@ -70,44 +67,33 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun addDialogOpen() = launch {
-        MainScreen {
-            onClickFab()
-            addDialog { assert { onDisplayContent() } }
-        }
-    }
+    @Test fun addDialogOpen() = afterLaunch { MainScreen { addDialog() } }
 
-    @Test fun addDialogCloseSoft() = launch {
+    @Test fun addDialogCloseSoft() = afterLaunch {
         MainScreen {
-            onClickFab()
             addDialog { onCloseSoft() }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun addDialogCloseSwipe() = launch {
+    @Test fun addDialogCloseSwipe() = afterLaunch {
         MainScreen {
-            onClickFab()
             addDialog { onCloseSwipe() }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun addDialogCreateTextNote() = launch {
+    @Test fun addDialogCreateTextNote() = afterLaunch {
         MainScreen {
-            onClickFab()
             addDialog { onClickItem(NoteType.TEXT) }
-
-            TextNoteScreen { assert { onDisplayContent(State.NEW) } }
+            textNoteScreen(State.NEW)
         }
     }
 
-    @Test fun addDialogCreateRollNote() = launch {
+    @Test fun addDialogCreateRollNote() = afterLaunch {
         MainScreen {
-            onClickFab()
             addDialog { onClickItem(NoteType.ROLL) }
-
-            RollNoteScreen { assert { onDisplayContent(State.NEW) } }
+            rollNoteScreen(State.NEW)
         }
     }
 
@@ -115,8 +101,6 @@ class MainTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }
 
         MainScreen {
-            navigateTo(MainPage.RANK)
-
             rankScreen {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)
@@ -143,8 +127,6 @@ class MainTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
 
         MainScreen {
-            navigateTo(MainPage.BIN)
-
             binScreen {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)

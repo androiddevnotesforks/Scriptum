@@ -43,10 +43,10 @@ abstract class ParentTest {
 
     protected fun beforeLaunch(intent: Intent = Intent(), func: () -> Unit) {
         func()
-        launch(intent)
+        testRule.launchActivity(intent)
     }
 
-    protected fun launch(intent: Intent = Intent(), func: () -> Unit = {}) {
+    protected fun afterLaunch(intent: Intent = Intent(), func: () -> Unit) {
         testRule.launchActivity(intent)
         func()
     }

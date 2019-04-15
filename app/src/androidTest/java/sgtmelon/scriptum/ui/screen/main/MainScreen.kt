@@ -1,11 +1,14 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.AddDialog
+import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Класс для ui контроля экрана [MainActivity]
@@ -16,13 +19,34 @@ class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun rankScreen(func: RankScreen.() -> Unit) = RankScreen().apply { func() }
-    fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply { func() }
-    fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply { func() }
+    fun rankScreen(func: RankScreen.() -> Unit) = RankScreen().apply {
+        navigateTo(MainPage.RANK)
+        func()
+    }
+    fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply {
+        navigateTo(MainPage.NOTES)
+        func()
+    }
+    fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply {
+        navigateTo(MainPage.BIN)
+        func()
+    }
 
-    fun addDialog(func: AddDialog.() -> Unit) = AddDialog().apply { func() }
+    fun addDialog(func: AddDialog.() -> Unit = {}) = AddDialog().apply {
+        action { onClick(R.id.main_add_fab) }
+        assert { onDisplayContent() }
+        func()
+    }
 
-    fun onClickFab() = action { onClick(R.id.main_add_fab) }
+    fun textNoteScreen(state: State, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+        assert { onDisplayContent(state) }
+        func()
+    }
+
+    fun rollNoteScreen(state: State, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+        assert { onDisplayContent(state) }
+        func()
+    }
 
     fun navigateTo(page: MainPage) = action {
         onClick(when (page) {
@@ -38,7 +62,7 @@ class MainScreen : ParentUi() {
             MainPage.NOTES -> R.id.item_page_notes
             MainPage.BIN -> R.id.item_page_bin
         })
-        Thread.sleep(100)
+        Thread.sleep(500)
     }
 
     class Assert : BasicMatch() {

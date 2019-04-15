@@ -5,8 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.intro.IntroActivity
-import sgtmelon.scriptum.ui.screen.IntroScreen
-import sgtmelon.scriptum.ui.screen.main.MainScreen
+import sgtmelon.scriptum.ui.screen.SplashScreen
 
 /**
  * Тест для [IntroActivity]
@@ -23,30 +22,34 @@ class IntroTest : ParentTest() {
     }
 
     @Test fun contentPlacement() {
-        IntroScreen { passThrough(Scroll.END) }
+        SplashScreen { introScreen { passThrough(Scroll.END) } }
     }
 
     @Test fun endButtonEnable() {
-        IntroScreen {
-            passThrough(Scroll.END)
-            assert { onDisplayEndButton() }
+        SplashScreen {
+            introScreen {
+                passThrough(Scroll.END)
+                assert { onDisplayEndButton() }
 
-            passThrough(Scroll.START)
+                passThrough(Scroll.START)
 
-            passThrough(Scroll.END)
-            assert { onDisplayEndButton() }
+                passThrough(Scroll.END)
+                assert { onDisplayEndButton() }
+            }
         }
     }
 
     @Test fun endButtonWork() {
-        IntroScreen {
-            repeat(times = count - 1) { onSwipe(Scroll.END) }
+        SplashScreen {
+            introScreen {
+                repeat(times = count - 1) { onSwipe(Scroll.END) }
 
-            assert { onDisplayEndButton() }
-            onClickEndButton()
+                assert { onDisplayEndButton() }
+                onClickEndButton()
+            }
+
+            mainScreen()
         }
-
-        MainScreen { assert { onDisplayContent() } }
     }
 
 }

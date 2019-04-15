@@ -1,19 +1,25 @@
 package sgtmelon.scriptum
 
 import sgtmelon.scriptum.test.IntroTest
+import sgtmelon.scriptum.test.RotationTest
 import sgtmelon.scriptum.test.SplashTest
 import sgtmelon.scriptum.test.main.BinTest
 import sgtmelon.scriptum.test.main.MainTest
 import sgtmelon.scriptum.test.main.NotesTest
 import sgtmelon.scriptum.test.main.RankTest
+import sgtmelon.scriptum.ui.screen.main.BinScreen
+import sgtmelon.scriptum.ui.screen.main.NotesScreen
+import sgtmelon.scriptum.ui.screen.main.RankScreen
 
 /**
  * Описание сценариев для UI тестов
  *
  * Значения:
  * UI - Проверяется UI тестом
- * UI/CONTROL - Проверяется UI тестом с контролем тестировщика
+ * CONTROL - Проверяется UI тестом с контролем тестировщика
  * MANUAL - Проверяется вручную тестировщиком
+ *
+ * Для поворота экрана использовать ctrl + left/rightArrow
  *
  * @author SerjantArbuz
  */
@@ -90,15 +96,10 @@ private class ScenarioUi {
          */
 
         /**
-         * UI/CONTROL - Скроллинга страниц до верха
+         * CONTROL - Скроллинга страниц до верха
          * # Категории :: [MainTest.rankScreenScrollTop]
          * # Заметки :: [MainTest.notesScreenScrollTop]
          * # Корзина :: [MainTest.binScreenScrollTop]
-         */
-
-        /**
-         * MANUAL - Поворот экрана
-         * # Диалог добавления заметки
          */
 
     }
@@ -115,7 +116,7 @@ private class ScenarioUi {
          **/
 
         /**
-         * UI/CONTROL - Скроллинг списка :: [RankTest.listScroll]
+         * CONTROL - Скроллинг списка :: [RankTest.listScroll]
          */
 
         /**
@@ -136,12 +137,6 @@ private class ScenarioUi {
          * UI - Работа диалога переименовывания :: [RankTest.renameDialogWork]
          */
 
-        /**
-         * MANUAL - Поворот экрана
-         * # Контент
-         * # Диалог переименовывания
-         */
-
     }
 
     /**
@@ -160,7 +155,7 @@ private class ScenarioUi {
          */
 
         /**
-         * UI/CONTROL - Скроллинг списка :: [NotesTest.listScroll]
+         * CONTROL - Скроллинг списка :: [NotesTest.listScroll]
          */
 
         /**
@@ -208,12 +203,6 @@ private class ScenarioUi {
          * # Удаление :: [NotesTest.rollNoteDialogDelete]
          */
 
-        /**
-         * MANUAL - Поворот экрана
-         * # Контент
-         * # Диалог управления заметкой
-         */
-
     }
 
     /**
@@ -228,7 +217,7 @@ private class ScenarioUi {
          **/
 
         /**
-         * UI/CONTROL - Скроллинг списка :: [BinTest.listScroll]
+         * CONTROL - Скроллинг списка :: [BinTest.listScroll]
          */
 
         /**
@@ -265,11 +254,45 @@ private class ScenarioUi {
          * # Отчистить :: [BinTest.rollNoteDialogClear]
          */
 
+    }
+
+    /**
+     * Сценарии для [RotationTest]
+     */
+    class Rotation {
+
         /**
-         * MANUAL - Поворот экрана
+         * CONTROL - Диалог добавления заметки :: [RotationTest.addDialog]
+         */
+
+        /**
+         * CONTROL - Страница [RankScreen]
          * # Контент
-         * # Диалог отчистки корзины
-         * # Диалог управления заметкой
+         * # Диалог переименовывания
+         */
+
+        /**
+         * CONTROL - Страница [NotesScreen]
+         * # Контент:
+         * # Пусто :: [RotationTest.notesScreenContentEmpty]
+         * # Список :: [RotationTest.notesScreenContentList]
+         *
+         * # Диалог управления заметкой:
+         * # Текст :: [RotationTest.notesScreenTextNoteDialog]
+         * # Список :: [RotationTest.notesScreenRollNoteDialog]
+         */
+
+        /**
+         * CONTROL - Страница [BinScreen]
+         * # Контент:
+         * # Пусто :: [RotationTest.binScreenContentEmpty]
+         * # Список :: [RotationTest.binScreenContentList]
+         *
+         * # Диалог отчистки корзины :: [RotationTest.binScreenClearDialog]
+         *
+         * # Диалог управления заметкой:
+         * # Текст :: [RotationTest.binScreenTextNoteDialog]
+         * # Список :: [RotationTest.binScreenRollNoteDialog]
          */
 
     }
