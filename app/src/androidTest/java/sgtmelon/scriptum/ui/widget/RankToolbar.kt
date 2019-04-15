@@ -11,6 +11,8 @@ class RankToolbar : ParentUi() {
         operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply { func() }
     }
 
-    class Assert : BasicMatch()
+    class Assert : BasicMatch() {
+
+    }
 
 }

@@ -4,6 +4,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.widget.RankToolbar
 
 /**
  * Класс для ui контроля экрана [RankFragment]
@@ -14,8 +15,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onLongClickItem(position: Int = positionRandom) =
-            action { onLongClick(recyclerId, position) }
+    fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar().apply { func() }
 
     class Assert : BasicMatch() {
 

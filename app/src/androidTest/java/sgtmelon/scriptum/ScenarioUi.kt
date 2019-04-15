@@ -107,7 +107,7 @@ private class ScenarioUi {
     /**
      * Сценарии для [RankTest]
      */
-    class Rank { // TODO
+    class Rank {
 
         /**
          * UI - Контент
@@ -134,7 +134,20 @@ private class ScenarioUi {
          */
 
         /**
-         * UI - Работа диалога переименовывания :: [RankTest.renameDialogWork]
+         * UI - Работа диалога переименовывания
+         * # Открыть :: [RankTest.renameDialogOpen]
+         *
+         * # Закрыть:
+         * # Кнопкой назад :: [RankTest.renameDialogCloseSoft]
+         * # Кнопкой отмена :: [RankTest.renameDialogCloseCancel]
+         *
+         * # Контент :: [RankTest.renameDialogContent]
+         *
+         * # Блокировка кнопки:
+         * # Идентичное название :: [RankTest.renameDialogBlockApplySameName]
+         * # Название из списка :: [RankTest.renameDialogBlockApplyFromList]
+         *
+         * # Результат :: [RankTest.renameDialogResult]
          */
 
     }
@@ -264,6 +277,8 @@ private class ScenarioUi {
         /**
          * CONTROL - Диалог добавления заметки :: [RotationTest.addDialog]
          */
+
+        // TODO
 
         /**
          * CONTROL - Страница [RankScreen]

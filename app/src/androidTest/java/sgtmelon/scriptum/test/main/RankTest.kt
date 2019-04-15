@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.test.main
 
 import org.junit.Test
+import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест работы [RankFragment]
@@ -17,17 +19,30 @@ class RankTest : ParentTest() {
         preference.firstStart = false
     }
 
+
     @Test fun contentEmpty() {
-        TODO()
+        beforeLaunch { testData.clearAllData() }
+
+        MainScreen { rankScreen { assert { onDisplayContent(empty = true) } } }
     }
 
     @Test fun contentList() {
-        TODO()
+        beforeLaunch { testData.apply { clearAllData() }.fillRank() }
+
+        MainScreen { rankScreen { assert { onDisplayContent(empty = false) } } }
     }
 
     @Test fun listScroll() {
-        TODO()
+        beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }
+
+        MainScreen {
+            rankScreen {
+                onScroll(Scroll.END, time = 4)
+                onScroll(Scroll.START, time = 4)
+            }
+        }
     }
+
 
     @Test fun toolbarEnterAddEnable() {
         TODO()
@@ -45,6 +60,7 @@ class RankTest : ParentTest() {
         TODO()
     }
 
+
     @Test fun rankVisible() {
         TODO()
     }
@@ -53,7 +69,32 @@ class RankTest : ParentTest() {
         TODO()
     }
 
-    @Test fun renameDialogWork() {
+
+    @Test fun renameDialogOpen() {
+        TODO()
+    }
+
+    @Test fun renameDialogCloseSoft() {
+        TODO()
+    }
+
+    @Test fun renameDialogCloseCancel() {
+        TODO()
+    }
+
+    @Test fun renameDialogContent() {
+        TODO()
+    }
+
+    @Test fun renameDialogBlockApplySameName() {
+        TODO()
+    }
+
+    @Test fun renameDialogBlockApplyFromList() {
+        TODO()
+    }
+
+    @Test fun renameDialogResult() {
         TODO()
     }
 
