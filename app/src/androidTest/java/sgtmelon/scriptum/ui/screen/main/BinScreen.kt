@@ -6,8 +6,8 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.ui.dialog.ClearDialog
-import sgtmelon.scriptum.ui.dialog.NoteDialog
+import sgtmelon.scriptum.ui.dialog.ClearDialogUi
+import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -20,25 +20,25 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun clearDialog(func: ClearDialog.() -> Unit) = ClearDialog().apply {
+    fun clearDialogUi(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
         action { onClick(R.id.item_clear) }
         func()
     }
 
-    fun noteDialog(noteItem: NoteItem, p: Int = 0, func: NoteDialog.() -> Unit = {}) = NoteDialog().apply {
+    fun noteDialogUi(noteItem: NoteItem, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
         action { onLongClick(recyclerId, p) }
         assert { onDisplayContent(noteItem) }
         func()
     }
 
     fun textNoteScreen(state: State, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
-        onClickItem(position = 0)
+        onClickItem(p)
         assert { onDisplayContent(state) }
         func()
     }
 
     fun rollNoteScreen(state: State, p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
-        onClickItem(position = 0)
+        onClickItem(p)
         assert { onDisplayContent(state) }
         func()
     }

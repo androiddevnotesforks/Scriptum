@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.ui.dialog.NoteDialog
+import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -25,20 +25,20 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
         func()
     }
 
-    fun noteDialog(noteItem: NoteItem, p: Int = 0, func: NoteDialog.() -> Unit = {}) = NoteDialog().apply {
+    fun noteDialogUi(noteItem: NoteItem, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
         action { onLongClick(recyclerId, p) }
         assert { onDisplayContent(noteItem) }
         func()
     }
 
     fun textNoteScreen(state: State, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
-        onClickItem(position = 0)
+        onClickItem(p)
         assert { onDisplayContent(state) }
         func()
     }
 
     fun rollNoteScreen(state: State, p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
-        onClickItem(position = 0)
+        onClickItem(p)
         assert { onDisplayContent(state) }
         func()
     }

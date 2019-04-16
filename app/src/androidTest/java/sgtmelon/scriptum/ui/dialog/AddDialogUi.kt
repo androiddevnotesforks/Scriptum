@@ -12,7 +12,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  *
  * @author SerjantArbuz
  */
-class AddDialog : ParentUi() {
+class AddDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 

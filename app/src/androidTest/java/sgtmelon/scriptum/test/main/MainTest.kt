@@ -67,32 +67,32 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun addDialogOpen() = afterLaunch { MainScreen { addDialog() } }
+    @Test fun addDialogOpen() = afterLaunch { MainScreen { addDialogUi() } }
 
     @Test fun addDialogCloseSoft() = afterLaunch {
         MainScreen {
-            addDialog { onCloseSoft() }
+            addDialogUi { onCloseSoft() }
             assert { onDisplayContent() }
         }
     }
 
     @Test fun addDialogCloseSwipe() = afterLaunch {
         MainScreen {
-            addDialog { onCloseSwipe() }
+            addDialogUi { onCloseSwipe() }
             assert { onDisplayContent() }
         }
     }
 
     @Test fun addDialogCreateTextNote() = afterLaunch {
         MainScreen {
-            addDialog { onClickItem(NoteType.TEXT) }
+            addDialogUi { onClickItem(NoteType.TEXT) }
             textNoteScreen(State.NEW)
         }
     }
 
     @Test fun addDialogCreateRollNote() = afterLaunch {
         MainScreen {
-            addDialog { onClickItem(NoteType.ROLL) }
+            addDialogUi { onClickItem(NoteType.ROLL) }
             rollNoteScreen(State.NEW)
         }
     }

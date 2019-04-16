@@ -53,7 +53,7 @@ class IntroScreen : ParentUi() {
         }
 
         fun isEnableEndButton(position: Int) =
-                isEnable(R.id.intro_end_button, enable = position == IntroData.count - 1)
+                isEnabled(R.id.intro_end_button, enable = position == IntroData.count - 1)
 
         fun onDisplayEndButton() = onDisplay(R.id.intro_end_button, R.string.info_intro_button)
 

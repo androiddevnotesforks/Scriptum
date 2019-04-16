@@ -121,16 +121,31 @@ private class ScenarioUi {
 
         /**
          * UI - Работа toolbar'а добавления категории
-         * # Доступ к кнопке добавить :: [RankTest.toolbarEnterAddEnable]
+         * # Доступ к кнопке добавить
+         * # Пустой текст :: [RankTest.toolbarEnterAddEmpty]
+         * # Текст из списка :: [RankTest.toolbarEnterAddFromList]
+         * # Доступна :: [RankTest.toolbarEnterAddEnable]
+         *
          * # Работа кнопки отчистки :: [RankTest.toolbarEnterClear]
          * # Добавление категории в начало :: [RankTest.toolbarEnterAddStart]
          * # Добавление категории в конец :: [RankTest.toolbarEnterAddEnd]
          */
 
+        // TODO
+        // TODO espresso drag'n'roll
+
         /**
-         * UI - Управление категорией
-         * # Видимость категории :: [RankTest.rankVisible]
-         * # Удаление категории :: [RankTest.rankClear]
+         * UI/MANUAL - Управление категорией
+         * # Видимость:
+         * # Обычное нажатие :: [RankTest.rankVisibleAnimationClick]
+         * # Долгое нажатие :: [RankTest.rankVisibleAnimationLongClick]
+         * # Заметка :: [RankTest.rankVisibleForNote]
+         *
+         * # Удаление:
+         * # Удаление из списка :: [RankTest.rankClearFromList]
+         * # Заметка :: [RankTest.rankClearForNote]
+         *
+         * # Перетаскивание
          */
 
         /**
@@ -140,8 +155,6 @@ private class ScenarioUi {
          * # Закрыть:
          * # Кнопкой назад :: [RankTest.renameDialogCloseSoft]
          * # Кнопкой отмена :: [RankTest.renameDialogCloseCancel]
-         *
-         * # Контент :: [RankTest.renameDialogContent]
          *
          * # Блокировка кнопки:
          * # Идентичное название :: [RankTest.renameDialogBlockApplySameName]
@@ -283,7 +296,7 @@ private class ScenarioUi {
         /**
          * CONTROL - Страница [RankScreen]
          * # Контент
-         * # Диалог переименовывания
+         * # Диалог переименовывания с данными
          */
 
         /**

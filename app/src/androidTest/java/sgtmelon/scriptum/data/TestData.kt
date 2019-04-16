@@ -19,6 +19,8 @@ class TestData(private val context: Context) {
 
     private val dataBase: RoomDb get() = RoomDb.getInstance(context)
 
+    val uniqueString get() = randomUUID().toString().substring(0, 16)
+
     val textNote: NoteItem
         get() = NoteItem().apply {
             create = context.getTime()
@@ -51,7 +53,7 @@ class TestData(private val context: Context) {
         }
     }
 
-    val rankItem: RankItem get() = RankItem(name = randomUUID().toString().substring(0, 8))
+    val rankItem: RankItem get() = RankItem(name = uniqueString)
 
 
     fun clearAllData() = dataBase.apply { clearAllTables() }.close()
@@ -94,13 +96,37 @@ class TestData(private val context: Context) {
         return insertRoll(noteItem, listRoll)
     }
 
+    fun insertRankToNote() = ArrayList<RankItem>().apply {
+        val noteItem = if (Math.random() < 0.5) insertText() else insertRoll()
 
-    fun fillRank(times: Int = 10) = (0..times).forEach {
-        insertRank(rankItem.apply {
-            name = "$it | $name"
-            position = it
-            isVisible = Math.random() < 0.5
-        })
+        (1..2).forEach {
+            val rankItem = insertRank(rankItem.apply {
+                name = "$it | $name"
+                noteId.add(noteItem.id)
+                position = it
+            })
+
+            add(rankItem)
+        }
+
+        forEach {
+            noteItem.rankId.add(it.id)
+            noteItem.rankPs.add(it.position.toLong())
+        }
+
+        dataBase.apply { getNoteDao().update(noteItem) }.close()
+    }
+
+    fun fillRank(times: Int = 10) = ArrayList<RankItem>().apply {
+        (1..times).forEach {
+            val rankItem = insertRank(rankItem.apply {
+                name = "$it | $name"
+                position = it
+                isVisible = Math.random() < 0.5
+            })
+
+            add(rankItem)
+        }
     }
 
     fun fillNotes(times: Int = 10) = repeat(times) {

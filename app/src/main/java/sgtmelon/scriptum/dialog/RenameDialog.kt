@@ -38,16 +38,11 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        position = savedInstanceState?.getInt(POSITION)
-                ?: bundle?.getInt(POSITION)
-                        ?: 0
-        title = savedInstanceState?.getString(INIT)
-                ?: bundle?.getString(INIT)
-                        ?: ""
+        position = savedInstanceState?.getInt(POSITION) ?: bundle?.getInt(POSITION) ?: 0
+        title = savedInstanceState?.getString(INIT) ?: bundle?.getString(INIT) ?: ""
 
         listName = savedInstanceState?.getStringArrayList(VALUE)
-                ?: bundle?.getStringArrayList(VALUE)
-                        ?: ArrayList()
+                ?: bundle?.getStringArrayList(VALUE) ?: ArrayList()
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
 

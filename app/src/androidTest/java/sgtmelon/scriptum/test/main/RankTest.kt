@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.test.main
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import org.junit.Test
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.main.RankFragment
@@ -44,58 +45,260 @@ class RankTest : ParentTest() {
     }
 
 
+    @Test fun toolbarEnterAddEmpty() {
+        beforeLaunch { testData.clearAllData() }
+
+        MainScreen {
+            rankScreen {
+                toolbar {
+                    assert { isAddEnabled(enabled = false) }
+                    onEnterName(name = " ")
+                    assert { isAddEnabled(enabled = false) }
+                }
+            }
+        }
+    }
+
+    @Test fun toolbarEnterAddFromList() {
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    toolbar {
+                        assert { isAddEnabled(enabled = false) }
+                        onEnterName(rankItem.name)
+                        assert { isAddEnabled(enabled = false) }
+                    }
+                }
+            }
+        }
+    }
+
     @Test fun toolbarEnterAddEnable() {
-        TODO()
+        beforeLaunch { testData.clearAllData() }
+
+        MainScreen {
+            rankScreen {
+                toolbar {
+                    assert { isAddEnabled(enabled = false) }
+                    onEnterName(testData.rankItem.name)
+                    assert { isAddEnabled(enabled = true) }
+                }
+            }
+        }
     }
 
     @Test fun toolbarEnterClear() {
-        TODO()
+        beforeLaunch { testData.clearAllData() }
+
+        MainScreen {
+            rankScreen {
+                toolbar {
+                    assert { isClearEnabled(enabled = false) }
+                    onEnterName(testData.rankItem.name)
+                    assert { isClearEnabled(enabled = true) }
+                    onClickClear()
+                    assert { isClearEnabled(enabled = false) }
+                }
+            }
+        }
     }
 
     @Test fun toolbarEnterAddStart() {
-        TODO()
+        val name = testData.apply {
+            clearAllData()
+            insertRank()
+        }.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    toolbar {
+                        onEnterName(name)
+                        onLongClickAdd()
+                    }
+
+                    assert { onDisplayContent(empty = false) }
+                    renameDialogUi(name)
+                }
+            }
+        }
     }
 
     @Test fun toolbarEnterAddEnd() {
-        TODO()
+        val name = testData.apply {
+            clearAllData()
+            insertRank()
+        }.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    toolbar {
+                        onEnterName(name)
+                        onClickAdd()
+                    }
+
+                    assert { onDisplayContent(empty = false) }
+                    renameDialogUi(name, p = count - 1)
+                }
+            }
+        }
     }
 
 
-    @Test fun rankVisible() {
-        TODO()
+    @Test fun rankVisibleAnimationClick() {
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    onClickVisible(rankItem.name)
+                    wait(time = 500) { onClickVisible(rankItem.name) }
+                }
+            }
+        }
     }
 
-    @Test fun rankClear() {
-        TODO()
+    @Test fun rankVisibleAnimationLongClick() {
+        val rankList = testData.apply { clearAllData() }.fillRank(times = 5)
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    onLongClickVisible(rankList[0].name)
+                    wait(time = 500) { onLongClickVisible(rankList[count - 1].name) }
+                }
+            }
+        }
+    }
+
+    @Test fun rankVisibleForNote() {
+        val rankList = testData.apply { clearAllData() }.insertRankToNote()
+
+        afterLaunch {
+            MainScreen {
+                rankScreen { onClickVisible(rankList[1].name) }
+                notesScreen { assert { onDisplayContent(empty = false) } }
+                rankScreen { onClickVisible(rankList[0].name) }
+                notesScreen { assert { onDisplayContent(empty = true) } }
+            }
+        }
+    }
+
+    @Test fun rankClearFromList() {
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    onClickCancel(rankItem.name)
+                    assert { onDisplayContent(empty = true) }
+                }
+            }
+        }
+    }
+
+    @Test fun rankClearForNote() {
+        val rankList = testData.apply { clearAllData() }.insertRankToNote()
+
+        afterLaunch {
+            MainScreen {
+                rankScreen { onClickVisible(rankList[0].name) }
+                notesScreen { assert { onDisplayContent(empty = true) } }
+                rankScreen { onClickCancel(rankList[0].name) }
+                notesScreen { assert { onDisplayContent(empty = false) } }
+            }
+        }
     }
 
 
     @Test fun renameDialogOpen() {
-        TODO()
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+
+        afterLaunch { MainScreen { rankScreen { renameDialogUi(rankItem.name) } } }
     }
 
     @Test fun renameDialogCloseSoft() {
-        TODO()
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    renameDialogUi(rankItem.name) {
+                        closeSoftKeyboard()
+                        onCloseSoft()
+                    }
+
+                    assert { onDisplayContent(empty = false) }
+                }
+            }
+        }
     }
 
     @Test fun renameDialogCloseCancel() {
-        TODO()
-    }
+        val rankItem = testData.apply { clearAllData() }.insertRank()
 
-    @Test fun renameDialogContent() {
-        TODO()
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    renameDialogUi(rankItem.name) { onClickCancel() }
+                    assert { onDisplayContent(empty = false) }
+                }
+            }
+        }
     }
 
     @Test fun renameDialogBlockApplySameName() {
-        TODO()
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    renameDialogUi(rankItem.name) {
+                        onEnterName(rankItem.name)
+                        assert { isAcceptEnable(enabled = false) }
+                    }
+                }
+            }
+        }
     }
 
     @Test fun renameDialogBlockApplyFromList() {
-        TODO()
+        val listRank = testData.apply { clearAllData() }.fillRank(times = 2)
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    renameDialogUi(listRank[0].name) {
+                        onEnterName(listRank[1].name)
+                        assert { isAcceptEnable(enabled = false) }
+                    }
+                }
+            }
+        }
     }
 
     @Test fun renameDialogResult() {
-        TODO()
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val newName = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    renameDialogUi(rankItem.name) {
+                        onEnterName(newName)
+                        assert { isAcceptEnable(enabled = true) }
+                        onClickAccept()
+                    }
+
+                    assert { onDisplayContent(empty = false) }
+
+                    renameDialogUi(newName)
+                }
+            }
+        }
     }
 
 }

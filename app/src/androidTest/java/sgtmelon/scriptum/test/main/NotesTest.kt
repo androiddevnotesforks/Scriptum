@@ -99,7 +99,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialog { onClickItem(NoteType.TEXT) }
+            addDialogUi { onClickItem(NoteType.TEXT) }
             textNoteScreen(State.NEW) {
                 closeSoftKeyboard()
                 pressBack()
@@ -115,7 +115,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialog { onClickItem(NoteType.ROLL) }
+            addDialogUi { onClickItem(NoteType.ROLL) }
             rollNoteScreen(State.NEW) {
                 closeSoftKeyboard()
                 pressBack()
@@ -131,7 +131,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialog { onClickItem(NoteType.TEXT) }
+            addDialogUi { onClickItem(NoteType.TEXT) }
             textNoteScreen(State.NEW) {
                 testData.insertText()
 
@@ -149,7 +149,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialog { onClickItem(NoteType.ROLL) }
+            addDialogUi { onClickItem(NoteType.ROLL) }
 
             rollNoteScreen(State.NEW) {
                 testData.insertRoll()
@@ -166,7 +166,7 @@ class NotesTest : ParentTest() {
     @Test fun textNoteDialogOpen() {
         val noteItem = testData.apply { clearAllData() }.insertText()
 
-        afterLaunch { MainScreen { notesScreen { noteDialog(noteItem) } } }
+        afterLaunch { MainScreen { notesScreen { noteDialogUi(noteItem) } } }
     }
 
     @Test fun textNoteDialogClose() {
@@ -175,7 +175,7 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onCloseSoft() }
+                    noteDialogUi(noteItem) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -188,9 +188,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickBind() }
+                    noteDialogUi(noteItem) { onClickBind() }
                     noteItem.isStatus = true
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -205,9 +205,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickUnbind() }
+                    noteDialogUi(noteItem) { onClickUnbind() }
                     noteItem.isStatus = false
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -219,9 +219,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickConvert(noteItem.type) }
+                    noteDialogUi(noteItem) { onClickConvert(noteItem.type) }
                     noteItem.type = NoteType.ROLL
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -234,7 +234,7 @@ class NotesTest : ParentTest() {
             MainScreen {
                 notesScreen {
                     assert { onDisplayContent(empty = false) }
-                    noteDialog(noteItem) { onClickDelete() }
+                    noteDialogUi(noteItem) { onClickDelete() }
                     assert { onDisplayContent(empty = true) }
                 }
 
@@ -247,7 +247,7 @@ class NotesTest : ParentTest() {
     @Test fun rollNoteDialogOpen() {
         val noteItem = testData.apply { clearAllData() }.insertRoll()
 
-        afterLaunch { MainScreen { notesScreen { noteDialog(noteItem) } } }
+        afterLaunch { MainScreen { notesScreen { noteDialogUi(noteItem) } } }
     }
 
     @Test fun rollNoteDialogClose() {
@@ -256,7 +256,7 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onCloseSoft() }
+                    noteDialogUi(noteItem) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -270,9 +270,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickCheckAll() }
+                    noteDialogUi(noteItem) { onClickCheckAll() }
                     noteItem.setCompleteText(listRoll.size, listRoll.size)
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -289,9 +289,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickCheckAll() }
+                    noteDialogUi(noteItem) { onClickCheckAll() }
                     noteItem.setCompleteText(listRoll.size, listRoll.size)
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -304,9 +304,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickUncheck() }
+                    noteDialogUi(noteItem) { onClickUncheck() }
                     noteItem.setCompleteText(0, listRoll.size)
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -318,9 +318,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickBind() }
+                    noteDialogUi(noteItem) { onClickBind() }
                     noteItem.isStatus = true
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -335,9 +335,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickUnbind() }
+                    noteDialogUi(noteItem) { onClickUnbind() }
                     noteItem.isStatus = false
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -349,9 +349,9 @@ class NotesTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    noteDialog(noteItem) { onClickConvert(noteItem.type) }
+                    noteDialogUi(noteItem) { onClickConvert(noteItem.type) }
                     noteItem.type = NoteType.TEXT
-                    noteDialog(noteItem)
+                    noteDialogUi(noteItem)
                 }
             }
         }
@@ -364,7 +364,7 @@ class NotesTest : ParentTest() {
             MainScreen {
                 notesScreen {
                     assert { onDisplayContent(empty = false) }
-                    noteDialog(noteItem) { onClickDelete() }
+                    noteDialogUi(noteItem) { onClickDelete() }
                     assert { onDisplayContent(empty = true) }
                 }
 

@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.ui.dialog.AddDialog
+import sgtmelon.scriptum.ui.dialog.AddDialogUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -32,7 +32,7 @@ class MainScreen : ParentUi() {
         func()
     }
 
-    fun addDialog(func: AddDialog.() -> Unit = {}) = AddDialog().apply {
+    fun addDialogUi(func: AddDialogUi.() -> Unit = {}) = AddDialogUi().apply {
         action { onClick(R.id.main_add_fab) }
         assert { onDisplayContent() }
         func()

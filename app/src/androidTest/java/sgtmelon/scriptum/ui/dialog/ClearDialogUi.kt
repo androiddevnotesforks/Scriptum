@@ -11,7 +11,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  *
  * @author SerjantArbuz
  */
-class ClearDialog : ParentUi() {
+class ClearDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
