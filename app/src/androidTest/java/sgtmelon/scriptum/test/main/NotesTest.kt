@@ -213,6 +213,30 @@ class NotesTest : ParentTest() {
         }
     }
 
+    @Test fun textNoteDialogUnbindOnDelete() {
+        val noteItem = with(testData) {
+            clearAllData()
+            return@with insertText(textNote.apply { isStatus = true })
+        }
+
+        afterLaunch {
+            MainScreen {
+                notesScreen { noteDialogUi(noteItem) { onClickDelete() } }
+
+                noteItem.apply {
+                    isStatus = false
+                    isBin = true
+                }
+
+                binScreen { noteDialogUi(noteItem) { onClickRestore() } }
+
+                noteItem.isBin = false
+
+                notesScreen { noteDialogUi(noteItem) }
+            }
+        }
+    }
+
     @Test fun textNoteDialogConvert() {
         val noteItem = testData.apply { clearAllData() }.insertText()
 
@@ -339,6 +363,30 @@ class NotesTest : ParentTest() {
                     noteItem.isStatus = false
                     noteDialogUi(noteItem)
                 }
+            }
+        }
+    }
+
+    @Test fun rollNoteDialogUnbindOnDelete() {
+        val noteItem = with(testData) {
+            clearAllData()
+            return@with insertRoll(rollNote.apply { isStatus = true })
+        }
+
+        afterLaunch {
+            MainScreen {
+                notesScreen { noteDialogUi(noteItem) { onClickDelete() } }
+
+                noteItem.apply {
+                    isStatus = false
+                    isBin = true
+                }
+
+                binScreen { noteDialogUi(noteItem) { onClickRestore() } }
+
+                noteItem.isBin = false
+
+                notesScreen { noteDialogUi(noteItem) }
             }
         }
     }

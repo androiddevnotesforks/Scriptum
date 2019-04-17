@@ -17,17 +17,23 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class MainScreen : ParentUi() {
 
+    private var wasNavigate = false
+
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
     fun rankScreen(func: RankScreen.() -> Unit) = RankScreen().apply {
+        wasNavigate = true
+
         navigateTo(MainPage.RANK)
         func()
     }
     fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply {
-        navigateTo(MainPage.NOTES)
+        if (wasNavigate) navigateTo(MainPage.NOTES)
         func()
     }
     fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply {
+        wasNavigate = true
+
         navigateTo(MainPage.BIN)
         func()
     }

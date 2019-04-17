@@ -213,6 +213,7 @@ private class ScenarioUi {
          * # Закрыть :: [NotesTest.textNoteDialogClose]
          * # Прикрепить к статус бару :: [NotesTest.textNoteDialogBind]
          * # Открепить от статус бара :: [NotesTest.textNoteDialogUnbind]
+         * # Открепить от статус бара при удалении :: [NotesTest.textNoteDialogUnbindOnDelete]
          * # Конвертировать :: [NotesTest.textNoteDialogConvert]
          * # Копировать текст
          * # Удаление :: [NotesTest.textNoteDialogDelete]
@@ -224,6 +225,7 @@ private class ScenarioUi {
          * # Снять выделения :: [NotesTest.rollNoteDialogUncheckAll]
          * # Прикрепить к статус бару :: [NotesTest.rollNoteDialogBind]
          * # Открепить от статус бара :: [NotesTest.rollNoteDialogUnbind]
+         * # Открепить от статус бара при удалении :: [NotesTest.rollNoteDialogUnbind]
          * # Конвертировать :: [NotesTest.rollNoteDialogConvert]
          * # Копировать текст
          * # Удаление :: [NotesTest.rollNoteDialogDelete]
