@@ -77,7 +77,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             setupToolbar(noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
-            setupPanel()
         }
 
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }
@@ -121,21 +120,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
-    /**
-     * TODO переделать
-     */
-    override fun onMenuLongUndo() {
-        while (inputControl.isUndoAccess) onMenuUndoRedo(isUndo = true)
-    }
-
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
-
-    /**
-     * TODO переделать
-     */
-    override fun onMenuLongRedo() {
-        while (inputControl.isRedoAccess) onMenuUndoRedo(isUndo = false)
-    }
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
         val item = if (isUndo) inputControl.undo() else inputControl.redo()

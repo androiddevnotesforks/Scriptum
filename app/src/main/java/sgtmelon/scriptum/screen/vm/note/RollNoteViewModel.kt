@@ -91,7 +91,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
             setupRecycler(inputControl)
-            setupPanel()
         }
 
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }
@@ -185,21 +184,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
-    /**
-     * TODO переделать
-     */
-    override fun onMenuLongUndo() {
-        while (inputControl.isUndoAccess) onMenuUndoRedo(isUndo = true)
-    }
-
     override fun onMenuRedo() = onMenuUndoRedo(isUndo = false)
-
-    /**
-     * TODO переделать
-     */
-    override fun onMenuLongRedo() {
-        while (inputControl.isRedoAccess) onMenuUndoRedo(isUndo = false)
-    }
 
     private fun onMenuUndoRedo(isUndo: Boolean) {
         val item = if (isUndo) inputControl.undo() else inputControl.redo()

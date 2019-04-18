@@ -44,7 +44,10 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
         binding.apply { this.rollItem = rollItem }.executePendingBindings()
     }
 
-    // TODO ошибка при быстром добавлении / удалении
+    /**
+     * TODO ошибка при быстром добавлении / удалении
+     * java.lang.IndexOutOfBoundsException: setSpan (6 ... 6) ends beyond length 5
+     */
 
     fun setSelections(@IntRange(from = 0) position: Int) = rollEnter.apply {
         requestFocus()

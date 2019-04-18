@@ -29,7 +29,6 @@ import sgtmelon.scriptum.screen.vm.PrefViewModel
 class PrefFragment : PreferenceFragment(), PrefCallback {
 
     // TODO https://www.youtube.com/watch?v=PS9jhuHECEQ
-    // TODO перенести theme на самый верх
 
     private val openState = OpenState()
 

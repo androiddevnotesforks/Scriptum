@@ -25,8 +25,6 @@ interface TextNoteCallback {
 
     fun setupEnter(inputCallback: InputCallback)
 
-    fun setupPanel()
-
     fun bindEdit(mode: Boolean, noteItem: NoteItem)
 
     fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)

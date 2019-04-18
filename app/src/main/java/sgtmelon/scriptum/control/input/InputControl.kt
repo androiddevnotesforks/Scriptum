@@ -23,8 +23,6 @@ import java.util.*
 class InputControl : InputCallback {
 
     // TODO: 17.12.2018 хранить последние 200 изменений
-    // TODO: 27.01.2019 долгое нажатие (надо каким-то образом собирать последнюю информацию о изменённом view)
-    // TODO: 10.12.2018 добавить длинное нажатие на кнопку undo/redo - для возвращение в один из концов
 
     var logEnabled = BuildConfig.DEBUG
 
