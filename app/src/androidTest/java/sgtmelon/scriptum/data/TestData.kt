@@ -96,8 +96,29 @@ class TestData(private val context: Context) {
         return insertRoll(noteItem, listRoll)
     }
 
-    fun insertRankToNote() = ArrayList<RankItem>().apply {
+    fun insertRankToNotes() = ArrayList<RankItem>().apply {
         val noteItem = if (Math.random() < 0.5) insertText() else insertRoll()
+
+        (1..2).forEach {
+            val rankItem = insertRank(rankItem.apply {
+                name = "$it | $name"
+                noteId.add(noteItem.id)
+                position = it
+            })
+
+            add(rankItem)
+        }
+
+        forEach {
+            noteItem.rankId.add(it.id)
+            noteItem.rankPs.add(it.position.toLong())
+        }
+
+        dataBase.apply { getNoteDao().update(noteItem) }.close()
+    }
+
+    fun insertRankToBin() = ArrayList<RankItem>().apply {
+        val noteItem = if (Math.random() < 0.5) insertTextToBin() else insertRollToBin()
 
         (1..2).forEach {
             val rankItem = insertRank(rankItem.apply {

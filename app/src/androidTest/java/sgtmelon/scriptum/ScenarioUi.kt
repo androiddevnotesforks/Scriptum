@@ -27,6 +27,14 @@ import sgtmelon.scriptum.ui.screen.main.RankScreen
 private class ScenarioUi {
 
     /**
+     * TODO:
+     * Тест сортировки заметок
+     * Тест перетаскивания категорий
+     * Тест поворота rename диалога
+     * Тест поворото rank контента
+     */
+
+    /**
      * Сценарии для [SplashTest]
      */
     class Splash {
@@ -131,15 +139,13 @@ private class ScenarioUi {
          * # Добавление категории в конец :: [RankTest.toolbarEnterAddEnd]
          */
 
-        // TODO
-        // TODO espresso drag'n'roll
-
         /**
          * UI/MANUAL - Управление категорией
          * # Видимость:
          * # Обычное нажатие :: [RankTest.rankVisibleAnimationClick]
          * # Долгое нажатие :: [RankTest.rankVisibleAnimationLongClick]
-         * # Заметка :: [RankTest.rankVisibleForNote]
+         * # Заметка :: [RankTest.rankVisibleForNotes]
+         * # Заметка в корзине :: [RankTest.rankVisibleForBin]
          *
          * # Удаление:
          * # Удаление из списка :: [RankTest.rankClearFromList]
@@ -292,8 +298,6 @@ private class ScenarioUi {
         /**
          * CONTROL - Диалог добавления заметки :: [RotationTest.addDialog]
          */
-
-        // TODO
 
         /**
          * CONTROL - Страница [RankScreen]
