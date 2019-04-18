@@ -60,10 +60,15 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         pageButtonEnd.isEnabled = position == pagerAdapter.count - 1
 
         if (position == pagerAdapter.count - 2) {
-            pageIndicator.translationY = positionOffset * pageButtonEnd.height
-            pageIndicator.alpha = 1 - positionOffset
+            with(pageIndicator) {
+                alpha = 1 - 2 * positionOffset
+                translationY = -positionOffset * height
+            }
 
-            pageButtonEnd.alpha = positionOffset
+            with(pageButtonEnd) {
+                alpha = positionOffset
+                translationY = height - positionOffset * height
+            }
         }
     }
 
