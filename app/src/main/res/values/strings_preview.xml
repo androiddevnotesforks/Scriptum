@@ -30,4 +30,6 @@
     <string name="preview_rank_data_base" translatable="false">Rank Data Base:</string>
     <string name="preview_preference" translatable="false">Preference:</string>
 
+    <string name="preview_version" translatable="false">1.0-0-g000000</string>
+
 </resources>

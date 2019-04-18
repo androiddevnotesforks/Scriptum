@@ -112,11 +112,8 @@
 
 
     <!-- About dialog -->
-    <string name="about_app_for">for Android</string>
     <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>
-    <string name="about_app_logo_designer">Designer:\nPoplekina Arina</string>
-    <string name="about_app_version">App version: 1.1.0</string>
-
+    <string name="about_app_logo_designer">Logo designer:\nPolepkina Arina</string>
 
     <!-- EditText hint -->
     <string name="hint_enter_rank_new">New category</string>

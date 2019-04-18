@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.DialogBlank
+import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
 class InfoDialog : DialogBlank(), View.OnClickListener {
@@ -22,8 +24,8 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_about, null)
 
-        view.findViewById<ImageView>(R.id.logo_image)
-                .setOnClickListener(this)
+        view.findViewById<ImageView>(R.id.about_logo_image).setOnClickListener(this)
+        view.findViewById<TextView>(R.id.about_version).text = BuildConfig.VERSION_NAME
 
         return AlertDialog.Builder(activity)
                 .setView(view)
