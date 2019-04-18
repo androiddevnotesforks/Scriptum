@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
 
 android {
+    //def tagLongVersion = "git describe --tags --long".execute().text.trim()
+    def tagLongVersion = "C:\\Git\\bin\\git.exe describe --tags --long".execute().text.trim()
+
     compileSdkVersion 28
 
     defaultConfig {
@@ -11,7 +14,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 5
-        versionName "1.1.0"
+        versionName tagLongVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
