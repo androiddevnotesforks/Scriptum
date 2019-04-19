@@ -16,6 +16,11 @@ class AddDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
+    fun onOpenSwipe() = action {
+        onSwipeUp(R.id.add_navigation)
+        wait(time = 500)
+    }
+
     fun onCloseSoft() = pressBack()
 
     fun onCloseSwipe() = action {

@@ -79,10 +79,10 @@ class InputControl : InputCallback {
         val endPosition = listInput.size - 1
 
         if (position != endPosition) {
-            for (i in endPosition downTo position + 1) {
-                listInput.removeAt(i)
-            }
+            (endPosition downTo position + 1).forEach { listInput.removeAt(it) }
         }
+
+        if (listInput.size >= MAX_ACTION_SIZE) Log.i("HERE", "size = ${listInput.size}, ps = $position")
 
         listAll()
     }
@@ -134,6 +134,8 @@ class InputControl : InputCallback {
 
     companion object {
         private val TAG = InputControl::class.java.simpleName
+
+        const val MAX_ACTION_SIZE = 5
     }
 
 }

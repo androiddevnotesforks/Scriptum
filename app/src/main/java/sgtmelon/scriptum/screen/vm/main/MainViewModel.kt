@@ -18,21 +18,20 @@ class MainViewModel : ViewModel() {
     lateinit var callback: MainCallback
 
     private var firstStart: Boolean = true
-    private var page: Int = MainPage.NOTES.ordinal
+    private var pageFrom: MainPage = MainPage.NOTES
 
     fun setupData(bundle: Bundle?) {
-        if (bundle != null) page = bundle.getInt(PAGE_CURRENT)
+        if (bundle != null) pageFrom = MainPage.values()[bundle.getInt(PAGE_CURRENT)]
 
-        callback.setupNavigation(pageItemId[page])
+        callback.setupNavigation(pageItemId[pageFrom.ordinal])
+
+        if (bundle != null) callback.changeFabState(state = pageFrom == MainPage.NOTES)
     }
 
-    fun saveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, page)
+    fun saveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
 
     fun onSelectItem(@IdRes itemId: Int): Boolean {
-        val pageFrom = MainPage.values()[page]
         val pageTo = itemId.getPageById()
-
-        page = pageTo.ordinal
 
         if (!firstStart && pageTo == pageFrom) {
             callback.scrollTop(pageTo)
@@ -42,6 +41,8 @@ class MainViewModel : ViewModel() {
             callback.changeFabState(state = pageTo == MainPage.NOTES)
             callback.showPage(pageFrom, pageTo)
         }
+
+        pageFrom = pageTo
 
         return true
     }

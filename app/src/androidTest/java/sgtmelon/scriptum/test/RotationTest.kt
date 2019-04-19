@@ -24,6 +24,51 @@ class RotationTest : ParentTest() {
     }
 
 
+    @Test fun rankScreenContentEmpty() {
+        beforeLaunch { testData.clearAllData() }
+
+        MainScreen {
+            rankScreen {
+                assert { onDisplayContent(empty = true) }
+                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
+            }
+
+            assert { onDisplayFab(visible = false) }
+        }
+    }
+
+    @Test fun rankScreenContentList() {
+        beforeLaunch { testData.apply { clearAllData() }.fillRank() }
+
+        MainScreen {
+            rankScreen {
+                assert { onDisplayContent(empty = false) }
+                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
+            }
+
+            assert { onDisplayFab(visible = false) }
+        }
+    }
+
+    @Test fun rankScreenRenameDialog() {
+        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val newName = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                rankScreen {
+                    renameDialogUi(rankItem.name) {
+                        onEnterName(newName)
+
+                        assert { onDisplayContent(newName) }
+                        wait(time = 5000) { assert { onDisplayContent(newName) } }
+                    }
+                }
+            }
+        }
+    }
+
+
     @Test fun notesScreenContentEmpty() {
         beforeLaunch { testData.clearAllData() }
 
@@ -32,6 +77,8 @@ class RotationTest : ParentTest() {
                 assert { onDisplayContent(empty = true) }
                 wait(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
+
+            assert { onDisplayFab(visible = true) }
         }
     }
 
@@ -43,6 +90,8 @@ class RotationTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
                 wait(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
+
+            assert { onDisplayFab(visible = true) }
         }
     }
 
@@ -83,6 +132,8 @@ class RotationTest : ParentTest() {
                 assert { onDisplayContent(empty = true) }
                 wait(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
+
+            assert { onDisplayFab(visible = false) }
         }
     }
 
@@ -94,6 +145,8 @@ class RotationTest : ParentTest() {
                 assert { onDisplayContent(empty = false) }
                 wait(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
+
+            assert { onDisplayFab(visible = false) }
         }
     }
 

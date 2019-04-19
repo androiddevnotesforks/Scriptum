@@ -30,8 +30,6 @@ private class ScenarioUi {
      * TODO:
      * Тест сортировки заметок
      * Тест перетаскивания категорий
-     * Тест поворота rename диалога
-     * Тест поворото rank контента
      */
 
     /**
@@ -302,7 +300,9 @@ private class ScenarioUi {
         /**
          * CONTROL - Страница [RankScreen]
          * # Контент
-         * # Диалог переименовывания с данными
+         * # Пусто :: [RotationTest.rankScreenContentEmpty]
+         * # Список :: [RotationTest.rankScreenContentList]
+         * # Диалог переименовывания с данными :: [RotationTest.rankScreenRenameDialog]
          */
 
         /**

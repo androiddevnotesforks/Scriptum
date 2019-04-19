@@ -50,12 +50,6 @@ class MainActivity : AppActivity(), MainCallback {
      * 6. Релиз
      */
 
-    /**
-     * Для следующего релиза:
-     * 1. Добавить многопоточность (экраны загрузки)
-     * 2. Добавить paging
-     */
-
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java).apply {
             callback = this@MainActivity
