@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.control.touch.RankTouchControl
@@ -30,6 +33,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 import sgtmelon.scriptum.watcher.AppTextWatcher
+
 
 /**
  * Фрагмент для отображения списка категорий - [RankItem]
@@ -53,14 +57,20 @@ class RankFragment : Fragment(), RankCallback {
             when (view.id) {
                 R.id.rank_visible_button -> viewModel.onClickVisible(p)
                 R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
-                R.id.rank_cancel_button -> viewModel.onClickCancel(p)
+                R.id.rank_cancel_button -> {
+                    Log.i("HERE", "time start = " + System.currentTimeMillis())
+                    viewModel.onClickCancel(p)
+                }
             }
         }, ItemListener.LongClickListener { _, p -> viewModel.onLongClickVisible(p) })
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 
-    private var recyclerView: RecyclerView? = null
     private var rankEnter: EditText? = null
+
+    private var parentContainer: ViewGroup? = null
+    private var emptyInfoView: View? = null
+    private var recyclerView: RecyclerView? = null
 
     private val openState = OpenState()
     private val renameDialog by lazy { DialogFactory.getRenameDialog(fragmentManager) }
@@ -125,6 +135,9 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     private fun setupRecycler() {
+        parentContainer = view?.findViewById(R.id.rank_parent_container)
+        emptyInfoView = view?.findViewById(R.id.rank_info_include)
+
         val touchCallback = RankTouchControl(viewModel)
 
         adapter.dragListener = touchCallback
@@ -148,7 +161,11 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     override fun bindList(size: Int) {
-        binding?.listEmpty = size == 0
+        val empty = size == 0
+
+        parentContainer?.createVisibleAnim(empty, emptyInfoView)
+
+        binding?.listEmpty = empty
         bindToolbar()
     }
 
@@ -220,5 +237,17 @@ class RankFragment : Fragment(), RankCallback {
 
     override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>) =
             adapter.notifyItemMoved(from, to, list)
+
+    companion object {
+        fun ViewGroup.createVisibleAnim(visible: Boolean, target: View?, duration: Long = 200) {
+            if (target == null) return
+
+            TransitionManager.beginDelayedTransition(
+                    this, Fade().setDuration(duration).addTarget(target.id)
+            )
+
+            target.visibility = if (visible) View.VISIBLE else View.GONE
+        }
+    }
 
 }

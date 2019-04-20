@@ -27,6 +27,7 @@ import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
+import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim
 import sgtmelon.scriptum.screen.view.pref.PrefActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
@@ -40,7 +41,7 @@ class NotesFragment : Fragment(), NotesCallback {
     // TODO double open note - поправить
 
     private lateinit var activity: Activity
-    private lateinit var mainCallback: MainCallback
+    private val mainCallback: MainCallback? by lazy { context as? MainCallback }
 
     private var binding: FragmentNotesBinding? = null
 
@@ -57,6 +58,8 @@ class NotesFragment : Fragment(), NotesCallback {
         )
     }
 
+    private var parentContainer: ViewGroup? = null
+    private var emptyInfoView: View? = null
     private var recyclerView: RecyclerView? = null
 
     private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
@@ -65,7 +68,6 @@ class NotesFragment : Fragment(), NotesCallback {
         super.onAttach(context)
 
         activity = context as Activity
-        mainCallback = context as MainCallback
     }
 
     override fun onResume() {
@@ -101,6 +103,9 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private fun setupRecycler() {
+        parentContainer = view?.findViewById(R.id.notes_parent_container)
+        emptyInfoView = view?.findViewById(R.id.notes_info_include)
+
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
@@ -112,7 +117,7 @@ class NotesFragment : Fragment(), NotesCallback {
         recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                mainCallback.changeFabState(dy <= 0)
+                mainCallback?.changeFabState(dy <= 0)
             }
         })
 
@@ -122,9 +127,11 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     override fun bind() {
-        binding?.apply {
-            listEmpty = adapter.itemCount == 0
-        }?.executePendingBindings()
+        val empty = adapter.itemCount == 0
+
+        parentContainer?.createVisibleAnim(empty, emptyInfoView, if (!empty) 0 else 200)
+
+        binding?.apply { listEmpty = empty }?.executePendingBindings()
     }
 
     override fun scrollTop() {

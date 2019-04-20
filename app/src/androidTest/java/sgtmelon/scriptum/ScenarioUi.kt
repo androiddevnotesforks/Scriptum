@@ -1,5 +1,6 @@
 package sgtmelon.scriptum
 
+import sgtmelon.scriptum.test.InfoAnimTest
 import sgtmelon.scriptum.test.IntroTest
 import sgtmelon.scriptum.test.RotationTest
 import sgtmelon.scriptum.test.SplashTest
@@ -327,6 +328,29 @@ private class ScenarioUi {
          * # Диалог управления заметкой:
          * # Текст :: [RotationTest.binScreenTextNoteDialog]
          * # Список :: [RotationTest.binScreenRollNoteDialog]
+         */
+
+    }
+
+    /**
+     * Сценарии для [InfoAnimTest]
+     */
+    class EmptyInfoAnim {
+
+        /**
+         * CONTROL - Страница [RankScreen] :: [InfoAnimTest.rankShowAndHide]
+         */
+
+        /**
+         * CONTROL - Страница [NotesScreen]
+         * # Показать :: [InfoAnimTest.notesShow]
+         * # Скрыть :: [InfoAnimTest.notesHide]
+         */
+
+        /**
+         * CONTROL - Страница [BinScreen]
+         * # Показать :: [InfoAnimTest.binShow]
+         * # Скрыть :: [InfoAnimTest.binHide]
          */
 
     }

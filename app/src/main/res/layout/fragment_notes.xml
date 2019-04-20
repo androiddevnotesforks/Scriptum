@@ -24,6 +24,7 @@
                 android:layout_height="match_parent">
 
             <include
+                    android:id="@+id/notes_info_include"
                     layout="@layout/include_info"
                     android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'
                     app:details='@{R.string.info_notes_details}'

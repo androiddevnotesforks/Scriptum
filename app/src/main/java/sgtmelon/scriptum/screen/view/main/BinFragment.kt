@@ -27,6 +27,7 @@ import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 import sgtmelon.scriptum.screen.callback.main.BinCallback
+import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
@@ -57,6 +58,9 @@ class BinFragment : Fragment(), BinCallback {
 
     private var toolbar: Toolbar? = null
     private var itemClearBin: MenuItem? = null
+
+    private var parentContainer: ViewGroup? = null
+    private var emptyInfoView: View? = null
     private var recyclerView: RecyclerView? = null
 
     private val openState = OpenState()
@@ -116,6 +120,9 @@ class BinFragment : Fragment(), BinCallback {
     }
 
     private fun setupRecycler() {
+        parentContainer = view?.findViewById(R.id.bin_parent_container)
+        emptyInfoView = view?.findViewById(R.id.bin_info_include)
+
         recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.itemAnimator = object : DefaultItemAnimator() {
             override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
@@ -130,7 +137,11 @@ class BinFragment : Fragment(), BinCallback {
     }
 
     override fun bind() {
-        binding?.apply { listEmpty = adapter.itemCount == 0 }?.executePendingBindings()
+        val empty = adapter.itemCount == 0
+
+        parentContainer?.createVisibleAnim(empty, emptyInfoView, if (!empty) 0 else 200)
+
+        binding?.apply { listEmpty = empty }?.executePendingBindings()
     }
 
     override fun scrollTop() {
