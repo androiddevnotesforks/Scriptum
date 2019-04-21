@@ -445,12 +445,15 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         inputControl.onRankChange(noteItem.rankId, rankId)
 
-        noteItem.rankId = rankId
-        noteItem.rankPs = rankPs
+        noteItem.apply {
+            this.rankId = rankId
+            this.rankPs = rankPs
+        }
 
         noteModel.updateStatus(rankIdVisibleList)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+        callback.bindItem(noteItem)
     }
 
     fun onResultConvertDialog() {

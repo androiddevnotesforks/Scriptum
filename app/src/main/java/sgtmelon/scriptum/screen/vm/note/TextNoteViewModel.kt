@@ -285,6 +285,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.updateStatus(rankIdVisibleList)
 
         callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+        callback.bindItem(noteItem)
     }
 
     fun onResultConvertDialog() {

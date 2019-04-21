@@ -192,6 +192,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }?.executePendingBindings()
     }
 
+    override fun bindItem(noteItem: NoteItem) {
+        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
+    }
+
     override fun onPressBack() = viewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) =
