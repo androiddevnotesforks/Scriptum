@@ -4,6 +4,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
+import sgtmelon.scriptum.BuildConfig.INPUT_CONTROL_MAX_SIZE
 
 class InputControlTest {
 
@@ -85,6 +86,17 @@ class InputControlTest {
         assert { redoFail() }
     }
 
+    @Test fun `remove list items at start after max length`() {
+        inputControl.apply {
+            isEnabled = true
+
+            repeat(times = INPUT_CONTROL_MAX_SIZE + 1) { onRankChange(rankValueFrom, rankValueTo) }
+            repeat(times = INPUT_CONTROL_MAX_SIZE) { inputControl.undo() }
+        }
+
+        assert { undoFail() }
+    }
+
     @Test fun `input control reset`() {
         inputControl.apply {
             isEnabled = true
@@ -109,7 +121,7 @@ class InputControlTest {
 
     }
 
-    companion object {
+    private companion object {
         val rankValueFrom = listOf<Long>(0, 1, 2, 3)
         val rankValueTo = listOf<Long>(0, 1)
     }

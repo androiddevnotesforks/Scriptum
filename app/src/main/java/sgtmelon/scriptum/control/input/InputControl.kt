@@ -22,8 +22,6 @@ import java.util.*
  */
 class InputControl : InputCallback {
 
-    // TODO: 17.12.2018 хранить последние 200 изменений
-
     var logEnabled = BuildConfig.DEBUG
 
     private val listInput = ArrayList<InputItem>()
@@ -82,7 +80,10 @@ class InputControl : InputCallback {
             (endPosition downTo position + 1).forEach { listInput.removeAt(it) }
         }
 
-        if (listInput.size >= MAX_ACTION_SIZE) Log.i("HERE", "size = ${listInput.size}, ps = $position")
+        while (listInput.size >= BuildConfig.INPUT_CONTROL_MAX_SIZE) {
+            listInput.removeAt(0)
+            position--
+        }
 
         listAll()
     }
@@ -134,8 +135,6 @@ class InputControl : InputCallback {
 
     companion object {
         private val TAG = InputControl::class.java.simpleName
-
-        const val MAX_ACTION_SIZE = 5
     }
 
 }
