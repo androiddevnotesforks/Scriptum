@@ -47,9 +47,9 @@ interface TextNoteMenuCallback {
     fun onMenuDelete()
 
     /**
-     * @param mode установка режима редактирования
+     * @param editMode установка режима редактирования
      */
-    fun onMenuEdit(mode: Boolean)
+    fun onMenuEdit(editMode: Boolean)
 
     //endregion
 

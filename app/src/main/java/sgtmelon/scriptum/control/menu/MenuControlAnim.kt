@@ -16,20 +16,17 @@ import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
  * Класс для контроля меню с использованием анимации | Для версий API >= 21
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class MenuControlAnim(context: Context,
-                      window: Window,
-                      toolbar: Toolbar?,
-                      indicator: View?
-) : MenuControl(context, window, toolbar, indicator) {
+class MenuControlAnim(context: Context, window: Window, toolbar: Toolbar?, indicator: View?)
+    : MenuControl(context, window, toolbar, indicator) {
 
     private val cancelOnAnim = context.getDrawable(R.drawable.anim_cancel_enter, R.attr.clContent)
-            as AnimatedVectorDrawable?
+            as? AnimatedVectorDrawable?
 
     private val cancelOffAnim = context.getDrawable(R.drawable.anim_cancel_exit, R.attr.clContent)
-            as AnimatedVectorDrawable?
+            as? AnimatedVectorDrawable?
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(
-            context, cancelOnAnim, cancelOffAnim, this
+            context, cancelOnAnim, cancelOffAnim, callback = this
     )
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {

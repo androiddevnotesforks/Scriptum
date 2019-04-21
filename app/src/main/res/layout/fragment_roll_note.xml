@@ -4,11 +4,12 @@
 
     <data>
 
-        <variable name="menuCallback" type="sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback"/>
+        <variable name="menuCallback"
+                  type="sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
-        <variable name="keyEdit" type="boolean"/>
+        <variable name="editMode" type="boolean"/>
 
         <variable name="enterEmpty" type="boolean"/>
 
@@ -27,28 +28,37 @@
 
         <include
                 layout="@layout/include_toolbar_note"
-                app:keyEdit='@{keyEdit}'
+                app:editMode='@{editMode}'
                 app:noteItem='@{noteItem}'/>
 
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/roll_note_recycler"
-                style="@style/RecyclerView"
+        <LinearLayout
+                android:id="@+id/roll_note_content_container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-        <include layout="@layout/include_roll_note_enter"
-                 app:enterEmpty='@{enterEmpty}'
-                 app:keyEdit='@{keyEdit}'/>
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/roll_note_recycler"
+                    style="@style/RecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
 
-        <include layout="@layout/include_roll_note_panel"
-                 app:keyEdit='@{keyEdit}'
-                 app:menuCallback='@{menuCallback}'
-                 app:noteItem='@{noteItem}'
-                 app:rankEmpty='@{rankEmpty}'
-                 app:redoAccess='@{redoAccess}'
-                 app:saveEnabled='@{saveEnabled}'
-                 app:undoAccess='@{undoAccess}'/>
+            <include layout="@layout/include_roll_note_enter"
+                     app:enterEmpty='@{enterEmpty}'
+                     app:editMode='@{editMode}'/>
+
+            <include layout="@layout/include_roll_note_panel"
+                     app:editMode='@{editMode}'
+                     app:menuCallback='@{menuCallback}'
+                     app:noteItem='@{noteItem}'
+                     app:rankEmpty='@{rankEmpty}'
+                     app:redoAccess='@{redoAccess}'
+                     app:saveEnabled='@{saveEnabled}'
+                     app:undoAccess='@{undoAccess}'/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

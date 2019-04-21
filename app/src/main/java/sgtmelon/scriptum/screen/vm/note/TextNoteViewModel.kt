@@ -105,7 +105,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             isBin = false
         }
 
-        iconState.notAnimate { onMenuEdit(mode = false) }
+        iconState.notAnimate { onMenuEdit(editMode = false) }
 
         iRoomRepo.updateNote(noteModel.noteItem)
     }
@@ -160,7 +160,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
         if (changeMode) {
             callback.hideKeyboard()
-            onMenuEdit(mode = false)
+            onMenuEdit(editMode = false)
             inputControl.reset()
         }
 
@@ -195,20 +195,20 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteCallback.finish()
     }
 
-    override fun onMenuEdit(mode: Boolean) = inputControl.makeNotEnabled {
-        noteState.isEdit = mode
+    override fun onMenuEdit(editMode: Boolean) = inputControl.makeNotEnabled {
+        noteState.isEdit = editMode
 
         callback.apply {
             changeToolbarIcon(
-                    drawableOn = mode && !noteState.isCreate,
+                    drawableOn = editMode && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(mode, noteModel.noteItem)
+            bindEdit(editMode, noteModel.noteItem)
             bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
         }
 
-        saveControl.setSaveHandlerEvent(mode)
+        saveControl.setSaveHandlerEvent(editMode)
     }
 
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)
@@ -241,7 +241,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         val colorFrom = noteModel.noteItem.color
         noteModel = iRoomRepo.getNoteModel(id)
 
-        onMenuEdit(mode = false)
+        onMenuEdit(editMode = false)
         callback.tintToolbar(colorFrom, noteModel.noteItem.color)
 
         inputControl.reset()

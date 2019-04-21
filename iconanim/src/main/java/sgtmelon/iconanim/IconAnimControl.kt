@@ -25,7 +25,7 @@ class IconAnimControl(context: Context,
         if (animOn.isRunning || animOff.isRunning) {
             waitAnimationEnd()
         } else {
-            callback.setDrawable(animState, false)
+            callback.setDrawable(animState, needAnim = false)
         }
     }
 

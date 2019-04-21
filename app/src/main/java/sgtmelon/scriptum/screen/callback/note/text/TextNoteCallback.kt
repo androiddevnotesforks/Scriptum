@@ -25,7 +25,7 @@ interface TextNoteCallback {
 
     fun setupEnter(inputCallback: InputCallback)
 
-    fun bindEdit(mode: Boolean, noteItem: NoteItem)
+    fun bindEdit(editMode: Boolean, noteItem: NoteItem)
 
     fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)
 

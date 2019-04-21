@@ -17,9 +17,10 @@ class SaveControl(context: Context, private val result: Result) {
     private val savePause: Boolean = Preference(context).pauseSave
     private val saveAuto: Boolean = Preference(context).autoSave
 
-    private val saveTime: Int = when (saveAuto) {
-        true -> context.resources.getIntArray(R.array.pref_save_time_value)[Preference(context).saveTime]
-        false -> 0
+    private val saveTime: Int = if (saveAuto) {
+        context.resources.getIntArray(R.array.pref_save_time_value)[Preference(context).saveTime]
+    } else {
+        0
     }
 
     private val saveRunnable = {
@@ -35,18 +36,20 @@ class SaveControl(context: Context, private val result: Result) {
     fun setSaveHandlerEvent(isStart: Boolean) {
         if (!saveAuto) return
 
-        when (isStart) {
-            true -> saveHandler.postDelayed(saveRunnable, saveTime.toLong())
-            false -> saveHandler.removeCallbacks(saveRunnable)
+        if (isStart) {
+            saveHandler.postDelayed(saveRunnable, saveTime.toLong())
+        } else {
+            saveHandler.removeCallbacks(saveRunnable)
         }
     }
 
-    fun onPauseSave(keyEdit: Boolean) {
+    fun onPauseSave(editMode: Boolean) {
         setSaveHandlerEvent(false)
 
-        when (needSave && keyEdit && savePause) {
-            true -> result.onResultSaveControl()
-            false -> needSave = true
+        if (needSave && editMode && savePause) {
+            result.onResultSaveControl()
+        } else {
+            needSave = true
         }
     }
 

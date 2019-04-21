@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.input.InputCallback
@@ -75,6 +77,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     private var rollEnter: EditText? = null
     private var recyclerView: RecyclerView? = null
 
+    private var parentContainer: ViewGroup? = null
+    private var enterContainer: View? = null
+
+    private var panelContainer: ViewGroup? = null
+
     private val openState = OpenState()
     private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
@@ -109,6 +116,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
 
         viewModel.setupData(arguments ?: savedInstanceState)
+
+        parentContainer = view.findViewById(R.id.roll_note_parent_container)
+        enterContainer = view.findViewById(R.id.roll_note_enter_container)
+
+        panelContainer = view.findViewById(R.id.roll_note_content_container)
     }
 
     override fun onPause() {
@@ -216,9 +228,20 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
     }
 
-    override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
-        binding?.keyEdit = mode
-        binding?.noteItem = noteItem
+    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
+        panelContainer?.let {
+            TransitionManager.beginDelayedTransition(it,
+                    AutoTransition()
+                            .setOrdering(AutoTransition.ORDERING_TOGETHER)
+                            .excludeChildren(R.id.roll_note_recycler, true)
+                            .setDuration(100)
+            )
+        }
+
+        binding?.apply {
+            this.editMode = editMode
+            this.noteItem = noteItem
+        }
 
         bindEnter()
     }

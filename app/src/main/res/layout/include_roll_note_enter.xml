@@ -8,7 +8,7 @@
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
 
-        <variable name="keyEdit" type="boolean"/>
+        <variable name="editMode" type="boolean"/>
         <variable name="enterEmpty" type="boolean"/>
 
     </data>
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:background="?attr/clPrimary"
             android:orientation="vertical"
-            android:visibility='@{keyEdit ? v.VISIBLE : v.GONE}'
+            android:visibility='@{editMode ? v.VISIBLE : v.GONE}'
             tools:layout_gravity="center">
 
         <View style="@style/Divider.Horizontal"/>

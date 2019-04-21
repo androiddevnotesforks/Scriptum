@@ -13,7 +13,7 @@
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
-        <variable name="keyEdit" type="boolean"/>
+        <variable name="editMode" type="boolean"/>
 
         <variable name="undoAccess" type="boolean"/>
         <variable name="redoAccess" type="boolean"/>
@@ -77,7 +77,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
+                    android:visibility='@{editMode &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="visible">
 
                 <ImageButton
@@ -144,7 +144,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{!keyEdit &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
+                    android:visibility='@{!editMode &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton

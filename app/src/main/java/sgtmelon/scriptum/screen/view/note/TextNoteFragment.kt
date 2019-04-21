@@ -13,6 +13,8 @@ import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.transition.AutoTransition
+import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.menu.MenuControl
@@ -57,6 +59,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     private var nameEnter: EditText? = null
     private var textEnter: EditText? = null
+    private var panelContainer: ViewGroup? = null
 
     private val openState = OpenState()
     private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
@@ -86,6 +89,8 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
 
         viewModel.setupData(savedInstanceState ?: arguments)
+
+        panelContainer = view.findViewById(R.id.note_panel_container)
     }
 
     override fun onPause() {
@@ -166,9 +171,15 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         )
     }
 
-    override fun bindEdit(mode: Boolean, noteItem: NoteItem) {
+    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
+        panelContainer?.let {
+            TransitionManager.beginDelayedTransition(it,
+                    AutoTransition().setOrdering(AutoTransition.ORDERING_TOGETHER).setDuration(100)
+            )
+        }
+
         binding?.apply {
-            keyEdit = mode
+            this.editMode = editMode
             this.noteItem = noteItem
         }?.executePendingBindings()
     }

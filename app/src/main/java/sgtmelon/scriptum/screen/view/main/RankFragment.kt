@@ -242,8 +242,8 @@ class RankFragment : Fragment(), RankCallback {
         fun ViewGroup.createVisibleAnim(visible: Boolean, target: View?, duration: Long = 200) {
             if (target == null) return
 
-            TransitionManager.beginDelayedTransition(
-                    this, Fade().setDuration(duration).addTarget(target.id)
+            TransitionManager.beginDelayedTransition(this,
+                    Fade().setDuration(duration).addTarget(target)
             )
 
             target.visibility = if (visible) View.VISIBLE else View.GONE
