@@ -2,7 +2,6 @@
 <resources>
 
     <style name="NavigationView">
-        <item name="android:background">?attr/clPrimary</item>
         <item name="android:textColorSecondary">?attr/clContentSecond</item>
     </style>
 
@@ -47,7 +46,6 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:animateLayoutChanges">true</item>
     </style>
 
     <style name="Container.NoteItem">

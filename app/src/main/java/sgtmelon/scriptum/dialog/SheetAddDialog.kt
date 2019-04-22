@@ -34,11 +34,11 @@ class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationI
                               savedInstanceState: Bundle?): View? {
         layout = savedInstanceState?.getInt(DialogBlank.INIT)
                 ?: arguments?.getInt(DialogBlank.INIT)
-                ?: 0
+                        ?: 0
 
         navigation = savedInstanceState?.getInt(DialogBlank.VALUE)
                 ?: arguments?.getInt(DialogBlank.VALUE)
-                ?: 0
+                        ?: 0
 
         val view = inflater.inflate(layout, container, false)
                 ?: throw NullPointerException("Id error, layout view is null")
