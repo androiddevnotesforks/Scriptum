@@ -37,7 +37,9 @@
                     app:srcDisableColor="?attr/clContent"
                     app:srcSelect="@drawable/ic_visible_exit"
                     app:srcSelectAnim="@drawable/anim_visible_enter"
-                    app:srcSelectColor="?attr/clAccent"/>
+                    app:srcSelectColor="?attr/clAccent"
+                    tools:srcCompat="@drawable/ic_visible_exit"
+                    tools:tint="@color/accent_light"/>
 
             <LinearLayout
                     android:layout_width="0dp"
