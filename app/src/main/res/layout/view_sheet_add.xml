@@ -6,12 +6,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
 
-    <com.google.android.material.navigation.NavigationView
-            android:id="@+id/add_navigation"
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/NavigationView"
-            app:itemTextColor="?attr/clContent"
-            app:menu="@menu/sheet_add"/>
+            android:layout_margin="@dimen/layout_8dp"
+            android:background="@drawable/bg_sheet_dialog"
+            android:paddingTop="@dimen/radius_8dp"
+            android:paddingBottom="@dimen/radius_8dp">
+
+        <com.google.android.material.navigation.NavigationView
+                android:id="@+id/add_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:theme="@style/NavigationView"
+                app:itemTextColor="?attr/clContent"
+                app:menu="@menu/sheet_add"/>
+
+    </FrameLayout>
 
 </FrameLayout>

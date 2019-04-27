@@ -3,6 +3,7 @@
 
     <style name="NavigationView">
         <item name="android:textColorSecondary">?attr/clContentSecond</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="Card">

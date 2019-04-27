@@ -24,7 +24,6 @@
     <dimen name="radius_2dp">2dp</dimen>
     <dimen name="radius_4dp">4dp</dimen>
     <dimen name="radius_8dp">8dp</dimen>
-    <dimen name="radius_16dp">16dp</dimen>
 
     <integer name="dlg_recycler_padding">24</integer>
     <integer name="dlg_color_column">4</integer>

@@ -40,10 +40,7 @@ class MainScreen : ParentUi() {
 
     fun addDialogUi(func: AddDialogUi.() -> Unit = {}) = AddDialogUi().apply {
         action { onClick(R.id.main_add_fab) }
-
-        onOpenSwipe()
         assert { onDisplayContent() }
-
         func()
     }
 

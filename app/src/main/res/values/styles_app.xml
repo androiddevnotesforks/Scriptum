@@ -104,7 +104,7 @@
     </style>
 
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bg_sheet_dialog</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="PopupTheme.Light" parent="ThemeOverlay.AppCompat.Light">
