@@ -196,6 +196,8 @@
     </style>
 
     <style name="Text.ToolbarNote" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:maxLength">@integer/length_note_name</item>
@@ -214,7 +216,7 @@
 
     <style name="EditText.TextNote">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:gravity">top</item>
         <item name="android:padding">@dimen/layout_8dp</item>
@@ -266,6 +268,8 @@
     </style>
 
     <style name="EditText.ToolbarNote" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:imeOptions">actionNext|flagNoFullscreen</item>
         <item name="android:inputType">textCapSentences|textAutoCorrect|textAutoComplete</item>

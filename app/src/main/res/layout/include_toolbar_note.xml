@@ -29,43 +29,41 @@
                 app:contentInsetStartWithNavigation="56dp"
                 app:popupTheme="?attr/themePopup">
 
-            <FrameLayout
+            <HorizontalScrollView
+                    android:id="@+id/toolbar_note_scroll"
+                    style="@style/Container.ToolbarNote.Scroll"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_24dp"
-                    android:layout_marginRight="@dimen/layout_24dp">
+                    android:layout_height="wrap_content">
 
-                <EditText
-                        android:id="@+id/toolbar_note_enter"
-                        style="@style/EditText.ToolbarNote"
-                        android:layout_width="match_parent"
+                <FrameLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="@string/hint_enter_name"
-                        android:importantForAutofill="noExcludeDescendants"
-                        android:text='@={noteItem.name}'
-                        android:visibility='@{editMode ? v.VISIBLE : v.GONE}'
-                        tools:targetApi="o"
-                        tools:text="@string/preview_note_name"/>
+                        android:layout_marginEnd="@dimen/layout_24dp"
+                        android:layout_marginRight="@dimen/layout_24dp">
 
-                <HorizontalScrollView
-                        android:id="@+id/toolbar_note_scroll"
-                        style="@style/Container.ToolbarNote.Scroll"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility='@{!editMode ? v.VISIBLE : v.GONE}'
-                        tools:visibility="invisible">
+                    <EditText
+                            android:id="@+id/toolbar_note_enter"
+                            style="@style/EditText.ToolbarNote"
+                            android:hint="@string/hint_enter_name"
+                            android:importantForAutofill="noExcludeDescendants"
+                            android:text='@={noteItem.name}'
+                            android:visibility='@{editMode ? v.VISIBLE : v.INVISIBLE}'
+                            tools:targetApi="o"
+                            tools:visibility="invisible"/>
+
+                    <!-- Установка текста делается с условием, чтобы ничего не мешало editText менять размер -->
 
                     <TextView
                             android:id="@+id/toolbar_note_text"
                             style="@style/Text.ToolbarNote"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:hint="@string/hint_view_name"
-                            android:text='@{noteItem.name}'/>
+                            android:text='@{editMode ? "" : noteItem.name}'
+                            android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
+                            tools:text="@string/preview_note_name"/>
 
-                </HorizontalScrollView>
+                </FrameLayout>
 
-            </FrameLayout>
+            </HorizontalScrollView>
 
         </androidx.appcompat.widget.Toolbar>
 
