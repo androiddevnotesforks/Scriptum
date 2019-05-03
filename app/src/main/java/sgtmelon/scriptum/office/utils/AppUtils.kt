@@ -16,21 +16,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-object AppUtils {
-
-    // TODO раскидать по разным Utils
-
-
-
-
-
-    fun Context.getDimen(value: Float) =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics).toInt()
-
-
-}
-
-
 fun <T : ViewDataBinding> LayoutInflater.inflateBinding(layoutId: Int, parent: ViewGroup?,
                                                         attachToParent: Boolean = false): T {
     return DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
@@ -54,7 +39,8 @@ fun Activity.hideKeyboard() {
 fun Context.showToast(@StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) =
         Toast.makeText(this, getText(stringId), length).show()
 
-
+fun Context.getDimen(value: Float) =
+        TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics).toInt()
 
 fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, event ->
     if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
@@ -69,6 +55,7 @@ fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, ev
 
     return@setOnTouchListener false
 }
+
 
 
 fun EditText?.getClearText(): String {

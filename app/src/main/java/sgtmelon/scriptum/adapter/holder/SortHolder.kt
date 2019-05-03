@@ -10,6 +10,8 @@ import sgtmelon.scriptum.office.intf.ItemListener
 
 /**
  * Держатель сортировки для [SortAdapter]
+ *
+ * @author SerjantArbuz
  */
 class SortHolder(private val binding: ItemSortBinding,
                  private val clickListener: ItemListener.ClickListener

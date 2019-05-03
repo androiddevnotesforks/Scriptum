@@ -17,6 +17,8 @@ import sgtmelon.scriptum.office.intf.ItemListener
 
 /**
  * Держатель пункта списка в состоянии редактирования для [RollAdapter]
+ *
+ * @author SerjantArbuz
  */
 class RollWriteHolder(private val binding: ItemRollWriteBinding,
                       private val dragListener: ItemListener.DragListener,

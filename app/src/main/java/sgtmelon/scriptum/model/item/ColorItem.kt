@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.model.item
 
-import androidx.annotation.IdRes
+import androidx.annotation.ColorRes
 import sgtmelon.scriptum.dialog.ColorDialog
 
 /**
@@ -8,4 +8,4 @@ import sgtmelon.scriptum.dialog.ColorDialog
  *
  * @author SerjantArbuz
  */
-class ColorItem(@IdRes val fill: Int, @IdRes val stroke: Int, @IdRes val check: Int)
+class ColorItem(@ColorRes val fill: Int, @ColorRes val stroke: Int, @ColorRes val check: Int)

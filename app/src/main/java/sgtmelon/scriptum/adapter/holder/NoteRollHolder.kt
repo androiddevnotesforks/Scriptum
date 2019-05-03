@@ -12,6 +12,8 @@ import sgtmelon.scriptum.office.utils.checkNoPosition
 
 /**
  * Держатель заметки-списка для [NoteAdapter]
+ *
+ * @author SerjantArbuz
  */
 class NoteRollHolder(private val binding: ItemNoteRollBinding,
                      private val clickListener: ItemListener.ClickListener,

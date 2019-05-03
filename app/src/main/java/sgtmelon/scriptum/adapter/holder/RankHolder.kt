@@ -15,6 +15,8 @@ import sgtmelon.scriptum.office.utils.checkNoPosition
 
 /**
  * Держатель категори для [RankAdapter]
+ *
+ * @author SerjantArbuz
  */
 @SuppressLint("ClickableViewAccessibility")
 class RankHolder(private val binding: ItemRankBinding,
