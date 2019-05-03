@@ -5,9 +5,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.annot.def.OptionsDef
-import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
+import sgtmelon.scriptum.office.utils.clearAndAdd
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
@@ -36,7 +36,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         if (updateStatus) updateStatus = false
     }
 
-    fun onClickNote(p: Int) = with(listNoteModel[p].noteItem){
+    fun onClickNote(p: Int) = with(listNoteModel[p].noteItem) {
         callback.startNote(context.getNoteIntent(type, id))
     }
 

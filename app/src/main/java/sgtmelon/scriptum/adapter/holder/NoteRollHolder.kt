@@ -8,7 +8,7 @@ import sgtmelon.scriptum.databinding.ItemNoteRollBinding
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
+import sgtmelon.scriptum.office.utils.checkNoPosition
 
 /**
  * Держатель заметки-списка для [NoteAdapter]

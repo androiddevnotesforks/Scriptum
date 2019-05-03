@@ -7,7 +7,7 @@ import sgtmelon.scriptum.adapter.holder.RankHolder
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
+import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.view.main.RankFragment
 
 /**

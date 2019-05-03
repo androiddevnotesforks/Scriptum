@@ -29,8 +29,8 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.hideKeyboard
+import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.requestFocusOnVisible
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback

@@ -23,8 +23,8 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
+import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim

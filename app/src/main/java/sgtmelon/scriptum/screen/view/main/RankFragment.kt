@@ -28,8 +28,8 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.getClearText
-import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
+import sgtmelon.scriptum.office.utils.getClearText
+import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 import sgtmelon.scriptum.watcher.AppTextWatcher

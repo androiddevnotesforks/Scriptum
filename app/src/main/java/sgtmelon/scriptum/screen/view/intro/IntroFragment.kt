@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
 import sgtmelon.scriptum.model.data.IntroData
-import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
+import sgtmelon.scriptum.office.utils.inflateBinding
 
 /**
  * Фрагмент страницы для вступления [IntroActivity]

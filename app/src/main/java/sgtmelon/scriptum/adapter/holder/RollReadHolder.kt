@@ -9,7 +9,7 @@ import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
+import sgtmelon.scriptum.office.utils.checkNoPosition
 
 /**
  * Держатель пункта списка в состоянии просмотра для [RollAdapter]

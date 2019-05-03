@@ -4,8 +4,8 @@ import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.office.annot.def.OptionsDef
-import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
+import sgtmelon.scriptum.office.utils.clearAndAdd
 import sgtmelon.scriptum.screen.callback.main.BinCallback
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent

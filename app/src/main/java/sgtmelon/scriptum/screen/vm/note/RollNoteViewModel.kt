@@ -18,10 +18,10 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.office.utils.AppUtils.showToast
-import sgtmelon.scriptum.office.utils.AppUtils.swap
 import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
+import sgtmelon.scriptum.office.utils.showToast
+import sgtmelon.scriptum.office.utils.swap
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback

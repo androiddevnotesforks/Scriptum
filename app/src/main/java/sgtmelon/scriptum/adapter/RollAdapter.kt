@@ -12,7 +12,7 @@ import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
+import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 
 /**

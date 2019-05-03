@@ -7,7 +7,7 @@ import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.ItemNoteTextBinding
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.checkNoPosition
+import sgtmelon.scriptum.office.utils.checkNoPosition
 
 /**
  * Держатель заметки-текста для [NoteAdapter]

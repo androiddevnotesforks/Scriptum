@@ -5,7 +5,7 @@ import android.view.inputmethod.EditorInfo
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.office.utils.AppUtils.clearAndAdd
+import sgtmelon.scriptum.office.utils.clearAndAdd
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel

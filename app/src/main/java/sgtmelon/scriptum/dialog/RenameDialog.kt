@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.utils.AppUtils.getClearText
 import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
+import sgtmelon.scriptum.office.utils.getClearText
 import sgtmelon.scriptum.watcher.AppTextWatcher
 import java.util.*
 
