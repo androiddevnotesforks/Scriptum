@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -14,8 +15,6 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.databinding.IncludeInfoBinding
-import sgtmelon.scriptum.model.data.IntroData
 
 object AppUtils {
 
@@ -26,25 +25,11 @@ object AppUtils {
         finish()
     }
 
-    fun Activity.hideKeyboard() {
-        val view: View = currentFocus ?: return
-
-        val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    fun IncludeInfoBinding.bind(page: Int) {
-        icon = IntroData.icon[page]
-        title = IntroData.title[page]
-        details = IntroData.details[page]
-
-        executePendingBindings()
-    }
 
     fun EditText?.getClearText(): String {
         if (this == null) return ""
 
-        return text.toString().trim().replace("\\s+".toRegex()," ")
+        return text.toString().trim().replace("\\s+".toRegex(), " ")
     }
 
     fun <T : ViewDataBinding> LayoutInflater.inflateBinding(layoutId: Int, parent: ViewGroup?,
@@ -77,4 +62,30 @@ object AppUtils {
         addAll(replace)
     }
 
+}
+
+fun View.showKeyboard() {
+    (context.getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager)
+            ?.showSoftInput(this, 0)
+}
+
+fun Activity.hideKeyboard() {
+    (getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager)
+            ?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+}
+
+fun View.requestFocusOnVisible(editText: EditText?) {
+    setOnTouchListener { _, event ->
+        if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
+
+        editText?.apply {
+            if (visibility == View.VISIBLE && !hasFocus()) {
+                requestFocus()
+                setSelection(text.toString().length)
+                showKeyboard()
+            }
+        }
+
+        return@setOnTouchListener false
+    }
 }

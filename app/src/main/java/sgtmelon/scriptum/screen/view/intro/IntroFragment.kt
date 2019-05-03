@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.databinding.IncludeInfoBinding
-import sgtmelon.scriptum.office.utils.AppUtils.bind
+import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
 
 /**
@@ -51,6 +51,14 @@ class IntroFragment : Fragment() {
         this.alpha = alpha
         scaleX = scale
         scaleY = scale
+    }
+
+    private fun IncludeInfoBinding.bind(page: Int) {
+        icon = IntroData.icon[page]
+        title = IntroData.title[page]
+        details = IntroData.details[page]
+
+        executePendingBindings()
     }
 
     companion object {

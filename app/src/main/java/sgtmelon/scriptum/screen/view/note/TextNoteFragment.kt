@@ -29,8 +29,9 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
+import sgtmelon.scriptum.office.utils.hideKeyboard
+import sgtmelon.scriptum.office.utils.requestFocusOnVisible
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
@@ -153,6 +154,8 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     override fun setupEnter(inputCallback: InputCallback) {
         nameEnter = view?.findViewById(R.id.toolbar_note_enter)
+        view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
+
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
@@ -166,6 +169,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
 
         textEnter = view?.findViewById(R.id.text_note_content_enter)
+        view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
         textEnter?.addTextChangedListener(
                 InputTextWatcher(textEnter, InputAction.text, viewModel, inputCallback)
         )

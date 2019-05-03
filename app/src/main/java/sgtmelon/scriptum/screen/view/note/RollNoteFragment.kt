@@ -37,8 +37,9 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.AppUtils.hideKeyboard
 import sgtmelon.scriptum.office.utils.AppUtils.inflateBinding
+import sgtmelon.scriptum.office.utils.hideKeyboard
+import sgtmelon.scriptum.office.utils.requestFocusOnVisible
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -183,10 +184,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun setupEnter(inputCallback: InputCallback) {
         nameEnter = view?.findViewById(R.id.toolbar_note_enter)
+        view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
+
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
-
         nameEnter?.setOnEditorActionListener { _, i, _ ->
             if (i == EditorInfo.IME_ACTION_NEXT) {
                 rollEnter?.requestFocus()

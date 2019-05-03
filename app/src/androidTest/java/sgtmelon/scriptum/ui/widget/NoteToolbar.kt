@@ -25,15 +25,14 @@ class NoteToolbar : ParentUi() {
 
             if (theme == ThemeDef.dark) onDisplay(R.id.toolbar_note_color_view)
 
+            onDisplay(R.id.toolbar_note_scroll)
             when (state) {
                 State.READ, State.BIN -> {
                     notDisplay(R.id.toolbar_note_enter)
-                    onDisplay(R.id.toolbar_note_scroll)
                     onDisplay(R.id.toolbar_note_text)
                 }
                 State.EDIT, State.NEW -> {
                     onDisplay(R.id.toolbar_note_enter)
-                    notDisplay(R.id.toolbar_note_scroll)
                     notDisplay(R.id.toolbar_note_text)
                 }
             }
