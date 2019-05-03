@@ -11,6 +11,8 @@ import java.util.*
  *
  * @param <E>  - модель списка
  * @param <VH> - холдер для модели
+ *
+ * @author SerjantArbuz
  */
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected constructor(
         protected val context: Context
@@ -30,9 +32,7 @@ abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected construc
         list[p] = item
     }
 
-    override fun getItemCount(): Int {
-        return list.size
-    }
+    override fun getItemCount() = list.size
 
     fun notifyDataSetChanged(list: MutableList<T>) {
         setList(list)
