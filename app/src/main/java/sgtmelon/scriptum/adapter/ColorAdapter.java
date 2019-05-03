@@ -5,8 +5,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -15,6 +13,8 @@ import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.Fade;
+import androidx.transition.TransitionManager;
 import sgtmelon.scriptum.R;
 import sgtmelon.scriptum.model.data.ColorData;
 import sgtmelon.scriptum.model.item.ColorItem;
@@ -68,24 +68,23 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
         final int strokeColor = ContextCompat.getColor(context, colorItem.getStroke());
         final int checkColor = ContextCompat.getColor(context, colorItem.getCheck());
 
-        if (holder.clBackground.getBackground() instanceof GradientDrawable) {
-            final GradientDrawable drawable = (GradientDrawable) holder.clBackground.getBackground();
+        if (holder.backgroundView.getBackground() instanceof GradientDrawable) {
+            final GradientDrawable drawable = (GradientDrawable) holder.backgroundView.getBackground();
             drawable.setColor(fillColor);
             drawable.setStroke(strokeDimen, strokeColor);
         }
 
-        holder.clCheck.setColorFilter(checkColor);
+        holder.checkImage.setColorFilter(checkColor);
 
-        // TODO: 02.12.2018 без использования анимации xml, другой вид анимации
         if (visible[position]) {                            //Если отметка видна
             if (this.check == position) {                   //Если текущая позиция совпадает с выбранным цветом
-                holder.clCheck.setVisibility(View.VISIBLE);
+                holder.checkImage.setVisibility(View.VISIBLE);
             } else {
                 visible[position] = false;                  //Делаем отметку невидимой с анимацией
-                holder.clCheck.startAnimation(holder.alphaOut);
+                holder.hideCheck();
             }
         } else {
-            holder.clCheck.setVisibility(View.GONE);
+            holder.checkImage.setVisibility(View.GONE);
         }
     }
 
@@ -96,29 +95,24 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
 
     // TODO !! вынести в отдельный класс
 
-    final class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
-            Animation.AnimationListener {
+    final class ColorHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final View clBackground;
-        private final ImageView clCheck;
-        private final View clClick;
+        final ViewGroup parentContainer;
 
-        private final Animation alphaIn, alphaOut;
+        private final View backgroundView;
+        private final ImageView checkImage;
+        private final View clickView;
 
         ColorHolder(View view) {
             super(view);
 
-            clBackground = itemView.findViewById(R.id.background_view);
-            clCheck = itemView.findViewById(R.id.check_image);
-            clClick = itemView.findViewById(R.id.click_view);
+            parentContainer = itemView.findViewById(R.id.color_parent_container);
 
-            clClick.setOnClickListener(this);
+            backgroundView = itemView.findViewById(R.id.color_background_view);
+            checkImage = itemView.findViewById(R.id.color_check_image);
+            clickView = itemView.findViewById(R.id.color_click_view);
 
-            alphaIn = AnimationUtils.loadAnimation(context, R.anim.fade_in);
-            alphaOut = AnimationUtils.loadAnimation(context, R.anim.fade_out);
-
-            alphaIn.setAnimationListener(this);
-            alphaOut.setAnimationListener(this);
+            clickView.setOnClickListener(this);
         }
 
         @Override
@@ -133,31 +127,26 @@ public final class ColorAdapter extends RecyclerView.Adapter<ColorAdapter.ColorH
                 visible[check] = true;
 
                 notifyItemChanged(oldCheck);        //Скрываем старую отметку
-                clCheck.startAnimation(alphaIn);    //Показываем новую
+                showCheck();
             }
         }
 
-        @Override
-        public void onAnimationStart(Animation animation) {
-            clClick.setEnabled(false);
+        void showCheck() {
+            final Fade fade = new Fade();
+            fade.setDuration(200);
+            fade.addTarget(checkImage);
 
-            if (animation == alphaIn) {
-                clCheck.setVisibility(View.VISIBLE);
-            }
+            TransitionManager.beginDelayedTransition(parentContainer, fade);
+            checkImage.setVisibility(View.VISIBLE);
         }
 
-        @Override
-        public void onAnimationEnd(Animation animation) {
-            clClick.setEnabled(true);
+        void hideCheck() {
+            final Fade fade = new Fade();
+            fade.setDuration(200);
+            fade.addTarget(checkImage);
 
-            if (animation == alphaOut) {
-                clCheck.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-
+            TransitionManager.beginDelayedTransition(parentContainer, fade);
+            checkImage.setVisibility(View.GONE);
         }
 
     }
