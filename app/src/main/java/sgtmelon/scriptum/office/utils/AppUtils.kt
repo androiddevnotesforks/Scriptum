@@ -3,6 +3,8 @@ package sgtmelon.scriptum.office.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -56,14 +58,11 @@ fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, ev
     return@setOnTouchListener false
 }
 
-
-
 fun EditText?.getClearText(): String {
     if (this == null) return ""
 
     return text.toString().trim().replace("\\s+".toRegex(), " ")
 }
-
 
 fun <T> MutableList<T>.swap(from: Int, to: Int) {
     val item = get(from)
@@ -76,10 +75,23 @@ fun <E> MutableList<E>.clearAndAdd(replace: MutableList<E>) {
     addAll(replace)
 }
 
-
 fun RecyclerView.ViewHolder.checkNoPosition(func: () -> Unit): Boolean {
     if (adapterPosition == RecyclerView.NO_POSITION) return false
 
     func()
     return true
+}
+
+fun EditText.addTextChangedListener(before: (String) -> Unit = {},
+                                    on: (String) -> Unit = {},
+                                    after: (String) -> Unit = {}) {
+    addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
+                before(s.toString())
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
+                on(s.toString())
+
+        override fun afterTextChanged(s: Editable?) = after(s.toString())
+    })
 }

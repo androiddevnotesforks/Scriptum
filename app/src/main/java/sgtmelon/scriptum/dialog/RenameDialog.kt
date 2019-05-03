@@ -11,8 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
+import sgtmelon.scriptum.office.utils.addTextChangedListener
 import sgtmelon.scriptum.office.utils.getClearText
-import sgtmelon.scriptum.watcher.AppTextWatcher
 import java.util.*
 
 class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
@@ -47,14 +47,13 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
 
         nameEnter = view.findViewById(R.id.rename_enter)
-        nameEnter.setTextColor(activity.getColorAttr(R.attr.clContent))
-        nameEnter.setHintTextColor(activity.getColorAttr(R.attr.clDisable))
+        nameEnter.apply {
+            setTextColor(activity.getColorAttr(R.attr.clContent))
+            setHintTextColor(activity.getColorAttr(R.attr.clDisable))
 
-        nameEnter.setOnEditorActionListener(this)
-        nameEnter.addTextChangedListener(object : AppTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
-                    setEnable()
-        })
+            setOnEditorActionListener(this@RenameDialog)
+            addTextChangedListener(on = { setEnable() })
+        }
 
         return AlertDialog.Builder(activity)
                 .setTitle(title)

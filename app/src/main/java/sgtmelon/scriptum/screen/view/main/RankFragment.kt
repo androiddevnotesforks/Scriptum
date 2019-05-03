@@ -28,11 +28,11 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.office.utils.addTextChangedListener
 import sgtmelon.scriptum.office.utils.getClearText
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
-import sgtmelon.scriptum.watcher.AppTextWatcher
 
 
 /**
@@ -125,10 +125,7 @@ class RankFragment : Fragment(), RankCallback {
         }
 
         rankEnter = view?.findViewById(R.id.toolbar_rank_enter)
-        rankEnter?.addTextChangedListener(object : AppTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
-                    bindToolbar()
-        })
+        rankEnter?.addTextChangedListener(on = { bindToolbar() })
         rankEnter?.setOnEditorActionListener { _, i, _ ->
             viewModel.onEditorClick(i, rankEnter?.text.toString().toUpperCase())
         }

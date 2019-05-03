@@ -37,13 +37,13 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.office.utils.addTextChangedListener
 import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.requestFocusOnVisible
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
-import sgtmelon.scriptum.watcher.AppTextWatcher
 import sgtmelon.scriptum.watcher.InputTextWatcher
 
 /**
@@ -199,10 +199,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
 
         rollEnter = view?.findViewById(R.id.roll_note_enter)
-        rollEnter?.addTextChangedListener(object : AppTextWatcher() {
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
-                    bindEnter()
-        })
+        rollEnter?.addTextChangedListener(on = { bindEnter() })
 
         view?.findViewById<ImageButton>(R.id.roll_note_add_button)?.apply {
             setOnClickListener { viewModel.onClickAdd(simpleClick = true) }

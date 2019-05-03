@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.watcher
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.EditText
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
@@ -15,7 +17,7 @@ class InputTextWatcher(private val view: EditText?,
                        private val tag: Int,
                        private val textChangeCallback: TextChange,
                        private val inputCallback: InputCallback
-) : AppTextWatcher() {
+) : TextWatcher {
 
     private var textFrom = ""
     private var cursorFrom = 0
@@ -43,6 +45,8 @@ class InputTextWatcher(private val view: EditText?,
 
         textChangeCallback.onResultInputTextChange()
     }
+
+    override fun afterTextChanged(s: Editable?) {}
 
     interface TextChange {
         fun onResultInputTextChange()
