@@ -202,6 +202,11 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         if (noteItem.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
+        //TODO !! Оптимизировать
+        val listRollTemp = listRoll.filterNot { it.text.isEmpty() }
+        listRoll.clear()
+        listRoll.addAll(listRollTemp)
+
         openRoom().apply {
             if (isCreate) {
                 noteItem.id = getNoteDao().insert(noteItem)
