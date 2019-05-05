@@ -2,11 +2,12 @@ package sgtmelon.scriptum.ui.dialog
 
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.dialog.RenameDialog
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
- * Класс для ui контроля диалога [Renamedialog]
+ * Класс для ui контроля диалога [RenameDialog]
  *
  * @author SerjantArbuz
  */
@@ -27,8 +28,11 @@ class RenameDialogUi(private val title: String) : ParentUi() {
         fun onDisplayContent(enter: String) {
             onDisplayText(title)
 
-            if (enter.isEmpty()) onDisplayHint(R.id.rename_enter, R.string.hint_enter_rank_rename)
-            else onDisplay(R.id.rename_enter, enter)
+            if (enter.isNotEmpty()) {
+                onDisplay(R.id.rename_enter, enter)
+            } else {
+                onDisplayHint(R.id.rename_enter, R.string.hint_enter_rank_rename)
+            }
 
             onDisplayText(R.string.dialog_btn_accept)
             onDisplayText(R.string.dialog_btn_cancel)

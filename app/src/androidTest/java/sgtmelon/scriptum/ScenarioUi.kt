@@ -8,6 +8,8 @@ import sgtmelon.scriptum.test.main.BinTest
 import sgtmelon.scriptum.test.main.MainTest
 import sgtmelon.scriptum.test.main.NotesTest
 import sgtmelon.scriptum.test.main.RankTest
+import sgtmelon.scriptum.test.note.RollNoteTest
+import sgtmelon.scriptum.test.note.TextNoteTest
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.main.RankScreen
@@ -31,6 +33,7 @@ private class ScenarioUi {
      * TODO:
      * Тест сортировки заметок
      * Тест перетаскивания категорий
+     * Тесты с нагрузкой
      */
 
     /**
@@ -285,6 +288,49 @@ private class ScenarioUi {
          * # Восстановить :: [BinTest.rollNoteDialogRestore]
          * # Копировать текст
          * # Отчистить :: [BinTest.rollNoteDialogClear]
+         */
+
+    }
+
+
+    /**
+     * Сценарии для [TextNoteTest]
+     */
+    class TextNote {
+
+        /**
+         * UI - Тулбар
+         * # Контент:
+         * # Только что созданная заметка :: [TextNoteTest.toolbarNoteCreate]
+         * # Заметка без названия :: [TextNoteTest.toolbarNoteWithoutName]
+         * # Удалённая заметка без названия :: [TextNoteTest.toolbarNoteFromBinWithoutName]
+         * # Заметка с названием :: [TextNoteTest.toolbarNoteWithName]
+         * # Удалённая заметка с названием :: [TextNoteTest.toolbarNoteFromBinWithName]
+         *
+         * # Сохранение:
+         * # При создании заметки :: [TextNoteTest.toolbarNoteSaveAfterCreate]
+         * # После редактирования заметки :: [TextNoteTest.toolbarNoteSaveAfterEdit]
+         */
+
+    }
+
+    /**
+     * Сценарии для [RollNoteTest]
+     */
+    class RollNote {
+
+        /**
+         * UI - Тулбар
+         * # Контент:
+         * # Только что созданная заметка :: [RollNoteTest.toolbarNoteCreate]
+         * # Заметка без названия :: [RollNoteTest.toolbarNoteWithoutName]
+         * # Удалённая заметка без названия :: [RollNoteTest.toolbarNoteFromBinWithoutName]
+         * # Заметка с названием :: [RollNoteTest.toolbarNoteWithName]
+         * # Удалённая заметка с названием :: [RollNoteTest.toolbarNoteFromBinWithName]
+         *
+         * # Сохранение:
+         * # При создании заметки :: [RollNoteTest.toolbarNoteSaveAfterCreate]
+         * # После редактирования заметки :: [RollNoteTest.toolbarNoteSaveAfterEdit]
          */
 
     }

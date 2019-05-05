@@ -100,7 +100,7 @@ class NotesTest : ParentTest() {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
             addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen(State.NEW) {
+            textNoteScreen() {
                 closeSoftKeyboard()
                 pressBack()
             }
@@ -116,7 +116,7 @@ class NotesTest : ParentTest() {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
             addDialogUi { onClickItem(NoteType.ROLL) }
-            rollNoteScreen(State.NEW) {
+            rollNoteScreen() {
                 closeSoftKeyboard()
                 pressBack()
             }
@@ -132,7 +132,7 @@ class NotesTest : ParentTest() {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
             addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen(State.NEW) {
+            textNoteScreen() {
                 testData.insertText()
 
                 closeSoftKeyboard()
@@ -151,7 +151,7 @@ class NotesTest : ParentTest() {
 
             addDialogUi { onClickItem(NoteType.ROLL) }
 
-            rollNoteScreen(State.NEW) {
+            rollNoteScreen() {
                 testData.insertRoll()
 
                 closeSoftKeyboard()

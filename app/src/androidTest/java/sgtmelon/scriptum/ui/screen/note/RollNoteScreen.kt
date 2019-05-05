@@ -20,6 +20,15 @@ class RollNoteScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
+    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar().apply {
+        assert { onDisplayContent() }
+        func()
+    }
+
+    fun enterPanel (func: RollEnterPanel.() -> Unit) = RollEnterPanel().apply { func() }
+
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel().apply { func() }
+
     companion object {
         operator fun invoke(func: RollNoteScreen.() -> Unit) = RollNoteScreen().apply { func() }
     }
@@ -30,7 +39,6 @@ class RollNoteScreen : ParentUi() {
             onDisplay(R.id.roll_note_parent_container)
             onDisplay(R.id.roll_note_recycler)
 
-            NoteToolbar { assert { onDisplayContent(state) } }
             RollEnterPanel { assert { onDisplayContent(state) } }
             NotePanel { assert { onDisplayContent(state, NoteType.ROLL) } }
         }

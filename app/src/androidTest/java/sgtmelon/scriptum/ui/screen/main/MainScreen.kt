@@ -44,13 +44,13 @@ class MainScreen : ParentUi() {
         func()
     }
 
-    fun textNoteScreen(state: State, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
-        assert { onDisplayContent(state) }
+    fun textNoteScreen(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+        assert { onDisplayContent(State.NEW) }
         func()
     }
 
-    fun rollNoteScreen(state: State, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
-        assert { onDisplayContent(state) }
+    fun rollNoteScreen(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+        assert { onDisplayContent(State.NEW) }
         func()
     }
 

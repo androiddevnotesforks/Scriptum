@@ -11,6 +11,11 @@ class RollEnterPanel : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
+    fun onAddRoll(text: String) = action {
+        onEnter(R.id.roll_note_enter, text)
+        onClick(R.id.roll_note_add_button)
+    }
+
     companion object {
         operator fun invoke(func: RollEnterPanel.() -> Unit) = RollEnterPanel().apply { func() }
     }

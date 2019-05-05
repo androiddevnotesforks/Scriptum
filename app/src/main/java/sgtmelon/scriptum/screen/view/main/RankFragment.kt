@@ -239,6 +239,8 @@ class RankFragment : Fragment(), RankCallback {
             adapter.notifyItemMoved(from, to, list)
 
     companion object {
+
+        // TODO !! вынести в extension
         fun ViewGroup.createVisibleAnim(visible: Boolean, target: View?, duration: Long = 200) {
             if (target == null) return
 

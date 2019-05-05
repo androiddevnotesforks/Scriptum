@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.main.MainActivity
@@ -86,14 +85,14 @@ class MainTest : ParentTest() {
     @Test fun addDialogCreateTextNote() = afterLaunch {
         MainScreen {
             addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen(State.NEW)
+            textNoteScreen()
         }
     }
 
     @Test fun addDialogCreateRollNote() = afterLaunch {
         MainScreen {
             addDialogUi { onClickItem(NoteType.ROLL) }
-            rollNoteScreen(State.NEW)
+            rollNoteScreen()
         }
     }
 

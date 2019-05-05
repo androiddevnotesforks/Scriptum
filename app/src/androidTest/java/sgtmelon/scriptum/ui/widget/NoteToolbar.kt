@@ -10,7 +10,7 @@ class NoteToolbar : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun enterName(name: String) = action { onEnter(R.id.toolbar_note_enter, name) }
+    fun onEnterName(name: String) = action { onEnter(R.id.toolbar_note_enter, name) }
 
     companion object {
         operator fun invoke(func: NoteToolbar.() -> Unit) = NoteToolbar().apply { func() }
@@ -18,23 +18,37 @@ class NoteToolbar : ParentUi() {
 
     class Assert : BasicMatch() {
 
-        // TODO (hint check) (focus on title check)
+        // TODO (focus on title check)
 
-        fun onDisplayContent(state: State) {
+        fun onDisplayContent() {
             onDisplay(R.id.toolbar_note_container)
-
-            if (theme == ThemeDef.dark) onDisplay(R.id.toolbar_note_color_view)
-
             onDisplay(R.id.toolbar_note_scroll)
-            when (state) {
-                State.READ, State.BIN -> {
-                    notDisplay(R.id.toolbar_note_enter)
-                    onDisplay(R.id.toolbar_note_text)
+
+            if (theme == ThemeDef.dark) {
+                onDisplay(R.id.toolbar_note_color_view)
+            } else {
+                notDisplay(R.id.toolbar_note_color_view)
+            }
+        }
+
+        fun onDisplayState(state: State, name: String) = when (state) {
+            State.READ, State.BIN -> {
+                notDisplay(R.id.toolbar_note_enter)
+
+                if (name.isNotEmpty()) {
+                    onDisplay(R.id.toolbar_note_text, name)
+                } else {
+                    onDisplayHint(R.id.toolbar_note_text, R.string.hint_view_name)
                 }
-                State.EDIT, State.NEW -> {
-                    onDisplay(R.id.toolbar_note_enter)
-                    notDisplay(R.id.toolbar_note_text)
+            }
+            State.EDIT, State.NEW -> {
+                if (name.isNotEmpty()) {
+                    onDisplay(R.id.toolbar_note_enter, name)
+                } else {
+                    onDisplayHint(R.id.toolbar_note_enter, R.string.hint_enter_name)
                 }
+
+                notDisplay(R.id.toolbar_note_text)
             }
         }
 

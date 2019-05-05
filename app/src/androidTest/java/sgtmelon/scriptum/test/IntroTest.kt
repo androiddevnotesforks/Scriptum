@@ -18,7 +18,10 @@ class IntroTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        beforeLaunch { preference.firstStart = true }
+        beforeLaunch {
+            preference.firstStart = true
+            testData.clearAllData()
+        }
     }
 
     @Test fun contentPlacement() {
