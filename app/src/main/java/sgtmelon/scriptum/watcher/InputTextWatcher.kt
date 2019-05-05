@@ -15,7 +15,7 @@ import sgtmelon.scriptum.model.key.InputAction
  */
 class InputTextWatcher(private val view: EditText?,
                        private val tag: Int,
-                       private val textChangeCallback: TextChange,
+                       private val changeCallback: TextChange,
                        private val inputCallback: InputCallback
 ) : TextWatcher {
 
@@ -43,7 +43,7 @@ class InputTextWatcher(private val view: EditText?,
         textFrom = textTo
         cursorFrom = cursorTo
 
-        textChangeCallback.onResultInputTextChange()
+        changeCallback.onResultInputTextChange()
     }
 
     override fun afterTextChanged(s: Editable?) {}

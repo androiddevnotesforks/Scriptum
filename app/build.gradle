@@ -59,7 +59,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             testProguardFile 'proguard-test-rules.pro'
 
-            buildConfigField "int", "INPUT_CONTROL_MAX_SIZE", '5'
+            buildConfigField "int", "INPUT_CONTROL_MAX_SIZE", '50'
         }
     }
 }

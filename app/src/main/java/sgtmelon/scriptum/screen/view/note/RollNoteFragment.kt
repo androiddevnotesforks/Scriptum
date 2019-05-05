@@ -255,6 +255,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         binding?.executePendingBindings()
     }
 
+    // TODO !! заменить isUndo/Redo на модельку
+
     override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) {
         binding?.apply {
             undoAccess = isUndoAccess

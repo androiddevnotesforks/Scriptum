@@ -7,6 +7,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.item.StatusItem
 import sgtmelon.scriptum.model.key.DbField
+import sgtmelon.scriptum.model.key.NoteType
 
 /**
  * Модель заметки
@@ -23,12 +24,21 @@ class NoteModel(@field:Embedded val noteItem: NoteItem,
      */
     fun updateCheck(check: Boolean) = listRoll.forEach { it.isCheck = check }
 
-    fun updateStatus(status: Boolean) = when (status) {
-        true -> statusItem.notifyNote()
-        false -> statusItem.cancelNote()
-    }
+    fun updateStatus(status: Boolean) =
+            if (status) statusItem.notifyNote() else statusItem.cancelNote()
 
     fun updateStatus(listRankVisible: List<Long>) =
             statusItem.updateNote(noteItem, listRankVisible)
+
+    fun isSaveEnable(): Boolean = when (noteItem.type) {
+        NoteType.TEXT -> noteItem.text.isNotEmpty()
+        NoteType.ROLL -> {
+            if (listRoll.isEmpty()) false
+            else {
+                listRoll.forEach { if (it.text.isEmpty()) return false }
+                true
+            }
+        }
+    }
 
 }

@@ -20,7 +20,7 @@ import sgtmelon.scriptum.screen.view.note.RollNoteFragment
  */
 class RollAdapter(context: Context,
                   private val clickListener: ItemListener.ClickListener,
-                  private val textChangeCallback: RollWriteHolder.TextChange
+                  private val rollChangeCallback: RollWriteHolder.RollChange
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
 
     lateinit var dragListener: ItemListener.DragListener
@@ -37,7 +37,7 @@ class RollAdapter(context: Context,
         } else {
             RollWriteHolder(
                     inflater.inflateBinding(R.layout.item_roll_write, parent),
-                    dragListener, textChangeCallback, inputCallback
+                    dragListener, rollChangeCallback, inputCallback
             )
         }
     }

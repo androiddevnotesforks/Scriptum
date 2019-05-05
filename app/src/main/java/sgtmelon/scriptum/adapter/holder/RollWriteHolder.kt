@@ -22,7 +22,7 @@ import sgtmelon.scriptum.office.intf.ItemListener
  */
 class RollWriteHolder(private val binding: ItemRollWriteBinding,
                       private val dragListener: ItemListener.DragListener,
-                      private val textChangeCallback: RollWriteHolder.TextChange,
+                      private val changeCallback: RollChange,
                       private val inputCallback: InputCallback
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener,
@@ -63,7 +63,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
         return false
     }
 
-    private var textFrom = ""
+    private var textFrom: String? = null
     private var cursorFrom = 0
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
@@ -79,32 +79,21 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
         if (textFrom == textTo) return
 
-        if (textTo.isNotEmpty()) {
-            if (textFrom.isNotEmpty()) {
-                val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
-                inputCallback.onRollChange(adapterPosition, textFrom, textTo, cursorItem)
+        textFrom?.let {
+            val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
+            inputCallback.onRollChange(adapterPosition, it, textTo, cursorItem)
 
-                textFrom = textTo
-                cursorFrom = cursorTo
-            }
-        } else {
-            inputCallback.onRollRemove(adapterPosition, binding.rollItem.toString())
+            textFrom = textTo
+            cursorFrom = cursorTo
         }
 
-        textChangeCallback.onResultInputRollChange()
+        changeCallback.onResultInputRollChange(adapterPosition, s.toString())
     }
 
-    override fun afterTextChanged(s: Editable) {
-        if (adapterPosition == RecyclerView.NO_POSITION) return
+    override fun afterTextChanged(s: Editable) {}
 
-        if (textFrom.isNotEmpty()) {
-            textChangeCallback.onResultInputRollAfter(adapterPosition, rollEnter.text.toString())
-        }
-    }
-
-    interface TextChange {
-        fun onResultInputRollChange()
-        fun onResultInputRollAfter(p: Int, text: String)
+    interface RollChange {
+        fun onResultInputRollChange(p: Int, text: String)
     }
 
 }

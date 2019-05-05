@@ -152,11 +152,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuColor() = callback.showColorDialog(noteModel.noteItem.color)
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        val noteItem = noteModel.noteItem
+        if (!noteModel.isSaveEnable()) return false
 
-        if (noteModel.noteItem.text.isEmpty()) return false
-
-        noteItem.change = context.getTime()
+        noteModel.noteItem.change = context.getTime()
 
         if (changeMode) {
             callback.hideKeyboard()

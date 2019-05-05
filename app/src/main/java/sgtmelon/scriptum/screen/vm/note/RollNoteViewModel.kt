@@ -38,7 +38,7 @@ import sgtmelon.scriptum.watcher.InputTextWatcher
 class RollNoteViewModel(application: Application) : ParentViewModel(application),
         SaveControl.Result,
         InputTextWatcher.TextChange,
-        RollWriteHolder.TextChange,
+        RollWriteHolder.RollChange,
         RollTouchControl.Result,
         RollNoteMenuCallback {
 
@@ -58,7 +58,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     private val iconState = IconState()
 
     private val checkState = CheckState()
-    private val isSaveEnable get() = noteModel.listRoll.size != 0
 
     fun setupData(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
@@ -103,52 +102,33 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         false -> R.string.toast_note_save_error
     })
 
-    override fun onResultInputTextChange() =
-            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
-
-    override fun onResultInputRollChange() =
-            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
-
-    override fun onResultInputRollAfter(p: Int, text: String) { // TODO handler (чтобы была возможность написать что-то обратно
-        with(noteModel.listRoll) {
-            if (text.isEmpty()) {
-                callback.notifyItemRemoved(p, apply { removeAt(p) })
-            } else {
-                callback.notifyListItem(p, get(p).apply { this.text = text })
-            }
-        }
+    override fun onResultInputTextChange() = with(inputControl) {
+        callback.bindInput(isUndoAccess, isRedoAccess, noteModel.isSaveEnable())
     }
 
-    override fun onResultTouchFlags(drag: Boolean): Int {
-        val flagsDrag = when (noteState.isEdit && drag) {
-            true -> ItemTouchHelper.UP or ItemTouchHelper.DOWN
-            false -> 0
-        }
 
-        val flagsSwipe = when (noteState.isEdit) {
-            true -> ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-            false -> 0
-        }
-
-        return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
+    override fun onResultInputRollChange(p: Int, text: String) = with(inputControl) {
+        callback.notifyListItem(p, noteModel.listRoll[p].apply { this.text = text })
+        callback.bindInput(isUndoAccess, isRedoAccess, noteModel.isSaveEnable())
     }
+
+    override fun onResultTouchFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
+            if (noteState.isEdit && drag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0,
+            if (noteState.isEdit) ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT else 0
+    )
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         inputControl.onRollMove(dragFrom, dragTo)
-
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
     }
 
     override fun onResultTouchSwipe(p: Int) {
-        val listRoll = noteModel.listRoll
+        inputControl.onRollRemove(p, noteModel.listRoll[p].toString())
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
 
-        inputControl.onRollRemove(p, listRoll[p].toString())
+        noteModel.listRoll.removeAt(p)
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
-
-        listRoll.removeAt(p)
-
-        callback.notifyItemRemoved(p, listRoll)
+        callback.notifyItemRemoved(p, noteModel.listRoll)
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
@@ -232,7 +212,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
     }
 
     override fun onMenuRank() =
@@ -243,7 +223,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuSave(changeMode: Boolean): Boolean {
         val listRoll = noteModel.listRoll
 
-        if (noteModel.listRoll.size == 0) return false
+        if (!noteModel.isSaveEnable()) return false
 
         noteModel.noteItem.apply {
             change = context.getTime()
@@ -322,7 +302,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             )
 
             bindEdit(editMode, noteModel.noteItem)
-            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
             updateNoteState(noteState)
         }
 
@@ -392,7 +372,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.listRoll.add(p, rollItem)
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
         callback.scrollToItem(simpleClick, p, noteModel.listRoll)
     }
 
@@ -425,7 +405,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.updateStatus(rankIdVisibleList)
 
         callback.apply {
-            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
             tintToolbar(check)
         }
     }
@@ -452,7 +432,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateStatus(rankIdVisibleList)
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, isSaveEnable)
+        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
         callback.bindItem(noteItem)
     }
 
