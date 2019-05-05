@@ -40,16 +40,20 @@ class NoteActivity : AppActivity(), NoteCallback {
             super.onSaveInstanceState(outState.apply { viewModel.saveData(bundle = this) })
 
     override fun showTextFragment(id: Long, isSave: Boolean) {
-        showFragment(NoteType.TEXT.name, when (isSave) {
-            true -> supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as TextNoteFragment
-            false -> TextNoteFragment.getInstance(id)
+        showFragment(NoteType.TEXT.name, if (isSave) {
+            supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as? TextNoteFragment
+                    ?: TextNoteFragment.getInstance(id)
+        } else {
+            TextNoteFragment.getInstance(id)
         })
     }
 
     override fun showRollFragment(id: Long, isSave: Boolean) {
-        showFragment(NoteType.ROLL.name, when (isSave) {
-            true -> supportFragmentManager.findFragmentByTag(NoteType.ROLL.name) as RollNoteFragment
-            false -> RollNoteFragment.getInstance(id)
+        showFragment(NoteType.ROLL.name, if (isSave) {
+            supportFragmentManager.findFragmentByTag(NoteType.ROLL.name) as? RollNoteFragment
+                    ?: RollNoteFragment.getInstance(id)
+        } else {
+            RollNoteFragment.getInstance(id)
         })
     }
 

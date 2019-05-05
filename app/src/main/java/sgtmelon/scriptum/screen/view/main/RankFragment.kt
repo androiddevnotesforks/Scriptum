@@ -192,9 +192,12 @@ class RankFragment : Fragment(), RankCallback {
             adapter.notifyItemInserted(p, list)
             bindList(list.size)
         } else {
-            val fastScroll = when (simpleClick) {
-                true -> layoutManager.findLastVisibleItemPosition() == p - 2
-                false -> layoutManager.findFirstVisibleItemPosition() == p
+            val fastScroll = with(layoutManager) {
+                if (simpleClick) {
+                    findLastVisibleItemPosition() == p - 2
+                } else {
+                    findFirstVisibleItemPosition() == p
+                }
             }
 
             if (fastScroll) {
@@ -205,8 +208,8 @@ class RankFragment : Fragment(), RankCallback {
                 adapter.notifyDataSetChanged(list)
             }
         }
-
     }
+
 
     override fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>) =
             openState.tryInvoke {

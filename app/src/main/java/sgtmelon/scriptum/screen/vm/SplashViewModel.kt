@@ -31,10 +31,13 @@ class SplashViewModel(application: Application) : ParentViewModel(application) {
                     arrayOf(Intent(context, MainActivity::class.java), noteIntent)
             )
         } else {
-            callback.startNormal(Intent(context, when (preference.firstStart) {
-                true -> IntroActivity::class.java
-                false -> MainActivity::class.java
-            }))
+            val intentTo = if (preference.firstStart) {
+                IntroActivity::class.java
+            } else {
+                MainActivity::class.java
+            }
+
+            callback.startNormal(Intent(context, intentTo))
         }
     }
 

@@ -294,9 +294,12 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
-        val fastScroll = when (simpleClick) {
-            true -> layoutManager.findLastVisibleItemPosition() == p - 1
-            false -> layoutManager.findFirstVisibleItemPosition() == p
+        val fastScroll = with(layoutManager) {
+            if (simpleClick) {
+                findLastVisibleItemPosition() == p - 1
+            } else {
+                findFirstVisibleItemPosition() == p
+            }
         }
 
         if (fastScroll) {

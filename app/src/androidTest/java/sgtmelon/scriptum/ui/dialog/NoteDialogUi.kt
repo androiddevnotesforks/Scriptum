@@ -49,41 +49,27 @@ class NoteDialogUi : ParentUi() {
 
     class Assert : BasicMatch() {
 
-        fun onDisplayContent(noteItem: NoteItem) {
-            when (noteItem.isBin) {
-                true -> {
-                    onDisplayText(R.string.dialog_menu_restore)
+        fun onDisplayContent(noteItem: NoteItem) = with(noteItem) {
+            if (isBin) {
+                onDisplayText(R.string.dialog_menu_restore)
+                onDisplayText(R.string.dialog_menu_copy)
+                onDisplayText(R.string.dialog_menu_clear)
+            } else when (type) {
+                NoteType.TEXT -> {
+                    onDisplayText(if (isStatus) R.string.dialog_menu_status_unbind else R.string.dialog_menu_status_bind)
+                    onDisplayText(R.string.dialog_menu_convert_to_roll)
                     onDisplayText(R.string.dialog_menu_copy)
-                    onDisplayText(R.string.dialog_menu_clear)
+                    onDisplayText(R.string.dialog_menu_delete)
                 }
-                false -> {
-                    when (noteItem.type) {
-                        NoteType.TEXT -> {
-                            onDisplayText(if (noteItem.isStatus) {
-                                R.string.dialog_menu_status_unbind
-                            } else {
-                                R.string.dialog_menu_status_bind
-                            })
-                            onDisplayText(R.string.dialog_menu_convert_to_roll)
-                            onDisplayText(R.string.dialog_menu_copy)
-                            onDisplayText(R.string.dialog_menu_delete)
-                        }
-                        NoteType.ROLL -> {
-                            onDisplayText(if (noteItem.isAllCheck) R.string.dialog_menu_check_zero else R.string.dialog_menu_check_all)
-                            onDisplayText(if (noteItem.isStatus) {
-                                R.string.dialog_menu_status_unbind
-                            } else {
-                                R.string.dialog_menu_status_bind
-                            })
-                            onDisplayText(R.string.dialog_menu_convert_to_text)
-                            onDisplayText(R.string.dialog_menu_copy)
-                            onDisplayText(R.string.dialog_menu_delete)
-                        }
-                    }
+                NoteType.ROLL -> {
+                    onDisplayText(if (isAllCheck) R.string.dialog_menu_check_zero else R.string.dialog_menu_check_all)
+                    onDisplayText(if (isStatus) R.string.dialog_menu_status_unbind else R.string.dialog_menu_status_bind)
+                    onDisplayText(R.string.dialog_menu_convert_to_text)
+                    onDisplayText(R.string.dialog_menu_copy)
+                    onDisplayText(R.string.dialog_menu_delete)
                 }
             }
         }
-
     }
 
 }

@@ -31,15 +31,13 @@ class RollAdapter(context: Context,
     var checkToggle: Boolean = false
     var cursorPosition = UNDEFINED
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == TYPE_READ) {
-            RollReadHolder(inflater.inflateBinding(R.layout.item_roll_read, parent), clickListener)
-        } else {
-            RollWriteHolder(
-                    inflater.inflateBinding(R.layout.item_roll_write, parent),
-                    dragListener, rollChangeCallback, inputCallback
-            )
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == TYPE_READ) {
+        RollReadHolder(inflater.inflateBinding(R.layout.item_roll_read, parent), clickListener)
+    } else {
+        RollWriteHolder(
+                inflater.inflateBinding(R.layout.item_roll_write, parent),
+                dragListener, rollChangeCallback, inputCallback
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

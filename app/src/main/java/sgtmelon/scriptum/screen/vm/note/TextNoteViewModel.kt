@@ -84,10 +84,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
-    override fun onResultSaveControl() = context.showToast(when (onMenuSave(changeMode = false)) {
-        true -> R.string.toast_note_save_done
-        false -> R.string.toast_note_save_error
-    })
+    override fun onResultSaveControl() = context.showToast(
+            if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
+    )
 
     override fun onResultInputTextChange() =
             callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)

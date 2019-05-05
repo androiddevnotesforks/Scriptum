@@ -29,9 +29,10 @@ class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
 
         if (dragFrom != RecyclerView.NO_POSITION) return
 
-        dragFrom = when (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
-            true -> viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
-            false -> RecyclerView.NO_POSITION
+        dragFrom = if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+            viewHolder?.adapterPosition ?: RecyclerView.NO_POSITION
+        } else {
+            RecyclerView.NO_POSITION
         }
     }
 

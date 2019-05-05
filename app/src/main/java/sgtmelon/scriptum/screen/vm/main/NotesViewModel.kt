@@ -40,31 +40,19 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         callback.startNote(context.getNoteIntent(type, id))
     }
 
-    fun onShowOptionsDialog(p: Int) {
-        val noteItem = listNoteModel[p].noteItem
+    fun onShowOptionsDialog(p: Int) = with(listNoteModel[p].noteItem) {
         val itemArray: Array<String>
 
-        when (noteItem.type) {
+        when (type) {
             NoteType.TEXT -> {
                 itemArray = context.resources.getStringArray(R.array.dialog_menu_text)
-
-                itemArray[0] = when (noteItem.isStatus) {
-                    true -> context.getString(R.string.dialog_menu_status_unbind)
-                    false -> context.getString(R.string.dialog_menu_status_bind)
-                }
+                itemArray[0] = if (isStatus) context.getString(R.string.dialog_menu_status_unbind) else context.getString(R.string.dialog_menu_status_bind)
             }
             NoteType.ROLL -> {
                 itemArray = context.resources.getStringArray(R.array.dialog_menu_roll)
 
-                itemArray[0] = when (noteItem.isAllCheck) {
-                    true -> context.getString(R.string.dialog_menu_check_zero)
-                    false -> context.getString(R.string.dialog_menu_check_all)
-                }
-
-                itemArray[1] = when (noteItem.isStatus) {
-                    true -> context.getString(R.string.dialog_menu_status_unbind)
-                    false -> context.getString(R.string.dialog_menu_status_bind)
-                }
+                itemArray[0] = if (isAllCheck) context.getString(R.string.dialog_menu_check_zero) else context.getString(R.string.dialog_menu_check_all)
+                itemArray[1] = if (isStatus) context.getString(R.string.dialog_menu_status_unbind) else context.getString(R.string.dialog_menu_status_bind)
 
             }
         }
