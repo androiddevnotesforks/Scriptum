@@ -43,11 +43,10 @@
             <EditText
                     android:id="@+id/roll_write_enter"
                     style="@style/EditText.RollItem.Write"
-                    android:hint="@null"
+                    android:hint="@string/hind_enter_roll_empty"
                     android:importantForAutofill="noExcludeDescendants"
                     android:text='@{rollItem.text}'
-                    tools:targetApi="o"
-                    tools:text="@string/preview_note_roll"/>
+                    tools:targetApi="o"/>
 
         </LinearLayout>
 

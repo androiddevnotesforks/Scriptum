@@ -122,6 +122,7 @@
     <string name="hint_view_name">Untitled</string>
     <string name="hint_enter_text">Your text</string>
     <string name="hint_enter_roll">Your list item</string>
+    <string name="hind_enter_roll_empty">This item will be removed</string>
 
 
     <!-- Items text -->

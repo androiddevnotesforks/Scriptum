@@ -116,7 +116,7 @@
     <string name="hint_view_name">Без названия</string>
     <string name="hint_enter_text">Ваш текст</string>
     <string name="hint_enter_roll">Ваш пункт</string>
-
+    <string name="hind_enter_roll_empty">Этот пункт будет удалён</string>
 
     <!-- Items text -->
     <!-- RankItem -->
