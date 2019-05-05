@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.watcher
+package sgtmelon.scriptum.control.input.watcher
 
 import android.text.Editable
 import android.text.TextWatcher

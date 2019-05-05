@@ -7,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
@@ -28,7 +29,6 @@ import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
-import sgtmelon.scriptum.watcher.InputTextWatcher
 
 /**
  * ViewModel для [RollNoteFragment]
@@ -101,14 +101,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
     )
 
-    override fun onResultInputTextChange() = with(inputControl) {
-        callback.bindInput(isUndoAccess, isRedoAccess, noteModel.isSaveEnable())
-    }
+    override fun onResultInputTextChange() =
+            callback.bindInput(inputControl.access, noteModel.isSaveEnable())
 
 
-    override fun onResultInputRollChange(p: Int, text: String) = with(inputControl) {
+    override fun onResultInputRollChange(p: Int, text: String) {
         callback.notifyListItem(p, noteModel.listRoll[p].apply { this.text = text })
-        callback.bindInput(isUndoAccess, isRedoAccess, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
     }
 
     override fun onResultTouchFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
@@ -118,12 +117,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         inputControl.onRollMove(dragFrom, dragTo)
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
     }
 
     override fun onResultTouchSwipe(p: Int) {
         inputControl.onRollRemove(p, noteModel.listRoll[p].toString())
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
 
         noteModel.listRoll.removeAt(p)
 
@@ -211,7 +210,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
     }
 
     override fun onMenuRank() =
@@ -301,7 +300,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             )
 
             bindEdit(editMode, noteModel.noteItem)
-            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
+            bindInput(inputControl.access, noteModel.isSaveEnable())
             updateNoteState(noteState)
         }
 
@@ -371,7 +370,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.listRoll.add(p, rollItem)
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
         callback.scrollToItem(simpleClick, p, noteModel.listRoll)
     }
 
@@ -404,7 +403,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.updateStatus(rankIdVisibleList)
 
         callback.apply {
-            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
+            bindInput(inputControl.access, noteModel.isSaveEnable())
             tintToolbar(check)
         }
     }
@@ -431,7 +430,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateStatus(rankIdVisibleList)
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
         callback.bindItem(noteItem)
     }
 

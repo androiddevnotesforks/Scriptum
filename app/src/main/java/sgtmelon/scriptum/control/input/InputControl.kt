@@ -45,6 +45,8 @@ class InputControl : InputCallback {
      */
     val isRedoAccess get() = listInput.size != 0 && position != listInput.size - 1
 
+    val access get() = Access(isUndoAccess, isRedoAccess)
+
     fun reset() {
         listInput.clear()
         position = -1
@@ -136,5 +138,7 @@ class InputControl : InputCallback {
     companion object {
         private val TAG = InputControl::class.java.simpleName
     }
+
+    data class Access(val isUndo: Boolean, val isRedo: Boolean)
 
 }

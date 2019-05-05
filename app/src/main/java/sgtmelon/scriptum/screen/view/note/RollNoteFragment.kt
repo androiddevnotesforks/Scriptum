@@ -23,6 +23,8 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.control.touch.RollTouchControl
@@ -44,7 +46,6 @@ import sgtmelon.scriptum.office.utils.requestFocusOnVisible
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
-import sgtmelon.scriptum.watcher.InputTextWatcher
 
 /**
  * Фрагмент для отображения заметки списка
@@ -255,12 +256,10 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         binding?.executePendingBindings()
     }
 
-    // TODO !! заменить isUndo/Redo на модельку
-
-    override fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean) {
+    override fun bindInput(inputAccess: InputControl.Access, isSaveEnable: Boolean) {
         binding?.apply {
-            undoAccess = isUndoAccess
-            redoAccess = isRedoAccess
+            undoAccess = inputAccess.isUndo
+            redoAccess = inputAccess.isRedo
             saveEnabled = isSaveEnable
         }?.executePendingBindings()
     }

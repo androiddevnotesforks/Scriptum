@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.callback.note.roll
 
 import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
@@ -34,7 +35,7 @@ interface RollNoteCallback {
 
     fun bindEnter()
 
-    fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean, isSaveEnable: Boolean)
+    fun bindInput(inputAccess: InputControl.Access, isSaveEnable: Boolean)
 
     fun bindItem(noteItem: NoteItem)
 

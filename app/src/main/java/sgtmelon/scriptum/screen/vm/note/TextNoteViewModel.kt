@@ -5,6 +5,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
@@ -21,7 +22,6 @@ import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
-import sgtmelon.scriptum.watcher.InputTextWatcher
 
 /**
  * ViewModel для [TextNoteFragment]
@@ -88,8 +88,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
     )
 
-    override fun onResultInputTextChange() =
-            callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+    override fun onResultInputTextChange() = callback.bindInput(inputControl.access)
 
     override fun onMenuRestore() {
         iRoomRepo.restoreNote(noteModel.noteItem)
@@ -142,7 +141,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+        callback.bindInput(inputControl.access)
     }
 
     override fun onMenuRank() =
@@ -202,7 +201,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             )
 
             bindEdit(editMode, noteModel.noteItem)
-            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+            bindInput(inputControl.access)
         }
 
         saveControl.setSaveHandlerEvent(editMode)
@@ -254,7 +253,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.updateStatus(rankIdVisibleList)
 
         callback.apply {
-            bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+            bindInput(inputControl.access)
             tintToolbar(check)
         }
     }
@@ -281,7 +280,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateStatus(rankIdVisibleList)
 
-        callback.bindInput(inputControl.isUndoAccess, inputControl.isRedoAccess)
+        callback.bindInput(inputControl.access)
         callback.bindItem(noteItem)
     }
 

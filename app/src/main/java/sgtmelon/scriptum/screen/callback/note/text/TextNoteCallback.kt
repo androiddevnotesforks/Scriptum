@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.callback.note.text
 
 import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.office.annot.def.ColorDef
@@ -27,7 +28,7 @@ interface TextNoteCallback {
 
     fun bindEdit(editMode: Boolean, noteItem: NoteItem)
 
-    fun bindInput(isUndoAccess: Boolean, isRedoAccess: Boolean)
+    fun bindInput(inputAccess: InputControl.Access)
 
     fun bindItem(noteItem: NoteItem)
 
