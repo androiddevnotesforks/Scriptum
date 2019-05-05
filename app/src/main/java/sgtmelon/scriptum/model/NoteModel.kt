@@ -33,11 +33,8 @@ class NoteModel(@field:Embedded val noteItem: NoteItem,
     fun isSaveEnable(): Boolean = when (noteItem.type) {
         NoteType.TEXT -> noteItem.text.isNotEmpty()
         NoteType.ROLL -> {
-            if (listRoll.isEmpty()) false
-            else {
-                listRoll.forEach { if (it.text.isEmpty()) return false }
-                true
-            }
+            if (listRoll.isNotEmpty()) listRoll.forEach { if (it.text.isNotEmpty()) return true }
+            false
         }
     }
 
