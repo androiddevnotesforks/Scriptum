@@ -35,7 +35,7 @@ interface RollNoteCallback {
 
     fun bindEnter()
 
-    fun bindInput(inputAccess: InputControl.Access, isSaveEnable: Boolean)
+    fun bindInput(inputAccess: InputControl.Access, isSaveEnabled: Boolean)
 
     fun bindItem(noteItem: NoteItem)
 

@@ -14,10 +14,8 @@
 
         <variable name="enterEmpty" type="boolean"/>
 
-        <variable name="undoAccess" type="boolean"/>
-        <variable name="redoAccess" type="boolean"/>
-
-        <variable name="saveEnabled" type="boolean"/>
+        <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
+        <variable name="isSaveEnabled" type="boolean"/>
 
     </data>
 
@@ -44,22 +42,21 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    tools:listitem="@layout/item_roll_write"
+                    android:layout_weight="1"
                     tools:itemCount="3"
-                    android:layout_weight="1"/>
+                    tools:listitem="@layout/item_roll_write"/>
 
             <include layout="@layout/include_roll_note_enter"
-                     app:enterEmpty='@{enterEmpty}'
-                     app:editMode='@{editMode}'/>
+                     app:editMode='@{editMode}'
+                     app:enterEmpty='@{enterEmpty}'/>
 
             <include layout="@layout/include_roll_note_panel"
                      app:editMode='@{editMode}'
+                     app:inputAccess='@{inputAccess}'
+                     app:isSaveEnabled='@{isSaveEnabled}'
                      app:menuCallback='@{menuCallback}'
                      app:noteItem='@{noteItem}'
-                     app:rankEmpty='@{rankEmpty}'
-                     app:redoAccess='@{redoAccess}'
-                     app:saveEnabled='@{saveEnabled}'
-                     app:undoAccess='@{undoAccess}'/>
+                     app:rankEmpty='@{rankEmpty}'/>
 
         </LinearLayout>
 

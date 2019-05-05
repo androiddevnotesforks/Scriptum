@@ -256,11 +256,10 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         binding?.executePendingBindings()
     }
 
-    override fun bindInput(inputAccess: InputControl.Access, isSaveEnable: Boolean) {
+    override fun bindInput(inputAccess: InputControl.Access, isSaveEnabled: Boolean) {
         binding?.apply {
-            undoAccess = inputAccess.isUndo
-            redoAccess = inputAccess.isRedo
-            saveEnabled = isSaveEnable
+            this.inputAccess = inputAccess
+            this.isSaveEnabled = isSaveEnabled
         }?.executePendingBindings()
     }
 

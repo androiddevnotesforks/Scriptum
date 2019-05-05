@@ -42,11 +42,11 @@ abstract class BasicMatch {
     protected fun isSelected(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isSelected()))
 
-    protected fun isEnabled(@IdRes viewId: Int, enable: Boolean): ViewInteraction =
-            onView(withId(viewId)).check(matches(if (enable) isEnabled() else not(isEnabled())))
+    protected fun isEnabled(@IdRes viewId: Int, enabled: Boolean): ViewInteraction =
+            onView(withId(viewId)).check(matches(if (enabled) isEnabled() else not(isEnabled())))
 
-    protected fun isEnabledText(@StringRes stringId: Int, enable: Boolean): ViewInteraction =
-            onView(withText(stringId)).check(matches(if (enable) isEnabled() else not(isEnabled())))
+    protected fun isEnabledText(@StringRes stringId: Int, enabled: Boolean): ViewInteraction =
+            onView(withText(stringId)).check(matches(if (enabled) isEnabled() else not(isEnabled())))
 
     protected fun onDisplayText(@StringRes stringId: Int): ViewInteraction =
             onView(withText(stringId)).check(matches(isDisplayed()))
