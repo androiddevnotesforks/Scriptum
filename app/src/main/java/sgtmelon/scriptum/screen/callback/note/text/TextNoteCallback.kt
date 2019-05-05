@@ -28,7 +28,7 @@ interface TextNoteCallback {
 
     fun bindEdit(editMode: Boolean, noteItem: NoteItem)
 
-    fun bindInput(inputAccess: InputControl.Access)
+    fun bindInput(inputAccess: InputControl.Access, isSaveEnabled: Boolean)
 
     fun bindItem(noteItem: NoteItem)
 

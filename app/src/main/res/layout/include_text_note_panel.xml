@@ -17,10 +17,8 @@
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
 
-        <variable name="undoAccess" type="boolean"/>
-        <variable name="redoAccess" type="boolean"/>
-
-        <variable name="saveEnabled" type="boolean"/>
+        <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
+        <variable name="isSaveEnabled" type="boolean"/>
 
     </data>
 
@@ -87,8 +85,8 @@
                         style="@style/Button.Small"
                         android:contentDescription="@null"
                         android:onClick='@{() -> menuCallback.onMenuUndo()}'
-                        app:boolExpression='@{undoAccess}'
-                        app:enabled='@{undoAccess}'
+                        app:boolExpression='@{inputAccess.isUndo}'
+                        app:enabled='@{inputAccess.isUndo}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_undo"
                         app:trueColor='@{R.attr.clContent}'
@@ -99,8 +97,8 @@
                         style="@style/Button.Small"
                         android:contentDescription="@null"
                         android:onClick='@{() -> menuCallback.onMenuRedo()}'
-                        app:boolExpression='@{redoAccess}'
-                        app:enabled='@{redoAccess}'
+                        app:boolExpression='@{inputAccess.isRedo}'
+                        app:enabled='@{inputAccess.isRedo}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_redo"
                         app:trueColor='@{R.attr.clContent}'
@@ -137,7 +135,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> menuCallback.onMenuSave(true)}'
                         android:text="@string/menu_note_save"
-                        app:enabled='@{saveEnabled}'/>
+                        app:enabled='@{isSaveEnabled}'/>
 
             </LinearLayout>
 

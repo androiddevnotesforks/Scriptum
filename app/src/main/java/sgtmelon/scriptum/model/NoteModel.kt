@@ -30,7 +30,7 @@ class NoteModel(@field:Embedded val noteItem: NoteItem,
     fun updateStatus(listRankVisible: List<Long>) =
             statusItem.updateNote(noteItem, listRankVisible)
 
-    fun isSaveEnable(): Boolean = when (noteItem.type) {
+    fun isSaveEnabled(): Boolean = when (noteItem.type) {
         NoteType.TEXT -> noteItem.text.isNotEmpty()
         NoteType.ROLL -> {
             if (listRoll.isNotEmpty()) listRoll.forEach { if (it.text.isNotEmpty()) return true }

@@ -102,12 +102,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     )
 
     override fun onResultInputTextChange() =
-            callback.bindInput(inputControl.access, noteModel.isSaveEnable())
+            callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
 
 
     override fun onResultInputRollChange(p: Int, text: String) {
         callback.notifyListItem(p, noteModel.listRoll[p].apply { this.text = text })
-        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
     }
 
     override fun onResultTouchFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
@@ -117,12 +117,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         inputControl.onRollMove(dragFrom, dragTo)
-        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
     }
 
     override fun onResultTouchSwipe(p: Int) {
         inputControl.onRollRemove(p, noteModel.listRoll[p].toString())
-        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
 
         noteModel.listRoll.removeAt(p)
 
@@ -210,7 +210,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
     }
 
     override fun onMenuRank() =
@@ -221,7 +221,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuSave(changeMode: Boolean): Boolean {
         val listRoll = noteModel.listRoll
 
-        if (!noteModel.isSaveEnable()) return false
+        if (!noteModel.isSaveEnabled()) return false
 
         noteModel.noteItem.apply {
             change = context.getTime()
@@ -300,7 +300,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             )
 
             bindEdit(editMode, noteModel.noteItem)
-            bindInput(inputControl.access, noteModel.isSaveEnable())
+            bindInput(inputControl.access, noteModel.isSaveEnabled())
             updateNoteState(noteState)
         }
 
@@ -370,7 +370,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.listRoll.add(p, rollItem)
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.scrollToItem(simpleClick, p, noteModel.listRoll)
     }
 
@@ -403,7 +403,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.updateStatus(rankIdVisibleList)
 
         callback.apply {
-            bindInput(inputControl.access, noteModel.isSaveEnable())
+            bindInput(inputControl.access, noteModel.isSaveEnabled())
             tintToolbar(check)
         }
     }
@@ -430,7 +430,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateStatus(rankIdVisibleList)
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnable())
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.bindItem(noteItem)
     }
 

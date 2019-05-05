@@ -14,10 +14,8 @@
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="editMode" type="boolean"/>
 
-        <variable name="undoAccess" type="boolean"/>
-        <variable name="redoAccess" type="boolean"/>
-
-        <variable name="saveEnabled" type="boolean"/>
+        <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
+        <variable name="isSaveEnabled" type="boolean"/>
 
     </data>
 
@@ -89,9 +87,8 @@
                  app:menuCallback='@{menuCallback}'
                  app:noteItem='@{noteItem}'
                  app:rankEmpty='@{rankEmpty}'
-                 app:redoAccess='@{redoAccess}'
-                 app:saveEnabled='@{saveEnabled}'
-                 app:undoAccess='@{undoAccess}'/>
+                 app:inputAccess='@{inputAccess}'
+                 app:isSaveEnabled='@{isSaveEnabled}'/>
 
     </LinearLayout>
 

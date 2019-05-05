@@ -88,7 +88,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
     )
 
-    override fun onResultInputTextChange() = callback.bindInput(inputControl.access)
+    override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
 
     override fun onMenuRestore() {
         iRoomRepo.restoreNote(noteModel.noteItem)
@@ -141,7 +141,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.bindInput(inputControl.access)
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
     }
 
     override fun onMenuRank() =
@@ -150,7 +150,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuColor() = callback.showColorDialog(noteModel.noteItem.color)
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        if (!noteModel.isSaveEnable()) return false
+        if (!noteModel.isSaveEnabled()) return false
 
         noteModel.noteItem.change = context.getTime()
 
@@ -201,7 +201,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             )
 
             bindEdit(editMode, noteModel.noteItem)
-            bindInput(inputControl.access)
+            bindInput(inputControl.access, noteModel.isSaveEnabled())
         }
 
         saveControl.setSaveHandlerEvent(editMode)
@@ -253,7 +253,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.updateStatus(rankIdVisibleList)
 
         callback.apply {
-            bindInput(inputControl.access)
+            bindInput(inputControl.access, noteModel.isSaveEnabled())
             tintToolbar(check)
         }
     }
@@ -280,7 +280,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateStatus(rankIdVisibleList)
 
-        callback.bindInput(inputControl.access)
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.bindItem(noteItem)
     }
 

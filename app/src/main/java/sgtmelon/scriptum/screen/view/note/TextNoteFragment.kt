@@ -189,11 +189,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }?.executePendingBindings()
     }
 
-    override fun bindInput(inputAccess: InputControl.Access) {
+    override fun bindInput(inputAccess: InputControl.Access, isSaveEnabled: Boolean) {
         binding?.apply {
-            undoAccess = inputAccess.isUndo
-            redoAccess = inputAccess.isRedo
-            saveEnabled = textEnter?.text.toString().isNotEmpty()
+            this.inputAccess = inputAccess
+            this.isSaveEnabled = isSaveEnabled
         }?.executePendingBindings()
     }
 
