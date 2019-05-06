@@ -16,6 +16,8 @@ class NotePanel : ParentUi() {
 
     fun onClickEdit() = action { onClick(R.id.note_panel_edit_button) }
 
+    fun onClickRestoreOpen() = action { onClick(R.id.note_panel_restore_open_button) }
+
     companion object {
         operator fun invoke(func: NotePanel.() -> Unit) = NotePanel().apply { func() }
     }

@@ -20,7 +20,7 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun addDialog() = afterLaunch {
-        MainScreen { addDialogUi { wait(time = 5000) { assert { onDisplayContent() } } } }
+        MainScreen { addDialogUi { waitBefore(time = 5000) { assert { onDisplayContent() } } } }
     }
 
 
@@ -30,7 +30,7 @@ class RotationTest : ParentTest() {
         MainScreen {
             rankScreen {
                 assert { onDisplayContent(empty = true) }
-                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
+                waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -43,7 +43,7 @@ class RotationTest : ParentTest() {
         MainScreen {
             rankScreen {
                 assert { onDisplayContent(empty = false) }
-                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
+                waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -61,7 +61,7 @@ class RotationTest : ParentTest() {
                         onEnterName(newName)
 
                         assert { onDisplayContent(newName) }
-                        wait(time = 5000) { assert { onDisplayContent(newName) } }
+                        waitBefore(time = 5000) { assert { onDisplayContent(newName) } }
                     }
                 }
             }
@@ -75,7 +75,7 @@ class RotationTest : ParentTest() {
         MainScreen {
             notesScreen {
                 assert { onDisplayContent(empty = true) }
-                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
+                waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = true) }
@@ -88,7 +88,7 @@ class RotationTest : ParentTest() {
         MainScreen {
             notesScreen {
                 assert { onDisplayContent(empty = false) }
-                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
+                waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
 
             assert { onDisplayFab(visible = true) }
@@ -102,7 +102,7 @@ class RotationTest : ParentTest() {
             MainScreen {
                 notesScreen {
                     noteDialogUi(noteItem) {
-                        wait(time = 5000) { assert { onDisplayContent(noteItem) } }
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }
             }
@@ -116,7 +116,7 @@ class RotationTest : ParentTest() {
             MainScreen {
                 notesScreen {
                     noteDialogUi(noteItem) {
-                        wait(time = 5000) { assert { onDisplayContent(noteItem) } }
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }
             }
@@ -130,7 +130,7 @@ class RotationTest : ParentTest() {
         MainScreen {
             binScreen {
                 assert { onDisplayContent(empty = true) }
-                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
+                waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -143,7 +143,7 @@ class RotationTest : ParentTest() {
         MainScreen {
             binScreen {
                 assert { onDisplayContent(empty = false) }
-                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
+                waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -157,7 +157,7 @@ class RotationTest : ParentTest() {
             binScreen {
                 clearDialogUi {
                     assert { onDisplayContent() }
-                    wait(time = 5000) { assert { onDisplayContent() } }
+                    waitBefore(time = 5000) { assert { onDisplayContent() } }
                 }
             }
         }
@@ -170,7 +170,7 @@ class RotationTest : ParentTest() {
             MainScreen {
                 binScreen {
                     noteDialogUi(noteItem) {
-                        wait(time = 5000) { assert { onDisplayContent(noteItem) } }
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }
             }
@@ -184,7 +184,7 @@ class RotationTest : ParentTest() {
             MainScreen {
                 binScreen {
                     noteDialogUi(noteItem) {
-                        wait(time = 5000) { assert { onDisplayContent(noteItem) } }
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }
             }

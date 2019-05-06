@@ -4,7 +4,6 @@ package sgtmelon.scriptum.test.main
 import androidx.test.espresso.Espresso.pressBack
 import org.junit.Test
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
@@ -51,7 +50,7 @@ class BinTest : ParentTest() {
         MainScreen {
             binScreen {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen(State.BIN) { pressBack() }
+                textNoteScreen() { pressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }
@@ -63,7 +62,7 @@ class BinTest : ParentTest() {
         MainScreen {
             binScreen {
                 assert { onDisplayContent(empty = false) }
-                rollNoteScreen(State.BIN) { pressBack() }
+                rollNoteScreen() { pressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }

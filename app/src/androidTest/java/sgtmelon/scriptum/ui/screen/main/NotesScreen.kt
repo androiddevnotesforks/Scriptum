@@ -31,15 +31,15 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
         func()
     }
 
-    fun textNoteScreen(state: State, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun textNoteScreen(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
         onClickItem(p)
-        assert { onDisplayContent(state) }
+        assert { onDisplayContent(State.READ) }
         func()
     }
 
-    fun rollNoteScreen(state: State, p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun rollNoteScreen(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
         onClickItem(p)
-        assert { onDisplayContent(state) }
+        assert { onDisplayContent(State.READ) }
         func()
     }
 

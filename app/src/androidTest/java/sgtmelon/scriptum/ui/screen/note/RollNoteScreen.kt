@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.ui.screen.note
 
+import androidx.test.espresso.Espresso.closeSoftKeyboard
+import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.NoteType
@@ -25,9 +27,18 @@ class RollNoteScreen : ParentUi() {
         func()
     }
 
-    fun enterPanel (func: RollEnterPanel.() -> Unit) = RollEnterPanel().apply { func() }
+    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel().apply { func() }
 
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel().apply { func() }
+
+    fun onCloseNote() {
+        if (Math.random() < 0.5) {
+            toolbar { onClickBack() }
+        } else {
+            closeSoftKeyboard()
+            pressBack()
+        }
+    }
 
     companion object {
         operator fun invoke(func: RollNoteScreen.() -> Unit) = RollNoteScreen().apply { func() }

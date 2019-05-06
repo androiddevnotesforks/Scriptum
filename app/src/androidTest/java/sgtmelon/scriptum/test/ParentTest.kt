@@ -38,6 +38,8 @@ abstract class ParentTest {
 
     }
 
+    // TODO сделать invoke функции запуска с доступом к SplashScreen и далее
+
     protected fun beforeLaunch(intent: Intent = Intent(), func: () -> Unit) {
         func()
         testRule.launchActivity(intent)
@@ -48,9 +50,16 @@ abstract class ParentTest {
         func()
     }
 
-    protected fun wait(time: Long, func: () -> Unit = {}) {
+    protected fun wait(time: Long, func: () -> Unit = {}) = Thread.sleep(time)
+
+    protected fun waitBefore(time: Long, func: () -> Unit = {}) {
         Thread.sleep(time)
         func()
+    }
+
+    protected fun waitAfter(time: Long, func: () -> Unit = {}) {
+        func()
+        Thread.sleep(time)
     }
 
 }

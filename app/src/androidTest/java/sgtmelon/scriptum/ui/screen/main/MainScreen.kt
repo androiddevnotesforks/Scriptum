@@ -1,14 +1,11 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.AddDialogUi
-import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
-import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Класс для ui контроля экрана [MainActivity]
@@ -27,10 +24,12 @@ class MainScreen : ParentUi() {
         navigateTo(MainPage.RANK)
         func()
     }
+
     fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply {
         if (wasNavigate) navigateTo(MainPage.NOTES)
         func()
     }
+
     fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply {
         wasNavigate = true
 
@@ -41,16 +40,6 @@ class MainScreen : ParentUi() {
     fun addDialogUi(func: AddDialogUi.() -> Unit = {}) = AddDialogUi().apply {
         action { onClick(R.id.main_add_fab) }
         assert { onDisplayContent() }
-        func()
-    }
-
-    fun textNoteScreen(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
-        assert { onDisplayContent(State.NEW) }
-        func()
-    }
-
-    fun rollNoteScreen(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
-        assert { onDisplayContent(State.NEW) }
         func()
     }
 

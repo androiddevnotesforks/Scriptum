@@ -1,12 +1,9 @@
 package sgtmelon.scriptum.test.main
 
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.test.ParentTest
@@ -75,7 +72,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen(State.READ) { pressBack() }
+                textNoteScreen() { onCloseNote() }
                 assert { onDisplayContent(empty = false) }
             }
         }
@@ -87,7 +84,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen {
                 assert { onDisplayContent(empty = false) }
-                rollNoteScreen(State.READ) { pressBack() }
+                rollNoteScreen() { onCloseNote() }
                 assert { onDisplayContent(empty = false) }
             }
         }
@@ -99,11 +96,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen() {
-                closeSoftKeyboard()
-                pressBack()
-            }
+            addDialogUi { textNoteScreen { onCloseNote() } }
 
             notesScreen { assert { onDisplayContent(empty = true) } }
         }
@@ -115,11 +108,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialogUi { onClickItem(NoteType.ROLL) }
-            rollNoteScreen() {
-                closeSoftKeyboard()
-                pressBack()
-            }
+            addDialogUi { rollNoteScreen { onCloseNote() } }
 
             notesScreen { assert { onDisplayContent(empty = true) } }
         }
@@ -131,12 +120,11 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen() {
-                testData.insertText()
-
-                closeSoftKeyboard()
-                pressBack()
+            addDialogUi {
+                textNoteScreen {
+                    testData.insertText()
+                    onCloseNote()
+                }
             }
 
             notesScreen { assert { onDisplayContent(empty = false) } }
@@ -149,13 +137,11 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
 
-            addDialogUi { onClickItem(NoteType.ROLL) }
-
-            rollNoteScreen() {
-                testData.insertRoll()
-
-                closeSoftKeyboard()
-                pressBack()
+            addDialogUi {
+                rollNoteScreen {
+                    testData.insertRoll()
+                    onCloseNote()
+                }
             }
 
             notesScreen { assert { onDisplayContent(empty = false) } }

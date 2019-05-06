@@ -42,8 +42,7 @@ class InfoAnimTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen { noteDialogUi(noteItem) { onClickDelete() } }
-                wait(time = 500)
+                waitAfter(time = 500) { notesScreen { noteDialogUi(noteItem) { onClickDelete() } } }
             }
         }
     }
@@ -65,8 +64,7 @@ class InfoAnimTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen { noteDialogUi(noteItem) { onClickClear() } }
-                wait(time = 500)
+                waitAfter(time = 500) { binScreen { noteDialogUi(noteItem) { onClickClear() } } }
             }
         }
     }

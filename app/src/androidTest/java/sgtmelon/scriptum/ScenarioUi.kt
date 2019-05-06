@@ -8,6 +8,7 @@ import sgtmelon.scriptum.test.main.BinTest
 import sgtmelon.scriptum.test.main.MainTest
 import sgtmelon.scriptum.test.main.NotesTest
 import sgtmelon.scriptum.test.main.RankTest
+import sgtmelon.scriptum.test.note.NoteToolbarIconTest
 import sgtmelon.scriptum.test.note.RollNoteTest
 import sgtmelon.scriptum.test.note.TextNoteTest
 import sgtmelon.scriptum.ui.screen.main.BinScreen
@@ -34,6 +35,7 @@ private class ScenarioUi {
      * Тест сортировки заметок
      * Тест перетаскивания категорий
      * Тесты с нагрузкой
+     * Тесты для автоматического сохранения (отдельный класс)
      */
 
     /**
@@ -334,6 +336,48 @@ private class ScenarioUi {
          */
 
     }
+
+    /**
+     * Сценарии для [NoteToolbarIconTest]
+     */
+    class NoteToolbarIcon {
+
+        /**
+         * CONTROL - Стрелка назад у только что созданной заметки
+         * # Текст :: [NoteToolbarIconTest.arrowBackOnCreateTextNote]
+         * # Список :: [NoteToolbarIconTest.arrowBackOnCreateRollNote]
+         */
+
+        /**
+         * CONTROL - Не происходит анимации стрелки при сохранении новой заметки
+         * # Текст :: [NoteToolbarIconTest.notAnimateOnSaveCreateTextNote]
+         * # Список :: [NoteToolbarIconTest.notAnimateOnSaveCreateRollNote]
+         */
+
+        /**
+         * CONTROL - Не происходит анимации при восстановлении заметки  открытием
+         * # Текст :: [NoteToolbarIconTest.notAnimateOnRestoreOpenTextNote]
+         * # Список :: [NoteToolbarIconTest.notAnimateOnRestoreOpenRollNote]
+         */
+
+        /**
+         * CONTROL - Анимация при начале редактирования и сохранении
+         * # Текст :: [NoteToolbarIconTest.animateOnEditToSaveTextNote]
+         * # Список :: [NoteToolbarIconTest.animateOnEditToSaveRollNote]
+         */
+
+        /**
+         * CONTROL - Анимация при начале редактирования и отмене
+         * # Текст :: [NoteToolbarIconTest.animateOnEditToCancelTextNote]
+         * # Список :: [NoteToolbarIconTest.animateOnEditToCancelRollNote]
+         */
+
+        /**
+         * TODO - анимация из стрелки в крестик при автоматическом сохранении текста/списка
+         */
+
+    }
+
 
     /**
      * Сценарии для [RotationTest]

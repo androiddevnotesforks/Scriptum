@@ -5,7 +5,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
@@ -83,17 +82,11 @@ class MainTest : ParentTest() {
     }
 
     @Test fun addDialogCreateTextNote() = afterLaunch {
-        MainScreen {
-            addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen()
-        }
+        MainScreen { addDialogUi { textNoteScreen() } }
     }
 
     @Test fun addDialogCreateRollNote() = afterLaunch {
-        MainScreen {
-            addDialogUi { onClickItem(NoteType.ROLL) }
-            rollNoteScreen()
-        }
+        MainScreen { addDialogUi { rollNoteScreen() } }
     }
 
     @Test fun rankScreenScrollTop() {

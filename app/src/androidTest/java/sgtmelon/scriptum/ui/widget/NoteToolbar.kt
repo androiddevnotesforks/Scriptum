@@ -12,6 +12,8 @@ class NoteToolbar : ParentUi() {
 
     fun onEnterName(name: String) = action { onEnter(R.id.toolbar_note_enter, name) }
 
+    fun onClickBack() = action { onClickToolbarButton() }
+
     companion object {
         operator fun invoke(func: NoteToolbar.() -> Unit) = NoteToolbar().apply { func() }
     }

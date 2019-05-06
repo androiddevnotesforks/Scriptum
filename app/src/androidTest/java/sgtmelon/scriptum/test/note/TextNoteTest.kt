@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentTest
 import sgtmelon.scriptum.ui.screen.main.MainScreen
@@ -26,8 +25,9 @@ class TextNoteTest : ParentTest() {
 
     @Test fun toolbarNoteCreate() = afterLaunch {
         MainScreen {
-            addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen { toolbar { assert { onDisplayState(State.NEW, name = "") } } }
+            addDialogUi {
+                textNoteScreen { toolbar { assert { onDisplayState(State.NEW, name = "") } } }
+            }
         }
     }
 
@@ -37,7 +37,7 @@ class TextNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen(State.READ) {
+                    textNoteScreen() {
                         toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayState(State.EDIT, noteItem.name) } }
@@ -53,7 +53,7 @@ class TextNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 binScreen {
-                    textNoteScreen(State.BIN) {
+                    textNoteScreen() {
                         toolbar { assert { onDisplayState(State.BIN, noteItem.name) } }
                     }
                 }
@@ -67,7 +67,7 @@ class TextNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen(State.READ) {
+                    textNoteScreen() {
                         toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayState(State.EDIT, noteItem.name) } }
@@ -83,7 +83,7 @@ class TextNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 binScreen {
-                    textNoteScreen(State.BIN) {
+                    textNoteScreen() {
                         toolbar { assert { onDisplayState(State.BIN, noteItem.name) } }
                     }
                 }
@@ -96,12 +96,13 @@ class TextNoteTest : ParentTest() {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi { onClickItem(NoteType.TEXT) }
-            textNoteScreen {
-                toolbar { onEnterName(noteItem.name) }
-                onEnterText(noteItem.text)
-                controlPanel { onClickSave() }
-                toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+            addDialogUi {
+                textNoteScreen {
+                    toolbar { onEnterName(noteItem.name) }
+                    onEnterText(noteItem.text)
+                    controlPanel { onClickSave() }
+                    toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                }
             }
         }
     }
@@ -113,7 +114,7 @@ class TextNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen(State.READ) {
+                    textNoteScreen() {
                         toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(newName) }

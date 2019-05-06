@@ -155,7 +155,7 @@ class RankTest : ParentTest() {
             MainScreen {
                 rankScreen {
                     onClickVisible(rankItem.name)
-                    wait(time = 500) { onClickVisible(rankItem.name) }
+                    waitBefore(time = 500) { onClickVisible(rankItem.name) }
                 }
             }
         }
@@ -168,7 +168,7 @@ class RankTest : ParentTest() {
             MainScreen {
                 rankScreen {
                     onLongClickVisible(rankList[0].name)
-                    wait(time = 500) { onLongClickVisible(rankList[count - 1].name) }
+                    waitBefore(time = 500) { onLongClickVisible(rankList[count - 1].name) }
                 }
             }
         }
