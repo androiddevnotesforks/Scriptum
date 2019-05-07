@@ -303,21 +303,44 @@ private class ScenarioUi {
         /**
          * UI - Тулбар
          * # Контент:
-         * # Только что созданная заметка :: [TextNoteTest.toolbarNoteCreate]
-         * # Заметка без названия :: [TextNoteTest.toolbarNoteWithoutName]
-         * # Удалённая заметка без названия :: [TextNoteTest.toolbarNoteFromBinWithoutName]
-         * # Заметка с названием :: [TextNoteTest.toolbarNoteWithName]
-         * # Удалённая заметка с названием :: [TextNoteTest.toolbarNoteFromBinWithName]
+         * # Только что созданная заметка :: [TextNoteTest.toolbarCreate]
+         * # Заметка без названия :: [TextNoteTest.toolbarWithoutName]
+         * # Удалённая заметка без названия :: [TextNoteTest.toolbarFromBinWithoutName]
+         * # Заметка с названием :: [TextNoteTest.toolbarWithName]
+         * # Удалённая заметка с названием :: [TextNoteTest.toolbarFromBinWithName]
          *
          * # Сохранение:
-         * # При создании заметки :: [TextNoteTest.toolbarNoteSaveAfterCreateByControl]
-         * # При создании заметки кнопкой назад :: [TextNoteTest.toolbarNoteSaveAfterCreateByBackPress]
-         * # После редактирования заметки :: [TextNoteTest.toolbarNoteSaveAfterEditByControl]
-         * # После редактирования заметки кнопкой назад :: [TextNoteTest.toolbarNoteSaveAfterEditByBackPress]
+         * # При создании заметки :: [TextNoteTest.toolbarSaveAfterCreateByControl]
+         * # При создании заметки кнопкой назад :: [TextNoteTest.toolbarSaveAfterCreateByBackPress]
+         * # После редактирования заметки :: [TextNoteTest.toolbarSaveAfterEditByControl]
+         * # После редактирования заметки кнопкой назад :: [TextNoteTest.toolbarSaveAfterEditByBackPress]
+         * # После восстановления из корзины :: [TextNoteTest.toolbarRestoreOpen]
          *
          * # Отмена:
-         * # При создании заметки :: [TextNoteTest.toolbarNoteCancelAfterCreate]
-         * # После редактирования заметки :: [TextNoteTest.toolbarNoteCancelAfterEdit]
+         * # При создании заметки :: [TextNoteTest.toolbarCancelAfterCreate]
+         * # После редактирования заметки :: [TextNoteTest.toolbarCancelAfterEdit]
+         */
+
+        /**
+         * UI - Поле ввода текста
+         * # Контент:
+         * # Только что созданная заметка :: [TextNoteTest.contentCreate]
+         * # Заметка с текстом :: [TextNoteTest.contentWithText]
+         * # Удалённая заметка с текстом :: [TextNoteTest.contentFromBinWithText]
+         *
+         * # Сохранение:
+         * # При создании заметки :: [TextNoteTest.contentSaveAfterCreateByControl]
+         * # При создании заметки кнопкой назад :: [TextNoteTest.contentSaveAfterCreateByBackPress]
+         * # После редактирования заметки :: [TextNoteTest.contentSaveAfterEditByControl]
+         * # После редактирования заметки кнопкой назад :: [TextNoteTest.contentSaveAfterEditByBackPress]
+         * # После восстановления из корзины :: [TextNoteTest.contentRestoreOpen]
+         *
+         * # Отмена:
+         * # После редактирования заметки :: [TextNoteTest.contentCancelAfterEdit]
+         */
+
+        /**
+         * UI - Панель управления - TODO
          */
 
     }
@@ -330,21 +353,34 @@ private class ScenarioUi {
         /**
          * UI - Тулбар
          * # Контент:
-         * # Только что созданная заметка :: [RollNoteTest.toolbarNoteCreate]
-         * # Заметка без названия :: [RollNoteTest.toolbarNoteWithoutName]
-         * # Удалённая заметка без названия :: [RollNoteTest.toolbarNoteFromBinWithoutName]
-         * # Заметка с названием :: [RollNoteTest.toolbarNoteWithName]
-         * # Удалённая заметка с названием :: [RollNoteTest.toolbarNoteFromBinWithName]
+         * # Только что созданная заметка :: [RollNoteTest.toolbarCreate]
+         * # Заметка без названия :: [RollNoteTest.toolbarWithoutName]
+         * # Удалённая заметка без названия :: [RollNoteTest.toolbarFromBinWithoutName]
+         * # Заметка с названием :: [RollNoteTest.toolbarWithName]
+         * # Удалённая заметка с названием :: [RollNoteTest.toolbarFromBinWithName]
          *
          * # Сохранение:
-         * # При создании заметки :: [RollNoteTest.toolbarNoteSaveAfterCreateByControl]
-         * # При создании заметки кнопкой назад :: [RollNoteTest.toolbarNoteSaveAfterCreateByBackPress]
-         * # После редактирования заметки :: [RollNoteTest.toolbarNoteSaveAfterEditByControl]
-         * # После редактирования заметки кнопкой назад :: [RollNoteTest.toolbarNoteSaveAfterEditByBackPress]
+         * # При создании заметки :: [RollNoteTest.toolbarSaveAfterCreateByControl]
+         * # При создании заметки кнопкой назад :: [RollNoteTest.toolbarSaveAfterCreateByBackPress]
+         * # После редактирования заметки :: [RollNoteTest.toolbarSaveAfterEditByControl]
+         * # После редактирования заметки кнопкой назад :: [RollNoteTest.toolbarSaveAfterEditByBackPress]
+         * # После восстановления из корзины :: [RollNoteTest.toolbarRestoreOpen]
          *
          * # Отмена:
-         * # При создании заметки :: [TextNoteTest.toolbarNoteCancelAfterCreate]
-         * # После редактирования заметки :: [TextNoteTest.toolbarNoteCancelAfterEdit]
+         * # При создании заметки кнопкой тулбара :: [TextNoteTest.toolbarCancelAfterCreate]
+         * # После редактирования заметки :: [TextNoteTest.toolbarCancelAfterEdit]
+         */
+
+        /**
+         * UI - Список пунктов - TODO
+         */
+
+        /**
+         * UI - Панель ввода - TODO
+         */
+
+        /**
+         * UI - Панель управления - TODO
          */
 
     }

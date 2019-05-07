@@ -50,7 +50,7 @@ class BinTest : ParentTest() {
         MainScreen {
             binScreen {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen() { pressBack() }
+                textNoteScreen { pressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }

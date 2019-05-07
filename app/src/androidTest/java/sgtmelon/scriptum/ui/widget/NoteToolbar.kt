@@ -33,7 +33,7 @@ class NoteToolbar : ParentUi() {
             }
         }
 
-        fun onDisplayState(state: State, name: String) = when (state) {
+        fun onDisplayName(state: State, name: String) = when (state) {
             State.READ, State.BIN -> {
                 notDisplay(R.id.toolbar_note_enter)
 

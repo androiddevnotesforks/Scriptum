@@ -72,7 +72,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen() { onPressBack() }
+                textNoteScreen { onPressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }

@@ -23,68 +23,68 @@ class TextNoteTest : ParentTest() {
         testData.clearAllData()
     }
 
-    @Test fun toolbarNoteCreate() = afterLaunch {
+    @Test fun toolbarCreate() = afterLaunch {
         MainScreen {
             addDialogUi {
-                textNoteScreen { toolbar { assert { onDisplayState(State.NEW, name = "") } } }
+                textNoteScreen { toolbar { assert { onDisplayName(State.NEW, name = "") } } }
             }
         }
     }
 
-    @Test fun toolbarNoteWithoutName() {
+    @Test fun toolbarWithoutName() {
         val noteItem = testData.insertText(testData.textNote.apply { name = "" })
 
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen() {
-                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
-                        toolbar { assert { onDisplayState(State.EDIT, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
                     }
                 }
             }
         }
     }
 
-    @Test fun toolbarNoteFromBinWithoutName() {
+    @Test fun toolbarFromBinWithoutName() {
         val noteItem = testData.insertTextToBin(testData.textNote.apply { name = "" })
 
         afterLaunch {
             MainScreen {
                 binScreen {
-                    textNoteScreen() {
-                        toolbar { assert { onDisplayState(State.BIN, noteItem.name) } }
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                     }
                 }
             }
         }
     }
 
-    @Test fun toolbarNoteWithName() {
+    @Test fun toolbarWithName() {
         val noteItem = testData.insertText()
 
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen() {
-                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
-                        toolbar { assert { onDisplayState(State.EDIT, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
                     }
                 }
             }
         }
     }
 
-    @Test fun toolbarNoteFromBinWithName() {
+    @Test fun toolbarFromBinWithName() {
         val noteItem = testData.insertTextToBin()
 
         afterLaunch {
             MainScreen {
                 binScreen {
-                    textNoteScreen() {
-                        toolbar { assert { onDisplayState(State.BIN, noteItem.name) } }
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                     }
                 }
             }
@@ -92,7 +92,7 @@ class TextNoteTest : ParentTest() {
     }
 
 
-    @Test fun toolbarNoteSaveAfterCreateByControl() = afterLaunch {
+    @Test fun toolbarSaveAfterCreateByControl() = afterLaunch {
         val noteItem = testData.textNote
 
         MainScreen {
@@ -100,49 +100,84 @@ class TextNoteTest : ParentTest() {
                 textNoteScreen {
                     toolbar { onEnterName(noteItem.name) }
                     onEnterText(noteItem.text)
+
+                    toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
                     controlPanel { onClickSave() }
-                    toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                    toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                 }
             }
         }
     }
 
-    @Test fun toolbarNoteSaveAfterCreateByBackPress() = afterLaunch {
-        TODO()
+    @Test fun toolbarSaveAfterCreateByBackPress() = afterLaunch {
+        val noteItem = testData.textNote
+
+        MainScreen {
+            addDialogUi {
+                textNoteScreen {
+                    toolbar { onEnterName(noteItem.name) }
+                    onEnterText(noteItem.text)
+
+                    toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
+                    onPressBack()
+                    toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                }
+            }
+        }
     }
 
-    @Test fun toolbarNoteSaveAfterEditByControl() {
+    @Test fun toolbarSaveAfterEditByControl() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen() {
-                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(newName) }
                         controlPanel { onClickSave() }
-                        toolbar { assert { onDisplayState(State.READ, newName) } }
+
+                        toolbar { assert { onDisplayName(State.READ, newName) } }
                     }
                 }
             }
         }
     }
 
-    @Test fun toolbarNoteSaveAfterEditByBackPress() {
+    @Test fun toolbarSaveAfterEditByBackPress() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen() {
-                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(newName) }
                         onPressBack()
-                        toolbar { assert { onDisplayState(State.READ, newName) } }
+
+                        toolbar { assert { onDisplayName(State.READ, newName) } }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun toolbarRestoreOpen() {
+        val noteItem = testData.insertTextToBin()
+
+        afterLaunch {
+            MainScreen {
+                binScreen {
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
+                        controlPanel { onClickRestoreOpen() }
+                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                     }
                 }
             }
@@ -150,7 +185,7 @@ class TextNoteTest : ParentTest() {
     }
 
 
-    @Test fun toolbarNoteCancelAfterCreate() = afterLaunch {
+    @Test fun toolbarCancelAfterCreate() = afterLaunch {
         MainScreen {
             addDialogUi { textNoteScreen { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
@@ -159,25 +194,176 @@ class TextNoteTest : ParentTest() {
         }
     }
 
-    @Test fun toolbarNoteCancelAfterEdit() {
+    @Test fun toolbarCancelAfterEdit() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    textNoteScreen() {
-                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                    textNoteScreen {
+                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+
                         controlPanel { onClickEdit() }
                         toolbar {
                             onEnterName(newName)
                             onClickBack()
                         }
-                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+
+                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                     }
                 }
             }
         }
     }
+
+
+    @Test fun contentCreate() = afterLaunch {
+        MainScreen {
+            addDialogUi {
+                textNoteScreen { assert { onDisplayText(State.EDIT, text = "") } }
+            }
+        }
+    }
+
+    @Test fun contentWithText() {
+        val noteItem = testData.insertText()
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    textNoteScreen {
+                        assert { onDisplayText(State.READ, noteItem.text) }
+                        controlPanel { onClickEdit() }
+                        assert { onDisplayText(State.EDIT, noteItem.text) }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun contentFromBinWithText() {
+        val noteItem = testData.insertTextToBin()
+
+        afterLaunch {
+            MainScreen {
+                binScreen { textNoteScreen { assert { onDisplayText(State.BIN, noteItem.text) } } }
+            }
+        }
+    }
+
+
+    @Test fun contentSaveAfterCreateByControl() = afterLaunch {
+        val noteItem = testData.textNote
+
+        MainScreen {
+            addDialogUi {
+                textNoteScreen {
+                    onEnterText(noteItem.text)
+
+                    assert { onDisplayText(State.EDIT, noteItem.text) }
+                    controlPanel { onClickSave() }
+                    assert { onDisplayText(State.READ, noteItem.text) }
+                }
+            }
+        }
+    }
+
+    @Test fun contentSaveAfterCreateByBackPress() = afterLaunch {
+        val noteItem = testData.textNote
+
+        MainScreen {
+            addDialogUi {
+                textNoteScreen {
+                    onEnterText(noteItem.text)
+
+                    assert { onDisplayText(State.EDIT, noteItem.text) }
+                    onPressBack()
+                    assert { onDisplayText(State.READ, noteItem.text) }
+                }
+            }
+        }
+    }
+
+    @Test fun contentSaveAfterEditByControl() {
+        val noteItem = testData.insertText()
+        val newText = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    textNoteScreen {
+                        assert { onDisplayText(State.READ, noteItem.text) }
+
+                        controlPanel { onClickEdit() }
+                        onEnterText(newText)
+                        controlPanel { onClickSave() }
+
+                        assert { onDisplayText(State.READ, newText) }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun contentSaveAfterEditByBackPress() {
+        val noteItem = testData.insertText()
+        val newText = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    textNoteScreen {
+                        assert { onDisplayText(State.READ, noteItem.text) }
+
+                        controlPanel { onClickEdit() }
+                        onEnterText(newText)
+                        onPressBack()
+
+                        assert { onDisplayText(State.READ, newText) }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun contentRestoreOpen() {
+        val noteItem = testData.insertTextToBin()
+
+        afterLaunch {
+            MainScreen {
+                binScreen {
+                    textNoteScreen {
+                        assert { onDisplayText(State.BIN, noteItem.text) }
+                        controlPanel { onClickRestoreOpen() }
+                        assert { onDisplayText(State.READ, noteItem.text) }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Test fun contentCancelAfterEdit() {
+        val noteItem = testData.insertText()
+        val newText = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    textNoteScreen {
+                        assert { onDisplayText(State.READ, noteItem.text) }
+
+                        controlPanel { onClickEdit() }
+                        onEnterText(newText)
+                        toolbar { onClickBack() }
+
+                        assert { onDisplayText(State.READ, noteItem.text) }
+                    }
+                }
+            }
+        }
+    }
+
 
 }

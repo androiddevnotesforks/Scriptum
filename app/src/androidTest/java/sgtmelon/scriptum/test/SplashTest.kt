@@ -4,7 +4,6 @@ import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
 import sgtmelon.scriptum.ui.screen.SplashScreen
@@ -36,7 +35,7 @@ class SplashTest : ParentTest() {
         }
 
         SplashScreen {
-            textNoteScreen(State.READ) { pressBack() }
+            textNoteScreen { pressBack() }
             mainScreen()
         }
     }
@@ -48,7 +47,7 @@ class SplashTest : ParentTest() {
         }
 
         SplashScreen {
-            rollNoteScreen(State.READ) { pressBack() }
+            rollNoteScreen { pressBack() }
             mainScreen()
         }
     }
