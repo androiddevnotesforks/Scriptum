@@ -92,7 +92,7 @@ class TextNoteTest : ParentTest() {
     }
 
 
-    @Test fun toolbarNoteSaveAfterCreate() = afterLaunch {
+    @Test fun toolbarNoteSaveAfterCreateByControl() = afterLaunch {
         val noteItem = testData.textNote
 
         MainScreen {
@@ -107,7 +107,11 @@ class TextNoteTest : ParentTest() {
         }
     }
 
-    @Test fun toolbarNoteSaveAfterEdit() {
+    @Test fun toolbarNoteSaveAfterCreateByBackPress() = afterLaunch {
+        TODO()
+    }
+
+    @Test fun toolbarNoteSaveAfterEditByControl() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
@@ -126,7 +130,7 @@ class TextNoteTest : ParentTest() {
         }
     }
 
-    @Test fun toolbarNoteSaveAfterEditByBack() {
+    @Test fun toolbarNoteSaveAfterEditByBackPress() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
@@ -148,10 +152,10 @@ class TextNoteTest : ParentTest() {
 
     @Test fun toolbarNoteCancelAfterCreate() = afterLaunch {
         MainScreen {
-            repeat(times = 3) {
-                addDialogUi { textNoteScreen { onCloseNote() } }
-                assert { onDisplayContent() }
-            }
+            addDialogUi { textNoteScreen { toolbar { onClickBack() } } }
+            assert { onDisplayContent() }
+            addDialogUi { textNoteScreen { onPressBack() } }
+            assert { onDisplayContent() }
         }
     }
 
@@ -175,4 +179,5 @@ class TextNoteTest : ParentTest() {
             }
         }
     }
+
 }

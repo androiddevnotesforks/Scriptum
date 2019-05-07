@@ -92,7 +92,7 @@ class RollNoteTest : ParentTest() {
     }
 
 
-    @Test fun toolbarNoteSaveAfterCreate() = afterLaunch {
+    @Test fun toolbarNoteSaveAfterCreateByControl() = afterLaunch {
         val noteItem = testData.rollNote
         val listRoll = testData.listRoll
 
@@ -108,7 +108,11 @@ class RollNoteTest : ParentTest() {
         }
     }
 
-    @Test fun toolbarNoteSaveAfterEdit() {
+    @Test fun toolbarNoteSaveAfterCreateByBackPress() = afterLaunch {
+        TODO()
+    }
+
+    @Test fun toolbarNoteSaveAfterEditByControl() {
         val noteItem = testData.insertRoll()
         val newName = testData.uniqueString
 
@@ -127,7 +131,7 @@ class RollNoteTest : ParentTest() {
         }
     }
 
-    @Test fun toolbarNoteSaveAfterEditByBack() {
+    @Test fun toolbarNoteSaveAfterEditByBackPress() {
         val noteItem = testData.insertRoll()
         val newName = testData.uniqueString
 
@@ -149,10 +153,10 @@ class RollNoteTest : ParentTest() {
 
     @Test fun toolbarNoteCancelAfterCreate() = afterLaunch {
         MainScreen {
-            repeat(times = 3) {
-                addDialogUi { rollNoteScreen { onCloseNote() } }
-                assert { onDisplayContent() }
-            }
+            addDialogUi { rollNoteScreen { toolbar { onClickBack() } } }
+            assert { onDisplayContent() }
+            addDialogUi { rollNoteScreen { onPressBack() } }
+            assert { onDisplayContent() }
         }
     }
 

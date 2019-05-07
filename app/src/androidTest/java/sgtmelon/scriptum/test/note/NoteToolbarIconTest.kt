@@ -131,10 +131,11 @@ class NoteToolbarIconTest : ParentTest() {
             MainScreen {
                 notesScreen {
                     textNoteScreen {
-                        repeat(times = 3) {
-                            waitAfter(time = 500) { controlPanel { onClickEdit() } }
-                            waitAfter(time = 500) { onCloseNote() }
-                        }
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { onPressBack() }
+
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { toolbar { onClickBack() } }
                     }
                 }
             }
@@ -148,10 +149,11 @@ class NoteToolbarIconTest : ParentTest() {
             MainScreen {
                 notesScreen {
                     rollNoteScreen {
-                        repeat(times = 3) {
-                            waitAfter(time = 500) { controlPanel { onClickEdit() } }
-                            waitAfter(time = 500) { onCloseNote() }
-                        }
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { onPressBack() }
+
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { toolbar { onClickBack() } }
                     }
                 }
             }

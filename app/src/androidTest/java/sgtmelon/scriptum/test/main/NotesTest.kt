@@ -72,7 +72,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen() { onCloseNote() }
+                textNoteScreen() { onPressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }
@@ -84,7 +84,7 @@ class NotesTest : ParentTest() {
         MainScreen {
             notesScreen {
                 assert { onDisplayContent(empty = false) }
-                rollNoteScreen() { onCloseNote() }
+                rollNoteScreen() { onPressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }
@@ -95,9 +95,7 @@ class NotesTest : ParentTest() {
 
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
-
-            addDialogUi { textNoteScreen { onCloseNote() } }
-
+            addDialogUi { textNoteScreen { onPressBack() } }
             notesScreen { assert { onDisplayContent(empty = true) } }
         }
     }
@@ -107,7 +105,7 @@ class NotesTest : ParentTest() {
 
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
-            addDialogUi { rollNoteScreen { onCloseNote() } }
+            addDialogUi { rollNoteScreen { onPressBack() } }
             notesScreen { assert { onDisplayContent(empty = true) } }
         }
     }
@@ -121,7 +119,7 @@ class NotesTest : ParentTest() {
             addDialogUi {
                 textNoteScreen {
                     testData.insertText()
-                    onCloseNote()
+                    toolbar { onClickBack() }
                 }
             }
 

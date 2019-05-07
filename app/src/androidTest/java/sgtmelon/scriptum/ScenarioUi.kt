@@ -310,9 +310,10 @@ private class ScenarioUi {
          * # Удалённая заметка с названием :: [TextNoteTest.toolbarNoteFromBinWithName]
          *
          * # Сохранение:
-         * # При создании заметки :: [TextNoteTest.toolbarNoteSaveAfterCreate]
-         * # После редактирования заметки :: [TextNoteTest.toolbarNoteSaveAfterEdit]
-         * # После редактирования заметки кнопкой назад :: [TextNoteTest.toolbarNoteSaveAfterEditByBack]
+         * # При создании заметки :: [TextNoteTest.toolbarNoteSaveAfterCreateByControl]
+         * # При создании заметки кнопкой назад :: [TextNoteTest.toolbarNoteSaveAfterCreateByBackPress]
+         * # После редактирования заметки :: [TextNoteTest.toolbarNoteSaveAfterEditByControl]
+         * # После редактирования заметки кнопкой назад :: [TextNoteTest.toolbarNoteSaveAfterEditByBackPress]
          *
          * # Отмена:
          * # При создании заметки :: [TextNoteTest.toolbarNoteCancelAfterCreate]
@@ -336,9 +337,10 @@ private class ScenarioUi {
          * # Удалённая заметка с названием :: [RollNoteTest.toolbarNoteFromBinWithName]
          *
          * # Сохранение:
-         * # При создании заметки :: [RollNoteTest.toolbarNoteSaveAfterCreate]
-         * # После редактирования заметки :: [RollNoteTest.toolbarNoteSaveAfterEdit]
-         * # После редактирования заметки кнопкой назад :: [RollNoteTest.toolbarNoteSaveAfterEditByBack]
+         * # При создании заметки :: [RollNoteTest.toolbarNoteSaveAfterCreateByControl]
+         * # При создании заметки кнопкой назад :: [RollNoteTest.toolbarNoteSaveAfterCreateByBackPress]
+         * # После редактирования заметки :: [RollNoteTest.toolbarNoteSaveAfterEditByControl]
+         * # После редактирования заметки кнопкой назад :: [RollNoteTest.toolbarNoteSaveAfterEditByBackPress]
          *
          * # Отмена:
          * # При создании заметки :: [TextNoteTest.toolbarNoteCancelAfterCreate]
