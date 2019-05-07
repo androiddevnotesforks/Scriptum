@@ -126,4 +126,53 @@ class TextNoteTest : ParentTest() {
         }
     }
 
+    @Test fun toolbarNoteSaveAfterEditByBack() {
+        val noteItem = testData.insertText()
+        val newName = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    textNoteScreen() {
+                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                        controlPanel { onClickEdit() }
+                        toolbar { onEnterName(newName) }
+                        onPressBack()
+                        toolbar { assert { onDisplayState(State.READ, newName) } }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Test fun toolbarNoteCancelAfterCreate() = afterLaunch {
+        MainScreen {
+            repeat(times = 3) {
+                addDialogUi { textNoteScreen { onCloseNote() } }
+                assert { onDisplayContent() }
+            }
+        }
+    }
+
+    @Test fun toolbarNoteCancelAfterEdit() {
+        val noteItem = testData.insertText()
+        val newName = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    textNoteScreen() {
+                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                        controlPanel { onClickEdit() }
+                        toolbar {
+                            onEnterName(newName)
+                            onClickBack()
+                        }
+                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -37,7 +37,7 @@ class RollNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    rollNoteScreen() {
+                    rollNoteScreen {
                         toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayState(State.EDIT, noteItem.name) } }
@@ -53,7 +53,7 @@ class RollNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 binScreen {
-                    rollNoteScreen() {
+                    rollNoteScreen {
                         toolbar { assert { onDisplayState(State.BIN, noteItem.name) } }
                     }
                 }
@@ -67,7 +67,7 @@ class RollNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    rollNoteScreen() {
+                    rollNoteScreen {
                         toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayState(State.EDIT, noteItem.name) } }
@@ -83,7 +83,7 @@ class RollNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 binScreen {
-                    rollNoteScreen() {
+                    rollNoteScreen {
                         toolbar { assert { onDisplayState(State.BIN, noteItem.name) } }
                     }
                 }
@@ -115,12 +115,62 @@ class RollNoteTest : ParentTest() {
         afterLaunch {
             MainScreen {
                 notesScreen {
-                    rollNoteScreen() {
+                    rollNoteScreen {
                         toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(newName) }
                         controlPanel { onClickSave() }
                         toolbar { assert { onDisplayState(State.READ, newName) } }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun toolbarNoteSaveAfterEditByBack() {
+        val noteItem = testData.insertRoll()
+        val newName = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    rollNoteScreen {
+                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                        controlPanel { onClickEdit() }
+                        toolbar { onEnterName(newName) }
+                        onPressBack()
+                        toolbar { assert { onDisplayState(State.READ, newName) } }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Test fun toolbarNoteCancelAfterCreate() = afterLaunch {
+        MainScreen {
+            repeat(times = 3) {
+                addDialogUi { rollNoteScreen { onCloseNote() } }
+                assert { onDisplayContent() }
+            }
+        }
+    }
+
+    @Test fun toolbarNoteCancelAfterEdit() {
+        val noteItem = testData.insertRoll()
+        val newName = testData.uniqueString
+
+        afterLaunch {
+            MainScreen {
+                notesScreen {
+                    rollNoteScreen {
+                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
+                        controlPanel { onClickEdit() }
+                        toolbar {
+                            onEnterName(newName)
+                            onClickBack()
+                        }
+                        toolbar { assert { onDisplayState(State.READ, noteItem.name) } }
                     }
                 }
             }

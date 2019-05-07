@@ -34,11 +34,7 @@ abstract class ParentTest {
         preference.theme = if (Math.random() < 0.5) ThemeDef.light else ThemeDef.dark
     }
 
-    @After @CallSuper open fun tearDown() {
-
-    }
-
-    // TODO сделать invoke функции запуска с доступом к SplashScreen и далее
+    @After @CallSuper open fun tearDown() {}
 
     protected fun beforeLaunch(intent: Intent = Intent(), func: () -> Unit) {
         func()

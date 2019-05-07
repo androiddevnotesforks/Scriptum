@@ -107,9 +107,7 @@ class NotesTest : ParentTest() {
 
         MainScreen {
             notesScreen { assert { onDisplayContent(empty = true) } }
-
             addDialogUi { rollNoteScreen { onCloseNote() } }
-
             notesScreen { assert { onDisplayContent(empty = true) } }
         }
     }
@@ -140,7 +138,7 @@ class NotesTest : ParentTest() {
             addDialogUi {
                 rollNoteScreen {
                     testData.insertRoll()
-                    onCloseNote()
+                    toolbar { onClickBack() }
                 }
             }
 

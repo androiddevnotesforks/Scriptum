@@ -312,6 +312,11 @@ private class ScenarioUi {
          * # Сохранение:
          * # При создании заметки :: [TextNoteTest.toolbarNoteSaveAfterCreate]
          * # После редактирования заметки :: [TextNoteTest.toolbarNoteSaveAfterEdit]
+         * # После редактирования заметки кнопкой назад :: [TextNoteTest.toolbarNoteSaveAfterEditByBack]
+         *
+         * # Отмена:
+         * # При создании заметки :: [TextNoteTest.toolbarNoteCancelAfterCreate]
+         * # После редактирования заметки :: [TextNoteTest.toolbarNoteCancelAfterEdit]
          */
 
     }
@@ -333,6 +338,11 @@ private class ScenarioUi {
          * # Сохранение:
          * # При создании заметки :: [RollNoteTest.toolbarNoteSaveAfterCreate]
          * # После редактирования заметки :: [RollNoteTest.toolbarNoteSaveAfterEdit]
+         * # После редактирования заметки кнопкой назад :: [RollNoteTest.toolbarNoteSaveAfterEditByBack]
+         *
+         * # Отмена:
+         * # При создании заметки :: [TextNoteTest.toolbarNoteCancelAfterCreate]
+         * # После редактирования заметки :: [TextNoteTest.toolbarNoteCancelAfterEdit]
          */
 
     }

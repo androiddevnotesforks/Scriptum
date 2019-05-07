@@ -31,12 +31,12 @@ class TextNoteScreen : ParentUi() {
     fun onEnterText(text: String) = action { onEnter(sgtmelon.scriptum.R.id.text_note_content_enter, text) }
 
     fun onCloseNote() {
-        if (Math.random() < 0.5) {
-            toolbar { onClickBack() }
-        } else {
-            closeSoftKeyboard()
-            pressBack()
-        }
+        if (Math.random() < 0.5) toolbar { onClickBack() } else onPressBack()
+    }
+
+    fun onPressBack() {
+        closeSoftKeyboard()
+        pressBack()
     }
 
     companion object {

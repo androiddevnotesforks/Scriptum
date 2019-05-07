@@ -32,12 +32,12 @@ class RollNoteScreen : ParentUi() {
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel().apply { func() }
 
     fun onCloseNote() {
-        if (Math.random() < 0.5) {
-            toolbar { onClickBack() }
-        } else {
-            closeSoftKeyboard()
-            pressBack()
-        }
+        if (Math.random() < 0.5) toolbar { onClickBack() } else onPressBack()
+    }
+
+    fun onPressBack() {
+        closeSoftKeyboard()
+        pressBack()
     }
 
     companion object {
