@@ -42,11 +42,9 @@ class InputTextWatcher(private val view: EditText?,
 
         textFrom = textTo
         cursorFrom = cursorTo
-
-        changeCallback.onResultInputTextChange()
     }
 
-    override fun afterTextChanged(s: Editable?) {}
+    override fun afterTextChanged(s: Editable?) = changeCallback.onResultInputTextChange()
 
     interface TextChange {
         fun onResultInputTextChange()

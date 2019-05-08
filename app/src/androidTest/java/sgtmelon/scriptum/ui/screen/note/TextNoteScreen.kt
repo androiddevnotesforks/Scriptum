@@ -27,7 +27,7 @@ class TextNoteScreen : ParentUi() {
         func()
     }
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel().apply { func() }
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel(NoteType.TEXT).apply { func() }
 
     fun onEnterText(text: String) = action { onEnter(R.id.text_note_content_enter, text) }
 
@@ -58,8 +58,6 @@ class TextNoteScreen : ParentUi() {
                     notDisplay(R.id.text_note_content_text)
                 }
             }
-
-            NotePanel { assert { onDisplayContent(state, NoteType.TEXT) } }
         }
 
         fun onDisplayText(state: State, text: String) = when (state) {

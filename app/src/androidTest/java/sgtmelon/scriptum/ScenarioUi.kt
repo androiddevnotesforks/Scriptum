@@ -9,11 +9,13 @@ import sgtmelon.scriptum.test.main.MainTest
 import sgtmelon.scriptum.test.main.NotesTest
 import sgtmelon.scriptum.test.main.RankTest
 import sgtmelon.scriptum.test.note.NoteToolbarIconTest
-import sgtmelon.scriptum.test.note.RollNoteTest
-import sgtmelon.scriptum.test.note.TextNoteTest
+import sgtmelon.scriptum.test.note.roll.*
+import sgtmelon.scriptum.test.note.text.*
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.main.RankScreen
+import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Описание сценариев для UI тестов
@@ -69,7 +71,7 @@ private class ScenarioUi {
          */
 
         /**
-         * UI - Доступ к кнопке end :: [IntroTest.endButtonEnable]
+         * UI - Доступ к кнопке end :: [IntroTest.endButtonEnabled]
          */
 
         /**
@@ -136,7 +138,7 @@ private class ScenarioUi {
          * # Доступ к кнопке добавить
          * # Пустой текст :: [RankTest.toolbarEnterAddEmpty]
          * # Текст из списка :: [RankTest.toolbarEnterAddFromList]
-         * # Доступна :: [RankTest.toolbarEnterAddEnable]
+         * # Доступна :: [RankTest.toolbarEnterAddEnabled]
          *
          * # Работа кнопки отчистки :: [RankTest.toolbarEnterClear]
          * # Добавление категории в начало :: [RankTest.toolbarEnterAddStart]
@@ -295,94 +297,241 @@ private class ScenarioUi {
     }
 
 
-    /**
-     * Сценарии для [TextNoteTest]
-     */
     class TextNote {
 
         /**
-         * UI - Тулбар
-         * # Контент:
-         * # Только что созданная заметка :: [TextNoteTest.toolbarCreate]
-         * # Заметка без названия :: [TextNoteTest.toolbarWithoutName]
-         * # Удалённая заметка без названия :: [TextNoteTest.toolbarFromBinWithoutName]
-         * # Заметка с названием :: [TextNoteTest.toolbarWithName]
-         * # Удалённая заметка с названием :: [TextNoteTest.toolbarFromBinWithName]
-         *
-         * # Сохранение:
-         * # При создании заметки :: [TextNoteTest.toolbarSaveAfterCreateByControl]
-         * # При создании заметки кнопкой назад :: [TextNoteTest.toolbarSaveAfterCreateByBackPress]
-         * # После редактирования заметки :: [TextNoteTest.toolbarSaveAfterEditByControl]
-         * # После редактирования заметки кнопкой назад :: [TextNoteTest.toolbarSaveAfterEditByBackPress]
-         * # После восстановления из корзины :: [TextNoteTest.toolbarRestoreOpen]
-         *
-         * # Отмена:
-         * # При создании заметки :: [TextNoteTest.toolbarCancelAfterCreate]
-         * # После редактирования заметки :: [TextNoteTest.toolbarCancelAfterEdit]
+         * Сценарии для [TextNoteToolbarTest]
          */
+        class Toolbar {
+
+            /**
+             * UI - Закрытие заметки:
+             * # Только что созданная заметка кнопкой на тулбаре :: [TextNoteToolbarTest.closeByToolbarOnCreate]
+             * # Только что созданная заметка кнопкой назад :: [TextNoteToolbarTest.closeByBackPressOnCreate]
+             * # Открытая заметка кнопкой на тулбаре :: [TextNoteToolbarTest.closeByToolbarOnOpen]
+             * # Открытая заметка кнопкой назад :: [TextNoteToolbarTest.closeByBackPressOnOpen]
+             * # Открытая заметка из корзины кнопкой на тулбаре :: [TextNoteToolbarTest.closeByToolbarOnOpenFromBin]
+             * # Открытая заметка из корзины кнопкой назад :: [TextNoteToolbarTest.closeByBackPressOnOpenFromBin]
+             */
+
+            /**
+             * UI - Отображение:
+             * # Только что созданная заметка :: [TextNoteToolbarTest.contentEmptyOnCreate]
+             * # Открытая заметка без названия :: [TextNoteToolbarTest.contentEmptyOnOpen]
+             * # Открытая заметка с названием :: [TextNoteToolbarTest.contentFillOnOpen]
+             * # Открытая заметка из корзины без названия :: [TextNoteToolbarTest.contentEmptyOnOpenFromBin]
+             * # Открытая заметка из корзины с названием :: [TextNoteToolbarTest.contentFillOnOpenFromBin]
+             * # После восстановления из корзины :: [TextNoteToolbarTest.contentFillOnRestoreOpen]
+             */
+
+            /**
+             * UI - Сохранение:
+             * # При создании заметки :: [TextNoteToolbarTest.saveByControlOnCreate]
+             * # При создании заметки кнопкой назад :: [TextNoteToolbarTest.saveByBackPressOnCreate]
+             * # После редактирования заметки :: [TextNoteToolbarTest.saveByControlOnEdit]
+             * # После редактирования заметки кнопкой назад :: [TextNoteToolbarTest.saveByBackPressOnEdit]
+             */
+
+            /**
+             * UI - Отмена:
+             * # После редактирования заметки :: [TextNoteToolbarTest.cancelOnEditByToolbar]
+             */
+
+        }
 
         /**
-         * UI - Поле ввода текста
-         * # Контент:
-         * # Только что созданная заметка :: [TextNoteTest.contentCreate]
-         * # Заметка с текстом :: [TextNoteTest.contentWithText]
-         * # Удалённая заметка с текстом :: [TextNoteTest.contentFromBinWithText]
-         *
-         * # Сохранение:
-         * # При создании заметки :: [TextNoteTest.contentSaveAfterCreateByControl]
-         * # При создании заметки кнопкой назад :: [TextNoteTest.contentSaveAfterCreateByBackPress]
-         * # После редактирования заметки :: [TextNoteTest.contentSaveAfterEditByControl]
-         * # После редактирования заметки кнопкой назад :: [TextNoteTest.contentSaveAfterEditByBackPress]
-         * # После восстановления из корзины :: [TextNoteTest.contentRestoreOpen]
-         *
-         * # Отмена:
-         * # После редактирования заметки :: [TextNoteTest.contentCancelAfterEdit]
+         * Сценарии для [TextNoteContentTest]
          */
+        class Content {
+
+            /**
+             * UI - Отображение:
+             * # Только что созданная заметка :: [TextNoteContentTest.contentEmptyOnCreate]
+             * # Открытая заметка :: [TextNoteContentTest.contentFillOnOpen]
+             * # Открытая заметка из корзины :: [TextNoteContentTest.contentFillOnOpenFromBin]
+             * # После восстановления из корзины :: [TextNoteContentTest.contentFillOnRestoreOpen]
+             */
+
+            /**
+             * UI - Сохранение:
+             * # При создании заметки :: [TextNoteContentTest.saveByControlOnCreate]
+             * # При создании заметки кнопкой назад :: [TextNoteContentTest.saveByBackPressOnCreate]
+             * # После редактирования заметки :: [TextNoteContentTest.saveByControlOnEdit]
+             * # После редактирования заметки кнопкой назад :: [TextNoteContentTest.saveByBackPressOnEdit]
+             */
+
+            /**
+             * UI - Отмена:
+             * # После редактирования заметки :: [TextNoteContentTest.cancelOnEditByToolbar]
+             */
+
+        }
 
         /**
-         * UI - Панель управления - TODO
+         * Сценарии для [TextNotePanelTest]
          */
+        class Panel {
+
+            /**
+             * UI - Отображение:
+             * # Только что созданная заметка :: [TextNotePanelTest.displayOnCreate]
+             * # Открытая заметка :: [TextNotePanelTest.displayOnOpenNote]
+             * # Открытая заметка из корзины :: [TextNotePanelTest.displayOnOpenNoteFromBin]
+             * # После восстановления из корзины :: [TextNotePanelTest.displayOnRestoreOpen]
+             */
+
+            /**
+             * UI - Сохранение
+             * # При создании заметки :: [TextNotePanelTest.saveByControlOnCreate]
+             * # При создании заметки кнопкой назад :: [TextNotePanelTest.saveByPressBackOnCreate]
+             * # После редактирования заметки :: [TextNotePanelTest.saveByControlOnEdit]
+             * # После редактирования заметки кнопкой назад :: [TextNotePanelTest.saveByPressBackOnEdit]
+             */
+
+            /**
+             * UI - Отмена:
+             * # После редактирования заметки :: [TextNotePanelTest.cancelOnEditByToolbar]
+             */
+
+            /**
+             * UI/CONTROL - Функционал
+             * # Корзина:
+             * # Востановление :: [TextNotePanelTest.actionRestoreFromBin]
+             * # Восстановление с открытием :: [TextNotePanelTest.actionRestoreOpenFromBin]
+             * # Удаление на всегда :: [TextNotePanelTest.actionClearFromBin]
+             *
+             * # Созданная/редактируемая заметка:
+             * # Сохранение при создании заметки :: [TextNotePanelTest.actionSaveOnCreate]
+             * # Сохранение после редактирования заметки :: [TextNotePanelTest.actionSaveOnEdit]
+             *
+             * # Открытая заметка:
+             * # Прикрепить к статус бару :: [TextNotePanelTest.actionBindToStatusBar]
+             * # Открепить от статус бара :: [TextNotePanelTest.actionUnbindFromStatusBar]
+             * # Удалить заметку :: [TextNotePanelTest.actionDelete]
+             */
+
+        }
+
+        /**
+         * Сценарии для [TextNoteInputTest]
+         */
+        class Input {
+
+            /**
+             * UI - TODO
+             */
+
+        }
+
+        /**
+         * Сценарии для [TextNoteDialogTest]
+         */
+        class Dialog {
+
+            /**
+             * UI -
+             */
+
+        }
 
     }
 
-    /**
-     * Сценарии для [RollNoteTest]
-     */
     class RollNote {
 
         /**
-         * UI - Тулбар
-         * # Контент:
-         * # Только что созданная заметка :: [RollNoteTest.toolbarCreate]
-         * # Заметка без названия :: [RollNoteTest.toolbarWithoutName]
-         * # Удалённая заметка без названия :: [RollNoteTest.toolbarFromBinWithoutName]
-         * # Заметка с названием :: [RollNoteTest.toolbarWithName]
-         * # Удалённая заметка с названием :: [RollNoteTest.toolbarFromBinWithName]
-         *
-         * # Сохранение:
-         * # При создании заметки :: [RollNoteTest.toolbarSaveAfterCreateByControl]
-         * # При создании заметки кнопкой назад :: [RollNoteTest.toolbarSaveAfterCreateByBackPress]
-         * # После редактирования заметки :: [RollNoteTest.toolbarSaveAfterEditByControl]
-         * # После редактирования заметки кнопкой назад :: [RollNoteTest.toolbarSaveAfterEditByBackPress]
-         * # После восстановления из корзины :: [RollNoteTest.toolbarRestoreOpen]
-         *
-         * # Отмена:
-         * # При создании заметки кнопкой тулбара :: [TextNoteTest.toolbarCancelAfterCreate]
-         * # После редактирования заметки :: [TextNoteTest.toolbarCancelAfterEdit]
+         * Сценарии для [RollNoteToolbarTest]
          */
+        class Toolbar {
+
+            /**
+             * UI - Закрытие заметки:
+             * # Только что созданная заметка кнопкой на тулбаре :: [RollNoteToolbarTest.closeByToolbarOnCreate]
+             * # Только что созданная заметка кнопкой назад :: [RollNoteToolbarTest.closeByBackPressOnCreate]
+             * # Открытая заметка кнопкой на тулбаре :: [RollNoteToolbarTest.closeByToolbarOnOpen]
+             * # Открытая заметка кнопкой назад :: [RollNoteToolbarTest.closeByBackPressOnOpen]
+             * # Открытая заметка из корзины кнопкой на тулбаре :: [RollNoteToolbarTest.closeByToolbarOnOpenFromBin]
+             * # Открытая заметка из корзины кнопкой назад :: [RollNoteToolbarTest.closeByBackPressOnOpenFromBin]
+             */
+
+            /**
+             * UI - Отображение:
+             * # Только что созданная заметка :: [RollNoteToolbarTest.contentEmptyOnCreate]
+             * # Открытая заметка без названия :: [RollNoteToolbarTest.contentEmptyOnOpen]
+             * # Открытая заметка с названием :: [RollNoteToolbarTest.contentFillOnOpen]
+             * # Открытая заметка из корзины без названия :: [RollNoteToolbarTest.contentEmptyOnOpenFromBin]
+             * # Открытая заметка из корзины с названием :: [RollNoteToolbarTest.contentFillOnOpenFromBin]
+             * # После восстановления из корзины :: [RollNoteToolbarTest.contentFillOnRestoreOpen]
+             */
+
+            /**
+             * UI - Сохранение:
+             * # При создании заметки :: [RollNoteToolbarTest.saveByControlOnCreate]
+             * # При создании заметки кнопкой назад :: [RollNoteToolbarTest.saveByBackPressOnCreate]
+             * # После редактирования заметки :: [RollNoteToolbarTest.saveByControlOnEdit]
+             * # После редактирования заметки кнопкой назад :: [RollNoteToolbarTest.saveByBackPressOnEdit]
+             */
+
+            /**
+             * UI - Отмена:
+             * # После редактирования заметки :: [RollNoteToolbarTest.cancelOnEditByToolbar]
+             */
+
+        }
 
         /**
-         * UI - Список пунктов - TODO
+         * Сценарии для [RollNoteContentTest]
          */
+        class Content {
+
+            /**
+             * UI - TODO
+             */
+
+        }
 
         /**
-         * UI - Панель ввода - TODO
+         * Сценарии для [RollNoteEnterTest]
          */
+        class Enter {
+
+            /**
+             * UI - TODO
+             */
+
+        }
 
         /**
-         * UI - Панель управления - TODO
+         * Сценарии для [RollNotePanelTest]
          */
+        class Panel {
 
+            /**
+             * UI - TODO
+             */
+
+        }
+
+        /**
+         * Сценарии для [RollNoteInputTest]
+         */
+        class Input {
+
+            /**
+             * UI - TODO
+             */
+
+        }
+
+        /**
+         * Сценарии для [RollNoteDialogTest]
+         */
+        class Dialog {
+
+            /**
+             * UI -
+             */
+
+        }
     }
 
     /**
@@ -428,6 +577,11 @@ private class ScenarioUi {
 
 
     /**
+     * TODO
+     */
+    class Preference
+
+    /**
      * Сценарии для [RotationTest]
      */
     class Rotation {
@@ -466,6 +620,14 @@ private class ScenarioUi {
          * # Диалог управления заметкой:
          * # Текст :: [RotationTest.binScreenTextNoteDialog]
          * # Список :: [RotationTest.binScreenRollNoteDialog]
+         */
+
+        /**
+         * CONTROL - Страница [TextNoteScreen] - TODO
+         */
+
+        /**
+         * CONTROL - Страница [RollNoteScreen] - TODO
          */
 
     }

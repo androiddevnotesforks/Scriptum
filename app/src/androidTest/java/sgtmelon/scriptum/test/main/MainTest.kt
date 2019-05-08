@@ -65,6 +65,7 @@ class MainTest : ParentTest() {
         }
     }
 
+
     @Test fun addDialogOpen() = afterLaunch { MainScreen { addDialogUi() } }
 
     @Test fun addDialogCloseSoft() = afterLaunch {
@@ -88,6 +89,7 @@ class MainTest : ParentTest() {
     @Test fun addDialogCreateRollNote() = afterLaunch {
         MainScreen { addDialogUi { rollNoteScreen() } }
     }
+
 
     @Test fun rankScreenScrollTop() {
         beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }

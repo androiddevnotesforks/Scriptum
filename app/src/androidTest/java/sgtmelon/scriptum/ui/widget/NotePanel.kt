@@ -6,25 +6,33 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
-class NotePanel : ParentUi() {
+class NotePanel(private val type: NoteType) : ParentUi() {
 
-    // TODO Доступ через Text/Roll Note
+    fun assert(func: Assert.() -> Unit) = Assert(type).apply { func() }
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun onClickRestore() = action { onClick(R.id.note_panel_restore_button) }
+    fun onClickRestoreOpen() = action { onClick(R.id.note_panel_restore_open_button) }
+    fun onClickClear() = action { onClick(R.id.note_panel_clear_button) }
 
+    fun onClickUndo() = action { onClick(R.id.note_panel_undo_button) }
+    fun onClickRedo() = action { onClick(R.id.note_panel_redo_button) }
+    fun onClickRank() = action { onClick(R.id.note_panel_rank_button) }
+    fun onClickColor() = action { onClick(R.id.note_panel_color_button) }
     fun onClickSave() = action { onClick(R.id.note_panel_save_button) }
 
+    fun onClickCheck() = action { onClick(R.id.note_panel_check_button) }
+    fun onClickBind() = action { onClick(R.id.note_panel_bind_button) }
+    fun onClickConvert() = action { onClick(R.id.note_panel_convert_button) }
+    fun onClickDelete() = action { onClick(R.id.note_panel_delete_button) }
     fun onClickEdit() = action { onClick(R.id.note_panel_edit_button) }
 
-    fun onClickRestoreOpen() = action { onClick(R.id.note_panel_restore_open_button) }
+    class Assert(private val type: NoteType) : BasicMatch() {
 
-    companion object {
-        operator fun invoke(func: NotePanel.() -> Unit) = NotePanel().apply { func() }
-    }
+        // TODO enable кнопок
 
-    class Assert : BasicMatch() {
+        fun isEnabledUndo(enabled : Boolean) = isEnabled(R.id.note_panel_undo_button, enabled)
 
-        fun onDisplayContent(state: State, type: NoteType) {
+        fun onDisplayContent(state: State) {
             onDisplay(R.id.note_panel_container)
 
             when (state) {

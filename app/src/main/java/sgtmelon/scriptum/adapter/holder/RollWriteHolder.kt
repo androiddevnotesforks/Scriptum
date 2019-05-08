@@ -86,11 +86,10 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
             textFrom = textTo
             cursorFrom = cursorTo
         }
-
-        changeCallback.onResultInputRollChange(adapterPosition, s.toString())
     }
 
-    override fun afterTextChanged(s: Editable) {}
+    override fun afterTextChanged(s: Editable) =
+            changeCallback.onResultInputRollChange(adapterPosition, s.toString())
 
     interface RollChange {
         fun onResultInputRollChange(p: Int, text: String)

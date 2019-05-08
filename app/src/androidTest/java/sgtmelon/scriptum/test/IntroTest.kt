@@ -28,7 +28,7 @@ class IntroTest : ParentTest() {
         SplashScreen { introScreen { passThrough(Scroll.END) } }
     }
 
-    @Test fun endButtonEnable() {
+    @Test fun endButtonEnabled() {
         SplashScreen {
             introScreen {
                 passThrough(Scroll.END)

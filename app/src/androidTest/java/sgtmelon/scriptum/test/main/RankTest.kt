@@ -75,7 +75,7 @@ class RankTest : ParentTest() {
         }
     }
 
-    @Test fun toolbarEnterAddEnable() {
+    @Test fun toolbarEnterAddEnabled() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {

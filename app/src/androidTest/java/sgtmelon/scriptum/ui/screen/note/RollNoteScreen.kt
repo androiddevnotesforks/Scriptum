@@ -29,7 +29,7 @@ class RollNoteScreen : ParentUi() {
 
     fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel().apply { func() }
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel().apply { func() }
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel(NoteType.ROLL).apply { func() }
 
     fun onPressBack() {
         closeSoftKeyboard()
@@ -47,7 +47,6 @@ class RollNoteScreen : ParentUi() {
             onDisplay(R.id.roll_note_recycler)
 
             RollEnterPanel { assert { onDisplayContent(state) } }
-            NotePanel { assert { onDisplayContent(state, NoteType.ROLL) } }
         }
 
     }
