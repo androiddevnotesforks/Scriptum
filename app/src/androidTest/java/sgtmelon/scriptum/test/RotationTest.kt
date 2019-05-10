@@ -20,7 +20,7 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun addDialog() = afterLaunch {
-        MainScreen { addDialogUi { waitBefore(time = 5000) { assert { onDisplayContent() } } } }
+        MainScreen { openAddDialog { waitBefore(time = 5000) { assert { onDisplayContent() } } } }
     }
 
 
@@ -28,7 +28,7 @@ class RotationTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 assert { onDisplayContent(empty = true) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
@@ -41,7 +41,7 @@ class RotationTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillRank() }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 assert { onDisplayContent(empty = false) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
@@ -56,8 +56,8 @@ class RotationTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
-                    renameDialogUi(rankItem.name) {
+                openRankPage {
+                    openRenameDialog(rankItem.name) {
                         onEnterName(newName)
 
                         assert { onDisplayContent(newName) }
@@ -73,7 +73,7 @@ class RotationTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            notesScreen {
+            openNotesPage {
                 assert { onDisplayContent(empty = true) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
@@ -86,7 +86,7 @@ class RotationTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillNotes() }
 
         MainScreen {
-            notesScreen {
+            openNotesPage {
                 assert { onDisplayContent(empty = false) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
@@ -100,8 +100,8 @@ class RotationTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    noteDialogUi(noteItem) {
+                openNotesPage {
+                    openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }
@@ -114,8 +114,8 @@ class RotationTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    noteDialogUi(noteItem) {
+                openNotesPage {
+                    openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }
@@ -128,7 +128,7 @@ class RotationTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            binScreen {
+            openBinPage {
                 assert { onDisplayContent(empty = true) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
@@ -141,7 +141,7 @@ class RotationTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillBin() }
 
         MainScreen {
-            binScreen {
+            openBinPage {
                 assert { onDisplayContent(empty = false) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
@@ -154,8 +154,8 @@ class RotationTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillBin() }
 
         MainScreen {
-            binScreen {
-                clearDialogUi {
+            openBinPage {
+                openClearDialog {
                     assert { onDisplayContent() }
                     waitBefore(time = 5000) { assert { onDisplayContent() } }
                 }
@@ -168,8 +168,8 @@ class RotationTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    noteDialogUi(noteItem) {
+                openBinPage {
+                    openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }
@@ -182,8 +182,8 @@ class RotationTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    noteDialogUi(noteItem) {
+                openBinPage {
+                    openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
                     }
                 }

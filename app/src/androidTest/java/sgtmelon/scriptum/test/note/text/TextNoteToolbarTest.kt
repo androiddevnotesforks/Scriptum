@@ -25,14 +25,14 @@ class TextNoteToolbarTest : ParentTest() {
 
     @Test fun closeByToolbarOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi { textNoteScreen { toolbar { onClickBack() } } }
+            openAddDialog { createTextNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
 
     @Test fun closeByBackPressOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi { textNoteScreen { onPressBack() } }
+            openAddDialog { createTextNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
@@ -41,7 +41,7 @@ class TextNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertText() }
 
         MainScreen {
-            notesScreen { textNoteScreen { toolbar { onClickBack() } } }
+            openNotesPage { openTextNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
@@ -50,7 +50,7 @@ class TextNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertText() }
 
         MainScreen {
-            notesScreen { textNoteScreen { onPressBack() } }
+            openNotesPage { openTextNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
@@ -59,7 +59,7 @@ class TextNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertTextToBin() }
 
         MainScreen {
-            binScreen { textNoteScreen { toolbar { onClickBack() } } }
+            openBinPage { openTextNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
@@ -68,7 +68,7 @@ class TextNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertTextToBin() }
 
         MainScreen {
-            binScreen { textNoteScreen { onPressBack() } }
+            openBinPage { openTextNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
@@ -76,8 +76,8 @@ class TextNoteToolbarTest : ParentTest() {
 
     @Test fun contentEmptyOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi {
-                textNoteScreen { toolbar { assert { onDisplayName(State.NEW, name = "") } } }
+            openAddDialog {
+                createTextNote { toolbar { assert { onDisplayName(State.NEW, name = "") } } }
             }
         }
     }
@@ -87,8 +87,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
@@ -103,8 +103,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
@@ -119,8 +119,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    textNoteScreen {
+                openBinPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                     }
                 }
@@ -133,8 +133,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    textNoteScreen {
+                openBinPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                     }
                 }
@@ -147,8 +147,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    textNoteScreen {
+                openBinPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                         controlPanel { onClickRestoreOpen() }
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
@@ -163,8 +163,8 @@ class TextNoteToolbarTest : ParentTest() {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi {
-                textNoteScreen {
+            openAddDialog {
+                createTextNote {
                     toolbar { onEnterName(noteItem.name) }
                     onEnterText(noteItem.text)
 
@@ -180,8 +180,8 @@ class TextNoteToolbarTest : ParentTest() {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi {
-                textNoteScreen {
+            openAddDialog {
+                createTextNote {
                     toolbar { onEnterName(noteItem.name) }
                     onEnterText(noteItem.text)
 
@@ -199,8 +199,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
 
                         controlPanel { onClickEdit() }
@@ -220,8 +220,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
 
                         controlPanel { onClickEdit() }
@@ -242,8 +242,8 @@ class TextNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
 
                         controlPanel { onClickEdit() }

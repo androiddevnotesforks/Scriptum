@@ -25,18 +25,18 @@ class IntroTest : ParentTest() {
     }
 
     @Test fun contentPlacement() {
-        SplashScreen { introScreen { passThrough(Scroll.END) } }
+        SplashScreen { introScreen { onPassThrough(Scroll.END) } }
     }
 
     @Test fun endButtonEnabled() {
         SplashScreen {
             introScreen {
-                passThrough(Scroll.END)
+                onPassThrough(Scroll.END)
                 assert { onDisplayEndButton() }
 
-                passThrough(Scroll.START)
+                onPassThrough(Scroll.START)
 
-                passThrough(Scroll.END)
+                onPassThrough(Scroll.END)
                 assert { onDisplayEndButton() }
             }
         }

@@ -19,13 +19,13 @@ class AddDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun textNoteScreen(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun createTextNote(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
         onClickItem(NoteType.TEXT)
         assert { onDisplayContent(State.NEW) }
         func()
     }
 
-    fun rollNoteScreen(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun createRollNote(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
         onClickItem(NoteType.ROLL)
         assert { onDisplayContent(State.NEW) }
         func()
@@ -35,7 +35,7 @@ class AddDialogUi : ParentUi() {
 
     fun onCloseSwipe() = action {
         onSwipeDown(R.id.add_navigation)
-        wait(time = 500)
+        waitBefore(time = 500)
     }
 
     private fun onClickItem(type: NoteType) = action {

@@ -28,9 +28,10 @@ class NotePanel(private val type: NoteType) : ParentUi() {
 
     class Assert(private val type: NoteType) : BasicMatch() {
 
-        // TODO enable кнопок
-
         fun isEnabledUndo(enabled : Boolean) = isEnabled(R.id.note_panel_undo_button, enabled)
+        fun isEnabledRedo(enabled : Boolean) = isEnabled(R.id.note_panel_redo_button, enabled)
+        fun isEnabledRank(enabled : Boolean) = isEnabled(R.id.note_panel_rank_button, enabled)
+        fun isEnabledSave(enabled : Boolean) = isEnabled(R.id.note_panel_save_button, enabled)
 
         fun onDisplayContent(state: State) {
             onDisplay(R.id.note_panel_container)

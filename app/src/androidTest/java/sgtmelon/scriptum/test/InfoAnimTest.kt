@@ -18,7 +18,7 @@ class InfoAnimTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 val name = testData.uniqueString
 
                 repeat(times = 3) {
@@ -42,7 +42,7 @@ class InfoAnimTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                waitAfter(time = 500) { notesScreen { noteDialogUi(noteItem) { onClickDelete() } } }
+                waitAfter(time = 500) { openNotesPage { openNoteDialog(noteItem) { onClickDelete() } } }
             }
         }
     }
@@ -52,8 +52,8 @@ class InfoAnimTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen { noteDialogUi(noteItem) { onClickRestore() } }
-                notesScreen { wait(time = 500) }
+                openBinPage { openNoteDialog(noteItem) { onClickRestore() } }
+                openNotesPage { wait(time = 500) }
             }
         }
     }
@@ -64,7 +64,7 @@ class InfoAnimTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                waitAfter(time = 500) { binScreen { noteDialogUi(noteItem) { onClickClear() } } }
+                waitAfter(time = 500) { openBinPage { openNoteDialog(noteItem) { onClickClear() } } }
             }
         }
     }
@@ -74,8 +74,8 @@ class InfoAnimTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen { noteDialogUi(noteItem) { onClickDelete() } }
-                binScreen { wait(time = 500) }
+                openNotesPage { openNoteDialog(noteItem) { onClickDelete() } }
+                openBinPage { wait(time = 500) }
             }
         }
     }

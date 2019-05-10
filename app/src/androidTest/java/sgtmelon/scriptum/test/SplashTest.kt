@@ -35,7 +35,7 @@ class SplashTest : ParentTest() {
         }
 
         SplashScreen {
-            textNoteScreen { pressBack() }
+            openTextNoteNotification { pressBack() }
             mainScreen()
         }
     }
@@ -47,7 +47,7 @@ class SplashTest : ParentTest() {
         }
 
         SplashScreen {
-            rollNoteScreen { pressBack() }
+            openRollNoteNotification { pressBack() }
             mainScreen()
         }
     }

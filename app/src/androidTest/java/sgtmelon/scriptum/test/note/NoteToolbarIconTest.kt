@@ -25,19 +25,19 @@ class NoteToolbarIconTest : ParentTest() {
     }
 
     @Test fun arrowBackOnCreateTextNote() = afterLaunch {
-        MainScreen { addDialogUi { textNoteScreen { wait(time = 500) } } }
+        MainScreen { openAddDialog { createTextNote { wait(time = 500) } } }
     }
 
     @Test fun arrowBackOnCreateRollNote() = afterLaunch {
-        MainScreen { addDialogUi { rollNoteScreen { wait(time = 500) } } }
+        MainScreen { openAddDialog { createRollNote { wait(time = 500) } } }
     }
 
     @Test fun notAnimateOnSaveCreateTextNote() = afterLaunch {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi {
-                textNoteScreen {
+            openAddDialog {
+                createTextNote {
                     onEnterText(noteItem.text)
                     waitAfter(time = 500) { controlPanel { onClickSave() } }
                 }
@@ -49,8 +49,8 @@ class NoteToolbarIconTest : ParentTest() {
         val listRoll = testData.listRoll
 
         MainScreen {
-            addDialogUi {
-                rollNoteScreen {
+            openAddDialog {
+                createRollNote {
                     enterPanel { onAddRoll(listRoll[0].text) }
                     waitAfter(time = 500) { controlPanel { onClickSave() } }
                 }
@@ -63,8 +63,8 @@ class NoteToolbarIconTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    textNoteScreen {
+                openBinPage {
+                    openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
                     }
                 }
@@ -77,8 +77,8 @@ class NoteToolbarIconTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    rollNoteScreen {
+                openBinPage {
+                    openRollNote {
                         waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
                     }
                 }
@@ -91,8 +91,8 @@ class NoteToolbarIconTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         controlPanel {
                             repeat(times = 3) {
                                 waitAfter(time = 500) { onClickEdit() }
@@ -110,8 +110,8 @@ class NoteToolbarIconTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    rollNoteScreen {
+                openNotesPage {
+                    openRollNote {
                         controlPanel {
                             repeat(times = 3) {
                                 waitAfter(time = 500) { onClickEdit() }
@@ -129,8 +129,8 @@ class NoteToolbarIconTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickEdit() } }
                         waitAfter(time = 500) { onPressBack() }
 
@@ -147,8 +147,8 @@ class NoteToolbarIconTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    rollNoteScreen {
+                openNotesPage {
+                    openRollNote {
                         waitAfter(time = 500) { controlPanel { onClickEdit() } }
                         waitAfter(time = 500) { onPressBack() }
 

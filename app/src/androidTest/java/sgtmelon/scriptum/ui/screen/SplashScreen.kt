@@ -19,18 +19,18 @@ class SplashScreen : ParentUi() {
         func()
     }
 
-    fun textNoteScreen(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
-        assert { onDisplayContent(State.READ) }
-        func()
-    }
-
-    fun rollNoteScreen(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
-        assert { onDisplayContent(State.READ) }
-        func()
-    }
-
     fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen().apply {
         assert { onDisplayContent() }
+        func()
+    }
+
+    fun openTextNoteNotification(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+        assert { onDisplayContent(State.READ) }
+        func()
+    }
+
+    fun openRollNoteNotification(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+        assert { onDisplayContent(State.READ) }
         func()
     }
 

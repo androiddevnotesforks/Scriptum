@@ -25,14 +25,14 @@ class RollNoteToolbarTest : ParentTest() {
 
     @Test fun closeByToolbarOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi { rollNoteScreen { toolbar { onClickBack() } } }
+            openAddDialog { createRollNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
 
     @Test fun closeByBackPressOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi { rollNoteScreen { onPressBack() } }
+            openAddDialog { createRollNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
@@ -41,7 +41,7 @@ class RollNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertRoll() }
 
         MainScreen {
-            notesScreen { rollNoteScreen { toolbar { onClickBack() } } }
+            openNotesPage { openRollNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
@@ -50,7 +50,7 @@ class RollNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertRoll() }
 
         MainScreen {
-            notesScreen { rollNoteScreen { onPressBack() } }
+            openNotesPage { openRollNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
@@ -59,7 +59,7 @@ class RollNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertRollToBin() }
 
         MainScreen {
-            binScreen { rollNoteScreen { toolbar { onClickBack() } } }
+            openBinPage { openRollNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
@@ -68,7 +68,7 @@ class RollNoteToolbarTest : ParentTest() {
         beforeLaunch { testData.insertRollToBin() }
 
         MainScreen {
-            binScreen { rollNoteScreen { onPressBack() } }
+            openBinPage { openRollNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
@@ -76,8 +76,8 @@ class RollNoteToolbarTest : ParentTest() {
 
     @Test fun contentEmptyOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi {
-                rollNoteScreen { toolbar { assert { onDisplayName(State.NEW, name = "") } } }
+            openAddDialog {
+                createRollNote { toolbar { assert { onDisplayName(State.NEW, name = "") } } }
             }
         }
     }
@@ -87,8 +87,8 @@ class RollNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    rollNoteScreen {
+                openNotesPage {
+                    openRollNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
@@ -103,8 +103,8 @@ class RollNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    rollNoteScreen {
+                openNotesPage {
+                    openRollNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
@@ -119,8 +119,8 @@ class RollNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    rollNoteScreen {
+                openBinPage {
+                    openRollNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                     }
                 }
@@ -133,8 +133,8 @@ class RollNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    rollNoteScreen {
+                openBinPage {
+                    openRollNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                     }
                 }
@@ -147,8 +147,8 @@ class RollNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    rollNoteScreen {
+                openBinPage {
+                    openRollNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
                         controlPanel { onClickRestoreOpen() }
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
@@ -164,8 +164,8 @@ class RollNoteToolbarTest : ParentTest() {
         val listRoll = testData.listRoll
 
         MainScreen {
-            addDialogUi {
-                rollNoteScreen {
+            openAddDialog {
+                createRollNote {
                     toolbar { onEnterName(noteItem.name) }
                     enterPanel { onAddRoll(listRoll[0].text) }
 
@@ -183,8 +183,8 @@ class RollNoteToolbarTest : ParentTest() {
         val listRoll = testData.listRoll
 
         MainScreen {
-            addDialogUi {
-                rollNoteScreen {
+            openAddDialog {
+                createRollNote {
                     toolbar { onEnterName(noteItem.name) }
                     enterPanel { onAddRoll(listRoll[0].text) }
 
@@ -202,8 +202,8 @@ class RollNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    rollNoteScreen {
+                openNotesPage {
+                    openRollNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
 
                         controlPanel { onClickEdit() }
@@ -223,8 +223,8 @@ class RollNoteToolbarTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    rollNoteScreen {
+                openNotesPage {
+                    openRollNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
 
                         controlPanel { onClickEdit() }
@@ -241,9 +241,9 @@ class RollNoteToolbarTest : ParentTest() {
 
     @Test fun cancelOnEditByToolbar() = afterLaunch {
         MainScreen {
-            addDialogUi { rollNoteScreen { toolbar { onClickBack() } } }
+            openAddDialog { createRollNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
-            addDialogUi { rollNoteScreen { onPressBack() } }
+            openAddDialog { createRollNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }

@@ -1,11 +1,14 @@
 package sgtmelon.scriptum.ui.screen.main
 
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -29,7 +32,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         func()
     }
 
-    fun renameDialogUi(title: String, p: Int = 0, func: RenameDialogUi.() -> Unit = {}) =
+    fun openRenameDialog(title: String, p: Int = 0, func: RenameDialogUi.() -> Unit = {}) =
             RenameDialogUi(title).apply {
                 onClickItem(p)
                 assert { onDisplayContent(enter = "") }
@@ -44,17 +47,17 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     class RankAction {
 
-        fun onClick(name: String, @IdRes childId: Int) =
-                getRankButton(name, childId).perform(click())
+        fun onClick(name: String, @IdRes childId: Int): ViewInteraction =
+                onView(rankButton(name, childId)).perform(click())
 
-        fun onLongClick(name: String, @IdRes childId: Int) =
-                getRankButton(name, childId).perform(longClick())
+        fun onLongClick(name: String, @IdRes childId: Int): ViewInteraction =
+                onView(rankButton(name, childId)).perform(longClick())
 
-        private fun getRankButton(name: String, @IdRes childId: Int) =
-                onView(allOf(withId(childId), withParent(allOf(
+        private fun rankButton(name: String, @IdRes childId: Int): Matcher<View> =
+                allOf(withId(childId), withParent(allOf(
                         withId(R.id.rank_click_container),
                         withChild(allOf(withId(R.id.rank_content_container), withChild(withText(name))))
-                ))))
+                )))
 
     }
 

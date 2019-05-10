@@ -20,24 +20,24 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun preferenceScreen(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
+    fun openPreference(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
         action { onClick(R.id.item_preference) }
         func()
     }
 
-    fun noteDialogUi(noteItem: NoteItem, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
+    fun openNoteDialog(noteItem: NoteItem, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
         action { onLongClick(recyclerId, p) }
         assert { onDisplayContent(noteItem) }
         func()
     }
 
-    fun textNoteScreen(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
         onClickItem(p)
         assert { onDisplayContent(State.READ) }
         func()
     }
 
-    fun rollNoteScreen(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
         onClickItem(p)
         assert { onDisplayContent(State.READ) }
         func()

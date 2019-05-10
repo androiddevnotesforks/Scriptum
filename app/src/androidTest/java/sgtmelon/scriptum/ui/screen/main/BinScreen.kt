@@ -20,24 +20,24 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun clearDialogUi(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
+    fun openClearDialog(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
         action { onClick(R.id.item_clear) }
         func()
     }
 
-    fun noteDialogUi(noteItem: NoteItem, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
+    fun openNoteDialog(noteItem: NoteItem, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
         action { onLongClick(recyclerId, p) }
         assert { onDisplayContent(noteItem) }
         func()
     }
 
-    fun textNoteScreen(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
         onClickItem(p)
         assert { onDisplayContent(State.BIN) }
         func()
     }
 
-    fun rollNoteScreen(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
         onClickItem(p)
         assert { onDisplayContent(State.BIN) }
         func()

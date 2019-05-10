@@ -24,20 +24,20 @@ class RankTest : ParentTest() {
     @Test fun contentEmpty() {
         beforeLaunch { testData.clearAllData() }
 
-        MainScreen { rankScreen { assert { onDisplayContent(empty = true) } } }
+        MainScreen { openRankPage { assert { onDisplayContent(empty = true) } } }
     }
 
     @Test fun contentList() {
         beforeLaunch { testData.apply { clearAllData() }.fillRank() }
 
-        MainScreen { rankScreen { assert { onDisplayContent(empty = false) } } }
+        MainScreen { openRankPage { assert { onDisplayContent(empty = false) } } }
     }
 
     @Test fun listScroll() {
         beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 onScroll(Scroll.END, time = 4)
                 onScroll(Scroll.START, time = 4)
             }
@@ -49,7 +49,7 @@ class RankTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 toolbar {
                     assert { isAddEnabled(enabled = false) }
                     onEnterName(name = " ")
@@ -64,7 +64,7 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
+                openRankPage {
                     toolbar {
                         assert { isAddEnabled(enabled = false) }
                         onEnterName(rankItem.name)
@@ -79,7 +79,7 @@ class RankTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 toolbar {
                     assert { isAddEnabled(enabled = false) }
                     onEnterName(testData.rankItem.name)
@@ -93,7 +93,7 @@ class RankTest : ParentTest() {
         beforeLaunch { testData.clearAllData() }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 toolbar {
                     assert { isClearEnabled(enabled = false) }
                     onEnterName(testData.rankItem.name)
@@ -113,14 +113,14 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
+                openRankPage {
                     toolbar {
                         onEnterName(name)
                         onLongClickAdd()
                     }
 
                     assert { onDisplayContent(empty = false) }
-                    renameDialogUi(name)
+                    openRenameDialog(name)
                 }
             }
         }
@@ -134,14 +134,14 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
+                openRankPage {
                     toolbar {
                         onEnterName(name)
                         onClickAdd()
                     }
 
                     assert { onDisplayContent(empty = false) }
-                    renameDialogUi(name, p = count - 1)
+                    openRenameDialog(name, p = count - 1)
                 }
             }
         }
@@ -153,7 +153,7 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
+                openRankPage {
                     onClickVisible(rankItem.name)
                     waitBefore(time = 500) { onClickVisible(rankItem.name) }
                 }
@@ -166,7 +166,7 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
+                openRankPage {
                     onLongClickVisible(rankList[0].name)
                     waitBefore(time = 500) { onLongClickVisible(rankList[count - 1].name) }
                 }
@@ -179,10 +179,10 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen { onClickVisible(rankList[1].name) }
-                binScreen { assert { onDisplayContent(empty = false) } }
-                rankScreen { onClickVisible(rankList[0].name) }
-                binScreen { assert { onDisplayContent(empty = true) } }
+                openRankPage { onClickVisible(rankList[1].name) }
+                openBinPage { assert { onDisplayContent(empty = false) } }
+                openRankPage { onClickVisible(rankList[0].name) }
+                openBinPage { assert { onDisplayContent(empty = true) } }
             }
         }
     }
@@ -196,7 +196,7 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
+                openRankPage {
                     onClickCancel(rankItem.name)
                     assert { onDisplayContent(empty = true) }
                 }
@@ -209,10 +209,10 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen { onClickVisible(rankList[0].name) }
-                notesScreen { assert { onDisplayContent(empty = true) } }
-                rankScreen { onClickCancel(rankList[0].name) }
-                notesScreen { assert { onDisplayContent(empty = false) } }
+                openRankPage { onClickVisible(rankList[0].name) }
+                openNotesPage { assert { onDisplayContent(empty = true) } }
+                openRankPage { onClickCancel(rankList[0].name) }
+                openNotesPage { assert { onDisplayContent(empty = false) } }
             }
         }
     }
@@ -221,7 +221,7 @@ class RankTest : ParentTest() {
     @Test fun renameDialogOpen() {
         val rankItem = testData.apply { clearAllData() }.insertRank()
 
-        afterLaunch { MainScreen { rankScreen { renameDialogUi(rankItem.name) } } }
+        afterLaunch { MainScreen { openRankPage { openRenameDialog(rankItem.name) } } }
     }
 
     @Test fun renameDialogCloseSoft() {
@@ -229,8 +229,8 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
-                    renameDialogUi(rankItem.name) {
+                openRankPage {
+                    openRenameDialog(rankItem.name) {
                         closeSoftKeyboard()
                         onCloseSoft()
                     }
@@ -246,8 +246,8 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
-                    renameDialogUi(rankItem.name) { onClickCancel() }
+                openRankPage {
+                    openRenameDialog(rankItem.name) { onClickCancel() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -259,8 +259,8 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
-                    renameDialogUi(rankItem.name) {
+                openRankPage {
+                    openRenameDialog(rankItem.name) {
                         onEnterName(rankItem.name)
                         assert { isAcceptEnable(enabled = false) }
                     }
@@ -274,8 +274,8 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
-                    renameDialogUi(listRank[0].name) {
+                openRankPage {
+                    openRenameDialog(listRank[0].name) {
                         onEnterName(listRank[1].name)
                         assert { isAcceptEnable(enabled = false) }
                     }
@@ -290,8 +290,8 @@ class RankTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                rankScreen {
-                    renameDialogUi(rankItem.name) {
+                openRankPage {
+                    openRenameDialog(rankItem.name) {
                         onEnterName(newName)
                         assert { isAcceptEnable(enabled = true) }
                         onClickAccept()
@@ -299,7 +299,7 @@ class RankTest : ParentTest() {
 
                     assert { onDisplayContent(empty = false) }
 
-                    renameDialogUi(newName)
+                    openRenameDialog(newName)
                 }
             }
         }

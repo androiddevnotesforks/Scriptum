@@ -25,8 +25,8 @@ class TextNoteContentTest : ParentTest() {
 
     @Test fun contentEmptyOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi {
-                textNoteScreen { assert { onDisplayText(State.EDIT, text = "") } }
+            openAddDialog {
+                createTextNote { assert { onDisplayText(State.EDIT, text = "") } }
             }
         }
     }
@@ -36,8 +36,8 @@ class TextNoteContentTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }
                         controlPanel { onClickEdit() }
                         assert { onDisplayText(State.EDIT, noteItem.text) }
@@ -52,7 +52,7 @@ class TextNoteContentTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen { textNoteScreen { assert { onDisplayText(State.BIN, noteItem.text) } } }
+                openBinPage { openTextNote { assert { onDisplayText(State.BIN, noteItem.text) } } }
             }
         }
     }
@@ -62,8 +62,8 @@ class TextNoteContentTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                binScreen {
-                    textNoteScreen {
+                openBinPage {
+                    openTextNote {
                         assert { onDisplayText(State.BIN, noteItem.text) }
                         controlPanel { onClickRestoreOpen() }
                         assert { onDisplayText(State.READ, noteItem.text) }
@@ -78,8 +78,8 @@ class TextNoteContentTest : ParentTest() {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi {
-                textNoteScreen {
+            openAddDialog {
+                createTextNote {
                     onEnterText(noteItem.text)
 
                     assert { onDisplayText(State.EDIT, noteItem.text) }
@@ -94,8 +94,8 @@ class TextNoteContentTest : ParentTest() {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi {
-                textNoteScreen {
+            openAddDialog {
+                createTextNote {
                     onEnterText(noteItem.text)
 
                     assert { onDisplayText(State.EDIT, noteItem.text) }
@@ -112,8 +112,8 @@ class TextNoteContentTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }
 
                         controlPanel { onClickEdit() }
@@ -133,8 +133,8 @@ class TextNoteContentTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }
 
                         controlPanel { onClickEdit() }
@@ -155,8 +155,8 @@ class TextNoteContentTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }
 
                         controlPanel { onClickEdit() }

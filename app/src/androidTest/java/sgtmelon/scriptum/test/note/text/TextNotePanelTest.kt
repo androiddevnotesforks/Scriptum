@@ -25,8 +25,8 @@ class TextNotePanelTest : ParentTest() {
 
     @Test fun displayOnCreate() = afterLaunch {
         MainScreen {
-            addDialogUi {
-                textNoteScreen { controlPanel { assert { onDisplayContent(State.NEW) } } }
+            openAddDialog {
+                createTextNote { controlPanel { assert { onDisplayContent(State.NEW) } } }
             }
         }
     }
@@ -35,8 +35,8 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertText() }
 
         MainScreen {
-            notesScreen {
-                textNoteScreen { controlPanel { assert { onDisplayContent(State.READ) } } }
+            openNotesPage {
+                openTextNote { controlPanel { assert { onDisplayContent(State.READ) } } }
             }
         }
     }
@@ -45,8 +45,8 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertTextToBin() }
 
         MainScreen {
-            binScreen {
-                textNoteScreen { controlPanel { assert { onDisplayContent(State.BIN) } } }
+            openBinPage {
+                openTextNote { controlPanel { assert { onDisplayContent(State.BIN) } } }
             }
         }
     }
@@ -55,8 +55,8 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertTextToBin() }
 
         MainScreen {
-            binScreen {
-                textNoteScreen {
+            openBinPage {
+                openTextNote {
                     controlPanel {
                         assert { onDisplayContent(State.BIN) }
                         onClickRestoreOpen()
@@ -72,8 +72,8 @@ class TextNotePanelTest : ParentTest() {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi {
-                textNoteScreen {
+            openAddDialog {
+                createTextNote {
                     onEnterText(noteItem.text)
                     controlPanel {
                         assert { onDisplayContent(State.NEW) }
@@ -89,8 +89,8 @@ class TextNotePanelTest : ParentTest() {
         val noteItem = testData.textNote
 
         MainScreen {
-            addDialogUi {
-                textNoteScreen {
+            openAddDialog {
+                createTextNote {
                     onEnterText(noteItem.text)
                     controlPanel {
                         assert { onDisplayContent(State.NEW) }
@@ -106,8 +106,8 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertText() }
 
         MainScreen {
-            notesScreen {
-                textNoteScreen {
+            openNotesPage {
+                openTextNote {
                     controlPanel {
                         assert { onDisplayContent(State.READ) }
                         onClickEdit()
@@ -124,8 +124,8 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertText() }
 
         MainScreen {
-            notesScreen {
-                textNoteScreen {
+            openNotesPage {
+                openTextNote {
                     controlPanel {
                         assert { onDisplayContent(State.READ) }
                         onClickEdit()
@@ -143,8 +143,8 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertText() }
 
         MainScreen {
-            notesScreen {
-                textNoteScreen {
+            openNotesPage {
+                openTextNote {
                     controlPanel {
                         onClickEdit()
                         assert { onDisplayContent(State.EDIT) }
@@ -161,15 +161,15 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertTextToBin() }
 
         MainScreen {
-            notesScreen { assert { onDisplayContent(empty = true) } }
+            openNotesPage { assert { onDisplayContent(empty = true) } }
 
-            binScreen {
+            openBinPage {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen { controlPanel { onClickRestore() } }
+                openTextNote { controlPanel { onClickRestore() } }
                 assert { onDisplayContent(empty = true) }
             }
 
-            notesScreen { assert { onDisplayContent(empty = false) } }
+            openNotesPage { assert { onDisplayContent(empty = false) } }
         }
     }
 
@@ -177,11 +177,11 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertTextToBin() }
 
         MainScreen {
-            notesScreen { assert { onDisplayContent(empty = true) } }
+            openNotesPage { assert { onDisplayContent(empty = true) } }
 
-            binScreen {
+            openBinPage {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen {
+                openTextNote {
                     controlPanel { onClickRestoreOpen() }
                     assert { onDisplayContent(State.READ) }
                     onPressBack()
@@ -189,7 +189,7 @@ class TextNotePanelTest : ParentTest() {
                 assert { onDisplayContent(empty = true) }
             }
 
-            notesScreen { assert { onDisplayContent(empty = false) } }
+            openNotesPage { assert { onDisplayContent(empty = false) } }
         }
     }
 
@@ -197,21 +197,39 @@ class TextNotePanelTest : ParentTest() {
         beforeLaunch { testData.insertTextToBin() }
 
         MainScreen {
-            notesScreen { assert { onDisplayContent(empty = true) } }
+            openNotesPage { assert { onDisplayContent(empty = true) } }
 
-            binScreen {
+            openBinPage {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen { controlPanel { onClickClear() } }
+                openTextNote { controlPanel { onClickClear() } }
                 assert { onDisplayContent(empty = true) }
             }
 
-            notesScreen { assert { onDisplayContent(empty = true) } }
+            openNotesPage { assert { onDisplayContent(empty = true) } }
         }
     }
 
 
-    @Test fun actionSaveOnCreate() {
-        TODO()
+    @Test fun actionSaveOnCreate() = afterLaunch {
+        MainScreen {
+            openAddDialog {
+                createTextNote {
+                    controlPanel { assert { isEnabledSave(enabled = false) } }
+                    onEnterText(text = "1")
+                    controlPanel { assert { isEnabledSave(enabled = true) } }
+                    onEnterText(text = "")
+                    controlPanel { assert { isEnabledSave(enabled = false) } }
+                    onEnterText(text = "123")
+
+                    controlPanel {
+                        assert { isEnabledSave(enabled = true) }
+
+                        onClickSave()
+                        assert { onDisplayContent(State.READ) }
+                    }
+                }
+            }
+        }
     }
 
     @Test fun actionSaveOnEdit() {
@@ -224,13 +242,13 @@ class TextNotePanelTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickBind() } }
                         onPressBack()
                     }
 
-                    noteDialogUi(noteItem.apply { isStatus = true })
+                    openNoteDialog(noteItem.apply { isStatus = true })
                 }
             }
         }
@@ -241,34 +259,30 @@ class TextNotePanelTest : ParentTest() {
 
         afterLaunch {
             MainScreen {
-                notesScreen {
-                    textNoteScreen {
+                openNotesPage {
+                    openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickBind() } }
                         onPressBack()
                     }
-                    noteDialogUi(noteItem.apply { isStatus = false })
+                    openNoteDialog(noteItem.apply { isStatus = false })
                 }
             }
         }
-    }
-
-    @Test fun actionConvert() {
-        TODO()
     }
 
     @Test fun actionDelete() {
         beforeLaunch { testData.insertText() }
 
         MainScreen {
-            binScreen { assert { onDisplayContent(empty = true) } }
+            openBinPage { assert { onDisplayContent(empty = true) } }
 
-            notesScreen {
+            openNotesPage {
                 assert { onDisplayContent(empty = false) }
-                textNoteScreen { controlPanel { onClickDelete() } }
+                openTextNote { controlPanel { onClickDelete() } }
                 assert { onDisplayContent(empty = true) }
             }
 
-            binScreen { assert { onDisplayContent(empty = false) } }
+            openBinPage { assert { onDisplayContent(empty = false) } }
         }
     }
 

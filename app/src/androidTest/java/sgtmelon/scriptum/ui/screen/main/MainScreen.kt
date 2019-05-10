@@ -18,32 +18,32 @@ class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun rankScreen(func: RankScreen.() -> Unit) = RankScreen().apply {
+    fun openRankPage(func: RankScreen.() -> Unit) = RankScreen().apply {
         wasNavigate = true
 
-        navigateTo(MainPage.RANK)
+        onNavigateTo(MainPage.RANK)
         func()
     }
 
-    fun notesScreen(func: NotesScreen.() -> Unit) = NotesScreen().apply {
-        if (wasNavigate) navigateTo(MainPage.NOTES)
+    fun openNotesPage(func: NotesScreen.() -> Unit) = NotesScreen().apply {
+        if (wasNavigate) onNavigateTo(MainPage.NOTES)
         func()
     }
 
-    fun binScreen(func: BinScreen.() -> Unit) = BinScreen().apply {
+    fun openBinPage(func: BinScreen.() -> Unit) = BinScreen().apply {
         wasNavigate = true
 
-        navigateTo(MainPage.BIN)
+        onNavigateTo(MainPage.BIN)
         func()
     }
 
-    fun addDialogUi(func: AddDialogUi.() -> Unit = {}) = AddDialogUi().apply {
+    fun openAddDialog(func: AddDialogUi.() -> Unit = {}) = AddDialogUi().apply {
         action { onClick(R.id.main_add_fab) }
         assert { onDisplayContent() }
         func()
     }
 
-    fun navigateTo(page: MainPage) = action {
+    fun onNavigateTo(page: MainPage) = action {
         onClick(when (page) {
             MainPage.RANK -> R.id.item_page_rank
             MainPage.NOTES -> R.id.item_page_notes
@@ -51,13 +51,14 @@ class MainScreen : ParentUi() {
         })
     }
 
-    fun scrollTop(page: MainPage) = action {
-        onLongClick(when (page) {
-            MainPage.RANK -> R.id.item_page_rank
-            MainPage.NOTES -> R.id.item_page_notes
-            MainPage.BIN -> R.id.item_page_bin
-        })
-        Thread.sleep(500)
+    fun onScrollTop(page: MainPage) = action {
+        waitAfter(time = 500) {
+            onLongClick(when (page) {
+                MainPage.RANK -> R.id.item_page_rank
+                MainPage.NOTES -> R.id.item_page_notes
+                MainPage.BIN -> R.id.item_page_bin
+            })
+        }
     }
 
     class Assert : BasicMatch() {

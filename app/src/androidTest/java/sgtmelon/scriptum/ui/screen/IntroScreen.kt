@@ -28,7 +28,7 @@ class IntroScreen : ParentUi() {
 
     fun onClickEndButton() = action { onClick(R.id.intro_end_button) }
 
-    fun passThrough(scroll: Scroll) = (when (scroll) {
+    fun onPassThrough(scroll: Scroll) = (when (scroll) {
         Scroll.START -> count - 1 downTo 0
         Scroll.END -> 0 until count - 1
     }).forEach {

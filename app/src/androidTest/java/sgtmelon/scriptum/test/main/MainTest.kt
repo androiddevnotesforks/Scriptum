@@ -43,9 +43,9 @@ class MainTest : ParentTest() {
             repeat(times = 3) {
                 for (page in pageList) {
                     when (page) {
-                        MainPage.RANK -> rankScreen { assert { onDisplayContent(empty = count == 0) } }
-                        MainPage.NOTES -> notesScreen { assert { onDisplayContent(empty = count == 0) } }
-                        MainPage.BIN -> binScreen { assert { onDisplayContent(empty = count == 0) } }
+                        MainPage.RANK -> openRankPage { assert { onDisplayContent(empty = count == 0) } }
+                        MainPage.NOTES -> openNotesPage { assert { onDisplayContent(empty = count == 0) } }
+                        MainPage.BIN -> openBinPage { assert { onDisplayContent(empty = count == 0) } }
                     }
 
                     assert { onDisplayContent(page) }
@@ -57,37 +57,37 @@ class MainTest : ParentTest() {
     @Test fun addFabVisible() = afterLaunch {
         MainScreen {
             repeat(times = 3) {
-                for (page in pageList) {
-                    navigateTo(page)
-                    assert { onDisplayFab(visible = page == MainPage.NOTES) }
+                pageList.forEach {
+                    onNavigateTo(it)
+                    assert { onDisplayFab(visible = it == MainPage.NOTES) }
                 }
             }
         }
     }
 
 
-    @Test fun addDialogOpen() = afterLaunch { MainScreen { addDialogUi() } }
+    @Test fun addDialogOpen() = afterLaunch { MainScreen { openAddDialog() } }
 
     @Test fun addDialogCloseSoft() = afterLaunch {
         MainScreen {
-            addDialogUi { onCloseSoft() }
+            openAddDialog { onCloseSoft() }
             assert { onDisplayContent() }
         }
     }
 
     @Test fun addDialogCloseSwipe() = afterLaunch {
         MainScreen {
-            addDialogUi { onCloseSwipe() }
+            openAddDialog { onCloseSwipe() }
             assert { onDisplayContent() }
         }
     }
 
     @Test fun addDialogCreateTextNote() = afterLaunch {
-        MainScreen { addDialogUi { textNoteScreen() } }
+        MainScreen { openAddDialog { createTextNote() } }
     }
 
     @Test fun addDialogCreateRollNote() = afterLaunch {
-        MainScreen { addDialogUi { rollNoteScreen() } }
+        MainScreen { openAddDialog { createRollNote() } }
     }
 
 
@@ -95,12 +95,12 @@ class MainTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }
 
         MainScreen {
-            rankScreen {
+            openRankPage {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)
             }
 
-            scrollTop(MainPage.RANK)
+            onScrollTop(MainPage.RANK)
         }
     }
 
@@ -108,12 +108,12 @@ class MainTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillNotes(times = 20) }
 
         MainScreen {
-            notesScreen {
+            openNotesPage {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)
             }
 
-            scrollTop(MainPage.NOTES)
+            onScrollTop(MainPage.NOTES)
         }
     }
 
@@ -121,12 +121,12 @@ class MainTest : ParentTest() {
         beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
 
         MainScreen {
-            binScreen {
+            openBinPage {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)
             }
 
-            scrollTop(MainPage.BIN)
+            onScrollTop(MainPage.BIN)
         }
     }
 
