@@ -233,7 +233,29 @@ class TextNotePanelTest : ParentTest() {
     }
 
     @Test fun actionSaveOnEdit() {
-        TODO()
+        beforeLaunch { testData.insertText() }
+
+        MainScreen {
+            openNotesPage {
+                openTextNote {
+                    controlPanel {
+                        onClickEdit()
+                        assert { isEnabledSave(enabled = true) }
+                        onEnterText(text = "")
+                        assert { isEnabledSave(enabled = false) }
+                        onEnterText(text = "123")
+
+                        controlPanel {
+                            assert { isEnabledSave(enabled = true) }
+
+                            onClickSave()
+                            assert { onDisplayContent(State.READ) }
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
 

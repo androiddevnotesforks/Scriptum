@@ -25,9 +25,7 @@ class TextNoteContentTest : ParentTest() {
 
     @Test fun contentEmptyOnCreate() = afterLaunch {
         MainScreen {
-            openAddDialog {
-                createTextNote { assert { onDisplayText(State.EDIT, text = "") } }
-            }
+            openAddDialog { createTextNote { assert { onDisplayText(State.EDIT, text = "") } } }
         }
     }
 
