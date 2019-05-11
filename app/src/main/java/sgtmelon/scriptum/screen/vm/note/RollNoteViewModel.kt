@@ -121,11 +121,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onResultTouchSwipe(p: Int) {
-        inputControl.onRollRemove(p, noteModel.listRoll[p].toString())
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
-
+        val rollItem = noteModel.listRoll[p]
         noteModel.listRoll.removeAt(p)
 
+        inputControl.onRollRemove(p, rollItem.toString())
+
+        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.notifyItemRemoved(p, noteModel.listRoll)
     }
 
