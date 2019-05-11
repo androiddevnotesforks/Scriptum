@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.DialogBlank
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.SortAdapter
 import sgtmelon.scriptum.model.item.SortItem
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.intf.ItemListener
+
 
 class SortDialog : DialogBlank(), ItemListener.ClickListener {
 
@@ -29,22 +29,15 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
 
     private val touchCallback = object : ItemTouchHelper.Callback() {
         override fun getMovementFlags(recyclerView: RecyclerView,
-                                      viewHolder: RecyclerView.ViewHolder): Int {
-            val flagsDrag = ItemTouchHelper.UP or ItemTouchHelper.DOWN
-            val flagsSwipe = 0
-
-            return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
-        }
+                                      viewHolder: RecyclerView.ViewHolder) =
+                makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0)
 
         override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
             super.clearView(recyclerView, viewHolder)
-
             adapter.notifyItemChanged(viewHolder.adapterPosition)
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-        }
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
         override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                             target: RecyclerView.ViewHolder): Boolean {
@@ -81,19 +74,14 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        init = savedInstanceState?.getString(INIT)
-                ?: arguments?.getString(INIT)
-                ?: ""
+        init = savedInstanceState?.getString(INIT) ?: arguments?.getString(INIT) ?: ""
+        keys = savedInstanceState?.getString(VALUE) ?: arguments?.getString(VALUE) ?: ""
 
-        keys = savedInstanceState?.getString(VALUE)
-                ?: arguments?.getString(VALUE)
-                ?: ""
-
-        text = resources.getStringArray(R.array.pref_sort_text)
+        text = resources.getStringArray(sgtmelon.scriptum.R.array.pref_sort_text)
 
         val recyclerView = RecyclerView(activity)
 
-        val padding = activity.resources.getInteger(R.integer.dlg_recycler_padding)
+        val padding = activity.resources.getInteger(sgtmelon.scriptum.R.integer.dlg_recycler_padding)
         recyclerView.setPadding(padding, padding, padding, padding)
         recyclerView.overScrollMode = View.OVER_SCROLL_NEVER
 
@@ -121,11 +109,11 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
         }
 
         return AlertDialog.Builder(activity)
-                .setTitle(getString(R.string.dialog_title_sort))
+                .setTitle(getString(sgtmelon.scriptum.R.string.dialog_title_sort))
                 .setView(recyclerView)
-                .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
-                .setNeutralButton(getString(R.string.dialog_btn_reset), onNeutralClick)
+                .setPositiveButton(getString(sgtmelon.scriptum.R.string.dialog_btn_accept), onPositiveClick)
+                .setNegativeButton(getString(sgtmelon.scriptum.R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
+                .setNeutralButton(getString(sgtmelon.scriptum.R.string.dialog_btn_reset), onNeutralClick)
                 .setCancelable(true)
                 .create()
     }

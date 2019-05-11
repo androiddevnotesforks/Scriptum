@@ -20,6 +20,8 @@ import sgtmelon.scriptum.ui.widget.RollEnterPanel
  */
 class RollNoteScreen : ParentUi() {
 
+    // TODO !! сделать передачу состояния заметки, и автоматические assert при вызове
+
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar().apply {

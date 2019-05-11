@@ -53,7 +53,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
     fun setSelections(@IntRange(from = 0) position: Int) = rollEnter.apply {
         requestFocus()
-        setSelection(position)
+        setSelection(if (position > text.toString().length) text.toString().length else position)
     }
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
