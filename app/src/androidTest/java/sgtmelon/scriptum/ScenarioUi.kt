@@ -284,14 +284,14 @@ private class ScenarioUi {
          * # Закрыть :: [BinTest.textNoteDialogClose]
          * # Восстановить :: [BinTest.textNoteDialogRestore]
          * # Копировать текст
-         * # Отчистить :: [BinTest.textNoteDialogClear]
+         * # Очистить :: [BinTest.textNoteDialogClear]
          *
          * # Список:
          * # Открыть :: [BinTest.rollNoteDialogOpen]
          * # Закрыть :: [BinTest.rollNoteDialogClose]
          * # Восстановить :: [BinTest.rollNoteDialogRestore]
          * # Копировать текст
-         * # Отчистить :: [BinTest.rollNoteDialogClear]
+         * # Очистить :: [BinTest.rollNoteDialogClear]
          */
 
     }

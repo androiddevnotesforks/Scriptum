@@ -9,7 +9,7 @@
 
     <!-- Name of menu items -->
     <string name="menu_page_notes_preference">Настройки</string>
-    <string name="menu_page_bin_clear">Отчистить корзину</string>
+    <string name="menu_page_bin_clear">Очистить корзину</string>
 
     <string name="menu_note_edit">Изменить</string>
     <string name="menu_note_save">Сохранить</string>
@@ -44,7 +44,7 @@
     <!-- Dialog -->
 
     <!-- Dialog titles and text -->
-    <string name="dialog_title_clear_bin">Отчистить корзину</string>
+    <string name="dialog_title_clear_bin">Очистить корзину</string>
     <string name="dialog_text_clear_bin">Вы уверены, что хотите безвозвратно удалить все не скрытые заметки из корзины?</string>
 
     <string name="dialog_title_color">Цвет</string>
