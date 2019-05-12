@@ -86,10 +86,7 @@ class MainActivity : AppActivity(), MainCallback {
 
     override fun setupNavigation(@IdRes itemId: Int) {
         fab.setOnClickListener {
-            openState.tryInvoke {
-                sheetDialog.setArguments(R.layout.view_sheet_add, R.id.add_navigation)
-                sheetDialog.show(supportFragmentManager, DialogDef.SHEET)
-            }
+            openState.tryInvoke { sheetDialog.show(supportFragmentManager, DialogDef.SHEET) }
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {

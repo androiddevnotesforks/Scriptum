@@ -23,6 +23,7 @@
         <attr name="styleToolbar" format="integer"/>
         <attr name="themePopup" format="integer"/>
         <attr name="styleFab" format="integer"/>
+        <attr name="styleSheetAdd" format="integer"/>
     </declare-styleable>
 
 </resources>

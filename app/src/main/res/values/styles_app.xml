@@ -25,6 +25,7 @@
         <item name="styleToolbar">@style/Toolbar.Light</item>
         <item name="themePopup">@style/PopupTheme.Light</item>
         <item name="styleFab">@style/Fab.Light</item>
+        <item name="styleSheetAdd">@style/SheetDialog.Light</item>
 
         <item name="alertDialogStyle">@style/Alert.Light</item>
         <item name="alertDialogTheme">@style/Alert.Light</item>
@@ -58,6 +59,7 @@
         <item name="styleToolbar">@style/Toolbar.Dark</item>
         <item name="themePopup">@style/PopupTheme.Dark</item>
         <item name="styleFab">@style/Fab.Dark</item>
+        <item name="styleSheetAdd">@style/SheetDialog.Dark</item>
 
         <item name="alertDialogStyle">@style/Alert.Dark</item>
         <item name="alertDialogTheme">@style/Alert.Dark</item>
@@ -119,6 +121,18 @@
         <item name="android:textColorSecondary">?attr/clContent</item>
         <item name="colorControlNormal">?attr/clContent</item>
         <item name="actionMenuTextColor">?attr/clContent</item>
+    </style>
+
+    <!-- -->
+
+    <style name="SheetDialog"/>
+
+    <style name="SheetDialog.Light">
+        <item name="android:background">@drawable/bg_sheet_dialog_light</item>
+    </style>
+
+    <style name="SheetDialog.Dark">
+        <item name="android:background">@drawable/bg_sheet_dialog_dark</item>
     </style>
 
     <!-- -->

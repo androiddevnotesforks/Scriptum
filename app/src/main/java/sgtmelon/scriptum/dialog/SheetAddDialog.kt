@@ -6,55 +6,26 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
-import androidx.annotation.LayoutRes
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
-import sgtmelon.safedialog.DialogBlank
+import sgtmelon.scriptum.R
 
 
 class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItemSelectedListener {
 
-    @LayoutRes private var layout: Int = 0
-    @IdRes private var navigation: Int = 0
-
     lateinit var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener
     lateinit var dismissListener: DialogInterface.OnDismissListener
 
-    fun setArguments(@LayoutRes layout: Int, @IdRes navigation: Int) {
-        val bundle = Bundle()
-
-        bundle.putInt(DialogBlank.INIT, layout)
-        bundle.putInt(DialogBlank.VALUE, navigation)
-
-        arguments = bundle
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        layout = savedInstanceState?.getInt(DialogBlank.INIT)
-                ?: arguments?.getInt(DialogBlank.INIT)
-                        ?: 0
+                              savedInstanceState: Bundle?): View =
+            inflater.inflate(R.layout.view_sheet_add, container, false)
 
-        navigation = savedInstanceState?.getInt(DialogBlank.VALUE)
-                ?: arguments?.getInt(DialogBlank.VALUE)
-                        ?: 0
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val view = inflater.inflate(layout, container, false)
-                ?: throw NullPointerException("Id error, layout view is null")
-
-        val navigationView = view.findViewById<NavigationView>(navigation)
-        navigationView?.setNavigationItemSelectedListener(this)
-
-        return view
+        view.findViewById<NavigationView>(R.id.add_navigation)
+                ?.setNavigationItemSelectedListener(this)
     }
-
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply {
-                putInt(DialogBlank.INIT, layout)
-                putInt(DialogBlank.VALUE, navigation)
-            })
-
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
