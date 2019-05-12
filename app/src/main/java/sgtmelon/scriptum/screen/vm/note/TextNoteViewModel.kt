@@ -211,6 +211,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
+    fun onDestroy() = saveControl.setSaveHandlerEvent(isStart =  false)
+
     fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
             callback.hideKeyboard()

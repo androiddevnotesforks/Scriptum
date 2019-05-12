@@ -14,6 +14,7 @@ class SaveControl(context: Context, private val result: Result) {
     // TODO вынести отсюда Preference
 
     private val saveHandler = Handler()
+
     private val savePause: Boolean = Preference(context).pauseSave
     private val saveAuto: Boolean = Preference(context).autoSave
 
@@ -39,7 +40,7 @@ class SaveControl(context: Context, private val result: Result) {
         if (isStart) {
             saveHandler.postDelayed(saveRunnable, saveTime.toLong())
         } else {
-            saveHandler.removeCallbacks(saveRunnable)
+            saveHandler.removeCallbacksAndMessages(null)
         }
     }
 

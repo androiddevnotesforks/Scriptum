@@ -100,6 +100,11 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         viewModel.onPause()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 putBoolean(OpenState.KEY, openState.value)

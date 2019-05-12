@@ -130,6 +130,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         viewModel.onPause()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.onDestroy()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 putBoolean(OpenState.KEY, openState.value)

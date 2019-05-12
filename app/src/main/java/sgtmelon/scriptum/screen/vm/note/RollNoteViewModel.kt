@@ -311,6 +311,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
+    fun onDestroy() = saveControl.setSaveHandlerEvent(isStart =  false)
+
     fun onUpdateData() {
         checkState.setAll(noteModel.listRoll)
 
