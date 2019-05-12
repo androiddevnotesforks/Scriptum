@@ -21,7 +21,7 @@ interface RankDao {
     val rankIdVisibleList: List<Long>
 
     @get:Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
-    val count: Long
+    val count: Int
 
     @get:Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
     val simple: MutableList<RankItem>

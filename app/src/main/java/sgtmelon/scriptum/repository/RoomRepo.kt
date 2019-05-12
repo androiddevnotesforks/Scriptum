@@ -89,6 +89,14 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         openRoom().apply { addAll(getRankDao().rankIdVisibleList) }.close()
     }
 
+    override fun getRankCount(): Boolean {
+        val count: Int
+
+        openRoom().apply { count = getRankDao().count }.close()
+
+        return count == 0
+    }
+
     override fun getNoteModel(id: Long): NoteModel {
         if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
 

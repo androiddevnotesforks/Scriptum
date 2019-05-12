@@ -30,6 +30,8 @@ interface IRoomRepo {
 
     fun getRankIdVisibleList(): List<Long>
 
+    fun getRankCount(): Boolean
+
     /**
      * @throws NullPointerException когда заметка не сохранена в базу данных и [NoteItem.id] == [NoteData.Default.ID]
      */

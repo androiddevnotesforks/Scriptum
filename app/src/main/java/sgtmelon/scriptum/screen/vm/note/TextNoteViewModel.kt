@@ -45,6 +45,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     private lateinit var noteState: NoteState
     private lateinit var rankIdVisibleList: List<Long>
+    private var isRankEmpty: Boolean = true
 
     private val iconState = IconState()
 
@@ -53,6 +54,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
         if (!::noteModel.isInitialized) {
             rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
+            isRankEmpty = iRoomRepo.getRankCount()
 
             if (id == NoteData.Default.ID) {
                 val noteItem = NoteItem(
@@ -73,7 +75,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         callback.apply {
-            setupBinding(rankIdVisibleList.isEmpty())
+            setupBinding(isRankEmpty)
             setupToolbar(noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
