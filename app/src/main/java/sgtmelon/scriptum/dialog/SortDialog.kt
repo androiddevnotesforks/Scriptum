@@ -87,7 +87,7 @@ class SortDialog : DialogBlank(), ItemListener.ClickListener {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        adapter = SortAdapter(activity, this)
+        adapter = SortAdapter(this)
 
         listSort.clear()
         for (aKey in keys.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {

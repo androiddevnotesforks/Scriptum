@@ -13,15 +13,22 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-fun <T : ViewDataBinding> LayoutInflater.inflateBinding(layoutId: Int, parent: ViewGroup?,
-                                                        attachToParent: Boolean = false): T {
-    return DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
-}
+fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int, parent: ViewGroup?,
+                                                        attachToParent: Boolean = false): T =
+        DataBindingUtil.inflate(this, layoutId, parent, attachToParent)
+
+fun <T : ViewDataBinding> ViewGroup.inflateBinding(@LayoutRes layoutId: Int,
+                                                   attachToParent: Boolean = false): T =
+        DataBindingUtil.inflate(LayoutInflater.from(context), layoutId, this, attachToParent)
+
+fun ViewGroup.inflateView(@LayoutRes layout: Int, attachToRoot: Boolean = false): View =
+        LayoutInflater.from(context).inflate(layout, this, attachToRoot)
 
 fun Activity.beforeFinish(func: () -> Unit) {
     func()

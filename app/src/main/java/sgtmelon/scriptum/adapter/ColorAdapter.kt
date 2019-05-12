@@ -9,6 +9,7 @@ import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.item.ColorItem
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.Preference
+import sgtmelon.scriptum.office.utils.inflateView
 
 /**
  * Адаптер списка цветов приложения для [ColorDialog]
@@ -16,7 +17,9 @@ import sgtmelon.scriptum.office.utils.Preference
  * @author SerjantArbuz
  */
 class ColorAdapter(context: Context, private val clickListener: ItemListener.ClickListener)
-    : ParentAdapter<ColorItem, ColorHolder>(context) {
+    : ParentAdapter<ColorItem, ColorHolder>() {
+
+    // TODO !! убрать preference
 
     private val visibleArray: BooleanArray
     private var check: Int = 0
@@ -34,7 +37,7 @@ class ColorAdapter(context: Context, private val clickListener: ItemListener.Cli
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            ColorHolder(inflater.inflate(R.layout.item_color, parent, false))
+            ColorHolder(parent.inflateView(R.layout.item_color))
 
     override fun onBindViewHolder(holder: ColorHolder, position: Int) {
         holder.bindColor(list[position])

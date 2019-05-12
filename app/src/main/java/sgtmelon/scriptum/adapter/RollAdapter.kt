@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.adapter
 
-import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
@@ -18,10 +17,9 @@ import sgtmelon.scriptum.screen.view.note.RollNoteFragment
  *
  * @author SerjantArbuz
  */
-class RollAdapter(context: Context,
-                  private val clickListener: ItemListener.ClickListener,
+class RollAdapter(private val clickListener: ItemListener.ClickListener,
                   private val rollChangeCallback: RollWriteHolder.RollChange
-) : ParentAdapter<RollItem, RecyclerView.ViewHolder>(context) {
+) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
     lateinit var dragListener: ItemListener.DragListener
     lateinit var inputCallback: InputCallback
@@ -32,10 +30,10 @@ class RollAdapter(context: Context,
     var cursorPosition = UNDEFINED
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == TYPE_READ) {
-        RollReadHolder(inflater.inflateBinding(R.layout.item_roll_read, parent), clickListener)
+        RollReadHolder(parent.inflateBinding(R.layout.item_roll_read), clickListener)
     } else {
         RollWriteHolder(
-                inflater.inflateBinding(R.layout.item_roll_write, parent),
+                parent.inflateBinding(R.layout.item_roll_write),
                 dragListener, rollChangeCallback, inputCallback
         )
     }

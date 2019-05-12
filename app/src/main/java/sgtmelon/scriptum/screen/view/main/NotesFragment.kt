@@ -52,8 +52,7 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private val adapter by lazy {
-        NoteAdapter(activity,
-                ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) },
+        NoteAdapter(ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) },
                 ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
         )
     }

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.adapter
 
-import android.content.Context
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.SortHolder
@@ -13,10 +12,11 @@ import sgtmelon.scriptum.office.utils.inflateBinding
 
 /**
  * Адаптер для [SortDialog]
+ *
+ * @author SerjantArbuz
  */
-class SortAdapter(context: Context,
-                  private val clickListener: ItemListener.ClickListener
-) : ParentAdapter<SortItem, SortHolder>(context) {
+class SortAdapter(private val clickListener: ItemListener.ClickListener)
+    : ParentAdapter<SortItem, SortHolder>() {
 
     val sortState = SortState()
 
@@ -26,7 +26,7 @@ class SortAdapter(context: Context,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-            SortHolder(inflater.inflateBinding(R.layout.item_sort, parent), clickListener)
+            SortHolder(parent.inflateBinding(R.layout.item_sort), clickListener)
 
     override fun onBindViewHolder(holder: SortHolder, position: Int) =
             holder.bind(list[position], position, sortState.end)

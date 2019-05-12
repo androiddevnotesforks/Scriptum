@@ -53,7 +53,7 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     private val adapter by lazy {
-        RankAdapter(activity, ItemListener.ClickListener { view, p ->
+        RankAdapter(ItemListener.ClickListener { view, p ->
             when (view.id) {
                 R.id.rank_visible_button -> viewModel.onClickVisible(p)
                 R.id.rank_click_container -> viewModel.onShowRenameDialog(p)

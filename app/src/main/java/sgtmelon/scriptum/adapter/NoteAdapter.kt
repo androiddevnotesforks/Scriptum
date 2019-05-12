@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.adapter
 
-import android.content.Context
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
@@ -15,21 +14,22 @@ import sgtmelon.scriptum.screen.view.main.NotesFragment
 
 /**
  * Адаптер списка заметок для [NotesFragment], [BinFragment]
+ *
+ * @author SerjantArbuz
  */
-class NoteAdapter(context: Context,
-                  private val clickListener: ItemListener.ClickListener,
+class NoteAdapter(private val clickListener: ItemListener.ClickListener,
                   private val longClickListener: ItemListener.LongClickListener
-) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>(context) {
+) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             if (viewType == NoteType.TEXT.ordinal) {
                 NoteTextHolder(
-                        inflater.inflateBinding(R.layout.item_note_text, parent),
+                        parent.inflateBinding(R.layout.item_note_text),
                         clickListener, longClickListener
                 )
             } else {
                 NoteRollHolder(
-                        inflater.inflateBinding(R.layout.item_note_roll, parent),
+                        parent.inflateBinding(R.layout.item_note_roll),
                         clickListener, longClickListener
                 )
             }

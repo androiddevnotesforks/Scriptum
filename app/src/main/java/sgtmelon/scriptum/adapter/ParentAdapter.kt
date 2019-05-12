@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.adapter
 
-import android.content.Context
-import android.view.LayoutInflater
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
@@ -14,11 +12,8 @@ import java.util.*
  *
  * @author SerjantArbuz
  */
-abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder> protected constructor(
-        protected val context: Context
-) : RecyclerView.Adapter<VH>() {
+abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.Adapter<VH>() {
 
-    protected val inflater: LayoutInflater = LayoutInflater.from(context)
     protected val list: MutableList<T> = ArrayList()
 
     @CallSuper

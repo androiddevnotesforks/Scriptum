@@ -1,10 +1,8 @@
 package sgtmelon.scriptum.adapter
 
-import android.content.Context
 import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.RankHolder
-import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.inflateBinding
@@ -15,10 +13,9 @@ import sgtmelon.scriptum.screen.view.main.RankFragment
  *
  * @author SerjantArbuz
  */
-class RankAdapter(context: Context,
-                  val clickListener: ItemListener.ClickListener,
-                  val longClickListener: ItemListener.LongClickListener
-) : ParentAdapter<RankItem, RankHolder>(context) {
+class RankAdapter(private val clickListener: ItemListener.ClickListener,
+                  private val longClickListener: ItemListener.LongClickListener
+) : ParentAdapter<RankItem, RankHolder>() {
 
     lateinit var dragListener: ItemListener.DragListener
 
@@ -29,10 +26,10 @@ class RankAdapter(context: Context,
         startAnim = BooleanArray(list.size)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RankHolder {
-        val binding: ItemRankBinding = inflater.inflateBinding(R.layout.item_rank, parent)
-        return RankHolder(binding, clickListener, longClickListener, dragListener)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RankHolder(
+            parent.inflateBinding(R.layout.item_rank),
+            clickListener, longClickListener, dragListener
+    )
 
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
         val item = list[position]

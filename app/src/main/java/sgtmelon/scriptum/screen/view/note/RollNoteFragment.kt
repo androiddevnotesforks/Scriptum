@@ -69,8 +69,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     private lateinit var menuControl: MenuControl
 
     private val adapter: RollAdapter by lazy {
-        RollAdapter(activity,
-                ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) }, viewModel
+        RollAdapter(ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) },
+                viewModel
         )
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }

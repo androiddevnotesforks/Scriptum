@@ -69,11 +69,9 @@ class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
             /**
              * Сдвиг, между начальной точкой и конечной
              */
-            val translationX = Math.abs(if (dX > 0) {
-                Math.min(dX, targetX)
-            } else {
-                Math.max(dX, -targetX)
-            })
+            val translationX = Math.abs(
+                    if (dX > 0) Math.min(dX, targetX) else Math.max(dX, -targetX)
+            )
 
             val alpha = (1.0f - translationX / targetX).toDouble()
             viewHolder.itemView.alpha = Math.max(alpha, 0.2).toFloat()
