@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.view.pref
+package sgtmelon.scriptum.screen.view.preference
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
@@ -7,11 +7,11 @@ import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
 import sgtmelon.scriptum.screen.view.AppActivity
 
 /**
- * Активити для отображения [PrefFragment]
+ * Активити для отображения [PreferenceFragment]
  *
  * @author SerjantArbuz
  */
-class PrefActivity : AppActivity() {
+class PreferenceActivity : AppActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +22,7 @@ class PrefActivity : AppActivity() {
         // TODO исправить
         fragmentManager
                 .beginTransaction()
-                .replace(R.id.preference_fragment_container, PrefFragment())
+                .replace(R.id.preference_fragment_container, PreferenceFragment())
                 .commit()
     }
 

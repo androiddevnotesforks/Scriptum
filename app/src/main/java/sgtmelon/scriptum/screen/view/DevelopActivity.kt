@@ -1,11 +1,17 @@
 package sgtmelon.scriptum.screen.view
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.repository.DevelopRepo
 
-class DevelopActivity : AppActivity() {
+/**
+ * Экран для подробного отображения информации из бд
+ *
+ * @author SerjantArbuz
+ */
+class DevelopActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

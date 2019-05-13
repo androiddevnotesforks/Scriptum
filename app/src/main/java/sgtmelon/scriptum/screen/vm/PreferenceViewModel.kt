@@ -4,9 +4,9 @@ import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.utils.Preference
-import sgtmelon.scriptum.screen.callback.PrefCallback
+import sgtmelon.scriptum.screen.callback.PreferenceCallback
 
-class PrefViewModel(context: Context, val callback: PrefCallback) {
+class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
 
     private val preference = Preference(context)
 

@@ -5,32 +5,12 @@ import android.widget.TextView
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.room.RoomDb
 
 class DevelopRepo(private val context: Context) : IDevelopRepo {
 
     private fun openRoom() = RoomDb.getInstance(context)
-
-    override fun listRankTable(textView: TextView) {
-        val list: MutableList<RankItem>
-
-        openRoom().apply { list = getRankDao().simple }.close()
-
-        textView.apply {
-            text = ""
-            append("Rank table:")
-        }
-
-        list.forEach {
-            textView.apply {
-                append("\n\n")
-                append("ID: ${it.id} | PS: ${it.position}\n")
-                append("NM: ${it.name}\n")
-                append("CR: ${it.noteId.joinToString()}\n")
-                append("VS: ${it.isVisible}")
-            }
-        }
-    }
 
     override fun listNoteTable(textView: TextView) {
         val list: MutableList<NoteItem>
@@ -56,8 +36,8 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
 
                 append("TX: $text ${if (it.text.length > 40) "..." else ""}\n")
                 append("CL: ${it.color} | TP: ${it.type} | BN: ${it.isBin}\n")
-                append("RK ID: ${it.rankId.joinToString()}\n")
-                append("RK PS: ${it.rankPs.joinToString()}\n")
+                append("RK ID: ${if(it.rankId.isEmpty()) DbField.Value.NONE else it.rankId.joinToString()}\n")
+                append("RK PS: ${if(it.rankPs.isEmpty()) DbField.Value.NONE else it.rankPs.joinToString()}\n")
                 append("ST: ${it.isStatus}")
             }
 
@@ -83,6 +63,27 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
                 append("ID: ${it.id} | ID_NT: ${it.noteId} | PS: ${it.position} | CH: ${it.isCheck}")
                 append("\n")
                 append("TX: $text ${if (it.text.length > 40) "..." else ""}")
+            }
+        }
+    }
+
+    override fun listRankTable(textView: TextView) {
+        val list: MutableList<RankItem>
+
+        openRoom().apply { list = getRankDao().simple }.close()
+
+        textView.apply {
+            text = ""
+            append("Rank table:")
+        }
+
+        list.forEach {
+            textView.apply {
+                append("\n\n")
+                append("ID: ${it.id} | PS: ${it.position}\n")
+                append("NM: ${it.name}\n")
+                append("CR: ${it.noteId.joinToString()}\n")
+                append("VS: ${it.isVisible}")
             }
         }
     }

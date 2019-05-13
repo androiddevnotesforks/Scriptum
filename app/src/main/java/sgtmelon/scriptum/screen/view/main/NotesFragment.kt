@@ -28,7 +28,7 @@ import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim
-import sgtmelon.scriptum.screen.view.pref.PrefActivity
+import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
@@ -94,7 +94,7 @@ class NotesFragment : Fragment(), NotesCallback {
             inflateMenu(R.menu.fragment_notes)
 
             setOnMenuItemClickListener {
-                startActivity(Intent(context, PrefActivity::class.java))
+                startActivity(Intent(context, PreferenceActivity::class.java))
                 return@setOnMenuItemClickListener true
             }
             menu?.findItem(R.id.item_preference)?.tintIcon(activity)

@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.screen.callback
 
-import sgtmelon.scriptum.screen.view.pref.PrefFragment
-import sgtmelon.scriptum.screen.vm.PrefViewModel
+import sgtmelon.scriptum.screen.view.preference.PreferenceFragment
+import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 
 /**
- * Интерфейс для общения [PrefViewModel] с [PrefFragment]
+ * Интерфейс для общения [PreferenceViewModel] с [PreferenceFragment]
  *
  * @author SerjantArbuz
  */
-interface PrefCallback {
+interface PreferenceCallback {
 
     fun updateSortSummary(summary: String)
 

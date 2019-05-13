@@ -2,13 +2,13 @@ package sgtmelon.scriptum.ui.screen
 
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.screen.view.pref.PrefActivity
-import sgtmelon.scriptum.screen.view.pref.PrefFragment
+import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
+import sgtmelon.scriptum.screen.view.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
- * Класс для ui контроля экрана [PrefActivity], [PrefFragment]
+ * Класс для ui контроля экрана [PreferenceActivity], [PreferenceFragment]
  *
  * @author SerjantArbuz
  */

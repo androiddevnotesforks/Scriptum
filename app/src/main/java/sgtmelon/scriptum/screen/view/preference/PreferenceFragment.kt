@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.view.pref
+package sgtmelon.scriptum.screen.view.preference
 
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.Preference
-import android.preference.PreferenceFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,25 +16,26 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.screen.callback.PrefCallback
+import sgtmelon.scriptum.screen.callback.PreferenceCallback
 import sgtmelon.scriptum.screen.view.DevelopActivity
-import sgtmelon.scriptum.screen.vm.PrefViewModel
+import sgtmelon.scriptum.screen.vm.PreferenceViewModel
+import android.preference.PreferenceFragment as OldPreferenceFragment
 
 /**
  * Экран настроек приложения
  *
  * @author SerjantArbuz
  */
-class PrefFragment : PreferenceFragment(), PrefCallback {
+class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
     // TODO https://www.youtube.com/watch?v=PS9jhuHECEQ
 
     private val openState = OpenState()
 
-    private val activity: PrefActivity by lazy { getActivity() as PrefActivity }
+    private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
 
-    private val viewModel: PrefViewModel by lazy { PrefViewModel(activity, this) }
+    private val viewModel: PreferenceViewModel by lazy { PreferenceViewModel(activity, this) }
 
     private val sortDialog by lazy { DialogFactory.getSortDialog(fm) }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fm) }
@@ -74,15 +74,15 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
 
         viewModel.updateSummary()
 
-        setupNotePref()
-        setupSavePref()
-        setupAppPref()
+        setupNotePreference()
+        setupSavePreference()
+        setupAppPreference()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { putBoolean(OpenState.KEY, openState.value) })
 
-    private fun setupNotePref() {
+    private fun setupNotePreference() {
         sortPreference.setOnPreferenceClickListener { viewModel.onClickSortPreference() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -102,7 +102,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    private fun setupSavePref() {
+    private fun setupSavePreference() {
         saveTimePreference.setOnPreferenceClickListener { viewModel.onClickSaveTimePreference() }
 
         saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -119,7 +119,7 @@ class PrefFragment : PreferenceFragment(), PrefCallback {
         saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
     }
 
-    private fun setupAppPref() {
+    private fun setupAppPreference() {
         themePreference.setOnPreferenceClickListener { viewModel.onClickThemePreference() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
