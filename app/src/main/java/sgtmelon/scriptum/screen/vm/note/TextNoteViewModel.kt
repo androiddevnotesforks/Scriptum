@@ -2,7 +2,8 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
@@ -94,7 +95,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
 
     override fun onMenuRestore() {
-        iRoomRepo.restoreNote(noteModel.noteItem)
+        viewModelScope.launch { iRoomRepo.restoreNote(noteModel.noteItem) }
         noteCallback.finish()
     }
 
@@ -112,10 +113,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuClear() {
-        iRoomRepo.clearNote(noteModel.noteItem)
-
-        noteModel.updateStatus(status = false)
-
+        viewModelScope.launch { iRoomRepo.clearNote(noteModel.noteItem) }
         noteCallback.finish()
     }
 
@@ -190,9 +188,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuConvert() = callback.showConvertDialog()
 
     override fun onMenuDelete() {
+        viewModelScope.launch { iRoomRepo.deleteNote(noteModel.noteItem) }
+
         noteModel.updateStatus(status = false)
 
-        iRoomRepo.deleteNote(noteModel.noteItem)
         noteCallback.finish()
     }
 
@@ -217,8 +216,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
 
     fun onClickBackArrow() {
-        Log.i("HERE", "state create = ${noteState.isCreate}, state edit = ${noteState.isEdit}, id = $id")
-
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
             callback.hideKeyboard()
             onRestoreData()

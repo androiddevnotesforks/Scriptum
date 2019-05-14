@@ -2,6 +2,8 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.item.RankItem
@@ -75,10 +77,8 @@ class RankViewModel(application: Application) : ParentViewModel(application),
     }
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
-        iRoomRepo.apply {
-            rankModel.itemList.clearAndAdd(updateRank(dragFrom, dragTo))
-            notifyStatusBar()
-        }
+        rankModel.itemList.clearAndAdd(iRoomRepo.updateRank(dragFrom, dragTo))
+        viewModelScope.launch { iRoomRepo.notifyStatusBar() }
 
         callback.notifyDataSetChanged(rankModel.itemList)
     }
@@ -93,10 +93,8 @@ class RankViewModel(application: Application) : ParentViewModel(application),
     fun onClickVisible(p: Int) {
         val rankItem = rankModel.itemList[p].apply { isVisible = !isVisible }
 
-        iRoomRepo.apply {
-            updateRank(rankItem)
-            notifyStatusBar()
-        }
+        iRoomRepo.updateRank(rankItem)
+        viewModelScope.launch { iRoomRepo.notifyStatusBar() }
 
         callback.notifyVisible(p, rankItem)
     }
@@ -115,17 +113,13 @@ class RankViewModel(application: Application) : ParentViewModel(application),
 
         callback.notifyVisible(startAnim, rankList)
 
-        iRoomRepo.apply {
-            updateRank(rankList)
-            notifyStatusBar()
-        }
+        iRoomRepo.updateRank(rankList)
+        viewModelScope.launch { iRoomRepo.notifyStatusBar() }
     }
 
     fun onClickCancel(p: Int) {
-        iRoomRepo.apply {
-            deleteRank(rankModel.itemList[p].name, p)
-            notifyStatusBar()
-        }
+        iRoomRepo.deleteRank(rankModel.itemList[p].name, p)
+        viewModelScope.launch { iRoomRepo.notifyStatusBar() }
 
         rankModel.remove(p)
 

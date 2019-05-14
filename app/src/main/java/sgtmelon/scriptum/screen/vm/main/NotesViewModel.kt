@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
@@ -31,7 +33,6 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
             notifyDataSetChanged(listNoteModel)
             bind()
         }
-
 
         if (updateStatus) updateStatus = false
     }
@@ -122,9 +123,9 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
     }
 
     private fun onMenuDelete(p: Int): MutableList<NoteModel> {
-        iRoomRepo.deleteNote(listNoteModel[p].noteItem)
+        viewModelScope.launch { iRoomRepo.deleteNote(listNoteModel[p].noteItem) }
 
-        listNoteModel[p].updateStatus(false)
+        listNoteModel[p].updateStatus(status = false)
 
         return listNoteModel.apply { removeAt(p) }
     }

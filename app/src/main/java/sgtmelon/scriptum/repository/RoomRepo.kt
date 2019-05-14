@@ -57,7 +57,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         }.close()
     }
 
-    override fun clearBin() = openRoom().apply {
+    override suspend fun clearBin() = openRoom().apply {
         val noteList = getNoteDao()[true].apply {
             forEach { clearRankConnection(getRankDao(), it) }
         }
@@ -65,7 +65,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         getNoteDao().delete(noteList)
     }.close()
 
-    override fun deleteNote(item: NoteItem) = openRoom().apply {
+    override suspend fun deleteNote(item: NoteItem) = openRoom().apply {
         getNoteDao().update(item.apply {
             change = context.getTime()
             isBin = true
@@ -73,14 +73,14 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         })
     }.close()
 
-    override fun restoreNote(item: NoteItem) = openRoom().apply {
+    override suspend fun restoreNote(item: NoteItem) = openRoom().apply {
         getNoteDao().update(item.apply {
             change = context.getTime()
             isBin = false
         })
     }.close()
 
-    override fun clearNote(item: NoteItem) = openRoom().apply {
+    override suspend fun clearNote(item: NoteItem) = openRoom().apply {
         clearRankConnection(getRankDao(), item)
         getNoteDao().delete(item)
     }.close()
@@ -285,7 +285,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun updateNote(noteItem: NoteItem) =
             openRoom().apply { getNoteDao().update(noteItem) }.close()
 
-    override fun notifyStatusBar() = openRoom().apply {
+    override suspend fun notifyStatusBar() = openRoom().apply {
         val rankIdVisibleList = getRankDao().rankIdVisibleList
 
         getNoteDao()[getNoteListQuery(bin = false)].forEach {

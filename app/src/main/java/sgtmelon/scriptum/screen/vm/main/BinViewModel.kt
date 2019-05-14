@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.office.annot.def.OptionsDef
@@ -33,7 +35,7 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
     }
 
     fun onClickClearBin() {
-        iRoomRepo.clearBin()
+        viewModelScope.launch { iRoomRepo.clearBin() }
 
         noteModelList.clear()
 
@@ -62,13 +64,13 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
     }
 
     private fun restoreItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.restoreNote(noteModelList[p].noteItem)
+        viewModelScope.launch { iRoomRepo.restoreNote(noteModelList[p].noteItem) }
 
         return noteModelList.apply { removeAt(p) }
     }
 
     private fun clearItem(p: Int): MutableList<NoteModel> {
-        iRoomRepo.clearNote(noteModelList[p].noteItem)
+        viewModelScope.launch { iRoomRepo.clearNote(noteModelList[p].noteItem) }
 
         return noteModelList.apply { removeAt(p) }
     }

@@ -2,7 +2,9 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
+import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.SaveControl
@@ -137,7 +139,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuRestore() {
-        iRoomRepo.restoreNote(noteModel.noteItem)
+        viewModelScope.launch { iRoomRepo.restoreNote(noteModel.noteItem) }
         noteCallback.finish()
     }
 
@@ -155,10 +157,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuClear() {
-        iRoomRepo.clearNote(noteModel.noteItem)
-
-        noteModel.updateStatus(status = false)
-
+        viewModelScope.launch { iRoomRepo.clearNote(noteModel.noteItem) }
         noteCallback.finish()
     }
 
@@ -288,9 +287,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuConvert() = callback.showConvertDialog()
 
     override fun onMenuDelete() {
+        viewModelScope.launch { iRoomRepo.deleteNote(noteModel.noteItem) }
+
         noteModel.updateStatus(status = false)
 
-        iRoomRepo.deleteNote(noteModel.noteItem)
         noteCallback.finish()
     }
 
@@ -313,7 +313,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    fun onDestroy() = saveControl.setSaveHandlerEvent(isStart =  false)
+    fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
 
     fun onUpdateData() {
         checkState.setAll(noteModel.listRoll)

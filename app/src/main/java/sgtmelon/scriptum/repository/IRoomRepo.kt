@@ -17,16 +17,16 @@ interface IRoomRepo {
 
     fun getNoteModelList(bin: Boolean): MutableList<NoteModel>
 
-    fun clearBin()
+    suspend fun clearBin()
 
-    fun deleteNote(item: NoteItem)
+    suspend fun deleteNote(item: NoteItem)
 
-    fun restoreNote(item: NoteItem)
+    suspend fun restoreNote(item: NoteItem)
 
     /**
      * Полное удаление заметки из базы данных и очистка категорий от неё
      */
-    fun clearNote(item: NoteItem)
+    suspend fun clearNote(item: NoteItem)
 
     fun getRankIdVisibleList(): List<Long>
 
@@ -98,7 +98,7 @@ interface IRoomRepo {
     /**
      * Обновление всех прикреплённых заметок в статус баре
      */
-    fun notifyStatusBar()
+    suspend fun notifyStatusBar()
 
     fun deleteRank(name: String, p: Int)
 

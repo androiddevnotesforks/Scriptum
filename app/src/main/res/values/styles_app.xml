@@ -128,11 +128,11 @@
     <style name="SheetDialog"/>
 
     <style name="SheetDialog.Light">
-        <item name="android:background">@drawable/bg_sheet_dialog_light</item>
+        <item name="android:background">@drawable/bg_dialog_light</item>
     </style>
 
     <style name="SheetDialog.Dark">
-        <item name="android:background">@drawable/bg_sheet_dialog_dark</item>
+        <item name="android:background">@drawable/bg_dialog_dark</item>
     </style>
 
     <!-- -->
