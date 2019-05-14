@@ -49,7 +49,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     private val iconState = IconState()
 
-    fun setupData(bundle: Bundle?) {
+    fun onSetupData(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         if (!::noteModel.isInitialized) {
@@ -84,7 +84,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }
     }
 
-    fun saveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
+    fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
     override fun onResultSaveControl() = context.showToast(
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error

@@ -90,7 +90,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
-        viewModel.setupData(savedInstanceState ?: arguments)
+        viewModel.onSetupData(savedInstanceState ?: arguments)
 
         panelContainer = view.findViewById(R.id.note_panel_container)
     }
@@ -108,7 +108,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 putBoolean(OpenState.KEY, openState.value)
-                viewModel.saveData(bundle = this)
+                viewModel.onSaveData(bundle = this)
             })
 
     override fun setupBinding(rankEmpty: Boolean) {

@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
     private var firstStart: Boolean = true
     private var pageFrom: MainPage = MainPage.NOTES
 
-    fun setupData(bundle: Bundle?) {
+    fun onSetupData(bundle: Bundle?) {
         if (bundle != null) pageFrom = MainPage.values()[bundle.getInt(PAGE_CURRENT)]
 
         callback.setupNavigation(pageItemId[pageFrom.ordinal])
@@ -28,7 +28,7 @@ class MainViewModel : ViewModel() {
         if (bundle != null) callback.changeFabState(state = pageFrom == MainPage.NOTES)
     }
 
-    fun saveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
+    fun onSaveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
 
     fun onSelectItem(@IdRes itemId: Int): Boolean {
         val pageTo = itemId.getPageById()

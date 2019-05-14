@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Resources
 import android.preference.PreferenceManager
-import android.widget.TextView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.office.annot.def.ColorDef
@@ -101,7 +100,9 @@ class Preference(context: Context) {
         }
     }.toString()
 
-    fun listAllPref(textView: TextView) = with(textView) {
+    fun getData() = StringBuilder().apply {
+        append("Preference:")
+
         append("\n\nSort:")
         append("\nNt: $sort")
 
@@ -111,6 +112,6 @@ class Preference(context: Context) {
         append("\nSave: $autoSave")
         append("\nSTime: $saveTime")
         append("\nTheme: $theme")
-    }
+    }.toString()
 
 }

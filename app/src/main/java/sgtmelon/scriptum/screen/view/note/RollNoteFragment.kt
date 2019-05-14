@@ -117,7 +117,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
-        viewModel.setupData(arguments ?: savedInstanceState)
+        viewModel.onSetupData(arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
         enterContainer = view.findViewById(R.id.roll_note_enter_container)
@@ -138,7 +138,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 putBoolean(OpenState.KEY, openState.value)
-                viewModel.saveData(bundle = this)
+                viewModel.onSaveData(bundle = this)
             })
 
     override fun setupBinding(rankEmpty: Boolean) {

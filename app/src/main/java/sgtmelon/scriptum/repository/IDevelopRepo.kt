@@ -1,13 +1,11 @@
 package sgtmelon.scriptum.repository
 
-import android.widget.TextView
-
 interface IDevelopRepo {
 
-    fun listNoteTable(textView: TextView)
+    suspend fun getNoteTableData() : String
 
-    fun listRollTable(textView: TextView)
+    suspend fun getRollTableData() : String
 
-    fun listRankTable(textView: TextView)
+    suspend fun getRankTableData() : String
 
 }

@@ -14,19 +14,19 @@ class NoteViewModel(application: Application) : ParentViewModel(application) {
     private var id: Long = NoteData.Default.ID
     private var type: NoteType? = null
 
-    fun setupData(bundle: Bundle?) {
+    fun onSetupData(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         type = NoteType.values()
                 .getOrNull(index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE)
     }
 
-    fun saveData(bundle: Bundle) = with(bundle) {
+    fun onSaveData(bundle: Bundle) = with(bundle) {
         putLong(NoteData.Intent.ID, id)
         putInt(NoteData.Intent.TYPE, type?.ordinal ?: NoteData.Default.TYPE)
     }
 
-    fun setupFragment(isSave: Boolean) = when (type) {
+    fun onSetupFragment(isSave: Boolean) = when (type) {
         NoteType.TEXT -> callback.showTextFragment(id, isSave)
         NoteType.ROLL -> callback.showRollFragment(id, isSave)
         else -> callback.finish()

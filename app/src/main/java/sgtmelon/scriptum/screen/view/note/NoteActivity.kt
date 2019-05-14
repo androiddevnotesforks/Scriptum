@@ -31,13 +31,13 @@ class NoteActivity : AppActivity(), NoteCallback {
         setContentView(R.layout.activity_note)
 
         viewModel.apply {
-            setupData(intent.extras ?: savedInstanceState)
-            setupFragment(savedInstanceState != null)
+            onSetupData(intent.extras ?: savedInstanceState)
+            onSetupFragment(savedInstanceState != null)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { viewModel.saveData(bundle = this) })
+            super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
 
     override fun showTextFragment(id: Long, isSave: Boolean) {
         showFragment(NoteType.TEXT.name, if (isSave) {

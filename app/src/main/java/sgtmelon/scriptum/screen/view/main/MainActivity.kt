@@ -75,13 +75,13 @@ class MainActivity : AppActivity(), MainCallback {
             openState.value = savedInstanceState.getBoolean(OpenState.KEY)
         }
 
-        viewModel.setupData(savedInstanceState)
+        viewModel.onSetupData(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 putBoolean(OpenState.KEY, openState.value)
-                viewModel.saveData(bundle = this)
+                viewModel.onSaveData(bundle = this)
             })
 
     override fun setupNavigation(@IdRes itemId: Int) {
