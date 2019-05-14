@@ -242,6 +242,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
         noteModel.updateStatus(rankIdVisibleList)
 
+        id = noteModel.noteItem.id
+
         noteState.ifCreate {
             if (!changeMode) {
                 callback.changeToolbarIcon(drawableOn = true, needAnim = true)

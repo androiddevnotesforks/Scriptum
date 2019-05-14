@@ -32,7 +32,7 @@ class NoteViewModel(application: Application) : ParentViewModel(application) {
         else -> callback.finish()
     }
 
-    fun onPressBack(): Boolean = when (type) {
+    fun onPressBack() = when (type) {
         NoteType.TEXT -> callback.onPressBackText()
         NoteType.ROLL -> callback.onPressBackRoll()
         else -> false

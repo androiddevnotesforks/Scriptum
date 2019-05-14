@@ -64,10 +64,9 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
 
         list.forEach {
             append("\n\n")
-            append("ID: ${it.id} | PS: ${it.position}\n")
+            append("ID: ${it.id} | PS: ${it.position} | VS: ${it.isVisible}\n")
             append("NM: ${it.name}\n")
             append("CR: ${it.noteId.joinToString()}\n")
-            append("VS: ${it.isVisible}")
         }
     }.toString()
 

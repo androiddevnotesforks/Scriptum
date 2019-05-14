@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
+import android.util.Log
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
@@ -165,6 +166,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
         noteModel.updateStatus(rankIdVisibleList)
 
+        id = noteModel.noteItem.id
+
         noteState.ifCreate {
             if (!changeMode) {
                 callback.changeToolbarIcon(drawableOn = true, needAnim = true)
@@ -211,9 +214,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    fun onDestroy() = saveControl.setSaveHandlerEvent(isStart =  false)
+    fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
 
     fun onClickBackArrow() {
+        Log.i("HERE", "state create = ${noteState.isCreate}, state edit = ${noteState.isEdit}, id = $id")
+
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
             callback.hideKeyboard()
             onRestoreData()
