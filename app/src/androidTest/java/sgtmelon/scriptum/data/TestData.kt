@@ -56,8 +56,7 @@ class TestData(private val context: Context) {
     val rankItem: RankItem get() = RankItem(name = uniqueString)
 
 
-    fun clearAllData() = dataBase.apply { clearAllTables() }.close()
-
+    fun clear() = apply { dataBase.apply { clearAllTables() }.close() }
 
     fun insertRank(rankItem: RankItem = this.rankItem): RankItem {
         dataBase.apply { rankItem.id = getRankDao().insert(rankItem) }.close()

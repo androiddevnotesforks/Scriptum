@@ -12,6 +12,7 @@ import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.screen.view.SplashActivity
+import sgtmelon.scriptum.ui.screen.SplashScreen
 
 /**
  * Родительский класс включающий в себе объявление часто используемых переменных
@@ -44,6 +45,16 @@ abstract class ParentTest {
     protected fun afterLaunch(intent: Intent = Intent(), func: () -> Unit) {
         testRule.launchActivity(intent)
         func()
+    }
+
+    // TODO Заменить before/afterLaunch на launch
+
+    protected fun launch(before: () -> Unit = {}, intent: Intent = Intent(), after: SplashScreen.() -> Unit) {
+        before()
+
+        testRule.launchActivity(intent)
+
+        SplashScreen().apply(after)
     }
 
     protected fun wait(time: Long, func: () -> Unit = {}) = Thread.sleep(time)

@@ -3,7 +3,6 @@ package sgtmelon.scriptum.test
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест работы приложения при повороте экрана
@@ -19,15 +18,13 @@ class RotationTest : ParentTest() {
         preference.firstStart = false
     }
 
-    @Test fun addDialog() = afterLaunch {
-        MainScreen { openAddDialog { waitBefore(time = 5000) { assert { onDisplayContent() } } } }
+    @Test fun addDialog() = launch {
+        mainScreen { openAddDialog { waitBefore(time = 5000) { assert { onDisplayContent() } } } }
     }
 
 
-    @Test fun rankScreenContentEmpty() {
-        beforeLaunch { testData.clearAllData() }
-
-        MainScreen {
+    @Test fun rankScreenContentEmpty() = launch({ testData.clear() }) {
+        mainScreen {
             openRankPage {
                 assert { onDisplayContent(empty = true) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
@@ -37,10 +34,8 @@ class RotationTest : ParentTest() {
         }
     }
 
-    @Test fun rankScreenContentList() {
-        beforeLaunch { testData.apply { clearAllData() }.fillRank() }
-
-        MainScreen {
+    @Test fun rankScreenContentList() = launch({ testData.clear().fillRank() }) {
+        mainScreen {
             openRankPage {
                 assert { onDisplayContent(empty = false) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
@@ -51,11 +46,11 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun rankScreenRenameDialog() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
         val newName = testData.uniqueString
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openRankPage {
                     openRenameDialog(rankItem.name) {
                         onEnterName(newName)
@@ -69,10 +64,8 @@ class RotationTest : ParentTest() {
     }
 
 
-    @Test fun notesScreenContentEmpty() {
-        beforeLaunch { testData.clearAllData() }
-
-        MainScreen {
+    @Test fun notesScreenContentEmpty() = launch({ testData.clear() }) {
+        mainScreen {
             openNotesPage {
                 assert { onDisplayContent(empty = true) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
@@ -82,10 +75,8 @@ class RotationTest : ParentTest() {
         }
     }
 
-    @Test fun notesScreenContentList() {
-        beforeLaunch { testData.apply { clearAllData() }.fillNotes() }
-
-        MainScreen {
+    @Test fun notesScreenContentList() = launch({ testData.clear().fillNotes() }) {
+        mainScreen {
             openNotesPage {
                 assert { onDisplayContent(empty = false) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
@@ -96,10 +87,10 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun notesScreenTextNoteDialog() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
@@ -110,10 +101,10 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun notesScreenRollNoteDialog() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
+        val noteItem = testData.clear().insertRoll()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
@@ -124,10 +115,8 @@ class RotationTest : ParentTest() {
     }
 
 
-    @Test fun binScreenContentEmpty() {
-        beforeLaunch { testData.clearAllData() }
-
-        MainScreen {
+    @Test fun binScreenContentEmpty() = launch({ testData.clear() }) {
+        mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = true) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
@@ -137,10 +126,8 @@ class RotationTest : ParentTest() {
         }
     }
 
-    @Test fun binScreenContentList() {
-        beforeLaunch { testData.apply { clearAllData() }.fillBin() }
-
-        MainScreen {
+    @Test fun binScreenContentList() = launch({ testData.clear().fillBin() }) {
+        mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
                 waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
@@ -150,10 +137,8 @@ class RotationTest : ParentTest() {
         }
     }
 
-    @Test fun binScreenClearDialog() {
-        beforeLaunch { testData.apply { clearAllData() }.fillBin() }
-
-        MainScreen {
+    @Test fun binScreenClearDialog() = launch({ testData.clear().fillBin() }) {
+        mainScreen {
             openBinPage {
                 openClearDialog {
                     assert { onDisplayContent() }
@@ -164,10 +149,10 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun binScreenTextNoteDialog() {
-        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
+        val noteItem = testData.clear().insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
@@ -178,10 +163,10 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun binScreenRollNoteDialog() {
-        val noteItem = testData.apply { clearAllData() }.insertRollToBin()
+        val noteItem = testData.clear().insertRollToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openNoteDialog(noteItem) {
                         waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }

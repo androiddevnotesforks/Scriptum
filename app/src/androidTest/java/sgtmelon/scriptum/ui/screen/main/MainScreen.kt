@@ -18,6 +18,8 @@ class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
+    // TODO Добавить assert для Page's
+
     fun openRankPage(func: RankScreen.() -> Unit) = RankScreen().apply {
         wasNavigate = true
 

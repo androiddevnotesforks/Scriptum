@@ -15,7 +15,7 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
 class InfoAnimTest : ParentTest() {
 
     @Test fun rankShowAndHide() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openRankPage {
@@ -38,7 +38,7 @@ class InfoAnimTest : ParentTest() {
 
 
     @Test fun notesShow() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
         afterLaunch {
             MainScreen {
@@ -48,7 +48,7 @@ class InfoAnimTest : ParentTest() {
     }
 
     @Test fun notesHide() {
-        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
+        val noteItem = testData.clear().insertTextToBin()
 
         afterLaunch {
             MainScreen {
@@ -60,7 +60,7 @@ class InfoAnimTest : ParentTest() {
 
 
     @Test fun binShow() {
-        val noteItem = testData.apply { clearAllData() }.insertTextToBin()
+        val noteItem = testData.clear().insertTextToBin()
 
         afterLaunch {
             MainScreen {
@@ -70,7 +70,7 @@ class InfoAnimTest : ParentTest() {
     }
 
     @Test fun binHide() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
         afterLaunch {
             MainScreen {

@@ -20,7 +20,7 @@ class TextNotePanelTest : ParentTest() {
         super.setUp()
 
         preference.firstStart = false
-        testData.clearAllData()
+        testData.clear()
     }
 
     @Test fun displayOnCreate() = afterLaunch {

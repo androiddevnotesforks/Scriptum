@@ -20,7 +20,7 @@ class IntroTest : ParentTest() {
 
         beforeLaunch {
             preference.firstStart = true
-            testData.clearAllData()
+            testData.clear()
         }
     }
 

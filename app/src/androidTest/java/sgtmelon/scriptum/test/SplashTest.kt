@@ -6,7 +6,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
-import sgtmelon.scriptum.ui.screen.SplashScreen
 
 /**
  * Тест для [SplashActivity]
@@ -16,37 +15,23 @@ import sgtmelon.scriptum.ui.screen.SplashScreen
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentTest() {
 
-    @Test fun introScreenOpen() {
-        beforeLaunch { preference.firstStart = true }
+    @Test fun introScreenOpen() = launch({ preference.firstStart = true }) { introScreen() }
 
-        SplashScreen { introScreen() }
-    }
-
-    @Test fun mainScreenOpen() {
-        beforeLaunch { preference.firstStart = false }
-
-        SplashScreen { mainScreen() }
-    }
+    @Test fun mainScreenOpen() = launch({ preference.firstStart = false }) { mainScreen() }
 
     @Test fun statusTextNoteOpen() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
-        beforeLaunch(context.getSplashIntent(noteItem)) {
-            preference.firstStart = false
-        }
+        preference.firstStart = false
 
-        SplashScreen {
+        launch(intent = context.getSplashIntent(testData.clear().insertText())) {
             openTextNoteNotification { pressBack() }
             mainScreen()
         }
     }
 
     @Test fun statusRollNoteOpen() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
-        beforeLaunch(context.getSplashIntent(noteItem)) {
-            preference.firstStart = false
-        }
+        preference.firstStart = false
 
-        SplashScreen {
+        launch(intent = context.getSplashIntent(testData.clear().insertRoll())) {
             openRollNoteNotification { pressBack() }
             mainScreen()
         }

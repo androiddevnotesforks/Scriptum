@@ -92,7 +92,7 @@ class MainTest : ParentTest() {
 
 
     @Test fun rankScreenScrollTop() {
-        beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }
+        beforeLaunch { testData.clear().fillRank(times = 20) }
 
         MainScreen {
             openRankPage {
@@ -105,7 +105,7 @@ class MainTest : ParentTest() {
     }
 
     @Test fun notesScreenScrollTop() {
-        beforeLaunch { testData.apply { clearAllData() }.fillNotes(times = 20) }
+        beforeLaunch { testData.clear().fillNotes(times = 20) }
 
         MainScreen {
             openNotesPage {
@@ -118,7 +118,7 @@ class MainTest : ParentTest() {
     }
 
     @Test fun binScreenScrollTop() {
-        beforeLaunch { testData.apply { clearAllData() }.fillBin(times = 20) }
+        beforeLaunch { testData.clear().fillBin(times = 20) }
 
         MainScreen {
             openBinPage {

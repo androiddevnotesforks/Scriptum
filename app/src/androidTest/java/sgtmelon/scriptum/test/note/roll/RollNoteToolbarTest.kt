@@ -20,7 +20,7 @@ class RollNoteToolbarTest : ParentTest() {
         super.setUp()
 
         preference.firstStart = false
-        testData.clearAllData()
+        testData.clear()
     }
 
     @Test fun closeByToolbarOnCreate() = afterLaunch {

@@ -22,19 +22,19 @@ class RankTest : ParentTest() {
 
 
     @Test fun contentEmpty() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen { openRankPage { assert { onDisplayContent(empty = true) } } }
     }
 
     @Test fun contentList() {
-        beforeLaunch { testData.apply { clearAllData() }.fillRank() }
+        beforeLaunch { testData.clear().fillRank() }
 
         MainScreen { openRankPage { assert { onDisplayContent(empty = false) } } }
     }
 
     @Test fun listScroll() {
-        beforeLaunch { testData.apply { clearAllData() }.fillRank(times = 20) }
+        beforeLaunch { testData.clear().fillRank(times = 20) }
 
         MainScreen {
             openRankPage {
@@ -46,7 +46,7 @@ class RankTest : ParentTest() {
 
 
     @Test fun toolbarEnterAddEmpty() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openRankPage {
@@ -60,7 +60,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun toolbarEnterAddFromList() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
 
         afterLaunch {
             MainScreen {
@@ -76,7 +76,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun toolbarEnterAddEnabled() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openRankPage {
@@ -90,7 +90,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun toolbarEnterClear() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openRankPage {
@@ -107,7 +107,7 @@ class RankTest : ParentTest() {
 
     @Test fun toolbarEnterAddStart() {
         val name = testData.apply {
-            clearAllData()
+            clear()
             insertRank()
         }.uniqueString
 
@@ -128,7 +128,7 @@ class RankTest : ParentTest() {
 
     @Test fun toolbarEnterAddEnd() {
         val name = testData.apply {
-            clearAllData()
+            clear()
             insertRank()
         }.uniqueString
 
@@ -149,7 +149,7 @@ class RankTest : ParentTest() {
 
 
     @Test fun rankVisibleAnimationClick() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
 
         afterLaunch {
             MainScreen {
@@ -162,7 +162,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun rankVisibleAnimationLongClick() {
-        val rankList = testData.apply { clearAllData() }.fillRank(times = 5)
+        val rankList = testData.clear().fillRank(times = 5)
 
         afterLaunch {
             MainScreen {
@@ -175,7 +175,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun rankVisibleForNotes() {
-        val rankList = testData.apply { clearAllData() }.insertRankToBin()
+        val rankList = testData.clear().insertRankToBin()
 
         afterLaunch {
             MainScreen {
@@ -192,7 +192,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun rankClearFromList() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
 
         afterLaunch {
             MainScreen {
@@ -205,7 +205,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun rankClearForNote() {
-        val rankList = testData.apply { clearAllData() }.insertRankToNotes()
+        val rankList = testData.clear().insertRankToNotes()
 
         afterLaunch {
             MainScreen {
@@ -219,13 +219,13 @@ class RankTest : ParentTest() {
 
 
     @Test fun renameDialogOpen() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
 
         afterLaunch { MainScreen { openRankPage { openRenameDialog(rankItem.name) } } }
     }
 
     @Test fun renameDialogCloseSoft() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
 
         afterLaunch {
             MainScreen {
@@ -242,7 +242,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun renameDialogCloseCancel() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
 
         afterLaunch {
             MainScreen {
@@ -255,7 +255,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun renameDialogBlockApplySameName() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
 
         afterLaunch {
             MainScreen {
@@ -270,7 +270,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun renameDialogBlockApplyFromList() {
-        val listRank = testData.apply { clearAllData() }.fillRank(times = 2)
+        val listRank = testData.clear().fillRank(times = 2)
 
         afterLaunch {
             MainScreen {
@@ -285,7 +285,7 @@ class RankTest : ParentTest() {
     }
 
     @Test fun renameDialogResult() {
-        val rankItem = testData.apply { clearAllData() }.insertRank()
+        val rankItem = testData.clear().insertRank()
         val newName = testData.uniqueString
 
         afterLaunch {

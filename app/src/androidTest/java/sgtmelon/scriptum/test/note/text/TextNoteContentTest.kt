@@ -20,7 +20,7 @@ class TextNoteContentTest : ParentTest() {
         super.setUp()
 
         preference.firstStart = false
-        testData.clearAllData()
+        testData.clear()
     }
 
     @Test fun contentEmptyOnCreate() = afterLaunch {

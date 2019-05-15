@@ -24,13 +24,13 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun contentEmpty() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen { openNotesPage { assert { onDisplayContent(empty = true) } } }
     }
 
     @Test fun contentList() {
-        beforeLaunch { testData.apply { clearAllData() }.fillNotes() }
+        beforeLaunch { testData.clear().fillNotes() }
 
         MainScreen { openNotesPage { assert { onDisplayContent(empty = false) } } }
     }
@@ -40,7 +40,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun listScroll() {
-        beforeLaunch { testData.apply { clearAllData() }.fillNotes(times = 20) }
+        beforeLaunch { testData.clear().fillNotes(times = 20) }
 
         MainScreen {
             openNotesPage {
@@ -51,7 +51,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun addFabVisibleOnScroll() {
-        beforeLaunch { testData.apply { clearAllData() }.fillNotes(times = 20) }
+        beforeLaunch { testData.clear().fillNotes(times = 20) }
 
         MainScreen {
             assert { onDisplayFab(visible = true) }
@@ -67,7 +67,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun textNoteOpen() {
-        beforeLaunch { testData.apply { clearAllData() }.insertText() }
+        beforeLaunch { testData.clear().insertText() }
 
         MainScreen {
             openNotesPage {
@@ -79,7 +79,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteOpen() {
-        beforeLaunch { testData.apply { clearAllData() }.insertRoll() }
+        beforeLaunch { testData.clear().insertRoll() }
 
         MainScreen {
             openNotesPage {
@@ -91,7 +91,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun textNoteCreateAndReturn() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openNotesPage { assert { onDisplayContent(empty = true) } }
@@ -101,7 +101,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteCreateAndReturn() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openNotesPage { assert { onDisplayContent(empty = true) } }
@@ -111,7 +111,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun textNoteCreateAndReturnWithSave() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openNotesPage { assert { onDisplayContent(empty = true) } }
@@ -128,7 +128,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteCreateAndReturnWithSave() {
-        beforeLaunch { testData.clearAllData() }
+        beforeLaunch { testData.clear() }
 
         MainScreen {
             openNotesPage { assert { onDisplayContent(empty = true) } }
@@ -146,13 +146,13 @@ class NotesTest : ParentTest() {
 
 
     @Test fun textNoteDialogOpen() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
         afterLaunch { MainScreen { openNotesPage { openNoteDialog(noteItem) } } }
     }
 
     @Test fun textNoteDialogClose() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
         afterLaunch {
             MainScreen {
@@ -165,7 +165,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun textNoteDialogBind() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
         afterLaunch {
             MainScreen {
@@ -180,7 +180,7 @@ class NotesTest : ParentTest() {
 
     @Test fun textNoteDialogUnbind() {
         val noteItem = with(testData) {
-            clearAllData()
+            clear()
             return@with insertText(textNote.apply { isStatus = true })
         }
 
@@ -197,7 +197,7 @@ class NotesTest : ParentTest() {
 
     @Test fun textNoteDialogUnbindOnDelete() {
         val noteItem = with(testData) {
-            clearAllData()
+            clear()
             return@with insertText(textNote.apply { isStatus = true })
         }
 
@@ -220,7 +220,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun textNoteDialogConvert() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
         afterLaunch {
             MainScreen {
@@ -234,7 +234,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun textNoteDialogDelete() {
-        val noteItem = testData.apply { clearAllData() }.insertText()
+        val noteItem = testData.clear().insertText()
 
         afterLaunch {
             MainScreen {
@@ -251,13 +251,13 @@ class NotesTest : ParentTest() {
 
 
     @Test fun rollNoteDialogOpen() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
+        val noteItem = testData.clear().insertRoll()
 
         afterLaunch { MainScreen { openNotesPage { openNoteDialog(noteItem) } } }
     }
 
     @Test fun rollNoteDialogClose() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
+        val noteItem = testData.clear().insertRoll()
 
         afterLaunch {
             MainScreen {
@@ -271,7 +271,7 @@ class NotesTest : ParentTest() {
 
     @Test fun rollNoteDialogCheckAllFromEmpty() {
         val listRoll = testData.listRoll.apply { forEach { it.isCheck = false } }
-        val noteItem = testData.apply { clearAllData() }.insertRoll(listRoll = listRoll)
+        val noteItem = testData.clear().insertRoll(listRoll = listRoll)
 
         afterLaunch {
             MainScreen {
@@ -290,7 +290,7 @@ class NotesTest : ParentTest() {
             get(0).isCheck = true
         }
 
-        val noteItem = testData.apply { clearAllData() }.insertRoll(listRoll = listRoll)
+        val noteItem = testData.clear().insertRoll(listRoll = listRoll)
 
         afterLaunch {
             MainScreen {
@@ -305,7 +305,7 @@ class NotesTest : ParentTest() {
 
     @Test fun rollNoteDialogUncheckAll() {
         val listRoll = testData.listRoll.apply { forEach { it.isCheck = true } }
-        val noteItem = testData.apply { clearAllData() }.insertRoll(listRoll = listRoll)
+        val noteItem = testData.clear().insertRoll(listRoll = listRoll)
 
         afterLaunch {
             MainScreen {
@@ -319,7 +319,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogBind() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
+        val noteItem = testData.clear().insertRoll()
 
         afterLaunch {
             MainScreen {
@@ -334,7 +334,7 @@ class NotesTest : ParentTest() {
 
     @Test fun rollNoteDialogUnbind() {
         val noteItem = with(testData) {
-            clearAllData()
+            clear()
             return@with insertRoll(rollNote.apply { isStatus = true })
         }
 
@@ -351,7 +351,7 @@ class NotesTest : ParentTest() {
 
     @Test fun rollNoteDialogUnbindOnDelete() {
         val noteItem = with(testData) {
-            clearAllData()
+            clear()
             return@with insertRoll(rollNote.apply { isStatus = true })
         }
 
@@ -374,7 +374,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogConvert() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
+        val noteItem = testData.clear().insertRoll()
 
         afterLaunch {
             MainScreen {
@@ -388,7 +388,7 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogDelete() {
-        val noteItem = testData.apply { clearAllData() }.insertRoll()
+        val noteItem = testData.clear().insertRoll()
 
         afterLaunch {
             MainScreen {
