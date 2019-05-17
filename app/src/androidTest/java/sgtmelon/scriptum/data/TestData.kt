@@ -12,6 +12,7 @@ import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
 import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import sgtmelon.scriptum.room.RoomDb
 import java.util.UUID.randomUUID
+import kotlin.random.Random
 
 class TestData(private val context: Context) {
 
@@ -46,7 +47,7 @@ class TestData(private val context: Context) {
             for (i in 0 until 10) {
                 add(RollItem().apply {
                     position = i
-                    isCheck = Math.random() < 0.5
+                    isCheck = Random.nextBoolean()
                     text = i.toString() + " | " + context.getString(R.string.test_roll_text)
                 })
             }
@@ -96,7 +97,7 @@ class TestData(private val context: Context) {
     }
 
     fun insertRankToNotes() = ArrayList<RankItem>().apply {
-        val noteItem = if (Math.random() < 0.5) insertText() else insertRoll()
+        val noteItem = if (Random.nextBoolean()) insertText() else insertRoll()
 
         (1..2).forEach {
             val rankItem = insertRank(rankItem.apply {
@@ -117,7 +118,7 @@ class TestData(private val context: Context) {
     }
 
     fun insertRankToBin() = ArrayList<RankItem>().apply {
-        val noteItem = if (Math.random() < 0.5) insertTextToBin() else insertRollToBin()
+        val noteItem = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
 
         (1..2).forEach {
             val rankItem = insertRank(rankItem.apply {
@@ -142,7 +143,7 @@ class TestData(private val context: Context) {
             val rankItem = insertRank(rankItem.apply {
                 name = "$it | $name"
                 position = it
-                isVisible = Math.random() < 0.5
+                isVisible = Random.nextBoolean()
             })
 
             add(rankItem)
@@ -150,11 +151,11 @@ class TestData(private val context: Context) {
     }
 
     fun fillNotes(times: Int = 10) = repeat(times) {
-        if (Math.random() < 0.5) insertText() else insertRoll()
+        if (Random.nextBoolean()) insertText() else insertRoll()
     }
 
     fun fillBin(times: Int = 10) = repeat(times) {
-        if (Math.random() < 0.5) insertTextToBin() else insertRollToBin()
+        if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
     }
 
 }

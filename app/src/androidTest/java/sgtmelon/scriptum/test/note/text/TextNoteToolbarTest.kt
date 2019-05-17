@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест для [TextNoteFragment]
@@ -23,59 +22,51 @@ class TextNoteToolbarTest : ParentTest() {
         testData.clear()
     }
 
-    @Test fun closeByToolbarOnCreate() = afterLaunch {
-        MainScreen {
+    @Test fun closeByToolbarOnCreate() = launch {
+        mainScreen {
             openAddDialog { createTextNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun closeByBackPressOnCreate() = afterLaunch {
-        MainScreen {
+    @Test fun closeByBackPressOnCreate() = launch {
+        mainScreen {
             openAddDialog { createTextNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun closeByToolbarOnOpen() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun closeByToolbarOnOpen() = launch({ testData.insertText() }) {
+        mainScreen {
             openNotesPage { openTextNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun closeByBackPressOnOpen() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun closeByBackPressOnOpen() = launch({ testData.insertText() }) {
+        mainScreen {
             openNotesPage { openTextNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() {
-        beforeLaunch { testData.insertTextToBin() }
-
-        MainScreen {
+    @Test fun closeByToolbarOnOpenFromBin() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
             openBinPage { openTextNote { toolbar { onClickBack() } } }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun closeByBackPressOnOpenFromBin() {
-        beforeLaunch { testData.insertTextToBin() }
-
-        MainScreen {
+    @Test fun closeByBackPressOnOpenFromBin() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
             openBinPage { openTextNote { onPressBack() } }
             assert { onDisplayContent() }
         }
     }
 
 
-    @Test fun contentEmptyOnCreate() = afterLaunch {
-        MainScreen {
+    @Test fun contentEmptyOnCreate() = launch {
+        mainScreen {
             openAddDialog {
                 createTextNote { toolbar { assert { onDisplayName(State.NEW, name = "") } } }
             }
@@ -85,8 +76,8 @@ class TextNoteToolbarTest : ParentTest() {
     @Test fun contentEmptyOnOpen() {
         val noteItem = testData.insertText(testData.textNote.apply { name = "" })
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
@@ -101,8 +92,8 @@ class TextNoteToolbarTest : ParentTest() {
     @Test fun contentFillOnOpen() {
         val noteItem = testData.insertText()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
@@ -117,8 +108,8 @@ class TextNoteToolbarTest : ParentTest() {
     @Test fun contentEmptyOnOpenFromBin() {
         val noteItem = testData.insertTextToBin(testData.textNote.apply { name = "" })
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
@@ -131,8 +122,8 @@ class TextNoteToolbarTest : ParentTest() {
     @Test fun contentFillOnOpenFromBin() {
         val noteItem = testData.insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
@@ -145,8 +136,8 @@ class TextNoteToolbarTest : ParentTest() {
     @Test fun contentFillOnRestoreOpen() {
         val noteItem = testData.insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
@@ -159,10 +150,10 @@ class TextNoteToolbarTest : ParentTest() {
     }
 
 
-    @Test fun saveByControlOnCreate() = afterLaunch {
+    @Test fun saveByControlOnCreate() = launch {
         val noteItem = testData.textNote
 
-        MainScreen {
+        mainScreen {
             openAddDialog {
                 createTextNote {
                     toolbar { onEnterName(noteItem.name) }
@@ -176,10 +167,10 @@ class TextNoteToolbarTest : ParentTest() {
         }
     }
 
-    @Test fun saveByBackPressOnCreate() = afterLaunch {
+    @Test fun saveByBackPressOnCreate() = launch {
         val noteItem = testData.textNote
 
-        MainScreen {
+        mainScreen {
             openAddDialog {
                 createTextNote {
                     toolbar { onEnterName(noteItem.name) }
@@ -197,8 +188,8 @@ class TextNoteToolbarTest : ParentTest() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
@@ -218,8 +209,8 @@ class TextNoteToolbarTest : ParentTest() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
@@ -240,8 +231,8 @@ class TextNoteToolbarTest : ParentTest() {
         val noteItem = testData.insertText()
         val newName = testData.uniqueString
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         toolbar { assert { onDisplayName(State.READ, noteItem.name) } }

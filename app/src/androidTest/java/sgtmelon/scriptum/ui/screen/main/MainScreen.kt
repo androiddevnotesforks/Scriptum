@@ -18,25 +18,24 @@ class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    // TODO Добавить assert для Page's
-
-    fun openRankPage(func: RankScreen.() -> Unit) = RankScreen().apply {
+    fun openRankPage(func: RankScreen.() -> Unit) {
         wasNavigate = true
-
         onNavigateTo(MainPage.RANK)
-        func()
+
+        RankScreen().apply(func)
     }
 
-    fun openNotesPage(func: NotesScreen.() -> Unit) = NotesScreen().apply {
+    fun openNotesPage(func: NotesScreen.() -> Unit)  {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
-        func()
+
+        NotesScreen().apply(func)
     }
 
-    fun openBinPage(func: BinScreen.() -> Unit) = BinScreen().apply {
+    fun openBinPage(func: BinScreen.() -> Unit)  {
         wasNavigate = true
-
         onNavigateTo(MainPage.BIN)
-        func()
+
+        BinScreen().apply(func)
     }
 
     fun openAddDialog(func: AddDialogUi.() -> Unit = {}) = AddDialogUi().apply {

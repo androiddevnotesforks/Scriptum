@@ -7,7 +7,6 @@ import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест анимации кнопки у тулбара [MenuControlAnim] в [TextNoteFragment] и [RollNoteFragment]
@@ -24,73 +23,58 @@ class NoteToolbarIconTest : ParentTest() {
         testData.clear()
     }
 
-    @Test fun arrowBackOnCreateTextNote() = afterLaunch {
-        MainScreen { openAddDialog { createTextNote { wait(time = 500) } } }
+    @Test fun arrowBackOnCreateTextNote() = launch {
+        mainScreen { openAddDialog { createTextNote { wait(time = 500) } } }
     }
 
-    @Test fun arrowBackOnCreateRollNote() = afterLaunch {
-        MainScreen { openAddDialog { createRollNote { wait(time = 500) } } }
+    @Test fun arrowBackOnCreateRollNote() = launch {
+        mainScreen { openAddDialog { createRollNote { wait(time = 500) } } }
     }
 
-    @Test fun notAnimateOnSaveCreateTextNote() = afterLaunch {
-        val noteItem = testData.textNote
-
-        MainScreen {
+    @Test fun notAnimateOnSaveCreateTextNote() = launch {
+        mainScreen {
             openAddDialog {
                 createTextNote {
-                    onEnterText(noteItem.text)
+                    onEnterText(testData.textNote.text)
                     waitAfter(time = 500) { controlPanel { onClickSave() } }
                 }
             }
         }
     }
 
-    @Test fun notAnimateOnSaveCreateRollNote() = afterLaunch {
-        val listRoll = testData.listRoll
-
-        MainScreen {
+    @Test fun notAnimateOnSaveCreateRollNote() = launch {
+        mainScreen {
             openAddDialog {
                 createRollNote {
-                    enterPanel { onAddRoll(listRoll[0].text) }
+                    enterPanel { onAddRoll(testData.listRoll[0].text) }
                     waitAfter(time = 500) { controlPanel { onClickSave() } }
                 }
             }
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenTextNote() {
-        testData.insertTextToBin()
-
-        afterLaunch {
-            MainScreen {
+    @Test fun notAnimateOnRestoreOpenTextNote() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
                 openBinPage {
                     openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
                     }
                 }
             }
-        }
     }
 
-    @Test fun notAnimateOnRestoreOpenRollNote() {
-        testData.insertRollToBin()
-
-        afterLaunch {
-            MainScreen {
+    @Test fun notAnimateOnRestoreOpenRollNote() = launch({ testData.insertRollToBin() }) {
+        mainScreen {
                 openBinPage {
                     openRollNote {
                         waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
                     }
                 }
             }
-        }
     }
 
-    @Test fun animateOnEditToSaveTextNote() {
-        testData.insertText()
-
-        afterLaunch {
-            MainScreen {
+    @Test fun animateOnEditToSaveTextNote() = launch({ testData.insertText() }) {
+        mainScreen {
                 openNotesPage {
                     openTextNote {
                         controlPanel {
@@ -102,14 +86,10 @@ class NoteToolbarIconTest : ParentTest() {
                     }
                 }
             }
-        }
     }
 
-    @Test fun animateOnEditToSaveRollNote() {
-        testData.insertRoll()
-
-        afterLaunch {
-            MainScreen {
+    @Test fun animateOnEditToSaveRollNote() = launch({ testData.insertRoll() }) {
+        mainScreen {
                 openNotesPage {
                     openRollNote {
                         controlPanel {
@@ -121,14 +101,10 @@ class NoteToolbarIconTest : ParentTest() {
                     }
                 }
             }
-        }
     }
 
-    @Test fun animateOnEditToCancelTextNote() {
-        testData.insertText()
-
-        afterLaunch {
-            MainScreen {
+    @Test fun animateOnEditToCancelTextNote() = launch({ testData.insertText() }) {
+        mainScreen {
                 openNotesPage {
                     openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickEdit() } }
@@ -139,14 +115,10 @@ class NoteToolbarIconTest : ParentTest() {
                     }
                 }
             }
-        }
     }
 
-    @Test fun animateOnEditToCancelRollNote() {
-        testData.insertRoll()
-
-        afterLaunch {
-            MainScreen {
+    @Test fun animateOnEditToCancelRollNote() = launch({ testData.insertRoll() }) {
+        mainScreen {
                 openNotesPage {
                     openRollNote {
                         waitAfter(time = 500) { controlPanel { onClickEdit() } }
@@ -157,7 +129,6 @@ class NoteToolbarIconTest : ParentTest() {
                     }
                 }
             }
-        }
     }
 
 }

@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест для [TextNoteFragment]
@@ -23,8 +22,8 @@ class TextNoteContentTest : ParentTest() {
         testData.clear()
     }
 
-    @Test fun contentEmptyOnCreate() = afterLaunch {
-        MainScreen {
+    @Test fun contentEmptyOnCreate() = launch {
+            mainScreen {
             openAddDialog { createTextNote { assert { onDisplayText(State.EDIT, text = "") } } }
         }
     }
@@ -32,8 +31,8 @@ class TextNoteContentTest : ParentTest() {
     @Test fun contentFillOnOpen() {
         val noteItem = testData.insertText()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }
@@ -48,8 +47,8 @@ class TextNoteContentTest : ParentTest() {
     @Test fun contentFillOnOpenFromBin() {
         val noteItem = testData.insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage { openTextNote { assert { onDisplayText(State.BIN, noteItem.text) } } }
             }
         }
@@ -58,8 +57,8 @@ class TextNoteContentTest : ParentTest() {
     @Test fun contentFillOnRestoreOpen() {
         val noteItem = testData.insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openTextNote {
                         assert { onDisplayText(State.BIN, noteItem.text) }
@@ -72,10 +71,10 @@ class TextNoteContentTest : ParentTest() {
     }
 
 
-    @Test fun saveByControlOnCreate() = afterLaunch {
+    @Test fun saveByControlOnCreate() = launch {
         val noteItem = testData.textNote
 
-        MainScreen {
+        mainScreen {
             openAddDialog {
                 createTextNote {
                     onEnterText(noteItem.text)
@@ -88,10 +87,10 @@ class TextNoteContentTest : ParentTest() {
         }
     }
 
-    @Test fun saveByBackPressOnCreate() = afterLaunch {
+    @Test fun saveByBackPressOnCreate() = launch {
         val noteItem = testData.textNote
 
-        MainScreen {
+        mainScreen {
             openAddDialog {
                 createTextNote {
                     onEnterText(noteItem.text)
@@ -108,8 +107,8 @@ class TextNoteContentTest : ParentTest() {
         val noteItem = testData.insertText()
         val newText = testData.uniqueString
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }
@@ -129,8 +128,8 @@ class TextNoteContentTest : ParentTest() {
         val noteItem = testData.insertText()
         val newText = testData.uniqueString
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }
@@ -151,8 +150,8 @@ class TextNoteContentTest : ParentTest() {
         val noteItem = testData.insertText()
         val newText = testData.uniqueString
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         assert { onDisplayText(State.READ, noteItem.text) }

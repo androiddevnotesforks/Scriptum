@@ -7,7 +7,6 @@ import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест работы [MainActivity]
@@ -17,16 +16,10 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentTest() {
 
-    private val pageList = object : ArrayList<MainPage>() {
-        init {
-            add(MainPage.RANK)
-            add(MainPage.NOTES)
-            add(MainPage.BIN)
-            add(MainPage.RANK)
-            add(MainPage.BIN)
-            add(MainPage.NOTES)
-        }
-    }
+    private val pageList = arrayListOf(
+            MainPage.RANK, MainPage.NOTES, MainPage.BIN,
+            MainPage.RANK, MainPage.BIN, MainPage.NOTES
+    )
 
     override fun setUp() {
         super.setUp()
@@ -34,28 +27,26 @@ class MainTest : ParentTest() {
         preference.firstStart = false
     }
 
-    @Test fun startScreen() = afterLaunch {
-        MainScreen { assert { onDisplayContent(MainPage.NOTES) } }
-    }
+    @Test fun startScreen() = launch { mainScreen { assert { onDisplayContent(MainPage.NOTES) } } }
 
-    @Test fun menuClickCorrectScreen() = afterLaunch {
-        MainScreen {
+    @Test fun menuClickCorrectScreen() = launch {
+        mainScreen {
             repeat(times = 3) {
-                for (page in pageList) {
-                    when (page) {
+                pageList.forEach {
+                    when (it) {
                         MainPage.RANK -> openRankPage { assert { onDisplayContent(empty = count == 0) } }
                         MainPage.NOTES -> openNotesPage { assert { onDisplayContent(empty = count == 0) } }
                         MainPage.BIN -> openBinPage { assert { onDisplayContent(empty = count == 0) } }
                     }
 
-                    assert { onDisplayContent(page) }
+                    assert { onDisplayContent(it) }
                 }
             }
         }
     }
 
-    @Test fun addFabVisible() = afterLaunch {
-        MainScreen {
+    @Test fun addFabVisible() = launch {
+        mainScreen {
             repeat(times = 3) {
                 pageList.forEach {
                     onNavigateTo(it)
@@ -65,36 +56,38 @@ class MainTest : ParentTest() {
         }
     }
 
+    /**
+     * Add Dialog
+     */
 
-    @Test fun addDialogOpen() = afterLaunch { MainScreen { openAddDialog() } }
+    @Test fun addDialogOpen() = launch { mainScreen { openAddDialog() } }
 
-    @Test fun addDialogCloseSoft() = afterLaunch {
-        MainScreen {
+    @Test fun addDialogCloseSoft() = launch {
+        mainScreen {
             openAddDialog { onCloseSoft() }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun addDialogCloseSwipe() = afterLaunch {
-        MainScreen {
+    @Test fun addDialogCloseSwipe() = launch {
+        mainScreen {
             openAddDialog { onCloseSwipe() }
             assert { onDisplayContent() }
         }
     }
 
-    @Test fun addDialogCreateTextNote() = afterLaunch {
-        MainScreen { openAddDialog { createTextNote() } }
-    }
+    @Test fun addDialogCreateTextNote() =
+            launch { mainScreen { openAddDialog { createTextNote() } } }
 
-    @Test fun addDialogCreateRollNote() = afterLaunch {
-        MainScreen { openAddDialog { createRollNote() } }
-    }
+    @Test fun addDialogCreateRollNote() =
+            launch { mainScreen { openAddDialog { createRollNote() } } }
 
+    /**
+     * Page Scroll Top
+     */
 
-    @Test fun rankScreenScrollTop() {
-        beforeLaunch { testData.clear().fillRank(times = 20) }
-
-        MainScreen {
+    @Test fun rankScreenScrollTop() = launch({ testData.clear().fillRank(times = 20) }) {
+        mainScreen {
             openRankPage {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)
@@ -104,10 +97,8 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun notesScreenScrollTop() {
-        beforeLaunch { testData.clear().fillNotes(times = 20) }
-
-        MainScreen {
+    @Test fun notesScreenScrollTop() = launch({ testData.clear().fillNotes(times = 20) }) {
+        mainScreen {
             openNotesPage {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)
@@ -117,10 +108,8 @@ class MainTest : ParentTest() {
         }
     }
 
-    @Test fun binScreenScrollTop() {
-        beforeLaunch { testData.clear().fillBin(times = 20) }
-
-        MainScreen {
+    @Test fun binScreenScrollTop() = launch({ testData.clear().fillBin(times = 20) }) {
+        mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
                 onScroll(Scroll.END, time = 4)

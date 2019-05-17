@@ -4,7 +4,6 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест работы анимации информации о пустом списке
@@ -14,10 +13,8 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
 @RunWith(AndroidJUnit4::class)
 class InfoAnimTest : ParentTest() {
 
-    @Test fun rankShowAndHide() {
-        beforeLaunch { testData.clear() }
-
-        MainScreen {
+    @Test fun rankShowAndHide() = launch({ testData.clear() }) {
+        mainScreen {
             openRankPage {
                 val name = testData.uniqueString
 
@@ -36,12 +33,11 @@ class InfoAnimTest : ParentTest() {
         }
     }
 
-
     @Test fun notesShow() {
         val noteItem = testData.clear().insertText()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 waitAfter(time = 500) { openNotesPage { openNoteDialog(noteItem) { onClickDelete() } } }
             }
         }
@@ -50,20 +46,19 @@ class InfoAnimTest : ParentTest() {
     @Test fun notesHide() {
         val noteItem = testData.clear().insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage { openNoteDialog(noteItem) { onClickRestore() } }
                 openNotesPage { wait(time = 500) }
             }
         }
     }
 
-
     @Test fun binShow() {
         val noteItem = testData.clear().insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 waitAfter(time = 500) { openBinPage { openNoteDialog(noteItem) { onClickClear() } } }
             }
         }
@@ -72,8 +67,8 @@ class InfoAnimTest : ParentTest() {
     @Test fun binHide() {
         val noteItem = testData.clear().insertText()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage { openNoteDialog(noteItem) { onClickDelete() } }
                 openBinPage { wait(time = 500) }
             }

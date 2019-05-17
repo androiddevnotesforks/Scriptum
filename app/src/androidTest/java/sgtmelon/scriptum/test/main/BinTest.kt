@@ -20,15 +20,15 @@ class BinTest : ParentTest() {
         preference.firstStart = false
     }
 
-    @Test fun contentEmpty() = launch(before = { testData.clear() }) {
+    @Test fun contentEmpty() = launch({ testData.clear() }) {
         mainScreen { openBinPage { assert { onDisplayContent(empty = true) } } }
     }
 
-    @Test fun contentList() = launch(before = { testData.clear().fillBin() }) {
+    @Test fun contentList() = launch({ testData.clear().fillBin() }) {
         mainScreen { openBinPage { assert { onDisplayContent(empty = false) } } }
     }
 
-    @Test fun listScroll() = launch(before = { testData.clear().fillBin(times = 20) }) {
+    @Test fun listScroll() = launch({ testData.clear().fillBin(times = 20) }) {
         mainScreen {
             openBinPage {
                 onScroll(Scroll.END, time = 4)
@@ -37,7 +37,7 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun textNoteOpen() = launch(before = { testData.clear().insertTextToBin() }) {
+    @Test fun textNoteOpen() = launch({ testData.clear().insertTextToBin() }) {
         mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
@@ -47,7 +47,7 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = launch(before = { testData.clear().insertRollToBin() }) {
+    @Test fun rollNoteOpen() = launch({ testData.clear().insertRollToBin() }) {
         mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
@@ -58,11 +58,11 @@ class BinTest : ParentTest() {
     }
 
 
-    @Test fun clearDialogOpen() = launch(before = { testData.clear().fillBin(times = 20) }) {
+    @Test fun clearDialogOpen() = launch({ testData.clear().fillBin(times = 20) }) {
         mainScreen { openBinPage { openClearDialog { assert { onDisplayContent() } } } }
     }
 
-    @Test fun clearDialogCloseSoft() = launch(before = { testData.clear().fillBin(times = 20) }) {
+    @Test fun clearDialogCloseSoft() = launch({ testData.clear().fillBin(times = 20) }) {
         mainScreen {
             openBinPage {
                 openClearDialog { onCloseSoft() }
@@ -71,7 +71,7 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun clearDialogCloseCancel() = launch(before = { testData.clear().fillBin(times = 20) }) {
+    @Test fun clearDialogCloseCancel() = launch({ testData.clear().fillBin(times = 20) }) {
         mainScreen {
             openBinPage {
                 openClearDialog { onClickNo() }
@@ -80,7 +80,7 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun clearDialogWork() = launch(before = { testData.clear().fillBin(times = 20) }) {
+    @Test fun clearDialogWork() = launch({ testData.clear().fillBin(times = 20) }) {
         mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }

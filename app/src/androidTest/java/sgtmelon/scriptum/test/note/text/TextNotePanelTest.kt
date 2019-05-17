@@ -6,7 +6,6 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест для [TextNoteFragment]
@@ -23,38 +22,32 @@ class TextNotePanelTest : ParentTest() {
         testData.clear()
     }
 
-    @Test fun displayOnCreate() = afterLaunch {
-        MainScreen {
+    @Test fun displayOnCreate() = launch {
+        mainScreen {
             openAddDialog {
                 createTextNote { controlPanel { assert { onDisplayContent(State.NEW) } } }
             }
         }
     }
 
-    @Test fun displayOnOpenNote() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun displayOnOpenNote() = launch({ testData.insertText() }) {
+        mainScreen {
             openNotesPage {
                 openTextNote { controlPanel { assert { onDisplayContent(State.READ) } } }
             }
         }
     }
 
-    @Test fun displayOnOpenNoteFromBin() {
-        beforeLaunch { testData.insertTextToBin() }
-
-        MainScreen {
+    @Test fun displayOnOpenNoteFromBin() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
             openBinPage {
                 openTextNote { controlPanel { assert { onDisplayContent(State.BIN) } } }
             }
         }
     }
 
-    @Test fun displayOnRestoreOpen() {
-        beforeLaunch { testData.insertTextToBin() }
-
-        MainScreen {
+    @Test fun displayOnRestoreOpen() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
             openBinPage {
                 openTextNote {
                     controlPanel {
@@ -68,10 +61,10 @@ class TextNotePanelTest : ParentTest() {
     }
 
 
-    @Test fun saveByControlOnCreate() = afterLaunch {
+    @Test fun saveByControlOnCreate() = launch {
         val noteItem = testData.textNote
 
-        MainScreen {
+        mainScreen {
             openAddDialog {
                 createTextNote {
                     onEnterText(noteItem.text)
@@ -85,10 +78,10 @@ class TextNotePanelTest : ParentTest() {
         }
     }
 
-    @Test fun saveByPressBackOnCreate() = afterLaunch {
+    @Test fun saveByPressBackOnCreate() = launch {
         val noteItem = testData.textNote
 
-        MainScreen {
+        mainScreen {
             openAddDialog {
                 createTextNote {
                     onEnterText(noteItem.text)
@@ -102,10 +95,8 @@ class TextNotePanelTest : ParentTest() {
         }
     }
 
-    @Test fun saveByControlOnEdit() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun saveByControlOnEdit() = launch({ testData.insertText() }) {
+        mainScreen {
             openNotesPage {
                 openTextNote {
                     controlPanel {
@@ -120,10 +111,8 @@ class TextNotePanelTest : ParentTest() {
         }
     }
 
-    @Test fun saveByPressBackOnEdit() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun saveByPressBackOnEdit() = launch({ testData.insertText() }) {
+        mainScreen {
             openNotesPage {
                 openTextNote {
                     controlPanel {
@@ -139,10 +128,8 @@ class TextNotePanelTest : ParentTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun cancelOnEditByToolbar() = launch({ testData.insertText() }) {
+        mainScreen {
             openNotesPage {
                 openTextNote {
                     controlPanel {
@@ -157,10 +144,8 @@ class TextNotePanelTest : ParentTest() {
     }
 
 
-    @Test fun actionRestoreFromBin() {
-        beforeLaunch { testData.insertTextToBin() }
-
-        MainScreen {
+    @Test fun actionRestoreFromBin() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
             openNotesPage { assert { onDisplayContent(empty = true) } }
 
             openBinPage {
@@ -173,10 +158,8 @@ class TextNotePanelTest : ParentTest() {
         }
     }
 
-    @Test fun actionRestoreOpenFromBin() {
-        beforeLaunch { testData.insertTextToBin() }
-
-        MainScreen {
+    @Test fun actionRestoreOpenFromBin() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
             openNotesPage { assert { onDisplayContent(empty = true) } }
 
             openBinPage {
@@ -193,10 +176,8 @@ class TextNotePanelTest : ParentTest() {
         }
     }
 
-    @Test fun actionClearFromBin() {
-        beforeLaunch { testData.insertTextToBin() }
-
-        MainScreen {
+    @Test fun actionClearFromBin() = launch({ testData.insertTextToBin() }) {
+        mainScreen {
             openNotesPage { assert { onDisplayContent(empty = true) } }
 
             openBinPage {
@@ -210,8 +191,8 @@ class TextNotePanelTest : ParentTest() {
     }
 
 
-    @Test fun actionSaveOnCreate() = afterLaunch {
-        MainScreen {
+    @Test fun actionSaveOnCreate() = launch {
+        mainScreen {
             openAddDialog {
                 createTextNote {
                     controlPanel { assert { isEnabledSave(enabled = false) } }
@@ -232,10 +213,8 @@ class TextNotePanelTest : ParentTest() {
         }
     }
 
-    @Test fun actionSaveOnEdit() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun actionSaveOnEdit() = launch({ testData.insertText() }) {
+        mainScreen {
             openNotesPage {
                 openTextNote {
                     controlPanel {
@@ -262,8 +241,8 @@ class TextNotePanelTest : ParentTest() {
     @Test fun actionBindToStatusBar() {
         val noteItem = testData.insertText()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickBind() } }
@@ -279,8 +258,8 @@ class TextNotePanelTest : ParentTest() {
     @Test fun actionUnbindFromStatusBar() {
         val noteItem = testData.insertText(testData.textNote.apply { isStatus = true })
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage {
                     openTextNote {
                         waitAfter(time = 500) { controlPanel { onClickBind() } }
@@ -292,10 +271,8 @@ class TextNotePanelTest : ParentTest() {
         }
     }
 
-    @Test fun actionDelete() {
-        beforeLaunch { testData.insertText() }
-
-        MainScreen {
+    @Test fun actionDelete() = launch({ testData.insertText() }) {
+        mainScreen {
             openBinPage { assert { onDisplayContent(empty = true) } }
 
             openNotesPage {

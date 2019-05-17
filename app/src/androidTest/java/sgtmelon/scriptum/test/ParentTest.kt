@@ -13,6 +13,7 @@ import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
+import kotlin.random.Random
 
 /**
  * Родительский класс включающий в себе объявление часто используемых переменных
@@ -32,22 +33,10 @@ abstract class ParentTest {
     val testData = TestData(context)
 
     @Before @CallSuper open fun setUp() {
-        preference.theme = if (Math.random() < 0.5) ThemeDef.light else ThemeDef.dark
+        preference.theme = if (Random.nextBoolean()) ThemeDef.light else ThemeDef.dark
     }
 
     @After @CallSuper open fun tearDown() {}
-
-    protected fun beforeLaunch(intent: Intent = Intent(), func: () -> Unit) {
-        func()
-        testRule.launchActivity(intent)
-    }
-
-    protected fun afterLaunch(intent: Intent = Intent(), func: () -> Unit) {
-        testRule.launchActivity(intent)
-        func()
-    }
-
-    // TODO Заменить before/afterLaunch на launch
 
     protected fun launch(before: () -> Unit = {}, intent: Intent = Intent(), after: SplashScreen.() -> Unit) {
         before()
