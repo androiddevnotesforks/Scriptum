@@ -6,7 +6,6 @@ import org.junit.Test
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.test.ParentTest
-import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
  * Тест работы [BinFragment]
@@ -21,22 +20,16 @@ class BinTest : ParentTest() {
         preference.firstStart = false
     }
 
-    @Test fun contentEmpty() {
-        beforeLaunch { testData.clear() }
-
-        MainScreen { openBinPage { assert { onDisplayContent(empty = true) } } }
+    @Test fun contentEmpty() = launch(before = { testData.clear() }) {
+        mainScreen { openBinPage { assert { onDisplayContent(empty = true) } } }
     }
 
-    @Test fun contentList() {
-        beforeLaunch { testData.clear().fillBin() }
-
-        MainScreen { openBinPage { assert { onDisplayContent(empty = false) } } }
+    @Test fun contentList() = launch(before = { testData.clear().fillBin() }) {
+        mainScreen { openBinPage { assert { onDisplayContent(empty = false) } } }
     }
 
-    @Test fun listScroll() {
-        beforeLaunch { testData.clear().fillBin(times = 20) }
-
-        MainScreen {
+    @Test fun listScroll() = launch(before = { testData.clear().fillBin(times = 20) }) {
+        mainScreen {
             openBinPage {
                 onScroll(Scroll.END, time = 4)
                 onScroll(Scroll.START, time = 4)
@@ -44,10 +37,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun textNoteOpen() {
-        beforeLaunch { testData.clear().insertTextToBin() }
-
-        MainScreen {
+    @Test fun textNoteOpen() = launch(before = { testData.clear().insertTextToBin() }) {
+        mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
                 openTextNote { pressBack() }
@@ -56,10 +47,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun rollNoteOpen() {
-        beforeLaunch { testData.clear().insertRollToBin() }
-
-        MainScreen {
+    @Test fun rollNoteOpen() = launch(before = { testData.clear().insertRollToBin() }) {
+        mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
                 openRollNote() { pressBack() }
@@ -69,16 +58,12 @@ class BinTest : ParentTest() {
     }
 
 
-    @Test fun clearDialogOpen() {
-        beforeLaunch { testData.clear().fillBin(times = 20) }
-
-        MainScreen { openBinPage { openClearDialog { assert { onDisplayContent() } } } }
+    @Test fun clearDialogOpen() = launch(before = { testData.clear().fillBin(times = 20) }) {
+        mainScreen { openBinPage { openClearDialog { assert { onDisplayContent() } } } }
     }
 
-    @Test fun clearDialogCloseSoft() {
-        beforeLaunch { testData.clear().fillBin(times = 20) }
-
-        MainScreen {
+    @Test fun clearDialogCloseSoft() = launch(before = { testData.clear().fillBin(times = 20) }) {
+        mainScreen {
             openBinPage {
                 openClearDialog { onCloseSoft() }
                 assert { onDisplayContent(empty = false) }
@@ -86,10 +71,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun clearDialogCloseCancel() {
-        beforeLaunch { testData.clear().fillBin(times = 20) }
-
-        MainScreen {
+    @Test fun clearDialogCloseCancel() = launch(before = { testData.clear().fillBin(times = 20) }) {
+        mainScreen {
             openBinPage {
                 openClearDialog { onClickNo() }
                 assert { onDisplayContent(empty = false) }
@@ -97,10 +80,8 @@ class BinTest : ParentTest() {
         }
     }
 
-    @Test fun clearDialogWork() {
-        beforeLaunch { testData.clear().fillBin(times = 20) }
-
-        MainScreen {
+    @Test fun clearDialogWork() = launch(before = { testData.clear().fillBin(times = 20) }) {
+        mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
                 openClearDialog { onClickYes() }
@@ -113,14 +94,14 @@ class BinTest : ParentTest() {
     @Test fun textNoteDialogOpen() {
         val noteItem = testData.clear().insertTextToBin()
 
-        afterLaunch { MainScreen { openBinPage { openNoteDialog(noteItem) } } }
+        launch { mainScreen { openBinPage { openNoteDialog(noteItem) } } }
     }
 
     @Test fun textNoteDialogClose() {
         val noteItem = testData.clear().insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openNoteDialog(noteItem) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
@@ -132,8 +113,8 @@ class BinTest : ParentTest() {
     @Test fun textNoteDialogRestore() {
         val noteItem = testData.clear().insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage { assert { onDisplayContent(empty = true) } }
 
                 openBinPage {
@@ -150,8 +131,8 @@ class BinTest : ParentTest() {
     @Test fun textNoteDialogClear() {
         val noteItem = testData.clear().insertTextToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     assert { onDisplayContent(empty = false) }
                     openNoteDialog(noteItem) { onClickClear() }
@@ -167,14 +148,14 @@ class BinTest : ParentTest() {
     @Test fun rollNoteDialogOpen() {
         val noteItem = testData.clear().insertRollToBin()
 
-        afterLaunch { MainScreen { openBinPage { openNoteDialog(noteItem) } } }
+        launch { mainScreen { openBinPage { openNoteDialog(noteItem) } } }
     }
 
     @Test fun rollNoteDialogClose() {
         val noteItem = testData.clear().insertRollToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     openNoteDialog(noteItem) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
@@ -186,8 +167,8 @@ class BinTest : ParentTest() {
     @Test fun rollNoteDialogRestore() {
         val noteItem = testData.clear().insertRollToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openNotesPage { assert { onDisplayContent(empty = true) } }
 
                 openBinPage {
@@ -204,8 +185,8 @@ class BinTest : ParentTest() {
     @Test fun rollNoteDialogClear() {
         val noteItem = testData.clear().insertRollToBin()
 
-        afterLaunch {
-            MainScreen {
+        launch {
+            mainScreen {
                 openBinPage {
                     assert { onDisplayContent(empty = false) }
                     openNoteDialog(noteItem) { onClickClear() }
