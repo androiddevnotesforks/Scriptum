@@ -3,6 +3,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka-android'
 
+apply from: '../values.gradle'
+
 android {
     //def tagLongVersion = "git describe --tags --long".execute().text.trim()
     def tagLongVersion = "C:\\Git\\bin\\git.exe describe --tags --long".execute().text.trim()
