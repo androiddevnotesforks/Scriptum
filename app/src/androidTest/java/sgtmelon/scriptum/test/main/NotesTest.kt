@@ -239,14 +239,14 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogCheckAllFromEmpty() {
-        val listRoll = testData.listRoll.apply { forEach { it.isCheck = false } }
-        val noteItem = testData.clear().insertRoll(listRoll = listRoll)
+        val rollList = testData.rollList.apply { forEach { it.isCheck = false } }
+        val noteItem = testData.clear().insertRoll(rollList = rollList)
 
         launch {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(noteItem) { onClickCheckAll() }
-                    noteItem.setCompleteText(listRoll.size, listRoll.size)
+                    noteItem.setCompleteText(rollList.size, rollList.size)
                     openNoteDialog(noteItem)
                 }
             }
@@ -254,18 +254,18 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogCheckAll() {
-        val listRoll = testData.listRoll.apply {
+        val rollList = testData.rollList.apply {
             forEach { it.isCheck = false }
             get(0).isCheck = true
         }
 
-        val noteItem = testData.clear().insertRoll(listRoll = listRoll)
+        val noteItem = testData.clear().insertRoll(rollList = rollList)
 
         launch {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(noteItem) { onClickCheckAll() }
-                    noteItem.setCompleteText(listRoll.size, listRoll.size)
+                    noteItem.setCompleteText(rollList.size, rollList.size)
                     openNoteDialog(noteItem)
                 }
             }
@@ -273,14 +273,14 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogUncheckAll() {
-        val listRoll = testData.listRoll.apply { forEach { it.isCheck = true } }
-        val noteItem = testData.clear().insertRoll(listRoll = listRoll)
+        val rollList = testData.rollList.apply { forEach { it.isCheck = true } }
+        val noteItem = testData.clear().insertRoll(rollList = rollList)
 
         launch {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(noteItem) { onClickUncheck() }
-                    noteItem.setCompleteText(0, listRoll.size)
+                    noteItem.setCompleteText(0, rollList.size)
                     openNoteDialog(noteItem)
                 }
             }

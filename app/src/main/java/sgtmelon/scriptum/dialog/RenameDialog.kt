@@ -20,17 +20,17 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     var position: Int = 0
         private set
 
-    private lateinit var listName: ArrayList<String>
+    private lateinit var nameList: ArrayList<String>
     private lateinit var nameEnter: EditText
 
     val name: String get() = nameEnter.getClearText()
 
-    fun setArguments(p: Int, title: String, listName: ArrayList<String>) {
+    fun setArguments(p: Int, title: String, nameList: ArrayList<String>) {
         val bundle = Bundle()
 
         bundle.putInt(POSITION, p)
         bundle.putString(INIT, title)
-        bundle.putStringArrayList(VALUE, listName)
+        bundle.putStringArrayList(VALUE, nameList)
 
         arguments = bundle
     }
@@ -41,7 +41,7 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
         position = savedInstanceState?.getInt(POSITION) ?: bundle?.getInt(POSITION) ?: 0
         title = savedInstanceState?.getString(INIT) ?: bundle?.getString(INIT) ?: ""
 
-        listName = savedInstanceState?.getStringArrayList(VALUE)
+        nameList = savedInstanceState?.getStringArrayList(VALUE)
                 ?: bundle?.getStringArrayList(VALUE) ?: ArrayList()
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
@@ -68,18 +68,18 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
             super.onSaveInstanceState(outState.apply {
                 putInt(POSITION, position)
                 putString(INIT, title)
-                putStringArrayList(VALUE, listName)
+                putStringArrayList(VALUE, nameList)
             })
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive.isEnabled = name.isNotEmpty() && !listName.contains(name.toUpperCase())
+        buttonPositive.isEnabled = name.isNotEmpty() && !nameList.contains(name.toUpperCase())
     }
 
     override fun onEditorAction(textView: TextView, i: Int, keyEvent: KeyEvent): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
-        if (name.isNotEmpty() && !listName.contains(name.toUpperCase())) {
+        if (name.isNotEmpty() && !nameList.contains(name.toUpperCase())) {
             buttonPositive.callOnClick()
             return true
         }

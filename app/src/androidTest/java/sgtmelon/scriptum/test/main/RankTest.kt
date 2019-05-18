@@ -266,13 +266,13 @@ class RankTest : ParentTest() {
     }
 
     @Test fun renameDialogBlockApplyFromList() {
-        val listRank = testData.clear().fillRank(times = 2)
+        val rankList = testData.clear().fillRank(times = 2)
 
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(listRank[0].name) {
-                        onEnterName(listRank[1].name)
+                    openRenameDialog(rankList[0].name) {
+                        onEnterName(rankList[1].name)
                         assert { isAcceptEnable(enabled = false) }
                     }
                 }

@@ -127,11 +127,11 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             throw ClassCastException("This method only for TEXT type")
 
         openRoom().apply {
-            listRoll.clear()
+            rollList.clear()
 
             var p = 0
             noteItem.splitTextForRoll().forEach {
-                if (it.isNotEmpty()) listRoll.add(RollItem().apply {
+                if (it.isNotEmpty()) rollList.add(RollItem().apply {
                     noteId = noteItem.id
                     position = p++
                     text = it
@@ -142,7 +142,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             noteItem.apply {
                 change = context.getTime()
                 type = NoteType.ROLL
-                setCompleteText(check = 0, size = listRoll.size)
+                setCompleteText(check = 0, size = rollList.size)
             }
 
             getNoteDao().update(noteItem)
@@ -163,7 +163,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             getNoteDao().update(noteItem)
             getRollDao().delete(noteItem.id)
 
-            listRoll.clear()
+            rollList.clear()
         }.close()
     }
 
@@ -211,9 +211,9 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             throw ClassCastException("This method only for ROLL type")
 
         //TODO !! Оптимизировать
-        val listRollTemp = listRoll.filterNot { it.text.isEmpty() }
-        listRoll.clear()
-        listRoll.addAll(listRollTemp)
+        val rollListTemp = rollList.filterNot { it.text.isEmpty() }
+        rollList.clear()
+        rollList.addAll(rollListTemp)
 
         openRoom().apply {
             if (isCreate) {
@@ -222,7 +222,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 /**
                  * Запись в пунктов в БД
                  */
-                listRoll.forEachIndexed { i, item ->
+                rollList.forEachIndexed { i, item ->
                     item.apply {
                         noteId = noteItem.id
                         position = i
@@ -233,7 +233,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
                 val idSaveList = ArrayList<Long>()
 
-                listRoll.forEachIndexed { i, item ->
+                rollList.forEachIndexed { i, item ->
                     item.position = i
 
                     val id = item.id

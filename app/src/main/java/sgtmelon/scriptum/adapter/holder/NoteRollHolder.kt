@@ -32,9 +32,9 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
         }
     }
 
-    fun bind(noteItem: NoteItem, listRoll: List<RollItem>) {
+    fun bind(noteItem: NoteItem, rollList: List<RollItem>) {
         binding.noteItem = noteItem
-        binding.listRoll = listRoll
+        binding.rollList = rollList
 
         binding.executePendingBindings()
     }

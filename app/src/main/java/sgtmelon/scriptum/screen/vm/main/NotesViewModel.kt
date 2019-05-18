@@ -24,24 +24,24 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
 
     lateinit var callback: NotesCallback
 
-    private val listNoteModel: MutableList<NoteModel> = ArrayList()
+    private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     fun onUpdateData() {
-        listNoteModel.clearAndAdd(iRoomRepo.getNoteModelList(bin = false))
+        noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = false))
 
         callback.apply {
-            notifyDataSetChanged(listNoteModel)
+            notifyDataSetChanged(noteModelList)
             bind()
         }
 
         if (updateStatus) updateStatus = false
     }
 
-    fun onClickNote(p: Int) = with(listNoteModel[p].noteItem) {
+    fun onClickNote(p: Int) = with(noteModelList[p].noteItem) {
         callback.startNote(context.getNoteIntent(type, id))
     }
 
-    fun onShowOptionsDialog(p: Int) = with(listNoteModel[p].noteItem) {
+    fun onShowOptionsDialog(p: Int) = with(noteModelList[p].noteItem) {
         val itemArray: Array<String>
 
         when (type) {
@@ -62,7 +62,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
     }
 
     fun onResultOptionsDialog(p: Int, which: Int) {
-        val noteItem = listNoteModel[p].noteItem
+        val noteItem = noteModelList[p].noteItem
 
         when (noteItem.type) {
             NoteType.TEXT -> when (which) {
@@ -82,7 +82,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
     }
 
     private fun onMenuCheck(p: Int): MutableList<NoteModel> {
-        with(listNoteModel[p]) {
+        with(noteModelList[p]) {
             val checkText = noteItem.check
             val isAll = checkText[0] == checkText[1]
 
@@ -95,39 +95,39 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
             statusItem.updateNote(noteItem)
         }
 
-        return listNoteModel
+        return noteModelList
     }
 
     private fun onMenuBind(p: Int): MutableList<NoteModel> {
-        with(listNoteModel[p]) {
+        with(noteModelList[p]) {
             noteItem.apply { isStatus = !isStatus }
             updateStatus(noteItem.isStatus)
 
             iRoomRepo.updateNote(noteItem)
         }
 
-        return listNoteModel
+        return noteModelList
     }
 
     private fun onMenuConvert(p: Int): MutableList<NoteModel> {
-        listNoteModel[p] = with(listNoteModel[p]) {
+        noteModelList[p] = with(noteModelList[p]) {
             when (noteItem.type) {
                 NoteType.TEXT -> iRoomRepo.convertToRoll(noteModel = this)
                 NoteType.ROLL -> iRoomRepo.convertToText(noteModel = this)
             }
         }
 
-        with(listNoteModel[p]) { statusItem.updateNote(noteItem) }
+        with(noteModelList[p]) { statusItem.updateNote(noteItem) }
 
-        return listNoteModel
+        return noteModelList
     }
 
     private fun onMenuDelete(p: Int): MutableList<NoteModel> {
-        viewModelScope.launch { iRoomRepo.deleteNote(listNoteModel[p].noteItem) }
+        viewModelScope.launch { iRoomRepo.deleteNote(noteModelList[p].noteItem) }
 
-        listNoteModel[p].updateStatus(status = false)
+        noteModelList[p].updateStatus(status = false)
 
-        return listNoteModel.apply { removeAt(p) }
+        return noteModelList.apply { removeAt(p) }
     }
 
     companion object {

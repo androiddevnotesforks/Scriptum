@@ -46,7 +46,7 @@ class NoteToolbarIconTest : ParentTest() {
         mainScreen {
             openAddDialog {
                 createRollNote {
-                    enterPanel { onAddRoll(testData.listRoll[0].text) }
+                    enterPanel { onAddRoll(testData.rollList[0].text) }
                     waitAfter(time = 500) { controlPanel { onClickSave() } }
                 }
             }

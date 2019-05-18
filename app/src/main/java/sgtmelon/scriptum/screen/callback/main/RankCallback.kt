@@ -21,7 +21,7 @@ interface RankCallback {
 
     fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>)
 
-    fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>)
+    fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>)
 
     fun notifyVisible(p: Int, item: RankItem)
 

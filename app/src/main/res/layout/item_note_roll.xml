@@ -10,7 +10,7 @@
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
-        <variable name="listRoll"
+        <variable name="rollList"
                   type="java.util.List&lt;sgtmelon.scriptum.model.item.RollItem&gt;"/>
 
     </data>
@@ -44,23 +44,23 @@
 
                     <include
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{listRoll.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{listRoll.size() &gt;= 1 ? listRoll.get(0) : null}'/>
+                            android:visibility='@{rollList.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{rollList.size() &gt;= 1 ? rollList.get(0) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{listRoll.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{listRoll.size() &gt;= 2 ? listRoll.get(1) : null}'/>
+                            android:visibility='@{rollList.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{rollList.size() &gt;= 2 ? rollList.get(1) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{listRoll.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{listRoll.size() &gt;= 3 ? listRoll.get(2) : null}'/>
+                            android:visibility='@{rollList.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{rollList.size() &gt;= 3 ? rollList.get(2) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_roll"
-                            android:visibility='@{listRoll.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{listRoll.size() &gt;= 4 ? listRoll.get(3) : null}'/>
+                            android:visibility='@{rollList.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
+                            app:rollItem='@{rollList.size() &gt;= 4 ? rollList.get(3) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_info"

@@ -37,12 +37,12 @@ class TestData(private val context: Context) {
             create = context.getTime()
             change = context.getTime()
             name = context.getString(R.string.test_note_name)
-            setCompleteText(listRoll.getCheck(), listRoll.size)
+            setCompleteText(rollList.getCheck(), rollList.size)
             color = (0 until ColorData.size).random()
             type = NoteType.ROLL
         }
 
-    val listRoll = object : ArrayList<RollItem>() {
+    val rollList = object : ArrayList<RollItem>() {
         init {
             for (i in 0 until 10) {
                 add(RollItem().apply {
@@ -71,11 +71,11 @@ class TestData(private val context: Context) {
         return noteItem
     }
 
-    fun insertRoll(noteItem: NoteItem = rollNote, listRoll: List<RollItem> = this.listRoll)
+    fun insertRoll(noteItem: NoteItem = rollNote, rollList: List<RollItem> = this.rollList)
             : NoteItem {
         dataBase.apply {
             noteItem.id = getNoteDao().insert(noteItem)
-            listRoll.forEach {
+            rollList.forEach {
                 it.noteId = noteItem.id
                 getRollDao().insert(it)
             }
@@ -90,10 +90,10 @@ class TestData(private val context: Context) {
         return insertText(noteItem)
     }
 
-    fun insertRollToBin(noteItem: NoteItem = rollNote, listRoll: List<RollItem> = this.listRoll)
+    fun insertRollToBin(noteItem: NoteItem = rollNote, rollList: List<RollItem> = this.rollList)
             : NoteItem {
         noteItem.isBin = true
-        return insertRoll(noteItem, listRoll)
+        return insertRoll(noteItem, rollList)
     }
 
     fun insertRankToNotes() = ArrayList<RankItem>().apply {

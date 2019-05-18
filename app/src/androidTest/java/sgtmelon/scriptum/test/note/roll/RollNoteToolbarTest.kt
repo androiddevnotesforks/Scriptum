@@ -152,13 +152,13 @@ class RollNoteToolbarTest : ParentTest() {
 
     @Test fun saveByControlOnCreate() = launch {
         val noteItem = testData.rollNote
-        val listRoll = testData.listRoll
+        val rollList = testData.rollList
 
         mainScreen {
             openAddDialog {
                 createRollNote {
                     toolbar { onEnterName(noteItem.name) }
-                    enterPanel { onAddRoll(listRoll[0].text) }
+                    enterPanel { onAddRoll(rollList[0].text) }
 
 
                     toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
@@ -171,13 +171,13 @@ class RollNoteToolbarTest : ParentTest() {
 
     @Test fun saveByBackPressOnCreate() = launch {
         val noteItem = testData.rollNote
-        val listRoll = testData.listRoll
+        val rollList = testData.rollList
 
         mainScreen {
             openAddDialog {
                 createRollNote {
                     toolbar { onEnterName(noteItem.name) }
-                    enterPanel { onAddRoll(listRoll[0].text) }
+                    enterPanel { onAddRoll(rollList[0].text) }
 
                     toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
                     onPressBack()

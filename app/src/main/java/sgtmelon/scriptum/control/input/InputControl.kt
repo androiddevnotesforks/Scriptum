@@ -24,7 +24,7 @@ class InputControl : InputCallback {
 
     var logEnabled = BuildConfig.DEBUG
 
-    private val listInput = ArrayList<InputItem>()
+    private val inputList = ArrayList<InputItem>()
 
     /**
      * Позиция в массиве
@@ -36,36 +36,36 @@ class InputControl : InputCallback {
      *
      * @return - Есть куда возвращаться или нет
      */
-    val isUndoAccess get() = listInput.size != 0 && position != -1
+    private val isUndoAccess get() = inputList.size != 0 && position != -1
 
     /**
      * Проверка доступен ли возврат
      *
      * @return - Есть куда возвращаться или нет
      */
-    val isRedoAccess get() = listInput.size != 0 && position != listInput.size - 1
+    private val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
 
     val access get() = Access(isUndoAccess, isRedoAccess)
 
     fun reset() {
-        listInput.clear()
+        inputList.clear()
         position = -1
     }
 
     fun undo(): InputItem? {
-        return if (isUndoAccess) listInput[position--]
+        return if (isUndoAccess) inputList[position--]
         else null
     }
 
     fun redo(): InputItem? {
-        return if (isRedoAccess) listInput[++position]
+        return if (isRedoAccess) inputList[++position]
         else null
     }
 
     private fun add(inputItem: InputItem) {
         if (isEnabled) {
             remove()
-            listInput.add(inputItem)
+            inputList.add(inputItem)
             position++
         }
 
@@ -76,14 +76,14 @@ class InputControl : InputCallback {
      * Если позиция не в конце, то удаление ненужной информации перед добавлением новой
      */
     private fun remove() {
-        val endPosition = listInput.size - 1
+        val endPosition = inputList.size - 1
 
         if (position != endPosition) {
-            (endPosition downTo position + 1).forEach { listInput.removeAt(it) }
+            (endPosition downTo position + 1).forEach { inputList.removeAt(it) }
         }
 
-        while (listInput.size >= BuildConfig.INPUT_CONTROL_MAX_SIZE) {
-            listInput.removeAt(0)
+        while (inputList.size >= BuildConfig.INPUT_CONTROL_MAX_SIZE) {
+            inputList.removeAt(0)
             position--
         }
 
@@ -129,9 +129,9 @@ class InputControl : InputCallback {
         if (!logEnabled) return
 
         Log.i(TAG, "listAll:")
-        for (i in listInput.indices) {
+        for (i in inputList.indices) {
             val ps = if (position == i) " | cursor = $position" else ""
-            Log.i(TAG, "i = " + i + " | " + listInput[i].toString() + ps)
+            Log.i(TAG, "i = " + i + " | " + inputList[i].toString() + ps)
         }
     }
 

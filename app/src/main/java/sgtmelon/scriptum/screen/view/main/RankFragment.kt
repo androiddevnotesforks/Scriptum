@@ -211,10 +211,10 @@ class RankFragment : Fragment(), RankCallback {
     }
 
 
-    override fun showRenameDialog(p: Int, name: String, listName: ArrayList<String>) =
+    override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) =
             openState.tryInvoke {
                 renameDialog.apply {
-                    setArguments(p, name, listName)
+                    setArguments(p, name, nameList)
                 }.show(fragmentManager, DialogDef.RENAME)
             }
 

@@ -38,7 +38,7 @@ class NoteAdapter(private val clickListener: ItemListener.ClickListener,
             with(list[position]) {
                 when (holder) {
                     is NoteTextHolder -> holder.bind(noteItem)
-                    is NoteRollHolder -> holder.bind(noteItem, listRoll)
+                    is NoteRollHolder -> holder.bind(noteItem, rollList)
                 }
             }
 

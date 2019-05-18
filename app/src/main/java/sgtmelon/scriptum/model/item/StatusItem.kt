@@ -90,13 +90,13 @@ class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boole
     }
 
     /**
-     * В окне редактирования заметок, [listRankVisible] - id видимых категорий
+     * В окне редактирования заметок, [rankVisibleList] - id видимых категорий
      */
-    fun updateNote(noteItem: NoteItem, listRankVisible: List<Long>) {
+    fun updateNote(noteItem: NoteItem, rankVisibleList: List<Long>) {
         if (!noteItem.isStatus) return
 
         val rankId = noteItem.rankId
-        if (rankId.isEmpty() || listRankVisible.contains(rankId[0])) {
+        if (rankId.isEmpty() || rankVisibleList.contains(rankId[0])) {
             updateNote(noteItem)
         } else {
             cancelNote()

@@ -109,7 +109,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
 
     override fun onResultInputRollChange(p: Int, text: String) {
-        callback.notifyListItem(p, noteModel.listRoll[p].apply { this.text = text })
+        callback.notifyListItem(p, noteModel.rollList[p].apply { this.text = text })
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
     }
 
@@ -124,17 +124,17 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onResultTouchSwipe(p: Int) {
-        val rollItem = noteModel.listRoll[p]
-        noteModel.listRoll.removeAt(p)
+        val rollItem = noteModel.rollList[p]
+        noteModel.rollList.removeAt(p)
 
         inputControl.onRollRemove(p, rollItem.toString())
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
-        callback.notifyItemRemoved(p, noteModel.listRoll)
+        callback.notifyItemRemoved(p, noteModel.rollList)
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
-        callback.notifyItemMoved(from, to, noteModel.listRoll.apply { swap(from, to) })
+        callback.notifyItemMoved(from, to, noteModel.rollList.apply { swap(from, to) })
         return true
     }
 
@@ -170,7 +170,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         if (item != null) inputControl.makeNotEnabled {
             val noteItem = noteModel.noteItem
-            val listRoll = noteModel.listRoll
+            val rollList = noteModel.rollList
 
             when (item.tag) {
                 InputAction.rank -> noteItem.rankId = StringConverter().toList(item[isUndo])
@@ -184,29 +184,29 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
                 }
                 InputAction.name -> callback.changeName(item[isUndo], item.cursor!![isUndo])
                 InputAction.roll -> {
-                    listRoll[item.p].text = item[isUndo]
-                    callback.notifyItemChanged(item.p, item.cursor!![isUndo], listRoll)
+                    rollList[item.p].text = item[isUndo]
+                    callback.notifyItemChanged(item.p, item.cursor!![isUndo], rollList)
                 }
                 InputAction.rollAdd, InputAction.rollRemove -> {
                     val isAddUndo = isUndo && item.tag == InputAction.rollAdd
                     val isRemoveRedo = !isUndo && item.tag == InputAction.rollRemove
 
                     if (isAddUndo || isRemoveRedo) {
-                        listRoll.removeAt(item.p)
-                        callback.notifyItemRemoved(item.p, listRoll)
+                        rollList.removeAt(item.p)
+                        callback.notifyItemRemoved(item.p, rollList)
                     } else {
                         val rollItem = RollItem[item[isUndo]]
 
-                        listRoll.add(item.p, rollItem)
-                        callback.notifyItemInserted(item.p, rollItem.text.length, listRoll)
+                        rollList.add(item.p, rollItem)
+                        callback.notifyItemInserted(item.p, rollItem.text.length, rollList)
                     }
                 }
                 InputAction.rollMove -> {
                     val from = item[!isUndo].toInt()
                     val to = item[isUndo].toInt()
 
-                    listRoll.swap(from, to)
-                    callback.notifyItemMoved(from, to, listRoll)
+                    rollList.swap(from, to)
+                    callback.notifyItemMoved(from, to, rollList)
                 }
             }
         }
@@ -220,13 +220,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuColor() = callback.showColorDialog(noteModel.noteItem.color)
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
-        val listRoll = noteModel.listRoll
+        val rollList = noteModel.rollList
 
         if (!noteModel.isSaveEnabled()) return false
 
         noteModel.noteItem.apply {
             change = context.getTime()
-            setCompleteText(listRoll.getCheck(), listRoll.size)
+            setCompleteText(rollList.getCheck(), rollList.size)
         }
 
         /**
@@ -249,13 +249,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.notifyList(listRoll)
+        callback.notifyList(rollList)
 
         return true
     }
 
     override fun onMenuCheck() {
-        val size: Int = noteModel.listRoll.size
+        val size: Int = noteModel.rollList.size
         val isAll = checkState.isAll
 
         noteModel.updateCheck(!isAll)
@@ -316,10 +316,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
 
     fun onUpdateData() {
-        checkState.setAll(noteModel.listRoll)
+        checkState.setAll(noteModel.rollList)
 
         callback.apply {
-            notifyDataSetChanged(noteModel.listRoll)
+            notifyDataSetChanged(noteModel.rollList)
             changeCheckToggle(state = false)
         }
     }
@@ -352,7 +352,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         val colorFrom = noteModel.noteItem.color
         noteModel = iRoomRepo.getNoteModel(id)
 
-        callback.notifyDataSetChanged(noteModel.listRoll)
+        callback.notifyDataSetChanged(noteModel.rollList)
         onMenuEdit(editMode = false)
         callback.tintToolbar(colorFrom, noteModel.noteItem.color)
 
@@ -366,7 +366,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         if (textEnter.isEmpty()) return
 
-        val p = if (simpleClick) noteModel.listRoll.size else 0
+        val p = if (simpleClick) noteModel.rollList.size else 0
         val rollItem = RollItem().apply {
             noteId = noteModel.noteItem.id
             text = textEnter
@@ -374,27 +374,25 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         inputControl.onRollAdd(p, rollItem.toString())
 
-        noteModel.listRoll.add(p, rollItem)
+        noteModel.rollList.add(p, rollItem)
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
-        callback.scrollToItem(simpleClick, p, noteModel.listRoll)
+        callback.scrollToItem(simpleClick, p, noteModel.rollList)
     }
 
     fun onClickItemCheck(p: Int) {
-        val listRoll = noteModel.listRoll
-
-        val rollItem = listRoll[p]
-        rollItem.isCheck = !rollItem.isCheck
+        val rollList = noteModel.rollList
+        val rollItem = rollList[p].apply { isCheck = !isCheck }
 
         callback.notifyListItem(p, rollItem)
 
         val noteItem = noteModel.noteItem
-        val check = listRoll.getCheck()
+        val check = rollList.getCheck()
 
         noteItem.change = context.getTime()
-        noteItem.setCompleteText(check, listRoll.size)
+        noteItem.setCompleteText(check, rollList.size)
 
-        if (checkState.setAll(check, listRoll.size)) callback.bindNoteItem(noteItem)
+        if (checkState.setAll(check, rollList.size)) callback.bindNoteItem(noteItem)
 
         noteModel.updateStatus(rankIdVisibleList)
 
