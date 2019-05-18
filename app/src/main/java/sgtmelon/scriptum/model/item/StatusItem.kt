@@ -44,8 +44,8 @@ class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boole
     fun updateNote(noteItem: NoteItem, notify: Boolean = true) {
         this.noteItem = noteItem
 
-        var icon = 0
-        var text = ""
+        val icon: Int
+        val text: String
 
         when (noteItem.type) {
             NoteType.TEXT -> {
@@ -86,9 +86,7 @@ class StatusItem(private val context: Context, noteItem: NoteItem, notify: Boole
             })
         }
 
-        if (noteItem.isStatus && notify) {
-            notifyNote()
-        }
+        if (noteItem.isStatus && notify) notifyNote()
     }
 
     /**

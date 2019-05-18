@@ -182,8 +182,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         openRoom().apply {
             append(getRollDao()[noteItem.id]
-                    .joinToString(prefix = "${noteItem.text} |", separator = " |") {
-                        (if (it.isCheck) " \u2713 " else " - ").plus(it.text)
+                    .joinToString(prefix = "${noteItem.text}\n", separator = "\n") {
+                        "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
                     }
             )
         }.close()
