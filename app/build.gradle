@@ -16,7 +16,7 @@ android {
         versionCode 6
         versionName tagLongVersion
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner deps.instrumentationRunner
 
         vectorDrawables.useSupportLibrary = true
 
@@ -72,46 +72,44 @@ dependencies {
 
     // Kotlin
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+    implementation deps.jetbrains.kotlin
+    implementation deps.jetbrains.coroutines.core
+    implementation deps.jetbrains.coroutines.android
 
     // AndroidX
 
-    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01"
-    kapt "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01"
+    implementation deps.androidx.lifecycle.extensions
+    implementation deps.androidx.lifecycle.viewmodel
+    kapt deps.androidx.lifecycle.compiler
 
-    implementation 'androidx.room:room-runtime:2.0.0'
-    kapt 'androidx.room:room-compiler:2.0.0'
-    testImplementation 'androidx.room:room-testing:2.0.0'
+    implementation deps.androidx.room.runtime
+    kapt deps.androidx.room.compiler
+    testImplementation deps.androidx.room.testing
 
-    // Design
+    implementation deps.androidx.appcompat
+    implementation deps.androidx.cardview
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation deps.androidx.vector.drawable
+    implementation deps.androidx.vector.animated
 
-    implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
-    implementation 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
-
-    implementation 'com.romandanylyk:pageindicatorview:1.0.1'
+    implementation deps.material
+    implementation deps.pageindicator
 
     // Testing
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation deps.junit
 
-    debugImplementation 'androidx.test:runner:1.1.1'
-    debugImplementation 'androidx.test:rules:1.1.1'
-    debugImplementation 'androidx.test.ext:junit:1.1.0'
+    debugImplementation deps.androidx.test.runner
+    debugImplementation deps.androidx.test.rules
+    debugImplementation deps.androidx.test.junit
 
-    testImplementation "org.powermock:powermock-module-junit4:$mock_version"
-    testImplementation "org.powermock:powermock-module-junit4-rule:$mock_version"
-    testImplementation "org.powermock:powermock-api-mockito:$mock_version"
-    testImplementation "org.powermock:powermock-classloading-xstream:$mock_version"
+    implementation deps.androidx.test.espresso.idling
+    debugImplementation deps.androidx.test.espresso.core
+    debugImplementation deps.androidx.test.espresso.contrib
 
-    implementation "androidx.test.espresso:espresso-idling-resource:$espresso_version"
-    debugImplementation "androidx.test.espresso:espresso-core:$espresso_version"
-    debugImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    testImplementation deps.powermock.module
+    testImplementation deps.powermock.rule
+    testImplementation deps.powermock.api
+    testImplementation deps.powermock.classloading
 
 }
