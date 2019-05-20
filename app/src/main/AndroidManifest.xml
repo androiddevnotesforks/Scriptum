@@ -1,75 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sgtmelon.scriptum">
+          package="sgtmelon.scriptum">
 
     <application
-        android:allowBackup="true"
-        android:fullBackupContent="@xml/backup_descriptor"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/App.Light.UI">
+            android:allowBackup="true"
+            android:fullBackupContent="@xml/backup_descriptor"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:supportsRtl="true"
+            android:theme="@style/App.Light.UI">
 
         <activity
-            android:name="sgtmelon.scriptum.screen.view.SplashActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/App.Splash">
+                android:name="sgtmelon.scriptum.screen.view.SplashActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:theme="@style/App.Splash">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.screen.view.intro.IntroActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:parentActivityName="sgtmelon.scriptum.screen.view.SplashActivity"
-            android:theme="@style/App.Intro">
+                android:name="sgtmelon.scriptum.screen.view.intro.IntroActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:parentActivityName="sgtmelon.scriptum.screen.view.SplashActivity"
+                android:theme="@style/App.Intro">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.screen.view.main.MainActivity"
-            android:windowSoftInputMode="adjustPan">
+                android:name="sgtmelon.scriptum.screen.view.main.MainActivity"
+                android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.HOME" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.HOME"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.screen.view.note.NoteActivity"
-            android:parentActivityName="sgtmelon.scriptum.screen.view.main.MainActivity">
+                android:name="sgtmelon.scriptum.screen.view.note.NoteActivity"
+                android:parentActivityName="sgtmelon.scriptum.screen.view.main.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.EDIT" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.screen.view.preference.PreferenceActivity"
-            android:configChanges="keyboardHidden"
-            android:parentActivityName="sgtmelon.scriptum.screen.view.main.MainActivity">
+                android:name="sgtmelon.scriptum.screen.view.preference.PreferenceActivity"
+                android:configChanges="keyboardHidden"
+                android:parentActivityName="sgtmelon.scriptum.screen.view.main.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
 
         <activity
-            android:name="sgtmelon.scriptum.screen.view.DevelopActivity"
-            android:configChanges="keyboardHidden"
-            android:parentActivityName="sgtmelon.scriptum.screen.view.preference.PreferenceActivity"
-            android:theme="@style/App.Dark.UI">
+                android:name="sgtmelon.scriptum.screen.view.DevelopActivity"
+                android:configChanges="keyboardHidden"
+                android:parentActivityName="sgtmelon.scriptum.screen.view.preference.PreferenceActivity"
+                android:theme="@style/App.Dark.UI">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+
+        <receiver android:name=".control.notification.broadcast.UnbindReceiver"/>
 
     </application>
 

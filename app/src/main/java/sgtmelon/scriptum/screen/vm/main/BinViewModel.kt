@@ -63,16 +63,14 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
         callback.notifyMenuClearBin()
     }
 
-    private fun restoreItem(p: Int): MutableList<NoteModel> {
-        viewModelScope.launch { iRoomRepo.restoreNote(noteModelList[p].noteItem) }
-
-        return noteModelList.apply { removeAt(p) }
+    private fun restoreItem(p: Int) = noteModelList.apply {
+        get(p).noteItem.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
+        removeAt(p)
     }
 
-    private fun clearItem(p: Int): MutableList<NoteModel> {
-        viewModelScope.launch { iRoomRepo.clearNote(noteModelList[p].noteItem) }
-
-        return noteModelList.apply { removeAt(p) }
+    private fun clearItem(p: Int) = noteModelList.apply {
+        get(p).noteItem.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
+        removeAt(p)
     }
 
 }

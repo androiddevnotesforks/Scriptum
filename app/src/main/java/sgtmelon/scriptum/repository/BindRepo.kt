@@ -18,14 +18,6 @@ class BindRepo(private val context: Context) : IBindRepo {
 
     private fun openRoom() = RoomDb.getInstance(context)
 
-    override fun getNoteItem(id: Long): NoteItem {
-        val noteItem: NoteItem
-
-        openRoom().apply { noteItem = getNoteDao()[id] }.close()
-
-        return noteItem
-    }
-
     override fun getRollList(noteItem: NoteItem) = ArrayList<RollItem>().apply {
         if (noteItem.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
@@ -33,8 +25,20 @@ class BindRepo(private val context: Context) : IBindRepo {
         openRoom().apply { addAll(getRollDao()[noteItem.id]) }.close()
     }
 
+    override fun unbindNoteItem(id: Long): NoteItem {
+        val noteItem: NoteItem
+
+        openRoom().apply {
+            noteItem = getNoteDao()[id].apply { isStatus = false }
+            getNoteDao().update(noteItem)
+        }.close()
+
+        return noteItem
+    }
+
     companion object {
         fun getInstance(context: Context): IBindRepo = BindRepo(context)
+
     }
 
 }

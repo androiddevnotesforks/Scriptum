@@ -20,4 +20,6 @@ interface MainCallback {
 
     fun showPage(pageFrom: MainPage, pageTo: MainPage)
 
+    fun resumeNotesPage()
+
 }

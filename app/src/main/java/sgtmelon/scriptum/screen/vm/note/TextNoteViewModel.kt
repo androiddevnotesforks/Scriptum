@@ -94,7 +94,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
 
     override fun onMenuRestore() {
-        viewModelScope.launch { iRoomRepo.restoreNote(noteModel.noteItem) }
+        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
         noteCallback.finish()
     }
 
@@ -112,7 +112,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuClear() {
-        viewModelScope.launch { iRoomRepo.clearNote(noteModel.noteItem) }
+        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
         noteCallback.finish()
     }
 
@@ -188,9 +188,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuConvert() = callback.showConvertDialog()
 
     override fun onMenuDelete() {
-        viewModelScope.launch { iRoomRepo.deleteNote(noteModel.noteItem) }
-
-        BindControl(context, noteModel.noteItem).cancelBind()
+        noteModel.noteItem.let {
+            viewModelScope.launch { iRoomRepo.deleteNote(it) }
+            BindControl(context, it).cancelBind()
+        }
 
         noteCallback.finish()
     }

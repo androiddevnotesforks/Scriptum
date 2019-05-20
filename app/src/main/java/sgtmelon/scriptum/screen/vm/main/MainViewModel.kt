@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.screen.vm.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.notification.broadcast.UnbindReceiver
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.view.main.MainActivity
@@ -13,7 +15,7 @@ import sgtmelon.scriptum.screen.view.main.MainActivity
  *
  * @author SerjantArbuz
  */
-class MainViewModel : ViewModel() {
+class MainViewModel : ViewModel(), UnbindReceiver.Callback {
 
     lateinit var callback: MainCallback
 
@@ -45,6 +47,13 @@ class MainViewModel : ViewModel() {
         pageFrom = pageTo
 
         return true
+    }
+
+    override fun onResultUnbind() {
+        Log.i("HERE", "HERE WE ARE")
+        if (pageFrom != MainPage.NOTES) return
+
+        callback.resumeNotesPage()
     }
 
     companion object {

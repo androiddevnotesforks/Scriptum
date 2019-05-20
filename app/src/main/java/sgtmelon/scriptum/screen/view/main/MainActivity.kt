@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.view.main
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.notification.broadcast.UnbindReceiver
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.data.NoteData
@@ -44,6 +46,8 @@ class MainActivity : AppActivity(), MainCallback {
         }
     }
 
+    private val unbindReceiver by lazy { UnbindReceiver(viewModel) }
+
     private val rankFragment by lazy { FragmentFactory.getRankFragment(supportFragmentManager) }
     private val notesFragment by lazy { FragmentFactory.getNotesFragment(supportFragmentManager) }
     private val binFragment by lazy { FragmentFactory.getBinFragment(supportFragmentManager) }
@@ -62,6 +66,13 @@ class MainActivity : AppActivity(), MainCallback {
         }
 
         viewModel.onSetupData(savedInstanceState)
+
+        registerReceiver(unbindReceiver, IntentFilter())
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(unbindReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -103,10 +114,10 @@ class MainActivity : AppActivity(), MainCallback {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
                 if (findFragmentByTag(pageFrom.name) != null) {
-                    hide(getFragmentByName(pageFrom))
+                    hide(pageFrom.getFragmentByName())
                 }
 
-                val fragmentTo = getFragmentByName(pageTo)
+                val fragmentTo = pageTo.getFragmentByName()
                 if (findFragmentByTag(pageTo.name) != null) {
                     show(fragmentTo)
                     fragmentTo.onResume()
@@ -119,11 +130,13 @@ class MainActivity : AppActivity(), MainCallback {
         }
     }
 
-    private fun getFragmentByName(mainPage: MainPage): Fragment = when (mainPage) {
+    private fun MainPage.getFragmentByName(): Fragment = when (this) {
         MainPage.RANK -> rankFragment
         MainPage.NOTES -> notesFragment
         MainPage.BIN -> binFragment
     }
+
+    override fun resumeNotesPage() = notesFragment.onResume()
 
     companion object {
         fun getIntent(context: Context) = Intent(context, MainActivity::class.java)

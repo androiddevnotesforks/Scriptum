@@ -35,26 +35,28 @@ class NoteItem(
 ) {
 
     // TODO переделать
-    val check: IntArray
-        get() {
-            val check = intArrayOf(-1, 0)
+    private fun getCheckText(): IntArray {
+        val check = intArrayOf(-1, 0)
 
-            if (type !== NoteType.ROLL) return check
+        if (type !== NoteType.ROLL) return check
 
-            val split = text.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            if (split.size == 2) {
-                for (i in 0..1) {
-                    check[i] = split[i].toInt()
-                }
-            }
+        val split = text.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
-            return check
+        if (split.size == 2) {
+            (0..1).forEach { check[it] = split[it].toInt() }
         }
 
-    val isAllCheck: Boolean get() = with(check) { get(0) == get(1) }
+        return check
+    }
+
+    val isAllCheck: Boolean get() = with(getCheckText()) { get(0) == get(1) }
 
     fun setCompleteText(check: Int, size: Int) {
         text = "$check/$size"
+    }
+
+    fun setCompleteText() = with(getCheckText()) {
+        text = "${if (isAllCheck) 0 else get(1)}/${get(1)}"
     }
 
     fun splitTextForRoll() = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }

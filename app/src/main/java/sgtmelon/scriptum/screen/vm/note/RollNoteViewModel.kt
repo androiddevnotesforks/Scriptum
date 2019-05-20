@@ -137,7 +137,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuRestore() {
-        viewModelScope.launch { iRoomRepo.restoreNote(noteModel.noteItem) }
+        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
         noteCallback.finish()
     }
 
@@ -155,7 +155,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuClear() {
-        viewModelScope.launch { iRoomRepo.clearNote(noteModel.noteItem) }
+        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
         noteCallback.finish()
     }
 
@@ -265,7 +265,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         iRoomRepo.updateRollCheck(noteItem, !isAll)
-
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
         callback.bindNoteItem(noteItem)
@@ -274,7 +273,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         onUpdateData()
     }
 
-    override fun onMenuBind()= with(noteModel){
+    override fun onMenuBind() = with(noteModel) {
         noteItem.isStatus = !noteItem.isStatus
 
         BindControl(context, noteModel).updateBind()
@@ -287,8 +286,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuConvert() = callback.showConvertDialog()
 
     override fun onMenuDelete() {
-        viewModelScope.launch { iRoomRepo.deleteNote(noteModel.noteItem) }
-
+        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.deleteNote(it) } }
         BindControl(context, noteModel).cancelBind()
 
         noteCallback.finish()

@@ -62,9 +62,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         callback.showOptionsDialog(itemArray, p)
     }
 
-    fun onResultOptionsDialog(p: Int, which: Int) {
-        val noteItem = noteModelList[p].noteItem
-
+    fun onResultOptionsDialog(p: Int, which: Int) = with(noteModelList[p]) {
         when (noteItem.type) {
             NoteType.TEXT -> when (which) {
                 OptionsDef.Text.bind -> callback.notifyItemChanged(p, onMenuBind(p))
@@ -82,55 +80,47 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         }
     }
 
-    private fun onMenuCheck(p: Int): MutableList<NoteModel> {
-        with(noteModelList[p]) {
-            val checkText = noteItem.check
-            val isAll = checkText[0] == checkText[1]
+    private fun onMenuCheck(p: Int) = noteModelList.apply {
+        get(p).let {
+            val isAllCheck = it.noteItem.apply {
+                change = context.getTime()
+                setCompleteText()
+            }.isAllCheck
 
-            noteItem.change = context.getTime()
-            noteItem.setCompleteText(if (isAll) 0 else checkText[1], checkText[1])
+            it.updateCheck(isAllCheck)
 
-            iRoomRepo.updateRollCheck(noteItem, !isAll)
-
-            updateCheck(!isAll)
-
-            BindControl(context, noteItem).updateBind()
+            iRoomRepo.updateRollCheck(it.noteItem, isAllCheck)
+            BindControl(context, it.noteItem).updateBind()
         }
-
-        return noteModelList
     }
 
     private fun onMenuBind(p: Int) = noteModelList.apply {
         get(p).noteItem.let {
             it.isStatus = !it.isStatus
 
+            viewModelScope.launch { iRoomRepo.updateNote(it) }
             BindControl(context, it).updateBind()
-
-            iRoomRepo.updateNote(it)
         }
     }
 
-    private fun onMenuConvert(p: Int): MutableList<NoteModel> {
-        noteModelList[p] = with(noteModelList[p]) {
-            return@with when (noteItem.type) {
-                NoteType.TEXT -> iRoomRepo.convertToRoll(noteModel = this)
-                NoteType.ROLL -> iRoomRepo.convertToText(noteModel = this)
+    private fun onMenuConvert(p: Int) = noteModelList.apply {
+        set(p, get(p).let {
+            return@let when (it.noteItem.type) {
+                NoteType.TEXT -> iRoomRepo.convertToRoll(it)
+                NoteType.ROLL -> iRoomRepo.convertToText(it)
             }
-        }
+        })
 
-        BindControl(context, noteModelList[p].noteItem).updateBind()
-
-        return noteModelList
+        BindControl(context, get(p).noteItem).updateBind()
     }
 
-    private fun onMenuDelete(p: Int): MutableList<NoteModel> {
-        val noteItem = noteModelList[p].noteItem
+    private fun onMenuDelete(p: Int) = noteModelList.apply {
+        get(p).noteItem.let {
+            viewModelScope.launch { iRoomRepo.deleteNote(it) }
+            BindControl(context, it).cancelBind()
+        }
 
-        viewModelScope.launch { iRoomRepo.deleteNote(noteItem) }
-
-        BindControl(context, noteItem).cancelBind()
-
-        return noteModelList.apply { removeAt(p) }
+        removeAt(p)
     }
 
     companion object {

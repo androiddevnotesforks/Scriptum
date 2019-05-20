@@ -11,11 +11,11 @@ import sgtmelon.scriptum.model.key.NoteType
  */
 interface IBindRepo {
 
-    fun getNoteItem(id: Long) : NoteItem
-
     /**
      * @throws ClassCastException если [NoteItem.type] != [NoteType.ROLL]
      */
     fun getRollList(noteItem: NoteItem): List<RollItem>
+
+    fun unbindNoteItem(id: Long): NoteItem
 
 }
