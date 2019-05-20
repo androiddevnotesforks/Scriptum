@@ -14,16 +14,16 @@ import java.util.*
  */
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.Adapter<VH>() {
 
+    // TODO сделать list NotMutable
+
     protected val list: MutableList<T> = ArrayList()
 
-    @CallSuper
-    open fun setList(list: List<T>) {
+    @CallSuper open fun setList(list: List<T>) {
         this.list.clear()
         this.list.addAll(list)
     }
 
-    @CallSuper
-    open fun setListItem(p: Int, item: T) {
+    @CallSuper open fun setListItem(p: Int, item: T) {
         list[p] = item
     }
 

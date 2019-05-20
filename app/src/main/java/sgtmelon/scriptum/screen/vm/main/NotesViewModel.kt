@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.annot.def.OptionsDef
@@ -92,40 +93,42 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
             iRoomRepo.updateRollCheck(noteItem, !isAll)
 
             updateCheck(!isAll)
-            statusItem.updateNote(noteItem)
+
+            BindControl(context, noteItem).updateBind()
         }
 
         return noteModelList
     }
 
-    private fun onMenuBind(p: Int): MutableList<NoteModel> {
-        with(noteModelList[p]) {
-            noteItem.apply { isStatus = !isStatus }
-            updateStatus(noteItem.isStatus)
+    private fun onMenuBind(p: Int) = noteModelList.apply {
+        get(p).noteItem.let {
+            it.isStatus = !it.isStatus
 
-            iRoomRepo.updateNote(noteItem)
+            BindControl(context, it).updateBind()
+
+            iRoomRepo.updateNote(it)
         }
-
-        return noteModelList
     }
 
     private fun onMenuConvert(p: Int): MutableList<NoteModel> {
         noteModelList[p] = with(noteModelList[p]) {
-            when (noteItem.type) {
+            return@with when (noteItem.type) {
                 NoteType.TEXT -> iRoomRepo.convertToRoll(noteModel = this)
                 NoteType.ROLL -> iRoomRepo.convertToText(noteModel = this)
             }
         }
 
-        with(noteModelList[p]) { statusItem.updateNote(noteItem) }
+        BindControl(context, noteModelList[p].noteItem).updateBind()
 
         return noteModelList
     }
 
     private fun onMenuDelete(p: Int): MutableList<NoteModel> {
-        viewModelScope.launch { iRoomRepo.deleteNote(noteModelList[p].noteItem) }
+        val noteItem = noteModelList[p].noteItem
 
-        noteModelList[p].updateStatus(status = false)
+        viewModelScope.launch { iRoomRepo.deleteNote(noteItem) }
+
+        BindControl(context, noteItem).cancelBind()
 
         return noteModelList.apply { removeAt(p) }
     }

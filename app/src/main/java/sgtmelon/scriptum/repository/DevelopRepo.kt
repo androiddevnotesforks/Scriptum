@@ -6,7 +6,15 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.DbField.Value
 import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
+/**
+ * Репозиторий обработки данных [RoomDb] для [DevelopViewModel]
+ *
+ * @param context для открытия [RoomDb]
+ *
+ * @author SerjantArbuz
+ */
 class DevelopRepo(private val context: Context) : IDevelopRepo {
 
     private fun openRoom() = RoomDb.getInstance(context)

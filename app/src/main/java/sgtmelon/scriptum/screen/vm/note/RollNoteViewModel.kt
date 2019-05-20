@@ -10,12 +10,12 @@ import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.item.StatusItem
 import sgtmelon.scriptum.model.key.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.CheckState
@@ -69,19 +69,17 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             isRankEmpty = iRoomRepo.getRankCount()
 
             if (id == NoteData.Default.ID) {
-                val noteItem = NoteItem(
+                noteModel = NoteModel(NoteItem(
                         create = context.getTime(),
                         color = preference.defaultColor,
                         type = NoteType.ROLL
-                )
-                val statusItem = StatusItem(context, noteItem, notify = false)
-
-                noteModel = NoteModel(noteItem, ArrayList(), statusItem)
+                ), ArrayList())
 
                 noteState = NoteState(isCreate = true)
             } else {
                 noteModel = iRoomRepo.getNoteModel(id)
-                noteModel.updateStatus(rankIdVisibleList)
+
+                BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
             }
@@ -239,7 +237,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
-        noteModel.updateStatus(rankIdVisibleList)
+
+        BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
         id = noteModel.noteItem.id
 
@@ -260,13 +259,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateCheck(!isAll)
 
-        val noteItem = noteModel.noteItem
-        noteItem.change = context.getTime()
-        noteItem.setCompleteText(if (isAll) 0 else size, size)
-
-        noteModel.updateStatus(rankIdVisibleList)
+        val noteItem = noteModel.noteItem.apply {
+            change = context.getTime()
+            setCompleteText(if (isAll) 0 else size, size)
+        }
 
         iRoomRepo.updateRollCheck(noteItem, !isAll)
+
+        BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
         callback.bindNoteItem(noteItem)
         callback.changeCheckToggle(state = true)
@@ -274,10 +274,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         onUpdateData()
     }
 
-    override fun onMenuBind() {
-        val noteItem = noteModel.noteItem.apply { isStatus = !isStatus }
+    override fun onMenuBind()= with(noteModel){
+        noteItem.isStatus = !noteItem.isStatus
 
-        noteModel.updateStatus(noteItem.isStatus)
+        BindControl(context, noteModel).updateBind()
 
         callback.bindEdit(noteState.isEdit, noteItem)
 
@@ -289,7 +289,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuDelete() {
         viewModelScope.launch { iRoomRepo.deleteNote(noteModel.noteItem) }
 
-        noteModel.updateStatus(status = false)
+        BindControl(context, noteModel).cancelBind()
 
         noteCallback.finish()
     }
@@ -386,25 +386,24 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         callback.notifyListItem(p, rollItem)
 
-        val noteItem = noteModel.noteItem
         val check = rollList.getCheck()
 
-        noteItem.change = context.getTime()
-        noteItem.setCompleteText(check, rollList.size)
+        val noteItem = noteModel.noteItem.apply {
+            change = context.getTime()
+            setCompleteText(check, rollList.size)
+        }
 
         if (checkState.setAll(check, rollList.size)) callback.bindNoteItem(noteItem)
 
-        noteModel.updateStatus(rankIdVisibleList)
-
         iRoomRepo.updateRollCheck(noteItem, rollItem)
+
+        BindControl(context, noteModel).updateBind(rankIdVisibleList)
     }
 
     fun onResultColorDialog(check: Int) {
         val noteItem = noteModel.noteItem
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
-
-        noteModel.updateStatus(rankIdVisibleList)
 
         callback.apply {
             bindInput(inputControl.access, noteModel.isSaveEnabled())
@@ -431,8 +430,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             this.rankId = rankId
             this.rankPs = rankPs
         }
-
-        noteModel.updateStatus(rankIdVisibleList)
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.bindItem(noteItem)

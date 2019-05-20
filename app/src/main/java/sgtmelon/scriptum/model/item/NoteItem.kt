@@ -1,11 +1,9 @@
 package sgtmelon.scriptum.model.item
 
-import android.content.Context
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.DbField.Note
 import sgtmelon.scriptum.model.key.NoteType
@@ -54,8 +52,6 @@ class NoteItem(
         }
 
     val isAllCheck: Boolean get() = with(check) { get(0) == get(1) }
-
-    fun getStatusName(context: Context): String = if (name.isEmpty()) context.getString(R.string.hint_view_name) else name
 
     fun setCompleteText(check: Int, size: Int) {
         text = "$check/$size"

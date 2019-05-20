@@ -2,13 +2,13 @@ package sgtmelon.scriptum.repository
 
 import android.content.Context
 import androidx.sqlite.db.SimpleSQLiteQuery
+import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.item.StatusItem
 import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.utils.Preference
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
- * Репозиторий для обработки данных [RoomDb]
+ * Репозиторий обработки данных [RoomDb]
  *
  * @param context для открытия [RoomDb] и получения данных из [Preference]
  *
@@ -28,7 +28,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 
-    private val preference = Preference(context)
+    private val preference = Preference(context) // TODO подумай, как лучше убрать от сюда preference
 
     private fun openRoom() = RoomDb.getInstance(context)
 
@@ -39,19 +39,19 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         openRoom().apply {
-            val rankIdVisibleList = getRankDao().rankIdVisibleList
+            val rankVisibleList = getRankDao().rankIdVisibleList
 
             getNoteDao()[getNoteListQuery(bin)].forEach {
-                val statusItem = StatusItem(context, it, notify = false)
+                val bindControl = BindControl(context, it)
 
-                if (it.rankId.isNotEmpty() && !rankIdVisibleList.contains(it.rankId[0])) {
-                    statusItem.cancelNote()
+                if (it.rankId.isNotEmpty() && !rankVisibleList.contains(it.rankId[0])) {
+                    bindControl.cancelBind()
                 } else {
                     if (it.isStatus && NotesViewModel.updateStatus) {
-                        statusItem.notifyNote()
+                        bindControl.notifyBind()
                     }
 
-                    add(NoteModel(it, getRollDao().getView(it.id), statusItem))
+                    add(NoteModel(it, getRollDao().getView(it.id)))
                 }
             }
         }.close()
@@ -102,12 +102,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         val noteModel: NoteModel
 
-        openRoom().apply {
-            val noteItem = getNoteDao()[id]
-            val statusItem = StatusItem(context, noteItem, notify = false)
-
-            noteModel = NoteModel(noteItem, getRollDao()[id], statusItem)
-        }.close()
+        openRoom().apply { noteModel = NoteModel(getNoteDao()[id], getRollDao()[id]) }.close()
 
         return noteModel
     }
@@ -289,13 +284,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         val rankIdVisibleList = getRankDao().rankIdVisibleList
 
         getNoteDao()[getNoteListQuery(bin = false)].forEach {
-            val statusItem = StatusItem(context, it, notify = false)
-
-            if (it.rankId.isNotEmpty() && !rankIdVisibleList.contains(it.rankId[0])) {
-                statusItem.cancelNote()
-            } else if (it.isStatus) {
-                statusItem.notifyNote()
-            }
+            BindControl(context, it).updateBind(rankIdVisibleList)
         }
     }.close()
 

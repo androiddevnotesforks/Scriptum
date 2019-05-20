@@ -12,11 +12,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.StatusItem
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
@@ -37,20 +35,8 @@ class MainActivity : AppActivity(), MainCallback {
     // TODO setHasFixedSize recyclerView
 
     // TODO если очистить базу данных то закреплённые уведомления останутся
-    // TODO Ошибка с inputControl при добавлении в список нового пункта
 
     // TODO при создании заметки фокус на поле вводе (разве не должен он быть на названнии?)
-
-    // TODO Перед релизом
-    /**
-     * 1. Доделать [InputControl] (доработать функционал)
-     * 2. Доделать [StatusItem] (добавить кнопки и пр.)
-     * 2.1 Доделать диалог добавления заметки
-     * 3. Выписать все сценарии в соответствующий класс (даже которые нельзя потестить в ui - поворот экрана (тестить ручками))
-     * 4. Доделать ui тесты, начать писать unit, integration тесты
-     * 5. Проверить всё
-     * 6. Релиз
-     */
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java).apply {

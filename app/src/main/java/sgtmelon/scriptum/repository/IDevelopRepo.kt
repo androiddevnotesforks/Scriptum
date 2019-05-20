@@ -1,5 +1,10 @@
 package sgtmelon.scriptum.repository
 
+/**
+ * Интерфейс для общения с [DevelopRepo]
+ *
+ * @author SerjantArbuz
+ */
 interface IDevelopRepo {
 
     suspend fun getNoteTableData() : String

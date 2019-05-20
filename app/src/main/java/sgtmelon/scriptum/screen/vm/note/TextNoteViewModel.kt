@@ -8,10 +8,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.StatusItem
 import sgtmelon.scriptum.model.key.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
@@ -59,18 +59,17 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             isRankEmpty = iRoomRepo.getRankCount()
 
             if (id == NoteData.Default.ID) {
-                val noteItem = NoteItem(
+                noteModel = NoteModel(NoteItem(
                         create = context.getTime(),
                         color = preference.defaultColor,
                         type = NoteType.TEXT
-                )
-                val statusItem = StatusItem(context, noteItem, false)
+                ), ArrayList())
 
-                noteModel = NoteModel(noteItem, ArrayList(), statusItem)
                 noteState = NoteState(isCreate = true)
             } else {
                 noteModel = iRoomRepo.getNoteModel(id)
-                noteModel.updateStatus(rankIdVisibleList)
+
+                BindControl(context, noteModel.noteItem).updateBind(rankIdVisibleList)
 
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
             }
@@ -162,7 +161,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
-        noteModel.updateStatus(rankIdVisibleList)
+
+        BindControl(context, noteModel.noteItem).updateBind(rankIdVisibleList)
 
         id = noteModel.noteItem.id
 
@@ -175,10 +175,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         return true
     }
 
-    override fun onMenuBind() {
-        val noteItem = noteModel.noteItem.apply { isStatus = !isStatus }
+    override fun onMenuBind() = with(noteModel) {
+        noteItem.isStatus = !noteItem.isStatus
 
-        noteModel.updateStatus(noteItem.isStatus)
+        BindControl(context, noteItem).updateBind()
 
         callback.bindEdit(noteState.isEdit, noteItem)
 
@@ -190,7 +190,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuDelete() {
         viewModelScope.launch { iRoomRepo.deleteNote(noteModel.noteItem) }
 
-        noteModel.updateStatus(status = false)
+        BindControl(context, noteModel.noteItem).cancelBind()
 
         noteCallback.finish()
     }
@@ -256,8 +256,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
-        noteModel.updateStatus(rankIdVisibleList)
-
         callback.apply {
             bindInput(inputControl.access, noteModel.isSaveEnabled())
             tintToolbar(check)
@@ -283,8 +281,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             this.rankId = rankId
             this.rankPs = rankPs
         }
-
-        noteModel.updateStatus(rankIdVisibleList)
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.bindItem(noteItem)
