@@ -6,8 +6,6 @@ apply plugin: 'org.jetbrains.dokka-android'
 apply from: '../values.gradle'
 
 android {
-    //def tagLongVersion = "git describe --tags --long".execute().text.trim()
-    def tagLongVersion = "C:\\Git\\bin\\git.exe describe --tags --long".execute().text.trim()
 
     compileSdkVersion 28
 
@@ -16,7 +14,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 6
-        versionName tagLongVersion
+        versionName version
 
         testInstrumentationRunner deps.instrumentationRunner
 

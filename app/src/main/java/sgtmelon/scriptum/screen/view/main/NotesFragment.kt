@@ -125,6 +125,8 @@ class NotesFragment : Fragment(), NotesCallback {
         }
     }
 
+    fun onCancelNoteBind(id: Long) = viewModel.onCancelNoteBind(id)
+
     override fun bind() {
         val empty = adapter.itemCount == 0
 

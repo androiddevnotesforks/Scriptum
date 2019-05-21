@@ -111,6 +111,8 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
                 viewModel.onSaveData(bundle = this)
             })
 
+    fun onCancelNoteBind() = viewModel.onCancelNoteBind()
+
     override fun setupBinding(rankEmpty: Boolean) {
         binding?.menuCallback = viewModel
         binding?.rankEmpty = rankEmpty

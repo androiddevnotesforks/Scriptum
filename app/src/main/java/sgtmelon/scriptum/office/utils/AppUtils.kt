@@ -3,6 +3,7 @@ package sgtmelon.scriptum.office.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -18,6 +19,7 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import sgtmelon.scriptum.model.key.ReceiverKey
 
 fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int, parent: ViewGroup?,
                                                         attachToParent: Boolean = false): T =
@@ -102,3 +104,9 @@ fun EditText.addTextChangedListener(before: (String) -> Unit = {},
         override fun afterTextChanged(s: Editable?) = after(s.toString())
     })
 }
+
+fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {}) =
+        sendBroadcast(Intent(place).apply {
+            putExtra(ReceiverKey.Values.COMMAND, command)
+            putExtras(Intent().apply(extras))
+        })

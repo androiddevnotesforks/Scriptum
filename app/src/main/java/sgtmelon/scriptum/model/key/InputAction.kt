@@ -5,6 +5,8 @@ import sgtmelon.scriptum.model.item.InputItem
 
 /**
  * Аннотация для [InputItem.tag], [InputControl]
+ *
+ * @author SerjantArbuz
  */
 object InputAction {
     const val rank = 0

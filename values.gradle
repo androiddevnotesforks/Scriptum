@@ -1,4 +1,8 @@
 ext {
+
+    //version = "git describe --tags --long".execute().text.trim()
+    version = "C:\\Git\\bin\\git.exe describe --tags --long".execute().text.trim()
+
     vers = [
             jetbrains    : [
                     kotlin    : "1.3.31",
@@ -53,9 +57,9 @@ ext {
                             animated: "androidx.vectordrawable:vectordrawable-animated:$vers.androidx.vector.animated"
                     ],
                     test     : [
-                            runner  : "androidx.test:runner:1.1.1",
-                            rules   : "androidx.test:rules:1.1.1",
-                            junit   : "androidx.test.ext:junit:1.1.0",
+                            runner  : "androidx.test:runner:$vers.androidx.test.runner",
+                            rules   : "androidx.test:rules:$vers.androidx.test.rules",
+                            junit   : "androidx.test.ext:junit:$vers.androidx.test.junit",
                             espresso: [
                                     idling : "androidx.test.espresso:espresso-idling-resource:$vers.androidx.test.espresso",
                                     core   : "androidx.test.espresso:espresso-core:$vers.androidx.test.espresso",
@@ -73,4 +77,5 @@ ext {
                     classloading: "org.powermock:powermock-classloading-xstream:$vers.powermock"
             ]
     ]
+
 }

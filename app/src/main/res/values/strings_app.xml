@@ -8,7 +8,6 @@
     <string name="title_bin">Bin</string>
     <string name="title_preference">Settings</string>
 
-
     <!-- Name of menu items -->
     <string name="menu_page_notes_preference">Settings</string>
     <string name="menu_page_bin_clear">Clear bin</string>
@@ -32,31 +31,36 @@
     <string name="menu_note_restore_open">Restore and open</string>
     <string name="menu_note_clear">Delete forever</string>
 
-
     <!-- Toast text -->
     <string name="toast_note_save_done">Changes saved</string>
     <string name="toast_note_save_error">Changes not saved</string>
 
-
-    <!-- Name of channels & groups-->
+    <!-- Notifications -->
     <string name="notification_channel_id" translatable="false">scriptum_channel_id</string>
 
     <string name="notification_channel">Notes</string>
     <string name="notification_group">Notes</string>
 
+    <string name="notification_button_unbind">Unbind</string>
 
     <!-- Dialog -->
 
     <!-- Dialog titles and text -->
     <string name="dialog_title_clear_bin">Clear bin</string>
-    <string name="dialog_text_clear_bin">Are you sure you want to permanently delete all not hidden notes from bin?</string>
+    <string name="dialog_text_clear_bin">
+        Are you sure you want to permanently delete all not hidden notes from bin?
+    </string>
 
     <string name="dialog_title_color">Color</string>
     <string name="dialog_title_rank">Categories</string>
 
     <string name="dialog_title_convert">Convert</string>
-    <string name="dialog_roll_convert_to_text">Are you sure you want to convert the note? All checks in the list will be lost.</string>
-    <string name="dialog_text_convert_to_roll">Are you sure you want to convert the note? All empty lines will be deleted.</string>
+    <string name="dialog_roll_convert_to_text">
+        Are you sure you want to convert the note? All checks in the list will be lost.
+    </string>
+    <string name="dialog_text_convert_to_roll">
+        Are you sure you want to convert the note? All empty lines will be deleted.
+    </string>
 
     <string name="dialog_title_sort">Sorting order</string>
     <string name="dialog_title_add_note">Create note</string>
@@ -87,15 +91,15 @@
     <string name="dialog_add_roll">List</string>
 
     <string-array name="dialog_menu_text">
-        <item />
+        <item/>
         <item>@string/dialog_menu_convert_to_roll</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
 
     <string-array name="dialog_menu_roll">
-        <item />
-        <item />
+        <item/>
+        <item/>
         <item>@string/dialog_menu_convert_to_text</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
@@ -110,7 +114,6 @@
     <!-- Toast -->
     <string name="toast_text_copy">Text copied to clipboard</string>
 
-
     <!-- About dialog -->
     <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>
     <string name="about_app_logo_designer">Logo designer:\nPolepkina Arina</string>
@@ -123,7 +126,6 @@
     <string name="hint_enter_text">Your text</string>
     <string name="hint_enter_roll">Your list item</string>
     <string name="hind_enter_roll_empty">This item will be removed</string>
-
 
     <!-- Items text -->
     <!-- RankItem -->

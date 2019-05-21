@@ -439,4 +439,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteCallback.showTextFragment(noteModel.noteItem.id, isSave = false)
     }
 
+    fun onCancelNoteBind() = with(noteModel) {
+        noteItem.isStatus = false
+        callback.bindItem(noteItem)
+    }
+
 }

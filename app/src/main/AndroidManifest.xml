@@ -71,7 +71,7 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".control.notification.broadcast.UnbindReceiver"/>
+        <receiver android:name=".receiver.BindReceiver"/>
 
     </application>
 

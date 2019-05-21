@@ -13,13 +13,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.notification.broadcast.UnbindReceiver
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
+import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
@@ -46,7 +47,7 @@ class MainActivity : AppActivity(), MainCallback {
         }
     }
 
-    private val unbindReceiver by lazy { UnbindReceiver(viewModel) }
+    private val mainReceiver by lazy { MainReceiver(viewModel) }
 
     private val rankFragment by lazy { FragmentFactory.getRankFragment(supportFragmentManager) }
     private val notesFragment by lazy { FragmentFactory.getNotesFragment(supportFragmentManager) }
@@ -67,12 +68,12 @@ class MainActivity : AppActivity(), MainCallback {
 
         viewModel.onSetupData(savedInstanceState)
 
-        registerReceiver(unbindReceiver, IntentFilter())
+        registerReceiver(mainReceiver, IntentFilter(ReceiverKey.Filter.MAIN))
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        unregisterReceiver(unbindReceiver)
+        unregisterReceiver(mainReceiver)
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -136,7 +137,7 @@ class MainActivity : AppActivity(), MainCallback {
         MainPage.BIN -> binFragment
     }
 
-    override fun resumeNotesPage() = notesFragment.onResume()
+    override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
 
     companion object {
         fun getIntent(context: Context) = Intent(context, MainActivity::class.java)

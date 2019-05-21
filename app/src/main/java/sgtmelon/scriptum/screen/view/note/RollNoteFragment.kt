@@ -141,6 +141,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
                 viewModel.onSaveData(bundle = this)
             })
 
+    fun onCancelNoteBind() = viewModel.onCancelNoteBind()
+
     override fun setupBinding(rankEmpty: Boolean) {
         binding?.menuCallback = viewModel
         binding?.rankEmpty = rankEmpty

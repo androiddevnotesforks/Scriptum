@@ -10,12 +10,13 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.notification.broadcast.UnbindReceiver
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.office.utils.ColorUtils
+import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.BindRepo
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
 
@@ -41,8 +42,12 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     init {
+        val title = with(noteItem) {
+            (if (name.isEmpty()) context.getString(R.string.hint_view_name) else name)
+                    .plus(if (type == NoteType.ROLL) " $text" else "")
+        }
+
         val icon: Int
-        val title = with(noteItem) { if (name.isEmpty()) context.getString(R.string.hint_view_name) else name }
         val text: String
 
         when (noteItem.type) {
@@ -56,7 +61,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
                 }
 
                 icon = R.drawable.notif_bind_roll
-                text = rollList.toStatusText(noteItem.text)
+                text = rollList.toStatusText()
             }
         }
 
@@ -83,9 +88,9 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(context.getNotePendingIntent(noteItem))
+                .addAction(0, context.getString(R.string.notification_button_unbind), context.getUnbindPendingIntent(noteItem))
                 .setAutoCancel(false)
                 .setOngoing(true)
-                .addAction(0, "Unbind", context.getUnbindPendingIntent(noteItem))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             notificationBuilder.setGroup(context.getString(R.string.notification_group))
@@ -116,10 +121,9 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
     fun cancelBind() = notificationManager.cancel(noteItem.id.toInt())
 
     companion object {
-        private fun List<RollItem>.toStatusText(checkCount: String) =
-                joinToString(prefix = "$checkCount\n", separator = "\n") {
-                    "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
-                }
+        private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
+            "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
+        }
 
         private fun Context.getNotePendingIntent(noteItem: NoteItem): PendingIntent? =
                 with(TaskStackBuilder.create(this)) {
@@ -129,8 +133,8 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
 
 
         fun Context.getUnbindPendingIntent(noteItem: NoteItem): PendingIntent {
-            val intent = Intent(this, UnbindReceiver::class.java).apply {
-                putExtra(UnbindReceiver.NOTE_ID_KEY, noteItem.id)
+            val intent = Intent(this, BindReceiver::class.java).apply {
+                putExtra(ReceiverKey.Values.NOTE_ID, noteItem.id)
             }
 
             return PendingIntent.getBroadcast(

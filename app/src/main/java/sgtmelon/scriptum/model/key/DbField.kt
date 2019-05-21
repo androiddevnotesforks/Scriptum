@@ -4,6 +4,8 @@ package sgtmelon.scriptum.model.key
  * Константы для БД
  * Наименование столов и столбцов базы данных
  * Постоянные и строки для формирования сортировки заметок
+ *
+ * @author SerjantArbuz
  */
 object DbField {
 

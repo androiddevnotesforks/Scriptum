@@ -123,6 +123,14 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         removeAt(p)
     }
 
+    fun onCancelNoteBind(id: Long) = noteModelList.forEachIndexed { i, it ->
+        if (it.noteItem.id == id) {
+            it.noteItem.isStatus = false
+            callback.notifyItemChanged(i, noteModelList)
+            return@forEachIndexed
+        }
+    }
+
     companion object {
         /**
          * Для единовременного обновления статус бара

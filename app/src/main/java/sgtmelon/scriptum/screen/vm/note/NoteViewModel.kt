@@ -4,10 +4,11 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
-class NoteViewModel(application: Application) : ParentViewModel(application) {
+class NoteViewModel(application: Application) : ParentViewModel(application), NoteReceiver.Callback {
 
     lateinit var callback: NoteCallback
 
@@ -36,6 +37,12 @@ class NoteViewModel(application: Application) : ParentViewModel(application) {
         NoteType.TEXT -> callback.onPressBackText()
         NoteType.ROLL -> callback.onPressBackRoll()
         else -> false
+    }
+
+    override fun onReceiveUnbindNote(id: Long) {
+        if (this.id != id) return
+
+        type?.let { callback.onCancelNoteBind(it) }
     }
 
 }
