@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -56,15 +57,26 @@ fun Context.getDimen(value: Float) =
 fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, event ->
     if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
 
-    editText?.apply {
-        if (visibility == View.VISIBLE && !hasFocus()) {
-            requestFocus()
-            setSelection(text.toString().length)
-            showKeyboard()
-        }
-    }
+    editText?.let { if (it.visibility == View.VISIBLE) it.requestSelectionFocus() }
 
     return@setOnTouchListener false
+}
+
+fun EditText.addOnNextAction(func: () -> Unit) {
+    setOnEditorActionListener { _, i, _ ->
+        if (i == EditorInfo.IME_ACTION_NEXT) {
+            func()
+            return@setOnEditorActionListener true
+        }
+
+        return@setOnEditorActionListener false
+    }
+}
+
+fun EditText.requestSelectionFocus() {
+    if (!hasFocus()) requestFocus()
+    setSelection(text.toString().length)
+    showKeyboard()
 }
 
 fun EditText?.getClearText(): String {
