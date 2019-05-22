@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -31,9 +30,7 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.DialogDef
-import sgtmelon.scriptum.office.utils.hideKeyboard
-import sgtmelon.scriptum.office.utils.inflateBinding
-import sgtmelon.scriptum.office.utils.requestFocusOnVisible
+import sgtmelon.scriptum.office.utils.*
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
@@ -165,13 +162,11 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
-        nameEnter?.setOnEditorActionListener { _, i, _ ->
-            if (i == EditorInfo.IME_ACTION_NEXT) {
-                textEnter?.requestFocus()
-                return@setOnEditorActionListener true
+        nameEnter?.addOnNextAction {
+            textEnter?.apply {
+                requestFocus()
+                setSelection(text.toString().length)
             }
-
-            return@setOnEditorActionListener false
         }
 
         textEnter = view?.findViewById(R.id.text_note_content_enter)
@@ -214,6 +209,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
+
+    override fun focusOnEdit() {
+        nameEnter?.requestSelectionFocus()
+    }
 
     override fun changeName(text: String, cursor: Int) {
         nameEnter?.apply {

@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
@@ -39,10 +38,7 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.addTextChangedListener
-import sgtmelon.scriptum.office.utils.hideKeyboard
-import sgtmelon.scriptum.office.utils.inflateBinding
-import sgtmelon.scriptum.office.utils.requestFocusOnVisible
+import sgtmelon.scriptum.office.utils.*
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -195,13 +191,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         nameEnter?.addTextChangedListener(
                 InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
         )
-        nameEnter?.setOnEditorActionListener { _, i, _ ->
-            if (i == EditorInfo.IME_ACTION_NEXT) {
-                rollEnter?.requestFocus()
-                return@setOnEditorActionListener true
+        nameEnter?.addOnNextAction {
+            rollEnter?.apply {
+                requestFocus()
+                setSelection(text.toString().length)
             }
-
-            return@setOnEditorActionListener false
         }
 
         rollEnter = view?.findViewById(R.id.roll_note_enter)
