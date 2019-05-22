@@ -11,7 +11,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
-        versionName git.version.execute().text.trim()
+        versionName git.version.windows.execute().text.trim()
 
         testInstrumentationRunner deps.instrumentationRunner
 

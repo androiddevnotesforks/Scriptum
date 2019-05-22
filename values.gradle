@@ -1,6 +1,9 @@
 ext {
     git = [
-            version : "C:\\Git\\bin\\git.exe describe --tags --long"
+            version: [
+                    windows: "C:\\Git\\bin\\git.exe describe --tags --long",
+                    linux  : "git describe --tags --long"
+            ]
     ]
 
     vers = [
