@@ -276,6 +276,10 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
 
+    override fun focusOnEdit() {
+        nameEnter?.requestSelectionFocus()
+    }
+
     override fun changeName(text: String, cursor: Int) {
         nameEnter?.apply {
             requestFocus()
@@ -329,7 +333,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
     }
 
-    override fun notifyItemChanged(p: Int, cursor: Int, list: MutableList<RollItem>) {
+    override fun notifyItemChanged(p: Int, list: MutableList<RollItem>, cursor: Int) {
         adapter.apply {
             cursorPosition = cursor
             notifyItemChanged(p, list)

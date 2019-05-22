@@ -40,6 +40,8 @@ interface TextNoteCallback {
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
+    fun focusOnEdit()
+
     fun changeName(text: String, cursor: Int)
 
     fun changeText(text: String, cursor: Int)

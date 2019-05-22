@@ -136,8 +136,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(item[isUndo], item.cursor!![isUndo])
-                InputAction.text -> callback.changeText(item[isUndo], item.cursor!![isUndo])
+                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor?.get(isUndo)
+                        ?: 0)
+                InputAction.text -> callback.changeText(item[isUndo], cursor = item.cursor?.get(isUndo)
+                        ?: 0)
             }
         }
 
@@ -168,9 +170,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             id = noteModel.noteItem.id
             parentCallback.onUpdateNoteId(id)
 
-            if (!changeMode) {
-                callback.changeToolbarIcon(drawableOn = true, needAnim = true)
-            }
+            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
 
         return true
@@ -208,6 +208,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
             bindEdit(editMode, noteModel.noteItem)
             bindInput(inputControl.access, noteModel.isSaveEnabled())
+
+            if (editMode) focusOnEdit()
         }
 
         saveControl.setSaveHandlerEvent(editMode)

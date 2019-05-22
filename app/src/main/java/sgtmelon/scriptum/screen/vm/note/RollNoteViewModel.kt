@@ -180,10 +180,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(item[isUndo], item.cursor!![isUndo])
+                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor?.get(isUndo) ?: 0)
                 InputAction.roll -> {
                     rollList[item.p].text = item[isUndo]
-                    callback.notifyItemChanged(item.p, item.cursor!![isUndo], rollList)
+                    callback.notifyItemChanged(item.p, rollList, cursor = item.cursor?.get(isUndo) ?: 0)
                 }
                 InputAction.rollAdd, InputAction.rollRemove -> {
                     val isAddUndo = isUndo && item.tag == InputAction.rollAdd
@@ -244,9 +244,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             id = noteModel.noteItem.id
             parentCallback.onUpdateNoteId(id)
 
-            if (!changeMode) {
-                callback.changeToolbarIcon(drawableOn = true, needAnim = true)
-            }
+            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
 
         callback.notifyList(rollList)
@@ -305,6 +303,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             bindEdit(editMode, noteModel.noteItem)
             bindInput(inputControl.access, noteModel.isSaveEnabled())
             updateNoteState(noteState)
+
+            if (editMode) focusOnEdit()
         }
 
         saveControl.setSaveHandlerEvent(editMode)
