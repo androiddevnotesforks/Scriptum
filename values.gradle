@@ -1,7 +1,7 @@
 ext {
-
-    //version = "git describe --tags --long".execute().text.trim()
-    version = "C:\\Git\\bin\\git.exe describe --tags --long".execute().text.trim()
+    git = [
+            version : "C:\\Git\\bin\\git.exe describe --tags --long"
+    ]
 
     vers = [
             jetbrains    : [
@@ -77,5 +77,4 @@ ext {
                     classloading: "org.powermock:powermock-classloading-xstream:$vers.powermock"
             ]
     ]
-
 }

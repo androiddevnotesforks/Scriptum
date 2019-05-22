@@ -37,9 +37,9 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:listitem="@layout/item_note_roll"
+                    android:visibility='@{!listEmpty ? v.VISIBLE : v.GONE}'
                     tools:itemCount="3"
-                    android:visibility='@{!listEmpty ? v.VISIBLE : v.GONE}'/>
+                    tools:listitem="@layout/item_note_roll"/>
 
         </FrameLayout>
 
