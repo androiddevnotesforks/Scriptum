@@ -12,15 +12,16 @@ ext {
                     coroutines: "1.1.1"
             ],
             androidx     : [
-                    lifecycle: "2.2.0-alpha01",
-                    room     : "2.0.0",
-                    appcompat: "1.0.2",
-                    cardview : "1.0.0",
-                    vector   : [
+                    lifecycle       : "2.2.0-alpha01",
+                    room            : "2.0.0",
+                    appcompat       : "1.0.2",
+                    cardview        : "1.0.0",
+                    constraintlayout: "1.1.3",
+                    vector          : [
                             drawable: "1.0.1",
                             animated: "1.0.0"
                     ],
-                    test     : [
+                    test            : [
                             runner  : "1.1.1",
                             rules   : "1.1.1",
                             junit   : "1.1.0",
@@ -43,23 +44,24 @@ ext {
                     ]
             ],
             androidx             : [
-                    lifecycle: [
+                    lifecycle       : [
                             extensions: "androidx.lifecycle:lifecycle-extensions:$vers.androidx.lifecycle",
                             viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$vers.androidx.lifecycle",
                             compiler  : "androidx.lifecycle:lifecycle-compiler:$vers.androidx.lifecycle",
                     ],
-                    room     : [
+                    room            : [
                             runtime : "androidx.room:room-runtime:$vers.androidx.room",
                             compiler: "androidx.room:room-compiler:$vers.androidx.room",
                             testing : "androidx.room:room-testing:$vers.androidx.room"
                     ],
-                    appcompat: "androidx.appcompat:appcompat:$vers.androidx.appcompat",
-                    cardview : "androidx.cardview:cardview:$vers.androidx.cardview ",
-                    vector   : [
+                    appcompat       : "androidx.appcompat:appcompat:$vers.androidx.appcompat",
+                    cardview        : "androidx.cardview:cardview:$vers.androidx.cardview ",
+                    constraintlayout: "androidx.constraintlayout:constraintlayout:$vers.androidx.constraintlayout",
+                    vector          : [
                             drawable: "androidx.vectordrawable:vectordrawable:$vers.androidx.vector.drawable",
                             animated: "androidx.vectordrawable:vectordrawable-animated:$vers.androidx.vector.animated"
                     ],
-                    test     : [
+                    test            : [
                             runner  : "androidx.test:runner:$vers.androidx.test.runner",
                             rules   : "androidx.test:rules:$vers.androidx.test.rules",
                             junit   : "androidx.test.ext:junit:$vers.androidx.test.junit",
