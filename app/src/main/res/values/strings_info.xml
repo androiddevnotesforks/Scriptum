@@ -16,17 +16,19 @@
     <string name="info_intro_details_4">Group notes by your categories</string>
     <string name="info_intro_details_5">Hide categories and notes with them</string>
     <string name="info_intro_details_6">Sort notes\nSet up saving\nChoose app theme</string>
-    <string name="info_intro_details_7">After deleting notes, they are moved to rubbish bin, where they can be restored or permanently delete</string>
+    <string name="info_intro_details_7">
+        After deleting notes, they are moved to rubbish bin, where they can be restored or
+        permanently delete
+    </string>
 
     <string name="info_intro_button">Get started</string>
-
 
     <string name="info_rank_title">No categories</string>
     <string name="info_notes_title">No created notes</string>
     <string name="info_bin_title">Bin is empty</string>
 
     <string name="info_rank_details">For add category write name in text field from top</string>
-    <string name="info_notes_details">For add new note clickListener on central button of menu</string>
+    <string name="info_notes_details">For add new note click on central button of menu</string>
     <string name="info_bin_details">Deleted notes can be restored at any time</string>
 
 </resources>
