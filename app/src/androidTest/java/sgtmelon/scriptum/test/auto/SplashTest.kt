@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.auto
 
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -6,6 +6,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
+import sgtmelon.scriptum.test.ParentTest
 
 /**
  * Тест для [SplashActivity]

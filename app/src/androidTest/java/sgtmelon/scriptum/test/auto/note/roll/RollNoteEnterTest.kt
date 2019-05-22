@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.note.roll
+package sgtmelon.scriptum.test.auto.note.roll
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.runner.RunWith

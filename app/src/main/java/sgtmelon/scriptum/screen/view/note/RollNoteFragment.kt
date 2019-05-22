@@ -43,7 +43,7 @@ import sgtmelon.scriptum.office.utils.addTextChangedListener
 import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.requestFocusOnVisible
-import sgtmelon.scriptum.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
@@ -55,14 +55,13 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 class RollNoteFragment : Fragment(), RollNoteCallback {
 
     private lateinit var activity: Activity
-    private lateinit var parentCallback: NoteCallback
 
     private var binding: FragmentRollNoteBinding? = null
 
     private val viewModel: RollNoteViewModel by lazy {
         ViewModelProviders.of(this).get(RollNoteViewModel::class.java).apply {
             callback = this@RollNoteFragment
-            noteCallback = parentCallback
+            parentCallback = context as NoteChildCallback
         }
     }
 
@@ -95,7 +94,6 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         super.onAttach(context)
 
         activity = context as Activity
-        parentCallback = context as NoteCallback
     }
 
     override fun onResume() {

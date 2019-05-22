@@ -13,6 +13,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
@@ -21,7 +22,7 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  *
  * @author SerjantArbuz
  */
-class NoteActivity : AppActivity(), NoteCallback {
+class NoteActivity : AppActivity(), NoteCallback, NoteChildCallback {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(NoteViewModel::class.java).apply {
@@ -36,8 +37,8 @@ class NoteActivity : AppActivity(), NoteCallback {
         setContentView(R.layout.activity_note)
 
         viewModel.apply {
-            onSetupData(intent.extras ?: savedInstanceState)
-            onSetupFragment(savedInstanceState != null)
+            onSetupData(bundle = savedInstanceState ?: intent.extras)
+            onSetupFragment(isSave = savedInstanceState != null)
         }
 
         registerReceiver(noteReceiver, IntentFilter(ReceiverKey.Filter.NOTE))
@@ -55,16 +56,16 @@ class NoteActivity : AppActivity(), NoteCallback {
         if (!viewModel.onPressBack()) super.onBackPressed()
     }
 
-    override fun showTextFragment(id: Long, isSave: Boolean) {
-        showFragment(NoteType.TEXT.name, if (isSave) {
+    override fun showTextFragment(id: Long, checkCache: Boolean) {
+        showFragment(NoteType.TEXT.name, if (checkCache) {
             findTextNoteFragment() ?: TextNoteFragment.getInstance(id)
         } else {
             TextNoteFragment.getInstance(id)
         })
     }
 
-    override fun showRollFragment(id: Long, isSave: Boolean) {
-        showFragment(NoteType.ROLL.name, if (isSave) {
+    override fun showRollFragment(id: Long, checkCache: Boolean) {
+        showFragment(NoteType.ROLL.name, if (checkCache) {
             findRollNoteFragment() ?: RollNoteFragment.getInstance(id)
         } else {
             RollNoteFragment.getInstance(id)
@@ -81,14 +82,16 @@ class NoteActivity : AppActivity(), NoteCallback {
 
     override fun onPressBackRoll() = findRollNoteFragment()?.onPressBack() ?: false
 
-    // TODO не вызывается сброс уведомления после конвертирования заметки (findFragment == null)
-
     override fun onCancelNoteBind(type: NoteType) {
         when (type) {
             NoteType.TEXT -> findTextNoteFragment()?.onCancelNoteBind()
             NoteType.ROLL -> findRollNoteFragment()?.onCancelNoteBind()
         }
     }
+
+    override fun onUpdateNoteId(id: Long) = viewModel.onUpdateNoteId(id)
+
+    override fun onConvertNote() = viewModel.onConvertNote()
 
     companion object {
         fun Context.getNoteIntent(type: NoteType, id: Long? = NoteData.Default.ID): Intent {

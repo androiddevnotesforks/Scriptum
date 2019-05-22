@@ -34,7 +34,7 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.requestFocusOnVisible
-import sgtmelon.scriptum.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
@@ -46,14 +46,13 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 class TextNoteFragment : Fragment(), TextNoteCallback {
 
     private lateinit var activity: Activity
-    private lateinit var parentCallback: NoteCallback
 
     private var binding: FragmentTextNoteBinding? = null
 
     private val viewModel: TextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
             callback = this@TextNoteFragment
-            noteCallback = parentCallback
+            parentCallback = context as NoteChildCallback
         }
     }
 
@@ -74,7 +73,6 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         super.onAttach(context)
 
         activity = context as Activity
-        parentCallback = context as NoteCallback
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

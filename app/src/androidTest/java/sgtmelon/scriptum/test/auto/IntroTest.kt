@@ -1,10 +1,11 @@
-package sgtmelon.scriptum.test
+package sgtmelon.scriptum.test.auto
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.intro.IntroActivity
+import sgtmelon.scriptum.test.ParentTest
 
 /**
  * Тест для [IntroActivity]

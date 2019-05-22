@@ -26,7 +26,7 @@ import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import sgtmelon.scriptum.office.utils.showToast
 import sgtmelon.scriptum.office.utils.swap
 import sgtmelon.scriptum.room.converter.StringConverter
-import sgtmelon.scriptum.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
@@ -45,7 +45,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         RollNoteMenuCallback {
 
     lateinit var callback: RollNoteCallback
-    lateinit var noteCallback: NoteCallback
+    lateinit var parentCallback: NoteChildCallback
 
     private val inputControl = InputControl()
     private val saveControl = SaveControl(context, result = this)
@@ -138,7 +138,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuRestore() {
         noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
-        noteCallback.finish()
+        parentCallback.finish()
     }
 
     override fun onMenuRestoreOpen() {
@@ -156,7 +156,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuClear() {
         noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
-        noteCallback.finish()
+        parentCallback.finish()
     }
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
@@ -240,9 +240,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
-        id = noteModel.noteItem.id
-
         noteState.ifCreate {
+            id = noteModel.noteItem.id
+            parentCallback.onUpdateNoteId(id)
+
             if (!changeMode) {
                 callback.changeToolbarIcon(drawableOn = true, needAnim = true)
             }
@@ -289,7 +290,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.deleteNote(it) } }
         BindControl(context, noteModel).cancelBind()
 
-        noteCallback.finish()
+        parentCallback.finish()
     }
 
     override fun onMenuEdit(editMode: Boolean) = inputControl.makeNotEnabled {
@@ -328,7 +329,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             onRestoreData()
         } else {
             saveControl.needSave = false
-            noteCallback.finish()
+            parentCallback.finish()
         }
     }
 
@@ -436,7 +437,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     fun onResultConvertDialog() {
         iRoomRepo.convertToText(noteModel)
 
-        noteCallback.showTextFragment(noteModel.noteItem.id, isSave = false)
+        parentCallback.onConvertNote()
     }
 
     fun onCancelNoteBind() = with(noteModel) {

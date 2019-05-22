@@ -11,9 +11,15 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  */
 interface NoteCallback {
 
-    fun showTextFragment(id: Long, isSave: Boolean)
+    /**
+     * [checkCache] - пытаться найти фрагмент по тегу или пропустить этот шаг и создать новый
+     */
+    fun showTextFragment(id: Long, checkCache: Boolean)
 
-    fun showRollFragment(id: Long, isSave: Boolean)
+    /**
+     * [checkCache] - пытаться найти фрагмент по тегу или пропустить этот шаг и создать новый
+     */
+    fun showRollFragment(id: Long, checkCache: Boolean)
 
     fun onPressBackText(): Boolean
 

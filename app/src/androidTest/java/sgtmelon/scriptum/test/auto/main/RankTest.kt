@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.main
+package sgtmelon.scriptum.test.auto.main
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import org.junit.Test
