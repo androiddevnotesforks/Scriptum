@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.view.main
 
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -37,10 +36,6 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
  */
 class BinFragment : Fragment(), BinCallback {
 
-    // TODO double open note - поправить
-
-    private lateinit var activity: Activity
-
     private var binding: FragmentBinBinding? = null
 
     private val viewModel: BinViewModel by lazy {
@@ -50,7 +45,8 @@ class BinFragment : Fragment(), BinCallback {
     }
 
     private val adapter by lazy {
-        NoteAdapter(ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) },
+        NoteAdapter(
+                ItemListener.ClickListener { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
                 ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
         )
     }
@@ -64,17 +60,14 @@ class BinFragment : Fragment(), BinCallback {
 
     private val openState = OpenState()
     private val optionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
-    private val clearBinDialog by lazy { DialogFactory.getClearBinDialog(activity, fragmentManager) }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        activity = context as Activity
+    private val clearBinDialog by lazy {
+        DialogFactory.getClearBinDialog(activity as Activity, fragmentManager)
     }
 
     override fun onResume() {
         super.onResume()
 
+        openState.clear()
         viewModel.onUpdateData()
     }
 
@@ -87,16 +80,14 @@ class BinFragment : Fragment(), BinCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState != null) {
-            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
-        }
+        openState.get(savedInstanceState)
 
         setupToolbar()
         setupRecycler()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { putBoolean(OpenState.KEY, openState.value) })
+            super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
     private fun setupToolbar() {
         toolbar = view?.findViewById(R.id.toolbar_container)
@@ -110,7 +101,7 @@ class BinFragment : Fragment(), BinCallback {
         }
 
         itemClearBin = toolbar?.menu?.findItem(R.id.item_clear)
-        itemClearBin?.tintIcon(activity)
+        activity?.let { itemClearBin?.tintIcon(it) }
 
         clearBinDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ -> viewModel.onClickClearBin() }

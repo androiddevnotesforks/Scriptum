@@ -16,6 +16,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
 
 object ColorUtils {
 
@@ -94,4 +95,14 @@ object ColorUtils {
         return drawable
     }
 
+}
+
+/**
+ * Получение покрашенного изображения
+ */
+fun Context.getTintDrawable(@DrawableRes id: Int) : Drawable? {
+    val drawable = ContextCompat.getDrawable(this, id) ?: return null
+    drawable.setColorFilter(getColorAttr(R.attr.clContent), PorterDuff.Mode.SRC_ATOP)
+
+    return drawable
 }

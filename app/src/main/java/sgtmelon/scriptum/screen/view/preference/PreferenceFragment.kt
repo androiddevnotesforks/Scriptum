@@ -64,9 +64,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preference)
 
-        if (savedInstanceState != null) {
-            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
-        }
+        openState.get(savedInstanceState)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -80,7 +78,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { putBoolean(OpenState.KEY, openState.value) })
+            super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
     private fun setupNotePreference() {
         sortPreference.setOnPreferenceClickListener { viewModel.onClickSortPreference() }

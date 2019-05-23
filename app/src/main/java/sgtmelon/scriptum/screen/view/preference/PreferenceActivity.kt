@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.screen.view.preference
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.utils.ColorUtils.getDrawable
+import sgtmelon.scriptum.office.utils.getTintDrawable
 import sgtmelon.scriptum.screen.view.AppActivity
 
 /**
@@ -28,8 +30,12 @@ class PreferenceActivity : AppActivity() {
 
     private fun setupToolbar() = findViewById<Toolbar>(R.id.toolbar_container).apply {
         title = getString(R.string.title_preference)
-        navigationIcon = getDrawable(R.drawable.ic_cancel_exit, R.attr.clContent)
+        navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
         setNavigationOnClickListener { finish() }
+    }
+
+    companion object {
+        fun getInstance(context: Context) = Intent(context, PreferenceActivity::class.java)
     }
 
 }

@@ -6,10 +6,13 @@
     <string name="title_rank">Categories</string>
     <string name="title_notes">Notes</string>
     <string name="title_bin">Bin</string>
+    <string name="title_notification">Notifications</string>
     <string name="title_preference">Settings</string>
 
     <!-- Name of menu items -->
     <string name="menu_page_notes_preference">Settings</string>
+    <string name="menu_page_notes_notifications">Notifications</string>
+
     <string name="menu_page_bin_clear">Clear bin</string>
 
     <string name="menu_note_edit">Change</string>

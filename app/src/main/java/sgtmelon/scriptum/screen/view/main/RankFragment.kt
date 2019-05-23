@@ -96,16 +96,14 @@ class RankFragment : Fragment(), RankCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState != null) {
-            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
-        }
+        openState.get(savedInstanceState)
 
         setupToolbar()
         setupRecycler()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { putBoolean(OpenState.KEY, openState.value) })
+            super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
     private fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_rank_container)?.apply {

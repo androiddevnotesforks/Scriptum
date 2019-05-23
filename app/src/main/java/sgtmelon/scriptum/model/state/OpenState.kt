@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.model.state
 
+import android.os.Bundle
+
 /**
  * Состояние для диалогов, сохраняющее открыт ли он
  */
@@ -17,6 +19,13 @@ class OpenState {
     fun clear() {
         value = false
     }
+
+    fun get(bundle: Bundle?) {
+        if(bundle == null) return
+        value = bundle.getBoolean(KEY)
+    }
+
+    fun save(bundle: Bundle) = bundle.putBoolean(KEY, value)
 
     companion object {
         const val KEY = "INTENT_STATE_OPEN"

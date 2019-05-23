@@ -34,13 +34,6 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
  */
 class MainActivity : AppActivity(), MainCallback {
 
-    // TODO Добавить перескакивание курсора при старте редактирования в нужное место
-    // TODO setHasFixedSize recyclerView
-
-    // TODO если очистить базу данных то закреплённые уведомления останутся
-
-    // TODO при создании заметки фокус на поле вводе (разве не должен он быть на названнии?)
-
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java).apply {
             callback = this@MainActivity
@@ -62,9 +55,7 @@ class MainActivity : AppActivity(), MainCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (savedInstanceState != null) {
-            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
-        }
+        openState.get(savedInstanceState)
 
         viewModel.onSetupData(savedInstanceState)
 
@@ -78,7 +69,7 @@ class MainActivity : AppActivity(), MainCallback {
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
-                putBoolean(OpenState.KEY, openState.value)
+                openState.save(bundle = this)
                 viewModel.onSaveData(bundle = this)
             })
 

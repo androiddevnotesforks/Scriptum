@@ -4,10 +4,13 @@
     <string name="title_rank">Категории</string>
     <string name="title_notes">Заметки</string>
     <string name="title_bin">Корзина</string>
+    <string name="title_notification">Уведомления</string>
     <string name="title_preference">Настройки</string>
 
     <!-- Name of menu items -->
     <string name="menu_page_notes_preference">Настройки</string>
+    <string name="menu_page_notes_notifications">Уведомления</string>
+
     <string name="menu_page_bin_clear">Очистить корзину</string>
 
     <string name="menu_note_edit">Изменить</string>

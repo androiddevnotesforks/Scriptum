@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.screen.view.main
 
-import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -21,12 +19,14 @@ import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.ColorUtils.tintIcon
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
+import sgtmelon.scriptum.screen.view.NotificationActivity
 import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim
 import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -38,9 +38,6 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 class NotesFragment : Fragment(), NotesCallback {
 
-    // TODO double open note - поправить
-
-    private lateinit var activity: Activity
     private val mainCallback: MainCallback? by lazy { context as? MainCallback }
 
     private var binding: FragmentNotesBinding? = null
@@ -52,7 +49,8 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private val adapter by lazy {
-        NoteAdapter(ItemListener.ClickListener { _, p -> viewModel.onClickNote(p) },
+        NoteAdapter(
+                ItemListener.ClickListener { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
                 ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
         )
     }
@@ -61,17 +59,13 @@ class NotesFragment : Fragment(), NotesCallback {
     private var emptyInfoView: View? = null
     private var recyclerView: RecyclerView? = null
 
+    private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        activity = context as Activity
-    }
 
     override fun onResume() {
         super.onResume()
 
+        openState.clear()
         viewModel.onUpdateData()
     }
 
@@ -94,10 +88,22 @@ class NotesFragment : Fragment(), NotesCallback {
             inflateMenu(R.menu.fragment_notes)
 
             setOnMenuItemClickListener {
-                startActivity(Intent(context, PreferenceActivity::class.java))
+                openState.tryInvoke {
+                    when (it.itemId) {
+                        R.id.item_notification -> startActivity(NotificationActivity.getInstance(context))
+                        R.id.item_preference -> startActivity(PreferenceActivity.getInstance(context))
+                    }
+                }
+
                 return@setOnMenuItemClickListener true
             }
-            menu?.findItem(R.id.item_preference)?.tintIcon(activity)
+
+            activity?.let {
+                menu?.apply {
+                    findItem(R.id.item_notification)?.tintIcon(it)
+                    findItem(R.id.item_preference)?.tintIcon(it)
+                }
+            }
         }
     }
 

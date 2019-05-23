@@ -81,9 +81,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (savedInstanceState != null) {
-            openState.value = savedInstanceState.getBoolean(OpenState.KEY)
-        }
+        openState.get(savedInstanceState)
 
         viewModel.onSetupData(savedInstanceState ?: arguments)
 
@@ -102,7 +100,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
-                putBoolean(OpenState.KEY, openState.value)
+                openState.save(bundle = this)
                 viewModel.onSaveData(bundle = this)
             })
 
