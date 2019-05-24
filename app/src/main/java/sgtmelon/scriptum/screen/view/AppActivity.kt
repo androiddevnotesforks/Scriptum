@@ -30,7 +30,6 @@ abstract class AppActivity : AppCompatActivity(), AppCallback {
 
     override fun onResume() {
         super.onResume()
-
         checkThemeChange()
     }
 

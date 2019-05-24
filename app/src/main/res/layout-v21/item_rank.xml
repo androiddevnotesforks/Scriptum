@@ -5,8 +5,6 @@
 
     <data>
 
-        <import alias="v" type="android.view.View"/>
-
         <variable name="rankItem" type="sgtmelon.scriptum.model.item.RankItem"/>
 
     </data>
@@ -29,7 +27,7 @@
 
             <sgtmelon.iconanim.widget.SwitchButtonAnim
                     android:id="@+id/rank_visible_button"
-                    style="@style/Button.RankItem"
+                    style="@style/Button.Medium"
                     android:layout_marginEnd="@dimen/layout_8dp"
                     app:srcDisable="@drawable/ic_visible_enter"
                     app:srcDisableAnim="@drawable/anim_visible_exit"
@@ -49,7 +47,7 @@
 
                 <TextView
                         android:id="@+id/rank_name_text"
-                        style="@style/Text.RankItem.Name"
+                        style="@style/Text.SmallCard.Title"
                         android:text='@{rankItem.name}'
                         tools:text="@string/preview_rank_name"/>
 
@@ -59,14 +57,14 @@
 
                     <TextView
                             android:id="@+id/rank_text_count_text"
-                            style="@style/Text.RankItem.Info"
+                            style="@style/Text.SmallCard.Subtitle"
                             android:layout_marginEnd="@dimen/layout_4dp"
                             android:text='@{@string/list_item_rank_text_count + " " + rankItem.getTextCount()}'
                             tools:text="@string/preview_rank_text"/>
 
                     <TextView
                             android:id="@+id/rank_roll_count_text"
-                            style="@style/Text.RankItem.Info"
+                            style="@style/Text.SmallCard.Subtitle"
                             android:text='@{@string/list_item_rank_roll_count + " " + rankItem.getRollCount()}'
                             tools:text="@string/preview_rank_roll"/>
 
@@ -76,7 +74,7 @@
 
             <ImageButton
                     android:id="@+id/rank_cancel_button"
-                    style="@style/Button.RankItem"
+                    style="@style/Button.Medium"
                     android:layout_marginStart="@dimen/layout_8dp"
                     android:contentDescription="@null"
                     android:tint="?attr/clContent"

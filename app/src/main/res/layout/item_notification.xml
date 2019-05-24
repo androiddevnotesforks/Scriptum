@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable name="notificationItem" type="sgtmelon.scriptum.model.item.NotificationItem"/>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/rank_parent_card"
+            style="@style/Card"
+            app:cardBackgroundColor="?attr/clBackgroundView"
+            app:cardCornerRadius="@dimen/radius_4dp"
+            app:cardUseCompatPadding="false">
+
+        <LinearLayout
+                android:id="@+id/notification_click_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:orientation="horizontal"
+                android:padding="@dimen/layout_8dp"
+                android:weightSum="1">
+
+            <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                <TextView
+                        android:id="@+id/notification_name_text"
+                        style="@style/Text.SmallCard.Title"
+                        android:text='@{notificationItem.name}'
+                        tools:text="@string/preview_notification_name"/>
+
+                <TextView
+                        android:id="@+id/notification_date_text"
+                        style="@style/Text.SmallCard.Subtitle"
+                        android:layout_marginEnd="@dimen/layout_4dp"
+                        android:layout_marginRight="@dimen/layout_4dp"
+                        android:text='@{notificationItem.date}'
+                        tools:text="@string/preview_notification_date"/>
+
+            </LinearLayout>
+
+            <ImageButton
+                    android:id="@+id/notification_cancel_button"
+                    style="@style/Button.Medium"
+                    android:layout_marginStart="@dimen/layout_8dp"
+                    android:layout_marginLeft="@dimen/layout_8dp"
+                    android:contentDescription="@null"
+                    android:tint="?attr/clContent"
+                    app:srcCompat="@drawable/ic_cancel_enter"/>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

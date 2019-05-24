@@ -32,9 +32,7 @@ class RankAdapter(private val clickListener: ItemListener.ClickListener,
     )
 
     override fun onBindViewHolder(holder: RankHolder, position: Int) {
-        val item = list[position]
-
-        holder.bind(item, startAnim[position])
+        holder.bind(list[position], startAnim[position])
 
         if (startAnim[position]) startAnim[position] = false
     }

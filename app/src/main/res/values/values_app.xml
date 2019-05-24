@@ -6,6 +6,8 @@
     <string name="date_note_today_format" translatable="false">HH:mm</string>
     <string name="date_note_yesterday_format" translatable="false">d MMM yyyy</string>
 
+    <!-- TODO Добавить для вчерашнего формата: (Вчера 10:30), для более раннего но этого же года: (10 апр), для совсем древних: (10 апр 1921) -->
+
     <!-- Text length -->
     <integer name="length_note_name">30</integer>
     <integer name="length_rank_name">30</integer>

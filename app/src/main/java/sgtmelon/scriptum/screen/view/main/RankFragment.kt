@@ -1,10 +1,7 @@
 package sgtmelon.scriptum.screen.view.main
 
-import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,8 +39,6 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  */
 class RankFragment : Fragment(), RankCallback {
 
-    private lateinit var activity: Activity
-
     private var binding: FragmentRankBinding? = null
 
     private val viewModel: RankViewModel by lazy {
@@ -57,14 +52,11 @@ class RankFragment : Fragment(), RankCallback {
             when (view.id) {
                 R.id.rank_visible_button -> viewModel.onClickVisible(p)
                 R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
-                R.id.rank_cancel_button -> {
-                    Log.i("HERE", "time start = " + System.currentTimeMillis())
-                    viewModel.onClickCancel(p)
-                }
+                R.id.rank_cancel_button -> viewModel.onClickCancel(p)
             }
         }, ItemListener.LongClickListener { _, p -> viewModel.onLongClickVisible(p) })
     }
-    private val layoutManager by lazy { LinearLayoutManager(activity) }
+    private val layoutManager by lazy { LinearLayoutManager(context) }
 
     private var rankEnter: EditText? = null
 
@@ -74,18 +66,6 @@ class RankFragment : Fragment(), RankCallback {
 
     private val openState = OpenState()
     private val renameDialog by lazy { DialogFactory.getRenameDialog(fragmentManager) }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        activity = context as Activity
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.onUpdateData()
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -100,6 +80,11 @@ class RankFragment : Fragment(), RankCallback {
 
         setupToolbar()
         setupRecycler()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onUpdateData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -138,12 +123,14 @@ class RankFragment : Fragment(), RankCallback {
         adapter.dragListener = touchCallback
 
         recyclerView = view?.findViewById(R.id.rank_recycler)
-        recyclerView?.itemAnimator = object : DefaultItemAnimator() {
-            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) =
-                    bindList(adapter.itemCount)
+        recyclerView?.let {
+            it.itemAnimator = object : DefaultItemAnimator() {
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) =
+                        bindList(adapter.itemCount)
+            }
+            it.layoutManager = layoutManager
+            it.adapter = adapter
         }
-        recyclerView?.layoutManager = layoutManager
-        recyclerView?.adapter = adapter
 
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
 

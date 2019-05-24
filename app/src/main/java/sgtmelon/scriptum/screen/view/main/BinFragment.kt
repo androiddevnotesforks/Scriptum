@@ -64,13 +64,6 @@ class BinFragment : Fragment(), BinCallback {
         DialogFactory.getClearBinDialog(activity as Activity, fragmentManager)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        openState.clear()
-        viewModel.onUpdateData()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_bin, container)
@@ -85,6 +78,14 @@ class BinFragment : Fragment(), BinCallback {
         setupToolbar()
         setupRecycler()
     }
+
+    override fun onResume() {
+        super.onResume()
+
+        openState.clear()
+        viewModel.onUpdateData()
+    }
+
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })

@@ -49,7 +49,10 @@ fun Activity.hideKeyboard() {
 }
 
 fun Context.showToast(@StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) =
-        Toast.makeText(this, getText(stringId), length).show()
+        Toast.makeText(this, getString(stringId), length).show()
+
+fun Context.showToast(string: String, length: Int = Toast.LENGTH_SHORT) =
+        Toast.makeText(this, string, length).show()
 
 fun Context.getDimen(value: Float) =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics).toInt()

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.view.note
 
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -50,8 +49,6 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
  */
 class RollNoteFragment : Fragment(), RollNoteCallback {
 
-    private lateinit var activity: Activity
-
     private var binding: FragmentRollNoteBinding? = null
 
     private val viewModel: RollNoteViewModel by lazy {
@@ -80,22 +77,12 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     private var panelContainer: ViewGroup? = null
 
     private val openState = OpenState()
-    private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
+    private val rankDialog by lazy {
+        DialogFactory.getRankDialog(context as Activity, fragmentManager)
+    }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
     private val convertDialog by lazy {
-        DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.ROLL)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        activity = context as Activity
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        viewModel.onUpdateData()
+        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.ROLL)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -115,6 +102,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         enterContainer = view.findViewById(R.id.roll_note_enter_container)
 
         panelContainer = view.findViewById(R.id.roll_note_content_container)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onUpdateData()
     }
 
     override fun onPause() {
@@ -144,10 +136,12 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
-        menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            MenuControl(activity, activity.window, toolbar, indicator)
-        } else {
-            MenuControlAnim(activity, activity.window, toolbar, indicator)
+        activity?.let {
+            menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                MenuControl(it, it.window, toolbar, indicator)
+            } else {
+                MenuControlAnim(it, it.window, toolbar, indicator)
+            }
         }
 
         menuControl.apply {
@@ -172,7 +166,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
                 viewModel.onResultColorDialog(colorDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-        }.title = activity.getString(R.string.dialog_title_color)
+        }.title = getString(R.string.dialog_title_color)
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -344,7 +338,9 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>) =
             adapter.notifyItemMoved(from, to, list)
 
-    override fun hideKeyboard() = activity.hideKeyboard()
+    override fun hideKeyboard() {
+        activity?.hideKeyboard()
+    }
 
     override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()

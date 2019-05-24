@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
@@ -21,8 +20,6 @@ class NoteViewModel(application: Application) : ParentViewModel(application), No
 
         type = NoteType.values()
                 .getOrNull(index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE)
-
-        Log.i("HERE", "type = ${type?.name}")
     }
 
     fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -46,7 +43,7 @@ class NoteViewModel(application: Application) : ParentViewModel(application), No
         this.id = id
     }
 
-    fun onConvertNote() = when(type) {
+    fun onConvertNote() = when (type) {
         NoteType.TEXT -> {
             type = NoteType.ROLL
             callback.showRollFragment(id, checkCache = true)

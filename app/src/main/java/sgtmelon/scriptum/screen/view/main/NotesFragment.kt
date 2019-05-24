@@ -62,13 +62,6 @@ class NotesFragment : Fragment(), NotesCallback {
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
 
-    override fun onResume() {
-        super.onResume()
-
-        openState.clear()
-        viewModel.onUpdateData()
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = inflater.inflateBinding(R.layout.fragment_notes, container)
@@ -80,6 +73,13 @@ class NotesFragment : Fragment(), NotesCallback {
 
         setupToolbar()
         setupRecycler()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        openState.clear()
+        viewModel.onUpdateData()
     }
 
     private fun setupToolbar() {

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.view.note
 
 import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -42,8 +41,6 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
  */
 class TextNoteFragment : Fragment(), TextNoteCallback {
 
-    private lateinit var activity: Activity
-
     private var binding: FragmentTextNoteBinding? = null
 
     private val viewModel: TextNoteViewModel by lazy {
@@ -60,16 +57,12 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     private var panelContainer: ViewGroup? = null
 
     private val openState = OpenState()
-    private val rankDialog by lazy { DialogFactory.getRankDialog(activity, fragmentManager) }
+    private val rankDialog by lazy {
+        DialogFactory.getRankDialog(context as Activity, fragmentManager)
+    }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
     private val convertDialog by lazy {
-        DialogFactory.getConvertDialog(activity, fragmentManager, NoteType.TEXT)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        activity = context as Activity
+        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -115,10 +108,12 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
-        menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            MenuControl(activity, activity.window, toolbar, indicator)
-        } else {
-            MenuControlAnim(activity, activity.window, toolbar, indicator)
+        activity?.let {
+            menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                MenuControl(it, it.window, toolbar, indicator)
+            } else {
+                MenuControlAnim(it, it.window, toolbar, indicator)
+            }
         }
 
         menuControl.apply {
@@ -143,7 +138,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
                 viewModel.onResultColorDialog(colorDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-        }.title = activity.getString(R.string.dialog_title_color)
+        }.title = getString(R.string.dialog_title_color)
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -228,7 +223,9 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
-    override fun hideKeyboard() = activity.hideKeyboard()
+    override fun hideKeyboard() {
+        activity?.hideKeyboard()
+    }
 
     override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()

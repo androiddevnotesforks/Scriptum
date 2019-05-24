@@ -2,7 +2,6 @@ package sgtmelon.safedialog
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -12,8 +11,6 @@ import sgtmelon.safedialog.DialogBlank.Companion.VALUE
 
 class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
-    private lateinit var activity: Activity
-
     lateinit var onClickListener: DialogInterface.OnClickListener
 
     private lateinit var items: List<String>
@@ -22,18 +19,10 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
         private set
 
     fun setArguments(itemArray: Array<String>, p: Int) {
-        val bundle = Bundle()
-
-        bundle.putStringArray(DialogBlank.INIT, itemArray)
-        bundle.putInt(DialogBlank.VALUE, p)
-
-        arguments = bundle
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-
-        activity = context as Activity
+        arguments = Bundle().apply {
+            putStringArray(INIT, itemArray)
+            putInt(VALUE, p)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -41,13 +30,11 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
         items = savedInstanceState?.getStringArray(INIT)?.toList()
                 ?: bundle?.getStringArray(INIT)?.toList()
-                ?: ArrayList()
+                        ?: ArrayList()
 
-        position = savedInstanceState?.getInt(VALUE)
-                ?: bundle?.getInt(VALUE)
-                ?: 0
+        position = savedInstanceState?.getInt(VALUE) ?: bundle?.getInt(VALUE) ?: 0
 
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(context as Activity)
                 .setItems(items.toTypedArray(), this)
                 .setCancelable(true)
                 .create()
