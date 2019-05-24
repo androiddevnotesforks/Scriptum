@@ -29,24 +29,19 @@ object TimeUtils {
     fun format(context: Context, date: String): String? {
         val formatOld = getDateFormat(context)
 
-        try {
-            val calendar = Calendar.getInstance()
-            calendar.time = formatOld.parse(date)
+        return try {
+            val calendar = Calendar.getInstance().apply { time = formatOld.parse(date) }
 
             val formatNew = SimpleDateFormat(
-                    if (DateUtils.isToday(calendar.timeInMillis))
-                        context.getString(R.string.date_note_today_format)
-                    else
-                        context.getString(R.string.date_note_yesterday_format),
+                    if (DateUtils.isToday(calendar.timeInMillis)) context.getString(R.string.date_note_today_format) else context.getString(R.string.date_note_yesterday_format),
                     Locale.getDefault()
             )
 
-            return formatNew.format(formatOld.parse(date))
+            formatNew.format(formatOld.parse(date))
         } catch (e: ParseException) {
             e.printStackTrace()
-            return null
+            null
         }
-
     }
 
 }

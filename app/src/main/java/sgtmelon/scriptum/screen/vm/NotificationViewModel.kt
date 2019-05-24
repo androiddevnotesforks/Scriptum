@@ -15,7 +15,9 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     lateinit var callback: NotificationCallback
 
     fun onUpdateData() = callback.notifyDataSetChanged(ArrayList<NotificationItem>().apply {
-        repeat(times = 4) {
+        repeat(times = 2) {
+            add(NotificationItem(date = "1990-05-22 12:11:51").apply { name = "Найти" })
+            add(NotificationItem(date = "2019-05-24 12:11:51").apply { name = "Идеи" })
             add(NotificationItem(date = "2019-05-22 12:11:51").apply { name = "Сделать" })
             add(NotificationItem(date = "2019-10-04 03:55:21").apply { name = "Купить" })
             add(NotificationItem(date = "2020-07-22 13:50:20").apply { name = "Посмотреть" })
@@ -26,6 +28,5 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     fun onClickNote(p: Int) = callback.testToast("Open note at position = $p")
 
     fun onClickCancel(p: Int) = callback.testToast("Cancel notification at position = $p")
-
 
 }
