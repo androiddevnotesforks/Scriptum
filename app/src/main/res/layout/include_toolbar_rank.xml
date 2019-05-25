@@ -25,9 +25,13 @@
                 android:paddingRight="@dimen/layout_8dp"
                 app:popupTheme="?attr/themePopup">
 
+            <!-- focusable/InTouchMode для отведения фокуса от EditText при скрытии клавиатуры -->
             <androidx.cardview.widget.CardView
+                    android:id="@+id/toolbar_rank_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     app:cardBackgroundColor="?attr/clBackgroundEnter"
                     app:cardCornerRadius="@dimen/radius_8dp"
                     app:cardUseCompatPadding="false">

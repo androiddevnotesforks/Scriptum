@@ -4,7 +4,10 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -20,6 +23,7 @@ import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
+import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.view.AppActivity
@@ -72,6 +76,23 @@ class MainActivity : AppActivity(), MainCallback {
                 openState.save(bundle = this)
                 viewModel.onSaveData(bundle = this)
             })
+
+    /**
+     * Если нажатие произошло за пределами контейнера [RankFragment.enterCard], то нужно
+     * скрыть клавиатуру и убрать фокус с [RankFragment.nameEnter]
+     */
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        if (ev?.action != MotionEvent.ACTION_DOWN) return super.dispatchTouchEvent(ev)
+
+        rankFragment.enterCard?.let {
+            if (!ev.onView(it)) {
+                rankFragment.nameEnter?.clearFocus()
+                hideKeyboard()
+            }
+        }
+
+        return super.dispatchTouchEvent(ev)
+    }
 
     override fun setupNavigation(@IdRes itemId: Int) {
         fab.setOnClickListener {
@@ -136,6 +157,17 @@ class MainActivity : AppActivity(), MainCallback {
         private fun FloatingActionButton.setState(state: Boolean) {
             if (state) show() else hide()
             isEnabled = state
+        }
+
+        /**
+         * Функция определяет произошёл ли [MotionEvent] на объекте
+         */
+        private fun MotionEvent?.onView(view: View?) = if (view != null && this != null) {
+            Rect().apply {
+                view.getGlobalVisibleRect(this)
+            }.contains(rawX.toInt(), rawY.toInt())
+        } else {
+            false
         }
     }
 

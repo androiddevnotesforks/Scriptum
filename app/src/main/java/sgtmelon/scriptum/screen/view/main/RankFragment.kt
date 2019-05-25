@@ -58,10 +58,12 @@ class RankFragment : Fragment(), RankCallback {
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
-    private var rankEnter: EditText? = null
+    val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
+    var nameEnter: EditText? = null
 
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
+
     private var recyclerView: RecyclerView? = null
 
     private val openState = OpenState()
@@ -96,7 +98,7 @@ class RankFragment : Fragment(), RankCallback {
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)?.apply {
-            setOnClickListener { rankEnter?.setText("") }
+            setOnClickListener { nameEnter?.setText("") }
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
@@ -107,10 +109,10 @@ class RankFragment : Fragment(), RankCallback {
             }
         }
 
-        rankEnter = view?.findViewById(R.id.toolbar_rank_enter)
-        rankEnter?.addTextChangedListener(on = { bindToolbar() })
-        rankEnter?.setOnEditorActionListener { _, i, _ ->
-            viewModel.onEditorClick(i, rankEnter?.text.toString().toUpperCase())
+        nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
+        nameEnter?.addTextChangedListener(on = { bindToolbar() })
+        nameEnter?.setOnEditorActionListener { _, i, _ ->
+            viewModel.onEditorClick(i, nameEnter?.text.toString().toUpperCase())
         }
     }
 
@@ -152,10 +154,10 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     override fun bindToolbar() {
-        val name = rankEnter?.getClearText()?.toUpperCase() ?: ""
+        val name = nameEnter?.getClearText()?.toUpperCase() ?: ""
 
         binding?.apply {
-            enableClear = rankEnter?.text.toString().isNotEmpty()
+            enableClear = nameEnter?.text.toString().isNotEmpty()
             enableAdd = name.isNotEmpty() && !viewModel.rankModel.nameList.contains(name)
         }?.executePendingBindings()
     }
@@ -165,8 +167,8 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     override fun clearEnter(): String {
-        val text = rankEnter.getClearText()
-        rankEnter?.setText("")
+        val text = nameEnter.getClearText()
+        nameEnter?.setText("")
         return text
     }
 
@@ -194,7 +196,6 @@ class RankFragment : Fragment(), RankCallback {
             }
         }
     }
-
 
     override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) =
             openState.tryInvoke {
