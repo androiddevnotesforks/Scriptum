@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
@@ -62,6 +63,7 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
                 .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
+                .apply { window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE)}
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
