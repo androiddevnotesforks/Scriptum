@@ -168,20 +168,31 @@ class RankTest : ParentTest() {
     }
 
     @Test fun rankVisibleForNotes() {
+        val rankList = testData.clear().insertRankToNotes()
+
+        launch {
+            mainScreen {
+                openNotesPage { assert { onDisplayContent(empty = false) } }
+                openRankPage { onClickVisible(rankList[1].name) }
+                openNotesPage { assert { onDisplayContent(empty = false) } }
+                openRankPage { onClickVisible(rankList[0].name) }
+                openNotesPage { assert { onDisplayContent(empty = true) } }
+            }
+        }
+    }
+
+    @Test fun rankVisibleForBin() {
         val rankList = testData.clear().insertRankToBin()
 
         launch {
             mainScreen {
+                openBinPage { assert { onDisplayContent(empty = false) } }
                 openRankPage { onClickVisible(rankList[1].name) }
                 openBinPage { assert { onDisplayContent(empty = false) } }
                 openRankPage { onClickVisible(rankList[0].name) }
                 openBinPage { assert { onDisplayContent(empty = true) } }
             }
         }
-    }
-
-    @Test fun rankVisibleForBin() {
-
     }
 
     @Test fun rankClearFromList() {

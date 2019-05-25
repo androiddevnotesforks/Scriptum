@@ -313,6 +313,7 @@ private class ScenarioUi {
              * # Кнопкой нет :: [BinTest.clearDialogCloseCancel]
              *
              * # Результат работы :: [BinTest.clearDialogWork]
+             * # Результат работы со скрытыми заметками :: [BinTest.clearDialogWorkWithHideNotes]
              */
 
             /**
@@ -717,6 +718,12 @@ private class ScenarioUi {
             // Text/RollNoteScreen
 
         }
+
+    }
+
+    class Integration {
+
+        // TODO проверка не удаления скрытых заметок из базы данных
 
     }
 

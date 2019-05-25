@@ -39,17 +39,15 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         openRoom().apply {
-            val rankVisibleList = getRankDao().rankIdVisibleList
+            val rankIdVisibleList = getRankDao().rankIdVisibleList
 
             getNoteDao()[getNoteListQuery(bin)].forEach {
                 val bindControl = BindControl(context, it)
 
-                if (it.rankId.isNotEmpty() && !rankVisibleList.contains(it.rankId[0])) {
+                if (it.isNotVisible(rankIdVisibleList)) {
                     bindControl.cancelBind()
                 } else {
-                    if (it.isStatus && NotesViewModel.updateStatus) {
-                        bindControl.notifyBind()
-                    }
+                    if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
 
                     add(NoteModel(it, getRollDao().getView(it.id)))
                 }
@@ -58,7 +56,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override suspend fun clearBin() = openRoom().apply {
-        val noteList = getNoteDao()[true].apply {
+        val rankIdVisibleList = getRankDao().rankIdVisibleList
+
+        val noteList = ArrayList<NoteItem>().apply {
+            getNoteDao()[true].forEach { if (it.isVisible(rankIdVisibleList)) add(it) }
             forEach { clearRankConnection(getRankDao(), it) }
         }
 
@@ -459,6 +460,12 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     companion object {
         fun getInstance(context: Context): IRoomRepo = RoomRepo(context)
+
+        fun NoteItem.isVisible(rankIdVisibleList: List<Long>) =
+                rankId.isEmpty() || rankIdVisibleList.contains(rankId[0])
+
+        fun NoteItem.isNotVisible(rankIdVisibleList: List<Long>) =
+                rankId.isNotEmpty() && !rankIdVisibleList.contains(rankId[0])
     }
 
 }

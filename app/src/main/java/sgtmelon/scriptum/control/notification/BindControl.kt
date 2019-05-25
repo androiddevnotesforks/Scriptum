@@ -18,6 +18,7 @@ import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.office.utils.ColorUtils
 import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.BindRepo
+import sgtmelon.scriptum.repository.RoomRepo.Companion.isVisible
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
 
 /**
@@ -99,12 +100,13 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
     }
 
     /**
-     * В окне редактирования заметок, [rankVisibleList] - id видимых категорий
+     * Обновление уведомления, если оно закреплено и заметка не скрыта
+     * [rankIdVisibleList] - Id видимых категорий
      */
-    fun updateBind(rankVisibleList: List<Long>) = with(noteItem) {
+    fun updateBind(rankIdVisibleList: List<Long>) = with(noteItem) {
         if (!isStatus) return
 
-        if (rankId.isEmpty() || rankVisibleList.contains(rankId[0])) notifyBind() else cancelBind()
+        if (isVisible(rankIdVisibleList)) notifyBind() else cancelBind()
     }
 
     fun updateBind() = if (noteItem.isStatus) notifyBind() else cancelBind()

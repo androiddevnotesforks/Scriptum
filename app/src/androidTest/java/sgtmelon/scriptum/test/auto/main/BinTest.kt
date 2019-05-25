@@ -90,6 +90,26 @@ class BinTest : ParentTest() {
         }
     }
 
+    @Test fun clearDialogWorkWithHideNotes() {
+        val rankList = testData.clear().insertRankToBin()
+
+        launch({testData.insertTextToBin()}) {
+            mainScreen {
+                openRankPage { onClickVisible(rankList[0].name) }
+
+                openBinPage {
+                    assert { onDisplayContent(empty = false) }
+                    openClearDialog { onClickYes() }
+                    assert { onDisplayContent(empty = true) }
+                }
+
+                openRankPage { onClickVisible(rankList[0].name) }
+
+                openBinPage { assert { onDisplayContent(empty = false) } }
+            }
+        }
+    }
+
 
     @Test fun textNoteDialogOpen() {
         val noteItem = testData.clear().insertTextToBin()
