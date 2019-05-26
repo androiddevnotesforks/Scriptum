@@ -27,6 +27,7 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.addTextChangedListener
 import sgtmelon.scriptum.office.utils.getClearText
+import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
@@ -59,8 +60,8 @@ class RankFragment : Fragment(), RankCallback {
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
     val enterCard: View? get() = view?.findViewById(R.id.toolbar_rank_card)
-    var nameEnter: EditText? = null
 
+    private var nameEnter: EditText? = null
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
 
@@ -98,7 +99,7 @@ class RankFragment : Fragment(), RankCallback {
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)?.apply {
-            setOnClickListener { nameEnter?.setText("") }
+            setOnClickListener { viewModel.onClickCancel() }
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
@@ -170,6 +171,14 @@ class RankFragment : Fragment(), RankCallback {
         val text = nameEnter.getClearText()
         nameEnter?.setText("")
         return text
+    }
+
+    override fun clearEnterFocus() {
+        if (nameEnter?.hasFocus() == true) nameEnter?.clearFocus()
+    }
+
+    override fun hideKeyboard() {
+        activity?.hideKeyboard()
     }
 
     override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>) {

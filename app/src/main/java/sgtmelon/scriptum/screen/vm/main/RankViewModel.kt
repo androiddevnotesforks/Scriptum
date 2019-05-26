@@ -49,12 +49,19 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         }
     }
 
+    fun onClickCancel() = callback.clearEnter()
+
     fun onEditorClick(i: Int, name: String): Boolean {
         if (i != EditorInfo.IME_ACTION_DONE) return false
 
         if (name.isNotEmpty() && !rankModel.nameList.contains(name)) {
             onClickAdd(simpleClick = true)
             return true
+        }
+
+        callback.apply {
+            clearEnterFocus()
+            hideKeyboard()
         }
 
         return false
