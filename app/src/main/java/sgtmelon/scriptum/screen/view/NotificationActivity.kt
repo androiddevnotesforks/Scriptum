@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
-import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.getTintDrawable
-import sgtmelon.scriptum.office.utils.showToast
 import sgtmelon.scriptum.screen.callback.NotificationCallback
 import sgtmelon.scriptum.screen.vm.NotificationViewModel
 
@@ -77,13 +76,13 @@ class NotificationActivity : AppActivity(), NotificationCallback {
         }
     }
 
-    override fun notifyDataSetChanged(list: MutableList<NotificationItem>) =
+    override fun startNote(intent: Intent) = startActivity(intent)
+
+    override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
             adapter.notifyDataSetChanged(list)
 
-    override fun testToast(text: String) {
-        showToast(text)
-        openState.clear()
-    }
+    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
+            adapter.notifyItemRemoved(p, list)
 
     companion object {
         fun getInstance(context: Context) = Intent(context, NotificationActivity::class.java)

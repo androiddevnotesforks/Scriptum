@@ -1,8 +1,10 @@
 package sgtmelon.scriptum.model
 
 import androidx.room.Embedded
+import androidx.room.Ignore
 import androidx.room.Relation
 import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.model.key.NoteType
@@ -14,7 +16,8 @@ import sgtmelon.scriptum.model.key.NoteType
  */
 class NoteModel(@field:Embedded val noteItem: NoteItem,
                 @field:Relation(parentColumn = DbField.Note.ID, entityColumn = DbField.Roll.NOTE_ID)
-                val rollList: MutableList<RollItem> = ArrayList()) {
+                val rollList: MutableList<RollItem> = ArrayList(),
+                @field:Ignore val notificationItem: NotificationItem = NotificationItem()) {
 
     /**
      * При отметке всех пунктов

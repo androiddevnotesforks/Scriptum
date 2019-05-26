@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.callback
 
-import sgtmelon.scriptum.model.item.NotificationItem
+import android.content.Intent
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.NotificationActivity
 import sgtmelon.scriptum.screen.vm.NotificationViewModel
 
@@ -11,8 +12,10 @@ import sgtmelon.scriptum.screen.vm.NotificationViewModel
  */
 interface NotificationCallback {
 
-    fun notifyDataSetChanged(list: MutableList<NotificationItem>)
+    fun startNote(intent: Intent)
 
-    fun testToast(text: String)
+    fun notifyDataSetChanged(list: MutableList<NoteModel>)
+
+    fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)
 
 }

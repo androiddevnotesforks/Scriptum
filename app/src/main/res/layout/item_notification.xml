@@ -5,7 +5,7 @@
 
     <data>
 
-        <variable name="notificationItem" type="sgtmelon.scriptum.model.item.NotificationItem"/>
+        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
 
     </data>
 
@@ -34,7 +34,7 @@
                 <TextView
                         android:id="@+id/notification_name_text"
                         style="@style/Text.SmallCard.Title"
-                        android:text='@{notificationItem.name}'
+                        android:text='@{noteModel.noteItem.name}'
                         tools:text="@string/preview_notification_name"/>
 
                 <TextView
@@ -42,7 +42,7 @@
                         style="@style/Text.SmallCard.Subtitle"
                         android:layout_marginEnd="@dimen/layout_4dp"
                         android:layout_marginRight="@dimen/layout_4dp"
-                        app:futureTime='@{notificationItem.date}'
+                        app:futureTime='@{noteModel.notificationItem.date}'
                         tools:text="@string/preview_notification_date"/>
 
             </LinearLayout>

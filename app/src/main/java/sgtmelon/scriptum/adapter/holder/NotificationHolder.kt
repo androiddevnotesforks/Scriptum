@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
-import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.checkNoPosition
 
@@ -31,7 +31,7 @@ class NotificationHolder(private val binding: ItemNotificationBinding,
         }
     }
 
-    fun bind(notificationItem: NotificationItem) =
-            binding.apply { this.notificationItem = notificationItem }.executePendingBindings()
+    fun bind(noteModel: NoteModel) =
+            binding.apply { this.noteModel = noteModel }.executePendingBindings()
 
 }
