@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
@@ -180,10 +181,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor?.get(isUndo) ?: 0)
+                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor?.get(isUndo)
+                        ?: 0)
                 InputAction.roll -> {
                     rollList[item.p].text = item[isUndo]
-                    callback.notifyItemChanged(item.p, rollList, cursor = item.cursor?.get(isUndo) ?: 0)
+                    callback.notifyItemChanged(item.p, rollList, cursor = item.cursor?.get(isUndo)
+                            ?: 0)
                 }
                 InputAction.rollAdd, InputAction.rollRemove -> {
                     val isAddUndo = isUndo && item.tag == InputAction.rollAdd
@@ -360,15 +363,26 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         return true
     }
 
-    fun onClickAdd(simpleClick: Boolean) {
-        val textEnter = callback.clearEnter()
+    fun onEditorClick(i: Int): Boolean {
+        val enterText = callback.getEnterText()
 
-        if (textEnter.isEmpty()) return
+        if (enterText.isEmpty() || i != EditorInfo.IME_ACTION_DONE) return false
+
+        onClickAdd(simpleClick = true)
+
+        return true
+    }
+
+    fun onClickAdd(simpleClick: Boolean) {
+        val enterText = callback.getEnterText()
+        callback.clearEnterText()
+
+        if (enterText.isEmpty()) return
 
         val p = if (simpleClick) noteModel.rollList.size else 0
         val rollItem = RollItem().apply {
             noteId = noteModel.noteItem.id
-            text = textEnter
+            text = enterText
         }
 
         inputControl.onRollAdd(p, rollItem.toString())

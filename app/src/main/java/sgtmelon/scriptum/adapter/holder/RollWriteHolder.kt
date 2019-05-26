@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.adapter.holder
 
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +38,13 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
     init {
         rollEnter.apply {
+            setRawInputType(InputType.TYPE_CLASS_TEXT
+                    or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+                    or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                    or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+            )
+            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+
             addTextChangedListener(this@RollWriteHolder)
             setOnTouchListener(this@RollWriteHolder)
         }

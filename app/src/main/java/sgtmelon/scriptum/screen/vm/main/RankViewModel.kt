@@ -22,8 +22,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
 
     lateinit var callback: RankCallback
 
-    var rankModel: RankModel = RankModel(ArrayList())
-        private set
+    private var rankModel: RankModel = RankModel(ArrayList())
 
     fun onUpdateData() {
         rankModel = iRoomRepo.getRankModel()
@@ -34,34 +33,38 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         }
     }
 
+    fun onUpdateToolbar() = with(callback) {
+        val name = getEnterText()
+        bindToolbar(
+                isClearEnable = name.isNotEmpty(),
+                isAddEnable = name.isNotEmpty() && !rankModel.nameList.contains(name)
+        )
+    }
+
     fun onShowRenameDialog(p: Int) =
             callback.showRenameDialog(p, rankModel.itemList[p].name, ArrayList(rankModel.nameList))
 
     fun onRenameDialog(p: Int, name: String) {
         rankModel.set(p, name)
 
-        val rankItem = rankModel.itemList[p]
-        iRoomRepo.updateRank(rankItem)
+        onUpdateToolbar()
 
-        callback.apply {
-            bindToolbar()
-            notifyItemChanged(p, rankItem)
+        rankModel.itemList[p].let {
+            iRoomRepo.updateRank(it)
+            callback.notifyItemChanged(p, it)
         }
     }
 
     fun onClickCancel() = callback.clearEnter()
 
-    fun onEditorClick(i: Int, name: String): Boolean {
-        if (i != EditorInfo.IME_ACTION_DONE) return false
+    fun onEditorClick(i: Int): Boolean {
+        val name = callback.getEnterText()
+
+        if (i != EditorInfo.IME_ACTION_DONE || name.isEmpty()) return false
 
         if (name.isNotEmpty() && !rankModel.nameList.contains(name)) {
             onClickAdd(simpleClick = true)
             return true
-        }
-
-        callback.apply {
-            clearEnterFocus()
-            hideKeyboard()
         }
 
         return false
@@ -73,7 +76,6 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         if (name.isEmpty()) return
 
         val p = if (simpleClick) rankModel.size() else 0
-
         val rankItem = RankItem(position = if (simpleClick) p else -1, name = name).apply {
             id = iRoomRepo.insertRank(p, rankItem = this)
         }

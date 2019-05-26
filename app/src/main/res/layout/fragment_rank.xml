@@ -10,8 +10,8 @@
 
         <variable name="listEmpty" type="boolean"/>
 
-        <variable name="enableClear" type="boolean"/>
-        <variable name="enableAdd" type="boolean"/>
+        <variable name="isClearEnable" type="boolean"/>
+        <variable name="isAddEnable" type="boolean"/>
 
     </data>
 
@@ -22,8 +22,8 @@
             android:orientation="vertical">
 
         <include layout="@layout/include_toolbar_rank"
-                 app:enableAdd='@{enableAdd}'
-                 app:enableClear='@{enableClear}'/>
+                 app:isAddEnable='@{isAddEnable}'
+                 app:isClearEnable='@{isClearEnable}'/>
 
         <FrameLayout
                 android:layout_width="match_parent"

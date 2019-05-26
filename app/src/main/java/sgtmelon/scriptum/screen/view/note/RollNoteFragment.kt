@@ -4,9 +4,11 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
@@ -191,7 +193,17 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
 
         rollEnter = view?.findViewById(R.id.roll_note_enter)
-        rollEnter?.addTextChangedListener(on = { bindEnter() })
+        rollEnter?.let {
+            it.setRawInputType(InputType.TYPE_CLASS_TEXT
+                    or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
+                    or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
+                    or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
+            )
+            it.imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+
+            it.addTextChangedListener(on = { bindEnter() })
+            it.setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
+        }
 
         view?.findViewById<ImageButton>(R.id.roll_note_add_button)?.apply {
             setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
@@ -211,10 +223,11 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
 
         recyclerView = view?.findViewById(R.id.roll_note_recycler)
-        (recyclerView?.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
-
-        recyclerView?.layoutManager = layoutManager
-        recyclerView?.adapter = adapter
+        recyclerView?.let {
+            (it.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
+            it.layoutManager = layoutManager
+            it.adapter = adapter
+        }
 
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
     }
@@ -280,10 +293,10 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
     }
 
-    override fun clearEnter(): String {
-        val text = rollEnter?.text?.toString() ?: ""
+    override fun getEnterText() = rollEnter?.text?.toString() ?: ""
+
+    override fun clearEnterText() {
         rollEnter?.setText("")
-        return text
     }
 
     override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {

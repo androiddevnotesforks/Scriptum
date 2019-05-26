@@ -8,8 +8,8 @@
 
         <import type="sgtmelon.scriptum.R"/>
 
-        <variable name="enableClear" type="boolean"/>
-        <variable name="enableAdd" type="boolean"/>
+        <variable name="isClearEnable" type="boolean"/>
+        <variable name="isAddEnable" type="boolean"/>
 
     </data>
 
@@ -45,8 +45,8 @@
                             android:id="@+id/toolbar_rank_cancel_button"
                             style="@style/Button.Small"
                             android:contentDescription="@null"
-                            app:boolExpression='@{enableClear}'
-                            app:enabled='@{enableClear}'
+                            app:boolExpression='@{isClearEnable}'
+                            app:enabled='@{isClearEnable}'
                             app:falseColor='@{R.attr.clDisable}'
                             app:srcCompat="@drawable/ic_cancel_enter"
                             app:trueColor='@{R.attr.clContent}'
@@ -70,8 +70,8 @@
                             android:id="@+id/toolbar_rank_add_button"
                             style="@style/Button.Small"
                             android:contentDescription="@null"
-                            app:boolExpression='@{enableAdd}'
-                            app:enabled='@{enableAdd}'
+                            app:boolExpression='@{isAddEnable}'
+                            app:enabled='@{isAddEnable}'
                             app:falseColor='@{R.attr.clDisable}'
                             app:srcCompat="@drawable/ic_rank"
                             app:trueColor='@{R.attr.clAccent}'

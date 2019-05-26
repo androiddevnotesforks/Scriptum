@@ -31,6 +31,10 @@
                 android:orientation="horizontal"
                 android:padding="@dimen/layout_4dp">
 
+            <!--
+                imeOptions и inputType устанавливаются программно, потому что не получается
+                получить тот же результат через xml
+            -->
             <EditText
                     android:id="@+id/roll_note_enter"
                     style="@style/EditText.SingleRow"
@@ -38,10 +42,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="@string/hint_enter_roll"
-                    android:imeOptions="flagNoFullscreen"
                     android:importantForAutofill="noExcludeDescendants"
-                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
                     android:maxLines="5"
+                    tools:ignore="TextFields"
                     tools:targetApi="o"/>
 
             <ImageButton

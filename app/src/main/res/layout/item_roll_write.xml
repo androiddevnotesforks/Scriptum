@@ -33,18 +33,20 @@
                         style="@style/Container.RollItem.Click"
                         android:contentDescription="@null"
                         app:boolExpression='@{rollItem.check}'
-                        app:trueColor='@{R.attr.clAccent}'
                         app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_move"
+                        app:trueColor='@{R.attr.clAccent}'
                         tools:tint="?attr/clAccent"/>
 
             </FrameLayout>
 
             <EditText
                     android:id="@+id/roll_write_enter"
-                    style="@style/EditText.RollItem.Write"
+                    style="@style/EditText.RollItem"
                     android:hint="@string/hind_enter_roll_empty"
+                    android:imeOptions="flagNoFullscreen"
                     android:importantForAutofill="noExcludeDescendants"
+                    android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
                     android:text='@{rollItem.text}'
                     tools:targetApi="o"/>
 

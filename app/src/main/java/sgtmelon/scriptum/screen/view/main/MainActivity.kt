@@ -23,6 +23,7 @@ import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.DialogDef
+import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.view.AppActivity
@@ -78,17 +79,12 @@ class MainActivity : AppActivity(), MainCallback {
 
     /**
      * Если нажатие произошло за пределами контейнера [RankFragment.enterCard], то нужно
-     * скрыть клавиатуру и убрать фокус с [RankFragment.nameEnter]
+     * скрыть клавиатуру
      */
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         if (ev?.action != MotionEvent.ACTION_DOWN) return super.dispatchTouchEvent(ev)
 
-        rankFragment.enterCard?.let {
-            if (!ev.onView(it)) rankFragment.apply {
-                clearEnterFocus()
-                hideKeyboard()
-            }
-        }
+        rankFragment.enterCard?.let { if (!ev.onView(it)) hideKeyboard() }
 
         return super.dispatchTouchEvent(ev)
     }

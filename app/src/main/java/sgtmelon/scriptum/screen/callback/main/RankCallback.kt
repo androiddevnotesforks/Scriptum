@@ -13,15 +13,13 @@ interface RankCallback {
 
     fun bindList(size: Int)
 
-    fun bindToolbar()
+    fun bindToolbar(isClearEnable: Boolean, isAddEnable: Boolean)
 
     fun scrollTop()
 
+    fun getEnterText(): String
+
     fun clearEnter(): String
-
-    fun clearEnterFocus()
-
-    fun hideKeyboard()
 
     fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>)
 

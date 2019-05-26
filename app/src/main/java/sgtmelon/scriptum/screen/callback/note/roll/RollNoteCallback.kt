@@ -51,7 +51,9 @@ interface RollNoteCallback {
 
     fun changeName(text: String, cursor: Int)
 
-    fun clearEnter(): String
+    fun getEnterText(): String
+
+    fun clearEnterText()
 
     fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
 

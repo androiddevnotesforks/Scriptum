@@ -48,6 +48,11 @@ fun Activity.hideKeyboard() {
             ?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 }
 
+fun Context.hideKeyboard(view: View) {
+    (getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager)
+            ?.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
 fun Context.showToast(@StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) =
         Toast.makeText(this, getString(stringId), length).show()
 

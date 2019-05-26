@@ -27,7 +27,6 @@ import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.addTextChangedListener
 import sgtmelon.scriptum.office.utils.getClearText
-import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
@@ -111,9 +110,9 @@ class RankFragment : Fragment(), RankCallback {
         }
 
         nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
-        nameEnter?.addTextChangedListener(on = { bindToolbar() })
-        nameEnter?.setOnEditorActionListener { _, i, _ ->
-            viewModel.onEditorClick(i, nameEnter?.text.toString().toUpperCase())
+        nameEnter?.let {
+            it.addTextChangedListener(on = { viewModel.onUpdateToolbar() })
+            it.setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
         }
     }
 
@@ -151,15 +150,13 @@ class RankFragment : Fragment(), RankCallback {
         parentContainer?.createVisibleAnim(empty, emptyInfoView)
 
         binding?.listEmpty = empty
-        bindToolbar()
+        viewModel.onUpdateToolbar()
     }
 
-    override fun bindToolbar() {
-        val name = nameEnter?.getClearText()?.toUpperCase() ?: ""
-
+    override fun bindToolbar(isClearEnable: Boolean, isAddEnable: Boolean) {
         binding?.apply {
-            enableClear = nameEnter?.text.toString().isNotEmpty()
-            enableAdd = name.isNotEmpty() && !viewModel.rankModel.nameList.contains(name)
+            this.isClearEnable = isClearEnable
+            this.isAddEnable = isAddEnable
         }?.executePendingBindings()
     }
 
@@ -167,18 +164,12 @@ class RankFragment : Fragment(), RankCallback {
         recyclerView?.smoothScrollToPosition(0)
     }
 
+    override fun getEnterText() = nameEnter?.getClearText()?.toUpperCase() ?: ""
+
     override fun clearEnter(): String {
         val text = nameEnter.getClearText()
         nameEnter?.setText("")
         return text
-    }
-
-    override fun clearEnterFocus() {
-        if (nameEnter?.hasFocus() == true) nameEnter?.clearFocus()
-    }
-
-    override fun hideKeyboard() {
-        activity?.hideKeyboard()
     }
 
     override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>) {
