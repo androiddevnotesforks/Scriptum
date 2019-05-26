@@ -74,9 +74,14 @@ public final class BindUtils {
 
     }
 
-    @BindingAdapter("time")
-    public static void setNoteTime(@NonNull TextView textView, @NonNull String time) {
-        textView.setText(TimeUtils.INSTANCE.format(textView.getContext(), time));
+    @BindingAdapter("pastTime")
+    public static void setPastTime(@NonNull TextView textView, @NonNull String time) {
+        textView.setText(TimeUtils.INSTANCE.formatPast(textView.getContext(), time));
+    }
+
+    @BindingAdapter("futureTime")
+    public static void setFutureTime(@NonNull TextView textView, @NonNull String time) {
+        textView.setText(TimeUtils.INSTANCE.formatFuture(textView.getContext(), time));
     }
 
     @BindingAdapter("enabled")

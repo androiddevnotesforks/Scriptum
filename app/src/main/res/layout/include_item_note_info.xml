@@ -50,14 +50,14 @@
                 style="@style/Text.NoteItem.Info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                app:time='@{noteItem.change}'
+                app:pastTime='@{noteItem.change}'
                 tools:text="@string/preview_note_time"/>
 
         <TextView
                 android:id="@+id/note_info_create_text"
                 style="@style/Text.NoteItem.Info"
                 android:layout_width="wrap_content"
-                app:time='@{noteItem.create}'
+                app:pastTime='@{noteItem.create}'
                 tools:text="@string/preview_note_time"/>
 
     </LinearLayout>

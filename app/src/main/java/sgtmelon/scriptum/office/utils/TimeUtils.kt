@@ -3,45 +3,57 @@ package sgtmelon.scriptum.office.utils
 import android.content.Context
 import android.text.format.DateUtils
 import sgtmelon.scriptum.R
-import java.text.ParseException
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * Класс для работы со временем, а так же @Singleton для ***
  */
 object TimeUtils {
 
-    private fun getDateFormat(context: Context): SimpleDateFormat {
-        return SimpleDateFormat(context.getString(R.string.date_app_format), Locale.getDefault())
-    }
+    private fun Context.getDateFormat(): SimpleDateFormat =
+            SimpleDateFormat(getString(R.string.date_app_format), Locale.getDefault())
 
+    private fun Locale.useAmPm(): Boolean =
+            (DateFormat.getTimeInstance(DateFormat.FULL, this)).let {
+                return it is SimpleDateFormat && it.toPattern().contains("a")
+            }
 
     /**
      * Текущее время в нужном формате
      */
-    fun Context.getTime(): String = getDateFormat(context = this).format(Calendar.getInstance().time)
+    fun Context.getTime(): String = getDateFormat().format(Calendar.getInstance().time)
 
     /**
-     * @param date - Время создания/изменения заметки
-     * @return - Время и дата в приятном виде
+     * Форматирует прошедшее время [date] в приятный вид
      */
-    fun format(context: Context, date: String): String? {
-        val formatOld = getDateFormat(context)
+    fun formatPast(context: Context, date: String): String? = try {
+        val calendar = Calendar.getInstance().apply { time = context.getDateFormat().parse(date) }
+        val locale = Locale.getDefault()
 
-        return try {
-            val calendar = Calendar.getInstance().apply { time = formatOld.parse(date) }
+        SimpleDateFormat(when {
+            calendar.isToday() -> if (locale.useAmPm()) context.getString(R.string.format_time_am) else context.getString(R.string.format_time)
+            calendar.isThisYear() -> context.getString(R.string.format_date_medium)
+            else -> context.getString(R.string.format_date_short)
+        }, locale).format(calendar.time)
+    } catch (e: Throwable) {
+        null
+    }
 
-            val formatNew = SimpleDateFormat(
-                    if (DateUtils.isToday(calendar.timeInMillis)) context.getString(R.string.date_note_today_format) else context.getString(R.string.date_note_yesterday_format),
-                    Locale.getDefault()
-            )
+    private fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
 
-            formatNew.format(formatOld.parse(date))
-        } catch (e: ParseException) {
-            e.printStackTrace()
-            null
-        }
+    private fun Calendar.isThisYear() = get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
+
+    fun formatFuture(context: Context, date: String): String? = try {
+        val calendar = Calendar.getInstance().apply { time = context.getDateFormat().parse(date) }
+
+        DateUtils.getRelativeDateTimeString(context, calendar.timeInMillis,
+                DateUtils.DAY_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0
+        ).toString()
+    } catch (e: Throwable) {
+        null
     }
 
 }

@@ -15,13 +15,11 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     lateinit var callback: NotificationCallback
 
     fun onUpdateData() = callback.notifyDataSetChanged(ArrayList<NotificationItem>().apply {
-        repeat(times = 2) {
-            add(NotificationItem(date = "1990-05-22 12:11:51").apply { name = "Найти" })
-            add(NotificationItem(date = "2019-05-24 12:11:51").apply { name = "Идеи" })
-            add(NotificationItem(date = "2019-05-22 12:11:51").apply { name = "Сделать" })
-            add(NotificationItem(date = "2019-10-04 03:55:21").apply { name = "Купить" })
-            add(NotificationItem(date = "2020-07-22 13:50:20").apply { name = "Посмотреть" })
-            add(NotificationItem(date = "2020-01-07 09:05:01").apply { name = "Срочно" })
+        repeat(times = 3) {
+            add(NotificationItem(date = "2019-05-26 15:12:00").apply { name = "Future today" })
+            add(NotificationItem(date = "2019-05-27 19:00:00").apply { name = "Future tomorrow" })
+            add(NotificationItem(date = "2019-06-28 07:00:00").apply { name = "This year" })
+            add(NotificationItem(date = "2020-06-29 19:00:00").apply { name = "Very very future" })
         }
     })
 
