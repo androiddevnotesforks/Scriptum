@@ -96,7 +96,9 @@ class BinFragment : Fragment(), BinCallback {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
-                openState.tryInvoke { clearBinDialog.show(fragmentManager, DialogDef.CLEAR_BIN) }
+                fragmentManager?.let {
+                    openState.tryInvoke { clearBinDialog.show(it, DialogDef.CLEAR_BIN) }
+                }
                 return@setOnMenuItemClickListener true
             }
         }
@@ -141,9 +143,11 @@ class BinFragment : Fragment(), BinCallback {
 
     override fun startNote(intent: Intent) = startActivity(intent)
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) = optionsDialog.apply {
-        setArguments(itemArray, p)
-    }.show(fragmentManager, DialogDef.OPTIONS)
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+        fragmentManager?.let {
+            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogDef.OPTIONS)
+        }
+    }
 
     override fun notifyMenuClearBin() {
         itemClearBin?.isVisible = adapter.itemCount != 0

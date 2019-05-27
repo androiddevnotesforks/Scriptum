@@ -27,9 +27,8 @@ class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationI
                 ?.setNavigationItemSelectedListener(this)
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-
         dismissListener.onDismiss(dialog)
     }
 

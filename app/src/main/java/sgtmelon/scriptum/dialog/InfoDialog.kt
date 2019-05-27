@@ -40,7 +40,7 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
         if (++click == activity.resources.getInteger(R.integer.pref_logo_click_value)) {
             click = 0
             logoClick.onClick(v)
-            dialog.cancel()
+            dialog?.cancel()
         }
     }
 

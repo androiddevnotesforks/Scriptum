@@ -358,19 +358,23 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()
-        rankDialog.apply { setArguments(rankCheck) }.show(fragmentManager, DialogDef.RANK)
+        fragmentManager?.let {
+            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogDef.RANK)
+        }
     }
 
     override fun showColorDialog(color: Int) = openState.tryInvoke {
         menuControl.setColorFrom(color)
 
         hideKeyboard()
-        colorDialog.apply { setArguments(color) }.show(fragmentManager, DialogDef.COLOR)
+        fragmentManager?.let {
+            colorDialog.apply { setArguments(color) }.show(it, DialogDef.COLOR)
+        }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        convertDialog.show(fragmentManager, DialogDef.CONVERT)
+        fragmentManager?.let { convertDialog.show(it, DialogDef.CONVERT) }
     }
 
     companion object {

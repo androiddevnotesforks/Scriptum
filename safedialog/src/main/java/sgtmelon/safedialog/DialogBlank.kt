@@ -35,9 +35,8 @@ open class DialogBlank : DialogFragment() {
 
     var dismissListener: DialogInterface.OnDismissListener? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
-
         activity = context as Activity
     }
 
@@ -46,7 +45,7 @@ open class DialogBlank : DialogFragment() {
         setEnable()
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         dismissListener?.onDismiss(dialog)
     }

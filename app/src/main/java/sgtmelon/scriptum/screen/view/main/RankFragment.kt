@@ -197,12 +197,13 @@ class RankFragment : Fragment(), RankCallback {
         }
     }
 
-    override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) =
+    override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) {
+        fragmentManager?.let {
             openState.tryInvoke {
-                renameDialog.apply {
-                    setArguments(p, name, nameList)
-                }.show(fragmentManager, DialogDef.RENAME)
+                renameDialog.apply { setArguments(p, name, nameList) }.show(it, DialogDef.RENAME)
             }
+        }
+    }
 
     override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)
 

@@ -147,10 +147,11 @@ class NotesFragment : Fragment(), NotesCallback {
 
     override fun startNote(intent: Intent) = startActivity(intent)
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) =
-            optionsDialog.apply {
-                setArguments(itemArray, p)
-            }.show(fragmentManager, DialogDef.OPTIONS)
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+        fragmentManager?.let {
+            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogDef.OPTIONS)
+        }
+    }
 
     override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
             adapter.notifyDataSetChanged(list)
