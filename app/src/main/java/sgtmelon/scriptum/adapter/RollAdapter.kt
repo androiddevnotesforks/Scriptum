@@ -18,6 +18,7 @@ import sgtmelon.scriptum.screen.view.note.RollNoteFragment
  * @author SerjantArbuz
  */
 class RollAdapter(private val clickListener: ItemListener.ClickListener,
+                  private val longClickListener: ItemListener.LongClickListener,
                   private val rollChangeCallback: RollWriteHolder.RollChange
 ) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
 
@@ -30,7 +31,9 @@ class RollAdapter(private val clickListener: ItemListener.ClickListener,
     var cursorPosition = UNDEFINED
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == TYPE_READ) {
-        RollReadHolder(parent.inflateBinding(R.layout.item_roll_read), clickListener)
+        RollReadHolder(
+                parent.inflateBinding(R.layout.item_roll_read), clickListener, longClickListener
+        )
     } else {
         RollWriteHolder(
                 parent.inflateBinding(R.layout.item_roll_write),

@@ -31,16 +31,13 @@ interface RollNoteMenuCallback {
     fun onMenuColor()
 
     /**
-     * @param changeMode надо ли менять режим редактирования,
-     * @return При успешном сохранении возвращает - true
+     * При успешном сохранении возвращает - true, [changeMode] - надо ли менять режим редактирования
      */
     fun onMenuSave(changeMode: Boolean): Boolean
 
     //endregion
 
     //region Режим просмотра
-
-    fun onMenuCheck()
 
     fun onMenuBind()
 

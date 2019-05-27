@@ -17,10 +17,6 @@ class NoteDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onClickCheckAll() = waitClose { action { onClickText(R.string.dialog_menu_check_all) } }
-
-    fun onClickUncheck() = waitClose { action { onClickText(R.string.dialog_menu_check_zero) } }
-
     fun onClickBind() = waitClose { action { onClickText(R.string.dialog_menu_status_bind) } }
 
     fun onClickUnbind() = waitClose { action { onClickText(R.string.dialog_menu_status_unbind) } }
@@ -54,20 +50,11 @@ class NoteDialogUi : ParentUi() {
                 onDisplayText(R.string.dialog_menu_restore)
                 onDisplayText(R.string.dialog_menu_copy)
                 onDisplayText(R.string.dialog_menu_clear)
-            } else when (type) {
-                NoteType.TEXT -> {
-                    onDisplayText(if (isStatus) R.string.dialog_menu_status_unbind else R.string.dialog_menu_status_bind)
-                    onDisplayText(R.string.dialog_menu_convert_to_roll)
-                    onDisplayText(R.string.dialog_menu_copy)
-                    onDisplayText(R.string.dialog_menu_delete)
-                }
-                NoteType.ROLL -> {
-                    onDisplayText(if (isAllCheck) R.string.dialog_menu_check_zero else R.string.dialog_menu_check_all)
-                    onDisplayText(if (isStatus) R.string.dialog_menu_status_unbind else R.string.dialog_menu_status_bind)
-                    onDisplayText(R.string.dialog_menu_convert_to_text)
-                    onDisplayText(R.string.dialog_menu_copy)
-                    onDisplayText(R.string.dialog_menu_delete)
-                }
+            } else {
+                onDisplayText(if (isStatus) R.string.dialog_menu_status_unbind else R.string.dialog_menu_status_bind)
+                onDisplayText(R.string.dialog_menu_convert_to_text)
+                onDisplayText(R.string.dialog_menu_copy)
+                onDisplayText(R.string.dialog_menu_delete)
             }
         }
     }

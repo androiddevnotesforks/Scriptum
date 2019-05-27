@@ -64,6 +64,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     private val adapter: RollAdapter by lazy {
         RollAdapter(ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) },
+                ItemListener.LongClickListener { _, p -> viewModel.onLongClickItemCheck(p) },
                 viewModel
         )
     }

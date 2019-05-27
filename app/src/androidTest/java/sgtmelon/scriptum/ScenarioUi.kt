@@ -273,8 +273,6 @@ private class ScenarioUi {
              * # Список:
              * # Открыть :: [NotesTest.rollNoteDialogOpen]
              * # Закрыть :: [NotesTest.rollNoteDialogClose]
-             * # Выполнить всё :: [NotesTest.rollNoteDialogCheckAllFromEmpty], [NotesTest.rollNoteDialogCheckAll]
-             * # Снять выделения :: [NotesTest.rollNoteDialogUncheckAll]
              * # Прикрепить к статус бару :: [NotesTest.rollNoteDialogBind]
              * # Открепить от статус бара :: [NotesTest.rollNoteDialogUnbind]
              * # Открепить от статус бара при удалении :: [NotesTest.rollNoteDialogUnbind]

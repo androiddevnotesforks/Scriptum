@@ -8,7 +8,6 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-        <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
         <variable name="menuCallback"
                   type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
@@ -152,17 +151,16 @@
                         style="@style/Button.Small"
                         android:contentDescription="@string/menu_note_status_bind"
                         android:onClick='@{() -> menuCallback.onMenuBind()}'
-                        android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                        app:srcCompat="@drawable/ic_bind_text"
                         app:boolExpression='@{noteItem.status}'
                         app:falseColor='@{R.attr.clContent}'
                         app:trueColor='@{R.attr.clAccent}'
-                        tools:srcCompat="@drawable/ic_bind_roll"
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
                         android:id="@+id/note_panel_convert_button"
                         style="@style/Button.Small"
-                        android:contentDescription='@{noteItem.type == noteType.TEXT ? @string/menu_note_convert_to_roll : @string/menu_note_convert_to_text}'
+                        android:contentDescription="@string/menu_note_convert_to_roll"
                         android:onClick='@{() -> menuCallback.onMenuConvert()}'
                         android:tint="?attr/clContent"
                         app:srcCompat="@drawable/ic_convert"/>

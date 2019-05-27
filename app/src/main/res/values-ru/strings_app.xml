@@ -17,8 +17,6 @@
     <string name="menu_note_save">Сохранить</string>
     <string name="menu_note_more">Ещё</string>
 
-    <string name="menu_note_check_all">Выполнить всё</string>
-    <string name="menu_note_check_zero">Снять выделения</string>
     <string name="menu_note_status_bind">Закрепить в статус баре</string>
     <string name="menu_note_status_unbind">Открепить от статус бара</string>
     <string name="menu_note_convert_to_roll">Конвертировать в список</string>
@@ -77,8 +75,7 @@
     <string name="dialog_menu_clear">Удалить навсегда</string>
     <string name="dialog_menu_restore">Восстановить</string>
     <string name="dialog_menu_copy">Копировать текст</string>
-    <string name="dialog_menu_check_all">Выполнить всё</string>
-    <string name="dialog_menu_check_zero">Снять выделения</string>
+
     <string name="dialog_menu_status_bind">Закрепить в статус баре</string>
     <string name="dialog_menu_status_unbind">Открепить от статус бара</string>
     <string name="dialog_menu_convert_to_text">Конвертировать в текст</string>
@@ -95,7 +92,6 @@
     </string-array>
 
     <string-array name="dialog_menu_roll">
-        <item/>
         <item/>
         <item>@string/dialog_menu_convert_to_text</item>
         <item>@string/dialog_menu_copy</item>

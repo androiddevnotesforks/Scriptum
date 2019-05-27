@@ -17,7 +17,8 @@ import sgtmelon.scriptum.office.utils.checkNoPosition
  * @author SerjantArbuz
  */
 class RollReadHolder(private val binding: ItemRollReadBinding,
-                     private val clickListener: ItemListener.ClickListener
+                     private val clickListener: ItemListener.ClickListener,
+                     private val longClickListener: ItemListener.LongClickListener
 ) : RecyclerView.ViewHolder(binding.root) {
 
     /**
@@ -27,10 +28,17 @@ class RollReadHolder(private val binding: ItemRollReadBinding,
     private val rollCheck: CheckBox = itemView.findViewById(R.id.roll_read_check)
 
     init {
-        clickView.setOnClickListener { v ->
-            checkNoPosition {
-                rollCheck.toggle()
-                clickListener.onItemClick(v, adapterPosition)
+        clickView.apply {
+            setOnClickListener {
+                checkNoPosition {
+                    rollCheck.toggle()
+                    clickListener.onItemClick(it, adapterPosition)
+                }
+            }
+
+            setOnLongClickListener {
+                checkNoPosition { longClickListener.onItemLongClick(it, adapterPosition) }
+                return@setOnLongClickListener true
             }
         }
     }

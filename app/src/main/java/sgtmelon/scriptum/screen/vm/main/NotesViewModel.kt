@@ -9,7 +9,6 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
-import sgtmelon.scriptum.office.utils.TimeUtils.getTime
 import sgtmelon.scriptum.office.utils.clearAndAdd
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.main.NotesFragment
@@ -43,54 +42,22 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
     }
 
     fun onShowOptionsDialog(p: Int) = with(noteModelList[p].noteItem) {
-        val itemArray: Array<String>
-
-        when (type) {
-            NoteType.TEXT -> {
-                itemArray = context.resources.getStringArray(R.array.dialog_menu_text)
-                itemArray[0] = if (isStatus) context.getString(R.string.dialog_menu_status_unbind) else context.getString(R.string.dialog_menu_status_bind)
-            }
-            NoteType.ROLL -> {
-                itemArray = context.resources.getStringArray(R.array.dialog_menu_roll)
-
-                itemArray[0] = if (isAllCheck) context.getString(R.string.dialog_menu_check_zero) else context.getString(R.string.dialog_menu_check_all)
-                itemArray[1] = if (isStatus) context.getString(R.string.dialog_menu_status_unbind) else context.getString(R.string.dialog_menu_status_bind)
-
-            }
+        val itemArray: Array<String> = when (type) {
+            NoteType.TEXT -> context.resources.getStringArray(R.array.dialog_menu_text)
+            NoteType.ROLL -> context.resources.getStringArray(R.array.dialog_menu_roll)
         }
+
+        itemArray[0] = if (isStatus) context.getString(R.string.dialog_menu_status_unbind) else context.getString(R.string.dialog_menu_status_bind)
 
         callback.showOptionsDialog(itemArray, p)
     }
 
-    fun onResultOptionsDialog(p: Int, which: Int) = with(noteModelList[p]) {
-        when (noteItem.type) {
-            NoteType.TEXT -> when (which) {
-                OptionsDef.Text.bind -> callback.notifyItemChanged(p, onMenuBind(p))
-                OptionsDef.Text.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
-                OptionsDef.Text.copy -> context.copyToClipboard(noteItem)
-                OptionsDef.Text.delete -> callback.notifyItemRemoved(p, onMenuDelete(p))
-            }
-            NoteType.ROLL -> when (which) {
-                OptionsDef.Roll.check -> callback.notifyItemChanged(p, onMenuCheck(p))
-                OptionsDef.Roll.bind -> callback.notifyItemChanged(p, onMenuBind(p))
-                OptionsDef.Roll.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
-                OptionsDef.Roll.copy -> context.copyToClipboard(noteItem)
-                OptionsDef.Roll.delete -> callback.notifyItemRemoved(p, onMenuDelete(p))
-            }
-        }
-    }
-
-    private fun onMenuCheck(p: Int) = noteModelList.apply {
-        get(p).let {
-            val isAllCheck = it.noteItem.apply {
-                change = context.getTime()
-                setCompleteText()
-            }.isAllCheck
-
-            it.updateCheck(isAllCheck)
-
-            iRoomRepo.updateRollCheck(it.noteItem, isAllCheck)
-            BindControl(context, it.noteItem).updateBind()
+    fun onResultOptionsDialog(p: Int, which: Int) {
+        when (which) {
+            OptionsDef.Note.bind -> callback.notifyItemChanged(p, onMenuBind(p))
+            OptionsDef.Note.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
+            OptionsDef.Note.copy -> context.copyToClipboard(noteModelList[p].noteItem)
+            OptionsDef.Note.delete -> callback.notifyItemRemoved(p, onMenuDelete(p))
         }
     }
 

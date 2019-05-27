@@ -20,7 +20,6 @@ class NotePanel(private val type: NoteType) : ParentUi() {
     fun onClickColor() = action { onClick(R.id.note_panel_color_button) }
     fun onClickSave() = action { onClick(R.id.note_panel_save_button) }
 
-    fun onClickCheck() = action { onClick(R.id.note_panel_check_button) }
     fun onClickBind() = action { onClick(R.id.note_panel_bind_button) }
     fun onClickConvert() = action { onClick(R.id.note_panel_convert_button) }
     fun onClickDelete() = action { onClick(R.id.note_panel_delete_button) }
@@ -39,8 +38,6 @@ class NotePanel(private val type: NoteType) : ParentUi() {
             when (state) {
                 State.READ -> {
                     onDisplay(R.id.note_panel_read_container)
-
-                    if (type == NoteType.ROLL) onDisplay(R.id.note_panel_check_button)
 
                     onDisplay(R.id.note_panel_bind_button)
                     onDisplay(R.id.note_panel_convert_button)

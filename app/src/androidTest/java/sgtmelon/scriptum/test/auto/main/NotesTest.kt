@@ -67,7 +67,7 @@ class NotesTest : ParentTest() {
         mainScreen {
             openNotesPage {
                 assert { onDisplayContent(empty = false) }
-                openRollNote() { onPressBack() }
+                openRollNote { onPressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }
@@ -233,55 +233,6 @@ class NotesTest : ParentTest() {
                 openNotesPage {
                     openNoteDialog(noteItem) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
-                }
-            }
-        }
-    }
-
-    @Test fun rollNoteDialogCheckAllFromEmpty() {
-        val rollList = testData.rollList.apply { forEach { it.isCheck = false } }
-        val noteItem = testData.clear().insertRoll(rollList = rollList)
-
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openNoteDialog(noteItem) { onClickCheckAll() }
-                    noteItem.setCompleteText(rollList.size, rollList.size)
-                    openNoteDialog(noteItem)
-                }
-            }
-        }
-    }
-
-    @Test fun rollNoteDialogCheckAll() {
-        val rollList = testData.rollList.apply {
-            forEach { it.isCheck = false }
-            get(0).isCheck = true
-        }
-
-        val noteItem = testData.clear().insertRoll(rollList = rollList)
-
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openNoteDialog(noteItem) { onClickCheckAll() }
-                    noteItem.setCompleteText(rollList.size, rollList.size)
-                    openNoteDialog(noteItem)
-                }
-            }
-        }
-    }
-
-    @Test fun rollNoteDialogUncheckAll() {
-        val rollList = testData.rollList.apply { forEach { it.isCheck = true } }
-        val noteItem = testData.clear().insertRoll(rollList = rollList)
-
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openNoteDialog(noteItem) { onClickUncheck() }
-                    noteItem.setCompleteText(0, rollList.size)
-                    openNoteDialog(noteItem)
                 }
             }
         }

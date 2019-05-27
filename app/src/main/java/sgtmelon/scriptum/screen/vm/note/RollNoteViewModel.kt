@@ -255,26 +255,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         return true
     }
 
-    override fun onMenuCheck() {
-        val size: Int = noteModel.rollList.size
-        val isAll = checkState.isAll
-
-        noteModel.updateCheck(!isAll)
-
-        val noteItem = noteModel.noteItem.apply {
-            change = context.getTime()
-            setCompleteText(if (isAll) 0 else size, size)
-        }
-
-        iRoomRepo.updateRollCheck(noteItem, !isAll)
-        BindControl(context, noteModel).updateBind(rankIdVisibleList)
-
-        callback.bindNoteItem(noteItem)
-        callback.changeCheckToggle(state = true)
-
-        onUpdateData()
-    }
-
     override fun onMenuBind() = with(noteModel) {
         noteItem.isStatus = !noteItem.isStatus
 
@@ -411,6 +391,28 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         iRoomRepo.updateRollCheck(noteItem, rollItem)
 
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
+    }
+
+    fun onLongClickItemCheck(p: Int) {
+        val size: Int = noteModel.rollList.size
+        val isAll = checkState.isAll
+
+        noteModel.updateCheck(!isAll)
+
+        val noteItem = noteModel.noteItem.apply {
+            change = context.getTime()
+            setCompleteText(if (isAll) 0 else size, size)
+        }
+
+        iRoomRepo.updateRollCheck(noteItem, !isAll)
+        BindControl(context, noteModel).updateBind(rankIdVisibleList)
+
+        callback.apply {
+            bindNoteItem(noteItem)
+            changeCheckToggle(state = true)
+        }
+
+        onUpdateData()
     }
 
     fun onResultColorDialog(check: Int) {

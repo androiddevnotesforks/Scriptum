@@ -7,15 +7,9 @@ import androidx.annotation.IntDef;
  */
 public @interface OptionsDef {
 
-    @IntDef({Text.bind, Text.convert, Text.copy, Text.delete})
-    @interface Text {
+    @IntDef({Note.bind, Note.convert, Note.copy, Note.delete})
+    @interface Note {
         int bind = 0, convert = 1, copy = 2, delete = 3;
-    }
-
-    @IntDef({Roll.check, Roll.bind, Roll.convert, Roll.copy, Roll.delete})
-    @interface Roll {
-        int check = 0, bind = 1, convert = 2, copy = 3, delete = 4;
-
     }
 
     @IntDef({Bin.restore, Bin.copy, Bin.clear})
