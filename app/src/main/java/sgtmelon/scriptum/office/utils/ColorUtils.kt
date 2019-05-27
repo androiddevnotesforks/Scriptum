@@ -6,14 +6,12 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.MenuItem
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
-import androidx.annotation.FloatRange
+import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.data.ColorData
+import sgtmelon.scriptum.model.data.ColorData.dark
+import sgtmelon.scriptum.model.data.ColorData.light
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
@@ -22,34 +20,25 @@ object ColorUtils {
 
     /**
      * Получение цвета заметки в зависимости от темы и заднего фона
-     *
-     * @param color    - Идентификатор цвета заметки
-     * @param needDark - Если элемент находится на тёмном фоне (например индикатор цвета заметки
-     * @return - Один из стандартных цветов приложения
+     * [needDark] - Если элемент находится на тёмном фоне (например индикатор цвета заметки
      */
-    @ColorInt
-    fun get(context: Context, @ColorDef color: Int, needDark: Boolean): Int {
-        return when (Preference(context).theme) {
-            ThemeDef.light -> {
-                if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
-                else ContextCompat.getColor(context, ColorData.light[color])
+    @ColorInt fun Context.getAppThemeColor(@ColorDef color: Int, needDark: Boolean) =
+            if (Preference(this).theme == ThemeDef.light) {
+                if (needDark) getCompatColor(dark[color])
+                else getCompatColor(light[color])
+            } else {
+                if (needDark) getCompatColor(dark[color])
+                else getColorAttr(R.attr.clPrimary)
             }
-            ThemeDef.dark -> {
-                if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
-                else context.getColorAttr(R.attr.clPrimary)
-            }
-            else -> {
-                if (needDark) ContextCompat.getColor(context, ColorData.dark[color])
-                else context.getColorAttr(R.attr.clPrimary)
-            }
-        }
-    }
+
+    @ColorInt fun Context.getAppThemeColor(@ColorDef color: Int) = getCompatColor(
+            if (Preference(context = this).theme == ThemeDef.light) light[color] else dark[color]
+    )
 
     /**
      * Получение цвета по аттрибуту, [attr] - аттрибут цвета
      */
-    @ColorInt
-    fun Context.getColorAttr(@AttrRes attr: Int): Int {
+    @ColorInt fun Context.getColorAttr(@AttrRes attr: Int): Int {
         val typedValue = TypedValue()
 
         theme.resolveAttribute(attr, typedValue, true)
@@ -57,52 +46,46 @@ object ColorUtils {
         return ContextCompat.getColor(this, typedValue.resourceId)
     }
 
-    /**
-     * Получение RGB промежуточного цвета в записимости от значения трансформации
-     * [ratio] - положение трансформации
-     * [this] - цвет от которого идёт трансформация
-     */
-    @ColorInt
-    fun Int.blend(colorTo: Int, @FloatRange(from = 0.0, to = 1.0) ratio: Float): Int {
-        val inverseRatio = 1f - ratio
+}
 
-        val r = Color.red(colorTo) * ratio + Color.red(this) * inverseRatio
-        val g = Color.green(colorTo) * ratio + Color.green(this) * inverseRatio
-        val b = Color.blue(colorTo) * ratio + Color.blue(this) * inverseRatio
+fun Context.getCompatColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 
-        return Color.rgb(r.toInt(), g.toInt(), b.toInt())
-    }
+@ColorInt fun Context.getAppSimpleColor(@ColorDef color: Int, isLight: Boolean) =
+        getCompatColor(if (isLight) light[color] else dark[color])
 
-    /**
-     * Покараска элемента меню в стандартный цвет
-     */
-    fun MenuItem.tintIcon(context: Context) {
-        val drawable = this.icon
-        val wrapDrawable = DrawableCompat.wrap(drawable)
+/**
+ * Покараска элемента меню в стандартный цвет
+ */
+fun MenuItem.tintIcon(context: Context) {
+    val drawable = this.icon
+    val wrapDrawable = DrawableCompat.wrap(drawable)
 
-        DrawableCompat.setTint(wrapDrawable, context.getColorAttr(R.attr.clContent))
+    DrawableCompat.setTint(wrapDrawable, context.getColorAttr(R.attr.clContent))
 
-        this.icon = wrapDrawable
-    }
-
-    /**
-     * Получение покрашенного изображения
-     */
-    fun Context.getDrawable(@DrawableRes id: Int, @AttrRes attr: Int): Drawable? {
-        val drawable = ContextCompat.getDrawable(this, id) ?: return null
-        drawable.setColorFilter(getColorAttr(attr), PorterDuff.Mode.SRC_ATOP)
-
-        return drawable
-    }
-
+    this.icon = wrapDrawable
 }
 
 /**
  * Получение покрашенного изображения
  */
-fun Context.getTintDrawable(@DrawableRes id: Int) : Drawable? {
+fun Context.getTintDrawable(@DrawableRes id: Int): Drawable? {
     val drawable = ContextCompat.getDrawable(this, id) ?: return null
     drawable.setColorFilter(getColorAttr(R.attr.clContent), PorterDuff.Mode.SRC_ATOP)
 
     return drawable
+}
+
+/**
+ * Получение RGB промежуточного цвета в записимости от значения трансформации
+ * [ratio] - положение трансформации
+ * [this] - цвет от которого идёт трансформация
+ */
+@ColorInt fun Int.blend(colorTo: Int, @FloatRange(from = 0.0, to = 1.0) ratio: Float): Int {
+    val inverseRatio = 1f - ratio
+
+    val r = Color.red(colorTo) * ratio + Color.red(this) * inverseRatio
+    val g = Color.green(colorTo) * ratio + Color.green(this) * inverseRatio
+    val b = Color.blue(colorTo) * ratio + Color.blue(this) * inverseRatio
+
+    return Color.rgb(r.toInt(), g.toInt(), b.toInt())
 }

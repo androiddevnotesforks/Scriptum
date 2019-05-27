@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.annotation.Dimension
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
 import sgtmelon.scriptum.model.item.ColorItem
+import sgtmelon.scriptum.office.utils.getCompatColor
 import sgtmelon.scriptum.office.utils.getDimen
 
 /**
@@ -31,10 +31,10 @@ class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
     val checkImage: ImageView = itemView.findViewById(R.id.color_check_image)
     val clickView: View = itemView.findViewById(R.id.color_click_view)
 
-    fun bindColor(colorItem: ColorItem) {
-        val fillColor = ContextCompat.getColor(context, colorItem.fill)
-        val strokeColor = ContextCompat.getColor(context, colorItem.stroke)
-        val checkColor = ContextCompat.getColor(context, colorItem.check)
+    fun bindColor(colorItem: ColorItem) = with(colorItem) {
+        val fillColor = context.getCompatColor(fill)
+        val strokeColor = context.getCompatColor(stroke)
+        val checkColor = context.getCompatColor(check)
 
         (backgroundView.background as? GradientDrawable)?.apply {
             setColor(fillColor)

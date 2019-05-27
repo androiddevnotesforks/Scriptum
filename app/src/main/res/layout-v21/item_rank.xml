@@ -28,6 +28,7 @@
             <sgtmelon.iconanim.widget.SwitchButtonAnim
                     android:id="@+id/rank_visible_button"
                     style="@style/Button.Medium"
+                    android:layout_marginStart="@dimen/layout_4dp"
                     android:layout_marginEnd="@dimen/layout_8dp"
                     app:srcDisable="@drawable/ic_visible_enter"
                     app:srcDisableAnim="@drawable/anim_visible_exit"
@@ -42,6 +43,8 @@
                     android:id="@+id/rank_content_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_4dp"
+                    android:layout_marginEnd="@dimen/layout_4dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -76,6 +79,7 @@
                     android:id="@+id/rank_cancel_button"
                     style="@style/Button.Medium"
                     android:layout_marginStart="@dimen/layout_8dp"
+                    android:layout_marginEnd="@dimen/layout_4dp"
                     android:contentDescription="@null"
                     android:tint="?attr/clContent"
                     app:srcCompat="@drawable/ic_cancel_enter"/>

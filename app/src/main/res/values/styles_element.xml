@@ -342,9 +342,17 @@
     <style name="Image.Color.Vertical">
         <item name="android:layout_width">@dimen/layout_4dp</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:src">@drawable/ic_color_indicator</item>
+    </style>
+
+    <style name="Image.Color.Vertical.Start">
+        <item name="android:layout_marginEnd">@dimen/layout_8dp</item>
+        <item name="android:layout_marginRight">@dimen/layout_8dp</item>
+    </style>
+
+    <style name="Image.Color.Vertical.End">
         <item name="android:layout_marginStart">@dimen/layout_8dp</item>
         <item name="android:layout_marginLeft">@dimen/layout_8dp</item>
-        <item name="android:src">@drawable/ic_color_indicator</item>
     </style>
 
     <style name="Image.Color.Horizontal">

@@ -74,8 +74,7 @@
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>
 
-        <View style="@style/Divider.Horizontal"
-              app:visibleOn='@{def.light}'/>
+        <View style="@style/Divider.Horizontal" app:visibleOn='@{def.light}'/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

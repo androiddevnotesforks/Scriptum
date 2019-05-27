@@ -51,16 +51,16 @@ public final class BindUtils {
     }
 
     @BindingAdapter("noteColor")
-    public static void setCardBackgroundColor(@NonNull CardView cardView, @ColorDef int color) {
-        final int background = ColorUtils.INSTANCE.get(cardView.getContext(), color, false);
-        cardView.setCardBackgroundColor(background);
+    public static void setCardBackgroundColor(@NonNull CardView view, @ColorDef int color) {
+        view.setCardBackgroundColor(
+                ColorUtils.INSTANCE.getAppThemeColor(view.getContext(), color, false)
+        );
     }
 
-    @BindingAdapter(value = {"noteColor", "viewOnDark"})
-    public static void setTint(@NonNull ImageView imageView, @ColorDef int color,
-                               boolean viewOnDark) {
-        final int tint = ColorUtils.INSTANCE.get(imageView.getContext(), color, viewOnDark);
-        imageView.setColorFilter(tint);
+    @BindingAdapter("indicatorColor")
+    public static void setIndicatorColor(@NonNull ImageView view, @ColorDef int color) {
+        final int tint = ColorUtils.INSTANCE.getAppThemeColor(view.getContext(), color);
+        view.setColorFilter(tint);
     }
 
     @BindingAdapter(value = {"imageId", "imageColor"})

@@ -70,10 +70,9 @@
 
                 <ImageView
                         android:id="@+id/note_roll_color_view"
-                        style="@style/Image.Color.Vertical"
+                        style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
-                        app:noteColor='@{noteItem.color}'
-                        app:viewOnDark='@{true}'
+                        app:indicatorColor='@{noteItem.color}'
                         app:visibleOn='@{def.dark}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="visible"/>
