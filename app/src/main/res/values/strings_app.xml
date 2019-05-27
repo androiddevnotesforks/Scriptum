@@ -19,6 +19,7 @@
     <string name="menu_note_save">Save</string>
     <string name="menu_note_more">More</string>
 
+    <string name="menu_note_notification">Notification</string>
     <string name="menu_note_status_bind">Bind to status bar</string>
     <string name="menu_note_status_unbind">Unbind from status bar</string>
     <string name="menu_note_convert_to_roll">Convert to roll</string>

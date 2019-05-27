@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.vm.note
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
@@ -254,6 +255,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         return true
     }
+
+    override fun onMenuNotification() =
+            Toast.makeText(context, "ROLL NOTE NOTIFICATION", Toast.LENGTH_LONG).show()
 
     override fun onMenuBind() = with(noteModel) {
         noteItem.isStatus = !noteItem.isStatus

@@ -17,6 +17,7 @@
     <string name="menu_note_save">Сохранить</string>
     <string name="menu_note_more">Ещё</string>
 
+    <string name="menu_note_notification">Уведомление</string>
     <string name="menu_note_status_bind">Закрепить в статус баре</string>
     <string name="menu_note_status_unbind">Открепить от статус бара</string>
     <string name="menu_note_convert_to_roll">Конвертировать в список</string>

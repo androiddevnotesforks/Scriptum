@@ -146,9 +146,20 @@
                     tools:visibility="invisible">
 
                 <ImageButton
+                        android:id="@+id/note_panel_notification"
+                        style="@style/Button.Small"
+                        android:contentDescription="@string/menu_note_notification"
+                        android:onClick='@{() -> menuCallback.onMenuNotification()}'
+                        app:srcCompat="@drawable/ic_notifications"
+                        app:boolExpression='@{true}'
+                        app:falseColor='@{R.attr.clContent}'
+                        app:trueColor='@{R.attr.clAccent}'
+                        tools:tint="?attr/clAccent"/>
+
+                <ImageButton
                         android:id="@+id/note_panel_bind_button"
                         style="@style/Button.Small"
-                        android:contentDescription="@string/menu_note_status_bind"
+                        android:contentDescription='@{noteItem.status ? @string/menu_note_status_bind : @string/menu_note_status_unbind}'
                         android:onClick='@{() -> menuCallback.onMenuBind()}'
                         app:srcCompat="@drawable/ic_bind_roll"
                         app:boolExpression='@{noteItem.status}'

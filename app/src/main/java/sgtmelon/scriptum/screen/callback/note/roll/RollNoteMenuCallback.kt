@@ -39,6 +39,8 @@ interface RollNoteMenuCallback {
 
     //region Режим просмотра
 
+    fun onMenuNotification()
+
     fun onMenuBind()
 
     fun onMenuConvert()

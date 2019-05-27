@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -175,6 +176,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
         return true
     }
+
+    override fun onMenuNotification() =
+            Toast.makeText(context, "TEXT NOTE NOTIFICATION", Toast.LENGTH_LONG).show()
 
     override fun onMenuBind() = with(noteModel) {
         noteItem.isStatus = !noteItem.isStatus

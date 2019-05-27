@@ -39,6 +39,7 @@ class NotePanel(private val type: NoteType) : ParentUi() {
                 State.READ -> {
                     onDisplay(R.id.note_panel_read_container)
 
+                    onDisplay(R.id.note_panel_notification)
                     onDisplay(R.id.note_panel_bind_button)
                     onDisplay(R.id.note_panel_convert_button)
                     onDisplay(R.id.note_panel_delete_button)

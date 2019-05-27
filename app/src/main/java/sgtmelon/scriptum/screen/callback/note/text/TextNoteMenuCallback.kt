@@ -39,6 +39,8 @@ interface TextNoteMenuCallback {
 
     //region Режим просмотра
 
+    fun onMenuNotification()
+
     fun onMenuBind()
 
     fun onMenuConvert()
