@@ -112,12 +112,18 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         val rankList = rankModel.itemList
         val startAnim = BooleanArray(rankList.size)
 
-        val clickVisible = rankList[p].isVisible
-        rankList.forEachIndexed { index, rankItem ->
-            if (index == p || clickVisible != rankItem.isVisible) return@forEachIndexed
-
-            rankItem.isVisible = !rankItem.isVisible
-            startAnim[index] = true
+        rankList.forEachIndexed { i, item ->
+            if (i == p) {
+                if(!item.isVisible) {
+                    item.isVisible = true
+                    startAnim[i] = true
+                }
+            } else {
+                if (item.isVisible) {
+                    item.isVisible = false
+                    startAnim[i] = true
+                }
+            }
         }
 
         callback.notifyVisible(startAnim, rankList)
