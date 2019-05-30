@@ -9,10 +9,6 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1
-        versionName git.version.windows.execute().text.trim()
-
-        testInstrumentationRunner deps.instrumentationRunner
 
         vectorDrawables.useSupportLibrary = true
     }
@@ -33,7 +29,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation deps.jetbrains.kotlin
+    implementation jetbrains.kotlin
 
-    implementation deps.androidx.appcompat
+    implementation androidx.appcompat
 }

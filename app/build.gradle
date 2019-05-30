@@ -17,7 +17,7 @@ android {
         versionCode 6
         versionName git.version.windows.execute().text.trim()
 
-        testInstrumentationRunner deps.instrumentationRunner
+        testInstrumentationRunner androidx.test.instrumentationRunner
 
         vectorDrawables.useSupportLibrary = true
 
@@ -70,46 +70,53 @@ dependencies {
     implementation project(":iconanim")
     implementation project(":safedialog")
 
-    // Kotlin
+    //region Kotlin
 
-    implementation deps.jetbrains.kotlin
-    implementation deps.jetbrains.coroutines.core
-    implementation deps.jetbrains.coroutines.android
+    implementation jetbrains.kotlin
+    implementation jetbrains.coroutines.core
+    implementation jetbrains.coroutines.android
 
-    // AndroidX
+    //endregion
 
-    implementation deps.androidx.lifecycle.extensions
-    implementation deps.androidx.lifecycle.viewmodel
-    kapt deps.androidx.lifecycle.compiler
+    implementation google.material
 
-    implementation deps.androidx.room.runtime
-    kapt deps.androidx.room.compiler
-    testImplementation deps.androidx.room.testing
+    //region AndroidX
 
-    implementation deps.androidx.appcompat
-    implementation deps.androidx.cardview
-    implementation deps.androidx.constraintlayout
+    implementation androidx.lifecycle.extensions
+    implementation androidx.lifecycle.viewmodel
+    kapt androidx.lifecycle.compiler
 
-    implementation deps.androidx.vector.drawable
-    implementation deps.androidx.vector.animated
+    implementation androidx.room.runtime
+    kapt androidx.room.compiler
+    testImplementation androidx.room.testing
 
-    implementation deps.material
-    implementation deps.pageindicator
+    implementation androidx.appcompat
+    implementation androidx.cardview
+    implementation androidx.constraintlayout
 
-    // Testing
+    implementation androidx.vector.drawable
+    implementation androidx.vector.animated
 
-    testImplementation deps.junit
+    //endregion
 
-    debugImplementation deps.androidx.test.runner
-    debugImplementation deps.androidx.test.rules
-    debugImplementation deps.androidx.test.junit
+    implementation other.pageindicator
 
-    implementation deps.androidx.test.espresso.idling
-    debugImplementation deps.androidx.test.espresso.core
-    debugImplementation deps.androidx.test.espresso.contrib
+    //region Testing
 
-    testImplementation deps.powermock.module
-    testImplementation deps.powermock.rule
-    testImplementation deps.powermock.api
-    testImplementation deps.powermock.classloading
+    testImplementation junit.core
+
+    debugImplementation androidx.test.runner
+    debugImplementation androidx.test.rules
+    debugImplementation androidx.test.junit
+
+    implementation androidx.test.espresso.idling
+    debugImplementation androidx.test.espresso.core
+    debugImplementation androidx.test.espresso.contrib
+
+    testImplementation powermock.module
+    testImplementation powermock.rule
+    testImplementation powermock.api
+    testImplementation powermock.classloading
+
+    //endregion
 }

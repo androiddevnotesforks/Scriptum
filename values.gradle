@@ -6,80 +6,61 @@ ext {
             ]
     ]
 
-    vers = [
-            jetbrains    : [
-                    kotlin    : "1.3.31",
-                    coroutines: "1.1.1"
-            ],
-            androidx     : [
-                    lifecycle       : "2.2.0-alpha01",
-                    room            : "2.0.0",
-                    appcompat       : "1.1.0-alpha05",
-                    cardview        : "1.0.0",
-                    constraintlayout: "1.1.3",
-                    vector          : [
-                            drawable: "1.0.1",
-                            animated: "1.0.0"
-                    ],
-                    test            : [
-                            runner  : "1.1.1",
-                            rules   : "1.1.1",
-                            junit   : "1.1.0",
-                            espresso: "3.1.1"
-                    ]
-            ],
-            material     : "1.1.0-alpha06",
-            pageindicator: "1.0.1",
-            junit        : "4.12",
-            powermock    : "1.6.6"
+    jetbrains = [
+            kotlin    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31",
+            coroutines: [
+                    core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1",
+                    android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+            ]
     ]
 
-    deps = [
-            instrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
-            jetbrains            : [
-                    kotlin    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$vers.jetbrains.kotlin",
-                    coroutines: [
-                            core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$vers.jetbrains.coroutines",
-                            android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$vers.jetbrains.coroutines"
-                    ]
+    google = [
+            material: "com.google.android.material:material:1.1.0-alpha06"
+    ]
+
+    androidx = [
+            lifecycle       : [
+                    extensions: "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01",
+                    viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01",
+                    compiler  : "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01",
             ],
-            androidx             : [
-                    lifecycle       : [
-                            extensions: "androidx.lifecycle:lifecycle-extensions:$vers.androidx.lifecycle",
-                            viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:$vers.androidx.lifecycle",
-                            compiler  : "androidx.lifecycle:lifecycle-compiler:$vers.androidx.lifecycle",
-                    ],
-                    room            : [
-                            runtime : "androidx.room:room-runtime:$vers.androidx.room",
-                            compiler: "androidx.room:room-compiler:$vers.androidx.room",
-                            testing : "androidx.room:room-testing:$vers.androidx.room"
-                    ],
-                    appcompat       : "androidx.appcompat:appcompat:$vers.androidx.appcompat",
-                    cardview        : "androidx.cardview:cardview:$vers.androidx.cardview ",
-                    constraintlayout: "androidx.constraintlayout:constraintlayout:$vers.androidx.constraintlayout",
-                    vector          : [
-                            drawable: "androidx.vectordrawable:vectordrawable:$vers.androidx.vector.drawable",
-                            animated: "androidx.vectordrawable:vectordrawable-animated:$vers.androidx.vector.animated"
-                    ],
-                    test            : [
-                            runner  : "androidx.test:runner:$vers.androidx.test.runner",
-                            rules   : "androidx.test:rules:$vers.androidx.test.rules",
-                            junit   : "androidx.test.ext:junit:$vers.androidx.test.junit",
-                            espresso: [
-                                    idling : "androidx.test.espresso:espresso-idling-resource:$vers.androidx.test.espresso",
-                                    core   : "androidx.test.espresso:espresso-core:$vers.androidx.test.espresso",
-                                    contrib: "androidx.test.espresso:espresso-contrib:$vers.androidx.test.espresso"
-                            ]
-                    ]
+            room            : [
+                    runtime : "androidx.room:room-runtime:2.0.0",
+                    compiler: "androidx.room:room-compiler:2.0.0",
+                    testing : "androidx.room:room-testing:2.0.0"
             ],
-            material             : "com.google.android.material:material:$vers.material",
-            pageindicator        : "com.romandanylyk:pageindicatorview:$vers.pageindicator",
-            junit                : "junit:junit:$vers.junit",
-            powermock            : [
-                    module      : "org.powermock:powermock-module-junit4:$vers.powermock",
-                    rule        : "org.powermock:powermock-module-junit4-rule:$vers.powermock",
-                    api         : "org.powermock:powermock-api-mockito:$vers.powermock",
-                    classloading: "org.powermock:powermock-classloading-xstream:$vers.powermock"
+            appcompat       : "androidx.appcompat:appcompat:1.1.0-alpha05",
+            cardview        : "androidx.cardview:cardview:1.0.0 ",
+            constraintlayout: "androidx.constraintlayout:constraintlayout:1.1.3",
+            vector          : [
+                    drawable: "androidx.vectordrawable:vectordrawable:1.0.1",
+                    animated: "androidx.vectordrawable:vectordrawable-animated:1.0.0"
+            ],
+            test            : [
+                    instrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
+                    runner               : "androidx.test:runner:1.1.1",
+                    rules                : "androidx.test:rules:1.1.1",
+                    junit                : "androidx.test.ext:junit:1.1.0",
+                    espresso             : [
+                            idling : "androidx.test.espresso:espresso-idling-resource:3.1.1",
+                            core   : "androidx.test.espresso:espresso-core:3.1.1",
+                            contrib: "androidx.test.espresso:espresso-contrib:3.1.1"
+                    ]
             ]
+    ]
+
+    other = [
+            pageindicator: "com.romandanylyk:pageindicatorview:1.0.1"
+    ]
+
+    junit = [
+            core: "junit:junit:4.12"
+    ]
+
+    powermock = [
+            module      : "org.powermock:powermock-module-junit4:1.6.6",
+            rule        : "org.powermock:powermock-module-junit4-rule:1.6.6",
+            api         : "org.powermock:powermock-api-mockito:1.6.6",
+            classloading: "org.powermock:powermock-classloading-xstream:1.6.6"
     ]
 }
