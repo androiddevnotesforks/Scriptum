@@ -21,10 +21,10 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.office.utils.createVisibleAnim
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.tintIcon
 import sgtmelon.scriptum.screen.callback.main.BinCallback
-import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
@@ -42,6 +42,12 @@ class BinFragment : Fragment(), BinCallback {
         }
     }
 
+    private val openState = OpenState()
+    private val optionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
+    private val clearBinDialog by lazy {
+        DialogFactory.getClearBinDialog(activity as Activity, fragmentManager)
+    }
+
     private val adapter by lazy {
         NoteAdapter(
                 ItemListener.ClickListener { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
@@ -55,12 +61,6 @@ class BinFragment : Fragment(), BinCallback {
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
     private var recyclerView: RecyclerView? = null
-
-    private val openState = OpenState()
-    private val optionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
-    private val clearBinDialog by lazy {
-        DialogFactory.getClearBinDialog(activity as Activity, fragmentManager)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -115,12 +115,14 @@ class BinFragment : Fragment(), BinCallback {
         emptyInfoView = view?.findViewById(R.id.bin_info_include)
 
         recyclerView = view?.findViewById(R.id.bin_recycler)
-        recyclerView?.itemAnimator = object : DefaultItemAnimator() {
-            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
-        }
+        recyclerView?.let {
+            it.itemAnimator = object : DefaultItemAnimator() {
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
+            }
 
-        recyclerView?.layoutManager = LinearLayoutManager(context)
-        recyclerView?.adapter = adapter
+            it.layoutManager = LinearLayoutManager(context)
+            it.adapter = adapter
+        }
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
             viewModel.onResultOptionsDialog(optionsDialog.position, which)

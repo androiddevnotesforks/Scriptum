@@ -8,7 +8,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.screen.view.notification.AlarmActivity
+import sgtmelon.scriptum.screen.view.notification.AlarmActivity.Companion.getAlarmIntent
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -24,19 +24,19 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     private val noteModelList: MutableList<NoteModel> = ArrayList<NoteModel>().apply {
         repeat(times = 3) {
             add(NoteModel(
-                    noteItem = NoteItem(type = NoteType.ROLL, name = "Задания на сегодня", color = ColorDef.red),
+                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Задания на сегодня", color = ColorDef.red),
                     notificationItem = NotificationItem(date = "2019-05-26 15:12:00")
             ))
             add(NoteModel(
-                    noteItem = NoteItem(type = NoteType.ROLL, name = "Купить домой", color = ColorDef.teal),
+                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Купить домой", color = ColorDef.teal),
                     notificationItem = NotificationItem(date = "2019-05-27 19:00:00")
             ))
             add(NoteModel(
-                    noteItem = NoteItem(type = NoteType.ROLL, name = "Идеи для проекта", color = ColorDef.green),
+                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Идеи для проекта", color = ColorDef.green),
                     notificationItem = NotificationItem(date = "2019-06-28 07:00:00")
             ))
             add(NoteModel(
-                    noteItem = NoteItem(type = NoteType.ROLL, name = "Важные дела", color = ColorDef.blue),
+                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Важные дела", color = ColorDef.blue),
                     notificationItem = NotificationItem(date = "2020-06-29 19:00:00")
             ))
         }
@@ -47,11 +47,9 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
      */
     fun onUpdateData() = callback.notifyDataSetChanged(noteModelList)
 
-    fun onClickNote(p: Int) = if (p % 2 == 0) {
-        with(noteModelList[p].noteItem) { callback.startActivity(context.getNoteIntent(type)) }
-    } else {
-        callback.startActivity(AlarmActivity.getInstance(context))
-    }
+    fun onClickNote(p: Int) = callback.startActivity(with(noteModelList[p].noteItem) {
+        if (p % 2 == 0) context.getAlarmIntent(id) else context.getNoteIntent(type, id)
+    })
 
     fun onClickCancel(p: Int) =
             callback.notifyItemRemoved(p, noteModelList.apply { removeAt(p) })

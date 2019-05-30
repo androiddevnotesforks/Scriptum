@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.callback.notification
 
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
@@ -9,5 +10,9 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
  * @author SerjantArbuz
  */
 interface AlarmCallback {
+
+    fun setupNote(noteModel: NoteModel)
+
+    fun finishAlarm()
 
 }

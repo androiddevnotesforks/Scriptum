@@ -18,7 +18,7 @@ import sgtmelon.scriptum.screen.view.main.NotesFragment
  * @author SerjantArbuz
  */
 class NoteAdapter(private val clickListener: ItemListener.ClickListener,
-                  private val longClickListener: ItemListener.LongClickListener
+                  private val longClickListener: ItemListener.LongClickListener? = null
 ) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

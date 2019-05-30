@@ -20,6 +20,8 @@ import androidx.annotation.StringRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import sgtmelon.scriptum.model.key.ReceiverKey
 
 fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int, parent: ViewGroup?,
@@ -56,8 +58,8 @@ fun Context.hideKeyboard(view: View) {
 fun Context.showToast(@StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) =
         Toast.makeText(this, getString(stringId), length).show()
 
-fun Context.showToast(string: String, length: Int = Toast.LENGTH_SHORT) =
-        Toast.makeText(this, string, length).show()
+fun Context.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
+        Toast.makeText(this, text, length).show()
 
 fun Context.getDimen(value: Float) =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics).toInt()
@@ -130,3 +132,13 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
             putExtra(ReceiverKey.Values.COMMAND, command)
             putExtras(Intent().apply(extras))
         })
+
+fun ViewGroup.createVisibleAnim(visible: Boolean, target: View?, duration: Long = 200) {
+    if (target == null) return
+
+    TransitionManager.beginDelayedTransition(this,
+            Fade().setDuration(duration).addTarget(target)
+    )
+
+    target.visibility = if (visible) View.VISIBLE else View.GONE
+}

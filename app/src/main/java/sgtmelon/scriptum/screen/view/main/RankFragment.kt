@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Fade
-import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.control.touch.RankTouchControl
@@ -25,11 +23,11 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.addTextChangedListener
+import sgtmelon.scriptum.office.utils.createVisibleAnim
 import sgtmelon.scriptum.office.utils.getClearText
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
-
 
 /**
  * Фрагмент для отображения списка категорий - [RankItem]
@@ -45,6 +43,9 @@ class RankFragment : Fragment(), RankCallback {
             callback = this@RankFragment
         }
     }
+
+    private val openState = OpenState()
+    private val renameDialog by lazy { DialogFactory.getRenameDialog(fragmentManager) }
 
     private val adapter by lazy {
         RankAdapter(ItemListener.ClickListener { view, p ->
@@ -64,9 +65,6 @@ class RankFragment : Fragment(), RankCallback {
     private var emptyInfoView: View? = null
 
     private var recyclerView: RecyclerView? = null
-
-    private val openState = OpenState()
-    private val renameDialog by lazy { DialogFactory.getRenameDialog(fragmentManager) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -223,19 +221,5 @@ class RankFragment : Fragment(), RankCallback {
 
     override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>) =
             adapter.notifyItemMoved(from, to, list)
-
-    companion object {
-
-        // TODO !! вынести в extension
-        fun ViewGroup.createVisibleAnim(visible: Boolean, target: View?, duration: Long = 200) {
-            if (target == null) return
-
-            TransitionManager.beginDelayedTransition(this,
-                    Fade().setDuration(duration).addTarget(target)
-            )
-
-            target.visibility = if (visible) View.VISIBLE else View.GONE
-        }
-    }
 
 }

@@ -61,6 +61,15 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     private lateinit var menuControl: MenuControl
 
+    private val openState = OpenState()
+    private val rankDialog by lazy {
+        DialogFactory.getRankDialog(context as Activity, fragmentManager)
+    }
+    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
+    private val convertDialog by lazy {
+        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.ROLL)
+    }
+
     private val adapter: RollAdapter by lazy {
         RollAdapter(ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) },
                 ItemListener.LongClickListener { _, p -> viewModel.onLongClickItemCheck(p) },
@@ -77,15 +86,6 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     private var enterContainer: View? = null
 
     private var panelContainer: ViewGroup? = null
-
-    private val openState = OpenState()
-    private val rankDialog by lazy {
-        DialogFactory.getRankDialog(context as Activity, fragmentManager)
-    }
-    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
-    private val convertDialog by lazy {
-        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.ROLL)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

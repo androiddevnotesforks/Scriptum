@@ -29,12 +29,12 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
     // TODO https://www.youtube.com/watch?v=PS9jhuHECEQ
 
-    private val openState = OpenState()
-
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
 
     private val viewModel: PreferenceViewModel by lazy { PreferenceViewModel(activity, this) }
+
+    private val openState = OpenState()
 
     private val sortDialog by lazy { DialogFactory.getSortDialog(fm) }
     private val colorDialog by lazy { DialogFactory.getColorDialog(fm) }

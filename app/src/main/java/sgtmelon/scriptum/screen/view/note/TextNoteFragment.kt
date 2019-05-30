@@ -42,6 +42,15 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     private var binding: FragmentTextNoteBinding? = null
 
+    private val openState = OpenState()
+    private val rankDialog by lazy {
+        DialogFactory.getRankDialog(context as Activity, fragmentManager)
+    }
+    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
+    private val convertDialog by lazy {
+        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
+    }
+
     private val viewModel: TextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
             callback = this@TextNoteFragment
@@ -54,15 +63,6 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     private var nameEnter: EditText? = null
     private var textEnter: EditText? = null
     private var panelContainer: ViewGroup? = null
-
-    private val openState = OpenState()
-    private val rankDialog by lazy {
-        DialogFactory.getRankDialog(context as Activity, fragmentManager)
-    }
-    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
-    private val convertDialog by lazy {
-        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {

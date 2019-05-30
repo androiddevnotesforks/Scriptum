@@ -94,11 +94,10 @@ class NoteActivity : AppActivity(), NoteCallback, NoteChildCallback {
     override fun onConvertNote() = viewModel.onConvertNote()
 
     companion object {
-        fun Context.getNoteIntent(type: NoteType, id: Long? = NoteData.Default.ID): Intent {
-            return Intent(this, NoteActivity::class.java)
-                    .putExtra(NoteData.Intent.ID, id)
-                    .putExtra(NoteData.Intent.TYPE, type.ordinal)
-        }
+        fun Context.getNoteIntent(type: NoteType, id: Long? = NoteData.Default.ID): Intent =
+                Intent(this, NoteActivity::class.java)
+                        .putExtra(NoteData.Intent.ID, id)
+                        .putExtra(NoteData.Intent.TYPE, type.ordinal)
 
         private fun AppActivity.findTextNoteFragment(): TextNoteFragment? =
                 supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as? TextNoteFragment

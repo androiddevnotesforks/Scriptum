@@ -20,11 +20,11 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.office.utils.createVisibleAnim
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.tintIcon
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
-import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -46,6 +46,9 @@ class NotesFragment : Fragment(), NotesCallback {
         }
     }
 
+    private val openState = OpenState()
+    private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
+
     private val adapter by lazy {
         NoteAdapter(
                 ItemListener.ClickListener { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
@@ -56,9 +59,6 @@ class NotesFragment : Fragment(), NotesCallback {
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
     private var recyclerView: RecyclerView? = null
-
-    private val openState = OpenState()
-    private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -110,19 +110,21 @@ class NotesFragment : Fragment(), NotesCallback {
         emptyInfoView = view?.findViewById(R.id.notes_info_include)
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
-        recyclerView?.itemAnimator = object : DefaultItemAnimator() {
-            override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
-        }
-
-        recyclerView?.layoutManager = LinearLayoutManager(context)
-        recyclerView?.adapter = adapter
-
-        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                mainCallback?.changeFabState(dy <= 0)
+        recyclerView?.let {
+            it.itemAnimator = object : DefaultItemAnimator() {
+                override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
             }
-        })
+
+            it.layoutManager = LinearLayoutManager(context)
+            it.adapter = adapter
+
+            it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    mainCallback?.changeFabState(dy <= 0)
+                }
+            })
+        }
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
             viewModel.onResultOptionsDialog(optionsDialog.position, which)

@@ -3,16 +3,27 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/alarm_parent_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".screen.view.notification.AlarmActivity">
+
+    <ImageView
+            android:layout_width="@dimen/icon_128dp"
+            android:layout_height="@dimen/icon_128dp"
+            android:src="@mipmap/img_logo_splash"
+            app:layout_constraintBottom_toTopOf="@id/alarm_recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/alarm_recycler"
             style="@style/RecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,21 +41,21 @@
             app:layout_constraintStart_toStartOf="parent">
 
         <Button
-                android:id="@+id/alarm_postpone_button"
-                style="@style/Base.Widget.AppCompat.Button.Borderless"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/button_postpone"
-                android:textColor="?attr/clAccent"/>
-
-        <Button
                 android:id="@+id/alarm_disable_button"
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:text="@string/button_disable"
+                android:textColor="?attr/clAccent"/>
+
+        <Button
+                android:id="@+id/alarm_postpone_button"
+                style="@style/Base.Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="@string/button_postpone"
                 android:textColor="?attr/clAccent"/>
 
     </LinearLayout>

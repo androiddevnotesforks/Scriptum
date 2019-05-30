@@ -30,6 +30,8 @@ class NotificationActivity : AppActivity(), NotificationCallback {
         }
     }
 
+    private val openState = OpenState()
+
     private val adapter by lazy {
         NotificationAdapter(ItemListener.ClickListener { v, p ->
             when (v.id) {
@@ -40,8 +42,6 @@ class NotificationActivity : AppActivity(), NotificationCallback {
     }
 
     private var recyclerView: RecyclerView? = null
-
-    private val openState = OpenState()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -43,7 +43,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     private val saveControl = SaveControl(context, result = this)
 
     private var id: Long = NoteData.Default.ID
-
     private lateinit var noteModel: NoteModel
 
     private lateinit var noteState: NoteState
