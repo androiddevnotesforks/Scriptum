@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 import sgtmelon.scriptum.office.utils.clearAndAdd
 import sgtmelon.scriptum.screen.callback.main.BinCallback
@@ -47,7 +46,7 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
     }
 
     fun onClickNote(p: Int) = with(noteModelList[p].noteItem) {
-        callback.startNote(context.getNoteIntent(type, id))
+        callback.startActivity(context.getNoteIntent(type, id))
     }
 
     fun onShowOptionsDialog(p: Int) =
@@ -55,9 +54,9 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
 
     fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            OptionsDef.Bin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
-            OptionsDef.Bin.copy -> context.copyToClipboard(noteModelList[p].noteItem)
-            OptionsDef.Bin.clear -> callback.notifyItemRemoved(p, clearItem(p))
+            OptionsBin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
+            OptionsBin.copy -> context.copyToClipboard(noteModelList[p].noteItem)
+            OptionsBin.clear -> callback.notifyItemRemoved(p, clearItem(p))
         }
 
         callback.notifyMenuClearBin()
@@ -71,6 +70,16 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
     private fun clearItem(p: Int) = noteModelList.apply {
         get(p).noteItem.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
         removeAt(p)
+    }
+
+    companion object {
+
+        object OptionsBin {
+            const val restore = 0
+            const val copy = 1
+            const val clear = 2
+        }
+
     }
 
 }

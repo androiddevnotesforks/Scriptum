@@ -45,6 +45,10 @@
 
     <string name="notification_button_unbind">Unbind</string>
 
+    <!-- Alarm -->
+    <string name="button_postpone">Postpone</string>
+    <string name="button_disable">Disable</string>
+
     <!-- Dialog -->
 
     <!-- Dialog titles and text -->
@@ -115,6 +119,9 @@
     <!-- About dialog -->
     <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>
     <string name="about_app_logo_designer">Logo designer:\nPolepkina Arina</string>
+
+    <!-- Develop -->
+    <string name="button_show_intro">Show intro</string>
 
     <!-- EditText hint -->
     <string name="hint_enter_rank_new">New category</string>

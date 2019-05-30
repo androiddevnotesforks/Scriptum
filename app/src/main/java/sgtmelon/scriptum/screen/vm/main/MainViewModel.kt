@@ -39,8 +39,10 @@ class MainViewModel : ViewModel(), MainReceiver.Callback {
         } else {
             if (firstStart) firstStart = false
 
-            callback.changeFabState(state = pageTo == MainPage.NOTES)
-            callback.showPage(pageFrom, pageTo)
+            callback.apply {
+                changeFabState(state = pageTo == MainPage.NOTES)
+                showPage(pageFrom, pageTo)
+            }
         }
 
         pageFrom = pageTo

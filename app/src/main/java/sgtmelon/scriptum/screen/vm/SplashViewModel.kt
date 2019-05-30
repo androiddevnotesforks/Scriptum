@@ -27,9 +27,7 @@ class SplashViewModel(application: Application) : ParentViewModel(application) {
                     bundle.getLong(NoteData.Intent.ID)
             )
 
-            callback.startFromNotification(
-                    arrayOf(Intent(context, MainActivity::class.java), noteIntent)
-            )
+            callback.startActivities(arrayOf(Intent(context, MainActivity::class.java), noteIntent))
         } else {
             val intentTo = if (preference.firstStart) {
                 IntroActivity::class.java
@@ -37,7 +35,7 @@ class SplashViewModel(application: Application) : ParentViewModel(application) {
                 MainActivity::class.java
             }
 
-            callback.startNormal(Intent(context, intentTo))
+            callback.startActivity(Intent(context, intentTo))
         }
     }
 

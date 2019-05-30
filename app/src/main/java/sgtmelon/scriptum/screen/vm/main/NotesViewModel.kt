@@ -7,7 +7,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.office.annot.def.OptionsDef
 import sgtmelon.scriptum.office.utils.HelpUtils.copyToClipboard
 import sgtmelon.scriptum.office.utils.clearAndAdd
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
@@ -38,7 +37,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
     }
 
     fun onClickNote(p: Int) = with(noteModelList[p].noteItem) {
-        callback.startNote(context.getNoteIntent(type, id))
+        callback.startActivity(context.getNoteIntent(type, id))
     }
 
     fun onShowOptionsDialog(p: Int) = with(noteModelList[p].noteItem) {
@@ -54,10 +53,10 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
 
     fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            OptionsDef.Note.bind -> callback.notifyItemChanged(p, onMenuBind(p))
-            OptionsDef.Note.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
-            OptionsDef.Note.copy -> context.copyToClipboard(noteModelList[p].noteItem)
-            OptionsDef.Note.delete -> callback.notifyItemRemoved(p, onMenuDelete(p))
+            OptionsNote.bind -> callback.notifyItemChanged(p, onMenuBind(p))
+            OptionsNote.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
+            OptionsNote.copy -> context.copyToClipboard(noteModelList[p].noteItem)
+            OptionsNote.delete -> callback.notifyItemRemoved(p, onMenuDelete(p))
         }
     }
 
@@ -103,6 +102,13 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
          * Для единовременного обновления статус бара
          */
         var updateStatus = true
+
+        private object OptionsNote {
+            const val bind = 0
+            const val convert = 1
+            const val copy = 2
+            const val delete = 3
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.view
+package sgtmelon.scriptum.screen.view.notification
 
 import android.content.Context
 import android.content.Intent
@@ -13,8 +13,9 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.getTintDrawable
-import sgtmelon.scriptum.screen.callback.NotificationCallback
-import sgtmelon.scriptum.screen.vm.NotificationViewModel
+import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
+import sgtmelon.scriptum.screen.view.AppActivity
+import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
 /**
  * Экран со списком уведомлений
@@ -75,8 +76,6 @@ class NotificationActivity : AppActivity(), NotificationCallback {
             it.adapter = adapter
         }
     }
-
-    override fun startNote(intent: Intent) = startActivity(intent)
 
     override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
             adapter.notifyDataSetChanged(list)

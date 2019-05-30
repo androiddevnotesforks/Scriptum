@@ -6,7 +6,7 @@ import sgtmelon.scriptum.adapter.holder.NotificationHolder
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.inflateBinding
-import sgtmelon.scriptum.screen.view.NotificationActivity
+import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 
 /**
  * Адаптер списка уведомлений для [NotificationActivity]

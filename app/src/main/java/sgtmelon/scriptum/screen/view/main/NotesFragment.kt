@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.view.main
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,14 +19,13 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.tintIcon
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
-import sgtmelon.scriptum.screen.view.NotificationActivity
 import sgtmelon.scriptum.screen.view.main.RankFragment.Companion.createVisibleAnim
+import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
@@ -145,11 +143,9 @@ class NotesFragment : Fragment(), NotesCallback {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun startNote(intent: Intent) = startActivity(intent)
-
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         fragmentManager?.let {
-            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogDef.OPTIONS)
+            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Key.OPTIONS)
         }
     }
 

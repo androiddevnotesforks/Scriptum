@@ -28,7 +28,6 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.utils.*
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
@@ -230,7 +229,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()
         fragmentManager?.let {
-            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogDef.RANK)
+            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogFactory.Key.RANK)
         }
     }
 
@@ -239,13 +238,13 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
         hideKeyboard()
         fragmentManager?.let {
-            colorDialog.apply { setArguments(color) }.show(it, DialogDef.COLOR)
+            colorDialog.apply { setArguments(color) }.show(it, DialogFactory.Key.COLOR)
         }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        fragmentManager?.let {convertDialog.show(it, DialogDef.CONVERT)  }
+        fragmentManager?.let {convertDialog.show(it, DialogFactory.Key.CONVERT)  }
     }
 
     companion object {

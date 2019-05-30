@@ -35,19 +35,14 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
         beforeFinish { viewModel.onStartApplication(intent.extras) }
     }
 
-    override fun startFromNotification(arrayIntent: Array<Intent>) = startActivities(arrayIntent)
-
-    override fun startNormal(intent: Intent) = startActivity(intent)
-
     companion object {
         const val STATUS_OPEN = "INTENT_SPLASH_STATUS_OPEN"
 
-        fun Context.getSplashIntent(noteItem: NoteItem): Intent {
-            return Intent(this, SplashActivity::class.java)
-                    .putExtra(STATUS_OPEN, true)
-                    .putExtra(NoteData.Intent.TYPE, noteItem.type.ordinal)
-                    .putExtra(NoteData.Intent.ID, noteItem.id)
-        }
+        fun Context.getSplashIntent(noteItem: NoteItem): Intent =
+                Intent(this, SplashActivity::class.java)
+                        .putExtra(STATUS_OPEN, true)
+                        .putExtra(NoteData.Intent.TYPE, noteItem.type.ordinal)
+                        .putExtra(NoteData.Intent.ID, noteItem.id)
     }
 
 }

@@ -61,8 +61,18 @@
         </activity>
 
         <activity
-                android:name=".screen.view.NotificationActivity"
+                android:name=".screen.view.notification.NotificationActivity"
                 android:configChanges="keyboardHidden"
+                android:parentActivityName=".screen.view.main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".screen.view.notification.AlarmActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
                 android:parentActivityName=".screen.view.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

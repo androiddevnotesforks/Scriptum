@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.view.main
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -21,7 +20,6 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.inflateBinding
 import sgtmelon.scriptum.office.utils.tintIcon
@@ -97,7 +95,7 @@ class BinFragment : Fragment(), BinCallback {
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
                 fragmentManager?.let {
-                    openState.tryInvoke { clearBinDialog.show(it, DialogDef.CLEAR_BIN) }
+                    openState.tryInvoke { clearBinDialog.show(it, DialogFactory.Key.CLEAR_BIN) }
                 }
                 return@setOnMenuItemClickListener true
             }
@@ -141,11 +139,9 @@ class BinFragment : Fragment(), BinCallback {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun startNote(intent: Intent) = startActivity(intent)
-
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         fragmentManager?.let {
-            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogDef.OPTIONS)
+            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Key.OPTIONS)
         }
     }
 

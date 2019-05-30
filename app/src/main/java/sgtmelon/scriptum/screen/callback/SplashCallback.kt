@@ -12,8 +12,8 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  */
 interface SplashCallback {
 
-    fun startFromNotification(arrayIntent: Array<Intent>)
+    fun startActivities(arrayIntent: Array<Intent>)
 
-    fun startNormal(intent: Intent)
+    fun startActivity(intent: Intent)
 
 }

@@ -41,6 +41,10 @@
 
     <string name="notification_button_unbind">Открепить</string>
 
+    <!-- Alarm -->
+    <string name="button_postpone">Отложить</string>
+    <string name="button_disable">Отключить</string>
+
     <!-- Dialog -->
 
     <!-- Dialog titles and text -->
@@ -111,6 +115,9 @@
     <!-- About dialog -->
     <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>
     <string name="about_app_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
+
+    <!-- Develop -->
+    <string name="button_show_intro">Вступление</string>
 
     <!-- EditText hint -->
     <string name="hint_enter_rank_new">Новая категория</string>

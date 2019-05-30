@@ -15,7 +15,6 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.screen.callback.PreferenceCallback
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
@@ -141,7 +140,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         }
 
         findPreference(getString(R.string.pref_key_about)).setOnPreferenceClickListener {
-            openState.tryInvoke { infoDialog.show(fm, DialogDef.INFO) }
+            openState.tryInvoke { infoDialog.show(fm, DialogFactory.Key.INFO) }
             return@setOnPreferenceClickListener true
         }
 
@@ -158,7 +157,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     }
 
     override fun showSortDialog(sortKeys: String) = openState.tryInvoke {
-        sortDialog.apply { setArguments(sortKeys) }.show(fm, DialogDef.SORT)
+        sortDialog.apply { setArguments(sortKeys) }.show(fm, DialogFactory.Key.SORT)
     }
 
     override fun updateColorSummary(summary: String) {
@@ -166,7 +165,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     }
 
     override fun showColorDialog(check: Int) = openState.tryInvoke {
-        colorDialog.apply { setArguments(check) }.show(fm, DialogDef.COLOR)
+        colorDialog.apply { setArguments(check) }.show(fm, DialogFactory.Key.COLOR)
     }
 
     override fun updateSaveTimeSummary(summary: String) {
@@ -174,7 +173,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     }
 
     override fun showSaveTimeDialog(check: Int) = openState.tryInvoke {
-        saveTimeDialog.apply { setArguments(check) }.show(fm, DialogDef.SAVE_TIME)
+        saveTimeDialog.apply { setArguments(check) }.show(fm, DialogFactory.Key.SAVE_TIME)
     }
 
     override fun updateThemePrefSummary(summary: String) {
@@ -182,7 +181,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     }
 
     override fun showThemeDialog(check: Int) = openState.tryInvoke {
-        themeDialog.apply { setArguments(check) }.show(fm, DialogDef.THEME)
+        themeDialog.apply { setArguments(check) }.show(fm, DialogFactory.Key.THEME)
     }
 
 }

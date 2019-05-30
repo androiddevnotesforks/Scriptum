@@ -16,7 +16,7 @@ interface NotesCallback {
 
     fun scrollTop()
 
-    fun startNote(intent: Intent)
+    fun startActivity(intent: Intent)
 
     fun showOptionsDialog(itemArray: Array<String>, p: Int)
 

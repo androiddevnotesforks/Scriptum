@@ -23,7 +23,6 @@ import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.addTextChangedListener
 import sgtmelon.scriptum.office.utils.getClearText
@@ -200,7 +199,7 @@ class RankFragment : Fragment(), RankCallback {
     override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) {
         fragmentManager?.let {
             openState.tryInvoke {
-                renameDialog.apply { setArguments(p, name, nameList) }.show(it, DialogDef.RENAME)
+                renameDialog.apply { setArguments(p, name, nameList) }.show(it, DialogFactory.Key.RENAME)
             }
         }
     }

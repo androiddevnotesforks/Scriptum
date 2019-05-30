@@ -19,7 +19,11 @@
 
     <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/layout_4dp"
+            android:paddingLeft="@dimen/layout_4dp"
+            android:paddingEnd="@dimen/layout_4dp"
+            android:paddingRight="@dimen/layout_4dp">
 
         <com.rd.PageIndicatorView
                 android:id="@+id/intro_page_indicator"
@@ -41,7 +45,6 @@
                 style="@style/Base.Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/layout_8dp"
                 android:text="@string/info_intro_button"
                 android:textColor="?attr/clAccent"/>
 

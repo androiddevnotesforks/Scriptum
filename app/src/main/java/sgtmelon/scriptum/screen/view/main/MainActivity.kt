@@ -22,7 +22,6 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.annot.def.DialogDef
 import sgtmelon.scriptum.office.utils.hideKeyboard
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
@@ -91,7 +90,7 @@ class MainActivity : AppActivity(), MainCallback {
 
     override fun setupNavigation(@IdRes itemId: Int) {
         fab.setOnClickListener {
-            openState.tryInvoke { sheetDialog.show(supportFragmentManager, DialogDef.SHEET) }
+            openState.tryInvoke { sheetDialog.show(supportFragmentManager, DialogFactory.Key.SHEET) }
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.callback
 
+import android.content.Intent
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
@@ -9,6 +10,8 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  * @author SerjantArbuz
  */
 interface DevelopCallback {
+
+    fun startActivity(intent: Intent)
 
     fun fillAboutNoteTable(data: String)
 

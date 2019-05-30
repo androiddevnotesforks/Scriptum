@@ -14,7 +14,7 @@
             android:fillViewport="true">
 
         <TextView
-                android:id="@+id/note_text"
+                android:id="@+id/develop_note_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -31,7 +31,7 @@
             android:fillViewport="true">
 
         <TextView
-                android:id="@+id/roll_text"
+                android:id="@+id/develop_roll_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
@@ -56,7 +56,7 @@
                 tools:ignore="NestedWeights">
 
             <TextView
-                    android:id="@+id/rank_text"
+                    android:id="@+id/develop_rank_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
@@ -73,7 +73,7 @@
                 android:fillViewport="true">
 
             <TextView
-                    android:id="@+id/preference_text"
+                    android:id="@+id/develop_preference_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="?attr/selectableItemBackground"
@@ -83,5 +83,13 @@
         </ScrollView>
 
     </LinearLayout>
+
+    <Button
+            android:id="@+id/develop_intro_button"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_show_intro"
+            android:textColor="?attr/clAccent"/>
 
 </LinearLayout>
