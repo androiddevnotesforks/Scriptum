@@ -4,11 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Fade
+import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.model.NoteModel
@@ -32,6 +35,8 @@ class AlarmActivity : AppActivity(), AlarmCallback {
         }
     }
 
+    private val finishHandler = Handler()
+
     private val openState = OpenState()
 
     private val adapter by lazy {
@@ -54,8 +59,17 @@ class AlarmActivity : AppActivity(), AlarmCallback {
         viewModel.onSetupData(bundle = savedInstanceState ?: intent.extras)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        finishHandler.removeCallbacksAndMessages(null)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
+
+    override fun finishOnLong(millis: Long) {
+        finishHandler.postDelayed({ finish() }, millis)
+    }
 
     override fun setupNote(noteModel: NoteModel) {
         recyclerView?.let {
@@ -69,14 +83,32 @@ class AlarmActivity : AppActivity(), AlarmCallback {
         postponeButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickPostpone() } }
     }
 
+    override fun showControl() {
+        Handler().postDelayed({
+            parentContainer?.let { group ->
+                TransitionManager.beginDelayedTransition(group, Fade().setDuration(500).apply {
+                    recyclerView?.let { addTarget(it) }
+                    buttonContainer?.let { addTarget(it) }
+                })
+            }
+
+            recyclerView?.visibility = View.VISIBLE
+            buttonContainer?.visibility = View.VISIBLE
+        }, 1000)
+    }
+
     override fun finishAlarm() {
-        Handler().postDelayed({ finish() }, 1000)
+        Handler().postDelayed({
+            finishHandler.removeCallbacksAndMessages(null)
+            finish()
+        }, 1000)
     }
 
     companion object {
-        fun Context.getAlarmIntent(id: Long): Intent =
+        fun Context.getAlarmIntent(id: Long, color: Int): Intent =
                 Intent(this, AlarmActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)
+                        .putExtra(NoteData.Intent.COLOR, color)
     }
 
 }

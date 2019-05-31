@@ -132,7 +132,7 @@ class BinFragment : Fragment(), BinCallback {
     override fun bind() {
         val empty = adapter.itemCount == 0
 
-        parentContainer?.createVisibleAnim(empty, emptyInfoView, if (!empty) 0 else 200)
+        parentContainer?.createVisibleAnim(emptyInfoView, empty, if (!empty) 0 else 200)
 
         binding?.apply { listEmpty = empty }?.executePendingBindings()
     }

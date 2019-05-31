@@ -19,17 +19,24 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
     lateinit var callback: AlarmCallback
 
     private var id: Long = NoteData.Default.ID
+    private var color: Int = preference.defaultColor
+
     private lateinit var noteModel: NoteModel
 
     // TODO Обработка id = -1
     fun onSetupData(bundle: Bundle?) {
-        if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+        if (bundle != null) {
+            id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+            color = bundle.getInt(NoteData.Intent.COLOR, preference.defaultColor)
+        }
 
         if (!::noteModel.isInitialized) {
             noteModel = iRoomRepo.getNoteModel(id)
         }
 
+        callback.finishOnLong(millis = 5000)
         callback.setupNote(noteModel)
+        callback.showControl()
     }
 
     fun onSaveData(bundle: Bundle) = with(bundle) { putLong(NoteData.Intent.ID, id) }

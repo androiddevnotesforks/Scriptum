@@ -11,7 +11,11 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
  */
 interface AlarmCallback {
 
+    fun finishOnLong(millis: Long)
+
     fun setupNote(noteModel: NoteModel)
+
+    fun showControl()
 
     fun finishAlarm()
 

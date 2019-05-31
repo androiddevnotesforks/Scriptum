@@ -12,8 +12,11 @@ object NoteData {
     }
 
     object Intent {
-        const val ID = "INTENT_NOTE_ID"
-        const val TYPE = "INTENT_NOTE_TYPE"
+        private const val PREFIX = "INTENT_NOTE"
+
+        const val ID = "${PREFIX}_ID"
+        const val TYPE = "${PREFIX}_TYPE"
+        const val COLOR = "${PREFIX}_COLOR"
     }
 
     object Default {

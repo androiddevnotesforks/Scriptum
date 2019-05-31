@@ -144,7 +144,7 @@ class RankFragment : Fragment(), RankCallback {
     override fun bindList(size: Int) {
         val empty = size == 0
 
-        parentContainer?.createVisibleAnim(empty, emptyInfoView)
+        parentContainer?.createVisibleAnim(emptyInfoView, empty)
 
         binding?.listEmpty = empty
         viewModel.onUpdateToolbar()

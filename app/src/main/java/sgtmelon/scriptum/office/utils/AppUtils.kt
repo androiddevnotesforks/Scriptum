@@ -133,7 +133,7 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
             putExtras(Intent().apply(extras))
         })
 
-fun ViewGroup.createVisibleAnim(visible: Boolean, target: View?, duration: Long = 200) {
+fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) {
     if (target == null) return
 
     TransitionManager.beginDelayedTransition(this,
