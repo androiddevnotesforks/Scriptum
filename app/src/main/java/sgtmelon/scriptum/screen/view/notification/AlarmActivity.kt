@@ -36,11 +36,7 @@ class AlarmActivity : AppActivity(), AlarmCallback {
 
     private val openState = OpenState()
 
-    private val adapter by lazy {
-        NoteAdapter(ItemListener.ClickListener { _, p ->
-            openState.tryInvoke { viewModel.onClickNote() }
-        })
-    }
+    private var adapter: NoteAdapter? = null
 
     private val parentContainer: ViewGroup? by lazy { findViewById<ViewGroup>(R.id.alarm_parent_container) }
     private val recyclerView: RecyclerView? by lazy { findViewById<RecyclerView>(R.id.alarm_recycler) }
@@ -53,7 +49,10 @@ class AlarmActivity : AppActivity(), AlarmCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm)
 
-        viewModel.onSetupData(bundle = savedInstanceState ?: intent.extras)
+        viewModel.apply {
+            onSetup()
+            onSetupData(bundle = savedInstanceState ?: intent.extras)
+        }
     }
 
     override fun onDestroy() {
@@ -64,19 +63,25 @@ class AlarmActivity : AppActivity(), AlarmCallback {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
 
-    override fun setupNote(noteModel: NoteModel) {
+    override fun setupView(theme: Int) {
+        adapter = NoteAdapter(theme, ItemListener.Click { _, _ ->
+            openState.tryInvoke { viewModel.onClickNote() }
+        })
+
         recyclerView?.let {
             it.layoutManager = LinearLayoutManager(this)
             it.adapter = adapter
         }
 
-        adapter.notifyDataSetChanged(arrayListOf(noteModel))
-
         disableButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickDisable() } }
         postponeButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickPostpone() } }
     }
 
-    override fun showControl() {
+    override fun notifyDataSetChanged(noteModel: NoteModel) {
+        adapter?.notifyDataSetChanged(arrayListOf(noteModel))
+    }
+
+    override fun animateControlShow() {
         parentContainer?.let { group ->
             TransitionManager.beginDelayedTransition(group, Fade().setDuration(500).apply {
                 recyclerView?.let { addTarget(it) }

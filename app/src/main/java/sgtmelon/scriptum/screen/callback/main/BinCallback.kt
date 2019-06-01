@@ -12,6 +12,10 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
  */
 interface BinCallback {
 
+    fun setupToolbar()
+
+    fun setupRecycler(theme: Int)
+
     fun bind()
 
     fun scrollTop()

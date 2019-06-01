@@ -8,9 +8,9 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
-import sgtmelon.scriptum.model.item.ColorItem
+import sgtmelon.scriptum.office.annot.def.ColorDef
+import sgtmelon.scriptum.office.utils.bindIndicatorColor
 import sgtmelon.scriptum.office.utils.getCompatColor
-import sgtmelon.scriptum.office.utils.tintColorIndicator
 
 /**
  * Держатель цвета приложения для [ColorAdapter]
@@ -27,8 +27,8 @@ class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val checkImage: ImageView = itemView.findViewById(R.id.color_check_image)
     val clickView: View = itemView.findViewById(R.id.color_click_view)
 
-    fun bindColor(colorItem: ColorItem) {
-        backgroundView.tintColorIndicator(colorItem)
+    fun bindColor(theme: Int, @ColorDef color: Int) {
+        val colorItem = backgroundView.bindIndicatorColor(theme, color)
         checkImage.setColorFilter(context.getCompatColor(colorItem.content))
     }
 

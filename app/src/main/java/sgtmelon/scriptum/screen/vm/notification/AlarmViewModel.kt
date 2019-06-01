@@ -27,6 +27,8 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
     private val longWaitHandler = Handler()
 
+    fun onSetup() = callback.setupView(preference.theme)
+
     // TODO Обработка id = -1
     fun onSetupData(bundle: Bundle?) {
         if (bundle != null) {
@@ -40,8 +42,8 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
         longWaitHandler.postDelayed({ callback.finish() }, 15000)
 
-        callback.setupNote(noteModel)
-        Handler().postDelayed({ callback.showControl() }, 1000)
+        callback.notifyDataSetChanged(noteModel)
+        Handler().postDelayed({ callback.animateControlShow() }, 1000)
     }
 
     fun onDestroy() = longWaitHandler.removeCallbacksAndMessages(null)

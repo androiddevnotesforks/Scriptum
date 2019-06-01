@@ -87,8 +87,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         callback.apply {
-            setupBinding(isRankEmpty)
-            setupToolbar(noteModel.noteItem.color, noteState)
+            setupBinding(preference.theme, isRankEmpty)
+            setupToolbar(preference.theme, noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
             setupRecycler(inputControl)
@@ -396,7 +396,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
     }
 
-    fun onLongClickItemCheck(p: Int) {
+    fun onLongClickItemCheck() {
         val size: Int = noteModel.rollList.size
         val isAll = checkState.isAll
 

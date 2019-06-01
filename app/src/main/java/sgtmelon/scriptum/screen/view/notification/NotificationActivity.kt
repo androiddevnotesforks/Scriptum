@@ -32,15 +32,7 @@ class NotificationActivity : AppActivity(), NotificationCallback {
 
     private val openState = OpenState()
 
-    private val adapter by lazy {
-        NotificationAdapter(ItemListener.ClickListener { v, p ->
-            when (v.id) {
-                R.id.notification_click_container -> openState.tryInvoke { viewModel.onClickNote(p) }
-                R.id.notification_cancel_button -> viewModel.onClickCancel(p)
-            }
-        })
-    }
-
+    private lateinit var adapter: NotificationAdapter
     private var recyclerView: RecyclerView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +40,7 @@ class NotificationActivity : AppActivity(), NotificationCallback {
         setContentView(R.layout.activity_notification)
 
         openState.get(savedInstanceState)
-
-        setupToolbar()
-        setupRecycler()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
@@ -63,13 +53,22 @@ class NotificationActivity : AppActivity(), NotificationCallback {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
-    private fun setupToolbar() = findViewById<Toolbar>(R.id.toolbar_container).apply {
-        title = getString(R.string.title_notification)
-        navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
-        setNavigationOnClickListener { finish() }
+    override fun setupToolbar() {
+        findViewById<Toolbar>(R.id.toolbar_container).apply {
+            title = getString(R.string.title_notification)
+            navigationIcon = getTintDrawable(R.drawable.ic_cancel_exit)
+            setNavigationOnClickListener { finish() }
+        }
     }
 
-    private fun setupRecycler() {
+    override fun setupRecycler(theme: Int) {
+        adapter = NotificationAdapter(theme, ItemListener.Click { v, p ->
+            when (v.id) {
+                R.id.notification_click_container -> openState.tryInvoke { viewModel.onClickNote(p) }
+                R.id.notification_cancel_button -> viewModel.onClickCancel(p)
+            }
+        })
+
         recyclerView = findViewById(R.id.notification_recycler)
         recyclerView?.let {
             it.layoutManager = LinearLayoutManager(this)

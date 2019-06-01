@@ -9,6 +9,7 @@
         <import alias="text" type="android.text.TextUtils"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
+        <variable name="currentTheme" type="int"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
 
     </data>
@@ -57,7 +58,9 @@
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
                         app:indicatorColor='@{noteItem.color}'
+                        app:indicatorTheme='@{currentTheme}'
                         app:visibleOn='@{def.dark}'
+                        app:visibleTheme='@{currentTheme}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="gone"/>
 

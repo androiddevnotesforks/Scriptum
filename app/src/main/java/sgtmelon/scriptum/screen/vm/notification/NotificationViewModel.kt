@@ -33,6 +33,11 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
         }
     }
 
+    fun onSetup() = callback.apply {
+        setupToolbar()
+        setupRecycler(preference.theme)
+    }
+
     /**
      * TODO сделать опитимизацию запросов для будущего репозитория (получать для noteItem только id, type, name, color)
      */

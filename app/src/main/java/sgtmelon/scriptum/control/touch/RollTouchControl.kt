@@ -11,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
  * Управление перетаскиванием для [RollNoteFragment], реализовывать в [RollNoteViewModel]
  */
 class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(),
-        ItemListener.DragListener {
+        ItemListener.Drag {
 
     private var drag = false
 

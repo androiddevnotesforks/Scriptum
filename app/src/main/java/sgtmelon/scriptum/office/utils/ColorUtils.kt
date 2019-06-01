@@ -4,17 +4,14 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.MenuItem
-import android.view.View
 import androidx.annotation.*
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.ColorData.dark
 import sgtmelon.scriptum.model.data.ColorData.light
-import sgtmelon.scriptum.model.item.ColorItem
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
@@ -51,15 +48,6 @@ fun Context.getCompatColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 
 @ColorInt fun Context.getAppSimpleColor(@ColorDef color: Int, isLight: Boolean) =
         getCompatColor(if (isLight) light[color] else dark[color])
-
-fun View.tintColorIndicator(colorItem: ColorItem) {
-    val strokeDimen = context.getDimen(value = 1f)
-
-    (background as? GradientDrawable)?.apply {
-        setColor(context.getCompatColor(colorItem.fill))
-        setStroke(strokeDimen, context.getCompatColor(colorItem.stroke))
-    }
-}
 
 /**
  * Покараска элемента меню в стандартный цвет

@@ -12,6 +12,10 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 interface NotesCallback {
 
+    fun setupToolbar()
+
+    fun setupRecycler(theme: Int)
+
     fun bind()
 
     fun scrollTop()

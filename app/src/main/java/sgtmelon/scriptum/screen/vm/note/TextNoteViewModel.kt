@@ -76,8 +76,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         callback.apply {
-            setupBinding(isRankEmpty)
-            setupToolbar(noteModel.noteItem.color, noteState)
+            setupBinding(preference.theme, isRankEmpty)
+            setupToolbar(preference.theme, noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
         }

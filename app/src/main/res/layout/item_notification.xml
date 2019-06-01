@@ -7,6 +7,7 @@
 
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
+        <variable name="currentTheme" type="int"/>
         <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
 
     </data>
@@ -31,6 +32,7 @@
                     android:id="@+id/notification_color_view"
                     style="@style/Image.Color.Vertical.Start"
                     android:contentDescription="@null"
+                    app:indicatorTheme='@{currentTheme}'
                     app:indicatorColor='@{noteModel.noteItem.color}'
                     tools:visibility="visible"/>
 

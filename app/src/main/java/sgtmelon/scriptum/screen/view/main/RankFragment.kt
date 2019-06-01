@@ -48,13 +48,13 @@ class RankFragment : Fragment(), RankCallback {
     private val renameDialog by lazy { DialogFactory.getRenameDialog(fragmentManager) }
 
     private val adapter by lazy {
-        RankAdapter(ItemListener.ClickListener { view, p ->
+        RankAdapter(ItemListener.Click { view, p ->
             when (view.id) {
                 R.id.rank_visible_button -> viewModel.onClickVisible(p)
                 R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
                 R.id.rank_cancel_button -> viewModel.onClickCancel(p)
             }
-        }, ItemListener.LongClickListener { _, p -> viewModel.onLongClickVisible(p) })
+        }, ItemListener.LongClick { _, p -> viewModel.onLongClickVisible(p) })
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
 

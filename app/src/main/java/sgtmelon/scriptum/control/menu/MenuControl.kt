@@ -12,7 +12,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.ColorUtils.getAppThemeColor
-import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.blend
 import sgtmelon.scriptum.office.utils.getAppSimpleColor
 import sgtmelon.scriptum.office.utils.getTintDrawable
@@ -20,7 +19,8 @@ import sgtmelon.scriptum.office.utils.getTintDrawable
 /**
  * Класс для контроля меню | Для версий API < 21
  */
-open class MenuControl(protected val context: Context,
+open class MenuControl(private val theme: Int,
+                       protected val context: Context,
                        private val window: Window,
                        protected val toolbar: Toolbar?,
                        private val indicator: View?
@@ -32,9 +32,6 @@ open class MenuControl(protected val context: Context,
 
     protected val cancelOn: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_enter)
     protected val cancelOff: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_exit)
-
-    // TODO убрать Preference
-    private val valTheme: Int = Preference(context).theme
 
     private var statusColorFrom: Int = 0
     private var statusColorTo: Int = 0
@@ -48,16 +45,16 @@ open class MenuControl(protected val context: Context,
             val position = it.animatedFraction
             var blended: Int
 
-            if (valTheme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (theme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 blended = statusColorFrom.blend(statusColorTo, position)
                 window.statusBarColor = blended
             }
 
             blended = toolbarColorFrom.blend(toolbarColorTo, position)
-            if (valTheme != ThemeDef.dark) toolbar?.setBackgroundColor(blended)
+            if (theme != ThemeDef.dark) toolbar?.setBackgroundColor(blended)
 
             blended = indicatorColorFrom.blend(indicatorColorTo, position)
-            if (valTheme == ThemeDef.dark) indicator?.setBackgroundColor(blended)
+            if (theme == ThemeDef.dark) indicator?.setBackgroundColor(blended)
         }
 
         anim.addUpdateListener(updateListener)
@@ -70,7 +67,7 @@ open class MenuControl(protected val context: Context,
      * @param color - Начальный цвет
      */
     fun setColor(@ColorDef color: Int) {
-        if (valTheme != ThemeDef.dark) {
+        if (theme != ThemeDef.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = context.getAppThemeColor(color, statusOnDark)
             }

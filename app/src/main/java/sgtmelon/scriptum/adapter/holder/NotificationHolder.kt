@@ -16,7 +16,7 @@ import sgtmelon.scriptum.office.utils.checkNoPosition
  * @author SerjantArbuz
  */
 class NotificationHolder(private val binding: ItemNotificationBinding,
-                         private val clickListener: ItemListener.ClickListener
+                         private val clickListener: ItemListener.Click
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.notification_click_container)
@@ -31,7 +31,9 @@ class NotificationHolder(private val binding: ItemNotificationBinding,
         }
     }
 
-    fun bind(noteModel: NoteModel) =
-            binding.apply { this.noteModel = noteModel }.executePendingBindings()
+    fun bind(theme: Int, noteModel: NoteModel) = binding.apply {
+        this.currentTheme = theme
+        this.noteModel = noteModel
+    }.executePendingBindings()
 
 }

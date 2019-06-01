@@ -34,11 +34,7 @@ object ColorData {
         throw IndexOutOfBoundsException("Arrays have different size")
     }
 
-    fun getColorList(theme: Int) = ArrayList<ColorItem>().apply {
-        for (i in 0 until ColorData.size) add(getColorItem(theme, i))
-    }
-
-    fun getColorItem(theme: Int, @ColorDef color: Int) = if (theme == ThemeDef.light) {
+    fun getColorItem(@ThemeDef theme: Int, @ColorDef color: Int) = if (theme == ThemeDef.light) {
         ColorItem(dark[color], light[color], dark[color])
     } else {
         ColorItem(dark[color], dark[color], light[color])
@@ -59,6 +55,10 @@ object ColorData {
         const val brown = 8
         const val blueGrey = 9
         const val white = 10
+
+        val list = arrayListOf(
+                red, purple, indigo, blue, teal, green, yellow, orange, brown, blueGrey, white
+        )
     }
 
 }

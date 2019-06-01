@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.view.main.RankFragment
  * Управление перетаскиванием для [RankFragment]
  */
 class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(),
-        ItemListener.DragListener {
+        ItemListener.Drag {
 
     private var drag = false
 

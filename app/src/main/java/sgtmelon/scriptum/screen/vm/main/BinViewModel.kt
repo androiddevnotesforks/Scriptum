@@ -23,6 +23,11 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
 
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
+    fun onSetup() = callback.apply {
+        setupToolbar()
+        setupRecycler(preference.theme)
+    }
+
     fun onUpdateData() {
         noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = true))
 

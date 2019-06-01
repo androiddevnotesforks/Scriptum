@@ -7,6 +7,8 @@
 
         <import alias="v" type="android.view.View"/>
 
+        <variable name="currentTheme" type="int"/>
+
         <variable name="menuCallback"
                   type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
@@ -27,6 +29,7 @@
 
         <include
                 layout="@layout/include_toolbar_note"
+                app:currentTheme='@{currentTheme}'
                 app:editMode='@{editMode}'
                 app:noteItem='@{noteItem}'/>
 

@@ -71,9 +71,9 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     private val adapter: RollAdapter by lazy {
-        RollAdapter(ItemListener.ClickListener { _, p -> viewModel.onClickItemCheck(p) },
-                ItemListener.LongClickListener { _, p -> viewModel.onLongClickItemCheck(p) },
-                viewModel
+        RollAdapter(viewModel,
+                ItemListener.Click { _, p -> viewModel.onClickItemCheck(p) },
+                ItemListener.LongClick { _, _ -> viewModel.onLongClickItemCheck() }
         )
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
@@ -129,20 +129,23 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     fun onCancelNoteBind() = viewModel.onCancelNoteBind()
 
-    override fun setupBinding(rankEmpty: Boolean) {
-        binding?.menuCallback = viewModel
-        binding?.rankEmpty = rankEmpty
+    override fun setupBinding(theme: Int, rankEmpty: Boolean) {
+        binding?.apply {
+            currentTheme = theme
+            menuCallback = viewModel
+            this.rankEmpty = rankEmpty
+        }
     }
 
-    override fun setupToolbar(color: Int, noteState: NoteState) {
+    override fun setupToolbar(theme: Int, color: Int, noteState: NoteState) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {
             menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                MenuControl(it, it.window, toolbar, indicator)
+                MenuControl(theme, it, it.window, toolbar, indicator)
             } else {
-                MenuControlAnim(it, it.window, toolbar, indicator)
+                MenuControlAnim(theme, it, it.window, toolbar, indicator)
             }
         }
 

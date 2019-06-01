@@ -9,6 +9,7 @@
         <import alias="text" type="android.text.TextUtils"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
+        <variable name="currentTheme" type="int"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
         <variable name="rollList"
                   type="java.util.List&lt;sgtmelon.scriptum.model.item.RollItem&gt;"/>
@@ -72,7 +73,9 @@
                         android:id="@+id/note_roll_color_view"
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
+                        app:indicatorTheme='@{currentTheme}'
                         app:indicatorColor='@{noteItem.color}'
+                        app:visibleTheme='@{currentTheme}'
                         app:visibleOn='@{def.dark}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="visible"/>

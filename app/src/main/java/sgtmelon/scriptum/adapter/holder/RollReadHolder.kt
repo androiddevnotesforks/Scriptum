@@ -17,8 +17,8 @@ import sgtmelon.scriptum.office.utils.checkNoPosition
  * @author SerjantArbuz
  */
 class RollReadHolder(private val binding: ItemRollReadBinding,
-                     private val clickListener: ItemListener.ClickListener,
-                     private val longClickListener: ItemListener.LongClickListener
+                     private val clickListener: ItemListener.Click,
+                     private val longClickListener: ItemListener.LongClick
 ) : RecyclerView.ViewHolder(binding.root) {
 
     /**

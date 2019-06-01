@@ -6,7 +6,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.ColorHolder
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.model.data.ColorData
-import sgtmelon.scriptum.model.item.ColorItem
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.inflateView
@@ -16,16 +15,18 @@ import sgtmelon.scriptum.office.utils.inflateView
  *
  * @author SerjantArbuz
  */
-class ColorAdapter(context: Context, private val clickListener: ItemListener.ClickListener)
-    : ParentAdapter<ColorItem, ColorHolder>() {
+class ColorAdapter(context: Context, private val clickListener: ItemListener.Click)
+    : ParentAdapter<Int, ColorHolder>() {
 
     // TODO !! убрать preference
+
+    private val theme = Preference(context).theme
 
     private val visibleArray: BooleanArray
     private var check: Int = 0
 
     init {
-        setList(ColorData.getColorList(Preference(context).theme))
+        setList(ColorData.Key.list)
         visibleArray = BooleanArray(itemCount)
     }
 
@@ -40,7 +41,7 @@ class ColorAdapter(context: Context, private val clickListener: ItemListener.Cli
             ColorHolder(parent.inflateView(R.layout.item_color))
 
     override fun onBindViewHolder(holder: ColorHolder, position: Int) {
-        holder.bindColor(list[position])
+        holder.bindColor(theme, list[position])
 
         holder.clickView.setOnClickListener { v ->
             clickListener.onItemClick(v, position)

@@ -12,10 +12,14 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
  */
 interface NotificationCallback {
 
-    fun startActivity(intent: Intent)
+    fun setupToolbar()
+
+    fun setupRecycler(theme: Int)
 
     fun notifyDataSetChanged(list: MutableList<NoteModel>)
 
     fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)
+
+    fun startActivity(intent: Intent)
 
 }

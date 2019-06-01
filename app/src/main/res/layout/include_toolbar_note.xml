@@ -10,6 +10,8 @@
         <import alias="v" type="android.view.View"/>
         <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
 
+        <variable name="currentTheme" type="int"/>
+
         <variable name="editMode" type="boolean"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
 
@@ -70,11 +72,15 @@
         <View
                 android:id="@+id/toolbar_note_color_view"
                 style="@style/Image.Color.Horizontal"
+                app:visibleTheme='@{currentTheme}'
                 app:visibleOn='@{def.dark}'
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>
 
-        <View style="@style/Divider.Horizontal" app:visibleOn='@{def.light}'/>
+        <View
+                style="@style/Divider.Horizontal"
+                app:visibleTheme='@{currentTheme}'
+                app:visibleOn='@{def.light}'/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

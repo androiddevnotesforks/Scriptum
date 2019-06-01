@@ -12,9 +12,11 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
  */
 interface AlarmCallback {
 
-    fun setupNote(noteModel: NoteModel)
+    fun setupView(theme: Int)
 
-    fun showControl()
+    fun notifyDataSetChanged(noteModel: NoteModel)
+
+    fun animateControlShow()
 
     fun startActivity(intent: Intent)
 

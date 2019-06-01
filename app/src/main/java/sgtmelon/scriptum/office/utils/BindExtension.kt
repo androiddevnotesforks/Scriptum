@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.office.utils
 
+import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -11,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import sgtmelon.scriptum.model.data.ColorData
+import sgtmelon.scriptum.model.item.ColorItem
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 import sgtmelon.scriptum.office.utils.ColorUtils.getAppThemeColor
@@ -24,11 +26,27 @@ fun CardView.bindNoteColor(@ColorDef color: Int) =
         setCardBackgroundColor(context.getAppThemeColor(color, needDark = false))
 
 /**
- * Установка цвета для индикатора
+ * Установка цвета для индикатора на основании темы
  */
-@BindingAdapter("indicatorColor")
-fun View.bindIndicatorColor(@ColorDef color: Int) =
-        tintColorIndicator(ColorData.getColorItem(Preference(context).theme, color))
+@BindingAdapter(value = ["indicatorTheme", "indicatorColor"])
+fun View.bindIndicatorColor(@ThemeDef theme: Int, @ColorDef color: Int): ColorItem {
+    val colorItem = ColorData.getColorItem(theme, color)
+
+    (background as? GradientDrawable)?.apply {
+        setColor(context.getCompatColor(colorItem.fill))
+        setStroke(context.getDimen(value = 1f), context.getCompatColor(colorItem.stroke))
+    }
+
+    return colorItem
+}
+
+/**
+ * Установка видимости элемента только на конкретной теме
+ */
+@BindingAdapter(value = ["visibleTheme", "visibleOn"])
+fun View.bindVisibleTheme(@ThemeDef visibleOn: Int, @ThemeDef currentTheme: Int) {
+    visibility = if (visibleOn == currentTheme) View.VISIBLE else View.GONE
+}
 
 /**
  *
@@ -92,15 +110,6 @@ fun TextView.bindFutureTime(time: String) {
 @BindingAdapter("enabled")
 fun ImageButton.bindEnabled(enabled: Boolean) {
     isEnabled = enabled
-}
-
-
-/**
- * Установка видимости элемента только на конкретной теме
- */
-@BindingAdapter("visibleOn")
-fun View.bindVisibleOn(@ThemeDef visibleOn: Int) {
-    visibility = if (Preference(context).theme == visibleOn) View.VISIBLE else View.GONE
 }
 
 

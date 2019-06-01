@@ -23,7 +23,7 @@ import sgtmelon.scriptum.office.intf.ItemListener
  * @author SerjantArbuz
  */
 class RollWriteHolder(private val binding: ItemRollWriteBinding,
-                      private val dragListener: ItemListener.DragListener,
+                      private val dragListener: ItemListener.Drag,
                       private val changeCallback: RollChange,
                       private val inputCallback: InputCallback
 ) : RecyclerView.ViewHolder(binding.root),

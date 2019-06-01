@@ -18,9 +18,9 @@ interface TextNoteCallback {
     /**
      * Установка элементов для биндинга, которые постоянные
      */
-    fun setupBinding(rankEmpty: Boolean)
+    fun setupBinding(theme: Int, rankEmpty: Boolean)
 
-    fun setupToolbar(@ColorDef color: Int, noteState: NoteState)
+    fun setupToolbar(theme: Int, @ColorDef color: Int, noteState: NoteState)
 
     fun setupDialog(rankNameArray: List<String>)
 

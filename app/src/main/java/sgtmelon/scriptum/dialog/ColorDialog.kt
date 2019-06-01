@@ -30,7 +30,7 @@ class ColorDialog : DialogBlank() {
         init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
         check = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
 
-        val adapter = ColorAdapter(activity, ItemListener.ClickListener { _, p ->
+        val adapter = ColorAdapter(activity, ItemListener.Click { _, p ->
             check = p
             setEnable()
         })

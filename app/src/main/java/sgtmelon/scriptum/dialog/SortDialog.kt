@@ -15,7 +15,7 @@ import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.intf.ItemListener
 
 
-class SortDialog : DialogBlank(), ItemListener.ClickListener {
+class SortDialog : DialogBlank(), ItemListener.Click {
 
     private val listSort: MutableList<SortItem> = ArrayList()
 

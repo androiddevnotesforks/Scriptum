@@ -15,8 +15,12 @@ import sgtmelon.scriptum.office.utils.getTintDrawable
  * Класс для контроля меню с использованием анимации | Для версий API >= 21
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class MenuControlAnim(context: Context, window: Window, toolbar: Toolbar?, indicator: View?)
-    : MenuControl(context, window, toolbar, indicator) {
+class MenuControlAnim(theme: Int,
+                      context: Context,
+                      window: Window,
+                      toolbar: Toolbar?,
+                      indicator: View?
+) : MenuControl(theme, context, window, toolbar, indicator) {
 
     private val cancelOnAnim = context.getTintDrawable(R.drawable.anim_cancel_enter)
             as? AnimatedVectorDrawable?

@@ -10,15 +10,15 @@ import androidx.annotation.NonNull;
  */
 public interface ItemListener {
 
-    interface ClickListener {
+    interface Click {
         void onItemClick(@NonNull View view, int p);
     }
 
-    interface LongClickListener {
+    interface LongClick {
         void onItemLongClick(@NonNull View view, int p);
     }
 
-    interface DragListener {
+    interface Drag {
         void setDrag(boolean drag);
     }
 

@@ -48,12 +48,7 @@ class BinFragment : Fragment(), BinCallback {
         DialogFactory.getClearBinDialog(activity as Activity, fragmentManager)
     }
 
-    private val adapter by lazy {
-        NoteAdapter(
-                ItemListener.ClickListener { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
-                ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
-        )
-    }
+    private lateinit var adapter: NoteAdapter
 
     private var toolbar: Toolbar? = null
     private var itemClearBin: MenuItem? = null
@@ -72,9 +67,7 @@ class BinFragment : Fragment(), BinCallback {
         super.onViewCreated(view, savedInstanceState)
 
         openState.get(savedInstanceState)
-
-        setupToolbar()
-        setupRecycler()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
@@ -84,11 +77,10 @@ class BinFragment : Fragment(), BinCallback {
         viewModel.onUpdateData()
     }
 
-
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
-    private fun setupToolbar() {
+    override fun setupToolbar() {
         toolbar = view?.findViewById(R.id.toolbar_container)
         toolbar?.apply {
             title = getString(R.string.title_bin)
@@ -110,9 +102,14 @@ class BinFragment : Fragment(), BinCallback {
         }
     }
 
-    private fun setupRecycler() {
+    override fun setupRecycler(theme: Int) {
         parentContainer = view?.findViewById(R.id.bin_parent_container)
         emptyInfoView = view?.findViewById(R.id.bin_info_include)
+
+        adapter = NoteAdapter(theme,
+                ItemListener.Click { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
+                ItemListener.LongClick { _, p -> viewModel.onShowOptionsDialog(p) }
+        )
 
         recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.let {

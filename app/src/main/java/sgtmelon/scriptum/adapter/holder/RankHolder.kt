@@ -20,9 +20,9 @@ import sgtmelon.scriptum.office.utils.checkNoPosition
  */
 @SuppressLint("ClickableViewAccessibility")
 class RankHolder(private val binding: ItemRankBinding,
-                 private val clickListener: ItemListener.ClickListener,
-                 private val longClickListener: ItemListener.LongClickListener,
-                 private val dragListener: ItemListener.DragListener
+                 private val clickListener: ItemListener.Click,
+                 private val longClickListener: ItemListener.LongClick,
+                 private val dragListener: ItemListener.Drag
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 

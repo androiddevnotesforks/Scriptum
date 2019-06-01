@@ -13,13 +13,13 @@ import sgtmelon.scriptum.screen.view.notification.NotificationActivity
  *
  * @author SerjantArbuz
  */
-class NotificationAdapter(private val clickListener: ItemListener.ClickListener)
+class NotificationAdapter(private val theme: Int, private val clickListener: ItemListener.Click)
     : ParentAdapter<NoteModel, NotificationHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             NotificationHolder(parent.inflateBinding(R.layout.item_notification), clickListener)
 
     override fun onBindViewHolder(holder: NotificationHolder, position: Int) =
-            holder.bind(list[position])
+            holder.bind(theme, list[position])
 
 }

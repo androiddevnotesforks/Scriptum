@@ -14,7 +14,7 @@ import sgtmelon.scriptum.office.intf.ItemListener
  * @author SerjantArbuz
  */
 class SortHolder(private val binding: ItemSortBinding,
-                 private val clickListener: ItemListener.ClickListener
+                 private val clickListener: ItemListener.Click
 ) : RecyclerView.ViewHolder(binding.root) {
 
     private val clickView: View = itemView.findViewById(R.id.sort_click_container)

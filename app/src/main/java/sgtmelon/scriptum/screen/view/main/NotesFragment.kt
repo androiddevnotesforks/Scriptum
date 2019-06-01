@@ -49,12 +49,7 @@ class NotesFragment : Fragment(), NotesCallback {
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
 
-    private val adapter by lazy {
-        NoteAdapter(
-                ItemListener.ClickListener { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
-                ItemListener.LongClickListener { _, p -> viewModel.onShowOptionsDialog(p) }
-        )
-    }
+    private lateinit var adapter: NoteAdapter
 
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
@@ -69,8 +64,7 @@ class NotesFragment : Fragment(), NotesCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupToolbar()
-        setupRecycler()
+        viewModel.onSetup()
     }
 
     override fun onResume() {
@@ -80,17 +74,19 @@ class NotesFragment : Fragment(), NotesCallback {
         viewModel.onUpdateData()
     }
 
-    private fun setupToolbar() {
+    fun onCancelNoteBind(id: Long) = viewModel.onCancelNoteBind(id)
+
+    override fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_container)?.apply {
             title = getString(R.string.title_notes)
             inflateMenu(R.menu.fragment_notes)
 
             setOnMenuItemClickListener {
                 openState.tryInvoke {
-                    when (it.itemId) {
-                        R.id.item_notification -> startActivity(NotificationActivity.getInstance(context))
-                        R.id.item_preference -> startActivity(PreferenceActivity.getInstance(context))
-                    }
+                    startActivity(when (it.itemId) {
+                        R.id.item_notification -> NotificationActivity.getInstance(context)
+                        else -> PreferenceActivity.getInstance(context)
+                    })
                 }
 
                 return@setOnMenuItemClickListener true
@@ -105,9 +101,14 @@ class NotesFragment : Fragment(), NotesCallback {
         }
     }
 
-    private fun setupRecycler() {
+    override fun setupRecycler(theme: Int) {
         parentContainer = view?.findViewById(R.id.notes_parent_container)
         emptyInfoView = view?.findViewById(R.id.notes_info_include)
+
+        adapter = NoteAdapter(theme,
+                ItemListener.Click { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
+                ItemListener.LongClick { _, p -> viewModel.onShowOptionsDialog(p) }
+        )
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.let {
@@ -130,8 +131,6 @@ class NotesFragment : Fragment(), NotesCallback {
             viewModel.onResultOptionsDialog(optionsDialog.position, which)
         }
     }
-
-    fun onCancelNoteBind(id: Long) = viewModel.onCancelNoteBind(id)
 
     override fun bind() {
         val empty = adapter.itemCount == 0

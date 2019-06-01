@@ -17,8 +17,9 @@ import sgtmelon.scriptum.screen.view.main.NotesFragment
  *
  * @author SerjantArbuz
  */
-class NoteAdapter(private val clickListener: ItemListener.ClickListener,
-                  private val longClickListener: ItemListener.LongClickListener? = null
+class NoteAdapter(private val theme: Int,
+                  private val clickListener: ItemListener.Click,
+                  private val longClickListener: ItemListener.LongClick? = null
 ) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -37,8 +38,8 @@ class NoteAdapter(private val clickListener: ItemListener.ClickListener,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
             with(list[position]) {
                 when (holder) {
-                    is NoteTextHolder -> holder.bind(noteItem)
-                    is NoteRollHolder -> holder.bind(noteItem, rollList)
+                    is NoteTextHolder -> holder.bind(theme, noteItem)
+                    is NoteRollHolder -> holder.bind(theme, noteItem, rollList)
                 }
             }
 

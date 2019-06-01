@@ -98,20 +98,23 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     fun onCancelNoteBind() = viewModel.onCancelNoteBind()
 
-    override fun setupBinding(rankEmpty: Boolean) {
-        binding?.menuCallback = viewModel
-        binding?.rankEmpty = rankEmpty
+    override fun setupBinding(theme: Int, rankEmpty: Boolean) {
+        binding?.apply {
+            currentTheme = theme
+            menuCallback = viewModel
+            this.rankEmpty = rankEmpty
+        }
     }
 
-    override fun setupToolbar(@ColorDef color: Int, noteState: NoteState) {
+    override fun setupToolbar(theme: Int, @ColorDef color: Int, noteState: NoteState) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
         activity?.let {
             menuControl = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                MenuControl(it, it.window, toolbar, indicator)
+                MenuControl(theme, it, it.window, toolbar, indicator)
             } else {
-                MenuControlAnim(it, it.window, toolbar, indicator)
+                MenuControlAnim(theme, it, it.window, toolbar, indicator)
             }
         }
 
@@ -244,7 +247,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        fragmentManager?.let {convertDialog.show(it, DialogFactory.Key.CONVERT)  }
+        fragmentManager?.let { convertDialog.show(it, DialogFactory.Key.CONVERT) }
     }
 
     companion object {
