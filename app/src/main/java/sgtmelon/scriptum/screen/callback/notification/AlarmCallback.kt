@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.callback.notification
 
+import android.content.Intent
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
@@ -11,12 +12,12 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
  */
 interface AlarmCallback {
 
-    fun finishOnLong(millis: Long)
-
     fun setupNote(noteModel: NoteModel)
 
     fun showControl()
 
-    fun finishAlarm()
+    fun startActivity(intent: Intent)
+
+    fun finish()
 
 }

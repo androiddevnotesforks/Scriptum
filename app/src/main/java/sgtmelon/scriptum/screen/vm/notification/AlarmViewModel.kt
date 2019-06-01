@@ -2,10 +2,12 @@ package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
 import android.os.Bundle
+import android.os.Handler
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.office.utils.showToast
 import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
+import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -23,6 +25,8 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
     private lateinit var noteModel: NoteModel
 
+    private val longWaitHandler = Handler()
+
     // TODO Обработка id = -1
     fun onSetupData(bundle: Bundle?) {
         if (bundle != null) {
@@ -34,22 +38,32 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
             noteModel = iRoomRepo.getNoteModel(id)
         }
 
-        callback.finishOnLong(millis = 5000)
+        longWaitHandler.postDelayed({ callback.finish() }, 15000)
+
         callback.setupNote(noteModel)
-        callback.showControl()
+        Handler().postDelayed({ callback.showControl() }, 1000)
     }
+
+    fun onDestroy() = longWaitHandler.removeCallbacksAndMessages(null)
 
     fun onSaveData(bundle: Bundle) = with(bundle) { putLong(NoteData.Intent.ID, id) }
 
-    fun onClickNote() = beforeFinish { context.showToast(text = "CLICK NOTE") }
+    // TODO убираем уведомление из бд
+    fun onClickNote() {
+        callback.apply {
+            startActivity(with(noteModel.noteItem) { context.getNoteIntent(type, id) })
+            finish()
+        }
+    }
 
-    fun onClickDisable() = beforeFinish { context.showToast(text = "CLICK DISABLE") }
+    fun onClickDisable() {
+        context.showToast(text = "CLICK DISABLE")
+        callback.finish()
+    }
 
-    fun onClickPostpone() = beforeFinish { context.showToast(text = "CLICK POSTPONE") }
-
-    private fun beforeFinish(func: () -> Unit) {
-        func()
-        callback.finishAlarm()
+    fun onClickPostpone() {
+        context.showToast(text = "CLICK POSTPONE")
+        callback.finish()
     }
 
 }

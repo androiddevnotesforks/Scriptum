@@ -2,10 +2,10 @@ package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity.Companion.getAlarmIntent
@@ -21,23 +21,14 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
 
     lateinit var callback: NotificationCallback
 
+    private val nameList = arrayListOf("Задания на сегодня", "Купить домой", "Идеи для проекта", "Важные дела")
+    private val dateList = arrayListOf("2019-05-26 15:12:00", "2019-05-27 19:00:00", "2019-06-28 07:00:00", "2020-06-29 19:00:00")
+
     private val noteModelList: MutableList<NoteModel> = ArrayList<NoteModel>().apply {
-        repeat(times = 3) {
+        for (i in 0 until ColorData.size) {
             add(NoteModel(
-                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Задания на сегодня", color = ColorDef.red),
-                    notificationItem = NotificationItem(date = "2019-05-26 15:12:00")
-            ))
-            add(NoteModel(
-                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Купить домой", color = ColorDef.teal),
-                    notificationItem = NotificationItem(date = "2019-05-27 19:00:00")
-            ))
-            add(NoteModel(
-                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Идеи для проекта", color = ColorDef.green),
-                    notificationItem = NotificationItem(date = "2019-06-28 07:00:00")
-            ))
-            add(NoteModel(
-                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = "Важные дела", color = ColorDef.blue),
-                    notificationItem = NotificationItem(date = "2020-06-29 19:00:00")
+                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = nameList.random(), color = i),
+                    notificationItem = NotificationItem(date = dateList.random())
             ))
         }
     }

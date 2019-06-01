@@ -73,7 +73,7 @@
                 style="@style/Image.Color.Horizontal"
                 app:visibleOn='@{def.dark}'
                 tools:background="@color/note_red_dark"
-                tools:visibility="gone"/>
+                tools:visibility="visible"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

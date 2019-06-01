@@ -52,7 +52,7 @@
 
                 </LinearLayout>
 
-                <ImageView
+                <View
                         android:id="@+id/note_text_color_view"
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"

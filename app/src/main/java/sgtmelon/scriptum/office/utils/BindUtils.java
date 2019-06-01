@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.BindingAdapter;
+import sgtmelon.scriptum.model.data.ColorData;
+import sgtmelon.scriptum.model.item.ColorItem;
 import sgtmelon.scriptum.office.annot.def.ColorDef;
 import sgtmelon.scriptum.office.annot.def.ThemeDef;
 
@@ -58,9 +60,10 @@ public final class BindUtils {
     }
 
     @BindingAdapter("indicatorColor")
-    public static void setIndicatorColor(@NonNull ImageView view, @ColorDef int color) {
-        final int tint = ColorUtils.INSTANCE.getAppThemeColor(view.getContext(), color);
-        view.setColorFilter(tint);
+    public static void setIndicatorColor(@NonNull View view, @ColorDef int color) {
+        final int theme = new Preference(view.getContext()).getTheme();
+        final ColorItem colorItem = ColorData.INSTANCE.getColorItem(theme, color);
+        ColorUtils.INSTANCE.tintColorIndicator(view, colorItem);
     }
 
     @BindingAdapter(value = {"imageId", "imageColor"})

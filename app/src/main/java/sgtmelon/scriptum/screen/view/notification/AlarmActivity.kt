@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.view.notification
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -35,8 +34,6 @@ class AlarmActivity : AppActivity(), AlarmCallback {
         }
     }
 
-    private val finishHandler = Handler()
-
     private val openState = OpenState()
 
     private val adapter by lazy {
@@ -61,15 +58,11 @@ class AlarmActivity : AppActivity(), AlarmCallback {
 
     override fun onDestroy() {
         super.onDestroy()
-        finishHandler.removeCallbacksAndMessages(null)
+        viewModel.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
-
-    override fun finishOnLong(millis: Long) {
-        finishHandler.postDelayed({ finish() }, millis)
-    }
 
     override fun setupNote(noteModel: NoteModel) {
         recyclerView?.let {
@@ -84,24 +77,15 @@ class AlarmActivity : AppActivity(), AlarmCallback {
     }
 
     override fun showControl() {
-        Handler().postDelayed({
-            parentContainer?.let { group ->
-                TransitionManager.beginDelayedTransition(group, Fade().setDuration(500).apply {
-                    recyclerView?.let { addTarget(it) }
-                    buttonContainer?.let { addTarget(it) }
-                })
-            }
+        parentContainer?.let { group ->
+            TransitionManager.beginDelayedTransition(group, Fade().setDuration(500).apply {
+                recyclerView?.let { addTarget(it) }
+                buttonContainer?.let { addTarget(it) }
+            })
+        }
 
-            recyclerView?.visibility = View.VISIBLE
-            buttonContainer?.visibility = View.VISIBLE
-        }, 1000)
-    }
-
-    override fun finishAlarm() {
-        Handler().postDelayed({
-            finishHandler.removeCallbacksAndMessages(null)
-            finish()
-        }, 1000)
+        recyclerView?.visibility = View.VISIBLE
+        buttonContainer?.visibility = View.VISIBLE
     }
 
     companion object {

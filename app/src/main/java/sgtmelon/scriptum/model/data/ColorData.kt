@@ -2,6 +2,7 @@ package sgtmelon.scriptum.model.data
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.item.ColorItem
+import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
 
 /**
@@ -34,11 +35,30 @@ object ColorData {
     }
 
     fun getColorList(theme: Int) = ArrayList<ColorItem>().apply {
-        for (i in 0 until ColorData.size) add(if (theme == ThemeDef.light) {
-            ColorItem(light[i], dark[i], dark[i])
-        } else {
-            ColorItem(dark[i], dark[i], light[i])
-        })
+        for (i in 0 until ColorData.size) add(getColorItem(theme, i))
+    }
+
+    fun getColorItem(theme: Int, @ColorDef color: Int) = if (theme == ThemeDef.light) {
+        ColorItem(dark[color], light[color], dark[color])
+    } else {
+        ColorItem(dark[color], dark[color], light[color])
+    }
+
+    /**
+     * Объект для описания стандартных цветов приложения
+     */
+    object Key {
+        const val red = 0
+        const val purple = 1
+        const val indigo = 2
+        const val blue = 3
+        const val teal = 4
+        const val green = 5
+        const val yellow = 6
+        const val orange = 7
+        const val brown = 8
+        const val blueGrey = 9
+        const val white = 10
     }
 
 }
