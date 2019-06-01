@@ -34,15 +34,6 @@ object ColorUtils {
                 else getColorAttr(R.attr.clPrimary)
             }
 
-    fun View.tintColorIndicator(colorItem: ColorItem) {
-        val strokeDimen = context.getDimen(value = 1f)
-
-        (background as? GradientDrawable)?.apply {
-            setColor(context.getCompatColor(colorItem.fill))
-            setStroke(strokeDimen, context.getCompatColor(colorItem.stroke))
-        }
-    }
-
     /**
      * Получение цвета по аттрибуту, [attr] - аттрибут цвета
      */
@@ -60,6 +51,15 @@ fun Context.getCompatColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 
 @ColorInt fun Context.getAppSimpleColor(@ColorDef color: Int, isLight: Boolean) =
         getCompatColor(if (isLight) light[color] else dark[color])
+
+fun View.tintColorIndicator(colorItem: ColorItem) {
+    val strokeDimen = context.getDimen(value = 1f)
+
+    (background as? GradientDrawable)?.apply {
+        setColor(context.getCompatColor(colorItem.fill))
+        setStroke(strokeDimen, context.getCompatColor(colorItem.stroke))
+    }
+}
 
 /**
  * Покараска элемента меню в стандартный цвет
