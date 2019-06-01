@@ -6,16 +6,11 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
@@ -56,11 +51,6 @@ fun Activity.hideKeyboard() {
             ?.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
 }
 
-fun Context.hideKeyboard(view: View) {
-    (getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager)
-            ?.hideSoftInputFromWindow(view.windowToken, 0)
-}
-
 fun Context.showToast(@StringRes stringId: Int, length: Int = Toast.LENGTH_SHORT) =
         Toast.makeText(this, getString(stringId), length).show()
 
@@ -70,37 +60,6 @@ fun Context.showToast(text: String, length: Int = Toast.LENGTH_SHORT) =
 fun Context.getDimen(value: Float) =
         TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, resources.displayMetrics).toInt()
 
-fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, event ->
-    if (event.action != MotionEvent.ACTION_DOWN) return@setOnTouchListener false
-
-    editText?.let { if (it.visibility == View.VISIBLE) it.requestSelectionFocus() }
-
-    return@setOnTouchListener false
-}
-
-fun EditText.addOnNextAction(func: () -> Unit) {
-    setOnEditorActionListener { _, i, _ ->
-        if (i == EditorInfo.IME_ACTION_NEXT) {
-            func()
-            return@setOnEditorActionListener true
-        }
-
-        return@setOnEditorActionListener false
-    }
-}
-
-fun EditText.requestSelectionFocus() {
-    if (!hasFocus()) requestFocus()
-    setSelection(text.toString().length)
-    showKeyboard()
-}
-
-fun EditText?.getClearText(): String {
-    if (this == null) return ""
-
-    return text.toString().trim().replace("\\s+".toRegex(), " ")
-}
-
 
 fun RecyclerView.ViewHolder.checkNoPosition(func: () -> Unit): Boolean {
     if (adapterPosition == RecyclerView.NO_POSITION) return false
@@ -109,35 +68,12 @@ fun RecyclerView.ViewHolder.checkNoPosition(func: () -> Unit): Boolean {
     return true
 }
 
-fun EditText.addTextChangedListener(before: (String) -> Unit = {},
-                                    on: (String) -> Unit = {},
-                                    after: (String) -> Unit = {}) {
-    addTextChangedListener(object : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) =
-                before(s.toString())
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) =
-                on(s.toString())
-
-        override fun afterTextChanged(s: Editable?) = after(s.toString())
-    })
-}
-
 fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {}) =
         sendBroadcast(Intent(place).apply {
             putExtra(ReceiverKey.Values.COMMAND, command)
             putExtras(Intent().apply(extras))
         })
 
-fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) {
-    if (target == null) return
-
-    TransitionManager.beginDelayedTransition(this,
-            Fade().setDuration(duration).addTarget(target)
-    )
-
-    target.visibility = if (visible) View.VISIBLE else View.GONE
-}
 
 /**
  * Копирование текста заметки в память
@@ -161,10 +97,19 @@ fun Context.copyToClipboard(noteItem: NoteItem) {
     /**
      * Сохраняем данные в память
      */
-    val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("NoteText", copyText) // TODO: 02.11.2018 вынеси
+    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
+    clipboard?.let {
+        it.primaryClip = ClipData.newPlainText("NoteText", copyText) // TODO: 02.11.2018 вынеси
+        showToast(getString(R.string.toast_text_copy))
+    }
+}
 
-    clipboard.primaryClip = clip
+fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) {
+    if (target == null) return
 
-    Toast.makeText(this, this.getString(R.string.toast_text_copy), Toast.LENGTH_SHORT).show()
+    TransitionManager.beginDelayedTransition(this,
+            Fade().setDuration(duration).addTarget(target)
+    )
+
+    target.visibility = if (visible) View.VISIBLE else View.GONE
 }

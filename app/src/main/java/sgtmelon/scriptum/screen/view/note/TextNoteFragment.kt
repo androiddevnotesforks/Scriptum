@@ -154,18 +154,21 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         nameEnter = view?.findViewById(R.id.toolbar_note_enter)
         view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
 
-        nameEnter?.addTextChangedListener(
-                InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
-        )
-        nameEnter?.addOnNextAction {
-            textEnter?.apply {
-                requestFocus()
-                setSelection(text.toString().length)
+        nameEnter?.let {
+            it.addTextChangedListener(
+                    InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
+            )
+            it.addOnNextAction {
+                textEnter?.apply {
+                    requestFocus()
+                    setSelection(text.toString().length)
+                }
             }
         }
 
         textEnter = view?.findViewById(R.id.text_note_content_enter)
         view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
+
         textEnter?.addTextChangedListener(
                 InputTextWatcher(textEnter, InputAction.text, viewModel, inputCallback)
         )
