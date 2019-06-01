@@ -18,6 +18,7 @@ import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
@@ -102,7 +103,7 @@ class BinFragment : Fragment(), BinCallback {
         }
     }
 
-    override fun setupRecycler(theme: Int) {
+    override fun setupRecycler(@Theme theme: Int) {
         parentContainer = view?.findViewById(R.id.bin_parent_container)
         emptyInfoView = view?.findViewById(R.id.bin_info_include)
 

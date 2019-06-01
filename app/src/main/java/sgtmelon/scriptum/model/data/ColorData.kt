@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.model.data
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.ColorItem
-import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.annot.def.ThemeDef
 
 /**
  * Описание цветов заметок
@@ -34,31 +34,10 @@ object ColorData {
         throw IndexOutOfBoundsException("Arrays have different size")
     }
 
-    fun getColorItem(@ThemeDef theme: Int, @ColorDef color: Int) = if (theme == ThemeDef.light) {
+    fun getColorItem(@Theme theme: Int, @Color color: Int) = if (theme == Theme.light) {
         ColorItem(dark[color], light[color], dark[color])
     } else {
         ColorItem(dark[color], dark[color], light[color])
-    }
-
-    /**
-     * Объект для описания стандартных цветов приложения
-     */
-    object Key {
-        const val red = 0
-        const val purple = 1
-        const val indigo = 2
-        const val blue = 3
-        const val teal = 4
-        const val green = 5
-        const val yellow = 6
-        const val orange = 7
-        const val brown = 8
-        const val blueGrey = 9
-        const val white = 10
-
-        val list = arrayListOf(
-                red, purple, indigo, blue, teal, green, yellow, orange, brown, blueGrey, white
-        )
     }
 
 }

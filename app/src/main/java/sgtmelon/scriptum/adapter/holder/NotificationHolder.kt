@@ -7,6 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.checkNoPosition
 
@@ -31,7 +32,7 @@ class NotificationHolder(private val binding: ItemNotificationBinding,
         }
     }
 
-    fun bind(theme: Int, noteModel: NoteModel) = binding.apply {
+    fun bind(@Theme theme: Int, noteModel: NoteModel) = binding.apply {
         this.currentTheme = theme
         this.noteModel = noteModel
     }.executePendingBindings()

@@ -13,10 +13,10 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.item.ColorItem
-import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.annot.def.ThemeDef
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,14 +26,14 @@ import java.util.*
  * Установка цвета карточки в соответствии с цветом заметки
  */
 @BindingAdapter("noteColor")
-fun CardView.bindNoteColor(@ColorDef color: Int) =
+fun CardView.bindNoteColor(@Color color: Int) =
         setCardBackgroundColor(context.getAppThemeColor(color, needDark = false))
 
 /**
  * Установка цвета для индикатора на основании темы
  */
 @BindingAdapter(value = ["indicatorTheme", "indicatorColor"])
-fun View.bindIndicatorColor(@ThemeDef theme: Int, @ColorDef color: Int): ColorItem {
+fun View.bindIndicatorColor(@Theme theme: Int, @Color color: Int): ColorItem {
     val colorItem = ColorData.getColorItem(theme, color)
 
     (background as? GradientDrawable)?.apply {
@@ -48,7 +48,7 @@ fun View.bindIndicatorColor(@ThemeDef theme: Int, @ColorDef color: Int): ColorIt
  * Установка видимости элемента только на конкретной теме
  */
 @BindingAdapter(value = ["visibleTheme", "visibleOn"])
-fun View.bindVisibleTheme(@ThemeDef visibleOn: Int, @ThemeDef currentTheme: Int) {
+fun View.bindVisibleTheme(@Theme visibleOn: Int, @Theme currentTheme: Int) {
     visibility = if (visibleOn == currentTheme) View.VISIBLE else View.GONE
 }
 

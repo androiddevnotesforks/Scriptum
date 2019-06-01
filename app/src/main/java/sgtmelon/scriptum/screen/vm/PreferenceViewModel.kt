@@ -2,7 +2,7 @@ package sgtmelon.scriptum.screen.vm
 
 import android.content.Context
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.def.SortDef
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.repository.Preference
 import sgtmelon.scriptum.screen.callback.PreferenceCallback
 
@@ -31,7 +31,7 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
         return true
     }
 
-    fun onResultSortDialog(sortKeys: String = SortDef.def) {
+    fun onResultSortDialog(sortKeys: String = Sort.def) {
         preference.sort = sortKeys
         callback.updateSortSummary(preference.getSortSummary())
     }

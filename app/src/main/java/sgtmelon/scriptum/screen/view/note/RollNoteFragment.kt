@@ -30,6 +30,8 @@ import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
@@ -129,7 +131,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     fun onCancelNoteBind() = viewModel.onCancelNoteBind()
 
-    override fun setupBinding(theme: Int, rankEmpty: Boolean) {
+    override fun setupBinding(@Theme theme: Int, rankEmpty: Boolean) {
         binding?.apply {
             currentTheme = theme
             menuCallback = viewModel
@@ -137,7 +139,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }
     }
 
-    override fun setupToolbar(theme: Int, color: Int, noteState: NoteState) {
+    override fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
@@ -281,7 +283,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     override fun tintToolbar(from: Int, to: Int) =
             menuControl.apply { setColorFrom(from) }.startTint(to)
 
-    override fun tintToolbar(color: Int) = menuControl.startTint(color)
+    override fun tintToolbar(@Color color: Int) = menuControl.startTint(color)
 
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)

@@ -21,13 +21,14 @@ import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.utils.*
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
@@ -98,7 +99,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     fun onCancelNoteBind() = viewModel.onCancelNoteBind()
 
-    override fun setupBinding(theme: Int, rankEmpty: Boolean) {
+    override fun setupBinding(@Theme theme: Int, rankEmpty: Boolean) {
         binding?.apply {
             currentTheme = theme
             menuCallback = viewModel
@@ -106,7 +107,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
-    override fun setupToolbar(theme: Int, @ColorDef color: Int, noteState: NoteState) {
+    override fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState) {
         val toolbar: Toolbar? = view?.findViewById(R.id.toolbar_note_container)
         val indicator: View? = view?.findViewById(R.id.toolbar_note_color_view)
 
@@ -203,7 +204,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun tintToolbar(from: Int, to: Int) =
             menuControl.apply { setColorFrom(from) }.startTint(to)
 
-    override fun tintToolbar(color: Int) = menuControl.startTint(color)
+    override fun tintToolbar(@Color color: Int) = menuControl.startTint(color)
 
     override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
             menuControl.setDrawable(drawableOn, needAnim)
@@ -239,7 +240,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
-    override fun showColorDialog(color: Int) = openState.tryInvoke {
+    override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
         menuControl.setColorFrom(color)
 
         hideKeyboard()

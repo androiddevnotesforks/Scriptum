@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.ColorHolder
 import sgtmelon.scriptum.dialog.ColorDialog
-import sgtmelon.scriptum.model.data.ColorData
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.inflateView
 import sgtmelon.scriptum.repository.Preference
@@ -26,7 +26,7 @@ class ColorAdapter(context: Context, private val clickListener: ItemListener.Cli
     private var check: Int = 0
 
     init {
-        setList(ColorData.Key.list)
+        setList(Color.list)
         visibleArray = BooleanArray(itemCount)
     }
 

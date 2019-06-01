@@ -14,6 +14,8 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
@@ -63,7 +65,7 @@ class AlarmActivity : AppActivity(), AlarmCallback {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
 
-    override fun setupView(theme: Int) {
+    override fun setupView(@Theme theme: Int) {
         adapter = NoteAdapter(theme, ItemListener.Click { _, _ ->
             openState.tryInvoke { viewModel.onClickNote() }
         })
@@ -94,7 +96,7 @@ class AlarmActivity : AppActivity(), AlarmCallback {
     }
 
     companion object {
-        fun Context.getAlarmIntent(id: Long, color: Int): Intent =
+        fun Context.getAlarmIntent(id: Long, @Color color: Int): Intent =
                 Intent(this, AlarmActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)
                         .putExtra(NoteData.Intent.COLOR, color)

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.getTintDrawable
@@ -61,7 +62,7 @@ class NotificationActivity : AppActivity(), NotificationCallback {
         }
     }
 
-    override fun setupRecycler(theme: Int) {
+    override fun setupRecycler(@Theme theme: Int) {
         adapter = NotificationAdapter(theme, ItemListener.Click { v, p ->
             when (v.id) {
                 R.id.notification_click_container -> openState.tryInvoke { viewModel.onClickNote(p) }

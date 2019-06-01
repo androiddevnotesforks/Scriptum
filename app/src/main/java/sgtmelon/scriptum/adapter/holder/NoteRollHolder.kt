@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.office.intf.ItemListener
@@ -35,11 +36,10 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
         }
     }
 
-    fun bind(theme: Int, noteItem: NoteItem, rollList: List<RollItem>) =
-            binding.apply {
-                this.currentTheme = theme
-                this.noteItem = noteItem
-                this.rollList = rollList
-            }.executePendingBindings()
+    fun bind(@Theme theme: Int, noteItem: NoteItem, rollList: List<RollItem>) = binding.apply {
+        this.currentTheme = theme
+        this.noteItem = noteItem
+        this.rollList = rollList
+    }.executePendingBindings()
 
 }

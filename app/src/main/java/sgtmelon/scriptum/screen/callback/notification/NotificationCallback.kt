@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.callback.notification
 
 import android.content.Intent
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
@@ -14,7 +15,7 @@ interface NotificationCallback {
 
     fun setupToolbar()
 
-    fun setupRecycler(theme: Int)
+    fun setupRecycler(@Theme theme: Int)
 
     fun notifyDataSetChanged(list: MutableList<NoteModel>)
 

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.widget
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
@@ -26,7 +26,7 @@ class NoteToolbar : ParentUi() {
             onDisplay(R.id.toolbar_note_container)
             onDisplay(R.id.toolbar_note_scroll)
 
-            if (theme == ThemeDef.dark) {
+            if (theme == Theme.dark) {
                 onDisplay(R.id.toolbar_note_color_view)
             } else {
                 notDisplay(R.id.toolbar_note_color_view)

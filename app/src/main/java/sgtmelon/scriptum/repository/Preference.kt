@@ -5,10 +5,10 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Sort
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.DbField
-import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.annot.def.SortDef
-import sgtmelon.scriptum.office.annot.def.ThemeDef
 
 /**
  * Класс для работы с настройками приложения, а так же @Singleton для SharedPreferences
@@ -24,15 +24,15 @@ class Preference(context: Context) {
     val sortNoteOrder: String
         get() {
             val keysStr = sort
-            val keysArr = keysStr.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val keysArr = keysStr.split(Sort.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
             val order = StringBuilder()
             for (aKey in keysArr) {
                 val key = aKey.toInt()
                 order.append(DbField.Note.orders[key])
 
-                if (key != SortDef.create && key != SortDef.change) {
-                    order.append(SortDef.divider)
+                if (key != Sort.create && key != Sort.change) {
+                    order.append(Sort.divider)
                 } else {
                     break
                 }
@@ -53,13 +53,13 @@ class Preference(context: Context) {
         set(value) = preferences.edit().putBoolean(resources.getString(R.string.pref_first_start), value).apply()
 
     var sort: String
-        get() = preferences.getString(resources.getString(R.string.pref_key_sort), SortDef.def)
-                ?: SortDef.def
+        get() = preferences.getString(resources.getString(R.string.pref_key_sort), Sort.def)
+                ?: Sort.def
         set(value) = preferences.edit().putString(resources.getString(R.string.pref_key_sort), value).apply()
 
     var defaultColor: Int
         get() = preferences.getInt(resources.getString(R.string.pref_key_color), resources.getInteger(R.integer.pref_color_default))
-        set(@ColorDef value) = preferences.edit().putInt(resources.getString(R.string.pref_key_color), value).apply()
+        set(@Color value) = preferences.edit().putInt(resources.getString(R.string.pref_key_color), value).apply()
 
     val pauseSave: Boolean
         get() {
@@ -77,12 +77,12 @@ class Preference(context: Context) {
         get() = preferences.getInt(resources.getString(R.string.pref_key_save_time), resources.getInteger(R.integer.pref_save_time_default))
         set(value) = preferences.edit().putInt(resources.getString(R.string.pref_key_save_time), value).apply()
 
-    var theme: Int
+    @Theme var theme: Int
         get() = preferences.getInt(resources.getString(R.string.pref_key_theme), resources.getInteger(R.integer.pref_theme_default))
-        set(@ThemeDef value) = preferences.edit().putInt(resources.getString(R.string.pref_key_theme), value).apply()
+        set(@Theme value) = preferences.edit().putInt(resources.getString(R.string.pref_key_theme), value).apply()
 
     fun getSortSummary() = StringBuilder().apply {
-        val keysArr = sort.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val keysArr = sort.split(Sort.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val keysName = resources.getStringArray(R.array.pref_sort_text)
 
         for (i in keysArr.indices) {
@@ -96,7 +96,7 @@ class Preference(context: Context) {
 
             append(summary)
 
-            if (key != SortDef.create && key != SortDef.change) append(SortDef.divider) else break
+            if (key != Sort.create && key != Sort.change) append(Sort.divider) else break
         }
     }.toString()
 

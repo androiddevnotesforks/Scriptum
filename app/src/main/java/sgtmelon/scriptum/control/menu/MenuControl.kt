@@ -9,8 +9,8 @@ import android.view.Window
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.annot.def.ColorDef
-import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.office.utils.blend
 import sgtmelon.scriptum.office.utils.getAppSimpleColor
 import sgtmelon.scriptum.office.utils.getAppThemeColor
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.office.utils.getTintDrawable
 /**
  * Класс для контроля меню | Для версий API < 21
  */
-open class MenuControl(private val theme: Int,
+open class MenuControl(@Theme private val theme: Int,
                        protected val context: Context,
                        private val window: Window,
                        protected val toolbar: Toolbar?,
@@ -45,16 +45,16 @@ open class MenuControl(private val theme: Int,
             val position = it.animatedFraction
             var blended: Int
 
-            if (theme != ThemeDef.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (theme != Theme.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 blended = statusColorFrom.blend(statusColorTo, position)
                 window.statusBarColor = blended
             }
 
             blended = toolbarColorFrom.blend(toolbarColorTo, position)
-            if (theme != ThemeDef.dark) toolbar?.setBackgroundColor(blended)
+            if (theme != Theme.dark) toolbar?.setBackgroundColor(blended)
 
             blended = indicatorColorFrom.blend(indicatorColorTo, position)
-            if (theme == ThemeDef.dark) indicator?.setBackgroundColor(blended)
+            if (theme == Theme.dark) indicator?.setBackgroundColor(blended)
         }
 
         anim.addUpdateListener(updateListener)
@@ -66,8 +66,8 @@ open class MenuControl(private val theme: Int,
      *
      * @param color - Начальный цвет
      */
-    fun setColor(@ColorDef color: Int) {
-        if (theme != ThemeDef.dark) {
+    fun setColor(@Color color: Int) {
+        if (theme != Theme.dark) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = context.getAppThemeColor(color, statusOnDark)
             }
@@ -82,7 +82,7 @@ open class MenuControl(private val theme: Int,
     /**
      * Установка начального цвета, [color] - начальный цвет
      */
-    fun setColorFrom(@ColorDef color: Int) {
+    fun setColorFrom(@Color color: Int) {
         statusColorFrom = context.getAppThemeColor(color, statusOnDark)
         toolbarColorFrom = context.getAppThemeColor(color, needDark = false)
         indicatorColorFrom = context.getAppSimpleColor(color, isLight = false)
@@ -91,7 +91,7 @@ open class MenuControl(private val theme: Int,
     /**
      * Покраска UI элементов с анимацией, [color] - конечный цвет
      */
-    fun startTint(@ColorDef color: Int) {
+    fun startTint(@Color color: Int) {
         statusColorTo = context.getAppThemeColor(color, statusOnDark)
         toolbarColorTo = context.getAppThemeColor(color, needDark = false)
         indicatorColorTo = context.getAppSimpleColor(color, isLight = false)

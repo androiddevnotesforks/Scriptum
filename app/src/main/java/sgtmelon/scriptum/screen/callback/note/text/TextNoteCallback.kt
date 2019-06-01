@@ -2,9 +2,10 @@ package sgtmelon.scriptum.screen.callback.note.text
 
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
@@ -18,9 +19,9 @@ interface TextNoteCallback {
     /**
      * Установка элементов для биндинга, которые постоянные
      */
-    fun setupBinding(theme: Int, rankEmpty: Boolean)
+    fun setupBinding(@Theme theme: Int, rankEmpty: Boolean)
 
-    fun setupToolbar(theme: Int, @ColorDef color: Int, noteState: NoteState)
+    fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState)
 
     fun setupDialog(rankNameArray: List<String>)
 
@@ -34,9 +35,9 @@ interface TextNoteCallback {
 
     fun onPressBack(): Boolean
 
-    fun tintToolbar(@ColorDef from: Int, @ColorDef to: Int)
+    fun tintToolbar(@Color from: Int, @Color to: Int)
 
-    fun tintToolbar(@ColorDef color: Int)
+    fun tintToolbar(@Color color: Int)
 
     fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean)
 
@@ -50,7 +51,7 @@ interface TextNoteCallback {
 
     fun showRankDialog(rankCheck: BooleanArray)
 
-    fun showColorDialog(color: Int)
+    fun showColorDialog(@Color color: Int)
 
     fun showConvertDialog()
 

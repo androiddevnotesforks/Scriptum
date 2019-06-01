@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.adapter.SortAdapter
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.SortItem
-import sgtmelon.scriptum.office.annot.def.SortDef
 import sgtmelon.scriptum.office.intf.ItemListener
 
 
@@ -90,7 +90,7 @@ class SortDialog : DialogBlank(), ItemListener.Click {
         adapter = SortAdapter(this)
 
         listSort.clear()
-        for (aKey in keys.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
+        for (aKey in keys.split(Sort.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()) {
             val key = aKey.toInt()
             val sortItem = SortItem(text[key], key)
             listSort.add(sortItem)
@@ -128,7 +128,7 @@ class SortDialog : DialogBlank(), ItemListener.Click {
         super.setEnable()
 
         buttonPositive.isEnabled = !isSortEqual(init, keys)
-        buttonNeutral.isEnabled = !isSortEqual(SortDef.def, keys)
+        buttonNeutral.isEnabled = !isSortEqual(Sort.def, keys)
     }
 
     override fun onItemClick(view: View, p: Int) {
@@ -136,7 +136,7 @@ class SortDialog : DialogBlank(), ItemListener.Click {
 
         val sortItem = listSort[p]
 
-        val key = if (sortItem.key == SortDef.create) SortDef.change else SortDef.create
+        val key = if (sortItem.key == Sort.create) Sort.change else Sort.create
 
         sortItem.text = text[key]
         sortItem.key = key
@@ -149,15 +149,15 @@ class SortDialog : DialogBlank(), ItemListener.Click {
 
     // TODO revert
     private fun isSortEqual(keys1: String, keys2: String): Boolean {
-        val keysArr1 = keys1.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        val keysArr2 = keys2.split(SortDef.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val keysArr1 = keys1.split(Sort.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val keysArr2 = keys2.split(Sort.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
         for (i in keysArr1.indices) {
             if (keysArr1[i] != keysArr2[i]) {
                 return false
             }
 
-            if (keysArr1[i] == Integer.toString(SortDef.create) || keysArr1[i] == Integer.toString(SortDef.change)) {
+            if (keysArr1[i] == Integer.toString(Sort.create) || keysArr1[i] == Integer.toString(Sort.change)) {
                 break
             }
         }
@@ -169,8 +169,6 @@ class SortDialog : DialogBlank(), ItemListener.Click {
      * Получаем строку сортировки
      */
     private fun MutableList<SortItem>.getSort() =
-            joinToString(separator = SortDef.divider) { it.key.toString() }
+            joinToString(separator = Sort.divider) { it.key.toString() }
 
 }
-
-

@@ -7,7 +7,7 @@
 
         <import alias="v" type="android.view.View"/>
         <import alias="text" type="android.text.TextUtils"/>
-        <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
+        <import alias="def" type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
         <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>

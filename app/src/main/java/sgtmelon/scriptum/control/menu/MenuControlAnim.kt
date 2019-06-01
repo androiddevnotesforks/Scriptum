@@ -9,13 +9,14 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.office.utils.getTintDrawable
 
 /**
  * Класс для контроля меню с использованием анимации | Для версий API >= 21
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class MenuControlAnim(theme: Int,
+class MenuControlAnim(@Theme theme: Int,
                       context: Context,
                       window: Window,
                       toolbar: Toolbar?,

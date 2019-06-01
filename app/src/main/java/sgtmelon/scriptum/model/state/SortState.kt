@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.state
 
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.SortItem
-import sgtmelon.scriptum.office.annot.def.SortDef
 
 /**
  * Состояние для сортировки, определяющее позицию элемента [SortItem], до которого будет происходить сортировка
@@ -15,7 +15,7 @@ class SortState {
         for (i in listSort.indices) {
             val key = listSort[i].key
 
-            if (key == SortDef.create || key == SortDef.change) {
+            if (key == Sort.create || key == Sort.change) {
                 end = i
                 break
             }

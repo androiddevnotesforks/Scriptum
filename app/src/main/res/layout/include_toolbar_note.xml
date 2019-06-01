@@ -8,7 +8,7 @@
 
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
-        <import alias="def" type="sgtmelon.scriptum.office.annot.def.ThemeDef"/>
+        <import alias="def" type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
 

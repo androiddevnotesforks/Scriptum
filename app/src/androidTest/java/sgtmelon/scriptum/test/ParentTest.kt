@@ -9,7 +9,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import sgtmelon.scriptum.data.TestData
-import sgtmelon.scriptum.office.annot.def.ThemeDef
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.repository.Preference
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
@@ -33,7 +33,7 @@ abstract class ParentTest {
     val testData = TestData(context)
 
     @Before @CallSuper open fun setUp() {
-        preference.theme = if (Random.nextBoolean()) ThemeDef.light else ThemeDef.dark
+        preference.theme = if (Random.nextBoolean()) Theme.light else Theme.dark
     }
 
     @After @CallSuper open fun tearDown() {}
@@ -45,6 +45,8 @@ abstract class ParentTest {
 
         SplashScreen().apply(after)
     }
+
+    // TODO переделать в одну функцию
 
     protected fun wait(time: Long, func: () -> Unit = {}) = Thread.sleep(time)
 

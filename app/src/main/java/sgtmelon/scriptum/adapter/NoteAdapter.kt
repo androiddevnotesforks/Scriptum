@@ -6,6 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.adapter.holder.NoteTextHolder
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.inflateBinding
@@ -17,7 +18,7 @@ import sgtmelon.scriptum.screen.view.main.NotesFragment
  *
  * @author SerjantArbuz
  */
-class NoteAdapter(private val theme: Int,
+class NoteAdapter(@Theme private val theme: Int,
                   private val clickListener: ItemListener.Click,
                   private val longClickListener: ItemListener.LongClick? = null
 ) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>() {

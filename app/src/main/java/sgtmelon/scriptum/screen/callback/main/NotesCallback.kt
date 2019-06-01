@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.callback.main
 
 import android.content.Intent
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
@@ -14,7 +15,7 @@ interface NotesCallback {
 
     fun setupToolbar()
 
-    fun setupRecycler(theme: Int)
+    fun setupRecycler(@Theme theme: Int)
 
     fun bind()
 
