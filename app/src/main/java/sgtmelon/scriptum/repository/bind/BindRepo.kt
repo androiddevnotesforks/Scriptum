@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository
+package sgtmelon.scriptum.repository.bind
 
 import android.content.Context
 import sgtmelon.scriptum.control.notification.BindControl

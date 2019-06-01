@@ -3,7 +3,7 @@ package sgtmelon.scriptum.screen.vm
 import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.SortDef
-import sgtmelon.scriptum.office.utils.Preference
+import sgtmelon.scriptum.repository.Preference
 import sgtmelon.scriptum.screen.callback.PreferenceCallback
 
 class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {

@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Rule
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.office.annot.def.ThemeDef
-import sgtmelon.scriptum.office.utils.Preference
+import sgtmelon.scriptum.repository.Preference
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random

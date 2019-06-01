@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository
+package sgtmelon.scriptum.repository.room
 
 import android.content.Context
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -11,8 +11,8 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.office.utils.Preference
-import sgtmelon.scriptum.office.utils.TimeUtils.getTime
+import sgtmelon.scriptum.office.utils.getTime
+import sgtmelon.scriptum.repository.Preference
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter

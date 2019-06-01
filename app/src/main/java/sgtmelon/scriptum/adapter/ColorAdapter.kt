@@ -7,8 +7,8 @@ import sgtmelon.scriptum.adapter.holder.ColorHolder
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.Preference
 import sgtmelon.scriptum.office.utils.inflateView
+import sgtmelon.scriptum.repository.Preference
 
 /**
  * Адаптер списка цветов приложения для [ColorDialog]

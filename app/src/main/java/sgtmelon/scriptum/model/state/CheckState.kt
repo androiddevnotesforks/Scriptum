@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.model.state
 
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.office.utils.HelpUtils.Note.isAllCheck
 
 
 /**
@@ -29,6 +28,16 @@ class CheckState {
         }
 
         return false
+    }
+
+    companion object {
+        private fun MutableList<RollItem>.isAllCheck(): Boolean {
+            if (isEmpty()) return false
+
+            this.forEach { if (!it.isCheck) return false }
+
+            return true
+        }
     }
 
 }

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.model.key.ReceiverKey.Command
 import sgtmelon.scriptum.model.key.ReceiverKey.Filter
 import sgtmelon.scriptum.model.key.ReceiverKey.Values
 import sgtmelon.scriptum.office.utils.sendTo
-import sgtmelon.scriptum.repository.BindRepo
+import sgtmelon.scriptum.repository.bind.BindRepo
 
 /**
  * Ресивер обработки нажатий по кнопкам для [BindControl]

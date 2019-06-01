@@ -17,7 +17,7 @@ import sgtmelon.scriptum.model.key.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.office.utils.TimeUtils.getTime
+import sgtmelon.scriptum.office.utils.getTime
 import sgtmelon.scriptum.office.utils.showToast
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback

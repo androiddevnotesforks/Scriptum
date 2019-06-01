@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository
+package sgtmelon.scriptum.repository.bind
 
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem

@@ -17,8 +17,8 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.office.utils.getAppSimpleColor
 import sgtmelon.scriptum.receiver.BindReceiver
-import sgtmelon.scriptum.repository.BindRepo
-import sgtmelon.scriptum.repository.RoomRepo.Companion.isVisible
+import sgtmelon.scriptum.repository.bind.BindRepo
+import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
 
 /**

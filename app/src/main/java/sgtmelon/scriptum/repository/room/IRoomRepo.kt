@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository
+package sgtmelon.scriptum.repository.room
 
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.RankModel

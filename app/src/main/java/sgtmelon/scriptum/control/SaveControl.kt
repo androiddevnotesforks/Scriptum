@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Handler
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.utils.Preference
+import sgtmelon.scriptum.repository.Preference
 
 /**
  * Класс контроля сохранений заметки

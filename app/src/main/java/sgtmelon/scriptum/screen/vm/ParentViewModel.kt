@@ -3,9 +3,9 @@ package sgtmelon.scriptum.screen.vm
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import sgtmelon.scriptum.office.utils.Preference
-import sgtmelon.scriptum.repository.IRoomRepo
-import sgtmelon.scriptum.repository.RoomRepo
+import sgtmelon.scriptum.repository.Preference
+import sgtmelon.scriptum.repository.room.IRoomRepo
+import sgtmelon.scriptum.repository.room.RoomRepo
 
 /**
  * Родительский ViewModel

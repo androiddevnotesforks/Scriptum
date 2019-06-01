@@ -11,9 +11,9 @@ import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
-import sgtmelon.scriptum.office.utils.ColorUtils.getAppThemeColor
 import sgtmelon.scriptum.office.utils.blend
 import sgtmelon.scriptum.office.utils.getAppSimpleColor
+import sgtmelon.scriptum.office.utils.getAppThemeColor
 import sgtmelon.scriptum.office.utils.getTintDrawable
 
 /**

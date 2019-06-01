@@ -14,34 +14,30 @@ import sgtmelon.scriptum.model.data.ColorData.dark
 import sgtmelon.scriptum.model.data.ColorData.light
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
-import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
+import sgtmelon.scriptum.repository.Preference
 
-object ColorUtils {
+/**
+ * Получение цвета заметки в зависимости от темы и заднего фона
+ * [needDark] - Если элемент находится на тёмном фоне (например индикатор цвета заметки
+ */
+@ColorInt fun Context.getAppThemeColor(@ColorDef color: Int, needDark: Boolean) =
+        if (Preference(this).theme == ThemeDef.light) {
+            if (needDark) getCompatColor(dark[color])
+            else getCompatColor(light[color])
+        } else {
+            if (needDark) getCompatColor(dark[color])
+            else getColorAttr(R.attr.clPrimary)
+        }
 
-    /**
-     * Получение цвета заметки в зависимости от темы и заднего фона
-     * [needDark] - Если элемент находится на тёмном фоне (например индикатор цвета заметки
-     */
-    @ColorInt fun Context.getAppThemeColor(@ColorDef color: Int, needDark: Boolean) =
-            if (Preference(this).theme == ThemeDef.light) {
-                if (needDark) getCompatColor(dark[color])
-                else getCompatColor(light[color])
-            } else {
-                if (needDark) getCompatColor(dark[color])
-                else getColorAttr(R.attr.clPrimary)
-            }
+/**
+ * Получение цвета по аттрибуту, [attr] - аттрибут цвета
+ */
+@ColorInt fun Context.getColorAttr(@AttrRes attr: Int): Int {
+    val typedValue = TypedValue()
 
-    /**
-     * Получение цвета по аттрибуту, [attr] - аттрибут цвета
-     */
-    @ColorInt fun Context.getColorAttr(@AttrRes attr: Int): Int {
-        val typedValue = TypedValue()
+    theme.resolveAttribute(attr, typedValue, true)
 
-        theme.resolveAttribute(attr, typedValue, true)
-
-        return ContextCompat.getColor(this, typedValue.resourceId)
-    }
-
+    return ContextCompat.getColor(this, typedValue.resourceId)
 }
 
 fun Context.getCompatColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)

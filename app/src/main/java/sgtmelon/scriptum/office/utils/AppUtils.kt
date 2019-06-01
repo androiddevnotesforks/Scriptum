@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.office.utils
 
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
@@ -22,7 +24,11 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.key.ReceiverKey
+import sgtmelon.scriptum.repository.room.RoomRepo
 
 fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int, parent: ViewGroup?,
                                                         attachToParent: Boolean = false): T =
@@ -95,16 +101,6 @@ fun EditText?.getClearText(): String {
     return text.toString().trim().replace("\\s+".toRegex(), " ")
 }
 
-fun <T> MutableList<T>.swap(from: Int, to: Int) {
-    val item = get(from)
-    removeAt(from)
-    add(to, item)
-}
-
-fun <E> MutableList<E>.clearAndAdd(replace: MutableList<E>) {
-    clear()
-    addAll(replace)
-}
 
 fun RecyclerView.ViewHolder.checkNoPosition(func: () -> Unit): Boolean {
     if (adapterPosition == RecyclerView.NO_POSITION) return false
@@ -141,4 +137,34 @@ fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long 
     )
 
     target.visibility = if (visible) View.VISIBLE else View.GONE
+}
+
+/**
+ * Копирование текста заметки в память
+ */
+fun Context.copyToClipboard(noteItem: NoteItem) {
+    var copyText = ""
+
+    /**
+     * Если есть название то добавляем его
+     */
+    if (noteItem.name.isNotEmpty()) copyText = noteItem.name + "\n"
+
+    /**
+     * В зависимости от типа составляем текст
+     */
+    copyText += when (noteItem.type) {
+        NoteType.TEXT -> noteItem.text
+        NoteType.ROLL -> RoomRepo.getInstance(context = this).getRollListString(noteItem)
+    }
+
+    /**
+     * Сохраняем данные в память
+     */
+    val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clip = ClipData.newPlainText("NoteText", copyText) // TODO: 02.11.2018 вынеси
+
+    clipboard.primaryClip = clip
+
+    Toast.makeText(this, this.getString(R.string.toast_text_copy), Toast.LENGTH_SHORT).show()
 }

@@ -8,8 +8,8 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.office.utils.HelpUtils.Note.getCheck
-import sgtmelon.scriptum.office.utils.TimeUtils.getTime
+import sgtmelon.scriptum.office.utils.getCheck
+import sgtmelon.scriptum.office.utils.getTime
 import sgtmelon.scriptum.room.RoomDb
 import java.util.UUID.randomUUID
 import kotlin.random.Random

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.office.utils
 
 import android.graphics.drawable.GradientDrawable
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -11,12 +12,15 @@ import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.item.ColorItem
 import sgtmelon.scriptum.office.annot.def.ColorDef
 import sgtmelon.scriptum.office.annot.def.ThemeDef
-import sgtmelon.scriptum.office.utils.ColorUtils.getAppThemeColor
-import sgtmelon.scriptum.office.utils.ColorUtils.getColorAttr
+import java.text.SimpleDateFormat
+import java.util.*
+
+//region Color and Theme
 
 /**
  * Установка цвета карточки в соответствии с цветом заметки
@@ -48,9 +52,15 @@ fun View.bindVisibleTheme(@ThemeDef visibleOn: Int, @ThemeDef currentTheme: Int)
     visibility = if (visibleOn == currentTheme) View.VISIBLE else View.GONE
 }
 
-/**
- *
- */
+@BindingAdapter(value = ["drawableId", "colorAttr"])
+fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
+    setImageDrawable(ContextCompat.getDrawable(context, drawableId))
+    setColorFilter(context.getColorAttr(color))
+}
+
+//endregion
+
+//region Boolean bind
 
 /**
  * Установка цветового фильтра на основании результата логического выражения
@@ -71,39 +81,6 @@ fun TextView.bindBoolTextColor(boolExpression: Boolean,
                                @AttrRes falseColor: Int) =
         setTextColor(context.getColorAttr(if (boolExpression) trueColor else falseColor))
 
-@BindingAdapter(value = ["imageId", "imageColor"])
-fun ImageView.bindImage(@DrawableRes drawableId: Int, @AttrRes color: Int) {
-    setImageDrawable(ContextCompat.getDrawable(context, drawableId))
-    setColorFilter(context.getColorAttr(color))
-}
-
-/**
- *
- */
-
-
-/**
- * TODO сделать extension
- */
-@BindingAdapter("pastTime")
-fun TextView.bindPastTime(time: String) {
-    text = TimeUtils.formatPast(context, time)
-}
-
-/**
- * TODO сделать extension
- */
-@BindingAdapter("futureTime")
-fun TextView.bindFutureTime(time: String) {
-    text = TimeUtils.formatFuture(context, time)
-}
-
-
-/**
- *
- */
-
-
 /**
  * Установка доступа к [ImageButton]
  */
@@ -112,15 +89,54 @@ fun ImageButton.bindEnabled(enabled: Boolean) {
     isEnabled = enabled
 }
 
-
-/**
- *
- */
-
-
 /**
  * Изменение состояния [CheckBox] с анимацией или установка значения [checkState]
  */
 @BindingAdapter(value = ["checkToggle", "checkState"])
 fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) =
         if (checkToggle) toggle() else isChecked = checkState
+
+//endregion
+
+//region Time
+
+/**
+ * Форматировение строки с прошедшим временем в подобающий вид
+ */
+@BindingAdapter(value = ["pastTime"])
+fun TextView.bindPastTime(dateTime: String) {
+    text = try {
+        val locale = Locale.getDefault()
+        val calendar = Calendar.getInstance().apply {
+            time = context.getDateFormat().parse(dateTime)
+        }
+
+        SimpleDateFormat(when {
+            calendar.isToday() -> if (locale.useAmPm()) context.getString(R.string.format_time_am) else context.getString(R.string.format_time)
+            calendar.isThisYear() -> context.getString(R.string.format_date_medium)
+            else -> context.getString(R.string.format_date_short)
+        }, locale).format(calendar.time)
+    } catch (e: Throwable) {
+        null
+    }
+}
+
+/**
+ * Форматировение строки с будущим временем в подобающий вид
+ */
+@BindingAdapter(value = ["futureTime"])
+fun TextView.bindFutureTime(dateTime: String) {
+    text = try {
+        val calendar = Calendar.getInstance().apply {
+            time = context.getDateFormat().parse(dateTime)
+        }
+
+        DateUtils.getRelativeDateTimeString(context, calendar.timeInMillis,
+                DateUtils.DAY_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0
+        ).toString()
+    } catch (e: Throwable) {
+        null
+    }
+}
+
+//endregion

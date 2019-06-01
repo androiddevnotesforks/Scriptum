@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository
+package sgtmelon.scriptum.repository.develop
 
 /**
  * Интерфейс для общения с [DevelopRepo]

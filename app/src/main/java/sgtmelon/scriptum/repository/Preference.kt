@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.utils
+package sgtmelon.scriptum.repository
 
 import android.content.Context
 import android.content.SharedPreferences

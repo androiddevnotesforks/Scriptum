@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
-import sgtmelon.scriptum.office.utils.Preference
+import sgtmelon.scriptum.repository.Preference
 
 /**
  * Класс содержащий стандартные проверки для ui
