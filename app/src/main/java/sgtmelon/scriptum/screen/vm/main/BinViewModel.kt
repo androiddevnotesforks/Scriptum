@@ -25,7 +25,7 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
 
     fun onSetup() = callback.apply {
         setupToolbar()
-        setupRecycler(preference.theme)
+        setupRecycler(preference.getTheme())
     }
 
     fun onUpdateData() {

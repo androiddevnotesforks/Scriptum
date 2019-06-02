@@ -8,7 +8,7 @@ import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.office.intf.ItemListener
 import sgtmelon.scriptum.office.utils.inflateView
-import sgtmelon.scriptum.repository.Preference
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
  * Адаптер списка цветов приложения для [ColorDialog]
@@ -20,7 +20,7 @@ class ColorAdapter(context: Context, private val clickListener: ItemListener.Cli
 
     // TODO !! убрать preference
 
-    private val theme = Preference(context).theme
+    private val theme = PreferenceRepo(context).getTheme()
 
     private val visibleArray: BooleanArray
     private var check: Int = 0

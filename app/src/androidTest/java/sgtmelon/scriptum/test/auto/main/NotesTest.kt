@@ -19,7 +19,7 @@ class NotesTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        preference.firstStart = false
+        preference.setFirstStart(false)
     }
 
     @Test fun contentEmpty() = launch({ testData.clear() }) {

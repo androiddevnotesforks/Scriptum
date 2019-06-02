@@ -12,7 +12,7 @@ import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.office.utils.getTime
-import sgtmelon.scriptum.repository.Preference
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
@@ -22,20 +22,20 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 /**
  * Репозиторий обработки данных [RoomDb]
  *
- * @param context для открытия [RoomDb] и получения данных из [Preference]
+ * @param context для открытия [RoomDb] и получения данных из [PreferenceRepo]
  *
  * @author SerjantArbuz
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 
-    private val preference = Preference(context) // TODO подумай, как лучше убрать от сюда preference
+    private val preference = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда preference
 
     private fun openRoom() = RoomDb.getInstance(context)
 
     private fun getNoteListQuery(bin: Boolean) = SimpleSQLiteQuery(
             "SELECT * FROM ${DbField.Note.TABLE}" +
                     " WHERE ${DbField.Note.BIN} = ${BoolConverter().toInt(bin)}" +
-                    " ORDER BY ${preference.sortNoteOrder}")
+                    " ORDER BY ${preference.getSortNoteOrder()}")
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         openRoom().apply {

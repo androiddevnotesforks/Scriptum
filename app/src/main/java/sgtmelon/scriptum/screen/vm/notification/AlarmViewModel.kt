@@ -21,19 +21,19 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
     lateinit var callback: AlarmCallback
 
     private var id: Long = NoteData.Default.ID
-    private var color: Int = preference.defaultColor
+    private var color: Int = preference.getDefaultColor()
 
     private lateinit var noteModel: NoteModel
 
     private val longWaitHandler = Handler()
 
-    fun onSetup() = callback.setupView(preference.theme)
+    fun onSetup() = callback.setupView(preference.getTheme())
 
     // TODO Обработка id = -1
     fun onSetupData(bundle: Bundle?) {
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-            color = bundle.getInt(NoteData.Intent.COLOR, preference.defaultColor)
+            color = bundle.getInt(NoteData.Intent.COLOR, preference.getDefaultColor())
         }
 
         if (!::noteModel.isInitialized) {

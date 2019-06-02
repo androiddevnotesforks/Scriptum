@@ -16,12 +16,12 @@ import sgtmelon.scriptum.test.ParentTest
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentTest() {
 
-    @Test fun introScreenOpen() = launch({ preference.firstStart = true }) { introScreen() }
+    @Test fun introScreenOpen() = launch({ preference.setFirstStart(true) }) { introScreen() }
 
-    @Test fun mainScreenOpen() = launch({ preference.firstStart = false }) { mainScreen() }
+    @Test fun mainScreenOpen() = launch({ preference.setFirstStart(false) }) { mainScreen() }
 
     @Test fun statusTextNoteOpen() {
-        preference.firstStart = false
+        preference.setFirstStart(false)
 
         launch(intent = context.getSplashIntent(testData.clear().insertText())) {
             openTextNoteNotification { pressBack() }
@@ -30,7 +30,7 @@ class SplashTest : ParentTest() {
     }
 
     @Test fun statusRollNoteOpen() {
-        preference.firstStart = false
+        preference.setFirstStart(false)
 
         launch(intent = context.getSplashIntent(testData.clear().insertRoll())) {
             openRollNoteNotification { pressBack() }

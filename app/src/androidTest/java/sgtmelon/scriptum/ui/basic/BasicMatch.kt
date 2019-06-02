@@ -10,7 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
-import sgtmelon.scriptum.repository.Preference
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
  * Класс содержащий стандартные проверки для ui
@@ -20,9 +20,9 @@ import sgtmelon.scriptum.repository.Preference
 abstract class BasicMatch {
 
     private val context: Context = getInstrumentation().targetContext
-    private val preference = Preference(context)
+    private val preference = PreferenceRepo(context)
 
-    protected val theme: Int get() = preference.theme
+    protected val theme: Int get() = preference.getTheme()
 
     protected fun onDisplay(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isDisplayed()))

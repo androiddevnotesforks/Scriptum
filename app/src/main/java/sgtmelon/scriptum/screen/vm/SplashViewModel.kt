@@ -20,7 +20,7 @@ class SplashViewModel(application: Application) : ParentViewModel(application) {
 
     lateinit var callback: SplashCallback
 
-    fun onStartApplication(bundle: Bundle?) {
+    fun onSetup(bundle: Bundle?) {
         if (bundle != null && bundle.getBoolean(SplashActivity.STATUS_OPEN)) {
             val noteIntent = context.getNoteIntent(
                     NoteType.values()[bundle.getInt(NoteData.Intent.TYPE)],
@@ -29,7 +29,7 @@ class SplashViewModel(application: Application) : ParentViewModel(application) {
 
             callback.startActivities(arrayOf(Intent(context, MainActivity::class.java), noteIntent))
         } else {
-            val intentTo = if (preference.firstStart) {
+            val intentTo = if (preference.isFirstStart()) {
                 IntroActivity::class.java
             } else {
                 MainActivity::class.java

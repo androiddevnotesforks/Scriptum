@@ -13,7 +13,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.ColorData.dark
 import sgtmelon.scriptum.model.data.ColorData.light
-import sgtmelon.scriptum.repository.Preference
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import android.graphics.Color as ColorUtil
 
 /**
@@ -22,7 +22,7 @@ import android.graphics.Color as ColorUtil
  */
 @ColorInt
 fun Context.getAppThemeColor(@Color color: Int, needDark: Boolean) =
-        if (Preference(this).theme == Theme.light) {
+        if (PreferenceRepo(this).getTheme() == Theme.light) {
             if (needDark) getCompatColor(dark[color])
             else getCompatColor(light[color])
         } else {

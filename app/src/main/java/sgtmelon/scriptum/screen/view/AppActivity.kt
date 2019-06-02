@@ -25,7 +25,7 @@ abstract class AppActivity : AppCompatActivity(), AppCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.onSetupTheme()
+        viewModel.onSetup()
     }
 
     override fun onResume() {

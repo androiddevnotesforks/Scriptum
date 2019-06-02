@@ -24,7 +24,7 @@ class MainTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        preference.firstStart = false
+        preference.setFirstStart(false)
     }
 
     @Test fun startScreen() = launch { mainScreen { assert { onDisplayContent(MainPage.NOTES) } } }

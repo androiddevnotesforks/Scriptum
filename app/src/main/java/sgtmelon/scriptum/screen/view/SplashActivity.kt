@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        beforeFinish { viewModel.onStartApplication(intent.extras) }
+        beforeFinish { viewModel.onSetup(intent.extras) }
     }
 
     companion object {

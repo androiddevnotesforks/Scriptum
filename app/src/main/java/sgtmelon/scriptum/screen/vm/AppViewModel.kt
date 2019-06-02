@@ -17,8 +17,8 @@ class AppViewModel(application: Application) : ParentViewModel(application) {
 
     @Theme private var currentTheme: Int = 0
 
-    fun onSetupTheme() {
-        currentTheme = preference.theme
+    fun onSetup() {
+        currentTheme = preference.getTheme()
 
         when (currentTheme) {
             Theme.light -> callback.setTheme(R.style.App_Light_UI)
@@ -26,6 +26,6 @@ class AppViewModel(application: Application) : ParentViewModel(application) {
         }
     }
 
-    fun isThemeChange() = currentTheme != preference.theme
+    fun isThemeChange() = currentTheme != preference.getTheme()
 
 }

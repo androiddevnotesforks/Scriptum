@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Rule
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.repository.Preference
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
@@ -28,12 +28,12 @@ abstract class ParentTest {
 
     protected val context: Context = getInstrumentation().targetContext
 
-    val preference = Preference(context)
+    val preference = PreferenceRepo(context)
 
     val testData = TestData(context)
 
     @Before @CallSuper open fun setUp() {
-        preference.theme = if (Random.nextBoolean()) Theme.light else Theme.dark
+        preference.setTheme(if (Random.nextBoolean()) Theme.light else Theme.dark)
     }
 
     @After @CallSuper open fun tearDown() {}
