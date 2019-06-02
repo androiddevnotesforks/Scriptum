@@ -6,7 +6,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.SortAdapter
 import sgtmelon.scriptum.databinding.ItemSortBinding
 import sgtmelon.scriptum.model.item.SortItem
-import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.listener.ItemListener
 
 /**
  * Держатель сортировки для [SortAdapter]

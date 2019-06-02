@@ -39,8 +39,8 @@ import sgtmelon.scriptum.model.key.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.*
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel

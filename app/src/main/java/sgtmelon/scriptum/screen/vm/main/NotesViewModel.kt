@@ -7,8 +7,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.office.utils.clearAndAdd
-import sgtmelon.scriptum.office.utils.copyToClipboard
+import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent

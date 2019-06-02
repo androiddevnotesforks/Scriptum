@@ -11,10 +11,10 @@ import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.office.utils.blend
-import sgtmelon.scriptum.office.utils.getAppSimpleColor
-import sgtmelon.scriptum.office.utils.getAppThemeColor
-import sgtmelon.scriptum.office.utils.getTintDrawable
+import sgtmelon.scriptum.extension.blend
+import sgtmelon.scriptum.extension.getAppSimpleColor
+import sgtmelon.scriptum.extension.getAppThemeColor
+import sgtmelon.scriptum.extension.getTintDrawable
 
 /**
  * Класс для контроля меню | Для версий API < 21

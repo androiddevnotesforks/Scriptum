@@ -3,7 +3,7 @@ package sgtmelon.scriptum.control.touch
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 

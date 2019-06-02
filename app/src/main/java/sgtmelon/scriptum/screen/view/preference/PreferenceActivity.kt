@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.office.utils.getTintDrawable
+import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.screen.view.AppActivity
 
 /**

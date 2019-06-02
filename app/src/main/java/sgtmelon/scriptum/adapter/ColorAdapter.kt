@@ -6,8 +6,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.ColorHolder
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.inflateView
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.inflateView
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**

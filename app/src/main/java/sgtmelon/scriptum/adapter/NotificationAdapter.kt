@@ -5,8 +5,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.NotificationHolder
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.inflateBinding
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 
 /**

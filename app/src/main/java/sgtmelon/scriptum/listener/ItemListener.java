@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.intf;
+package sgtmelon.scriptum.listener;
 
 import android.view.View;
 
@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 /**
  * Интерфейс для обработки нажатий на элементы
+ *
  * На Java, чтобы использовать lambda в Kotlin
  */
 public interface ItemListener {

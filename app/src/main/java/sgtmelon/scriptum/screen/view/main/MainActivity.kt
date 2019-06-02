@@ -22,7 +22,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.utils.hideKeyboard
+import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.view.AppActivity

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
-import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.listener.ItemListener
 
 class ColorDialog : DialogBlank() {
 

@@ -10,7 +10,7 @@ import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.office.utils.getTintDrawable
+import sgtmelon.scriptum.extension.getTintDrawable
 
 /**
  * Класс для контроля меню с использованием анимации | Для версий API >= 21

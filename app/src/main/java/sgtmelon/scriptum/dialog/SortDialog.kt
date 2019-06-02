@@ -12,7 +12,7 @@ import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.adapter.SortAdapter
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.item.SortItem
-import sgtmelon.scriptum.office.intf.ItemListener
+import sgtmelon.scriptum.listener.ItemListener
 
 
 class SortDialog : DialogBlank(), ItemListener.Click {

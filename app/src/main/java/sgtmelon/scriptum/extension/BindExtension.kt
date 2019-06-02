@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.utils
+package sgtmelon.scriptum.extension
 
 import android.graphics.drawable.GradientDrawable
 import android.text.format.DateUtils

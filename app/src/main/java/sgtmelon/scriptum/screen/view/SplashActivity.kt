@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.office.utils.beforeFinish
+import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.screen.callback.SplashCallback
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 

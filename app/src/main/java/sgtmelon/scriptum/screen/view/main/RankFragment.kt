@@ -21,11 +21,11 @@ import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.addTextChangedListener
-import sgtmelon.scriptum.office.utils.createVisibleAnim
-import sgtmelon.scriptum.office.utils.getClearText
-import sgtmelon.scriptum.office.utils.inflateBinding
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.addTextChangedListener
+import sgtmelon.scriptum.extension.createVisibleAnim
+import sgtmelon.scriptum.extension.getClearText
+import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 

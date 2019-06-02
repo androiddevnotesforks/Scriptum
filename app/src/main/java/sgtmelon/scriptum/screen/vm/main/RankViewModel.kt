@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.office.utils.clearAndAdd
+import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel

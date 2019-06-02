@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.utils
+package sgtmelon.scriptum.extension
 
 import android.content.Context
 import android.text.format.DateUtils

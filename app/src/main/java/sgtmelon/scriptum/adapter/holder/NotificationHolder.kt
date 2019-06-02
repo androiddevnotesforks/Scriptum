@@ -8,8 +8,8 @@ import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.databinding.ItemNotificationBinding
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.checkNoPosition
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.checkNoPosition
 
 /**
  * Держатель уведомления для [NotificationAdapter]

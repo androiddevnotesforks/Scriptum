@@ -10,8 +10,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.office.utils.bindIndicatorColor
-import sgtmelon.scriptum.office.utils.getCompatColor
+import sgtmelon.scriptum.extension.bindIndicatorColor
+import sgtmelon.scriptum.extension.getCompatColor
 
 /**
  * Держатель цвета приложения для [ColorAdapter]

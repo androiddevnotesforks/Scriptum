@@ -6,8 +6,8 @@ import sgtmelon.scriptum.adapter.holder.SortHolder
 import sgtmelon.scriptum.dialog.SortDialog
 import sgtmelon.scriptum.model.item.SortItem
 import sgtmelon.scriptum.model.state.SortState
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.inflateBinding
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.inflateBinding
 
 
 /**

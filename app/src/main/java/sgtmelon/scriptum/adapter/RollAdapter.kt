@@ -8,8 +8,8 @@ import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.inflateBinding
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 
 /**

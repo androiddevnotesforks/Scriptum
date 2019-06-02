@@ -7,7 +7,7 @@ import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.key.ReceiverKey.Command
 import sgtmelon.scriptum.model.key.ReceiverKey.Filter
 import sgtmelon.scriptum.model.key.ReceiverKey.Values
-import sgtmelon.scriptum.office.utils.sendTo
+import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.repository.bind.BindRepo
 
 /**

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.office.utils
+package sgtmelon.scriptum.extension
 
 import sgtmelon.scriptum.model.item.RollItem
 

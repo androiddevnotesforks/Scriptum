@@ -9,7 +9,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.PagerAdapter
 import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.model.data.IntroData
-import sgtmelon.scriptum.office.utils.beforeFinish
+import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.screen.view.main.MainActivity
 
 /**

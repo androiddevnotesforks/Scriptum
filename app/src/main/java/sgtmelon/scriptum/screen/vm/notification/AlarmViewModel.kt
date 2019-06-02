@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.office.utils.showToast
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity

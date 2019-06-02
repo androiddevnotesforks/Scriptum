@@ -11,7 +11,7 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.office.utils.getTime
+import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter

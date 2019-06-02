@@ -15,7 +15,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.key.ReceiverKey
-import sgtmelon.scriptum.office.utils.getAppSimpleColor
+import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible

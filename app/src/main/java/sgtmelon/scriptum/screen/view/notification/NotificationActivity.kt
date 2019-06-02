@@ -12,8 +12,8 @@ import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.getTintDrawable
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel

@@ -10,8 +10,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.databinding.ItemRankBinding
 import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.office.intf.ItemListener
-import sgtmelon.scriptum.office.utils.checkNoPosition
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.extension.checkNoPosition
 
 /**
  * Держатель категори для [RankAdapter]
