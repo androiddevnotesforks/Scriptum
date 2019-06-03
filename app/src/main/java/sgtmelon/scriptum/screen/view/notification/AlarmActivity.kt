@@ -13,15 +13,17 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
+import sgtmelon.scriptum.view.RippleBackground
+
 
 /**
  * Экран с уведомлением запущенным по таймеру
@@ -49,7 +51,7 @@ class AlarmActivity : AppActivity(), AlarmCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_alarm)
+        setContentView(sgtmelon.scriptum.R.layout.activity_alarm)
 
         viewModel.apply {
             onSetup()
@@ -81,6 +83,11 @@ class AlarmActivity : AppActivity(), AlarmCallback {
 
     override fun notifyDataSetChanged(noteModel: NoteModel) {
         adapter?.notifyDataSetChanged(arrayListOf(noteModel))
+    }
+
+    override fun animateCircularColor() {
+        val view: RippleBackground? = findViewById(R.id.alarm_ripple_background)
+        view?.startRippleAnimation()
     }
 
     override fun animateControlShow() {

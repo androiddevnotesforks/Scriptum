@@ -17,6 +17,8 @@ interface AlarmCallback {
 
     fun notifyDataSetChanged(noteModel: NoteModel)
 
+    fun animateCircularColor()
+
     fun animateControlShow()
 
     fun startActivity(intent: Intent)

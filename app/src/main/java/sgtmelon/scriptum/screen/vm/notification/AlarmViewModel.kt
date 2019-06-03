@@ -3,9 +3,9 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
@@ -43,7 +43,9 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
         longWaitHandler.postDelayed({ callback.finish() }, 15000)
 
         callback.notifyDataSetChanged(noteModel)
-        Handler().postDelayed({ callback.animateControlShow() }, 1000)
+
+        Handler().postDelayed({ callback.animateControlShow() }, 1500)
+        Handler().postDelayed({ callback.animateCircularColor() }, 1000)
     }
 
     fun onDestroy() = longWaitHandler.removeCallbacksAndMessages(null)
