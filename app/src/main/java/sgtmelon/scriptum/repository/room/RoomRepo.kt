@@ -3,6 +3,7 @@ package sgtmelon.scriptum.repository.room
 import android.content.Context
 import androidx.sqlite.db.SimpleSQLiteQuery
 import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.NoteData
@@ -11,7 +12,6 @@ import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.DbField
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
@@ -35,7 +35,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     private fun getNoteListQuery(bin: Boolean) = SimpleSQLiteQuery(
             "SELECT * FROM ${DbField.Note.TABLE}" +
                     " WHERE ${DbField.Note.BIN} = ${BoolConverter().toInt(bin)}" +
-                    " ORDER BY ${preference.getSortNoteOrder()}")
+                    " ORDER BY ${DbField.Note.orders[preference.getSort()]}")
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         openRoom().apply {

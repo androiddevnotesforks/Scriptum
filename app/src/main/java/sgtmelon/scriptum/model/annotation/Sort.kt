@@ -9,15 +9,10 @@ import androidx.annotation.IntDef
 annotation class Sort {
 
     companion object {
-
-        const val divider = ", "
-
-        const val create = 0
-        const val change = 1
+        const val change = 0
+        const val create = 1
         const val rank = 2
         const val color = 3
-
-        const val def = "$create$divider$rank$divider$color"
     }
 
 }

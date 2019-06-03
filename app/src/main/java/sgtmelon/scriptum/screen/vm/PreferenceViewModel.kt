@@ -12,20 +12,33 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
 
     private val preference = PreferenceRepo(context)
 
+    private val themeSummary: Array<String> =
+            context.resources.getStringArray(R.array.pref_theme_text)
+
+    private val sortSummary: Array<String> =
+            context.resources.getStringArray(R.array.pref_sort_text)
+
     private val colorSummary: Array<String> =
             context.resources.getStringArray(R.array.pref_color_text)
 
     private val saveTimeSummary: Array<String> =
             context.resources.getStringArray(R.array.pref_save_time_text)
 
-    private val themeSummary: Array<String> =
-            context.resources.getStringArray(R.array.pref_theme_text)
+    fun updateSummary() = with(callback) {
+        updateThemePrefSummary(themeSummary[preference.getTheme()])
+        updateSortSummary(sortSummary[preference.getSort()])
+        updateColorSummary(colorSummary[preference.getDefaultColor()])
+        updateSaveTimeSummary(saveTimeSummary[preference.getSavePeriod()])
+    }
 
-    fun updateSummary() {
-        callback.updateSortSummary(preference.getSortSummary())
-        callback.updateColorSummary(colorSummary[preference.getDefaultColor()])
-        callback.updateSaveTimeSummary(saveTimeSummary[preference.getSavePeriod()])
-        callback.updateThemePrefSummary(themeSummary[preference.getTheme()])
+    fun onClickThemePreference(): Boolean {
+        callback.showThemeDialog(preference.getTheme())
+        return true
+    }
+
+    fun onResultThemeDialog(@Theme theme: Int) {
+        preference.setTheme(theme)
+        callback.updateThemePrefSummary(themeSummary[theme])
     }
 
     fun onClickSortPreference(): Boolean {
@@ -33,9 +46,9 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
         return true
     }
 
-    fun onResultSortDialog(sortKeys: String = Sort.def) {
-        preference.setSort(sortKeys)
-        callback.updateSortSummary(preference.getSortSummary())
+    fun onResultSortDialog(@Sort sort: Int) {
+        preference.setSort(sort)
+        callback.updateSortSummary(sortSummary[sort])
     }
 
     fun onClickColorPreference(): Boolean {
@@ -56,16 +69,6 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
     fun onResultSaveTimeDialog(check: Int) {
         preference.setSavePeriod(check)
         callback.updateSaveTimeSummary(saveTimeSummary[check])
-    }
-
-    fun onClickThemePreference(): Boolean {
-        callback.showThemeDialog(preference.getTheme())
-        return true
-    }
-
-    fun onResultThemeDialog(@Theme theme: Int) {
-        preference.setTheme(theme)
-        callback.updateThemePrefSummary(themeSummary[theme])
     }
 
 }

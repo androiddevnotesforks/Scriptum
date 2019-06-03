@@ -68,13 +68,11 @@
         Are you sure you want to convert the note? All empty lines will be deleted.
     </string>
 
-    <string name="dialog_title_sort">Sorting order</string>
     <string name="dialog_title_add_note">Create note</string>
 
     <!-- Dialog buttons -->
     <string name="dialog_btn_accept">Apply</string>
     <string name="dialog_btn_cancel">Cancel</string>
-    <string name="dialog_btn_reset">Reset</string>
 
     <string name="dialog_btn_yes">Yes</string>
     <string name="dialog_btn_no">No</string>

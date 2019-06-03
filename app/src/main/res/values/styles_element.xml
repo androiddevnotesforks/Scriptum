@@ -126,18 +126,6 @@
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
-    <style name="Text.SortItem">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_marginTop">@dimen/layout_16dp</item>
-        <item name="android:layout_marginBottom">@dimen/layout_16dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:textSize">@dimen/text_16sp</item>
-    </style>
-
     <style name="Text.About">
         <item name="android:gravity">center</item>
     </style>
@@ -326,15 +314,6 @@
         <item name="android:layout_width">@dimen/icon_128dp</item>
         <item name="android:layout_height">@dimen/icon_128dp</item>
         <item name="android:layout_gravity">center</item>
-    </style>
-
-    <style name="Image.SortItem">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginLeft">@dimen/layout_4dp</item>
-        <item name="android:layout_marginRight">@dimen/layout_4dp</item>
-        <item name="android:tint">?attr/clAccent</item>
     </style>
 
     <style name="Image.Color"/>

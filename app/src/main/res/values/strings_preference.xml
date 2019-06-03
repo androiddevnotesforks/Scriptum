@@ -23,11 +23,12 @@
     <string name="pref_sort_title">Sort notes</string>
     <string name="pref_sort_summary">Will be used by default</string>
     <string name="pref_sort_summary_start">By</string>
-    <string name="pref_key_sort" translatable="false">key_sort</string>
+    <!-- Ключ был изменён из-за смены концепции сортировки -->
+    <string name="pref_key_sort" translatable="false">key_note_sort</string>
 
     <string-array name="pref_sort_text">
-        <item>By date and time of creation</item>
-        <item>By date and time of change</item>
+        <item>By time of change</item>
+        <item>By time of creation</item>
         <item>By categories</item>
         <item>By color</item>
     </string-array>

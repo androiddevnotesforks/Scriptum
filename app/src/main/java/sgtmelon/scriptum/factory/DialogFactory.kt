@@ -7,7 +7,10 @@ import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.safedialog.SingleDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.dialog.*
+import sgtmelon.scriptum.dialog.ColorDialog
+import sgtmelon.scriptum.dialog.InfoDialog
+import sgtmelon.scriptum.dialog.RenameDialog
+import sgtmelon.scriptum.dialog.SheetAddDialog
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
@@ -58,8 +61,14 @@ object DialogFactory {
         return dialog
     }
 
-    fun getSortDialog(fm: FragmentManager?): SortDialog =
-            fm?.findFragmentByTag(Key.SORT) as? SortDialog ?: SortDialog()
+    fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
+        val dialog = fm?.findFragmentByTag(Key.SORT) as? SingleDialog ?: SingleDialog()
+
+        dialog.title = context.getString(R.string.pref_sort_title)
+        dialog.rows = context.resources.getStringArray(R.array.pref_sort_text)
+
+        return dialog
+    }
 
     fun getSaveTimeDialog(context: Context, fm: FragmentManager?): SingleDialog {
         val dialog = fm?.findFragmentByTag(Key.SAVE_TIME) as? SingleDialog ?: SingleDialog()

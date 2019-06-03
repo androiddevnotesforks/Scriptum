@@ -27,12 +27,6 @@ open class DialogBlank : DialogFragment() {
         dialogInterface.cancel()
     }
 
-    var neutralListener: DialogInterface.OnClickListener? = null
-    protected val onNeutralClick = DialogInterface.OnClickListener { dialogInterface, i ->
-        neutralListener?.onClick(dialogInterface, i)
-        dialogInterface.cancel()
-    }
-
     var dismissListener: DialogInterface.OnDismissListener? = null
 
     override fun onAttach(context: Context) {

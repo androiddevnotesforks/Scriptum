@@ -20,9 +20,9 @@ interface IPreferenceRepo {
 
     fun setTheme(@Theme value: Int)
 
-    fun getSort(): String
+    fun getSort(): Int
 
-    fun setSort(value: String)
+    fun setSort(value: Int)
 
     @Color fun getDefaultColor(): Int
 
@@ -37,10 +37,6 @@ interface IPreferenceRepo {
     fun setSavePeriod(value: Int)
 
     //endregion
-
-    fun getSortNoteOrder(): String
-
-    fun getSortSummary(): String
 
     fun getData(): String
 

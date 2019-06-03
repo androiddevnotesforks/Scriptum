@@ -4,7 +4,6 @@
     <!-- Dialog buttons -->
     <string name="dialog_btn_accept">Apply</string>
     <string name="dialog_btn_cancel">Cancel</string>
-    <string name="dialog_btn_reset">Reset</string>
 
     <string name="dialog_btn_yes">Yes</string>
     <string name="dialog_btn_no">No</string>

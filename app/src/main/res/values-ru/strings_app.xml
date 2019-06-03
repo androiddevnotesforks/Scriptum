@@ -64,13 +64,11 @@
         Вы уверены что, хотите конвертировать заметку? Все пустые строки будут удалены.
     </string>
 
-    <string name="dialog_title_sort">Порядок сортировки</string>
     <string name="dialog_title_add_note">Создать заметку</string>
 
     <!-- Dialog buttons -->
     <string name="dialog_btn_accept">Применить</string>
     <string name="dialog_btn_cancel">Отмена</string>
-    <string name="dialog_btn_reset">Сбросить</string>
 
     <string name="dialog_btn_yes">Да</string>
     <string name="dialog_btn_no">Нет</string>

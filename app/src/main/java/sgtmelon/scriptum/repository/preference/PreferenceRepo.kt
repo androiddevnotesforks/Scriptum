@@ -6,7 +6,6 @@ import android.content.res.Resources
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.model.key.DbField
 
 /**
  * Репозиторий для работы с [SharedPreferences]
@@ -38,10 +37,9 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
 
     override fun setTheme(value: Int) = preference.edit().putInt(resources.getString(R.string.pref_key_theme), value).apply()
 
-    override fun getSort() =
-            preference.getString(resources.getString(R.string.pref_key_sort), Sort.def) ?: Sort.def
+    override fun getSort() = preference.getInt(resources.getString(R.string.pref_key_sort), Sort.change)
 
-    override fun setSort(value: String) = preference.edit().putString(resources.getString(R.string.pref_key_sort), value).apply()
+    override fun setSort(value: Int) = preference.edit().putInt(resources.getString(R.string.pref_key_sort), value).apply()
 
     override fun getDefaultColor() = preference.getInt(resources.getString(R.string.pref_key_color), resources.getInteger(R.integer.pref_color_default))
 
@@ -63,38 +61,6 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
             preference.edit().putInt(resources.getString(R.string.pref_key_save_time), value).apply()
 
     //endregion
-
-    /**
-     * Формирование поискового запроса относительно настроек
-     */
-    override fun getSortNoteOrder() = StringBuilder().apply {
-        val keysArr = getSort().split(Sort.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        for (aKey in keysArr) {
-            val key = aKey.toInt()
-            append(DbField.Note.orders[key])
-
-            if (key != Sort.create && key != Sort.change) {
-                append(Sort.divider)
-            } else {
-                break
-            }
-        }
-    }.toString()
-
-    override fun getSortSummary() = StringBuilder().apply {
-        val keysArr = getSort().split(Sort.divider.toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-        val keysName = resources.getStringArray(R.array.pref_sort_text)
-
-        for (i in keysArr.indices) {
-            val key = keysArr[i].toInt()
-
-            append(keysName[key].apply {
-                if (i != 0) replace(resources.getString(R.string.pref_sort_summary_start), "").replaceFirst(" ".toRegex(), "")
-            })
-
-            if (key != Sort.create && key != Sort.change) append(Sort.divider) else break
-        }
-    }.toString()
 
     override fun getData() = StringBuilder().apply {
         append("Preference:\n\n")

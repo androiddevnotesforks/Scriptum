@@ -21,8 +21,8 @@
     <string name="pref_sort_summary_start">По</string>
 
     <string-array name="pref_sort_text">
-        <item>По дате и времени создания</item>
-        <item>По дате и времени изменения</item>
+        <item>По времени изменения</item>
+        <item>По времени создания</item>
         <item>По категориям</item>
         <item>По цвету</item>
     </string-array>
