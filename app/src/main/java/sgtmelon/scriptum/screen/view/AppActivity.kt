@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.idling.AppIdlingResource
 import sgtmelon.scriptum.screen.callback.AppCallback
 import sgtmelon.scriptum.screen.vm.AppViewModel
 

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.idling
+package sgtmelon.idling
 
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource

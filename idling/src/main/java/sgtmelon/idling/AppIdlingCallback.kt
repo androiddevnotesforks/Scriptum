@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.idling
+package sgtmelon.idling
 
 /**
  * Интерфейс для управления [AppIdlingResource]

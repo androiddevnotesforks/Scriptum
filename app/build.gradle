@@ -68,6 +68,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(":iconanim")
+    implementation project(":idling")
     implementation project(":safedialog")
 
     //region Kotlin
@@ -103,15 +104,15 @@ dependencies {
 
     //region Testing
 
-    testImplementation junit.core
+    androidTestImplementation junit.core
 
-    debugImplementation androidx.test.runner
-    debugImplementation androidx.test.rules
-    debugImplementation androidx.test.junit
+    androidTestImplementation androidx.test.runner
+    androidTestImplementation androidx.test.rules
+    androidTestImplementation androidx.test.junit
 
-    implementation androidx.test.espresso.idling
-    debugImplementation androidx.test.espresso.core
-    debugImplementation androidx.test.espresso.contrib
+    debugImplementation androidx.test.espresso.idling
+    androidTestImplementation androidx.test.espresso.core
+    androidTestImplementation androidx.test.espresso.contrib
 
     testImplementation powermock.module
     testImplementation powermock.rule
