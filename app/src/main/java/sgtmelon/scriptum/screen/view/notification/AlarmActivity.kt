@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.annotation.ColorInt
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,16 +43,31 @@ class AlarmActivity : AppActivity(), AlarmCallback {
 
     private var adapter: NoteAdapter? = null
 
-    private val parentContainer: ViewGroup? by lazy { findViewById<ViewGroup>(R.id.alarm_parent_container) }
-    private val recyclerView: RecyclerView? by lazy { findViewById<RecyclerView>(R.id.alarm_recycler) }
+    private val parentContainer: ViewGroup? by lazy {
+        findViewById<ViewGroup>(R.id.alarm_parent_container)
+    }
+    private val rippleContainer: RippleContainer? by lazy {
+        findViewById<RippleContainer>(R.id.alarm_ripple_background)
+    }
 
-    private val buttonContainer: ViewGroup? by lazy { findViewById<ViewGroup>(R.id.alarm_button_container) }
-    private val disableButton: Button? by lazy { findViewById<Button>(R.id.alarm_disable_button) }
-    private val postponeButton: Button? by lazy { findViewById<Button>(R.id.alarm_postpone_button) }
+    private val logoView: View? by lazy { findViewById<View>(R.id.alarm_logo_view) }
+    private val recyclerView: RecyclerView? by lazy {
+        findViewById<RecyclerView>(R.id.alarm_recycler)
+    }
+
+    private val buttonContainer: ViewGroup? by lazy {
+        findViewById<ViewGroup>(R.id.alarm_button_container)
+    }
+    private val disableButton: Button? by lazy {
+        findViewById<Button>(R.id.alarm_disable_button)
+    }
+    private val postponeButton: Button? by lazy {
+        findViewById<Button>(R.id.alarm_postpone_button)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(sgtmelon.scriptum.R.layout.activity_alarm)
+        setContentView(R.layout.activity_alarm)
 
         viewModel.apply {
             onSetup()
@@ -61,7 +77,9 @@ class AlarmActivity : AppActivity(), AlarmCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+
         viewModel.onDestroy()
+        rippleContainer?.stopAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -85,9 +103,10 @@ class AlarmActivity : AppActivity(), AlarmCallback {
         adapter?.notifyDataSetChanged(arrayListOf(noteModel))
     }
 
-    override fun animateCircularColor() {
-        val view: RippleContainer? = findViewById(R.id.alarm_ripple_background)
-        view?.startRippleAnimation()
+    override fun animateCircularColor(@ColorInt fillColor: Int) {
+        logoView?.let {
+            rippleContainer?.setupAnimation(fillColor, it)?.startAnimation()
+        }
     }
 
     override fun animateControlShow() {

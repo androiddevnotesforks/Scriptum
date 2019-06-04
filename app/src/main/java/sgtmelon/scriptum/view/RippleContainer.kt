@@ -4,102 +4,127 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Paint
+import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
-import sgtmelon.scriptum.R
+import androidx.annotation.ColorInt
+import androidx.annotation.StringDef
 import java.util.*
 
-class RippleContainer(context: Context) : RelativeLayout(context) {
+/**
+ * ViewGroup элемент для создания ripple анимации
+ *
+ * @author SerjantArbuz
+ */
+class RippleContainer : RelativeLayout {
 
     private var isAnimate = false
 
-    private val animatorSet = AnimatorSet().apply {
-        interpolator = AccelerateDecelerateInterpolator()
-    }
-
     private val animatorList = ArrayList<Animator>()
-    private val rippleViewList = ArrayList<RippleView>()
+    private val animatorSet = AnimatorSet()
 
-    init {
-        setupAnimation()
-    }
+    private val viewList = ArrayList<RippleView>()
 
-    private fun setupAnimation() {
-        if (isInEditMode) return
+    constructor (context: Context) : super(context)
 
-        val rippleColor = Color.parseColor("#0099CC")
+    constructor (context: Context, attrs: AttributeSet) : super(context, attrs)
 
-        val rippleDurationTime = 3000
-        val rippleAmount = 6
-        val rippleScale = 6.0f
-        val rippleRadius = resources.getDimension(R.dimen.icon_48dp)
+    constructor (context: Context, attrs: AttributeSet, style: Int) : super(context, attrs, style)
 
-        val rippleDelay = rippleDurationTime / rippleAmount
-
+    /**
+     * Вызывать метод перед [startAnimation]
+     * Элемент, относительно которого будет расчитываться центр для ripple, передавать через [hookView]
+     */
+    fun setupAnimation(@ColorInt fillColor: Int, hookView: View): RippleContainer {
         val paint = Paint().apply {
             isAntiAlias = true
             style = Paint.Style.FILL
-            color = rippleColor
+            color = fillColor
         }
 
-        val rippleParams = LayoutParams((2 * rippleRadius).toInt(), (2 * rippleRadius).toInt())
-        rippleParams.addRule(CENTER_IN_PARENT, TRUE)
+        val viewSize = hookView.width / 1.2
+        val maxSize = Math.max(width, height)
 
-        for (i in 0 until rippleAmount) {
-            val rippleView = RippleView(context).apply { this.paint = paint }
+        val count = maxSize / (viewSize / 2).toInt()
+        val duration = 1000L * count / 2
+        val scaleTo = (2 * maxSize / viewSize).toFloat()
 
-            addView(rippleView, rippleParams)
-            rippleViewList.add(rippleView)
+        val layoutParams = LayoutParams(viewSize.toInt(), viewSize.toInt()).apply {
+            addRule(CENTER_HORIZONTAL, TRUE)
+            topMargin = hookView.top + ((hookView.height - viewSize) / 2).toInt()
+        }
 
-            val scaleXAnim = ObjectAnimator.ofFloat(rippleView, "ScaleX", 1f, rippleScale).apply {
-                repeatCount = ObjectAnimator.INFINITE
-                repeatMode = ObjectAnimator.RESTART
-                startDelay = (i * rippleDelay).toLong()
-                duration = rippleDurationTime.toLong()
+        for (i in 0 until count) {
+            val view = RippleView(context).apply { this.paint = paint }
+
+            addView(view, layoutParams)
+            viewList.add(view)
+
+            val startDelay = (i * duration / count)
+
+            animatorList.apply {
+                add(view.getAnimator(AnimName.SCALE_X, startDelay, duration, SCALE_FROM, scaleTo))
+                add(view.getAnimator(AnimName.SCALE_Y, startDelay, duration, SCALE_FROM, scaleTo))
+                add(view.getAnimator(AnimName.ALPHA, startDelay, duration, ALPHA_FROM, ALPHA_TO))
             }
-
-            animatorList.add(scaleXAnim)
-
-            val scaleYAnim = ObjectAnimator.ofFloat(rippleView, "ScaleY", 1f, rippleScale).apply {
-                repeatCount = ObjectAnimator.INFINITE
-                repeatMode = ObjectAnimator.RESTART
-                startDelay = (i * rippleDelay).toLong()
-                duration = rippleDurationTime.toLong()
-            }
-
-            animatorList.add(scaleYAnim)
-
-            val alphaAnim = ObjectAnimator.ofFloat(rippleView, "Alpha", 1f, 0f).apply {
-                repeatCount = ObjectAnimator.INFINITE
-                repeatMode = ObjectAnimator.RESTART
-                startDelay = (i * rippleDelay).toLong()
-                duration = rippleDurationTime.toLong()
-            }
-
-            animatorList.add(alphaAnim)
         }
 
         animatorSet.playTogether(animatorList)
+
+        return this
     }
 
-    fun startRippleAnimation() {
+    fun startAnimation() {
         if (!isAnimate) {
-            for (rippleView in rippleViewList) {
-                rippleView.visibility = View.VISIBLE
-            }
-            animatorSet.start()
             isAnimate = true
+
+            viewList.forEach { it.visibility = View.VISIBLE }
+            animatorSet.start()
         }
     }
 
-    fun stopRippleAnimation() {
+    fun stopAnimation() {
         if (isAnimate) {
-            animatorSet.end()
             isAnimate = false
+
+            viewList.forEach { it.visibility = View.INVISIBLE }
+            animatorSet.end()
         }
+    }
+
+    private companion object {
+
+        const val SCALE_FROM = 1f
+        const val ALPHA_FROM = 1f
+        const val ALPHA_TO = 0f
+
+        fun View.getAnimator(@AnimName animName: String, startDelay: Long, duration: Long,
+                             from: Float, to: Float): ObjectAnimator =
+                ObjectAnimator.ofFloat(this, animName, from, to).apply {
+                    repeatCount = ObjectAnimator.INFINITE
+                    repeatMode = ObjectAnimator.RESTART
+
+                    interpolator = when (animName) {
+                        AnimName.ALPHA -> DecelerateInterpolator()
+                        else -> AccelerateInterpolator()
+                    }
+
+                    this.startDelay = startDelay
+                    this.duration = duration
+                }
+
+        @StringDef(AnimName.SCALE_X, AnimName.SCALE_Y, AnimName.ALPHA)
+        annotation class AnimName {
+            companion object {
+                const val SCALE_X = "ScaleX"
+                const val SCALE_Y = "ScaleY"
+                const val ALPHA = "Alpha"
+            }
+        }
+
     }
 
 }

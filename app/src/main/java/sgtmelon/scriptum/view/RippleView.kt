@@ -6,7 +6,9 @@ import android.graphics.Paint
 import android.view.View
 
 /**
- * View для создания анимации в [RippleContainer]
+ * View элемент использующийся внутри [RippleContainer]
+ *
+ * @author SerjantArbuz
  */
 class RippleView(context: Context) : View(context) {
 

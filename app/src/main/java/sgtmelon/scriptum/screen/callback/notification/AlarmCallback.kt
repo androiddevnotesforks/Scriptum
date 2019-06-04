@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.callback.notification
 
 import android.content.Intent
+import androidx.annotation.ColorInt
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
@@ -17,7 +18,7 @@ interface AlarmCallback {
 
     fun notifyDataSetChanged(noteModel: NoteModel)
 
-    fun animateCircularColor()
+    fun animateCircularColor(@ColorInt fillColor: Int)
 
     fun animateControlShow()
 

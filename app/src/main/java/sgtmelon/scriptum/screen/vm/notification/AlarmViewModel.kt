@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
+import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
@@ -44,13 +45,18 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
         callback.notifyDataSetChanged(noteModel)
 
-        Handler().postDelayed({ callback.animateControlShow() }, 1500)
-        Handler().postDelayed({ callback.animateCircularColor() }, 1000)
+        Handler().postDelayed({
+            callback.animateControlShow()
+            callback.animateCircularColor(context.getAppSimpleColor(color, isLight = false))
+        }, 1000)
     }
 
     fun onDestroy() = longWaitHandler.removeCallbacksAndMessages(null)
 
-    fun onSaveData(bundle: Bundle) = with(bundle) { putLong(NoteData.Intent.ID, id) }
+    fun onSaveData(bundle: Bundle) = with(bundle) {
+        putLong(NoteData.Intent.ID, id)
+        putInt(NoteData.Intent.COLOR, color)
+    }
 
     // TODO убираем уведомление из бд
     fun onClickNote() {

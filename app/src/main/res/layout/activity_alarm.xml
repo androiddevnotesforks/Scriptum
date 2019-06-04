@@ -19,13 +19,16 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
+            android:id="@+id/alarm_logo_view"
             android:layout_width="@dimen/icon_128dp"
             android:layout_height="@dimen/icon_128dp"
+            android:contentDescription="@null"
             android:src="@mipmap/img_logo_splash"
             app:layout_constraintBottom_toTopOf="@id/alarm_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:alpha="0.5"/>
 
     <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/alarm_recycler"

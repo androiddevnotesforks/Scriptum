@@ -5,6 +5,8 @@ import sgtmelon.scriptum.model.item.RollItem
 
 /**
  * Состояние для отметок, определяющее отмечено ли всё в списке с элементами [RollItem]
+ *
+ * @author SerjantArbuz
  */
 class CheckState {
 
