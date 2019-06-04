@@ -22,7 +22,7 @@ import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
-import sgtmelon.scriptum.view.RippleBackground
+import sgtmelon.scriptum.view.RippleContainer
 
 
 /**
@@ -86,7 +86,7 @@ class AlarmActivity : AppActivity(), AlarmCallback {
     }
 
     override fun animateCircularColor() {
-        val view: RippleBackground? = findViewById(R.id.alarm_ripple_background)
+        val view: RippleContainer? = findViewById(R.id.alarm_ripple_background)
         view?.startRippleAnimation()
     }
 

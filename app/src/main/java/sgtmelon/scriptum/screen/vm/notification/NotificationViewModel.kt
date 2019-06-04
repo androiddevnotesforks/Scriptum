@@ -43,8 +43,11 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
      */
     fun onUpdateData() = callback.notifyDataSetChanged(noteModelList)
 
+    /**
+     * TODO открытие заметки
+     */
     fun onClickNote(p: Int) = callback.startActivity(with(noteModelList[p].noteItem) {
-        if (p % 2 == 0) context.getAlarmIntent(id, color) else context.getNoteIntent(type, id)
+        if (true) context.getAlarmIntent(id, color) else context.getNoteIntent(type, id)
     })
 
     fun onClickCancel(p: Int) =
