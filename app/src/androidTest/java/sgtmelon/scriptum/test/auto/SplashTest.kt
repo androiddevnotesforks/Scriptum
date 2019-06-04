@@ -5,7 +5,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.view.SplashActivity
-import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
+import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashAlarmIntent
+import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
 import sgtmelon.scriptum.test.ParentTest
 
 /**
@@ -20,21 +21,39 @@ class SplashTest : ParentTest() {
 
     @Test fun mainScreenOpen() = launch({ preference.setFirstStart(false) }) { mainScreen() }
 
-    @Test fun statusTextNoteOpen() {
+    @Test fun bindTextNoteOpen() {
         preference.setFirstStart(false)
 
-        launch(intent = context.getSplashIntent(testData.clear().insertText())) {
-            openTextNoteNotification { pressBack() }
+        launch(intent = context.getSplashBindIntent(testData.clear().insertText())) {
+            openTextNoteBind { pressBack() }
             mainScreen()
         }
     }
 
-    @Test fun statusRollNoteOpen() {
+    @Test fun bindRollNoteOpen() {
         preference.setFirstStart(false)
 
-        launch(intent = context.getSplashIntent(testData.clear().insertRoll())) {
-            openRollNoteNotification { pressBack() }
+        launch(intent = context.getSplashBindIntent(testData.clear().insertRoll())) {
+            openRollNoteBind { pressBack() }
             mainScreen()
+        }
+    }
+
+    @Test fun alarmTextNoteOpen() {
+        preference.setFirstStart(false)
+
+        val noteItem = testData.clear().insertText()
+        launch(intent = context.getSplashAlarmIntent(noteItem)) {
+            openAlarm(noteItem)
+        }
+    }
+
+    @Test fun alarmRollNoteOpen() {
+        preference.setFirstStart(false)
+
+        val noteItem = testData.clear().insertRoll()
+        launch(intent = context.getSplashAlarmIntent(noteItem)) {
+            openAlarm(noteItem)
         }
     }
 

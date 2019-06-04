@@ -37,7 +37,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             isEnabled = false
             setOnClickListener {
                 AppIdlingResource.worker.startHardWork()
-                beforeFinish { startActivity(MainActivity.getIntent(context = this@IntroActivity)) }
+                beforeFinish { startActivity(MainActivity.getInstance(context = this@IntroActivity)) }
             }
         }
 

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
@@ -24,13 +25,18 @@ class SplashScreen : ParentUi() {
         func()
     }
 
-    fun openTextNoteNotification(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun openTextNoteBind(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
         assert { onDisplayContent(State.READ) }
         func()
     }
 
-    fun openRollNoteNotification(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun openRollNoteBind(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
         assert { onDisplayContent(State.READ) }
+        func()
+    }
+
+    fun openAlarm(noteItem: NoteItem, func: AlarmScreen.() -> Unit = {}) = AlarmScreen(noteItem).apply {
+        assert { onDisplayContent() }
         func()
     }
 

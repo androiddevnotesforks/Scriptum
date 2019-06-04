@@ -10,16 +10,16 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.key.ReceiverKey
-import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible
-import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashIntent
+import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
 
 /**
  * Управление закреплением заметки в статус баре [NoteModel]
@@ -128,7 +128,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
 
         private fun Context.getNotePendingIntent(noteItem: NoteItem): PendingIntent? =
                 with(TaskStackBuilder.create(this)) {
-                    addNextIntent(getSplashIntent(noteItem))
+                    addNextIntent(getSplashBindIntent(noteItem))
                     return@with getPendingIntent(noteItem.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
                 }
 

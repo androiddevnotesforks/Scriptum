@@ -8,6 +8,7 @@ import sgtmelon.scriptum.test.auto.main.NotesTest
 import sgtmelon.scriptum.test.auto.main.RankTest
 import sgtmelon.scriptum.test.auto.note.roll.*
 import sgtmelon.scriptum.test.auto.note.text.*
+import sgtmelon.scriptum.test.control.AlarmAnimTest
 import sgtmelon.scriptum.test.control.InfoAnimTest
 import sgtmelon.scriptum.test.control.NoteToolbarIconTest
 import sgtmelon.scriptum.test.control.RotationTest
@@ -95,8 +96,14 @@ private class ScenarioUi {
 
             /**
              * UI - Открыть заметку через уведомление
-             * # Текст :: [SplashTest.statusTextNoteOpen]
-             * # Список :: [SplashTest.statusRollNoteOpen]
+             * # Текст :: [SplashTest.bindTextNoteOpen]
+             * # Список :: [SplashTest.bindRollNoteOpen]
+             */
+
+            /**
+             * UI - Открыть уведомление по времени
+             * # Текст :: [SplashTest.alarmTextNoteOpen]
+             * # Список :: [SplashTest.alarmRollNoteOpen]
              */
 
         }
@@ -688,7 +695,7 @@ private class ScenarioUi {
         /**
          * Сценарии для [InfoAnimTest]
          */
-        class EmptyInfoAnim {
+        class InfoAnim {
 
             /**
              * Страница [RankScreen] :: [InfoAnimTest.rankShowAndHide]
@@ -706,6 +713,8 @@ private class ScenarioUi {
              * # Скрыть :: [InfoAnimTest.binHide]
              */
 
+            // TODO notifications screen
+
         }
 
         /**
@@ -716,6 +725,43 @@ private class ScenarioUi {
             // TODO проверка обновления ui при откреплении заметки через шторку
             // NotesScreen
             // Text/RollNoteScreen
+
+        }
+
+        /**
+         * Сценарии для [AlarmAnimTest]
+         */
+        class AlarmAnim {
+
+            /**
+             * Светлая тема
+             * Красный :: [AlarmAnimTest.lightColor0]
+             * Фиолетовый :: [AlarmAnimTest.lightColor1]
+             * Индиго :: [AlarmAnimTest.lightColor2]
+             * Синий :: [AlarmAnimTest.lightColor3]
+             * Бирюзовый :: [AlarmAnimTest.lightColor4]
+             * Зелёный :: [AlarmAnimTest.lightColor5]
+             * Желтый :: [AlarmAnimTest.lightColor6]
+             * Оранжевый :: [AlarmAnimTest.lightColor7]
+             * Коричневый :: [AlarmAnimTest.lightColor8]
+             * Сине-серый :: [AlarmAnimTest.lightColor9]
+             * Белый :: [AlarmAnimTest.lightColor10]
+             */
+
+            /**
+             * Тёмная тема
+             * Красный :: [AlarmAnimTest.darkColor0]
+             * Фиолетовый :: [AlarmAnimTest.darkColor1]
+             * Индиго :: [AlarmAnimTest.darkColor2]
+             * Синий :: [AlarmAnimTest.darkColor3]
+             * Бирюзовый :: [AlarmAnimTest.darkColor4]
+             * Зелёный :: [AlarmAnimTest.darkColor5]
+             * Желтый :: [AlarmAnimTest.darkColor6]
+             * Оранжевый :: [AlarmAnimTest.darkColor7]
+             * Коричневый :: [AlarmAnimTest.darkColor8]
+             * Сине-серый :: [AlarmAnimTest.darkColor9]
+             * Белый :: [AlarmAnimTest.darkColor10]
+             */
 
         }
 

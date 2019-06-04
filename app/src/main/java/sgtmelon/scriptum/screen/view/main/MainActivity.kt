@@ -16,13 +16,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.view.AppActivity
@@ -146,7 +146,7 @@ class MainActivity : AppActivity(), MainCallback {
     override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
 
     companion object {
-        fun getIntent(context: Context) = Intent(context, MainActivity::class.java)
+        fun getInstance(context: Context) = Intent(context, MainActivity::class.java)
 
         private fun FloatingActionButton.setState(state: Boolean) {
             if (state) show() else hide()
