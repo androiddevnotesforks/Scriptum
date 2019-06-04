@@ -15,15 +15,15 @@ import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
+import sgtmelon.scriptum.extension.createVisibleAnim
+import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.extension.createVisibleAnim
-import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
@@ -138,7 +138,7 @@ class NotesFragment : Fragment(), NotesCallback {
 
         parentContainer?.createVisibleAnim(emptyInfoView, empty, if (!empty) 0 else 200)
 
-        binding?.apply { listEmpty = empty }?.executePendingBindings()
+        binding?.apply { isListEmpty = empty }?.executePendingBindings()
     }
 
     override fun scrollTop() {

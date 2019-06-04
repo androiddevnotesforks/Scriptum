@@ -8,7 +8,7 @@
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
 
-        <variable name="listEmpty" type="boolean"/>
+        <variable name="isListEmpty" type="boolean"/>
 
     </data>
 
@@ -25,7 +25,6 @@
             <include
                     android:id="@+id/notes_info_include"
                     layout="@layout/include_info"
-                    android:visibility='@{listEmpty ? v.VISIBLE : v.GONE}'
                     app:details='@{R.string.info_notes_details}'
                     app:icon='@{R.mipmap.img_info_notes}'
                     app:title='@{R.string.info_notes_title}'/>
@@ -35,7 +34,7 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility='@{listEmpty ? v.GONE : v.VISIBLE}'
+                    android:visibility='@{isListEmpty ? v.GONE : v.VISIBLE}'
                     tools:itemCount="1"
                     tools:listitem="@layout/item_note_roll"/>
 

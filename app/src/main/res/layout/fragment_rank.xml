@@ -8,7 +8,7 @@
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
 
-        <variable name="listEmpty" type="boolean"/>
+        <variable name="isListEmpty" type="boolean"/>
 
         <variable name="isClearEnable" type="boolean"/>
         <variable name="isAddEnable" type="boolean"/>
@@ -41,7 +41,7 @@
                     android:layout_height="match_parent"
                     tools:listitem="@layout/item_rank"
                     tools:itemCount="3"
-                    android:visibility='@{listEmpty ? v.GONE : v.VISIBLE}'/>
+                    android:visibility='@{isListEmpty ? v.GONE : v.VISIBLE}'/>
 
         </FrameLayout>
 

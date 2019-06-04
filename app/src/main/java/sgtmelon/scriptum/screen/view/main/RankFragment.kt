@@ -18,14 +18,14 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
-import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getClearText
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.item.RankItem
+import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
@@ -146,7 +146,7 @@ class RankFragment : Fragment(), RankCallback {
 
         parentContainer?.createVisibleAnim(emptyInfoView, empty)
 
-        binding?.listEmpty = empty
+        binding?.isListEmpty = empty
         viewModel.onUpdateToolbar()
     }
 

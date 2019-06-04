@@ -100,7 +100,7 @@ class NotificationActivity : AppActivity(), NotificationCallback {
 
         parentContainer?.createVisibleAnim(emptyInfoView, empty, if (!empty) 0 else 200)
 
-        binding?.apply { listEmpty = empty }?.executePendingBindings()
+        binding?.apply { isListEmpty = empty }?.executePendingBindings()
     }
 
     override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
