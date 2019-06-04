@@ -17,6 +17,8 @@ interface NotificationCallback {
 
     fun setupRecycler(@Theme theme: Int)
 
+    fun bind()
+
     fun notifyDataSetChanged(list: MutableList<NoteModel>)
 
     fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)

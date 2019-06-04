@@ -41,7 +41,10 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     /**
      * TODO сделать опитимизацию запросов для будущего репозитория (получать для noteItem только id, type, name, color)
      */
-    fun onUpdateData() = callback.notifyDataSetChanged(noteModelList)
+    fun onUpdateData() {
+        callback.notifyDataSetChanged(noteModelList)
+        callback.bind()
+    }
 
     /**
      * TODO открытие заметки

@@ -25,9 +25,7 @@
                  app:isAddEnable='@{isAddEnable}'
                  app:isClearEnable='@{isClearEnable}'/>
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
             <include
                     android:id="@+id/rank_info_include"
@@ -43,7 +41,7 @@
                     android:layout_height="match_parent"
                     tools:listitem="@layout/item_rank"
                     tools:itemCount="3"
-                    android:visibility='@{!listEmpty ? v.VISIBLE : v.GONE}'/>
+                    android:visibility='@{listEmpty ? v.GONE : v.VISIBLE}'/>
 
         </FrameLayout>
 

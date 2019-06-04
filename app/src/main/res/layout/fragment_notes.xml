@@ -20,9 +20,7 @@
 
         <include layout="@layout/include_toolbar"/>
 
-        <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
             <include
                     android:id="@+id/notes_info_include"
@@ -37,8 +35,8 @@
                     style="@style/RecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:visibility='@{!listEmpty ? v.VISIBLE : v.GONE}'
-                    tools:itemCount="3"
+                    android:visibility='@{listEmpty ? v.GONE : v.VISIBLE}'
+                    tools:itemCount="1"
                     tools:listitem="@layout/item_note_roll"/>
 
         </FrameLayout>
