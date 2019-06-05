@@ -314,6 +314,7 @@
         <item name="android:layout_width">@dimen/icon_128dp</item>
         <item name="android:layout_height">@dimen/icon_128dp</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:src">@mipmap/img_logo</item>
     </style>
 
     <style name="Image.Color"/>

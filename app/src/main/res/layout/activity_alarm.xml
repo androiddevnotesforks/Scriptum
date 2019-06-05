@@ -20,10 +20,8 @@
 
     <ImageView
             android:id="@+id/alarm_logo_view"
-            android:layout_width="@dimen/icon_128dp"
-            android:layout_height="@dimen/icon_128dp"
+            style="@style/Image.Logo"
             android:contentDescription="@null"
-            android:src="@mipmap/img_logo_splash"
             app:layout_constraintBottom_toTopOf="@id/alarm_recycler"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

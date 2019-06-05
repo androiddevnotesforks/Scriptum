@@ -4,7 +4,7 @@
     <item android:drawable="@color/background_launcher"/>
 
     <item>
-        <bitmap android:gravity="center" android:src="@mipmap/img_logo_splash"/>
+        <bitmap android:gravity="center" android:src="@mipmap/img_logo"/>
     </item>
 
 </layer-list>

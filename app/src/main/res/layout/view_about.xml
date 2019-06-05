@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,8 +23,7 @@
             <ImageView
                     android:id="@+id/about_logo_image"
                     style="@style/Image.Logo"
-                    android:contentDescription="@null"
-                    app:srcCompat="@mipmap/img_logo_about"/>
+                    android:contentDescription="@null"/>
 
         </FrameLayout>
 
@@ -44,9 +42,9 @@
 
             <TextView
                     android:id="@+id/about_version"
+                    style="@style/Text.About.Subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Text.About.Subtitle"
                     android:layout_marginBottom="@dimen/layout_8dp"
                     tools:text="@string/preview_version"/>
 
