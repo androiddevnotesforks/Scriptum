@@ -7,7 +7,7 @@ import android.content.Context
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
-import android.view.animation.AccelerateInterpolator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.annotation.ColorInt
@@ -63,12 +63,12 @@ class RippleContainer : RelativeLayout {
             addView(view, layoutParams)
             viewList.add(view)
 
-            val startDelay = (i * duration / count)
+            val startDelay = i * duration / count
 
             animatorList.apply {
-                add(view.getAnimator(AnimName.SCALE_X, startDelay, duration, SCALE_FROM, scaleTo))
-                add(view.getAnimator(AnimName.SCALE_Y, startDelay, duration, SCALE_FROM, scaleTo))
-                add(view.getAnimator(AnimName.ALPHA, startDelay, duration, ALPHA_FROM, ALPHA_TO))
+                add(view.getAnimator(AnimName.SCALE_X, SCALE_FROM, scaleTo, startDelay, duration))
+                add(view.getAnimator(AnimName.SCALE_Y, SCALE_FROM, scaleTo, startDelay, duration))
+                add(view.getAnimator(AnimName.ALPHA, ALPHA_FROM, ALPHA_TO, startDelay, duration))
             }
         }
 
@@ -101,15 +101,15 @@ class RippleContainer : RelativeLayout {
         const val ALPHA_FROM = 1f
         const val ALPHA_TO = 0f
 
-        fun View.getAnimator(@AnimName animName: String, startDelay: Long, duration: Long,
-                             from: Float, to: Float): ObjectAnimator =
+        fun View.getAnimator(@AnimName animName: String, from: Float, to: Float,
+                             startDelay: Long, duration: Long): ObjectAnimator =
                 ObjectAnimator.ofFloat(this, animName, from, to).apply {
                     repeatCount = ObjectAnimator.INFINITE
                     repeatMode = ObjectAnimator.RESTART
 
                     interpolator = when (animName) {
                         AnimName.ALPHA -> DecelerateInterpolator()
-                        else -> AccelerateInterpolator()
+                        else -> AccelerateDecelerateInterpolator()
                     }
 
                     this.startDelay = startDelay
