@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.content.res.Configuration
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -12,6 +13,8 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.RelativeLayout
 import androidx.annotation.ColorInt
 import androidx.annotation.StringDef
+import sgtmelon.scriptum.R
+import sgtmelon.scriptum.model.annotation.Theme
 import java.util.*
 
 /**
@@ -38,10 +41,12 @@ class RippleContainer : RelativeLayout {
      * Вызывать метод перед [startAnimation]
      * Элемент, относительно которого будет расчитываться центр для ripple, передавать через [hookView]
      */
-    fun setupAnimation(@ColorInt fillColor: Int, hookView: View): RippleContainer {
+    fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View): RippleContainer {
         val paint = Paint().apply {
             isAntiAlias = true
-            style = Paint.Style.FILL
+
+            style = if (theme == Theme.light) Paint.Style.STROKE else Paint.Style.FILL
+            strokeWidth = resources.getDimension(R.dimen.stroke_2dp)
             color = fillColor
         }
 
@@ -50,7 +55,11 @@ class RippleContainer : RelativeLayout {
 
         val count = maxSize / (viewSize / 2).toInt()
         val duration = 1000L * count / 2
-        val scaleTo = (2 * maxSize / viewSize).toFloat()
+
+        val scaleTo = (maxSize / viewSize).toFloat() * when (resources.configuration.orientation) {
+            Configuration.ORIENTATION_PORTRAIT -> if (theme == Theme.light) 2f else 1.5f
+            else -> if (theme == Theme.light) 1.7f else 1.2f
+        }
 
         val layoutParams = LayoutParams(viewSize.toInt(), viewSize.toInt()).apply {
             addRule(CENTER_HORIZONTAL, TRUE)
@@ -98,7 +107,7 @@ class RippleContainer : RelativeLayout {
     private companion object {
 
         const val SCALE_FROM = 1f
-        const val ALPHA_FROM = 1f
+        const val ALPHA_FROM = 0.7f
         const val ALPHA_TO = 0f
 
         fun View.getAnimator(@AnimName animName: String, from: Float, to: Float,

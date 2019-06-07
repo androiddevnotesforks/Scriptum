@@ -9,6 +9,8 @@ import android.content.BroadcastReceiver
  */
 object ReceiverKey {
 
+    // TODO перевести в data
+
     object Filter {
         private const val PREFIX = "RECEIVER_FILTER"
 

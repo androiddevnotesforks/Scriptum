@@ -9,6 +9,8 @@ package sgtmelon.scriptum.model.key
  */
 object DbField {
 
+    // TODO перевести в data
+
     object Note {
         const val TABLE = "NOTE_TABLE"
         const val ID = "NT_ID"

@@ -14,6 +14,7 @@ import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.key.ReceiverKey
 import sgtmelon.scriptum.receiver.BindReceiver
@@ -80,7 +81,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
     private fun createNotification(icon: Int, title: String, text: String): Notification {
         val notificationBuilder = NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(icon)
-                .setColor(context.getAppSimpleColor(noteItem.color, isLight = false))
+                .setColor(context.getAppSimpleColor(noteItem.color, ColorShade.DARK))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)

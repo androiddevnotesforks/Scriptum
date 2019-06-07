@@ -9,12 +9,13 @@ import android.view.Window
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.extension.blend
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.getAppThemeColor
 import sgtmelon.scriptum.extension.getTintDrawable
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.key.ColorShade
 
 /**
  * Класс для контроля меню | Для версий API < 21
@@ -85,7 +86,7 @@ open class MenuControl(@Theme private val theme: Int,
     fun setColorFrom(@Color color: Int) {
         statusColorFrom = context.getAppThemeColor(color, statusOnDark)
         toolbarColorFrom = context.getAppThemeColor(color, needDark = false)
-        indicatorColorFrom = context.getAppSimpleColor(color, isLight = false)
+        indicatorColorFrom = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
     /**
@@ -94,7 +95,7 @@ open class MenuControl(@Theme private val theme: Int,
     fun startTint(@Color color: Int) {
         statusColorTo = context.getAppThemeColor(color, statusOnDark)
         toolbarColorTo = context.getAppThemeColor(color, needDark = false)
-        indicatorColorTo = context.getAppSimpleColor(color, isLight = false)
+        indicatorColorTo = context.getAppSimpleColor(color, ColorShade.DARK)
 
         if (statusColorFrom != statusColorTo
                 || toolbarColorFrom != toolbarColorTo

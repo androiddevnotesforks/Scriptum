@@ -6,7 +6,9 @@ import android.os.Handler
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
@@ -47,7 +49,11 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
         Handler().postDelayed({
             callback.animateControlShow()
-            callback.animateCircularColor(context.getAppSimpleColor(color, isLight = false))
+
+            val theme = preference.getTheme()
+            callback.animateCircularColor(theme, context.getAppSimpleColor(color,
+                    if (theme == Theme.light) ColorShade.ACCENT else ColorShade.DARK
+            ))
         }, 1000)
     }
 

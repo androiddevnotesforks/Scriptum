@@ -8,10 +8,11 @@ import sgtmelon.scriptum.test.auto.main.NotesTest
 import sgtmelon.scriptum.test.auto.main.RankTest
 import sgtmelon.scriptum.test.auto.note.roll.*
 import sgtmelon.scriptum.test.auto.note.text.*
-import sgtmelon.scriptum.test.control.AlarmAnimTest
 import sgtmelon.scriptum.test.control.InfoAnimTest
 import sgtmelon.scriptum.test.control.NoteToolbarIconTest
 import sgtmelon.scriptum.test.control.RotationTest
+import sgtmelon.scriptum.test.control.alarm.AlarmAnimDarkTest
+import sgtmelon.scriptum.test.control.alarm.AlarmAnimLightTest
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.main.RankScreen
@@ -729,38 +730,38 @@ private class ScenarioUi {
         }
 
         /**
-         * Сценарии для [AlarmAnimTest]
+         * Сценарии для [AlarmAnimLightTest] и [AlarmAnimDarkTest]
          */
         class AlarmAnim {
 
             /**
              * Светлая тема
-             * Красный :: [AlarmAnimTest.lightColor0]
-             * Фиолетовый :: [AlarmAnimTest.lightColor1]
-             * Индиго :: [AlarmAnimTest.lightColor2]
-             * Синий :: [AlarmAnimTest.lightColor3]
-             * Бирюзовый :: [AlarmAnimTest.lightColor4]
-             * Зелёный :: [AlarmAnimTest.lightColor5]
-             * Желтый :: [AlarmAnimTest.lightColor6]
-             * Оранжевый :: [AlarmAnimTest.lightColor7]
-             * Коричневый :: [AlarmAnimTest.lightColor8]
-             * Сине-серый :: [AlarmAnimTest.lightColor9]
-             * Белый :: [AlarmAnimTest.lightColor10]
+             * Красный :: [AlarmAnimLightTest.colorRed]
+             * Фиолетовый :: [AlarmAnimLightTest.colorPurple]
+             * Индиго :: [AlarmAnimLightTest.colorIndigo]
+             * Синий :: [AlarmAnimLightTest.colorBlue]
+             * Бирюзовый :: [AlarmAnimLightTest.colorTeal]
+             * Зелёный :: [AlarmAnimLightTest.colorGreen]
+             * Желтый :: [AlarmAnimLightTest.colorYellow]
+             * Оранжевый :: [AlarmAnimLightTest.colorOrange]
+             * Коричневый :: [AlarmAnimLightTest.colorBrown]
+             * Сине-серый :: [AlarmAnimLightTest.colorBlueGrey]
+             * Белый :: [AlarmAnimLightTest.colorWhite]
              */
 
             /**
              * Тёмная тема
-             * Красный :: [AlarmAnimTest.darkColor0]
-             * Фиолетовый :: [AlarmAnimTest.darkColor1]
-             * Индиго :: [AlarmAnimTest.darkColor2]
-             * Синий :: [AlarmAnimTest.darkColor3]
-             * Бирюзовый :: [AlarmAnimTest.darkColor4]
-             * Зелёный :: [AlarmAnimTest.darkColor5]
-             * Желтый :: [AlarmAnimTest.darkColor6]
-             * Оранжевый :: [AlarmAnimTest.darkColor7]
-             * Коричневый :: [AlarmAnimTest.darkColor8]
-             * Сине-серый :: [AlarmAnimTest.darkColor9]
-             * Белый :: [AlarmAnimTest.darkColor10]
+             * Красный :: [AlarmAnimDarkTest.colorRed]
+             * Фиолетовый :: [AlarmAnimDarkTest.colorPurple]
+             * Индиго :: [AlarmAnimDarkTest.colorIndigo]
+             * Синий :: [AlarmAnimDarkTest.colorBlue]
+             * Бирюзовый :: [AlarmAnimDarkTest.colorTeal]
+             * Зелёный :: [AlarmAnimDarkTest.colorGreen]
+             * Желтый :: [AlarmAnimDarkTest.colorYellow]
+             * Оранжевый :: [AlarmAnimDarkTest.colorOrange]
+             * Коричневый :: [AlarmAnimDarkTest.colorBrown]
+             * Сине-серый :: [AlarmAnimDarkTest.colorBlueGrey]
+             * Белый :: [AlarmAnimDarkTest.colorWhite]
              */
 
         }

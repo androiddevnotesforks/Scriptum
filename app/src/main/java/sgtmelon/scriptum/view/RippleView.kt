@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
+import sgtmelon.scriptum.R
 
 /**
  * View элемент использующийся внутри [RippleContainer]
@@ -19,7 +20,7 @@ class RippleView(context: Context) : View(context) {
     }
 
     override fun onDraw(canvas: Canvas) = (Math.min(width, height) / 2).toFloat().let {
-        canvas.drawCircle(it, it, it, paint)
+        canvas.drawCircle(it, it, it - resources.getDimension(R.dimen.radius_2dp), paint)
     }
 
 }

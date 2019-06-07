@@ -11,8 +11,10 @@ import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.data.ColorData.accent
 import sgtmelon.scriptum.model.data.ColorData.dark
 import sgtmelon.scriptum.model.data.ColorData.light
+import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import android.graphics.Color as ColorUtil
 
@@ -43,8 +45,12 @@ fun Context.getAppThemeColor(@Color color: Int, needDark: Boolean) =
 
 fun Context.getCompatColor(@ColorRes id: Int) = ContextCompat.getColor(this, id)
 
-@ColorInt fun Context.getAppSimpleColor(@Color color: Int, isLight: Boolean) =
-        getCompatColor(if (isLight) light[color] else dark[color])
+@ColorInt fun Context.getAppSimpleColor(@Color color: Int, shade: ColorShade) =
+        getCompatColor(when(shade) {
+            ColorShade.LIGHT -> light[color]
+            ColorShade.ACCENT -> accent[color]
+            ColorShade.DARK -> dark[color]
+        })
 
 /**
  * Покараска элемента меню в стандартный цвет

@@ -103,9 +103,9 @@ class AlarmActivity : AppActivity(), AlarmCallback {
         adapter?.notifyDataSetChanged(arrayListOf(noteModel))
     }
 
-    override fun animateCircularColor(@ColorInt fillColor: Int) {
+    override fun animateCircularColor(@Theme theme: Int, @ColorInt fillColor: Int) {
         logoView?.let {
-            rippleContainer?.setupAnimation(fillColor, it)?.startAnimation()
+            rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation()
         }
     }
 

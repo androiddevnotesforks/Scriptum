@@ -26,7 +26,10 @@ annotation class Color {
         const val white = 10
 
         val list = arrayListOf(
-                red, purple, indigo, blue, teal, green, yellow, orange, brown, blueGrey, white
+                red, purple, indigo,
+                blue, teal, green,
+                yellow, orange, brown,
+                blueGrey, white
         )
     }
 

@@ -9,6 +9,9 @@ import sgtmelon.scriptum.model.item.InputItem
  * @author SerjantArbuz
  */
 object InputAction {
+
+    // TODO перевести в аннотацию
+
     const val rank = 0
     const val color = 1
 

@@ -21,6 +21,15 @@ object ColorData {
             R.color.note_white_light
     )
 
+    val accent = intArrayOf(
+            R.color.note_red_accent, R.color.note_purple_accent,
+            R.color.note_indigo_accent, R.color.note_blue_accent,
+            R.color.note_teal_accent, R.color.note_green_accent,
+            R.color.note_yellow_accent, R.color.note_orange_accent,
+            R.color.note_brown_accent, R.color.note_blue_grey_accent,
+            R.color.note_white_accent
+    )
+
     val dark = intArrayOf(
             R.color.note_red_dark, R.color.note_purple_dark,
             R.color.note_indigo_dark, R.color.note_blue_dark,
