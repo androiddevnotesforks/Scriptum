@@ -19,6 +19,9 @@ class RippleView(context: Context) : View(context) {
         visibility = INVISIBLE
     }
 
+    /**
+     * Из радиуса вычетается небольшой отступ, чтобы круг не был обрезанным
+     */
     override fun onDraw(canvas: Canvas) = (Math.min(width, height) / 2).toFloat().let {
         canvas.drawCircle(it, it, it - resources.getDimension(R.dimen.radius_2dp), paint)
     }

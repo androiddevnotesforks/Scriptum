@@ -46,11 +46,11 @@ class RippleContainer : RelativeLayout {
             isAntiAlias = true
 
             style = if (theme == Theme.light) Paint.Style.STROKE else Paint.Style.FILL
-            strokeWidth = resources.getDimension(R.dimen.stroke_2dp)
+            strokeWidth = resources.getDimension(R.dimen.stroke_4dp)
             color = fillColor
         }
 
-        val viewSize = hookView.width / 1.2
+        val viewSize = hookView.width / 1.3
         val maxSize = Math.max(width, height)
 
         val count = maxSize / (viewSize / 2).toInt()
@@ -66,18 +66,25 @@ class RippleContainer : RelativeLayout {
             topMargin = hookView.top + ((hookView.height - viewSize) / 2).toInt()
         }
 
+        val simpleDelay = duration / count
+
+        animatorList.apply {
+            add(hookView.getAnimator(AnimName.SCALE_X, 0, simpleDelay, 1f, 0.95f, 1f))
+            add(hookView.getAnimator(AnimName.SCALE_Y, 0, simpleDelay, 1f, 0.95f, 1f))
+        }
+
         for (i in 0 until count) {
             val view = RippleView(context).apply { this.paint = paint }
 
             addView(view, layoutParams)
             viewList.add(view)
 
-            val startDelay = i * duration / count
+            val startDelay = i * simpleDelay
 
             animatorList.apply {
-                add(view.getAnimator(AnimName.SCALE_X, SCALE_FROM, scaleTo, startDelay, duration))
-                add(view.getAnimator(AnimName.SCALE_Y, SCALE_FROM, scaleTo, startDelay, duration))
-                add(view.getAnimator(AnimName.ALPHA, ALPHA_FROM, ALPHA_TO, startDelay, duration))
+                add(view.getAnimator(AnimName.SCALE_X, startDelay, duration, SCALE_FROM, scaleTo))
+                add(view.getAnimator(AnimName.SCALE_Y, startDelay, duration, SCALE_FROM, scaleTo))
+                add(view.getAnimator(AnimName.ALPHA, startDelay, duration, ALPHA_FROM, ALPHA_TO))
             }
         }
 
@@ -110,9 +117,9 @@ class RippleContainer : RelativeLayout {
         const val ALPHA_FROM = 0.7f
         const val ALPHA_TO = 0f
 
-        fun View.getAnimator(@AnimName animName: String, from: Float, to: Float,
-                             startDelay: Long, duration: Long): ObjectAnimator =
-                ObjectAnimator.ofFloat(this, animName, from, to).apply {
+        fun View.getAnimator(@AnimName animName: String, startDelay: Long, duration: Long,
+                             vararg values: Float): ObjectAnimator =
+                ObjectAnimator.ofFloat(this, animName, *values).apply {
                     repeatCount = ObjectAnimator.INFINITE
                     repeatMode = ObjectAnimator.RESTART
 

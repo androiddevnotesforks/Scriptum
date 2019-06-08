@@ -25,9 +25,6 @@
     <dimen name="radius_4dp">4dp</dimen>
     <dimen name="radius_8dp">8dp</dimen>
 
-    <dimen name="stroke_2dp">2dp</dimen>
-
-    <integer name="dlg_recycler_padding">24</integer>
-    <integer name="dlg_color_column">4</integer>
+    <dimen name="stroke_4dp">4dp</dimen>
 
 </resources>
