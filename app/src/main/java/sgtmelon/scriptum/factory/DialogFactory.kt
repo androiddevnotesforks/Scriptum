@@ -2,10 +2,7 @@ package sgtmelon.scriptum.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.MessageDialog
-import sgtmelon.safedialog.MultiplyDialog
-import sgtmelon.safedialog.OptionsDialog
-import sgtmelon.safedialog.SingleDialog
+import sgtmelon.safedialog.*
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.dialog.InfoDialog
@@ -48,6 +45,12 @@ object DialogFactory {
 
     fun getColorDialog(fm: FragmentManager?): ColorDialog =
             fm?.findFragmentByTag(Key.COLOR) as? ColorDialog ?: ColorDialog()
+
+    fun getDateDialog(fm: FragmentManager?) =
+            fm?.findFragmentByTag(Key.DATE) as? DateDialog ?: DateDialog()
+
+    fun getTimeDialog(fm: FragmentManager?) =
+            fm?.findFragmentByTag(Key.TIME) as? TimeDialog ?: TimeDialog()
 
     fun getConvertDialog(context: Context, fm: FragmentManager?, type: NoteType): MessageDialog {
         val dialog = fm?.findFragmentByTag(Key.CONVERT) as? MessageDialog ?: MessageDialog()
@@ -99,7 +102,10 @@ object DialogFactory {
         const val OPTIONS = "${PREFIX}_OPTIONS"
         const val CLEAR_BIN = "${PREFIX}_CLEAR_BIN"
 
+        const val DATE = "${PREFIX}_DATE"
+        const val TIME = "${PREFIX}_TIME"
         const val CONVERT = "${PREFIX}_CONVERT"
+
         const val RANK = "${PREFIX}_RANK"
         const val COLOR = "${PREFIX}_COLOR"
 

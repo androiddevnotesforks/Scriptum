@@ -7,19 +7,19 @@ import android.widget.Button
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import android.app.AlertDialog as AlertDialogOld
 
 /**
  * Базовый класс диалогов для наследования
  */
-open class DialogBlank : DialogFragment() {
+abstract class DialogBlank : DialogFragment() {
 
     protected lateinit var activity: Activity
 
     lateinit var title: String
     lateinit var message: String
 
-    protected lateinit var buttonPositive: Button
-    protected lateinit var buttonNeutral: Button
+    protected var buttonPositive: Button? = null
 
     var positiveListener: DialogInterface.OnClickListener? = null
     protected val onPositiveClick = DialogInterface.OnClickListener { dialogInterface, i ->
@@ -44,12 +44,12 @@ open class DialogBlank : DialogFragment() {
         dismissListener?.onDismiss(dialog)
     }
 
-    @CallSuper
-    protected open fun setEnable() {
-        val dialog = dialog as AlertDialog
-
-        buttonPositive = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-        buttonNeutral = dialog.getButton(DialogInterface.BUTTON_NEUTRAL)
+    @CallSuper protected open fun setEnable() {
+        buttonPositive = when (val dialog = dialog) {
+            is AlertDialog -> dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+            is AlertDialogOld -> dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+            else -> null
+        }
     }
 
     companion object {

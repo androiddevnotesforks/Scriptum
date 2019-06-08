@@ -20,12 +20,10 @@ class MultiplyDialog : DialogBlank() {
         private set
 
     fun setArguments(checkArray: BooleanArray) {
-        val bundle = Bundle()
-
-        bundle.putBooleanArray(INIT, checkArray.clone())
-        bundle.putBooleanArray(VALUE, checkArray)
-
-        arguments = bundle
+        arguments = Bundle().apply {
+            putBooleanArray(INIT, checkArray.clone())
+            putBooleanArray(VALUE, checkArray)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -59,7 +57,7 @@ class MultiplyDialog : DialogBlank() {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive.isEnabled = !Arrays.equals(init, check)
+        buttonPositive?.isEnabled = !Arrays.equals(init, check)
     }
 
 }

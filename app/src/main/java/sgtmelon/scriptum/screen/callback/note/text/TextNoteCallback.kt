@@ -53,6 +53,8 @@ interface TextNoteCallback {
 
     fun showColorDialog(@Color color: Int)
 
+    fun showDateDialog()
+
     fun showConvertDialog()
 
 }

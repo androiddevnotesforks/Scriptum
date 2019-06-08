@@ -20,19 +20,20 @@ import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
+
 
 /**
  * Фрагмент для отображения тектовой заметки
@@ -51,6 +52,10 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     private val convertDialog by lazy {
         DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
     }
+
+    // TODO Test
+    private val dateDialog by lazy { DialogFactory.getDateDialog(fragmentManager) }
+    private val timeDialog by lazy { DialogFactory.getTimeDialog(fragmentManager) }
 
     private val viewModel: TextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
@@ -247,6 +252,11 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         fragmentManager?.let {
             colorDialog.apply { setArguments(color) }.show(it, DialogFactory.Key.COLOR)
         }
+    }
+
+    // TODO Test
+    override fun showDateDialog() {
+        fragmentManager?.let { timeDialog.show(it, DialogFactory.Key.TIME) }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {

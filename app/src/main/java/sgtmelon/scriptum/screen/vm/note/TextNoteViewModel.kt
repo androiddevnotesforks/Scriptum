@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.vm.note
 
 import android.app.Application
 import android.os.Bundle
-import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -10,15 +9,15 @@ import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.extension.getTime
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.extension.getTime
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
@@ -176,8 +175,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         return true
     }
 
-    override fun onMenuNotification() =
-            Toast.makeText(context, "TEXT NOTE NOTIFICATION", Toast.LENGTH_LONG).show()
+    override fun onMenuNotification() = callback.showDateDialog()
 
     override fun onMenuBind() = with(noteModel) {
         noteItem.isStatus = !noteItem.isStatus

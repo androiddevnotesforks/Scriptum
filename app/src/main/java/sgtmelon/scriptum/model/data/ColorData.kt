@@ -39,7 +39,7 @@ object ColorData {
             R.color.note_white_dark
     )
 
-    val size = if (light.size == dark.size) light.size else {
+    val size = if (light.size == accent.size && accent.size == dark.size) light.size else {
         throw IndexOutOfBoundsException("Arrays have different size")
     }
 
