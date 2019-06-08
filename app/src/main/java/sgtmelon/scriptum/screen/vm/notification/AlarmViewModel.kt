@@ -46,15 +46,16 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
         longWaitHandler.postDelayed({ callback.finish() }, 15000)
 
         callback.notifyDataSetChanged(noteModel)
+    }
 
-        Handler().postDelayed({
-            callback.animateControlShow()
 
-            val theme = preference.getTheme()
-            callback.animateCircularColor(theme, context.getAppSimpleColor(color,
-                    if (theme == Theme.light) ColorShade.ACCENT else ColorShade.DARK
-            ))
-        }, 1000)
+    fun onStart() = with(callback){
+        val theme = preference.getTheme()
+        startRippleAnimation(theme, context.getAppSimpleColor(color,
+                if (theme == Theme.light) ColorShade.ACCENT else ColorShade.DARK
+        ))
+
+        startControlFadeAnimation()
     }
 
     fun onDestroy() = longWaitHandler.removeCallbacksAndMessages(null)

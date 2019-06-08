@@ -7,6 +7,7 @@ import androidx.annotation.StringDef
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProviders
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
@@ -34,6 +35,11 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
         super.onCreate(savedInstanceState)
 
         beforeFinish { viewModel.onSetup(intent.extras) }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     companion object {

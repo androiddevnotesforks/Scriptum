@@ -18,9 +18,9 @@ interface AlarmCallback {
 
     fun notifyDataSetChanged(noteModel: NoteModel)
 
-    fun animateCircularColor(@Theme theme: Int, @ColorInt fillColor: Int)
+    fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int)
 
-    fun animateControlShow()
+    fun startControlFadeAnimation()
 
     fun startActivity(intent: Intent)
 
