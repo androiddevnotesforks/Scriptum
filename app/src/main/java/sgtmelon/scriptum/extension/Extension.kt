@@ -22,7 +22,7 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.key.ReceiverKey
+import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.repository.room.RoomRepo
 
 fun <T: ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int) : T =
@@ -73,7 +73,7 @@ fun RecyclerView.ViewHolder.checkNoPosition(func: () -> Unit): Boolean {
 
 fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {}) =
         sendBroadcast(Intent(place).apply {
-            putExtra(ReceiverKey.Values.COMMAND, command)
+            putExtra(ReceiverData.Values.COMMAND, command)
             putExtras(Intent().apply(extras))
         })
 

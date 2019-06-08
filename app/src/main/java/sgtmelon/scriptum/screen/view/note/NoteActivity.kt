@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.key.ReceiverKey
+import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.callback.note.NoteCallback
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
@@ -41,7 +41,7 @@ class NoteActivity : AppActivity(), NoteCallback, NoteChildCallback {
             onSetupFragment(isSave = savedInstanceState != null)
         }
 
-        registerReceiver(noteReceiver, IntentFilter(ReceiverKey.Filter.NOTE))
+        registerReceiver(noteReceiver, IntentFilter(ReceiverData.Filter.NOTE))
     }
 
     override fun onDestroy() {

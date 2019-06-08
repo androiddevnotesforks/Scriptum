@@ -3,8 +3,8 @@ package sgtmelon.scriptum.receiver
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.model.key.ReceiverKey.Command
-import sgtmelon.scriptum.model.key.ReceiverKey.Values
+import sgtmelon.scriptum.model.data.ReceiverData.Command
+import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.screen.view.main.MainActivity
 
 /**

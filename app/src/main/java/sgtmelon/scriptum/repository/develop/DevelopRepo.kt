@@ -4,7 +4,7 @@ import android.content.Context
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.key.DbField.Value
+import sgtmelon.scriptum.model.data.DbData.Value
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 

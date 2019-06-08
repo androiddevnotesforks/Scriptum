@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.key.DbField.Note
+import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter

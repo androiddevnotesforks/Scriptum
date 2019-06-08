@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.model.key
+package sgtmelon.scriptum.model.data
 
 import android.content.BroadcastReceiver
 
@@ -7,9 +7,7 @@ import android.content.BroadcastReceiver
  *
  * @author SerjantArbuz
  */
-object ReceiverKey {
-
-    // TODO перевести в data
+object ReceiverData {
 
     object Filter {
         private const val PREFIX = "RECEIVER_FILTER"

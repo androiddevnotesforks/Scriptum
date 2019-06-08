@@ -5,8 +5,8 @@ import android.text.TextWatcher
 import android.widget.EditText
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.model.key.InputAction
 
 /**
  * Контроллер ввода текста для [InputControl]
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.model.key.InputAction
  * @author SerjantArbuz
  */
 class InputTextWatcher(private val view: EditText?,
-                       private val tag: Int,
+                       @InputAction private val tag: Int,
                        private val changeCallback: TextChange,
                        private val inputCallback: InputCallback
 ) : TextWatcher {

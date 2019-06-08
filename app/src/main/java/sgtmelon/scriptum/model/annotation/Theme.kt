@@ -5,6 +5,8 @@ import androidx.annotation.IntDef
 
 /**
  * Аннотация для описания стандартных тем приложения
+ *
+ * @author SerjantArbuz
  */
 @IntDef(Theme.light, Theme.dark)
 annotation class Theme {

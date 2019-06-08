@@ -10,7 +10,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.key.DbField
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
@@ -33,9 +33,9 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     private fun openRoom() = RoomDb.getInstance(context)
 
     private fun getNoteListQuery(bin: Boolean) = SimpleSQLiteQuery(
-            "SELECT * FROM ${DbField.Note.TABLE}" +
-                    " WHERE ${DbField.Note.BIN} = ${BoolConverter().toInt(bin)}" +
-                    " ORDER BY ${DbField.Note.orders[preference.getSort()]}")
+            "SELECT * FROM ${DbData.Note.TABLE}" +
+                    " WHERE ${DbData.Note.BIN} = ${BoolConverter().toInt(bin)}" +
+                    " ORDER BY ${DbData.Note.orders[preference.getSort()]}")
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         openRoom().apply {

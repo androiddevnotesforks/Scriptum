@@ -4,6 +4,8 @@ import androidx.annotation.IntDef
 
 /**
  * Ключи сортировки данных
+ *
+ * @author SerjantArbuz
  */
 @IntDef(Sort.create, Sort.change, Sort.rank, Sort.color)
 annotation class Sort {

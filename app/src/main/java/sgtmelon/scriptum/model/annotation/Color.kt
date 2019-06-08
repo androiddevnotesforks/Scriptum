@@ -4,6 +4,8 @@ import androidx.annotation.IntDef
 
 /**
  * Аннотация для описания стандартных цветов приложения
+ *
+ * @author SerjantArbuz
  */
 @IntDef(Color.red, Color.purple, Color.indigo,
         Color.blue, Color.teal, Color.green,

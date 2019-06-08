@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.model.key
+package sgtmelon.scriptum.model.data
 
 /**
  * Константы для БД
@@ -7,9 +7,7 @@ package sgtmelon.scriptum.model.key
  *
  * @author SerjantArbuz
  */
-object DbField {
-
-    // TODO перевести в data
+object DbData {
 
     object Note {
         const val TABLE = "NOTE_TABLE"

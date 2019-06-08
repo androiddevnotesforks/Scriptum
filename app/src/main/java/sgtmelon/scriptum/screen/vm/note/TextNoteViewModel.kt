@@ -13,7 +13,7 @@ import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.InputAction
+import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState

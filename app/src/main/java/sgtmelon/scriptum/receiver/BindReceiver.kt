@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.model.key.ReceiverKey.Command
-import sgtmelon.scriptum.model.key.ReceiverKey.Filter
-import sgtmelon.scriptum.model.key.ReceiverKey.Values
+import sgtmelon.scriptum.model.data.ReceiverData.Command
+import sgtmelon.scriptum.model.data.ReceiverData.Filter
+import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.repository.bind.BindRepo
 

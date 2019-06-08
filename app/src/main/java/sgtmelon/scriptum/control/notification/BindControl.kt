@@ -16,7 +16,7 @@ import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.key.ReceiverKey
+import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible
@@ -136,7 +136,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
 
         fun Context.getUnbindPendingIntent(noteItem: NoteItem): PendingIntent {
             val intent = Intent(this, BindReceiver::class.java).apply {
-                putExtra(ReceiverKey.Values.NOTE_ID, noteItem.id)
+                putExtra(ReceiverData.Values.NOTE_ID, noteItem.id)
             }
 
             return PendingIntent.getBroadcast(

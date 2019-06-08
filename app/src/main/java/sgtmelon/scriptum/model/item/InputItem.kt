@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.model.item
 
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.model.key.InputAction
+import sgtmelon.scriptum.model.annotation.InputAction
 
 /**
  * Модель для [InputControl]
@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.key.InputAction
  * @author SerjantArbuz
  */
 class InputItem(
-        val tag: Int,
+        @InputAction val tag: Int,
         private val valueFrom: String,
         private val valueTo: String,
         val cursor: Cursor? = null,

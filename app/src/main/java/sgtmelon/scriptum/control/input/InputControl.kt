@@ -3,7 +3,7 @@ package sgtmelon.scriptum.control.input
 import android.util.Log
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.model.key.InputAction
+import sgtmelon.scriptum.model.annotation.InputAction
 import java.util.*
 
 /**

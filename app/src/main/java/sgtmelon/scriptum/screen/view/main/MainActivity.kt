@@ -21,7 +21,7 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.model.key.ReceiverKey
+import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
@@ -62,7 +62,7 @@ class MainActivity : AppActivity(), MainCallback {
 
         viewModel.onSetupData(savedInstanceState)
 
-        registerReceiver(mainReceiver, IntentFilter(ReceiverKey.Filter.MAIN))
+        registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
     }
 
     override fun onDestroy() {

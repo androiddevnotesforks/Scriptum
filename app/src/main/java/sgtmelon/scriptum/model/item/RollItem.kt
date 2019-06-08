@@ -4,8 +4,8 @@ import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
 import org.json.JSONObject
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.key.DbField.Note
-import sgtmelon.scriptum.model.key.DbField.Roll
+import sgtmelon.scriptum.model.data.DbData.Note
+import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.room.converter.BoolConverter
 
 /**

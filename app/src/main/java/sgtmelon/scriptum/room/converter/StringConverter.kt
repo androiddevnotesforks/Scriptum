@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.room.converter
 
 import androidx.room.TypeConverter
-import sgtmelon.scriptum.model.key.DbField
-import sgtmelon.scriptum.model.key.DbField.Value
+import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.data.DbData.Value
 import java.util.*
 
 /**
  * Преобразование String - List<Long>
- * В строке разделителем является DIVIDER [DbField]
+ * В строке разделителем является DIVIDER [DbData]
  */
 class StringConverter {
 

@@ -2,7 +2,7 @@ package sgtmelon.scriptum.model.item
 
 import androidx.room.*
 import sgtmelon.scriptum.model.RankModel
-import sgtmelon.scriptum.model.key.DbField.Rank
+import sgtmelon.scriptum.model.data.DbData.Rank
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.StringConverter
 import java.util.*
