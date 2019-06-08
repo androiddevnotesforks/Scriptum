@@ -53,7 +53,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
     }
 
-    // TODO Test
+    // TODO #RELEASE
     private val dateDialog by lazy { DialogFactory.getDateDialog(fragmentManager) }
     private val timeDialog by lazy { DialogFactory.getTimeDialog(fragmentManager) }
 
@@ -254,7 +254,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }
     }
 
-    // TODO Test
+    // TODO #RELEASE
     override fun showDateDialog() {
         fragmentManager?.let { timeDialog.show(it, DialogFactory.Key.TIME) }
     }

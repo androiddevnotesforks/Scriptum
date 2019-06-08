@@ -32,7 +32,8 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
     fun onSetup() = callback.setupView(preference.getTheme())
 
-    // TODO Обработка id = -1
+    // TODO #RELEASE Обработка id = -1
+    // TODO #RELEASE Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
     fun onSetupData(bundle: Bundle?) {
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
