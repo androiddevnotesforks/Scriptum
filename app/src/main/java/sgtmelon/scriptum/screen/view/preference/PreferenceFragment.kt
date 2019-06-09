@@ -48,16 +48,10 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-
-        if (view != null) {
-            val list = view.findViewById<View>(android.R.id.list)
-            list.setPadding(0, 0, 0, 0)
-        }
-
-        return view
-    }
+                              savedInstanceState: Bundle?): View? =
+            super.onCreateView(inflater, container, savedInstanceState)?.apply {
+                findViewById<View>(android.R.id.list).setPadding(0, 0, 0, 0)
+            }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,16 +65,17 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
         viewModel.updateSummary()
 
-        setupAppPreference()
-        setupNotePreference()
-        setupSavePreference()
-        setupOtherPreference()
+        setupApp()
+        setupNotification()
+        setupNote()
+        setupSave()
+        setupOther()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
-    private fun setupAppPreference() {
+    private fun setupApp() {
         themePreference.setOnPreferenceClickListener { viewModel.onClickThemePreference() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -90,7 +85,11 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    private fun setupNotePreference() {
+    private fun setupNotification() {
+        // TODO #RELEASE
+    }
+
+    private fun setupNote() {
         sortPreference.setOnPreferenceClickListener { viewModel.onClickSortPreference() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -107,7 +106,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    private fun setupSavePreference() {
+    private fun setupSave() {
         saveTimePreference.setOnPreferenceClickListener { viewModel.onClickSaveTimePreference() }
 
         saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -124,7 +123,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
     }
 
-    private fun setupOtherPreference() {
+    private fun setupOther() {
         findPreference(getString(R.string.key_other_rate)).setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
 
