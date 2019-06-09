@@ -11,7 +11,11 @@
 
     <string name="title_app_theme">Тема</string>
 
+    <string name="title_notification_repeat">Время повтора</string>
     <string name="title_notification_signal">Тип сигнала</string>
+    <string name="title_notification_melody">Мелодия</string>
+    <string name="title_notification_increase">Нарастание громкости</string>
+    <string name="title_notification_volume">Громкость мелодии</string>
 
     <string name="title_note_sort">Сортировка заметок</string>
     <string name="title_note_color">Цвет заметки по-умолчанию</string>
@@ -27,7 +31,16 @@
 
     <string name="summary_app_theme">Выбранная тема</string>
 
+    <string name="summary_notification_repeat">
+        Будет применяться, чтобы повторить уведомление
+    </string>
     <string name="summary_notification_signal">Будет применяться, чтобы предупредить вас</string>
+    <string name="summary_notification_melody">Будет играть в уведомлении</string>
+    <string name="summary_notification_increase">
+        Плавное увеличение громкости начиная с минимальной
+    </string>
+    <!-- TODO #RELEASE Другой текст -->
+    <string name="summary_notification_volume">Процент громкости</string>
 
     <string name="summary_note_sort">Будет применяться по-умолчанию</string>
     <string name="summary_note_color">Будет применяться по-умолчанию</string>
@@ -41,6 +54,12 @@
     <string-array name="text_app_theme">
         <item>Светлая</item>
         <item>Тёмная</item>
+    </string-array>
+
+    <string-array name="text_notification_repeat">
+        <item>10 минут</item>
+        <item>30 минут</item>
+        <item>1 час</item>
     </string-array>
 
     <string-array name="text_notification_signal">
@@ -69,7 +88,6 @@
         <item>Сине-серый</item>
         <item>Белый</item>
     </string-array>
-
 
     <string-array name="text_save_time">
         <item>1 минута</item>

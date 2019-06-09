@@ -14,12 +14,39 @@
 
     <PreferenceCategory android:title="@string/header_notification">
 
+        <!-- TODO #RELEASE -->
+
         <Preference
+                android:defaultValue="@integer/value_notification_repeat"
+                android:key="@string/key_notification_repeat"
+                android:summary="@string/summary_notification_repeat"
+                android:title="@string/title_notification_repeat"/>
+
+        <Preference
+                android:defaultValue="@integer/value_notification_signal"
                 android:key="@string/key_notification_signal"
                 android:summary="@string/summary_notification_signal"
                 android:title="@string/title_notification_signal"/>
 
-        <!-- TODO #RELEASE -->
+        <Preference
+                android:enabled="false"
+                android:key="@string/key_notification_melody"
+                android:summary="@string/summary_notification_melody"
+                android:title="@string/title_notification_melody"/>
+
+        <CheckBoxPreference
+                android:defaultValue="@bool/value_notification_increase"
+                android:enabled="false"
+                android:key="@string/key_notification_increase"
+                android:summary="@string/summary_notification_increase"
+                android:title="@string/title_notification_increase"/>
+
+        <Preference
+                android:defaultValue="@integer/value_notification_volume"
+                android:enabled="false"
+                android:key="@string/key_notification_volume"
+                android:summary="@string/summary_notification_volume"
+                android:title="@string/title_notification_volume"/>
 
     </PreferenceCategory>
 
