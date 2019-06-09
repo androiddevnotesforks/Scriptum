@@ -1,36 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- App -->
-    <string name="pref_app_header">Приложение</string>
+    <string name="header_app">Приложение</string>
+    <string name="header_notification">Уведомления</string>
+    <string name="header_note">Заметки</string>
+    <string name="header_save">Сохранение</string>
+    <string name="header_other">Прочее</string>
 
-    <string name="pref_theme_title">Тема</string>
-    <string name="pref_theme_summary">Выбранная тема</string>
+    <!---->
 
-    <string-array name="pref_theme_text">
+    <string name="title_app_theme">Тема</string>
+
+    <string name="title_notification_signal">Тип сигнала</string>
+
+    <string name="title_note_sort">Сортировка заметок</string>
+    <string name="title_note_color">Цвет заметки по-умолчанию</string>
+
+    <string name="title_save_pause">Сохранение при остановке приложения</string>
+    <string name="title_save_auto">Автоматическое сохранение</string>
+    <string name="title_save_time">Период</string>
+
+    <string name="title_other_rate">Оценить</string>
+    <string name="title_other_about">О приложении</string>
+
+    <!---->
+
+    <string name="summary_app_theme">Выбранная тема</string>
+
+    <string name="summary_notification_signal">Будет применяться, чтобы предупредить вас</string>
+
+    <string name="summary_note_sort">Будет применяться по-умолчанию</string>
+    <string name="summary_note_color">Будет применяться по-умолчанию</string>
+
+    <string name="summary_save_pause">При редактировании заметки</string>
+    <string name="summary_save_auto">При редактировании заметки</string>
+    <string name="summary_save_time">Количество минут</string>
+
+    <!---->
+
+    <string-array name="text_app_theme">
         <item>Светлая</item>
         <item>Тёмная</item>
     </string-array>
 
+    <string-array name="text_notification_signal">
+        <item>Мелодия</item>
+        <item>Вибрация</item>
+        <item>Фонарик</item>
+    </string-array>
 
-    <!-- Note -->
-    <string name="pref_note_header">Заметки</string>
-
-    <string name="pref_sort_title">Сортировка заметок</string>
-    <string name="pref_sort_summary">Будет применяться по-умолчанию</string>
-    <string name="pref_sort_summary_start">По</string>
-
-    <string-array name="pref_sort_text">
+    <string-array name="text_note_sort">
         <item>По времени изменения</item>
         <item>По времени создания</item>
         <item>По категориям</item>
         <item>По цвету</item>
     </string-array>
 
-    <string name="pref_color_title">Цвет заметки по-умолчанию</string>
-    <string name="pref_color_summary">Будет применяться по-умолчанию</string>
-
-    <string-array name="pref_color_text">
+    <string-array name="text_note_color">
         <item>Красный</item>
         <item>Фиолетовый</item>
         <item>Индиго</item>
@@ -45,30 +71,10 @@
     </string-array>
 
 
-    <!-- Save -->
-    <string name="pref_save_header">Сохранение</string>
-
-    <string name="pref_pause_save_title">Сохранение при остановке приложения</string>
-    <string name="pref_pause_save_summary">При редактировании заметки</string>
-
-    <string name="pref_auto_save_title">Автоматическое сохранение</string>
-    <string name="pref_auto_save_summary">При редактировании заметки</string>
-
-    <string name="pref_save_time_title">Период</string>
-    <string name="pref_save_time_summary">Количество минут</string>
-
-    <string-array name="pref_save_time_text">
+    <string-array name="text_save_time">
         <item>1 минута</item>
         <item>3 минуты</item>
         <item>7 минут</item>
     </string-array>
-
-
-    <!-- Other -->
-    <string name="pref_other_header">Прочее</string>
-
-    <string name="pref_rate_title">Оценить</string>
-
-    <string name="pref_about_title">О приложении</string>
 
 </resources>

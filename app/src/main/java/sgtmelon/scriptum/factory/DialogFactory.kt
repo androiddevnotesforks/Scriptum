@@ -67,8 +67,8 @@ object DialogFactory {
     fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
         val dialog = fm?.findFragmentByTag(Key.SORT) as? SingleDialog ?: SingleDialog()
 
-        dialog.title = context.getString(R.string.pref_sort_title)
-        dialog.rows = context.resources.getStringArray(R.array.pref_sort_text)
+        dialog.title = context.getString(R.string.title_note_sort)
+        dialog.rows = context.resources.getStringArray(R.array.text_note_sort)
 
         return dialog
     }
@@ -76,8 +76,8 @@ object DialogFactory {
     fun getSaveTimeDialog(context: Context, fm: FragmentManager?): SingleDialog {
         val dialog = fm?.findFragmentByTag(Key.SAVE_TIME) as? SingleDialog ?: SingleDialog()
 
-        dialog.title = context.getString(R.string.pref_save_time_title)
-        dialog.rows = context.resources.getStringArray(R.array.pref_save_time_text)
+        dialog.title = context.getString(R.string.title_save_time)
+        dialog.rows = context.resources.getStringArray(R.array.text_save_time)
 
         return dialog
     }
@@ -85,8 +85,8 @@ object DialogFactory {
     fun getThemeDialog(context: Context, fm: FragmentManager?): SingleDialog {
         val dialog = fm?.findFragmentByTag(Key.THEME) as? SingleDialog ?: SingleDialog()
 
-        dialog.title = context.getString(R.string.pref_theme_title)
-        dialog.rows = context.resources.getStringArray(R.array.pref_theme_text)
+        dialog.title = context.getString(R.string.title_app_theme)
+        dialog.rows = context.resources.getStringArray(R.array.text_app_theme)
 
         return dialog
     }

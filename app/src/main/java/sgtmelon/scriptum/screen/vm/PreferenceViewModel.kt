@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm
 import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.callback.PreferenceCallback
@@ -13,16 +12,16 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
     private val preference = PreferenceRepo(context)
 
     private val themeSummary: Array<String> =
-            context.resources.getStringArray(R.array.pref_theme_text)
+            context.resources.getStringArray(R.array.text_app_theme)
 
     private val sortSummary: Array<String> =
-            context.resources.getStringArray(R.array.pref_sort_text)
+            context.resources.getStringArray(R.array.text_note_sort)
 
     private val colorSummary: Array<String> =
-            context.resources.getStringArray(R.array.pref_color_text)
+            context.resources.getStringArray(R.array.text_note_color)
 
     private val saveTimeSummary: Array<String> =
-            context.resources.getStringArray(R.array.pref_save_time_text)
+            context.resources.getStringArray(R.array.text_save_time)
 
     fun updateSummary() = with(callback) {
         updateThemePrefSummary(themeSummary[preference.getTheme()])
@@ -46,9 +45,9 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
         return true
     }
 
-    fun onResultSortDialog(@Sort sort: Int) {
-        preference.setSort(sort)
-        callback.updateSortSummary(sortSummary[sort])
+    fun onResultSortDialog(value: Int) {
+        preference.setSort(value)
+        callback.updateSortSummary(sortSummary[value])
     }
 
     fun onClickColorPreference(): Boolean {

@@ -23,9 +23,10 @@ object DbData {
         const val BIN = "NT_BIN"
         const val STATUS = "NT_STATUS"
 
+        // TODO #RELEASE добавить пост сортировку (после сортировки по категории и цвету)
         val orders = arrayOf(
-                "DATE($CREATE) DESC, TIME($CREATE) DESC",
                 "DATE($CHANGE) DESC, TIME($CHANGE) DESC",
+                "DATE($CREATE) DESC, TIME($CREATE) DESC",
                 "$RANK_PS ASC",
                 "$COLOR ASC"
         )

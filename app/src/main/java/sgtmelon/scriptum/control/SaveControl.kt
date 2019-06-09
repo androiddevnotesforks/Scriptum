@@ -19,7 +19,7 @@ class SaveControl(context: Context, private val result: Result) {
     private val isAutoSaveOn: Boolean = PreferenceRepo(context).isAutoSaveOn()
 
     private val saveTime: Int = if (isAutoSaveOn) {
-        context.resources.getIntArray(R.array.pref_save_time_value)[PreferenceRepo(context).getSavePeriod()]
+        context.resources.getIntArray(R.array.value_save_time_array)[PreferenceRepo(context).getSavePeriod()]
     } else {
         0
     }

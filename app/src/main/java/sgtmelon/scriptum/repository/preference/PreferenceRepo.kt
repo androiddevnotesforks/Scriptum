@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.Sort
 
 /**
  * Репозиторий для работы с [SharedPreferences]
@@ -20,8 +19,8 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
             PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun isFirstStart(): Boolean {
-        val defaultValue = resources.getBoolean(R.bool.pref_first_start_default)
-        val value = preference.getBoolean(resources.getString(R.string.pref_first_start), defaultValue)
+        val defaultValue = resources.getBoolean(R.bool.value_first_start)
+        val value = preference.getBoolean(resources.getString(R.string.key_first_start), defaultValue)
 
         if (value) setFirstStart(false)
 
@@ -29,36 +28,36 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
     }
 
     override fun setFirstStart(value: Boolean) =
-            preference.edit().putBoolean(resources.getString(R.string.pref_first_start), value).apply()
+            preference.edit().putBoolean(resources.getString(R.string.key_first_start), value).apply()
 
     //region Preference Screen
 
-    override fun getTheme() = preference.getInt(resources.getString(R.string.pref_key_theme), resources.getInteger(R.integer.pref_theme_default))
+    override fun getTheme() = preference.getInt(resources.getString(R.string.key_app_theme), resources.getInteger(R.integer.value_app_theme))
 
-    override fun setTheme(value: Int) = preference.edit().putInt(resources.getString(R.string.pref_key_theme), value).apply()
+    override fun setTheme(value: Int) = preference.edit().putInt(resources.getString(R.string.key_app_theme), value).apply()
 
-    override fun getSort() = preference.getInt(resources.getString(R.string.pref_key_sort), Sort.change)
+    override fun getSort() = preference.getInt(resources.getString(R.string.key_note_sort), resources.getInteger(R.integer.value_note_sort))
 
-    override fun setSort(value: Int) = preference.edit().putInt(resources.getString(R.string.pref_key_sort), value).apply()
+    override fun setSort(value: Int) = preference.edit().putInt(resources.getString(R.string.key_note_sort), value).apply()
 
-    override fun getDefaultColor() = preference.getInt(resources.getString(R.string.pref_key_color), resources.getInteger(R.integer.pref_color_default))
+    override fun getDefaultColor() = preference.getInt(resources.getString(R.string.key_note_color), resources.getInteger(R.integer.value_note_color))
 
-    override fun setDefaultColor(value: Int) = preference.edit().putInt(resources.getString(R.string.pref_key_color), value).apply()
+    override fun setDefaultColor(value: Int) = preference.edit().putInt(resources.getString(R.string.key_note_color), value).apply()
 
     override fun isPauseSaveOn(): Boolean {
-        val defaultValue = resources.getBoolean(R.bool.pref_pause_save_default)
-        return preference.getBoolean(resources.getString(R.string.pref_key_pause_save), defaultValue)
+        val defaultValue = resources.getBoolean(R.bool.value_save_pause)
+        return preference.getBoolean(resources.getString(R.string.key_save_pause), defaultValue)
     }
 
     override fun isAutoSaveOn(): Boolean {
-        val defaultValue = resources.getBoolean(R.bool.pref_auto_save_default)
-        return preference.getBoolean(resources.getString(R.string.pref_key_auto_save), defaultValue)
+        val defaultValue = resources.getBoolean(R.bool.value_save_auto)
+        return preference.getBoolean(resources.getString(R.string.key_save_auto), defaultValue)
     }
 
-    override fun getSavePeriod() = preference.getInt(resources.getString(R.string.pref_key_save_time), resources.getInteger(R.integer.pref_save_time_default))
+    override fun getSavePeriod() = preference.getInt(resources.getString(R.string.key_save_time), resources.getInteger(R.integer.value_save_time))
 
     override fun setSavePeriod(value: Int) =
-            preference.edit().putInt(resources.getString(R.string.pref_key_save_time), value).apply()
+            preference.edit().putInt(resources.getString(R.string.key_save_time), value).apply()
 
     //endregion
 

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.callback
 
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.preference.PreferenceFragment
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
@@ -19,7 +18,7 @@ interface PreferenceCallback {
 
     fun updateSortSummary(summary: String)
 
-    fun showSortDialog(@Sort value: Int)
+    fun showSortDialog(value: Int)
 
     fun updateColorSummary(summary: String)
 

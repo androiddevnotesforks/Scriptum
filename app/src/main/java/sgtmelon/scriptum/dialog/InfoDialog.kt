@@ -37,7 +37,7 @@ class InfoDialog : DialogBlank(), View.OnClickListener {
             super.onSaveInstanceState(outState.apply { putInt(VALUE, click) })
 
     override fun onClick(v: View) {
-        if (++click == activity.resources.getInteger(R.integer.pref_logo_click_value)) {
+        if (++click == activity.resources.getInteger(R.integer.value_develop_open)) {
             click = 0
             logoClick.onClick(v)
             dialog?.cancel()

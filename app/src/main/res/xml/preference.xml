@@ -1,63 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:key="screen">
+                  android:key="screen">
 
-    <PreferenceCategory android:title="@string/pref_app_header">
+    <PreferenceCategory android:title="@string/header_app">
 
         <Preference
-                android:defaultValue="@integer/pref_theme_default"
-                android:key="@string/pref_key_theme"
-                android:summary="@string/pref_theme_summary"
-                android:title="@string/pref_theme_title" />
+                android:defaultValue="@integer/value_app_theme"
+                android:key="@string/key_app_theme"
+                android:summary="@string/summary_app_theme"
+                android:title="@string/title_app_theme"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_note_header">
+    <PreferenceCategory android:title="@string/header_notification">
 
         <Preference
-            android:key="@string/pref_key_sort"
-            android:summary="@string/pref_sort_summary"
-            android:title="@string/pref_sort_title" />
+                android:key="@string/key_notification_signal"
+                android:summary="@string/summary_notification_signal"
+                android:title="@string/title_notification_signal"/>
 
-        <Preference
-            android:defaultValue="@integer/pref_color_default"
-            android:key="@string/pref_key_color"
-            android:summary="@string/pref_color_summary"
-            android:title="@string/pref_color_title" />
+        <!-- TODO #RELEASE -->
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_save_header">
+    <PreferenceCategory android:title="@string/header_note">
+
+        <Preference
+                android:defaultValue="@integer/value_note_sort"
+                android:key="@string/key_note_sort"
+                android:summary="@string/summary_note_sort"
+                android:title="@string/title_note_sort"/>
+
+        <Preference
+                android:defaultValue="@integer/value_note_color"
+                android:key="@string/key_note_color"
+                android:summary="@string/summary_note_color"
+                android:title="@string/title_note_color"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/header_save">
 
         <CheckBoxPreference
-            android:defaultValue="@bool/pref_pause_save_default"
-            android:key="@string/pref_key_pause_save"
-            android:summary="@string/pref_pause_save_summary"
-            android:title="@string/pref_pause_save_title" />
+                android:defaultValue="@bool/value_save_pause"
+                android:key="@string/key_save_pause"
+                android:summary="@string/summary_save_pause"
+                android:title="@string/title_save_pause"/>
 
         <CheckBoxPreference
-            android:defaultValue="@bool/pref_auto_save_default"
-            android:key="@string/pref_key_auto_save"
-            android:summary="@string/pref_auto_save_summary"
-            android:title="@string/pref_auto_save_title" />
+                android:defaultValue="@bool/value_save_auto"
+                android:key="@string/key_save_auto"
+                android:summary="@string/summary_save_auto"
+                android:title="@string/title_save_auto"/>
 
         <Preference
-            android:defaultValue="@integer/pref_save_time_default"
-            android:key="@string/pref_key_save_time"
-            android:summary="@string/pref_save_time_summary"
-            android:title="@string/pref_save_time_title" />
+                android:defaultValue="@integer/value_save_time"
+                android:key="@string/key_save_time"
+                android:summary="@string/summary_save_time"
+                android:title="@string/title_save_time"/>
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_other_header">
+    <PreferenceCategory android:title="@string/header_other">
 
         <Preference
-            android:key="@string/pref_key_rate"
-            android:title="@string/pref_rate_title"/>
+                android:key="@string/key_other_rate"
+                android:title="@string/title_other_rate"/>
 
         <Preference
-            android:key="@string/pref_key_about"
-            android:title="@string/pref_about_title" />
+                android:key="@string/key_other_about"
+                android:title="@string/title_other_about"/>
 
     </PreferenceCategory>
 

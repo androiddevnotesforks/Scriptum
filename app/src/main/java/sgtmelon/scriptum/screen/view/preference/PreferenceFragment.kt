@@ -15,7 +15,6 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.PreferenceCallback
@@ -43,10 +42,10 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     private val saveTimeDialog by lazy { DialogFactory.getSaveTimeDialog(activity, fm) }
     private val themeDialog by lazy { DialogFactory.getThemeDialog(activity, fm) }
 
-    private val sortPreference: Preference by lazy { findPreference(getString(R.string.pref_key_sort)) }
-    private val colorPreference: Preference by lazy { findPreference(getString(R.string.pref_key_color)) }
-    private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.pref_key_save_time)) }
-    private val themePreference: Preference by lazy { findPreference(getString(R.string.pref_key_theme)) }
+    private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
+    private val colorPreference: Preference by lazy { findPreference(getString(R.string.key_note_color)) }
+    private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
+    private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -101,7 +100,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
         colorPreference.setOnPreferenceClickListener { viewModel.onClickColorPreference() }
 
-        colorDialog.title = getString(R.string.pref_color_title)
+        colorDialog.title = getString(R.string.title_note_color)
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultColorDialog(colorDialog.check)
         }
@@ -116,7 +115,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         }
         saveTimeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        val autoSavePreference = findPreference(getString(R.string.pref_key_auto_save)) as? CheckBoxPreference
+        val autoSavePreference = findPreference(getString(R.string.key_save_auto)) as? CheckBoxPreference
         autoSavePreference?.setOnPreferenceChangeListener { _, newValue ->
             saveTimePreference.isEnabled = newValue as Boolean
             return@setOnPreferenceChangeListener true
@@ -126,7 +125,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     }
 
     private fun setupOtherPreference() {
-        findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener {
+        findPreference(getString(R.string.key_other_rate)).setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
 
             try {
@@ -140,7 +139,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
             return@setOnPreferenceClickListener true
         }
 
-        findPreference(getString(R.string.pref_key_about)).setOnPreferenceClickListener {
+        findPreference(getString(R.string.key_other_about)).setOnPreferenceClickListener {
             openState.tryInvoke { infoDialog.show(fm, DialogFactory.Key.INFO) }
             return@setOnPreferenceClickListener true
         }
@@ -165,7 +164,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         sortPreference.summary = summary
     }
 
-    override fun showSortDialog(@Sort value: Int) = openState.tryInvoke {
+    override fun showSortDialog(value: Int) = openState.tryInvoke {
         sortDialog.apply { setArguments(value) }.show(fm, DialogFactory.Key.SORT)
     }
 
