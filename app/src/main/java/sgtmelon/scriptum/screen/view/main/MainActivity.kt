@@ -20,8 +20,8 @@ import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.MainCallback
@@ -50,7 +50,7 @@ class MainActivity : AppActivity(), MainCallback {
     private val binFragment by lazy { FragmentFactory.getBinFragment(supportFragmentManager) }
 
     private val openState = OpenState()
-    private val sheetDialog by lazy { DialogFactory.getSheetDialog(supportFragmentManager) }
+    private val addDialog by lazy { DialogFactory.Main.getAddDialog(supportFragmentManager) }
 
     private val fab by lazy { findViewById<FloatingActionButton>(R.id.main_add_fab) }
 
@@ -90,7 +90,7 @@ class MainActivity : AppActivity(), MainCallback {
 
     override fun setupNavigation(@IdRes itemId: Int) {
         fab.setOnClickListener {
-            openState.tryInvoke { sheetDialog.show(supportFragmentManager, DialogFactory.Key.SHEET) }
+            openState.tryInvoke { addDialog.show(supportFragmentManager, DialogFactory.Main.ADD) }
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
@@ -98,13 +98,13 @@ class MainActivity : AppActivity(), MainCallback {
             selectedItemId = itemId
         }
 
-        sheetDialog.itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
-            sheetDialog.dismiss()
+        addDialog.itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
+            addDialog.dismiss()
 
             startActivity(getNoteIntent(NoteData.getTypeById(it.itemId)))
             return@OnNavigationItemSelectedListener true
         }
-        sheetDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        addDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun changeFabState(state: Boolean) = fab.setState(state)

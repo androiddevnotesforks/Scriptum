@@ -17,36 +17,36 @@
         <!-- TODO #RELEASE -->
 
         <Preference
-                android:defaultValue="@integer/value_notification_repeat"
-                android:key="@string/key_notification_repeat"
-                android:summary="@string/summary_notification_repeat"
-                android:title="@string/title_notification_repeat"/>
+                android:defaultValue="@integer/value_alarm_repeat"
+                android:key="@string/key_alarm_repeat"
+                android:summary="@string/summary_alarm_repeat"
+                android:title="@string/title_alarm_repeat"/>
 
         <Preference
-                android:defaultValue="@integer/value_notification_signal"
-                android:key="@string/key_notification_signal"
-                android:summary="@string/summary_notification_signal"
-                android:title="@string/title_notification_signal"/>
+                android:defaultValue="@integer/value_alarm_signal"
+                android:key="@string/key_alarm_signal"
+                android:summary="@string/summary_alarm_signal"
+                android:title="@string/title_alarm_signal"/>
 
         <Preference
                 android:enabled="false"
-                android:key="@string/key_notification_melody"
-                android:summary="@string/summary_notification_melody"
-                android:title="@string/title_notification_melody"/>
+                android:key="@string/key_alarm_melody"
+                android:summary="@string/summary_alarm_melody"
+                android:title="@string/title_alarm_melody"/>
 
         <CheckBoxPreference
-                android:defaultValue="@bool/value_notification_increase"
+                android:defaultValue="@bool/value_alarm_increase"
                 android:enabled="false"
-                android:key="@string/key_notification_increase"
-                android:summary="@string/summary_notification_increase"
-                android:title="@string/title_notification_increase"/>
+                android:key="@string/key_alarm_increase"
+                android:summary="@string/summary_alarm_increase"
+                android:title="@string/title_alarm_increase"/>
 
         <Preference
-                android:defaultValue="@integer/value_notification_volume"
+                android:defaultValue="@integer/value_alarm_volume"
                 android:enabled="false"
-                android:key="@string/key_notification_volume"
-                android:summary="@string/summary_notification_volume"
-                android:title="@string/title_notification_volume"/>
+                android:key="@string/key_alarm_volume"
+                android:summary="@string/summary_alarm_volume"
+                android:title="@string/title_alarm_volume"/>
 
     </PreferenceCategory>
 

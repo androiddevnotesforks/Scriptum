@@ -5,10 +5,10 @@
 
     <integer name="value_app_theme">0</integer>
 
-    <integer name="value_notification_repeat">0</integer>
-    <integer name="value_notification_signal">0</integer>
-    <bool name="value_notification_increase">false</bool>
-    <integer name="value_notification_volume">75</integer>
+    <integer name="value_alarm_repeat">0</integer>
+    <integer name="value_alarm_signal">0</integer>
+    <bool name="value_alarm_increase">false</bool>
+    <integer name="value_alarm_volume">75</integer>
 
     <integer name="value_note_sort">0</integer>
     <integer name="value_note_color">10</integer>

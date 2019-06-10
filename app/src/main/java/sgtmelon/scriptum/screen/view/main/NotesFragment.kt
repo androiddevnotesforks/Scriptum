@@ -48,7 +48,9 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     private val openState = OpenState()
-    private val optionsDialog: OptionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
+    private val optionsDialog: OptionsDialog by lazy {
+        DialogFactory.Main.getOptionsDialog(fragmentManager)
+    }
 
     private lateinit var adapter: NoteAdapter
 
@@ -147,7 +149,7 @@ class NotesFragment : Fragment(), NotesCallback {
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         fragmentManager?.let {
-            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Key.OPTIONS)
+            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Main.OPTIONS)
         }
     }
 

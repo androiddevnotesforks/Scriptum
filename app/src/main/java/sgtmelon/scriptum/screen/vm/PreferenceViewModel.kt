@@ -14,6 +14,9 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
     private val themeSummary: Array<String> =
             context.resources.getStringArray(R.array.text_app_theme)
 
+    private val alarmSummary: Array<String> =
+            context.resources.getStringArray(R.array.text_alarm_repeat)
+
     private val sortSummary: Array<String> =
             context.resources.getStringArray(R.array.text_note_sort)
 
@@ -24,48 +27,60 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
             context.resources.getStringArray(R.array.text_save_time)
 
     fun updateSummary() = with(callback) {
-        updateThemePrefSummary(themeSummary[preference.getTheme()])
-        updateSortSummary(sortSummary[preference.getSort()])
-        updateColorSummary(colorSummary[preference.getDefaultColor()])
+        updateAppThemeSummary(themeSummary[preference.getTheme()])
+        updateAlarmRepeatSummary(alarmSummary[preference.getRepeat()])
+        updateNoteSortSummary(sortSummary[preference.getSort()])
+        updateNoteColorSummary(colorSummary[preference.getDefaultColor()])
         updateSaveTimeSummary(saveTimeSummary[preference.getSavePeriod()])
     }
 
-    fun onClickThemePreference(): Boolean {
-        callback.showThemeDialog(preference.getTheme())
+    fun onClickAppTheme(): Boolean {
+        callback.showAppThemeDialog(preference.getTheme())
         return true
     }
 
-    fun onResultThemeDialog(@Theme theme: Int) {
+    fun onResultAppTheme(@Theme theme: Int) {
         preference.setTheme(theme)
-        callback.updateThemePrefSummary(themeSummary[theme])
+        callback.updateAppThemeSummary(themeSummary[theme])
     }
 
-    fun onClickSortPreference(): Boolean {
-        callback.showSortDialog(preference.getSort())
+
+    fun onClickAlarmRepeat(): Boolean {
+        callback.showAlarmRepeatDialog(preference.getRepeat())
         return true
     }
 
-    fun onResultSortDialog(value: Int) {
+    fun onResultAlarmRepeat(value : Int) {
+        preference.setRepeat(value)
+        callback.updateAlarmRepeatSummary(alarmSummary[value])
+    }
+
+    fun onClickNoteSort(): Boolean {
+        callback.showNoteSortDialog(preference.getSort())
+        return true
+    }
+
+    fun onResultNoteSort(value: Int) {
         preference.setSort(value)
-        callback.updateSortSummary(sortSummary[value])
+        callback.updateNoteSortSummary(sortSummary[value])
     }
 
-    fun onClickColorPreference(): Boolean {
-        callback.showColorDialog(preference.getDefaultColor())
+    fun onClickNoteColor(): Boolean {
+        callback.showNoteColorDialog(preference.getDefaultColor())
         return true
     }
 
-    fun onResultColorDialog(@Color color: Int) {
+    fun onResultNoteColor(@Color color: Int) {
         preference.setDefaultColor(color)
-        callback.updateColorSummary(colorSummary[color])
+        callback.updateNoteColorSummary(colorSummary[color])
     }
 
-    fun onClickSaveTimePreference(): Boolean {
+    fun onClickSaveTime(): Boolean {
         callback.showSaveTimeDialog(preference.getSavePeriod())
         return true
     }
 
-    fun onResultSaveTimeDialog(check: Int) {
+    fun onResultSaveTime(check: Int) {
         preference.setSavePeriod(check)
         callback.updateSaveTimeSummary(saveTimeSummary[check])
     }

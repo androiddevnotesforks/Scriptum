@@ -46,16 +46,18 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
     private val openState = OpenState()
     private val rankDialog by lazy {
-        DialogFactory.getRankDialog(context as Activity, fragmentManager)
+        DialogFactory.Note.getRankDialog(context as Activity, fragmentManager)
     }
-    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
+    private val colorDialog by lazy {
+        DialogFactory.Note.getColorDialog(context as Activity, fragmentManager)
+    }
     private val convertDialog by lazy {
-        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
+        DialogFactory.Note.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
     }
 
     // TODO #RELEASE
-    private val dateDialog by lazy { DialogFactory.getDateDialog(fragmentManager) }
-    private val timeDialog by lazy { DialogFactory.getTimeDialog(fragmentManager) }
+    private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
+    private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
 
     private val viewModel: TextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
@@ -146,7 +148,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
                 viewModel.onResultColorDialog(colorDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-        }.title = getString(R.string.dialog_title_color)
+        }
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -241,7 +243,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()
         fragmentManager?.let {
-            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogFactory.Key.RANK)
+            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogFactory.Note.RANK)
         }
     }
 
@@ -250,18 +252,18 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
         hideKeyboard()
         fragmentManager?.let {
-            colorDialog.apply { setArguments(color) }.show(it, DialogFactory.Key.COLOR)
+            colorDialog.apply { setArguments(color) }.show(it, DialogFactory.Note.COLOR)
         }
     }
 
     // TODO #RELEASE
     override fun showDateDialog() {
-        fragmentManager?.let { timeDialog.show(it, DialogFactory.Key.TIME) }
+        fragmentManager?.let { timeDialog.show(it, DialogFactory.Note.TIME) }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        fragmentManager?.let { convertDialog.show(it, DialogFactory.Key.CONVERT) }
+        fragmentManager?.let { convertDialog.show(it, DialogFactory.Note.CONVERT) }
     }
 
     companion object {

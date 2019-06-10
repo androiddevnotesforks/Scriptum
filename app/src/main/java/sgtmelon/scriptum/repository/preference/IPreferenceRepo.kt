@@ -20,6 +20,10 @@ interface IPreferenceRepo {
 
     fun setTheme(@Theme value: Int)
 
+    fun getRepeat(): Int
+
+    fun setRepeat(value: Int)
+
     fun getSort(): Int
 
     fun setSort(value: Int)

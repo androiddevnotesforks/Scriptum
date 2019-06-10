@@ -29,18 +29,18 @@ import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -65,11 +65,13 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
     private val openState = OpenState()
     private val rankDialog by lazy {
-        DialogFactory.getRankDialog(context as Activity, fragmentManager)
+        DialogFactory.Note.getRankDialog(context as Activity, fragmentManager)
     }
-    private val colorDialog by lazy { DialogFactory.getColorDialog(fragmentManager) }
+    private val colorDialog by lazy {
+        DialogFactory.Note.getColorDialog(context as Activity, fragmentManager)
+    }
     private val convertDialog by lazy {
-        DialogFactory.getConvertDialog(context as Activity, fragmentManager, NoteType.ROLL)
+        DialogFactory.Note.getConvertDialog(context as Activity, fragmentManager, NoteType.ROLL)
     }
 
     private val adapter: RollAdapter by lazy {
@@ -173,7 +175,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
                 viewModel.onResultColorDialog(colorDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-        }.title = getString(R.string.dialog_title_color)
+        }
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -365,7 +367,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()
         fragmentManager?.let {
-            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogFactory.Key.RANK)
+            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogFactory.Note.RANK)
         }
     }
 
@@ -374,13 +376,13 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
         hideKeyboard()
         fragmentManager?.let {
-            colorDialog.apply { setArguments(color) }.show(it, DialogFactory.Key.COLOR)
+            colorDialog.apply { setArguments(color) }.show(it, DialogFactory.Note.COLOR)
         }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        fragmentManager?.let { convertDialog.show(it, DialogFactory.Key.CONVERT) }
+        fragmentManager?.let { convertDialog.show(it, DialogFactory.Note.CONVERT) }
     }
 
     companion object {

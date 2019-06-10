@@ -45,7 +45,7 @@ class RankFragment : Fragment(), RankCallback {
     }
 
     private val openState = OpenState()
-    private val renameDialog by lazy { DialogFactory.getRenameDialog(fragmentManager) }
+    private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fragmentManager) }
 
     private val adapter by lazy {
         RankAdapter(ItemListener.Click { view, p ->
@@ -197,7 +197,9 @@ class RankFragment : Fragment(), RankCallback {
     override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) {
         fragmentManager?.let {
             openState.tryInvoke {
-                renameDialog.apply { setArguments(p, name, nameList) }.show(it, DialogFactory.Key.RENAME)
+                renameDialog.apply {
+                    setArguments(p, name, nameList)
+                }.show(it, DialogFactory.Main.RENAME)
             }
         }
     }

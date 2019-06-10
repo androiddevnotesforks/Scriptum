@@ -44,9 +44,9 @@ class BinFragment : Fragment(), BinCallback {
     }
 
     private val openState = OpenState()
-    private val optionsDialog by lazy { DialogFactory.getOptionsDialog(fragmentManager) }
+    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
     private val clearBinDialog by lazy {
-        DialogFactory.getClearBinDialog(activity as Activity, fragmentManager)
+        DialogFactory.Main.getClearBinDialog(activity as Activity, fragmentManager)
     }
 
     private lateinit var adapter: NoteAdapter
@@ -88,7 +88,7 @@ class BinFragment : Fragment(), BinCallback {
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
                 fragmentManager?.let {
-                    openState.tryInvoke { clearBinDialog.show(it, DialogFactory.Key.CLEAR_BIN) }
+                    openState.tryInvoke { clearBinDialog.show(it, DialogFactory.Main.CLEAR_BIN) }
                 }
                 return@setOnMenuItemClickListener true
             }
@@ -141,7 +141,7 @@ class BinFragment : Fragment(), BinCallback {
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         fragmentManager?.let {
-            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Key.OPTIONS)
+            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Main.OPTIONS)
         }
     }
 

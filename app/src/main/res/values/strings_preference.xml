@@ -11,11 +11,11 @@
 
     <string name="title_app_theme">Theme</string>
 
-    <string name="title_notification_repeat">Repeat time</string>
-    <string name="title_notification_signal">Signal type</string>
-    <string name="title_notification_melody">Melody</string>
-    <string name="title_notification_increase">Volume increase</string>
-    <string name="title_notification_volume">Melody volume</string>
+    <string name="title_alarm_repeat">Repeat time</string>
+    <string name="title_alarm_signal">Signal type</string>
+    <string name="title_alarm_melody">Melody</string>
+    <string name="title_alarm_increase">Volume increase</string>
+    <string name="title_alarm_volume">Melody volume</string>
 
     <string name="title_note_sort">Sort notes</string>
     <string name="title_note_color">Default note color</string>
@@ -31,12 +31,12 @@
 
     <string name="summary_app_theme">Selected theme</string>
 
-    <string name="summary_notification_repeat">Will be used for repeat notification</string>
-    <string name="summary_notification_signal">will be used for notify you</string>
-    <string name="summary_notification_melody">Will be play on notification</string>
-    <string name="summary_notification_increase">Smooth volume increase from minimum</string>
+    <string name="summary_alarm_repeat">Will be used for repeat notification</string>
+    <string name="summary_alarm_signal">will be used for notify you</string>
+    <string name="summary_alarm_melody">Will be play on notification</string>
+    <string name="summary_alarm_increase">Smooth volume increase from minimum</string>
     <!-- TODO #RELEASE Другой текст -->
-    <string name="summary_notification_volume">Percent of volume</string>
+    <string name="summary_alarm_volume">Percent of volume</string>
 
     <string name="summary_note_sort">Will be used by default</string>
     <string name="summary_note_color">Will be used by default</string>
@@ -52,13 +52,13 @@
         <item>Dark</item>
     </string-array>
 
-    <string-array name="text_notification_repeat">
+    <string-array name="text_alarm_repeat">
         <item>10 minutes</item>
         <item>30 minutes</item>
         <item>1 hour</item>
     </string-array>
 
-    <string-array name="text_notification_signal">
+    <string-array name="text_alarm_signal">
         <item>Melody</item>
         <item>Vibration</item>
         <item>Flashlight</item>
@@ -97,11 +97,11 @@
 
     <string name="key_app_theme" translatable="false">key_theme</string>
 
-    <string name="key_notification_repeat" translatable="false">key_notification_repeat</string>
-    <string name="key_notification_signal" translatable="false">key_notification_signal</string>
-    <string name="key_notification_melody" translatable="false">key_notification_melody</string>
-    <string name="key_notification_increase" translatable="false">key_notification_increase</string>
-    <string name="key_notification_volume" translatable="false">key_notification_volume</string>
+    <string name="key_alarm_repeat" translatable="false">key_alarm_repeat</string>
+    <string name="key_alarm_signal" translatable="false">key_alarm_signal</string>
+    <string name="key_alarm_melody" translatable="false">key_alarm_melody</string>
+    <string name="key_alarm_increase" translatable="false">key_alarm_increase</string>
+    <string name="key_alarm_volume" translatable="false">key_alarm_volume</string>
 
     <string name="key_note_sort" translatable="false">key_note_sort</string>
     <string name="key_note_color" translatable="false">key_color</string>

@@ -17,90 +17,72 @@ import sgtmelon.scriptum.model.key.NoteType
  */
 object DialogFactory {
 
-    fun getRenameDialog(fm: FragmentManager?): RenameDialog =
-            fm?.findFragmentByTag(Key.RENAME) as? RenameDialog ?: RenameDialog()
+    object Main {
 
-    fun getSheetDialog(fm: FragmentManager?): SheetAddDialog =
-            fm?.findFragmentByTag(Key.SHEET) as? SheetAddDialog ?: SheetAddDialog()
+        fun getRenameDialog(fm: FragmentManager?): RenameDialog =
+                fm?.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
 
-    fun getOptionsDialog(fm: FragmentManager?): OptionsDialog =
-            fm?.findFragmentByTag(Key.OPTIONS) as? OptionsDialog ?: OptionsDialog()
+        fun getAddDialog(fm: FragmentManager?): SheetAddDialog =
+                fm?.findFragmentByTag(ADD) as? SheetAddDialog ?: SheetAddDialog()
 
-    fun getClearBinDialog(context: Context, fm: FragmentManager?): MessageDialog {
-        val dialog = fm?.findFragmentByTag(Key.CLEAR_BIN) as? MessageDialog ?: MessageDialog()
+        fun getOptionsDialog(fm: FragmentManager?): OptionsDialog =
+                fm?.findFragmentByTag(OPTIONS) as? OptionsDialog ?: OptionsDialog()
 
-        dialog.title = context.getString(R.string.dialog_title_clear_bin)
-        dialog.message = context.getString(R.string.dialog_text_clear_bin)
+        fun getClearBinDialog(context: Context, fm: FragmentManager?): MessageDialog {
+            val dialog = fm?.findFragmentByTag(CLEAR_BIN) as? MessageDialog ?: MessageDialog()
 
-        return dialog
-    }
+            dialog.title = context.getString(R.string.dialog_title_clear_bin)
+            dialog.message = context.getString(R.string.dialog_text_clear_bin)
 
-    fun getRankDialog(context: Context, fm: FragmentManager?): MultiplyDialog {
-        val dialog = fm?.findFragmentByTag(Key.RANK) as? MultiplyDialog ?: MultiplyDialog()
-
-        dialog.title = context.getString(R.string.dialog_title_rank)
-
-        return dialog
-    }
-
-    fun getColorDialog(fm: FragmentManager?): ColorDialog =
-            fm?.findFragmentByTag(Key.COLOR) as? ColorDialog ?: ColorDialog()
-
-    fun getDateDialog(fm: FragmentManager?) =
-            fm?.findFragmentByTag(Key.DATE) as? DateDialog ?: DateDialog()
-
-    fun getTimeDialog(fm: FragmentManager?) =
-            fm?.findFragmentByTag(Key.TIME) as? TimeDialog ?: TimeDialog()
-
-    fun getConvertDialog(context: Context, fm: FragmentManager?, type: NoteType): MessageDialog {
-        val dialog = fm?.findFragmentByTag(Key.CONVERT) as? MessageDialog ?: MessageDialog()
-
-        dialog.title = context.getString(R.string.dialog_title_convert)
-        dialog.message = when (type) {
-            NoteType.TEXT -> context.getString(R.string.dialog_text_convert_to_roll)
-            NoteType.ROLL -> context.getString(R.string.dialog_roll_convert_to_text)
+            return dialog
         }
 
-        return dialog
-    }
-
-    fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
-        val dialog = fm?.findFragmentByTag(Key.SORT) as? SingleDialog ?: SingleDialog()
-
-        dialog.title = context.getString(R.string.title_note_sort)
-        dialog.rows = context.resources.getStringArray(R.array.text_note_sort)
-
-        return dialog
-    }
-
-    fun getSaveTimeDialog(context: Context, fm: FragmentManager?): SingleDialog {
-        val dialog = fm?.findFragmentByTag(Key.SAVE_TIME) as? SingleDialog ?: SingleDialog()
-
-        dialog.title = context.getString(R.string.title_save_time)
-        dialog.rows = context.resources.getStringArray(R.array.text_save_time)
-
-        return dialog
-    }
-
-    fun getThemeDialog(context: Context, fm: FragmentManager?): SingleDialog {
-        val dialog = fm?.findFragmentByTag(Key.THEME) as? SingleDialog ?: SingleDialog()
-
-        dialog.title = context.getString(R.string.title_app_theme)
-        dialog.rows = context.resources.getStringArray(R.array.text_app_theme)
-
-        return dialog
-    }
-
-    fun getInfoDialog(fm: FragmentManager?): InfoDialog =
-            fm?.findFragmentByTag(Key.INFO) as? InfoDialog ?: InfoDialog()
-
-    object Key {
-        private const val PREFIX = "DIALOG"
+        private const val PREFIX = "DIALOG_MAIN"
 
         const val RENAME = "${PREFIX}_RENAME"
-        const val SHEET = "${PREFIX}_SHEET"
+        const val ADD = "${PREFIX}_ADD"
         const val OPTIONS = "${PREFIX}_OPTIONS"
         const val CLEAR_BIN = "${PREFIX}_CLEAR_BIN"
+
+    }
+
+    object Note {
+
+        fun getConvertDialog(context: Context, fm: FragmentManager?, type: NoteType): MessageDialog {
+            val dialog = fm?.findFragmentByTag(CONVERT) as? MessageDialog ?: MessageDialog()
+
+            dialog.title = context.getString(R.string.dialog_title_convert)
+            dialog.message = when (type) {
+                NoteType.TEXT -> context.getString(R.string.dialog_text_convert_to_roll)
+                NoteType.ROLL -> context.getString(R.string.dialog_roll_convert_to_text)
+            }
+
+            return dialog
+        }
+
+        fun getRankDialog(context: Context, fm: FragmentManager?): MultiplyDialog {
+            val dialog = fm?.findFragmentByTag(RANK) as? MultiplyDialog ?: MultiplyDialog()
+
+            dialog.title = context.getString(R.string.dialog_title_rank)
+
+            return dialog
+        }
+
+        fun getColorDialog(context: Context, fm: FragmentManager?): ColorDialog {
+            val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+
+            dialog.title = context.getString(R.string.dialog_title_color)
+
+            return dialog
+        }
+
+        fun getDateDialog(fm: FragmentManager?) =
+                fm?.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
+
+        fun getTimeDialog(fm: FragmentManager?) =
+                fm?.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
+
+        private const val PREFIX = "DIALOG"
 
         const val DATE = "${PREFIX}_DATE"
         const val TIME = "${PREFIX}_TIME"
@@ -109,10 +91,66 @@ object DialogFactory {
         const val RANK = "${PREFIX}_RANK"
         const val COLOR = "${PREFIX}_COLOR"
 
-        const val SORT = "${PREFIX}_SORT"
-        const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
+    }
+
+    object Preference {
+
+        fun getThemeDialog(context: Context, fm: FragmentManager?): SingleDialog {
+            val dialog = fm?.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
+
+            dialog.title = context.getString(R.string.title_app_theme)
+            dialog.rows = context.resources.getStringArray(R.array.text_app_theme)
+
+            return dialog
+        }
+
+        fun getRepeatDialog(context: Context, fm: FragmentManager?): SingleDialog {
+            val dialog = fm?.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
+
+            dialog.title = context.getString(R.string.title_alarm_repeat)
+            dialog.rows = context.resources.getStringArray(R.array.text_alarm_repeat)
+
+            return dialog
+        }
+
+        fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
+            val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
+
+            dialog.title = context.getString(R.string.title_note_sort)
+            dialog.rows = context.resources.getStringArray(R.array.text_note_sort)
+
+            return dialog
+        }
+
+        fun getColorDialog(context: Context, fm: FragmentManager?): ColorDialog {
+            val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+
+            dialog.title = context.getString(R.string.title_note_color)
+
+            return dialog
+        }
+
+        fun getSaveTimeDialog(context: Context, fm: FragmentManager?): SingleDialog {
+            val dialog = fm?.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
+
+            dialog.title = context.getString(R.string.title_save_time)
+            dialog.rows = context.resources.getStringArray(R.array.text_save_time)
+
+            return dialog
+        }
+
+        fun getInfoDialog(fm: FragmentManager?): InfoDialog =
+                fm?.findFragmentByTag(INFO) as? InfoDialog ?: InfoDialog()
+
+        private const val PREFIX = "DIALOG_PREF"
+
         const val THEME = "${PREFIX}_THEME"
+        const val REPEAT = "${PREFIX}_REPEAT"
+        const val SORT = "${PREFIX}_SORT"
+        const val COLOR = "${PREFIX}_COLOR"
+        const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
         const val INFO = "${PREFIX}_INFO"
+
     }
 
 }

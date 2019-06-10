@@ -12,17 +12,21 @@ import sgtmelon.scriptum.screen.vm.PreferenceViewModel
  */
 interface PreferenceCallback {
 
-    fun updateThemePrefSummary(summary: String)
+    fun updateAppThemeSummary(summary: String)
 
-    fun showThemeDialog(@Theme value: Int)
+    fun showAppThemeDialog(@Theme value: Int)
 
-    fun updateSortSummary(summary: String)
+    fun updateAlarmRepeatSummary(summary: String)
 
-    fun showSortDialog(value: Int)
+    fun showAlarmRepeatDialog(value: Int)
 
-    fun updateColorSummary(summary: String)
+    fun updateNoteSortSummary(summary: String)
 
-    fun showColorDialog(@Color value: Int)
+    fun showNoteSortDialog(value: Int)
+
+    fun updateNoteColorSummary(summary: String)
+
+    fun showNoteColorDialog(@Color value: Int)
 
     fun updateSaveTimeSummary(summary: String)
 

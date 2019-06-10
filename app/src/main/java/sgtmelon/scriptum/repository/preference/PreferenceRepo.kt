@@ -36,6 +36,11 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
 
     override fun setTheme(value: Int) = preference.edit().putInt(resources.getString(R.string.key_app_theme), value).apply()
 
+    override fun getRepeat() = preference.getInt(resources.getString(R.string.key_alarm_repeat), resources.getInteger(R.integer.value_alarm_repeat))
+
+    override fun setRepeat(value: Int) =
+            preference.edit().putInt(resources.getString(R.string.key_alarm_repeat), value).apply()
+
     override fun getSort() = preference.getInt(resources.getString(R.string.key_note_sort), resources.getInteger(R.integer.value_note_sort))
 
     override fun setSort(value: Int) = preference.edit().putInt(resources.getString(R.string.key_note_sort), value).apply()

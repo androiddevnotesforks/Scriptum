@@ -11,11 +11,11 @@
 
     <string name="title_app_theme">Тема</string>
 
-    <string name="title_notification_repeat">Время повтора</string>
-    <string name="title_notification_signal">Тип сигнала</string>
-    <string name="title_notification_melody">Мелодия</string>
-    <string name="title_notification_increase">Нарастание громкости</string>
-    <string name="title_notification_volume">Громкость мелодии</string>
+    <string name="title_alarm_repeat">Время повтора</string>
+    <string name="title_alarm_signal">Тип сигнала</string>
+    <string name="title_alarm_melody">Мелодия</string>
+    <string name="title_alarm_increase">Нарастание громкости</string>
+    <string name="title_alarm_volume">Громкость мелодии</string>
 
     <string name="title_note_sort">Сортировка заметок</string>
     <string name="title_note_color">Цвет заметки по-умолчанию</string>
@@ -31,16 +31,16 @@
 
     <string name="summary_app_theme">Выбранная тема</string>
 
-    <string name="summary_notification_repeat">
+    <string name="summary_alarm_repeat">
         Будет применяться, чтобы повторить уведомление
     </string>
-    <string name="summary_notification_signal">Будет применяться, чтобы предупредить вас</string>
-    <string name="summary_notification_melody">Будет играть в уведомлении</string>
-    <string name="summary_notification_increase">
+    <string name="summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
+    <string name="summary_alarm_melody">Будет играть в уведомлении</string>
+    <string name="summary_alarm_increase">
         Плавное увеличение громкости начиная с минимальной
     </string>
     <!-- TODO #RELEASE Другой текст -->
-    <string name="summary_notification_volume">Процент громкости</string>
+    <string name="summary_alarm_volume">Процент громкости</string>
 
     <string name="summary_note_sort">Будет применяться по-умолчанию</string>
     <string name="summary_note_color">Будет применяться по-умолчанию</string>
@@ -56,13 +56,13 @@
         <item>Тёмная</item>
     </string-array>
 
-    <string-array name="text_notification_repeat">
+    <string-array name="text_alarm_repeat">
         <item>10 минут</item>
         <item>30 минут</item>
         <item>1 час</item>
     </string-array>
 
-    <string-array name="text_notification_signal">
+    <string-array name="text_alarm_signal">
         <item>Мелодия</item>
         <item>Вибрация</item>
         <item>Фонарик</item>
