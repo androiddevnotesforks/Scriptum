@@ -31,6 +31,8 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
         updateThemeSummary(themeSummary[preference.theme])
         updateRepeatSummary(repeatSummary[preference.repeat])
         updateSignalSummary(preference.getSignalSummary())
+        updateMelodyGroupEnabled(IntConverter().toArray(preference.signal).first())
+
         updateSortSummary(sortSummary[preference.sort])
         updateColorSummary(colorSummary[preference.defaultColor])
         updateSaveTimeSummary(saveTimeSummary[preference.savePeriod])
@@ -65,6 +67,7 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
     fun onResultSignal(array: BooleanArray) {
         preference.signal = IntConverter().toInt(array)
         callback.updateSignalSummary(preference.getSignalSummary())
+        callback.updateMelodyGroupEnabled(IntConverter().toArray(preference.signal).first())
     }
 
     fun onClickSort(): Boolean {

@@ -14,8 +14,8 @@
     <string name="title_alarm_repeat">Время повтора</string>
     <string name="title_alarm_signal">Тип сигнала</string>
     <string name="title_alarm_melody">Мелодия</string>
+    <string name="title_alarm_volume">Громкость</string>
     <string name="title_alarm_increase">Нарастание громкости</string>
-    <string name="title_alarm_volume">Громкость мелодии</string>
 
     <string name="title_note_sort">Сортировка заметок</string>
     <string name="title_note_color">Цвет заметки по-умолчанию</string>
@@ -36,11 +36,11 @@
     </string>
     <string name="summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
     <string name="summary_alarm_melody">Будет играть в уведомлении</string>
+    <!-- TODO #RELEASE Другой текст -->
+    <string name="summary_alarm_volume">Процент громкости</string>
     <string name="summary_alarm_increase">
         Плавное увеличение громкости начиная с минимальной
     </string>
-    <!-- TODO #RELEASE Другой текст -->
-    <string name="summary_alarm_volume">Процент громкости</string>
 
     <string name="summary_note_sort">Будет применяться по-умолчанию</string>
     <string name="summary_note_color">Будет применяться по-умолчанию</string>
@@ -66,17 +66,6 @@
         <item>Мелодия</item>
         <item>Вибрация</item>
         <item>Фонарик</item>
-    </string-array>
-
-    <string-array name="text_alarm_signal_summary">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
     </string-array>
 
     <string-array name="text_note_sort">

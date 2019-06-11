@@ -45,8 +45,13 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     private val infoDialog by lazy { DialogFactory.Preference.getInfoDialog(fm) }
 
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
+
     private val repeatPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_repeat)) }
     private val signalPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_signal)) }
+    private val melodyPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_melody)) }
+    private val increasePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_increase)) }
+    private val volumePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_volume)) }
+
     private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
     private val colorPreference: Preference by lazy { findPreference(getString(R.string.key_note_color)) }
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
@@ -187,8 +192,14 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         signalPreference.summary = summary
     }
 
-    override fun showSignalDialog(value: BooleanArray) {
+    override fun showSignalDialog(value: BooleanArray) = openState.tryInvoke {
         signalDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.SIGNAL)
+    }
+
+    override fun updateMelodyGroupEnabled(enabled: Boolean) {
+        melodyPreference.isEnabled = enabled
+        increasePreference.isEnabled = enabled
+        volumePreference.isEnabled = enabled
     }
 
     override fun updateSortSummary(summary: String) {

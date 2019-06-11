@@ -18,6 +18,8 @@ interface IPreferenceRepo {
 
     var signal: Int
 
+    val volumeIncrease: Boolean
+
     var sort: Int
 
     @Color var defaultColor: Int

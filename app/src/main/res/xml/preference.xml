@@ -29,24 +29,21 @@
                 android:title="@string/title_alarm_signal"/>
 
         <Preference
-                android:enabled="false"
                 android:key="@string/key_alarm_melody"
                 android:summary="@string/summary_alarm_melody"
                 android:title="@string/title_alarm_melody"/>
 
-        <CheckBoxPreference
-                android:defaultValue="@bool/value_alarm_increase"
-                android:enabled="false"
-                android:key="@string/key_alarm_increase"
-                android:summary="@string/summary_alarm_increase"
-                android:title="@string/title_alarm_increase"/>
-
         <Preference
                 android:defaultValue="@integer/value_alarm_volume"
-                android:enabled="false"
                 android:key="@string/key_alarm_volume"
                 android:summary="@string/summary_alarm_volume"
                 android:title="@string/title_alarm_volume"/>
+
+        <CheckBoxPreference
+                android:defaultValue="@bool/value_alarm_increase"
+                android:key="@string/key_alarm_increase"
+                android:summary="@string/summary_alarm_increase"
+                android:title="@string/title_alarm_increase"/>
 
     </PreferenceCategory>
 

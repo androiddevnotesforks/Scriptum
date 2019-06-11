@@ -44,6 +44,12 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
         get() = preference.getInt(resources.getString(R.string.key_alarm_signal), resources.getInteger(R.integer.value_alarm_signal))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_signal), value).apply()
 
+    override val volumeIncrease: Boolean
+        get() {
+            val defaultValue = resources.getBoolean(R.bool.value_alarm_increase)
+            return preference.getBoolean(resources.getString(R.string.key_alarm_increase), defaultValue)
+        }
+
     override var sort: Int
         get() = preference.getInt(resources.getString(R.string.key_note_sort), resources.getInteger(R.integer.value_note_sort))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_note_sort), value).apply()
@@ -90,6 +96,10 @@ class PreferenceRepo(context: Context) : IPreferenceRepo {
     override fun getData() = StringBuilder().apply {
         append("Preference:\n\n")
         append("Theme: $theme\n")
+        append("Repeat: $repeat\n")
+        append("Signal: $signal\n")
+        append("VolumeIncrease: $volumeIncrease\n")
+
         append("Sort: $sort\n")
         append("DefaultColor: $defaultColor\n")
         append("PauseSave: $pauseSaveOn\n")

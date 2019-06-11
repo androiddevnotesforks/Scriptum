@@ -24,6 +24,8 @@ interface PreferenceCallback {
 
     fun showSignalDialog(value: BooleanArray)
 
+    fun updateMelodyGroupEnabled(enabled: Boolean)
+
     fun updateSortSummary(summary: String)
 
     fun showSortDialog(value: Int)

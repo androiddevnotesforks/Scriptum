@@ -14,8 +14,8 @@
     <string name="title_alarm_repeat">Repeat time</string>
     <string name="title_alarm_signal">Signal type</string>
     <string name="title_alarm_melody">Melody</string>
+    <string name="title_alarm_volume">Volume</string>
     <string name="title_alarm_increase">Volume increase</string>
-    <string name="title_alarm_volume">Melody volume</string>
 
     <string name="title_note_sort">Sort notes</string>
     <string name="title_note_color">Default note color</string>
@@ -34,9 +34,9 @@
     <string name="summary_alarm_repeat">Will be used for repeat notification</string>
     <string name="summary_alarm_signal">will be used for notify you</string>
     <string name="summary_alarm_melody">Will be play on notification</string>
-    <string name="summary_alarm_increase">Smooth volume increase from minimum</string>
     <!-- TODO #RELEASE Другой текст -->
     <string name="summary_alarm_volume">Percent of volume</string>
+    <string name="summary_alarm_increase">Smooth volume increase from minimum</string>
 
     <string name="summary_note_sort">Will be used by default</string>
     <string name="summary_note_color">Will be used by default</string>
@@ -62,17 +62,6 @@
         <item>Melody</item>
         <item>Vibration</item>
         <item>Flashlight</item>
-    </string-array>
-
-    <string-array name="text_alarm_signal_summary">
-        <item>I don\'t know how, but you select nothing</item>
-        <item>Melody</item>
-        <item>Vibration</item>
-        <item>Melody, vibration</item>
-        <item>Flashlight</item>
-        <item>Melody, flashlight</item>
-        <item>Vibration, flashlight</item>
-        <item>Melody, vibration, flashlight</item>
     </string-array>
 
     <string-array name="text_note_sort">
@@ -111,8 +100,8 @@
     <string name="key_alarm_repeat" translatable="false">key_alarm_repeat</string>
     <string name="key_alarm_signal" translatable="false">key_alarm_signal</string>
     <string name="key_alarm_melody" translatable="false">key_alarm_melody</string>
-    <string name="key_alarm_increase" translatable="false">key_alarm_increase</string>
     <string name="key_alarm_volume" translatable="false">key_alarm_volume</string>
+    <string name="key_alarm_increase" translatable="false">key_alarm_increase</string>
 
     <string name="key_note_sort" translatable="false">key_note_sort</string>
     <string name="key_note_color" translatable="false">key_color</string>
