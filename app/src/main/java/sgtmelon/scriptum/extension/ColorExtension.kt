@@ -22,9 +22,8 @@ import android.graphics.Color as ColorUtil
  * Получение цвета заметки в зависимости от темы и заднего фона
  * [needDark] - Если элемент находится на тёмном фоне (например индикатор цвета заметки
  */
-@ColorInt
-fun Context.getAppThemeColor(@Color color: Int, needDark: Boolean) =
-        if (PreferenceRepo(this).getTheme() == Theme.light) {
+@ColorInt fun Context.getAppThemeColor(@Color color: Int, needDark: Boolean) =
+        if (PreferenceRepo(context = this).theme == Theme.light) {
             if (needDark) getCompatColor(dark[color])
             else getCompatColor(light[color])
         } else {

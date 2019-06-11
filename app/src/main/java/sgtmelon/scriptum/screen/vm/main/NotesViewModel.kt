@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
+import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
@@ -27,7 +27,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
 
     fun onSetup() = callback.apply {
         setupToolbar()
-        setupRecycler(preference.getTheme())
+        setupRecycler(preference.theme)
     }
 
     fun onUpdateData() {

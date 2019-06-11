@@ -18,7 +18,7 @@ class TextNoteToolbarTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        preference.setFirstStart(false)
+        preference.firstStart = false
         testData.clear()
     }
 

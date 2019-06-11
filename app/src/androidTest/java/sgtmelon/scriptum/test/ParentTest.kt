@@ -33,7 +33,7 @@ abstract class ParentTest {
     val testData = TestData(context)
 
     @Before @CallSuper open fun setUp() {
-        preference.setTheme(if (Random.nextBoolean()) Theme.light else Theme.dark)
+        preference.theme = if (Random.nextBoolean()) Theme.light else Theme.dark
     }
 
     @After @CallSuper open fun tearDown() {}

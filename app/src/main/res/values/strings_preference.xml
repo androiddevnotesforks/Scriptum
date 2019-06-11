@@ -64,6 +64,17 @@
         <item>Flashlight</item>
     </string-array>
 
+    <string-array name="text_alarm_signal_summary">
+        <item>I don\'t know how, but you select nothing</item>
+        <item>Melody</item>
+        <item>Vibration</item>
+        <item>Melody, vibration</item>
+        <item>Flashlight</item>
+        <item>Melody, flashlight</item>
+        <item>Vibration, flashlight</item>
+        <item>Melody, vibration, flashlight</item>
+    </string-array>
+
     <string-array name="text_note_sort">
         <item>By time of change</item>
         <item>By time of creation</item>

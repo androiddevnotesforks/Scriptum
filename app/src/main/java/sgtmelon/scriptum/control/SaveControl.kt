@@ -15,11 +15,11 @@ class SaveControl(context: Context, private val result: Result) {
 
     private val saveHandler = Handler()
 
-    private val isPauseSaveOn: Boolean = PreferenceRepo(context).isPauseSaveOn()
-    private val isAutoSaveOn: Boolean = PreferenceRepo(context).isAutoSaveOn()
+    private val isPauseSaveOn: Boolean = PreferenceRepo(context).pauseSaveOn
+    private val isAutoSaveOn: Boolean = PreferenceRepo(context).autoSaveOn
 
     private val saveTime: Int = if (isAutoSaveOn) {
-        context.resources.getIntArray(R.array.value_save_time_array)[PreferenceRepo(context).getSavePeriod()]
+        context.resources.getIntArray(R.array.value_save_time_array)[PreferenceRepo(context).savePeriod]
     } else {
         0
     }

@@ -38,6 +38,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
     private val themeDialog by lazy { DialogFactory.Preference.getThemeDialog(activity, fm) }
     private val repeatDialog by lazy { DialogFactory.Preference.getRepeatDialog(activity, fm) }
+    private val signalDialog by lazy { DialogFactory.Preference.getSignalDialog(activity, fm) }
     private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
     private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
     private val saveTimeDialog by lazy { DialogFactory.Preference.getSaveTimeDialog(activity, fm) }
@@ -45,6 +46,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
     private val repeatPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_repeat)) }
+    private val signalPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_signal)) }
     private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
     private val colorPreference: Preference by lazy { findPreference(getString(R.string.key_note_color)) }
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
@@ -78,10 +80,10 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
     private fun setupApp() {
-        themePreference.setOnPreferenceClickListener { viewModel.onClickAppTheme() }
+        themePreference.setOnPreferenceClickListener { viewModel.onClickTheme() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultAppTheme(themeDialog.check)
+            viewModel.onResultTheme(themeDialog.check)
             activity.checkThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
@@ -89,16 +91,23 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
     // TODO #RELEASE
     private fun setupNotification() {
-        repeatPreference.setOnPreferenceClickListener { viewModel.onClickAlarmRepeat() }
+        repeatPreference.setOnPreferenceClickListener { viewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultAlarmRepeat(repeatDialog.check)
+            viewModel.onResultRepeat(repeatDialog.check)
         }
         repeatDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+
+        signalPreference.setOnPreferenceClickListener { viewModel.onClickSignal() }
+
+        signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onResultSignal(signalDialog.check)
+        }
+        signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     private fun setupNote() {
-        sortPreference.setOnPreferenceClickListener { viewModel.onClickNoteSort() }
+        sortPreference.setOnPreferenceClickListener { viewModel.onClickSort() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             viewModel.onResultNoteSort(sortDialog.check)
@@ -158,35 +167,43 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         }
     }
 
-    override fun updateAppThemeSummary(summary: String) {
+    override fun updateThemeSummary(summary: String) {
         themePreference.summary = summary
     }
 
-    override fun showAppThemeDialog(@Theme value: Int) = openState.tryInvoke {
+    override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
         themeDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.THEME)
     }
 
-    override fun updateAlarmRepeatSummary(summary: String) {
+    override fun updateRepeatSummary(summary: String) {
         repeatPreference.summary = summary
     }
 
-    override fun showAlarmRepeatDialog(value: Int) = openState.tryInvoke {
+    override fun showRepeatDialog(value: Int) = openState.tryInvoke {
         repeatDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.REPEAT)
     }
 
-    override fun updateNoteSortSummary(summary: String) {
+    override fun updateSignalSummary(summary: String) {
+        signalPreference.summary = summary
+    }
+
+    override fun showSignalDialog(value: BooleanArray) {
+        signalDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.SIGNAL)
+    }
+
+    override fun updateSortSummary(summary: String) {
         sortPreference.summary = summary
     }
 
-    override fun showNoteSortDialog(value: Int) = openState.tryInvoke {
+    override fun showSortDialog(value: Int) = openState.tryInvoke {
         sortDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.SORT)
     }
 
-    override fun updateNoteColorSummary(summary: String) {
+    override fun updateColorSummary(summary: String) {
         colorPreference.summary = summary
     }
 
-    override fun showNoteColorDialog(@Color value: Int) = openState.tryInvoke {
+    override fun showColorDialog(@Color value: Int) = openState.tryInvoke {
         colorDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.COLOR)
     }
 

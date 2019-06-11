@@ -14,19 +14,19 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.control.touch.RollTouchControl
-import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.annotation.InputAction
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.state.CheckState
-import sgtmelon.scriptum.model.state.IconState
-import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.swap
+import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.InputAction
+import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.model.state.CheckState
+import sgtmelon.scriptum.model.state.IconState
+import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
@@ -72,7 +72,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             if (id == NoteData.Default.ID) {
                 noteModel = NoteModel(NoteItem(
                         create = context.getTime(),
-                        color = preference.getDefaultColor(),
+                        color = preference.defaultColor,
                         type = NoteType.ROLL
                 ), ArrayList())
 
@@ -87,8 +87,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         callback.apply {
-            setupBinding(preference.getTheme(), isRankEmpty)
-            setupToolbar(preference.getTheme(), noteModel.noteItem.color, noteState)
+            setupBinding(preference.theme, isRankEmpty)
+            setupToolbar(preference.theme, noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
             setupRecycler(inputControl)

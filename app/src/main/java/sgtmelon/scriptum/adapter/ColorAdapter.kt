@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.ColorHolder
 import sgtmelon.scriptum.dialog.ColorDialog
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.extension.inflateView
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
@@ -20,7 +20,7 @@ class ColorAdapter(context: Context, private val clickListener: ItemListener.Cli
 
     // TODO !! убрать preference
 
-    private val theme = PreferenceRepo(context).getTheme()
+    private val theme = PreferenceRepo(context).theme
 
     private val visibleArray: BooleanArray
     private var check: Int = 0

@@ -11,8 +11,7 @@ import java.util.*
  */
 class StringConverter {
 
-    @TypeConverter
-    fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
+    @TypeConverter fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
         if (string != Value.NONE && string.isNotEmpty()) {
             string.split(Value.DIVIDER.toRegex())
                     .dropLastWhile { it.isEmpty() }
@@ -20,8 +19,7 @@ class StringConverter {
         }
     }
 
-    @TypeConverter
-    fun toString(list: List<Long>?) =
+    @TypeConverter fun toString(list: List<Long>?) =
             if (list != null && list.isNotEmpty()) list.joinToString(Value.DIVIDER) else Value.NONE
 
 }

@@ -10,37 +10,25 @@ import sgtmelon.scriptum.model.annotation.Theme
  */
 interface IPreferenceRepo {
 
-    fun isFirstStart(): Boolean
+    var firstStart: Boolean
 
-    fun setFirstStart(value: Boolean)
+    @Theme var theme: Int
 
-    //region Preference screen
+    var repeat: Int
 
-    @Theme fun getTheme(): Int
+    var signal: Int
 
-    fun setTheme(@Theme value: Int)
+    var sort: Int
 
-    fun getRepeat(): Int
+    @Color var defaultColor: Int
 
-    fun setRepeat(value: Int)
+    val pauseSaveOn: Boolean
 
-    fun getSort(): Int
+    val autoSaveOn: Boolean
 
-    fun setSort(value: Int)
+    var savePeriod: Int
 
-    @Color fun getDefaultColor(): Int
-
-    fun setDefaultColor(@Color value: Int)
-
-    fun isPauseSaveOn(): Boolean
-
-    fun isAutoSaveOn(): Boolean
-
-    fun getSavePeriod(): Int
-
-    fun setSavePeriod(value: Int)
-
-    //endregion
+    fun getSignalSummary(): String
 
     fun getData(): String
 

@@ -18,7 +18,7 @@ class IntroTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        preference.setFirstStart(true)
+        preference.firstStart = true
         testData.clear()
     }
 

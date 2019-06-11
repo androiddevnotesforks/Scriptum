@@ -10,11 +10,11 @@ abstract class AlarmAnimParentTest : ParentTest() {
 
     override fun setUp() {
         super.setUp()
-        preference.setFirstStart(false)
+        preference.firstStart = false
     }
 
     protected fun startTest(@Theme theme: Int, @Color color: Int) {
-        preference.setTheme(theme)
+        preference.theme = theme
 
         val noteItem = testData.clear().let {
             if (Random.nextBoolean()) {

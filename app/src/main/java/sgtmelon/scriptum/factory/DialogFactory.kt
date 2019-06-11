@@ -113,6 +113,16 @@ object DialogFactory {
             return dialog
         }
 
+        fun getSignalDialog(context: Context, fm: FragmentManager?): MultiplyDialog {
+            val dialog = fm?.findFragmentByTag(SIGNAL) as? MultiplyDialog ?: MultiplyDialog()
+
+            dialog.needOneSelect = true
+            dialog.title = context.getString(R.string.title_alarm_signal)
+            dialog.name = context.resources.getStringArray(R.array.text_alarm_signal).toList()
+
+            return dialog
+        }
+
         fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
@@ -146,6 +156,7 @@ object DialogFactory {
 
         const val THEME = "${PREFIX}_THEME"
         const val REPEAT = "${PREFIX}_REPEAT"
+        const val SIGNAL = "${PREFIX}_SIGNAL"
         const val SORT = "${PREFIX}_SORT"
         const val COLOR = "${PREFIX}_COLOR"
         const val SAVE_TIME = "${PREFIX}_SAVE_TIME"

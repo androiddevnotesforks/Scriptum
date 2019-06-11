@@ -35,7 +35,7 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
 
     fun onSetup() = callback.apply {
         setupToolbar()
-        setupRecycler(preference.getTheme())
+        setupRecycler(preference.theme)
     }
 
     /**

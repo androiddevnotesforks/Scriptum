@@ -13,6 +13,7 @@ import java.util.*
 class MultiplyDialog : DialogBlank() {
 
     lateinit var name: List<String>
+    var needOneSelect = false
 
     private lateinit var init: BooleanArray
 
@@ -31,11 +32,11 @@ class MultiplyDialog : DialogBlank() {
 
         init = savedInstanceState?.getBooleanArray(INIT)
                 ?: bundle?.getBooleanArray(INIT)
-                ?: BooleanArray(size = 0)
+                        ?: BooleanArray(size = 0)
 
         check = savedInstanceState?.getBooleanArray(VALUE)
                 ?: bundle?.getBooleanArray(VALUE)
-                ?: BooleanArray(size = 0)
+                        ?: BooleanArray(size = 0)
 
         return AlertDialog.Builder(activity)
                 .setTitle(title)
@@ -57,7 +58,8 @@ class MultiplyDialog : DialogBlank() {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive?.isEnabled = !Arrays.equals(init, check)
+        buttonPositive?.isEnabled = !Arrays.equals(init, check) &&
+                if (needOneSelect) check.contains(true) else true
     }
 
 }

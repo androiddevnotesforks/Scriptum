@@ -68,6 +68,17 @@
         <item>Фонарик</item>
     </string-array>
 
+    <string-array name="text_alarm_signal_summary">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+
     <string-array name="text_note_sort">
         <item>По времени изменения</item>
         <item>По времени создания</item>
