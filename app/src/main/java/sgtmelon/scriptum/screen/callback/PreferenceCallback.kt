@@ -12,6 +12,16 @@ import sgtmelon.scriptum.screen.vm.PreferenceViewModel
  */
 interface PreferenceCallback {
 
+    fun setupApp()
+
+    fun setupNotification(melodyTitleList: Array<String>)
+
+    fun setupNote()
+
+    fun setupSave()
+
+    fun setupOther()
+
     fun updateThemeSummary(summary: String)
 
     fun showThemeDialog(@Theme value: Int)
@@ -25,6 +35,10 @@ interface PreferenceCallback {
     fun showSignalDialog(value: BooleanArray)
 
     fun updateMelodyGroupEnabled(enabled: Boolean)
+
+    fun updateMelodySummary(summary: String)
+
+    fun showMelodyDialog(value: Int)
 
     fun updateSortSummary(summary: String)
 

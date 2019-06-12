@@ -2,7 +2,7 @@ package sgtmelon.scriptum.repository.preference
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.AlarmItem
+import sgtmelon.scriptum.model.item.MelodyItem
 
 /**
  * Интерфейс для общения с [PreferenceRepo]
@@ -18,6 +18,8 @@ interface IPreferenceRepo {
     var repeat: Int
 
     var signal: Int
+
+    var melody: String
 
     val volumeIncrease: Boolean
 
@@ -35,6 +37,6 @@ interface IPreferenceRepo {
 
     fun getData(): String
 
-    fun getAlarmList(): List<AlarmItem>
+    fun getMelodyList(): List<MelodyItem>
 
 }

@@ -5,9 +5,10 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import android.media.RingtoneManager
 import android.preference.PreferenceManager
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.AlarmItem
+import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.room.converter.IntConverter
 
 
@@ -25,59 +26,63 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
     override var firstStart: Boolean
         get() {
-            val defaultValue = resources.getBoolean(sgtmelon.scriptum.R.bool.value_first_start)
-            val value = preference.getBoolean(resources.getString(sgtmelon.scriptum.R.string.key_first_start), defaultValue)
+            val defaultValue = resources.getBoolean(R.bool.value_first_start)
+            val value = preference.getBoolean(resources.getString(R.string.key_first_start), defaultValue)
 
             if (value) firstStart = false
 
             return value
         }
-        set(value) = preference.edit().putBoolean(resources.getString(sgtmelon.scriptum.R.string.key_first_start), value).apply()
+        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_first_start), value).apply()
 
     @Theme override var theme: Int
-        get() = preference.getInt(resources.getString(sgtmelon.scriptum.R.string.key_app_theme), resources.getInteger(sgtmelon.scriptum.R.integer.value_app_theme))
-        set(value) = preference.edit().putInt(resources.getString(sgtmelon.scriptum.R.string.key_app_theme), value).apply()
+        get() = preference.getInt(resources.getString(R.string.key_app_theme), resources.getInteger(R.integer.value_app_theme))
+        set(value) = preference.edit().putInt(resources.getString(R.string.key_app_theme), value).apply()
 
     override var repeat: Int
-        get() = preference.getInt(resources.getString(sgtmelon.scriptum.R.string.key_alarm_repeat), resources.getInteger(sgtmelon.scriptum.R.integer.value_alarm_repeat))
-        set(value) = preference.edit().putInt(resources.getString(sgtmelon.scriptum.R.string.key_alarm_repeat), value).apply()
+        get() = preference.getInt(resources.getString(R.string.key_alarm_repeat), resources.getInteger(R.integer.value_alarm_repeat))
+        set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_repeat), value).apply()
 
     override var signal: Int
-        get() = preference.getInt(resources.getString(sgtmelon.scriptum.R.string.key_alarm_signal), resources.getInteger(sgtmelon.scriptum.R.integer.value_alarm_signal))
-        set(value) = preference.edit().putInt(resources.getString(sgtmelon.scriptum.R.string.key_alarm_signal), value).apply()
+        get() = preference.getInt(resources.getString(R.string.key_alarm_signal), resources.getInteger(R.integer.value_alarm_signal))
+        set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_signal), value).apply()
+
+    override var melody: String
+        get() = preference.getString(resources.getString(R.string.key_alarm_melody), "") ?: ""
+        set(value) = preference.edit().putString(resources.getString(R.string.key_alarm_melody), value).apply()
 
     override val volumeIncrease: Boolean
         get() {
-            val defaultValue = resources.getBoolean(sgtmelon.scriptum.R.bool.value_alarm_increase)
-            return preference.getBoolean(resources.getString(sgtmelon.scriptum.R.string.key_alarm_increase), defaultValue)
+            val defaultValue = resources.getBoolean(R.bool.value_alarm_increase)
+            return preference.getBoolean(resources.getString(R.string.key_alarm_increase), defaultValue)
         }
 
     override var sort: Int
-        get() = preference.getInt(resources.getString(sgtmelon.scriptum.R.string.key_note_sort), resources.getInteger(sgtmelon.scriptum.R.integer.value_note_sort))
-        set(value) = preference.edit().putInt(resources.getString(sgtmelon.scriptum.R.string.key_note_sort), value).apply()
+        get() = preference.getInt(resources.getString(R.string.key_note_sort), resources.getInteger(R.integer.value_note_sort))
+        set(value) = preference.edit().putInt(resources.getString(R.string.key_note_sort), value).apply()
 
     @Color override var defaultColor: Int
-        get() = preference.getInt(resources.getString(sgtmelon.scriptum.R.string.key_note_color), resources.getInteger(sgtmelon.scriptum.R.integer.value_note_color))
-        set(value) = preference.edit().putInt(resources.getString(sgtmelon.scriptum.R.string.key_note_color), value).apply()
+        get() = preference.getInt(resources.getString(R.string.key_note_color), resources.getInteger(R.integer.value_note_color))
+        set(value) = preference.edit().putInt(resources.getString(R.string.key_note_color), value).apply()
 
     override val pauseSaveOn: Boolean
         get() {
-            val defaultValue = resources.getBoolean(sgtmelon.scriptum.R.bool.value_save_pause)
-            return preference.getBoolean(resources.getString(sgtmelon.scriptum.R.string.key_save_pause), defaultValue)
+            val defaultValue = resources.getBoolean(R.bool.value_save_pause)
+            return preference.getBoolean(resources.getString(R.string.key_save_pause), defaultValue)
         }
 
     override val autoSaveOn: Boolean
         get() {
-            val defaultValue = resources.getBoolean(sgtmelon.scriptum.R.bool.value_save_auto)
-            return preference.getBoolean(resources.getString(sgtmelon.scriptum.R.string.key_save_auto), defaultValue)
+            val defaultValue = resources.getBoolean(R.bool.value_save_auto)
+            return preference.getBoolean(resources.getString(R.string.key_save_auto), defaultValue)
         }
 
     override var savePeriod: Int
-        get() = preference.getInt(resources.getString(sgtmelon.scriptum.R.string.key_save_time), resources.getInteger(sgtmelon.scriptum.R.integer.value_save_time))
-        set(value) = preference.edit().putInt(resources.getString(sgtmelon.scriptum.R.string.key_save_time), value).apply()
+        get() = preference.getInt(resources.getString(R.string.key_save_time), resources.getInteger(R.integer.value_save_time))
+        set(value) = preference.edit().putInt(resources.getString(R.string.key_save_time), value).apply()
 
     override fun getSignalSummary() = StringBuilder().apply {
-        val summary = resources.getStringArray(sgtmelon.scriptum.R.array.text_alarm_signal)
+        val summary = resources.getStringArray(R.array.text_alarm_signal)
         val array = IntConverter().toArray(signal)
 
         if (summary.size < array.size) return@apply
@@ -100,6 +105,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         append("Theme: $theme\n")
         append("Repeat: $repeat\n")
         append("Signal: $signal\n")
+        append("Melody: $melody\n")
         append("VolumeIncrease: $volumeIncrease\n")
 
         append("Sort: $sort\n")
@@ -109,7 +115,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         append("SaveTime: $savePeriod\n")
     }.toString()
 
-    override fun getAlarmList() = ArrayList<AlarmItem>().apply {
+    override fun getMelodyList() = ArrayList<MelodyItem>().apply {
         val ringtoneManager = RingtoneManager(context).apply {
             setType(RingtoneManager.TYPE_RINGTONE or RingtoneManager.TYPE_ALARM)
         }
@@ -120,7 +126,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
                 val uri = getString(RingtoneManager.URI_COLUMN_INDEX) ?: continue
                 val id = getString(RingtoneManager.ID_COLUMN_INDEX) ?: continue
 
-                add(AlarmItem(title, uri, id))
+                add(MelodyItem(title, uri, id))
             }
         }.close()
     }

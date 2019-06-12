@@ -7,4 +7,8 @@ import android.media.RingtoneManager
 
  * @author SerjantArbuz
  */
-data class AlarmItem(val title: String, val uri: String, val id: String)
+data class MelodyItem(val title: String, val uri: String) {
+
+    constructor(title: String, uri: String, id: String) : this(title, uri = "$uri/$id")
+
+}

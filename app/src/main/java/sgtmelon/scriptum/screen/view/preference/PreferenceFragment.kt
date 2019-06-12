@@ -37,8 +37,11 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     private val openState = OpenState()
 
     private val themeDialog by lazy { DialogFactory.Preference.getThemeDialog(activity, fm) }
+
     private val repeatDialog by lazy { DialogFactory.Preference.getRepeatDialog(activity, fm) }
     private val signalDialog by lazy { DialogFactory.Preference.getSignalDialog(activity, fm) }
+    private val melodyDialog by lazy { DialogFactory.Preference.getMelodyDialog(activity, fm) }
+
     private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
     private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
     private val saveTimeDialog by lazy { DialogFactory.Preference.getSaveTimeDialog(activity, fm) }
@@ -73,18 +76,12 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         super.onActivityCreated(savedInstanceState)
 
         viewModel.onSetup()
-
-        setupApp()
-        setupNotification()
-        setupNote()
-        setupSave()
-        setupOther()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
-    private fun setupApp() {
+    override fun setupApp() {
         themePreference.setOnPreferenceClickListener { viewModel.onClickTheme() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -95,7 +92,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     }
 
     // TODO #RELEASE
-    private fun setupNotification() {
+    override fun setupNotification(melodyTitleList: Array<String>) {
         repeatPreference.setOnPreferenceClickListener { viewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -109,9 +106,17 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
             viewModel.onResultSignal(signalDialog.check)
         }
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+
+        melodyPreference.setOnPreferenceClickListener { viewModel.onClickMelody() }
+
+        melodyDialog.rows = melodyTitleList
+        melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onResultMelody(melodyDialog.check)
+        }
+        melodyDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    private fun setupNote() {
+    override fun setupNote() {
         sortPreference.setOnPreferenceClickListener { viewModel.onClickSort() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -127,7 +132,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    private fun setupSave() {
+    override fun setupSave() {
         saveTimePreference.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
 
         saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -144,7 +149,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
     }
 
-    private fun setupOther() {
+    override fun setupOther() {
         findPreference(getString(R.string.key_other_rate)).setOnPreferenceClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
 
@@ -200,6 +205,14 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         melodyPreference.isEnabled = enabled
         increasePreference.isEnabled = enabled
         volumePreference.isEnabled = enabled
+    }
+
+    override fun updateMelodySummary(summary: String) {
+        melodyPreference.summary = summary
+    }
+
+    override fun showMelodyDialog(value: Int) = openState.tryInvoke {
+        melodyDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.MELODY)
     }
 
     override fun updateSortSummary(summary: String) {

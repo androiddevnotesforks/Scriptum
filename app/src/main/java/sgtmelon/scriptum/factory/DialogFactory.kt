@@ -123,6 +123,14 @@ object DialogFactory {
             return dialog
         }
 
+        fun getMelodyDialog(context: Context, fm: FragmentManager?): SingleDialog {
+            val dialog = fm?.findFragmentByTag(MELODY) as? SingleDialog ?: SingleDialog()
+
+            dialog.title = context.getString(R.string.title_alarm_melody)
+
+            return dialog
+        }
+
         fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
@@ -157,6 +165,7 @@ object DialogFactory {
         const val THEME = "${PREFIX}_THEME"
         const val REPEAT = "${PREFIX}_REPEAT"
         const val SIGNAL = "${PREFIX}_SIGNAL"
+        const val MELODY = "${PREFIX}_MELODY"
         const val SORT = "${PREFIX}_SORT"
         const val COLOR = "${PREFIX}_COLOR"
         const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
