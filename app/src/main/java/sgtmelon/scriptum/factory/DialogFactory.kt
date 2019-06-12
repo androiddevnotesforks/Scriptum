@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentManager
 import sgtmelon.safedialog.*
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.dialog.ColorDialog
-import sgtmelon.scriptum.dialog.InfoDialog
-import sgtmelon.scriptum.dialog.RenameDialog
-import sgtmelon.scriptum.dialog.SheetAddDialog
+import sgtmelon.scriptum.dialog.*
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
@@ -131,6 +128,14 @@ object DialogFactory {
             return dialog
         }
 
+        fun getVolumeDialog(context: Context, fm: FragmentManager?): SeekBarDialog {
+            val dialog = fm?.findFragmentByTag(VOLUME) as? SeekBarDialog ?: SeekBarDialog()
+
+            dialog.title = context.getString(R.string.title_alarm_volume)
+
+            return dialog
+        }
+
         fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
@@ -166,6 +171,7 @@ object DialogFactory {
         const val REPEAT = "${PREFIX}_REPEAT"
         const val SIGNAL = "${PREFIX}_SIGNAL"
         const val MELODY = "${PREFIX}_MELODY"
+        const val VOLUME = "${PREFIX}_VOLUME"
         const val SORT = "${PREFIX}_SORT"
         const val COLOR = "${PREFIX}_COLOR"
         const val SAVE_TIME = "${PREFIX}_SAVE_TIME"

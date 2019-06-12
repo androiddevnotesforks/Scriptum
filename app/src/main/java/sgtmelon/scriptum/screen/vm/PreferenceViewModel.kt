@@ -9,7 +9,7 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.converter.IntConverter
 import sgtmelon.scriptum.screen.callback.PreferenceCallback
 
-class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
+class PreferenceViewModel(private val context: Context, val callback: PreferenceCallback) {
 
     private val iPreferenceRepo = PreferenceRepo(context)
 
@@ -59,10 +59,12 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
         setupOther()
 
         updateThemeSummary(themeSummary[iPreferenceRepo.theme])
+
         updateRepeatSummary(repeatSummary[iPreferenceRepo.repeat])
         updateSignalSummary(iPreferenceRepo.getSignalSummary())
         updateMelodyGroupEnabled(IntConverter().toArray(iPreferenceRepo.signal).first())
         updateMelodySummary(melodyTitleList[getMelodyCheck()])
+        updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, "${iPreferenceRepo.volume}%"))
 
         updateSortSummary(sortSummary[iPreferenceRepo.sort])
         updateColorSummary(colorSummary[iPreferenceRepo.defaultColor])
@@ -111,6 +113,17 @@ class PreferenceViewModel(context: Context, val callback: PreferenceCallback) {
     fun onResultMelody(value: Int) {
         iPreferenceRepo.melody = melodyUriList[value]
         callback.updateMelodySummary(melodyList[value].title)
+    }
+
+
+    fun onClickVolume(): Boolean {
+        callback.showVolumeDialog(iPreferenceRepo.volume)
+        return true
+    }
+
+    fun onResultVolume(value: Int) {
+        iPreferenceRepo.volume = value
+        callback.updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, "$value%"))
     }
 
     fun onClickSort(): Boolean {

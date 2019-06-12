@@ -51,6 +51,10 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preference.getString(resources.getString(R.string.key_alarm_melody), "") ?: ""
         set(value) = preference.edit().putString(resources.getString(R.string.key_alarm_melody), value).apply()
 
+    override var volume: Int
+        get() = preference.getInt(resources.getString(R.string.key_alarm_volume), resources.getInteger(R.integer.value_alarm_volume))
+        set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_volume), value).apply()
+
     override val volumeIncrease: Boolean
         get() {
             val defaultValue = resources.getBoolean(R.bool.value_alarm_increase)
@@ -106,6 +110,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         append("Repeat: $repeat\n")
         append("Signal: $signal\n")
         append("Melody: $melody\n")
+        append("Volume: $volume\n")
         append("VolumeIncrease: $volumeIncrease\n")
 
         append("Sort: $sort\n")

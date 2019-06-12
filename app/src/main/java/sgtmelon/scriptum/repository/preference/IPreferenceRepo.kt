@@ -21,6 +21,8 @@ interface IPreferenceRepo {
 
     var melody: String
 
+    var volume: Int
+
     val volumeIncrease: Boolean
 
     var sort: Int

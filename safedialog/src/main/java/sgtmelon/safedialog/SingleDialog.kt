@@ -8,17 +8,15 @@ class SingleDialog : DialogBlank() {
 
     lateinit var rows: Array<String>
 
-    private var init: Int = 0
-    var check: Int = 0
+    private var init = 0
+    var check = 0
         private set
 
     fun setArguments(check: Int) {
-        val bundle = Bundle()
-
-        bundle.putInt(INIT, check)
-        bundle.putInt(VALUE, check)
-
-        arguments = bundle
+        arguments = Bundle().apply {
+            putInt(INIT, check)
+            putInt(VALUE, check)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -41,6 +41,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     private val repeatDialog by lazy { DialogFactory.Preference.getRepeatDialog(activity, fm) }
     private val signalDialog by lazy { DialogFactory.Preference.getSignalDialog(activity, fm) }
     private val melodyDialog by lazy { DialogFactory.Preference.getMelodyDialog(activity, fm) }
+    private val volumeDialog by lazy { DialogFactory.Preference.getVolumeDialog(activity, fm) }
 
     private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
     private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
@@ -114,6 +115,13 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
             viewModel.onResultMelody(melodyDialog.check)
         }
         melodyDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+
+        volumePreference.setOnPreferenceClickListener { viewModel.onClickVolume() }
+
+        volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            viewModel.onResultVolume(volumeDialog.progress)
+        }
+        volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNote() {
@@ -213,6 +221,14 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
 
     override fun showMelodyDialog(value: Int) = openState.tryInvoke {
         melodyDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.MELODY)
+    }
+
+    override fun updateVolumeSummary(summary: String) {
+        volumePreference.summary = summary
+    }
+
+    override fun showVolumeDialog(value: Int) = openState.tryInvoke {
+        volumeDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.VOLUME)
     }
 
     override fun updateSortSummary(summary: String) {

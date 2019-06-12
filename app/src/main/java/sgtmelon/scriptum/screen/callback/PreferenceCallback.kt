@@ -40,6 +40,10 @@ interface PreferenceCallback {
 
     fun showMelodyDialog(value: Int)
 
+    fun updateVolumeSummary(summary: String)
+
+    fun showVolumeDialog(value: Int)
+
     fun updateSortSummary(summary: String)
 
     fun showSortDialog(value: Int)

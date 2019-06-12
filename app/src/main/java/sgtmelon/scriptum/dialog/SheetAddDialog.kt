@@ -10,7 +10,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.navigation.NavigationView
 import sgtmelon.scriptum.R
 
-
 class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener

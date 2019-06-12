@@ -18,7 +18,7 @@ import java.util.*
 
 class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
 
-    var position: Int = 0
+    var position = 0
         private set
 
     private lateinit var nameList: ArrayList<String>
@@ -27,13 +27,11 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     val name: String get() = nameEnter.getClearText()
 
     fun setArguments(p: Int, title: String, nameList: ArrayList<String>) {
-        val bundle = Bundle()
-
-        bundle.putInt(POSITION, p)
-        bundle.putString(INIT, title)
-        bundle.putStringArrayList(VALUE, nameList)
-
-        arguments = bundle
+        arguments = Bundle().apply {
+            putInt(POSITION, p)
+            putString(INIT, title)
+            putStringArrayList(VALUE, nameList)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

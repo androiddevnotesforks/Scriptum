@@ -5,13 +5,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingTop="16dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="@dimen/layout_24dp"
+        android:paddingTop="@dimen/layout_16dp"
+        android:paddingRight="@dimen/layout_24dp"
         tools:layout_gravity="center">
 
     <EditText
-            android:hint="@string/hint_enter_rank_rename"
             android:id="@+id/rename_enter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,12 +18,13 @@
             android:background="@android:color/transparent"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:hint="@string/hint_enter_rank_rename"
             android:imeOptions="flagNoFullscreen|actionDone"
             android:importantForAutofill="noExcludeDescendants"
             android:inputType="textCapSentences|textAutoCorrect|textAutoComplete"
-            android:maxLines="1"
             android:maxLength="@integer/length_rank_name"
-            android:textSize="18sp"
+            android:maxLines="1"
+            android:textSize="@dimen/text_18sp"
             tools:targetApi="o"/>
 
 </LinearLayout>
