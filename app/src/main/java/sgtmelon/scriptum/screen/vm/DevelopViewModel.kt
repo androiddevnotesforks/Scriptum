@@ -25,7 +25,7 @@ class DevelopViewModel(application: Application) : ParentViewModel(application) 
             fillAboutNoteTable(iDevelopRepo.getNoteTableData())
             fillAboutRollTable(iDevelopRepo.getRollTableData())
             fillAboutRankTable(iDevelopRepo.getRankTableData())
-            fillAboutPreference(preference.getData())
+            fillAboutPreference(iPreferenceRepo.getData())
         }
     }
 

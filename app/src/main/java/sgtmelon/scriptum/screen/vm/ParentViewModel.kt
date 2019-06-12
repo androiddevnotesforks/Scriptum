@@ -16,7 +16,7 @@ abstract class ParentViewModel(application: Application) : AndroidViewModel(appl
 
     protected val context: Context = application.applicationContext
 
-    protected val preference = PreferenceRepo(context)
+    protected val iPreferenceRepo = PreferenceRepo(context)
     protected val iRoomRepo: IRoomRepo = RoomRepo.getInstance(context)
 
 }

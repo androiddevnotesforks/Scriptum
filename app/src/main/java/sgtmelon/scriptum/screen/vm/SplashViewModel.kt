@@ -47,7 +47,7 @@ class SplashViewModel(application: Application) : ParentViewModel(application) {
     }
 
     private fun onSimpleStart() = callback.startActivity(
-            Intent(context, if (preference.firstStart) {
+            Intent(context, if (iPreferenceRepo.firstStart) {
                 IntroActivity::class.java
             } else {
                 MainActivity::class.java

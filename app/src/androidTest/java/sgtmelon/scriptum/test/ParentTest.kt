@@ -28,12 +28,12 @@ abstract class ParentTest {
 
     protected val context: Context = getInstrumentation().targetContext
 
-    val preference = PreferenceRepo(context)
+    val iPreferenceRepo = PreferenceRepo(context)
 
     val testData = TestData(context)
 
     @Before @CallSuper open fun setUp() {
-        preference.theme = if (Random.nextBoolean()) Theme.light else Theme.dark
+        iPreferenceRepo.theme = if (Random.nextBoolean()) Theme.light else Theme.dark
     }
 
     @After @CallSuper open fun tearDown() {}

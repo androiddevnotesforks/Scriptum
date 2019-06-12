@@ -60,7 +60,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             if (id == NoteData.Default.ID) {
                 noteModel = NoteModel(NoteItem(
                         create = context.getTime(),
-                        color = preference.defaultColor,
+                        color = iPreferenceRepo.defaultColor,
                         type = NoteType.TEXT
                 ), ArrayList())
 
@@ -75,8 +75,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         }
 
         callback.apply {
-            setupBinding(preference.theme, isRankEmpty)
-            setupToolbar(preference.theme, noteModel.noteItem.color, noteState)
+            setupBinding(iPreferenceRepo.theme, isRankEmpty)
+            setupToolbar(iPreferenceRepo.theme, noteModel.noteItem.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
         }

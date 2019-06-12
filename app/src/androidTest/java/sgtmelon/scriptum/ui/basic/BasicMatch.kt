@@ -20,9 +20,9 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 abstract class BasicMatch {
 
     private val context: Context = getInstrumentation().targetContext
-    private val preference = PreferenceRepo(context)
+    private val iPreferenceRepo = PreferenceRepo(context)
 
-    protected val theme: Int get() = preference.theme
+    protected val theme: Int get() = iPreferenceRepo.theme
 
     protected fun onDisplay(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).check(matches(isDisplayed()))

@@ -72,7 +72,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.updateSummary()
+        viewModel.onSetup()
 
         setupApp()
         setupNotification()

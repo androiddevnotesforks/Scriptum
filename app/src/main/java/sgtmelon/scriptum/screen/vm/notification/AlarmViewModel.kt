@@ -24,20 +24,20 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
     lateinit var callback: AlarmCallback
 
     private var id: Long = NoteData.Default.ID
-    private var color: Int = preference.defaultColor
+    private var color: Int = iPreferenceRepo.defaultColor
 
     private lateinit var noteModel: NoteModel
 
     private val longWaitHandler = Handler()
 
-    fun onSetup() = callback.setupView(preference.theme)
+    fun onSetup() = callback.setupView(iPreferenceRepo.theme)
 
     // TODO #RELEASE Обработка id = -1
     // TODO #RELEASE Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
     fun onSetupData(bundle: Bundle?) {
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-            color = bundle.getInt(NoteData.Intent.COLOR, preference.defaultColor)
+            color = bundle.getInt(NoteData.Intent.COLOR, iPreferenceRepo.defaultColor)
         }
 
         if (!::noteModel.isInitialized) {
@@ -51,7 +51,7 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
 
     fun onStart() = with(callback){
-        val theme = preference.theme
+        val theme = iPreferenceRepo.theme
         startRippleAnimation(theme, context.getAppSimpleColor(color,
                 if (theme == Theme.light) ColorShade.ACCENT else ColorShade.DARK
         ))

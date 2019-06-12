@@ -17,7 +17,7 @@ class BinTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        preference.firstStart = false
+        iPreferenceRepo.firstStart = false
     }
 
     @Test fun contentEmpty() = launch({ testData.clear() }) {

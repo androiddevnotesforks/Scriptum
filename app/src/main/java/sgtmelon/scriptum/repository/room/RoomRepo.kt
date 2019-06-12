@@ -28,14 +28,14 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 
-    private val preference = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда preference
+    private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
 
     private fun openRoom() = RoomDb.getInstance(context)
 
     private fun getNoteListQuery(bin: Boolean) = SimpleSQLiteQuery(
             "SELECT * FROM ${DbData.Note.TABLE}" +
                     " WHERE ${DbData.Note.BIN} = ${BoolConverter().toInt(bin)}" +
-                    " ORDER BY ${DbData.Note.orders[preference.sort]}")
+                    " ORDER BY ${DbData.Note.orders[iPreferenceRepo.sort]}")
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         openRoom().apply {

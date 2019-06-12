@@ -2,6 +2,7 @@ package sgtmelon.scriptum.repository.preference
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.AlarmItem
 
 /**
  * Интерфейс для общения с [PreferenceRepo]
@@ -33,5 +34,7 @@ interface IPreferenceRepo {
     fun getSignalSummary(): String
 
     fun getData(): String
+
+    fun getAlarmList(): List<AlarmItem>
 
 }

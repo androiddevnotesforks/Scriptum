@@ -18,7 +18,7 @@ class RollNoteToolbarTest : ParentTest() {
     override fun setUp() {
         super.setUp()
 
-        preference.firstStart = false
+        iPreferenceRepo.firstStart = false
         testData.clear()
     }
 

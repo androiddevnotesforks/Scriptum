@@ -17,12 +17,12 @@ import sgtmelon.scriptum.test.ParentTest
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentTest() {
 
-    @Test fun introScreenOpen() = launch({ preference.firstStart = true }) { introScreen() }
+    @Test fun introScreenOpen() = launch({ iPreferenceRepo.firstStart = true }) { introScreen() }
 
-    @Test fun mainScreenOpen() = launch({ preference.firstStart = false }) { mainScreen() }
+    @Test fun mainScreenOpen() = launch({ iPreferenceRepo.firstStart = false }) { mainScreen() }
 
     @Test fun bindTextNoteOpen() {
-        preference.firstStart = false
+        iPreferenceRepo.firstStart = false
 
         launch(intent = context.getSplashBindIntent(testData.clear().insertText())) {
             openTextNoteBind { pressBack() }
@@ -31,7 +31,7 @@ class SplashTest : ParentTest() {
     }
 
     @Test fun bindRollNoteOpen() {
-        preference.firstStart = false
+        iPreferenceRepo.firstStart = false
 
         launch(intent = context.getSplashBindIntent(testData.clear().insertRoll())) {
             openRollNoteBind { pressBack() }
@@ -40,7 +40,7 @@ class SplashTest : ParentTest() {
     }
 
     @Test fun alarmTextNoteOpen() {
-        preference.firstStart = false
+        iPreferenceRepo.firstStart = false
 
         val noteItem = testData.clear().insertText()
         launch(intent = context.getSplashAlarmIntent(noteItem)) {
@@ -49,7 +49,7 @@ class SplashTest : ParentTest() {
     }
 
     @Test fun alarmRollNoteOpen() {
-        preference.firstStart = false
+        iPreferenceRepo.firstStart = false
 
         val noteItem = testData.clear().insertRoll()
         launch(intent = context.getSplashAlarmIntent(noteItem)) {
