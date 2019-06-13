@@ -64,7 +64,7 @@ class PreferenceViewModel(private val context: Context, val callback: Preference
         updateSignalSummary(iPreferenceRepo.getSignalSummary())
         updateMelodyGroupEnabled(IntConverter().toArray(iPreferenceRepo.signal).first())
         updateMelodySummary(melodyTitleList[getMelodyCheck()])
-        updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, "${iPreferenceRepo.volume}%"))
+        updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
 
         updateSortSummary(sortSummary[iPreferenceRepo.sort])
         updateColorSummary(colorSummary[iPreferenceRepo.defaultColor])
@@ -123,7 +123,7 @@ class PreferenceViewModel(private val context: Context, val callback: Preference
 
     fun onResultVolume(value: Int) {
         iPreferenceRepo.volume = value
-        callback.updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, "$value%"))
+        callback.updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, value))
     }
 
     fun onClickSort(): Boolean {

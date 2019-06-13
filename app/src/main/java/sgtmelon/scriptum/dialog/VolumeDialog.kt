@@ -38,7 +38,7 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
         }
 
         progressText = view.findViewById(R.id.volume_progress_text)
-        progressText?.text = "$progress%"
+        progressText?.text = getString(R.string.dialog_text_volume, progress)
 
         return AlertDialog.Builder(activity)
                 .setTitle(title)
@@ -67,9 +67,11 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
             this.progress = MIN_VALUE
         } else if (progress % STEP_VALUE == 0) {
             this.progress = progress
+        } else {
+            this.progress = progress / 5 * 5
         }
 
-        progressText?.text = "${this.progress}%"
+        progressText?.text = getString(R.string.dialog_text_volume, progress)
         setEnable()
     }
 

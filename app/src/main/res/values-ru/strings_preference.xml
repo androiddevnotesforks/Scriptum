@@ -37,7 +37,7 @@
     <string name="summary_alarm_signal">Будет применяться, чтобы предупредить вас</string>
     <string name="summary_alarm_melody">Будет играть в уведомлении</string>
     <!-- TODO #RELEASE Другой текст -->
-    <string name="summary_alarm_volume">Процент громкости: %s</string>
+    <string name="summary_alarm_volume">Процент громкости: %d\%</string>
     <string name="summary_alarm_increase">
         Плавное увеличение громкости начиная с минимальной
     </string>

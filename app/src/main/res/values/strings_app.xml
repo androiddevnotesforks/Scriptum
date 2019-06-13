@@ -70,6 +70,8 @@
 
     <string name="dialog_title_add_note">Create note</string>
 
+    <string name="dialog_text_volume" translatable="false">%d\%</string>
+
     <!-- Dialog buttons -->
     <string name="dialog_btn_accept">Apply</string>
     <string name="dialog_btn_cancel">Cancel</string>
