@@ -121,19 +121,23 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
     }.toString()
 
     override fun getMelodyList() = ArrayList<MelodyItem>().apply {
-        val ringtoneManager = RingtoneManager(context).apply {
-            setType(RingtoneManager.TYPE_RINGTONE or RingtoneManager.TYPE_ALARM)
+        val fillListByType = { type: Int ->
+            RingtoneManager(context).apply {
+                setType(type)
+                cursor.apply {
+                    while (moveToNext()) {
+                        val title = getString(RingtoneManager.TITLE_COLUMN_INDEX) ?: continue
+                        val uri = getString(RingtoneManager.URI_COLUMN_INDEX) ?: continue
+                        val id = getString(RingtoneManager.ID_COLUMN_INDEX) ?: continue
+
+                        add(MelodyItem(title, uri, id))
+                    }
+                }.close()
+            }
         }
 
-        ringtoneManager.cursor.apply {
-            while (moveToNext()) {
-                val title = getString(RingtoneManager.TITLE_COLUMN_INDEX) ?: continue
-                val uri = getString(RingtoneManager.URI_COLUMN_INDEX) ?: continue
-                val id = getString(RingtoneManager.ID_COLUMN_INDEX) ?: continue
-
-                add(MelodyItem(title, uri, id))
-            }
-        }.close()
+        fillListByType(RingtoneManager.TYPE_ALARM)
+        fillListByType(RingtoneManager.TYPE_RINGTONE)
     }
 
     companion object {
