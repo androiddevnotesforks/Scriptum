@@ -128,8 +128,8 @@ object DialogFactory {
             return dialog
         }
 
-        fun getVolumeDialog(context: Context, fm: FragmentManager?): SeekBarDialog {
-            val dialog = fm?.findFragmentByTag(VOLUME) as? SeekBarDialog ?: SeekBarDialog()
+        fun getVolumeDialog(context: Context, fm: FragmentManager?): VolumeDialog {
+            val dialog = fm?.findFragmentByTag(VOLUME) as? VolumeDialog ?: VolumeDialog()
 
             dialog.title = context.getString(R.string.title_alarm_volume)
 

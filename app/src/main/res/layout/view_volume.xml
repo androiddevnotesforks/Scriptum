@@ -10,6 +10,16 @@
         android:paddingRight="@dimen/layout_24dp"
         tools:layout_gravity="center">
 
+    <TextView
+            android:id="@+id/volume_progress_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:paddingBottom="@dimen/layout_8dp"
+            android:textColor="?attr/clContentSecond"
+            android:textSize="@dimen/text_16sp"
+            tools:text="12%"/>
+
     <SeekBar
             android:id="@+id/volume_seek_bar"
             android:layout_width="match_parent"

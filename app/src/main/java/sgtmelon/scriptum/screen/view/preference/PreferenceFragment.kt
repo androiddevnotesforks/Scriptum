@@ -162,10 +162,10 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
             val intent = Intent(Intent.ACTION_VIEW)
 
             try {
-                intent.data = Uri.parse(BuildConfig.MARKET_URL + activity.packageName)
+                intent.data = Uri.parse(BuildConfig.MARKET_URL.plus(activity.packageName))
                 startActivity(intent)
             } catch (exception: ActivityNotFoundException) {
-                intent.data = Uri.parse(BuildConfig.BROWSER_URL + activity.packageName)
+                intent.data = Uri.parse(BuildConfig.BROWSER_URL.plus(activity.packageName))
                 startActivity(intent)
             }
 

@@ -5,17 +5,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.SeekBar
+import android.widget.TextView
+import androidx.annotation.IntRange
 import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 
-class SeekBarDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
+class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
 
     private var init = 0
     var progress = 0
         private set
 
-    fun setArguments(progress: Int) {
+    private var progressText: TextView? = null
+
+    fun setArguments(@IntRange(from = 10, to = 100) progress: Int) {
         arguments = Bundle().apply {
             putInt(INIT, progress)
             putInt(VALUE, progress)
@@ -23,23 +27,18 @@ class SeekBarDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
-
-        init = savedInstanceState?.getInt(INIT)
-                ?: bundle?.getInt(INIT)
-                        ?: 0
-
-        progress = savedInstanceState?.getInt(VALUE)
-                ?: bundle?.getInt(VALUE)
-                        ?: 0
+        init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
+        progress = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_volume, null)
 
-        val seekBar: SeekBar = view.findViewById(R.id.volume_seek_bar)
-        seekBar.progress = progress
-        seekBar.setOnSeekBarChangeListener(this)
+        view.findViewById<SeekBar>(R.id.volume_seek_bar).apply {
+            progress = this@VolumeDialog.progress
+            setOnSeekBarChangeListener(this@VolumeDialog)
+        }
 
-        // TODO #RELEASE
+        progressText = view.findViewById(R.id.volume_progress_text)
+        progressText?.text = "$progress%"
 
         return AlertDialog.Builder(activity)
                 .setTitle(title)
@@ -63,12 +62,24 @@ class SeekBarDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-        this.progress = progress
+        if (progress < MIN_VALUE) {
+            seekBar?.progress = MIN_VALUE
+            this.progress = MIN_VALUE
+        } else if (progress % STEP_VALUE == 0) {
+            this.progress = progress
+        }
+
+        progressText?.text = "${this.progress}%"
         setEnable()
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+
+    companion object {
+        const val MIN_VALUE = 10
+        const val STEP_VALUE = 5
+    }
 
 }
