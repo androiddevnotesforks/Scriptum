@@ -46,7 +46,7 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
     private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
     private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
     private val saveTimeDialog by lazy { DialogFactory.Preference.getSaveTimeDialog(activity, fm) }
-    private val infoDialog by lazy { DialogFactory.Preference.getInfoDialog(fm) }
+    private val aboutDialog by lazy { DialogFactory.Preference.getAboutDialog(fm) }
 
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
 
@@ -173,11 +173,11 @@ class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
         }
 
         findPreference(getString(R.string.key_other_about)).setOnPreferenceClickListener {
-            openState.tryInvoke { infoDialog.show(fm, DialogFactory.Preference.INFO) }
+            openState.tryInvoke { aboutDialog.show(fm, DialogFactory.Preference.ABOUT) }
             return@setOnPreferenceClickListener true
         }
 
-        infoDialog.apply {
+        aboutDialog.apply {
             logoClick = View.OnClickListener {
                 startActivity(Intent(activity, DevelopActivity::class.java))
             }

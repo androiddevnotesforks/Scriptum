@@ -162,8 +162,8 @@ object DialogFactory {
             return dialog
         }
 
-        fun getInfoDialog(fm: FragmentManager?): InfoDialog =
-                fm?.findFragmentByTag(INFO) as? InfoDialog ?: InfoDialog()
+        fun getAboutDialog(fm: FragmentManager?): AboutDialog =
+                fm?.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
 
         private const val PREFIX = "DIALOG_PREF"
 
@@ -175,7 +175,7 @@ object DialogFactory {
         const val SORT = "${PREFIX}_SORT"
         const val COLOR = "${PREFIX}_COLOR"
         const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
-        const val INFO = "${PREFIX}_INFO"
+        const val ABOUT = "${PREFIX}_ABOUT"
 
     }
 

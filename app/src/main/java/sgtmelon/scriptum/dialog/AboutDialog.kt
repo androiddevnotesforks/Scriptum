@@ -11,7 +11,7 @@ import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
-class InfoDialog : DialogBlank(), View.OnClickListener {
+class AboutDialog : DialogBlank(), View.OnClickListener {
 
     lateinit var logoClick: View.OnClickListener
 
