@@ -57,7 +57,7 @@
                         style="@style/Text.SmallCard.Subtitle"
                         android:layout_marginEnd="@dimen/layout_4dp"
                         android:layout_marginRight="@dimen/layout_4dp"
-                        app:futureTime='@{noteModel.notificationItem.date}'
+                        app:futureTime='@{noteModel.notificationItem.alert}'
                         tools:text="@string/preview_notification_date"/>
 
             </LinearLayout>

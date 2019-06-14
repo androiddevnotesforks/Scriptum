@@ -11,17 +11,20 @@ object DbData {
 
     object Note {
         const val TABLE = "NOTE_TABLE"
-        const val ID = "NT_ID"
-        const val CREATE = "NT_CREATE"
-        const val CHANGE = "NT_CHANGE"
-        const val NAME = "NT_NAME"
-        const val TEXT = "NT_TEXT"
-        const val COLOR = "NT_COLOR"
-        const val TYPE = "NT_TYPE"
-        const val RANK_ID = "NT_RANK_ID"
-        const val RANK_PS = "NT_RANK_PS"
-        const val BIN = "NT_BIN"
-        const val STATUS = "NT_STATUS"
+
+        private const val PREFIX = "NT"
+
+        const val ID = "${PREFIX}_ID"
+        const val CREATE = "${PREFIX}_CREATE"
+        const val CHANGE = "${PREFIX}_CHANGE"
+        const val NAME = "${PREFIX}_NAME"
+        const val TEXT = "${PREFIX}_TEXT"
+        const val COLOR = "${PREFIX}_COLOR"
+        const val TYPE = "${PREFIX}_TYPE"
+        const val RANK_ID = "${PREFIX}_RANK_ID"
+        const val RANK_PS = "${PREFIX}_RANK_PS"
+        const val BIN = "${PREFIX}_BIN"
+        const val STATUS = "${PREFIX}_STATUS"
 
         // TODO #RELEASE добавить пост сортировку (после сортировки по категории и цвету)
         val orders = arrayOf(
@@ -34,25 +37,42 @@ object DbData {
 
     object Roll {
         const val TABLE = "ROLL_TABLE"
-        const val ID = "RL_ID"
-        const val NOTE_ID = "RL_NOTE_ID"
-        const val POSITION = "RL_POSITION"
-        const val CHECK = "RL_CHECK"
-        const val TEXT = "RL_TEXT"
+
+        private const val PREFIX = "RL"
+
+        const val ID = "${PREFIX}_ID"
+        const val NOTE_ID = "${PREFIX}_NOTE_ID"
+        const val POSITION = "${PREFIX}_POSITION"
+        const val CHECK = "${PREFIX}_CHECK"
+        const val TEXT = "${PREFIX}_TEXT"
     }
 
     object Rank {
         const val TABLE = "RANK_TABLE"
-        const val ID = "RK_ID"
-        const val NOTE_ID = "RK_NOTE_ID"
-        const val POSITION = "RK_POSITION"
-        const val NAME = "RK_NAME"
-        const val VISIBLE = "RK_VISIBLE"
+
+        private const val PREFIX = "RK"
+
+        const val ID = "${PREFIX}_ID"
+        const val NOTE_ID = "${PREFIX}_NOTE_ID"
+        const val POSITION = "${PREFIX}_POSITION"
+        const val NAME = "${PREFIX}_NAME"
+        const val VISIBLE = "${PREFIX}_VISIBLE"
+    }
+
+    // TODO #RELEASE
+    object Notification {
+        const val TABLE = "NOTIFICATION_TABLE"
+
+        private const val PREFIX = "NF"
+
+        const val ID = "${PREFIX}_ID"
+        const val NOTE_ID = "${PREFIX}_NOTE_ID"
+        const val ALERT = "${PREFIX}_ALERT"
     }
 
     object Value {
         const val NONE = "NONE"
-        const val DIVIDER = "," // TODO: 16.12.2018 Вынести в отдельный класс аннотации
+        const val DIVIDER = "," // TODO #RELEASE убрать при миграции на новую версию
     }
 
 }

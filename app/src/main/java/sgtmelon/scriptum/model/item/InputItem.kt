@@ -47,7 +47,11 @@ class InputItem(
      */
     class Cursor(val valueFrom: Int, val valueTo: Int) {
 
-        operator fun get(isUndo: Boolean) = if (isUndo) valueFrom else valueTo
+        companion object {
+            operator fun Cursor?.get(isUndo: Boolean) = if (this != null) {
+                if (isUndo) valueFrom else valueTo
+            } else 0
+        }
 
         override fun toString() = "valueFrom = $valueFrom | valueTo = $valueTo"
 

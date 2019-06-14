@@ -14,6 +14,7 @@ import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
@@ -135,10 +136,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor?.get(isUndo)
-                        ?: 0)
-                InputAction.text -> callback.changeText(item[isUndo], cursor = item.cursor?.get(isUndo)
-                        ?: 0)
+                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.text -> callback.changeText(item[isUndo], cursor = item.cursor[isUndo])
             }
         }
 

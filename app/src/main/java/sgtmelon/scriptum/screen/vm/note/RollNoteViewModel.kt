@@ -21,6 +21,7 @@ import sgtmelon.scriptum.extension.swap
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
@@ -181,12 +182,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor?.get(isUndo)
-                        ?: 0)
+                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor[isUndo])
                 InputAction.roll -> {
                     rollList[item.p].text = item[isUndo]
-                    callback.notifyItemChanged(item.p, rollList, cursor = item.cursor?.get(isUndo)
-                            ?: 0)
+                    callback.notifyItemChanged(item.p, rollList, cursor = item.cursor[isUndo])
                 }
                 InputAction.rollAdd, InputAction.rollRemove -> {
                     val isAddUndo = isUndo && item.tag == InputAction.rollAdd

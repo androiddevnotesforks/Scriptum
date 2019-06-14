@@ -28,7 +28,7 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
         for (i in 0 until ColorData.size) {
             add(NoteModel(
                     noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = nameList.random(), color = i),
-                    notificationItem = NotificationItem(date = dateList.random())
+                    notificationItem = NotificationItem(alert = dateList.random())
             ))
         }
     }
