@@ -1,20 +1,27 @@
 package sgtmelon.scriptum.model.item
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
-import sgtmelon.scriptum.adapter.NotificationAdapter
+import androidx.room.*
+import androidx.room.ForeignKey.CASCADE
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData.Alarm
+import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.room.converter.StringConverter
 
 /**
- * Элемент списка для [NotificationAdapter] и информации о заметке [NoteModel]
+ * Элемент будильника в [NoteModel]
  *
  * @author SerjantArbuz
  */
-@Entity(tableName = Alarm.TABLE)
+@Entity(tableName = Alarm.TABLE,
+        foreignKeys = [ForeignKey(
+                entity = NoteItem::class,
+                parentColumns = arrayOf(Note.ID),
+                childColumns = arrayOf(Alarm.NOTE_ID),
+                onUpdate = CASCADE,
+                onDelete = CASCADE
+        )],
+        indices = [Index(Alarm.NOTE_ID)]
+)
 @TypeConverters(StringConverter::class)
 class AlarmItem(
         @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
