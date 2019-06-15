@@ -1,14 +1,10 @@
 package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
+import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.data.ColorData
-import sgtmelon.scriptum.model.item.AlarmItem
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.screen.view.notification.AlarmActivity.Companion.getAlarmIntent
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -21,17 +17,7 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
 
     lateinit var callback: NotificationCallback
 
-    private val nameList = arrayListOf("Задания на сегодня", "Купить домой", "Идеи для проекта", "Важные дела")
-    private val dateList = arrayListOf("2019-05-26 15:12:00", "2019-05-27 19:00:00", "2019-06-28 07:00:00", "2020-06-29 19:00:00")
-
-    private val noteModelList: MutableList<NoteModel> = ArrayList<NoteModel>().apply {
-        for (i in 0 until ColorData.size) {
-            add(NoteModel(
-                    noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = nameList.random(), color = i),
-                    alarmItem = AlarmItem(date = dateList.random())
-            ))
-        }
-    }
+    private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     fun onSetup() = callback.apply {
         setupToolbar()
@@ -39,21 +25,23 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     }
 
     /**
-     * TODO сделать опитимизацию запросов для будущего репозитория (получать для noteItem только id, type, name, color)
+     * TODO #RELEASE сделать опитимизацию запросов для будущего репозитория (получать для noteItem только id, type, name)
      */
     fun onUpdateData() {
+        noteModelList.clearAndAdd(iAlarmRepo.getList())
+
         callback.notifyDataSetChanged(noteModelList)
         callback.bind()
     }
 
-    /**
-     * TODO открытие заметки
-     */
-    fun onClickNote(p: Int) = callback.startActivity(with(noteModelList[p].noteItem) {
-        if (true) context.getAlarmIntent(id, color) else context.getNoteIntent(type, id)
-    })
+    fun onClickNote(p: Int) {
+        val noteItem = noteModelList[p].noteItem
+        callback.startActivity(context.getNoteIntent(noteItem.type, noteItem.id))
+    }
 
-    fun onClickCancel(p: Int) =
-            callback.notifyItemRemoved(p, noteModelList.apply { removeAt(p) })
+    fun onClickCancel(p: Int) {
+        iAlarmRepo.delete(noteModelList[p].alarmItem)
+        callback.notifyItemRemoved(p, noteModelList.apply { removeAt(p) })
+    }
 
 }

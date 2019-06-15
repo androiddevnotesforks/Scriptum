@@ -21,7 +21,7 @@
             android:layout_marginTop="@dimen/layout_8dp"
             android:orientation="horizontal">
 
-        <!-- TODO #RELEASE -->
+        <!-- TODO #RELEASE передавать noteModel и при пустой дате alarmItem - делать не видимым индикатор -->
 
         <ImageView
                 android:id="@+id/note_notification_image"

@@ -4,6 +4,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.screen.view.main.NotesFragment
+import sgtmelon.scriptum.ui.NotificationScreen
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
@@ -19,6 +20,11 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+
+    fun openNotification(empty: Boolean, func: NotificationScreen.() -> Unit = {}) {
+        action {onClick(R.id.item_notification)}
+        NotificationScreen.invoke(empty, func)
+    }
 
     fun openPreference(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
         action { onClick(R.id.item_preference) }
@@ -41,6 +47,10 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
         onClickItem(p)
         assert { onDisplayContent(State.READ) }
         func()
+    }
+
+    companion object {
+        operator fun invoke(func: NotesScreen.() -> Unit) = NotesScreen().apply { func() }
     }
 
     class Assert : BasicMatch() {

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum
 
 import sgtmelon.scriptum.test.auto.IntroTest
+import sgtmelon.scriptum.test.auto.NotificationTest
 import sgtmelon.scriptum.test.auto.SplashTest
 import sgtmelon.scriptum.test.auto.main.BinTest
 import sgtmelon.scriptum.test.auto.main.MainTest
@@ -582,6 +583,12 @@ private class ScenarioUi {
 
         }
 
+        /**
+         * Сценарии для [NotificationTest]
+         */
+        class Notification {
+
+        }
 
         /**
          * TODO

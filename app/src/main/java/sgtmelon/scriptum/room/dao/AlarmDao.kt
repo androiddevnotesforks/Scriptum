@@ -3,7 +3,6 @@ package sgtmelon.scriptum.room.dao
 import androidx.room.*
 import sgtmelon.scriptum.model.item.AlarmItem
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
 
 /**
  * Класс для общения Dao предупреждений [RoomDb]
@@ -11,7 +10,6 @@ import sgtmelon.scriptum.room.converter.NoteTypeConverter
  * @author SerjantArbuz
  */
 @Dao
-@TypeConverters(NoteTypeConverter::class)
 interface AlarmDao {
 
     @Insert fun insert(item: AlarmItem): Long
@@ -19,5 +17,9 @@ interface AlarmDao {
     @Delete fun delete(item: AlarmItem)
 
     @Update fun update(item: AlarmItem)
+
+    // TODO #RELEASE NoteModel
+    @Query(value = "SELECT * FROM ALARM_TABLE ORDER BY DATE(AL_DATE) DESC, TIME(AL_DATE) DESC")
+    fun get(): MutableList<AlarmItem>
 
 }

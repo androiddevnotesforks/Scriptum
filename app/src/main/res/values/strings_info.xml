@@ -23,6 +23,8 @@
 
     <string name="info_intro_button">Get started</string>
 
+    <!-- TODO #RELEASE текст для пустых уведомлений -->
+
     <string name="info_rank_title">No categories</string>
     <string name="info_notes_title">No created notes</string>
     <string name="info_bin_title">Bin is empty</string>

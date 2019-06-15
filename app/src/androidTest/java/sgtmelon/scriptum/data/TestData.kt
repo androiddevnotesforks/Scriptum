@@ -3,13 +3,14 @@ package sgtmelon.scriptum.data
 import android.content.Context
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.TestUtils.random
+import sgtmelon.scriptum.extension.getCheck
+import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.data.ColorData
+import sgtmelon.scriptum.model.item.AlarmItem
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.extension.getCheck
-import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.room.RoomDb
 import java.util.UUID.randomUUID
 import kotlin.random.Random
@@ -138,6 +139,12 @@ class TestData(private val context: Context) {
         dataBase.apply { getNoteDao().update(noteItem) }.close()
     }
 
+    fun insertNotification(noteItem: NoteItem) {
+        dataBase.apply {
+            getAlarmDao().insert(AlarmItem(noteId = noteItem.id, date = context.getTime()))
+        }.close()
+    }
+
     fun fillRank(times: Int = 10) = ArrayList<RankItem>().apply {
         (1..times).forEach {
             val rankItem = insertRank(rankItem.apply {
@@ -156,6 +163,11 @@ class TestData(private val context: Context) {
 
     fun fillBin(times: Int = 10) = repeat(times) {
         if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+    }
+
+    fun fillNotification(times: Int = 10) = repeat(times) {
+        val noteItem = if (Random.nextBoolean()) insertText() else insertRoll()
+        insertNotification(noteItem)
     }
 
 }

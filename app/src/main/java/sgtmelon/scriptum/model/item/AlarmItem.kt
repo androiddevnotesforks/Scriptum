@@ -5,7 +5,6 @@ import androidx.room.ForeignKey.CASCADE
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.DbData.Alarm
 import sgtmelon.scriptum.model.data.DbData.Note
-import sgtmelon.scriptum.room.converter.StringConverter
 
 /**
  * Элемент будильника в [NoteModel]
@@ -22,7 +21,6 @@ import sgtmelon.scriptum.room.converter.StringConverter
         )],
         indices = [Index(Alarm.NOTE_ID)]
 )
-@TypeConverters(StringConverter::class)
 class AlarmItem(
         @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = Alarm.NOTE_ID) var noteId: Long = 0,

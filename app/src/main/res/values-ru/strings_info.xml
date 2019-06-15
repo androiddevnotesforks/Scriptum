@@ -20,6 +20,7 @@
 
     <string name="info_intro_button">Приступить к работе</string>
 
+    <!-- TODO #RELEASE текст для пустых уведомлений -->
 
     <string name="info_rank_title">Нет категорий</string>
     <string name="info_notes_title">Нет созданных заметок</string>

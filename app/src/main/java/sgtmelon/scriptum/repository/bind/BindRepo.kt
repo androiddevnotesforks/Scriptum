@@ -1,14 +1,13 @@
 package sgtmelon.scriptum.repository.bind
 
 import android.content.Context
-import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
 
 /**
- * Репозиторий обработки данных [RoomDb] для [BindControl]
+ * Репозиторий обработки данных [RoomDb] для работы с закреплением заметки в StatusBar'е
  *
  * @param context для открытия [RoomDb]
  *
@@ -38,7 +37,6 @@ class BindRepo(private val context: Context) : IBindRepo {
 
     companion object {
         fun getInstance(context: Context): IBindRepo = BindRepo(context)
-
     }
 
 }

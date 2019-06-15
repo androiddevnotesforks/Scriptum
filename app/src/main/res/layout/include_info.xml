@@ -13,6 +13,8 @@
 
     </data>
 
+    <!-- TODO #RELEASE добавить contentDescription и на основании него делать тесты -->
+
     <LinearLayout
             android:id="@+id/info_parent_container"
             style="@style/Container.Info">

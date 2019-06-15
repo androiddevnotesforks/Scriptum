@@ -25,13 +25,13 @@ class MainScreen : ParentUi() {
         RankScreen().apply(func)
     }
 
-    fun openNotesPage(func: NotesScreen.() -> Unit)  {
+    fun openNotesPage(func: NotesScreen.() -> Unit) {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
 
         NotesScreen().apply(func)
     }
 
-    fun openBinPage(func: BinScreen.() -> Unit)  {
+    fun openBinPage(func: BinScreen.() -> Unit) {
         wasNavigate = true
         onNavigateTo(MainPage.BIN)
 
