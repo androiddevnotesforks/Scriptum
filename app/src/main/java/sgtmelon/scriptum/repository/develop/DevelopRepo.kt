@@ -4,8 +4,8 @@ import android.content.Context
 import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.data.DbData.Value
 import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
@@ -39,8 +39,8 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
 
             append("TX: $text ${if (it.text.length > 40) "..." else ""}\n")
             append("CL: ${it.color} | TP: ${it.type} | BN: ${it.isBin}\n")
-            append("RK ID: ${if (it.rankId.isEmpty()) Value.NONE else it.rankId.joinToString()}\n")
-            append("RK PS: ${if (it.rankPs.isEmpty()) Value.NONE else it.rankPs.joinToString()}\n")
+            append("RK ID: ${StringConverter().toString(it.rankId)}\n")
+            append("RK PS: ${StringConverter().toString(it.rankPs)}\n")
             append("ST: ${it.isStatus}")
         }
     }.toString()
@@ -74,7 +74,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
             append("\n\n")
             append("ID: ${it.id} | PS: ${it.position} | VS: ${it.isVisible}\n")
             append("NM: ${it.name}\n")
-            append("CR: ${it.noteId.joinToString()}\n")
+            append("CR: ${StringConverter().toString(it.noteId)}\n")
         }
     }.toString()
 

@@ -70,9 +70,4 @@ object DbData {
         const val ALERT = "${PREFIX}_ALERT"
     }
 
-    object Value {
-        const val NONE = "NONE"
-        const val DIVIDER = "," // TODO #RELEASE убрать при миграции на новую версию
-    }
-
 }
