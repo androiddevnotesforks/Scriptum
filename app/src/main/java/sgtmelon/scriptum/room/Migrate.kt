@@ -9,9 +9,9 @@ import java.util.UUID.randomUUID
  *
  * @author SerjantArbuz
  */
+@Suppress("KDocUnresolvedReference")
 object Migrate {
 
-    @Suppress("KDocUnresolvedReference")
     val FROM_1_TO_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
             /**
@@ -165,6 +165,19 @@ object Migrate {
                 RK_ID, RK_ID_NOTE, RK_POSITION, RK_NAME, RK_VISIBLE FROM $tempRankTable""")
 
             execSQL("DROP TABLE $tempRankTable")
+        }
+    }
+
+    val FROM_2_TO_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            /**
+             * Need:
+             * TableInfo{name='ALARM_TABLE', columns={
+             * AL_ID=Column{name='AL_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=1},
+             * AL_NOTE_ID=Column{name='AL_NOTE_ID', type='INTEGER', affinity='3', notNull=true, primaryKeyPosition=0}},
+             * AL_DATE=Column{name='AL_DATE', type='TEXT', affinity='2', notNull=true, primaryKeyPosition=0},
+             * foreignKeys=[], indices=[]}
+             */
         }
     }
 

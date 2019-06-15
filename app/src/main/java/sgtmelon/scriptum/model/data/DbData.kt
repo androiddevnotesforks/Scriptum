@@ -59,15 +59,14 @@ object DbData {
         const val VISIBLE = "${PREFIX}_VISIBLE"
     }
 
-    // TODO #RELEASE
-    object Notification {
-        const val TABLE = "NOTIFICATION_TABLE"
+    object Alarm {
+        const val TABLE = "ALARM_TABLE"
 
-        private const val PREFIX = "NF"
+        private const val PREFIX = "AL"
 
         const val ID = "${PREFIX}_ID"
         const val NOTE_ID = "${PREFIX}_NOTE_ID"
-        const val ALERT = "${PREFIX}_ALERT"
+        const val DATE = "${PREFIX}_DATE"
     }
 
 }

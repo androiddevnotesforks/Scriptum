@@ -1,12 +1,11 @@
 package sgtmelon.scriptum.model
 
 import androidx.room.Embedded
-import androidx.room.Ignore
 import androidx.room.Relation
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.item.AlarmItem
+import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
@@ -14,10 +13,13 @@ import sgtmelon.scriptum.model.key.NoteType
  *
  * @author SerjantArbuz
  */
-class NoteModel(@field:Embedded val noteItem: NoteItem,
-                @field:Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
-                val rollList: MutableList<RollItem> = ArrayList(),
-                @field:Ignore val notificationItem: NotificationItem = NotificationItem()) {
+class NoteModel(
+        @field:Embedded val noteItem: NoteItem,
+        @field:Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
+        val rollList: MutableList<RollItem> = ArrayList(),
+        @field:Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Alarm.NOTE_ID)
+        val alarmItem: AlarmItem = AlarmItem()
+) {
 
     /**
      * При отметке всех пунктов

@@ -3,8 +3,8 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
+import sgtmelon.scriptum.model.item.AlarmItem
 import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
@@ -28,7 +28,7 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
         for (i in 0 until ColorData.size) {
             add(NoteModel(
                     noteItem = NoteItem(id = 1, type = NoteType.TEXT, name = nameList.random(), color = i),
-                    notificationItem = NotificationItem(alert = dateList.random())
+                    alarmItem = AlarmItem(date = dateList.random())
             ))
         }
     }

@@ -11,12 +11,8 @@ class RankModel(val itemList: MutableList<RankItem>) {
 
     // TODO rename потому что по факту это репозиторий
 
-    // TODO !! сделать trim для вводимых категорий
-
-    val nameList: MutableList<String>
-
-    init {
-        nameList = ArrayList<String>().apply { itemList.forEach { add(it.name.toUpperCase()) } }
+    val nameList: MutableList<String> = ArrayList<String>().apply {
+        itemList.forEach { add(it.name.toUpperCase()) }
     }
 
     fun size(): Int = itemList.size
