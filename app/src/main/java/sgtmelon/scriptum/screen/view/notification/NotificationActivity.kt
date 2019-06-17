@@ -17,7 +17,7 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.NotificationItem
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
@@ -103,10 +103,10 @@ class NotificationActivity : AppActivity(), NotificationCallback {
         binding?.apply { isListEmpty = empty }?.executePendingBindings()
     }
 
-    override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
+    override fun notifyDataSetChanged(list: MutableList<NotificationItem>) =
             adapter.notifyDataSetChanged(list)
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
+    override fun notifyItemRemoved(p: Int, list: MutableList<NotificationItem>) =
             adapter.notifyItemRemoved(p, list)
 
     companion object {

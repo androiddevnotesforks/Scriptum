@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.callback.notification
 
 import android.content.Intent
-import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.NotificationItem
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
@@ -19,9 +19,9 @@ interface NotificationCallback {
 
     fun bind()
 
-    fun notifyDataSetChanged(list: MutableList<NoteModel>)
+    fun notifyDataSetChanged(list: MutableList<NotificationItem>)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)
+    fun notifyItemRemoved(p: Int, list: MutableList<NotificationItem>)
 
     fun startActivity(intent: Intent)
 
