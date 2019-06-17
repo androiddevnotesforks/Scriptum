@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.model
+package sgtmelon.scriptum.model.item
 
 import androidx.room.ColumnInfo
 import androidx.room.Embedded

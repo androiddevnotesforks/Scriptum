@@ -2,7 +2,7 @@ package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
 import sgtmelon.scriptum.extension.clearAndAdd
-import sgtmelon.scriptum.model.NotificationItem
+import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity

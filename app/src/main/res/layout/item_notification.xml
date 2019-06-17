@@ -6,7 +6,7 @@
     <data>
 
         <variable name="currentTheme" type="int"/>
-        <variable name="notificationItem" type="sgtmelon.scriptum.model.NotificationItem"/>
+        <variable name="notificationItem" type="sgtmelon.scriptum.model.item.NotificationItem"/>
 
     </data>
 

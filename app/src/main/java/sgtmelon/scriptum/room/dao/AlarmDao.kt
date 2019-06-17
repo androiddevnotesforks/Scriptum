@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
-import sgtmelon.scriptum.model.NotificationItem
+import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 
