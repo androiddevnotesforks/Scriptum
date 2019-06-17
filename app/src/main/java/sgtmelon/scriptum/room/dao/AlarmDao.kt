@@ -18,8 +18,8 @@ interface AlarmDao {
 
     @Update fun update(item: AlarmItem)
 
-    // TODO #RELEASE NoteModel
-    @Query(value = "SELECT * FROM ALARM_TABLE ORDER BY DATE(AL_DATE) DESC, TIME(AL_DATE) DESC")
-    fun get(): MutableList<AlarmItem>
+    @Transaction
+    @Query(value = "SELECT * FROM NOTE_TABLE, ALARM_TABLE ORDER BY DATE(AL_DATE) DESC, TIME(AL_DATE) DESC")
+    fun getTest() : MutableList<NoteModel>
 
 }
