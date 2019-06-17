@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.databinding.ItemRollReadBinding
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.extension.checkNoPosition
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.state.NoteState
+import sgtmelon.scriptum.room.entity.RollItem
 
 /**
  * Держатель пункта списка в состоянии просмотра для [RollAdapter]

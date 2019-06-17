@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.model.item
+package sgtmelon.scriptum.room.entity
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
@@ -25,7 +25,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
         indices = [Index(Roll.NOTE_ID)]
 )
 @TypeConverters(BoolConverter::class)
-class RollItem(
+data class RollItem(
         @ColumnInfo(name = Roll.ID) @PrimaryKey(autoGenerate = true) var id: Long? = null,
         @ColumnInfo(name = Roll.NOTE_ID) var noteId: Long = 0,
         @ColumnInfo(name = Roll.POSITION) var position: Int = 0,

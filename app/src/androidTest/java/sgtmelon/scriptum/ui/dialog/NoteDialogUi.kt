@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.dialog
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 

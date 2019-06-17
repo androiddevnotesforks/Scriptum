@@ -8,15 +8,15 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.dao.RankDao
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**

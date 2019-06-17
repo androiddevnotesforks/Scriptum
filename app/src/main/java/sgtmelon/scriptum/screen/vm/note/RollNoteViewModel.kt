@@ -22,13 +22,13 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback

@@ -3,10 +3,10 @@ package sgtmelon.scriptum.repository.room
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RollItem
 
 /**
  * Интерфейс для общения с [RoomRepo]

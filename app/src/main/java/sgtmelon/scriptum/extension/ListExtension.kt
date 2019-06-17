@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.extension
 
-import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.room.entity.RollItem
 
 fun <T> MutableList<T>.swap(from: Int, to: Int) {
     val item = get(from)

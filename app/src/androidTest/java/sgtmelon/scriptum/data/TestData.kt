@@ -6,12 +6,12 @@ import sgtmelon.scriptum.TestUtils.random
 import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.data.ColorData
-import sgtmelon.scriptum.model.item.AlarmItem
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RollItem
 import java.util.UUID.randomUUID
 import kotlin.random.Random
 

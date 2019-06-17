@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.repository.develop
 
 import android.content.Context
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**

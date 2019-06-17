@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.repository.alarm
 
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.item.AlarmItem
+import sgtmelon.scriptum.room.entity.AlarmItem
 
 /**
  * Интерфейс для общения с [AlarmRepo]

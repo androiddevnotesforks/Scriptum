@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
-import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
+import sgtmelon.scriptum.room.entity.RankItem
 
 /**
  * Класс для общения Dao категорий [RoomDb]

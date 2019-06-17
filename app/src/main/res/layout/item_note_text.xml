@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <import type="sgtmelon.scriptum.room.entity.NoteItem"/>
 
         <import alias="v" type="android.view.View"/>
         <import alias="text" type="android.text.TextUtils"/>

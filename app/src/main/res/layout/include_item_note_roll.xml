@@ -5,7 +5,7 @@
 
     <data>
 
-        <variable name="rollItem" type="sgtmelon.scriptum.model.item.RollItem"/>
+        <variable name="rollItem" type="sgtmelon.scriptum.room.entity.RollItem"/>
 
     </data>
 

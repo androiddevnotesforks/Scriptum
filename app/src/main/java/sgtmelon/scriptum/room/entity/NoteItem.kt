@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.model.item
+package sgtmelon.scriptum.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -20,7 +20,7 @@ import java.util.*
  */
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, StringConverter::class, NoteTypeConverter::class)
-class NoteItem(
+data class NoteItem(
         @ColumnInfo(name = Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = Note.CREATE) var create: String = "",
         @ColumnInfo(name = Note.CHANGE) var change: String = "",

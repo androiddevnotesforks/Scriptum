@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.model
 
-import sgtmelon.scriptum.model.item.RankItem
+import sgtmelon.scriptum.room.entity.RankItem
 
 /**
  * Репозиторий категории

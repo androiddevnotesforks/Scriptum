@@ -24,8 +24,8 @@ import sgtmelon.scriptum.extension.getClearText
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.model.item.RankItem
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 

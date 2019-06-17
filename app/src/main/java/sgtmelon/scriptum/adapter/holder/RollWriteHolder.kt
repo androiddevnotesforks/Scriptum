@@ -13,9 +13,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
-import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.item.InputItem
+import sgtmelon.scriptum.room.entity.RollItem
 
 /**
  * Держатель пункта списка в состоянии редактирования для [RollAdapter]

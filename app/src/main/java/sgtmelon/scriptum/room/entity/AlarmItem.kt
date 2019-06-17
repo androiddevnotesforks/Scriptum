@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.model.item
+package sgtmelon.scriptum.room.entity
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.model.data.DbData.Note
         )],
         indices = [Index(Alarm.NOTE_ID)]
 )
-class AlarmItem(
+data class AlarmItem(
         @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = Alarm.NOTE_ID) var noteId: Long = 0,
         @ColumnInfo(name = Alarm.DATE) var date: String = ""

@@ -2,10 +2,10 @@ package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteQuery
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.room.entity.NoteItem
 
 /**
  * Класс для общения Dao заметок [RoomDb]

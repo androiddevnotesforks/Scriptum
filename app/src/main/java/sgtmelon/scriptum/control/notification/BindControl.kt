@@ -12,14 +12,14 @@ import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
 
 /**

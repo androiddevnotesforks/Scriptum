@@ -4,8 +4,8 @@ import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.NoteState
+import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 

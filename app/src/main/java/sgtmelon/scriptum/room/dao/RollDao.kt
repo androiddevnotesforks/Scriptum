@@ -4,9 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.TypeConverters
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
+import sgtmelon.scriptum.room.entity.RollItem
 
 /**
  * Класс для общения Dao списка [RoomDb]

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.callback.main
 
-import sgtmelon.scriptum.model.item.RankItem
+import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 

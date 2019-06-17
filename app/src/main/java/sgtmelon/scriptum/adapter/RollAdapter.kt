@@ -6,10 +6,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.RollReadHolder
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.InputCallback
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.state.NoteState
+import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 
 /**

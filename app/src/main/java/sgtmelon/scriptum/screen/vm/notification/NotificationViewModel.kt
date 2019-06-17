@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
+import android.util.Log
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
@@ -29,6 +30,8 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
      */
     fun onUpdateData() {
         noteModelList.clearAndAdd(iAlarmRepo.getList())
+
+        noteModelList.forEach { Log.i("HERE", it.toString()) }
 
         callback.notifyDataSetChanged(noteModelList)
         callback.bind()

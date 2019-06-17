@@ -9,9 +9,9 @@ import sgtmelon.iconanim.widget.SwitchButton
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.databinding.ItemRankBinding
-import sgtmelon.scriptum.model.item.RankItem
-import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.extension.checkNoPosition
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.room.entity.RankItem
 
 /**
  * Держатель категори для [RankAdapter]

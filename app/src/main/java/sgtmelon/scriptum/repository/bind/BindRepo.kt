@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.repository.bind
 
 import android.content.Context
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RollItem
 
 /**
  * Репозиторий обработки данных [RoomDb] для работы с закреплением заметки в StatusBar'е

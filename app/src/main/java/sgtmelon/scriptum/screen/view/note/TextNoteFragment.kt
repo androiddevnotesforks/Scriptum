@@ -26,10 +26,10 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel

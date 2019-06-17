@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.model.item
+package sgtmelon.scriptum.room.entity
 
 import androidx.room.*
 import sgtmelon.scriptum.model.RankModel

@@ -1,8 +1,9 @@
 package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
-import sgtmelon.scriptum.model.item.AlarmItem
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.room.entity.AlarmItem
 
 /**
  * Класс для общения Dao предупреждений [RoomDb]

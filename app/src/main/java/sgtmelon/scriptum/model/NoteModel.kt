@@ -3,22 +3,21 @@ package sgtmelon.scriptum.model
 import androidx.room.Embedded
 import androidx.room.Relation
 import sgtmelon.scriptum.model.data.DbData
-import sgtmelon.scriptum.model.item.AlarmItem
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.RollItem
 
 /**
  * Модель заметки
  *
  * @author SerjantArbuz
  */
-class NoteModel(
-        @field:Embedded val noteItem: NoteItem,
-        @field:Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
+data class NoteModel(
+        @Embedded val noteItem: NoteItem,
+        @Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
         val rollList: MutableList<RollItem> = ArrayList(),
-        @field:Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Alarm.NOTE_ID)
-        val alarmItem: AlarmItem = AlarmItem()
+        @Embedded val alarmItem: AlarmItem = AlarmItem()
 ) {
 
     /**

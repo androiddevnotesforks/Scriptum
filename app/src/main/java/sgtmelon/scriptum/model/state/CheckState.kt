@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.model.state
 
-import sgtmelon.scriptum.model.item.RollItem
+import sgtmelon.scriptum.room.entity.RollItem
 
 
 /**

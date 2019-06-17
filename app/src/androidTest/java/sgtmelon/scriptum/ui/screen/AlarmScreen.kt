@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch

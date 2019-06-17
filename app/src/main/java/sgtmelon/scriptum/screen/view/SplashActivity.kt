@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.item.NoteItem
+import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.screen.callback.SplashCallback
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 

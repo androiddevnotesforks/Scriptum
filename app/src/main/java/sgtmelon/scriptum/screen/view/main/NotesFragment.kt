@@ -22,8 +22,8 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity

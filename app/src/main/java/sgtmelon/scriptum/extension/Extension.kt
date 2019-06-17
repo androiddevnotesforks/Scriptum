@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.room.RoomRepo
+import sgtmelon.scriptum.room.entity.NoteItem
 
 fun <T: ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int) : T =
         DataBindingUtil.setContentView(this, layoutId)
