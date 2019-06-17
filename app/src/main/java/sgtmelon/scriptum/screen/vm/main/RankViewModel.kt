@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.RankModel
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -76,7 +76,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         if (name.isEmpty()) return
 
         val p = if (simpleClick) rankModel.size() else 0
-        val rankItem = RankItem(position = if (simpleClick) p else -1, name = name).apply {
+        val rankItem = RankEntity(position = if (simpleClick) p else -1, name = name).apply {
             id = iRoomRepo.insertRank(p, rankItem = this)
         }
 

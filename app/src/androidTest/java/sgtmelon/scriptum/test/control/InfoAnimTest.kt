@@ -35,42 +35,42 @@ class InfoAnimTest : ParentTest() {
     }
 
     @Test fun notesShow() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
         launch {
             mainScreen {
-                waitAfter(time = 500) { openNotesPage { openNoteDialog(noteItem) { onClickDelete() } } }
+                waitAfter(time = 500) { openNotesPage { openNoteDialog(noteEntity) { onClickDelete() } } }
             }
         }
     }
 
     @Test fun notesHide() {
-        val noteItem = testData.clear().insertTextToBin()
+        val noteEntity = testData.clear().insertTextToBin()
 
         launch {
             mainScreen {
-                openBinPage { openNoteDialog(noteItem) { onClickRestore() } }
+                openBinPage { openNoteDialog(noteEntity) { onClickRestore() } }
                 openNotesPage { wait(time = 500) }
             }
         }
     }
 
     @Test fun binShow() {
-        val noteItem = testData.clear().insertTextToBin()
+        val noteEntity = testData.clear().insertTextToBin()
 
         launch {
             mainScreen {
-                waitAfter(time = 500) { openBinPage { openNoteDialog(noteItem) { onClickClear() } } }
+                waitAfter(time = 500) { openBinPage { openNoteDialog(noteEntity) { onClickClear() } } }
             }
         }
     }
 
     @Test fun binHide() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(noteItem) { onClickDelete() } }
+                openNotesPage { openNoteDialog(noteEntity) { onClickDelete() } }
                 openBinPage { wait(time = 500) }
             }
         }

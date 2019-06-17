@@ -4,10 +4,10 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
-import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.repository.bind.BindRepo
 
 /**
@@ -24,8 +24,8 @@ class BindReceiver : BroadcastReceiver() {
 
         if (id == Values.ID_UNDEFINED) return
 
-        val noteItem = BindRepo.getInstance(context).unbindNoteItem(id)
-        BindControl(context, noteItem).cancelBind()
+        val noteEntity = BindRepo.getInstance(context).unbindNote(id)
+        BindControl(context, noteEntity).cancelBind()
 
         context.apply {
             sendTo(Filter.MAIN, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }

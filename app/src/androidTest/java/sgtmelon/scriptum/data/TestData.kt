@@ -10,7 +10,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollItem
 import java.util.UUID.randomUUID
 import kotlin.random.Random
@@ -55,12 +55,12 @@ class TestData(private val context: Context) {
         }
     }
 
-    val rankItem: RankItem get() = RankItem(name = uniqueString)
+    val rankItem: RankEntity get() = RankEntity(name = uniqueString)
 
 
     fun clear() = apply { dataBase.apply { clearAllTables() }.close() }
 
-    fun insertRank(rankItem: RankItem = this.rankItem): RankItem {
+    fun insertRank(rankItem: RankEntity = this.rankItem): RankEntity {
         dataBase.apply { rankItem.id = getRankDao().insert(rankItem) }.close()
 
         return rankItem
@@ -97,13 +97,13 @@ class TestData(private val context: Context) {
         return insertRoll(noteEntity, rollList)
     }
 
-    fun insertRankToNotes() = ArrayList<RankItem>().apply {
-        val noteItem = if (Random.nextBoolean()) insertText() else insertRoll()
+    fun insertRankToNotes() = ArrayList<RankEntity>().apply {
+        val noteEntity = if (Random.nextBoolean()) insertText() else insertRoll()
 
         (1..2).forEach {
             val rankItem = insertRank(rankItem.apply {
                 name = "$it | $name"
-                noteId.add(noteItem.id)
+                noteId.add(noteEntity.id)
                 position = it
             })
 
@@ -111,20 +111,20 @@ class TestData(private val context: Context) {
         }
 
         forEach {
-            noteItem.rankId.add(it.id)
-            noteItem.rankPs.add(it.position.toLong())
+            noteEntity.rankId.add(it.id)
+            noteEntity.rankPs.add(it.position.toLong())
         }
 
-        dataBase.apply { getNoteDao().update(noteItem) }.close()
+        dataBase.apply { getNoteDao().update(noteEntity) }.close()
     }
 
-    fun insertRankToBin() = ArrayList<RankItem>().apply {
-        val noteItem = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+    fun insertRankToBin() = ArrayList<RankEntity>().apply {
+        val noteEntity = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
 
         (1..2).forEach {
             val rankItem = insertRank(rankItem.apply {
                 name = "$it | $name"
-                noteId.add(noteItem.id)
+                noteId.add(noteEntity.id)
                 position = it
             })
 
@@ -132,11 +132,11 @@ class TestData(private val context: Context) {
         }
 
         forEach {
-            noteItem.rankId.add(it.id)
-            noteItem.rankPs.add(it.position.toLong())
+            noteEntity.rankId.add(it.id)
+            noteEntity.rankPs.add(it.position.toLong())
         }
 
-        dataBase.apply { getNoteDao().update(noteItem) }.close()
+        dataBase.apply { getNoteDao().update(noteEntity) }.close()
     }
 
     fun insertNotification(noteEntity: NoteEntity) {
@@ -145,7 +145,7 @@ class TestData(private val context: Context) {
         }.close()
     }
 
-    fun fillRank(times: Int = 10) = ArrayList<RankItem>().apply {
+    fun fillRank(times: Int = 10) = ArrayList<RankEntity>().apply {
         (1..times).forEach {
             val rankItem = insertRank(rankItem.apply {
                 name = "$it | $name"
@@ -166,8 +166,8 @@ class TestData(private val context: Context) {
     }
 
     fun fillNotification(times: Int = 10) = repeat(times) {
-        val noteItem = if (Random.nextBoolean()) insertText() else insertRoll()
-        insertNotification(noteItem)
+        val noteEntity = if (Random.nextBoolean()) insertText() else insertRoll()
+        insertNotification(noteEntity)
     }
 
 }

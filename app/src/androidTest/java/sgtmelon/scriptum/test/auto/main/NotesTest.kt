@@ -121,18 +121,18 @@ class NotesTest : ParentTest() {
 
 
     @Test fun textNoteDialogOpen() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
-        launch { mainScreen { openNotesPage { openNoteDialog(noteItem) } } }
+        launch { mainScreen { openNotesPage { openNoteDialog(noteEntity) } } }
     }
 
     @Test fun textNoteDialogClose() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onCloseSoft() }
+                    openNoteDialog(noteEntity) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -140,76 +140,76 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun textNoteDialogBind() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onClickBind() }
-                    noteItem.isStatus = true
-                    openNoteDialog(noteItem)
+                    openNoteDialog(noteEntity) { onClickBind() }
+                    noteEntity.isStatus = true
+                    openNoteDialog(noteEntity)
                 }
             }
         }
     }
 
     @Test fun textNoteDialogUnbind() {
-        val noteItem = with(testData.clear()) { insertText(textNote.apply { isStatus = true }) }
+        val noteEntity = with(testData.clear()) { insertText(textNote.apply { isStatus = true }) }
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onClickUnbind() }
-                    noteItem.isStatus = false
-                    openNoteDialog(noteItem)
+                    openNoteDialog(noteEntity) { onClickUnbind() }
+                    noteEntity.isStatus = false
+                    openNoteDialog(noteEntity)
                 }
             }
         }
     }
 
     @Test fun textNoteDialogUnbindOnDelete() {
-        val noteItem = with(testData.clear()) { insertText(textNote.apply { isStatus = true }) }
+        val noteEntity = with(testData.clear()) { insertText(textNote.apply { isStatus = true }) }
 
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(noteItem) { onClickDelete() } }
+                openNotesPage { openNoteDialog(noteEntity) { onClickDelete() } }
 
-                noteItem.apply {
+                noteEntity.apply {
                     isStatus = false
                     isBin = true
                 }
 
-                openBinPage { openNoteDialog(noteItem) { onClickRestore() } }
+                openBinPage { openNoteDialog(noteEntity) { onClickRestore() } }
 
-                noteItem.isBin = false
+                noteEntity.isBin = false
 
-                openNotesPage { openNoteDialog(noteItem) }
+                openNotesPage { openNoteDialog(noteEntity) }
             }
         }
     }
 
     @Test fun textNoteDialogConvert() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onClickConvert(noteItem.type) }
-                    noteItem.type = NoteType.ROLL
-                    openNoteDialog(noteItem)
+                    openNoteDialog(noteEntity) { onClickConvert(noteEntity.type) }
+                    noteEntity.type = NoteType.ROLL
+                    openNoteDialog(noteEntity)
                 }
             }
         }
     }
 
     @Test fun textNoteDialogDelete() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
         launch {
             mainScreen {
                 openNotesPage {
                     assert { onDisplayContent(empty = false) }
-                    openNoteDialog(noteItem) { onClickDelete() }
+                    openNoteDialog(noteEntity) { onClickDelete() }
                     assert { onDisplayContent(empty = true) }
                 }
 
@@ -220,18 +220,18 @@ class NotesTest : ParentTest() {
 
 
     @Test fun rollNoteDialogOpen() {
-        val noteItem = testData.clear().insertRoll()
+        val noteEntity = testData.clear().insertRoll()
 
-        launch { mainScreen { openNotesPage { openNoteDialog(noteItem) } } }
+        launch { mainScreen { openNotesPage { openNoteDialog(noteEntity) } } }
     }
 
     @Test fun rollNoteDialogClose() {
-        val noteItem = testData.clear().insertRoll()
+        val noteEntity = testData.clear().insertRoll()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onCloseSoft() }
+                    openNoteDialog(noteEntity) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -239,21 +239,21 @@ class NotesTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogBind() {
-        val noteItem = testData.clear().insertRoll()
+        val noteEntity = testData.clear().insertRoll()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onClickBind() }
-                    noteItem.isStatus = true
-                    openNoteDialog(noteItem)
+                    openNoteDialog(noteEntity) { onClickBind() }
+                    noteEntity.isStatus = true
+                    openNoteDialog(noteEntity)
                 }
             }
         }
     }
 
     @Test fun rollNoteDialogUnbind() {
-        val noteItem = with(testData) {
+        val noteEntity = with(testData) {
             clear()
             return@with insertRoll(rollNote.apply { isStatus = true })
         }
@@ -261,60 +261,60 @@ class NotesTest : ParentTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onClickUnbind() }
-                    noteItem.isStatus = false
-                    openNoteDialog(noteItem)
+                    openNoteDialog(noteEntity) { onClickUnbind() }
+                    noteEntity.isStatus = false
+                    openNoteDialog(noteEntity)
                 }
             }
         }
     }
 
     @Test fun rollNoteDialogUnbindOnDelete() {
-        val noteItem = with(testData) {
+        val noteEntity = with(testData) {
             clear()
             return@with insertRoll(rollNote.apply { isStatus = true })
         }
 
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(noteItem) { onClickDelete() } }
+                openNotesPage { openNoteDialog(noteEntity) { onClickDelete() } }
 
-                noteItem.apply {
+                noteEntity.apply {
                     isStatus = false
                     isBin = true
                 }
 
-                openBinPage { openNoteDialog(noteItem) { onClickRestore() } }
+                openBinPage { openNoteDialog(noteEntity) { onClickRestore() } }
 
-                noteItem.isBin = false
+                noteEntity.isBin = false
 
-                openNotesPage { openNoteDialog(noteItem) }
+                openNotesPage { openNoteDialog(noteEntity) }
             }
         }
     }
 
     @Test fun rollNoteDialogConvert() {
-        val noteItem = testData.clear().insertRoll()
+        val noteEntity = testData.clear().insertRoll()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) { onClickConvert(noteItem.type) }
-                    noteItem.type = NoteType.TEXT
-                    openNoteDialog(noteItem)
+                    openNoteDialog(noteEntity) { onClickConvert(noteEntity.type) }
+                    noteEntity.type = NoteType.TEXT
+                    openNoteDialog(noteEntity)
                 }
             }
         }
     }
 
     @Test fun rollNoteDialogDelete() {
-        val noteItem = testData.clear().insertRoll()
+        val noteEntity = testData.clear().insertRoll()
 
         launch {
             mainScreen {
                 openNotesPage {
                     assert { onDisplayContent(empty = false) }
-                    openNoteDialog(noteItem) { onClickDelete() }
+                    openNoteDialog(noteEntity) { onClickDelete() }
                     assert { onDisplayContent(empty = true) }
                 }
 

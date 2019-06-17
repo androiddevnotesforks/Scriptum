@@ -3,7 +3,7 @@ package sgtmelon.scriptum.room.dao
 import androidx.room.*
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
  * Класс для общения Dao категорий [RoomDb]
@@ -24,10 +24,10 @@ interface RankDao {
     val count: Int
 
     @get:Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
-    val simple: MutableList<RankItem>
+    val simple: MutableList<RankEntity>
 
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
-    operator fun get(idList: List<Long>): List<RankItem>
+    operator fun get(idList: List<Long>): List<RankEntity>
 
     @get:Query(value = "SELECT RK_NAME FROM RANK_TABLE ORDER BY RK_POSITION")
     val name: List<String>
@@ -35,19 +35,19 @@ interface RankDao {
     @get:Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
     val id: List<Long>
 
-    @Insert fun insert(rankItem: RankItem): Long
+    @Insert fun insert(rankItem: RankEntity): Long
 
     /**
      * @param name - Уникальное имя категории
      * @return - Модель категории
      */
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_NAME = :name")
-    operator fun get(name: String): RankItem
+    operator fun get(name: String): RankEntity
 
-    @Update fun update(item: RankItem)
+    @Update fun update(item: RankEntity)
 
-    @Update fun update(list: List<RankItem>)
+    @Update fun update(list: List<RankEntity>)
 
-    @Delete fun delete(item: RankItem)
+    @Delete fun delete(item: RankEntity)
 
 }

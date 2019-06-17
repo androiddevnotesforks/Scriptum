@@ -127,7 +127,7 @@
     <string name="hind_enter_roll_empty">Этот пункт будет удалён</string>
 
     <!-- Items text -->
-    <!-- RankItem -->
+    <!-- Rank -->
     <string name="list_item_rank_text_count">Тексты:</string>
     <string name="list_item_rank_roll_count">Списки:</string>
 

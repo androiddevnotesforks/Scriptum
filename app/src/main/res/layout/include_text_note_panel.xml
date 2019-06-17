@@ -13,7 +13,7 @@
                   type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
+        <variable name="noteEntity" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
@@ -42,7 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
+                    android:visibility='@{noteEntity.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -76,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{editMode &amp;&amp; !noteItem.bin ? v.VISIBLE : v.INVISIBLE}'
+                    android:visibility='@{editMode &amp;&amp; !noteEntity.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="visible">
 
                 <ImageButton
@@ -112,7 +112,7 @@
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{!noteItem.getRankId().isEmpty() ? R.attr.clAccent : R.attr.clContent}'
+                        app:trueColor='@{!noteEntity.getRankId().isEmpty() ? R.attr.clAccent : R.attr.clContent}'
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
@@ -143,7 +143,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{!editMode &amp;&amp; !noteItem.bin ? v.VISIBLE  : v.INVISIBLE}'
+                    android:visibility='@{!editMode &amp;&amp; !noteEntity.bin ? v.VISIBLE  : v.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -160,10 +160,10 @@
                 <ImageButton
                         android:id="@+id/note_panel_bind_button"
                         style="@style/Button.Small"
-                        android:contentDescription='@{noteItem.status ? @string/menu_note_status_bind : @string/menu_note_status_unbind}'
+                        android:contentDescription='@{noteEntity.status ? @string/menu_note_status_bind : @string/menu_note_status_unbind}'
                         android:onClick='@{() -> menuCallback.onMenuBind()}'
                         app:srcCompat="@drawable/ic_bind_text"
-                        app:boolExpression='@{noteItem.status}'
+                        app:boolExpression='@{noteEntity.status}'
                         app:falseColor='@{R.attr.clContent}'
                         app:trueColor='@{R.attr.clAccent}'
                         tools:tint="?attr/clAccent"/>

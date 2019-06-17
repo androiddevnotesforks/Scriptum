@@ -29,15 +29,15 @@ class TextNoteContentTest : ParentTest() {
     }
 
     @Test fun contentFillOnOpen() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        assert { onDisplayText(State.READ, noteItem.text) }
+                        assert { onDisplayText(State.READ, noteEntity.text) }
                         controlPanel { onClickEdit() }
-                        assert { onDisplayText(State.EDIT, noteItem.text) }
+                        assert { onDisplayText(State.EDIT, noteEntity.text) }
                     }
                 }
             }
@@ -45,25 +45,25 @@ class TextNoteContentTest : ParentTest() {
     }
 
     @Test fun contentFillOnOpenFromBin() {
-        val noteItem = testData.insertTextToBin()
+        val noteEntity = testData.insertTextToBin()
 
         launch {
             mainScreen {
-                openBinPage { openTextNote { assert { onDisplayText(State.BIN, noteItem.text) } } }
+                openBinPage { openTextNote { assert { onDisplayText(State.BIN, noteEntity.text) } } }
             }
         }
     }
 
     @Test fun contentFillOnRestoreOpen() {
-        val noteItem = testData.insertTextToBin()
+        val noteEntity = testData.insertTextToBin()
 
         launch {
             mainScreen {
                 openBinPage {
                     openTextNote {
-                        assert { onDisplayText(State.BIN, noteItem.text) }
+                        assert { onDisplayText(State.BIN, noteEntity.text) }
                         controlPanel { onClickRestoreOpen() }
-                        assert { onDisplayText(State.READ, noteItem.text) }
+                        assert { onDisplayText(State.READ, noteEntity.text) }
                     }
                 }
             }
@@ -72,46 +72,46 @@ class TextNoteContentTest : ParentTest() {
 
 
     @Test fun saveByControlOnCreate() = launch {
-        val noteItem = testData.textNote
+        val noteEntity = testData.textNote
 
         mainScreen {
             openAddDialog {
                 createTextNote {
-                    onEnterText(noteItem.text)
+                    onEnterText(noteEntity.text)
 
-                    assert { onDisplayText(State.EDIT, noteItem.text) }
+                    assert { onDisplayText(State.EDIT, noteEntity.text) }
                     controlPanel { onClickSave() }
-                    assert { onDisplayText(State.READ, noteItem.text) }
+                    assert { onDisplayText(State.READ, noteEntity.text) }
                 }
             }
         }
     }
 
     @Test fun saveByBackPressOnCreate() = launch {
-        val noteItem = testData.textNote
+        val noteEntity = testData.textNote
 
         mainScreen {
             openAddDialog {
                 createTextNote {
-                    onEnterText(noteItem.text)
+                    onEnterText(noteEntity.text)
 
-                    assert { onDisplayText(State.EDIT, noteItem.text) }
+                    assert { onDisplayText(State.EDIT, noteEntity.text) }
                     onPressBack()
-                    assert { onDisplayText(State.READ, noteItem.text) }
+                    assert { onDisplayText(State.READ, noteEntity.text) }
                 }
             }
         }
     }
 
     @Test fun saveByControlOnEdit() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
         val newText = testData.uniqueString
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        assert { onDisplayText(State.READ, noteItem.text) }
+                        assert { onDisplayText(State.READ, noteEntity.text) }
 
                         controlPanel { onClickEdit() }
                         onEnterText(newText)
@@ -125,14 +125,14 @@ class TextNoteContentTest : ParentTest() {
     }
 
     @Test fun saveByBackPressOnEdit() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
         val newText = testData.uniqueString
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        assert { onDisplayText(State.READ, noteItem.text) }
+                        assert { onDisplayText(State.READ, noteEntity.text) }
 
                         controlPanel { onClickEdit() }
                         onEnterText(newText)
@@ -147,20 +147,20 @@ class TextNoteContentTest : ParentTest() {
 
 
     @Test fun cancelOnEditByToolbar() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
         val newText = testData.uniqueString
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        assert { onDisplayText(State.READ, noteItem.text) }
+                        assert { onDisplayText(State.READ, noteEntity.text) }
 
                         controlPanel { onClickEdit() }
                         onEnterText(newText)
                         toolbar { onClickBack() }
 
-                        assert { onDisplayText(State.READ, noteItem.text) }
+                        assert { onDisplayText(State.READ, noteEntity.text) }
                     }
                 }
             }

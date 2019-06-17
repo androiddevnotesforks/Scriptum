@@ -25,12 +25,12 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.callback.main.RankCallback
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
- * Фрагмент для отображения списка категорий - [RankItem]
+ * Фрагмент для отображения списка категорий - [RankEntity]
  *
  * @author SerjantArbuz
  */
@@ -169,7 +169,7 @@ class RankFragment : Fragment(), RankCallback {
         return text
     }
 
-    override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>) {
+    override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankEntity>) {
         val p = if (simpleClick) list.size else 0
 
         if (list.size == 1) {
@@ -204,24 +204,24 @@ class RankFragment : Fragment(), RankCallback {
         }
     }
 
-    override fun notifyVisible(p: Int, item: RankItem) = adapter.setListItem(p, item)
+    override fun notifyVisible(p: Int, item: RankEntity) = adapter.setListItem(p, item)
 
-    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>) =
+    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankEntity>) =
             adapter.apply {
                 setList(list)
                 this.startAnim = startAnim
             }.notifyDataSetChanged()
 
-    override fun notifyDataSetChanged(list: MutableList<RankItem>) =
+    override fun notifyDataSetChanged(list: MutableList<RankEntity>) =
             adapter.notifyDataSetChanged(list)
 
-    override fun notifyItemChanged(p: Int, item: RankItem) =
+    override fun notifyItemChanged(p: Int, item: RankEntity) =
             adapter.notifyItemChanged(item, p)
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<RankItem>) =
+    override fun notifyItemRemoved(p: Int, list: MutableList<RankEntity>) =
             adapter.notifyItemRemoved(p, list)
 
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>) =
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankEntity>) =
             adapter.notifyItemMoved(from, to, list)
 
 }

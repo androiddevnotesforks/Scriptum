@@ -4,7 +4,7 @@ import android.content.Context
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
@@ -64,7 +64,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     }.toString()
 
     override suspend fun getRankTableData() = StringBuilder().apply {
-        val list: MutableList<RankItem>
+        val list: MutableList<RankEntity>
 
         openRoom().apply { list = getRankDao().simple }.close()
 

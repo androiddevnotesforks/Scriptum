@@ -191,7 +191,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
         binding?.apply {
             this.editMode = editMode
-            this.noteItem = noteEntity
+            this.noteEntity = noteEntity
         }?.executePendingBindings()
     }
 
@@ -203,7 +203,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     }
 
     override fun bindItem(noteEntity: NoteEntity) {
-        binding?.apply { this.noteItem = noteEntity }?.executePendingBindings()
+        binding?.apply { this.noteEntity = noteEntity }?.executePendingBindings()
     }
 
     override fun onPressBack() = viewModel.onPressBack()

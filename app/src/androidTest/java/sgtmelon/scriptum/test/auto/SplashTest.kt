@@ -42,18 +42,18 @@ class SplashTest : ParentTest() {
     @Test fun alarmTextNoteOpen() {
         iPreferenceRepo.firstStart = false
 
-        val noteItem = testData.clear().insertText()
-        launch(intent = context.getSplashAlarmIntent(noteItem)) {
-            openAlarm(noteItem)
+        val noteEntity = testData.clear().insertText()
+        launch(intent = context.getSplashAlarmIntent(noteEntity)) {
+            openAlarm(noteEntity)
         }
     }
 
     @Test fun alarmRollNoteOpen() {
         iPreferenceRepo.firstStart = false
 
-        val noteItem = testData.clear().insertRoll()
-        launch(intent = context.getSplashAlarmIntent(noteItem)) {
-            openAlarm(noteItem)
+        val noteEntity = testData.clear().insertRoll()
+        launch(intent = context.getSplashAlarmIntent(noteEntity)) {
+            openAlarm(noteEntity)
         }
     }
 

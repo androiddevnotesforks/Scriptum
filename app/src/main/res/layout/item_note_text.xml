@@ -26,9 +26,9 @@
 
         <FrameLayout
                 android:id="@+id/note_text_click_container"
-                style="@style/Container.NoteItem.Click">
+                style="@style/Container.Note.Click">
 
-            <LinearLayout style="@style/Container.NoteItem.Content">
+            <LinearLayout style="@style/Container.Note.Content">
 
                 <LinearLayout
                         android:layout_width="0dp"
@@ -38,14 +38,14 @@
 
                     <TextView
                             android:id="@+id/note_text_name_text"
-                            style="@style/Text.NoteItem.Name"
+                            style="@style/Text.Note.Name"
                             android:text='@{noteModel.noteEntity.name}'
                             android:visibility='@{text.isEmpty(noteModel.noteEntity.name) ? v.GONE : v.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                     <TextView
                             android:id="@+id/note_text_content_text"
-                            style="@style/Text.NoteItem.Content"
+                            style="@style/Text.Note.Content"
                             android:text='@{noteModel.noteEntity.text}'
                             tools:text="@string/preview_note_text"/>
 

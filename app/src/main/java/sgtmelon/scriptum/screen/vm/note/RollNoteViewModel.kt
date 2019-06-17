@@ -169,16 +169,16 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
-            val noteItem = noteModel.noteEntity
+            val noteEntity = noteModel.noteEntity
             val rollList = noteModel.rollList
 
             when (item.tag) {
-                InputAction.rank -> noteItem.rankId = StringConverter().toList(item[isUndo])
+                InputAction.rank -> noteEntity.rankId = StringConverter().toList(item[isUndo])
                 InputAction.color -> {
-                    val colorFrom = noteItem.color
+                    val colorFrom = noteEntity.color
                     val colorTo = item[isUndo].toInt()
 
-                    noteItem.color = colorTo
+                    noteEntity.color = colorTo
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
@@ -383,14 +383,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         val check = rollList.getCheck()
 
-        val noteItem = noteModel.noteEntity.apply {
+        val noteEntity = noteModel.noteEntity.apply {
             change = context.getTime()
             setCompleteText(check, rollList.size)
         }
 
-        if (checkState.setAll(check, rollList.size)) callback.bindNoteItem(noteItem)
+        if (checkState.setAll(check, rollList.size)) callback.bindNoteItem(noteEntity)
 
-        iRoomRepo.updateRollCheck(noteItem, rollItem)
+        iRoomRepo.updateRollCheck(noteEntity, rollItem)
 
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
     }
@@ -401,16 +401,16 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateCheck(!isAll)
 
-        val noteItem = noteModel.noteEntity.apply {
+        val noteEntity = noteModel.noteEntity.apply {
             change = context.getTime()
             setCompleteText(if (isAll) 0 else size, size)
         }
 
-        iRoomRepo.updateRollCheck(noteItem, !isAll)
+        iRoomRepo.updateRollCheck(noteEntity, !isAll)
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
         callback.apply {
-            bindNoteItem(noteItem)
+            bindNoteItem(noteEntity)
             changeCheckToggle(state = true)
         }
 
@@ -418,9 +418,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     fun onResultColorDialog(check: Int) {
-        val noteItem = noteModel.noteEntity
-        inputControl.onColorChange(noteItem.color, check)
-        noteItem.color = check
+        val noteEntity = noteModel.noteEntity
+        inputControl.onColorChange(noteEntity.color, check)
+        noteEntity.color = check
 
         callback.apply {
             bindInput(inputControl.access, noteModel.isSaveEnabled())
@@ -439,17 +439,17 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        val noteItem = noteModel.noteEntity
+        val noteEntity = noteModel.noteEntity
 
-        inputControl.onRankChange(noteItem.rankId, rankId)
+        inputControl.onRankChange(noteEntity.rankId, rankId)
 
-        noteItem.apply {
+        noteEntity.apply {
             this.rankId = rankId
             this.rankPs = rankPs
         }
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
-        callback.bindItem(noteItem)
+        callback.bindItem(noteEntity)
     }
 
     fun onResultConvertDialog() {

@@ -24,7 +24,7 @@ class BindRepo(private val context: Context) : IBindRepo {
         openRoom().apply { addAll(getRollDao()[noteEntity.id]) }.close()
     }
 
-    override fun unbindNoteItem(id: Long): NoteEntity {
+    override fun unbindNote(id: Long): NoteEntity {
         val noteEntity: NoteEntity
 
         openRoom().apply {

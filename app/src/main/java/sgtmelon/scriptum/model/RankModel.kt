@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.model
 
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
  * Репозиторий категории
  *
  * @author SerjantArbuz
  */
-class RankModel(val itemList: MutableList<RankItem>) {
+class RankModel(val itemList: MutableList<RankEntity>) {
 
     // TODO rename потому что по факту это репозиторий
 
@@ -22,7 +22,7 @@ class RankModel(val itemList: MutableList<RankItem>) {
         nameList[p] = name.toUpperCase()
     }
 
-    fun add(p: Int, item: RankItem) {
+    fun add(p: Int, item: RankEntity) {
         itemList.add(p, item)
         nameList.add(p, item.name.toUpperCase())
     }

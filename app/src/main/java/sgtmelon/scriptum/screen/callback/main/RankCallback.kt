@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.callback.main
 
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
@@ -21,20 +21,20 @@ interface RankCallback {
 
     fun clearEnter(): String
 
-    fun scrollToItem(simpleClick: Boolean, list: MutableList<RankItem>)
+    fun scrollToItem(simpleClick: Boolean, list: MutableList<RankEntity>)
 
     fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>)
 
-    fun notifyVisible(p: Int, item: RankItem)
+    fun notifyVisible(p: Int, item: RankEntity)
 
-    fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankItem>)
+    fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankEntity>)
 
-    fun notifyDataSetChanged(list: MutableList<RankItem>)
+    fun notifyDataSetChanged(list: MutableList<RankEntity>)
 
-    fun notifyItemChanged(p: Int, item: RankItem)
+    fun notifyItemChanged(p: Int, item: RankEntity)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<RankItem>)
+    fun notifyItemRemoved(p: Int, list: MutableList<RankEntity>)
 
-    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankItem>)
+    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankEntity>)
 
 }

@@ -253,14 +253,14 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
         binding?.apply {
             this.editMode = editMode
-            this.noteItem = noteEntity
+            this.noteEntity = noteEntity
         }
 
         bindEnter()
     }
 
     override fun bindNoteItem(noteEntity: NoteEntity) {
-        binding?.noteItem = noteEntity
+        binding?.noteEntity = noteEntity
         binding?.executePendingBindings()
     }
 
@@ -277,7 +277,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     }
 
     override fun bindItem(noteEntity: NoteEntity) {
-        binding?.apply { this.noteItem = noteEntity }?.executePendingBindings()
+        binding?.apply { this.noteEntity = noteEntity }?.executePendingBindings()
     }
 
     override fun onPressBack() = viewModel.onPressBack()

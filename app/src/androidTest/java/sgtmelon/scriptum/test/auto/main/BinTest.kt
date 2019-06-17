@@ -112,18 +112,18 @@ class BinTest : ParentTest() {
 
 
     @Test fun textNoteDialogOpen() {
-        val noteItem = testData.clear().insertTextToBin()
+        val noteEntity = testData.clear().insertTextToBin()
 
-        launch { mainScreen { openBinPage { openNoteDialog(noteItem) } } }
+        launch { mainScreen { openBinPage { openNoteDialog(noteEntity) } } }
     }
 
     @Test fun textNoteDialogClose() {
-        val noteItem = testData.clear().insertTextToBin()
+        val noteEntity = testData.clear().insertTextToBin()
 
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(noteItem) { onCloseSoft() }
+                    openNoteDialog(noteEntity) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -131,7 +131,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun textNoteDialogRestore() {
-        val noteItem = testData.clear().insertTextToBin()
+        val noteEntity = testData.clear().insertTextToBin()
 
         launch {
             mainScreen {
@@ -139,7 +139,7 @@ class BinTest : ParentTest() {
 
                 openBinPage {
                     assert { onDisplayContent(empty = false) }
-                    openNoteDialog(noteItem) { onClickRestore() }
+                    openNoteDialog(noteEntity) { onClickRestore() }
                     assert { onDisplayContent(empty = true) }
                 }
 
@@ -149,13 +149,13 @@ class BinTest : ParentTest() {
     }
 
     @Test fun textNoteDialogClear() {
-        val noteItem = testData.clear().insertTextToBin()
+        val noteEntity = testData.clear().insertTextToBin()
 
         launch {
             mainScreen {
                 openBinPage {
                     assert { onDisplayContent(empty = false) }
-                    openNoteDialog(noteItem) { onClickClear() }
+                    openNoteDialog(noteEntity) { onClickClear() }
                     assert { onDisplayContent(empty = true) }
                 }
 
@@ -166,18 +166,18 @@ class BinTest : ParentTest() {
 
 
     @Test fun rollNoteDialogOpen() {
-        val noteItem = testData.clear().insertRollToBin()
+        val noteEntity = testData.clear().insertRollToBin()
 
-        launch { mainScreen { openBinPage { openNoteDialog(noteItem) } } }
+        launch { mainScreen { openBinPage { openNoteDialog(noteEntity) } } }
     }
 
     @Test fun rollNoteDialogClose() {
-        val noteItem = testData.clear().insertRollToBin()
+        val noteEntity = testData.clear().insertRollToBin()
 
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(noteItem) { onCloseSoft() }
+                    openNoteDialog(noteEntity) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -185,7 +185,7 @@ class BinTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogRestore() {
-        val noteItem = testData.clear().insertRollToBin()
+        val noteEntity = testData.clear().insertRollToBin()
 
         launch {
             mainScreen {
@@ -193,7 +193,7 @@ class BinTest : ParentTest() {
 
                 openBinPage {
                     assert { onDisplayContent(empty = false) }
-                    openNoteDialog(noteItem) { onClickRestore() }
+                    openNoteDialog(noteEntity) { onClickRestore() }
                     assert { onDisplayContent(empty = true) }
                 }
 
@@ -203,13 +203,13 @@ class BinTest : ParentTest() {
     }
 
     @Test fun rollNoteDialogClear() {
-        val noteItem = testData.clear().insertRollToBin()
+        val noteEntity = testData.clear().insertRollToBin()
 
         launch {
             mainScreen {
                 openBinPage {
                     assert { onDisplayContent(empty = false) }
-                    openNoteDialog(noteItem) { onClickClear() }
+                    openNoteDialog(noteEntity) { onClickClear() }
                     assert { onDisplayContent(empty = true) }
                 }
 

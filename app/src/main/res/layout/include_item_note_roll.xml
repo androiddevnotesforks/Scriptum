@@ -17,14 +17,14 @@
 
         <ImageView
                 android:id="@+id/note_roll_check_image"
-                style="@style/Image.NoteItem.Check"
+                style="@style/Image.Note.Check"
                 android:contentDescription="@null"
                 android:src='@{rollItem != null &amp;&amp; rollItem.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
                 tools:srcCompat="@drawable/ic_check_done"/>
 
         <TextView
                 android:id="@+id/note_roll_text"
-                style="@style/Text.NoteItem.Roll"
+                style="@style/Text.Note.Roll"
                 android:text='@{rollItem != null ? rollItem.text : ""}'
                 tools:text="@string/preview_note_roll"/>
 

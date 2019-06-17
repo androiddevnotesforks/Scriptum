@@ -5,7 +5,7 @@ import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollItem
 
 /**
@@ -79,7 +79,7 @@ interface IRoomRepo {
      */
     fun saveRollNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
 
-    fun insertRank(p: Int, rankItem: RankItem): Long
+    fun insertRank(p: Int, rankItem: RankEntity): Long
 
     /**
      * Обновление конкретного пункта списка
@@ -104,10 +104,10 @@ interface IRoomRepo {
 
     fun getRankModel(): RankModel
 
-    fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankItem>
+    fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankEntity>
 
-    fun updateRank(rankItem: RankItem)
+    fun updateRank(rankItem: RankEntity)
 
-    fun updateRank(rankList: List<RankItem>)
+    fun updateRank(rankList: List<RankEntity>)
 
 }

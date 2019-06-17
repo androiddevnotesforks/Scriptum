@@ -38,8 +38,8 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     }
 
     fun onClickNote(p: Int) {
-        val noteItem = noteModelList[p].noteEntity
-        callback.startActivity(context.getNoteIntent(noteItem.type, noteItem.id))
+        val noteEntity = noteModelList[p].noteEntity
+        callback.startActivity(context.getNoteIntent(noteEntity.type, noteEntity.id))
     }
 
     fun onClickCancel(p: Int) {

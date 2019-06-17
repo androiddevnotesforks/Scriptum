@@ -88,13 +88,13 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun notesScreenTextNoteDialog() {
-        val noteItem = testData.clear().insertText()
+        val noteEntity = testData.clear().insertText()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
+                    openNoteDialog(noteEntity) {
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }
@@ -102,13 +102,13 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun notesScreenRollNoteDialog() {
-        val noteItem = testData.clear().insertRoll()
+        val noteEntity = testData.clear().insertRoll()
 
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteItem) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
+                    openNoteDialog(noteEntity) {
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }
@@ -150,13 +150,13 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun binScreenTextNoteDialog() {
-        val noteItem = testData.clear().insertTextToBin()
+        val noteEntity = testData.clear().insertTextToBin()
 
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(noteItem) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
+                    openNoteDialog(noteEntity) {
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }
@@ -164,13 +164,13 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun binScreenRollNoteDialog() {
-        val noteItem = testData.clear().insertRollToBin()
+        val noteEntity = testData.clear().insertRollToBin()
 
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(noteItem) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteItem) } }
+                    openNoteDialog(noteEntity) {
+                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }

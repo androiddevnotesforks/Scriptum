@@ -15,7 +15,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankItem
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
@@ -254,7 +254,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         updateRank(noteEntity)
     }
 
-    override fun insertRank(p: Int, rankItem: RankItem): Long {
+    override fun insertRank(p: Int, rankItem: RankEntity): Long {
         val id: Long
 
         openRoom().apply {
@@ -317,7 +317,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     override fun getRankModel() = RankModel(getCompleteRankList())
 
-    override fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankItem> { // TODO оптимизировать
+    override fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankEntity> { // TODO оптимизировать
         val startFirst = dragFrom < dragTo
 
         val iStart = if (startFirst) dragFrom else dragTo
@@ -355,15 +355,15 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return rankList
     }
 
-    override fun updateRank(rankItem: RankItem) =
+    override fun updateRank(rankItem: RankEntity) =
             openRoom().apply { getRankDao().update(rankItem) }.close()
 
-    override fun updateRank(rankList: List<RankItem>) =
+    override fun updateRank(rankList: List<RankEntity>) =
             openRoom().apply { getRankDao().update(rankList) }.close()
 
     // TODO прибрать private
 
-    private fun getCompleteRankList() = ArrayList<RankItem>().apply {
+    private fun getCompleteRankList() = ArrayList<RankEntity>().apply {
         openRoom().apply {
             addAll(getRankDao().simple)
             forEach {
@@ -395,7 +395,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
      * @param noteIdList - Id заметок, которые нужно обновить
      * @param rankList   - Новый список категорий, с новыми позициями у категорий
      */
-    private fun updateNoteRankPosition(noteIdList: List<Long>, rankList: List<RankItem>, db: RoomDb) =
+    private fun updateNoteRankPosition(noteIdList: List<Long>, rankList: List<RankEntity>, db: RoomDb) =
             with(db.getNoteDao()) {
                 val noteList = get(noteIdList)
 

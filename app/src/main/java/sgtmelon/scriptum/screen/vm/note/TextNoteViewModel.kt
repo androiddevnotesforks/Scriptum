@@ -124,15 +124,15 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
-            val noteItem = noteModel.noteEntity
+            val noteEntity = noteModel.noteEntity
 
             when (item.tag) {
-                InputAction.rank -> noteItem.rankId = StringConverter().toList(item[isUndo])
+                InputAction.rank -> noteEntity.rankId = StringConverter().toList(item[isUndo])
                 InputAction.color -> {
-                    val colorFrom = noteItem.color
+                    val colorFrom = noteEntity.color
                     val colorTo = item[isUndo].toInt()
 
-                    noteItem.color = colorTo
+                    noteEntity.color = colorTo
 
                     callback.tintToolbar(colorFrom, colorTo)
                 }
@@ -256,9 +256,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     fun onResultColorDialog(check: Int) {
-        val noteItem = noteModel.noteEntity
-        inputControl.onColorChange(noteItem.color, check)
-        noteItem.color = check
+        val noteEntity = noteModel.noteEntity
+        inputControl.onColorChange(noteEntity.color, check)
+        noteEntity.color = check
 
         callback.apply {
             bindInput(inputControl.access, noteModel.isSaveEnabled())
@@ -277,17 +277,17 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        val noteItem = noteModel.noteEntity
+        val noteEntity = noteModel.noteEntity
 
-        inputControl.onRankChange(noteItem.rankId, rankId)
+        inputControl.onRankChange(noteEntity.rankId, rankId)
 
-        noteItem.apply {
+        noteEntity.apply {
             this.rankId = rankId
             this.rankPs = rankPs
         }
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
-        callback.bindItem(noteItem)
+        callback.bindItem(noteEntity)
     }
 
     fun onResultConvertDialog() {

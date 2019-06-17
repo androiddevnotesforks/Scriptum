@@ -74,15 +74,15 @@ class TextNoteToolbarTest : ParentTest() {
     }
 
     @Test fun contentEmptyOnOpen() {
-        val noteItem = testData.insertText(testData.textNote.apply { name = "" })
+        val noteEntity = testData.insertText(testData.textNote.apply { name = "" })
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                         controlPanel { onClickEdit() }
-                        toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
                     }
                 }
             }
@@ -90,15 +90,15 @@ class TextNoteToolbarTest : ParentTest() {
     }
 
     @Test fun contentFillOnOpen() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                         controlPanel { onClickEdit() }
-                        toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
                     }
                 }
             }
@@ -106,13 +106,13 @@ class TextNoteToolbarTest : ParentTest() {
     }
 
     @Test fun contentEmptyOnOpenFromBin() {
-        val noteItem = testData.insertTextToBin(testData.textNote.apply { name = "" })
+        val noteEntity = testData.insertTextToBin(testData.textNote.apply { name = "" })
 
         launch {
             mainScreen {
                 openBinPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                     }
                 }
             }
@@ -120,13 +120,13 @@ class TextNoteToolbarTest : ParentTest() {
     }
 
     @Test fun contentFillOnOpenFromBin() {
-        val noteItem = testData.insertTextToBin()
+        val noteEntity = testData.insertTextToBin()
 
         launch {
             mainScreen {
                 openBinPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                     }
                 }
             }
@@ -134,15 +134,15 @@ class TextNoteToolbarTest : ParentTest() {
     }
 
     @Test fun contentFillOnRestoreOpen() {
-        val noteItem = testData.insertTextToBin()
+        val noteEntity = testData.insertTextToBin()
 
         launch {
             mainScreen {
                 openBinPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.BIN, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                         controlPanel { onClickRestoreOpen() }
-                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                     }
                 }
             }
@@ -151,48 +151,48 @@ class TextNoteToolbarTest : ParentTest() {
 
 
     @Test fun saveByControlOnCreate() = launch {
-        val noteItem = testData.textNote
+        val noteEntity = testData.textNote
 
         mainScreen {
             openAddDialog {
                 createTextNote {
-                    toolbar { onEnterName(noteItem.name) }
-                    onEnterText(noteItem.text)
+                    toolbar { onEnterName(noteEntity.name) }
+                    onEnterText(noteEntity.text)
 
-                    toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
+                    toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
                     controlPanel { onClickSave() }
-                    toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                    toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                 }
             }
         }
     }
 
     @Test fun saveByBackPressOnCreate() = launch {
-        val noteItem = testData.textNote
+        val noteEntity = testData.textNote
 
         mainScreen {
             openAddDialog {
                 createTextNote {
-                    toolbar { onEnterName(noteItem.name) }
-                    onEnterText(noteItem.text)
+                    toolbar { onEnterName(noteEntity.name) }
+                    onEnterText(noteEntity.text)
 
-                    toolbar { assert { onDisplayName(State.EDIT, noteItem.name) } }
+                    toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
                     onPressBack()
-                    toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                    toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                 }
             }
         }
     }
 
     @Test fun saveByControlOnEdit() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
         val newName = testData.uniqueString
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(newName) }
@@ -206,14 +206,14 @@ class TextNoteToolbarTest : ParentTest() {
     }
 
     @Test fun saveByBackPressOnEdit() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
         val newName = testData.uniqueString
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(newName) }
@@ -228,14 +228,14 @@ class TextNoteToolbarTest : ParentTest() {
 
 
     @Test fun cancelOnEditByToolbar() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
         val newName = testData.uniqueString
 
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }
                         toolbar {
@@ -243,7 +243,7 @@ class TextNoteToolbarTest : ParentTest() {
                             onClickBack()
                         }
 
-                        toolbar { assert { onDisplayName(State.READ, noteItem.name) } }
+                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                     }
                 }
             }

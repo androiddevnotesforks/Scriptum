@@ -62,12 +62,12 @@ class TextNotePanelTest : ParentTest() {
 
 
     @Test fun saveByControlOnCreate() = launch {
-        val noteItem = testData.textNote
+        val noteEntity = testData.textNote
 
         mainScreen {
             openAddDialog {
                 createTextNote {
-                    onEnterText(noteItem.text)
+                    onEnterText(noteEntity.text)
                     controlPanel {
                         assert { onDisplayContent(State.NEW) }
                         onClickSave()
@@ -79,12 +79,12 @@ class TextNotePanelTest : ParentTest() {
     }
 
     @Test fun saveByPressBackOnCreate() = launch {
-        val noteItem = testData.textNote
+        val noteEntity = testData.textNote
 
         mainScreen {
             openAddDialog {
                 createTextNote {
-                    onEnterText(noteItem.text)
+                    onEnterText(noteEntity.text)
                     controlPanel {
                         assert { onDisplayContent(State.NEW) }
                         onPressBack()
@@ -239,7 +239,7 @@ class TextNotePanelTest : ParentTest() {
 
 
     @Test fun actionBindToStatusBar() {
-        val noteItem = testData.insertText()
+        val noteEntity = testData.insertText()
 
         launch {
             mainScreen {
@@ -249,14 +249,14 @@ class TextNotePanelTest : ParentTest() {
                         onPressBack()
                     }
 
-                    openNoteDialog(noteItem.apply { isStatus = true })
+                    openNoteDialog(noteEntity.apply { isStatus = true })
                 }
             }
         }
     }
 
     @Test fun actionUnbindFromStatusBar() {
-        val noteItem = testData.insertText(testData.textNote.apply { isStatus = true })
+        val noteEntity = testData.insertText(testData.textNote.apply { isStatus = true })
 
         launch {
             mainScreen {
@@ -265,7 +265,7 @@ class TextNotePanelTest : ParentTest() {
                         waitAfter(time = 500) { controlPanel { onClickBind() } }
                         onPressBack()
                     }
-                    openNoteDialog(noteItem.apply { isStatus = false })
+                    openNoteDialog(noteEntity.apply { isStatus = false })
                 }
             }
         }

@@ -16,7 +16,7 @@ abstract class AlarmAnimParentTest : ParentTest() {
     protected fun startTest(@Theme theme: Int, @Color color: Int) {
         iPreferenceRepo.theme = theme
 
-        val noteItem = testData.clear().let {
+        val noteEntity = testData.clear().let {
             if (Random.nextBoolean()) {
                 it.insertText(it.textNote.apply { this.color = color })
             } else {
@@ -24,8 +24,8 @@ abstract class AlarmAnimParentTest : ParentTest() {
             }
         }
 
-        launch(intent = context.getSplashAlarmIntent(noteItem)) {
-            openAlarm(noteItem) { wait(time = 15000) }
+        launch(intent = context.getSplashAlarmIntent(noteEntity)) {
+            openAlarm(noteEntity) { wait(time = 15000) }
         }
     }
 

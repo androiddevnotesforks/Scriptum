@@ -13,7 +13,7 @@
                   type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
+        <variable name="noteEntity" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
@@ -31,7 +31,7 @@
                 layout="@layout/include_toolbar_note"
                 app:currentTheme='@{currentTheme}'
                 app:editMode='@{editMode}'
-                app:noteItem='@{noteItem}'/>
+                app:noteEntity='@{noteEntity}'/>
 
         <FrameLayout
                 android:layout_width="match_parent"
@@ -63,7 +63,7 @@
                                 style="@style/EditText.TextNote.Enter"
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
-                                android:text='@={noteItem.text}'
+                                android:text='@={noteEntity.text}'
                                 android:visibility='@{editMode ? v.VISIBLE : v.INVISIBLE}'
                                 tools:targetApi="o"
                                 tools:visibility="invisible"/>
@@ -73,7 +73,7 @@
                         <TextView
                                 android:id="@+id/text_note_content_text"
                                 style="@style/EditText.TextNote.Read"
-                                android:text='@{editMode ? "" : noteItem.text}'
+                                android:text='@{editMode ? "" : noteEntity.text}'
                                 android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
                                 tools:text="@string/preview_note_text"/>
 
@@ -88,7 +88,7 @@
         <include layout="@layout/include_text_note_panel"
                  app:editMode='@{editMode}'
                  app:menuCallback='@{menuCallback}'
-                 app:noteItem='@{noteItem}'
+                 app:noteEntity='@{noteEntity}'
                  app:rankEmpty='@{rankEmpty}'
                  app:inputAccess='@{inputAccess}'
                  app:isSaveEnabled='@{isSaveEnabled}'/>
