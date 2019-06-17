@@ -25,9 +25,9 @@ ext {
                     compiler  : "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01",
             ],
             room            : [
-                    runtime : "androidx.room:room-runtime:2.0.0",
-                    compiler: "androidx.room:room-compiler:2.0.0",
-                    testing : "androidx.room:room-testing:2.0.0"
+                    runtime : "androidx.room:room-runtime:2.1.0",
+                    compiler: "androidx.room:room-compiler:2.1.0",
+                    testing : "androidx.room:room-testing:2.1.0"
             ],
             appcompat       : "androidx.appcompat:appcompat:1.1.0-alpha05",
             cardview        : "androidx.cardview:cardview:1.0.0 ",
