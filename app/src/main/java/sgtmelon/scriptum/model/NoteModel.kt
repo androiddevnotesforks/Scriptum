@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.room.entity.RollItem
 
@@ -17,7 +17,7 @@ data class NoteModel(
         @Embedded val noteItem: NoteItem,
         @Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
         val rollList: MutableList<RollItem> = ArrayList(),
-        @Embedded val alarmItem: AlarmItem = AlarmItem()
+        @Embedded val alarmEntity: AlarmEntity = AlarmEntity()
 ) {
 
     /**

@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.repository.alarm
 
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
  * Интерфейс для общения с [AlarmRepo]
@@ -12,6 +12,6 @@ interface IAlarmRepo {
 
     fun getList(): MutableList<NoteModel>
 
-    fun delete(item: AlarmItem)
+    fun delete(alarmEntity: AlarmEntity)
 
 }

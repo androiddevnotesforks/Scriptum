@@ -8,7 +8,7 @@ import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.room.entity.RollItem
@@ -141,7 +141,7 @@ class TestData(private val context: Context) {
 
     fun insertNotification(noteItem: NoteItem) {
         dataBase.apply {
-            getAlarmDao().insert(AlarmItem(noteId = noteItem.id, date = context.getTime()))
+            getAlarmDao().insert(AlarmEntity(noteId = noteItem.id, date = context.getTime()))
         }.close()
     }
 

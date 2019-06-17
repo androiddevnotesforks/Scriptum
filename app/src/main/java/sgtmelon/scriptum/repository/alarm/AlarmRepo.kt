@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.alarm
 import android.content.Context
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
  * Репозиторий обработки данных [RoomDb] для работы с будильником
@@ -21,7 +21,7 @@ class AlarmRepo(private val context: Context) : IAlarmRepo {
         openRoom().apply { addAll(getAlarmDao().getTest()) }.close()
     }
 
-    override fun delete(item: AlarmItem) = openRoom().apply { getAlarmDao().delete(item) }.close()
+    override fun delete(alarmEntity: AlarmEntity) = openRoom().apply { getAlarmDao().delete(alarmEntity) }.close()
 
     companion object {
         fun getInstance(context: Context): IAlarmRepo = AlarmRepo(context)

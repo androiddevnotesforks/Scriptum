@@ -43,7 +43,7 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     }
 
     fun onClickCancel(p: Int) {
-        iAlarmRepo.delete(noteModelList[p].alarmItem)
+        iAlarmRepo.delete(noteModelList[p].alarmEntity)
         callback.notifyItemRemoved(p, noteModelList.apply { removeAt(p) })
     }
 

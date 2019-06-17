@@ -3,7 +3,7 @@ package sgtmelon.scriptum.room.dao
 import androidx.room.*
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
  * Класс для общения Dao предупреждений [RoomDb]
@@ -13,11 +13,11 @@ import sgtmelon.scriptum.room.entity.AlarmItem
 @Dao
 interface AlarmDao {
 
-    @Insert fun insert(item: AlarmItem): Long
+    @Insert fun insert(alarmEntity: AlarmEntity): Long
 
-    @Delete fun delete(item: AlarmItem)
+    @Delete fun delete(alarmEntity: AlarmEntity)
 
-    @Update fun update(item: AlarmItem)
+    @Update fun update(alarmEntity: AlarmEntity)
 
     @Transaction
     @Query(value = "SELECT * FROM NOTE_TABLE, ALARM_TABLE ORDER BY DATE(AL_DATE) DESC, TIME(AL_DATE) DESC")

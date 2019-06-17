@@ -9,7 +9,7 @@ import sgtmelon.scriptum.room.dao.AlarmDao
 import sgtmelon.scriptum.room.dao.NoteDao
 import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.room.dao.RollDao
-import sgtmelon.scriptum.room.entity.AlarmItem
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteItem
 import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.room.entity.RollItem
@@ -23,7 +23,7 @@ import sgtmelon.scriptum.room.entity.RollItem
     NoteItem::class,
     RollItem::class,
     RankItem::class,
-    AlarmItem::class
+    AlarmEntity::class
 ], version = 3)
 abstract class RoomDb : RoomDatabase() {
 

@@ -21,7 +21,7 @@ import sgtmelon.scriptum.model.data.DbData.Note
         )],
         indices = [Index(Alarm.NOTE_ID)]
 )
-data class AlarmItem(
+data class AlarmEntity(
         @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = Alarm.NOTE_ID) var noteId: Long = 0,
         @ColumnInfo(name = Alarm.DATE) var date: String = ""
