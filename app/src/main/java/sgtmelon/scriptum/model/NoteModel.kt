@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Модель заметки
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.room.entity.RollItem
 data class NoteModel(
         @Embedded val noteEntity: NoteEntity,
         @Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
-        val rollList: MutableList<RollItem> = ArrayList(),
+        val rollList: MutableList<RollEntity> = ArrayList(),
         @Embedded val alarmEntity: AlarmEntity = AlarmEntity()
 ) {
 

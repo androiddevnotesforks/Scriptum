@@ -7,7 +7,7 @@
 
         <import type="sgtmelon.scriptum.R"/>
 
-        <variable name="rollItem" type="sgtmelon.scriptum.room.entity.RollItem"/>
+        <variable name="rollEntity" type="sgtmelon.scriptum.room.entity.RollEntity"/>
 
     </data>
 
@@ -26,13 +26,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
 
-                <CheckBox style="@style/Button.RollItem.Write"/>
+                <CheckBox style="@style/Button.Roll.Write"/>
 
                 <ImageButton
                         android:id="@+id/roll_write_drag_button"
-                        style="@style/Container.RollItem.Click"
+                        style="@style/Container.Roll.Click"
                         android:contentDescription="@null"
-                        app:boolExpression='@{rollItem.check}'
+                        app:boolExpression='@{rollEntity.check}'
                         app:falseColor='@{R.attr.clContent}'
                         app:srcCompat="@drawable/ic_move"
                         app:trueColor='@{R.attr.clAccent}'
@@ -42,12 +42,12 @@
 
             <EditText
                     android:id="@+id/roll_write_enter"
-                    style="@style/EditText.RollItem"
+                    style="@style/EditText.Roll"
                     android:hint="@string/hind_enter_roll_empty"
                     android:imeOptions="flagNoFullscreen"
                     android:importantForAutofill="noExcludeDescendants"
                     android:inputType="textCapSentences|textAutoCorrect|textAutoComplete|textMultiLine"
-                    android:text='@{rollItem.text}'
+                    android:text='@{rollEntity.text}'
                     tools:targetApi="o"/>
 
         </LinearLayout>

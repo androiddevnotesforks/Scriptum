@@ -49,7 +49,7 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="Container.NoteItem">
+    <style name="Container.Note">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -63,9 +63,9 @@
         <item name="android:padding">@dimen/layout_8dp</item>
     </style>
 
-    <style name="Container.RollItem"/>
+    <style name="Container.Roll"/>
 
-    <style name="Container.RollItem.Click">
+    <style name="Container.Roll.Click">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">?attr/selectableItemBackground</item>
@@ -141,7 +141,7 @@
         <item name="android:textSize">@dimen/text_14sp</item>
     </style>
 
-    <style name="Text.NoteItem"/>
+    <style name="Text.Note"/>
 
     <style name="Text.Note.Name">
         <item name="android:layout_width">match_parent</item>
@@ -233,7 +233,7 @@
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
-    <style name="EditText.RollItem">
+    <style name="EditText.Roll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@android:color/transparent</item>
@@ -241,7 +241,7 @@
         <item name="android:textSize">@dimen/text_18sp</item>
     </style>
 
-    <style name="EditText.RollItem.Read">
+    <style name="EditText.Roll.Read">
         <item name="android:autoLink">all</item>
         <item name="android:gravity">top</item>
         <item name="android:linksClickable">true</item>
@@ -284,18 +284,18 @@
         <item name="android:padding">@dimen/layout_8dp</item>
     </style>
 
-    <style name="Button.RollItem">
+    <style name="Button.Roll">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:clickable">false</item>
     </style>
 
 
-    <style name="Button.RollItem.Read">
+    <style name="Button.Roll.Read">
         <item name="android:visibility">visible</item>
     </style>
 
-    <style name="Button.RollItem.Write">
+    <style name="Button.Roll.Write">
         <item name="android:visibility">invisible</item>
     </style>
 
@@ -340,7 +340,7 @@
         <item name="android:layout_height">@dimen/layout_4dp</item>
     </style>
 
-    <style name="Image.NoteItem">
+    <style name="Image.Note">
         <item name="android:layout_width">@dimen/icon_16dp</item>
         <item name="android:layout_height">@dimen/icon_16dp</item>
         <item name="android:layout_gravity">center</item>

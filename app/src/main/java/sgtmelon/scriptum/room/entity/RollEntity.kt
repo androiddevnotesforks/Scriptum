@@ -25,7 +25,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
         indices = [Index(Roll.NOTE_ID)]
 )
 @TypeConverters(BoolConverter::class)
-data class RollItem(
+data class RollEntity(
         @ColumnInfo(name = Roll.ID) @PrimaryKey(autoGenerate = true) var id: Long? = null,
         @ColumnInfo(name = Roll.NOTE_ID) var noteId: Long = 0,
         @ColumnInfo(name = Roll.POSITION) var position: Int = 0,
@@ -45,7 +45,7 @@ data class RollItem(
         operator fun get(data: String) = with(JSONObject(data)){
             val id = getLong(Roll.ID)
 
-            return@with RollItem(
+            return@with RollEntity(
                     if (id != -1L) id else null,
                     getLong(Roll.NOTE_ID),
                     getInt(Roll.POSITION),

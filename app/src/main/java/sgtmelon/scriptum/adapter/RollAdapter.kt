@@ -9,7 +9,7 @@ import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 
 /**
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 class RollAdapter(private val rollChangeCallback: RollWriteHolder.RollChange,
                   private val clickListener: ItemListener.Click,
                   private val longClickListener: ItemListener.LongClick
-) : ParentAdapter<RollItem, RecyclerView.ViewHolder>() {
+) : ParentAdapter<RollEntity, RecyclerView.ViewHolder>() {
 
     lateinit var dragListener: ItemListener.Drag
     lateinit var inputCallback: InputCallback

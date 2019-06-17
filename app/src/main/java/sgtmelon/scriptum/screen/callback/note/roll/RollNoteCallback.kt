@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
@@ -32,7 +32,7 @@ interface RollNoteCallback {
 
     fun bindEdit(editMode: Boolean, noteEntity: NoteEntity)
 
-    fun bindNoteItem(noteEntity: NoteEntity)
+    fun bindNote(noteEntity: NoteEntity)
 
     fun bindEnter()
 
@@ -56,25 +56,25 @@ interface RollNoteCallback {
 
     fun clearEnterText()
 
-    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>)
+    fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollEntity>)
 
     fun changeCheckToggle(state: Boolean)
 
     fun updateNoteState(noteState: NoteState)
 
-    fun notifyListItem(p: Int, item: RollItem)
+    fun notifyListItem(p: Int, rollEntity: RollEntity)
 
-    fun notifyList(list: MutableList<RollItem>)
+    fun notifyList(list: MutableList<RollEntity>)
 
-    fun notifyDataSetChanged(list: MutableList<RollItem>)
+    fun notifyDataSetChanged(list: MutableList<RollEntity>)
 
-    fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>)
+    fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>)
 
-    fun notifyItemChanged(p: Int, list: MutableList<RollItem>, cursor: Int)
+    fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int)
 
-    fun notifyItemRemoved(p: Int, list: MutableList<RollItem>)
+    fun notifyItemRemoved(p: Int, list: MutableList<RollEntity>)
 
-    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>)
+    fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>)
 
     fun hideKeyboard()
 

@@ -19,7 +19,7 @@ import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
 
 /**
@@ -123,7 +123,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
     fun cancelBind() = notificationManager.cancel(noteEntity.id.toInt())
 
     companion object {
-        private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
+        private fun List<RollEntity>.toStatusText() = joinToString(separator = "\n") {
             "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
         }
 

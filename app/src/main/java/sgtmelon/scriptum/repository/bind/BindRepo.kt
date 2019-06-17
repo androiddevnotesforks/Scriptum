@@ -4,7 +4,7 @@ import android.content.Context
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Репозиторий обработки данных [RoomDb] для работы с закреплением заметки в StatusBar'е
@@ -17,7 +17,7 @@ class BindRepo(private val context: Context) : IBindRepo {
 
     private fun openRoom() = RoomDb.getInstance(context)
 
-    override fun getRollList(noteEntity: NoteEntity) = ArrayList<RollItem>().apply {
+    override fun getRollList(noteEntity: NoteEntity) = ArrayList<RollEntity>().apply {
         if (noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 

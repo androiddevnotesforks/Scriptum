@@ -6,7 +6,7 @@ import androidx.room.Query
 import androidx.room.TypeConverters
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Класс для общения Dao списка [RoomDb]
@@ -17,13 +17,13 @@ import sgtmelon.scriptum.room.entity.RollItem
 @TypeConverters(BoolConverter::class)
 interface RollDao {
 
-    @Insert fun insert(rollItem: RollItem): Long
+    @Insert fun insert(rollEntity: RollEntity): Long
 
     @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
-    fun get(): List<RollItem>
+    fun get(): List<RollEntity>
 
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote ORDER BY RL_POSITION")
-    operator fun get(idNote: Long): MutableList<RollItem>
+    operator fun get(idNote: Long): MutableList<RollEntity>
 
     /**
      * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
@@ -31,7 +31,7 @@ interface RollDao {
     @Query(value = """SELECT * FROM ROLL_TABLE
             WHERE RL_NOTE_ID = :idNote AND RL_POSITION BETWEEN 0 AND 3
             ORDER BY RL_POSITION ASC""")
-    fun getView(idNote: Long): MutableList<RollItem>
+    fun getView(idNote: Long): MutableList<RollEntity>
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_POSITION = :position, RL_TEXT = :text WHERE RL_ID = :id")
     fun update(id: Long, position: Int, text: String)

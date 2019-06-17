@@ -7,7 +7,7 @@
 
         <import alias="v" type="android.view.View"/>
 
-        <variable name="rollItem" type="sgtmelon.scriptum.room.entity.RollItem"/>
+        <variable name="rollEntity" type="sgtmelon.scriptum.room.entity.RollEntity"/>
         <variable name="keyBin" type="boolean"/>
         <variable name="checkToggle" type="boolean"/>
 
@@ -30,14 +30,14 @@
 
                 <CheckBox
                         android:id="@+id/roll_read_check"
-                        style="@style/Button.RollItem.Read"
-                        app:checkState='@{rollItem.check}'
+                        style="@style/Button.Roll.Read"
+                        app:checkState='@{rollEntity.check}'
                         app:checkToggle='@{checkToggle}'
                         tools:checked="true"/>
 
                 <ImageButton
                         android:id="@+id/roll_read_click_button"
-                        style="@style/Container.RollItem.Click"
+                        style="@style/Container.Roll.Click"
                         android:contentDescription="@null"
                         android:visibility='@{keyBin ? v.INVISIBLE : v.VISIBLE}'/>
 
@@ -45,8 +45,8 @@
 
             <TextView
                     android:id="@+id/roll_read_text"
-                    style="@style/EditText.RollItem.Read"
-                    android:text='@{rollItem.text}'
+                    style="@style/EditText.Roll.Read"
+                    android:text='@{rollEntity.text}'
                     tools:text="@string/preview_note_roll"/>
 
         </LinearLayout>

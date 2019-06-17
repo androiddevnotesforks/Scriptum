@@ -40,7 +40,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -259,7 +259,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         bindEnter()
     }
 
-    override fun bindNoteItem(noteEntity: NoteEntity) {
+    override fun bindNote(noteEntity: NoteEntity) {
         binding?.noteEntity = noteEntity
         binding?.executePendingBindings()
     }
@@ -308,7 +308,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         rollEnter?.setText("")
     }
 
-    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollItem>) {
+    override fun scrollToItem(simpleClick: Boolean, p: Int, list: MutableList<RollEntity>) {
         val fastScroll = with(layoutManager) {
             if (simpleClick) {
                 findLastVisibleItemPosition() == p - 1
@@ -333,31 +333,31 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
     override fun updateNoteState(noteState: NoteState) =
             adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
 
-    override fun notifyListItem(p: Int, item: RollItem) = adapter.setListItem(p, item)
+    override fun notifyListItem(p: Int, rollEntity: RollEntity) = adapter.setListItem(p, rollEntity)
 
-    override fun notifyList(list: MutableList<RollItem>) = adapter.setList(list)
+    override fun notifyList(list: MutableList<RollEntity>) = adapter.setList(list)
 
-    override fun notifyDataSetChanged(list: MutableList<RollItem>) =
+    override fun notifyDataSetChanged(list: MutableList<RollEntity>) =
             adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
 
-    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollItem>) {
+    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>) {
         adapter.apply {
             cursorPosition = cursor
             notifyItemInserted(p, list)
         }
     }
 
-    override fun notifyItemChanged(p: Int, list: MutableList<RollItem>, cursor: Int) {
+    override fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int) {
         adapter.apply {
             cursorPosition = cursor
             notifyItemChanged(p, list)
         }
     }
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<RollItem>) =
+    override fun notifyItemRemoved(p: Int, list: MutableList<RollEntity>) =
             adapter.notifyItemRemoved(p, list)
 
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollItem>) =
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>) =
             adapter.notifyItemMoved(from, to, list)
 
     override fun hideKeyboard() {

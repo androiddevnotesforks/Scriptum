@@ -5,13 +5,13 @@
 
     <data>
 
-        <variable name="rollItem" type="sgtmelon.scriptum.room.entity.RollItem"/>
+        <variable name="rollEntity" type="sgtmelon.scriptum.room.entity.RollEntity"/>
 
     </data>
 
     <LinearLayout
             android:id="@+id/note_roll_container"
-            style="@style/Container.NoteItem"
+            style="@style/Container.Note"
             android:orientation="horizontal"
             tools:ignore="UseCompoundDrawables">
 
@@ -19,13 +19,13 @@
                 android:id="@+id/note_roll_check_image"
                 style="@style/Image.Note.Check"
                 android:contentDescription="@null"
-                android:src='@{rollItem != null &amp;&amp; rollItem.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
+                android:src='@{rollEntity != null &amp;&amp; rollEntity.check ? @drawable/ic_check_done : @drawable/ic_check_outline}'
                 tools:srcCompat="@drawable/ic_check_done"/>
 
         <TextView
                 android:id="@+id/note_roll_text"
                 style="@style/Text.Note.Roll"
-                android:text='@{rollItem != null ? rollItem.text : ""}'
+                android:text='@{rollEntity != null ? rollEntity.text : ""}'
                 tools:text="@string/preview_note_roll"/>
 
     </LinearLayout>

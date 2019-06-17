@@ -15,7 +15,7 @@ import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.InputItem
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Держатель пункта списка в состоянии редактирования для [RollAdapter]
@@ -51,8 +51,8 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(rollItem: RollItem) = inputCallback.makeNotEnabled {
-        binding.apply { this.rollItem = rollItem }.executePendingBindings()
+    fun bind(rollEntity: RollEntity) = inputCallback.makeNotEnabled {
+        binding.apply { this.rollEntity = rollEntity }.executePendingBindings()
     }
 
     /**

@@ -7,7 +7,7 @@
 
         <import type="java.util.List"/>
         <import type="sgtmelon.scriptum.room.entity.NoteEntity"/>
-        <import type="sgtmelon.scriptum.room.entity.RollItem"/>
+        <import type="sgtmelon.scriptum.room.entity.RollEntity"/>
 
         <import alias="v" type="android.view.View"/>
         <import alias="text" type="android.text.TextUtils"/>
@@ -48,22 +48,22 @@
                     <include
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{noteModel.rollList.size() &gt;= 1 ? noteModel.rollList.get(0) : null}'/>
+                            app:rollEntity='@{noteModel.rollList.size() &gt;= 1 ? noteModel.rollList.get(0) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{noteModel.rollList.size() &gt;= 2 ? noteModel.rollList.get(1) : null}'/>
+                            app:rollEntity='@{noteModel.rollList.size() &gt;= 2 ? noteModel.rollList.get(1) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{noteModel.rollList.size() &gt;= 3 ? noteModel.rollList.get(2) : null}'/>
+                            app:rollEntity='@{noteModel.rollList.size() &gt;= 3 ? noteModel.rollList.get(2) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
-                            app:rollItem='@{noteModel.rollList.size() &gt;= 4 ? noteModel.rollList.get(3) : null}'/>
+                            app:rollEntity='@{noteModel.rollList.size() &gt;= 4 ? noteModel.rollList.get(3) : null}'/>
 
                     <include
                             layout="@layout/include_item_note_info"

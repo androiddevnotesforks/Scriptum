@@ -9,7 +9,7 @@ import sgtmelon.scriptum.databinding.ItemRollReadBinding
 import sgtmelon.scriptum.extension.checkNoPosition
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Держатель пункта списка в состоянии просмотра для [RollAdapter]
@@ -43,8 +43,8 @@ class RollReadHolder(private val binding: ItemRollReadBinding,
         }
     }
 
-    fun bind(rollItem: RollItem, noteState: NoteState, checkToggle: Boolean) {
-        binding.rollItem = rollItem
+    fun bind(rollEntity: RollEntity, noteState: NoteState, checkToggle: Boolean) {
+        binding.rollEntity = rollEntity
         binding.keyBin = noteState.isBin
         binding.checkToggle = checkToggle
 

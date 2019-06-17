@@ -12,7 +12,7 @@ import sgtmelon.scriptum.room.dao.RollDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Класс для общения с базой данных
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.room.entity.RollItem
  */
 @Database(entities = [
     NoteEntity::class,
-    RollItem::class,
+    RollEntity::class,
     RankEntity::class,
     AlarmEntity::class
 ], version = 3)

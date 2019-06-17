@@ -16,7 +16,7 @@ import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
@@ -129,11 +129,11 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
             var p = 0
             noteEntity.splitTextForRoll().forEach {
-                if (it.isNotEmpty()) rollList.add(RollItem().apply {
+                if (it.isNotEmpty()) rollList.add(RollEntity().apply {
                     noteId = noteEntity.id
                     position = p++
                     text = it
-                    id = getRollDao().insert(rollItem = this)
+                    id = getRollDao().insert(rollEntity = this)
                 })
             }
 
@@ -265,10 +265,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         return id
     }
 
-    override fun updateRollCheck(noteEntity: NoteEntity, rollItem: RollItem) {
-        rollItem.id?.let {
+    override fun updateRollCheck(noteEntity: NoteEntity, rollEntity: RollEntity) {
+        rollEntity.id?.let {
             openRoom().apply {
-                getRollDao().update(it, rollItem.isCheck)
+                getRollDao().update(it, rollEntity.isCheck)
                 getNoteDao().update(noteEntity)
             }.close()
         }

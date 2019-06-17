@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Интерфейс для общения с [RoomRepo]
@@ -84,7 +84,7 @@ interface IRoomRepo {
     /**
      * Обновление конкретного пункта списка
      */
-    fun updateRollCheck(noteEntity: NoteEntity, rollItem: RollItem)
+    fun updateRollCheck(noteEntity: NoteEntity, rollEntity: RollEntity)
 
     /**
      * Обновление всех пунктов списка

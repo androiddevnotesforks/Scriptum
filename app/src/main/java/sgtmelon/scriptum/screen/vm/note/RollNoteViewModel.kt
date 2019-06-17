@@ -28,7 +28,7 @@ import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback
@@ -124,10 +124,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onResultTouchSwipe(p: Int) {
-        val rollItem = noteModel.rollList[p]
+        val rollEntity = noteModel.rollList[p]
         noteModel.rollList.removeAt(p)
 
-        inputControl.onRollRemove(p, rollItem.toString())
+        inputControl.onRollRemove(p, rollEntity.toString())
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.notifyItemRemoved(p, noteModel.rollList)
@@ -195,10 +195,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
                         rollList.removeAt(item.p)
                         callback.notifyItemRemoved(item.p, rollList)
                     } else {
-                        val rollItem = RollItem[item[isUndo]]
+                        val rollEntity = RollEntity[item[isUndo]]
 
-                        rollList.add(item.p, rollItem)
-                        callback.notifyItemInserted(item.p, rollItem.text.length, rollList)
+                        rollList.add(item.p, rollEntity)
+                        callback.notifyItemInserted(item.p, rollEntity.text.length, rollList)
                     }
                 }
                 InputAction.rollMove -> {
@@ -362,14 +362,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         if (enterText.isEmpty()) return
 
         val p = if (simpleClick) noteModel.rollList.size else 0
-        val rollItem = RollItem().apply {
+        val rollEntity = RollEntity().apply {
             noteId = noteModel.noteEntity.id
             text = enterText
         }
 
-        inputControl.onRollAdd(p, rollItem.toString())
+        inputControl.onRollAdd(p, rollEntity.toString())
 
-        noteModel.rollList.add(p, rollItem)
+        noteModel.rollList.add(p, rollEntity)
 
         callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
         callback.scrollToItem(simpleClick, p, noteModel.rollList)
@@ -377,9 +377,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     fun onClickItemCheck(p: Int) {
         val rollList = noteModel.rollList
-        val rollItem = rollList[p].apply { isCheck = !isCheck }
+        val rollEntity = rollList[p].apply { isCheck = !isCheck }
 
-        callback.notifyListItem(p, rollItem)
+        callback.notifyListItem(p, rollEntity)
 
         val check = rollList.getCheck()
 
@@ -388,9 +388,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             setCompleteText(check, rollList.size)
         }
 
-        if (checkState.setAll(check, rollList.size)) callback.bindNoteItem(noteEntity)
+        if (checkState.setAll(check, rollList.size)) callback.bindNote(noteEntity)
 
-        iRoomRepo.updateRollCheck(noteEntity, rollItem)
+        iRoomRepo.updateRollCheck(noteEntity, rollEntity)
 
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
     }
@@ -410,7 +410,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
         callback.apply {
-            bindNoteItem(noteEntity)
+            bindNote(noteEntity)
             changeCheckToggle(state = true)
         }
 

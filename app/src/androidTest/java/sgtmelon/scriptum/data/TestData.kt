@@ -11,7 +11,7 @@ import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import java.util.UUID.randomUUID
 import kotlin.random.Random
 
@@ -43,10 +43,10 @@ class TestData(private val context: Context) {
             type = NoteType.ROLL
         }
 
-    val rollList = object : ArrayList<RollItem>() {
+    val rollList = object : ArrayList<RollEntity>() {
         init {
             for (i in 0 until 10) {
-                add(RollItem().apply {
+                add(RollEntity().apply {
                     position = i
                     isCheck = Random.nextBoolean()
                     text = i.toString() + " | " + context.getString(R.string.test_roll_text)
@@ -72,7 +72,7 @@ class TestData(private val context: Context) {
         return noteEntity
     }
 
-    fun insertRoll(noteEntity: NoteEntity = rollNote, rollList: List<RollItem> = this.rollList)
+    fun insertRoll(noteEntity: NoteEntity = rollNote, rollList: List<RollEntity> = this.rollList)
             : NoteEntity {
         dataBase.apply {
             noteEntity.id = getNoteDao().insert(noteEntity)
@@ -91,7 +91,7 @@ class TestData(private val context: Context) {
         return insertText(noteEntity)
     }
 
-    fun insertRollToBin(noteEntity: NoteEntity = rollNote, rollList: List<RollItem> = this.rollList)
+    fun insertRollToBin(noteEntity: NoteEntity = rollNote, rollList: List<RollEntity> = this.rollList)
             : NoteEntity {
         noteEntity.isBin = true
         return insertRoll(noteEntity, rollList)

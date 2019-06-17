@@ -5,7 +5,7 @@ import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.room.entity.RollItem
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
@@ -46,7 +46,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     }.toString()
 
     override suspend fun getRollTableData() = StringBuilder().apply {
-        val list: List<RollItem>
+        val list: List<RollEntity>
 
         openRoom().apply { list = getRollDao().get() }.close()
 
