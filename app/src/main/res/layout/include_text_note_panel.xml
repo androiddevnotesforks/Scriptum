@@ -13,7 +13,7 @@
                   type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteItem"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>

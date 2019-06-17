@@ -4,7 +4,7 @@ import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
@@ -45,7 +45,7 @@ class NoteDialogUi : ParentUi() {
 
     class Assert : BasicMatch() {
 
-        fun onDisplayContent(noteItem: NoteItem) = with(noteItem) {
+        fun onDisplayContent(noteEntity: NoteEntity) = with(noteEntity) {
             if (isBin) {
                 onDisplayText(R.string.dialog_menu_restore)
                 onDisplayText(R.string.dialog_menu_copy)

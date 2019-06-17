@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
@@ -35,7 +35,7 @@ class SplashScreen : ParentUi() {
         func()
     }
 
-    fun openAlarm(noteItem: NoteItem, func: AlarmScreen.() -> Unit = {}) = AlarmScreen(noteItem).apply {
+    fun openAlarm(noteEntity: NoteEntity, func: AlarmScreen.() -> Unit = {}) = AlarmScreen(noteEntity).apply {
         assert { onDisplayContent() }
         func()
     }

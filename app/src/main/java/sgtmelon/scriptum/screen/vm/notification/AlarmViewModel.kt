@@ -69,7 +69,7 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
     // TODO убираем уведомление из бд
     fun onClickNote() {
         callback.apply {
-            startActivity(with(noteModel.noteItem) { context.getNoteIntent(type, id) })
+            startActivity(with(noteModel.noteEntity) { context.getNoteIntent(type, id) })
             finish()
         }
     }

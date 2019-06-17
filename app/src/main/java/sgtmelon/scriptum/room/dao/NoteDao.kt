@@ -5,7 +5,7 @@ import androidx.sqlite.db.SupportSQLiteQuery
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**
  * Класс для общения Dao заметок [RoomDb]
@@ -16,27 +16,27 @@ import sgtmelon.scriptum.room.entity.NoteItem
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 interface NoteDao {
 
-    @Insert fun insert(item: NoteItem): Long
+    @Insert fun insert(noteEntity: NoteEntity): Long
 
-    @Delete fun delete(item: NoteItem)
+    @Delete fun delete(noteEntity: NoteEntity)
 
-    @Delete fun delete(list: List<NoteItem>)
+    @Delete fun delete(list: List<NoteEntity>)
 
-    @Update fun update(item: NoteItem)
+    @Update fun update(noteEntity: NoteEntity)
 
-    @Update fun update(list: List<NoteItem>)
+    @Update fun update(list: List<NoteEntity>)
 
-    @RawQuery operator fun get(query: SupportSQLiteQuery): List<NoteItem>
+    @RawQuery operator fun get(query: SupportSQLiteQuery): List<NoteEntity>
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
-    operator fun get(id: Long): NoteItem
+    operator fun get(id: Long): NoteEntity
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
-    operator fun get(idList: List<Long>): List<NoteItem>
+    operator fun get(idList: List<Long>): List<NoteEntity>
 
     @Query(value = """SELECT * FROM NOTE_TABLE WHERE NT_BIN = :bin
         ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC""")
-    operator fun get(bin: Boolean): MutableList<NoteItem>
+    operator fun get(bin: Boolean): MutableList<NoteEntity>
 
     /**
      * @param idList список id заметок привязанных к категории

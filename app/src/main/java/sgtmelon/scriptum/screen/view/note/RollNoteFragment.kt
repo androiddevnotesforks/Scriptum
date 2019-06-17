@@ -39,7 +39,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
@@ -241,7 +241,7 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         ItemTouchHelper(touchCallback).attachToRecyclerView(recyclerView)
     }
 
-    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
+    override fun bindEdit(editMode: Boolean, noteEntity: NoteEntity) {
         panelContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition()
@@ -253,14 +253,14 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
 
         binding?.apply {
             this.editMode = editMode
-            this.noteItem = noteItem
+            this.noteItem = noteEntity
         }
 
         bindEnter()
     }
 
-    override fun bindNoteItem(noteItem: NoteItem) {
-        binding?.noteItem = noteItem
+    override fun bindNoteItem(noteEntity: NoteEntity) {
+        binding?.noteItem = noteEntity
         binding?.executePendingBindings()
     }
 
@@ -276,8 +276,8 @@ class RollNoteFragment : Fragment(), RollNoteCallback {
         }?.executePendingBindings()
     }
 
-    override fun bindItem(noteItem: NoteItem) {
-        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
+    override fun bindItem(noteEntity: NoteEntity) {
+        binding?.apply { this.noteItem = noteEntity }?.executePendingBindings()
     }
 
     override fun onPressBack() = viewModel.onPressBack()

@@ -6,7 +6,7 @@
     <data>
 
         <import type="java.util.List"/>
-        <import type="sgtmelon.scriptum.room.entity.NoteItem"/>
+        <import type="sgtmelon.scriptum.room.entity.NoteEntity"/>
         <import type="sgtmelon.scriptum.room.entity.RollItem"/>
 
         <import alias="v" type="android.view.View"/>
@@ -23,7 +23,7 @@
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
-            app:noteColor='@{noteModel.noteItem.color}'
+            app:noteColor='@{noteModel.noteEntity.color}'
             tools:cardBackgroundColor="?attr/clPrimary">
 
         <FrameLayout
@@ -41,8 +41,8 @@
                     <TextView
                             android:id="@+id/note_roll_name_text"
                             style="@style/Text.NoteItem.Name"
-                            android:text='@{noteModel.noteItem.name}'
-                            android:visibility='@{text.isEmpty(noteModel.noteItem.name) ? v.GONE : v.VISIBLE}'
+                            android:text='@{noteModel.noteEntity.name}'
+                            android:visibility='@{text.isEmpty(noteModel.noteEntity.name) ? v.GONE : v.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                     <include
@@ -76,7 +76,7 @@
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
                         app:indicatorTheme='@{currentTheme}'
-                        app:indicatorColor='@{noteModel.noteItem.color}'
+                        app:indicatorColor='@{noteModel.noteEntity.color}'
                         app:visibleTheme='@{currentTheme}'
                         app:visibleOn='@{theme.dark}'
                         tools:tint="@color/note_green_dark"

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.bind
 import android.content.Context
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollItem
 
 /**
@@ -17,22 +17,22 @@ class BindRepo(private val context: Context) : IBindRepo {
 
     private fun openRoom() = RoomDb.getInstance(context)
 
-    override fun getRollList(noteItem: NoteItem) = ArrayList<RollItem>().apply {
-        if (noteItem.type != NoteType.ROLL)
+    override fun getRollList(noteEntity: NoteEntity) = ArrayList<RollItem>().apply {
+        if (noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
-        openRoom().apply { addAll(getRollDao()[noteItem.id]) }.close()
+        openRoom().apply { addAll(getRollDao()[noteEntity.id]) }.close()
     }
 
-    override fun unbindNoteItem(id: Long): NoteItem {
-        val noteItem: NoteItem
+    override fun unbindNoteItem(id: Long): NoteEntity {
+        val noteEntity: NoteEntity
 
         openRoom().apply {
-            noteItem = getNoteDao()[id].apply { isStatus = false }
-            getNoteDao().update(noteItem)
+            noteEntity = getNoteDao()[id].apply { isStatus = false }
+            getNoteDao().update(noteEntity)
         }.close()
 
-        return noteItem
+        return noteEntity
     }
 
     companion object {

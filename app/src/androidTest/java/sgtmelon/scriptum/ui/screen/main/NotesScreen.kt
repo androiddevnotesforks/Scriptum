@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.ui.NotificationScreen
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
@@ -31,9 +31,9 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
         func()
     }
 
-    fun openNoteDialog(noteItem: NoteItem, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
+    fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
         action { onLongClick(recyclerId, p) }
-        assert { onDisplayContent(noteItem) }
+        assert { onDisplayContent(noteEntity) }
         func()
     }
 

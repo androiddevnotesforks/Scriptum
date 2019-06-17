@@ -29,7 +29,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
@@ -182,7 +182,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         )
     }
 
-    override fun bindEdit(editMode: Boolean, noteItem: NoteItem) {
+    override fun bindEdit(editMode: Boolean, noteEntity: NoteEntity) {
         panelContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition().setOrdering(AutoTransition.ORDERING_TOGETHER).setDuration(100)
@@ -191,7 +191,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
         binding?.apply {
             this.editMode = editMode
-            this.noteItem = noteItem
+            this.noteItem = noteEntity
         }?.executePendingBindings()
     }
 
@@ -202,8 +202,8 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         }?.executePendingBindings()
     }
 
-    override fun bindItem(noteItem: NoteItem) {
-        binding?.apply { this.noteItem = noteItem }?.executePendingBindings()
+    override fun bindItem(noteEntity: NoteEntity) {
+        binding?.apply { this.noteItem = noteEntity }?.executePendingBindings()
     }
 
     override fun onPressBack() = viewModel.onPressBack()

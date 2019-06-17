@@ -13,7 +13,7 @@ import sgtmelon.scriptum.model.data.DbData.Note
  */
 @Entity(tableName = Alarm.TABLE,
         foreignKeys = [ForeignKey(
-                entity = NoteItem::class,
+                entity = NoteEntity::class,
                 parentColumns = arrayOf(Note.ID),
                 childColumns = arrayOf(Alarm.NOTE_ID),
                 onUpdate = CASCADE,

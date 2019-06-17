@@ -4,7 +4,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.room.entity.RollItem
 
@@ -19,21 +19,21 @@ interface IRoomRepo {
 
     suspend fun clearBin()
 
-    suspend fun deleteNote(item: NoteItem)
+    suspend fun deleteNote(noteEntity: NoteEntity)
 
-    suspend fun restoreNote(item: NoteItem)
+    suspend fun restoreNote(noteEntity: NoteEntity)
 
     /**
      * Полное удаление заметки из базы данных и очистка категорий от неё
      */
-    suspend fun clearNote(item: NoteItem)
+    suspend fun clearNote(noteEntity: NoteEntity)
 
     fun getRankIdVisibleList(): List<Long>
 
     fun getRankCount(): Boolean
 
     /**
-     * @throws NullPointerException когда заметка не сохранена в базу данных и [NoteItem.id] == [NoteData.Default.ID]
+     * @throws NullPointerException когда заметка не сохранена в базу данных и [NoteEntity.id] == [NoteData.Default.ID]
      */
     fun getNoteModel(id: Long): NoteModel
 
@@ -45,37 +45,37 @@ interface IRoomRepo {
     /**
      * @return Булевый массив с true - для категорий, принадлежащих заметке
      */
-    fun getRankCheckArray(noteItem: NoteItem): BooleanArray
+    fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray
 
     /**
-     * @throws ClassCastException если [NoteItem.type] != [NoteType.TEXT]
+     * @throws ClassCastException если [NoteEntity.type] != [NoteType.TEXT]
      */
     fun convertToRoll(noteModel: NoteModel): NoteModel
 
     /**
-     * @throws ClassCastException если [NoteItem.type] != [NoteType.ROLL]
+     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
      */
     fun convertToText(noteModel: NoteModel): NoteModel
 
     /**
-     * @throws ClassCastException если [NoteItem.type] != [NoteType.ROLL]
+     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
      */
-    fun getRollListString(noteItem: NoteItem): String
+    fun getRollListString(noteEntity: NoteEntity): String
 
     /**
-     * @throws ClassCastException если [NoteItem.type] != [NoteType.ROLL]
+     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
      */
-    fun getRollStatusString(noteItem: NoteItem): String
+    fun getRollStatusString(noteEntity: NoteEntity): String
 
     fun getRankIdList(): List<Long>
 
     /**
-     * @throws ClassCastException если [NoteItem.type] != [NoteType.TEXT]
+     * @throws ClassCastException если [NoteEntity.type] != [NoteType.TEXT]
      */
     fun saveTextNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
 
     /**
-     * @throws ClassCastException если [NoteItem.type] != [NoteType.ROLL]
+     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
      */
     fun saveRollNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
 
@@ -84,16 +84,16 @@ interface IRoomRepo {
     /**
      * Обновление конкретного пункта списка
      */
-    fun updateRollCheck(noteItem: NoteItem, rollItem: RollItem)
+    fun updateRollCheck(noteEntity: NoteEntity, rollItem: RollItem)
 
     /**
      * Обновление всех пунктов списка
      *
      * @param check состояние для всех пунктов
      */
-    fun updateRollCheck(noteItem: NoteItem, check: Boolean)
+    fun updateRollCheck(noteEntity: NoteEntity, check: Boolean)
 
-    fun updateNote(noteItem: NoteItem)
+    fun updateNote(noteEntity: NoteEntity)
 
     /**
      * Обновление всех прикреплённых заметок в статус баре

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.develop
 import android.content.Context
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
@@ -20,7 +20,7 @@ class DevelopRepo(private val context: Context) : IDevelopRepo {
     private fun openRoom() = RoomDb.getInstance(context)
 
     override suspend fun getNoteTableData() = StringBuilder().apply {
-        val list: MutableList<NoteItem>
+        val list: MutableList<NoteEntity>
 
         openRoom().apply {
             with(getNoteDao()) { list = get(true).apply { addAll(get(false)) } }

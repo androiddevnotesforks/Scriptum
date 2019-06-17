@@ -43,6 +43,6 @@ class NoteAdapter(@Theme private val theme: Int,
         }
     }
 
-    override fun getItemViewType(position: Int) = list[position].noteItem.type.ordinal
+    override fun getItemViewType(position: Int) = list[position].noteEntity.type.ordinal
 
 }

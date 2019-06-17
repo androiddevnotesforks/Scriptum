@@ -26,7 +26,7 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     }
 
     /**
-     * TODO #RELEASE сделать опитимизацию запросов для будущего репозитория (получать для noteItem только id, type, name)
+     * TODO #RELEASE сделать опитимизацию запросов для будущего репозитория (получать для noteEntity только id, type, name)
      */
     fun onUpdateData() {
         noteModelList.clearAndAdd(iAlarmRepo.getList())
@@ -38,7 +38,7 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
     }
 
     fun onClickNote(p: Int) {
-        val noteItem = noteModelList[p].noteItem
+        val noteItem = noteModelList[p].noteEntity
         callback.startActivity(context.getNoteIntent(noteItem.type, noteItem.id))
     }
 

@@ -24,12 +24,12 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.main.BinCallback
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
- * Фрагмент для отображения списка удалённых заметок - [NoteItem]
+ * Фрагмент для отображения списка удалённых заметок - [NoteEntity]
  *
  * @author SerjantArbuz
  */

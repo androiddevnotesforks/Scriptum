@@ -11,7 +11,7 @@
                   type="sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteItem"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="enterEmpty" type="boolean"/>

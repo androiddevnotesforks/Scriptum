@@ -50,7 +50,7 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
         }
     }
 
-    fun onClickNote(p: Int) = with(noteModelList[p].noteItem) {
+    fun onClickNote(p: Int) = with(noteModelList[p].noteEntity) {
         callback.startActivity(context.getNoteIntent(type, id))
     }
 
@@ -60,7 +60,7 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
     fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsBin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
-            OptionsBin.copy -> context.copyToClipboard(noteModelList[p].noteItem)
+            OptionsBin.copy -> context.copyToClipboard(noteModelList[p].noteEntity)
             OptionsBin.clear -> callback.notifyItemRemoved(p, clearItem(p))
         }
 
@@ -68,12 +68,12 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
     }
 
     private fun restoreItem(p: Int) = noteModelList.apply {
-        get(p).noteItem.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
+        get(p).noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
         removeAt(p)
     }
 
     private fun clearItem(p: Int) = noteModelList.apply {
-        get(p).noteItem.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
+        get(p).noteEntity.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
         removeAt(p)
     }
 

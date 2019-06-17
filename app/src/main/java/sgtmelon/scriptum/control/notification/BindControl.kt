@@ -18,7 +18,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
 
@@ -32,11 +32,11 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
     /**
      * Конструктор, на случай, если нет списка пунктов для уведомления или он не нужен
      */
-    constructor(context: Context, noteItem: NoteItem) : this(context, NoteModel(noteItem))
+    constructor(context: Context, noteEntity: NoteEntity) : this(context, NoteModel(noteEntity))
 
     private val iBindRepo = BindRepo.getInstance(context)
 
-    private val noteItem: NoteItem = noteModel.noteItem
+    private val noteEntity: NoteEntity = noteModel.noteEntity
 
     private val notification: Notification
 
@@ -44,21 +44,21 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     init {
-        val title = with(noteItem) {
+        val title = with(noteEntity) {
             "${if(type == NoteType.ROLL) "$text |" else ""} ${if (name.isEmpty()) context.getString(R.string.hint_view_name) else name}"
         }
 
         val icon: Int
         val text: String
 
-        when (noteItem.type) {
+        when (noteEntity.type) {
             NoteType.TEXT -> {
                 icon = R.drawable.notif_bind_text
-                text = noteItem.text
+                text = noteEntity.text
             }
             NoteType.ROLL -> {
                 val rollList = with(noteModel.rollList) {
-                    if (isNotEmpty()) this else iBindRepo.getRollList(noteItem)
+                    if (isNotEmpty()) this else iBindRepo.getRollList(noteEntity)
                 }
 
                 icon = R.drawable.notif_bind_roll
@@ -81,15 +81,15 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
     private fun createNotification(icon: Int, title: String, text: String): Notification {
         val notificationBuilder = NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(icon)
-                .setColor(context.getAppSimpleColor(noteItem.color, ColorShade.DARK))
+                .setColor(context.getAppSimpleColor(noteEntity.color, ColorShade.DARK))
                 .setContentTitle(title)
                 .setContentText(text)
                 .setCategory(NotificationCompat.CATEGORY_EVENT)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(context.getNotePendingIntent(noteItem))
-                .addAction(0, context.getString(R.string.notification_button_unbind), context.getUnbindPendingIntent(noteItem))
+                .setContentIntent(context.getNotePendingIntent(noteEntity))
+                .addAction(0, context.getString(R.string.notification_button_unbind), context.getUnbindPendingIntent(noteEntity))
                 .setAutoCancel(false)
                 .setOngoing(true)
 
@@ -104,43 +104,43 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
      * Обновление уведомления, если оно закреплено и заметка не скрыта
      * [rankIdVisibleList] - Id видимых категорий
      */
-    fun updateBind(rankIdVisibleList: List<Long>) = with(noteItem) {
+    fun updateBind(rankIdVisibleList: List<Long>) = with(noteEntity) {
         if (!isStatus) return
 
         if (isVisible(rankIdVisibleList)) notifyBind() else cancelBind()
     }
 
-    fun updateBind() = if (noteItem.isStatus) notifyBind() else cancelBind()
+    fun updateBind() = if (noteEntity.isStatus) notifyBind() else cancelBind()
 
     /**
      * Показывает созданное уведомление
      */
-    fun notifyBind() = notificationManager.notify(noteItem.id.toInt(), notification)
+    fun notifyBind() = notificationManager.notify(noteEntity.id.toInt(), notification)
 
     /**
      * Убирает созданное уведомление
      */
-    fun cancelBind() = notificationManager.cancel(noteItem.id.toInt())
+    fun cancelBind() = notificationManager.cancel(noteEntity.id.toInt())
 
     companion object {
         private fun List<RollItem>.toStatusText() = joinToString(separator = "\n") {
             "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
         }
 
-        private fun Context.getNotePendingIntent(noteItem: NoteItem): PendingIntent? =
+        private fun Context.getNotePendingIntent(noteEntity: NoteEntity): PendingIntent? =
                 with(TaskStackBuilder.create(this)) {
-                    addNextIntent(getSplashBindIntent(noteItem))
-                    return@with getPendingIntent(noteItem.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
+                    addNextIntent(getSplashBindIntent(noteEntity))
+                    return@with getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
                 }
 
 
-        fun Context.getUnbindPendingIntent(noteItem: NoteItem): PendingIntent {
+        fun Context.getUnbindPendingIntent(noteEntity: NoteEntity): PendingIntent {
             val intent = Intent(this, BindReceiver::class.java).apply {
-                putExtra(ReceiverData.Values.NOTE_ID, noteItem.id)
+                putExtra(ReceiverData.Values.NOTE_ID, noteEntity.id)
             }
 
             return PendingIntent.getBroadcast(
-                    this, noteItem.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
+                    this, noteEntity.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }

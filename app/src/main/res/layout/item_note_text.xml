@@ -5,7 +5,7 @@
 
     <data>
 
-        <import type="sgtmelon.scriptum.room.entity.NoteItem"/>
+        <import type="sgtmelon.scriptum.room.entity.NoteEntity"/>
 
         <import alias="v" type="android.view.View"/>
         <import alias="text" type="android.text.TextUtils"/>
@@ -21,7 +21,7 @@
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
-            app:noteColor='@{noteModel.noteItem.color}'
+            app:noteColor='@{noteModel.noteEntity.color}'
             tools:cardBackgroundColor="@color/note_green_light">
 
         <FrameLayout
@@ -39,14 +39,14 @@
                     <TextView
                             android:id="@+id/note_text_name_text"
                             style="@style/Text.NoteItem.Name"
-                            android:text='@{noteModel.noteItem.name}'
-                            android:visibility='@{text.isEmpty(noteModel.noteItem.name) ? v.GONE : v.VISIBLE}'
+                            android:text='@{noteModel.noteEntity.name}'
+                            android:visibility='@{text.isEmpty(noteModel.noteEntity.name) ? v.GONE : v.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                     <TextView
                             android:id="@+id/note_text_content_text"
                             style="@style/Text.NoteItem.Content"
-                            android:text='@{noteModel.noteItem.text}'
+                            android:text='@{noteModel.noteEntity.text}'
                             tools:text="@string/preview_note_text"/>
 
                     <include
@@ -59,7 +59,7 @@
                         android:id="@+id/note_text_color_view"
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
-                        app:indicatorColor='@{noteModel.noteItem.color}'
+                        app:indicatorColor='@{noteModel.noteEntity.color}'
                         app:indicatorTheme='@{currentTheme}'
                         app:visibleOn='@{theme.dark}'
                         app:visibleTheme='@{currentTheme}'

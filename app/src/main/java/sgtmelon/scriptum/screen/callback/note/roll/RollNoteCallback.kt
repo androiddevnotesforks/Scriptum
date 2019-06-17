@@ -5,7 +5,7 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
@@ -30,15 +30,15 @@ interface RollNoteCallback {
 
     fun setupRecycler(inputCallback: InputCallback)
 
-    fun bindEdit(editMode: Boolean, noteItem: NoteItem)
+    fun bindEdit(editMode: Boolean, noteEntity: NoteEntity)
 
-    fun bindNoteItem(noteItem: NoteItem)
+    fun bindNoteItem(noteEntity: NoteEntity)
 
     fun bindEnter()
 
     fun bindInput(inputAccess: InputControl.Access, isSaveEnabled: Boolean)
 
-    fun bindItem(noteItem: NoteItem)
+    fun bindItem(noteEntity: NoteEntity)
 
     fun onPressBack(): Boolean
 

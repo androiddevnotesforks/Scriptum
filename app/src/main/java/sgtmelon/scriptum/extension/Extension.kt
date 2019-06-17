@@ -23,7 +23,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.room.RoomRepo
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 
 fun <T: ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int) : T =
         DataBindingUtil.setContentView(this, layoutId)
@@ -81,20 +81,20 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
 /**
  * Копирование текста заметки в память
  */
-fun Context.copyToClipboard(noteItem: NoteItem) {
+fun Context.copyToClipboard(noteEntity: NoteEntity) {
     var copyText = ""
 
     /**
      * Если есть название то добавляем его
      */
-    if (noteItem.name.isNotEmpty()) copyText = noteItem.name + "\n"
+    if (noteEntity.name.isNotEmpty()) copyText = noteEntity.name + "\n"
 
     /**
      * В зависимости от типа составляем текст
      */
-    copyText += when (noteItem.type) {
-        NoteType.TEXT -> noteItem.text
-        NoteType.ROLL -> RoomRepo.getInstance(context = this).getRollListString(noteItem)
+    copyText += when (noteEntity.type) {
+        NoteType.TEXT -> noteEntity.text
+        NoteType.ROLL -> RoomRepo.getInstance(context = this).getRollListString(noteEntity)
     }
 
     /**

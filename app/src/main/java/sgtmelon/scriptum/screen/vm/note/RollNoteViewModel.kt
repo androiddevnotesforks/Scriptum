@@ -27,7 +27,7 @@ import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollItem
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
@@ -71,7 +71,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             isRankEmpty = iRoomRepo.getRankCount()
 
             if (id == NoteData.Default.ID) {
-                noteModel = NoteModel(NoteItem(
+                noteModel = NoteModel(NoteEntity(
                         create = context.getTime(),
                         color = iPreferenceRepo.defaultColor,
                         type = NoteType.ROLL
@@ -83,13 +83,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
                 BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
-                noteState = NoteState(isCreate = false, isBin = noteModel.noteItem.isBin)
+                noteState = NoteState(isCreate = false, isBin = noteModel.noteEntity.isBin)
             }
         }
 
         callback.apply {
             setupBinding(iPreferenceRepo.theme, isRankEmpty)
-            setupToolbar(iPreferenceRepo.theme, noteModel.noteItem.color, noteState)
+            setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
             setupEnter(inputControl)
             setupRecycler(inputControl)
@@ -139,25 +139,25 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuRestore() {
-        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
+        noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
         parentCallback.finish()
     }
 
     override fun onMenuRestoreOpen() {
         noteState.isBin = false
 
-        noteModel.noteItem.apply {
+        noteModel.noteEntity.apply {
             change = context.getTime()
             isBin = false
         }
 
         iconState.notAnimate { onMenuEdit(editMode = false) }
 
-        iRoomRepo.updateNote(noteModel.noteItem)
+        iRoomRepo.updateNote(noteModel.noteEntity)
     }
 
     override fun onMenuClear() {
-        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
+        noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
         parentCallback.finish()
     }
 
@@ -169,7 +169,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         val item = if (isUndo) inputControl.undo() else inputControl.redo()
 
         if (item != null) inputControl.makeNotEnabled {
-            val noteItem = noteModel.noteItem
+            val noteItem = noteModel.noteEntity
             val rollList = noteModel.rollList
 
             when (item.tag) {
@@ -215,16 +215,16 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onMenuRank() =
-            callback.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteItem))
+            callback.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteEntity))
 
-    override fun onMenuColor() = callback.showColorDialog(noteModel.noteItem.color)
+    override fun onMenuColor() = callback.showColorDialog(noteModel.noteEntity.color)
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
         val rollList = noteModel.rollList
 
         if (!noteModel.isSaveEnabled()) return false
 
-        noteModel.noteItem.apply {
+        noteModel.noteEntity.apply {
             change = context.getTime()
             setCompleteText(rollList.getCheck(), rollList.size)
         }
@@ -243,7 +243,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
         noteState.ifCreate {
-            id = noteModel.noteItem.id
+            id = noteModel.noteEntity.id
             parentCallback.onUpdateNoteId(id)
 
             if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
@@ -258,19 +258,19 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             Toast.makeText(context, "ROLL NOTE NOTIFICATION", Toast.LENGTH_LONG).show()
 
     override fun onMenuBind() = with(noteModel) {
-        noteItem.isStatus = !noteItem.isStatus
+        noteEntity.isStatus = !noteEntity.isStatus
 
         BindControl(context, noteModel).updateBind()
 
-        callback.bindEdit(noteState.isEdit, noteItem)
+        callback.bindEdit(noteState.isEdit, noteEntity)
 
-        iRoomRepo.updateNote(noteItem)
+        iRoomRepo.updateNote(noteEntity)
     }
 
     override fun onMenuConvert() = callback.showConvertDialog()
 
     override fun onMenuDelete() {
-        noteModel.noteItem.let { viewModelScope.launch { iRoomRepo.deleteNote(it) } }
+        noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.deleteNote(it) } }
         BindControl(context, noteModel).cancelBind()
 
         parentCallback.finish()
@@ -285,7 +285,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(editMode, noteModel.noteItem)
+            bindEdit(editMode, noteModel.noteEntity)
             bindInput(inputControl.access, noteModel.isSaveEnabled())
             updateNoteState(noteState)
 
@@ -333,12 +333,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     private fun onRestoreData(): Boolean {
         if (id == NoteData.Default.ID) return false
 
-        val colorFrom = noteModel.noteItem.color
+        val colorFrom = noteModel.noteEntity.color
         noteModel = iRoomRepo.getNoteModel(id)
 
         callback.notifyDataSetChanged(noteModel.rollList)
         onMenuEdit(editMode = false)
-        callback.tintToolbar(colorFrom, noteModel.noteItem.color)
+        callback.tintToolbar(colorFrom, noteModel.noteEntity.color)
 
         inputControl.reset()
 
@@ -363,7 +363,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         val p = if (simpleClick) noteModel.rollList.size else 0
         val rollItem = RollItem().apply {
-            noteId = noteModel.noteItem.id
+            noteId = noteModel.noteEntity.id
             text = enterText
         }
 
@@ -383,7 +383,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         val check = rollList.getCheck()
 
-        val noteItem = noteModel.noteItem.apply {
+        val noteItem = noteModel.noteEntity.apply {
             change = context.getTime()
             setCompleteText(check, rollList.size)
         }
@@ -401,7 +401,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.updateCheck(!isAll)
 
-        val noteItem = noteModel.noteItem.apply {
+        val noteItem = noteModel.noteEntity.apply {
             change = context.getTime()
             setCompleteText(if (isAll) 0 else size, size)
         }
@@ -418,7 +418,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     fun onResultColorDialog(check: Int) {
-        val noteItem = noteModel.noteItem
+        val noteItem = noteModel.noteEntity
         inputControl.onColorChange(noteItem.color, check)
         noteItem.color = check
 
@@ -439,7 +439,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        val noteItem = noteModel.noteItem
+        val noteItem = noteModel.noteEntity
 
         inputControl.onRankChange(noteItem.rankId, rankId)
 
@@ -459,8 +459,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     fun onCancelNoteBind() = with(noteModel) {
-        noteItem.isStatus = false
-        callback.bindItem(noteItem)
+        noteEntity.isStatus = false
+        callback.bindItem(noteEntity)
     }
 
 }

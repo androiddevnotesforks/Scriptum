@@ -16,7 +16,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
  */
 @Entity(tableName = Roll.TABLE,
         foreignKeys = [ForeignKey(
-                entity = NoteItem::class,
+                entity = NoteEntity::class,
                 parentColumns = arrayOf(Note.ID),
                 childColumns = arrayOf(Roll.NOTE_ID),
                 onUpdate = CASCADE,

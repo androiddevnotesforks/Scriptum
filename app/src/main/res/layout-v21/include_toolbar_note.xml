@@ -13,7 +13,7 @@
         <variable name="currentTheme" type="int"/>
 
         <variable name="editMode" type="boolean"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteItem"/>
+        <variable name="noteItem" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
 
     </data>
 

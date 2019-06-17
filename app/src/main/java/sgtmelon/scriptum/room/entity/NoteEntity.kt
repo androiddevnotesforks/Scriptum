@@ -20,7 +20,7 @@ import java.util.*
  */
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, StringConverter::class, NoteTypeConverter::class)
-data class NoteItem(
+data class NoteEntity(
         @ColumnInfo(name = Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = Note.CREATE) var create: String = "",
         @ColumnInfo(name = Note.CHANGE) var change: String = "",

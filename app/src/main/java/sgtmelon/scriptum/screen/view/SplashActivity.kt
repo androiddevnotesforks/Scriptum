@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.SplashCallback
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
@@ -55,17 +55,17 @@ class SplashActivity : AppCompatActivity(), SplashCallback {
             }
         }
 
-        fun Context.getSplashAlarmIntent(noteItem: NoteItem): Intent =
+        fun Context.getSplashAlarmIntent(noteEntity: NoteEntity): Intent =
                 Intent(this, SplashActivity::class.java)
                         .putExtra(OPEN_SCREEN, OpenFrom.ALARM)
-                        .putExtra(NoteData.Intent.ID, noteItem.id)
-                        .putExtra(NoteData.Intent.COLOR, noteItem.color)
+                        .putExtra(NoteData.Intent.ID, noteEntity.id)
+                        .putExtra(NoteData.Intent.COLOR, noteEntity.color)
 
-        fun Context.getSplashBindIntent(noteItem: NoteItem): Intent =
+        fun Context.getSplashBindIntent(noteEntity: NoteEntity): Intent =
                 Intent(this, SplashActivity::class.java)
                         .putExtra(OPEN_SCREEN, OpenFrom.BIND)
-                        .putExtra(NoteData.Intent.ID, noteItem.id)
-                        .putExtra(NoteData.Intent.TYPE, noteItem.type.ordinal)
+                        .putExtra(NoteData.Intent.ID, noteEntity.id)
+                        .putExtra(NoteData.Intent.TYPE, noteEntity.type.ordinal)
     }
 
 }

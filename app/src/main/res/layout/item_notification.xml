@@ -33,7 +33,7 @@
                     style="@style/Image.Color.Vertical.Start"
                     android:contentDescription="@null"
                     app:indicatorTheme='@{currentTheme}'
-                    app:indicatorColor='@{noteModel.noteItem.color}'
+                    app:indicatorColor='@{noteModel.noteEntity.color}'
                     tools:visibility="visible"/>
 
             <LinearLayout
@@ -49,7 +49,7 @@
                 <TextView
                         android:id="@+id/notification_name_text"
                         style="@style/Text.SmallCard.Title"
-                        android:text='@{noteModel.noteItem.name}'
+                        android:text='@{noteModel.noteEntity.name}'
                         tools:text="@string/preview_notification_name"/>
 
                 <TextView
@@ -57,7 +57,7 @@
                         style="@style/Text.SmallCard.Subtitle"
                         android:layout_marginEnd="@dimen/layout_4dp"
                         android:layout_marginRight="@dimen/layout_4dp"
-                        app:futureTime='@{noteModel.alarmItem.date}'
+                        app:futureTime='@{noteModel.alarmEntity.date}'
                         tools:text="@string/preview_notification_date"/>
 
             </LinearLayout>

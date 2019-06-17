@@ -23,7 +23,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.main.MainCallback
 import sgtmelon.scriptum.screen.callback.main.NotesCallback
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
@@ -31,7 +31,7 @@ import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
- * Фрагмент для отображения списка заметок - [NoteItem]
+ * Фрагмент для отображения списка заметок - [NoteEntity]
  *
  * @author SerjantArbuz
  */

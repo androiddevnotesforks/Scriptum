@@ -10,7 +10,7 @@ import sgtmelon.scriptum.room.dao.NoteDao
 import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.room.dao.RollDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.room.entity.RollItem
 
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.room.entity.RollItem
  * @author SerjantArbuz
  */
 @Database(entities = [
-    NoteItem::class,
+    NoteEntity::class,
     RollItem::class,
     RankItem::class,
     AlarmEntity::class

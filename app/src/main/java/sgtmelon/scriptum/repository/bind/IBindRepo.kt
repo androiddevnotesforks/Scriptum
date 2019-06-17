@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.repository.bind
 
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollItem
 
 /**
@@ -12,10 +12,10 @@ import sgtmelon.scriptum.room.entity.RollItem
 interface IBindRepo {
 
     /**
-     * @throws ClassCastException если [NoteItem.type] != [NoteType.ROLL]
+     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
      */
-    fun getRollList(noteItem: NoteItem): List<RollItem>
+    fun getRollList(noteEntity: NoteEntity): List<RollItem>
 
-    fun unbindNoteItem(id: Long): NoteItem
+    fun unbindNoteItem(id: Long): NoteEntity
 
 }

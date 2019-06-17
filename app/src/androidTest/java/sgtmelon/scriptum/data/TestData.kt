@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankItem
 import sgtmelon.scriptum.room.entity.RollItem
 import java.util.UUID.randomUUID
@@ -23,8 +23,8 @@ class TestData(private val context: Context) {
 
     val uniqueString get() = randomUUID().toString().substring(0, 16)
 
-    val textNote: NoteItem
-        get() = NoteItem().apply {
+    val textNote: NoteEntity
+        get() = NoteEntity().apply {
             create = context.getTime()
             change = context.getTime()
             name = context.getString(R.string.test_note_name)
@@ -33,8 +33,8 @@ class TestData(private val context: Context) {
             type = NoteType.TEXT
         }
 
-    val rollNote: NoteItem
-        get() = NoteItem().apply {
+    val rollNote: NoteEntity
+        get() = NoteEntity().apply {
             create = context.getTime()
             change = context.getTime()
             name = context.getString(R.string.test_note_name)
@@ -66,35 +66,35 @@ class TestData(private val context: Context) {
         return rankItem
     }
 
-    fun insertText(noteItem: NoteItem = textNote): NoteItem {
-        dataBase.apply { noteItem.id = getNoteDao().insert(noteItem) }.close()
+    fun insertText(noteEntity: NoteEntity = textNote): NoteEntity {
+        dataBase.apply { noteEntity.id = getNoteDao().insert(noteEntity) }.close()
 
-        return noteItem
+        return noteEntity
     }
 
-    fun insertRoll(noteItem: NoteItem = rollNote, rollList: List<RollItem> = this.rollList)
-            : NoteItem {
+    fun insertRoll(noteEntity: NoteEntity = rollNote, rollList: List<RollItem> = this.rollList)
+            : NoteEntity {
         dataBase.apply {
-            noteItem.id = getNoteDao().insert(noteItem)
+            noteEntity.id = getNoteDao().insert(noteEntity)
             rollList.forEach {
-                it.noteId = noteItem.id
+                it.noteId = noteEntity.id
                 getRollDao().insert(it)
             }
         }.close()
 
-        return noteItem
+        return noteEntity
     }
 
 
-    fun insertTextToBin(noteItem: NoteItem = textNote): NoteItem {
-        noteItem.isBin = true
-        return insertText(noteItem)
+    fun insertTextToBin(noteEntity: NoteEntity = textNote): NoteEntity {
+        noteEntity.isBin = true
+        return insertText(noteEntity)
     }
 
-    fun insertRollToBin(noteItem: NoteItem = rollNote, rollList: List<RollItem> = this.rollList)
-            : NoteItem {
-        noteItem.isBin = true
-        return insertRoll(noteItem, rollList)
+    fun insertRollToBin(noteEntity: NoteEntity = rollNote, rollList: List<RollItem> = this.rollList)
+            : NoteEntity {
+        noteEntity.isBin = true
+        return insertRoll(noteEntity, rollList)
     }
 
     fun insertRankToNotes() = ArrayList<RankItem>().apply {
@@ -139,9 +139,9 @@ class TestData(private val context: Context) {
         dataBase.apply { getNoteDao().update(noteItem) }.close()
     }
 
-    fun insertNotification(noteItem: NoteItem) {
+    fun insertNotification(noteEntity: NoteEntity) {
         dataBase.apply {
-            getAlarmDao().insert(AlarmEntity(noteId = noteItem.id, date = context.getTime()))
+            getAlarmDao().insert(AlarmEntity(noteId = noteEntity.id, date = context.getTime()))
         }.close()
     }
 

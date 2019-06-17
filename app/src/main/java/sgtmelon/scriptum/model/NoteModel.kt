@@ -5,7 +5,7 @@ import androidx.room.Relation
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteItem
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollItem
 
 /**
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.room.entity.RollItem
  * @author SerjantArbuz
  */
 data class NoteModel(
-        @Embedded val noteItem: NoteItem,
+        @Embedded val noteEntity: NoteEntity,
         @Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
         val rollList: MutableList<RollItem> = ArrayList(),
         @Embedded val alarmEntity: AlarmEntity = AlarmEntity()
@@ -25,8 +25,8 @@ data class NoteModel(
      */
     fun updateCheck(check: Boolean) = rollList.forEach { it.isCheck = check }
 
-    fun isSaveEnabled(): Boolean = when (noteItem.type) {
-        NoteType.TEXT -> noteItem.text.isNotEmpty()
+    fun isSaveEnabled(): Boolean = when (noteEntity.type) {
+        NoteType.TEXT -> noteEntity.text.isNotEmpty()
         NoteType.ROLL -> {
             if (rollList.isNotEmpty()) rollList.forEach { if (it.text.isNotEmpty()) return true }
             false
