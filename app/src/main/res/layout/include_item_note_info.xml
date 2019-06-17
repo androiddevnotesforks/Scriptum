@@ -7,10 +7,14 @@
     <data>
 
         <import type="java.util.List"/>
+        <import type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <import type="sgtmelon.scriptum.model.item.AlarmItem"/>
+
         <import alias="v" type="android.view.View"/>
+        <import alias="text" type="android.text.TextUtils"/>
         <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
-        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
 
     </data>
 
@@ -21,13 +25,11 @@
             android:layout_marginTop="@dimen/layout_8dp"
             android:orientation="horizontal">
 
-        <!-- TODO #RELEASE передавать noteModel и при пустой дате alarmItem - делать не видимым индикатор -->
-
         <ImageView
                 android:id="@+id/note_notification_image"
                 style="@style/Image.NoteItem.Info"
                 android:contentDescription="@null"
-                android:visibility='@{noteItem.type == noteType.TEXT ? v.VISIBLE : v.GONE}'
+                android:visibility='@{text.isEmpty(noteModel.alarmItem.date) ? v.GONE : v.VISIBLE}'
                 app:srcCompat="@drawable/ic_notifications"
                 tools:visibility="visible"/>
 
@@ -35,8 +37,8 @@
                 android:id="@+id/note_info_bind_image"
                 style="@style/Image.NoteItem.Info"
                 android:contentDescription="@null"
-                android:src='@{noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
-                android:visibility='@{noteItem.status ? v.VISIBLE : v.GONE}'
+                android:src='@{noteModel.noteItem.type == noteType.TEXT ? @drawable/ic_bind_text : @drawable/ic_bind_roll}'
+                android:visibility='@{noteModel.noteItem.status ? v.VISIBLE : v.GONE}'
                 tools:srcCompat="@drawable/ic_bind_roll"
                 tools:visibility="visible"/>
 
@@ -44,7 +46,7 @@
                 android:id="@+id/note_info_rank_image"
                 style="@style/Image.NoteItem.Info"
                 android:contentDescription="@null"
-                android:visibility='@{noteItem.rankId.size == 0 ? v.GONE : v.VISIBLE}'
+                android:visibility='@{noteModel.noteItem.rankId.size == 0 ? v.GONE : v.VISIBLE}'
                 app:srcCompat="@drawable/ic_rank"
                 tools:visibility="visible"/>
 
@@ -52,8 +54,8 @@
                 android:id="@+id/note_info_progress_text"
                 style="@style/Text.NoteItem.Info"
                 android:layout_width="wrap_content"
-                android:text='@{noteItem.type == noteType.ROLL ? noteItem.text : ""}'
-                android:visibility='@{noteItem.type == noteType.ROLL ?  v.VISIBLE : v.GONE}'
+                android:text='@{noteModel.noteItem.type == noteType.ROLL ? noteModel.noteItem.text : ""}'
+                android:visibility='@{noteModel.noteItem.type == noteType.ROLL ?  v.VISIBLE : v.GONE}'
                 tools:text="@string/preview_note_done"
                 tools:visibility="visible"/>
 
@@ -62,14 +64,14 @@
                 style="@style/Text.NoteItem.Info"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                app:pastTime='@{noteItem.change}'
+                app:pastTime='@{noteModel.noteItem.change}'
                 tools:text="@string/preview_note_time"/>
 
         <TextView
                 android:id="@+id/note_info_create_text"
                 style="@style/Text.NoteItem.Info"
                 android:layout_width="wrap_content"
-                app:pastTime='@{noteItem.create}'
+                app:pastTime='@{noteModel.noteItem.create}'
                 tools:text="@string/preview_note_time"/>
 
     </LinearLayout>

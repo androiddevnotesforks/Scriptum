@@ -5,11 +5,11 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.holder.NoteRollHolder
 import sgtmelon.scriptum.adapter.holder.NoteTextHolder
+import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.listener.ItemListener
-import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 
@@ -36,13 +36,12 @@ class NoteAdapter(@Theme private val theme: Int,
                 )
             }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) =
-            with(list[position]) {
-                when (holder) {
-                    is NoteTextHolder -> holder.bind(theme, noteItem)
-                    is NoteRollHolder -> holder.bind(theme, noteItem, rollList)
-                }
-            }
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is NoteTextHolder -> holder.bind(theme, list[position])
+            is NoteRollHolder -> holder.bind(theme, list[position])
+        }
+    }
 
     override fun getItemViewType(position: Int) = list[position].noteItem.type.ordinal
 

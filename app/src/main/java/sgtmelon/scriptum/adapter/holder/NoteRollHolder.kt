@@ -5,11 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.databinding.ItemNoteRollBinding
-import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.NoteItem
-import sgtmelon.scriptum.model.item.RollItem
-import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.extension.checkNoPosition
+import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Держатель заметки-списка для [NoteAdapter]
@@ -36,10 +35,9 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
         }
     }
 
-    fun bind(@Theme theme: Int, noteItem: NoteItem, rollList: List<RollItem>) = binding.apply {
+    fun bind(@Theme theme: Int, noteModel: NoteModel) = binding.apply {
         this.currentTheme = theme
-        this.noteItem = noteItem
-        this.rollList = rollList
+        this.noteModel = noteModel
     }.executePendingBindings()
 
 }

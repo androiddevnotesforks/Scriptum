@@ -5,12 +5,14 @@
 
     <data>
 
+        <import type="sgtmelon.scriptum.model.item.NoteItem"/>
+
         <import alias="v" type="android.view.View"/>
         <import alias="text" type="android.text.TextUtils"/>
-        <import alias="def" type="sgtmelon.scriptum.model.annotation.Theme"/>
+        <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
-        <variable name="noteItem" type="sgtmelon.scriptum.model.item.NoteItem"/>
+        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
 
     </data>
 
@@ -19,7 +21,7 @@
             style="@style/Card"
             app:cardCornerRadius="@dimen/radius_4dp"
             app:cardUseCompatPadding="false"
-            app:noteColor='@{noteItem.color}'
+            app:noteColor='@{noteModel.noteItem.color}'
             tools:cardBackgroundColor="@color/note_green_light">
 
         <FrameLayout
@@ -37,19 +39,19 @@
                     <TextView
                             android:id="@+id/note_text_name_text"
                             style="@style/Text.NoteItem.Name"
-                            android:text='@{noteItem.name}'
-                            android:visibility='@{text.isEmpty(noteItem.name) ? v.GONE : v.VISIBLE}'
+                            android:text='@{noteModel.noteItem.name}'
+                            android:visibility='@{text.isEmpty(noteModel.noteItem.name) ? v.GONE : v.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                     <TextView
                             android:id="@+id/note_text_content_text"
                             style="@style/Text.NoteItem.Content"
-                            android:text='@{noteItem.text}'
+                            android:text='@{noteModel.noteItem.text}'
                             tools:text="@string/preview_note_text"/>
 
                     <include
                             layout="@layout/include_item_note_info"
-                            app:noteItem='@{noteItem}'/>
+                            app:noteModel='@{noteModel}'/>
 
                 </LinearLayout>
 
@@ -57,9 +59,9 @@
                         android:id="@+id/note_text_color_view"
                         style="@style/Image.Color.Vertical.End"
                         android:contentDescription="@null"
-                        app:indicatorColor='@{noteItem.color}'
+                        app:indicatorColor='@{noteModel.noteItem.color}'
                         app:indicatorTheme='@{currentTheme}'
-                        app:visibleOn='@{def.dark}'
+                        app:visibleOn='@{theme.dark}'
                         app:visibleTheme='@{currentTheme}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="gone"/>

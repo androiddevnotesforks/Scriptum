@@ -28,6 +28,8 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 
+    // TODO #RELEASE добавить к noteModel - alarmItem
+
     private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
 
     private fun openRoom() = RoomDb.getInstance(context)
