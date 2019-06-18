@@ -55,15 +55,15 @@ class TestData(private val context: Context) {
         }
     }
 
-    val rankItem: RankEntity get() = RankEntity(name = uniqueString)
+    val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
 
     fun clear() = apply { dataBase.apply { clearAllTables() }.close() }
 
-    fun insertRank(rankItem: RankEntity = this.rankItem): RankEntity {
-        dataBase.apply { rankItem.id = getRankDao().insert(rankItem) }.close()
+    fun insertRank(rankEntity: RankEntity = this.rankEntity): RankEntity {
+        dataBase.apply { rankEntity.id = getRankDao().insert(rankEntity) }.close()
 
-        return rankItem
+        return rankEntity
     }
 
     fun insertText(noteEntity: NoteEntity = textNote): NoteEntity {
@@ -101,13 +101,13 @@ class TestData(private val context: Context) {
         val noteEntity = if (Random.nextBoolean()) insertText() else insertRoll()
 
         (1..2).forEach {
-            val rankItem = insertRank(rankItem.apply {
+            val rankEntity = insertRank(rankEntity.apply {
                 name = "$it | $name"
                 noteId.add(noteEntity.id)
                 position = it
             })
 
-            add(rankItem)
+            add(rankEntity)
         }
 
         forEach {
@@ -122,13 +122,13 @@ class TestData(private val context: Context) {
         val noteEntity = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
 
         (1..2).forEach {
-            val rankItem = insertRank(rankItem.apply {
+            val rankEntity = insertRank(rankEntity.apply {
                 name = "$it | $name"
                 noteId.add(noteEntity.id)
                 position = it
             })
 
-            add(rankItem)
+            add(rankEntity)
         }
 
         forEach {
@@ -147,13 +147,13 @@ class TestData(private val context: Context) {
 
     fun fillRank(times: Int = 10) = ArrayList<RankEntity>().apply {
         (1..times).forEach {
-            val rankItem = insertRank(rankItem.apply {
+            val rankEntity = insertRank(rankEntity.apply {
                 name = "$it | $name"
                 position = it
                 isVisible = Random.nextBoolean()
             })
 
-            add(rankItem)
+            add(rankEntity)
         }
     }
 

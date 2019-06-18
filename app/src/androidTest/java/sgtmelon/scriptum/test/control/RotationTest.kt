@@ -47,13 +47,13 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun rankScreenRenameDialog() {
-        val rankItem = testData.clear().insertRank()
+        val rankEntity = testData.clear().insertRank()
         val newName = testData.uniqueString
 
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(rankItem.name) {
+                    openRenameDialog(rankEntity.name) {
                         onEnterName(newName)
 
                         assert { onDisplayContent(newName) }

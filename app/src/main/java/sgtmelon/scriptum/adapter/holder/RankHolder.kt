@@ -40,7 +40,7 @@ class RankHolder(private val binding: ItemRankBinding,
 
         visibleButton.setOnClickListener { v ->
             checkNoPosition {
-                visibleButton.setDrawable(!binding.rankItem?.isVisible!!, true)
+                visibleButton.setDrawable(!binding.rankEntity?.isVisible!!, true)
                 clickListener.onItemClick(v, adapterPosition)
             }
         }
@@ -55,10 +55,10 @@ class RankHolder(private val binding: ItemRankBinding,
         visibleButton.setOnTouchListener(this)
     }
 
-    fun bind(rankItem: RankEntity, startAnim: Boolean) {
-        visibleButton.setDrawable(rankItem.isVisible, startAnim)
+    fun bind(rankEntity: RankEntity, startAnim: Boolean) {
+        visibleButton.setDrawable(rankEntity.isVisible, startAnim)
 
-        binding.rankItem = rankItem
+        binding.rankEntity = rankEntity
         binding.executePendingBindings()
     }
 

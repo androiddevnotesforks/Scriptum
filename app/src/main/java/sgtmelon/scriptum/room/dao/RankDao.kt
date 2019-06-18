@@ -35,7 +35,7 @@ interface RankDao {
     @get:Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
     val id: List<Long>
 
-    @Insert fun insert(rankItem: RankEntity): Long
+    @Insert fun insert(rankEntity: RankEntity): Long
 
     /**
      * @param name - Уникальное имя категории

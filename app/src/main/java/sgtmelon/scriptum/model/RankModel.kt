@@ -3,7 +3,7 @@ package sgtmelon.scriptum.model
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
- * Репозиторий категории
+ * Модель для хранения краткой информации о списке всех категорий
  *
  * @author SerjantArbuz
  */

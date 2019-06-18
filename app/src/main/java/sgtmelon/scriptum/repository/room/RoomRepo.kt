@@ -5,17 +5,14 @@ import androidx.sqlite.db.SimpleSQLiteQuery
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
@@ -28,7 +25,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 class RoomRepo(private val context: Context) : IRoomRepo {
 
-    // TODO #RELEASE добавить к noteModel - alarmEntity
+    // TODO #RELEASE убрать отсюда методы связанные с rank в RankRepo
 
     private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
 
@@ -254,17 +251,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         updateRank(noteEntity)
     }
 
-    override fun insertRank(p: Int, rankItem: RankEntity): Long {
-        val id: Long
-
-        openRoom().apply {
-            id = getRankDao().insert(rankItem)
-            if (p != 0) updateRankPosition(p, db = this)
-        }.close()
-
-        return id
-    }
-
     override fun updateRollCheck(noteEntity: NoteEntity, rollEntity: RollEntity) {
         rollEntity.id?.let {
             openRoom().apply {
@@ -283,139 +269,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     override fun updateNote(noteEntity: NoteEntity) =
             openRoom().apply { getNoteDao().update(noteEntity) }.close()
 
-    override suspend fun notifyStatusBar() = openRoom().apply {
-        val rankIdVisibleList = getRankDao().rankIdVisibleList
-
-        getNoteDao()[getNoteListQuery(bin = false)].forEach {
-            BindControl(context, it).updateBind(rankIdVisibleList)
-        }
-    }.close()
-
-    override fun deleteRank(name: String, p: Int) = openRoom().apply {
-        val rankItem = getRankDao()[name]
-
-        if (rankItem.noteId.isNotEmpty()) {
-            val noteList = getNoteDao()[rankItem.noteId]
-
-            /**
-             * Убирает из списков ненужную категорию по id
-             */
-            noteList.forEach {
-                val index = it.rankId.indexOf(rankItem.id)
-
-                it.rankId.removeAt(index)
-                it.rankPs.removeAt(index)
-            }
-
-            getNoteDao().update(noteList)
-        }
-
-        getRankDao().delete(rankItem)
-
-        updateRankPosition(p, db = this)
-    }.close()
-
-    override fun getRankModel() = RankModel(getCompleteRankList())
-
-    override fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankEntity> { // TODO оптимизировать
-        val startFirst = dragFrom < dragTo
-
-        val iStart = if (startFirst) dragFrom else dragTo
-        val iEnd = if (startFirst) dragTo else dragFrom
-        val iAdd = if (startFirst) -1 else 1
-
-        val rankList = getCompleteRankList()
-        val noteIdList = ArrayList<Long>()
-
-        for (i in iStart..iEnd) {
-            val rankItem = rankList[i]
-            rankItem.noteId.forEach { if (noteIdList.contains(it)) noteIdList.add(it) }
-
-            val start = i == dragFrom
-            val end = i == dragTo
-
-            val newPosition = if (start) dragTo else i + iAdd
-            rankItem.position = newPosition
-
-            if (if (startFirst) end else start) {
-                rankList.removeAt(i)
-                rankList.add(newPosition, rankItem)
-            } else {
-                rankList[i] = rankItem
-            }
-        }
-
-        rankList.sortBy { it.position }
-
-        openRoom().apply {
-            getRankDao().update(rankList)
-            updateNoteRankPosition(noteIdList, rankList, db = this)
-        }.close()
-
-        return rankList
-    }
-
-    override fun updateRank(rankItem: RankEntity) =
-            openRoom().apply { getRankDao().update(rankItem) }.close()
-
-    override fun updateRank(rankList: List<RankEntity>) =
-            openRoom().apply { getRankDao().update(rankList) }.close()
 
     // TODO прибрать private
-
-    private fun getCompleteRankList() = ArrayList<RankEntity>().apply {
-        openRoom().apply {
-            addAll(getRankDao().simple)
-            forEach {
-                it.textCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
-                it.rollCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
-            }
-        }.close()
-    }
-
-    /**
-     * @param fromPosition - Позиция удаления категории
-     */
-    private fun updateRankPosition(fromPosition: Int, db: RoomDb) = with(db) {
-        val rankList = getRankDao().simple
-        val noteIdList = ArrayList<Long>()
-
-        for (i in fromPosition until rankList.size) {
-            rankList[i].apply {
-                noteId.forEach { if (!noteIdList.contains(it)) noteIdList.add(it) }
-                position = i
-            }
-        }
-
-        getRankDao().update(rankList)
-        updateNoteRankPosition(noteIdList, rankList, db = this)
-    }
-
-    /**
-     * @param noteIdList - Id заметок, которые нужно обновить
-     * @param rankList   - Новый список категорий, с новыми позициями у категорий
-     */
-    private fun updateNoteRankPosition(noteIdList: List<Long>, rankList: List<RankEntity>, db: RoomDb) =
-            with(db.getNoteDao()) {
-                val noteList = get(noteIdList)
-
-                noteList.forEach { item ->
-                    val newIdList = ArrayList<Long>()
-                    val newPsList = ArrayList<Long>()
-
-                    rankList.forEach {
-                        if (item.rankId.contains(it.id)) {
-                            newIdList.add(it.id)
-                            newPsList.add(it.position.toLong())
-                        }
-                    }
-
-                    item.rankId = newIdList
-                    item.rankPs = newPsList
-                }
-
-                update(noteList)
-            }
 
     /**
      * Добавление или удаление id заметки к категорииё

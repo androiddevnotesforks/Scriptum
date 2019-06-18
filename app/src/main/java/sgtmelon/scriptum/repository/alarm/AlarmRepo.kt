@@ -16,7 +16,7 @@ class AlarmRepo(private val context: Context) : IAlarmRepo {
     private fun openRoom() = RoomDb.getInstance(context)
 
     override fun getList() = ArrayList<NotificationItem>().apply {
-        openRoom().apply { addAll(getAlarmDao().getTest()) }.close()
+        openRoom().apply { addAll(getAlarmDao().get()) }.close()
     }
 
     override fun delete(id: Long) = openRoom().apply { getAlarmDao().delete(id) }.close()

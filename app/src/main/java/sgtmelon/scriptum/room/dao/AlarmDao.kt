@@ -23,6 +23,6 @@ interface AlarmDao {
     @Transaction
     @Query(value = """SELECT NT_ID, NT_NAME, NT_COLOR, NT_TYPE, AL_ID, AL_DATE
         FROM NOTE_TABLE, ALARM_TABLE ORDER BY DATE(AL_DATE) DESC, TIME(AL_DATE) DESC""")
-    fun getTest(): MutableList<NotificationItem>
+    fun get(): MutableList<NotificationItem>
 
 }

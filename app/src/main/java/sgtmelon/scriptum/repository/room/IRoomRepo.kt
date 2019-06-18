@@ -1,11 +1,9 @@
 package sgtmelon.scriptum.repository.room
 
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
@@ -79,7 +77,6 @@ interface IRoomRepo {
      */
     fun saveRollNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
 
-    fun insertRank(p: Int, rankItem: RankEntity): Long
 
     /**
      * Обновление конкретного пункта списка
@@ -94,20 +91,5 @@ interface IRoomRepo {
     fun updateRollCheck(noteEntity: NoteEntity, check: Boolean)
 
     fun updateNote(noteEntity: NoteEntity)
-
-    /**
-     * Обновление всех прикреплённых заметок в статус баре
-     */
-    suspend fun notifyStatusBar()
-
-    fun deleteRank(name: String, p: Int)
-
-    fun getRankModel(): RankModel
-
-    fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankEntity>
-
-    fun updateRank(rankItem: RankEntity)
-
-    fun updateRank(rankList: List<RankEntity>)
 
 }
