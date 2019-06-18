@@ -9,6 +9,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
  */
 class RankModel(val itemList: MutableList<RankEntity>) {
 
+    // TODO сделать получение через один query
     // TODO rename потому что по факту это репозиторий
 
     val nameList: MutableList<String> = ArrayList<String>().apply {

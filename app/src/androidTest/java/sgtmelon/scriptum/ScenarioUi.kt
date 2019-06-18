@@ -588,6 +588,22 @@ private class ScenarioUi {
          */
         class Notification {
 
+            /**
+             * UI - Контент
+             * # Пусто :: [NotificationTest.contentEmpty]
+             * # Список :: [NotificationTest.contentList]
+             **/
+
+            /**
+             * CONTROL - Скроллинг списка :: [NotificationTest.listScroll]
+             */
+
+            /**
+             * UI - Открыть уведомление
+             * # Текст :: [NotificationTest.textNoteOpen]
+             * # Список :: [NotificationTest.rollNoteOpen]
+             */
+
         }
 
         /**

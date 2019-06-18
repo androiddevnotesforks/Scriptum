@@ -12,7 +12,6 @@ import sgtmelon.scriptum.room.converter.BoolConverter
  * Элемент списка пунктов в [NoteModel]
  *
  * @author SerjantArbuz
- *
  */
 @Entity(tableName = Roll.TABLE,
         foreignKeys = [ForeignKey(

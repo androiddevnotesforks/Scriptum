@@ -20,6 +20,8 @@ data class NoteModel(
         @Embedded val alarmEntity: AlarmEntity = AlarmEntity()
 ) {
 
+    // TODO заменить получение модели через один query
+
     /**
      * При отметке всех пунктов
      */

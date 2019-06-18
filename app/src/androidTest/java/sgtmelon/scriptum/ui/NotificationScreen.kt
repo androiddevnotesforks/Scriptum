@@ -2,8 +2,11 @@ package sgtmelon.scriptum.ui
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.Scroll
+import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Класс для ui контроля экрана [NotificationActivity]
@@ -17,6 +20,16 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     fun onScrollThrough() = repeat(times = 2) {
         onScroll(Scroll.END, time = 4)
         onScroll(Scroll.START, time = 4)
+    }
+
+    fun openText(p: Int = positionRandom, func: TextNoteScreen.() -> Unit = {}) {
+        onClickItem(p)
+        TextNoteScreen.invoke(State.READ, func)
+    }
+
+    fun openRoll(p: Int = positionRandom, func: RollNoteScreen.() -> Unit = {}) {
+        onClickItem(p)
+        RollNoteScreen.invoke(State.READ, func)
     }
 
     companion object {
