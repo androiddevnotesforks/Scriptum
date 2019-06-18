@@ -25,4 +25,7 @@ interface AlarmDao {
         FROM NOTE_TABLE, ALARM_TABLE ORDER BY DATE(AL_DATE) DESC, TIME(AL_DATE) DESC""")
     fun get(): MutableList<NotificationItem>
 
+    @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
+    operator fun get(noteId: Long): AlarmEntity
+
 }

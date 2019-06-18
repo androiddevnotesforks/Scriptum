@@ -48,7 +48,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 } else {
                     if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
 
-                    add(NoteModel(it, getRollDao().getView(it.id)))
+                    add(NoteModel(it, getRollDao().getView(it.id), getAlarmDao()[it.id]))
                 }
             }
         }.close()
@@ -102,7 +102,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         val noteModel: NoteModel
 
-        openRoom().apply { noteModel = NoteModel(getNoteDao()[id], getRollDao()[id]) }.close()
+        openRoom().apply { noteModel = NoteModel(getNoteDao()[id], getRollDao()[id], getAlarmDao()[id]) }.close()
 
         return noteModel
     }

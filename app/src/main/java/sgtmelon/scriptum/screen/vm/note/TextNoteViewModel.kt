@@ -63,7 +63,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
                         create = context.getTime(),
                         color = iPreferenceRepo.defaultColor,
                         type = NoteType.TEXT
-                ), ArrayList())
+                ))
 
                 noteState = NoteState(isCreate = true)
             } else {

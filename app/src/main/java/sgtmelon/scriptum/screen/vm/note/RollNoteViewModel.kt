@@ -75,7 +75,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
                         create = context.getTime(),
                         color = iPreferenceRepo.defaultColor,
                         type = NoteType.ROLL
-                ), ArrayList())
+                ))
 
                 noteState = NoteState(isCreate = true)
             } else {

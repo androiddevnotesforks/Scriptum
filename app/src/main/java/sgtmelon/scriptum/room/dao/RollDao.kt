@@ -22,16 +22,16 @@ interface RollDao {
     @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
     fun get(): List<RollEntity>
 
-    @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote ORDER BY RL_POSITION")
-    operator fun get(idNote: Long): MutableList<RollEntity>
+    @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
+    operator fun get(noteId: Long): MutableList<RollEntity>
 
     /**
      * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
-            WHERE RL_NOTE_ID = :idNote AND RL_POSITION BETWEEN 0 AND 3
+            WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND 3
             ORDER BY RL_POSITION ASC""")
-    fun getView(idNote: Long): MutableList<RollEntity>
+    fun getView(noteId: Long): MutableList<RollEntity>
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_POSITION = :position, RL_TEXT = :text WHERE RL_ID = :id")
     fun update(id: Long, position: Int, text: String)
@@ -64,9 +64,9 @@ interface RollDao {
     fun delete(noteId: Long, idSaveList: List<Long>)
 
     /**
-     * @param idNote - Id удаляемой заметки
+     * @param noteId - Id удаляемой заметки
      */
-    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :idNote")
-    fun delete(idNote: Long)
+    @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId")
+    fun delete(noteId: Long)
 
 }
