@@ -2,8 +2,8 @@ package sgtmelon.scriptum.control.input
 
 import android.util.Log
 import sgtmelon.scriptum.BuildConfig
-import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.model.annotation.InputAction
+import sgtmelon.scriptum.model.item.InputItem
 import java.util.*
 
 /**
@@ -139,6 +139,9 @@ class InputControl : InputCallback {
         private val TAG = InputControl::class.java.simpleName
     }
 
+    /**
+     * Класс для контроля возможности отмены/возврата действий
+     */
     data class Access(val isUndo: Boolean, val isRedo: Boolean)
 
 }

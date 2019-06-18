@@ -12,6 +12,7 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.dao.RankDao
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -48,7 +49,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 } else {
                     if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
 
-                    add(NoteModel(it, getRollDao().getView(it.id), getAlarmDao()[it.id]))
+                    add(NoteModel(it, getRollDao().getView(it.id), alarmEntity = getAlarmDao()[it.id] ?: AlarmEntity()))
                 }
             }
         }.close()
@@ -102,7 +103,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         val noteModel: NoteModel
 
-        openRoom().apply { noteModel = NoteModel(getNoteDao()[id], getRollDao()[id], getAlarmDao()[id]) }.close()
+        openRoom().apply { noteModel = NoteModel(getNoteDao()[id], getRollDao()[id], alarmEntity = getAlarmDao()[id] ?: AlarmEntity()) }.close()
 
         return noteModel
     }

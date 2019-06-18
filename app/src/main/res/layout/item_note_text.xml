@@ -5,10 +5,7 @@
 
     <data>
 
-        <import type="sgtmelon.scriptum.room.entity.NoteEntity"/>
-
         <import alias="v" type="android.view.View"/>
-        <import alias="text" type="android.text.TextUtils"/>
         <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
@@ -40,7 +37,7 @@
                             android:id="@+id/note_text_name_text"
                             style="@style/Text.Note.Name"
                             android:text='@{noteModel.noteEntity.name}'
-                            android:visibility='@{text.isEmpty(noteModel.noteEntity.name) ? v.GONE : v.VISIBLE}'
+                            android:visibility='@{noteModel.noteEntity.name.isEmpty() ? v.GONE : v.VISIBLE}'
                             tools:text="@string/preview_note_name"/>
 
                     <TextView

@@ -13,11 +13,10 @@
                   type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteEntity" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
+        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
-        <variable name="isSaveEnabled" type="boolean"/>
 
     </data>
 
@@ -31,7 +30,7 @@
                 layout="@layout/include_toolbar_note"
                 app:currentTheme='@{currentTheme}'
                 app:editMode='@{editMode}'
-                app:noteEntity='@{noteEntity}'/>
+                app:noteModel='@{noteModel}'/>
 
         <FrameLayout
                 android:layout_width="match_parent"
@@ -63,7 +62,7 @@
                                 style="@style/EditText.TextNote.Enter"
                                 android:hint="@string/hint_enter_text"
                                 android:importantForAutofill="noExcludeDescendants"
-                                android:text='@={noteEntity.text}'
+                                android:text='@={noteModel.noteEntity.text}'
                                 android:visibility='@{editMode ? v.VISIBLE : v.INVISIBLE}'
                                 tools:targetApi="o"
                                 tools:visibility="invisible"/>
@@ -73,8 +72,8 @@
                         <TextView
                                 android:id="@+id/text_note_content_text"
                                 style="@style/EditText.TextNote.Read"
-                                android:text='@{editMode ? "" : noteEntity.text}'
-                                android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
+                                android:text='@{editMode ? "" : noteModel.noteEntity.text}'
+                                android:visibility='@{editMode ? v.INVISIBLE : v.VISIBLE}'
                                 tools:text="@string/preview_note_text"/>
 
                     </FrameLayout>
@@ -87,11 +86,10 @@
 
         <include layout="@layout/include_text_note_panel"
                  app:editMode='@{editMode}'
-                 app:menuCallback='@{menuCallback}'
-                 app:noteEntity='@{noteEntity}'
-                 app:rankEmpty='@{rankEmpty}'
                  app:inputAccess='@{inputAccess}'
-                 app:isSaveEnabled='@{isSaveEnabled}'/>
+                 app:menuCallback='@{menuCallback}'
+                 app:noteModel='@{noteModel}'
+                 app:rankEmpty='@{rankEmpty}'/>
 
     </LinearLayout>
 

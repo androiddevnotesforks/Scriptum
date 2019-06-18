@@ -105,12 +105,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     )
 
     override fun onResultInputTextChange() =
-            callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+            callback.bindInput(inputControl.access, noteModel)
 
 
     override fun onResultInputRollChange(p: Int, text: String) {
         callback.notifyListItem(p, noteModel.rollList[p].apply { this.text = text })
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+        callback.bindInput(inputControl.access, noteModel)
     }
 
     override fun onResultTouchFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
@@ -120,7 +120,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         inputControl.onRollMove(dragFrom, dragTo)
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+        callback.bindInput(inputControl.access, noteModel)
     }
 
     override fun onResultTouchSwipe(p: Int) {
@@ -129,7 +129,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         inputControl.onRollRemove(p, rollEntity.toString())
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+        callback.bindInput(inputControl.access, noteModel)
         callback.notifyItemRemoved(p, noteModel.rollList)
     }
 
@@ -211,7 +211,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+        callback.bindInput(inputControl.access, noteModel)
     }
 
     override fun onMenuRank() =
@@ -262,7 +262,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         BindControl(context, noteModel).updateBind()
 
-        callback.bindEdit(noteState.isEdit, noteEntity)
+        callback.bindEdit(noteState.isEdit, noteModel)
 
         iRoomRepo.updateNote(noteEntity)
     }
@@ -285,8 +285,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(editMode, noteModel.noteEntity)
-            bindInput(inputControl.access, noteModel.isSaveEnabled())
+            bindEdit(editMode, noteModel)
+            bindInput(inputControl.access, noteModel)
             updateNoteState(noteState)
 
             if (editMode) focusOnEdit()
@@ -371,7 +371,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.rollList.add(p, rollEntity)
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+        callback.bindInput(inputControl.access, noteModel)
         callback.scrollToItem(simpleClick, p, noteModel.rollList)
     }
 
@@ -388,7 +388,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             setCompleteText(check, rollList.size)
         }
 
-        if (checkState.setAll(check, rollList.size)) callback.bindNote(noteEntity)
+        if (checkState.setAll(check, rollList.size)) callback.bindNote(noteModel)
 
         iRoomRepo.updateRollCheck(noteEntity, rollEntity)
 
@@ -410,7 +410,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
         callback.apply {
-            bindNote(noteEntity)
+            bindNote(noteModel)
             changeCheckToggle(state = true)
         }
 
@@ -423,7 +423,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         noteEntity.color = check
 
         callback.apply {
-            bindInput(inputControl.access, noteModel.isSaveEnabled())
+            bindInput(inputControl.access, noteModel)
             tintToolbar(check)
         }
     }
@@ -448,8 +448,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             this.rankPs = rankPs
         }
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
-        callback.bindItem(noteEntity)
+        callback.bindInput(inputControl.access, noteModel)
+        callback.bindNote(noteModel)
     }
 
     fun onResultConvertDialog() {
@@ -458,9 +458,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         parentCallback.onConvertNote()
     }
 
-    fun onCancelNoteBind() = with(noteModel) {
-        noteEntity.isStatus = false
-        callback.bindItem(noteEntity)
+    fun onCancelNoteBind() = noteModel.let {
+        it.noteEntity.isStatus = false
+        callback.bindNote(it)
     }
 
 }

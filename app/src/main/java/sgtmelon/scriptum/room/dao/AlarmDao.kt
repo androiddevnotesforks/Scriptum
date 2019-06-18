@@ -26,6 +26,6 @@ interface AlarmDao {
     fun get(): MutableList<NotificationItem>
 
     @Query(value = "SELECT * FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
-    operator fun get(noteId: Long): AlarmEntity
+    operator fun get(noteId: Long): AlarmEntity?
 
 }

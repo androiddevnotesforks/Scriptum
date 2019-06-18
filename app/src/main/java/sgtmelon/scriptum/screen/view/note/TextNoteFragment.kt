@@ -22,6 +22,7 @@ import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.annotation.Theme
@@ -29,7 +30,6 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
 import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
@@ -182,7 +182,11 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
         )
     }
 
-    override fun bindEdit(editMode: Boolean, noteEntity: NoteEntity) {
+    override fun bindNote(noteModel: NoteModel) {
+        binding?.apply { this.noteModel = noteModel }?.executePendingBindings()
+    }
+
+    override fun bindEdit(editMode: Boolean, noteModel: NoteModel) {
         panelContainer?.let {
             TransitionManager.beginDelayedTransition(it,
                     AutoTransition().setOrdering(AutoTransition.ORDERING_TOGETHER).setDuration(100)
@@ -191,19 +195,15 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
 
         binding?.apply {
             this.editMode = editMode
-            this.noteEntity = noteEntity
+            this.noteModel = noteModel
         }?.executePendingBindings()
     }
 
-    override fun bindInput(inputAccess: InputControl.Access, isSaveEnabled: Boolean) {
+    override fun bindInput(inputAccess: InputControl.Access, noteModel: NoteModel) {
         binding?.apply {
             this.inputAccess = inputAccess
-            this.isSaveEnabled = isSaveEnabled
+            this.noteModel = noteModel
         }?.executePendingBindings()
-    }
-
-    override fun bindItem(noteEntity: NoteEntity) {
-        binding?.apply { this.noteEntity = noteEntity }?.executePendingBindings()
     }
 
     override fun onPressBack() = viewModel.onPressBack()

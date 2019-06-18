@@ -12,11 +12,10 @@
         <variable name="menuCallback" type="sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteEntity" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
+        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
-        <variable name="isSaveEnabled" type="boolean"/>
 
     </data>
 
@@ -41,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                    android:visibility='@{noteEntity.bin ? v.VISIBLE : v.INVISIBLE}'
+                    android:visibility='@{noteModel.noteEntity.bin ? v.VISIBLE : v.INVISIBLE}'
                     tools:visibility="invisible">
 
                 <ImageButton
@@ -75,8 +74,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{editMode &amp;&amp; !noteEntity.bin ? v.VISIBLE : v.INVISIBLE}'
-                    tools:visibility="visible">
+                    android:visibility='@{editMode &amp;&amp; !noteModel.noteEntity.bin ? v.VISIBLE : v.INVISIBLE}'
+                    tools:visibility="invisible">
 
                 <ImageButton
                         android:id="@+id/note_panel_undo_button"
@@ -111,7 +110,7 @@
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{!noteEntity.getRankId().isEmpty() ? R.attr.clAccent : R.attr.clContent}'
+                        app:trueColor='@{!noteModel.noteEntity.getRankId().isEmpty() ? R.attr.clAccent : R.attr.clContent}'
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton
@@ -133,7 +132,7 @@
                         android:background="?attr/selectableItemBackgroundBorderless"
                         android:onClick='@{() -> menuCallback.onMenuSave(true)}'
                         android:text="@string/menu_note_save"
-                        app:enabled='@{isSaveEnabled}'/>
+                        app:enabled='@{noteModel.isSaveEnabled()}'/>
 
             </LinearLayout>
 
@@ -142,8 +141,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:visibility='@{!editMode &amp;&amp; !noteEntity.bin ? v.VISIBLE  : v.INVISIBLE}'
-                    tools:visibility="invisible">
+                    android:visibility='@{!editMode &amp;&amp; !noteModel.noteEntity.bin ? v.VISIBLE  : v.INVISIBLE}'
+                    tools:visibility="visible">
 
                 <ImageButton
                         android:id="@+id/note_panel_notification"
@@ -151,7 +150,7 @@
                         android:contentDescription="@string/menu_note_notification"
                         android:onClick='@{() -> menuCallback.onMenuNotification()}'
                         app:srcCompat="@drawable/ic_notifications"
-                        app:boolExpression='@{true}'
+                        app:boolExpression='@{!noteModel.alarmEntity.date.isEmpty()}'
                         app:falseColor='@{R.attr.clContent}'
                         app:trueColor='@{R.attr.clAccent}'
                         tools:tint="?attr/clAccent"/>
@@ -159,10 +158,10 @@
                 <ImageButton
                         android:id="@+id/note_panel_bind_button"
                         style="@style/Button.Small"
-                        android:contentDescription='@{noteEntity.status ? @string/menu_note_status_bind : @string/menu_note_status_unbind}'
+                        android:contentDescription='@{noteModel.noteEntity.status ? @string/menu_note_status_bind : @string/menu_note_status_unbind}'
                         android:onClick='@{() -> menuCallback.onMenuBind()}'
                         app:srcCompat="@drawable/ic_bind_roll"
-                        app:boolExpression='@{noteEntity.status}'
+                        app:boolExpression='@{noteModel.noteEntity.status}'
                         app:falseColor='@{R.attr.clContent}'
                         app:trueColor='@{R.attr.clAccent}'
                         tools:tint="?attr/clAccent"/>

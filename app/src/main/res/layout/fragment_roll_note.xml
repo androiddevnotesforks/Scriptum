@@ -11,13 +11,12 @@
                   type="sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback"/>
         <variable name="rankEmpty" type="boolean"/>
 
-        <variable name="noteEntity" type="sgtmelon.scriptum.room.entity.NoteEntity"/>
+        <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
         <variable name="editMode" type="boolean"/>
 
-        <variable name="enterEmpty" type="boolean"/>
-
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
-        <variable name="isSaveEnabled" type="boolean"/>
+
+        <variable name="enterEmpty" type="boolean"/>
 
     </data>
 
@@ -31,7 +30,7 @@
                 layout="@layout/include_toolbar_note"
                 app:currentTheme='@{currentTheme}'
                 app:editMode='@{editMode}'
-                app:noteEntity='@{noteEntity}'/>
+                app:noteModel='@{noteModel}'/>
 
         <LinearLayout
                 android:id="@+id/roll_note_content_container"
@@ -56,9 +55,8 @@
             <include layout="@layout/include_roll_note_panel"
                      app:editMode='@{editMode}'
                      app:inputAccess='@{inputAccess}'
-                     app:isSaveEnabled='@{isSaveEnabled}'
                      app:menuCallback='@{menuCallback}'
-                     app:noteEntity='@{noteEntity}'
+                     app:noteModel='@{noteModel}'
                      app:rankEmpty='@{rankEmpty}'/>
 
         </LinearLayout>

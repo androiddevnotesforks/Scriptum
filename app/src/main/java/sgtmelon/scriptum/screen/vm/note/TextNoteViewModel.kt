@@ -91,7 +91,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
     )
 
-    override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+    override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel)
 
     override fun onMenuRestore() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
@@ -141,7 +141,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
+        callback.bindInput(inputControl.access, noteModel)
     }
 
     override fun onMenuRank() =
@@ -181,7 +181,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
         BindControl(context, noteEntity).updateBind()
 
-        callback.bindEdit(noteState.isEdit, noteEntity)
+        callback.bindEdit(noteState.isEdit, this)
 
         iRoomRepo.updateNote(noteEntity)
     }
@@ -206,8 +206,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(editMode, noteModel.noteEntity)
-            bindInput(inputControl.access, noteModel.isSaveEnabled())
+            bindEdit(editMode, noteModel)
+            bindInput(inputControl.access, noteModel)
 
             if (editMode) focusOnEdit()
         }
@@ -261,7 +261,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteEntity.color = check
 
         callback.apply {
-            bindInput(inputControl.access, noteModel.isSaveEnabled())
+            bindInput(inputControl.access, noteModel)
             tintToolbar(check)
         }
     }
@@ -286,8 +286,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             this.rankPs = rankPs
         }
 
-        callback.bindInput(inputControl.access, noteModel.isSaveEnabled())
-        callback.bindItem(noteEntity)
+        callback.bindInput(inputControl.access, noteModel)
+        callback.bindNote(noteModel)
     }
 
     fun onResultConvertDialog() {
@@ -296,9 +296,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         parentCallback.onConvertNote()
     }
 
-    fun onCancelNoteBind() = with(noteModel) {
-        noteEntity.isStatus = false
-        callback.bindItem(noteEntity)
+    fun onCancelNoteBind() = noteModel.let {
+        it.noteEntity.isStatus = false
+        callback.bindNote(it)
     }
 
 }

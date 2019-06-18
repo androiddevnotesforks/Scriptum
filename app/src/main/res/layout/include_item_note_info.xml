@@ -6,12 +6,7 @@
 
     <data>
 
-        <import type="java.util.List"/>
-        <import type="sgtmelon.scriptum.room.entity.NoteEntity"/>
-        <import type="sgtmelon.scriptum.room.entity.AlarmEntity"/>
-
         <import alias="v" type="android.view.View"/>
-        <import alias="text" type="android.text.TextUtils"/>
         <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
         <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
@@ -29,7 +24,7 @@
                 android:id="@+id/note_notification_image"
                 style="@style/Image.Note.Info"
                 android:contentDescription="@null"
-                android:visibility='@{text.isEmpty(noteModel.alarmEntity.date) ? v.GONE : v.VISIBLE}'
+                android:visibility='@{noteModel.alarmEntity.date.isEmpty() ? v.GONE : v.VISIBLE}'
                 app:srcCompat="@drawable/ic_notifications"
                 tools:visibility="visible"/>
 
