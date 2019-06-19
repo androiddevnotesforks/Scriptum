@@ -4,14 +4,14 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import org.junit.Test
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.main.RankFragment
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест работы [RankFragment]
  *
  * @author SerjantArbuz
  */
-class RankTest : ParentTest() {
+class RankTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()
@@ -148,7 +148,7 @@ class RankTest : ParentTest() {
             mainScreen {
                 openRankPage {
                     onClickVisible(rankEntity.name)
-                    waitBefore(time = 500) { onClickVisible(rankEntity.name) }
+                    wait(time = 500) { onClickVisible(rankEntity.name) }
                 }
             }
         }
@@ -161,7 +161,7 @@ class RankTest : ParentTest() {
             mainScreen {
                 openRankPage {
                     onLongClickVisible(rankList[0].name)
-                    waitBefore(time = 500) { onLongClickVisible(rankList[count - 1].name) }
+                    wait(time = 500) { onLongClickVisible(rankList[count - 1].name) }
                 }
             }
         }

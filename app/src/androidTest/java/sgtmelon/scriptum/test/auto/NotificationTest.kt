@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест для [NotificationActivity]
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class NotificationTest : ParentTest() {
+class NotificationTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()

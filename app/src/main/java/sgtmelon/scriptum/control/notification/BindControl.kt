@@ -58,7 +58,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
             }
             NoteType.ROLL -> {
                 val rollList = with(noteModel.rollList) {
-                    if (isNotEmpty()) this else iBindRepo.getRollList(noteEntity)
+                    if (isNotEmpty()) this else iBindRepo.getRollList(noteEntity.id)
                 }
 
                 icon = R.drawable.notif_bind_roll

@@ -31,7 +31,7 @@ class MainScreen : ParentUi() {
         NotesScreen().apply(func)
     }
 
-    fun openBinPage(func: BinScreen.() -> Unit) {
+    fun openBinPage(func: BinScreen.() -> Unit = {}) {
         wasNavigate = true
         onNavigateTo(MainPage.BIN)
 

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.control
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест работы приложения при повороте экрана
@@ -11,7 +11,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class RotationTest : ParentTest() {
+class RotationTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()
@@ -20,7 +20,7 @@ class RotationTest : ParentTest() {
     }
 
     @Test fun addDialog() = launch {
-        mainScreen { openAddDialog { waitBefore(time = 5000) { assert { onDisplayContent() } } } }
+        mainScreen { openAddDialog { wait(time = 5000) { assert { onDisplayContent() } } } }
     }
 
 
@@ -28,7 +28,7 @@ class RotationTest : ParentTest() {
         mainScreen {
             openRankPage {
                 assert { onDisplayContent(empty = true) }
-                waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
+                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -39,7 +39,7 @@ class RotationTest : ParentTest() {
         mainScreen {
             openRankPage {
                 assert { onDisplayContent(empty = false) }
-                waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
+                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -57,7 +57,7 @@ class RotationTest : ParentTest() {
                         onEnterName(newName)
 
                         assert { onDisplayContent(newName) }
-                        waitBefore(time = 5000) { assert { onDisplayContent(newName) } }
+                        wait(time = 5000) { assert { onDisplayContent(newName) } }
                     }
                 }
             }
@@ -69,7 +69,7 @@ class RotationTest : ParentTest() {
         mainScreen {
             openNotesPage {
                 assert { onDisplayContent(empty = true) }
-                waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
+                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = true) }
@@ -80,7 +80,7 @@ class RotationTest : ParentTest() {
         mainScreen {
             openNotesPage {
                 assert { onDisplayContent(empty = false) }
-                waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
+                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
 
             assert { onDisplayFab(visible = true) }
@@ -94,7 +94,7 @@ class RotationTest : ParentTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(noteEntity) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }
@@ -108,7 +108,7 @@ class RotationTest : ParentTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(noteEntity) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }
@@ -120,7 +120,7 @@ class RotationTest : ParentTest() {
         mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = true) }
-                waitBefore(time = 5000) { assert { onDisplayContent(empty = true) } }
+                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -131,7 +131,7 @@ class RotationTest : ParentTest() {
         mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
-                waitBefore(time = 5000) { assert { onDisplayContent(empty = false) } }
+                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -143,7 +143,7 @@ class RotationTest : ParentTest() {
             openBinPage {
                 openClearDialog {
                     assert { onDisplayContent() }
-                    waitBefore(time = 5000) { assert { onDisplayContent() } }
+                    wait(time = 5000) { assert { onDisplayContent() } }
                 }
             }
         }
@@ -156,7 +156,7 @@ class RotationTest : ParentTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(noteEntity) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }
@@ -170,7 +170,7 @@ class RotationTest : ParentTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(noteEntity) {
-                        waitBefore(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
                     }
                 }
             }

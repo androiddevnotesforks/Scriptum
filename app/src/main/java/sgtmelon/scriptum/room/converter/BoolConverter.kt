@@ -3,6 +3,11 @@ package sgtmelon.scriptum.room.converter
 import androidx.annotation.IntRange
 import androidx.room.TypeConverter
 
+/**
+ * Конвертер из числа в булевое значение
+ *
+ * @author SerjantArbuz
+ */
 class BoolConverter {
 
     @TypeConverter fun toInt(value: Boolean) = if (value) trueValue else falseValue

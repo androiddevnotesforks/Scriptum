@@ -33,7 +33,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  * @author SerjantArbuz
  */
 @Suppress("unused")
-private class ScenarioUi {
+private class Scenario {
 
     class TODO {
 
@@ -794,6 +794,7 @@ private class ScenarioUi {
     class Integration {
 
         // TODO проверка не удаления скрытых заметок из базы данных
+        // TODO сценарий проверки правильности получения данных при отсутствии их в бд (удалил alarmItem, а noteModel пытается получить её и NPE commit 18.06.19 (62ecee45))
 
     }
 

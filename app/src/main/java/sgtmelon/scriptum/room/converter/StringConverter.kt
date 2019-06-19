@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import java.util.*
 
 /**
- * Преобразование String - List<Long>
+ * Конвертер из строки в массив Long
  *
  * @author SerjantArbuz
  */
@@ -21,9 +21,9 @@ class StringConverter {
     @TypeConverter fun toString(list: List<Long>?) =
             if (list != null && list.isNotEmpty()) list.joinToString(DIVIDER) else NONE
 
-    private companion object {
+    companion object {
         const val NONE = "NONE"
-        const val DIVIDER = ","
+        private const val DIVIDER = ","
     }
 
 }

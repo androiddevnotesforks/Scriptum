@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.repository.bind
 
 import android.content.Context
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -17,11 +16,11 @@ class BindRepo(private val context: Context) : IBindRepo {
 
     private fun openRoom() = RoomDb.getInstance(context)
 
-    override fun getRollList(noteEntity: NoteEntity) = ArrayList<RollEntity>().apply {
-        if (noteEntity.type != NoteType.ROLL)
-            throw ClassCastException("This method only for ROLL type")
-
-        openRoom().apply { addAll(getRollDao()[noteEntity.id]) }.close()
+    /**
+     * Возвращает пустой список если нет пунктов по данному id
+     */
+    override fun getRollList(noteId: Long) = ArrayList<RollEntity>().apply {
+        openRoom().apply { addAll(getRollDao()[noteId]) }.close()
     }
 
     override fun unbindNote(id: Long): NoteEntity {

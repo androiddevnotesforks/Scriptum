@@ -3,10 +3,10 @@ package sgtmelon.scriptum.test.control.alarm
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashAlarmIntent
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 import kotlin.random.Random
 
-abstract class AlarmAnimParentTest : ParentTest() {
+abstract class AlarmAnimParentTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()

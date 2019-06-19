@@ -5,14 +5,14 @@ import androidx.test.espresso.Espresso.pressBack
 import org.junit.Test
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.main.BinFragment
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест работы [BinFragment]
  *
  * @author SerjantArbuz
  */
-class BinTest : ParentTest() {
+class BinTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()

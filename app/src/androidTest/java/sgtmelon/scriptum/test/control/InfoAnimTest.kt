@@ -4,7 +4,7 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест работы анимации информации о пустом списке
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class InfoAnimTest : ParentTest() {
+class InfoAnimTest : ParentUiTest() {
 
     @Test fun rankShowAndHide() = launch({ testData.clear() }) {
         mainScreen {
@@ -26,8 +26,7 @@ class InfoAnimTest : ParentTest() {
                         onClickAdd()
                     }
 
-                    wait(time = 300)
-                    onClickCancel(name)
+                    wait(time = 300) { onClickCancel(name) }
                     wait(time = 300)
                 }
             }
@@ -39,7 +38,8 @@ class InfoAnimTest : ParentTest() {
 
         launch {
             mainScreen {
-                waitAfter(time = 500) { openNotesPage { openNoteDialog(noteEntity) { onClickDelete() } } }
+                openNotesPage { openNoteDialog(noteEntity) { onClickDelete() } }
+                wait(time = 500)
             }
         }
     }
@@ -60,7 +60,8 @@ class InfoAnimTest : ParentTest() {
 
         launch {
             mainScreen {
-                waitAfter(time = 500) { openBinPage { openNoteDialog(noteEntity) { onClickClear() } } }
+                openBinPage { openNoteDialog(noteEntity) { onClickClear() } }
+                wait(time = 500)
             }
         }
     }

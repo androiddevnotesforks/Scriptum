@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест для [TextNoteFragment]
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class TextNoteContentTest : ParentTest() {
+class TextNoteContentTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()

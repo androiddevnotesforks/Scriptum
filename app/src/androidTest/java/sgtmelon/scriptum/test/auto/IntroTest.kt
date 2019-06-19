@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.intro.IntroActivity
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест для [IntroActivity]
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class IntroTest : ParentTest() {
+class IntroTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()

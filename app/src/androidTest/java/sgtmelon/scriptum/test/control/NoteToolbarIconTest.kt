@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест анимации кнопки у тулбара [MenuControlAnim] в [TextNoteFragment] и [RollNoteFragment]
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class NoteToolbarIconTest : ParentTest() {
+class NoteToolbarIconTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()
@@ -36,7 +36,8 @@ class NoteToolbarIconTest : ParentTest() {
             openAddDialog {
                 createTextNote {
                     onEnterText(testData.textNote.text)
-                    waitAfter(time = 500) { controlPanel { onClickSave() } }
+                    controlPanel { onClickSave() }
+                    wait(time = 500)
                 }
             }
         }
@@ -47,7 +48,8 @@ class NoteToolbarIconTest : ParentTest() {
             openAddDialog {
                 createRollNote {
                     enterPanel { onAddRoll(testData.rollList[0].text) }
-                    waitAfter(time = 500) { controlPanel { onClickSave() } }
+                    controlPanel { onClickSave() }
+                    wait(time = 500)
                 }
             }
         }
@@ -55,80 +57,94 @@ class NoteToolbarIconTest : ParentTest() {
 
     @Test fun notAnimateOnRestoreOpenTextNote() = launch({ testData.insertTextToBin() }) {
         mainScreen {
-                openBinPage {
-                    openTextNote {
-                        waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
-                    }
+            openBinPage {
+                openTextNote {
+                    controlPanel { onClickRestoreOpen() }
+                    wait(time = 500)
                 }
             }
+        }
     }
 
     @Test fun notAnimateOnRestoreOpenRollNote() = launch({ testData.insertRollToBin() }) {
         mainScreen {
-                openBinPage {
-                    openRollNote {
-                        waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
-                    }
+            openBinPage {
+                openRollNote {
+                    controlPanel { onClickRestoreOpen() }
+                    wait(time = 500)
                 }
             }
+        }
     }
 
     @Test fun animateOnEditToSaveTextNote() = launch({ testData.insertText() }) {
         mainScreen {
-                openNotesPage {
-                    openTextNote {
-                        controlPanel {
-                            repeat(times = 3) {
-                                waitAfter(time = 500) { onClickEdit() }
-                                waitAfter(time = 500) { onClickSave() }
-                            }
+            openNotesPage {
+                openTextNote {
+                    controlPanel {
+                        repeat(times = 3) {
+                            onClickEdit()
+                            wait(time = 500)
+                            onClickSave()
+                            wait(time = 500)
                         }
                     }
                 }
             }
+        }
     }
 
     @Test fun animateOnEditToSaveRollNote() = launch({ testData.insertRoll() }) {
         mainScreen {
-                openNotesPage {
-                    openRollNote {
-                        controlPanel {
-                            repeat(times = 3) {
-                                waitAfter(time = 500) { onClickEdit() }
-                                waitAfter(time = 500) { onClickSave() }
-                            }
+            openNotesPage {
+                openRollNote {
+                    controlPanel {
+                        repeat(times = 3) {
+                            onClickEdit()
+                            wait(time = 500)
+                            onClickSave()
+                            wait(time = 500)
                         }
                     }
                 }
             }
+        }
     }
 
     @Test fun animateOnEditToCancelTextNote() = launch({ testData.insertText() }) {
         mainScreen {
-                openNotesPage {
-                    openTextNote {
-                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
-                        waitAfter(time = 500) { onPressBack() }
+            openNotesPage {
+                openTextNote {
+                    controlPanel { onClickEdit() }
+                    wait(time = 500)
+                    onPressBack()
+                    wait(time = 500)
 
-                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
-                        waitAfter(time = 500) { toolbar { onClickBack() } }
-                    }
+                    controlPanel { onClickEdit() }
+                    wait(time = 500)
+                    toolbar { onClickBack() }
+                    wait(time = 500)
                 }
             }
+        }
     }
 
     @Test fun animateOnEditToCancelRollNote() = launch({ testData.insertRoll() }) {
         mainScreen {
-                openNotesPage {
-                    openRollNote {
-                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
-                        waitAfter(time = 500) { onPressBack() }
+            openNotesPage {
+                openRollNote {
+                    controlPanel { onClickEdit() }
+                    wait(time = 500)
+                    onPressBack()
+                    wait(time = 500)
 
-                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
-                        waitAfter(time = 500) { toolbar { onClickBack() } }
-                    }
+                    controlPanel { onClickEdit() }
+                    wait(time = 500)
+                    toolbar { onClickBack() }
+                    wait(time = 500)
                 }
             }
+        }
     }
 
 }

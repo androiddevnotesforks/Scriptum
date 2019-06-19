@@ -19,7 +19,7 @@ class TestData(private val context: Context) {
 
     // TODO testRoomDao
 
-    private val dataBase: RoomDb get() = RoomDb.getInstance(context)
+    private fun openRoom() = RoomDb.getInstance(context)
 
     val uniqueString get() = randomUUID().toString().substring(0, 16)
 
@@ -58,23 +58,23 @@ class TestData(private val context: Context) {
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
 
-    fun clear() = apply { dataBase.apply { clearAllTables() }.close() }
+    fun clear() = apply { openRoom().apply { clearAllTables() }.close() }
 
     fun insertRank(rankEntity: RankEntity = this.rankEntity): RankEntity {
-        dataBase.apply { rankEntity.id = getRankDao().insert(rankEntity) }.close()
+        openRoom().apply { rankEntity.id = getRankDao().insert(rankEntity) }.close()
 
         return rankEntity
     }
 
     fun insertText(noteEntity: NoteEntity = textNote): NoteEntity {
-        dataBase.apply { noteEntity.id = getNoteDao().insert(noteEntity) }.close()
+        openRoom().apply { noteEntity.id = getNoteDao().insert(noteEntity) }.close()
 
         return noteEntity
     }
 
     fun insertRoll(noteEntity: NoteEntity = rollNote, rollList: List<RollEntity> = this.rollList)
             : NoteEntity {
-        dataBase.apply {
+        openRoom().apply {
             noteEntity.id = getNoteDao().insert(noteEntity)
             rollList.forEach {
                 it.noteId = noteEntity.id
@@ -115,7 +115,7 @@ class TestData(private val context: Context) {
             noteEntity.rankPs.add(it.position.toLong())
         }
 
-        dataBase.apply { getNoteDao().update(noteEntity) }.close()
+        openRoom().apply { getNoteDao().update(noteEntity) }.close()
     }
 
     fun insertRankToBin() = ArrayList<RankEntity>().apply {
@@ -136,11 +136,11 @@ class TestData(private val context: Context) {
             noteEntity.rankPs.add(it.position.toLong())
         }
 
-        dataBase.apply { getNoteDao().update(noteEntity) }.close()
+        openRoom().apply { getNoteDao().update(noteEntity) }.close()
     }
 
     fun insertNotification(noteEntity: NoteEntity) {
-        dataBase.apply {
+        openRoom().apply {
             getAlarmDao().insert(AlarmEntity(noteId = noteEntity.id, date = context.getTime()))
         }.close()
     }

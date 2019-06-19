@@ -7,7 +7,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashAlarmIntent
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест для [SplashActivity]
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class SplashTest : ParentTest() {
+class SplashTest : ParentUiTest() {
 
     @Test fun introScreenOpen() = launch({ iPreferenceRepo.firstStart = true }) { introScreen() }
 

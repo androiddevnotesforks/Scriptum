@@ -6,7 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.view.main.MainActivity
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест работы [MainActivity]
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class MainTest : ParentTest() {
+class MainTest : ParentUiTest() {
 
     private val pageList = arrayListOf(
             MainPage.RANK, MainPage.NOTES, MainPage.BIN,

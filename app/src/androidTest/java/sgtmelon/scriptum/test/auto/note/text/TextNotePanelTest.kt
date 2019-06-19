@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Тест для [TextNoteFragment]
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class TextNotePanelTest : ParentTest() {
+class TextNotePanelTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()
@@ -245,7 +245,8 @@ class TextNotePanelTest : ParentTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        waitAfter(time = 500) { controlPanel { onClickBind() } }
+                        controlPanel { onClickBind() }
+                        wait(time = 500)
                         onPressBack()
                     }
 
@@ -262,7 +263,8 @@ class TextNotePanelTest : ParentTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote {
-                        waitAfter(time = 500) { controlPanel { onClickBind() } }
+                        controlPanel { onClickBind() }
+                        wait(time = 500)
                         onPressBack()
                     }
                     openNoteDialog(noteEntity.apply { isStatus = false })
