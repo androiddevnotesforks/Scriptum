@@ -16,6 +16,13 @@ class RankToolbar : ParentUi() {
 
     fun onLongClickAdd() = action { onLongClick(R.id.toolbar_rank_add_button) }
 
+    companion object {
+        operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply {
+            assert { onDisplayContent() }
+            func()
+        }
+    }
+
     class Assert : BasicMatch() {
 
         fun onDisplayContent() {

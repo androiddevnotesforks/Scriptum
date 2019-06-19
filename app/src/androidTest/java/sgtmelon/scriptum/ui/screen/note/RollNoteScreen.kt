@@ -24,14 +24,11 @@ class RollNoteScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar().apply {
-        assert { onDisplayContent() }
-        func()
-    }
+    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func)
 
-    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel().apply { func() }
+    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func)
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel(NoteType.ROLL).apply { func() }
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(NoteType.ROLL, func)
 
     fun onPressBack() {
         closeSoftKeyboard()

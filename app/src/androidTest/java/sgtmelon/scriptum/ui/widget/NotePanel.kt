@@ -25,12 +25,16 @@ class NotePanel(private val type: NoteType) : ParentUi() {
     fun onClickDelete() = action { onClick(R.id.note_panel_delete_button) }
     fun onClickEdit() = action { onClick(R.id.note_panel_edit_button) }
 
-    class Assert(private val type: NoteType) : BasicMatch() {
+    companion object {
+        operator fun invoke(type: NoteType, func: NotePanel.() -> Unit) = NotePanel(type).apply(func)
+    }
 
-        fun isEnabledUndo(enabled : Boolean) = isEnabled(R.id.note_panel_undo_button, enabled)
-        fun isEnabledRedo(enabled : Boolean) = isEnabled(R.id.note_panel_redo_button, enabled)
-        fun isEnabledRank(enabled : Boolean) = isEnabled(R.id.note_panel_rank_button, enabled)
-        fun isEnabledSave(enabled : Boolean) = isEnabled(R.id.note_panel_save_button, enabled)
+    class Assert(type: NoteType) : BasicMatch() {
+
+        fun isEnabledUndo(enabled: Boolean) = isEnabled(R.id.note_panel_undo_button, enabled)
+        fun isEnabledRedo(enabled: Boolean) = isEnabled(R.id.note_panel_redo_button, enabled)
+        fun isEnabledRank(enabled: Boolean) = isEnabled(R.id.note_panel_rank_button, enabled)
+        fun isEnabledSave(enabled: Boolean) = isEnabled(R.id.note_panel_save_button, enabled)
 
         fun onDisplayContent(state: State) {
             onDisplay(R.id.note_panel_container)

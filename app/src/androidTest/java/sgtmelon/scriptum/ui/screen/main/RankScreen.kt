@@ -27,10 +27,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar().apply {
-        assert { onDisplayContent() }
-        func()
-    }
+    fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
 
     fun openRenameDialog(title: String, p: Int = 0, func: RenameDialogUi.() -> Unit = {}) {
         onClickItem(p)

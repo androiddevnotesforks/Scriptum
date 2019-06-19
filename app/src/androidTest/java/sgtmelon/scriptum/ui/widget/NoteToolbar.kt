@@ -15,7 +15,10 @@ class NoteToolbar : ParentUi() {
     fun onClickBack() = action { onClickToolbarButton() }
 
     companion object {
-        operator fun invoke(func: NoteToolbar.() -> Unit) = NoteToolbar().apply { func() }
+        operator fun invoke(func: NoteToolbar.() -> Unit) = NoteToolbar().apply {
+            assert { onDisplayContent() }
+            func()
+        }
     }
 
     class Assert : BasicMatch() {

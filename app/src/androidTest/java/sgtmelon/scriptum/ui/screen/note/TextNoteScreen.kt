@@ -24,12 +24,9 @@ class TextNoteScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar().apply {
-        assert { onDisplayContent() }
-        func()
-    }
+    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func)
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel(NoteType.TEXT).apply { func() }
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(NoteType.TEXT, func)
 
     fun onEnterText(text: String) = action { onEnter(R.id.text_note_content_enter, text) }
 
