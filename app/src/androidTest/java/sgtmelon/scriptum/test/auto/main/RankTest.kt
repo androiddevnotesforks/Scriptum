@@ -268,8 +268,7 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     openRenameDialog(rankEntity.name) {
-                        onEnterName(rankEntity.name)
-                        assert { isAcceptEnable(enabled = false) }
+                        onEnterName(rankEntity.name, enabled = false)
                     }
                 }
             }
@@ -283,8 +282,7 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     openRenameDialog(rankList[0].name) {
-                        onEnterName(rankList[1].name)
-                        assert { isAcceptEnable(enabled = false) }
+                        onEnterName(rankList[1].name, enabled = false)
                     }
                 }
             }
@@ -299,8 +297,7 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     openRenameDialog(rankEntity.name) {
-                        onEnterName(newName)
-                        assert { isAcceptEnable(enabled = true) }
+                        onEnterName(newName, enabled = true)
                         onClickAccept()
                     }
 

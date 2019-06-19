@@ -39,10 +39,11 @@ class RollNoteScreen : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(state: State, func: RollNoteScreen.() -> Unit) = RollNoteScreen().apply {
-            func()
-            assert { onDisplayContent(state) }
-        }
+        operator fun invoke(state: State, func: RollNoteScreen.() -> Unit) =
+                RollNoteScreen().apply {
+                    assert { onDisplayContent(state) }
+                    func()
+                }
     }
 
     class Assert : BasicMatch() {

@@ -39,10 +39,11 @@ class TextNoteScreen : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(state: State, func: TextNoteScreen.() -> Unit) = TextNoteScreen().apply {
-            func()
-            assert { onDisplayContent(state) }
-        }
+        operator fun invoke(state: State, func: TextNoteScreen.() -> Unit) =
+                TextNoteScreen().apply {
+                    assert { onDisplayContent(state) }
+                    func()
+                }
     }
 
     class Assert : BasicMatch() {

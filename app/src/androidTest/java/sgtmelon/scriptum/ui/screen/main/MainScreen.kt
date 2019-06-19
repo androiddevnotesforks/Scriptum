@@ -38,10 +38,9 @@ class MainScreen : ParentUi() {
         BinScreen().apply(func)
     }
 
-    fun openAddDialog(func: AddDialogUi.() -> Unit = {}) = AddDialogUi().apply {
+    fun openAddDialog(func: AddDialogUi.() -> Unit = {}) {
         action { onClick(R.id.main_add_fab) }
-        assert { onDisplayContent() }
-        func()
+        AddDialogUi.invoke(func)
     }
 
     fun onNavigateTo(page: MainPage) = action {
@@ -62,6 +61,13 @@ class MainScreen : ParentUi() {
         }
     }
 
+    companion object {
+        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply {
+            assert { onDisplayContent() }
+            func()
+        }
+    }
+
     class Assert : BasicMatch() {
 
         fun onDisplayContent() {
@@ -79,10 +85,6 @@ class MainScreen : ParentUi() {
         fun onDisplayFab(visible: Boolean) =
                 if (visible) onDisplay(R.id.main_add_fab) else notDisplay(R.id.main_add_fab)
 
-    }
-
-    companion object {
-        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply { func() }
     }
 
 }

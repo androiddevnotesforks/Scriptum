@@ -19,16 +19,14 @@ class AddDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun createTextNote(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun createTextNote(func: TextNoteScreen.() -> Unit = {}){
         onClickItem(NoteType.TEXT)
-        assert { onDisplayContent(State.NEW) }
-        func()
+        TextNoteScreen.invoke(State.NEW, func)
     }
 
-    fun createRollNote(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun createRollNote(func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(NoteType.ROLL)
-        assert { onDisplayContent(State.NEW) }
-        func()
+        RollNoteScreen.invoke(State.NEW, func)
     }
 
     fun onCloseSoft() = pressBack()
@@ -43,6 +41,13 @@ class AddDialogUi : ParentUi() {
             NoteType.TEXT -> R.string.dialog_add_text
             NoteType.ROLL -> R.string.dialog_add_roll
         })
+    }
+
+    companion object {
+        operator fun invoke(func: AddDialogUi.() -> Unit) = AddDialogUi().apply {
+            assert { onDisplayContent() }
+            func()
+        }
     }
 
     class Assert : BasicMatch() {

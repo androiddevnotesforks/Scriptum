@@ -59,7 +59,7 @@ class BinTest : ParentUiTest() {
 
 
     @Test fun clearDialogOpen() = launch({ testData.clear().fillBin(times = 20) }) {
-        mainScreen { openBinPage { openClearDialog { assert { onDisplayContent() } } } }
+        mainScreen { openBinPage { openClearDialog() } }
     }
 
     @Test fun clearDialogCloseSoft() = launch({ testData.clear().fillBin(times = 20) }) {

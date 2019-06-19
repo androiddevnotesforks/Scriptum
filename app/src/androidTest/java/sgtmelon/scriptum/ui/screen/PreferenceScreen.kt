@@ -20,6 +20,13 @@ class PreferenceScreen : ParentUi() {
 
     fun onClickClose() = action { onClickToolbarButton() }
 
+    companion object {
+        operator fun invoke(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
+            assert { onDisplayContent() }
+            func()
+        }
+    }
+
     class Assert : BasicMatch() {
 
         fun onDisplayContent() {

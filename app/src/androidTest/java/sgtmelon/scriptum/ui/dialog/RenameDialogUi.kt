@@ -21,12 +21,28 @@ class RenameDialogUi(private val title: String) : ParentUi() {
 
     fun onClickAccept() = action { onClickText(R.string.dialog_btn_accept) }
 
-    fun onEnterName(name: String) = action { onEnter(R.id.rename_enter, name) }
+    fun onEnterName(name: String, enabled: Boolean) {
+        action { onEnter(R.id.rename_enter, name) }
+        assert {
+            onDisplayContent(name)
+            isAcceptEnabled(enabled)
+        }
+    }
 
+    companion object {
+        operator fun invoke(title: String, func: RenameDialogUi.() -> Unit) =
+                RenameDialogUi(title).apply {
+                    assert { onDisplayContent(enter = "") }
+                    func()
+                }
+    }
+
+    // tODO сделать сразу чек и title и enter
     class Assert(private val title: String) : BasicMatch() {
 
         fun onDisplayContent(enter: String) {
-            onDisplayText(title)
+            onDisplay(R.id.rename_parent_container)
+            onDisplayText(title, R.id.rename_parent_container)
 
             if (enter.isNotEmpty()) {
                 onDisplay(R.id.rename_enter, enter)
@@ -37,10 +53,10 @@ class RenameDialogUi(private val title: String) : ParentUi() {
             onDisplayText(R.string.dialog_btn_accept)
             onDisplayText(R.string.dialog_btn_cancel)
 
-            if (enter.isEmpty()) isAcceptEnable(enabled = false)
+            if (enter.isEmpty()) isAcceptEnabled(enabled = false)
         }
 
-        fun isAcceptEnable(enabled: Boolean) = isEnabledText(R.string.dialog_btn_accept, enabled)
+        fun isAcceptEnabled(enabled: Boolean) = isEnabledText(R.string.dialog_btn_accept, enabled)
 
     }
 

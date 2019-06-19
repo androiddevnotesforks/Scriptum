@@ -54,9 +54,7 @@ class RotationTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     openRenameDialog(rankEntity.name) {
-                        onEnterName(newName)
-
-                        assert { onDisplayContent(newName) }
+                        onEnterName(newName, enabled = true)
                         wait(time = 5000) { assert { onDisplayContent(newName) } }
                     }
                 }
@@ -94,7 +92,7 @@ class RotationTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent() } }
                     }
                 }
             }
@@ -108,7 +106,7 @@ class RotationTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent() } }
                     }
                 }
             }
@@ -140,12 +138,7 @@ class RotationTest : ParentUiTest() {
 
     @Test fun binScreenClearDialog() = launch({ testData.clear().fillBin() }) {
         mainScreen {
-            openBinPage {
-                openClearDialog {
-                    assert { onDisplayContent() }
-                    wait(time = 5000) { assert { onDisplayContent() } }
-                }
-            }
+            openBinPage { openClearDialog { wait(time = 5000) { assert { onDisplayContent() } } } }
         }
     }
 
@@ -156,7 +149,7 @@ class RotationTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent() } }
                     }
                 }
             }
@@ -170,7 +163,7 @@ class RotationTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent(noteEntity) } }
+                        wait(time = 5000) { assert { onDisplayContent() } }
                     }
                 }
             }

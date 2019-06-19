@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.test.integration
+package sgtmelon.scriptum.test.integration.repo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals

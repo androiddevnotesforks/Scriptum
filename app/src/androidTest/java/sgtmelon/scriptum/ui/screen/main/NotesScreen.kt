@@ -26,27 +26,24 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
         NotificationScreen.invoke(empty, func)
     }
 
-    fun openPreference(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
+    fun openPreference(func: PreferenceScreen.() -> Unit = {}) {
         action { onClick(R.id.item_preference) }
-        func()
+        PreferenceScreen.invoke(func)
     }
 
-    fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
+    fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) {
         action { onLongClick(recyclerId, p) }
-        assert { onDisplayContent(noteEntity) }
-        func()
+        NoteDialogUi.invoke(noteEntity, func)
     }
 
-    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        assert { onDisplayContent(State.READ) }
-        func()
+        TextNoteScreen.invoke(State.READ, func)
     }
 
-    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        assert { onDisplayContent(State.READ) }
-        func()
+        RollNoteScreen.invoke(State.READ, func)
     }
 
     companion object {

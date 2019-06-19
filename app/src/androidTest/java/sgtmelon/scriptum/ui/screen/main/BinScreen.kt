@@ -20,27 +20,24 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun openClearDialog(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
+    fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) {
         action { onClick(R.id.item_clear) }
-        func()
+        ClearDialogUi.invoke(func)
     }
 
-    fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) = NoteDialogUi().apply {
+    fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) {
         action { onLongClick(recyclerId, p) }
-        assert { onDisplayContent(noteEntity) }
-        func()
+        NoteDialogUi.invoke(noteEntity, func)
     }
 
-    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
+    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        assert { onDisplayContent(State.BIN) }
-        func()
+        TextNoteScreen.invoke(State.BIN, func)
     }
 
-    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
+    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        assert { onDisplayContent(State.BIN) }
-        func()
+        RollNoteScreen.invoke(State.BIN, func)
     }
 
     class Assert : BasicMatch() {

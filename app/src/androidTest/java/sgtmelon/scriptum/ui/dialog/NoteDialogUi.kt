@@ -13,9 +13,9 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  *
  * @author SerjantArbuz
  */
-class NoteDialogUi : ParentUi() {
+class NoteDialogUi(private val noteEntity: NoteEntity) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(func: Assert.() -> Unit) = Assert(noteEntity).apply { func() }
 
     fun onClickBind() = waitClose { action { onClickText(R.string.dialog_menu_status_bind) } }
 
@@ -43,16 +43,28 @@ class NoteDialogUi : ParentUi() {
         Thread.sleep(500)
     }
 
-    class Assert : BasicMatch() {
+    companion object {
+        operator fun invoke(noteEntity: NoteEntity, func: NoteDialogUi.() -> Unit) =
+                NoteDialogUi(noteEntity).apply {
+                    assert { onDisplayContent() }
+                    func()
+                }
+    }
 
-        fun onDisplayContent(noteEntity: NoteEntity) = with(noteEntity) {
+
+    class Assert(private val noteEntity: NoteEntity) : BasicMatch() {
+
+        fun onDisplayContent() = with(noteEntity) {
             if (isBin) {
                 onDisplayText(R.string.dialog_menu_restore)
                 onDisplayText(R.string.dialog_menu_copy)
                 onDisplayText(R.string.dialog_menu_clear)
             } else {
                 onDisplayText(if (isStatus) R.string.dialog_menu_status_unbind else R.string.dialog_menu_status_bind)
-                onDisplayText(R.string.dialog_menu_convert_to_text)
+                onDisplayText(when(type) {
+                    NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
+                    NoteType.ROLL -> R.string.dialog_menu_convert_to_text
+                })
                 onDisplayText(R.string.dialog_menu_copy)
                 onDisplayText(R.string.dialog_menu_delete)
             }

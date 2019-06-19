@@ -54,6 +54,10 @@ abstract class BasicMatch {
     protected fun onDisplayText(string: String): ViewInteraction =
             onView(withText(string)).check(matches(isDisplayed()))
 
+    protected fun onDisplayText(string: String, @IdRes excludeParent: Int) : ViewInteraction =
+            onView(allOf(not(withParent(withId(excludeParent))), withText(string)))
+                    .check(matches(isDisplayed()))
+
     protected fun onDisplay(@IdRes viewId: Int, string: String): ViewInteraction =
             onView(allOf(withId(viewId), withText(string))).check(matches(isDisplayed()))
 

@@ -37,7 +37,10 @@ class IntroScreen : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply { func() }
+        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply {
+            assert { onDisplayContent() }
+            func()
+        }
     }
 
     class Assert : BasicMatch() {

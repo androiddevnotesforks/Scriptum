@@ -21,6 +21,13 @@ class ClearDialogUi : ParentUi() {
 
     fun onClickYes() = action { onClickText(R.string.dialog_btn_yes) }
 
+    companion object {
+        operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
+            assert { onDisplayContent() }
+            func()
+        }
+    }
+
     class Assert : BasicMatch() {
 
         fun onDisplayContent() {

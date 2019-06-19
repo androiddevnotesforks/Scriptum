@@ -15,30 +15,18 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class SplashScreen : ParentUi() {
 
-    fun introScreen(func: IntroScreen.() -> Unit = {}) = IntroScreen().apply {
-        assert { onDisplayContent() }
-        func()
-    }
+    fun introScreen(func: IntroScreen.() -> Unit = {}) = IntroScreen.invoke(func)
 
-    fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen().apply {
-        assert { onDisplayContent() }
-        func()
-    }
+    fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen.invoke(func)
 
-    fun openTextNoteBind(func: TextNoteScreen.() -> Unit = {}) = TextNoteScreen().apply {
-        assert { onDisplayContent(State.READ) }
-        func()
-    }
+    fun openTextNoteBind(func: TextNoteScreen.() -> Unit = {}) =
+            TextNoteScreen.invoke(State.READ, func)
 
-    fun openRollNoteBind(func: RollNoteScreen.() -> Unit = {}) = RollNoteScreen().apply {
-        assert { onDisplayContent(State.READ) }
-        func()
-    }
+    fun openRollNoteBind(func: RollNoteScreen.() -> Unit = {}) =
+            RollNoteScreen.invoke(State.READ, func)
 
-    fun openAlarm(noteEntity: NoteEntity, func: AlarmScreen.() -> Unit = {}) = AlarmScreen(noteEntity).apply {
-        assert { onDisplayContent() }
-        func()
-    }
+    fun openAlarm(noteEntity: NoteEntity, func: AlarmScreen.() -> Unit = {}) =
+            AlarmScreen.invoke(noteEntity, func)
 
     companion object {
         operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply { func() }

@@ -30,9 +30,7 @@ class NotesTest : ParentUiTest() {
         mainScreen { openNotesPage { assert { onDisplayContent(empty = false) } } }
     }
 
-    @Test fun openPreference() = launch {
-        mainScreen { openNotesPage { openPreference { assert { onDisplayContent() } } } }
-    }
+    @Test fun openPreference() = launch { mainScreen { openNotesPage { openPreference() } } }
 
     @Test fun listScroll() = launch({ testData.clear().fillNotes(times = 20) }) {
         mainScreen {
