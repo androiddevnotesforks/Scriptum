@@ -55,12 +55,16 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenTextNote() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openBinPage {
-                openTextNote {
-                    controlPanel { onClickRestoreOpen() }
-                    wait(time = 500)
+    @Test fun notAnimateOnRestoreOpenTextNote() {
+        val noteEntity = testData.insertTextToBin()
+
+        launch {
+            mainScreen {
+                openBinPage {
+                    openTextNote(noteEntity) {
+                        controlPanel { onClickRestoreOpen() }
+                        wait(time = 500)
+                    }
                 }
             }
         }

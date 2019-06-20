@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
@@ -36,9 +37,13 @@ class TextNoteScreen : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(state: State, func: TextNoteScreen.() -> Unit) =
+        operator fun invoke(state: State, noteEntity: NoteEntity, func: TextNoteScreen.() -> Unit) =
                 TextNoteScreen().apply {
-                    assert { onDisplayContent(state) }
+                    assert {
+                        onDisplayContent(state)
+                        onDisplayText(state, noteEntity.text)
+                    }
+                    controlPanel { assert { onDisplayContent(state) } }
                     func()
                 }
     }

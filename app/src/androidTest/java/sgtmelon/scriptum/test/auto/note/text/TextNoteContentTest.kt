@@ -47,11 +47,7 @@ class TextNoteContentTest : ParentUiTest() {
     @Test fun contentFillOnOpenFromBin() {
         val noteEntity = testData.insertTextToBin()
 
-        launch {
-            mainScreen {
-                openBinPage { openTextNote { assert { onDisplayText(State.BIN, noteEntity.text) } } }
-            }
-        }
+        launch { mainScreen { openBinPage { openTextNote(noteEntity) } } }
     }
 
     @Test fun contentFillOnRestoreOpen() {
@@ -60,8 +56,7 @@ class TextNoteContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openTextNote {
-                        assert { onDisplayText(State.BIN, noteEntity.text) }
+                    openTextNote(noteEntity) {
                         controlPanel { onClickRestoreOpen() }
                         assert { onDisplayText(State.READ, noteEntity.text) }
                     }

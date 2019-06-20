@@ -44,4 +44,9 @@ abstract class ParentUiTest : ParentTest() {
         after()
     }
 
+    protected fun beforeWait(time: Long, before: () -> Unit = {}) {
+        before()
+        Thread.sleep(time)
+    }
+
 }

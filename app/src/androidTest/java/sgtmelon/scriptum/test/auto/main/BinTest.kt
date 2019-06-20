@@ -37,12 +37,15 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteOpen() = launch({ testData.clear().insertTextToBin() }) {
-        mainScreen {
-            openBinPage {
-                assert { onDisplayContent(empty = false) }
-                openTextNote { pressBack() }
-                assert { onDisplayContent(empty = false) }
+    @Test fun textNoteOpen() {
+        val noteEntity = testData.clear().insertTextToBin()
+        launch {
+            mainScreen {
+                openBinPage {
+                    assert { onDisplayContent(empty = false) }
+                    openTextNote(noteEntity) { pressBack() }
+                    assert { onDisplayContent(empty = false) }
+                }
             }
         }
     }
@@ -51,7 +54,7 @@ class BinTest : ParentUiTest() {
         mainScreen {
             openBinPage {
                 assert { onDisplayContent(empty = false) }
-                openRollNote() { pressBack() }
+                openRollNote { pressBack() }
                 assert { onDisplayContent(empty = false) }
             }
         }

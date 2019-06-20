@@ -38,22 +38,23 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun displayOnOpenNoteFromBin() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openBinPage {
-                openTextNote { controlPanel { assert { onDisplayContent(State.BIN) } } }
-            }
-        }
+    @Test fun displayOnOpenNoteFromBin() {
+        val noteEntity = testData.insertTextToBin()
+
+        launch { mainScreen { openBinPage { openTextNote(noteEntity) } } }
     }
 
-    @Test fun displayOnRestoreOpen() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openBinPage {
-                openTextNote {
-                    controlPanel {
-                        assert { onDisplayContent(State.BIN) }
-                        onClickRestoreOpen()
-                        assert { onDisplayContent(State.READ) }
+    @Test fun displayOnRestoreOpen() {
+        val noteEntity = testData.insertTextToBin()
+
+        launch {
+            mainScreen {
+                openBinPage {
+                    openTextNote(noteEntity) {
+                        controlPanel {
+                            onClickRestoreOpen()
+                            assert { onDisplayContent(State.READ) }
+                        }
                     }
                 }
             }
@@ -144,49 +145,61 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
 
-    @Test fun actionRestoreFromBin() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openNotesPage { assert { onDisplayContent(empty = true) } }
+    @Test fun actionRestoreFromBin() {
+        val noteEntity = testData.insertTextToBin()
 
-            openBinPage {
-                assert { onDisplayContent(empty = false) }
-                openTextNote { controlPanel { onClickRestore() } }
-                assert { onDisplayContent(empty = true) }
-            }
+        launch {
+            mainScreen {
+                openNotesPage { assert { onDisplayContent(empty = true) } }
 
-            openNotesPage { assert { onDisplayContent(empty = false) } }
-        }
-    }
-
-    @Test fun actionRestoreOpenFromBin() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openNotesPage { assert { onDisplayContent(empty = true) } }
-
-            openBinPage {
-                assert { onDisplayContent(empty = false) }
-                openTextNote {
-                    controlPanel { onClickRestoreOpen() }
-                    assert { onDisplayContent(State.READ) }
-                    onPressBack()
+                openBinPage {
+                    assert { onDisplayContent(empty = false) }
+                    openTextNote(noteEntity) { controlPanel { onClickRestore() } }
+                    assert { onDisplayContent(empty = true) }
                 }
-                assert { onDisplayContent(empty = true) }
-            }
 
-            openNotesPage { assert { onDisplayContent(empty = false) } }
+                openNotesPage { assert { onDisplayContent(empty = false) } }
+            }
         }
     }
 
-    @Test fun actionClearFromBin() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openNotesPage { assert { onDisplayContent(empty = true) } }
+    @Test fun actionRestoreOpenFromBin() {
+        val noteEntity = testData.insertTextToBin()
 
-            openBinPage {
-                assert { onDisplayContent(empty = false) }
-                openTextNote { controlPanel { onClickClear() } }
-                assert { onDisplayContent(empty = true) }
+        launch {
+            mainScreen {
+                openNotesPage { assert { onDisplayContent(empty = true) } }
+
+                openBinPage {
+                    assert { onDisplayContent(empty = false) }
+                    openTextNote(noteEntity) {
+                        controlPanel { onClickRestoreOpen() }
+                        assert { onDisplayContent(State.READ) }
+                        onPressBack()
+                    }
+                    assert { onDisplayContent(empty = true) }
+                }
+
+                openNotesPage { assert { onDisplayContent(empty = false) } }
             }
+        }
+    }
 
-            openNotesPage { assert { onDisplayContent(empty = true) } }
+    @Test fun actionClearFromBin() {
+        val noteEntity = testData.insertTextToBin()
+
+        launch {
+            mainScreen {
+                openNotesPage { assert { onDisplayContent(empty = true) } }
+
+                openBinPage {
+                    assert { onDisplayContent(empty = false) }
+                    openTextNote(noteEntity) { controlPanel { onClickClear() } }
+                    assert { onDisplayContent(empty = true) }
+                }
+
+                openNotesPage { assert { onDisplayContent(empty = true) } }
+            }
         }
     }
 

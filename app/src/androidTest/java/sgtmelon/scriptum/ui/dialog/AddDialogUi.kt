@@ -5,6 +5,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.dialog.SheetAddDialog
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -21,7 +22,7 @@ class AddDialogUi : ParentUi() {
 
     fun createTextNote(func: TextNoteScreen.() -> Unit = {}){
         onClickItem(NoteType.TEXT)
-        TextNoteScreen.invoke(State.NEW, func)
+        TextNoteScreen.invoke(State.NEW, NoteEntity(), func)
     }
 
     fun createRollNote(func: RollNoteScreen.() -> Unit = {}) {

@@ -30,9 +30,9 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         NoteDialogUi.invoke(noteEntity, func)
     }
 
-    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
+    fun openTextNote(noteEntity: NoteEntity, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(State.BIN, func)
+        TextNoteScreen.invoke(State.BIN, noteEntity, func)
     }
 
     fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {

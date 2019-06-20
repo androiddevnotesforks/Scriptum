@@ -50,17 +50,29 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openBinPage { openTextNote { toolbar { onClickBack() } } }
-            assert { onDisplayContent() }
+    @Test fun closeByToolbarOnOpenFromBin() {
+        val noteEntity = testData.insertTextToBin()
+
+        launch {
+            mainScreen {
+                openBinPage {
+                    openTextNote(noteEntity) { toolbar { onClickBack() } }
+                    assert { onDisplayContent(empty = false) }
+                }
+            }
         }
     }
 
-    @Test fun closeByBackPressOnOpenFromBin() = launch({ testData.insertTextToBin() }) {
-        mainScreen {
-            openBinPage { openTextNote { onPressBack() } }
-            assert { onDisplayContent() }
+    @Test fun closeByBackPressOnOpenFromBin() {
+        val noteEntity = testData.insertTextToBin()
+
+        launch {
+            mainScreen {
+                openBinPage {
+                    openTextNote(noteEntity)  { onPressBack() }
+                    assert { onDisplayContent(empty = false) }
+                }
+            }
         }
     }
 
@@ -111,7 +123,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                     }
                 }
@@ -125,7 +137,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                     }
                 }
@@ -139,7 +151,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                         controlPanel { onClickRestoreOpen() }
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
