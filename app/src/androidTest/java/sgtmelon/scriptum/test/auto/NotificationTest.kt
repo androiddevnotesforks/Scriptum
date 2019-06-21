@@ -32,12 +32,20 @@ class NotificationTest : ParentUiTest() {
         mainScreen { openNotesPage { openNotification(empty = false) { onScrollThrough() } } }
     }
 
-    @Test fun textNoteOpen() = launch({ testData.insertNotification(testData.insertText()) }) {
-        mainScreen { openNotesPage { openNotification(empty = false) { openText() } } }
+    @Test fun textNoteOpen(){
+        val noteEntity = testData.insertText()
+
+        launch({ testData.insertNotification(noteEntity) }) {
+            mainScreen { openNotesPage { openNotification(empty = false) { openText(noteEntity) } } }
+        }
     }
 
-    @Test fun rollNoteOpen() = launch({ testData.insertNotification(testData.insertRoll()) }) {
-        mainScreen { openNotesPage { openNotification(empty = false) { openRoll() } } }
+    @Test fun rollNoteOpen() {
+        val noteEntity = testData.insertRoll()
+
+        launch({ testData.insertNotification(noteEntity) }) {
+            mainScreen { openNotesPage { openNotification(empty = false) { openRoll(noteEntity) } } }
+        }
     }
 
 }

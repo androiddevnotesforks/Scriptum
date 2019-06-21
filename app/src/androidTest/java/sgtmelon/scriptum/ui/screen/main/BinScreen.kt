@@ -25,19 +25,22 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         ClearDialogUi.invoke(func)
     }
 
-    fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) {
+    fun openNoteDialog(noteEntity: NoteEntity, p: Int = positionRandom,
+                       func: NoteDialogUi.() -> Unit = {}) {
         action { onLongClick(recyclerId, p) }
         NoteDialogUi.invoke(noteEntity, func)
     }
 
-    fun openTextNote(noteEntity: NoteEntity, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
+    fun openTextNote(noteEntity: NoteEntity, p: Int = positionRandom,
+                     func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
         TextNoteScreen.invoke(State.BIN, noteEntity, func)
     }
 
-    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {
+    fun openRollNote(noteEntity: NoteEntity, p: Int = positionRandom,
+                     func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        RollNoteScreen.invoke(State.BIN, func)
+        RollNoteScreen.invoke(State.BIN, noteEntity, func)
     }
 
     class Assert : BasicMatch() {

@@ -50,12 +50,16 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = launch({ testData.clear().insertRollToBin() }) {
-        mainScreen {
-            openBinPage {
-                assert { onDisplayContent(empty = false) }
-                openRollNote { pressBack() }
-                assert { onDisplayContent(empty = false) }
+    @Test fun rollNoteOpen() {
+        val noteEntity = testData.clear().insertRollToBin()
+
+        launch {
+            mainScreen {
+                openBinPage {
+                    assert { onDisplayContent(empty = false) }
+                    openRollNote(noteEntity) { pressBack() }
+                    assert { onDisplayContent(empty = false) }
+                }
             }
         }
     }

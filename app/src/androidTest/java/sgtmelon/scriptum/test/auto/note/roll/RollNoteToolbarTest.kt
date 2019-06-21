@@ -36,31 +36,43 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpen() = launch({ testData.insertRoll() }) {
-        mainScreen {
-            openNotesPage { openRollNote { toolbar { onClickBack() } } }
-            assert { onDisplayContent() }
+    @Test fun closeByToolbarOnOpen() {
+        val noteEntity = testData.insertRoll()
+        launch {
+            mainScreen {
+                openNotesPage { openRollNote(noteEntity) { toolbar { onClickBack() } } }
+                assert { onDisplayContent() }
+            }
         }
     }
 
-    @Test fun closeByBackPressOnOpen() = launch({ testData.insertRoll() }) {
-        mainScreen {
-            openNotesPage { openRollNote { onPressBack() } }
-            assert { onDisplayContent() }
+    @Test fun closeByBackPressOnOpen() {
+        val noteEntity = testData.insertRoll()
+        launch {
+            mainScreen {
+                openNotesPage { openRollNote(noteEntity) { onPressBack() } }
+                assert { onDisplayContent() }
+            }
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() = launch({ testData.insertRollToBin() }) {
-        mainScreen {
-            openBinPage { openRollNote { toolbar { onClickBack() } } }
-            assert { onDisplayContent() }
+    @Test fun closeByToolbarOnOpenFromBin() {
+        val noteEntity =  testData.insertRollToBin()
+        launch {
+            mainScreen {
+                openBinPage { openRollNote(noteEntity) { toolbar { onClickBack() } } }
+                assert { onDisplayContent() }
+            }
         }
     }
 
-    @Test fun closeByBackPressOnOpenFromBin() = launch({ testData.insertRollToBin() }) {
-        mainScreen {
-            openBinPage { openRollNote { onPressBack() } }
-            assert { onDisplayContent() }
+    @Test fun closeByBackPressOnOpenFromBin() {
+        val noteEntity =  testData.insertRollToBin()
+        launch {
+            mainScreen {
+                openBinPage { openRollNote(noteEntity) { onPressBack() } }
+                assert { onDisplayContent() }
+            }
         }
     }
 
@@ -79,7 +91,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openRollNote {
+                    openRollNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
@@ -95,7 +107,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openRollNote {
+                    openRollNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
@@ -111,7 +123,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openRollNote {
+                    openRollNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                     }
                 }
@@ -125,7 +137,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openRollNote {
+                    openRollNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                     }
                 }
@@ -139,7 +151,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openRollNote {
+                    openRollNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
                         controlPanel { onClickRestoreOpen() }
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
@@ -194,7 +206,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openRollNote {
+                    openRollNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }
@@ -215,7 +227,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openRollNote {
+                    openRollNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }

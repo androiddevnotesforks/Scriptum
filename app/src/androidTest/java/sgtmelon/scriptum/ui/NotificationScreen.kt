@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -22,14 +23,14 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         onScroll(Scroll.START, time = 4)
     }
 
-    fun openText(p: Int = positionRandom, func: TextNoteScreen.() -> Unit = {}) {
+    fun openText(noteEntity: NoteEntity, p: Int = positionRandom, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(State.READ, func)
+        TextNoteScreen.invoke(State.READ, noteEntity, func)
     }
 
-    fun openRoll(p: Int = positionRandom, func: RollNoteScreen.() -> Unit = {}) {
+    fun openRoll(noteEntity: NoteEntity, p: Int = positionRandom, func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        RollNoteScreen.invoke(State.READ, func)
+        RollNoteScreen.invoke(State.READ, noteEntity, func)
     }
 
     companion object {

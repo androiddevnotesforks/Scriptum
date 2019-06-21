@@ -5,6 +5,7 @@ import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
@@ -36,9 +37,10 @@ class RollNoteScreen : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(state: State, func: RollNoteScreen.() -> Unit) =
+        operator fun invoke(state: State, noteEntity: NoteEntity, func: RollNoteScreen.() -> Unit) =
                 RollNoteScreen().apply {
                     assert { onDisplayContent(state) }
+                    controlPanel { assert { onDisplayContent(state) } }
                     func()
                 }
     }

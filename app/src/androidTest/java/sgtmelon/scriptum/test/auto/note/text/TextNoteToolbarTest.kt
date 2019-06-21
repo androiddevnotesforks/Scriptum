@@ -36,17 +36,25 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpen() = launch({ testData.insertText() }) {
-        mainScreen {
-            openNotesPage { openTextNote { toolbar { onClickBack() } } }
-            assert { onDisplayContent() }
+    @Test fun closeByToolbarOnOpen() {
+        val noteEntity = testData.insertText()
+
+        launch {
+            mainScreen {
+                openNotesPage { openTextNote(noteEntity) { toolbar { onClickBack() } } }
+                assert { onDisplayContent() }
+            }
         }
     }
 
-    @Test fun closeByBackPressOnOpen() = launch({ testData.insertText() }) {
-        mainScreen {
-            openNotesPage { openTextNote { onPressBack() } }
-            assert { onDisplayContent() }
+    @Test fun closeByBackPressOnOpen() {
+        val noteEntity = testData.insertText()
+
+        launch {
+            mainScreen {
+                openNotesPage { openTextNote(noteEntity) { onPressBack() } }
+                assert { onDisplayContent() }
+            }
         }
     }
 
@@ -69,7 +77,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openTextNote(noteEntity)  { onPressBack() }
+                    openTextNote(noteEntity) { onPressBack() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
@@ -91,7 +99,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
@@ -107,7 +115,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
                         controlPanel { onClickEdit() }
                         toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
@@ -203,7 +211,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }
@@ -224,7 +232,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }
@@ -246,7 +254,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
 
                         controlPanel { onClickEdit() }

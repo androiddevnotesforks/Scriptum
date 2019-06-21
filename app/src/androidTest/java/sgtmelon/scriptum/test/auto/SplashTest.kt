@@ -23,18 +23,20 @@ class SplashTest : ParentUiTest() {
 
     @Test fun bindTextNoteOpen() {
         iPreferenceRepo.firstStart = false
+        val noteEntity = testData.clear().insertText()
 
-        launch(intent = context.getSplashBindIntent(testData.clear().insertText())) {
-            openTextNoteBind { pressBack() }
+        launch(intent = context.getSplashBindIntent(noteEntity)) {
+            openTextNoteBind(noteEntity) { pressBack() }
             mainScreen()
         }
     }
 
     @Test fun bindRollNoteOpen() {
         iPreferenceRepo.firstStart = false
+        val noteEntity = testData.clear().insertRoll()
 
-        launch(intent = context.getSplashBindIntent(testData.clear().insertRoll())) {
-            openRollNoteBind { pressBack() }
+        launch(intent = context.getSplashBindIntent(noteEntity)) {
+            openRollNoteBind(noteEntity) { pressBack() }
             mainScreen()
         }
     }

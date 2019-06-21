@@ -51,22 +51,30 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteOpen() = launch({ testData.clear().insertText() }) {
-        mainScreen {
-            openNotesPage {
-                assert { onDisplayContent(empty = false) }
-                openTextNote { onPressBack() }
-                assert { onDisplayContent(empty = false) }
+    @Test fun textNoteOpen() {
+        val noteEntity = testData.clear().insertText()
+
+        launch {
+            mainScreen {
+                openNotesPage {
+                    assert { onDisplayContent(empty = false) }
+                    openTextNote(noteEntity) { onPressBack() }
+                    assert { onDisplayContent(empty = false) }
+                }
             }
         }
     }
 
-    @Test fun rollNoteOpen() = launch({ testData.clear().insertRoll() }) {
-        mainScreen {
-            openNotesPage {
-                assert { onDisplayContent(empty = false) }
-                openRollNote { onPressBack() }
-                assert { onDisplayContent(empty = false) }
+    @Test fun rollNoteOpen() {
+        val noteEntity = testData.clear().insertRoll()
+
+        launch {
+            mainScreen {
+                openNotesPage {
+                    assert { onDisplayContent(empty = false) }
+                    openRollNote(noteEntity) { onPressBack() }
+                    assert { onDisplayContent(empty = false) }
+                }
             }
         }
     }

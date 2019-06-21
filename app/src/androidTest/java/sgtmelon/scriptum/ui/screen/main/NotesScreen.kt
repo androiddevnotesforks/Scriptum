@@ -36,14 +36,14 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
         NoteDialogUi.invoke(noteEntity, func)
     }
 
-    fun openTextNote(p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
+    fun openTextNote(noteEntity: NoteEntity, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(State.READ, func)
+        TextNoteScreen.invoke(State.READ, noteEntity, func)
     }
 
-    fun openRollNote(p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {
+    fun openRollNote(noteEntity: NoteEntity, p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        RollNoteScreen.invoke(State.READ, func)
+        RollNoteScreen.invoke(State.READ, noteEntity, func)
     }
 
     companion object {

@@ -34,7 +34,7 @@ class TextNoteContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
+                    openTextNote(noteEntity) {
                         assert { onDisplayText(State.READ, noteEntity.text) }
                         controlPanel { onClickEdit() }
                         assert { onDisplayText(State.EDIT, noteEntity.text) }
@@ -105,9 +105,7 @@ class TextNoteContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
-                        assert { onDisplayText(State.READ, noteEntity.text) }
-
+                    openTextNote(noteEntity) {
                         controlPanel { onClickEdit() }
                         onEnterText(newText)
                         controlPanel { onClickSave() }
@@ -126,9 +124,7 @@ class TextNoteContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
-                        assert { onDisplayText(State.READ, noteEntity.text) }
-
+                    openTextNote(noteEntity) {
                         controlPanel { onClickEdit() }
                         onEnterText(newText)
                         onPressBack()
@@ -148,9 +144,7 @@ class TextNoteContentTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote {
-                        assert { onDisplayText(State.READ, noteEntity.text) }
-
+                    openTextNote(noteEntity) {
                         controlPanel { onClickEdit() }
                         onEnterText(newText)
                         toolbar { onClickBack() }

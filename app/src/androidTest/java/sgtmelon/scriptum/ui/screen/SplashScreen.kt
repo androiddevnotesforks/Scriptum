@@ -19,11 +19,11 @@ class SplashScreen : ParentUi() {
 
     fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen.invoke(func)
 
-    fun openTextNoteBind(func: TextNoteScreen.() -> Unit = {}) =
-            TextNoteScreen.invoke(State.READ, func)
+    fun openTextNoteBind(noteEntity: NoteEntity, func: TextNoteScreen.() -> Unit = {}) =
+            TextNoteScreen.invoke(State.READ, noteEntity, func)
 
-    fun openRollNoteBind(func: RollNoteScreen.() -> Unit = {}) =
-            RollNoteScreen.invoke(State.READ, func)
+    fun openRollNoteBind(noteEntity: NoteEntity, func: RollNoteScreen.() -> Unit = {}) =
+            RollNoteScreen.invoke(State.READ, noteEntity, func)
 
     fun openAlarm(noteEntity: NoteEntity, func: AlarmScreen.() -> Unit = {}) =
             AlarmScreen.invoke(noteEntity, func)
