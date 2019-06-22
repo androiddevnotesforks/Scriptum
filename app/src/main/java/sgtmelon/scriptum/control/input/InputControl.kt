@@ -36,14 +36,14 @@ class InputControl : InputCallback {
      *
      * @return - Есть куда возвращаться или нет
      */
-    private val isUndoAccess get() = inputList.size != 0 && position != -1
+    val isUndoAccess get() = inputList.size != 0 && position != -1
 
     /**
      * Проверка доступен ли возврат
      *
      * @return - Есть куда возвращаться или нет
      */
-    private val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
+    val isRedoAccess get() = inputList.size != 0 && position != inputList.size - 1
 
     val access get() = Access(isUndoAccess, isRedoAccess)
 

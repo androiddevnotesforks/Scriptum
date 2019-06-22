@@ -1,14 +1,20 @@
 package sgtmelon.scriptum.control.input
 
-import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import sgtmelon.scriptum.BuildConfig.INPUT_CONTROL_MAX_SIZE
 
+/**
+ * Тест для [InputControl]
+ *
+ * @author SerjantArbuz
+ */
 class InputControlTest {
 
     private val inputControl = InputControl()
+
+    fun assert(func: Assert.() -> Unit) = Assert(inputControl).apply { func() }
 
     @Before fun setUp() {
         inputControl.logEnabled = false
@@ -107,23 +113,33 @@ class InputControlTest {
         assert { undoFail() }
     }
 
-    fun assert(func: Assert.() -> Unit) = Assert(inputControl).apply { func() }
-
-    class Assert(private val inputControl: InputControl) {
-
-        fun undoFail() = assertNull(inputControl.undo())
-
-        fun undoSuccess() = assertNotNull(inputControl.undo())
-
-        fun redoFail() = assertNull(inputControl.redo())
-
-        fun redoSuccess() = assertNotNull(inputControl.redo())
-
-    }
-
     private companion object {
         val rankValueFrom = listOf<Long>(0, 1, 2, 3)
         val rankValueTo = listOf<Long>(0, 1)
+    }
+
+    class Assert(private val inputControl: InputControl) {
+
+        fun undoFail() {
+            assertFalse(inputControl.isUndoAccess)
+            assertNull(inputControl.undo())
+        }
+
+        fun undoSuccess() {
+            assertTrue(inputControl.isUndoAccess)
+            assertNotNull(inputControl.undo())
+        }
+
+        fun redoFail() {
+            assertFalse(inputControl.isRedoAccess)
+            assertNull(inputControl.redo())
+        }
+
+        fun redoSuccess() {
+            assertTrue(inputControl.isRedoAccess)
+            assertNotNull(inputControl.redo())
+        }
+
     }
 
 }
