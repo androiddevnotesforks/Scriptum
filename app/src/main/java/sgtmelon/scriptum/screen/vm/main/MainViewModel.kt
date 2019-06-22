@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.receiver.MainReceiver
-import sgtmelon.scriptum.screen.callback.main.MainCallback
+import sgtmelon.scriptum.screen.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.view.main.MainActivity
 
 /**
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.screen.view.main.MainActivity
  */
 class MainViewModel : ViewModel(), MainReceiver.Callback {
 
-    lateinit var callback: MainCallback
+    lateinit var callback: IMainActivity
 
     private var firstStart: Boolean = true
     private var pageFrom: MainPage = MainPage.NOTES

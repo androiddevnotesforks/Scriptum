@@ -20,7 +20,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
+import sgtmelon.scriptum.screen.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
@@ -31,7 +31,7 @@ import sgtmelon.scriptum.view.RippleContainer
  *
  * @author SerjantArbuz
  */
-class AlarmActivity : AppActivity(), AlarmCallback {
+class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(AlarmViewModel::class.java).apply {

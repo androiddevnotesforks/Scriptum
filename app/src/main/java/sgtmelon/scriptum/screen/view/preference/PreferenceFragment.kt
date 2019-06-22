@@ -17,7 +17,7 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.screen.callback.PreferenceCallback
+import sgtmelon.scriptum.screen.callback.IPreferenceFragment
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 import android.preference.PreferenceFragment as OldPreferenceFragment
@@ -27,7 +27,7 @@ import android.preference.PreferenceFragment as OldPreferenceFragment
  *
  * @author SerjantArbuz
  */
-class PreferenceFragment : OldPreferenceFragment(), PreferenceCallback {
+class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }

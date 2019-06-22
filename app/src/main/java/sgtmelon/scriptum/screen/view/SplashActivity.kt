@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.screen.callback.SplashCallback
+import sgtmelon.scriptum.screen.callback.ISplashActivity
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  *
  * @author SerjantArbuz
  */
-class SplashActivity : AppCompatActivity(), SplashCallback {
+class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(SplashViewModel::class.java).apply {

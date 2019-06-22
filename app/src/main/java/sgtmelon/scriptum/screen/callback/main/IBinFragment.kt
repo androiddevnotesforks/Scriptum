@@ -11,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
  *
  * @author SerjantArbuz
  */
-interface BinCallback {
+interface IBinFragment {
 
     fun setupToolbar()
 

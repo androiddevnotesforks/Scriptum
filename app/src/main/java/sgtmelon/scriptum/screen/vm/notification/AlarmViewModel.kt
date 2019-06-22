@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
-import sgtmelon.scriptum.screen.callback.notification.AlarmCallback
+import sgtmelon.scriptum.screen.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  */
 class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
-    lateinit var callback: AlarmCallback
+    lateinit var callback: IAlarmActivity
 
     private var id: Long = NoteData.Default.ID
     private var color: Int = iPreferenceRepo.defaultColor

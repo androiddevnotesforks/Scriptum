@@ -26,7 +26,7 @@ import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.screen.callback.main.RankCallback
+import sgtmelon.scriptum.screen.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
@@ -34,7 +34,7 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  *
  * @author SerjantArbuz
  */
-class RankFragment : Fragment(), RankCallback {
+class RankFragment : Fragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 

@@ -12,7 +12,7 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
  *
  * @author SerjantArbuz
  */
-interface AlarmCallback {
+interface IAlarmActivity {
 
     fun setupView(@Theme theme: Int)
 

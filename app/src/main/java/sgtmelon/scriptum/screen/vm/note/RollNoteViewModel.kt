@@ -29,9 +29,9 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
-import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
-import sgtmelon.scriptum.screen.callback.note.roll.RollNoteMenuCallback
+import sgtmelon.scriptum.screen.callback.note.INoteChild
+import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteFragment
+import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteMenu
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -45,10 +45,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         InputTextWatcher.TextChange,
         RollWriteHolder.RollChange,
         RollTouchControl.Result,
-        RollNoteMenuCallback {
+        IRollNoteMenu {
 
-    lateinit var callback: RollNoteCallback
-    lateinit var parentCallback: NoteChildCallback
+    lateinit var callback: IRollNoteFragment
+    lateinit var parentCallback: INoteChild
 
     private val inputControl = InputControl()
     private val saveControl = SaveControl(context, result = this)

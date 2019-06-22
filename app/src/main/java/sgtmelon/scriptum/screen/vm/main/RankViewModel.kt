@@ -9,7 +9,7 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.screen.callback.main.RankCallback
+import sgtmelon.scriptum.screen.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -21,7 +21,7 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
 class RankViewModel(application: Application) : ParentViewModel(application),
         RankTouchControl.Result {
 
-    lateinit var callback: RankCallback
+    lateinit var callback: IRankFragment
 
     private val iRankRepo = RankRepo.getInstance(context)
 

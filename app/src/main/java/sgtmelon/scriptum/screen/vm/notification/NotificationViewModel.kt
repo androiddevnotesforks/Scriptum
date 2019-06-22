@@ -4,7 +4,7 @@ import android.app.Application
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
-import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
+import sgtmelon.scriptum.screen.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  */
 class NotificationViewModel(application: Application) : ParentViewModel(application) {
 
-    lateinit var callback: NotificationCallback
+    lateinit var callback: INotificationActivity
 
     private val iAlarmRepo = AlarmRepo.getInstance(context)
 

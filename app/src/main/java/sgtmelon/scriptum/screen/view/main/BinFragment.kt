@@ -25,7 +25,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.screen.callback.main.BinCallback
+import sgtmelon.scriptum.screen.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
@@ -33,7 +33,7 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
  *
  * @author SerjantArbuz
  */
-class BinFragment : Fragment(), BinCallback {
+class BinFragment : Fragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 

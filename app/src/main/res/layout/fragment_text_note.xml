@@ -10,7 +10,7 @@
         <variable name="currentTheme" type="int"/>
 
         <variable name="menuCallback"
-                  type="sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback"/>
+                  type="sgtmelon.scriptum.screen.callback.note.text.ITextNoteMenu"/>
         <variable name="rankEmpty" type="boolean"/>
 
         <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>

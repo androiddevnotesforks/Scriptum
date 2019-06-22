@@ -5,12 +5,12 @@ import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
-import sgtmelon.scriptum.screen.callback.note.NoteCallback
+import sgtmelon.scriptum.screen.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
 class NoteViewModel(application: Application) : ParentViewModel(application), NoteReceiver.Callback {
 
-    lateinit var callback: NoteCallback
+    lateinit var callback: INoteActivity
 
     private var id: Long = NoteData.Default.ID
     private var type: NoteType? = null

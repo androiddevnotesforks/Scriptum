@@ -15,7 +15,7 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
  *
  * @author SerjantArbuz
  */
-interface RollNoteCallback {
+interface IRollNoteFragment {
 
     /**
      * Установка элементов для биндинга, которые постоянные

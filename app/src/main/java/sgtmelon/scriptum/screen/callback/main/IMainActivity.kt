@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
  *
  * @author SerjantArbuz
  */
-interface MainCallback {
+interface IMainActivity {
 
     fun setupNavigation(@IdRes itemId: Int)
 

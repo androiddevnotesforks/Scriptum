@@ -5,7 +5,7 @@ import android.content.Intent
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.repository.develop.DevelopRepo
-import sgtmelon.scriptum.screen.callback.DevelopCallback
+import sgtmelon.scriptum.screen.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.view.intro.IntroActivity
 
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.screen.view.intro.IntroActivity
  */
 class DevelopViewModel(application: Application) : ParentViewModel(application) {
 
-    lateinit var callback: DevelopCallback
+    lateinit var callback: IDevelopActivity
 
     private val iDevelopRepo = DevelopRepo.getInstance(context)
 

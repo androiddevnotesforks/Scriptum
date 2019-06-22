@@ -3,7 +3,7 @@ package sgtmelon.scriptum.screen.vm
 import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.screen.callback.AppCallback
+import sgtmelon.scriptum.screen.callback.IAppActivity
 import sgtmelon.scriptum.screen.view.AppActivity
 
 /**
@@ -13,7 +13,7 @@ import sgtmelon.scriptum.screen.view.AppActivity
  */
 class AppViewModel(application: Application) : ParentViewModel(application) {
 
-    lateinit var callback: AppCallback
+    lateinit var callback: IAppActivity
 
     @Theme private var currentTheme: Int = 0
 

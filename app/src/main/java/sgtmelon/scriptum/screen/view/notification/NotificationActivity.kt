@@ -20,7 +20,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.screen.callback.notification.NotificationCallback
+import sgtmelon.scriptum.screen.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
@@ -29,7 +29,7 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
  *
  * @author SerjantArbuz
  */
-class NotificationActivity : AppActivity(), NotificationCallback {
+class NotificationActivity : AppActivity(), INotificationActivity {
 
     private var binding: ActivityNotificationBinding? = null
 

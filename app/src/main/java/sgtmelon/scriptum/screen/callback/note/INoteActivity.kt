@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  *
  * @author SerjantArbuz
  */
-interface NoteCallback {
+interface INoteActivity {
 
     /**
      * [checkCache] - пытаться найти фрагмент по тегу или пропустить этот шаг и создать новый

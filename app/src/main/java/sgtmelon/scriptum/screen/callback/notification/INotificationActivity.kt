@@ -11,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
  *
  * @author SerjantArbuz
  */
-interface NotificationCallback {
+interface INotificationActivity {
 
     fun setupToolbar()
 

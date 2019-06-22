@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
  *
  * @author SerjantArbuz
  */
-interface TextNoteMenuCallback {
+interface ITextNoteMenu {
 
     //region Внутри корзины
 

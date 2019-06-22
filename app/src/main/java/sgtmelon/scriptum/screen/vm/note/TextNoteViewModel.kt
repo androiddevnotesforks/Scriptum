@@ -20,9 +20,9 @@ import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
-import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
-import sgtmelon.scriptum.screen.callback.note.text.TextNoteMenuCallback
+import sgtmelon.scriptum.screen.callback.note.INoteChild
+import sgtmelon.scriptum.screen.callback.note.text.ITextNoteFragment
+import sgtmelon.scriptum.screen.callback.note.text.ITextNoteMenu
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -34,10 +34,10 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
 class TextNoteViewModel(application: Application) : ParentViewModel(application),
         SaveControl.Result,
         InputTextWatcher.TextChange,
-        TextNoteMenuCallback {
+        ITextNoteMenu {
 
-    lateinit var callback: TextNoteCallback
-    lateinit var parentCallback: NoteChildCallback
+    lateinit var callback: ITextNoteFragment
+    lateinit var parentCallback: INoteChild
 
     private val inputControl = InputControl()
     private val saveControl = SaveControl(context, result = this)

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
  *
  * @author SerjantArbuz
  */
-interface NoteChildCallback {
+interface INoteChild {
 
     /**
      * После сохранения новой заметки необходимо обновить id

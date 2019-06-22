@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  *
  * @author SerjantArbuz
  */
-interface RankCallback {
+interface IRankFragment {
 
     fun bindList(size: Int)
 

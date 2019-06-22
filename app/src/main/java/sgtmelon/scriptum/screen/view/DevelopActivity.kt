@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.screen.callback.DevelopCallback
+import sgtmelon.scriptum.screen.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  *
  * @author SerjantArbuz
  */
-class DevelopActivity : AppCompatActivity(), DevelopCallback {
+class DevelopActivity : AppCompatActivity(), IDevelopActivity {
 
     private val viewModel: DevelopViewModel by lazy {
         ViewModelProviders.of(this).get(DevelopViewModel::class.java).apply {

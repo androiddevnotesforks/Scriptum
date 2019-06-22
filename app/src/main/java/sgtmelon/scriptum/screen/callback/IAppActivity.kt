@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.AppViewModel
  *
  * @author SerjantArbuz
  */
-interface AppCallback {
+interface IAppActivity {
 
     fun setTheme(@StyleRes resId: Int)
 

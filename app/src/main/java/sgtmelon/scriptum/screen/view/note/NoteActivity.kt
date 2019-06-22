@@ -9,11 +9,11 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
-import sgtmelon.scriptum.screen.callback.note.NoteCallback
-import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
+import sgtmelon.scriptum.screen.callback.note.INoteActivity
+import sgtmelon.scriptum.screen.callback.note.INoteChild
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
@@ -22,7 +22,7 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  *
  * @author SerjantArbuz
  */
-class NoteActivity : AppActivity(), NoteCallback, NoteChildCallback {
+class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(NoteViewModel::class.java).apply {

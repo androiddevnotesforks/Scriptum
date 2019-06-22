@@ -30,8 +30,8 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
-import sgtmelon.scriptum.screen.callback.note.text.TextNoteCallback
+import sgtmelon.scriptum.screen.callback.note.INoteChild
+import sgtmelon.scriptum.screen.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
 
@@ -40,7 +40,7 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
  *
  * @author SerjantArbuz
  */
-class TextNoteFragment : Fragment(), TextNoteCallback {
+class TextNoteFragment : Fragment(), ITextNoteFragment {
 
     private var binding: FragmentTextNoteBinding? = null
 
@@ -62,7 +62,7 @@ class TextNoteFragment : Fragment(), TextNoteCallback {
     private val viewModel: TextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
             callback = this@TextNoteFragment
-            parentCallback = context as NoteChildCallback
+            parentCallback = context as INoteChild
         }
     }
 

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.PreferenceViewModel
  *
  * @author SerjantArbuz
  */
-interface PreferenceCallback {
+interface IPreferenceFragment {
 
     fun setupApp()
 

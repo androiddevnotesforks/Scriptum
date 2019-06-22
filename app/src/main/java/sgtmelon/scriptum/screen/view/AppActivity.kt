@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.screen.callback.AppCallback
+import sgtmelon.scriptum.screen.callback.IAppActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 
 /**
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.screen.vm.AppViewModel
  *
  * @author SerjantArbuz
  */
-abstract class AppActivity : AppCompatActivity(), AppCallback {
+abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
     private val viewModel: AppViewModel by lazy {
         ViewModelProviders.of(this).get(AppViewModel::class.java).apply {

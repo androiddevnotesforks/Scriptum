@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  *
  * @author SerjantArbuz
  */
-interface DevelopCallback {
+interface IDevelopActivity {
 
     fun startActivity(intent: Intent)
 

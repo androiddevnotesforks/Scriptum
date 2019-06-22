@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  *
  * @author SerjantArbuz
  */
-interface SplashCallback {
+interface ISplashActivity {
 
     fun startActivities(arrayIntent: Array<Intent>)
 

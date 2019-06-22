@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
  *
  * @author SerjantArbuz
  */
-interface RollNoteMenuCallback {
+interface IRollNoteMenu {
 
     //region Внутри корзины
 

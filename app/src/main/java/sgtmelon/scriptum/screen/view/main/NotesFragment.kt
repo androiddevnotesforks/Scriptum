@@ -24,8 +24,8 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.screen.callback.main.MainCallback
-import sgtmelon.scriptum.screen.callback.main.NotesCallback
+import sgtmelon.scriptum.screen.callback.main.IMainActivity
+import sgtmelon.scriptum.screen.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -35,9 +35,9 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  *
  * @author SerjantArbuz
  */
-class NotesFragment : Fragment(), NotesCallback {
+class NotesFragment : Fragment(), INotesFragment {
 
-    private val mainCallback: MainCallback? by lazy { context as? MainCallback }
+    private val mainCallback: IMainActivity? by lazy { context as? IMainActivity }
 
     private var binding: FragmentNotesBinding? = null
 

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
  *
  * @author SerjantArbuz
  */
-interface TextNoteCallback {
+interface ITextNoteFragment {
 
     /**
      * Установка элементов для биндинга, которые постоянные

@@ -41,8 +41,8 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.callback.note.NoteChildCallback
-import sgtmelon.scriptum.screen.callback.note.roll.RollNoteCallback
+import sgtmelon.scriptum.screen.callback.note.INoteChild
+import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**
@@ -50,14 +50,14 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
  *
  * @author SerjantArbuz
  */
-class RollNoteFragment : Fragment(), RollNoteCallback {
+class RollNoteFragment : Fragment(), IRollNoteFragment {
 
     private var binding: FragmentRollNoteBinding? = null
 
     private val viewModel: RollNoteViewModel by lazy {
         ViewModelProviders.of(this).get(RollNoteViewModel::class.java).apply {
             callback = this@RollNoteFragment
-            parentCallback = context as NoteChildCallback
+            parentCallback = context as INoteChild
         }
     }
 

@@ -11,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  *
  * @author SerjantArbuz
  */
-interface NotesCallback {
+interface INotesFragment {
 
     fun setupToolbar()
 

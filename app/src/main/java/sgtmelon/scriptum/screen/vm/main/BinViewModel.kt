@@ -7,7 +7,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.screen.callback.main.BinCallback
+import sgtmelon.scriptum.screen.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  */
 class BinViewModel(application: Application) : ParentViewModel(application) {
 
-    lateinit var callback: BinCallback
+    lateinit var callback: IBinFragment
 
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 

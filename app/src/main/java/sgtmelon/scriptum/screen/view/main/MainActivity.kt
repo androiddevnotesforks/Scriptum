@@ -24,7 +24,7 @@ import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
-import sgtmelon.scriptum.screen.callback.main.MainCallback
+import sgtmelon.scriptum.screen.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.vm.main.MainViewModel
@@ -35,7 +35,7 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
  *
  * @author SerjantArbuz
  */
-class MainActivity : AppActivity(), MainCallback {
+class MainActivity : AppActivity(), IMainActivity {
 
     private val viewModel: MainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java).apply {

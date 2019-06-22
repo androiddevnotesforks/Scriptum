@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.screen.callback.SplashCallback
+import sgtmelon.scriptum.screen.callback.ISplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.OpenFrom
 import sgtmelon.scriptum.screen.view.intro.IntroActivity
@@ -20,7 +20,7 @@ import sgtmelon.scriptum.screen.view.notification.AlarmActivity.Companion.getAla
  */
 class SplashViewModel(application: Application) : ParentViewModel(application) {
 
-    lateinit var callback: SplashCallback
+    lateinit var callback: ISplashActivity
 
     fun onSetup(bundle: Bundle?) {
         if (bundle == null) {
