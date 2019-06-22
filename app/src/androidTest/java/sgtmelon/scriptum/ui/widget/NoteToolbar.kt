@@ -5,20 +5,32 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.screen.note.INoteScreen
+import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
-class NoteToolbar : ParentUi() {
+/**
+ * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
+ *
+ * @author SerjantArbuz
+ */
+class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onEnterName(name: String) = action { onEnter(R.id.toolbar_note_enter, name) }
+    fun onEnterName(name: String) {
+        action { onEnter(R.id.toolbar_note_enter, name) }
+        callback.noteModel.noteEntity.name = name
+    }
 
     fun onClickBack() = action { onClickToolbarButton() }
 
     companion object {
-        operator fun invoke(func: NoteToolbar.() -> Unit) = NoteToolbar().apply {
-            assert { onDisplayContent() }
-            func()
-        }
+        operator fun invoke(func: NoteToolbar.() -> Unit, callback: INoteScreen) =
+                NoteToolbar(callback).apply {
+                    assert { onDisplayContent() }
+                    func()
+                }
     }
 
     class Assert : BasicMatch() {

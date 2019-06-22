@@ -23,7 +23,7 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun openNotification(empty: Boolean, func: NotificationScreen.() -> Unit = {}) {
         action {onClick(R.id.item_notification)}
-        NotificationScreen.invoke(empty, func)
+        NotificationScreen.invoke(func, empty)
     }
 
     fun openPreference(func: PreferenceScreen.() -> Unit = {}) {
@@ -33,17 +33,17 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) {
         action { onLongClick(recyclerId, p) }
-        NoteDialogUi.invoke(noteEntity, func)
+        NoteDialogUi.invoke(func, noteEntity)
     }
 
     fun openTextNote(noteEntity: NoteEntity, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(State.READ, noteEntity, func)
+        TextNoteScreen.invoke(func, State.READ, noteEntity)
     }
 
     fun openRollNote(noteEntity: NoteEntity, p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        RollNoteScreen.invoke(State.READ, noteEntity, func)
+        RollNoteScreen.invoke(func, State.READ, noteEntity)
     }
 
     companion object {

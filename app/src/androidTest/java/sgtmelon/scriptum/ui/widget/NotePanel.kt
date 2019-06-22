@@ -2,34 +2,82 @@ package sgtmelon.scriptum.ui.widget
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.screen.main.BinScreen
+import sgtmelon.scriptum.ui.screen.note.INoteScreen
+import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
+import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
-class NotePanel(private val type: NoteType) : ParentUi() {
+/**
+ * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
+ *
+ * @author SerjantArbuz
+ */
+class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert(type).apply { func() }
+    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onClickRestore() = action { onClick(R.id.note_panel_restore_button) }
-    fun onClickRestoreOpen() = action { onClick(R.id.note_panel_restore_open_button) }
-    fun onClickClear() = action { onClick(R.id.note_panel_clear_button) }
-
-    fun onClickUndo() = action { onClick(R.id.note_panel_undo_button) }
-    fun onClickRedo() = action { onClick(R.id.note_panel_redo_button) }
-    fun onClickRank() = action { onClick(R.id.note_panel_rank_button) }
-    fun onClickColor() = action { onClick(R.id.note_panel_color_button) }
-    fun onClickSave() = action { onClick(R.id.note_panel_save_button) }
-
-    fun onClickBind() = action { onClick(R.id.note_panel_bind_button) }
-    fun onClickConvert() = action { onClick(R.id.note_panel_convert_button) }
-    fun onClickDelete() = action { onClick(R.id.note_panel_delete_button) }
-    fun onClickEdit() = action { onClick(R.id.note_panel_edit_button) }
-
-    companion object {
-        operator fun invoke(type: NoteType, func: NotePanel.() -> Unit) = NotePanel(type).apply(func)
+    /**
+     * Будет возврат на экран [BinScreen]
+     */
+    fun onClickRestore() = callback.throwOnWrongState(State.BIN) {
+        action { onClick(R.id.note_panel_restore_button) }
     }
 
-    class Assert(type: NoteType) : BasicMatch() {
+    fun onClickRestoreOpen() = callback.throwOnWrongState(State.BIN) {
+        action { onClick(R.id.note_panel_restore_open_button) }
+        callback.state = State.READ
+    }
+
+    /**
+     * Будет возврат на экран [BinScreen]
+     */
+    fun onClickClear() = callback.throwOnWrongState(State.BIN) {
+        action { onClick(R.id.note_panel_clear_button) }
+    }
+
+    fun onClickUndo() = callback.throwOnWrongState(State.EDIT) {
+        action { onClick(R.id.note_panel_undo_button) }
+    }
+
+    fun onClickRedo() = callback.throwOnWrongState(State.EDIT) {
+        action { onClick(R.id.note_panel_redo_button) }
+    }
+
+    fun onClickRank() = callback.throwOnWrongState(State.EDIT) {
+        action { onClick(R.id.note_panel_rank_button) }
+    }
+
+    fun onClickColor() = callback.throwOnWrongState(State.EDIT) {
+        action { onClick(R.id.note_panel_color_button) }
+    }
+
+    fun onClickSave() = callback.throwOnWrongState(State.EDIT) {
+        action { onClick(R.id.note_panel_save_button) }
+    }
+
+    fun onClickBind() = callback.throwOnWrongState(State.READ, State.NEW) {
+        action { onClick(R.id.note_panel_bind_button) }
+    }
+
+    fun onClickConvert() = callback.throwOnWrongState(State.READ, State.NEW) {
+        action { onClick(R.id.note_panel_convert_button) }
+    }
+
+    fun onClickDelete() = callback.throwOnWrongState(State.READ, State.NEW) {
+        action { onClick(R.id.note_panel_delete_button) }
+    }
+
+    fun onClickEdit() = callback.throwOnWrongState(State.READ, State.NEW) {
+        action { onClick(R.id.note_panel_edit_button) }
+    }
+
+    companion object {
+        operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) = NotePanel(callback).apply(func)
+    }
+
+    class Assert() : BasicMatch() {
 
         fun isEnabledUndo(enabled: Boolean) = isEnabled(R.id.note_panel_undo_button, enabled)
         fun isEnabledRedo(enabled: Boolean) = isEnabled(R.id.note_panel_redo_button, enabled)

@@ -4,8 +4,15 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.screen.note.INoteScreen
+import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 
-class RollEnterPanel : ParentUi() {
+/**
+ * Часть UI абстракции для [RollNoteScreen]
+ *
+ * @author SerjantArbuz
+ */
+class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
 
     // TODO Доступ через Text/Roll Note
 
@@ -17,7 +24,11 @@ class RollEnterPanel : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(func: RollEnterPanel.() -> Unit) = RollEnterPanel().apply { func() }
+        operator fun invoke(func: RollEnterPanel.() -> Unit, callback: INoteScreen) =
+                RollEnterPanel(callback).apply {
+                    // TODO assert
+                    func()
+                }
     }
 
     class Assert : BasicMatch() {

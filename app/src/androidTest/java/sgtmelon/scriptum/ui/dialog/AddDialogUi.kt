@@ -22,12 +22,12 @@ class AddDialogUi : ParentUi() {
 
     fun createTextNote(func: TextNoteScreen.() -> Unit = {}){
         onClickItem(NoteType.TEXT)
-        TextNoteScreen.invoke(State.NEW, NoteEntity(), func)
+        TextNoteScreen.invoke(func, State.NEW, NoteEntity())
     }
 
     fun createRollNote(func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(NoteType.ROLL)
-        RollNoteScreen.invoke(State.NEW, NoteEntity(), func)
+        RollNoteScreen.invoke(func, State.NEW, NoteEntity())
     }
 
     fun onCloseSoft() = pressBack()

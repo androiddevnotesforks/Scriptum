@@ -44,7 +44,7 @@ class NoteDialogUi(private val noteEntity: NoteEntity) : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(noteEntity: NoteEntity, func: NoteDialogUi.() -> Unit) =
+        operator fun invoke(func: NoteDialogUi.() -> Unit, noteEntity: NoteEntity) =
                 NoteDialogUi(noteEntity).apply {
                     assert { onDisplayContent() }
                     func()

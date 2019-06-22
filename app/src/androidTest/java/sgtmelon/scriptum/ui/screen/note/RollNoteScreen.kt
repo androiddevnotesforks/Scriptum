@@ -4,8 +4,7 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
@@ -29,7 +28,7 @@ class RollNoteScreen : ParentUi() {
 
     fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func)
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(NoteType.ROLL, func)
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func)
 
     fun onPressBack() {
         closeSoftKeyboard()
@@ -37,7 +36,7 @@ class RollNoteScreen : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(state: State, noteEntity: NoteEntity, func: RollNoteScreen.() -> Unit) =
+        operator fun invoke(func: RollNoteScreen.() -> Unit, state: State, noteModel: NoteModel) =
                 RollNoteScreen().apply {
                     assert { onDisplayContent(state) }
                     controlPanel { assert { onDisplayContent(state) } }

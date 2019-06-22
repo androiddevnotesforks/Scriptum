@@ -25,16 +25,16 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
     fun openText(noteEntity: NoteEntity, p: Int = positionRandom, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(State.READ, noteEntity, func)
+        TextNoteScreen.invoke(func, State.READ, noteEntity)
     }
 
     fun openRoll(noteEntity: NoteEntity, p: Int = positionRandom, func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        RollNoteScreen.invoke(State.READ, noteEntity, func)
+        RollNoteScreen.invoke(func, State.READ, noteEntity)
     }
 
     companion object {
-        operator fun invoke(empty: Boolean, func: NotificationScreen.() -> Unit) =
+        operator fun invoke(func: NotificationScreen.() -> Unit, empty: Boolean) =
                 NotificationScreen().apply {
                     assert { onDisplayContent(empty) }
                     func()

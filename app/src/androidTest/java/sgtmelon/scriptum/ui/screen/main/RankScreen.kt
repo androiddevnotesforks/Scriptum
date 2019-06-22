@@ -31,7 +31,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     fun openRenameDialog(title: String, p: Int = 0, func: RenameDialogUi.() -> Unit = {}) {
         onClickItem(p)
-        RenameDialogUi.invoke(title, func)
+        RenameDialogUi.invoke(func, title)
     }
 
     fun onClickVisible(name: String) = rankAction { onClick(name, R.id.rank_visible_button) }

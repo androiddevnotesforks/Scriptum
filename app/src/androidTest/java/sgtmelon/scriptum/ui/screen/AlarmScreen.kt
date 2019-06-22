@@ -16,7 +16,7 @@ class AlarmScreen(noteEntity: NoteEntity) : ParentUi() {
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
     companion object {
-        operator fun invoke(noteEntity: NoteEntity, func: AlarmScreen.() -> Unit) =
+        operator fun invoke(func: AlarmScreen.() -> Unit, noteEntity: NoteEntity) =
                 AlarmScreen(noteEntity).apply {
                     assert { onDisplayContent() }
                     func()
