@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
@@ -25,22 +25,29 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         ClearDialogUi.invoke(func)
     }
 
-    fun openNoteDialog(noteEntity: NoteEntity, p: Int = positionRandom,
+    fun openNoteDialog(noteModel: NoteModel, p: Int = positionRandom,
                        func: NoteDialogUi.() -> Unit = {}) {
         action { onLongClick(recyclerId, p) }
-        NoteDialogUi.invoke(func, noteEntity)
+        NoteDialogUi.invoke(func, noteModel)
     }
 
-    fun openTextNote(noteEntity: NoteEntity, p: Int = positionRandom,
+    fun openTextNote(noteModel: NoteModel, p: Int = positionRandom,
                      func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(func, State.BIN, noteEntity)
+        TextNoteScreen.invoke(func, State.BIN, noteModel)
     }
 
-    fun openRollNote(noteEntity: NoteEntity, p: Int = positionRandom,
+    fun openRollNote(noteModel: NoteModel, p: Int = positionRandom,
                      func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        RollNoteScreen.invoke(func, State.BIN, noteEntity)
+        RollNoteScreen.invoke(func, State.BIN, noteModel)
+    }
+
+    companion object {
+        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) = BinScreen().apply {
+            assert { onDisplayContent(empty) }
+            func()
+        }
     }
 
     class Assert : BasicMatch() {

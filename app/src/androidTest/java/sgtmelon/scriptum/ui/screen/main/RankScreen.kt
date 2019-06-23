@@ -10,11 +10,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
-import sgtmelon.scriptum.ui.widget.RankToolbar
 
 /**
  * Класс для ui контроля экрана [RankFragment]
@@ -29,16 +29,29 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
 
-    fun openRenameDialog(title: String, p: Int = 0, func: RenameDialogUi.() -> Unit = {}) {
+    fun openRenameDialog(title: String, p: Int = positionRandom,
+                         func: RenameDialogUi.() -> Unit = {}) {
         onClickItem(p)
         RenameDialogUi.invoke(func, title)
     }
 
-    fun onClickVisible(name: String) = rankAction { onClick(name, R.id.rank_visible_button) }
+    fun onClickVisible(rankEntity: RankEntity) =
+            rankAction { onClick(rankEntity.name, R.id.rank_visible_button) }
 
-    fun onLongClickVisible(name: String) = rankAction { onLongClick(name, R.id.rank_visible_button) }
+    fun onLongClickVisible(rankEntity: RankEntity) =
+            rankAction { onLongClick(rankEntity.name, R.id.rank_visible_button) }
 
-    fun onClickCancel(name: String) = rankAction { onClick(name, R.id.rank_cancel_button) }
+    fun onClickCancel(rankEntity: RankEntity) =
+            rankAction { onClick(rankEntity.name, R.id.rank_cancel_button) }
+
+    companion object {
+        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean) = RankScreen().apply {
+            assert { onDisplayContent(empty) }
+            toolbar { assert { onDisplayContent() } }
+            func()
+        }
+    }
+
 
     class RankAction {
 

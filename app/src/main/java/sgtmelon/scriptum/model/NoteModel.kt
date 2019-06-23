@@ -2,6 +2,7 @@ package sgtmelon.scriptum.model
 
 import androidx.room.Embedded
 import androidx.room.Relation
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.AlarmEntity
@@ -33,6 +34,14 @@ data class NoteModel(
             if (rollList.isNotEmpty()) rollList.forEach { if (it.text.isNotEmpty()) return true }
             false
         }
+    }
+
+    companion object {
+        fun getCreate(create: String, @Color color: Int, type: NoteType) = NoteModel(NoteEntity(
+                create = create,
+                color = color,
+                type = type
+        ))
     }
 
 }

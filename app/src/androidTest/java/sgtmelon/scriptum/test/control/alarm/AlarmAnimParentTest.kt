@@ -4,6 +4,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashAlarmIntent
 import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.waitAfter
 import kotlin.random.Random
 
 abstract class AlarmAnimParentTest : ParentUiTest() {
@@ -16,16 +17,16 @@ abstract class AlarmAnimParentTest : ParentUiTest() {
     protected fun startTest(@Theme theme: Int, @Color color: Int) {
         iPreferenceRepo.theme = theme
 
-        val noteEntity = testData.clear().let {
+        val noteModel = testData.clear().let {
             if (Random.nextBoolean()) {
-                it.insertText(it.textNote.apply { this.color = color })
+                it.insertTextNote(it.textNote.apply { this.color = color })
             } else {
-                it.insertRoll(it.rollNote.apply { this.color = color })
+                it.insertRollNote(it.rollNote.apply { this.color = color })
             }
         }
 
-        launch(intent = context.getSplashAlarmIntent(noteEntity)) {
-            openAlarm(noteEntity) { wait(time = 15000) }
+        launch(intent = context.getSplashAlarmIntent(noteModel.noteEntity)) {
+            waitAfter(time = 15000) { openAlarm(noteModel) }
         }
     }
 

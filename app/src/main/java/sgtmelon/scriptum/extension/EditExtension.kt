@@ -32,11 +32,7 @@ fun View.requestFocusOnVisible(editText: EditText?) = setOnTouchListener { _, ev
     return@setOnTouchListener false
 }
 
-fun EditText?.getClearText(): String {
-    if (this == null) return ""
-
-    return text.toString().trim().replace("\\s+".toRegex(), " ")
-}
+fun String.clearSpace() = trim().replace("\\s+".toRegex(), replacement = " ")
 
 fun EditText.addTextChangedListener(before: (String) -> Unit = {},
                                     on: (String) -> Unit = {},

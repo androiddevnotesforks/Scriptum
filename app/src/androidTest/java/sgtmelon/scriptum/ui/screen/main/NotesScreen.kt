@@ -2,12 +2,12 @@ package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.main.NotesFragment
-import sgtmelon.scriptum.ui.NotificationScreen
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
+import sgtmelon.scriptum.ui.screen.NotificationScreen
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -21,7 +21,7 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun openNotification(empty: Boolean, func: NotificationScreen.() -> Unit = {}) {
+    fun openNotification(empty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
         action {onClick(R.id.item_notification)}
         NotificationScreen.invoke(func, empty)
     }
@@ -31,23 +31,29 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
         PreferenceScreen.invoke(func)
     }
 
-    fun openNoteDialog(noteEntity: NoteEntity, p: Int = 0, func: NoteDialogUi.() -> Unit = {}) {
+    fun openNoteDialog(noteModel: NoteModel, p: Int = positionRandom,
+                       func: NoteDialogUi.() -> Unit = {}) {
         action { onLongClick(recyclerId, p) }
-        NoteDialogUi.invoke(func, noteEntity)
+        NoteDialogUi.invoke(func, noteModel)
     }
 
-    fun openTextNote(noteEntity: NoteEntity, p: Int = 0, func: TextNoteScreen.() -> Unit = {}) {
+    fun openTextNote(noteModel: NoteModel, p: Int = positionRandom,
+                     func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(func, State.READ, noteEntity)
+        TextNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun openRollNote(noteEntity: NoteEntity, p: Int = 0, func: RollNoteScreen.() -> Unit = {}) {
+    fun openRollNote(noteModel: NoteModel, p: Int = positionRandom,
+                     func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        RollNoteScreen.invoke(func, State.READ, noteEntity)
+        RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
     companion object {
-        operator fun invoke(func: NotesScreen.() -> Unit) = NotesScreen().apply { func() }
+        operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean) = NotesScreen().apply {
+            assert { onDisplayContent(empty) }
+            func()
+        }
     }
 
     class Assert : BasicMatch() {
@@ -56,6 +62,7 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
             onDisplay(R.id.notes_parent_container)
 
             onDisplayToolbar(R.id.toolbar_container, R.string.title_notes)
+            onDisplay(R.id.item_notification)
             onDisplay(R.id.item_preference)
 
             if (empty) {

@@ -22,28 +22,19 @@ class IntroTest : ParentUiTest() {
         testData.clear()
     }
 
-    @Test fun contentPlacement() = launch { introScreen { onPassThrough(Scroll.END) } }
-
-    @Test fun endButtonEnabled() = launch {
+    @Test fun contentPlacement() = launch {
         introScreen {
             onPassThrough(Scroll.END)
-            assert { onDisplayEndButton() }
-
             onPassThrough(Scroll.START)
-
             onPassThrough(Scroll.END)
-            assert { onDisplayEndButton() }
         }
     }
 
     @Test fun endButtonWork() = launch {
         introScreen {
             onPassThrough(Scroll.END)
-            assert { onDisplayEndButton() }
             onClickEndButton()
         }
-
-        mainScreen()
     }
 
 }

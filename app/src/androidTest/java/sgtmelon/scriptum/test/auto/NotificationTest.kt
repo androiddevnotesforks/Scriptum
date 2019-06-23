@@ -22,29 +22,25 @@ class NotificationTest : ParentUiTest() {
     }
 
     @Test fun contentEmpty() =
-            launch { mainScreen { openNotesPage { openNotification(empty = true) } } }
+            launch { mainScreen { openNotesPage(empty = true) { openNotification(empty = true) } } }
 
     @Test fun contentList() = launch({ testData.fillNotification() }) {
-        mainScreen { openNotesPage { openNotification(empty = false) } }
+        mainScreen { openNotesPage { openNotification() } }
     }
 
-    @Test fun listScroll() = launch({ testData.fillNotification(times = 20) }) {
-        mainScreen { openNotesPage { openNotification(empty = false) { onScrollThrough() } } }
+    @Test fun listScroll() = launch({ testData.fillNotification() }) {
+        mainScreen { openNotesPage { openNotification { onScrollThrough() } } }
     }
 
-    @Test fun textNoteOpen(){
-        val noteEntity = testData.insertText()
-
-        launch({ testData.insertNotification(noteEntity) }) {
-            mainScreen { openNotesPage { openNotification(empty = false) { openText(noteEntity) } } }
+    @Test fun textNoteOpen() = testData.insertTextNote().let {
+        launch({ testData.insertNotification(it.noteEntity) }) {
+            mainScreen { openNotesPage { openNotification { openText(it) } } }
         }
     }
 
-    @Test fun rollNoteOpen() {
-        val noteEntity = testData.insertRoll()
-
-        launch({ testData.insertNotification(noteEntity) }) {
-            mainScreen { openNotesPage { openNotification(empty = false) { openRoll(noteEntity) } } }
+    @Test fun rollNoteOpen() = testData.insertRollNote().let {
+        launch({ testData.insertNotification(it.noteEntity) }) {
+            mainScreen { openNotesPage { openNotification { openRoll(it) } } }
         }
     }
 

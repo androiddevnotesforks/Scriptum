@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.extension.clearAndAdd
+import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -37,10 +38,12 @@ class RankViewModel(application: Application) : ParentViewModel(application),
     }
 
     fun onUpdateToolbar() = with(callback) {
-        val name = getEnterText()
+        val enterName = getEnterText()
+        val clearName = enterName.clearSpace().toUpperCase()
+
         bindToolbar(
-                isClearEnable = name.isNotEmpty(),
-                isAddEnable = name.isNotEmpty() && !rankModel.nameList.contains(name)
+                isClearEnable = enterName.isNotEmpty(),
+                isAddEnable = clearName.isNotEmpty() && !rankModel.nameList.contains(clearName)
         )
     }
 
@@ -61,20 +64,20 @@ class RankViewModel(application: Application) : ParentViewModel(application),
     fun onClickCancel() = callback.clearEnter()
 
     fun onEditorClick(i: Int): Boolean {
-        val name = callback.getEnterText()
+        val enterName = callback.getEnterText()
+        val clearName = enterName.clearSpace().toUpperCase()
 
-        if (i != EditorInfo.IME_ACTION_DONE || name.isEmpty()) return false
+        if (i != EditorInfo.IME_ACTION_DONE || enterName.isEmpty()) return false
 
-        if (name.isNotEmpty() && !rankModel.nameList.contains(name)) {
+        if (clearName.isNotEmpty() && !rankModel.nameList.contains(clearName)) {
             onClickAdd(simpleClick = true)
-            return true
         }
 
-        return false
+        return true
     }
 
     fun onClickAdd(simpleClick: Boolean) {
-        val name = callback.clearEnter()
+        val name = callback.clearEnter().clearSpace()
 
         if (name.isEmpty()) return
 

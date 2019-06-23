@@ -5,6 +5,8 @@ import sgtmelon.safedialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.waitBefore
 
 /**
  * Класс для ui контроля диалога [MessageDialog] при отчистке корзины
@@ -15,16 +17,18 @@ class ClearDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onCloseSoft() = pressBack()
+    fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
 
-    fun onClickNo() = action { onClickText(R.string.dialog_btn_no) }
+    fun onClickNo() = waitAfter(time = 300) { action { onClickText(R.string.dialog_btn_no) } }
 
-    fun onClickYes() = action { onClickText(R.string.dialog_btn_yes) }
+    fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_btn_yes) } }
 
     companion object {
         operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
-            assert { onDisplayContent() }
-            func()
+            waitBefore(time = 100) {
+                assert { onDisplayContent() }
+                func()
+            }
         }
     }
 

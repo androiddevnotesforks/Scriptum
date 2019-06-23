@@ -10,8 +10,6 @@ import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.ui.widget.NotePanel
-import sgtmelon.scriptum.ui.widget.NoteToolbar
 
 
 /**
@@ -19,42 +17,55 @@ import sgtmelon.scriptum.ui.widget.NoteToolbar
  *
  * @author SerjantArbuz
  */
-class TextNoteScreen(override var state: State, override val noteModel: NoteModel)
-    : ParentUi(), INoteScreen {
+class TextNoteScreen(override var state: State,
+                     override val noteModel: NoteModel,
+                     override val isRankEmpty: Boolean
+) : ParentUi(), INoteScreen {
 
-    override val inputControl = InputControl()
-
-    fun assert(func: Assert.() -> Unit) = Assert(state, noteModel).apply { func() }
+    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
 
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
 
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
-    fun onEnterText(text: String) = action { onEnter(R.id.text_note_content_enter, text) }
+    override val inputControl = InputControl()
 
+    override fun fullAssert() {
+        assert { onDisplayContent() }
+        toolbar { assert { onDisplayContent() } }
+        controlPanel { assert { onDisplayContent() } }
+    }
+
+    fun onEnterText(text: String) {
+        action { onEnter(R.id.text_note_content_enter, text) }
+        noteModel.noteEntity.text = text
+        fullAssert()
+    }
+
+    // TODO #TEST возврат данных, контроль выхода с экрана
     fun onPressBack() {
         closeSoftKeyboard()
         pressBack()
     }
 
     companion object {
-        operator fun invoke(func: TextNoteScreen.() -> Unit, state: State, noteModel: NoteModel) =
-                TextNoteScreen(state, noteModel).apply {
-                    assert { onDisplayContent() }
-                    controlPanel { assert { onDisplayContent(state) } }
+        operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
+                            noteModel: NoteModel, isRankEmpty: Boolean = true) =
+                TextNoteScreen(state, noteModel, isRankEmpty).apply {
+                    fullAssert()
                     func()
                 }
     }
 
-    class Assert(private val state: State, private val noteModel: NoteModel) : BasicMatch() {
+    class Assert(private val callback: INoteScreen) : BasicMatch() {
 
-        fun onDisplayContent() = with(noteModel) {
+        fun onDisplayContent(): Unit = with(callback.noteModel) {
             onDisplay(R.id.text_note_parent_container)
 
             onDisplay(R.id.text_note_content_card)
             onDisplay(R.id.text_note_content_scroll)
 
-            when (state) {
+            when (callback.state) {
                 State.READ, State.BIN -> {
                     notDisplay(R.id.text_note_content_enter)
                     onDisplay(R.id.text_note_content_text)
@@ -65,7 +76,7 @@ class TextNoteScreen(override var state: State, override val noteModel: NoteMode
                 }
             }
 
-            when (state) {
+            when (callback.state) {
                 State.READ, State.BIN -> onDisplay(R.id.text_note_content_text, noteEntity.text)
                 State.EDIT, State.NEW -> if (noteEntity.text.isNotEmpty()) {
                     onDisplay(R.id.text_note_content_enter, noteEntity.text)

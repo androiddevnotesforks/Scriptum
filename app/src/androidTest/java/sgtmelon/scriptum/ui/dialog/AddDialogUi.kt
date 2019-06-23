@@ -4,12 +4,14 @@ import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.dialog.SheetAddDialog
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
+import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.waitBefore
 
 /**
  * Класс для ui контроля диалога [SheetAddDialog]
@@ -20,21 +22,14 @@ class AddDialogUi : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun createTextNote(func: TextNoteScreen.() -> Unit = {}){
+    fun createTextNote(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}){
         onClickItem(NoteType.TEXT)
-        TextNoteScreen.invoke(func, State.NEW, NoteEntity())
+        TextNoteScreen.invoke(func, State.NEW, noteModel)
     }
 
-    fun createRollNote(func: RollNoteScreen.() -> Unit = {}) {
+    fun createRollNote(noteModel: NoteModel, func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(NoteType.ROLL)
-        RollNoteScreen.invoke(func, State.NEW, NoteEntity())
-    }
-
-    fun onCloseSoft() = pressBack()
-
-    fun onCloseSwipe() = action {
-        onSwipeDown(R.id.add_navigation)
-        waitBefore(time = 500)
+        RollNoteScreen.invoke(func, State.NEW, noteModel)
     }
 
     private fun onClickItem(type: NoteType) = action {
@@ -44,10 +39,16 @@ class AddDialogUi : ParentUi() {
         })
     }
 
+    fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
+
+    fun onCloseSwipe() = waitAfter(time = 300) { action { onSwipeDown(R.id.add_navigation) } }
+
     companion object {
         operator fun invoke(func: AddDialogUi.() -> Unit) = AddDialogUi().apply {
-            assert { onDisplayContent() }
-            func()
+            waitBefore(time = 100) {
+                assert { onDisplayContent() }
+                func()
+            }
         }
     }
 

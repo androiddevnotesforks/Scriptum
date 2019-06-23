@@ -28,11 +28,11 @@
     <string name="info_rank_title">No categories</string>
     <string name="info_notes_title">No created notes</string>
     <string name="info_bin_title">Bin is empty</string>
-    <string name="info_notification_title"></string>
+    <string name="info_notification_title">TEXT TEXT TEXT</string>
 
     <string name="info_rank_details">For add category write name in text field from top</string>
     <string name="info_notes_details">For add new note click on central button of menu</string>
     <string name="info_bin_details">Deleted notes can be restored at any time</string>
-    <string name="info_notification_details"></string>
+    <string name="info_notification_details">TEXT TEXT TEXT</string>
 
 </resources>

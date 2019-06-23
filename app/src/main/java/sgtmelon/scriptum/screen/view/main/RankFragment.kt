@@ -20,7 +20,6 @@ import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.createVisibleAnim
-import sgtmelon.scriptum.extension.getClearText
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.listener.ItemListener
@@ -161,12 +160,12 @@ class RankFragment : Fragment(), IRankFragment {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun getEnterText() = nameEnter?.getClearText()?.toUpperCase() ?: ""
+    override fun getEnterText() = nameEnter?.text?.toString() ?: ""
 
     override fun clearEnter(): String {
-        val text = nameEnter.getClearText()
+        val name = nameEnter?.text?.toString() ?: ""
         nameEnter?.setText("")
-        return text
+        return name
     }
 
     override fun scrollToItem(simpleClick: Boolean, list: MutableList<RankEntity>) {

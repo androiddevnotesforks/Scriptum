@@ -35,6 +35,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         pageButtonEnd.apply {
             alpha = 0f
             isEnabled = false
+
             setOnClickListener {
                 AppIdlingResource.worker.startHardWork()
                 beforeFinish { startActivity(MainActivity.getInstance(context = this@IntroActivity)) }

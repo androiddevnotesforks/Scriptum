@@ -25,36 +25,27 @@ class MainTest : ParentUiTest() {
         super.setUp()
 
         iPreferenceRepo.firstStart = false
+        testData.clear()
     }
 
-    @Test fun startScreen() = launch { mainScreen { assert { onDisplayContent(MainPage.NOTES) } } }
+    @Test fun startScreen() = launch { mainScreen() }
 
     @Test fun menuClickCorrectScreen() = launch {
         mainScreen {
             repeat(times = 3) {
                 pageList.forEach {
                     when (it) {
-                        MainPage.RANK -> openRankPage { assert { onDisplayContent(empty = count == 0) } }
-                        MainPage.NOTES -> openNotesPage { assert { onDisplayContent(empty = count == 0) } }
-                        MainPage.BIN -> openBinPage { assert { onDisplayContent(empty = count == 0) } }
+                        MainPage.RANK -> openRankPage(empty = true)
+                        MainPage.NOTES -> openNotesPage(empty = true)
+                        MainPage.BIN -> openBinPage(empty = true)
                     }
-
-                    assert { onDisplayContent(it) }
                 }
             }
         }
     }
 
-    @Test fun addFabVisible() = launch {
-        mainScreen {
-            repeat(times = 3) {
-                pageList.forEach {
-                    onNavigateTo(it)
-                    assert { onDisplayFab(visible = it == MainPage.NOTES) }
-                }
-            }
-        }
-    }
+    @Test fun addFabVisible() =
+            launch { mainScreen { repeat(times = 3) { pageList.forEach { onNavigateTo(it) } } } }
 
     /**
      * Add Dialog
@@ -76,45 +67,37 @@ class MainTest : ParentUiTest() {
         }
     }
 
-    @Test fun addDialogCreateTextNote() =
-            launch { mainScreen { openAddDialog { createTextNote() } } }
+    // TODO #FIX
+    @Test fun addDialogCreateTextNote() = testData.createTextNote().let {
+        launch { mainScreen { openAddDialog { createTextNote(it) } } }
+    }
 
-    @Test fun addDialogCreateRollNote() =
-            launch { mainScreen { openAddDialog { createRollNote() } } }
+    // TODO #FIX
+    @Test fun addDialogCreateRollNote() = testData.createRollNote().let {
+        launch { mainScreen { openAddDialog { createRollNote(it) } } }
+    }
 
     /**
      * Page Scroll Top
      */
 
-    @Test fun rankScreenScrollTop() = launch({ testData.clear().fillRank(times = 20) }) {
+    @Test fun rankScreenScrollTop() = launch({ testData.fillRank() }) {
         mainScreen {
-            openRankPage {
-                assert { onDisplayContent(empty = false) }
-                onScroll(Scroll.END, time = 4)
-            }
-
+            openRankPage { onScroll(Scroll.END) }
             onScrollTop(MainPage.RANK)
         }
     }
 
-    @Test fun notesScreenScrollTop() = launch({ testData.clear().fillNotes(times = 20) }) {
+    @Test fun notesScreenScrollTop() = launch({ testData.fillNotes() }) {
         mainScreen {
-            openNotesPage {
-                assert { onDisplayContent(empty = false) }
-                onScroll(Scroll.END, time = 4)
-            }
-
+            openNotesPage { onScroll(Scroll.END) }
             onScrollTop(MainPage.NOTES)
         }
     }
 
-    @Test fun binScreenScrollTop() = launch({ testData.clear().fillBin(times = 20) }) {
+    @Test fun binScreenScrollTop() = launch({ testData.fillBin() }) {
         mainScreen {
-            openBinPage {
-                assert { onDisplayContent(empty = false) }
-                onScroll(Scroll.END, time = 4)
-            }
-
+            openBinPage { onScroll(Scroll.END) }
             onScrollTop(MainPage.BIN)
         }
     }

@@ -1,13 +1,10 @@
-package sgtmelon.scriptum.ui.widget
+package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.main.BinScreen
-import sgtmelon.scriptum.ui.screen.note.INoteScreen
-import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
-import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
@@ -16,7 +13,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(func: Assert.() -> Unit) = Assert(callback).apply { func() }
 
     /**
      * Будет возврат на экран [BinScreen]
@@ -28,6 +25,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
     fun onClickRestoreOpen() = callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_restore_open_button) }
         callback.state = State.READ
+        callback.fullAssert()
     }
 
     /**
@@ -37,54 +35,55 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
         action { onClick(R.id.note_panel_clear_button) }
     }
 
-    fun onClickUndo() = callback.throwOnWrongState(State.EDIT) {
+    fun onClickUndo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_undo_button) }
     }
 
-    fun onClickRedo() = callback.throwOnWrongState(State.EDIT) {
+    fun onClickRedo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_redo_button) }
     }
 
-    fun onClickRank() = callback.throwOnWrongState(State.EDIT) {
+    fun onClickRank() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_rank_button) }
     }
 
-    fun onClickColor() = callback.throwOnWrongState(State.EDIT) {
+    fun onClickColor() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_color_button) }
     }
 
-    fun onClickSave() = callback.throwOnWrongState(State.EDIT) {
+    fun onClickSave() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_save_button) }
+        callback.state = State.READ
+        callback.fullAssert()
     }
 
-    fun onClickBind() = callback.throwOnWrongState(State.READ, State.NEW) {
+    fun onClickBind() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_bind_button) }
+        with(callback.noteModel.noteEntity) { isStatus = !isStatus }
     }
 
-    fun onClickConvert() = callback.throwOnWrongState(State.READ, State.NEW) {
+    fun onClickConvert() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_convert_button) }
     }
 
-    fun onClickDelete() = callback.throwOnWrongState(State.READ, State.NEW) {
+    fun onClickDelete() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_delete_button) }
     }
 
-    fun onClickEdit() = callback.throwOnWrongState(State.READ, State.NEW) {
+    fun onClickEdit() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_edit_button) }
+        callback.state = State.EDIT
+        callback.fullAssert()
     }
 
     companion object {
-        operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) = NotePanel(callback).apply(func)
+        operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) =
+                NotePanel(callback).apply(func)
     }
 
-    class Assert() : BasicMatch() {
+    class Assert(private val callback: INoteScreen) : BasicMatch() {
 
-        fun isEnabledUndo(enabled: Boolean) = isEnabled(R.id.note_panel_undo_button, enabled)
-        fun isEnabledRedo(enabled: Boolean) = isEnabled(R.id.note_panel_redo_button, enabled)
-        fun isEnabledRank(enabled: Boolean) = isEnabled(R.id.note_panel_rank_button, enabled)
-        fun isEnabledSave(enabled: Boolean) = isEnabled(R.id.note_panel_save_button, enabled)
-
-        fun onDisplayContent(state: State) {
+        fun onDisplayContent(): Unit = with(callback) {
             onDisplay(R.id.note_panel_container)
 
             when (state) {
@@ -114,6 +113,11 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
                     onDisplay(R.id.note_panel_color_button)
 
                     onDisplay(R.id.note_panel_save_button)
+
+                    isEnabled(R.id.note_panel_undo_button, inputControl.isUndoAccess)
+                    isEnabled(R.id.note_panel_redo_button, inputControl.isRedoAccess)
+                    isEnabled(R.id.note_panel_save_button, noteModel.isSaveEnabled())
+                    isEnabled(R.id.note_panel_rank_button, !isRankEmpty)
                 }
             }
         }

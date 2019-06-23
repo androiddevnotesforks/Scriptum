@@ -6,6 +6,7 @@ import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.AddDialogUi
+import sgtmelon.scriptum.waitAfter
 
 /**
  * Класс для ui контроля экрана [MainActivity]
@@ -18,24 +19,24 @@ class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun openRankPage(func: RankScreen.() -> Unit) {
+    fun openRankPage(empty: Boolean = false, func: RankScreen.() -> Unit = {}) {
         wasNavigate = true
         onNavigateTo(MainPage.RANK)
 
-        RankScreen().apply(func)
+        RankScreen.invoke(func, empty)
     }
 
-    fun openNotesPage(func: NotesScreen.() -> Unit) {
+    fun openNotesPage(empty: Boolean = false, func: NotesScreen.() -> Unit = {}) {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
 
-        NotesScreen().apply(func)
+        NotesScreen.invoke(func, empty)
     }
 
-    fun openBinPage(func: BinScreen.() -> Unit = {}) {
+    fun openBinPage(empty: Boolean = false, func: BinScreen.() -> Unit = {}) {
         wasNavigate = true
         onNavigateTo(MainPage.BIN)
 
-        BinScreen().apply(func)
+        BinScreen.invoke(func, empty)
     }
 
     fun openAddDialog(func: AddDialogUi.() -> Unit = {}) {
@@ -49,6 +50,11 @@ class MainScreen : ParentUi() {
             MainPage.NOTES -> R.id.item_page_notes
             MainPage.BIN -> R.id.item_page_bin
         })
+
+        assert {
+            onDisplayContent(page)
+            onDisplayFab(visible = page == MainPage.NOTES)
+        }
     }
 
     fun onScrollTop(page: MainPage) = action {
@@ -63,7 +69,11 @@ class MainScreen : ParentUi() {
 
     companion object {
         operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply {
-            assert { onDisplayContent() }
+            assert {
+                onDisplayContent()
+                onDisplayContent(MainPage.NOTES)
+                onDisplayFab(visible = true)
+            }
             func()
         }
     }

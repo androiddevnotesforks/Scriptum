@@ -120,10 +120,6 @@ private class Scenario {
              */
 
             /**
-             * UI - Доступ к кнопке end :: [IntroTest.endButtonEnabled]
-             */
-
-            /**
              * UI - Работа кнопки end :: [IntroTest.endButtonWork]
              */
 

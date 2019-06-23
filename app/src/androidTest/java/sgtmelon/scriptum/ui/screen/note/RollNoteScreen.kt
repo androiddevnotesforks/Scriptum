@@ -3,54 +3,61 @@ package sgtmelon.scriptum.ui.screen.note
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.ui.widget.NotePanel
-import sgtmelon.scriptum.ui.widget.NoteToolbar
-import sgtmelon.scriptum.ui.widget.RollEnterPanel
 
 /**
  * Класс для ui контроля экрана [NoteActivity], [RollNoteFragment]
  *
  * @author SerjantArbuz
  */
-class RollNoteScreen : ParentUi() {
+class RollNoteScreen(override var state: State,
+        override val noteModel: NoteModel,
+        override val isRankEmpty: Boolean
+) : ParentUi(), INoteScreen {
 
-    // TODO !! сделать передачу состояния заметки, и автоматические assert при вызове
+    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
 
-    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func)
+    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
 
-    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func)
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func)
+    override val inputControl = InputControl()
 
+    override fun fullAssert() {
+        assert { onDisplayContent() }
+        toolbar { assert { onDisplayContent() } }
+        controlPanel { assert { onDisplayContent() } }
+        enterPanel { assert { onDisplayContent() } }
+    }
+
+    // TODO #TEST возврат данных, контроль выхода с экрана
     fun onPressBack() {
         closeSoftKeyboard()
         pressBack()
     }
 
     companion object {
-        operator fun invoke(func: RollNoteScreen.() -> Unit, state: State, noteModel: NoteModel) =
-                RollNoteScreen().apply {
-                    assert { onDisplayContent(state) }
-                    controlPanel { assert { onDisplayContent(state) } }
+        operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
+                            noteModel: NoteModel, isRankEmpty: Boolean = true) =
+                RollNoteScreen(state, noteModel, isRankEmpty).apply {
+                    fullAssert()
                     func()
                 }
     }
 
-    class Assert : BasicMatch() {
+    class Assert(private val callback: INoteScreen) : BasicMatch() {
 
-        fun onDisplayContent(state: State) {
+        fun onDisplayContent(): Unit = with(callback) {
             onDisplay(R.id.roll_note_parent_container)
             onDisplay(R.id.roll_note_recycler)
-
-            RollEnterPanel { assert { onDisplayContent(state) } }
         }
 
     }

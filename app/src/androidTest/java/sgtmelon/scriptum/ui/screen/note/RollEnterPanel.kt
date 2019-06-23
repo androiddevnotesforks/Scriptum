@@ -1,11 +1,9 @@
-package sgtmelon.scriptum.ui.widget
+package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.ui.screen.note.INoteScreen
-import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 
 /**
  * Часть UI абстракции для [RollNoteScreen]
@@ -14,9 +12,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
  */
 class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
 
-    // TODO Доступ через Text/Roll Note
-
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(func: Assert.() -> Unit) = Assert(callback).apply { func() }
 
     fun onAddRoll(text: String) = action {
         onEnter(R.id.roll_note_enter, text)
@@ -26,14 +22,16 @@ class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
     companion object {
         operator fun invoke(func: RollEnterPanel.() -> Unit, callback: INoteScreen) =
                 RollEnterPanel(callback).apply {
-                    // TODO assert
+                    assert { onDisplayContent() }
                     func()
                 }
     }
 
-    class Assert : BasicMatch() {
+    class Assert(private val callback: INoteScreen) : BasicMatch() {
 
-        fun onDisplayContent(state: State) {
+        // tODO assert Доступа к кнопке (при отсутствии текста / при введённом тексте)
+
+        fun onDisplayContent(): Unit = with(callback) {
             when (state) {
                 State.READ, State.BIN -> {
                     notDisplay(R.id.roll_note_enter_container)

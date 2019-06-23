@@ -1,10 +1,9 @@
 package sgtmelon.scriptum.test.auto.main
 
-import androidx.test.espresso.Espresso.closeSoftKeyboard
 import org.junit.Test
-import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.waitAfter
 
 /**
  * Тест работы [RankFragment]
@@ -17,121 +16,82 @@ class RankTest : ParentUiTest() {
         super.setUp()
 
         iPreferenceRepo.firstStart = false
+        testData.clear()
     }
 
 
-    @Test fun contentEmpty() = launch({ testData.clear() }) {
-        mainScreen { openRankPage { assert { onDisplayContent(empty = true) } } }
+    @Test fun contentEmpty() = launch {
+        mainScreen { openRankPage(empty = true) }
     }
 
-    @Test fun contentList() = launch({ testData.clear().fillRank() }) {
-        mainScreen { openRankPage { assert { onDisplayContent(empty = false) } } }
+    @Test fun contentList() = launch({ testData.fillRank() }) {
+        mainScreen { openRankPage() }
     }
 
-    @Test fun listScroll() = launch({ testData.clear().fillRank(times = 20) }) {
-        mainScreen {
-            openRankPage {
-                onScroll(Scroll.END, time = 4)
-                onScroll(Scroll.START, time = 4)
-            }
-        }
+    @Test fun listScroll() = launch({ testData.fillRank() }) {
+        mainScreen { openRankPage { onScrollThrough() } }
     }
 
     /**
      * Toolbar
      */
 
-    @Test fun toolbarEnterAddEmpty() = launch({ testData.clear() }) {
+    @Test fun toolbarEnterAddEmpty() = launch {
         mainScreen {
-            openRankPage {
-                toolbar {
-                    assert { isAddEnabled(enabled = false) }
-                    onEnterName(name = " ")
-                    assert { isAddEnabled(enabled = false) }
-                }
-            }
+            openRankPage(empty = true) { toolbar { onEnterName(name = " ", isAddEnabled = false) } }
         }
     }
 
-    @Test fun toolbarEnterAddFromList() {
-        val rankEntity = testData.clear().insertRank()
+    @Test fun toolbarEnterAddFromList() = testData.insertRank().let {
+        launch {
+            mainScreen { openRankPage { toolbar { onEnterName(it.name, isAddEnabled = false) } } }
+        }
+    }
 
+    @Test fun toolbarEnterAddEnabled() = testData.uniqueString.let {
         launch {
             mainScreen {
-                openRankPage {
-                    toolbar {
-                        assert { isAddEnabled(enabled = false) }
-                        onEnterName(rankEntity.name)
-                        assert { isAddEnabled(enabled = false) }
-                    }
-                }
+                openRankPage(empty = true) { toolbar { onEnterName(it, isAddEnabled = true) } }
             }
         }
     }
 
-    @Test fun toolbarEnterAddEnabled() = launch({ testData.clear() }) {
+    @Test fun toolbarEnterClear() = launch {
         mainScreen {
-            openRankPage {
+            openRankPage(empty = true) {
                 toolbar {
-                    assert { isAddEnabled(enabled = false) }
-                    onEnterName(testData.rankEntity.name)
-                    assert { isAddEnabled(enabled = true) }
-                }
-            }
-        }
-    }
-
-    @Test fun toolbarEnterClear() = launch({ testData.clear() }) {
-        mainScreen {
-            openRankPage {
-                toolbar {
-                    assert { isClearEnabled(enabled = false) }
-                    onEnterName(testData.rankEntity.name)
-                    assert { isClearEnabled(enabled = true) }
+                    onEnterName(testData.uniqueString, isAddEnabled = true)
                     onClickClear()
-                    assert { isClearEnabled(enabled = false) }
                 }
             }
         }
     }
 
-    @Test fun toolbarEnterAddStart() {
-        val name = testData.apply {
-            clear()
-            insertRank()
-        }.uniqueString
-
-        launch {
+    @Test fun toolbarEnterAddStart() = testData.uniqueString.let {
+        launch({ testData.insertRank() }) {
             mainScreen {
                 openRankPage {
                     toolbar {
-                        onEnterName(name)
+                        onEnterName(it, isAddEnabled = true)
                         onLongClickAdd()
                     }
 
-                    assert { onDisplayContent(empty = false) }
-                    openRenameDialog(name)
+                    openRenameDialog(it, p = 0)
                 }
             }
         }
     }
 
-    @Test fun toolbarEnterAddEnd() {
-        val name = testData.apply {
-            clear()
-            insertRank()
-        }.uniqueString
-
-        launch {
+    @Test fun toolbarEnterAddEnd() = testData.uniqueString.let {
+        launch({ testData.insertRank() }) {
             mainScreen {
                 openRankPage {
                     toolbar {
-                        onEnterName(name)
+                        onEnterName(it, isAddEnabled = true)
                         onClickAdd()
                     }
 
-                    assert { onDisplayContent(empty = false) }
-                    openRenameDialog(name, p = count - 1)
+                    openRenameDialog(it, p = count - 1)
                 }
             }
         }
@@ -141,82 +101,67 @@ class RankTest : ParentUiTest() {
      * Rank Card
      */
 
-    @Test fun rankVisibleAnimationClick() {
-        val rankEntity = testData.clear().insertRank()
-
+    @Test fun rankVisibleAnimationClick() = testData.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
-                    onClickVisible(rankEntity.name)
-                    wait(time = 500) { onClickVisible(rankEntity.name) }
+                    onClickVisible(it)
+                    wait(time = 500) { onClickVisible(it) }
                 }
             }
         }
     }
 
-    @Test fun rankVisibleAnimationLongClick() {
-        val rankList = testData.clear().fillRank(times = 5)
+    @Test fun rankVisibleAnimationLongClick() = testData.fillRank(count = 5).let {
+        launch {
+            mainScreen {
+                openRankPage { it.forEach { waitAfter(time = 300) { onLongClickVisible(it) } } }
+            }
+        }
+    }
 
+    @Test fun rankVisibleForNotes() = testData.insertRankToNotes().let {
+        launch {
+            mainScreen {
+                openNotesPage()
+                openRankPage { onClickVisible(it[1]) }
+                openNotesPage()
+                openRankPage { onClickVisible(it[0]) }
+                openNotesPage(empty = true)
+            }
+        }
+    }
+
+    @Test fun rankVisibleForBin() = testData.insertRankToBin().let {
+        launch {
+            mainScreen {
+                openBinPage()
+                openRankPage { onClickVisible(it[1]) }
+                openBinPage()
+                openRankPage { onClickVisible(it[0]) }
+                openBinPage(empty = true)
+            }
+        }
+    }
+
+    @Test fun rankClearFromList() = testData.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
-                    onLongClickVisible(rankList[0].name)
-                    wait(time = 500) { onLongClickVisible(rankList[count - 1].name) }
-                }
-            }
-        }
-    }
-
-    @Test fun rankVisibleForNotes() {
-        val rankList = testData.clear().insertRankToNotes()
-
-        launch {
-            mainScreen {
-                openNotesPage { assert { onDisplayContent(empty = false) } }
-                openRankPage { onClickVisible(rankList[1].name) }
-                openNotesPage { assert { onDisplayContent(empty = false) } }
-                openRankPage { onClickVisible(rankList[0].name) }
-                openNotesPage { assert { onDisplayContent(empty = true) } }
-            }
-        }
-    }
-
-    @Test fun rankVisibleForBin() {
-        val rankList = testData.clear().insertRankToBin()
-
-        launch {
-            mainScreen {
-                openBinPage { assert { onDisplayContent(empty = false) } }
-                openRankPage { onClickVisible(rankList[1].name) }
-                openBinPage { assert { onDisplayContent(empty = false) } }
-                openRankPage { onClickVisible(rankList[0].name) }
-                openBinPage { assert { onDisplayContent(empty = true) } }
-            }
-        }
-    }
-
-    @Test fun rankClearFromList() {
-        val rankEntity = testData.clear().insertRank()
-
-        launch {
-            mainScreen {
-                openRankPage {
-                    onClickCancel(rankEntity.name)
+                    onClickCancel(it)
                     assert { onDisplayContent(empty = true) }
                 }
             }
         }
     }
 
-    @Test fun rankClearForNote() {
-        val rankList = testData.clear().insertRankToNotes()
-
+    @Test fun rankClearForNote() = testData.insertRankToNotes().let {
         launch {
             mainScreen {
-                openRankPage { onClickVisible(rankList[0].name) }
-                openNotesPage { assert { onDisplayContent(empty = true) } }
-                openRankPage { onClickCancel(rankList[0].name) }
-                openNotesPage { assert { onDisplayContent(empty = false) } }
+                openRankPage { onClickVisible(it[0]) }
+                openNotesPage(empty = true)
+                openRankPage { onClickCancel(it[0]) }
+                openNotesPage()
             }
         }
     }
@@ -225,83 +170,60 @@ class RankTest : ParentUiTest() {
      * Rename Dialog
      */
 
-    @Test fun renameDialogOpen() {
-        val rankEntity = testData.clear().insertRank()
-
-        launch { mainScreen { openRankPage { openRenameDialog(rankEntity.name) } } }
+    @Test fun renameDialogOpen() = testData.insertRank().let {
+        launch { mainScreen { openRankPage { openRenameDialog(it.name) } } }
     }
 
-    @Test fun renameDialogCloseSoft() {
-        val rankEntity = testData.clear().insertRank()
-
+    @Test fun renameDialogCloseSoft() = testData.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(rankEntity.name) {
-                        closeSoftKeyboard()
-                        onCloseSoft()
-                    }
-
+                    openRenameDialog(it.name) { onCloseSoft() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
         }
     }
 
-    @Test fun renameDialogCloseCancel() {
-        val rankEntity = testData.clear().insertRank()
-
+    @Test fun renameDialogCloseCancel() = testData.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(rankEntity.name) { onClickCancel() }
+                    openRenameDialog(it.name) { onClickCancel() }
                     assert { onDisplayContent(empty = false) }
                 }
             }
         }
     }
 
-    @Test fun renameDialogBlockApplySameName() {
-        val rankEntity = testData.clear().insertRank()
+    @Test fun renameDialogBlockApplySameName() = testData.insertRank().let {
+        launch {
+            mainScreen {
+                openRankPage { openRenameDialog(it.name) { onEnterName(it.name, enabled = false) } }
+            }
+        }
+    }
 
+    @Test fun renameDialogBlockApplyFromList() = testData.fillRank().let {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(rankEntity.name) {
-                        onEnterName(rankEntity.name, enabled = false)
-                    }
+                    openRenameDialog(it[0].name, p = 0) { onEnterName(it[1].name, enabled = false) }
                 }
             }
         }
     }
 
-    @Test fun renameDialogBlockApplyFromList() {
-        val rankList = testData.clear().fillRank(times = 2)
-
-        launch {
-            mainScreen {
-                openRankPage {
-                    openRenameDialog(rankList[0].name) {
-                        onEnterName(rankList[1].name, enabled = false)
-                    }
-                }
-            }
-        }
-    }
-
-    @Test fun renameDialogResult() {
-        val rankEntity = testData.clear().insertRank()
+    @Test fun renameDialogResult() = testData.insertRank().let {
         val newName = testData.uniqueString
 
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(rankEntity.name) {
+                    openRenameDialog(it.name) {
                         onEnterName(newName, enabled = true)
                         onClickAccept()
                     }
-
-                    assert { onDisplayContent(empty = false) }
 
                     openRenameDialog(newName)
                 }

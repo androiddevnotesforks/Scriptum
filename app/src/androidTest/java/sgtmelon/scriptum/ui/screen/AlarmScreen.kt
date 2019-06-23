@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
@@ -11,13 +11,13 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  *
  * @author SerjantArbuz
  */
-class AlarmScreen(noteEntity: NoteEntity) : ParentUi() {
+class AlarmScreen(noteModel: NoteModel) : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
     companion object {
-        operator fun invoke(func: AlarmScreen.() -> Unit, noteEntity: NoteEntity) =
-                AlarmScreen(noteEntity).apply {
+        operator fun invoke(func: AlarmScreen.() -> Unit, noteModel: NoteModel) =
+                AlarmScreen(noteModel).apply {
                     assert { onDisplayContent() }
                     func()
                 }

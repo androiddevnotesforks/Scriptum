@@ -19,7 +19,6 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.note.INoteChild
 import sgtmelon.scriptum.screen.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.callback.note.text.ITextNoteMenu
@@ -59,11 +58,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             isRankEmpty = iRoomRepo.getRankCount()
 
             if (id == NoteData.Default.ID) {
-                noteModel = NoteModel(NoteEntity(
-                        create = context.getTime(),
-                        color = iPreferenceRepo.defaultColor,
-                        type = NoteType.TEXT
-                ))
+                noteModel = NoteModel.getCreate(
+                        context.getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
+                )
 
                 noteState = NoteState(isCreate = true)
             } else {

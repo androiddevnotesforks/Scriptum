@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
@@ -19,14 +19,14 @@ class SplashScreen : ParentUi() {
 
     fun mainScreen(func: MainScreen.() -> Unit = {}) = MainScreen.invoke(func)
 
-    fun openTextNoteBind(noteEntity: NoteEntity, func: TextNoteScreen.() -> Unit = {}) =
-            TextNoteScreen.invoke(func, State.READ, noteEntity)
+    fun openTextNoteBind(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) =
+            TextNoteScreen.invoke(func, State.READ, noteModel)
 
-    fun openRollNoteBind(noteEntity: NoteEntity, func: RollNoteScreen.() -> Unit = {}) =
-            RollNoteScreen.invoke(func, State.READ, noteEntity)
+    fun openRollNoteBind(noteModel: NoteModel, func: RollNoteScreen.() -> Unit = {}) =
+            RollNoteScreen.invoke(func, State.READ, noteModel)
 
-    fun openAlarm(noteEntity: NoteEntity, func: AlarmScreen.() -> Unit = {}) =
-            AlarmScreen.invoke(func, noteEntity)
+    fun openAlarm(noteModel: NoteModel, func: AlarmScreen.() -> Unit = {}) =
+            AlarmScreen.invoke(func, noteModel)
 
     companion object {
         operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply { func() }

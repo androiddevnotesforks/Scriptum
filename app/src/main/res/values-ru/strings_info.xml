@@ -25,11 +25,11 @@
     <string name="info_rank_title">Нет категорий</string>
     <string name="info_notes_title">Нет созданных заметок</string>
     <string name="info_bin_title">Корзина пуста</string>
-    <string name="info_notification_title"></string>
+    <string name="info_notification_title">TEXT TEXT TEXT</string>
 
     <string name="info_rank_details">Чтобы добавить категорию введите имя в поле сверху</string>
     <string name="info_notes_details">Чтобы добавить заметку нажмите на центральную кнопку меню</string>
     <string name="info_bin_details">Удалённые заметки можно в любой момент восстановить</string>
-    <string name="info_notification_details"></string>
+    <string name="info_notification_details">TEXT TEXT TEXT</string>
 
 </resources>

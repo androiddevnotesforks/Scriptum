@@ -7,6 +7,7 @@ import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.waitAfter
 
 /**
  * Тест анимации кнопки у тулбара [MenuControlAnim] в [TextNoteFragment] и [RollNoteFragment]
@@ -23,81 +24,77 @@ class NoteToolbarIconTest : ParentUiTest() {
         testData.clear()
     }
 
-    @Test fun arrowBackOnCreateTextNote() = launch {
-        mainScreen { openAddDialog { createTextNote { wait(time = 500) } } }
+    @Test fun arrowBackOnCreateTextNote() = testData.createTextNote().let {
+        launch { mainScreen { openAddDialog { waitAfter(time = 500) { createTextNote(it) } } } }
     }
 
-    @Test fun arrowBackOnCreateRollNote() = launch {
-        mainScreen { openAddDialog { createRollNote { wait(time = 500) } } }
+    @Test fun arrowBackOnCreateRollNote() = testData.createRollNote().let {
+        launch { mainScreen { openAddDialog { waitAfter(time = 500) { createRollNote(it) } } } }
     }
 
-    @Test fun notAnimateOnSaveCreateTextNote() = launch {
-        mainScreen {
-            openAddDialog {
-                createTextNote {
-                    onEnterText(testData.textNote.text)
-                    controlPanel { onClickSave() }
-                    wait(time = 500)
-                }
-            }
-        }
-    }
-
-    @Test fun notAnimateOnSaveCreateRollNote() = launch {
-        mainScreen {
-            openAddDialog {
-                createRollNote {
-                    enterPanel { onAddRoll(testData.rollList[0].text) }
-                    controlPanel { onClickSave() }
-                    wait(time = 500)
-                }
-            }
-        }
-    }
-
-    @Test fun notAnimateOnRestoreOpenTextNote() {
-        val noteEntity = testData.insertTextToBin()
-
+    @Test fun notAnimateOnSaveCreateTextNote() = testData.createTextNote().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openTextNote(noteEntity) {
-                        controlPanel { onClickRestoreOpen() }
-                        wait(time = 500)
+                openAddDialog {
+                    createTextNote(it) {
+                        waitAfter(time = 500) {
+                            onEnterText(testData.textNote.text)
+                            controlPanel { onClickSave() }
+                        }
                     }
                 }
             }
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenRollNote() {
-        val noteEntity = testData.insertRollToBin()
-
+    @Test fun notAnimateOnSaveCreateRollNote() = testData.createRollNote().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openRollNote(noteEntity) {
-                        controlPanel { onClickRestoreOpen() }
-                        wait(time = 500)
+                openAddDialog {
+                    createRollNote(it) {
+                        waitAfter(time = 500) {
+                            enterPanel { onAddRoll(testData.rollList[0].text) }
+                            controlPanel { onClickSave() }
+                        }
                     }
                 }
             }
         }
     }
 
-    @Test fun animateOnEditToSaveTextNote() {
-        val noteEntity = testData.insertText()
+    @Test fun notAnimateOnRestoreOpenTextNote() = testData.insertTextNoteToBin().let {
+        launch {
+            mainScreen {
+                openBinPage {
+                    openTextNote(it) {
+                        waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
+                    }
+                }
+            }
+        }
+    }
 
+    @Test fun notAnimateOnRestoreOpenRollNote() = testData.insertRollNoteToBin().let {
+        launch {
+            mainScreen {
+                openBinPage {
+                    openRollNote(it) {
+                        waitAfter(time = 500) { controlPanel { onClickRestoreOpen() } }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun animateOnEditToSaveTextNote() = testData.insertTextNote().let {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote(noteEntity) {
+                    openTextNote(it) {
                         controlPanel {
                             repeat(times = 3) {
-                                onClickEdit()
-                                wait(time = 500)
-                                onClickSave()
-                                wait(time = 500)
+                                waitAfter(time = 500) { onClickEdit() }
+                                waitAfter(time = 500) { onClickSave() }
                             }
                         }
                     }
@@ -106,19 +103,15 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToSaveRollNote() {
-        val noteEntity = testData.insertRoll()
-
+    @Test fun animateOnEditToSaveRollNote() = testData.insertRollNote().let {
         launch {
             mainScreen {
                 openNotesPage {
-                    openRollNote(noteEntity) {
+                    openRollNote(it) {
                         controlPanel {
                             repeat(times = 3) {
-                                onClickEdit()
-                                wait(time = 500)
-                                onClickSave()
-                                wait(time = 500)
+                                waitAfter(time = 500) { onClickEdit() }
+                                waitAfter(time = 500) { onClickSave() }
                             }
                         }
                     }
@@ -127,44 +120,30 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToCancelTextNote() {
-        val noteEntity = testData.insertText()
-
+    @Test fun animateOnEditToCancelTextNote() = testData.insertTextNote().let {
         launch {
             mainScreen {
                 openNotesPage {
-                    openTextNote(noteEntity) {
-                        controlPanel { onClickEdit() }
-                        wait(time = 500)
-                        onPressBack()
-                        wait(time = 500)
-
-                        controlPanel { onClickEdit() }
-                        wait(time = 500)
-                        toolbar { onClickBack() }
-                        wait(time = 500)
+                    openTextNote(it) {
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { onPressBack() }
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { toolbar { onClickBack() } }
                     }
                 }
             }
         }
     }
 
-    @Test fun animateOnEditToCancelRollNote() {
-        val noteEntity = testData.insertRoll()
-
+    @Test fun animateOnEditToCancelRollNote() = testData.insertRollNote().let {
         launch {
             mainScreen {
                 openNotesPage {
-                    openRollNote(noteEntity) {
-                        controlPanel { onClickEdit() }
-                        wait(time = 500)
-                        onPressBack()
-                        wait(time = 500)
-
-                        controlPanel { onClickEdit() }
-                        wait(time = 500)
-                        toolbar { onClickBack() }
-                        wait(time = 500)
+                    openRollNote(it) {
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { onPressBack() }
+                        waitAfter(time = 500) { controlPanel { onClickEdit() } }
+                        waitAfter(time = 500) { toolbar { onClickBack() } }
                     }
                 }
             }

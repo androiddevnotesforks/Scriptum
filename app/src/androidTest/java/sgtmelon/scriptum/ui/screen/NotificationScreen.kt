@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.ui
+package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.data.State
-import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -18,19 +18,16 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
     fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
 
-    fun onScrollThrough() = repeat(times = 2) {
-        onScroll(Scroll.END, time = 4)
-        onScroll(Scroll.START, time = 4)
+    fun openText(noteModel: NoteModel, p: Int = positionRandom,
+                 func: TextNoteScreen.() -> Unit = {}) {
+        onClickItem(p)
+        TextNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun openText(noteEntity: NoteEntity, p: Int = positionRandom, func: TextNoteScreen.() -> Unit = {}) {
+    fun openRoll(noteModel: NoteModel, p: Int = positionRandom,
+                 func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
-        TextNoteScreen.invoke(func, State.READ, noteEntity)
-    }
-
-    fun openRoll(noteEntity: NoteEntity, p: Int = positionRandom, func: RollNoteScreen.() -> Unit = {}) {
-        onClickItem(p)
-        RollNoteScreen.invoke(func, State.READ, noteEntity)
+        RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
     companion object {

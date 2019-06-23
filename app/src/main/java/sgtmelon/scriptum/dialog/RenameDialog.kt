@@ -12,7 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.addTextChangedListener
-import sgtmelon.scriptum.extension.getClearText
+import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.getColorAttr
 import java.util.*
 
@@ -24,7 +24,7 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     private lateinit var nameList: ArrayList<String>
     private lateinit var nameEnter: EditText
 
-    val name: String get() = nameEnter.getClearText()
+    val name: String get() = nameEnter.text.toString().clearSpace()
 
     fun setArguments(p: Int, title: String, nameList: ArrayList<String>) {
         arguments = Bundle().apply {

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.screen.note
 
-import org.junit.Assert
+import org.junit.Assert.assertTrue
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
@@ -16,11 +16,14 @@ interface INoteScreen {
 
     val noteModel: NoteModel
 
+    val isRankEmpty: Boolean
+
     val inputControl: InputControl
 
-    // TODO придумать, что делать с NEW
+    fun fullAssert()
+
     fun throwOnWrongState(vararg actual: State, func: () -> Unit) {
-        Assert.assertEquals(state, actual)
+        assertTrue(actual.contains(state))
         func()
     }
 

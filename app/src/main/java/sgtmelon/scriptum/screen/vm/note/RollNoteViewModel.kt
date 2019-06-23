@@ -27,7 +27,6 @@ import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.callback.note.INoteChild
 import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteFragment
@@ -71,11 +70,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             isRankEmpty = iRoomRepo.getRankCount()
 
             if (id == NoteData.Default.ID) {
-                noteModel = NoteModel(NoteEntity(
-                        create = context.getTime(),
-                        color = iPreferenceRepo.defaultColor,
-                        type = NoteType.ROLL
-                ))
+                noteModel = NoteModel.getCreate(
+                        context.getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
+                )
 
                 noteState = NoteState(isCreate = true)
             } else {

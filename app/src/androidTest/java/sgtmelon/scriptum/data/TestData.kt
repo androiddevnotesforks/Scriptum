@@ -2,11 +2,12 @@ package sgtmelon.scriptum.data
 
 import android.content.Context
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.TestUtils.random
 import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.extension.getTime
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
@@ -18,6 +19,8 @@ import kotlin.random.Random
 class TestData(private val context: Context) {
 
     // TODO testRoomDao
+
+    private val iPreferenceRepo = PreferenceRepo(context)
 
     private fun openRoom() = RoomDb.getInstance(context)
 
@@ -145,8 +148,8 @@ class TestData(private val context: Context) {
         }.close()
     }
 
-    fun fillRank(times: Int = 10) = ArrayList<RankEntity>().apply {
-        (1..times).forEach {
+    fun fillRank(count: Int = 20) = ArrayList<RankEntity>().apply {
+        (0 until count).forEach {
             val rankEntity = insertRank(rankEntity.apply {
                 name = "$it | $name"
                 position = it
@@ -157,17 +160,53 @@ class TestData(private val context: Context) {
         }
     }
 
-    fun fillNotes(times: Int = 10) = repeat(times) {
+    fun fillNotes() = repeat(times = 20) {
         if (Random.nextBoolean()) insertText() else insertRoll()
     }
 
-    fun fillBin(times: Int = 10) = repeat(times) {
+    fun fillBin() = repeat(times = 20) {
         if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
     }
 
-    fun fillNotification(times: Int = 10) = repeat(times) {
+    fun fillNotification() = repeat(times = 20) {
         val noteEntity = if (Random.nextBoolean()) insertText() else insertRoll()
         insertNotification(noteEntity)
     }
+
+
+    // TODO !!!!NEW!!!!
+
+    fun insertTextNote(note: NoteEntity = textNote): NoteModel {
+        openRoom().apply { note.id = getNoteDao().insert(note) }.close()
+
+        return NoteModel(note)
+    }
+
+    fun insertRollNote(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteModel {
+        openRoom().apply {
+            note.id = getNoteDao().insert(note)
+            list.forEach {
+                it.noteId = note.id
+                getRollDao().insert(it)
+            }
+        }.close()
+
+        return NoteModel(note, list)
+    }
+
+    fun insertTextNoteToBin(note: NoteEntity = textNote) =
+            insertTextNote(note.apply { isBin = true })
+
+    fun insertRollNoteToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
+            insertRollNote(note.apply { isBin = true }, list)
+
+    fun createTextNote() = NoteModel.getCreate(
+            context.getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
+    )
+
+    fun createRollNote() = NoteModel.getCreate(
+            context.getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
+    )
+
 
 }

@@ -4,6 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.test.ParentUiTest
+import sgtmelon.scriptum.waitAfter
 
 /**
  * Тест работы приложения при повороте экрана
@@ -17,45 +18,42 @@ class RotationTest : ParentUiTest() {
         super.setUp()
 
         iPreferenceRepo.firstStart = false
+        testData.clear()
     }
 
     @Test fun addDialog() = launch {
-        mainScreen { openAddDialog { wait(time = 5000) { assert { onDisplayContent() } } } }
+        mainScreen { openAddDialog { waitAfter(time = 5000) { assert { onDisplayContent() } } } }
     }
 
 
-    @Test fun rankScreenContentEmpty() = launch({ testData.clear() }) {
+    @Test fun rankScreenContentEmpty() = launch {
         mainScreen {
-            openRankPage {
-                assert { onDisplayContent(empty = true) }
-                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
+            openRankPage(empty = true) {
+                waitAfter(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
         }
     }
 
-    @Test fun rankScreenContentList() = launch({ testData.clear().fillRank() }) {
+    @Test fun rankScreenContentList() = launch({ testData.fillRank() }) {
         mainScreen {
-            openRankPage {
-                assert { onDisplayContent(empty = false) }
-                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
-            }
-
+            openRankPage { waitAfter(time = 5000) { assert { onDisplayContent(empty = false) } } }
             assert { onDisplayFab(visible = false) }
         }
     }
 
-    @Test fun rankScreenRenameDialog() {
-        val rankEntity = testData.clear().insertRank()
+    @Test fun rankScreenRenameDialog() = testData.insertRank().let {
         val newName = testData.uniqueString
 
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(rankEntity.name) {
+                    openRenameDialog(it.name) {
                         onEnterName(newName, enabled = true)
-                        wait(time = 5000) { assert { onDisplayContent(newName) } }
+                        waitAfter(time = 5000) {
+                            assert { onDisplayContent(newName, enabled = true) }
+                        }
                     }
                 }
             }
@@ -63,108 +61,84 @@ class RotationTest : ParentUiTest() {
     }
 
 
-    @Test fun notesScreenContentEmpty() = launch({ testData.clear() }) {
+    @Test fun notesScreenContentEmpty() = launch {
         mainScreen {
-            openNotesPage {
-                assert { onDisplayContent(empty = true) }
-                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
+            openNotesPage(empty = true) {
+                waitAfter(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = true) }
         }
     }
 
-    @Test fun notesScreenContentList() = launch({ testData.clear().fillNotes() }) {
+    @Test fun notesScreenContentList() = launch({ testData.fillNotes() }) {
         mainScreen {
-            openNotesPage {
-                assert { onDisplayContent(empty = false) }
-                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
-            }
-
+            openNotesPage { waitAfter(time = 5000) { assert { onDisplayContent(empty = false) } } }
             assert { onDisplayFab(visible = true) }
         }
     }
 
-    @Test fun notesScreenTextNoteDialog() {
-        val noteEntity = testData.clear().insertText()
-
+    @Test fun notesScreenTextNoteDialog() = testData.insertTextNote().let {
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent() } }
-                    }
+                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
                 }
             }
         }
     }
 
-    @Test fun notesScreenRollNoteDialog() {
-        val noteEntity = testData.clear().insertRoll()
-
+    @Test fun notesScreenRollNoteDialog() = testData.insertRollNote().let {
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent() } }
-                    }
+                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
                 }
             }
         }
     }
 
 
-    @Test fun binScreenContentEmpty() = launch({ testData.clear() }) {
+    @Test fun binScreenContentEmpty() = launch {
         mainScreen {
-            openBinPage {
-                assert { onDisplayContent(empty = true) }
-                wait(time = 5000) { assert { onDisplayContent(empty = true) } }
+            openBinPage(empty = true) {
+                waitAfter(time = 5000) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
         }
     }
 
-    @Test fun binScreenContentList() = launch({ testData.clear().fillBin() }) {
+    @Test fun binScreenContentList() = launch({ testData.fillBin() }) {
         mainScreen {
-            openBinPage {
-                assert { onDisplayContent(empty = false) }
-                wait(time = 5000) { assert { onDisplayContent(empty = false) } }
-            }
-
+            openBinPage { waitAfter(time = 5000) { assert { onDisplayContent(empty = false) } } }
             assert { onDisplayFab(visible = false) }
         }
     }
 
-    @Test fun binScreenClearDialog() = launch({ testData.clear().fillBin() }) {
+    @Test fun binScreenClearDialog() = launch({ testData.fillBin() }) {
         mainScreen {
-            openBinPage { openClearDialog { wait(time = 5000) { assert { onDisplayContent() } } } }
+            openBinPage {
+                openClearDialog { waitAfter(time = 5000) { assert { onDisplayContent() } } }
+            }
         }
     }
 
-    @Test fun binScreenTextNoteDialog() {
-        val noteEntity = testData.clear().insertTextToBin()
-
+    @Test fun binScreenTextNoteDialog() = testData.insertTextNoteToBin().let {
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent() } }
-                    }
+                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
                 }
             }
         }
     }
 
-    @Test fun binScreenRollNoteDialog() {
-        val noteEntity = testData.clear().insertRollToBin()
-
+    @Test fun binScreenRollNoteDialog() = testData.insertRollNoteToBin().let {
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(noteEntity) {
-                        wait(time = 5000) { assert { onDisplayContent() } }
-                    }
+                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
                 }
             }
         }
