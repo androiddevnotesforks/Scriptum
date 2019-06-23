@@ -11,7 +11,7 @@ import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
 
 /**
- * Родительский класс включающий в себе объявление часто используемых переменных для ui тестов
+ * Родительский класс для UI тестов
  *
  * @author SerjantArbuz
  */

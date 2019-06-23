@@ -14,6 +14,8 @@ import sgtmelon.scriptum.test.ParentTest
 
 /**
  * Интеграционный тест для [BindRepo]
+ *
+ * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentTest() {

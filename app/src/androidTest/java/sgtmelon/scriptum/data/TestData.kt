@@ -97,10 +97,12 @@ class TestData(private val context: Context) {
     fun insertRollToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
             insertRoll(note.apply { isBin = true }, list)
 
-    fun insertNotification(noteModel: NoteModel) = with(noteModel.noteEntity) {
+    fun insertNotification(noteModel: NoteModel): NoteModel {
         openRoom().apply {
-            getAlarmDao().insert(AlarmEntity(noteId = id, date = context.getTime()))
+            getAlarmDao().insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = context.getTime()))
         }.close()
+
+        return noteModel
     }
 
 

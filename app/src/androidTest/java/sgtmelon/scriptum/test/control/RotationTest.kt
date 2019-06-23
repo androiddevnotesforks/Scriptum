@@ -14,6 +14,8 @@ import sgtmelon.scriptum.waitAfter
 @RunWith(AndroidJUnit4::class)
 class RotationTest : ParentUiTest() {
 
+    // TODO запускать handler + toast для уведомления о повороте
+
     @Test fun addDialog() = launch {
         mainScreen { openAddDialog { waitAfter(time = 5000) { assert { onDisplayContent() } } } }
     }
@@ -135,6 +137,10 @@ class RotationTest : ParentUiTest() {
                 }
             }
         }
+    }
+
+    private companion object {
+        const val WAIT = 7000L
     }
 
 }

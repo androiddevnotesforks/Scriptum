@@ -32,16 +32,28 @@ class RollNoteScreen(override var state: State,
         enterPanel { assert { onDisplayContent() } }
     }
 
-
     fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
     fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
-    // TODO #TEST возврат данных, контроль выхода с экрана
     fun onPressBack() {
         closeSoftKeyboard()
         pressBack()
+
+        if (state == State.EDIT || state == State.NEW) {
+            if (shadowModel.isSaveEnabled()) {
+                state = State.READ
+                noteModel = NoteModel(shadowModel)
+                inputControl.reset()
+                fullAssert()
+            } else if (state == State.EDIT) {
+                state = State.READ
+                shadowModel = NoteModel(noteModel)
+                inputControl.reset()
+                fullAssert()
+            }
+        }
     }
 
     companion object {

@@ -6,6 +6,11 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.junit.After
 import org.junit.Before
 
+/**
+ * Родительский класс для UI/Integration тестов
+ *
+ * @author SerjantArbuz
+ */
 abstract class ParentTest {
 
     protected val context: Context = getInstrumentation().targetContext

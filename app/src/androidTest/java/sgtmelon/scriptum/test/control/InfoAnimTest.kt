@@ -18,24 +18,25 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun rankShowAndHide() = testData.rankEntity.let {
         launch {
             mainScreen {
-                openRankPage {
+                openRankPage(empty = true) {
                     repeat(times = 3) { _ ->
                         toolbar {
                             onEnterName(it.name, isAddEnabled = true)
                             onClickAdd()
                         }
 
-                        waitAfter(time = 300) { waitBefore(time = 300) { onClickCancel(it) } }
+                        waitAfter(WAIT) { waitBefore(WAIT) { onClickCancel(it) } }
                     }
                 }
             }
         }
     }
 
+
     @Test fun notesShow() = testData.insertText().let {
         launch {
             mainScreen {
-                waitAfter(time = 500) { openNotesPage { openNoteDialog(it) { onClickDelete() } } }
+                waitAfter(WAIT) { openNotesPage { openNoteDialog(it) { onClickDelete() } } }
             }
         }
     }
@@ -44,15 +45,16 @@ class InfoAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage { openNoteDialog(it) { onClickRestore() } }
-                waitAfter(time = 500) { openNotesPage() }
+                waitAfter(WAIT) { openNotesPage() }
             }
         }
     }
 
+
     @Test fun binShow() = testData.insertTextToBin().let {
         launch {
             mainScreen {
-                waitAfter(time = 500) { openBinPage { openNoteDialog(it) { onClickClear() } } }
+                waitAfter(WAIT) { openBinPage { openNoteDialog(it) { onClickClear() } } }
             }
         }
     }
@@ -61,9 +63,21 @@ class InfoAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openNoteDialog(it) { onClickDelete() } }
-                waitAfter(time = 500) { openBinPage() }
+                waitAfter(WAIT) { openBinPage() }
             }
         }
+    }
+
+    @Test fun notificationShow() = testData.insertNotification(testData.insertText()).let {
+        launch {
+            mainScreen {
+                openNotesPage { openNotification { waitAfter(WAIT) { onClickCancel(it) } } }
+            }
+        }
+    }
+
+    private companion object {
+        const val WAIT = 500L
     }
 
 }
