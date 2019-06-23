@@ -67,12 +67,10 @@ class MainTest : ParentUiTest() {
         }
     }
 
-    // TODO #FIX
     @Test fun addDialogCreateTextNote() = testData.createTextNote().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
-    // TODO #FIX
     @Test fun addDialogCreateRollNote() = testData.createRollNote().let {
         launch { mainScreen { openAddDialog { createRollNote(it) } } }
     }

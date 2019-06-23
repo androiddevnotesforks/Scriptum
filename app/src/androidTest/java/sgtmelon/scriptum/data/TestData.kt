@@ -161,7 +161,7 @@ class TestData(private val context: Context) {
     }
 
     fun fillNotes() = repeat(times = 20) {
-        if (Random.nextBoolean()) insertText() else insertRoll()
+        if (Random.nextBoolean()) insertTextNote() else insertRollNote()
     }
 
     fun fillBin() = repeat(times = 20) {
@@ -175,6 +175,14 @@ class TestData(private val context: Context) {
 
 
     // TODO !!!!NEW!!!!
+
+    fun createTextNote() = NoteModel.getCreate(
+            context.getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
+    )
+
+    fun createRollNote() = NoteModel.getCreate(
+            context.getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
+    )
 
     fun insertTextNote(note: NoteEntity = textNote): NoteModel {
         openRoom().apply { note.id = getNoteDao().insert(note) }.close()
@@ -199,14 +207,6 @@ class TestData(private val context: Context) {
 
     fun insertRollNoteToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
             insertRollNote(note.apply { isBin = true }, list)
-
-    fun createTextNote() = NoteModel.getCreate(
-            context.getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
-    )
-
-    fun createRollNote() = NoteModel.getCreate(
-            context.getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
-    )
 
 
 }

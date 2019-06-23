@@ -12,9 +12,13 @@ import sgtmelon.scriptum.model.NoteModel
  */
 interface INoteScreen {
 
+    // TODO добавить контроль выхода с экрана
+
     var state: State
 
-    val noteModel: NoteModel
+    var noteModel: NoteModel
+
+    var shadowModel: NoteModel
 
     val isRankEmpty: Boolean
 

@@ -93,7 +93,7 @@ class NotesTest : ParentUiTest() {
 
                 openAddDialog {
                     createTextNote(it) {
-                        testData.insertText()
+                        testData.insertTextNote()
                         toolbar { onClickBack() }
                     }
                 }

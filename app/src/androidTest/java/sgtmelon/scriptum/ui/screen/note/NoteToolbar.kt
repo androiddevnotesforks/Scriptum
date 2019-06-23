@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.screen.note
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
@@ -17,22 +18,32 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
     fun onEnterName(name: String) = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onEnter(R.id.toolbar_note_enter, name) }
-        callback.noteModel.noteEntity.name = name
-        callback.fullAssert()
+
+        callback.apply {
+            name.forEachIndexed { i, c ->
+                val valueFrom = if (i == 0) shadowModel.noteEntity.text else name[i - 1].toString()
+                val valueTo = c.toString()
+
+                inputControl.onNameChange(
+                        valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
+                )
+            }
+
+            shadowModel.noteEntity.name = name
+        }.fullAssert()
     }
 
-    // TODO #TEST возврат данных, контроль выхода с экрана
     fun onClickBack() {
         action { onClickToolbarButton() }
 
-//        with(callback) {
-//            state = when (state) {
-//                State.READ -> TODO()
-//                State.BIN -> TODO()
-//                State.EDIT -> if (noteModel.isSaveEnabled()) State.READ else State.READ
-//                State.NEW -> TODO()
-//            }
-//        }
+        with(callback) {
+            if (state == State.EDIT) {
+                state = State.READ
+                shadowModel = noteModel
+                inputControl.reset()
+                fullAssert()
+            }
+        }
     }
 
     companion object {
@@ -57,12 +68,11 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                 notDisplay(R.id.toolbar_note_color_view)
             }
 
-            val name = noteModel.noteEntity.name
-
             when (state) {
                 State.READ, State.BIN -> {
                     notDisplay(R.id.toolbar_note_enter)
 
+                    val name = noteModel.noteEntity.name
                     if (name.isNotEmpty()) {
                         onDisplay(R.id.toolbar_note_text, name)
                     } else {
@@ -70,13 +80,14 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                     }
                 }
                 State.EDIT, State.NEW -> {
+                    notDisplay(R.id.toolbar_note_text)
+
+                    val name = shadowModel.noteEntity.name
                     if (name.isNotEmpty()) {
                         onDisplay(R.id.toolbar_note_enter, name)
                     } else {
                         onDisplayHint(R.id.toolbar_note_enter, R.string.hint_enter_name)
                     }
-
-                    notDisplay(R.id.toolbar_note_text)
                 }
             }
         }

@@ -24,8 +24,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
     fun onClickRestoreOpen() = callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_restore_open_button) }
-        callback.state = State.READ
-        callback.fullAssert()
+        callback.apply { state = State.READ }.fullAssert()
     }
 
     /**
@@ -37,10 +36,16 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
     fun onClickUndo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_undo_button) }
+        callback.apply {
+//            shadowModel = inputControl.undo()
+        }.fullAssert()
     }
 
     fun onClickRedo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_redo_button) }
+        callback.apply {
+//            shadowModel = inputControl.redo()
+        }.fullAssert()
     }
 
     fun onClickRank() = callback.throwOnWrongState(State.EDIT, State.NEW) {
@@ -53,8 +58,12 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
     fun onClickSave() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_save_button) }
-        callback.state = State.READ
-        callback.fullAssert()
+
+        callback.apply {
+            state = State.READ
+            noteModel = shadowModel
+            inputControl.reset()
+        }.fullAssert()
     }
 
     fun onClickBind() = callback.throwOnWrongState(State.READ) {
@@ -72,8 +81,12 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
     fun onClickEdit() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_edit_button) }
-        callback.state = State.EDIT
-        callback.fullAssert()
+
+        callback.apply {
+            state = State.EDIT
+            shadowModel = noteModel
+            inputControl.reset()
+        }.fullAssert()
     }
 
     companion object {
@@ -116,7 +129,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
                     isEnabled(R.id.note_panel_undo_button, inputControl.isUndoAccess)
                     isEnabled(R.id.note_panel_redo_button, inputControl.isRedoAccess)
-                    isEnabled(R.id.note_panel_save_button, noteModel.isSaveEnabled())
+                    isEnabled(R.id.note_panel_save_button, shadowModel.isSaveEnabled())
                     isEnabled(R.id.note_panel_rank_button, !isRankEmpty)
                 }
             }

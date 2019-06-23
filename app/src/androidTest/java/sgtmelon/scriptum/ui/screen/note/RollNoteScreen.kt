@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  * @author SerjantArbuz
  */
 class RollNoteScreen(override var state: State,
-        override val noteModel: NoteModel,
+        override var noteModel: NoteModel,
         override val isRankEmpty: Boolean
 ) : ParentUi(), INoteScreen {
 
@@ -29,7 +29,9 @@ class RollNoteScreen(override var state: State,
 
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
-    override val inputControl = InputControl()
+    override var shadowModel = noteModel
+
+    override val inputControl = InputControl().apply { isEnabled = true }
 
     override fun fullAssert() {
         assert { onDisplayContent() }
