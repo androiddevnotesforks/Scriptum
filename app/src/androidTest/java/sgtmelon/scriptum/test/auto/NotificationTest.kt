@@ -14,13 +14,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotificationTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun contentEmpty() =
             launch { mainScreen { openNotesPage(empty = true) { openNotification(empty = true) } } }
 

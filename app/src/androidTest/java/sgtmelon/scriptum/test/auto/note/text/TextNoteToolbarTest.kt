@@ -14,13 +14,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteToolbarTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun closeByToolbarOnCreate() = testData.createText().let {
         launch {
             mainScreen {

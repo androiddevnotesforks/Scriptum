@@ -11,7 +11,7 @@ import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
 
 /**
- * Родительский класс включающий в себе объявление часто используемых переменных
+ * Родительский класс включающий в себе объявление часто используемых переменных для ui тестов
  *
  * @author SerjantArbuz
  */
@@ -27,7 +27,13 @@ abstract class ParentUiTest : ParentTest() {
 
     override fun setUp() {
         super.setUp()
-        iPreferenceRepo.theme = if (Random.nextBoolean()) Theme.light else Theme.dark
+
+        iPreferenceRepo.apply {
+            theme = if (Random.nextBoolean()) Theme.light else Theme.dark
+            firstStart = false
+        }
+
+        testData.clear()
     }
 
     protected fun launch(before: () -> Unit = {}, intent: Intent = Intent(), after: SplashScreen.() -> Unit) {

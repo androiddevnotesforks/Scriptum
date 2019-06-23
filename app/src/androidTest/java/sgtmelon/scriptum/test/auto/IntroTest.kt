@@ -17,9 +17,7 @@ class IntroTest : ParentUiTest() {
 
     override fun setUp() {
         super.setUp()
-
         iPreferenceRepo.firstStart = true
-        testData.clear()
     }
 
     @Test fun contentPlacement() = launch {

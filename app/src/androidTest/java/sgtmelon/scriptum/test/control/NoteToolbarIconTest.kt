@@ -17,13 +17,6 @@ import sgtmelon.scriptum.waitAfter
 @RunWith(AndroidJUnit4::class)
 class NoteToolbarIconTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun arrowBackOnCreateTextNote() = testData.createText().let {
         launch { mainScreen { openAddDialog { waitAfter(time = 500) { createTextNote(it) } } } }
     }

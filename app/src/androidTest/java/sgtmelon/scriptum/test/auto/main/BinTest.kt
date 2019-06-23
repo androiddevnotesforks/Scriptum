@@ -12,13 +12,6 @@ import sgtmelon.scriptum.test.ParentUiTest
  */
 class BinTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun contentEmpty() = launch { mainScreen { openBinPage(empty = true) } }
 
     @Test fun contentList() = launch({ testData.fillBin() }) { mainScreen { openBinPage() } }

@@ -16,13 +16,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun introScreenOpen() = launch({ iPreferenceRepo.firstStart = true }) { introScreen() }
 
     @Test fun mainScreenOpen() = launch { mainScreen() }

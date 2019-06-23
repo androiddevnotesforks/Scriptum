@@ -12,21 +12,9 @@ import sgtmelon.scriptum.waitAfter
  */
 class RankTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
+    @Test fun contentEmpty() = launch { mainScreen { openRankPage(empty = true) } }
 
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
-
-    @Test fun contentEmpty() = launch {
-        mainScreen { openRankPage(empty = true) }
-    }
-
-    @Test fun contentList() = launch({ testData.fillRank() }) {
-        mainScreen { openRankPage() }
-    }
+    @Test fun contentList() = launch({ testData.fillRank() }) { mainScreen { openRankPage() } }
 
     @Test fun listScroll() = launch({ testData.fillRank() }) {
         mainScreen { openRankPage { onScrollThrough() } }

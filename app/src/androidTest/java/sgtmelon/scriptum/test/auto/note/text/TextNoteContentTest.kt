@@ -14,13 +14,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteContentTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     // TODO тест существует
     @Test fun contentEmptyOnCreate() = testData.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }

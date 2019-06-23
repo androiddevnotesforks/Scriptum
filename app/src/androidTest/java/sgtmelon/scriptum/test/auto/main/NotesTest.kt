@@ -16,13 +16,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun contentEmpty() = launch { mainScreen { openNotesPage(empty = true) } }
 
     @Test fun contentList() = launch({ testData.fillNotes() }) { mainScreen { openNotesPage() } }

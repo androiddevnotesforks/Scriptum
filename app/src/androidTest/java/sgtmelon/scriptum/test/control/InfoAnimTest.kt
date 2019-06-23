@@ -15,13 +15,6 @@ import sgtmelon.scriptum.waitBefore
 @RunWith(AndroidJUnit4::class)
 class InfoAnimTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun rankShowAndHide() = testData.rankEntity.let {
         launch {
             mainScreen {

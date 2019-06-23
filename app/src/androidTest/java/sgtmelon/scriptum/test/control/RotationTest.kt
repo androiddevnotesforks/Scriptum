@@ -14,13 +14,6 @@ import sgtmelon.scriptum.waitAfter
 @RunWith(AndroidJUnit4::class)
 class RotationTest : ParentUiTest() {
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun addDialog() = launch {
         mainScreen { openAddDialog { waitAfter(time = 5000) { assert { onDisplayContent() } } } }
     }

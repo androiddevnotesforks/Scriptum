@@ -3,16 +3,17 @@ package sgtmelon.scriptum.test.control.alarm
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashAlarmIntent
+import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 import kotlin.random.Random
 
+/**
+ * Родительский класс для тестов [AlarmActivity] с разными темами
+ *
+ * @author SerjantArbuz
+ */
 abstract class AlarmAnimParentTest : ParentUiTest() {
-
-    override fun setUp() {
-        super.setUp()
-        iPreferenceRepo.firstStart = false
-    }
 
     protected fun startTest(@Theme theme: Int, @Color color: Int) {
         iPreferenceRepo.theme = theme

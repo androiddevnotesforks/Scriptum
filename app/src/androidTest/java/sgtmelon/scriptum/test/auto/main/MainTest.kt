@@ -21,13 +21,6 @@ class MainTest : ParentUiTest() {
             MainPage.RANK, MainPage.BIN, MainPage.NOTES
     )
 
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.firstStart = false
-        testData.clear()
-    }
-
     @Test fun startScreen() = launch { mainScreen() }
 
     @Test fun menuClickCorrectScreen() = launch {
