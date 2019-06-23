@@ -2,6 +2,7 @@ package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.main.BinScreen
@@ -61,7 +62,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
         callback.apply {
             state = State.READ
-            noteModel = shadowModel
+            noteModel = NoteModel(shadowModel)
             inputControl.reset()
         }.fullAssert()
     }
@@ -84,7 +85,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
         callback.apply {
             state = State.EDIT
-            shadowModel = noteModel
+            shadowModel = NoteModel(noteModel)
             inputControl.reset()
         }.fullAssert()
     }

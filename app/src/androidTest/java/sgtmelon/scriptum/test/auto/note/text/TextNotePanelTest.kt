@@ -21,6 +21,7 @@ class TextNotePanelTest : ParentUiTest() {
         testData.clear()
     }
 
+    // TODO тест существует
     @Test fun displayOnCreate() = testData.createTextNote().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
@@ -29,10 +30,12 @@ class TextNotePanelTest : ParentUiTest() {
         launch { mainScreen { openNotesPage { openTextNote(it) } } }
     }
 
+    // TODO тест существует
     @Test fun displayOnOpenNoteFromBin() = testData.insertTextNoteToBin().let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
+    // TODO тест существует
     @Test fun displayOnRestoreOpen() = testData.insertTextNoteToBin().let {
         launch {
             mainScreen {

@@ -2,6 +2,7 @@ package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.ui.ParentUi
@@ -39,7 +40,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
         with(callback) {
             if (state == State.EDIT) {
                 state = State.READ
-                shadowModel = noteModel
+                shadowModel = NoteModel(noteModel)
                 inputControl.reset()
                 fullAssert()
             }

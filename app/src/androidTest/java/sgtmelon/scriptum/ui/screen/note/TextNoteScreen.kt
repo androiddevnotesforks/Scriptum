@@ -23,13 +23,7 @@ class TextNoteScreen(override var state: State,
                      override val isRankEmpty: Boolean
 ) : ParentUi(), INoteScreen {
 
-    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
-
-    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
-
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
-
-    override var shadowModel = noteModel
+    override var shadowModel = NoteModel(noteModel)
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
@@ -38,6 +32,10 @@ class TextNoteScreen(override var state: State,
         toolbar { assert { onDisplayContent() } }
         controlPanel { assert { onDisplayContent() } }
     }
+
+    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
+    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
     fun onEnterText(text: String) {
         action { onEnter(R.id.text_note_content_enter, text) }
@@ -67,12 +65,12 @@ class TextNoteScreen(override var state: State,
         if (state == State.EDIT || state == State.NEW) {
             if (shadowModel.isSaveEnabled()) {
                 state = State.READ
-                noteModel = shadowModel
+                noteModel = NoteModel(shadowModel)
                 inputControl.reset()
                 fullAssert()
             } else if (state == State.EDIT) {
                 state = State.READ
-                shadowModel = noteModel
+                shadowModel = NoteModel(noteModel)
                 inputControl.reset()
                 fullAssert()
             }

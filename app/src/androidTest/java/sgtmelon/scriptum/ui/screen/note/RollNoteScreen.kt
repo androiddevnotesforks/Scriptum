@@ -21,15 +21,7 @@ class RollNoteScreen(override var state: State,
         override val isRankEmpty: Boolean
 ) : ParentUi(), INoteScreen {
 
-    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
-
-    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
-
-    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
-
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
-
-    override var shadowModel = noteModel
+    override var shadowModel = NoteModel(noteModel)
 
     override val inputControl = InputControl().apply { isEnabled = true }
 
@@ -39,6 +31,12 @@ class RollNoteScreen(override var state: State,
         controlPanel { assert { onDisplayContent() } }
         enterPanel { assert { onDisplayContent() } }
     }
+
+
+    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
+    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
+    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
+    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
     // TODO #TEST возврат данных, контроль выхода с экрана
     fun onPressBack() {
