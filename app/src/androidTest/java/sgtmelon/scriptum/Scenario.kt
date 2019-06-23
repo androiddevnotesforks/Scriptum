@@ -7,8 +7,10 @@ import sgtmelon.scriptum.test.auto.main.BinTest
 import sgtmelon.scriptum.test.auto.main.MainTest
 import sgtmelon.scriptum.test.auto.main.NotesTest
 import sgtmelon.scriptum.test.auto.main.RankTest
-import sgtmelon.scriptum.test.auto.note.roll.*
-import sgtmelon.scriptum.test.auto.note.text.*
+import sgtmelon.scriptum.test.auto.note.roll.RollNoteToolbarTest
+import sgtmelon.scriptum.test.auto.note.text.TextNoteContentTest
+import sgtmelon.scriptum.test.auto.note.text.TextNotePanelTest
+import sgtmelon.scriptum.test.auto.note.text.TextNoteToolbarTest
 import sgtmelon.scriptum.test.control.InfoAnimTest
 import sgtmelon.scriptum.test.control.NoteToolbarIconTest
 import sgtmelon.scriptum.test.control.RotationTest
@@ -456,28 +458,6 @@ private class Scenario {
 
             }
 
-            /**
-             * Сценарии для [TextNoteInputTest]
-             */
-            class Input {
-
-                /**
-                 * UI - TODO
-                 */
-
-            }
-
-            /**
-             * Сценарии для [TextNoteDialogTest]
-             */
-            class Dialog {
-
-                /**
-                 * UI -
-                 */
-
-            }
-
         }
 
         class RollNote {
@@ -517,62 +497,7 @@ private class Scenario {
 
                 /**
                  * UI - Отмена:
-                 * # После редактирования заметки :: [RollNoteToolbarTest.cancelOnEditByToolbar]
-                 */
-
-            }
-
-            /**
-             * Сценарии для [RollNoteContentTest]
-             */
-            class Content {
-
-                /**
-                 * UI - TODO
-                 */
-
-            }
-
-            /**
-             * Сценарии для [RollNoteEnterTest]
-             */
-            class Enter {
-
-                /**
-                 * UI - TODO
-                 */
-
-            }
-
-            /**
-             * Сценарии для [RollNotePanelTest]
-             */
-            class Panel {
-
-                /**
-                 * UI - TODO
-                 */
-
-            }
-
-            /**
-             * Сценарии для [RollNoteInputTest]
-             */
-            class Input {
-
-                /**
-                 * UI - TODO
-                 */
-
-            }
-
-            /**
-             * Сценарии для [RollNoteDialogTest]
-             */
-            class Dialog {
-
-                /**
-                 * UI -
+                 * # После редактирования заметки :: [RollNoteToolbarTest.cancelOnEdit]
                  */
 
             }

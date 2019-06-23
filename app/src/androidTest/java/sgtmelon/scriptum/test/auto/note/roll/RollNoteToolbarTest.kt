@@ -3,7 +3,6 @@ package sgtmelon.scriptum.test.auto.note.roll
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -22,219 +21,146 @@ class RollNoteToolbarTest : ParentUiTest() {
         testData.clear()
     }
 
-    @Test fun closeByToolbarOnCreate() = launch {
-        mainScreen {
-            openAddDialog { createRollNote { toolbar { onClickBack() } } }
-            assert { onDisplayContent() }
-        }
-    }
-
-    @Test fun closeByBackPressOnCreate() = launch {
-        mainScreen {
-            openAddDialog { createRollNote { onPressBack() } }
-            assert { onDisplayContent() }
-        }
-    }
-
-    @Test fun closeByToolbarOnOpen() {
-        val noteEntity = testData.insertRoll()
+    @Test fun closeByToolbarOnCreate() = testData.createRollNote().let {
         launch {
             mainScreen {
-                openNotesPage { openRollNote(noteEntity) { toolbar { onClickBack() } } }
+                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
                 assert { onDisplayContent() }
             }
         }
     }
 
-    @Test fun closeByBackPressOnOpen() {
-        val noteEntity = testData.insertRoll()
+    @Test fun closeByBackPressOnCreate() = testData.createRollNote().let {
         launch {
             mainScreen {
-                openNotesPage { openRollNote(noteEntity) { onPressBack() } }
+                openAddDialog { createRollNote(it) { onPressBack() } }
                 assert { onDisplayContent() }
             }
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() {
-        val noteEntity =  testData.insertRollToBin()
+    @Test fun closeByToolbarOnOpen() = testData.insertRollNote().let {
         launch {
             mainScreen {
-                openBinPage { openRollNote(noteEntity) { toolbar { onClickBack() } } }
+                openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
                 assert { onDisplayContent() }
             }
         }
     }
 
-    @Test fun closeByBackPressOnOpenFromBin() {
-        val noteEntity =  testData.insertRollToBin()
+    @Test fun closeByBackPressOnOpen() = testData.insertRollNote().let {
         launch {
             mainScreen {
-                openBinPage { openRollNote(noteEntity) { onPressBack() } }
+                openNotesPage { openRollNote(it) { onPressBack() } }
+                assert { onDisplayContent() }
+            }
+        }
+    }
+
+    @Test fun closeByToolbarOnOpenFromBin() = testData.insertRollNoteToBin().let {
+        launch {
+            mainScreen {
+                openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
+                assert { onDisplayContent() }
+            }
+        }
+    }
+
+    @Test fun closeByBackPressOnOpenFromBin() = testData.insertRollNoteToBin().let {
+        launch {
+            mainScreen {
+                openBinPage { openRollNote(it) { onPressBack() } }
                 assert { onDisplayContent() }
             }
         }
     }
 
 
-    @Test fun contentEmptyOnCreate() = launch {
-        mainScreen {
-            openAddDialog {
-                createRollNote { toolbar { assert { onDisplayName(State.NEW, name = "") } } }
-            }
+    @Test fun contentEmptyOnCreate() = testData.createRollNote().let {
+        launch { mainScreen { openAddDialog { createRollNote(it) } } }
+    }
+
+    @Test fun contentEmptyOnOpen() = testData.insertRollNote(
+            testData.rollNote.apply { name = "" }
+    ).let {
+        launch {
+            mainScreen { openNotesPage { openRollNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
-    @Test fun contentEmptyOnOpen() {
-        val noteEntity = testData.insertRoll(testData.rollNote.apply { name = "" })
+    @Test fun contentFillOnOpen() = testData.insertRollNote().let {
+        launch {
+            mainScreen { openNotesPage { openRollNote(it) { controlPanel { onClickEdit() } } } }
+        }
+    }
 
+    @Test fun contentEmptyOnOpenFromBin() = testData.insertRollNoteToBin(
+            testData.rollNote.apply { name = "" }
+    ).let { launch { mainScreen { openBinPage { openRollNote(it) } } } }
+
+    @Test fun contentFillOnOpenFromBin() = testData.insertRollNoteToBin().let {
+        launch { mainScreen { openBinPage { openRollNote(it) } } }
+    }
+
+    @Test fun contentFillOnRestoreOpen() = testData.insertRollNoteToBin().let {
         launch {
             mainScreen {
-                openNotesPage {
-                    openRollNote(noteEntity) {
-                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
-                        controlPanel { onClickEdit() }
-                        toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
-                    }
-                }
+                openBinPage { openRollNote(it) { controlPanel { onClickRestoreOpen() } } }
             }
         }
     }
 
-    @Test fun contentFillOnOpen() {
-        val noteEntity = testData.insertRoll()
 
+    @Test fun saveByControlOnCreate() = testData.createRollNote().let {
         launch {
             mainScreen {
-                openNotesPage {
-                    openRollNote(noteEntity) {
-                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
-                        controlPanel { onClickEdit() }
-                        toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
-                    }
-                }
-            }
-        }
-    }
-
-    @Test fun contentEmptyOnOpenFromBin() {
-        val noteEntity = testData.insertRollToBin(testData.rollNote.apply { name = "" })
-
-        launch {
-            mainScreen {
-                openBinPage {
-                    openRollNote(noteEntity) {
-                        toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
-                    }
-                }
-            }
-        }
-    }
-
-    @Test fun contentFillOnOpenFromBin() {
-        val noteEntity = testData.insertRollToBin()
-
-        launch {
-            mainScreen {
-                openBinPage {
-                    openRollNote(noteEntity) {
-                        toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
-                    }
-                }
-            }
-        }
-    }
-
-    @Test fun contentFillOnRestoreOpen() {
-        val noteEntity = testData.insertRollToBin()
-
-        launch {
-            mainScreen {
-                openBinPage {
-                    openRollNote(noteEntity) {
-                        toolbar { assert { onDisplayName(State.BIN, noteEntity.name) } }
-                        controlPanel { onClickRestoreOpen() }
-                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
-                    }
-                }
-            }
-        }
-    }
-
-
-    @Test fun saveByControlOnCreate() = launch {
-        val noteEntity = testData.rollNote
-        val rollList = testData.rollList
-
-        mainScreen {
-            openAddDialog {
-                createRollNote {
-                    toolbar { onEnterName(noteEntity.name) }
-                    enterPanel { onAddRoll(rollList[0].text) }
-
-
-                    toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
-                    controlPanel { onClickSave() }
-                    toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
-                }
-            }
-        }
-    }
-
-    @Test fun saveByBackPressOnCreate() = launch {
-        val noteEntity = testData.rollNote
-        val rollList = testData.rollList
-
-        mainScreen {
-            openAddDialog {
-                createRollNote {
-                    toolbar { onEnterName(noteEntity.name) }
-                    enterPanel { onAddRoll(rollList[0].text) }
-
-                    toolbar { assert { onDisplayName(State.EDIT, noteEntity.name) } }
-                    onPressBack()
-                    toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
-                }
-            }
-        }
-    }
-
-    @Test fun saveByControlOnEdit() {
-        val noteEntity = testData.insertRoll()
-        val newName = testData.uniqueString
-
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openRollNote(noteEntity) {
-                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
-
-                        controlPanel { onClickEdit() }
-                        toolbar { onEnterName(newName) }
+                openAddDialog {
+                    createRollNote(it) {
+                        toolbar { onEnterName(testData.uniqueString) }
+                        enterPanel { onAddRoll(testData.uniqueString) }
                         controlPanel { onClickSave() }
-
-                        toolbar { assert { onDisplayName(State.READ, newName) } }
                     }
                 }
             }
         }
     }
 
-    @Test fun saveByBackPressOnEdit() {
-        val noteEntity = testData.insertRoll()
-        val newName = testData.uniqueString
+    @Test fun saveByBackPressOnCreate() = testData.createRollNote().let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createRollNote(it) {
+                        toolbar { onEnterName(testData.uniqueString) }
+                        enterPanel { onAddRoll(testData.uniqueString) }
+                        onPressBack()
+                    }
+                }
+            }
+        }
+    }
 
+    @Test fun saveByControlOnEdit() = testData.insertRollNote().let {
         launch {
             mainScreen {
                 openNotesPage {
-                    openRollNote(noteEntity) {
-                        toolbar { assert { onDisplayName(State.READ, noteEntity.name) } }
-
+                    openRollNote(it) {
                         controlPanel { onClickEdit() }
-                        toolbar { onEnterName(newName) }
-                        onPressBack()
+                        toolbar { onEnterName(testData.uniqueString) }
+                        controlPanel { onClickSave() }
+                    }
+                }
+            }
+        }
+    }
 
-                        toolbar { assert { onDisplayName(State.READ, newName) } }
+    @Test fun saveByBackPressOnEdit() = testData.insertRollNote().let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openRollNote(it) {
+                        controlPanel { onClickEdit() }
+                        toolbar { onEnterName(testData.uniqueString) }
+                        onPressBack()
                     }
                 }
             }
@@ -242,12 +168,14 @@ class RollNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = launch {
-        mainScreen {
-            openAddDialog { createRollNote { toolbar { onClickBack() } } }
-            assert { onDisplayContent() }
-            openAddDialog { createRollNote { onPressBack() } }
-            assert { onDisplayContent() }
+    @Test fun cancelOnEdit() = testData.createRollNote().let {
+        launch {
+            mainScreen {
+                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
+                assert { onDisplayContent() }
+                openAddDialog { createRollNote(it) { onPressBack() } }
+                assert { onDisplayContent() }
+            }
         }
     }
 
