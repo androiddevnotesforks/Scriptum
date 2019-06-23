@@ -27,7 +27,7 @@ class BinTest : ParentUiTest() {
         mainScreen { openBinPage { onScrollThrough() } }
     }
 
-    @Test fun textNoteOpen() = testData.insertTextNoteToBin().let {
+    @Test fun textNoteOpen() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -38,7 +38,7 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = testData.insertRollNoteToBin().let {
+    @Test fun rollNoteOpen() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -81,8 +81,8 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun clearDialogWorkWithHideNotes() = testData.insertRankToBin().let {
-        launch({ testData.insertTextToBin() }) {
+    @Test fun clearDialogWorkWithHideNotes() = testData.fillRankForBin().let {
+        launch({ testData.fillBin(count = 5) }) {
             mainScreen {
                 openRankPage { onClickVisible(it[0]) }
 
@@ -98,11 +98,11 @@ class BinTest : ParentUiTest() {
     }
 
 
-    @Test fun textNoteDialogOpen() = testData.insertTextNoteToBin().let {
+    @Test fun textNoteDialogOpen() = testData.insertTextToBin().let {
         launch { mainScreen { openBinPage { openNoteDialog(it) } } }
     }
 
-    @Test fun textNoteDialogClose() = testData.insertTextNoteToBin().let {
+    @Test fun textNoteDialogClose() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -113,7 +113,7 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteDialogRestore() = testData.insertTextNoteToBin().let {
+    @Test fun textNoteDialogRestore() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -128,7 +128,7 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteDialogClear() = testData.insertTextNoteToBin().let {
+    @Test fun textNoteDialogClear() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -142,11 +142,11 @@ class BinTest : ParentUiTest() {
     }
 
 
-    @Test fun rollNoteDialogOpen() = testData.insertRollNoteToBin().let {
+    @Test fun rollNoteDialogOpen() = testData.insertRollToBin().let {
         launch { mainScreen { openBinPage { openNoteDialog(it) } } }
     }
 
-    @Test fun rollNoteDialogClose() = testData.insertRollNoteToBin().let {
+    @Test fun rollNoteDialogClose() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -157,7 +157,7 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteDialogRestore() = testData.insertRollNoteToBin().let {
+    @Test fun rollNoteDialogRestore() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -172,7 +172,7 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteDialogClear() = testData.insertRollNoteToBin().let {
+    @Test fun rollNoteDialogClear() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage {

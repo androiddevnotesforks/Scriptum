@@ -20,7 +20,7 @@ abstract class ParentRecyclerScreen(protected val recyclerId: Int) : ParentUi() 
 
     fun onClickItem(position: Int = positionRandom) = action { onClick(recyclerId, position) }
 
-    fun onScroll(scroll: Scroll, time: Int = 3) = action {
+    fun onScroll(scroll: Scroll, time: Int = 2) = action {
         repeat(time) {
             waitAfter(time = 200) {
                 when (scroll) {

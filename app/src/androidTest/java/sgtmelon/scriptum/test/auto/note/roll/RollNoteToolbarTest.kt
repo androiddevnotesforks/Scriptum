@@ -21,7 +21,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         testData.clear()
     }
 
-    @Test fun closeByToolbarOnCreate() = testData.createRollNote().let {
+    @Test fun closeByToolbarOnCreate() = testData.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
@@ -30,7 +30,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnCreate() = testData.createRollNote().let {
+    @Test fun closeByBackPressOnCreate() = testData.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { onPressBack() } }
@@ -39,7 +39,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpen() = testData.insertRollNote().let {
+    @Test fun closeByToolbarOnOpen() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
@@ -48,7 +48,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnOpen() = testData.insertRollNote().let {
+    @Test fun closeByBackPressOnOpen() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage { openRollNote(it) { onPressBack() } }
@@ -57,7 +57,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() = testData.insertRollNoteToBin().let {
+    @Test fun closeByToolbarOnOpenFromBin() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
@@ -66,7 +66,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnOpenFromBin() = testData.insertRollNoteToBin().let {
+    @Test fun closeByBackPressOnOpenFromBin() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage { openRollNote(it) { onPressBack() } }
@@ -76,11 +76,11 @@ class RollNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun contentEmptyOnCreate() = testData.createRollNote().let {
+    @Test fun contentEmptyOnCreate() = testData.createRoll().let {
         launch { mainScreen { openAddDialog { createRollNote(it) } } }
     }
 
-    @Test fun contentEmptyOnOpen() = testData.insertRollNote(
+    @Test fun contentEmptyOnOpen() = testData.insertRoll(
             testData.rollNote.apply { name = "" }
     ).let {
         launch {
@@ -88,21 +88,21 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun contentFillOnOpen() = testData.insertRollNote().let {
+    @Test fun contentFillOnOpen() = testData.insertRoll().let {
         launch {
             mainScreen { openNotesPage { openRollNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
-    @Test fun contentEmptyOnOpenFromBin() = testData.insertRollNoteToBin(
+    @Test fun contentEmptyOnOpenFromBin() = testData.insertRollToBin(
             testData.rollNote.apply { name = "" }
     ).let { launch { mainScreen { openBinPage { openRollNote(it) } } } }
 
-    @Test fun contentFillOnOpenFromBin() = testData.insertRollNoteToBin().let {
+    @Test fun contentFillOnOpenFromBin() = testData.insertRollToBin().let {
         launch { mainScreen { openBinPage { openRollNote(it) } } }
     }
 
-    @Test fun contentFillOnRestoreOpen() = testData.insertRollNoteToBin().let {
+    @Test fun contentFillOnRestoreOpen() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage { openRollNote(it) { controlPanel { onClickRestoreOpen() } } }
@@ -111,7 +111,7 @@ class RollNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun saveByControlOnCreate() = testData.createRollNote().let {
+    @Test fun saveByControlOnCreate() = testData.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -125,7 +125,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnCreate() = testData.createRollNote().let {
+    @Test fun saveByBackPressOnCreate() = testData.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -139,7 +139,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByControlOnEdit() = testData.insertRollNote().let {
+    @Test fun saveByControlOnEdit() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -153,7 +153,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = testData.insertRollNote().let {
+    @Test fun saveByBackPressOnEdit() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -168,7 +168,7 @@ class RollNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEdit() = testData.createRollNote().let {
+    @Test fun cancelOnEdit() = testData.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }

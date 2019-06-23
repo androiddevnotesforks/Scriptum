@@ -120,7 +120,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankVisibleForNotes() = testData.insertRankToNotes().let {
+    @Test fun rankVisibleForNotes() = testData.fillRankForNotes().let {
         launch {
             mainScreen {
                 openNotesPage()
@@ -132,7 +132,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankVisibleForBin() = testData.insertRankToBin().let {
+    @Test fun rankVisibleForBin() = testData.fillRankForBin().let {
         launch {
             mainScreen {
                 openBinPage()
@@ -155,7 +155,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankClearForNote() = testData.insertRankToNotes().let {
+    @Test fun rankClearForNote() = testData.fillRankForNotes().let {
         launch {
             mainScreen {
                 openRankPage { onClickVisible(it[0]) }

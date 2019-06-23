@@ -19,9 +19,9 @@ abstract class AlarmAnimParentTest : ParentUiTest() {
 
         val noteModel = testData.clear().let {
             if (Random.nextBoolean()) {
-                it.insertTextNote(it.textNote.apply { this.color = color })
+                it.insertText(it.textNote.apply { this.color = color })
             } else {
-                it.insertRollNote(it.rollNote.apply { this.color = color })
+                it.insertRoll(it.rollNote.apply { this.color = color })
             }
         }
 

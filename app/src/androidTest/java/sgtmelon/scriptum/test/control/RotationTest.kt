@@ -78,7 +78,7 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun notesScreenTextNoteDialog() = testData.insertTextNote().let {
+    @Test fun notesScreenTextNoteDialog() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -88,7 +88,7 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun notesScreenRollNoteDialog() = testData.insertRollNote().let {
+    @Test fun notesScreenRollNoteDialog() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -124,7 +124,7 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun binScreenTextNoteDialog() = testData.insertTextNoteToBin().let {
+    @Test fun binScreenTextNoteDialog() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -134,7 +134,7 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun binScreenRollNoteDialog() = testData.insertRollNoteToBin().let {
+    @Test fun binScreenRollNoteDialog() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage {

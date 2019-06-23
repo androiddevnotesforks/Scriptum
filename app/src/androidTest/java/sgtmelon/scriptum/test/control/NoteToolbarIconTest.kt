@@ -24,15 +24,15 @@ class NoteToolbarIconTest : ParentUiTest() {
         testData.clear()
     }
 
-    @Test fun arrowBackOnCreateTextNote() = testData.createTextNote().let {
+    @Test fun arrowBackOnCreateTextNote() = testData.createText().let {
         launch { mainScreen { openAddDialog { waitAfter(time = 500) { createTextNote(it) } } } }
     }
 
-    @Test fun arrowBackOnCreateRollNote() = testData.createRollNote().let {
+    @Test fun arrowBackOnCreateRollNote() = testData.createRoll().let {
         launch { mainScreen { openAddDialog { waitAfter(time = 500) { createRollNote(it) } } } }
     }
 
-    @Test fun notAnimateOnSaveCreateTextNote() = testData.createTextNote().let {
+    @Test fun notAnimateOnSaveCreateTextNote() = testData.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -47,7 +47,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnSaveCreateRollNote() = testData.createRollNote().let {
+    @Test fun notAnimateOnSaveCreateRollNote() = testData.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -62,7 +62,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenTextNote() = testData.insertTextNoteToBin().let {
+    @Test fun notAnimateOnRestoreOpenTextNote() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -74,7 +74,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenRollNote() = testData.insertRollNoteToBin().let {
+    @Test fun notAnimateOnRestoreOpenRollNote() = testData.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -86,7 +86,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToSaveTextNote() = testData.insertTextNote().let {
+    @Test fun animateOnEditToSaveTextNote() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -103,7 +103,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToSaveRollNote() = testData.insertRollNote().let {
+    @Test fun animateOnEditToSaveRollNote() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -120,7 +120,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToCancelTextNote() = testData.insertTextNote().let {
+    @Test fun animateOnEditToCancelTextNote() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -135,7 +135,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToCancelRollNote() = testData.insertRollNote().let {
+    @Test fun animateOnEditToCancelRollNote() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {

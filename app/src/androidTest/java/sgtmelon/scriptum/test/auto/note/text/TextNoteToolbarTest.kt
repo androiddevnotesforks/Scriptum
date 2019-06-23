@@ -21,7 +21,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         testData.clear()
     }
 
-    @Test fun closeByToolbarOnCreate() = testData.createTextNote().let {
+    @Test fun closeByToolbarOnCreate() = testData.createText().let {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { toolbar { onClickBack() } } }
@@ -30,7 +30,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnCreate() = testData.createTextNote().let {
+    @Test fun closeByBackPressOnCreate() = testData.createText().let {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { onPressBack() } }
@@ -39,7 +39,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpen() = testData.insertTextNote().let {
+    @Test fun closeByToolbarOnOpen() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { toolbar { onClickBack() } } }
@@ -48,7 +48,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnOpen() = testData.insertTextNote().let {
+    @Test fun closeByBackPressOnOpen() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { onPressBack() } }
@@ -57,7 +57,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() = testData.insertTextNoteToBin().let {
+    @Test fun closeByToolbarOnOpenFromBin() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage { openTextNote(it) { toolbar { onClickBack() } } }
@@ -66,7 +66,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnOpenFromBin() = testData.insertTextNoteToBin().let {
+    @Test fun closeByBackPressOnOpenFromBin() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage { openTextNote(it) { onPressBack() } }
@@ -76,11 +76,11 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
     // TODO тест существует
-    @Test fun contentEmptyOnCreate() = testData.createTextNote().let {
+    @Test fun contentEmptyOnCreate() = testData.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
-    @Test fun contentEmptyOnOpen() = testData.insertTextNote(
+    @Test fun contentEmptyOnOpen() = testData.insertText(
             testData.textNote.apply { name = "" }
     ).let {
         launch {
@@ -89,25 +89,25 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpen() = testData.insertTextNote().let {
+    @Test fun contentFillOnOpen() = testData.insertText().let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
-    @Test fun contentEmptyOnOpenFromBin() = testData.insertTextNoteToBin(
+    @Test fun contentEmptyOnOpenFromBin() = testData.insertTextToBin(
             testData.textNote.apply { name = "" }
     ).let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpenFromBin() = testData.insertTextNoteToBin().let {
+    @Test fun contentFillOnOpenFromBin() = testData.insertTextToBin().let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
     // TODO тест существует
-    @Test fun contentFillOnRestoreOpen() = testData.insertTextNoteToBin().let {
+    @Test fun contentFillOnRestoreOpen() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage { openTextNote(it) { controlPanel { onClickRestoreOpen() } } }
@@ -116,7 +116,7 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun saveByControlOnCreate() = testData.createTextNote().let {
+    @Test fun saveByControlOnCreate() = testData.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -130,7 +130,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnCreate() = testData.createTextNote().let {
+    @Test fun saveByBackPressOnCreate() = testData.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -144,7 +144,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByControlOnEdit() = testData.insertTextNote().let {
+    @Test fun saveByControlOnEdit() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -158,7 +158,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = testData.insertTextNote().let {
+    @Test fun saveByBackPressOnEdit() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -173,7 +173,7 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = testData.insertTextNote().let {
+    @Test fun cancelOnEditByToolbar() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {

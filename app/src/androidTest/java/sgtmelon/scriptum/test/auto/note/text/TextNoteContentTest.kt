@@ -22,24 +22,24 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // TODO тест существует
-    @Test fun contentEmptyOnCreate() = testData.createTextNote().let {
+    @Test fun contentEmptyOnCreate() = testData.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpen() = testData.insertTextNote().let {
+    @Test fun contentFillOnOpen() = testData.insertText().let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpenFromBin() = testData.insertTextNoteToBin().let {
+    @Test fun contentFillOnOpenFromBin() = testData.insertTextToBin().let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
     // TODO тест существует
-    @Test fun contentFillOnRestoreOpen() = testData.insertTextNoteToBin().let {
+    @Test fun contentFillOnRestoreOpen() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage { openTextNote(it) { controlPanel { onClickRestoreOpen() } } }
@@ -48,7 +48,7 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // TODO тест существует
-    @Test fun saveByControlOnCreate() = testData.createTextNote().let {
+    @Test fun saveByControlOnCreate() = testData.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -62,7 +62,7 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // TODO похожий тест textToolbar.saveByBackPressOnCreate
-    @Test fun saveByBackPressOnCreate() = testData.createTextNote().let {
+    @Test fun saveByBackPressOnCreate() = testData.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -76,7 +76,7 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // tODO похожий тест textPanel.actionSaveOnEdit
-    @Test fun saveByControlOnEdit() = testData.insertTextNote().let {
+    @Test fun saveByControlOnEdit() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -90,7 +90,7 @@ class TextNoteContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = testData.insertTextNote().let {
+    @Test fun saveByBackPressOnEdit() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -105,7 +105,7 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = testData.insertTextNote().let {
+    @Test fun cancelOnEditByToolbar() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {

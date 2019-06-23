@@ -39,7 +39,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun notesShow() = testData.insertTextNote().let {
+    @Test fun notesShow() = testData.insertText().let {
         launch {
             mainScreen {
                 waitAfter(time = 500) { openNotesPage { openNoteDialog(it) { onClickDelete() } } }
@@ -47,7 +47,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun notesHide() = testData.insertTextNoteToBin().let {
+    @Test fun notesHide() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage { openNoteDialog(it) { onClickRestore() } }
@@ -56,7 +56,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun binShow() = testData.insertTextNoteToBin().let {
+    @Test fun binShow() = testData.insertTextToBin().let {
         launch {
             mainScreen {
                 waitAfter(time = 500) { openBinPage { openNoteDialog(it) { onClickClear() } } }
@@ -64,7 +64,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun binHide() = testData.insertTextNote().let {
+    @Test fun binHide() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openNoteDialog(it) { onClickDelete() } }

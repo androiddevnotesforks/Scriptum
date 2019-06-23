@@ -18,8 +18,6 @@ import kotlin.random.Random
 
 class TestData(private val context: Context) {
 
-    // TODO testRoomDao
-
     private val iPreferenceRepo = PreferenceRepo(context)
 
     private fun openRoom() = RoomDb.getInstance(context)
@@ -61,136 +59,30 @@ class TestData(private val context: Context) {
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
 
-    fun clear() = apply { openRoom().apply { clearAllTables() }.close() }
-
-    fun insertRank(rankEntity: RankEntity = this.rankEntity): RankEntity {
-        openRoom().apply { rankEntity.id = getRankDao().insert(rankEntity) }.close()
-
-        return rankEntity
-    }
-
-    fun insertText(noteEntity: NoteEntity = textNote): NoteEntity {
-        openRoom().apply { noteEntity.id = getNoteDao().insert(noteEntity) }.close()
-
-        return noteEntity
-    }
-
-    fun insertRoll(noteEntity: NoteEntity = rollNote, rollList: List<RollEntity> = this.rollList)
-            : NoteEntity {
-        openRoom().apply {
-            noteEntity.id = getNoteDao().insert(noteEntity)
-            rollList.forEach {
-                it.noteId = noteEntity.id
-                getRollDao().insert(it)
-            }
-        }.close()
-
-        return noteEntity
-    }
-
-
-    fun insertTextToBin(noteEntity: NoteEntity = textNote): NoteEntity {
-        noteEntity.isBin = true
-        return insertText(noteEntity)
-    }
-
-    fun insertRollToBin(noteEntity: NoteEntity = rollNote, rollList: List<RollEntity> = this.rollList)
-            : NoteEntity {
-        noteEntity.isBin = true
-        return insertRoll(noteEntity, rollList)
-    }
-
-    fun insertRankToNotes() = ArrayList<RankEntity>().apply {
-        val noteEntity = if (Random.nextBoolean()) insertText() else insertRoll()
-
-        (1..2).forEach {
-            val rankEntity = insertRank(rankEntity.apply {
-                name = "$it | $name"
-                noteId.add(noteEntity.id)
-                position = it
-            })
-
-            add(rankEntity)
-        }
-
-        forEach {
-            noteEntity.rankId.add(it.id)
-            noteEntity.rankPs.add(it.position.toLong())
-        }
-
-        openRoom().apply { getNoteDao().update(noteEntity) }.close()
-    }
-
-    fun insertRankToBin() = ArrayList<RankEntity>().apply {
-        val noteEntity = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
-
-        (1..2).forEach {
-            val rankEntity = insertRank(rankEntity.apply {
-                name = "$it | $name"
-                noteId.add(noteEntity.id)
-                position = it
-            })
-
-            add(rankEntity)
-        }
-
-        forEach {
-            noteEntity.rankId.add(it.id)
-            noteEntity.rankPs.add(it.position.toLong())
-        }
-
-        openRoom().apply { getNoteDao().update(noteEntity) }.close()
-    }
-
-    fun insertNotification(noteEntity: NoteEntity) {
-        openRoom().apply {
-            getAlarmDao().insert(AlarmEntity(noteId = noteEntity.id, date = context.getTime()))
-        }.close()
-    }
-
-    fun fillRank(count: Int = 20) = ArrayList<RankEntity>().apply {
-        (0 until count).forEach {
-            val rankEntity = insertRank(rankEntity.apply {
-                name = "$it | $name"
-                position = it
-                isVisible = Random.nextBoolean()
-            })
-
-            add(rankEntity)
-        }
-    }
-
-    fun fillNotes() = repeat(times = 20) {
-        if (Random.nextBoolean()) insertTextNote() else insertRollNote()
-    }
-
-    fun fillBin() = repeat(times = 20) {
-        if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
-    }
-
-    fun fillNotification() = repeat(times = 20) {
-        val noteEntity = if (Random.nextBoolean()) insertText() else insertRoll()
-        insertNotification(noteEntity)
-    }
-
-
-    // TODO !!!!NEW!!!!
-
-    fun createTextNote() = NoteModel.getCreate(
+    fun createText() = NoteModel.getCreate(
             context.getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
     )
 
-    fun createRollNote() = NoteModel.getCreate(
+    fun createRoll() = NoteModel.getCreate(
             context.getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
     )
 
-    fun insertTextNote(note: NoteEntity = textNote): NoteModel {
+
+    fun insertRank(rank: RankEntity = rankEntity): RankEntity {
+        openRoom().apply { rank.id = getRankDao().insert(rank) }.close()
+
+        return rank
+    }
+
+    fun insertText(note: NoteEntity = textNote): NoteModel {
         openRoom().apply { note.id = getNoteDao().insert(note) }.close()
 
         return NoteModel(note)
     }
 
-    fun insertRollNote(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteModel {
+    fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
+
+    fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteModel {
         openRoom().apply {
             note.id = getNoteDao().insert(note)
             list.forEach {
@@ -202,11 +94,77 @@ class TestData(private val context: Context) {
         return NoteModel(note, list)
     }
 
-    fun insertTextNoteToBin(note: NoteEntity = textNote) =
-            insertTextNote(note.apply { isBin = true })
+    fun insertRollToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
+            insertRoll(note.apply { isBin = true }, list)
 
-    fun insertRollNoteToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
-            insertRollNote(note.apply { isBin = true }, list)
+    fun insertNotification(noteModel: NoteModel) = with(noteModel.noteEntity) {
+        openRoom().apply {
+            getAlarmDao().insert(AlarmEntity(noteId = id, date = context.getTime()))
+        }.close()
+    }
 
+
+    fun fillRank(count: Int = 10) = ArrayList<RankEntity>().apply {
+        (0 until count).forEach {
+            add(insertRank(rankEntity.apply {
+                name = "$it | $name"
+                position = it
+                isVisible = Random.nextBoolean()
+            }))
+        }
+    }
+
+    fun fillRankForNotes() = ArrayList<RankEntity>().apply {
+        val noteModel = if (Random.nextBoolean()) insertText() else insertRoll()
+
+        (0 until 2).forEach {
+            add(insertRank(rankEntity.apply {
+                name = "$it | $name"
+                noteId.add(noteModel.noteEntity.id)
+                position = it
+            }))
+        }
+
+        forEach {
+            noteModel.noteEntity.rankId.add(it.id)
+            noteModel.noteEntity.rankPs.add(it.position.toLong())
+        }
+
+        openRoom().apply { getNoteDao().update(noteModel.noteEntity) }.close()
+    }
+
+    fun fillRankForBin() = ArrayList<RankEntity>().apply {
+        val noteModel = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+
+        (0 until 2).forEach {
+            add(insertRank(rankEntity.apply {
+                name = "$it | $name"
+                noteId.add(noteModel.noteEntity.id)
+                position = it
+            }))
+        }
+
+        forEach {
+            noteModel.noteEntity.rankId.add(it.id)
+            noteModel.noteEntity.rankPs.add(it.position.toLong())
+        }
+
+        openRoom().apply { getNoteDao().update(noteModel.noteEntity) }.close()
+    }
+
+    fun fillNotes(count: Int = 10) = repeat(count) {
+        if (Random.nextBoolean()) insertText() else insertRoll()
+    }
+
+    fun fillBin(count: Int = 10) = repeat(count) {
+        if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+    }
+
+    fun fillNotification(count: Int = 10) = repeat(count) {
+        insertNotification(if (Random.nextBoolean()) insertText() else insertRoll())
+    }
+
+
+    fun clear() = apply { openRoom().apply { clearAllTables() }.close() }
 
 }

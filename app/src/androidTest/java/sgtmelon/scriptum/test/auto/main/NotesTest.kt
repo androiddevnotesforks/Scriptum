@@ -44,7 +44,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteOpen() = testData.insertTextNote().let {
+    @Test fun textNoteOpen() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -55,7 +55,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteOpen() = testData.insertRollNote().let {
+    @Test fun rollNoteOpen() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -66,7 +66,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteCreateAndReturn() = testData.createTextNote().let {
+    @Test fun textNoteCreateAndReturn() = testData.createText().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -76,7 +76,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteCreateAndReturn() = testData.createRollNote().let {
+    @Test fun rollNoteCreateAndReturn() = testData.createRoll().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -86,14 +86,14 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteCreateAndReturnWithSave() = testData.createTextNote().let {
+    @Test fun textNoteCreateAndReturnWithSave() = testData.createText().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
 
                 openAddDialog {
                     createTextNote(it) {
-                        testData.insertTextNote()
+                        testData.insertText()
                         toolbar { onClickBack() }
                     }
                 }
@@ -103,7 +103,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteCreateAndReturnWithSave() = testData.createRollNote().let {
+    @Test fun rollNoteCreateAndReturnWithSave() = testData.createRoll().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -121,11 +121,11 @@ class NotesTest : ParentUiTest() {
     }
 
 
-    @Test fun textNoteDialogOpen() = testData.insertTextNote().let {
+    @Test fun textNoteDialogOpen() = testData.insertText().let {
         launch { mainScreen { openNotesPage { openNoteDialog(it) } } }
     }
 
-    @Test fun textNoteDialogClose() = testData.insertTextNote().let {
+    @Test fun textNoteDialogClose() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -136,7 +136,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteDialogBind() = testData.insertTextNote().let {
+    @Test fun textNoteDialogBind() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -148,7 +148,7 @@ class NotesTest : ParentUiTest() {
     }
 
     @Test fun textNoteDialogUnbind() = with(testData) {
-        insertTextNote(textNote.apply { isStatus = true })
+        insertText(textNote.apply { isStatus = true })
     }.let {
         launch {
             mainScreen {
@@ -161,7 +161,7 @@ class NotesTest : ParentUiTest() {
     }
 
     @Test fun textNoteDialogUnbindOnDelete() = with(testData) {
-        insertTextNote(textNote.apply { isStatus = true })
+        insertText(textNote.apply { isStatus = true })
     }.let {
         launch {
             mainScreen {
@@ -178,7 +178,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteDialogConvert() = testData.insertTextNote().let {
+    @Test fun textNoteDialogConvert() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -189,7 +189,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun textNoteDialogDelete() = testData.insertTextNote().let {
+    @Test fun textNoteDialogDelete() = testData.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -203,11 +203,11 @@ class NotesTest : ParentUiTest() {
     }
 
 
-    @Test fun rollNoteDialogOpen() = testData.insertRollNote().let {
+    @Test fun rollNoteDialogOpen() = testData.insertRoll().let {
         launch { mainScreen { openNotesPage { openNoteDialog(it) } } }
     }
 
-    @Test fun rollNoteDialogClose() = testData.insertRollNote().let {
+    @Test fun rollNoteDialogClose() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -218,7 +218,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteDialogBind() = testData.insertRollNote().let {
+    @Test fun rollNoteDialogBind() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -230,7 +230,7 @@ class NotesTest : ParentUiTest() {
     }
 
     @Test fun rollNoteDialogUnbind() = with(testData) {
-        insertRollNote(rollNote.apply { isStatus = true })
+        insertRoll(rollNote.apply { isStatus = true })
     }.let {
         launch {
             mainScreen {
@@ -243,7 +243,7 @@ class NotesTest : ParentUiTest() {
     }
 
     @Test fun rollNoteDialogUnbindOnDelete() = with(testData) {
-        insertRollNote(rollNote.apply { isStatus = true })
+        insertRoll(rollNote.apply { isStatus = true })
     }.let {
         launch {
             mainScreen {
@@ -260,7 +260,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteDialogConvert() = testData.insertRollNote().let {
+    @Test fun rollNoteDialogConvert() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -271,7 +271,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteDialogDelete() = testData.insertRollNote().let {
+    @Test fun rollNoteDialogDelete() = testData.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
