@@ -88,6 +88,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
+    // TODO тест существует
     @Test fun contentFillOnOpen() = testData.insertTextNote().let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
