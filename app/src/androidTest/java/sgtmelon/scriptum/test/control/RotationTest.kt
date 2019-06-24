@@ -24,17 +24,14 @@ class RotationTest : ParentUiTest() {
 
     @Test fun rankScreenContentEmpty() = launch {
         mainScreen {
-            openRankPage(empty = true) {
-                waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
-            }
-
+            openRankPage(empty = true) { onRotate { assert(empty = true) } }
             assert { onDisplayFab(visible = false) }
         }
     }
 
     @Test fun rankScreenContentList() = launch({ testData.fillRank() }) {
         mainScreen {
-            openRankPage { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
+            openRankPage { onRotate { assert(empty = false) } }
             assert { onDisplayFab(visible = false) }
         }
     }
@@ -47,9 +44,7 @@ class RotationTest : ParentUiTest() {
                 openRankPage {
                     openRenameDialog(it.name) {
                         onEnterName(newName, enabled = true)
-                        waitAfter(TIME) {
-                            assert { onDisplayContent(newName, enabled = true) }
-                        }
+                        onRotate { assert(newName, enabled = true) }
                     }
                 }
             }
@@ -59,109 +54,69 @@ class RotationTest : ParentUiTest() {
 
     @Test fun notesScreenContentEmpty() = launch {
         mainScreen {
-            openNotesPage(empty = true) {
-                waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
-            }
-
+            openNotesPage(empty = true) { onRotate { assert(empty = true) } }
             assert { onDisplayFab(visible = true) }
         }
     }
 
     @Test fun notesScreenContentList() = launch({ testData.fillNotes() }) {
         mainScreen {
-            openNotesPage { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
+            openNotesPage { onRotate { assert(empty = false) } }
             assert { onDisplayFab(visible = true) }
         }
     }
 
     @Test fun notesScreenTextNoteDialog() = testData.insertText().let {
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
-                }
-            }
-        }
+        launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
     @Test fun notesScreenRollNoteDialog() = testData.insertRoll().let {
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
-                }
-            }
-        }
+        launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
 
     @Test fun binScreenContentEmpty() = launch {
         mainScreen {
-            openBinPage(empty = true) {
-                waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
-            }
-
+            openBinPage(empty = true) { onRotate { assert(empty = true) } }
             assert { onDisplayFab(visible = false) }
         }
     }
 
     @Test fun binScreenContentList() = launch({ testData.fillBin() }) {
         mainScreen {
-            openBinPage { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
+            openBinPage { onRotate { assert(empty = false) } }
             assert { onDisplayFab(visible = false) }
         }
     }
 
     @Test fun binScreenClearDialog() = launch({ testData.fillBin() }) {
-        mainScreen {
-            openBinPage {
-                openClearDialog { waitAfter(TIME) { assert { onDisplayContent() } } }
-            }
-        }
+        mainScreen { openBinPage { openClearDialog { onRotate { assert() } } } }
     }
 
     @Test fun binScreenTextNoteDialog() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBinPage {
-                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
-                }
-            }
-        }
+        launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
     @Test fun binScreenRollNoteDialog() = testData.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openBinPage {
-                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
-                }
-            }
-        }
+        launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
 
     @Test fun notificationScreenContentEmpty() = launch {
         mainScreen {
             openNotesPage(empty = true) {
-                openNotification(empty = true) {
-                    waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
-                }
+                openNotification(empty = true) { onRotate { assert(empty = true) } }
             }
         }
     }
 
     @Test fun notificationScreenContentList() = launch({ testData.fillNotification() }) {
-        mainScreen {
-            openNotesPage {
-                openNotification { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
-            }
-        }
+        mainScreen { openNotesPage { openNotification { onRotate { assert(empty = false) } } } }
     }
 
 
     private companion object {
-        const val TIME = 7000L
+        const val TIME = 5000L
     }
 
 }
