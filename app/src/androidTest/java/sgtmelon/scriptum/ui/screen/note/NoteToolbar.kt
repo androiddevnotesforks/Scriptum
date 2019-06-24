@@ -15,7 +15,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  */
 class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert(callback).apply { func() }
+    fun assert() = Assert(callback)
 
     fun onEnterName(name: String) = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onEnter(R.id.toolbar_note_enter, name) }
@@ -50,47 +50,50 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
     companion object {
         operator fun invoke(func: NoteToolbar.() -> Unit, callback: INoteScreen) =
                 NoteToolbar(callback).apply {
-                    assert { onDisplayContent() }
+                    assert()
                     func()
                 }
     }
 
-    class Assert(private val callback: INoteScreen) : BasicMatch() {
+    class Assert(callback: INoteScreen) : BasicMatch() {
 
         // TODO #TEST (focus on title check)
 
-        fun onDisplayContent(): Unit = with(callback) {
-            onDisplay(R.id.toolbar_note_container)
-            onDisplay(R.id.toolbar_note_scroll)
+        init {
+            with(callback) {
+                onDisplay(R.id.toolbar_note_container)
+                onDisplay(R.id.toolbar_note_scroll)
 
-            if (theme == Theme.dark) {
-                onDisplay(R.id.toolbar_note_color_view)
-            } else {
-                notDisplay(R.id.toolbar_note_color_view)
-            }
+                if (theme == Theme.dark) {
+                    onDisplay(R.id.toolbar_note_color_view)
+                } else {
+                    notDisplay(R.id.toolbar_note_color_view)
+                }
 
-            when (state) {
-                State.READ, State.BIN -> {
-                    notDisplay(R.id.toolbar_note_enter)
+                when (state) {
+                    State.READ, State.BIN -> {
+                        notDisplay(R.id.toolbar_note_enter)
 
-                    val name = noteModel.noteEntity.name
-                    if (name.isNotEmpty()) {
-                        onDisplay(R.id.toolbar_note_text, name)
-                    } else {
-                        onDisplayHint(R.id.toolbar_note_text, R.string.hint_view_name)
+                        val name = noteModel.noteEntity.name
+                        if (name.isNotEmpty()) {
+                            onDisplay(R.id.toolbar_note_text, name)
+                        } else {
+                            onDisplayHint(R.id.toolbar_note_text, R.string.hint_view_name)
+                        }
+                    }
+                    State.EDIT, State.NEW -> {
+                        notDisplay(R.id.toolbar_note_text)
+
+                        val name = shadowModel.noteEntity.name
+                        if (name.isNotEmpty()) {
+                            onDisplay(R.id.toolbar_note_enter, name)
+                        } else {
+                            onDisplayHint(R.id.toolbar_note_enter, R.string.hint_enter_name)
+                        }
                     }
                 }
-                State.EDIT, State.NEW -> {
-                    notDisplay(R.id.toolbar_note_text)
-
-                    val name = shadowModel.noteEntity.name
-                    if (name.isNotEmpty()) {
-                        onDisplay(R.id.toolbar_note_enter, name)
-                    } else {
-                        onDisplayHint(R.id.toolbar_note_enter, R.string.hint_enter_name)
-                    }
-                }
             }
+
         }
 
     }

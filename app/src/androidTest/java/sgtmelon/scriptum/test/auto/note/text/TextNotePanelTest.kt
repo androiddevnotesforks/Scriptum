@@ -118,7 +118,7 @@ class TextNotePanelTest : ParentUiTest() {
 
                 openBinPage {
                     openTextNote(it) { controlPanel { onClickRestore() } }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openNotesPage()
@@ -136,7 +136,7 @@ class TextNotePanelTest : ParentUiTest() {
                         controlPanel { onClickRestoreOpen() }
                         onPressBack()
                     }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openNotesPage()
@@ -151,7 +151,7 @@ class TextNotePanelTest : ParentUiTest() {
 
                 openBinPage {
                     openTextNote(it) { controlPanel { onClickClear() } }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openNotesPage(empty = true)
@@ -232,7 +232,7 @@ class TextNotePanelTest : ParentUiTest() {
 
                 openNotesPage {
                     openTextNote(it) { controlPanel { onClickDelete() } }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openBinPage()

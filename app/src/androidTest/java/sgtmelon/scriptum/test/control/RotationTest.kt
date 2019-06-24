@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.control
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 
@@ -14,12 +15,7 @@ import sgtmelon.scriptum.waitAfter
 @RunWith(AndroidJUnit4::class)
 class RotationTest : ParentUiTest() {
 
-    // TODO запускать handler + toast для уведомления о повороте
-    // TODO заменить вызов assert на более короткий
-
-    @Test fun addDialog() = launch {
-        mainScreen { openAddDialog { waitAfter(TIME) { assert { onDisplayContent() } } } }
-    }
+    @Test fun addDialog() = launch { mainScreen { openAddDialog { onRotate { assert() } } } }
 
 
     @Test fun rankScreenContentEmpty() = launch {
@@ -114,6 +110,11 @@ class RotationTest : ParentUiTest() {
         mainScreen { openNotesPage { openNotification { onRotate { assert(empty = false) } } } }
     }
 
+
+    private fun onRotate(func: () -> Unit) = waitAfter(TIME) {
+        func()
+        testRule.activity?.runOnUiThread { context.showToast(text = "ROTATE NOW!") }
+    }
 
     private companion object {
         const val TIME = 5000L

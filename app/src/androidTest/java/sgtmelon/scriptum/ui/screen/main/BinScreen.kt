@@ -18,7 +18,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(empty: Boolean) = Assert(empty)
 
     fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) {
         action { onClick(R.id.item_clear) }
@@ -45,14 +45,14 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     companion object {
         operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) = BinScreen().apply {
-            assert { onDisplayContent(empty) }
+            assert(empty)
             func()
         }
     }
 
-    class Assert : BasicMatch() {
+    class Assert(empty: Boolean) : BasicMatch() {
 
-        fun onDisplayContent(empty: Boolean) {
+        init {
             onDisplay(R.id.bin_parent_container)
 
             onDisplayToolbar(R.id.toolbar_container, R.string.title_bin)

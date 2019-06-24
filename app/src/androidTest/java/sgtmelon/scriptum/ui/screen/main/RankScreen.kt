@@ -25,7 +25,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     private fun rankAction(func: RankAction.() -> Unit) = RankAction().apply { func() }
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(empty: Boolean) = Assert(empty)
 
     fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
 
@@ -46,8 +46,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     companion object {
         operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean) = RankScreen().apply {
-            assert { onDisplayContent(empty) }
-            toolbar { assert { onDisplayContent() } }
+            assert(empty)
+            toolbar { assert() }
             func()
         }
     }
@@ -69,12 +69,10 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     }
 
-    class Assert : BasicMatch() {
+    class Assert(empty: Boolean) : BasicMatch() {
 
-        fun onDisplayContent(empty: Boolean) {
+        init {
             onDisplay(R.id.rank_parent_container)
-
-            onDisplayToolbar()
 
             if (empty) {
                 onDisplay(R.id.info_title_text, R.string.info_rank_title)
@@ -85,14 +83,6 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
                 notDisplay(R.id.info_details_text, R.string.info_notes_details)
                 onDisplay(R.id.rank_recycler)
             }
-        }
-
-        private fun onDisplayToolbar() {
-            onDisplay(R.id.toolbar_rank_container)
-
-            onDisplay(R.id.toolbar_rank_cancel_button)
-            onDisplay(R.id.toolbar_rank_enter)
-            onDisplay(R.id.toolbar_rank_add_button)
         }
 
     }

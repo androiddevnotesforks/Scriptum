@@ -12,7 +12,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  */
 class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert(callback).apply { func() }
+    fun assert() = Assert(callback)
 
     fun onAddRoll(text: String) = action {
         onEnter(R.id.roll_note_enter, text)
@@ -22,26 +22,28 @@ class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
     companion object {
         operator fun invoke(func: RollEnterPanel.() -> Unit, callback: INoteScreen) =
                 RollEnterPanel(callback).apply {
-                    assert { onDisplayContent() }
+                    assert()
                     func()
                 }
     }
 
-    class Assert(private val callback: INoteScreen) : BasicMatch() {
+    class Assert(callback: INoteScreen) : BasicMatch() {
 
         // tODO assert Доступа к кнопке (при отсутствии текста / при введённом тексте)
 
-        fun onDisplayContent(): Unit = with(callback) {
-            when (state) {
-                State.READ, State.BIN -> {
-                    notDisplay(R.id.roll_note_enter_container)
-                    notDisplay(R.id.roll_note_enter)
-                    notDisplay(R.id.roll_note_add_button)
-                }
-                State.EDIT, State.NEW -> {
-                    onDisplay(R.id.roll_note_enter_container)
-                    onDisplay(R.id.roll_note_enter)
-                    onDisplay(R.id.roll_note_add_button)
+        init {
+            with(callback) {
+                when (state) {
+                    State.READ, State.BIN -> {
+                        notDisplay(R.id.roll_note_enter_container)
+                        notDisplay(R.id.roll_note_enter)
+                        notDisplay(R.id.roll_note_add_button)
+                    }
+                    State.EDIT, State.NEW -> {
+                        onDisplay(R.id.roll_note_enter_container)
+                        onDisplay(R.id.roll_note_enter)
+                        onDisplay(R.id.roll_note_add_button)
+                    }
                 }
             }
         }

@@ -18,7 +18,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -27,7 +27,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { onPressBack() } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -36,7 +36,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -45,7 +45,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openRollNote(it) { onPressBack() } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -54,7 +54,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -63,7 +63,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage { openRollNote(it) { onPressBack() } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -165,9 +165,9 @@ class RollNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
-                assert { onDisplayContent() }
+                assert()
                 openAddDialog { createRollNote(it) { onPressBack() } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }

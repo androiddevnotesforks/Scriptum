@@ -49,14 +49,14 @@ class MainTest : ParentUiTest() {
     @Test fun addDialogCloseSoft() = launch {
         mainScreen {
             openAddDialog { onCloseSoft() }
-            assert { onDisplayContent() }
+            assert()
         }
     }
 
     @Test fun addDialogCloseSwipe() = launch {
         mainScreen {
             openAddDialog { onCloseSwipe() }
-            assert { onDisplayContent() }
+            assert()
         }
     }
 

@@ -31,7 +31,7 @@ class NotificationTest : ParentUiTest() {
                 openNotesPage {
                     openNotification {
                         onClickCancel(it)
-                        assert { onDisplayContent(empty = true) }
+                        assert(empty = true)
                     }
                 }
             }

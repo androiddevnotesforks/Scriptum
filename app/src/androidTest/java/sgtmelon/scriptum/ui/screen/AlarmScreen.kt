@@ -13,12 +13,12 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  */
 class AlarmScreen(noteModel: NoteModel) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(func: Assert.() -> Unit = {}) = Assert().apply { func() }
 
     companion object {
         operator fun invoke(func: AlarmScreen.() -> Unit, noteModel: NoteModel) =
                 AlarmScreen(noteModel).apply {
-                    assert { onDisplayContent() }
+                    assert()
                     func()
                 }
     }
@@ -26,7 +26,7 @@ class AlarmScreen(noteModel: NoteModel) : ParentUi() {
     class Assert : BasicMatch() {
 
         //TODO больше onDisplay
-        fun onDisplayContent() {
+        init {
             onDisplay(R.id.alarm_parent_container)
         }
 

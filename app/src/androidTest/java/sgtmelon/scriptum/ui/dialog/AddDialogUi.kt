@@ -20,9 +20,9 @@ import sgtmelon.scriptum.waitBefore
  */
 class AddDialogUi : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert() = Assert()
 
-    fun createTextNote(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}){
+    fun createTextNote(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(NoteType.TEXT)
         TextNoteScreen.invoke(func, State.NEW, noteModel)
     }
@@ -46,7 +46,7 @@ class AddDialogUi : ParentUi() {
     companion object {
         operator fun invoke(func: AddDialogUi.() -> Unit) = AddDialogUi().apply {
             waitBefore(time = 100) {
-                assert { onDisplayContent() }
+                assert()
                 func()
             }
         }
@@ -54,7 +54,7 @@ class AddDialogUi : ParentUi() {
 
     class Assert : BasicMatch() {
 
-        fun onDisplayContent() {
+        init {
             onDisplay(R.id.add_navigation)
             onDisplayText(R.string.dialog_add_text)
             onDisplayText(R.string.dialog_add_roll)

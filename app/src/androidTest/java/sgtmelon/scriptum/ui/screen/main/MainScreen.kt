@@ -17,7 +17,7 @@ class MainScreen : ParentUi() {
 
     private var wasNavigate = false
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(func: Assert.() -> Unit = {}) = Assert().apply { func() }
 
     fun openRankPage(empty: Boolean = false, func: RankScreen.() -> Unit = {}) {
         wasNavigate = true
@@ -70,7 +70,6 @@ class MainScreen : ParentUi() {
     companion object {
         operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply {
             assert {
-                onDisplayContent()
                 onDisplayContent(MainPage.NOTES)
                 onDisplayFab(visible = true)
             }
@@ -80,7 +79,7 @@ class MainScreen : ParentUi() {
 
     class Assert : BasicMatch() {
 
-        fun onDisplayContent() {
+        init {
             onDisplay(R.id.main_parent_container)
             onDisplay(R.id.main_toolbar_holder)
             onDisplay(R.id.main_menu_navigation)

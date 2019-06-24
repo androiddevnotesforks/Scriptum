@@ -19,7 +19,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(empty: Boolean) = Assert(empty)
 
     fun openNotification(empty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
         action {onClick(R.id.item_notification)}
@@ -51,14 +51,14 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
 
     companion object {
         operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean) = NotesScreen().apply {
-            assert { onDisplayContent(empty) }
+            assert(empty)
             func()
         }
     }
 
-    class Assert : BasicMatch() {
+    class Assert(empty: Boolean) : BasicMatch() {
 
-        fun onDisplayContent(empty: Boolean) {
+        init {
             onDisplay(R.id.notes_parent_container)
 
             onDisplayToolbar(R.id.toolbar_container, R.string.title_notes)

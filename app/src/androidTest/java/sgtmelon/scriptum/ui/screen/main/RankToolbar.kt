@@ -12,22 +12,23 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  */
 class RankToolbar : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(isClearEnabled: Boolean = false, isAddEnabled: Boolean = false) =
+            Assert(isClearEnabled, isAddEnabled)
 
     fun onEnterName(name: String, isAddEnabled: Boolean) {
         action { onEnter(R.id.toolbar_rank_enter, name) }
-        assert { onDisplayContent(isClearEnabled = name.isNotEmpty(), isAddEnabled = isAddEnabled) }
+        assert(isClearEnabled = name.isNotEmpty(), isAddEnabled = isAddEnabled)
     }
 
     fun onClickClear() {
         action { onClick(R.id.toolbar_rank_cancel_button) }
-        assert { onDisplayContent() }
+        assert()
     }
 
     fun onClickAdd() {
         closeSoftKeyboard()
         action { onClick(R.id.toolbar_rank_add_button) }
-        assert { onDisplayContent() }
+        assert()
     }
 
     fun onLongClickAdd() = action { onLongClick(R.id.toolbar_rank_add_button) }
@@ -36,9 +37,9 @@ class RankToolbar : ParentUi() {
         operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply(func)
     }
 
-    class Assert : BasicMatch() {
+    class Assert(isClearEnabled: Boolean, isAddEnabled: Boolean) : BasicMatch() {
 
-        fun onDisplayContent(isClearEnabled: Boolean = false, isAddEnabled: Boolean = false) {
+        init {
             onDisplay(R.id.toolbar_rank_container)
             onDisplay(R.id.toolbar_rank_cancel_button)
             onDisplay(R.id.toolbar_rank_enter)

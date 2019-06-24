@@ -41,7 +41,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) { onPressBack() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -52,7 +52,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openRollNote(it) { onPressBack() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -122,7 +122,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onCloseSoft() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -180,7 +180,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickDelete() }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openBinPage()
@@ -198,7 +198,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onCloseSoft() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -256,7 +256,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickDelete() }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openBinPage()

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.ui.screen.main.BinScreen
  */
 class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert(callback).apply { func() }
+    fun assert() = Assert(callback)
 
     /**
      * Будет возврат на экран [BinScreen]
@@ -38,14 +38,14 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
     fun onClickUndo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_undo_button) }
         callback.apply {
-//            shadowModel = inputControl.undo()
+            //            shadowModel = inputControl.undo()
         }.fullAssert()
     }
 
     fun onClickRedo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_redo_button) }
         callback.apply {
-//            shadowModel = inputControl.redo()
+            //            shadowModel = inputControl.redo()
         }.fullAssert()
     }
 
@@ -95,43 +95,45 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
                 NotePanel(callback).apply(func)
     }
 
-    class Assert(private val callback: INoteScreen) : BasicMatch() {
+    class Assert(callback: INoteScreen) : BasicMatch() {
 
-        fun onDisplayContent(): Unit = with(callback) {
-            onDisplay(R.id.note_panel_container)
+        init {
+            with(callback) {
+                onDisplay(R.id.note_panel_container)
 
-            when (state) {
-                State.READ -> {
-                    onDisplay(R.id.note_panel_read_container)
+                when (state) {
+                    State.READ -> {
+                        onDisplay(R.id.note_panel_read_container)
 
-                    onDisplay(R.id.note_panel_notification)
-                    onDisplay(R.id.note_panel_bind_button)
-                    onDisplay(R.id.note_panel_convert_button)
-                    onDisplay(R.id.note_panel_delete_button)
+                        onDisplay(R.id.note_panel_notification)
+                        onDisplay(R.id.note_panel_bind_button)
+                        onDisplay(R.id.note_panel_convert_button)
+                        onDisplay(R.id.note_panel_delete_button)
 
-                    onDisplay(R.id.note_panel_edit_button)
-                }
-                State.BIN -> {
-                    onDisplay(R.id.note_panel_bin_container)
+                        onDisplay(R.id.note_panel_edit_button)
+                    }
+                    State.BIN -> {
+                        onDisplay(R.id.note_panel_bin_container)
 
-                    onDisplay(R.id.note_panel_restore_button)
-                    onDisplay(R.id.note_panel_restore_open_button)
-                    onDisplay(R.id.note_panel_clear_button)
-                }
-                State.EDIT, State.NEW -> {
-                    onDisplay(R.id.note_panel_edit_container)
+                        onDisplay(R.id.note_panel_restore_button)
+                        onDisplay(R.id.note_panel_restore_open_button)
+                        onDisplay(R.id.note_panel_clear_button)
+                    }
+                    State.EDIT, State.NEW -> {
+                        onDisplay(R.id.note_panel_edit_container)
 
-                    onDisplay(R.id.note_panel_undo_button)
-                    onDisplay(R.id.note_panel_redo_button)
-                    onDisplay(R.id.note_panel_rank_button)
-                    onDisplay(R.id.note_panel_color_button)
+                        onDisplay(R.id.note_panel_undo_button)
+                        onDisplay(R.id.note_panel_redo_button)
+                        onDisplay(R.id.note_panel_rank_button)
+                        onDisplay(R.id.note_panel_color_button)
 
-                    onDisplay(R.id.note_panel_save_button)
+                        onDisplay(R.id.note_panel_save_button)
 
-                    isEnabled(R.id.note_panel_undo_button, inputControl.isUndoAccess)
-                    isEnabled(R.id.note_panel_redo_button, inputControl.isRedoAccess)
-                    isEnabled(R.id.note_panel_save_button, shadowModel.isSaveEnabled())
-                    isEnabled(R.id.note_panel_rank_button, !isRankEmpty)
+                        isEnabled(R.id.note_panel_undo_button, inputControl.isUndoAccess)
+                        isEnabled(R.id.note_panel_redo_button, inputControl.isRedoAccess)
+                        isEnabled(R.id.note_panel_save_button, shadowModel.isSaveEnabled())
+                        isEnabled(R.id.note_panel_rank_button, !isRankEmpty)
+                    }
                 }
             }
         }

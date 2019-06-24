@@ -25,7 +25,7 @@ class BinTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openTextNote(it) { onPressBack() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -36,7 +36,7 @@ class BinTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openRollNote(it) { onPressBack() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -51,7 +51,7 @@ class BinTest : ParentUiTest() {
         mainScreen {
             openBinPage {
                 openClearDialog { onCloseSoft() }
-                assert { onDisplayContent(empty = false) }
+                assert(empty = false)
             }
         }
     }
@@ -60,7 +60,7 @@ class BinTest : ParentUiTest() {
         mainScreen {
             openBinPage {
                 openClearDialog { onClickNo() }
-                assert { onDisplayContent(empty = false) }
+                assert(empty = false)
             }
         }
     }
@@ -69,7 +69,7 @@ class BinTest : ParentUiTest() {
         mainScreen {
             openBinPage {
                 openClearDialog { onClickYes() }
-                assert { onDisplayContent(empty = true) }
+                assert(empty = true)
             }
         }
     }
@@ -81,7 +81,7 @@ class BinTest : ParentUiTest() {
 
                 openBinPage {
                     openClearDialog { onClickYes() }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openRankPage { onClickVisible(it[0]) }
@@ -100,7 +100,7 @@ class BinTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(it) { onCloseSoft() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -113,7 +113,7 @@ class BinTest : ParentUiTest() {
 
                 openBinPage {
                     openNoteDialog(it) { onClickRestore() }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openNotesPage()
@@ -126,7 +126,7 @@ class BinTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(it) { onClickClear() }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openNotesPage(empty = true)
@@ -144,7 +144,7 @@ class BinTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(it) { onCloseSoft() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -157,7 +157,7 @@ class BinTest : ParentUiTest() {
 
                 openBinPage {
                     openNoteDialog(it) { onClickRestore() }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openNotesPage()
@@ -170,7 +170,7 @@ class BinTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openNoteDialog(it) { onClickClear() }
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
 
                 openNotesPage(empty = true)

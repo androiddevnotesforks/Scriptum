@@ -27,7 +27,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     private fun notificationAction(func: NotificationAction.() -> Unit) =
             NotificationAction().apply { func() }
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(empty: Boolean) = Assert(empty)
 
     fun openText(noteModel: NoteModel, p: Int = positionRandom,
                  func: TextNoteScreen.() -> Unit = {}) {
@@ -48,7 +48,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     companion object {
         operator fun invoke(func: NotificationScreen.() -> Unit, empty: Boolean) =
                 NotificationScreen().apply {
-                    assert { onDisplayContent(empty) }
+                    assert(empty)
                     func()
                 }
     }
@@ -65,9 +65,9 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
                 )))))
     }
 
-    class Assert : BasicMatch() {
+    class Assert(empty: Boolean) : BasicMatch() {
 
-        fun onDisplayContent(empty: Boolean) {
+        init {
             onDisplay(R.id.notification_parent_container)
 
             onDisplayToolbar(R.id.toolbar_container, R.string.title_notification)

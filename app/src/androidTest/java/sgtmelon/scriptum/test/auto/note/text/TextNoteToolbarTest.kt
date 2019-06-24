@@ -18,7 +18,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { toolbar { onClickBack() } } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -27,7 +27,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { onPressBack() } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -36,7 +36,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { toolbar { onClickBack() } } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -45,7 +45,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { onPressBack() } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -54,7 +54,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage { openTextNote(it) { toolbar { onClickBack() } } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }
@@ -63,7 +63,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage { openTextNote(it) { onPressBack() } }
-                assert { onDisplayContent() }
+                assert()
             }
         }
     }

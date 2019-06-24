@@ -15,7 +15,7 @@ import sgtmelon.scriptum.waitBefore
  */
 class ClearDialogUi : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert() = Assert()
 
     fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
 
@@ -26,7 +26,7 @@ class ClearDialogUi : ParentUi() {
     companion object {
         operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
             waitBefore(time = 100) {
-                assert { onDisplayContent() }
+                assert()
                 func()
             }
         }
@@ -34,7 +34,7 @@ class ClearDialogUi : ParentUi() {
 
     class Assert : BasicMatch() {
 
-        fun onDisplayContent() {
+        init {
             onDisplayText(R.string.dialog_title_clear_bin)
             onDisplayText(R.string.dialog_text_clear_bin)
 

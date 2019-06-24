@@ -16,7 +16,7 @@ import sgtmelon.scriptum.waitBefore
  */
 class RenameDialogUi(private val title: String) : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert(title).apply { func() }
+    fun assert(enter: String = "", enabled: Boolean = false) = Assert(title, enter, enabled)
 
     fun onCloseSoft() = waitAfter(time = 300) {
         closeSoftKeyboard()
@@ -33,23 +33,22 @@ class RenameDialogUi(private val title: String) : ParentUi() {
 
     fun onEnterName(name: String, enabled: Boolean) {
         action { onEnter(R.id.rename_enter, name) }
-        assert { onDisplayContent(name, enabled) }
+        assert(name, enabled)
     }
 
     companion object {
         operator fun invoke(func: RenameDialogUi.() -> Unit, title: String) =
                 RenameDialogUi(title).apply {
                     waitBefore(time = 100) {
-                        assert { onDisplayContent(enter = "", enabled = false) }
+                        assert()
                         func()
                     }
                 }
     }
 
-    // tODO сделать сразу чек и title и enter
-    class Assert(private val title: String) : BasicMatch() {
+    class Assert(title: String, enter: String, enabled: Boolean) : BasicMatch() {
 
-        fun onDisplayContent(enter: String, enabled: Boolean) {
+        init {
             onDisplay(R.id.rename_parent_container)
             onDisplayText(title, R.id.rename_parent_container)
 

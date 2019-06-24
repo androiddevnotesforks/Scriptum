@@ -26,13 +26,13 @@ class RollNoteScreen(override var state: State,
     override val inputControl = InputControl().apply { isEnabled = true }
 
     override fun fullAssert() {
-        assert { onDisplayContent() }
-        toolbar { assert { onDisplayContent() } }
-        controlPanel { assert { onDisplayContent() } }
-        enterPanel { assert { onDisplayContent() } }
+        assert()
+        toolbar { assert() }
+        controlPanel { assert() }
+        enterPanel { assert() }
     }
 
-    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
+    fun assert() = Assert(callback = this)
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
     fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
@@ -65,9 +65,9 @@ class RollNoteScreen(override var state: State,
                 }
     }
 
-    class Assert(private val callback: INoteScreen) : BasicMatch() {
+    class Assert(callback: INoteScreen) : BasicMatch() {
 
-        fun onDisplayContent(): Unit = with(callback) {
+        init {
             onDisplay(R.id.roll_note_parent_container)
             onDisplay(R.id.roll_note_recycler)
         }

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
  */
 class PreferenceScreen : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(func: Assert.() -> Unit = {}) = Assert().apply { func() }
 
     fun onPressBack() = pressBack()
 
@@ -22,19 +22,18 @@ class PreferenceScreen : ParentUi() {
 
     companion object {
         operator fun invoke(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
-            assert { onDisplayContent() }
+            assert()
             func()
         }
     }
 
     class Assert : BasicMatch() {
 
-        fun onDisplayContent() {
+        // TODO больше assert
+        init {
             onDisplay(R.id.preference_parent_container)
 
             onDisplayToolbar(R.id.toolbar_container, R.string.title_preference)
-
-            // TODO больше assert
         }
 
     }

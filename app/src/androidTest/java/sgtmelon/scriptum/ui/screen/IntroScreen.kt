@@ -16,11 +16,26 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
  */
 class IntroScreen : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit) = Assert().apply { func() }
+    fun assert(p: Int = 0, enabled: Boolean = false) = Assert(p, enabled)
 
-    val count: Int get() = IntroData.count
+    fun onPassThrough(scroll: Scroll) {
+        (when (scroll) {
+            Scroll.START -> count - 1 downTo 0
+            Scroll.END -> 0 until count - 1
+        }).forEach {
+            assert(it, enabled = it == IntroData.count - 1)
+            onSwipe(scroll)
+        }
 
-    fun onSwipe(scroll: Scroll) = action {
+        when (scroll) {
+            Scroll.START -> assert()
+            Scroll.END -> assert(p = count - 1, enabled = true)
+        }
+    }
+
+    private val count: Int get() = IntroData.count
+
+    private fun onSwipe(scroll: Scroll) = action {
         when (scroll) {
             Scroll.START -> onSwipeRight(R.id.intro_pager)
             Scroll.END -> onSwipeLeft(R.id.intro_pager)
@@ -32,31 +47,16 @@ class IntroScreen : ParentUi() {
         MainScreen.invoke(func)
     }
 
-    fun onPassThrough(scroll: Scroll) = assert {
-        (when (scroll) {
-            Scroll.START -> count - 1 downTo 0
-            Scroll.END -> 0 until count - 1
-        }).forEach {
-            onDisplayContent(it, enabled = it == IntroData.count - 1)
-            onSwipe(scroll)
-        }
-
-        when (scroll) {
-            Scroll.START -> onDisplayContent(p = 0, enabled = false)
-            Scroll.END -> onDisplayContent(p = count - 1, enabled = true)
-        }
-    }
-
     companion object {
         operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply {
-            assert { onDisplayContent(p = 0, enabled = false) }
+            assert()
             func()
         }
     }
 
-    class Assert : BasicMatch() {
+    class Assert(p: Int, enabled: Boolean) : BasicMatch() {
 
-        fun onDisplayContent(p: Int, enabled: Boolean) {
+        init {
             onDisplay(R.id.intro_pager)
             onDisplay(R.id.intro_page_indicator)
 
@@ -64,7 +64,10 @@ class IntroScreen : ParentUi() {
             onDisplay(R.id.info_details_text, IntroData.details[p])
 
             isEnabled(R.id.intro_end_button, enabled)
-            if (enabled) onDisplay(R.id.intro_end_button, R.string.info_intro_button)
+
+            if (enabled) {
+                onDisplay(R.id.intro_end_button, R.string.info_intro_button)
+            }
         }
 
     }

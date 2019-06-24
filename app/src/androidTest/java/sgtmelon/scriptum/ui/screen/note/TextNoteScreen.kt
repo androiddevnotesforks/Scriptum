@@ -28,12 +28,12 @@ class TextNoteScreen(override var state: State,
     override val inputControl = InputControl().apply { isEnabled = true }
 
     override fun fullAssert() {
-        assert { onDisplayContent() }
-        toolbar { assert { onDisplayContent() } }
-        controlPanel { assert { onDisplayContent() } }
+        assert()
+        toolbar { assert() }
+        controlPanel { assert() }
     }
 
-    fun assert(func: Assert.() -> Unit) = Assert(callback = this).apply { func() }
+    fun assert() = Assert(callback = this)
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
@@ -86,34 +86,36 @@ class TextNoteScreen(override var state: State,
                 }
     }
 
-    class Assert(private val callback: INoteScreen) : BasicMatch() {
+    class Assert(callback: INoteScreen) : BasicMatch() {
 
-        fun onDisplayContent(): Unit = with(callback) {
-            onDisplay(R.id.text_note_parent_container)
+        init {
+            with(callback) {
+                onDisplay(R.id.text_note_parent_container)
 
-            onDisplay(R.id.text_note_content_card)
-            onDisplay(R.id.text_note_content_scroll)
+                onDisplay(R.id.text_note_content_card)
+                onDisplay(R.id.text_note_content_scroll)
 
-            when (state) {
-                State.READ, State.BIN -> {
-                    notDisplay(R.id.text_note_content_enter)
-                    onDisplay(R.id.text_note_content_text)
+                when (state) {
+                    State.READ, State.BIN -> {
+                        notDisplay(R.id.text_note_content_enter)
+                        onDisplay(R.id.text_note_content_text)
+                    }
+                    State.EDIT, State.NEW -> {
+                        onDisplay(R.id.text_note_content_enter)
+                        notDisplay(R.id.text_note_content_text)
+                    }
                 }
-                State.EDIT, State.NEW -> {
-                    onDisplay(R.id.text_note_content_enter)
-                    notDisplay(R.id.text_note_content_text)
-                }
-            }
 
-            when (state) {
-                State.READ, State.BIN -> {
-                    onDisplay(R.id.text_note_content_text, noteModel.noteEntity.text)
-                }
-                State.EDIT, State.NEW -> {
-                    if (shadowModel.noteEntity.text.isNotEmpty()) {
-                        onDisplay(R.id.text_note_content_enter, shadowModel.noteEntity.text)
-                    } else {
-                        onDisplayHint(R.id.text_note_content_enter, R.string.hint_enter_text)
+                when (state) {
+                    State.READ, State.BIN -> {
+                        onDisplay(R.id.text_note_content_text, noteModel.noteEntity.text)
+                    }
+                    State.EDIT, State.NEW -> {
+                        if (shadowModel.noteEntity.text.isNotEmpty()) {
+                            onDisplay(R.id.text_note_content_enter, shadowModel.noteEntity.text)
+                        } else {
+                            onDisplayHint(R.id.text_note_content_enter, R.string.hint_enter_text)
+                        }
                     }
                 }
             }

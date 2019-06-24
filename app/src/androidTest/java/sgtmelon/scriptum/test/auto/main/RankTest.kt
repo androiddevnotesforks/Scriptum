@@ -137,7 +137,7 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     onClickCancel(it)
-                    assert { onDisplayContent(empty = true) }
+                    assert(empty = true)
                 }
             }
         }
@@ -167,7 +167,7 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     openRenameDialog(it.name) { onCloseSoft() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
@@ -178,7 +178,7 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     openRenameDialog(it.name) { onClickCancel() }
-                    assert { onDisplayContent(empty = false) }
+                    assert(empty = false)
                 }
             }
         }
