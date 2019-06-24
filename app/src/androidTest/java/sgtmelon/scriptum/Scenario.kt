@@ -7,6 +7,7 @@ import sgtmelon.scriptum.test.auto.main.BinTest
 import sgtmelon.scriptum.test.auto.main.MainTest
 import sgtmelon.scriptum.test.auto.main.NotesTest
 import sgtmelon.scriptum.test.auto.main.RankTest
+import sgtmelon.scriptum.test.auto.note.RollNoteTest
 import sgtmelon.scriptum.test.auto.note.TextNoteTest
 import sgtmelon.scriptum.test.auto.note.roll.RollNoteToolbarTest
 import sgtmelon.scriptum.test.auto.note.text.TextNoteContentTest
@@ -360,7 +361,7 @@ private class Scenario {
              * # Панель:
              * # Востановление :: [TextNoteTest.binActionRestore]
              * # Восстановление с открытием :: [TextNoteTest.binActionRestoreOpen]
-             * # Удаление на всегда :: [TextNoteTest.binActionClear]
+             * # Удаление навсегда :: [TextNoteTest.binActionClear]
              */
 
             /**
@@ -374,8 +375,6 @@ private class Scenario {
                  * # Только что созданная заметка кнопкой назад :: [TextNoteToolbarTest.closeByBackPressOnCreate]
                  * # Открытая заметка кнопкой на тулбаре :: [TextNoteToolbarTest.closeByToolbarOnOpen]
                  * # Открытая заметка кнопкой назад :: [TextNoteToolbarTest.closeByBackPressOnOpen]
-                 * # Открытая заметка из корзины кнопкой на тулбаре :: [TextNoteToolbarTest.closeByToolbarOnOpenFromBin]
-                 * # Открытая заметка из корзины кнопкой назад :: [TextNoteToolbarTest.closeByBackPressOnOpenFromBin]
                  */
 
                 /**
@@ -383,9 +382,6 @@ private class Scenario {
                  * # Только что созданная заметка :: [TextNoteToolbarTest.contentEmptyOnCreate]
                  * # Открытая заметка без названия :: [TextNoteToolbarTest.contentEmptyOnOpen]
                  * # Открытая заметка с названием :: [TextNoteToolbarTest.contentFillOnOpen]
-                 * # Открытая заметка из корзины без названия :: [TextNoteToolbarTest.contentEmptyOnOpenFromBin]
-                 * # Открытая заметка из корзины с названием :: [TextNoteToolbarTest.contentFillOnOpenFromBin]
-                 * # После восстановления из корзины :: [TextNoteToolbarTest.contentFillOnRestoreOpen]
                  */
 
                 /**
@@ -412,8 +408,6 @@ private class Scenario {
                  * Отображение:
                  * # Только что созданная заметка :: [TextNoteContentTest.contentEmptyOnCreate]
                  * # Открытая заметка :: [TextNoteContentTest.contentFillOnOpen]
-                 * # Открытая заметка из корзины :: [TextNoteContentTest.contentFillOnOpenFromBin]
-                 * # После восстановления из корзины :: [TextNoteContentTest.contentFillOnRestoreOpen]
                  */
 
                 /**
@@ -440,8 +434,6 @@ private class Scenario {
                  * Отображение:
                  * # Только что созданная заметка :: [TextNotePanelTest.displayOnCreate]
                  * # Открытая заметка :: [TextNotePanelTest.displayOnOpenNote]
-                 * # Открытая заметка из корзины :: [TextNotePanelTest.displayOnOpenNoteFromBin]
-                 * # После восстановления из корзины :: [TextNotePanelTest.displayOnRestoreOpen]
                  */
 
                 /**
@@ -459,11 +451,6 @@ private class Scenario {
 
                 /**
                  * UI/Функционал
-                 * # Корзина:
-                 * # Востановление :: [TextNotePanelTest.actionRestoreFromBin]
-                 * # Восстановление с открытием :: [TextNotePanelTest.actionRestoreOpenFromBin]
-                 * # Удаление на всегда :: [TextNotePanelTest.actionClearFromBin]
-                 *
                  * # Созданная/редактируемая заметка:
                  * # Сохранение при создании заметки :: [TextNotePanelTest.actionSaveOnCreate]
                  * # Сохранение после редактирования заметки :: [TextNotePanelTest.actionSaveOnEdit]
@@ -478,7 +465,25 @@ private class Scenario {
 
         }
 
+        /**
+         * Сценарии для [RollNoteTest]
+         */
         class RollNote {
+
+            /**
+             * Заметка в корзине
+             * # Контент:
+             * # Открытие заметки без названия :: [RollNoteTest.binContentWithoutName]
+             * # Открытие заметки с названием :: [RollNoteTest.binContentWithName]
+             *
+             * # Выход из заметки :: [RollNoteTest.binClose]
+             *
+             * # Панель:
+             * # Востановление :: [RollNoteTest.binActionRestore]
+             * # Восстановление с открытием :: [RollNoteTest.binActionRestoreOpen]
+             * # Удаление навсегда :: [RollNoteTest.binActionClear]
+             */
+
 
             /**
              * Сценарии для [RollNoteToolbarTest]
@@ -491,8 +496,6 @@ private class Scenario {
                  * # Только что созданная заметка кнопкой назад :: [RollNoteToolbarTest.closeByBackPressOnCreate]
                  * # Открытая заметка кнопкой на тулбаре :: [RollNoteToolbarTest.closeByToolbarOnOpen]
                  * # Открытая заметка кнопкой назад :: [RollNoteToolbarTest.closeByBackPressOnOpen]
-                 * # Открытая заметка из корзины кнопкой на тулбаре :: [RollNoteToolbarTest.closeByToolbarOnOpenFromBin]
-                 * # Открытая заметка из корзины кнопкой назад :: [RollNoteToolbarTest.closeByBackPressOnOpenFromBin]
                  */
 
                 /**
@@ -500,9 +503,6 @@ private class Scenario {
                  * # Только что созданная заметка :: [RollNoteToolbarTest.contentEmptyOnCreate]
                  * # Открытая заметка без названия :: [RollNoteToolbarTest.contentEmptyOnOpen]
                  * # Открытая заметка с названием :: [RollNoteToolbarTest.contentFillOnOpen]
-                 * # Открытая заметка из корзины без названия :: [RollNoteToolbarTest.contentEmptyOnOpenFromBin]
-                 * # Открытая заметка из корзины с названием :: [RollNoteToolbarTest.contentFillOnOpenFromBin]
-                 * # После восстановления из корзины :: [RollNoteToolbarTest.contentFillOnRestoreOpen]
                  */
 
                 /**

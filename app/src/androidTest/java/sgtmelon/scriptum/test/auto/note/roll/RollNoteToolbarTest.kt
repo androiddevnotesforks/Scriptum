@@ -50,24 +50,6 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() = testData.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-            }
-        }
-    }
-
-    @Test fun closeByBackPressOnOpenFromBin() = testData.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openRollNote(it) { onPressBack() } }
-                assert()
-            }
-        }
-    }
-
 
     @Test fun contentEmptyOnCreate() = testData.createRoll().let {
         launch { mainScreen { openAddDialog { createRollNote(it) } } }
@@ -84,22 +66,6 @@ class RollNoteToolbarTest : ParentUiTest() {
     @Test fun contentFillOnOpen() = testData.insertRoll().let {
         launch {
             mainScreen { openNotesPage { openRollNote(it) { controlPanel { onClickEdit() } } } }
-        }
-    }
-
-    @Test fun contentEmptyOnOpenFromBin() = testData.insertRollToBin(
-            testData.rollNote.apply { name = "" }
-    ).let { launch { mainScreen { openBinPage { openRollNote(it) } } } }
-
-    @Test fun contentFillOnOpenFromBin() = testData.insertRollToBin().let {
-        launch { mainScreen { openBinPage { openRollNote(it) } } }
-    }
-
-    @Test fun contentFillOnRestoreOpen() = testData.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openRollNote(it) { controlPanel { onClickRestoreOpen() } } }
-            }
         }
     }
 
