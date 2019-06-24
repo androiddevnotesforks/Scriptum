@@ -27,20 +27,6 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpenFromBin() = testData.insertTextToBin().let {
-        launch { mainScreen { openBinPage { openTextNote(it) } } }
-    }
-
-    // TODO тест существует
-    @Test fun contentFillOnRestoreOpen() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openTextNote(it) { controlPanel { onClickRestoreOpen() } } }
-            }
-        }
-    }
-
-    // TODO тест существует
     @Test fun saveByControlOnCreate() = testData.createText().let {
         launch {
             mainScreen {

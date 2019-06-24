@@ -7,6 +7,7 @@ import sgtmelon.scriptum.test.auto.main.BinTest
 import sgtmelon.scriptum.test.auto.main.MainTest
 import sgtmelon.scriptum.test.auto.main.NotesTest
 import sgtmelon.scriptum.test.auto.main.RankTest
+import sgtmelon.scriptum.test.auto.note.TextNoteTest
 import sgtmelon.scriptum.test.auto.note.roll.RollNoteToolbarTest
 import sgtmelon.scriptum.test.auto.note.text.TextNoteContentTest
 import sgtmelon.scriptum.test.auto.note.text.TextNotePanelTest
@@ -343,8 +344,24 @@ private class Scenario {
 
         }
 
-
+        /**
+         * Сценарии для [TextNoteTest]
+         */
         class TextNote {
+
+            /**
+             * Заметка в корзине
+             * # Контент:
+             * # Открытие заметки без названия :: [TextNoteTest.binContentWithoutName]
+             * # Открытие заметки с названием :: [TextNoteTest.binContentWithName]
+             *
+             * # Выход из заметки :: [TextNoteTest.binClose]
+             *
+             * # Панель:
+             * # Востановление :: [TextNoteTest.binActionRestore]
+             * # Восстановление с открытием :: [TextNoteTest.binActionRestoreOpen]
+             * # Удаление на всегда :: [TextNoteTest.binActionClear]
+             */
 
             /**
              * Сценарии для [TextNoteToolbarTest]

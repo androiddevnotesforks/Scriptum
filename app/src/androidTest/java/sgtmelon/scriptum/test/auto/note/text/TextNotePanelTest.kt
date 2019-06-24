@@ -23,20 +23,6 @@ class TextNotePanelTest : ParentUiTest() {
         launch { mainScreen { openNotesPage { openTextNote(it) } } }
     }
 
-    // TODO тест существует
-    @Test fun displayOnOpenNoteFromBin() = testData.insertTextToBin().let {
-        launch { mainScreen { openBinPage { openTextNote(it) } } }
-    }
-
-    // TODO тест существует
-    @Test fun displayOnRestoreOpen() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openTextNote(it) { controlPanel { onClickRestoreOpen() } } }
-            }
-        }
-    }
-
 
     @Test fun saveByControlOnCreate() = testData.createText().let {
         launch {
@@ -109,56 +95,6 @@ class TextNotePanelTest : ParentUiTest() {
             }
         }
     }
-
-
-    @Test fun actionRestoreFromBin() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) { controlPanel { onClickRestore() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
-            }
-        }
-    }
-
-    @Test fun actionRestoreOpenFromBin() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) {
-                        controlPanel { onClickRestoreOpen() }
-                        onPressBack()
-                    }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
-            }
-        }
-    }
-
-    @Test fun actionClearFromBin() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) { controlPanel { onClickClear() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage(empty = true)
-            }
-        }
-    }
-
 
     @Test fun actionSaveOnCreate() = testData.createText().let {
         launch {

@@ -50,23 +50,6 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpenFromBin() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openTextNote(it) { toolbar { onClickBack() } } }
-                assert()
-            }
-        }
-    }
-
-    @Test fun closeByBackPressOnOpenFromBin() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openTextNote(it) { onPressBack() } }
-                assert()
-            }
-        }
-    }
 
     // TODO тест существует
     @Test fun contentEmptyOnCreate() = testData.createText().let {
@@ -87,27 +70,6 @@ class TextNoteToolbarTest : ParentUiTest() {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
-
-    @Test fun contentEmptyOnOpenFromBin() = testData.insertTextToBin(
-            testData.textNote.apply { name = "" }
-    ).let {
-        launch { mainScreen { openBinPage { openTextNote(it) } } }
-    }
-
-    // TODO тест существует
-    @Test fun contentFillOnOpenFromBin() = testData.insertTextToBin().let {
-        launch { mainScreen { openBinPage { openTextNote(it) } } }
-    }
-
-    // TODO тест существует
-    @Test fun contentFillOnRestoreOpen() = testData.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openTextNote(it) { controlPanel { onClickRestoreOpen() } } }
-            }
-        }
-    }
-
 
     @Test fun saveByControlOnCreate() = testData.createText().let {
         launch {
