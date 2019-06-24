@@ -16,6 +16,7 @@ import sgtmelon.scriptum.test.control.NoteToolbarIconTest
 import sgtmelon.scriptum.test.control.RotationTest
 import sgtmelon.scriptum.test.control.alarm.AlarmAnimDarkTest
 import sgtmelon.scriptum.test.control.alarm.AlarmAnimLightTest
+import sgtmelon.scriptum.ui.screen.NotificationScreen
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.main.NotesScreen
 import sgtmelon.scriptum.ui.screen.main.RankScreen
@@ -91,21 +92,21 @@ private class Scenario {
         class Splash {
 
             /**
-             * UI - Открыть приветствие :: [SplashTest.introScreenOpen]
+             * Открыть приветствие :: [SplashTest.introScreenOpen]
              */
 
             /**
-             * UI - Открыть главный экран :: [SplashTest.mainScreenOpen]
+             * Открыть главный экран :: [SplashTest.mainScreenOpen]
              */
 
             /**
-             * UI - Открыть заметку через уведомление
+             * Открыть заметку через уведомление
              * # Текст :: [SplashTest.bindTextNoteOpen]
              * # Список :: [SplashTest.bindRollNoteOpen]
              */
 
             /**
-             * UI - Открыть уведомление по времени
+             * Открыть уведомление по времени
              * # Текст :: [SplashTest.alarmTextNoteOpen]
              * # Список :: [SplashTest.alarmRollNoteOpen]
              */
@@ -118,11 +119,11 @@ private class Scenario {
         class Intro {
 
             /**
-             * UI - Расположение контента на страницах :: [IntroTest.contentPlacement]
+             * Расположение контента на страницах :: [IntroTest.contentPlacement]
              */
 
             /**
-             * UI - Работа кнопки end :: [IntroTest.endButtonWork]
+             * Работа кнопки end :: [IntroTest.endButtonWork]
              */
 
         }
@@ -133,19 +134,19 @@ private class Scenario {
         class Main {
 
             /**
-             * UI - Стартовый экран :: [MainTest.startScreen]
+             * Стартовый экран :: [MainTest.startScreen]
              */
 
             /**
-             * UI - Отображение правильного экрана при нажатии на пункт меню :: [MainTest.menuClickCorrectScreen]
+             * Отображение правильного экрана при нажатии на пункт меню :: [MainTest.menuClickCorrectScreen]
              */
 
             /**
-             * UI - Отображения кнопки добавить :: [MainTest.addFabVisible]
+             * Отображения кнопки добавить :: [MainTest.addFabVisible]
              */
 
             /**
-             * UI - Работа диалога добавления заметки
+             * Работа диалога добавления заметки
              * # Открыть :: [MainTest.addDialogOpen]
              *
              * # Закрыть:
@@ -157,7 +158,7 @@ private class Scenario {
              */
 
             /**
-             * CONTROL - Скроллинга страниц до верха
+             * Скроллинга страниц до верха
              * # Категории :: [MainTest.rankScreenScrollTop]
              * # Заметки :: [MainTest.notesScreenScrollTop]
              * # Корзина :: [MainTest.binScreenScrollTop]
@@ -171,17 +172,17 @@ private class Scenario {
         class Rank {
 
             /**
-             * UI - Контент
+             * Контент
              * # Пусто :: [RankTest.contentEmpty]
              * # Список :: [RankTest.contentList]
              **/
 
             /**
-             * CONTROL - Скроллинг списка :: [RankTest.listScroll]
+             * Скроллинг списка :: [RankTest.listScroll]
              */
 
             /**
-             * UI - Работа toolbar'а добавления категории
+             * Работа toolbar'а добавления категории
              * # Доступ к кнопке добавить
              * # Пустой текст :: [RankTest.toolbarEnterAddEmpty]
              * # Текст из списка :: [RankTest.toolbarEnterAddFromList]
@@ -193,7 +194,7 @@ private class Scenario {
              */
 
             /**
-             * UI/MANUAL - Управление категорией
+             * Управление категорией
              * # Видимость:
              * # Обычное нажатие :: [RankTest.rankVisibleAnimationClick]
              * # Долгое нажатие :: [RankTest.rankVisibleAnimationLongClick]
@@ -208,7 +209,7 @@ private class Scenario {
              */
 
             /**
-             * UI - Работа диалога переименовывания
+             * Работа диалога переименовывания
              * # Открыть :: [RankTest.renameDialogOpen]
              *
              * # Закрыть:
@@ -230,43 +231,43 @@ private class Scenario {
         class Notes {
 
             /**
-             * UI - Контент
+             * Контент
              * # Пусто :: [NotesTest.contentEmpty]
              * # Список :: [NotesTest.contentList]
              **/
 
             /**
-             * UI - Открыть настройки :: [NotesTest.openPreference]
+             * Открыть настройки :: [NotesTest.openPreference]
              */
 
             /**
-             * CONTROL - Скроллинг списка :: [NotesTest.listScroll]
+             * Скроллинг списка :: [NotesTest.listScroll]
              */
 
             /**
-             * UI - Видимость кнопки добавить при скроллинге :: [NotesTest.addFabVisibleOnScroll]
+             * Видимость кнопки добавить при скроллинге :: [NotesTest.addFabVisibleOnScroll]
              */
 
             /**
-             * UI - Открыть заметку
+             * Открыть заметку
              * # Текст :: [NotesTest.textNoteOpen]
              * # Список :: [NotesTest.rollNoteOpen]
              */
 
             /**
-             * UI - Создание заметки и возврат назад без сохранения
+             * Создание заметки и возврат назад без сохранения
              * # Текст :: [NotesTest.textNoteCreateAndReturn]
              * # Список :: [NotesTest.rollNoteCreateAndReturn]
              */
 
             /**
-             * UI - Создание заметки и возврат назад с сохранением
+             * Создание заметки и возврат назад с сохранением
              * # Текст :: [NotesTest.textNoteCreateAndReturnWithSave]
              * # Список :: [NotesTest.rollNoteCreateAndReturnWithSave]
              */
 
             /**
-             * UI/CONTROL/MANUAL - Работа диалога управления заметкой
+             * Работа диалога управления заметкой
              * # Текст:
              * # Открыть :: [NotesTest.textNoteDialogOpen]
              * # Закрыть :: [NotesTest.textNoteDialogClose]
@@ -296,23 +297,23 @@ private class Scenario {
         class Bin {
 
             /**
-             * UI - Контент
+             * Контент
              * # Пусто :: [BinTest.contentEmpty]
              * # Список :: [BinTest.contentList]
              **/
 
             /**
-             * CONTROL - Скроллинг списка :: [BinTest.listScroll]
+             * Скроллинг списка :: [BinTest.listScroll]
              */
 
             /**
-             * UI - Открыть заметку
+             * Открыть заметку
              * # Текст :: [BinTest.textNoteOpen]
              * # Список :: [BinTest.rollNoteOpen]
              */
 
             /**
-             * UI - Работы диалога отчистки корзины :: [BinTest.clearDialogWork]
+             * Работы диалога отчистки корзины :: [BinTest.clearDialogWork]
              * # Открыть :: [BinTest.clearDialogOpen]
              *
              * # Закрыть:
@@ -324,7 +325,7 @@ private class Scenario {
              */
 
             /**
-             * UI/MANUAL - Работа диалога управления заметкой
+             * Работа диалога управления заметкой
              * # Текст:
              * # Открыть :: [BinTest.textNoteDialogOpen]
              * # Закрыть :: [BinTest.textNoteDialogClose]
@@ -351,7 +352,7 @@ private class Scenario {
             class Toolbar {
 
                 /**
-                 * UI - Закрытие заметки:
+                 * Закрытие заметки:
                  * # Только что созданная заметка кнопкой на тулбаре :: [TextNoteToolbarTest.closeByToolbarOnCreate]
                  * # Только что созданная заметка кнопкой назад :: [TextNoteToolbarTest.closeByBackPressOnCreate]
                  * # Открытая заметка кнопкой на тулбаре :: [TextNoteToolbarTest.closeByToolbarOnOpen]
@@ -361,7 +362,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Отображение:
+                 * Отображение:
                  * # Только что созданная заметка :: [TextNoteToolbarTest.contentEmptyOnCreate]
                  * # Открытая заметка без названия :: [TextNoteToolbarTest.contentEmptyOnOpen]
                  * # Открытая заметка с названием :: [TextNoteToolbarTest.contentFillOnOpen]
@@ -371,7 +372,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Сохранение:
+                 * Сохранение:
                  * # При создании заметки :: [TextNoteToolbarTest.saveByControlOnCreate]
                  * # При создании заметки кнопкой назад :: [TextNoteToolbarTest.saveByBackPressOnCreate]
                  * # После редактирования заметки :: [TextNoteToolbarTest.saveByControlOnEdit]
@@ -379,7 +380,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Отмена:
+                 * Отмена:
                  * # После редактирования заметки :: [TextNoteToolbarTest.cancelOnEditByToolbar]
                  */
 
@@ -391,7 +392,7 @@ private class Scenario {
             class Content {
 
                 /**
-                 * UI - Отображение:
+                 * Отображение:
                  * # Только что созданная заметка :: [TextNoteContentTest.contentEmptyOnCreate]
                  * # Открытая заметка :: [TextNoteContentTest.contentFillOnOpen]
                  * # Открытая заметка из корзины :: [TextNoteContentTest.contentFillOnOpenFromBin]
@@ -399,7 +400,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Сохранение:
+                 * Сохранение:
                  * # При создании заметки :: [TextNoteContentTest.saveByControlOnCreate]
                  * # При создании заметки кнопкой назад :: [TextNoteContentTest.saveByBackPressOnCreate]
                  * # После редактирования заметки :: [TextNoteContentTest.saveByControlOnEdit]
@@ -407,7 +408,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Отмена:
+                 * Отмена:
                  * # После редактирования заметки :: [TextNoteContentTest.cancelOnEditByToolbar]
                  */
 
@@ -419,7 +420,7 @@ private class Scenario {
             class Panel {
 
                 /**
-                 * UI - Отображение:
+                 * Отображение:
                  * # Только что созданная заметка :: [TextNotePanelTest.displayOnCreate]
                  * # Открытая заметка :: [TextNotePanelTest.displayOnOpenNote]
                  * # Открытая заметка из корзины :: [TextNotePanelTest.displayOnOpenNoteFromBin]
@@ -427,7 +428,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Сохранение
+                 * Сохранение
                  * # При создании заметки :: [TextNotePanelTest.saveByControlOnCreate]
                  * # При создании заметки кнопкой назад :: [TextNotePanelTest.saveByPressBackOnCreate]
                  * # После редактирования заметки :: [TextNotePanelTest.saveByControlOnEdit]
@@ -435,12 +436,12 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Отмена:
+                 * Отмена:
                  * # После редактирования заметки :: [TextNotePanelTest.cancelOnEditByToolbar]
                  */
 
                 /**
-                 * UI/CONTROL - Функционал
+                 * UI/Функционал
                  * # Корзина:
                  * # Востановление :: [TextNotePanelTest.actionRestoreFromBin]
                  * # Восстановление с открытием :: [TextNotePanelTest.actionRestoreOpenFromBin]
@@ -468,7 +469,7 @@ private class Scenario {
             class Toolbar {
 
                 /**
-                 * UI - Закрытие заметки:
+                 * Закрытие заметки:
                  * # Только что созданная заметка кнопкой на тулбаре :: [RollNoteToolbarTest.closeByToolbarOnCreate]
                  * # Только что созданная заметка кнопкой назад :: [RollNoteToolbarTest.closeByBackPressOnCreate]
                  * # Открытая заметка кнопкой на тулбаре :: [RollNoteToolbarTest.closeByToolbarOnOpen]
@@ -478,7 +479,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Отображение:
+                 * Отображение:
                  * # Только что созданная заметка :: [RollNoteToolbarTest.contentEmptyOnCreate]
                  * # Открытая заметка без названия :: [RollNoteToolbarTest.contentEmptyOnOpen]
                  * # Открытая заметка с названием :: [RollNoteToolbarTest.contentFillOnOpen]
@@ -488,7 +489,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Сохранение:
+                 * Сохранение:
                  * # При создании заметки :: [RollNoteToolbarTest.saveByControlOnCreate]
                  * # При создании заметки кнопкой назад :: [RollNoteToolbarTest.saveByBackPressOnCreate]
                  * # После редактирования заметки :: [RollNoteToolbarTest.saveByControlOnEdit]
@@ -496,7 +497,7 @@ private class Scenario {
                  */
 
                 /**
-                 * UI - Отмена:
+                 * Отмена:
                  * # После редактирования заметки :: [RollNoteToolbarTest.cancelOnEdit]
                  */
 
@@ -510,17 +511,21 @@ private class Scenario {
         class Notification {
 
             /**
-             * UI - Контент
+             * Контент
              * # Пусто :: [NotificationTest.contentEmpty]
              * # Список :: [NotificationTest.contentList]
              **/
 
             /**
-             * CONTROL - Скроллинг списка :: [NotificationTest.listScroll]
+             * Скроллинг списка :: [NotificationTest.listScroll]
              */
 
             /**
-             * UI - Открыть уведомление
+             * Удаление элементов :: [NotificationTest.itemCancel]
+             */
+
+            /**
+             * Открыть уведомление
              * # Текст :: [NotificationTest.textNoteOpen]
              * # Список :: [NotificationTest.rollNoteOpen]
              */
@@ -545,31 +550,31 @@ private class Scenario {
         class NoteToolbarIcon {
 
             /**
-             * CONTROL - Стрелка назад у только что созданной заметки
+             * Стрелка назад у только что созданной заметки
              * # Текст :: [NoteToolbarIconTest.arrowBackOnCreateTextNote]
              * # Список :: [NoteToolbarIconTest.arrowBackOnCreateRollNote]
              */
 
             /**
-             * CONTROL - Не происходит анимации стрелки при сохранении новой заметки
+             * Не происходит анимации стрелки при сохранении новой заметки
              * # Текст :: [NoteToolbarIconTest.notAnimateOnSaveCreateTextNote]
              * # Список :: [NoteToolbarIconTest.notAnimateOnSaveCreateRollNote]
              */
 
             /**
-             * CONTROL - Не происходит анимации при восстановлении заметки  открытием
+             * Не происходит анимации при восстановлении заметки  открытием
              * # Текст :: [NoteToolbarIconTest.notAnimateOnRestoreOpenTextNote]
              * # Список :: [NoteToolbarIconTest.notAnimateOnRestoreOpenRollNote]
              */
 
             /**
-             * CONTROL - Анимация при начале редактирования и сохранении
+             * Анимация при начале редактирования и сохранении
              * # Текст :: [NoteToolbarIconTest.animateOnEditToSaveTextNote]
              * # Список :: [NoteToolbarIconTest.animateOnEditToSaveRollNote]
              */
 
             /**
-             * CONTROL - Анимация при начале редактирования и отмене
+             * Анимация при начале редактирования и отмене
              * # Текст :: [NoteToolbarIconTest.animateOnEditToCancelTextNote]
              * # Список :: [NoteToolbarIconTest.animateOnEditToCancelRollNote]
              */
@@ -622,6 +627,16 @@ private class Scenario {
              */
 
             /**
+             * Страница [NotificationScreen]
+             * # Контент:
+             * # Пусто :: [RotationTest.notificationScreenContentEmpty]
+             * # Список :: [RotationTest.notificationScreenContentList]
+             */
+
+
+            // TODO --------------------------------------------------------------------------------
+
+            /**
              * Страница [TextNoteScreen] - TODO
              */
 
@@ -658,7 +673,9 @@ private class Scenario {
              * # Скрыть :: [InfoAnimTest.binHide]
              */
 
-            // TODO notifications screen
+            /**
+             * Страница [NotificationScreen] ::  [InfoAnimTest.notificationShow]
+             */
 
         }
 

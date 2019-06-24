@@ -4,7 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -134,7 +133,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickBind() }
-                    openNoteDialog(it.apply { noteEntity.isStatus = true })
+                    openNoteDialog(it)
                 }
             }
         }
@@ -147,7 +146,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickUnbind() }
-                    openNoteDialog(it.apply { noteEntity.isStatus = false })
+                    openNoteDialog(it)
                 }
             }
         }
@@ -159,14 +158,8 @@ class NotesTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openNoteDialog(it) { onClickDelete() } }
-
-                it.noteEntity.apply {
-                    isStatus = false
-                    isBin = true
-                }
-
                 openBinPage { openNoteDialog(it) { onClickRestore() } }
-                openNotesPage { openNoteDialog(it.apply { noteEntity.isBin = false }) }
+                openNotesPage { openNoteDialog(it) }
             }
         }
     }
@@ -176,7 +169,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickConvert() }
-                    openNoteDialog(it.apply { noteEntity.type = NoteType.ROLL })
+                    openNoteDialog(it)
                 }
             }
         }
@@ -216,7 +209,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickBind() }
-                    openNoteDialog(it.apply { noteEntity.isStatus = true })
+                    openNoteDialog(it)
                 }
             }
         }
@@ -229,7 +222,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickUnbind() }
-                    openNoteDialog(it.apply { noteEntity.isStatus = false })
+                    openNoteDialog(it)
                 }
             }
         }
@@ -241,14 +234,8 @@ class NotesTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openNoteDialog(it) { onClickDelete() } }
-
-                it.noteEntity.apply {
-                    isStatus = false
-                    isBin = true
-                }
-
                 openBinPage { openNoteDialog(it) { onClickRestore() } }
-                openNotesPage { openNoteDialog(it.apply { noteEntity.isBin = false }) }
+                openNotesPage { openNoteDialog(it) }
             }
         }
     }
@@ -258,7 +245,7 @@ class NotesTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openNoteDialog(it) { onClickConvert() }
-                    openNoteDialog(it.apply { noteEntity.type = NoteType.TEXT })
+                    openNoteDialog(it)
                 }
             }
         }

@@ -202,7 +202,7 @@ class TextNotePanelTest : ParentUiTest() {
                         onPressBack()
                     }
 
-                    openNoteDialog(it.apply { noteEntity.isStatus = true })
+                    openNoteDialog(it)
                 }
             }
         }
@@ -219,7 +219,7 @@ class TextNotePanelTest : ParentUiTest() {
                         onPressBack()
                     }
 
-                    openNoteDialog(it.apply { noteEntity.isStatus = false })
+                    openNoteDialog(it)
                 }
             }
         }

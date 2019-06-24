@@ -56,16 +56,16 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     class RankAction {
 
         fun onClick(name: String, @IdRes childId: Int): ViewInteraction =
-                onView(rankButton(name, childId)).perform(click())
+                onView(button(name, childId)).perform(click())
 
         fun onLongClick(name: String, @IdRes childId: Int): ViewInteraction =
-                onView(rankButton(name, childId)).perform(longClick())
+                onView(button(name, childId)).perform(longClick())
 
-        private fun rankButton(name: String, @IdRes childId: Int): Matcher<View> =
+        private fun button(name: String, @IdRes childId: Int): Matcher<View> =
                 allOf(withId(childId), withParent(allOf(
-                        withId(R.id.rank_click_container),
-                        withChild(allOf(withId(R.id.rank_content_container), withChild(withText(name))))
-                )))
+                        withId(R.id.rank_click_container), withChild(allOf(
+                        withId(R.id.rank_content_container), withChild(withText(name))
+                )))))
 
     }
 

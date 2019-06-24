@@ -25,7 +25,7 @@ class InfoAnimTest : ParentUiTest() {
                             onClickAdd()
                         }
 
-                        waitAfter(WAIT) { waitBefore(WAIT) { onClickCancel(it) } }
+                        waitAfter(TIME) { waitBefore(TIME) { onClickCancel(it) } }
                     }
                 }
             }
@@ -36,7 +36,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notesShow() = testData.insertText().let {
         launch {
             mainScreen {
-                waitAfter(WAIT) { openNotesPage { openNoteDialog(it) { onClickDelete() } } }
+                waitAfter(TIME) { openNotesPage { openNoteDialog(it) { onClickDelete() } } }
             }
         }
     }
@@ -45,7 +45,7 @@ class InfoAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage { openNoteDialog(it) { onClickRestore() } }
-                waitAfter(WAIT) { openNotesPage() }
+                waitAfter(TIME) { openNotesPage() }
             }
         }
     }
@@ -54,7 +54,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun binShow() = testData.insertTextToBin().let {
         launch {
             mainScreen {
-                waitAfter(WAIT) { openBinPage { openNoteDialog(it) { onClickClear() } } }
+                waitAfter(TIME) { openBinPage { openNoteDialog(it) { onClickClear() } } }
             }
         }
     }
@@ -63,21 +63,23 @@ class InfoAnimTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage { openNoteDialog(it) { onClickDelete() } }
-                waitAfter(WAIT) { openBinPage() }
+                waitAfter(TIME) { openBinPage() }
             }
         }
     }
+
 
     @Test fun notificationShow() = testData.insertNotification(testData.insertText()).let {
         launch {
             mainScreen {
-                openNotesPage { openNotification { waitAfter(WAIT) { onClickCancel(it) } } }
+                openNotesPage { openNotification { waitAfter(TIME) { onClickCancel(it) } } }
             }
         }
     }
 
+
     private companion object {
-        const val WAIT = 500L
+        const val TIME = 500L
     }
 
 }

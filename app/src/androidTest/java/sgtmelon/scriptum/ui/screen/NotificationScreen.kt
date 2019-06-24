@@ -5,8 +5,8 @@ import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers
-import org.hamcrest.CoreMatchers
+import androidx.test.espresso.matcher.ViewMatchers.*
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
@@ -56,13 +56,13 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     class NotificationAction {
 
         fun onClick(name: String, @IdRes childId: Int): ViewInteraction =
-                onView(rankButton(name, childId)).perform(click())
+                onView(button(name, childId)).perform(click())
 
-        private fun rankButton(name: String, @IdRes childId: Int): Matcher<View> =
-                CoreMatchers.allOf(ViewMatchers.withId(childId), ViewMatchers.withParent(CoreMatchers.allOf(
-                        ViewMatchers.withId(R.id.rank_click_container),
-                        ViewMatchers.withChild(CoreMatchers.allOf(ViewMatchers.withId(R.id.rank_content_container), ViewMatchers.withChild(ViewMatchers.withText(name))))
-                )))
+        private fun button(name: String, @IdRes childId: Int): Matcher<View> =
+                allOf(withId(childId), withParent(allOf(
+                        withId(R.id.notification_click_container), withChild(allOf(
+                        withId(R.id.notification_content_container), withChild(withText(name))
+                )))))
     }
 
     class Assert : BasicMatch() {

@@ -19,22 +19,41 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
     fun assert(func: Assert.() -> Unit) = Assert(noteModel).apply { func() }
 
-    fun onClickBind() = waitAfter(time = 300) { action { onClickText(R.string.dialog_menu_status_bind) } }
+    fun onClickBind() = waitAfter(time = 300) {
+        action { onClickText(R.string.dialog_menu_status_bind) }
+        noteModel.noteEntity.isStatus = true
+    }
 
-    fun onClickUnbind() = waitAfter(time = 300) { action { onClickText(R.string.dialog_menu_status_unbind) } }
+    fun onClickUnbind() = waitAfter(time = 300) {
+        action { onClickText(R.string.dialog_menu_status_unbind) }
+        noteModel.noteEntity.isStatus = false
+    }
 
     fun onClickConvert() = waitAfter(time = 300) {
-        action {
-            onClickText(when (noteModel.noteEntity.type) {
-                NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
-                NoteType.ROLL -> R.string.dialog_menu_convert_to_text
-            })
+        when (noteModel.noteEntity.type) {
+            NoteType.TEXT -> {
+                action { onClickText(R.string.dialog_menu_convert_to_roll) }
+                noteModel.noteEntity.type = NoteType.ROLL
+            }
+            NoteType.ROLL -> {
+                action { onClickText(R.string.dialog_menu_convert_to_text) }
+                noteModel.noteEntity.type = NoteType.TEXT
+            }
         }
     }
 
-    fun onClickDelete() = waitAfter(time = 300) { action { onClickText(R.string.dialog_menu_delete) } }
+    fun onClickDelete() = waitAfter(time = 300) {
+        action { onClickText(R.string.dialog_menu_delete) }
+        noteModel.noteEntity.apply {
+            isBin = true
+            isStatus = false
+        }
+    }
 
-    fun onClickRestore() = waitAfter(time = 300) { action { onClickText(R.string.dialog_menu_restore) } }
+    fun onClickRestore() = waitAfter(time = 300) {
+        action { onClickText(R.string.dialog_menu_restore) }
+        noteModel.noteEntity.isBin = false
+    }
 
     fun onClickClear() = waitAfter(time = 300) { action { onClickText(R.string.dialog_menu_clear) } }
 

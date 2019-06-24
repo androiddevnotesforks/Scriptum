@@ -15,16 +15,17 @@ import sgtmelon.scriptum.waitAfter
 class RotationTest : ParentUiTest() {
 
     // TODO запускать handler + toast для уведомления о повороте
+    // TODO заменить вызов assert на более короткий
 
     @Test fun addDialog() = launch {
-        mainScreen { openAddDialog { waitAfter(time = 5000) { assert { onDisplayContent() } } } }
+        mainScreen { openAddDialog { waitAfter(TIME) { assert { onDisplayContent() } } } }
     }
 
 
     @Test fun rankScreenContentEmpty() = launch {
         mainScreen {
             openRankPage(empty = true) {
-                waitAfter(time = 5000) { assert { onDisplayContent(empty = true) } }
+                waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -33,7 +34,7 @@ class RotationTest : ParentUiTest() {
 
     @Test fun rankScreenContentList() = launch({ testData.fillRank() }) {
         mainScreen {
-            openRankPage { waitAfter(time = 5000) { assert { onDisplayContent(empty = false) } } }
+            openRankPage { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
             assert { onDisplayFab(visible = false) }
         }
     }
@@ -46,7 +47,7 @@ class RotationTest : ParentUiTest() {
                 openRankPage {
                     openRenameDialog(it.name) {
                         onEnterName(newName, enabled = true)
-                        waitAfter(time = 5000) {
+                        waitAfter(TIME) {
                             assert { onDisplayContent(newName, enabled = true) }
                         }
                     }
@@ -59,7 +60,7 @@ class RotationTest : ParentUiTest() {
     @Test fun notesScreenContentEmpty() = launch {
         mainScreen {
             openNotesPage(empty = true) {
-                waitAfter(time = 5000) { assert { onDisplayContent(empty = true) } }
+                waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = true) }
@@ -68,7 +69,7 @@ class RotationTest : ParentUiTest() {
 
     @Test fun notesScreenContentList() = launch({ testData.fillNotes() }) {
         mainScreen {
-            openNotesPage { waitAfter(time = 5000) { assert { onDisplayContent(empty = false) } } }
+            openNotesPage { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
             assert { onDisplayFab(visible = true) }
         }
     }
@@ -77,7 +78,7 @@ class RotationTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
+                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
                 }
             }
         }
@@ -87,7 +88,7 @@ class RotationTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
+                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
                 }
             }
         }
@@ -97,7 +98,7 @@ class RotationTest : ParentUiTest() {
     @Test fun binScreenContentEmpty() = launch {
         mainScreen {
             openBinPage(empty = true) {
-                waitAfter(time = 5000) { assert { onDisplayContent(empty = true) } }
+                waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
             }
 
             assert { onDisplayFab(visible = false) }
@@ -106,7 +107,7 @@ class RotationTest : ParentUiTest() {
 
     @Test fun binScreenContentList() = launch({ testData.fillBin() }) {
         mainScreen {
-            openBinPage { waitAfter(time = 5000) { assert { onDisplayContent(empty = false) } } }
+            openBinPage { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
             assert { onDisplayFab(visible = false) }
         }
     }
@@ -114,7 +115,7 @@ class RotationTest : ParentUiTest() {
     @Test fun binScreenClearDialog() = launch({ testData.fillBin() }) {
         mainScreen {
             openBinPage {
-                openClearDialog { waitAfter(time = 5000) { assert { onDisplayContent() } } }
+                openClearDialog { waitAfter(TIME) { assert { onDisplayContent() } } }
             }
         }
     }
@@ -123,7 +124,7 @@ class RotationTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
+                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
                 }
             }
         }
@@ -133,14 +134,34 @@ class RotationTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage {
-                    openNoteDialog(it) { waitAfter(time = 5000) { assert { onDisplayContent() } } }
+                    openNoteDialog(it) { waitAfter(TIME) { assert { onDisplayContent() } } }
                 }
             }
         }
     }
 
+
+    @Test fun notificationScreenContentEmpty() = launch {
+        mainScreen {
+            openNotesPage(empty = true) {
+                openNotification(empty = true) {
+                    waitAfter(TIME) { assert { onDisplayContent(empty = true) } }
+                }
+            }
+        }
+    }
+
+    @Test fun notificationScreenContentList() = launch({ testData.fillNotification() }) {
+        mainScreen {
+            openNotesPage {
+                openNotification { waitAfter(TIME) { assert { onDisplayContent(empty = false) } } }
+            }
+        }
+    }
+
+
     private companion object {
-        const val WAIT = 7000L
+        const val TIME = 7000L
     }
 
 }

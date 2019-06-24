@@ -25,6 +25,20 @@ class NotificationTest : ParentUiTest() {
         mainScreen { openNotesPage { openNotification { onScrollThrough() } } }
     }
 
+    @Test fun itemCancel() = testData.insertNotification(testData.insertText()).let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openNotification {
+                        onClickCancel(it)
+                        assert { onDisplayContent(empty = true) }
+                    }
+                }
+            }
+        }
+    }
+
+
     @Test fun textNoteOpen() = testData.insertText().let {
         launch({ testData.insertNotification(it) }) {
             mainScreen { openNotesPage { openNotification { openText(it) } } }

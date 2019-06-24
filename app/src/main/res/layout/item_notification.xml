@@ -35,6 +35,7 @@
                     tools:visibility="visible"/>
 
             <LinearLayout
+                    android:id="@+id/notification_content_container"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/layout_4dp"
