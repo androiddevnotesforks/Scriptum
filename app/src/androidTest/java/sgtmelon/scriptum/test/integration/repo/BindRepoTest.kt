@@ -7,10 +7,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.test.ParentTest
+import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
  * Интеграционный тест для [BindRepo]
@@ -18,15 +17,11 @@ import sgtmelon.scriptum.test.ParentTest
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
-class BindRepoTest : ParentTest() {
-
-    private fun openRoom() = RoomDb.getInstance(context)
+class BindRepoTest : ParentIntegrationTest() {
 
     private val iBindRepo = BindRepo.getInstance(context)
 
     @Test fun getRollList_onTextNote() = openRoom().apply {
-        clearAllTables()
-
         textNote.let {
             getNoteDao().insert(it)
 
@@ -35,8 +30,6 @@ class BindRepoTest : ParentTest() {
     }.close()
 
     @Test fun getRollList_onRollNote() = openRoom().apply {
-        clearAllTables()
-
         rollNote.let {
             getNoteDao().insert(it)
 
@@ -49,8 +42,6 @@ class BindRepoTest : ParentTest() {
     }.close()
 
     @Test fun unbindNote() = openRoom().apply {
-        clearAllTables()
-
         textNote.let {
             getNoteDao().insert(it)
 
@@ -60,8 +51,12 @@ class BindRepoTest : ParentTest() {
     }.close()
 
     private companion object {
-        val textNote = NoteEntity(id = 1, type = NoteType.TEXT, isStatus = true)
-        val rollNote = NoteEntity(id = 1, type = NoteType.ROLL, isStatus = true)
+        val textNote = NoteEntity(
+                id = 1, create = DATE_1, change = DATE_1, type = NoteType.TEXT, isStatus = true
+        )
+        val rollNote = NoteEntity(
+                id = 1, create = DATE_1, change = DATE_1, type = NoteType.ROLL, isStatus = true
+        )
 
         val rollList: List<RollEntity> = arrayListOf(
                 RollEntity(id = 0, noteId = 1, position = 0, isCheck = false, text = "0"),
