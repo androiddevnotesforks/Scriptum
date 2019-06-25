@@ -6,10 +6,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.dao.AlarmDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
+import kotlin.random.Random
 
 /**
  * Интеграционный тест для [AlarmDao]
@@ -19,37 +21,68 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class AlarmDaoTest : ParentIntegrationTest() {
 
-    @Test fun allFunctions() = openRoom().apply {
-        assertNull(getAlarmDao()[alarmEntity.id])
-
+    private fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity, alarmEntity: AlarmEntity) {
         getNoteDao().insert(noteEntity)
         getAlarmDao().insert(alarmEntity)
+    }
 
-        assertEquals(alarmEntity, getAlarmDao()[noteEntity.id])
-
-        getAlarmDao().update(alarmEntity.apply { date = DATE_2 })
-
-        getAlarmDao().get().let {
-            assertTrue(it.size == 1)
-            assertEquals(notificationItem, it[0])
-        }
-
-        getAlarmDao().delete(alarmEntity.id)
-        assertNull(getAlarmDao()[alarmEntity.id])
+    @Test fun getOnWrongId() = openRoom().apply {
+        assertNull(getAlarmDao()[Random.nextLong()])
     }.close()
 
-    companion object {
-        val noteEntity = NoteEntity(
+    @Test fun getOnCorrectId() = openRoom().apply {
+        insertAlarmRelation(noteFirst, alarmFirst)
+
+        assertEquals(alarmFirst, getAlarmDao()[alarmFirst.id])
+    }.close()
+
+    @Test fun getList() = openRoom().apply {
+        assertTrue(getAlarmDao().get().isEmpty())
+
+        insertAlarmRelation(noteFirst, alarmFirst)
+        insertAlarmRelation(noteSecond, alarmSecond)
+
+        assertEquals(notificationList, getAlarmDao().get())
+    }.close()
+
+    @Test fun delete() = openRoom().apply {
+        insertAlarmRelation(noteFirst, alarmFirst)
+
+        getAlarmDao().delete(alarmFirst.id)
+
+        assertNull(getAlarmDao()[alarmFirst.id])
+    }.close()
+
+    @Test fun update() = openRoom().apply {
+        insertAlarmRelation(noteFirst, alarmFirst)
+
+        alarmFirst.copy().let {
+            getAlarmDao().update(it.apply { date = DATE_2 })
+            assertEquals(it, getAlarmDao()[alarmFirst.id])
+        }
+    }.close()
+
+    private companion object {
+        val noteFirst = NoteEntity(
                 id = 1, create = DATE_1, change = DATE_1, text = "123", name = "456",
                 color = 1, type = NoteType.TEXT
         )
 
-        val alarmEntity = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
-
-        val notificationItem = NotificationItem(
-                with(noteEntity) { NotificationItem.Note(id, name, color, type) },
-                NotificationItem.Alarm(alarmEntity.id, DATE_2)
+        val noteSecond = NoteEntity(
+                id = 2, create = DATE_2, change = DATE_2, text = "654", name = "321",
+                color = 2, type = NoteType.TEXT
         )
+
+        val alarmFirst = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
+        val alarmSecond = AlarmEntity(id = 2, noteId = 2, date = DATE_2)
+
+        val notificationList = arrayListOf(NotificationItem(
+                with(noteFirst) { NotificationItem.Note(id, name, color, type) },
+                with(alarmFirst) { NotificationItem.Alarm(id, date) }
+        ), NotificationItem(
+                with(noteSecond) { NotificationItem.Note(id, name, color, type) },
+                with(alarmSecond) { NotificationItem.Alarm(id, date) }
+        ))
     }
 
 }

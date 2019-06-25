@@ -17,7 +17,7 @@ import sgtmelon.scriptum.room.converter.NoteTypeConverter
 data class NotificationItem(@Embedded val note: Note, @Embedded val alarm: Alarm) {
 
     data class Note(@ColumnInfo(name = DbData.Note.ID) val id: Long,
-                    @ColumnInfo(name = DbData.Note.NAME) var name: String,
+                    @ColumnInfo(name = DbData.Note.NAME) val name: String,
                     @ColumnInfo(name = DbData.Note.COLOR) val color: Int,
                     @ColumnInfo(name = DbData.Note.TYPE) val type: NoteType)
 
