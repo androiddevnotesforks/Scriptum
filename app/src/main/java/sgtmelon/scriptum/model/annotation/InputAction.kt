@@ -5,7 +5,7 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.item.InputItem
 
 /**
- * Аннотация для [InputItem.tag], [InputControl]
+ * Для [InputItem.tag], [InputControl]
  *
  * @author SerjantArbuz
  */

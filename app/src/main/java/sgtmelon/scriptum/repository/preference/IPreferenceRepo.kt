@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.preference
 
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
 
@@ -25,7 +26,7 @@ interface IPreferenceRepo {
 
     val volumeIncrease: Boolean
 
-    var sort: Int
+    @Sort var sort: Int
 
     @Color var defaultColor: Int
 

@@ -7,6 +7,7 @@ import android.media.RingtoneManager
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.room.converter.IntConverter
@@ -61,7 +62,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
             return preference.getBoolean(resources.getString(R.string.key_alarm_increase), defaultValue)
         }
 
-    override var sort: Int
+    @Sort override var sort: Int
         get() = preference.getInt(resources.getString(R.string.key_note_sort), resources.getInteger(R.integer.value_note_sort))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_note_sort), value).apply()
 

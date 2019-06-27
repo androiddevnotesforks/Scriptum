@@ -1,16 +1,14 @@
 package sgtmelon.scriptum.repository.room
 
 import android.content.Context
-import androidx.sqlite.db.SimpleSQLiteQuery
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.data.DbData
+import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
@@ -32,16 +30,16 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     private fun openRoom() = RoomDb.getInstance(context)
 
-    private fun getNoteListQuery(bin: Boolean) = SimpleSQLiteQuery(
-            "SELECT * FROM ${DbData.Note.TABLE}" +
-                    " WHERE ${DbData.Note.BIN} = ${BoolConverter().toInt(bin)}" +
-                    " ORDER BY ${DbData.Note.orders[iPreferenceRepo.sort]}")
-
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         openRoom().apply {
             val rankIdVisibleList = getRankDao().rankIdVisibleList
 
-            getNoteDao()[getNoteListQuery(bin)].forEach {
+            when (iPreferenceRepo.sort) {
+                Sort.change -> getNoteDao().getByChange(bin)
+                Sort.create -> getNoteDao().getByCreate(bin)
+                Sort.rank -> getNoteDao().getByRank(bin)
+                else -> getNoteDao().getByColor(bin)
+            }.forEach {
                 val bindControl = BindControl(context, it)
 
                 if (it.isNotVisible(rankIdVisibleList)) {
@@ -49,7 +47,8 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                 } else {
                     if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
 
-                    add(NoteModel(it, getRollDao().getView(it.id), alarmEntity = getAlarmDao()[it.id] ?: AlarmEntity()))
+                    add(NoteModel(it, getRollDao().getView(it.id), alarmEntity = getAlarmDao()[it.id]
+                            ?: AlarmEntity()))
                 }
             }
         }.close()
@@ -103,7 +102,10 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
         val noteModel: NoteModel
 
-        openRoom().apply { noteModel = NoteModel(getNoteDao()[id], getRollDao()[id], alarmEntity = getAlarmDao()[id] ?: AlarmEntity()) }.close()
+        openRoom().apply {
+            noteModel = NoteModel(getNoteDao()[id], getRollDao()[id], alarmEntity = getAlarmDao()[id]
+                    ?: AlarmEntity())
+        }.close()
 
         return noteModel
     }

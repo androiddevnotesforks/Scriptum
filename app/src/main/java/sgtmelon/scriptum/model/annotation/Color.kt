@@ -3,7 +3,7 @@ package sgtmelon.scriptum.model.annotation
 import androidx.annotation.IntDef
 
 /**
- * Аннотация для описания стандартных цветов приложения
+ * Для описания стандартных цветов
  *
  * @author SerjantArbuz
  */

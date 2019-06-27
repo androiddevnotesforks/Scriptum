@@ -25,14 +25,6 @@ object DbData {
         const val RANK_PS = "${PREFIX}_RANK_PS"
         const val BIN = "${PREFIX}_BIN"
         const val STATUS = "${PREFIX}_STATUS"
-
-        // TODO #RELEASE добавить пост сортировку (после сортировки по категории и цвету)
-        val orders = arrayOf(
-                "DATE($CHANGE) DESC, TIME($CHANGE) DESC",
-                "DATE($CREATE) DESC, TIME($CREATE) DESC",
-                "$RANK_PS ASC",
-                "$COLOR ASC"
-        )
     }
 
     object Roll {
