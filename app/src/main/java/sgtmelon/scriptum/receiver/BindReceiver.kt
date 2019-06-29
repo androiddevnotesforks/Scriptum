@@ -24,8 +24,9 @@ class BindReceiver : BroadcastReceiver() {
 
         if (id == Values.ID_UNDEFINED) return
 
-        val noteEntity = BindRepo.getInstance(context).unbindNote(id)
-        BindControl(context, noteEntity).cancelBind()
+        BindRepo.getInstance(context).unbindNote(id)?.let {
+            BindControl(context, it).cancelBind()
+        }
 
         context.apply {
             sendTo(Filter.MAIN, Command.UNBIND_NOTE) { putExtra(Values.NOTE_ID, id) }

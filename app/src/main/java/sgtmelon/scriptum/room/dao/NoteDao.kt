@@ -50,7 +50,7 @@ interface NoteDao {
     fun getByColor(bin: Boolean): List<NoteEntity>
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
-    operator fun get(id: Long): NoteEntity
+    operator fun get(id: Long): NoteEntity?
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
     operator fun get(idList: List<Long>): List<NoteEntity>

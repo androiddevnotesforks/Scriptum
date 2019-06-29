@@ -26,41 +26,39 @@ class AlarmDaoTest : ParentIntegrationTest() {
         getAlarmDao().insert(alarmEntity)
     }
 
-    @Test fun getOnWrongId() = openRoom().apply {
-        assertNull(getAlarmDao()[Random.nextLong()])
-    }.close()
+    @Test fun getOnWrongId() = inTheRoom { assertNull(getAlarmDao()[Random.nextLong()]) }
 
-    @Test fun getOnCorrectId() = openRoom().apply {
+    @Test fun getOnCorrectId() = inTheRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
 
         assertEquals(alarmFirst, getAlarmDao()[alarmFirst.id])
-    }.close()
+    }
 
-    @Test fun getList() = openRoom().apply {
+    @Test fun getList() = inTheRoom {
         assertTrue(getAlarmDao().get().isEmpty())
 
         insertAlarmRelation(noteFirst, alarmFirst)
         insertAlarmRelation(noteSecond, alarmSecond)
 
         assertEquals(notificationList, getAlarmDao().get())
-    }.close()
+    }
 
-    @Test fun delete() = openRoom().apply {
+    @Test fun delete() = inTheRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
 
         getAlarmDao().delete(alarmFirst.id)
 
         assertNull(getAlarmDao()[alarmFirst.id])
-    }.close()
+    }
 
-    @Test fun update() = openRoom().apply {
+    @Test fun update() = inTheRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
 
         alarmFirst.copy().let {
             getAlarmDao().update(it.apply { date = DATE_2 })
             assertEquals(it, getAlarmDao()[alarmFirst.id])
         }
-    }.close()
+    }
 
     private companion object {
         val noteFirst = NoteEntity(

@@ -12,6 +12,6 @@ interface IBindRepo {
 
     fun getRollList(noteId: Long): List<RollEntity>
 
-    fun unbindNote(id: Long): NoteEntity
+    fun unbindNote(id: Long): NoteEntity?
 
 }
