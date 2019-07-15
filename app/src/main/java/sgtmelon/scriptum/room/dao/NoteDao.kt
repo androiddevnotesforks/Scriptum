@@ -60,8 +60,7 @@ interface NoteDao {
     operator fun get(bin: Boolean): MutableList<NoteEntity>
 
     /**
-     * @param idList список id заметок привязанных к категории
-     * @return Количество заметок с id из списка и определённого типа
+     * Получение количества заметок с id из списка и определённого типа
      */
     @Query(value = "SELECT COUNT(NT_ID) FROM NOTE_TABLE WHERE NT_ID IN(:idList) AND NT_TYPE = :type")
     fun getCount(idList: List<Long>, type: Int): Int

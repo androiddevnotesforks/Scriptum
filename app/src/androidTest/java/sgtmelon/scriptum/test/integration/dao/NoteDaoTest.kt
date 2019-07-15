@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,7 +30,26 @@ class NoteDaoTest : ParentIntegrationTest() {
     @Test fun getOnWrongId() = inTheRoom { assertNull(getNoteDao()[Random.nextLong()]) }
 
     @Test fun getOnCorrectId() = inTheRoom {
+        with(getNoteDao()) {
+            insert(noteFirst)
+            insert(noteSecond)
+            insert(noteThird)
 
+            assertEquals(noteFirst, get(noteFirst.id))
+            assertEquals(noteSecond, get(noteSecond.id))
+            assertEquals(noteThird, get(noteThird.id))
+        }
+    }
+
+    @Test fun getFromBin() = inTheRoom {
+        with(getNoteDao()) {
+            assertEquals(arrayListOf<NoteEntity>(), get(bin = false))
+            assertEquals(arrayListOf<NoteEntity>(), get(bin = true))
+
+            insert(noteFirst)
+            insert(noteSecond)
+            assertEquals(arrayListOf(noteFirst, noteSecond), get(bin = false))
+        }
     }
 
     private companion object {
@@ -44,8 +64,8 @@ class NoteDaoTest : ParentIntegrationTest() {
         )
 
         val noteThird = NoteEntity(
-                id = 2, create = DATE_3, change = DATE_3, text = "123", name = "",
-                color = 2, type = NoteType.TEXT
+                id = 3, create = DATE_3, change = DATE_3, text = "123", name = "",
+                color = 3, type = NoteType.TEXT
         )
 
 
