@@ -35,6 +35,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
 
         callback.apply {
             notifyDataSetChanged(noteModelList)
+            setupBinding(iRoomRepo.isListHide(bin = false))
             bind()
         }
 

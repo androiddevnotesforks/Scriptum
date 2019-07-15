@@ -15,8 +15,13 @@
     <string name="info_intro_details_3">Закрепляйте свои заметки в статус баре</string>
     <string name="info_intro_details_4">Группируйте заметки по своим категориям</string>
     <string name="info_intro_details_5">Скрывайте категории и заметки вместе с ними</string>
-    <string name="info_intro_details_6">Сортируйте заметки\nНастраивайте сохранение\nВыбирайте тему приложения</string>
-    <string name="info_intro_details_7">После удаления заметки перемещаются в корзину, откуда их можно восстановить или удалить окончательно</string>
+    <string name="info_intro_details_6">
+        Сортируйте заметки\nНастраивайте сохранение\nВыбирайте тему приложения
+    </string>
+    <string name="info_intro_details_7">
+        После удаления заметки перемещаются в корзину, откуда их можно восстановить или
+        удалить окончательно
+    </string>
 
     <string name="info_intro_button">Приступить к работе</string>
 
@@ -26,10 +31,12 @@
     <string name="info_notes_title">Нет созданных заметок</string>
     <string name="info_bin_title">Корзина пуста</string>
     <string name="info_notification_title">Нет уведомлений</string>
+    <string name="info_hide_title">У вас есть скрытые заметки</string>
 
     <string name="info_rank_details">Вы можете создать категории при помощи поля сверху</string>
     <string name="info_notes_details">Вы можете создать заметку при помощи кнопки с плюсом</string>
     <string name="info_bin_details">Удалённые заметки можно в любой момент восстановить</string>
     <string name="info_notification_details">Вы можете создать уведомление внутри заметки</string>
+    <string name="info_hide_details">Воспользуйтесь категориями, чтобы показать их</string>
 
 </resources>

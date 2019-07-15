@@ -135,12 +135,16 @@ class NotesFragment : Fragment(), INotesFragment {
         }
     }
 
+    override fun setupBinding(isListHide: Boolean) {
+        binding?.isListHide = isListHide
+    }
+
     override fun bind() {
-        val empty = adapter.itemCount == 0
+        val isListEmpty = adapter.itemCount == 0
 
-        parentContainer?.createVisibleAnim(emptyInfoView, empty, if (!empty) 0 else 200)
+        parentContainer?.createVisibleAnim(emptyInfoView, isListEmpty, if (!isListEmpty) 0 else 200)
 
-        binding?.apply { isListEmpty = empty }?.executePendingBindings()
+        binding?.apply { this.isListEmpty = isListEmpty }?.executePendingBindings()
     }
 
     override fun scrollTop() {

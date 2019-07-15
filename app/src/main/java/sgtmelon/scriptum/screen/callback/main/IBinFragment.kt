@@ -17,6 +17,8 @@ interface IBinFragment {
 
     fun setupRecycler(@Theme theme: Int)
 
+    fun setupBinding(isListHide: Boolean)
+
     fun bind()
 
     fun scrollTop()
