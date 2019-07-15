@@ -108,7 +108,7 @@
     </string-array>
 
     <!-- Toast -->
-    <string name="toast_text_copy">Текст скопирован в буфер обмена</string>
+    <string name="toast_text_copy">Текст скопирован</string>
 
     <!-- About dialog -->
     <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>

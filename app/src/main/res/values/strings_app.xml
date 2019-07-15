@@ -114,7 +114,7 @@
     </string-array>
 
     <!-- Toast -->
-    <string name="toast_text_copy">Text copied to clipboard</string>
+    <string name="toast_text_copy">Text copied</string>
 
     <!-- About dialog -->
     <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>

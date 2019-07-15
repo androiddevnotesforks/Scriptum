@@ -23,16 +23,16 @@
 
     <string name="info_intro_button">Get started</string>
 
-    <!-- TODO #RELEASE текст для пустых уведомлений -->
+    <!--  -->
 
     <string name="info_rank_title">No categories</string>
     <string name="info_notes_title">No created notes</string>
     <string name="info_bin_title">Bin is empty</string>
-    <string name="info_notification_title">TEXT TEXT TEXT</string>
+    <string name="info_notification_title">No notifications</string>
 
-    <string name="info_rank_details">For add category write name in text field from top</string>
-    <string name="info_notes_details">For add new note click on central button of menu</string>
+    <string name="info_rank_details">You can create category using field above</string>
+    <string name="info_notes_details">You can create new note using plus button</string>
     <string name="info_bin_details">Deleted notes can be restored at any time</string>
-    <string name="info_notification_details">TEXT TEXT TEXT</string>
+    <string name="info_notification_details">You can create notification inside note</string>
 
 </resources>

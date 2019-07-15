@@ -20,16 +20,16 @@
 
     <string name="info_intro_button">Приступить к работе</string>
 
-    <!-- TODO #RELEASE текст для пустых уведомлений -->
+    <!--  -->
 
     <string name="info_rank_title">Нет категорий</string>
     <string name="info_notes_title">Нет созданных заметок</string>
     <string name="info_bin_title">Корзина пуста</string>
-    <string name="info_notification_title">TEXT TEXT TEXT</string>
+    <string name="info_notification_title">Нет уведомлений</string>
 
-    <string name="info_rank_details">Чтобы добавить категорию введите имя в поле сверху</string>
-    <string name="info_notes_details">Чтобы добавить заметку нажмите на центральную кнопку меню</string>
+    <string name="info_rank_details">Вы можете создать категории при помощи поля сверху</string>
+    <string name="info_notes_details">Вы можете создать заметку при помощи кнопки с плюсом</string>
     <string name="info_bin_details">Удалённые заметки можно в любой момент восстановить</string>
-    <string name="info_notification_details">TEXT TEXT TEXT</string>
+    <string name="info_notification_details">Вы можете создать уведомление внутри заметки</string>
 
 </resources>
