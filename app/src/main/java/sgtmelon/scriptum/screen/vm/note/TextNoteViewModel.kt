@@ -176,7 +176,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuBind() = with(noteModel) {
         noteEntity.isStatus = !noteEntity.isStatus
 
-        BindControl(context, noteEntity).updateBind()
+        if (noteEntity.isVisible(rankIdVisibleList)) BindControl(context, noteEntity).updateBind()
 
         callback.bindEdit(noteState.isEdit, this)
 

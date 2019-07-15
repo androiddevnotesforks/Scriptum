@@ -41,4 +41,10 @@ data class NoteEntity(
     fun splitTextForRoll() =
             text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
+    fun isVisible(rankIdVisibleList: List<Long>) =
+            rankId.isEmpty() || rankIdVisibleList.contains(rankId[0])
+
+    fun isNotVisible(rankIdVisibleList: List<Long>) =
+            rankId.isNotEmpty() && !rankIdVisibleList.contains(rankId[0])
+
 }

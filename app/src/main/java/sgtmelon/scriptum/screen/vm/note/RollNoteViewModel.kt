@@ -257,7 +257,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     override fun onMenuBind() = with(noteModel) {
         noteEntity.isStatus = !noteEntity.isStatus
 
-        BindControl(context, noteModel).updateBind()
+        if (noteEntity.isVisible(rankIdVisibleList)) BindControl(context, noteModel).updateBind()
 
         callback.bindEdit(noteState.isEdit, noteModel)
 

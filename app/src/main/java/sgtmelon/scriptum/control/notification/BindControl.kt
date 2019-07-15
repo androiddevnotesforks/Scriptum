@@ -17,7 +17,6 @@ import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.repository.room.RoomRepo.Companion.isVisible
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
@@ -45,7 +44,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
 
     init {
         val title = with(noteEntity) {
-            "${if(type == NoteType.ROLL) "$text |" else ""} ${if (name.isEmpty()) context.getString(R.string.hint_view_name) else name}"
+            "${if (type == NoteType.ROLL) "$text |" else ""} ${if (name.isEmpty()) context.getString(R.string.hint_view_name) else name}"
         }
 
         val icon: Int

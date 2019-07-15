@@ -324,12 +324,6 @@ class RoomRepo(private val context: Context) : IRoomRepo {
 
     companion object {
         fun getInstance(context: Context): IRoomRepo = RoomRepo(context)
-
-        fun NoteEntity.isVisible(rankIdVisibleList: List<Long>) =
-                rankId.isEmpty() || rankIdVisibleList.contains(rankId[0])
-
-        fun NoteEntity.isNotVisible(rankIdVisibleList: List<Long>) =
-                rankId.isNotEmpty() && !rankIdVisibleList.contains(rankId[0])
     }
 
 }
