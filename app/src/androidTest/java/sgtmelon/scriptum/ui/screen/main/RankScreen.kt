@@ -80,7 +80,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
                 notDisplay(R.id.rank_recycler)
             } else {
                 notDisplay(R.id.info_title_text, R.string.info_rank_title)
-                notDisplay(R.id.info_details_text, R.string.info_notes_details)
+                notDisplay(R.id.info_details_text, R.string.info_rank_details)
                 onDisplay(R.id.rank_recycler)
             }
         }

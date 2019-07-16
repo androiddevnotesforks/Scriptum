@@ -16,9 +16,9 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  *
  * @author SerjantArbuz
  */
-class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
+class BinScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.bin_recycler) {
 
-    fun assert(empty: Boolean) = Assert(empty)
+    fun assert(empty: Boolean) = Assert(empty, hide)
 
     fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) {
         action { onClick(R.id.item_clear) }
@@ -44,13 +44,14 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     }
 
     companion object {
-        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) = BinScreen().apply {
-            assert(empty)
-            func()
-        }
+        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean, hide: Boolean) =
+                BinScreen(hide).apply {
+                    assert(empty)
+                    func()
+                }
     }
 
-    class Assert(empty: Boolean) : BasicMatch() {
+    class Assert(empty: Boolean, hide: Boolean) : BasicMatch() {
 
         init {
             onDisplay(R.id.bin_parent_container)
@@ -58,14 +59,24 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
             onDisplayToolbar(R.id.toolbar_container, R.string.title_bin)
 
             if (empty) {
-                onDisplay(R.id.info_title_text, R.string.info_bin_title)
-                onDisplay(R.id.info_details_text, R.string.info_bin_details)
+                onDisplay(R.id.info_title_text,
+                        if (hide) R.string.info_hide_title else R.string.info_bin_title
+                )
+                onDisplay(R.id.info_details_text,
+                        if (hide) R.string.info_hide_details else R.string.info_bin_details
+                )
+
                 notDisplay(R.id.bin_recycler)
             } else {
                 onDisplay(R.id.item_clear)
 
-                notDisplay(R.id.info_title_text, R.string.info_bin_title)
-                notDisplay(R.id.info_details_text, R.string.info_bin_details)
+                notDisplay(R.id.info_title_text,
+                        if (hide) R.string.info_hide_title else R.string.info_bin_title
+                )
+                notDisplay(R.id.info_details_text,
+                        if (hide) R.string.info_hide_details else R.string.info_bin_details
+                )
+
                 onDisplay(R.id.bin_recycler)
             }
         }

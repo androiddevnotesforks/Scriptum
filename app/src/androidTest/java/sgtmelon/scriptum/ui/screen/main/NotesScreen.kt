@@ -17,12 +17,12 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  *
  * @author SerjantArbuz
  */
-class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
+class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
-    fun assert(empty: Boolean) = Assert(empty)
+    fun assert(empty: Boolean) = Assert(empty, hide)
 
     fun openNotification(empty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
-        action {onClick(R.id.item_notification)}
+        action { onClick(R.id.item_notification) }
         NotificationScreen.invoke(func, empty)
     }
 
@@ -50,13 +50,14 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
     }
 
     companion object {
-        operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean) = NotesScreen().apply {
-            assert(empty)
-            func()
-        }
+        operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean, hide: Boolean) =
+                NotesScreen(hide).apply {
+                    assert(empty)
+                    func()
+                }
     }
 
-    class Assert(empty: Boolean) : BasicMatch() {
+    class Assert(empty: Boolean, hide: Boolean) : BasicMatch() {
 
         init {
             onDisplay(R.id.notes_parent_container)
@@ -66,12 +67,22 @@ class NotesScreen : ParentRecyclerScreen(R.id.notes_recycler) {
             onDisplay(R.id.item_preference)
 
             if (empty) {
-                onDisplay(R.id.info_title_text, R.string.info_notes_title)
-                onDisplay(R.id.info_details_text, R.string.info_notes_details)
+                onDisplay(R.id.info_title_text,
+                        if (hide) R.string.info_hide_title else R.string.info_notes_title
+                )
+                onDisplay(R.id.info_details_text,
+                        if (hide) R.string.info_hide_details else R.string.info_notes_details
+                )
+
                 notDisplay(R.id.notes_recycler)
             } else {
-                notDisplay(R.id.info_title_text, R.string.info_notes_title)
-                notDisplay(R.id.info_details_text, R.string.info_notes_details)
+                notDisplay(R.id.info_title_text,
+                        if (hide) R.string.info_hide_title else R.string.info_notes_title
+                )
+                notDisplay(R.id.info_details_text,
+                        if (hide) R.string.info_hide_details else R.string.info_notes_details
+                )
+
                 onDisplay(R.id.notes_recycler)
             }
         }

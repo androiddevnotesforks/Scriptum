@@ -127,7 +127,7 @@ class RankTest : ParentUiTest() {
                 openRankPage { onClickVisible(it[1]) }
                 openBinPage()
                 openRankPage { onClickVisible(it[0]) }
-                openBinPage(empty = true)
+                openBinPage(empty = true, hide = true)
             }
         }
     }
@@ -147,7 +147,7 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRankPage { onClickVisible(it[0]) }
-                openNotesPage(empty = true)
+                openNotesPage(empty = true, hide = true)
                 openRankPage { onClickCancel(it[0]) }
                 openNotesPage()
             }
@@ -157,8 +157,9 @@ class RankTest : ParentUiTest() {
     @Test fun rankClearForBin() = testData.fillRankForBin().let {
         launch {
             mainScreen {
+                openBinPage()
                 openRankPage { onClickVisible(it[0]) }
-                openBinPage(empty = true)
+                openBinPage(empty = true, hide = true)
                 openRankPage { onClickCancel(it[0]) }
                 openBinPage()
             }
