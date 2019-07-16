@@ -8,7 +8,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.room.RoomDb
+import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -16,11 +16,9 @@ import sgtmelon.scriptum.room.entity.RollEntity
 import java.util.UUID.randomUUID
 import kotlin.random.Random
 
-class TestData(private val context: Context) {
+class TestData(override val context: Context) : IRoomWork {
 
     private val iPreferenceRepo = PreferenceRepo(context)
-
-    private fun openRoom() = RoomDb.getInstance(context)
 
     val uniqueString get() = randomUUID().toString().substring(0, 16)
 
@@ -69,13 +67,13 @@ class TestData(private val context: Context) {
 
 
     fun insertRank(rank: RankEntity = rankEntity): RankEntity {
-        openRoom().apply { rank.id = getRankDao().insert(rank) }.close()
+        inTheRoom { rank.id = getRankDao().insert(rank) }
 
         return rank
     }
 
     fun insertText(note: NoteEntity = textNote): NoteModel {
-        openRoom().apply { note.id = getNoteDao().insert(note) }.close()
+        inTheRoom { note.id = getNoteDao().insert(note) }
 
         return NoteModel(note)
     }
@@ -83,13 +81,13 @@ class TestData(private val context: Context) {
     fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
 
     fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteModel {
-        openRoom().apply {
+        inTheRoom {
             note.id = getNoteDao().insert(note)
             list.forEach {
                 it.noteId = note.id
                 getRollDao().insert(it)
             }
-        }.close()
+        }
 
         return NoteModel(note, list)
     }
@@ -98,9 +96,9 @@ class TestData(private val context: Context) {
             insertRoll(note.apply { isBin = true }, list)
 
     fun insertNotification(noteModel: NoteModel): NoteModel {
-        openRoom().apply {
+        inTheRoom {
             getAlarmDao().insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = context.getTime()))
-        }.close()
+        }
 
         return noteModel
     }
@@ -132,7 +130,7 @@ class TestData(private val context: Context) {
             noteModel.noteEntity.rankPs.add(it.position.toLong())
         }
 
-        openRoom().apply { getNoteDao().update(noteModel.noteEntity) }.close()
+        inTheRoom { getNoteDao().update(noteModel.noteEntity) }
     }
 
     fun fillRankForBin() = ArrayList<RankEntity>().apply {
@@ -151,7 +149,7 @@ class TestData(private val context: Context) {
             noteModel.noteEntity.rankPs.add(it.position.toLong())
         }
 
-        openRoom().apply { getNoteDao().update(noteModel.noteEntity) }.close()
+        inTheRoom { getNoteDao().update(noteModel.noteEntity) }
     }
 
     fun fillNotes(count: Int = 10) = repeat(count) {
@@ -167,6 +165,6 @@ class TestData(private val context: Context) {
     }
 
 
-    fun clear() = apply { openRoom().apply { clearAllTables() }.close() }
+    fun clear() = apply { inTheRoom { clearAllTables() } }
 
 }

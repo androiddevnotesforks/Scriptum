@@ -205,7 +205,8 @@ private class Scenario {
              *
              * # Удаление:
              * # Удаление из списка :: [RankTest.rankClearFromList]
-             * # Заметка :: [RankTest.rankClearForNote]
+             * # Для заметок :: [RankTest.rankClearForNote]
+             * # Для корзины :: [RankTest.rankClearForBin]
              *
              * # Перетаскивание
              */

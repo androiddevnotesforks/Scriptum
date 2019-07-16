@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.develop
 
 import android.content.Context
+import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
@@ -15,9 +16,7 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  *
  * @author SerjantArbuz
  */
-class DevelopRepo(private val context: Context) : IDevelopRepo {
-
-    private fun openRoom() = RoomDb.getInstance(context)
+class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 
     override suspend fun getNoteTableData() = StringBuilder().apply {
         val list: MutableList<NoteEntity>

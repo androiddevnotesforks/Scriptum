@@ -2,6 +2,7 @@ package sgtmelon.scriptum.repository.alarm
 
 import android.content.Context
 import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 
 /**
@@ -11,15 +12,13 @@ import sgtmelon.scriptum.room.RoomDb
  *
  * @author SerjantArbuz
  */
-class AlarmRepo(private val context: Context) : IAlarmRepo {
-
-    private fun openRoom() = RoomDb.getInstance(context)
+class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 
     override fun getList() = ArrayList<NotificationItem>().apply {
-        openRoom().apply { addAll(getAlarmDao().get()) }.close()
+        inTheRoom { addAll(getAlarmDao().get()) }
     }
 
-    override fun delete(id: Long) = openRoom().apply { getAlarmDao().delete(id) }.close()
+    override fun delete(id: Long) = inTheRoom { getAlarmDao().delete(id) }
 
     companion object {
         fun getInstance(context: Context): IAlarmRepo = AlarmRepo(context)

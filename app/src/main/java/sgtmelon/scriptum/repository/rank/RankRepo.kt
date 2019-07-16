@@ -5,6 +5,7 @@ import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.room.RoomRepo
+import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -16,20 +17,18 @@ import sgtmelon.scriptum.room.entity.RankEntity
  *
  * @author SerjantArbuz
  */
-class RankRepo(private val context: Context) : IRankRepo {
-
-    private fun openRoom() = RoomDb.getInstance(context)
+class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
 
     // TODO убрать roomRepo
     private val iRoomRepo = RoomRepo.getInstance(context)
 
-    override suspend fun notifyBind() = openRoom().apply {
+    override suspend fun notifyBind() = inTheRoom {
         val rankIdVisibleList = getRankDao().rankIdVisibleList
 
         iRoomRepo.getNoteModelList(bin = false).forEach {
             BindControl(context, it).updateBind(rankIdVisibleList)
         }
-    }.close()
+    }
 
     override fun insertRank(p: Int, rankEntity: RankEntity): Long {
         val id: Long
@@ -44,7 +43,7 @@ class RankRepo(private val context: Context) : IRankRepo {
 
     override fun getRankModel() = RankModel(getCompleteRankList())
 
-    override fun deleteRank(name: String, p: Int) = openRoom().apply {
+    override fun deleteRank(name: String, p: Int) = inTheRoom {
         val rankEntity = getRankDao()[name]
 
         if (rankEntity.noteId.isNotEmpty()) {
@@ -66,7 +65,7 @@ class RankRepo(private val context: Context) : IRankRepo {
         getRankDao().delete(rankEntity)
 
         updateRankPosition(p, db = this)
-    }.close()
+    }
 
     override fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankEntity> { // TODO оптимизировать
         val startFirst = dragFrom < dragTo
@@ -98,31 +97,30 @@ class RankRepo(private val context: Context) : IRankRepo {
 
         rankList.sortBy { it.position }
 
-        openRoom().apply {
+        inTheRoom {
             getRankDao().update(rankList)
             updateNoteRankPosition(noteIdList, rankList, db = this)
-        }.close()
+        }
 
         return rankList
     }
 
-    override fun updateRank(rankEntity: RankEntity) =
-            openRoom().apply { getRankDao().update(rankEntity) }.close()
+    override fun updateRank(rankEntity: RankEntity) = inTheRoom { getRankDao().update(rankEntity) }
 
     override fun updateRank(rankList: List<RankEntity>) =
-            openRoom().apply { getRankDao().update(rankList) }.close()
+            inTheRoom { getRankDao().update(rankList) }
 
     /**
      * TODO подумать, может можно убрать дополнительный запрос для получения text/rollCount
      */
     private fun getCompleteRankList() = ArrayList<RankEntity>().apply {
-        openRoom().apply {
+        inTheRoom {
             addAll(getRankDao().simple)
             forEach {
                 it.textCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
                 it.rollCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
             }
-        }.close()
+        }
     }
 
     /**

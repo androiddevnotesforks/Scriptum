@@ -36,12 +36,11 @@ abstract class RoomDb : RoomDatabase() {
     abstract fun getAlarmDao(): AlarmDao
 
     companion object {
-        fun getInstance(context: Context): RoomDb {
-            return Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
-                    .addMigrations(Migrate.FROM_1_TO_2, Migrate.FROM_2_TO_3)
-                    .allowMainThreadQueries()   // TODO: 27.09.2018 Сделай нормально
-                    .build()
-        }
+        fun getInstance(context: Context): RoomDb =
+                Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
+                        .addMigrations(Migrate.FROM_1_TO_2, Migrate.FROM_2_TO_3)
+                        .allowMainThreadQueries()   // TODO: 27.09.2018 Сделай нормально
+                        .build()
     }
 
 }

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.bind
 
 import android.content.Context
+import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -12,15 +13,13 @@ import sgtmelon.scriptum.room.entity.RollEntity
  *
  * @author SerjantArbuz
  */
-class BindRepo(private val context: Context) : IBindRepo {
-
-    private fun openRoom() = RoomDb.getInstance(context)
+class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
 
     /**
      * Возвращает пустой список если нет пунктов по данному id
      */
     override fun getRollList(noteId: Long) = ArrayList<RollEntity>().apply {
-        openRoom().apply { addAll(getRollDao()[noteId]) }.close()
+        inTheRoom { addAll(getRollDao()[noteId]) }
     }
 
     override fun unbindNote(id: Long): NoteEntity? {
@@ -28,7 +27,7 @@ class BindRepo(private val context: Context) : IBindRepo {
 
         openRoom().apply {
             noteEntity = getNoteDao()[id]?.apply { isStatus = false }
-            noteEntity?.let { getNoteDao().update(noteEntity) }
+            noteEntity?.let { getNoteDao().update(it) }
         }.close()
 
         return noteEntity

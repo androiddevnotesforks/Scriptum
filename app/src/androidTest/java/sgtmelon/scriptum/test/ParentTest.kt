@@ -13,7 +13,7 @@ import org.junit.Before
  */
 abstract class ParentTest {
 
-    protected val context: Context = getInstrumentation().targetContext
+    val context: Context = getInstrumentation().targetContext
 
     @Before @CallSuper open fun setUp() {}
 

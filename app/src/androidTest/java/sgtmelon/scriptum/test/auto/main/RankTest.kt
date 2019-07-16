@@ -154,6 +154,19 @@ class RankTest : ParentUiTest() {
         }
     }
 
+    @Test fun rankClearForBin() = testData.fillRankForBin().let {
+        launch {
+            mainScreen {
+                openRankPage { onClickVisible(it[0]) }
+                openBinPage(empty = true)
+                openRankPage { onClickCancel(it[0]) }
+                openBinPage()
+            }
+        }
+    }
+
+    // todo rank clear for bin
+
     /**
      * Rename Dialog
      */

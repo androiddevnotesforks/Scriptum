@@ -8,6 +8,7 @@ import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.dao.RankDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
@@ -22,18 +23,14 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  *
  * @author SerjantArbuz
  */
-class RoomRepo(private val context: Context) : IRoomRepo {
+class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     // TODO #RELEASE убрать отсюда методы связанные с rank в RankRepo
 
     private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
 
-    private fun openRoom(func: RoomDb.() -> Unit) = RoomDb.getInstance(context).apply(func)
-
-    private fun openRoom() = RoomDb.getInstance(context)
-
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
-        openRoom {
+        inTheRoom {
             val rankIdVisibleList = getRankDao().rankIdVisibleList
 
             when (iPreferenceRepo.sort) {
@@ -55,24 +52,24 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                     )
                 }
             }
-        }.close()
+        }
     }
 
     override fun isListHide(bin: Boolean): Boolean {
         var isListHide = false
 
-        openRoom {
+        inTheRoom {
             val rankIdVisibleList = getRankDao().rankIdVisibleList
 
             getNoteDao().getByChange(bin).forEach {
                 if (it.isNotVisible(rankIdVisibleList)) isListHide = true
             }
-        }.close()
+        }
 
         return isListHide
     }
 
-    override suspend fun clearBin() = openRoom {
+    override suspend fun clearBin() = inTheRoom {
         val rankIdVisibleList = getRankDao().rankIdVisibleList
 
         val noteList = ArrayList<NoteEntity>().apply {
@@ -81,30 +78,30 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         }
 
         getNoteDao().delete(noteList)
-    }.close()
+    }
 
-    override suspend fun deleteNote(noteEntity: NoteEntity) = openRoom {
+    override suspend fun deleteNote(noteEntity: NoteEntity) = inTheRoom {
         getNoteDao().update(noteEntity.apply {
             change = context.getTime()
             isBin = true
             isStatus = false
         })
-    }.close()
+    }
 
-    override suspend fun restoreNote(noteEntity: NoteEntity) = openRoom {
+    override suspend fun restoreNote(noteEntity: NoteEntity) = inTheRoom {
         getNoteDao().update(noteEntity.apply {
             change = context.getTime()
             isBin = false
         })
-    }.close()
+    }
 
-    override suspend fun clearNote(noteEntity: NoteEntity) = openRoom {
+    override suspend fun clearNote(noteEntity: NoteEntity) = inTheRoom {
         clearRankConnection(getRankDao(), noteEntity)
         getNoteDao().delete(noteEntity)
-    }.close()
+    }
 
     override fun getRankIdVisibleList() = ArrayList<Long>().apply {
-        openRoom { addAll(getRankDao().rankIdVisibleList) }.close()
+        inTheRoom { addAll(getRankDao().rankIdVisibleList) }
     }
 
     override fun getRankCount(): Boolean {
@@ -131,7 +128,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     }
 
     override fun getRankNameList() = ArrayList<String>().apply {
-        openRoom { addAll(getRankDao().name) }.close()
+        inTheRoom { addAll(getRankDao().name) }
     }
 
     override fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray {
@@ -146,7 +143,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         if (noteModel.noteEntity.type != NoteType.TEXT)
             throw ClassCastException("This method only for TEXT type")
 
-        openRoom {
+        inTheRoom {
             rollList.clear()
 
             var p = 0
@@ -166,14 +163,14 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             }
 
             getNoteDao().update(noteEntity)
-        }.close()
+        }
     }
 
     override fun convertToText(noteModel: NoteModel) = noteModel.apply {
         if (noteModel.noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
-        openRoom {
+        inTheRoom {
             noteEntity.apply {
                 change = context.getTime()
                 type = NoteType.TEXT
@@ -184,44 +181,44 @@ class RoomRepo(private val context: Context) : IRoomRepo {
             getRollDao().delete(noteEntity.id)
 
             rollList.clear()
-        }.close()
+        }
     }
 
     override fun getRollListString(noteEntity: NoteEntity) = StringBuilder().apply {
         if (noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
-        openRoom {
+        inTheRoom {
             append(getRollDao()[noteEntity.id].joinToString(separator = "\n") { it.text })
-        }.close()
+        }
     }.toString()
 
     override fun getRollStatusString(noteEntity: NoteEntity) = StringBuilder().apply {
         if (noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
-        openRoom {
+        inTheRoom {
             append(getRollDao()[noteEntity.id]
                     .joinToString(prefix = "${noteEntity.text}\n", separator = "\n") {
                         "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
                     }
             )
-        }.close()
+        }
     }.toString()
 
     override fun getRankIdList() = ArrayList<Long>().apply {
-        openRoom { addAll(getRankDao().id) }.close()
+        inTheRoom { addAll(getRankDao().id) }
     }
 
     override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {
         if (noteEntity.type != NoteType.TEXT)
             throw ClassCastException("This method only for TEXT type")
 
-        openRoom {
+        inTheRoom {
             with(getNoteDao()) {
                 if (isCreate) noteEntity.id = insert(noteEntity) else update(noteEntity)
             }
-        }.close()
+        }
 
         updateRank(noteEntity)
     }
@@ -235,7 +232,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         rollList.clear()
         rollList.addAll(rollListTemp)
 
-        openRoom {
+        inTheRoom {
             if (isCreate) {
                 noteEntity.id = getNoteDao().insert(noteEntity)
 
@@ -271,28 +268,27 @@ class RoomRepo(private val context: Context) : IRoomRepo {
                  */
                 getRollDao().delete(noteEntity.id, idSaveList)
             }
-        }.close()
+        }
 
         updateRank(noteEntity)
     }
 
     override fun updateRollCheck(noteEntity: NoteEntity, rollEntity: RollEntity) {
         rollEntity.id?.let {
-            openRoom {
+            inTheRoom {
                 getRollDao().update(it, rollEntity.isCheck)
                 getNoteDao().update(noteEntity)
-            }.close()
+            }
         }
     }
 
     override fun updateRollCheck(noteEntity: NoteEntity, check: Boolean) =
-            openRoom {
+            inTheRoom {
                 getRollDao().updateAllCheck(noteEntity.id, check)
                 getNoteDao().update(noteEntity)
-            }.close()
+            }
 
-    override fun updateNote(noteEntity: NoteEntity) =
-            openRoom { getNoteDao().update(noteEntity) }.close()
+    override fun updateNote(noteEntity: NoteEntity) = inTheRoom { getNoteDao().update(noteEntity) }
 
 
     // TODO прибрать private
@@ -300,7 +296,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
     /**
      * Добавление или удаление id заметки к категорииё
      */
-    private fun updateRank(noteEntity: NoteEntity) = openRoom {
+    private fun updateRank(noteEntity: NoteEntity) = inTheRoom {
         val list = getRankDao().simple
         val check = calculateRankCheckArray(noteEntity, db = this)
 
@@ -314,7 +310,7 @@ class RoomRepo(private val context: Context) : IRoomRepo {
         }
 
         getRankDao().update(list)
-    }.close()
+    }
 
     /**
      * Удаление связи между Rank и Note
