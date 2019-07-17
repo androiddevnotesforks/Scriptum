@@ -115,7 +115,7 @@ class RankTest : ParentUiTest() {
                 openRankPage { onClickVisible(it[1]) }
                 openNotesPage()
                 openRankPage { onClickVisible(it[0]) }
-                openNotesPage(empty = true)
+                openNotesPage(empty = true, hide = true)
             }
         }
     }
@@ -127,7 +127,7 @@ class RankTest : ParentUiTest() {
                 openRankPage { onClickVisible(it[1]) }
                 openBinPage()
                 openRankPage { onClickVisible(it[0]) }
-                openBinPage(empty = true, hide = true)
+                openBinPage()
             }
         }
     }
@@ -159,14 +159,12 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openBinPage()
                 openRankPage { onClickVisible(it[0]) }
-                openBinPage(empty = true, hide = true)
+                openBinPage()
                 openRankPage { onClickCancel(it[0]) }
                 openBinPage()
             }
         }
     }
-
-    // todo rank clear for bin
 
     /**
      * Rename Dialog

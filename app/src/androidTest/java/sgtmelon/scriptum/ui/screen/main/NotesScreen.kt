@@ -68,19 +68,19 @@ class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler)
 
             if (empty) {
                 onDisplay(R.id.info_title_text,
-                        if (hide) R.string.info_hide_title else R.string.info_notes_title
+                        if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
                 )
                 onDisplay(R.id.info_details_text,
-                        if (hide) R.string.info_hide_details else R.string.info_notes_details
+                        if (hide) R.string.info_notes_hide_details else R.string.info_notes_empty_details
                 )
 
                 notDisplay(R.id.notes_recycler)
             } else {
                 notDisplay(R.id.info_title_text,
-                        if (hide) R.string.info_hide_title else R.string.info_notes_title
+                        if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
                 )
                 notDisplay(R.id.info_details_text,
-                        if (hide) R.string.info_hide_details else R.string.info_notes_details
+                        if (hide) R.string.info_notes_hide_details else R.string.info_notes_empty_details
                 )
 
                 onDisplay(R.id.notes_recycler)

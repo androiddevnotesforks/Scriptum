@@ -41,7 +41,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             }.forEach {
                 val bindControl = BindControl(context, it)
 
-                if (it.isNotVisible(rankIdVisibleList)) {
+                if (!bin && it.isNotVisible(rankIdVisibleList)) {
                     bindControl.cancelBind()
                 } else {
                     if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
@@ -70,10 +70,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override suspend fun clearBin() = inTheRoom {
-        val rankIdVisibleList = getRankDao().rankIdVisibleList
-
-        val noteList = ArrayList<NoteEntity>().apply {
-            getNoteDao()[true].forEach { if (it.isVisible(rankIdVisibleList)) add(it) }
+        val noteList = getNoteDao()[true].apply {
             forEach { clearRankConnection(getRankDao(), it) }
         }
 

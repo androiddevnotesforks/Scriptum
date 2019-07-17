@@ -79,13 +79,13 @@ class BinTest : ParentUiTest() {
             mainScreen {
                 openRankPage { onClickVisible(it[0]) }
 
-                openBinPage(hide = true) {
+                openBinPage() {
                     openClearDialog { onClickYes() }
                     assert(empty = true)
                 }
 
                 openRankPage { onClickVisible(it[0]) }
-                openBinPage()
+                openBinPage(empty = true)
             }
         }
     }

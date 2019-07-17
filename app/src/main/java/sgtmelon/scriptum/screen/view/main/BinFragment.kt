@@ -127,10 +127,6 @@ class BinFragment : Fragment(), IBinFragment {
         }
     }
 
-    override fun setupBinding(isListHide: Boolean) {
-        binding?.isListHide = isListHide
-    }
-
     override fun bind() {
         val isListEmpty = adapter.itemCount == 0
 

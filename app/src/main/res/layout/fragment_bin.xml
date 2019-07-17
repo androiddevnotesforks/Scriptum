@@ -9,7 +9,6 @@
         <import alias="v" type="android.view.View"/>
 
         <variable name="isListEmpty" type="boolean"/>
-        <variable name="isListHide" type="boolean"/>
 
     </data>
 
@@ -26,9 +25,9 @@
             <include
                     android:id="@+id/bin_info_include"
                     layout="@layout/include_info"
-                    app:details='@{isListHide ? R.string.info_hide_details : R.string.info_bin_details}'
+                    app:details='@{R.string.info_bin_empty_details}'
                     app:icon='@{R.mipmap.img_info_bin}'
-                    app:title='@{isListHide ? R.string.info_hide_title : R.string.info_bin_title}'/>
+                    app:title='@{R.string.info_bin_empty_title}'/>
 
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/bin_recycler"

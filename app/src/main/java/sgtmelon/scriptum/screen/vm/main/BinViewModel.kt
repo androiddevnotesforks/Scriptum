@@ -32,7 +32,6 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
         noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = true))
 
         callback.apply {
-            setupBinding(iRoomRepo.isListHide(bin = true))
             notifyDataSetChanged(noteModelList)
             notifyMenuClearBin()
             bind()

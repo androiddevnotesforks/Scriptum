@@ -73,12 +73,12 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
             onDisplayToolbar(R.id.toolbar_container, R.string.title_notification)
 
             if (empty) {
-                onDisplay(R.id.info_title_text, R.string.info_notification_title)
-                onDisplay(R.id.info_details_text, R.string.info_notification_details)
+                onDisplay(R.id.info_title_text, R.string.info_notification_empty_title)
+                onDisplay(R.id.info_details_text, R.string.info_notification_empty_details)
                 notDisplay(R.id.notification_recycler)
             } else {
-                notDisplay(R.id.info_title_text, R.string.info_notification_title)
-                notDisplay(R.id.info_details_text, R.string.info_notification_details)
+                notDisplay(R.id.info_title_text, R.string.info_notification_empty_title)
+                notDisplay(R.id.info_details_text, R.string.info_notification_empty_details)
                 onDisplay(R.id.notification_recycler)
             }
         }

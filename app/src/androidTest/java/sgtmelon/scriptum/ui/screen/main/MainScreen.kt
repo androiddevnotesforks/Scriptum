@@ -32,11 +32,11 @@ class MainScreen : ParentUi() {
         NotesScreen.invoke(func, empty, hide)
     }
 
-    fun openBinPage(empty: Boolean = false, hide: Boolean = false, func: BinScreen.() -> Unit = {}) {
+    fun openBinPage(empty: Boolean = false, func: BinScreen.() -> Unit = {}) {
         wasNavigate = true
         onNavigateTo(MainPage.BIN)
 
-        BinScreen.invoke(func, empty, hide)
+        BinScreen.invoke(func, empty)
     }
 
     fun openAddDialog(func: AddDialogUi.() -> Unit = {}) {

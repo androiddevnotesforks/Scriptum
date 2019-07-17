@@ -32,13 +32,13 @@
                 android:id="@+id/info_title_text"
                 style="@style/Text.Info.Title"
                 android:text='@{context.getString(title)}'
-                tools:text="@string/info_notes_title"/>
+                tools:text="@string/info_notes_empty_title"/>
 
         <TextView
                 android:id="@+id/info_details_text"
                 style="@style/Text.Info.Details"
                 android:text='@{context.getString(details)}'
-                tools:text="@string/info_notes_details"/>
+                tools:text="@string/info_notes_empty_details"/>
 
     </LinearLayout>
 
