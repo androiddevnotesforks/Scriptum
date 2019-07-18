@@ -8,8 +8,10 @@ import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.converter.IntConverter
 import sgtmelon.scriptum.screen.callback.IPreferenceFragment
+import sgtmelon.scriptum.screen.callback.IPreferenceViewModel
 
-class PreferenceViewModel(private val context: Context, val callback: IPreferenceFragment) {
+class PreferenceViewModel(private val context: Context, val callback: IPreferenceFragment) :
+        IPreferenceViewModel {
 
     private val iPreferenceRepo = PreferenceRepo(context)
 
@@ -49,7 +51,7 @@ class PreferenceViewModel(private val context: Context, val callback: IPreferenc
         return check
     }
 
-    fun onSetup() = with(callback) {
+    override fun onSetup() = with(callback) {
         melodyList = iPreferenceRepo.getMelodyList()
 
         setupApp()
@@ -71,33 +73,34 @@ class PreferenceViewModel(private val context: Context, val callback: IPreferenc
         updateSaveTimeSummary(saveTimeSummary[iPreferenceRepo.savePeriod])
     }
 
-    fun onClickTheme(): Boolean {
+    override fun onClickTheme(): Boolean {
         callback.showThemeDialog(iPreferenceRepo.theme)
         return true
     }
 
-    fun onResultTheme(@Theme theme: Int) {
+    override fun onResultTheme(@Theme theme: Int) {
         iPreferenceRepo.theme = theme
         callback.updateThemeSummary(themeSummary[theme])
     }
 
-    fun onClickRepeat(): Boolean {
+
+    override fun onClickRepeat(): Boolean {
         callback.showRepeatDialog(iPreferenceRepo.repeat)
         return true
     }
 
-    fun onResultRepeat(value: Int) {
+    override fun onResultRepeat(value: Int) {
         iPreferenceRepo.repeat = value
         callback.updateRepeatSummary(repeatSummary[value])
     }
 
-    fun onClickSignal(): Boolean {
+    override fun onClickSignal(): Boolean {
         val array = IntConverter().toArray(iPreferenceRepo.signal, PreferenceRepo.SIGNAL_ARRAY_SIZE)
         callback.showSignalDialog(array)
         return true
     }
 
-    fun onResultSignal(array: BooleanArray) {
+    override fun onResultSignal(array: BooleanArray) {
         iPreferenceRepo.signal = IntConverter().toInt(array)
         callback.apply {
             updateSignalSummary(iPreferenceRepo.getSignalSummary())
@@ -105,53 +108,53 @@ class PreferenceViewModel(private val context: Context, val callback: IPreferenc
         }
     }
 
-    fun onClickMelody(): Boolean {
+    override fun onClickMelody(): Boolean {
         callback.showMelodyDialog(getMelodyCheck())
         return true
     }
 
-    fun onResultMelody(value: Int) {
+    override fun onResultMelody(value: Int) {
         iPreferenceRepo.melody = melodyUriList[value]
         callback.updateMelodySummary(melodyList[value].title)
     }
 
-
-    fun onClickVolume(): Boolean {
+    override fun onClickVolume(): Boolean {
         callback.showVolumeDialog(iPreferenceRepo.volume)
         return true
     }
 
-    fun onResultVolume(value: Int) {
+    override fun onResultVolume(value: Int) {
         iPreferenceRepo.volume = value
         callback.updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, value))
     }
 
-    fun onClickSort(): Boolean {
+
+    override fun onClickSort(): Boolean {
         callback.showSortDialog(iPreferenceRepo.sort)
         return true
     }
 
-    fun onResultNoteSort(value: Int) {
+    override fun onResultNoteSort(value: Int) {
         iPreferenceRepo.sort = value
         callback.updateSortSummary(sortSummary[value])
     }
 
-    fun onClickNoteColor(): Boolean {
+    override fun onClickNoteColor(): Boolean {
         callback.showColorDialog(iPreferenceRepo.defaultColor)
         return true
     }
 
-    fun onResultNoteColor(@Color value: Int) {
+    override fun onResultNoteColor(@Color value: Int) {
         iPreferenceRepo.defaultColor = value
         callback.updateColorSummary(colorSummary[value])
     }
 
-    fun onClickSaveTime(): Boolean {
+    override fun onClickSaveTime(): Boolean {
         callback.showSaveTimeDialog(iPreferenceRepo.savePeriod)
         return true
     }
 
-    fun onResultSaveTime(value: Int) {
+    override fun onResultSaveTime(value: Int) {
         iPreferenceRepo.savePeriod = value
         callback.updateSaveTimeSummary(saveTimeSummary[value])
     }

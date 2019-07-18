@@ -26,6 +26,7 @@ import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.callback.main.INotesFragment
+import sgtmelon.scriptum.screen.callback.main.INotesViewModel
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.view.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
@@ -41,7 +42,7 @@ class NotesFragment : Fragment(), INotesFragment {
 
     private var binding: FragmentNotesBinding? = null
 
-    private val viewModel: NotesViewModel by lazy {
+    private val iViewModel: INotesViewModel by lazy {
         ViewModelProviders.of(this).get(NotesViewModel::class.java).apply {
             callback = this@NotesFragment
         }
@@ -67,17 +68,17 @@ class NotesFragment : Fragment(), INotesFragment {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onSetup()
+        iViewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
 
         openState.clear()
-        viewModel.onUpdateData()
+        iViewModel.onUpdateData()
     }
 
-    fun onCancelNoteBind(id: Long) = viewModel.onCancelNoteBind(id)
+    fun onCancelNoteBind(id: Long) = iViewModel.onCancelNoteBind(id)
 
     override fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_container)?.apply {
@@ -109,8 +110,8 @@ class NotesFragment : Fragment(), INotesFragment {
         emptyInfoView = view?.findViewById(R.id.notes_info_include)
 
         adapter = NoteAdapter(theme,
-                ItemListener.Click { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
-                ItemListener.LongClick { _, p -> viewModel.onShowOptionsDialog(p) }
+                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
+                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
         )
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
@@ -131,7 +132,7 @@ class NotesFragment : Fragment(), INotesFragment {
         }
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.onResultOptionsDialog(optionsDialog.position, which)
+            iViewModel.onResultOptionsDialog(optionsDialog.position, which)
         }
     }
 

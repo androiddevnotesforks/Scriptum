@@ -32,6 +32,7 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.note.INoteChild
 import sgtmelon.scriptum.screen.callback.note.text.ITextNoteFragment
+import sgtmelon.scriptum.screen.callback.note.text.ITextNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
 
@@ -59,7 +60,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
     private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
 
-    private val viewModel: TextNoteViewModel by lazy {
+    private val iViewModel: ITextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
             callback = this@TextNoteFragment
             parentCallback = context as INoteChild
@@ -83,33 +84,33 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         openState.get(savedInstanceState)
 
-        viewModel.onSetupData(savedInstanceState ?: arguments)
+        iViewModel.onSetupData(savedInstanceState ?: arguments)
 
         panelContainer = view.findViewById(R.id.note_panel_container)
     }
 
     override fun onPause() {
         super.onPause()
-        viewModel.onPause()
+        iViewModel.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onDestroy()
+        iViewModel.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 openState.save(bundle = this)
-                viewModel.onSaveData(bundle = this)
+                iViewModel.onSaveData(bundle = this)
             })
 
-    fun onCancelNoteBind() = viewModel.onCancelNoteBind()
+    fun onCancelNoteBind() = iViewModel.onCancelNoteBind()
 
     override fun setupBinding(@Theme theme: Int, rankEmpty: Boolean) {
         binding?.apply {
             currentTheme = theme
-            menuCallback = viewModel
+            menuCallback = iViewModel
             this.rankEmpty = rankEmpty
         }
     }
@@ -131,28 +132,28 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
             setDrawable(drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false)
         }
 
-        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+        toolbar?.setNavigationOnClickListener { iViewModel.onClickBackArrow() }
     }
 
     override fun setupDialog(rankNameArray: List<String>) {
         rankDialog.apply {
             name = rankNameArray
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultRankDialog(rankDialog.check)
+                iViewModel.onResultRankDialog(rankDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         colorDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultColorDialog(colorDialog.check)
+                iViewModel.onResultColorDialog(colorDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultConvertDialog()
+                iViewModel.onResultConvertDialog()
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
@@ -164,7 +165,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
+                    InputTextWatcher(nameEnter, InputAction.name, iViewModel, inputCallback)
             )
             it.addOnNextAction {
                 textEnter?.apply {
@@ -178,7 +179,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
 
         textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputAction.text, viewModel, inputCallback)
+                InputTextWatcher(textEnter, InputAction.text, iViewModel, inputCallback)
         )
     }
 
@@ -206,7 +207,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         }?.executePendingBindings()
     }
 
-    override fun onPressBack() = viewModel.onPressBack()
+    override fun onPressBack() = iViewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) =
             menuControl.apply { setColorFrom(from) }.startTint(to)

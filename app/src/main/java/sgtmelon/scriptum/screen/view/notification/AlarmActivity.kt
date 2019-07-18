@@ -21,6 +21,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.screen.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
@@ -33,7 +34,7 @@ import sgtmelon.scriptum.view.RippleContainer
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    private val viewModel by lazy {
+    private val iViewModel: IAlarmViewModel by lazy {
         ViewModelProviders.of(this).get(AlarmViewModel::class.java).apply {
             callback = this@AlarmActivity
         }
@@ -71,7 +72,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         super.onCreate(savedInstanceState)
         setContentView(sgtmelon.scriptum.R.layout.activity_alarm)
 
-        viewModel.apply {
+        iViewModel.apply {
             onSetup()
             onSetupData(bundle = savedInstanceState ?: intent.extras)
         }
@@ -79,7 +80,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         parentContainer?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 parentContainer?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
-                viewModel.onStart()
+                iViewModel.onStart()
             }
         })
     }
@@ -87,16 +88,16 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun onDestroy() {
         super.onDestroy()
 
-        viewModel.onDestroy()
+        iViewModel.onDestroy()
         rippleContainer?.stopAnimation()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
+            super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
 
     override fun setupView(@Theme theme: Int) {
         adapter = NoteAdapter(theme, ItemListener.Click { _, _ ->
-            openState.tryInvoke { viewModel.onClickNote() }
+            openState.tryInvoke { iViewModel.onClickNote() }
         })
 
         recyclerView?.let {
@@ -104,8 +105,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             it.adapter = adapter
         }
 
-        disableButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickDisable() } }
-        postponeButton?.setOnClickListener { openState.tryInvoke { viewModel.onClickPostpone() } }
+        disableButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickDisable() } }
+        postponeButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickPostpone() } }
     }
 
     override fun notifyDataSetChanged(noteModel: NoteModel) {

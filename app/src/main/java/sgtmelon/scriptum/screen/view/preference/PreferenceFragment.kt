@@ -18,6 +18,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.IPreferenceFragment
+import sgtmelon.scriptum.screen.callback.IPreferenceViewModel
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 import android.preference.PreferenceFragment as OldPreferenceFragment
@@ -32,7 +33,9 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
 
-    private val viewModel: PreferenceViewModel by lazy { PreferenceViewModel(activity, this) }
+    private val iViewModel: IPreferenceViewModel by lazy {
+        PreferenceViewModel(activity, callback = this)
+    }
 
     private val openState = OpenState()
 
@@ -76,17 +79,17 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.onSetup()
+        iViewModel.onSetup()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
     override fun setupApp() {
-        themePreference.setOnPreferenceClickListener { viewModel.onClickTheme() }
+        themePreference.setOnPreferenceClickListener { iViewModel.onClickTheme() }
 
         themeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultTheme(themeDialog.check)
+            iViewModel.onResultTheme(themeDialog.check)
             activity.checkThemeChange()
         }
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
@@ -94,57 +97,57 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     // TODO #RELEASE
     override fun setupNotification(melodyTitleList: Array<String>) {
-        repeatPreference.setOnPreferenceClickListener { viewModel.onClickRepeat() }
+        repeatPreference.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultRepeat(repeatDialog.check)
+            iViewModel.onResultRepeat(repeatDialog.check)
         }
         repeatDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        signalPreference.setOnPreferenceClickListener { viewModel.onClickSignal() }
+        signalPreference.setOnPreferenceClickListener { iViewModel.onClickSignal() }
 
         signalDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSignal(signalDialog.check)
+            iViewModel.onResultSignal(signalDialog.check)
         }
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        melodyPreference.setOnPreferenceClickListener { viewModel.onClickMelody() }
+        melodyPreference.setOnPreferenceClickListener { iViewModel.onClickMelody() }
 
         melodyDialog.rows = melodyTitleList
         melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultMelody(melodyDialog.check)
+            iViewModel.onResultMelody(melodyDialog.check)
         }
         melodyDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        volumePreference.setOnPreferenceClickListener { viewModel.onClickVolume() }
+        volumePreference.setOnPreferenceClickListener { iViewModel.onClickVolume() }
 
         volumeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultVolume(volumeDialog.progress)
+            iViewModel.onResultVolume(volumeDialog.progress)
         }
         volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupNote() {
-        sortPreference.setOnPreferenceClickListener { viewModel.onClickSort() }
+        sortPreference.setOnPreferenceClickListener { iViewModel.onClickSort() }
 
         sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultNoteSort(sortDialog.check)
+            iViewModel.onResultNoteSort(sortDialog.check)
         }
         sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        colorPreference.setOnPreferenceClickListener { viewModel.onClickNoteColor() }
+        colorPreference.setOnPreferenceClickListener { iViewModel.onClickNoteColor() }
 
         colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultNoteColor(colorDialog.check)
+            iViewModel.onResultNoteColor(colorDialog.check)
         }
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupSave() {
-        saveTimePreference.setOnPreferenceClickListener { viewModel.onClickSaveTime() }
+        saveTimePreference.setOnPreferenceClickListener { iViewModel.onClickSaveTime() }
 
         saveTimeDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            viewModel.onResultSaveTime(saveTimeDialog.check)
+            iViewModel.onResultSaveTime(saveTimeDialog.check)
         }
         saveTimeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 

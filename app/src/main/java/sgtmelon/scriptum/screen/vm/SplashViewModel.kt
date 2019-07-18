@@ -6,6 +6,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.callback.ISplashActivity
+import sgtmelon.scriptum.screen.callback.ISplashViewModel
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.OpenFrom
 import sgtmelon.scriptum.screen.view.intro.IntroActivity
@@ -18,11 +19,11 @@ import sgtmelon.scriptum.screen.view.notification.AlarmActivity.Companion.getAla
  *
  * @author SerjantArbuz
  */
-class SplashViewModel(application: Application) : ParentViewModel(application) {
+class SplashViewModel(application: Application) : ParentViewModel(application), ISplashViewModel {
 
     lateinit var callback: ISplashActivity
 
-    fun onSetup(bundle: Bundle?) {
+    override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {
             onSimpleStart()
         } else {

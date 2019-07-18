@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.repository.develop.DevelopRepo
 import sgtmelon.scriptum.screen.callback.IDevelopActivity
+import sgtmelon.scriptum.screen.callback.IDevelopViewModel
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.view.intro.IntroActivity
 
@@ -14,13 +15,13 @@ import sgtmelon.scriptum.screen.view.intro.IntroActivity
  *
  * @author SerjantArbuz
  */
-class DevelopViewModel(application: Application) : ParentViewModel(application) {
+class DevelopViewModel(application: Application) : ParentViewModel(application), IDevelopViewModel {
 
     lateinit var callback: IDevelopActivity
 
     private val iDevelopRepo = DevelopRepo.getInstance(context)
 
-    fun onSetup() = viewModelScope.launch {
+    override fun onSetup() = viewModelScope.launch {
         callback.apply {
             fillAboutNoteTable(iDevelopRepo.getNoteTableData())
             fillAboutRollTable(iDevelopRepo.getRollTableData())
@@ -29,6 +30,6 @@ class DevelopViewModel(application: Application) : ParentViewModel(application) 
         }
     }
 
-    fun onIntroClick() = callback.startActivity(Intent(context, IntroActivity::class.java))
+    override fun onIntroClick() = callback.startActivity(Intent(context, IntroActivity::class.java))
 
 }

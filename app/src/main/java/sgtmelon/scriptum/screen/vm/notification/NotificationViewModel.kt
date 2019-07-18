@@ -5,6 +5,7 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.screen.callback.notification.INotificationActivity
+import sgtmelon.scriptum.screen.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -14,7 +15,8 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  *
  * @author SerjantArbuz
  */
-class NotificationViewModel(application: Application) : ParentViewModel(application) {
+class NotificationViewModel(application: Application) : ParentViewModel(application),
+        INotificationViewModel {
 
     lateinit var callback: INotificationActivity
 
@@ -22,23 +24,23 @@ class NotificationViewModel(application: Application) : ParentViewModel(applicat
 
     private val notificationList: MutableList<NotificationItem> = ArrayList()
 
-    fun onSetup() = callback.apply {
+    override fun onSetup() = with(callback) {
         setupToolbar()
         setupRecycler(iPreferenceRepo.theme)
     }
 
-    fun onUpdateData() {
+    override fun onUpdateData() {
         notificationList.clearAndAdd(iAlarmRepo.getList())
 
         callback.notifyDataSetChanged(notificationList)
         callback.bind()
     }
 
-    fun onClickNote(p: Int) = with(notificationList[p].note) {
+    override fun onClickNote(p: Int) = with(notificationList[p].note) {
         callback.startActivity(context.getNoteIntent(type, id))
     }
 
-    fun onClickCancel(p: Int) {
+    override fun onClickCancel(p: Int) {
         iAlarmRepo.delete(notificationList[p].alarm.id)
         callback.notifyItemRemoved(p, notificationList.apply { removeAt(p) })
     }

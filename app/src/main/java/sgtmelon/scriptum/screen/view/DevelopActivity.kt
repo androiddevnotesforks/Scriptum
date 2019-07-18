@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.callback.IDevelopActivity
+import sgtmelon.scriptum.screen.callback.IDevelopViewModel
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
@@ -16,7 +17,7 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  */
 class DevelopActivity : AppCompatActivity(), IDevelopActivity {
 
-    private val viewModel: DevelopViewModel by lazy {
+    private val iViewModel: IDevelopViewModel by lazy {
         ViewModelProviders.of(this).get(DevelopViewModel::class.java).apply {
             callback = this@DevelopActivity
         }
@@ -28,9 +29,9 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_develop)
 
-        viewModel.onSetup()
+        iViewModel.onSetup()
 
-        introButton?.setOnClickListener { viewModel.onIntroClick() }
+        introButton?.setOnClickListener { iViewModel.onIntroClick() }
     }
 
     override fun fillAboutNoteTable(data: String) {

@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
- * Интерфейс для общения [BinViewModel] и [BinFragment]
+ * Интерфейс для общения [BinViewModel] с [BinFragment]
  *
  * @author SerjantArbuz
  */

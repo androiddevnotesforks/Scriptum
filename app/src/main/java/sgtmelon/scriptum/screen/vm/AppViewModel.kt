@@ -4,6 +4,7 @@ import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.callback.IAppActivity
+import sgtmelon.scriptum.screen.callback.IAppViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 
 /**
@@ -11,13 +12,13 @@ import sgtmelon.scriptum.screen.view.AppActivity
  *
  * @author SerjantArbuz
  */
-class AppViewModel(application: Application) : ParentViewModel(application) {
+class AppViewModel(application: Application) : ParentViewModel(application), IAppViewModel {
 
     lateinit var callback: IAppActivity
 
     @Theme private var currentTheme: Int = 0
 
-    fun onSetup() {
+    override fun onSetup() {
         currentTheme = iPreferenceRepo.theme
 
         when (currentTheme) {
@@ -26,6 +27,6 @@ class AppViewModel(application: Application) : ParentViewModel(application) {
         }
     }
 
-    fun isThemeChange() = currentTheme != iPreferenceRepo.theme
+    override fun isThemeChange() = currentTheme != iPreferenceRepo.theme
 
 }

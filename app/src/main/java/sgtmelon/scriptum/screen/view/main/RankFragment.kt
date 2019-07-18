@@ -26,6 +26,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.callback.main.IRankFragment
+import sgtmelon.scriptum.screen.callback.main.IRankViewModel
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
@@ -37,7 +38,7 @@ class RankFragment : Fragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
-    private val viewModel: RankViewModel by lazy {
+    private val iViewModel: IRankViewModel by lazy {
         ViewModelProviders.of(this).get(RankViewModel::class.java).apply {
             callback = this@RankFragment
         }
@@ -49,11 +50,11 @@ class RankFragment : Fragment(), IRankFragment {
     private val adapter by lazy {
         RankAdapter(ItemListener.Click { view, p ->
             when (view.id) {
-                R.id.rank_visible_button -> viewModel.onClickVisible(p)
-                R.id.rank_click_container -> viewModel.onShowRenameDialog(p)
-                R.id.rank_cancel_button -> viewModel.onClickCancel(p)
+                R.id.rank_visible_button -> iViewModel.onClickVisible(p)
+                R.id.rank_click_container -> iViewModel.onShowRenameDialog(p)
+                R.id.rank_cancel_button -> iViewModel.onClickCancel(p)
             }
-        }, ItemListener.LongClick { _, p -> viewModel.onLongClickVisible(p) })
+        }, ItemListener.LongClick { _, p -> iViewModel.onLongClickVisible(p) })
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
 
@@ -82,7 +83,7 @@ class RankFragment : Fragment(), IRankFragment {
 
     override fun onResume() {
         super.onResume()
-        viewModel.onUpdateData()
+        iViewModel.onUpdateData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -94,21 +95,21 @@ class RankFragment : Fragment(), IRankFragment {
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)?.apply {
-            setOnClickListener { viewModel.onClickCancel() }
+            setOnClickListener { iViewModel.onClickCancel() }
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
-            setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
+            setOnClickListener { iViewModel.onClickAdd(simpleClick = true) }
             setOnLongClickListener {
-                viewModel.onClickAdd(simpleClick = false)
+                iViewModel.onClickAdd(simpleClick = false)
                 return@setOnLongClickListener true
             }
         }
 
         nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
         nameEnter?.let {
-            it.addTextChangedListener(on = { viewModel.onUpdateToolbar() })
-            it.setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
+            it.addTextChangedListener(on = { iViewModel.onUpdateToolbar() })
+            it.setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
         }
     }
 
@@ -116,7 +117,7 @@ class RankFragment : Fragment(), IRankFragment {
         parentContainer = view?.findViewById(R.id.rank_parent_container)
         emptyInfoView = view?.findViewById(R.id.rank_info_include)
 
-        val touchCallback = RankTouchControl(viewModel)
+        val touchCallback = RankTouchControl(iViewModel)
 
         adapter.dragListener = touchCallback
 
@@ -134,7 +135,7 @@ class RankFragment : Fragment(), IRankFragment {
 
         renameDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onRenameDialog(position, name)
+                iViewModel.onRenameDialog(position, name)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
@@ -146,7 +147,7 @@ class RankFragment : Fragment(), IRankFragment {
         parentContainer?.createVisibleAnim(emptyInfoView, empty)
 
         binding?.isListEmpty = empty
-        viewModel.onUpdateToolbar()
+        iViewModel.onUpdateToolbar()
     }
 
     override fun bindToolbar(isClearEnable: Boolean, isAddEnable: Boolean) {

@@ -43,6 +43,7 @@ import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.callback.note.INoteChild
 import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteFragment
+import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**
@@ -54,7 +55,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
     private var binding: FragmentRollNoteBinding? = null
 
-    private val viewModel: RollNoteViewModel by lazy {
+    private val iViewModel: IRollNoteViewModel by lazy {
         ViewModelProviders.of(this).get(RollNoteViewModel::class.java).apply {
             callback = this@RollNoteFragment
             parentCallback = context as INoteChild
@@ -75,9 +76,9 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     }
 
     private val adapter: RollAdapter by lazy {
-        RollAdapter(viewModel,
-                ItemListener.Click { _, p -> viewModel.onClickItemCheck(p) },
-                ItemListener.LongClick { _, _ -> viewModel.onLongClickItemCheck() }
+        RollAdapter(iViewModel,
+                ItemListener.Click { _, p -> iViewModel.onClickItemCheck(p) },
+                ItemListener.LongClick { _, _ -> iViewModel.onLongClickItemCheck() }
         )
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
@@ -102,7 +103,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
         openState.get(savedInstanceState)
 
-        viewModel.onSetupData(arguments ?: savedInstanceState)
+        iViewModel.onSetupData(arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
         enterContainer = view.findViewById(R.id.roll_note_enter_container)
@@ -112,31 +113,31 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
     override fun onResume() {
         super.onResume()
-        viewModel.onUpdateData()
+        iViewModel.onUpdateData()
     }
 
     override fun onPause() {
         super.onPause()
-        viewModel.onPause()
+        iViewModel.onPause()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.onDestroy()
+        iViewModel.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 openState.save(bundle = this)
-                viewModel.onSaveData(bundle = this)
+                iViewModel.onSaveData(bundle = this)
             })
 
-    fun onCancelNoteBind() = viewModel.onCancelNoteBind()
+    fun onCancelNoteBind() = iViewModel.onCancelNoteBind()
 
     override fun setupBinding(@Theme theme: Int, rankEmpty: Boolean) {
         binding?.apply {
             currentTheme = theme
-            menuCallback = viewModel
+            menuCallback = iViewModel
             this.rankEmpty = rankEmpty
         }
     }
@@ -158,28 +159,28 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
             setDrawable(drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false)
         }
 
-        toolbar?.setNavigationOnClickListener { viewModel.onClickBackArrow() }
+        toolbar?.setNavigationOnClickListener { iViewModel.onClickBackArrow() }
     }
 
     override fun setupDialog(rankNameList: List<String>) {
         rankDialog.apply {
             name = rankNameList
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultRankDialog(rankDialog.check)
+                iViewModel.onResultRankDialog(rankDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         colorDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultColorDialog(colorDialog.check)
+                iViewModel.onResultColorDialog(colorDialog.check)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                viewModel.onResultConvertDialog()
+                iViewModel.onResultConvertDialog()
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
@@ -191,7 +192,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.name, viewModel, inputCallback)
+                    InputTextWatcher(nameEnter, InputAction.name, iViewModel, inputCallback)
             )
             it.addOnNextAction {
                 rollEnter?.apply {
@@ -211,20 +212,20 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
             it.imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
             it.addTextChangedListener(on = { bindEnter() })
-            it.setOnEditorActionListener { _, i, _ -> viewModel.onEditorClick(i) }
+            it.setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
         }
 
         view?.findViewById<ImageButton>(R.id.roll_note_add_button)?.apply {
-            setOnClickListener { viewModel.onClickAdd(simpleClick = true) }
+            setOnClickListener { iViewModel.onClickAdd(simpleClick = true) }
             setOnLongClickListener {
-                viewModel.onClickAdd(simpleClick = false)
+                iViewModel.onClickAdd(simpleClick = false)
                 return@setOnLongClickListener true
             }
         }
     }
 
     override fun setupRecycler(inputCallback: InputCallback) {
-        val touchCallback = RollTouchControl(viewModel)
+        val touchCallback = RollTouchControl(iViewModel)
 
         adapter.apply {
             dragListener = touchCallback
@@ -275,7 +276,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }?.executePendingBindings()
     }
 
-    override fun onPressBack() = viewModel.onPressBack()
+    override fun onPressBack() = iViewModel.onPressBack()
 
     override fun tintToolbar(from: Int, to: Int) =
             menuControl.apply { setColorFrom(from) }.startTint(to)

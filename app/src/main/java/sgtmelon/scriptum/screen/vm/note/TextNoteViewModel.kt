@@ -7,7 +7,6 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.extension.showToast
@@ -21,7 +20,7 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.screen.callback.note.INoteChild
 import sgtmelon.scriptum.screen.callback.note.text.ITextNoteFragment
-import sgtmelon.scriptum.screen.callback.note.text.ITextNoteMenu
+import sgtmelon.scriptum.screen.callback.note.text.ITextNoteViewModel
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -31,9 +30,8 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  * @author SerjantArbuz
  */
 class TextNoteViewModel(application: Application) : ParentViewModel(application),
-        SaveControl.Result,
-        InputTextWatcher.TextChange,
-        ITextNoteMenu {
+        ITextNoteViewModel,
+        SaveControl.Result {
 
     lateinit var callback: ITextNoteFragment
     lateinit var parentCallback: INoteChild
@@ -50,7 +48,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     private val iconState = IconState()
 
-    fun onSetupData(bundle: Bundle?) {
+    override fun onSetupData(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         if (!::noteModel.isInitialized) {
@@ -82,13 +80,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }
     }
 
-    fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
+    override fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
     override fun onResultSaveControl() = context.showToast(
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
     )
-
-    override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel)
 
     override fun onMenuRestore() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
@@ -212,11 +208,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         saveControl.setSaveHandlerEvent(editMode)
     }
 
-    fun onPause() = saveControl.onPauseSave(noteState.isEdit)
+    override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel)
+    
+    override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
+    override fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
 
-    fun onClickBackArrow() {
+    override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
             callback.hideKeyboard()
             onRestoreData()
@@ -226,7 +224,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         }
     }
 
-    fun onPressBack(): Boolean {
+    override fun onPressBack(): Boolean {
         if (!noteState.isEdit) return false
 
         saveControl.needSave = false
@@ -252,7 +250,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         return true
     }
 
-    fun onResultColorDialog(check: Int) {
+    override fun onResultColorDialog(check: Int) {
         val noteEntity = noteModel.noteEntity
         inputControl.onColorChange(noteEntity.color, check)
         noteEntity.color = check
@@ -263,7 +261,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         }
     }
 
-    fun onResultRankDialog(check: BooleanArray) {
+    override fun onResultRankDialog(check: BooleanArray) {
         val rankId = ArrayList<Long>()
         val rankPs = ArrayList<Long>()
 
@@ -287,13 +285,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         callback.bindNote(noteModel)
     }
 
-    fun onResultConvertDialog() {
+    override fun onResultConvertDialog() {
         noteModel = iRoomRepo.convertToRoll(noteModel)
 
         parentCallback.onConvertNote()
     }
 
-    fun onCancelNoteBind() = noteModel.let {
+    override fun onCancelNoteBind() = noteModel.let {
         it.noteEntity.isStatus = false
         callback.bindNote(it)
     }

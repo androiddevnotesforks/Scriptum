@@ -25,6 +25,7 @@ import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.IMainActivity
+import sgtmelon.scriptum.screen.callback.main.IMainViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.vm.main.MainViewModel
@@ -37,13 +38,13 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
  */
 class MainActivity : AppActivity(), IMainActivity {
 
-    private val viewModel: MainViewModel by lazy {
+    private val iViewModel: IMainViewModel by lazy {
         ViewModelProviders.of(this).get(MainViewModel::class.java).apply {
             callback = this@MainActivity
         }
     }
 
-    private val mainReceiver by lazy { MainReceiver(viewModel) }
+    private val mainReceiver by lazy { MainReceiver(iViewModel) }
 
     private val rankFragment by lazy { FragmentFactory.getRankFragment(supportFragmentManager) }
     private val notesFragment by lazy { FragmentFactory.getNotesFragment(supportFragmentManager) }
@@ -60,7 +61,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
         openState.get(savedInstanceState)
 
-        viewModel.onSetupData(savedInstanceState)
+        iViewModel.onSetupData(savedInstanceState)
 
         registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
     }
@@ -73,7 +74,7 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
                 openState.save(bundle = this)
-                viewModel.onSaveData(bundle = this)
+                iViewModel.onSaveData(bundle = this)
             })
 
     /**
@@ -94,7 +95,7 @@ class MainActivity : AppActivity(), IMainActivity {
         }
 
         findViewById<BottomNavigationView>(R.id.main_menu_navigation).apply {
-            setOnNavigationItemSelectedListener { viewModel.onSelectItem(it.itemId) }
+            setOnNavigationItemSelectedListener { iViewModel.onSelectItem(it.itemId) }
             selectedItemId = itemId
         }
 

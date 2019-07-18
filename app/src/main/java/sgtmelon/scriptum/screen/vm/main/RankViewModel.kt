@@ -4,13 +4,13 @@ import android.app.Application
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.callback.main.IRankFragment
+import sgtmelon.scriptum.screen.callback.main.IRankViewModel
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
@@ -19,8 +19,7 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  *
  * @author SerjantArbuz
  */
-class RankViewModel(application: Application) : ParentViewModel(application),
-        RankTouchControl.Result {
+class RankViewModel(application: Application) : ParentViewModel(application), IRankViewModel {
 
     lateinit var callback: IRankFragment
 
@@ -28,7 +27,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
 
     private var rankModel: RankModel = RankModel(ArrayList())
 
-    fun onUpdateData() {
+    override fun onUpdateData() {
         rankModel = iRankRepo.getRankModel()
 
         callback.apply {
@@ -37,7 +36,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         }
     }
 
-    fun onUpdateToolbar() = with(callback) {
+    override fun onUpdateToolbar() = with(callback) {
         val enterName = getEnterText()
         val clearName = enterName.clearSpace().toUpperCase()
 
@@ -47,10 +46,10 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         )
     }
 
-    fun onShowRenameDialog(p: Int) =
+    override fun onShowRenameDialog(p: Int) =
             callback.showRenameDialog(p, rankModel.itemList[p].name, ArrayList(rankModel.nameList))
 
-    fun onRenameDialog(p: Int, name: String) {
+    override fun onRenameDialog(p: Int, name: String) {
         rankModel.set(p, name)
 
         onUpdateToolbar()
@@ -61,9 +60,9 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         }
     }
 
-    fun onClickCancel() = callback.clearEnter()
+    override fun onClickCancel() = callback.clearEnter()
 
-    fun onEditorClick(i: Int): Boolean {
+    override fun onEditorClick(i: Int): Boolean {
         val enterName = callback.getEnterText()
         val clearName = enterName.clearSpace().toUpperCase()
 
@@ -76,7 +75,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         return true
     }
 
-    fun onClickAdd(simpleClick: Boolean) {
+    override fun onClickAdd(simpleClick: Boolean) {
         val name = callback.clearEnter().clearSpace()
 
         if (name.isEmpty()) return
@@ -105,7 +104,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         return true
     }
 
-    fun onClickVisible(p: Int) {
+    override fun onClickVisible(p: Int) {
         val rankEntity = rankModel.itemList[p].apply { isVisible = !isVisible }
 
         iRankRepo.updateRank(rankEntity)
@@ -114,7 +113,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         callback.notifyVisible(p, rankEntity)
     }
 
-    fun onLongClickVisible(p: Int) {
+    override fun onLongClickVisible(p: Int) {
         val rankList = rankModel.itemList
         val startAnim = BooleanArray(rankList.size)
 
@@ -138,7 +137,7 @@ class RankViewModel(application: Application) : ParentViewModel(application),
         viewModelScope.launch { iRankRepo.notifyBind() }
     }
 
-    fun onClickCancel(p: Int) {
+    override fun onClickCancel(p: Int) {
         iRankRepo.deleteRank(rankModel.itemList[p].name, p)
         viewModelScope.launch { iRankRepo.notifyBind() }
 

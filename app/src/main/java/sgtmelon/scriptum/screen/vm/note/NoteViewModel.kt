@@ -4,46 +4,46 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.callback.note.INoteActivity
+import sgtmelon.scriptum.screen.callback.note.INoteViewModel
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
-class NoteViewModel(application: Application) : ParentViewModel(application), NoteReceiver.Callback {
+class NoteViewModel(application: Application) : ParentViewModel(application), INoteViewModel {
 
     lateinit var callback: INoteActivity
 
     private var id: Long = NoteData.Default.ID
     private var type: NoteType? = null
 
-    fun onSetupData(bundle: Bundle?) {
+    override fun onSetupData(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         type = NoteType.values()
                 .getOrNull(index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE)
     }
 
-    fun onSaveData(bundle: Bundle) = with(bundle) {
+    override fun onSaveData(bundle: Bundle) = with(bundle) {
         putLong(NoteData.Intent.ID, id)
         putInt(NoteData.Intent.TYPE, type?.ordinal ?: NoteData.Default.TYPE)
     }
 
-    fun onSetupFragment(isSave: Boolean) = when (type) {
+    override fun onSetupFragment(isSave: Boolean) = when (type) {
         NoteType.TEXT -> callback.showTextFragment(id, isSave)
         NoteType.ROLL -> callback.showRollFragment(id, isSave)
         else -> callback.finish()
     }
 
-    fun onPressBack() = when (type) {
+    override fun onPressBack() = when (type) {
         NoteType.TEXT -> callback.onPressBackText()
         NoteType.ROLL -> callback.onPressBackRoll()
         else -> false
     }
 
-    fun onUpdateNoteId(id: Long) {
+    override fun onUpdateNoteId(id: Long) {
         this.id = id
     }
 
-    fun onConvertNote() = when (type) {
+    override fun onConvertNote() = when (type) {
         NoteType.TEXT -> {
             type = NoteType.ROLL
             callback.showRollFragment(id, checkCache = true)

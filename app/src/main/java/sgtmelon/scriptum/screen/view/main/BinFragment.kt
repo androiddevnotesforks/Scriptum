@@ -26,6 +26,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.main.IBinFragment
+import sgtmelon.scriptum.screen.callback.main.IBinViewModel
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
@@ -37,7 +38,7 @@ class BinFragment : Fragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 
-    private val viewModel: BinViewModel by lazy {
+    private val iViewModel: IBinViewModel by lazy {
         ViewModelProviders.of(this).get(BinViewModel::class.java).apply {
             callback = this@BinFragment
         }
@@ -68,14 +69,14 @@ class BinFragment : Fragment(), IBinFragment {
         super.onViewCreated(view, savedInstanceState)
 
         openState.get(savedInstanceState)
-        viewModel.onSetup()
+        iViewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
 
         openState.clear()
-        viewModel.onUpdateData()
+        iViewModel.onUpdateData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -98,7 +99,7 @@ class BinFragment : Fragment(), IBinFragment {
         activity?.let { itemClearBin?.tintIcon(it) }
 
         clearBinDialog.apply {
-            positiveListener = DialogInterface.OnClickListener { _, _ -> viewModel.onClickClearBin() }
+            positiveListener = DialogInterface.OnClickListener { _, _ -> iViewModel.onClickClearBin() }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
     }
@@ -108,8 +109,8 @@ class BinFragment : Fragment(), IBinFragment {
         emptyInfoView = view?.findViewById(R.id.bin_info_include)
 
         adapter = NoteAdapter(theme,
-                ItemListener.Click { _, p -> openState.tryInvoke { viewModel.onClickNote(p) } },
-                ItemListener.LongClick { _, p -> viewModel.onShowOptionsDialog(p) }
+                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
+                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
         )
 
         recyclerView = view?.findViewById(R.id.bin_recycler)
@@ -123,7 +124,7 @@ class BinFragment : Fragment(), IBinFragment {
         }
 
         optionsDialog.onClickListener = DialogInterface.OnClickListener { _, which ->
-            viewModel.onResultOptionsDialog(optionsDialog.position, which)
+            iViewModel.onResultOptionsDialog(optionsDialog.position, which)
         }
     }
 

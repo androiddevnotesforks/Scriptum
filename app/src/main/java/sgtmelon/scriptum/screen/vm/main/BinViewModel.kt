@@ -8,6 +8,7 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.callback.main.IBinFragment
+import sgtmelon.scriptum.screen.callback.main.IBinViewModel
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -17,18 +18,18 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  *
  * @author SerjantArbuz
  */
-class BinViewModel(application: Application) : ParentViewModel(application) {
+class BinViewModel(application: Application) : ParentViewModel(application), IBinViewModel {
 
     lateinit var callback: IBinFragment
 
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
-    fun onSetup() = callback.apply {
+    override fun onSetup() = with(callback) {
         setupToolbar()
         setupRecycler(iPreferenceRepo.theme)
     }
 
-    fun onUpdateData() {
+    override fun onUpdateData() {
         noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = true))
 
         callback.apply {
@@ -38,7 +39,7 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
         }
     }
 
-    fun onClickClearBin() {
+    override fun onClickClearBin() {
         viewModelScope.launch { iRoomRepo.clearBin() }
 
         noteModelList.clear()
@@ -50,14 +51,14 @@ class BinViewModel(application: Application) : ParentViewModel(application) {
         }
     }
 
-    fun onClickNote(p: Int) = with(noteModelList[p].noteEntity) {
+    override fun onClickNote(p: Int) = with(noteModelList[p].noteEntity) {
         callback.startActivity(context.getNoteIntent(type, id))
     }
 
-    fun onShowOptionsDialog(p: Int) =
+    override fun onShowOptionsDialog(p: Int) =
             callback.showOptionsDialog(context.resources.getStringArray(R.array.dialog_menu_bin), p)
 
-    fun onResultOptionsDialog(p: Int, which: Int) {
+    override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsBin.restore -> callback.notifyItemRemoved(p, restoreItem(p))
             OptionsBin.copy -> context.copyToClipboard(noteModelList[p].noteEntity)

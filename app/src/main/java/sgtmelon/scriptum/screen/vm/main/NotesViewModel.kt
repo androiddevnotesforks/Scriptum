@@ -10,6 +10,7 @@ import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.callback.main.INotesFragment
+import sgtmelon.scriptum.screen.callback.main.INotesViewModel
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -19,18 +20,18 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  *
  * @author SerjantArbuz
  */
-class NotesViewModel(application: Application) : ParentViewModel(application) {
+class NotesViewModel(application: Application) : ParentViewModel(application), INotesViewModel {
 
     lateinit var callback: INotesFragment
 
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
-    fun onSetup() = callback.apply {
+    override fun onSetup() = with(callback) {
         setupToolbar()
         setupRecycler(iPreferenceRepo.theme)
     }
 
-    fun onUpdateData() {
+    override fun onUpdateData() {
         noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = false))
 
         callback.apply {
@@ -42,11 +43,11 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         if (updateStatus) updateStatus = false
     }
 
-    fun onClickNote(p: Int) = with(noteModelList[p].noteEntity) {
+    override fun onClickNote(p: Int) = with(noteModelList[p].noteEntity) {
         callback.startActivity(context.getNoteIntent(type, id))
     }
 
-    fun onShowOptionsDialog(p: Int) = with(noteModelList[p].noteEntity) {
+    override fun onShowOptionsDialog(p: Int) = with(noteModelList[p].noteEntity) {
         val itemArray: Array<String> = when (type) {
             NoteType.TEXT -> context.resources.getStringArray(R.array.dialog_menu_text)
             NoteType.ROLL -> context.resources.getStringArray(R.array.dialog_menu_roll)
@@ -57,7 +58,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         callback.showOptionsDialog(itemArray, p)
     }
 
-    fun onResultOptionsDialog(p: Int, which: Int) {
+    override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             OptionsNote.bind -> callback.notifyItemChanged(p, onMenuBind(p))
             OptionsNote.convert -> callback.notifyItemChanged(p, onMenuConvert(p))
@@ -95,7 +96,7 @@ class NotesViewModel(application: Application) : ParentViewModel(application) {
         removeAt(p)
     }
 
-    fun onCancelNoteBind(id: Long) = noteModelList.forEachIndexed { i, it ->
+    override fun onCancelNoteBind(id: Long) = noteModelList.forEachIndexed { i, it ->
         if (it.noteEntity.id == id) {
             it.noteEntity.isStatus = false
             callback.notifyItemChanged(i, noteModelList)

@@ -14,6 +14,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.callback.note.INoteChild
+import sgtmelon.scriptum.screen.callback.note.INoteViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
@@ -24,19 +25,19 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
-    private val viewModel by lazy {
+    private val iViewModel: INoteViewModel by lazy {
         ViewModelProviders.of(this).get(NoteViewModel::class.java).apply {
             callback = this@NoteActivity
         }
     }
 
-    private val noteReceiver by lazy { NoteReceiver(viewModel) }
+    private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
-        viewModel.apply {
+        iViewModel.apply {
             onSetupData(bundle = savedInstanceState ?: intent.extras)
             onSetupFragment(isSave = savedInstanceState != null)
         }
@@ -50,10 +51,10 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { viewModel.onSaveData(bundle = this) })
+            super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
 
     override fun onBackPressed() {
-        if (!viewModel.onPressBack()) super.onBackPressed()
+        if (!iViewModel.onPressBack()) super.onBackPressed()
     }
 
     override fun showTextFragment(id: Long, checkCache: Boolean) {
@@ -89,9 +90,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
         }
     }
 
-    override fun onUpdateNoteId(id: Long) = viewModel.onUpdateNoteId(id)
+    override fun onUpdateNoteId(id: Long) = iViewModel.onUpdateNoteId(id)
 
-    override fun onConvertNote() = viewModel.onConvertNote()
+    override fun onConvertNote() = iViewModel.onConvertNote()
 
     companion object {
         fun Context.getNoteIntent(type: NoteType, id: Long? = NoteData.Default.ID): Intent =

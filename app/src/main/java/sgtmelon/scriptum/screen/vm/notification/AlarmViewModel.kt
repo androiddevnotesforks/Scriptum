@@ -10,6 +10,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.screen.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.screen.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
@@ -19,7 +20,7 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
  *
  * @author SerjantArbuz
  */
-class AlarmViewModel(application: Application) : ParentViewModel(application) {
+class AlarmViewModel(application: Application) : ParentViewModel(application), IAlarmViewModel {
 
     lateinit var callback: IAlarmActivity
 
@@ -30,11 +31,11 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
 
     private val longWaitHandler = Handler()
 
-    fun onSetup() = callback.setupView(iPreferenceRepo.theme)
+    override fun onSetup() = callback.setupView(iPreferenceRepo.theme)
 
     // TODO #RELEASE Обработка id = -1
     // TODO #RELEASE Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
-    fun onSetupData(bundle: Bundle?) {
+    override fun onSetupData(bundle: Bundle?) {
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
             color = bundle.getInt(NoteData.Intent.COLOR, iPreferenceRepo.defaultColor)
@@ -50,7 +51,7 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
     }
 
 
-    fun onStart() = with(callback){
+    override fun onStart() = with(callback){
         val theme = iPreferenceRepo.theme
         startRippleAnimation(theme, context.getAppSimpleColor(color,
                 if (theme == Theme.light) ColorShade.ACCENT else ColorShade.DARK
@@ -59,27 +60,27 @@ class AlarmViewModel(application: Application) : ParentViewModel(application) {
         startControlFadeAnimation()
     }
 
-    fun onDestroy() = longWaitHandler.removeCallbacksAndMessages(null)
+    override fun onDestroy() = longWaitHandler.removeCallbacksAndMessages(null)
 
-    fun onSaveData(bundle: Bundle) = with(bundle) {
+    override fun onSaveData(bundle: Bundle) = with(bundle) {
         putLong(NoteData.Intent.ID, id)
         putInt(NoteData.Intent.COLOR, color)
     }
 
     // TODO убираем уведомление из бд
-    fun onClickNote() {
+    override fun onClickNote() {
         callback.apply {
             startActivity(with(noteModel.noteEntity) { context.getNoteIntent(type, id) })
             finish()
         }
     }
 
-    fun onClickDisable() {
+    override fun onClickDisable() {
         context.showToast(text = "CLICK DISABLE")
         callback.finish()
     }
 
-    fun onClickPostpone() {
+    override fun onClickPostpone() {
         context.showToast(text = "CLICK POSTPONE")
         callback.finish()
     }

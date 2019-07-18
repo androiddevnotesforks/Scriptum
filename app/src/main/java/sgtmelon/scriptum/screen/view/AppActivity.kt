@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.callback.IAppActivity
+import sgtmelon.scriptum.screen.callback.IAppViewModel
 import sgtmelon.scriptum.screen.vm.AppViewModel
 
 /**
@@ -16,7 +17,7 @@ import sgtmelon.scriptum.screen.vm.AppViewModel
  */
 abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
-    private val viewModel: AppViewModel by lazy {
+    private val iViewModel: IAppViewModel by lazy {
         ViewModelProviders.of(this).get(AppViewModel::class.java).apply {
             callback = this@AppActivity
         }
@@ -24,8 +25,7 @@ abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        viewModel.onSetup()
+        iViewModel.onSetup()
     }
 
     override fun onResume() {
@@ -39,7 +39,7 @@ abstract class AppActivity : AppCompatActivity(), IAppActivity {
     }
 
     fun checkThemeChange() {
-        if (!viewModel.isThemeChange()) return
+        if (!iViewModel.isThemeChange()) return
 
         val intent = intent
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

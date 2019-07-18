@@ -5,8 +5,8 @@ import androidx.annotation.IdRes
 import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.IMainActivity
+import sgtmelon.scriptum.screen.callback.main.IMainViewModel
 import sgtmelon.scriptum.screen.view.main.MainActivity
 
 /**
@@ -14,14 +14,14 @@ import sgtmelon.scriptum.screen.view.main.MainActivity
  *
  * @author SerjantArbuz
  */
-class MainViewModel : ViewModel(), MainReceiver.Callback {
+class MainViewModel : ViewModel(), IMainViewModel {
 
     lateinit var callback: IMainActivity
 
     private var firstStart: Boolean = true
     private var pageFrom: MainPage = MainPage.NOTES
 
-    fun onSetupData(bundle: Bundle?) {
+    override fun onSetupData(bundle: Bundle?) {
         if (bundle != null) pageFrom = MainPage.values()[bundle.getInt(PAGE_CURRENT)]
 
         callback.setupNavigation(pageItemId[pageFrom.ordinal])
@@ -29,9 +29,9 @@ class MainViewModel : ViewModel(), MainReceiver.Callback {
         if (bundle != null) callback.changeFabState(state = pageFrom == MainPage.NOTES)
     }
 
-    fun onSaveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
+    override fun onSaveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
 
-    fun onSelectItem(@IdRes itemId: Int): Boolean {
+    override fun onSelectItem(@IdRes itemId: Int): Boolean {
         val pageTo = itemId.getPageById()
 
         if (!firstStart && pageTo == pageFrom) {
@@ -66,7 +66,6 @@ class MainViewModel : ViewModel(), MainReceiver.Callback {
             R.id.item_page_bin -> MainPage.BIN
             else -> throw NoSuchFieldException("Id doesn't match any of page")
         }
-
     }
 
 }

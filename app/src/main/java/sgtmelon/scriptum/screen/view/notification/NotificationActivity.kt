@@ -21,6 +21,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.callback.notification.INotificationActivity
+import sgtmelon.scriptum.screen.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
@@ -33,7 +34,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private var binding: ActivityNotificationBinding? = null
 
-    private val viewModel: NotificationViewModel by lazy {
+    private val iViewModel: INotificationViewModel by lazy {
         ViewModelProviders.of(this).get(NotificationViewModel::class.java).apply {
             callback = this@NotificationActivity
         }
@@ -52,14 +53,14 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         binding = inflateBinding(R.layout.activity_notification)
 
         openState.get(savedInstanceState)
-        viewModel.onSetup()
+        iViewModel.onSetup()
     }
 
     override fun onResume() {
         super.onResume()
 
         openState.clear()
-        viewModel.onUpdateData()
+        iViewModel.onUpdateData()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -79,8 +80,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
         adapter = NotificationAdapter(theme, ItemListener.Click { v, p ->
             when (v.id) {
-                R.id.notification_click_container -> openState.tryInvoke { viewModel.onClickNote(p) }
-                R.id.notification_cancel_button -> viewModel.onClickCancel(p)
+                R.id.notification_click_container -> openState.tryInvoke { iViewModel.onClickNote(p) }
+                R.id.notification_cancel_button -> iViewModel.onClickCancel(p)
             }
         })
 

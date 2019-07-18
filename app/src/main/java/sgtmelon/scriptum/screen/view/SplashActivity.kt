@@ -12,6 +12,7 @@ import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.callback.ISplashActivity
+import sgtmelon.scriptum.screen.callback.ISplashViewModel
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
@@ -21,7 +22,7 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  */
 class SplashActivity : AppCompatActivity(), ISplashActivity {
 
-    private val viewModel by lazy {
+    private val iViewModel: ISplashViewModel by lazy {
         ViewModelProviders.of(this).get(SplashViewModel::class.java).apply {
             callback = this@SplashActivity
         }
@@ -33,8 +34,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        beforeFinish { viewModel.onSetup(intent.extras) }
+        beforeFinish { iViewModel.onSetup(intent.extras) }
     }
 
     override fun finish() {
