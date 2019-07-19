@@ -139,7 +139,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
         fillListByType(RingtoneManager.TYPE_ALARM)
         fillListByType(RingtoneManager.TYPE_RINGTONE)
-    }
+    }.sortedBy { it.title }
 
     companion object {
         fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
