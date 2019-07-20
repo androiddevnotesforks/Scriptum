@@ -4,6 +4,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl
+import sgtmelon.scriptum.screen.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
@@ -12,7 +13,8 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
  *
  * @author SerjantArbuz
  */
-interface IRollNoteViewModel : IRollNoteMenu,
+interface IRollNoteViewModel : IParentViewModel,
+        IRollNoteMenu,
         InputTextWatcher.TextChange,
         RollWriteHolder.RollChange,
         RollTouchControl.Result {
@@ -22,8 +24,6 @@ interface IRollNoteViewModel : IRollNoteMenu,
     fun onSaveData(bundle: Bundle)
 
     fun onPause()
-
-    fun onDestroy()
 
     fun onUpdateData()
 

@@ -37,6 +37,11 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         beforeFinish { iViewModel.onSetup(intent.extras) }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        iViewModel.onDestroy()
+    }
+
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)

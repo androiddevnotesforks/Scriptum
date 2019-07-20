@@ -38,6 +38,11 @@ abstract class AppActivity : AppCompatActivity(), IAppActivity {
         AppIdlingResource.worker.stopHardWork()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        iViewModel.onDestroy()
+    }
+
     fun checkThemeChange() {
         if (!iViewModel.isThemeChange()) return
 

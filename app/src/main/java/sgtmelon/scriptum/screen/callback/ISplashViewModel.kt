@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  *
  * @author SerjantArbuz
  */
-interface ISplashViewModel {
+interface ISplashViewModel : IParentViewModel {
 
     fun onSetup(bundle: Bundle?)
 

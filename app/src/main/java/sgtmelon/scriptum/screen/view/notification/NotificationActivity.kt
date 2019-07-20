@@ -63,6 +63,11 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         iViewModel.onUpdateData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        iViewModel.onDestroy()
+    }
+
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 

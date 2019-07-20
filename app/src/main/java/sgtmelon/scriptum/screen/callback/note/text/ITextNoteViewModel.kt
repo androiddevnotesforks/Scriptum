@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.callback.note.text
 
 import android.os.Bundle
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
+import sgtmelon.scriptum.screen.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
@@ -10,15 +11,13 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
  *
  * @author SerjantArbuz
  */
-interface ITextNoteViewModel : ITextNoteMenu, InputTextWatcher.TextChange {
+interface ITextNoteViewModel : IParentViewModel, ITextNoteMenu, InputTextWatcher.TextChange {
 
     fun onSetupData(bundle: Bundle?)
 
     fun onSaveData(bundle: Bundle)
 
     fun onPause()
-
-    fun onDestroy()
 
     fun onClickBackArrow()
 

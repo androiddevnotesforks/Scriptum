@@ -25,16 +25,15 @@ import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
 /**
- * ViewModel для [TextNoteFragment]
+ * ViewModel for [TextNoteFragment]
  *
  * @author SerjantArbuz
  */
-class TextNoteViewModel(application: Application) : ParentViewModel(application),
+class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
         ITextNoteViewModel,
         SaveControl.Result {
 
-    lateinit var callback: ITextNoteFragment
-    lateinit var parentCallback: INoteChild
+    var parentCallback: INoteChild? = null
 
     private val inputControl = InputControl()
     private val saveControl = SaveControl(context, result = this)
@@ -70,7 +69,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.apply {
+        callback?.apply {
             setupBinding(iPreferenceRepo.theme, isRankEmpty)
             setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
@@ -88,7 +87,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuRestore() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
-        parentCallback.finish()
+        parentCallback?.finish()
     }
 
     override fun onMenuRestoreOpen() {
@@ -106,7 +105,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuClear() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
-        parentCallback.finish()
+        parentCallback?.finish()
     }
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
@@ -127,20 +126,23 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
                     noteEntity.color = colorTo
 
-                    callback.tintToolbar(colorFrom, colorTo)
+                    callback?.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor[isUndo])
-                InputAction.text -> callback.changeText(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.name -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.text -> callback?.changeText(item[isUndo], cursor = item.cursor[isUndo])
             }
         }
 
-        callback.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteModel)
     }
 
-    override fun onMenuRank() =
-            callback.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteEntity))
+    override fun onMenuRank() {
+        callback?.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteEntity))
+    }
 
-    override fun onMenuColor() = callback.showColorDialog(noteModel.noteEntity.color)
+    override fun onMenuColor() {
+        callback?.showColorDialog(noteModel.noteEntity.color)
+    }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteModel.isSaveEnabled()) return false
@@ -148,7 +150,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel.noteEntity.change = context.getTime()
 
         if (changeMode) {
-            callback.hideKeyboard()
+            callback?.hideKeyboard()
             onMenuEdit(editMode = false)
             inputControl.reset()
         }
@@ -159,27 +161,31 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteState.ifCreate {
             id = noteModel.noteEntity.id
-            parentCallback.onUpdateNoteId(id)
+            parentCallback?.onUpdateNoteId(id)
 
-            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
+            if (!changeMode) callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
 
         return true
     }
 
-    override fun onMenuNotification() = callback.showDateDialog()
+    override fun onMenuNotification() {
+        callback?.showDateDialog()
+    }
 
     override fun onMenuBind() = with(noteModel) {
         noteEntity.isStatus = !noteEntity.isStatus
 
         if (noteEntity.isVisible(rankIdVisibleList)) BindControl(context, noteEntity).updateBind()
 
-        callback.bindEdit(noteState.isEdit, this)
+        callback?.bindEdit(noteState.isEdit, this)
 
         iRoomRepo.updateNote(noteEntity)
     }
 
-    override fun onMenuConvert() = callback.showConvertDialog()
+    override fun onMenuConvert() {
+        callback?.showConvertDialog()
+    }
 
     override fun onMenuDelete() {
         noteModel.noteEntity.let {
@@ -187,13 +193,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             BindControl(context, it).cancelBind()
         }
 
-        parentCallback.finish()
+        parentCallback?.finish()
     }
 
     override fun onMenuEdit(editMode: Boolean) = inputControl.makeNotEnabled {
         noteState.isEdit = editMode
 
-        callback.apply {
+        callback?.apply {
             changeToolbarIcon(
                     drawableOn = editMode && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
@@ -208,7 +214,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         saveControl.setSaveHandlerEvent(editMode)
     }
 
-    override fun onResultInputTextChange() = callback.bindInput(inputControl.access, noteModel)
+    override fun onResultInputTextChange() {
+        callback?.bindInput(inputControl.access, noteModel)
+    }
     
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
@@ -216,11 +224,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
-            callback.hideKeyboard()
+            callback?.hideKeyboard()
             onRestoreData()
         } else {
             saveControl.needSave = false
-            parentCallback.finish()
+            parentCallback?.finish()
         }
     }
 
@@ -243,7 +251,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         noteModel = iRoomRepo.getNoteModel(id)
 
         onMenuEdit(editMode = false)
-        callback.tintToolbar(colorFrom, noteModel.noteEntity.color)
+        callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
 
         inputControl.reset()
 
@@ -255,7 +263,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
         inputControl.onColorChange(noteEntity.color, check)
         noteEntity.color = check
 
-        callback.apply {
+        callback?.apply {
             bindInput(inputControl.access, noteModel)
             tintToolbar(check)
         }
@@ -281,19 +289,20 @@ class TextNoteViewModel(application: Application) : ParentViewModel(application)
             this.rankPs = rankPs
         }
 
-        callback.bindInput(inputControl.access, noteModel)
-        callback.bindNote(noteModel)
+        callback?.apply {
+            bindInput(inputControl.access, noteModel)
+            bindNote(noteModel)
+        }
     }
 
     override fun onResultConvertDialog() {
         noteModel = iRoomRepo.convertToRoll(noteModel)
 
-        parentCallback.onConvertNote()
+        parentCallback?.onConvertNote()
     }
 
-    override fun onCancelNoteBind() = noteModel.let {
-        it.noteEntity.isStatus = false
-        callback.bindNote(it)
+    override fun onCancelNoteBind() {
+        callback?.bindNote(noteModel.apply { noteEntity.isStatus = false })
     }
 
 }

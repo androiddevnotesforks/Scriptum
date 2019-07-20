@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
-import android.content.Intent
 import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
@@ -15,13 +14,12 @@ import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity.Companion.getAlarmIntent
 
 /**
- * ViewModel для [SplashActivity]
+ * ViewModel for [SplashActivity]
  *
  * @author SerjantArbuz
  */
-class SplashViewModel(application: Application) : ParentViewModel(application), ISplashViewModel {
-
-    lateinit var callback: ISplashActivity
+class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
+        ISplashViewModel {
 
     override fun onSetup(bundle: Bundle?) {
         if (bundle == null) {
@@ -34,10 +32,10 @@ class SplashViewModel(application: Application) : ParentViewModel(application), 
                             bundle.getLong(NoteData.Intent.ID)
                     )
 
-                    callback.startActivities(arrayOf(MainActivity.getInstance(context), intent))
+                    callback?.startActivities(arrayOf(MainActivity.getInstance(context), intent))
                 }
                 OpenFrom.ALARM -> {
-                    callback.startActivity(context.getAlarmIntent(
+                    callback?.startActivity(context.getAlarmIntent(
                             bundle.getLong(NoteData.Intent.ID),
                             bundle.getInt(NoteData.Intent.COLOR)
                     ))
@@ -47,12 +45,15 @@ class SplashViewModel(application: Application) : ParentViewModel(application), 
         }
     }
 
-    private fun onSimpleStart() = callback.startActivity(
-            Intent(context, if (iPreferenceRepo.firstStart) {
-                IntroActivity::class.java
+    private fun onSimpleStart(firstStart: Boolean = iPreferenceRepo.firstStart) =
+            callback?.startActivity(if (firstStart) {
+                IntroActivity.getInstance(context)
             } else {
-                MainActivity::class.java
+                MainActivity.getInstance(context)
             })
-    )
+
+//    callback?.startActivity(Intent(context,
+//                    if (firstStart) IntroActivity::class.java else MainActivity::class.java
+//            ))
 
 }

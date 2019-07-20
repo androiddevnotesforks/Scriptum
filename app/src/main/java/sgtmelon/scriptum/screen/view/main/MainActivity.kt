@@ -19,7 +19,6 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
-import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
@@ -27,7 +26,6 @@ import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.callback.main.IMainViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
-import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
 /**
@@ -68,6 +66,8 @@ class MainActivity : AppActivity(), IMainActivity {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        iViewModel.onDestroy()
         unregisterReceiver(mainReceiver)
     }
 
@@ -101,8 +101,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
         addDialog.itemSelectedListener = NavigationView.OnNavigationItemSelectedListener {
             addDialog.dismiss()
-
-            startActivity(getNoteIntent(NoteData.getTypeById(it.itemId)))
+            iViewModel.onResultAddDialog(it)
             return@OnNavigationItemSelectedListener true
         }
         addDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }

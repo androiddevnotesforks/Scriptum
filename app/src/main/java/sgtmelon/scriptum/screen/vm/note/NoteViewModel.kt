@@ -8,9 +8,8 @@ import sgtmelon.scriptum.screen.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.callback.note.INoteViewModel
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
-class NoteViewModel(application: Application) : ParentViewModel(application), INoteViewModel {
-
-    lateinit var callback: INoteActivity
+class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),
+        INoteViewModel {
 
     private var id: Long = NoteData.Default.ID
     private var type: NoteType? = null
@@ -27,15 +26,17 @@ class NoteViewModel(application: Application) : ParentViewModel(application), IN
         putInt(NoteData.Intent.TYPE, type?.ordinal ?: NoteData.Default.TYPE)
     }
 
-    override fun onSetupFragment(isSave: Boolean) = when (type) {
-        NoteType.TEXT -> callback.showTextFragment(id, isSave)
-        NoteType.ROLL -> callback.showRollFragment(id, isSave)
-        else -> callback.finish()
+    override fun onSetupFragment(isSave: Boolean) {
+        when (type) {
+            NoteType.TEXT -> callback?.showTextFragment(id, isSave)
+            NoteType.ROLL -> callback?.showRollFragment(id, isSave)
+            else -> callback?.finish()
+        }
     }
 
     override fun onPressBack() = when (type) {
-        NoteType.TEXT -> callback.onPressBackText()
-        NoteType.ROLL -> callback.onPressBackRoll()
+        NoteType.TEXT -> callback?.onPressBackText() ?: false
+        NoteType.ROLL -> callback?.onPressBackRoll() ?: false
         else -> false
     }
 
@@ -43,22 +44,24 @@ class NoteViewModel(application: Application) : ParentViewModel(application), IN
         this.id = id
     }
 
-    override fun onConvertNote() = when (type) {
-        NoteType.TEXT -> {
-            type = NoteType.ROLL
-            callback.showRollFragment(id, checkCache = true)
+    override fun onConvertNote() {
+        when (type) {
+            NoteType.TEXT -> {
+                type = NoteType.ROLL
+                callback?.showRollFragment(id, checkCache = true)
+            }
+            NoteType.ROLL -> {
+                type = NoteType.TEXT
+                callback?.showTextFragment(id, checkCache = true)
+            }
+            else -> callback?.finish()
         }
-        NoteType.ROLL -> {
-            type = NoteType.TEXT
-            callback.showTextFragment(id, checkCache = true)
-        }
-        else -> callback.finish()
     }
 
     override fun onReceiveUnbindNote(id: Long) {
         if (this.id != id) return
 
-        type?.let { callback.onCancelNoteBind(it) }
+        type?.let { callback?.onCancelNoteBind(it) }
     }
 
 }

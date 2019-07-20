@@ -5,10 +5,10 @@ import sgtmelon.scriptum.model.key.NoteType
 
 object NoteData {
 
-    fun getTypeById(id: Int): NoteType = when (id) {
+    fun getTypeById(id: Int): NoteType? = when (id) {
         R.id.item_add_text -> NoteType.TEXT
         R.id.item_add_roll -> NoteType.ROLL
-        else -> throw NoSuchFieldException("Id doesn't match any of noteType")
+        else -> null
     }
 
     object Intent {

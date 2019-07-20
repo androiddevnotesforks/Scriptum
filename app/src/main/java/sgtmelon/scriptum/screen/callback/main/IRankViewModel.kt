@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.callback.main
 
 import sgtmelon.scriptum.control.touch.RankTouchControl
+import sgtmelon.scriptum.screen.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
@@ -9,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  *
  * @author SerjantArbuz
  */
-interface IRankViewModel : RankTouchControl.Result {
+interface IRankViewModel : IParentViewModel, RankTouchControl.Result {
 
     fun onUpdateData()
 

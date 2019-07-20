@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.callback.notification
 
 import android.os.Bundle
+import sgtmelon.scriptum.screen.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
@@ -9,15 +10,13 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
  *
  * @author SerjantArbuz
  */
-interface IAlarmViewModel {
+interface IAlarmViewModel: IParentViewModel {
 
     fun onSetup()
 
     fun onSetupData(bundle: Bundle?)
 
     fun onStart()
-
-    fun onDestroy()
 
     fun onSaveData(bundle: Bundle)
 

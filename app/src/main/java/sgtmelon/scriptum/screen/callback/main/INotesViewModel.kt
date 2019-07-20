@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.callback.main
 
+import sgtmelon.scriptum.screen.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.main.NotesFragment
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
@@ -8,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  *
  * @author SerjantArbuz
  */
-interface INotesViewModel {
+interface INotesViewModel : IParentViewModel {
 
     fun onSetup()
 

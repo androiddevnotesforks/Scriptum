@@ -78,6 +78,11 @@ class NotesFragment : Fragment(), INotesFragment {
         iViewModel.onUpdateData()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        iViewModel.onDestroy()
+    }
+
     fun onCancelNoteBind(id: Long) = iViewModel.onCancelNoteBind(id)
 
     override fun setupToolbar() {

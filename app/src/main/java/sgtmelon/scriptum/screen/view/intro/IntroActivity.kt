@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.screen.view.intro
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -76,5 +78,9 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     override fun onPageSelected(position: Int) {}
 
     override fun onPageScrollStateChanged(state: Int) {}
+
+    companion object {
+        fun getInstance(context: Context): Intent = Intent(context, IntroActivity::class.java)
+    }
 
 }

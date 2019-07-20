@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.callback.main
 
+import sgtmelon.scriptum.screen.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
@@ -8,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
  *
  * @author SerjantArbuz
  */
-interface IBinViewModel {
+interface IBinViewModel : IParentViewModel {
 
     fun onSetup()
 

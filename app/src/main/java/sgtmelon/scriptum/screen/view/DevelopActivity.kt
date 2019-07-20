@@ -34,6 +34,11 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
         introButton?.setOnClickListener { iViewModel.onIntroClick() }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        iViewModel.onDestroy()
+    }
+
     override fun fillAboutNoteTable(data: String) {
         findViewById<TextView?>(R.id.develop_note_text)?.text = data
     }

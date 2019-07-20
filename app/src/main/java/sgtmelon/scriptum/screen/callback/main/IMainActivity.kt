@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.callback.main
 
+import android.content.Intent
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.view.main.MainActivity
@@ -21,5 +22,7 @@ interface IMainActivity {
     fun showPage(pageFrom: MainPage, pageTo: MainPage)
 
     fun onCancelNoteBind(id: Long)
+
+    fun startActivity(intent: Intent)
 
 }

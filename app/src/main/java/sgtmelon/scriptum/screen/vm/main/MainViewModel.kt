@@ -1,32 +1,35 @@
 package sgtmelon.scriptum.screen.vm.main
 
+import android.app.Application
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.annotation.IdRes
-import androidx.lifecycle.ViewModel
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.callback.main.IMainViewModel
 import sgtmelon.scriptum.screen.view.main.MainActivity
+import sgtmelon.scriptum.screen.view.note.NoteActivity
+import sgtmelon.scriptum.screen.vm.ParentViewModel
 
 /**
- * ViewModel для [MainActivity]
+ * ViewModel for [MainActivity]
  *
  * @author SerjantArbuz
  */
-class MainViewModel : ViewModel(), IMainViewModel {
-
-    lateinit var callback: IMainActivity
+class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(application),
+        IMainViewModel {
 
     private var firstStart: Boolean = true
     private var pageFrom: MainPage = MainPage.NOTES
 
     override fun onSetupData(bundle: Bundle?) {
-        if (bundle != null) pageFrom = MainPage.values()[bundle.getInt(PAGE_CURRENT)]
+        bundle?.let { pageFrom = MainPage.values()[it.getInt(PAGE_CURRENT)] }
 
-        callback.setupNavigation(pageItemId[pageFrom.ordinal])
+        callback?.setupNavigation(pageItemId[pageFrom.ordinal])
 
-        if (bundle != null) callback.changeFabState(state = pageFrom == MainPage.NOTES)
+        bundle?.let { callback?.changeFabState(state = pageFrom == MainPage.NOTES) }
     }
 
     override fun onSaveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
@@ -35,11 +38,11 @@ class MainViewModel : ViewModel(), IMainViewModel {
         val pageTo = itemId.getPageById()
 
         if (!firstStart && pageTo == pageFrom) {
-            callback.scrollTop(pageTo)
+            callback?.scrollTop(pageTo)
         } else {
             if (firstStart) firstStart = false
 
-            callback.apply {
+            callback?.apply {
                 changeFabState(state = pageTo == MainPage.NOTES)
                 showPage(pageFrom, pageTo)
             }
@@ -50,8 +53,13 @@ class MainViewModel : ViewModel(), IMainViewModel {
         return true
     }
 
+    override fun onResultAddDialog(menuItem: MenuItem) {
+        val noteType = NoteData.getTypeById(menuItem.itemId) ?: return
+        callback?.startActivity(NoteActivity.getInstance(context, noteType))
+    }
+
     override fun onReceiveUnbindNote(id: Long) {
-        if (pageFrom == MainPage.NOTES) callback.onCancelNoteBind(id)
+        if (pageFrom == MainPage.NOTES) callback?.onCancelNoteBind(id)
     }
 
     companion object {

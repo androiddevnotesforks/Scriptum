@@ -8,13 +8,12 @@ import sgtmelon.scriptum.screen.callback.IAppViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 
 /**
- * ViewModel для [AppActivity]
+ * ViewModel for [AppActivity]
  *
  * @author SerjantArbuz
  */
-class AppViewModel(application: Application) : ParentViewModel(application), IAppViewModel {
-
-    lateinit var callback: IAppActivity
+class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(application),
+        IAppViewModel {
 
     @Theme private var currentTheme: Int = 0
 
@@ -22,8 +21,8 @@ class AppViewModel(application: Application) : ParentViewModel(application), IAp
         currentTheme = iPreferenceRepo.theme
 
         when (currentTheme) {
-            Theme.light -> callback.setTheme(R.style.App_Light_UI)
-            Theme.dark -> callback.setTheme(R.style.App_Dark_UI)
+            Theme.light -> callback?.setTheme(R.style.App_Light_UI)
+            Theme.dark -> callback?.setTheme(R.style.App_Dark_UI)
         }
     }
 

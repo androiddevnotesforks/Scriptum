@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  *
  * @author SerjantArbuz
  */
-interface IDevelopViewModel {
+interface IDevelopViewModel : IParentViewModel {
 
     fun onSetup(): Any
 

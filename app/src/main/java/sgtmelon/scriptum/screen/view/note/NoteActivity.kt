@@ -47,6 +47,8 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     override fun onDestroy() {
         super.onDestroy()
+
+        iViewModel.onDestroy()
         unregisterReceiver(noteReceiver)
     }
 
@@ -95,6 +97,11 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
     override fun onConvertNote() = iViewModel.onConvertNote()
 
     companion object {
+        fun getInstance(context: Context, type: NoteType, id: Long? = NoteData.Default.ID): Intent =
+                Intent(context, NoteActivity::class.java)
+                        .putExtra(NoteData.Intent.ID, id)
+                        .putExtra(NoteData.Intent.TYPE, type.ordinal)
+
         fun Context.getNoteIntent(type: NoteType, id: Long? = NoteData.Default.ID): Intent =
                 Intent(this, NoteActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)

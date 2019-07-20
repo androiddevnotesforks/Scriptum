@@ -11,11 +11,17 @@ import sgtmelon.scriptum.repository.room.RoomRepo
  *
  * @author SerjantArbuz
  */
-abstract class ParentViewModel(application: Application) : AndroidViewModel(application) {
+abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(application) {
 
     protected val context: Context = application.applicationContext
 
     protected val iPreferenceRepo = PreferenceRepo(context)
     protected val iRoomRepo = RoomRepo.getInstance(context)
+
+    var callback: T? = null
+
+    open fun onDestroy() {
+        callback = null
+    }
 
 }

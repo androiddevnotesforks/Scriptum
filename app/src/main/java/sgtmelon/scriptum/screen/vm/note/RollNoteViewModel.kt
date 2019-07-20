@@ -32,16 +32,15 @@ import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
 /**
- * ViewModel для [RollNoteFragment]
+ * ViewModel for [RollNoteFragment]
  *
  * @author SerjantArbuz
  */
-class RollNoteViewModel(application: Application) : ParentViewModel(application),
+class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFragment>(application),
         IRollNoteViewModel,
         SaveControl.Result {
 
-    lateinit var callback: IRollNoteFragment
-    lateinit var parentCallback: INoteChild
+    var parentCallback: INoteChild? = null
 
     private val inputControl = InputControl()
     private val saveControl = SaveControl(context, result = this)
@@ -78,7 +77,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             }
         }
 
-        callback.apply {
+        callback?.apply {
             setupBinding(iPreferenceRepo.theme, isRankEmpty)
             setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
             setupDialog(iRoomRepo.getRankNameList())
@@ -97,7 +96,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuRestore() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
-        parentCallback.finish()
+        parentCallback?.finish()
     }
 
     override fun onMenuRestoreOpen() {
@@ -115,7 +114,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onMenuClear() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
-        parentCallback.finish()
+        parentCallback?.finish()
     }
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
@@ -137,12 +136,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
                     noteEntity.color = colorTo
 
-                    callback.tintToolbar(colorFrom, colorTo)
+                    callback?.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback.changeName(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.name -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
                 InputAction.roll -> {
                     rollList[item.p].text = item[isUndo]
-                    callback.notifyItemChanged(item.p, rollList, cursor = item.cursor[isUndo])
+                    callback?.notifyItemChanged(item.p, rollList, cursor = item.cursor[isUndo])
                 }
                 InputAction.rollAdd, InputAction.rollRemove -> {
                     val isAddUndo = isUndo && item.tag == InputAction.rollAdd
@@ -150,12 +149,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
                     if (isAddUndo || isRemoveRedo) {
                         rollList.removeAt(item.p)
-                        callback.notifyItemRemoved(item.p, rollList)
+                        callback?.notifyItemRemoved(item.p, rollList)
                     } else {
                         val rollEntity = RollEntity[item[isUndo]]
 
                         rollList.add(item.p, rollEntity)
-                        callback.notifyItemInserted(item.p, rollEntity.text.length, rollList)
+                        callback?.notifyItemInserted(item.p, rollEntity.text.length, rollList)
                     }
                 }
                 InputAction.rollMove -> {
@@ -163,18 +162,21 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
                     val to = item[isUndo].toInt()
 
                     rollList.swap(from, to)
-                    callback.notifyItemMoved(from, to, rollList)
+                    callback?.notifyItemMoved(from, to, rollList)
                 }
             }
         }
 
-        callback.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteModel)
     }
 
-    override fun onMenuRank() =
-            callback.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteEntity))
+    override fun onMenuRank() {
+        callback?.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteEntity))
+    }
 
-    override fun onMenuColor() = callback.showColorDialog(noteModel.noteEntity.color)
+    override fun onMenuColor() {
+        callback?.showColorDialog(noteModel.noteEntity.color)
+    }
 
     override fun onMenuSave(changeMode: Boolean): Boolean {
         val rollList = noteModel.rollList
@@ -190,7 +192,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
          * Переход в режим просмотра
          */
         if (changeMode) {
-            callback.hideKeyboard()
+            callback?.hideKeyboard()
             onMenuEdit(false)
             inputControl.reset()
         }
@@ -201,12 +203,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteState.ifCreate {
             id = noteModel.noteEntity.id
-            parentCallback.onUpdateNoteId(id)
+            parentCallback?.onUpdateNoteId(id)
 
-            if (!changeMode) callback.changeToolbarIcon(drawableOn = true, needAnim = true)
+            if (!changeMode) callback?.changeToolbarIcon(drawableOn = true, needAnim = true)
         }
 
-        callback.notifyList(rollList)
+        callback?.notifyList(rollList)
 
         return true
     }
@@ -219,24 +221,26 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         if (noteEntity.isVisible(rankIdVisibleList)) BindControl(context, noteModel).updateBind()
 
-        callback.bindEdit(noteState.isEdit, noteModel)
+        callback?.bindEdit(noteState.isEdit, noteModel)
 
         iRoomRepo.updateNote(noteEntity)
     }
 
-    override fun onMenuConvert() = callback.showConvertDialog()
+    override fun onMenuConvert() {
+        callback?.showConvertDialog()
+    }
 
     override fun onMenuDelete() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.deleteNote(it) } }
         BindControl(context, noteModel).cancelBind()
 
-        parentCallback.finish()
+        parentCallback?.finish()
     }
 
     override fun onMenuEdit(editMode: Boolean) = inputControl.makeNotEnabled {
         noteState.isEdit = editMode
 
-        callback.apply {
+        callback?.apply {
             changeToolbarIcon(
                     drawableOn = editMode && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
@@ -252,12 +256,15 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         saveControl.setSaveHandlerEvent(editMode)
     }
 
-    override fun onResultInputTextChange() =
-            callback.bindInput(inputControl.access, noteModel)
+    override fun onResultInputTextChange() {
+        callback?.bindInput(inputControl.access, noteModel)
+    }
 
     override fun onResultInputRollChange(p: Int, text: String) {
-        callback.notifyListItem(p, noteModel.rollList[p].apply { this.text = text })
-        callback.bindInput(inputControl.access, noteModel)
+        callback?.apply {
+            notifyListItem(p, noteModel.rollList[p].apply { this.text = text })
+            bindInput(inputControl.access, noteModel)
+        }
     }
 
     override fun onResultTouchFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
@@ -267,7 +274,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         inputControl.onRollMove(dragFrom, dragTo)
-        callback.bindInput(inputControl.access, noteModel)
+        callback?.bindInput(inputControl.access, noteModel)
     }
 
     override fun onResultTouchSwipe(p: Int) {
@@ -276,23 +283,29 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         inputControl.onRollRemove(p, rollEntity.toString())
 
-        callback.bindInput(inputControl.access, noteModel)
-        callback.notifyItemRemoved(p, noteModel.rollList)
+        callback?.apply {
+            bindInput(inputControl.access, noteModel)
+            notifyItemRemoved(p, noteModel.rollList)
+        }
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
-        callback.notifyItemMoved(from, to, noteModel.rollList.apply { swap(from, to) })
+        callback?.notifyItemMoved(from, to, noteModel.rollList.apply { swap(from, to) })
         return true
     }
 
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    override fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
+    override fun onDestroy() {
+        super.onDestroy()
+        parentCallback = null
+        saveControl.setSaveHandlerEvent(isStart = false)
+    }
 
     override fun onUpdateData() {
         checkState.setAll(noteModel.rollList)
 
-        callback.apply {
+        callback?.apply {
             notifyDataSetChanged(noteModel.rollList)
             changeCheckToggle(state = false)
         }
@@ -300,11 +313,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
     override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
-            callback.hideKeyboard()
+            callback?.hideKeyboard()
             onRestoreData()
         } else {
             saveControl.needSave = false
-            parentCallback.finish()
+            parentCallback?.finish()
         }
     }
 
@@ -326,9 +339,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         val colorFrom = noteModel.noteEntity.color
         noteModel = iRoomRepo.getNoteModel(id)
 
-        callback.notifyDataSetChanged(noteModel.rollList)
+        callback?.notifyDataSetChanged(noteModel.rollList)
         onMenuEdit(editMode = false)
-        callback.tintToolbar(colorFrom, noteModel.noteEntity.color)
+        callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
 
         inputControl.reset()
 
@@ -336,7 +349,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onEditorClick(i: Int): Boolean {
-        val enterText = callback.getEnterText()
+        val enterText = callback?.getEnterText() ?: ""
 
         if (enterText.isEmpty() || i != EditorInfo.IME_ACTION_DONE) return false
 
@@ -346,8 +359,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
     }
 
     override fun onClickAdd(simpleClick: Boolean) {
-        val enterText = callback.getEnterText()
-        callback.clearEnterText()
+        val enterText = callback?.getEnterText() ?: ""
+        callback?.clearEnterText()
 
         if (enterText.isEmpty()) return
 
@@ -361,15 +374,17 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
 
         noteModel.rollList.add(p, rollEntity)
 
-        callback.bindInput(inputControl.access, noteModel)
-        callback.scrollToItem(simpleClick, p, noteModel.rollList)
+        callback?.apply {
+            bindInput(inputControl.access, noteModel)
+            scrollToItem(simpleClick, p, noteModel.rollList)
+        }
     }
 
     override fun onClickItemCheck(p: Int) {
         val rollList = noteModel.rollList
         val rollEntity = rollList[p].apply { isCheck = !isCheck }
 
-        callback.notifyListItem(p, rollEntity)
+        callback?.notifyListItem(p, rollEntity)
 
         val check = rollList.getCheck()
 
@@ -378,7 +393,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             setCompleteText(check, rollList.size)
         }
 
-        if (checkState.setAll(check, rollList.size)) callback.bindNote(noteModel)
+        if (checkState.setAll(check, rollList.size)) callback?.bindNote(noteModel)
 
         iRoomRepo.updateRollCheck(noteEntity, rollEntity)
 
@@ -399,7 +414,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         iRoomRepo.updateRollCheck(noteEntity, !isAll)
         BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
-        callback.apply {
+        callback?.apply {
             bindNote(noteModel)
             changeCheckToggle(state = true)
         }
@@ -412,7 +427,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
         inputControl.onColorChange(noteEntity.color, check)
         noteEntity.color = check
 
-        callback.apply {
+        callback?.apply {
             bindInput(inputControl.access, noteModel)
             tintToolbar(check)
         }
@@ -438,19 +453,20 @@ class RollNoteViewModel(application: Application) : ParentViewModel(application)
             this.rankPs = rankPs
         }
 
-        callback.bindInput(inputControl.access, noteModel)
-        callback.bindNote(noteModel)
+        callback?.apply {
+            bindInput(inputControl.access, noteModel)
+            bindNote(noteModel)
+        }
     }
 
     override fun onResultConvertDialog() {
         iRoomRepo.convertToText(noteModel)
 
-        parentCallback.onConvertNote()
+        parentCallback?.onConvertNote()
     }
 
-    override fun onCancelNoteBind() = noteModel.let {
-        it.noteEntity.isStatus = false
-        callback.bindNote(it)
+    override fun onCancelNoteBind() {
+        callback?.bindNote(noteModel.apply { noteEntity.isStatus = false })
     }
 
 }
