@@ -12,7 +12,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Интеграционный тест для [BindRepo]
+ * Integration test for [BindRepo]
  *
  * @author SerjantArbuz
  */

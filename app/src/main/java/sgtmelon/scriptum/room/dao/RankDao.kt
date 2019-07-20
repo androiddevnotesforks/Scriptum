@@ -26,16 +26,16 @@ interface RankDao {
     @get:Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
     val simple: MutableList<RankEntity>
 
-    @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
-    operator fun get(idList: List<Long>): List<RankEntity>
-
     @get:Query(value = "SELECT RK_NAME FROM RANK_TABLE ORDER BY RK_POSITION")
-    val name: List<String>
+    val nameList: List<String>
 
     @get:Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
-    val id: List<Long>
+    val idList: List<Long>
 
     @Insert fun insert(rankEntity: RankEntity): Long
+
+    @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
+    operator fun get(idList: List<Long>): List<RankEntity>
 
     /**
      * @param name - Уникальное имя категории

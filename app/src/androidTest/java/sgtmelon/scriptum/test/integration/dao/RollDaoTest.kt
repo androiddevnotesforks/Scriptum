@@ -6,7 +6,7 @@ import sgtmelon.scriptum.room.dao.RollDao
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Интеграционный тест для [RollDao]
+ * Integration test for [RollDao]
  *
  * @author SerjantArbuz
  */

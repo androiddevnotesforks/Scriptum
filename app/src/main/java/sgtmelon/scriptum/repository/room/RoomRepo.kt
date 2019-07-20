@@ -125,7 +125,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override fun getRankNameList() = ArrayList<String>().apply {
-        inTheRoom { addAll(getRankDao().name) }
+        inTheRoom { addAll(getRankDao().nameList) }
     }
 
     override fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray {
@@ -204,7 +204,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }.toString()
 
     override fun getRankIdList() = ArrayList<Long>().apply {
-        inTheRoom { addAll(getRankDao().id) }
+        inTheRoom { addAll(getRankDao().idList) }
     }
 
     override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {

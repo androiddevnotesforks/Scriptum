@@ -13,7 +13,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Интеграционный тест для [AlarmRepo]
+ * Integration test for [AlarmRepo]
  *
  * @author SerjantArbuz
  */

@@ -14,7 +14,7 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 
 /**
- * Интеграционный тест для [AlarmDao]
+ * Integration test for [AlarmDao]
  *
  * @author SerjantArbuz
  */

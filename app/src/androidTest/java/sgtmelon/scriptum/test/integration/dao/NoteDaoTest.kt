@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 
 /**
- * Интеграционный тест для [NoteDao]
+ * Integration test for [NoteDao]
  *
  * @author SerjantArbuz
  */
