@@ -1,7 +1,5 @@
 package sgtmelon.safedialog
 
-import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.widget.Button
 import androidx.annotation.CallSuper
@@ -10,16 +8,14 @@ import androidx.fragment.app.DialogFragment
 import android.app.AlertDialog as AlertDialogOld
 
 /**
- * Базовый класс диалогов для наследования
+ * Base class for safe dialogs
  *
  * @author SerjantArbuz
  */
 abstract class DialogBlank : DialogFragment() {
 
-    protected lateinit var activity: Activity
-
-    lateinit var title: String
-    lateinit var message: String
+    var title: String = ""
+    var message: String = ""
 
     protected var buttonPositive: Button? = null
 
@@ -31,11 +27,6 @@ abstract class DialogBlank : DialogFragment() {
     }
 
     var dismissListener: DialogInterface.OnDismissListener? = null
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        activity = context as Activity
-    }
 
     override fun onStart() {
         super.onStart()
@@ -56,9 +47,11 @@ abstract class DialogBlank : DialogFragment() {
     }
 
     companion object {
-        const val POSITION = "POSITION"
-        const val INIT = "INIT"
-        const val VALUE = "VALUE"
+        private const val PREFIX = "SAFE_DIALOG"
+
+        const val POSITION = "${PREFIX}_POSITION"
+        const val INIT = "${PREFIX}_INIT"
+        const val VALUE = "${PREFIX}_VALUE"
     }
 
 }

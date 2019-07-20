@@ -1,14 +1,20 @@
 package sgtmelon.safedialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 
+/**
+ * Dialog for single choice
+ *
+ * @author SerjantArbuz
+ */
 class SingleDialog : DialogBlank() {
 
-    lateinit var rows: Array<String>
+    var itemArray: Array<String> = arrayOf()
 
-    private var init = 0
+    private var checkInit = 0
     var check = 0
         private set
 
@@ -22,12 +28,12 @@ class SingleDialog : DialogBlank() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        init = savedInstanceState?.getInt(INIT) ?: bundle?.getInt(INIT) ?: 0
+        checkInit = savedInstanceState?.getInt(INIT) ?: bundle?.getInt(INIT) ?: 0
         check = savedInstanceState?.getInt(VALUE) ?: bundle?.getInt(VALUE) ?: 0
 
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(context as Context)
                 .setTitle(title)
-                .setSingleChoiceItems(rows, check) { _, i ->
+                .setSingleChoiceItems(itemArray, check) { _, i ->
                     check = i
                     setEnable()
                 }
@@ -39,13 +45,13 @@ class SingleDialog : DialogBlank() {
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
-                putInt(INIT, init)
+                putInt(INIT, checkInit)
                 putInt(VALUE, check)
             })
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive?.isEnabled = init != check
+        buttonPositive?.isEnabled = checkInit != check
     }
 
 }

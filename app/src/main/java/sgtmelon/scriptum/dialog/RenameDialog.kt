@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -47,14 +48,14 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
 
         nameEnter = view.findViewById(R.id.rename_enter)
         nameEnter?.apply {
-            setTextColor(activity.getColorAttr(R.attr.clContent))
-            setHintTextColor(activity.getColorAttr(R.attr.clDisable))
+            setTextColor(context.getColorAttr(R.attr.clContent))
+            setHintTextColor(context.getColorAttr(R.attr.clDisable))
 
             setOnEditorActionListener(this@RenameDialog)
             addTextChangedListener(on = { setEnable() })
         }
 
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(context as Context)
                 .setTitle(title)
                 .setView(view)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)

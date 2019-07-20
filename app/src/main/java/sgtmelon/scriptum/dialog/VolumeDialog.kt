@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.WindowManager
@@ -40,7 +41,7 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
         progressText = view.findViewById(R.id.volume_progress_text)
         progressText?.text = getString(R.string.dialog_text_volume, progress)
 
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(context as Context)
                 .setTitle(title)
                 .setView(view)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)

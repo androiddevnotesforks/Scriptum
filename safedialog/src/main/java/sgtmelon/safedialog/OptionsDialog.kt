@@ -9,12 +9,20 @@ import androidx.fragment.app.DialogFragment
 import sgtmelon.safedialog.DialogBlank.Companion.INIT
 import sgtmelon.safedialog.DialogBlank.Companion.VALUE
 
+/**
+ * Dialog showing options with list item
+ *
+ * @author SerjantArbuz
+ */
 class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 
-    lateinit var onClickListener: DialogInterface.OnClickListener
+    var onClickListener: DialogInterface.OnClickListener? = null
 
-    private lateinit var items: List<String>
+    private var itemList: List<String> = ArrayList()
 
+    /**
+     * Save item position in list for next operations
+     */
     var position: Int = 0
         private set
 
@@ -28,26 +36,26 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        items = savedInstanceState?.getStringArray(INIT)?.toList()
-                ?: bundle?.getStringArray(INIT)?.toList()
-                        ?: ArrayList()
+        itemList = savedInstanceState?.getStringArray(INIT)?.toList()
+                ?: bundle?.getStringArray(INIT)?.toList() ?: ArrayList()
 
-        position = savedInstanceState?.getInt(VALUE) ?: bundle?.getInt(VALUE) ?: 0
+        position = savedInstanceState?.getInt(VALUE)
+                ?: bundle?.getInt(VALUE) ?: 0
 
         return AlertDialog.Builder(context as Activity)
-                .setItems(items.toTypedArray(), this)
+                .setItems(itemList.toTypedArray(), this)
                 .setCancelable(true)
                 .create()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply {
-                putStringArray(INIT, items.toTypedArray())
+                putStringArray(INIT, itemList.toTypedArray())
                 putInt(VALUE, position)
             })
 
     override fun onClick(dialogInterface: DialogInterface, i: Int) {
-        onClickListener.onClick(dialogInterface, i)
+        onClickListener?.onClick(dialogInterface, i)
     }
 
 }

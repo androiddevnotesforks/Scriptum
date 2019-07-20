@@ -118,7 +118,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
         melodyPreference.setOnPreferenceClickListener { iViewModel.onClickMelody() }
 
-        melodyDialog.rows = melodyTitleList
+        melodyDialog.itemArray = melodyTitleList
         melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultMelody(melodyDialog.check)
         }

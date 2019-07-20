@@ -1,8 +1,10 @@
-package sgtmelon.safedialog
+package sgtmelon.safedialog.beta
 
 import android.app.DatePickerDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
+import sgtmelon.safedialog.DialogBlank
 import java.util.*
 
 /**
@@ -15,7 +17,7 @@ class DateDialog : DialogBlank() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val calendar = Calendar.getInstance()
 
-        val dialog = DatePickerDialog(activity,
+        val dialog = DatePickerDialog(context as Context,
                 DatePickerDialog.OnDateSetListener { view, year, month, dayOfMonth -> },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),

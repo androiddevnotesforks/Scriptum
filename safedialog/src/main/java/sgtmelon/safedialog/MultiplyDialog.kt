@@ -1,29 +1,31 @@
 package sgtmelon.safedialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
- * Диалог с check-выбором пунктов
+ * Dialog for multiply check choice
  *
  * @author SerjantArbuz
  */
 class MultiplyDialog : DialogBlank() {
 
-    lateinit var name: List<String>
     var needOneSelect = false
 
-    private lateinit var init: BooleanArray
+    var itemList: List<String> = ArrayList()
 
-    lateinit var check: BooleanArray
+    private var init = BooleanArray(size = 0)
+    var check = BooleanArray(size = 0)
         private set
 
     fun setArguments(checkArray: BooleanArray) {
         arguments = Bundle().apply {
             putBooleanArray(INIT, checkArray.clone())
-            putBooleanArray(VALUE, checkArray)
+            putBooleanArray(VALUE, checkArray.clone())
         }
     }
 
@@ -31,16 +33,14 @@ class MultiplyDialog : DialogBlank() {
         val bundle = arguments
 
         init = savedInstanceState?.getBooleanArray(INIT)
-                ?: bundle?.getBooleanArray(INIT)
-                        ?: BooleanArray(size = 0)
+                ?: bundle?.getBooleanArray(INIT) ?: BooleanArray(size = 0)
 
         check = savedInstanceState?.getBooleanArray(VALUE)
-                ?: bundle?.getBooleanArray(VALUE)
-                        ?: BooleanArray(size = 0)
+                ?: bundle?.getBooleanArray(VALUE) ?: BooleanArray(size = 0)
 
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(context as Context)
                 .setTitle(title)
-                .setMultiChoiceItems(name.toTypedArray(), check) { _, which, isChecked ->
+                .setMultiChoiceItems(itemList.toTypedArray(), check) { _, which, isChecked ->
                     check[which] = isChecked
                     setEnable()
                 }
@@ -58,8 +58,8 @@ class MultiplyDialog : DialogBlank() {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive?.isEnabled = !Arrays.equals(init, check) &&
-                if (needOneSelect) check.contains(true) else true
+        buttonPositive?.isEnabled =
+                !Arrays.equals(init, check) && if (needOneSelect) check.contains(true) else true
     }
 
 }

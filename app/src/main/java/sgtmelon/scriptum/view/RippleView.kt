@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
 import sgtmelon.scriptum.R
+import kotlin.math.min
 
 /**
  * View элемент использующийся внутри [RippleContainer]
@@ -13,7 +14,7 @@ import sgtmelon.scriptum.R
  */
 class RippleView(context: Context) : View(context) {
 
-    lateinit var paint: Paint
+    var paint: Paint? = null
 
     init {
         visibility = INVISIBLE
@@ -22,8 +23,8 @@ class RippleView(context: Context) : View(context) {
     /**
      * Из радиуса вычетается небольшой отступ, чтобы круг не был обрезанным
      */
-    override fun onDraw(canvas: Canvas) = (Math.min(width, height) / 2).toFloat().let {
-        canvas.drawCircle(it, it, it - resources.getDimension(R.dimen.radius_2dp), paint)
+    override fun onDraw(canvas: Canvas) = (min(width, height) / 2).toFloat().let {
+        canvas.drawCircle(it, it, it - resources.getDimension(R.dimen.radius_2dp), paint ?: return@let)
     }
 
 }

@@ -137,7 +137,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
     override fun setupDialog(rankNameArray: List<String>) {
         rankDialog.apply {
-            name = rankNameArray
+            itemList = rankNameArray
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultRankDialog(rankDialog.check)
             }

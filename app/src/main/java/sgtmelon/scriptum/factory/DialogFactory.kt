@@ -2,7 +2,12 @@ package sgtmelon.scriptum.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.*
+import sgtmelon.safedialog.MessageDialog
+import sgtmelon.safedialog.MultiplyDialog
+import sgtmelon.safedialog.OptionsDialog
+import sgtmelon.safedialog.SingleDialog
+import sgtmelon.safedialog.beta.DateDialog
+import sgtmelon.safedialog.beta.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.dialog.*
 import sgtmelon.scriptum.model.key.NoteType
@@ -74,10 +79,12 @@ object DialogFactory {
         }
 
         fun getDateDialog(fm: FragmentManager?) =
-                fm?.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
+                fm?.findFragmentByTag(DATE) as? DateDialog
+                        ?: DateDialog()
 
         fun getTimeDialog(fm: FragmentManager?) =
-                fm?.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
+                fm?.findFragmentByTag(TIME) as? TimeDialog
+                        ?: TimeDialog()
 
         private const val PREFIX = "DIALOG"
 
@@ -96,7 +103,7 @@ object DialogFactory {
             val dialog = fm?.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
 
             dialog.title = context.getString(R.string.title_app_theme)
-            dialog.rows = context.resources.getStringArray(R.array.text_app_theme)
+            dialog.itemArray = context.resources.getStringArray(R.array.text_app_theme)
 
             return dialog
         }
@@ -105,7 +112,7 @@ object DialogFactory {
             val dialog = fm?.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
 
             dialog.title = context.getString(R.string.title_alarm_repeat)
-            dialog.rows = context.resources.getStringArray(R.array.text_alarm_repeat)
+            dialog.itemArray = context.resources.getStringArray(R.array.text_alarm_repeat)
 
             return dialog
         }
@@ -115,7 +122,7 @@ object DialogFactory {
 
             dialog.needOneSelect = true
             dialog.title = context.getString(R.string.title_alarm_signal)
-            dialog.name = context.resources.getStringArray(R.array.text_alarm_signal).toList()
+            dialog.itemList = context.resources.getStringArray(R.array.text_alarm_signal).toList()
 
             return dialog
         }
@@ -140,7 +147,7 @@ object DialogFactory {
             val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
             dialog.title = context.getString(R.string.title_note_sort)
-            dialog.rows = context.resources.getStringArray(R.array.text_note_sort)
+            dialog.itemArray = context.resources.getStringArray(R.array.text_note_sort)
 
             return dialog
         }
@@ -157,7 +164,7 @@ object DialogFactory {
             val dialog = fm?.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
 
             dialog.title = context.getString(R.string.title_save_time)
-            dialog.rows = context.resources.getStringArray(R.array.text_save_time)
+            dialog.itemArray = context.resources.getStringArray(R.array.text_save_time)
 
             return dialog
         }

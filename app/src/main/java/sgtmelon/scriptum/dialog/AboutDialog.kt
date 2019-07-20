@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +28,7 @@ class AboutDialog : DialogBlank(), View.OnClickListener {
         view.findViewById<ImageView>(R.id.about_logo_image).setOnClickListener(this)
         view.findViewById<TextView>(R.id.about_version).text = BuildConfig.VERSION_NAME
 
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(context as Context)
                 .setView(view)
                 .setCancelable(true)
                 .create()
@@ -37,10 +38,12 @@ class AboutDialog : DialogBlank(), View.OnClickListener {
             super.onSaveInstanceState(outState.apply { putInt(VALUE, click) })
 
     override fun onClick(v: View) {
-        if (++click == activity.resources.getInteger(R.integer.value_develop_open)) {
-            click = 0
-            logoClick.onClick(v)
-            dialog?.cancel()
+        context?.let {
+            if (++click == it.resources.getInteger(R.integer.value_develop_open)) {
+                click = 0
+                logoClick.onClick(v)
+                dialog?.cancel()
+            }
         }
     }
 

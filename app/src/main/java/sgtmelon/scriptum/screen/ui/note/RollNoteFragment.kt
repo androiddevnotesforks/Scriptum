@@ -164,7 +164,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
     override fun setupDialog(rankNameList: List<String>) {
         rankDialog.apply {
-            name = rankNameList
+            itemList = rankNameList
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultRankDialog(rankDialog.check)
             }

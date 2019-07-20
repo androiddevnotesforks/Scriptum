@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.dialog
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -30,24 +31,26 @@ class ColorDialog : DialogBlank() {
         init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
         check = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
 
-        val adapter = ColorAdapter(activity, ItemListener.Click { _, p ->
+        val context = context as Context
+
+        val adapter = ColorAdapter(context, ItemListener.Click { _, p ->
             check = p
             setEnable()
         })
         adapter.setCheck(check)
 
         val padding = 24
-        val recyclerView = RecyclerView(activity).apply {
+        val recyclerView = RecyclerView(context).apply {
             setPadding(padding, padding, padding, padding)
             overScrollMode = View.OVER_SCROLL_NEVER
-            layoutManager = GridLayoutManager(activity, resources.getInteger(R.integer.column_color))
+            layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.column_color))
 
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
         }
 
         recyclerView.adapter = adapter
 
-        return AlertDialog.Builder(activity)
+        return AlertDialog.Builder(context)
                 .setTitle(title)
                 .setView(recyclerView)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
