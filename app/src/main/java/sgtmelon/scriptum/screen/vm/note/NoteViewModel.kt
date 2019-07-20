@@ -5,7 +5,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.callback.note.INoteActivity
-import sgtmelon.scriptum.screen.callback.note.INoteViewModel
+import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
 class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(application),

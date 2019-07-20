@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.screen.callback.notification
+package sgtmelon.scriptum.screen.vm.callback.notification
 
-import sgtmelon.scriptum.screen.callback.IParentViewModel
+import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 

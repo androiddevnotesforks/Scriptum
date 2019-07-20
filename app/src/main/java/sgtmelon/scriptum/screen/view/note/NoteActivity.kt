@@ -14,7 +14,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.screen.view.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.view.callback.note.INoteChild
-import sgtmelon.scriptum.screen.callback.note.INoteViewModel
+import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 

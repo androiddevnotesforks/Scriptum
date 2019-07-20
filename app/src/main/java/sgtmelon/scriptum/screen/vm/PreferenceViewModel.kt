@@ -8,7 +8,7 @@ import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.converter.IntConverter
 import sgtmelon.scriptum.screen.view.callback.IPreferenceFragment
-import sgtmelon.scriptum.screen.callback.IPreferenceViewModel
+import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 
 class PreferenceViewModel(private val context: Context, var callback: IPreferenceFragment?) :
         IPreferenceViewModel {

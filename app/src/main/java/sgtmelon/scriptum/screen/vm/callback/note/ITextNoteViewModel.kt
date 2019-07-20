@@ -1,8 +1,8 @@
-package sgtmelon.scriptum.screen.callback.note
+package sgtmelon.scriptum.screen.vm.callback.note
 
 import android.os.Bundle
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
-import sgtmelon.scriptum.screen.callback.IParentViewModel
+import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.view.callback.note.text.ITextNoteMenu
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel

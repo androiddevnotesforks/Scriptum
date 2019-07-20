@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback
+package sgtmelon.scriptum.screen.vm.callback
 
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel

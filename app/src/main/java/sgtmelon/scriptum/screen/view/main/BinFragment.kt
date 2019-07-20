@@ -26,7 +26,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.view.callback.main.IBinFragment
-import sgtmelon.scriptum.screen.callback.main.IBinViewModel
+import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**

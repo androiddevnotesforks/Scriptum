@@ -26,7 +26,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.view.callback.main.IRankFragment
-import sgtmelon.scriptum.screen.callback.main.IRankViewModel
+import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**

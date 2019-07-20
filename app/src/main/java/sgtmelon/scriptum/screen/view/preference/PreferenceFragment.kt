@@ -18,7 +18,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.view.callback.IPreferenceFragment
-import sgtmelon.scriptum.screen.callback.IPreferenceViewModel
+import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 import android.preference.PreferenceFragment as OldPreferenceFragment

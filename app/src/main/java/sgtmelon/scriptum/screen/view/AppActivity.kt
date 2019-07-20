@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.view.callback.IAppActivity
-import sgtmelon.scriptum.screen.callback.IAppViewModel
+import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.screen.vm.AppViewModel
 
 /**

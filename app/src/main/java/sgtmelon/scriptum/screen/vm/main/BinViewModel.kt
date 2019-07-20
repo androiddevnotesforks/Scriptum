@@ -8,7 +8,7 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.view.callback.main.IBinFragment
-import sgtmelon.scriptum.screen.callback.main.IBinViewModel
+import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel

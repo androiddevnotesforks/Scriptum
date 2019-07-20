@@ -20,7 +20,7 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.screen.view.callback.note.INoteChild
 import sgtmelon.scriptum.screen.view.callback.note.text.ITextNoteFragment
-import sgtmelon.scriptum.screen.callback.note.ITextNoteViewModel
+import sgtmelon.scriptum.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.screen.view.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 

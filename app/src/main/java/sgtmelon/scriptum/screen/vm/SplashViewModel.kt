@@ -5,7 +5,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.callback.ISplashActivity
-import sgtmelon.scriptum.screen.callback.ISplashViewModel
+import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.screen.view.SplashActivity
 import sgtmelon.scriptum.screen.view.SplashActivity.Companion.OpenFrom
 import sgtmelon.scriptum.screen.view.intro.IntroActivity

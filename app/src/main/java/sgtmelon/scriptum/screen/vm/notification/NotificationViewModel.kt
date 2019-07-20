@@ -5,7 +5,7 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.screen.view.callback.notification.INotificationActivity
-import sgtmelon.scriptum.screen.callback.notification.INotificationViewModel
+import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel

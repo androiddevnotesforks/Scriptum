@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.view.callback.IDevelopActivity
-import sgtmelon.scriptum.screen.callback.IDevelopViewModel
+import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**

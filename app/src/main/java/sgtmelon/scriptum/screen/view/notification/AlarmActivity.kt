@@ -21,7 +21,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.view.callback.notification.IAlarmActivity
-import sgtmelon.scriptum.screen.callback.notification.IAlarmViewModel
+import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer

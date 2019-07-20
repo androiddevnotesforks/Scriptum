@@ -24,7 +24,7 @@ import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.view.callback.main.IMainActivity
-import sgtmelon.scriptum.screen.callback.main.IMainViewModel
+import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
