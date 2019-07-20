@@ -22,9 +22,9 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
         private set
 
     private lateinit var nameList: ArrayList<String>
-    private lateinit var nameEnter: EditText
+    private var nameEnter: EditText? = null
 
-    val name: String get() = nameEnter.text.toString().clearSpace()
+    val name: String get() = nameEnter?.text?.toString()?.clearSpace() ?: ""
 
     fun setArguments(p: Int, title: String, nameList: ArrayList<String>) {
         arguments = Bundle().apply {
@@ -46,7 +46,7 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
         val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
 
         nameEnter = view.findViewById(R.id.rename_enter)
-        nameEnter.apply {
+        nameEnter?.apply {
             setTextColor(activity.getColorAttr(R.attr.clContent))
             setHintTextColor(activity.getColorAttr(R.attr.clDisable))
 
@@ -61,7 +61,10 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
                 .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
-                .apply { window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE)}
+                .apply {
+                    nameEnter?.requestFocus()
+                    window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE)
+                }
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
