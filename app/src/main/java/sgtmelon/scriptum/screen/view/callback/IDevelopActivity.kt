@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback
+package sgtmelon.scriptum.screen.view.callback
 
 import android.content.Intent
 import sgtmelon.scriptum.screen.view.DevelopActivity

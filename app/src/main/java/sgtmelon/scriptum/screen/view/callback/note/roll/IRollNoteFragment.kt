@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback.note.roll
+package sgtmelon.scriptum.screen.view.callback.note.roll
 
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl

@@ -41,9 +41,9 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.callback.note.INoteChild
-import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteFragment
-import sgtmelon.scriptum.screen.callback.note.roll.IRollNoteViewModel
+import sgtmelon.scriptum.screen.view.callback.note.INoteChild
+import sgtmelon.scriptum.screen.view.callback.note.roll.IRollNoteFragment
+import sgtmelon.scriptum.screen.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**

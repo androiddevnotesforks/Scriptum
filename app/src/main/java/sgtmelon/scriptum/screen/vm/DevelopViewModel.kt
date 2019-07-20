@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.repository.develop.DevelopRepo
-import sgtmelon.scriptum.screen.callback.IDevelopActivity
+import sgtmelon.scriptum.screen.view.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.callback.IDevelopViewModel
 import sgtmelon.scriptum.screen.view.DevelopActivity
 import sgtmelon.scriptum.screen.view.intro.IntroActivity

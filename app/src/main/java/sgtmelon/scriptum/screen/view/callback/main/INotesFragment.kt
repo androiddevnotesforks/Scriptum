@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback.main
+package sgtmelon.scriptum.screen.view.callback.main
 
 import android.content.Intent
 import sgtmelon.scriptum.model.NoteModel

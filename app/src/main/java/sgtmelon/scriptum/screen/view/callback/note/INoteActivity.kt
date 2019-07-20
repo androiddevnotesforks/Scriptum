@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback.note
+package sgtmelon.scriptum.screen.view.callback.note
 
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.view.note.NoteActivity

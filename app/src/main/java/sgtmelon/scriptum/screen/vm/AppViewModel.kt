@@ -3,7 +3,7 @@ package sgtmelon.scriptum.screen.vm
 import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.screen.callback.IAppActivity
+import sgtmelon.scriptum.screen.view.callback.IAppActivity
 import sgtmelon.scriptum.screen.callback.IAppViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 

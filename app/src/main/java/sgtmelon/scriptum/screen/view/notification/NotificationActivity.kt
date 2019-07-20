@@ -20,7 +20,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.screen.callback.notification.INotificationActivity
+import sgtmelon.scriptum.screen.view.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.callback.notification.INotificationViewModel
 import sgtmelon.scriptum.screen.view.AppActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel

@@ -22,13 +22,8 @@ class SingleDialog : DialogBlank() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        init = savedInstanceState?.getInt(INIT)
-                ?: bundle?.getInt(INIT)
-                ?: 0
-
-        check = savedInstanceState?.getInt(VALUE)
-                ?: bundle?.getInt(VALUE)
-                ?: 0
+        init = savedInstanceState?.getInt(INIT) ?: bundle?.getInt(INIT) ?: 0
+        check = savedInstanceState?.getInt(VALUE) ?: bundle?.getInt(VALUE) ?: 0
 
         return AlertDialog.Builder(activity)
                 .setTitle(title)

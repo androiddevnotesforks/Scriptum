@@ -30,9 +30,9 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.screen.callback.note.INoteChild
-import sgtmelon.scriptum.screen.callback.note.text.ITextNoteFragment
-import sgtmelon.scriptum.screen.callback.note.text.ITextNoteViewModel
+import sgtmelon.scriptum.screen.view.callback.note.INoteChild
+import sgtmelon.scriptum.screen.view.callback.note.text.ITextNoteFragment
+import sgtmelon.scriptum.screen.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
 

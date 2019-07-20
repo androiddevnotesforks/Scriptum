@@ -24,8 +24,8 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.screen.callback.main.IMainActivity
-import sgtmelon.scriptum.screen.callback.main.INotesFragment
+import sgtmelon.scriptum.screen.view.callback.main.IMainActivity
+import sgtmelon.scriptum.screen.view.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.callback.main.INotesViewModel
 import sgtmelon.scriptum.screen.view.notification.NotificationActivity
 import sgtmelon.scriptum.screen.view.preference.PreferenceActivity

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
-import sgtmelon.scriptum.screen.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.screen.view.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.view.notification.AlarmActivity

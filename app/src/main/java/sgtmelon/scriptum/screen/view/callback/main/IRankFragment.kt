@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback.main
+package sgtmelon.scriptum.screen.view.callback.main
 
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.view.main.RankFragment

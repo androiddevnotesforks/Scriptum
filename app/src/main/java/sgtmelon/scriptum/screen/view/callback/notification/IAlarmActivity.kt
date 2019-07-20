@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback.notification
+package sgtmelon.scriptum.screen.view.callback.notification
 
 import android.content.Intent
 import androidx.annotation.ColorInt

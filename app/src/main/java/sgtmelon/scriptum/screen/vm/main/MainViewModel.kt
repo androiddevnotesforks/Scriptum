@@ -7,7 +7,7 @@ import androidx.annotation.IdRes
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.screen.callback.main.IMainActivity
+import sgtmelon.scriptum.screen.view.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.callback.main.IMainViewModel
 import sgtmelon.scriptum.screen.view.main.MainActivity
 import sgtmelon.scriptum.screen.view.note.NoteActivity

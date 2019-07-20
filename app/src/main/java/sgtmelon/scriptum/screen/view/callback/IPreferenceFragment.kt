@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.screen.callback
+package sgtmelon.scriptum.screen.view.callback
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme

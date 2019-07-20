@@ -11,7 +11,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.screen.callback.ISplashActivity
+import sgtmelon.scriptum.screen.view.callback.ISplashActivity
 import sgtmelon.scriptum.screen.callback.ISplashViewModel
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.screen.callback.main.IRankFragment
+import sgtmelon.scriptum.screen.view.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.callback.main.IRankViewModel
 import sgtmelon.scriptum.screen.view.main.RankFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel

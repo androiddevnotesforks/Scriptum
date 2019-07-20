@@ -11,6 +11,8 @@ import android.app.AlertDialog as AlertDialogOld
 
 /**
  * Базовый класс диалогов для наследования
+ *
+ * @author SerjantArbuz
  */
 abstract class DialogBlank : DialogFragment() {
 
@@ -22,6 +24,7 @@ abstract class DialogBlank : DialogFragment() {
     protected var buttonPositive: Button? = null
 
     var positiveListener: DialogInterface.OnClickListener? = null
+
     protected val onPositiveClick = DialogInterface.OnClickListener { dialogInterface, i ->
         positiveListener?.onClick(dialogInterface, i)
         dialogInterface.cancel()
