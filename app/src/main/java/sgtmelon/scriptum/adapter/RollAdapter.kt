@@ -10,7 +10,7 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.view.note.RollNoteFragment
+import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 
 /**
  * Адаптер для [RollNoteFragment]

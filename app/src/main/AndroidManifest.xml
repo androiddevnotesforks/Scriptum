@@ -12,7 +12,7 @@
             android:theme="@style/App.Light.UI">
 
         <activity
-                android:name=".screen.view.SplashActivity"
+                android:name=".screen.ui.SplashActivity"
                 android:configChanges="keyboardHidden|orientation|screenSize"
                 android:theme="@style/App.Splash">
             <intent-filter>
@@ -22,9 +22,9 @@
         </activity>
 
         <activity
-                android:name=".screen.view.intro.IntroActivity"
+                android:name=".screen.ui.intro.IntroActivity"
                 android:configChanges="keyboardHidden|orientation|screenSize"
-                android:parentActivityName=".screen.view.SplashActivity"
+                android:parentActivityName=".screen.ui.SplashActivity"
                 android:theme="@style/App.Intro">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-                android:name=".screen.view.main.MainActivity"
+                android:name=".screen.ui.main.MainActivity"
                 android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -42,8 +42,8 @@
         </activity>
 
         <activity
-                android:name=".screen.view.note.NoteActivity"
-                android:parentActivityName=".screen.view.main.MainActivity">
+                android:name=".screen.ui.note.NoteActivity"
+                android:parentActivityName=".screen.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -51,9 +51,9 @@
         </activity>
 
         <activity
-                android:name=".screen.view.preference.PreferenceActivity"
+                android:name=".screen.ui.preference.PreferenceActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName=".screen.view.main.MainActivity">
+                android:parentActivityName=".screen.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -61,9 +61,9 @@
         </activity>
 
         <activity
-                android:name=".screen.view.notification.NotificationActivity"
+                android:name=".screen.ui.notification.NotificationActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName=".screen.view.main.MainActivity">
+                android:parentActivityName=".screen.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -71,9 +71,9 @@
         </activity>
 
         <activity
-                android:name=".screen.view.notification.AlarmActivity"
+                android:name=".screen.ui.notification.AlarmActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName=".screen.view.main.MainActivity">
+                android:parentActivityName=".screen.ui.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -81,9 +81,9 @@
         </activity>
 
         <activity
-                android:name=".screen.view.DevelopActivity"
+                android:name=".screen.ui.DevelopActivity"
                 android:configChanges="keyboardHidden"
-                android:parentActivityName=".screen.view.preference.PreferenceActivity"
+                android:parentActivityName=".screen.ui.preference.PreferenceActivity"
                 android:theme="@style/App.Dark.UI">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

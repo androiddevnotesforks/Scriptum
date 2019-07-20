@@ -3,9 +3,9 @@ package sgtmelon.scriptum.test.auto
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.screen.view.SplashActivity
-import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashAlarmIntent
-import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
+import sgtmelon.scriptum.screen.ui.SplashActivity
+import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.getSplashAlarmIntent
+import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.getSplashBindIntent
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

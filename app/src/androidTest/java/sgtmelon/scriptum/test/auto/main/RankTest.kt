@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test.auto.main
 
 import org.junit.Test
-import sgtmelon.scriptum.screen.view.main.RankFragment
+import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 

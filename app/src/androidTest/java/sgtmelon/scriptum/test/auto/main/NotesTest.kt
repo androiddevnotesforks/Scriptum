@@ -4,7 +4,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.screen.view.main.NotesFragment
+import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

@@ -25,11 +25,11 @@ import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.view.callback.note.INoteChild
-import sgtmelon.scriptum.screen.view.callback.note.roll.IRollNoteFragment
-import sgtmelon.scriptum.screen.vm.callback.note.IRollNoteViewModel
-import sgtmelon.scriptum.screen.view.note.RollNoteFragment
+import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
+import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
+import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
+import sgtmelon.scriptum.screen.vm.callback.note.IRollNoteViewModel
 
 /**
  * ViewModel for [RollNoteFragment]

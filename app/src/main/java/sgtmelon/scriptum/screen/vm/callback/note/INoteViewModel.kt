@@ -2,8 +2,8 @@ package sgtmelon.scriptum.screen.vm.callback.note
 
 import android.os.Bundle
 import sgtmelon.scriptum.receiver.NoteReceiver
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.screen.view.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
 /**

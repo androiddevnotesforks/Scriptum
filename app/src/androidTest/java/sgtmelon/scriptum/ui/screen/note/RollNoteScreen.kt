@@ -6,8 +6,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.screen.view.note.NoteActivity
-import sgtmelon.scriptum.screen.view.note.RollNoteFragment
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 

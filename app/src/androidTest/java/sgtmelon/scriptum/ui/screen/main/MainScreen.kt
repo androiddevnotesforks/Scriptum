@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.screen.view.main.MainActivity
+import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.AddDialogUi

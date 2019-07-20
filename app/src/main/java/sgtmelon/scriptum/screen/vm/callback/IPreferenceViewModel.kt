@@ -2,7 +2,7 @@ package sgtmelon.scriptum.screen.vm.callback
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.screen.view.preference.PreferenceFragment
+import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 
 /**

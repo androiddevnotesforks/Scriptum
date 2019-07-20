@@ -9,11 +9,11 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.screen.view.callback.main.INotesFragment
-import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
-import sgtmelon.scriptum.screen.view.main.NotesFragment
-import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
+import sgtmelon.scriptum.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.vm.ParentViewModel
+import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
 
 /**
  * ViewModel for [NotesFragment]

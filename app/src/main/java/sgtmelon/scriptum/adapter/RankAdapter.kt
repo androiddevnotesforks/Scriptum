@@ -6,7 +6,7 @@ import sgtmelon.scriptum.adapter.holder.RankHolder
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.screen.view.main.RankFragment
+import sgtmelon.scriptum.screen.ui.main.RankFragment
 
 /**
  * Адаптер для [RankFragment]

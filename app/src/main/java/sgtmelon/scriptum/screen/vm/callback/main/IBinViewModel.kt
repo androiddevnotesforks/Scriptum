@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.vm.callback.main
 
+import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.screen.view.main.BinFragment
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**

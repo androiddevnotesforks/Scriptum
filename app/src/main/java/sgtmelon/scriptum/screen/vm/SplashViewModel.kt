@@ -4,14 +4,14 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.screen.view.callback.ISplashActivity
+import sgtmelon.scriptum.screen.ui.SplashActivity
+import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.OpenFrom
+import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
+import sgtmelon.scriptum.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.screen.ui.main.MainActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.screen.ui.notification.AlarmActivity.Companion.getAlarmIntent
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
-import sgtmelon.scriptum.screen.view.SplashActivity
-import sgtmelon.scriptum.screen.view.SplashActivity.Companion.OpenFrom
-import sgtmelon.scriptum.screen.view.intro.IntroActivity
-import sgtmelon.scriptum.screen.view.main.MainActivity
-import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.screen.view.notification.AlarmActivity.Companion.getAlarmIntent
 
 /**
  * ViewModel for [SplashActivity]

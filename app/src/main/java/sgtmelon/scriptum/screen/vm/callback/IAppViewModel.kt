@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.vm.callback
 
-import sgtmelon.scriptum.screen.view.AppActivity
+import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.vm.AppViewModel
 
 /**

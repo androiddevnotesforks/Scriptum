@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.screen.view.notification.AlarmActivity
+import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 

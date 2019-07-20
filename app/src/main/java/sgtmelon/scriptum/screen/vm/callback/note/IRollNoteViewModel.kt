@@ -4,9 +4,9 @@ import android.os.Bundle
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl
+import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteMenu
+import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
-import sgtmelon.scriptum.screen.view.callback.note.roll.IRollNoteMenu
-import sgtmelon.scriptum.screen.view.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**

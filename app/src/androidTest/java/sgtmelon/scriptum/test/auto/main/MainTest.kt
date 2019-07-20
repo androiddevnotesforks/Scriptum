@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.key.MainPage
-import sgtmelon.scriptum.screen.view.main.MainActivity
+import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

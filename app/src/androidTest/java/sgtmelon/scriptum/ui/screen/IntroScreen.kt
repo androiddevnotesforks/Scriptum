@@ -3,8 +3,8 @@ package sgtmelon.scriptum.ui.screen
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.data.IntroData
-import sgtmelon.scriptum.screen.view.intro.IntroActivity
-import sgtmelon.scriptum.screen.view.intro.IntroFragment
+import sgtmelon.scriptum.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.screen.ui.intro.IntroFragment
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.main.MainScreen

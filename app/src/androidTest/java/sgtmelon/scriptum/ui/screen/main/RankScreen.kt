@@ -11,7 +11,7 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.screen.view.main.RankFragment
+import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi

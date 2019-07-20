@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.auto
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.screen.view.notification.NotificationActivity
+import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

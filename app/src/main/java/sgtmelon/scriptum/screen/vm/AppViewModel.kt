@@ -3,9 +3,9 @@ package sgtmelon.scriptum.screen.vm
 import android.app.Application
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.screen.view.callback.IAppActivity
+import sgtmelon.scriptum.screen.ui.AppActivity
+import sgtmelon.scriptum.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
-import sgtmelon.scriptum.screen.view.AppActivity
 
 /**
  * ViewModel for [AppActivity]

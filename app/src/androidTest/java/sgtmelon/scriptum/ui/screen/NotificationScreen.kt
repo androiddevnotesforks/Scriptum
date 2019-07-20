@@ -11,7 +11,7 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.screen.view.notification.NotificationActivity
+import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen

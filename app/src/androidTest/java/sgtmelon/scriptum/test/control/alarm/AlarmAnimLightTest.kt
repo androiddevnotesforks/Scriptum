@@ -5,7 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.screen.view.notification.AlarmActivity
+import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 
 /**
  * Тест работы анимации и цветовой схемы экрана [AlarmActivity] в светлой теме

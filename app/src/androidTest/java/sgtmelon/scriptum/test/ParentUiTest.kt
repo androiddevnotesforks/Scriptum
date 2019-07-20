@@ -6,7 +6,7 @@ import org.junit.Rule
 import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import sgtmelon.scriptum.screen.view.SplashActivity
+import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
 

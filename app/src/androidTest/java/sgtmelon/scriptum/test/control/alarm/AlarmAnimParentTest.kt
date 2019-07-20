@@ -2,8 +2,8 @@ package sgtmelon.scriptum.test.control.alarm
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashAlarmIntent
-import sgtmelon.scriptum.screen.view.notification.AlarmActivity
+import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.getSplashAlarmIntent
+import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 import kotlin.random.Random

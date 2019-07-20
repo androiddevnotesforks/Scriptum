@@ -4,11 +4,11 @@ import android.app.Application
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
-import sgtmelon.scriptum.screen.view.callback.notification.INotificationActivity
-import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.screen.view.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.screen.view.notification.NotificationActivity
+import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
+import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
 
 /**
  * ViewModel for [NotificationActivity]

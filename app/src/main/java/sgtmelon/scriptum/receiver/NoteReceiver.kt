@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Values
-import sgtmelon.scriptum.screen.view.note.NoteActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
  * Ресивер обработки комманд для [NoteActivity]

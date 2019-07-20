@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.vm.callback
 
 import android.os.Bundle
-import sgtmelon.scriptum.screen.view.SplashActivity
+import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**

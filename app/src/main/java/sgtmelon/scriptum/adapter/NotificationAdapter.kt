@@ -7,7 +7,7 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
-import sgtmelon.scriptum.screen.view.notification.NotificationActivity
+import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 
 /**
  * Адаптер списка уведомлений для [NotificationActivity]

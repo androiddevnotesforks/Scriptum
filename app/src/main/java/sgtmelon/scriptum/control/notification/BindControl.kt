@@ -19,7 +19,7 @@ import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.view.SplashActivity.Companion.getSplashBindIntent
+import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.getSplashBindIntent
 
 /**
  * Управление закреплением заметки в статус баре [NoteModel]

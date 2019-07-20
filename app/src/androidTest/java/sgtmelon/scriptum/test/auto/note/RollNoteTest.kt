@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.auto.note
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.screen.view.note.RollNoteFragment
+import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**

@@ -7,11 +7,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.screen.view.callback.main.IBinFragment
-import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
-import sgtmelon.scriptum.screen.view.main.BinFragment
-import sgtmelon.scriptum.screen.view.note.NoteActivity
+import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
+import sgtmelon.scriptum.screen.ui.main.BinFragment
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
+import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 
 /**
  * ViewModel for [BinFragment]

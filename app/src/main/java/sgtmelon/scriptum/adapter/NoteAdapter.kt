@@ -10,8 +10,8 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.screen.view.main.BinFragment
-import sgtmelon.scriptum.screen.view.main.NotesFragment
+import sgtmelon.scriptum.screen.ui.main.BinFragment
+import sgtmelon.scriptum.screen.ui.main.NotesFragment
 
 /**
  * Адаптер списка заметок для [NotesFragment], [BinFragment]

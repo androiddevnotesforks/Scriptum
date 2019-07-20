@@ -2,7 +2,7 @@ package sgtmelon.scriptum.test.auto.main
 
 
 import org.junit.Test
-import sgtmelon.scriptum.screen.view.main.BinFragment
+import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
