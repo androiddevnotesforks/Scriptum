@@ -23,7 +23,7 @@ class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
     private val iRoomRepo = RoomRepo.getInstance(context)
 
     override suspend fun notifyBind() = inTheRoom {
-        val rankIdVisibleList = getRankDao().rankIdVisibleList
+        val rankIdVisibleList = getRankDao().getRankIdVisibleList()
 
         iRoomRepo.getNoteModelList(bin = false).forEach {
             BindControl(context, it).updateBind(rankIdVisibleList)
@@ -44,7 +44,7 @@ class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
     override fun getRankModel() = RankModel(getCompleteRankList())
 
     override fun deleteRank(name: String, p: Int) = inTheRoom {
-        val rankEntity = getRankDao()[name]
+        val rankEntity = getRankDao()[name] ?: return@inTheRoom
 
         if (rankEntity.noteId.isNotEmpty()) {
             val noteList = getNoteDao()[rankEntity.noteId]
@@ -115,7 +115,7 @@ class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
      */
     private fun getCompleteRankList() = ArrayList<RankEntity>().apply {
         inTheRoom {
-            addAll(getRankDao().simple)
+            addAll(getRankDao().getSimple())
             forEach {
                 it.textCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
                 it.rollCount = getNoteDao().getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
@@ -127,7 +127,7 @@ class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
      * @param fromPosition - Позиция удаления категории
      */
     private fun updateRankPosition(fromPosition: Int, db: RoomDb) = with(db) {
-        val rankList = getRankDao().simple
+        val rankList = getRankDao().getSimple()
         val noteIdList = ArrayList<Long>()
 
         for (i in fromPosition until rankList.size) {

@@ -21,15 +21,15 @@ class BindRepoTest : ParentIntegrationTest() {
 
     private val iBindRepo = BindRepo.getInstance(context)
 
-    @Test fun getRollList_onTextNote() = openRoom().apply {
+    @Test fun getRollListOnTextNote() = inTheRoom {
         textNote.let {
             getNoteDao().insert(it)
 
             assertTrue(iBindRepo.getRollList(it.id).isEmpty())
         }
-    }.close()
+    }
 
-    @Test fun getRollList_onRollNote() = openRoom().apply {
+    @Test fun getRollListOnRollNote() = inTheRoom {
         rollNote.let {
             getNoteDao().insert(it)
 
@@ -39,16 +39,16 @@ class BindRepoTest : ParentIntegrationTest() {
 
             assertEquals(rollList, iBindRepo.getRollList(it.id))
         }
-    }.close()
+    }
 
-    @Test fun unbindNote() = openRoom().apply {
+    @Test fun unbindNote() = inTheRoom {
         textNote.let {
             getNoteDao().insert(it)
 
             assertEquals(it.apply { isStatus = false }, iBindRepo.unbindNote(it.id))
             assertEquals(it, getNoteDao()[it.id])
         }
-    }.close()
+    }
 
     private companion object {
         val textNote = NoteEntity(

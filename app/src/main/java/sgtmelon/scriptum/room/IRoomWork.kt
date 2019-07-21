@@ -3,7 +3,7 @@ package sgtmelon.scriptum.room
 import android.content.Context
 
 /**
- * Интерфейс для упрощённой работы с Room
+ * Interface for easy work with Room
  *
  * @author SerjantArbuz
  */

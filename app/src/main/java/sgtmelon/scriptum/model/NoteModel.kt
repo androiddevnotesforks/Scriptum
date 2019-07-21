@@ -21,10 +21,10 @@ data class NoteModel(
         @Embedded val alarmEntity: AlarmEntity = AlarmEntity()
 ) {
 
+    // TODO заменить получение модели через один query
+
     constructor(model: NoteModel) :
             this(model.noteEntity.copy(), model.rollList.toMutableList(), model.alarmEntity.copy())
-
-    // TODO заменить получение модели через один query
 
     /**
      * При отметке всех пунктов

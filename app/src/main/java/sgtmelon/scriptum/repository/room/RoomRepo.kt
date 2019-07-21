@@ -31,7 +31,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
         inTheRoom {
-            val rankIdVisibleList = getRankDao().rankIdVisibleList
+            val rankIdVisibleList = getRankDao().getRankIdVisibleList()
 
             when (iPreferenceRepo.sort) {
                 Sort.change -> getNoteDao().getByChange(bin)
@@ -59,7 +59,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         var isListHide = false
 
         inTheRoom {
-            val rankIdVisibleList = getRankDao().rankIdVisibleList
+            val rankIdVisibleList = getRankDao().getRankIdVisibleList()
 
             getNoteDao().getByChange(bin).forEach {
                 if (it.isNotVisible(rankIdVisibleList)) isListHide = true
@@ -98,13 +98,13 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override fun getRankIdVisibleList() = ArrayList<Long>().apply {
-        inTheRoom { addAll(getRankDao().rankIdVisibleList) }
+        inTheRoom { addAll(getRankDao().getRankIdVisibleList()) }
     }
 
     override fun getRankCount(): Boolean {
         val count: Int
 
-        openRoom().apply { count = getRankDao().count }.close()
+        openRoom().apply { count = getRankDao().getCount() }.close()
 
         return count == 0
     }
@@ -125,7 +125,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override fun getRankNameList() = ArrayList<String>().apply {
-        inTheRoom { addAll(getRankDao().nameList) }
+        inTheRoom { addAll(getRankDao().getNameList()) }
     }
 
     override fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray {
@@ -204,7 +204,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }.toString()
 
     override fun getRankIdList() = ArrayList<Long>().apply {
-        inTheRoom { addAll(getRankDao().idList) }
+        inTheRoom { addAll(getRankDao().getIdList()) }
     }
 
     override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {
@@ -294,7 +294,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
      * Добавление или удаление id заметки к категорииё
      */
     private fun updateRank(noteEntity: NoteEntity) = inTheRoom {
-        val list = getRankDao().simple
+        val list = getRankDao().getSimple()
         val check = calculateRankCheckArray(noteEntity, db = this)
 
         val id = noteEntity.id
@@ -325,7 +325,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     private fun calculateRankCheckArray(noteEntity: NoteEntity, db: RoomDb): BooleanArray {
-        val rankList = db.getRankDao().simple
+        val rankList = db.getRankDao().getSimple()
         val check = BooleanArray(rankList.size)
 
         rankList.forEachIndexed { i, item -> check[i] = noteEntity.rankId.contains(item.id) }

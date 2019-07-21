@@ -7,7 +7,7 @@ import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
@@ -16,9 +16,8 @@ import sgtmelon.scriptum.room.entity.RollEntity
 import java.util.UUID.randomUUID
 import kotlin.random.Random
 
-class TestData(override val context: Context) : IRoomWork {
-
-    private val iPreferenceRepo = PreferenceRepo(context)
+class TestData(override val context: Context, private val iPreferenceRepo: IPreferenceRepo) :
+        IRoomWork {
 
     val uniqueString get() = randomUUID().toString().substring(0, 16)
 

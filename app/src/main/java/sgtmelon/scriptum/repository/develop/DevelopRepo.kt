@@ -65,7 +65,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     override suspend fun getRankTableData() = StringBuilder().apply {
         val list: MutableList<RankEntity>
 
-        openRoom().apply { list = getRankDao().simple }.close()
+        openRoom().apply { list = getRankDao().getSimple() }.close()
 
         append("Rank table:")
 

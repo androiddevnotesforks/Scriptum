@@ -12,7 +12,7 @@ import java.util.*
  */
 @Entity(tableName = Rank.TABLE)
 @TypeConverters(BoolConverter::class, StringConverter::class)
-class RankEntity(
+data class RankEntity(
         @ColumnInfo(name = Rank.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = Rank.NOTE_ID) var noteId: MutableList<Long> = ArrayList(),
         @ColumnInfo(name = Rank.POSITION) var position: Int = 0,

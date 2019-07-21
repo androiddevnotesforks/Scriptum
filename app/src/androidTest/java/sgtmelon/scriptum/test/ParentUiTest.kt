@@ -3,9 +3,7 @@ package sgtmelon.scriptum.test
 import android.content.Intent
 import androidx.test.rule.ActivityTestRule
 import org.junit.Rule
-import sgtmelon.scriptum.data.TestData
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
@@ -20,10 +18,6 @@ abstract class ParentUiTest : ParentTest() {
     @get:Rule val testRule = ActivityTestRule(
             SplashActivity::class.java, true, false
     )
-
-    val iPreferenceRepo = PreferenceRepo(context)
-
-    val testData = TestData(context)
 
     override fun setUp() {
         super.setUp()
