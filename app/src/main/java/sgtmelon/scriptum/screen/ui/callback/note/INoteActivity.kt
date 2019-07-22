@@ -5,7 +5,7 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
 /**
- * Интерфейс общения [NoteViewModel] с [NoteActivity]
+ * Interface for communication [NoteViewModel] with [NoteActivity]
  *
  * @author SerjantArbuz
  */

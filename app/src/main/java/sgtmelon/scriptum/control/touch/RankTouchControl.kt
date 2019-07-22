@@ -24,7 +24,7 @@ class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
         val flagsDrag = if (drag) ItemTouchHelper.UP or ItemTouchHelper.DOWN else 0
         val flagsSwipe = 0
 
-        return ItemTouchHelper.Callback.makeMovementFlags(flagsDrag, flagsSwipe)
+        return makeMovementFlags(flagsDrag, flagsSwipe)
     }
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {

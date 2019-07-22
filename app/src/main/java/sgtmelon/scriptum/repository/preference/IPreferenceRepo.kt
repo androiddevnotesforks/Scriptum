@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
 
 /**
- * Интерфейс для общения с [PreferenceRepo]
+ * Interface for communication with [PreferenceRepo]
  *
  * @author SerjantArbuz
  */

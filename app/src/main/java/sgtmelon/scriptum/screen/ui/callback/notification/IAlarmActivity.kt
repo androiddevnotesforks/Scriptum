@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
 /**
- * Интерфейс для общения [AlarmViewModel] с [AlarmActivity]
+ * Interface for communication [AlarmViewModel] with [AlarmActivity]
  *
  * @author SerjantArbuz
  */

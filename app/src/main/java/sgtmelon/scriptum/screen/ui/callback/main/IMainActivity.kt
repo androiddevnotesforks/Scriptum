@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
 /**
- * Интерфейс для общения [MainViewModel] с [MainActivity]
+ * Interface for communication [MainViewModel] with [MainActivity]
  *
  * @author SerjantArbuz
  */

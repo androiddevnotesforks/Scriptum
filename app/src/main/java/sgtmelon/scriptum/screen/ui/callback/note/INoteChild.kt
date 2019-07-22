@@ -5,7 +5,7 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
 /**
- * Интерфейс общения [TextNoteViewModel] и [RollNoteViewModel] с [NoteActivity]
+ * Interface for communication [TextNoteViewModel] и [RollNoteViewModel] with [NoteActivity]
  *
  * @author SerjantArbuz
  */

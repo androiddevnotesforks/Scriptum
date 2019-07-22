@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
 /**
- * Интерфейс для общения [TextNoteFragment] с [TextNoteViewModel]
+ * Interface for communication [TextNoteFragment] with [TextNoteViewModel]
  *
  * @author SerjantArbuz
  */

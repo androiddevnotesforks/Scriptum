@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.repository.develop
 
 /**
- * Интерфейс для общения с [DevelopRepo]
+ * Interface for communication with [DevelopRepo]
  *
  * @author SerjantArbuz
  */

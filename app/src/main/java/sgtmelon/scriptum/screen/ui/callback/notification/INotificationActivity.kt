@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
 /**
- * Интерфейс для общения [NotificationViewModel] с [NotificationActivity]
+ * Interface for communication [NotificationViewModel] with [NotificationActivity]
  *
  * @author SerjantArbuz
  */

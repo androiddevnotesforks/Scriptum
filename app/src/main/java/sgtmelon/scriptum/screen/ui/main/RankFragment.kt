@@ -100,13 +100,13 @@ class RankFragment : Fragment(), IRankFragment {
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)?.apply {
-            setOnClickListener { iViewModel.onClickCancel() }
+            setOnClickListener { iViewModel.onClickEnterCancel() }
         }
 
         view?.findViewById<ImageButton>(R.id.toolbar_rank_add_button)?.apply {
-            setOnClickListener { iViewModel.onClickAdd(simpleClick = true) }
+            setOnClickListener { iViewModel.onClickEnterAdd(simpleClick = true) }
             setOnLongClickListener {
-                iViewModel.onClickAdd(simpleClick = false)
+                iViewModel.onClickEnterAdd(simpleClick = false)
                 return@setOnLongClickListener true
             }
         }

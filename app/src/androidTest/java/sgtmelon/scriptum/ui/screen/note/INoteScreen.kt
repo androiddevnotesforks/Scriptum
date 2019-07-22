@@ -6,7 +6,7 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 
 /**
- * Интерфейс для общения дочерних ui абстракций с [TextNoteScreen] и [RollNoteScreen]
+ * Interface for communication дочерних ui абстракций с [TextNoteScreen] и [RollNoteScreen]
  *
  * @author SerjantArbuz
  */

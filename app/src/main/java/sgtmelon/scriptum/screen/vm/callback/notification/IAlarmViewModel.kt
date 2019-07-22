@@ -6,7 +6,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
 /**
- * Интерфейс для общения [AlarmActivity] с [AlarmViewModel]
+ * Interface for communication [AlarmActivity] with [AlarmViewModel]
  *
  * @author SerjantArbuz
  */

@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
 /**
- * Интерфейс для общения [MainActivity] с [MainViewModel]
+ * Interface for communication [MainActivity] with [MainViewModel]
  *
  * @author SerjantArbuz
  */

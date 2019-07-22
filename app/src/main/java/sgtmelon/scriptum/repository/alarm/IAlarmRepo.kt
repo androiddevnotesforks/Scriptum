@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.alarm
 import sgtmelon.scriptum.model.item.NotificationItem
 
 /**
- * Интерфейс для общения с [AlarmRepo]
+ * Interface for communication with [AlarmRepo]
  *
  * @author SerjantArbuz
  */

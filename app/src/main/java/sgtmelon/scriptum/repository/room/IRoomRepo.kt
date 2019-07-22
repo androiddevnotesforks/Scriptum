@@ -7,7 +7,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Интерфейс для общения с [RoomRepo]
+ * Interface for communication with [RoomRepo]
  *
  * @author SerjantArbuz
  */

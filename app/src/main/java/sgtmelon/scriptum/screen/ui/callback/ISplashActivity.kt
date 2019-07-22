@@ -6,7 +6,7 @@ import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
- * Интерфейс для общения [SplashViewModel] с [SplashActivity]
+ * Interface for communication [SplashViewModel] with [SplashActivity]
  *
  * @author SerjantArbuz
  */

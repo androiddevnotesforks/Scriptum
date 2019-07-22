@@ -17,7 +17,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
  *
  * @author SerjantArbuz
  */
-class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
+class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     // TODO убрать roomRepo
     private val iRoomRepo = RoomRepo.getInstance(context)
@@ -30,7 +30,7 @@ class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
         }
     }
 
-    override fun insertRank(p: Int, rankEntity: RankEntity): Long {
+    override fun insert(p: Int, rankEntity: RankEntity): Long {
         val id: Long
 
         openRoom().apply {
@@ -43,7 +43,7 @@ class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
 
     override fun getRankModel() = RankModel(getCompleteRankList())
 
-    override fun deleteRank(name: String, p: Int) = inRoom {
+    override fun delete(name: String, p: Int) = inRoom {
         val rankEntity = iRankDao[name] ?: return@inRoom
 
         if (rankEntity.noteId.isNotEmpty()) {
@@ -67,48 +67,24 @@ class RankRepo(override val context: Context) : IRankRepo,IRoomWork {
         updateRankPosition(p, db = this)
     }
 
-    override fun updateRank(dragFrom: Int, dragTo: Int): MutableList<RankEntity> { // TODO оптимизировать
-        val startFirst = dragFrom < dragTo
+    override fun update(rankEntity: RankEntity) = inRoom { iRankDao.update(rankEntity) }
 
-        val iStart = if (startFirst) dragFrom else dragTo
-        val iEnd = if (startFirst) dragTo else dragFrom
-        val iAdd = if (startFirst) -1 else 1
+    override fun update(list: MutableList<RankEntity>) = inRoom {
+        val noteIdList: MutableSet<Long> = mutableSetOf()
 
-        val rankList = getCompleteRankList()
-        val noteIdList = ArrayList<Long>()
-
-        for (i in iStart..iEnd) {
-            val rankEntity = rankList[i]
-            rankEntity.noteId.forEach { if (noteIdList.contains(it)) noteIdList.add(it) }
-
-            val start = i == dragFrom
-            val end = i == dragTo
-
-            val newPosition = if (start) dragTo else i + iAdd
-            rankEntity.position = newPosition
-
-            if (if (startFirst) end else start) {
-                rankList.removeAt(i)
-                rankList.add(newPosition, rankEntity)
-            } else {
-                rankList[i] = rankEntity
+        list.forEachIndexed { i, item ->
+            if (item.position != i) {
+                item.noteId.forEach { noteIdList.add(it) }
+                item.position = i
             }
         }
 
-        rankList.sortBy { it.position }
-
-        inRoom {
-            iRankDao.update(rankList)
-            updateNoteRankPosition(noteIdList, rankList, db = this)
+        if (noteIdList.isNotEmpty()) {
+            updateNoteRankPosition(noteIdList.toList(), list, db = this)
         }
 
-        return rankList
+        iRankDao.update(list)
     }
-
-    override fun updateRank(rankEntity: RankEntity) = inRoom { iRankDao.update(rankEntity) }
-
-    override fun updateRank(rankList: List<RankEntity>) =
-            inRoom { iRankDao.update(rankList) }
 
     /**
      * TODO подумать, может можно убрать дополнительный запрос для получения text/rollCount

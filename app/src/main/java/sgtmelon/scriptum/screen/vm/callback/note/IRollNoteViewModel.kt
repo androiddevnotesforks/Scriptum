@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**
- * Интерфейс для общения [RollNoteFragment] с [RollNoteViewModel]
+ * Interface for communication [RollNoteFragment] with [RollNoteViewModel]
  *
  * @author SerjantArbuz
  */

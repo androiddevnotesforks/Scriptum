@@ -5,7 +5,7 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
- * Интерфейс для общения [RankViewModel] с [RankFragment]
+ * Interface for communication [RankViewModel] with [RankFragment]
  *
  * @author SerjantArbuz
  */

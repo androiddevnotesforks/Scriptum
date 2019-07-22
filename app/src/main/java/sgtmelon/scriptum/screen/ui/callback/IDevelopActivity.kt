@@ -5,7 +5,7 @@ import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
- * Интерфейс для обзения [DevelopViewModel] с [DevelopActivity]
+ * Interface for communication [DevelopViewModel] with [DevelopActivity]
  *
  * @author SerjantArbuz
  */

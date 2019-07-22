@@ -6,7 +6,7 @@ import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 
 /**
- * Интерфейс для общения [PreferenceViewModel] с [PreferenceFragment]
+ * Interface for communication [PreferenceViewModel] with [PreferenceFragment]
  *
  * @author SerjantArbuz
  */

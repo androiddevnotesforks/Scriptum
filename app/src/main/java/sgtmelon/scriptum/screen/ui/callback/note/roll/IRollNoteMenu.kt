@@ -4,7 +4,7 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**
- * Интерфейс для общения [RollNoteViewModel] с [RollNoteFragment]
+ * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
  *
  * @author SerjantArbuz
  */

@@ -5,7 +5,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
 /**
- * Интерфейс для общения [NotificationActivity] с [NotificationViewModel]
+ * Interface for communication [NotificationActivity] with [NotificationViewModel]
  *
  * @author SerjantArbuz
  */

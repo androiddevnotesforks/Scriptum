@@ -6,7 +6,7 @@ import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
- * Интерфейс для общения [RankFragment] с [RankViewModel]
+ * Interface for communication [RankFragment] with [RankViewModel]
  *
  * @author SerjantArbuz
  */
@@ -20,11 +20,13 @@ interface IRankViewModel : IParentViewModel, RankTouchControl.Result {
 
     fun onRenameDialog(p: Int, name: String)
 
-    fun onClickCancel(): String
+
+    fun onClickEnterCancel(): String
 
     fun onEditorClick(i: Int): Boolean
 
-    fun onClickAdd(simpleClick: Boolean)
+    fun onClickEnterAdd(simpleClick: Boolean)
+
 
     fun onClickVisible(p: Int)
 

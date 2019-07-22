@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
- * Интерфейс для общения [NotesViewModel] с [NotesFragment]
+ * Interface for communication [NotesViewModel] with [NotesFragment]
  *
  * @author SerjantArbuz
  */
