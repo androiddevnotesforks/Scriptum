@@ -7,14 +7,14 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.dao.AlarmDao
+import sgtmelon.scriptum.room.dao.IAlarmDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 
 /**
- * Integration test for [AlarmDao]
+ * Integration test for [IAlarmDao]
  *
  * @author SerjantArbuz
  */

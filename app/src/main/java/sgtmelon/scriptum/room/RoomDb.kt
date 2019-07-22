@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import sgtmelon.scriptum.BuildConfig
-import sgtmelon.scriptum.room.dao.AlarmDao
-import sgtmelon.scriptum.room.dao.NoteDao
-import sgtmelon.scriptum.room.dao.RankDao
-import sgtmelon.scriptum.room.dao.RollDao
+import sgtmelon.scriptum.room.dao.IAlarmDao
+import sgtmelon.scriptum.room.dao.INoteDao
+import sgtmelon.scriptum.room.dao.IRankDao
+import sgtmelon.scriptum.room.dao.IRollDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -27,13 +27,13 @@ import sgtmelon.scriptum.room.entity.RollEntity
 ], version = 4)
 abstract class RoomDb : RoomDatabase() {
 
-    abstract val iNoteDao: NoteDao
+    abstract val iNoteDao: INoteDao
 
-    abstract val iRollDao: RollDao
+    abstract val iRollDao: IRollDao
 
-    abstract val iRankDao: RankDao
+    abstract val iRankDao: IRankDao
 
-    abstract val iAlarmDao: AlarmDao
+    abstract val iAlarmDao: IAlarmDao
 
     companion object {
         fun getInstance(context: Context): RoomDb =

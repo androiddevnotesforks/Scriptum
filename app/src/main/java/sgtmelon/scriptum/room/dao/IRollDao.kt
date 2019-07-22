@@ -13,7 +13,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
  */
 @Dao
 @TypeConverters(BoolConverter::class)
-interface RollDao {
+interface IRollDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(rollEntity: RollEntity): Long

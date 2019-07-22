@@ -4,21 +4,21 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.room.dao.RankDao
+import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Integration test for [RankDao]
+ * Integration test for [IRankDao]
  *
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentIntegrationTest() {
 
-    private fun inRankDao(func: RankDao.() -> Unit) = inRoom { iRankDao.apply(func) }
+    private fun inRankDao(func: IRankDao.() -> Unit) = inRoom { iRankDao.apply(func) }
 
-    private fun RankDao.insertAll(): List<RankEntity> =
+    private fun IRankDao.insertAll(): List<RankEntity> =
             arrayListOf(rankFirst, rankSecond, rankThird).apply {
                 forEach { insert(it) }
                 sortBy { it.position }

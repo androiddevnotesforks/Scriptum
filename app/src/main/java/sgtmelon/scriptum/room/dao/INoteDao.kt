@@ -14,7 +14,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
  */
 @Dao
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
-interface NoteDao {
+interface INoteDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(noteEntity: NoteEntity): Long

@@ -12,7 +12,7 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
  * @author SerjantArbuz
  */
 @Dao
-interface AlarmDao {
+interface IAlarmDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(alarmEntity: AlarmEntity): Long

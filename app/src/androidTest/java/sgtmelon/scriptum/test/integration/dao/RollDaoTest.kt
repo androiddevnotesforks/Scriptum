@@ -8,13 +8,13 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.dao.RollDao
+import sgtmelon.scriptum.room.dao.IRollDao
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Integration test for [RollDao]
+ * Integration test for [IRollDao]
  *
  * @author SerjantArbuz
  */

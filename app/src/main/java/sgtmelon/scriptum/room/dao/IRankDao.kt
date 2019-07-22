@@ -13,7 +13,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
  */
 @Dao
 @TypeConverters(BoolConverter::class)
-interface RankDao {
+interface IRankDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(rankEntity: RankEntity): Long

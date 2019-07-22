@@ -5,28 +5,28 @@ import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.room.dao.NoteDao
+import sgtmelon.scriptum.room.dao.INoteDao
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 import kotlin.random.Random
 
 /**
- * Integration test for [NoteDao]
+ * Integration test for [INoteDao]
  *
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentIntegrationTest() {
 
-    private fun inNoteDao(func: NoteDao.() -> Unit) = inRoom { iNoteDao.apply(func) }
+    private fun inNoteDao(func: INoteDao.() -> Unit) = inRoom { iNoteDao.apply(func) }
 
-    private fun NoteDao.insertAllTo(bin: Boolean) {
+    private fun INoteDao.insertAllTo(bin: Boolean) {
         insert(noteFirst.copy(isBin = bin))
         insert(noteSecond.copy(isBin = bin))
         insert(noteThird.copy(isBin = bin))
     }
 
-    private fun NoteDao.updateAllTo(bin: Boolean) {
+    private fun INoteDao.updateAllTo(bin: Boolean) {
         update(noteFirst.copy(isBin = bin))
         update(noteSecond.copy(isBin = bin))
         update(noteThird.copy(isBin = bin))

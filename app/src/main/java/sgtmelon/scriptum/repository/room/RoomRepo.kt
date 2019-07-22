@@ -10,7 +10,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.dao.RankDao
+import sgtmelon.scriptum.room.dao.IRankDao
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -319,7 +319,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
      * @param rankDao передаётся таким образом, чтобы не закрыть db
      * @param noteEntity заметка, которая будет удалена
      */
-    private fun clearRankConnection(rankDao: RankDao, noteEntity: NoteEntity) {
+    private fun clearRankConnection(rankDao: IRankDao, noteEntity: NoteEntity) {
         if (noteEntity.rankId.isEmpty()) return
 
         rankDao[noteEntity.rankId].apply {
