@@ -1,12 +1,13 @@
 package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
- * Класс для общения Dao категорий [RoomDb]
+ * Interface for communicate [DbData.Rank.TABLE] with [RoomDb]
  *
  * @author SerjantArbuz
  */
@@ -25,9 +26,6 @@ interface RankDao {
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(list: List<RankEntity>)
 
-    /**
-     * [name] - unique category name
-     */
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_NAME = :name")
     operator fun get(name: String): RankEntity?
 
@@ -37,9 +35,6 @@ interface RankDao {
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
     operator fun get(idList: List<Long>): List<RankEntity>
 
-    /**
-     * Лист с id категорий, которые видны
-     */
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
     fun getIdVisibleList(): List<Long>
 
@@ -51,6 +46,5 @@ interface RankDao {
 
     @Query(value = "SELECT RK_ID FROM RANK_TABLE ORDER BY RK_POSITION")
     fun getIdList(): List<Long>
-
 
 }

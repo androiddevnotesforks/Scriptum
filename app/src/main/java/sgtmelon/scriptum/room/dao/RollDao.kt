@@ -1,12 +1,13 @@
 package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Класс для общения Dao списка [RoomDb]
+ * Interface for communicate [DbData.Roll.TABLE] with [RoomDb]
  *
  * @author SerjantArbuz
  */
@@ -14,29 +15,17 @@ import sgtmelon.scriptum.room.entity.RollEntity
 @TypeConverters(BoolConverter::class)
 interface RollDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE) fun insert(rollEntity: RollEntity): Long
-
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(rollEntity: RollEntity): Long
 
     @Query(value = "UPDATE ROLL_TABLE SET RL_POSITION = :position, RL_TEXT = :text WHERE RL_ID = :id")
     fun update(id: Long, position: Int, text: String)
 
-    /**
-     * Обновление выполнения конкретного пункта
-     *
-     * @param id    - Id пункта
-     * @param check - Состояние отметки
-     */
-    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_ID = :id")
-    fun update(id: Long, check: Boolean)
+    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_ID = :rollId")
+    fun update(rollId: Long, check: Boolean)
 
-    /**
-     * Обновление выполнения для всех пунктов
-     *
-     * @param id - Id заметки
-     * @param check  - Состояние отметки
-     */
-    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_NOTE_ID = :id")
-    fun updateAllCheck(id: Long, check: Boolean)
+    @Query(value = "UPDATE ROLL_TABLE SET RL_CHECK = :check WHERE RL_NOTE_ID = :noteId")
+    fun updateAllCheck(noteId: Long, check: Boolean)
 
     /**
      * Удаление пунктов при сохранении после свайпа
@@ -48,20 +37,16 @@ interface RollDao {
     fun delete(noteId: Long, idSaveList: List<Long>)
 
     /**
-     * @param noteId - Id удаляемой заметки
+     * Delete all items from note
      */
     @Query(value = "DELETE FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId")
     fun delete(noteId: Long)
-
-
-    @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
-    fun get(): List<RollEntity>
 
     @Query(value = "SELECT * FROM ROLL_TABLE WHERE RL_NOTE_ID = :noteId ORDER BY RL_POSITION")
     operator fun get(noteId: Long): MutableList<RollEntity>
 
     /**
-     * Получение списка всех пунктов с позиции 0 по 3 (4 пунка)
+     * Get only first 4 items for preview
      */
     @Query(value = """SELECT * FROM ROLL_TABLE
             WHERE RL_NOTE_ID = :noteId AND RL_POSITION BETWEEN 0 AND 3

@@ -1,13 +1,14 @@
 package sgtmelon.scriptum.room.dao
 
 import androidx.room.*
+import sgtmelon.scriptum.model.data.DbData
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**
- * Класс для общения Dao заметок [RoomDb]
+ * Interface for communicate [DbData.Note.TABLE] with [RoomDb]
  *
  * @author SerjantArbuz
  */
@@ -18,7 +19,6 @@ interface NoteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(noteEntity: NoteEntity): Long
 
-
     @Delete fun delete(noteEntity: NoteEntity)
 
     @Delete fun delete(list: List<NoteEntity>)
@@ -26,7 +26,6 @@ interface NoteDao {
     @Update fun update(noteEntity: NoteEntity)
 
     @Update fun update(list: List<NoteEntity>)
-
 
     @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
     operator fun get(id: Long): NoteEntity?
@@ -60,9 +59,6 @@ interface NoteDao {
     fun getByColor(bin: Boolean): List<NoteEntity>
 
 
-    /**
-     * Получение количества заметок с id из списка и определённого типа
-     */
     @Query(value = "SELECT COUNT(NT_ID) FROM NOTE_TABLE WHERE NT_ID IN(:idList) AND NT_TYPE = :type")
     fun getCount(idList: List<Long>, type: Int): Int
 
