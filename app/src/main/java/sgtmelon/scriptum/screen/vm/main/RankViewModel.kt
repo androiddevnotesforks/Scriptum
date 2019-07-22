@@ -83,11 +83,12 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         if (name.isEmpty()) return
 
         val p = if (simpleClick) rankModel.size() else 0
-        val rankEntity = RankEntity(position = if (simpleClick) p else -1, name = name).apply {
-            id = iRankRepo.insert(p, rankEntity = this)
+        val rankEntity = RankEntity(name = name).apply {
+            id = iRankRepo.insert(rankEntity = this)
         }
 
         rankModel.add(p, rankEntity)
+        iRankRepo.update(rankModel.itemList)
 
         callback?.scrollToItem(simpleClick, rankModel.itemList)
     }
@@ -142,11 +143,13 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickCancel(p: Int) {
-        iRankRepo.delete(rankModel.itemList[p].name, p)
-        viewModelScope.launch { iRankRepo.notifyBind() }
+        iRankRepo.delete(rankModel.itemList[p].name)
 
         rankModel.remove(p)
 
+        iRankRepo.update(rankModel.itemList)
+        viewModelScope.launch { iRankRepo.notifyBind() }
+        
         callback?.notifyItemRemoved(p, rankModel.itemList)
     }
 

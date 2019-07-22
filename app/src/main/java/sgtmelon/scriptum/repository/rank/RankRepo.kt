@@ -30,58 +30,29 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         }
     }
 
-    override fun insert(p: Int, rankEntity: RankEntity): Long {
+    override fun insert(rankEntity: RankEntity): Long {
         val id: Long
-
-        openRoom().apply {
-            id = iRankDao.insert(rankEntity)
-            if (p != 0) updateRankPosition(p, db = this)
-        }.close()
-
+        openRoom().apply { id = iRankDao.insert(rankEntity) }.close()
         return id
     }
 
     override fun getRankModel() = RankModel(getCompleteRankList())
 
-    override fun delete(name: String, p: Int) = inRoom {
-        val rankEntity = iRankDao[name] ?: return@inRoom
-
-        if (rankEntity.noteId.isNotEmpty()) {
-            val noteList = iNoteDao[rankEntity.noteId]
-
-            /**
-             * Убирает из списков ненужную категорию по id
-             */
-            noteList.forEach {
-                val index = it.rankId.indexOf(rankEntity.id)
-
-                it.rankId.removeAt(index)
-                it.rankPs.removeAt(index)
-            }
-
-            iNoteDao.update(noteList)
-        }
-
-        iRankDao.delete(rankEntity)
-
-        updateRankPosition(p, db = this)
-    }
+    override fun delete(name: String) = inRoom { iRankDao.delete(name) }
 
     override fun update(rankEntity: RankEntity) = inRoom { iRankDao.update(rankEntity) }
 
     override fun update(list: MutableList<RankEntity>) = inRoom {
-        val noteIdList: MutableSet<Long> = mutableSetOf()
+        val noteIdSet: MutableSet<Long> = mutableSetOf()
 
         list.forEachIndexed { i, item ->
             if (item.position != i) {
-                item.noteId.forEach { noteIdList.add(it) }
+                item.noteId.forEach { noteIdSet.add(it) }
                 item.position = i
             }
         }
 
-        if (noteIdList.isNotEmpty()) {
-            updateNoteRankPosition(noteIdList.toList(), list, db = this)
-        }
+        if (noteIdSet.isNotEmpty()) updateNoteRankPosition(noteIdSet.toList(), list, db = this)
 
         iRankDao.update(list)
     }
@@ -97,24 +68,6 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
                 it.rollCount = iNoteDao.getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
             }
         }
-    }
-
-    /**
-     * @param fromPosition - Позиция удаления категории
-     */
-    private fun updateRankPosition(fromPosition: Int, db: RoomDb) = with(db) {
-        val rankList = iRankDao.get()
-        val noteIdList = ArrayList<Long>()
-
-        for (i in fromPosition until rankList.size) {
-            rankList[i].apply {
-                noteId.forEach { if (!noteIdList.contains(it)) noteIdList.add(it) }
-                position = i
-            }
-        }
-
-        iRankDao.update(rankList)
-        updateNoteRankPosition(noteIdList, rankList, db = this)
     }
 
     /**

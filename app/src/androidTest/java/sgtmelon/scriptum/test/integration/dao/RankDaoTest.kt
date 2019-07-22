@@ -36,7 +36,7 @@ class RankDaoTest : ParentIntegrationTest() {
 
     @Test fun delete() = inRankDao {
         insert(rankFirst)
-        delete(rankFirst)
+        delete(rankFirst.name)
         assertNull(get(rankFirst.name))
     }
 

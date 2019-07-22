@@ -15,11 +15,11 @@ interface IRankRepo {
      */
     suspend fun notifyBind()
 
-    fun insert(p: Int, rankEntity: RankEntity): Long
+    fun insert(rankEntity: RankEntity): Long
 
     fun getRankModel(): RankModel
 
-    fun delete(name: String, p: Int)
+    fun delete(name: String)
 
     fun update(rankEntity: RankEntity)
 

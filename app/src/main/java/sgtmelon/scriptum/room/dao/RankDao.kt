@@ -18,7 +18,8 @@ interface RankDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(rankEntity: RankEntity): Long
 
-    @Delete fun delete(item: RankEntity)
+    @Query(value = "DELETE FROM RANK_TABLE WHERE RK_NAME = :name")
+    fun delete(name: String)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(item: RankEntity)
