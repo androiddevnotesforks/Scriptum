@@ -1,8 +1,7 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.room.dao.RankDao
@@ -19,7 +18,21 @@ class RankDaoTest : ParentIntegrationTest() {
 
     private fun inTheRankDao(func: RankDao.() -> Unit) = inTheRoom { getRankDao().apply(func) }
 
-    @Test fun insertWithSameName() = inTheRankDao { TODO("") }
+    private fun RankDao.insertAll(): List<RankEntity> =
+            arrayListOf(rankFirst, rankSecond, rankThird).apply {
+                forEach { insert(it) }
+                sortBy { it.position }
+            }
+
+    @Test fun insertWithWithUnique() = inTheRankDao {
+        insert(rankFirst)
+
+        insert(rankSecond.copy(id = rankFirst.id))
+        assertTrue(getCount() == 1)
+
+        insert(rankSecond.copy(name = rankFirst.name))
+        assertTrue(getCount() == 1)
+    }
 
     @Test fun delete() = inTheRankDao {
         insert(rankFirst)
@@ -46,6 +59,27 @@ class RankDaoTest : ParentIntegrationTest() {
         assertEquals(updateList, get(updateList.map { it.id }))
     }
 
+    @Test fun updateWithUnique() = inTheRankDao {
+        insert(rankFirst)
+        insert(rankSecond)
+
+        rankSecond.copy(id = rankFirst.id).let {
+            update(it)
+            assertEquals(rankSecond, get(rankSecond.name))
+
+            update(arrayListOf(rankFirst, it))
+            assertEquals(rankSecond, get(rankSecond.name))
+        }
+
+        rankSecond.copy(name = rankFirst.name).let {
+            update(it)
+            assertEquals(rankSecond, get(rankSecond.name))
+
+            update(arrayListOf(rankFirst, it))
+            assertEquals(rankSecond, get(rankSecond.name))
+        }
+    }
+
     @Test fun getOnWrongId() = inTheRankDao { assertNull(get(testData.uniqueString)) }
 
     @Test fun getOnCorrectId() = inTheRankDao {
@@ -59,14 +93,30 @@ class RankDaoTest : ParentIntegrationTest() {
         assertEquals(rankThird, get(rankThird.name))
     }
 
-    @Test fun getList() = inTheRankDao {
-        insert(rankFirst)
-        insert(rankSecond)
-        insert(rankThird)
+    @Test fun getList() = inTheRankDao { assertEquals(insertAll(), get()) }
 
-        val getList = arrayListOf(rankSecond, rankThird)
+    @Test fun getListByIdList() = inTheRankDao {
+        insertAll()
 
-        assertEquals(getList, get(getList.map { it.id }))
+        arrayListOf(rankSecond, rankThird).let { list ->
+            assertEquals(list, get(list.map { it.id }))
+        }
+    }
+
+    @Test fun getIdVisibleList() = inTheRankDao {
+        assertEquals(insertAll().filter { it.isVisible }.map { it.id }, getIdVisibleList())
+    }
+
+    @Test fun getCount() = inTheRankDao {
+        assertEquals(insertAll().size, getCount())
+    }
+
+    @Test fun getNameList() = inTheRankDao {
+        assertEquals(insertAll().map { it.name }, getNameList())
+    }
+
+    @Test fun getIdList() = inTheRankDao {
+        assertEquals(insertAll().map { it.id }, getIdList())
     }
 
     private companion object {

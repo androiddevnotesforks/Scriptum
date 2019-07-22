@@ -10,7 +10,7 @@ import java.util.*
 /**
  * Элемент списка категорий [RankModel]
  */
-@Entity(tableName = Rank.TABLE)
+@Entity(tableName = Rank.TABLE, indices = [Index(value = [Rank.NAME], unique = true)])
 @TypeConverters(BoolConverter::class, StringConverter::class)
 data class RankEntity(
         @ColumnInfo(name = Rank.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,

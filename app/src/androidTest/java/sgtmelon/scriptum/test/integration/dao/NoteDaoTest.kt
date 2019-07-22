@@ -1,8 +1,7 @@
 package sgtmelon.scriptum.test.integration.dao
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
@@ -23,6 +22,15 @@ class NoteDaoTest : ParentIntegrationTest() {
         insert(noteFirst.copy(isBin = bin))
         insert(noteSecond.copy(isBin = bin))
         insert(noteThird.copy(isBin = bin))
+    }
+
+    @Test fun insertWithUnique() = inTheRoom {
+        with(getNoteDao()) {
+            insert(noteFirst)
+            insert(noteFirst)
+
+            assertTrue(get(bin = false).size == 1)
+        }
     }
 
     @Test fun delete() = inTheRoom {

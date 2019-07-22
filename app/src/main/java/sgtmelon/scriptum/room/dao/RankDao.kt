@@ -14,13 +14,16 @@ import sgtmelon.scriptum.room.entity.RankEntity
 @TypeConverters(BoolConverter::class)
 interface RankDao {
 
-    @Insert fun insert(rankEntity: RankEntity): Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(rankEntity: RankEntity): Long
 
     @Delete fun delete(item: RankEntity)
 
-    @Update fun update(item: RankEntity)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun update(item: RankEntity)
 
-    @Update fun update(list: List<RankEntity>)
+    @Update(onConflict = OnConflictStrategy.IGNORE)
+    fun update(list: List<RankEntity>)
 
     /**
      * [name] - unique category name
@@ -28,18 +31,17 @@ interface RankDao {
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_NAME = :name")
     operator fun get(name: String): RankEntity?
 
+    @Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
+    fun get(): MutableList<RankEntity>
+
     @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
     operator fun get(idList: List<Long>): List<RankEntity>
-
-    // TODO rename
-    @Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
-    fun getSimple(): MutableList<RankEntity>
 
     /**
      * Лист с id категорий, которые видны
      */
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
-    fun getRankIdVisibleList(): List<Long>
+    fun getIdVisibleList(): List<Long>
 
     @Query(value = "SELECT COUNT(RK_ID) FROM RANK_TABLE")
     fun getCount(): Int

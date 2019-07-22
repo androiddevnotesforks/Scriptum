@@ -13,7 +13,8 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
 @Dao
 interface AlarmDao {
 
-    @Insert fun insert(alarmEntity: AlarmEntity): Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(alarmEntity: AlarmEntity): Long
 
     @Query(value = "DELETE FROM ALARM_TABLE WHERE AL_ID = :id")
     fun delete(id: Long)

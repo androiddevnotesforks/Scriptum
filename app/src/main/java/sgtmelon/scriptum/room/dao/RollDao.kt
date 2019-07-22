@@ -1,9 +1,6 @@
 package sgtmelon.scriptum.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.TypeConverters
+import androidx.room.*
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -17,7 +14,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
 @TypeConverters(BoolConverter::class)
 interface RollDao {
 
-    @Insert fun insert(rollEntity: RollEntity): Long
+    @Insert(onConflict = OnConflictStrategy.IGNORE) fun insert(rollEntity: RollEntity): Long
 
     @Query(value = "SELECT * FROM ROLL_TABLE ORDER BY RL_NOTE_ID ASC, RL_POSITION ASC")
     fun get(): List<RollEntity>
