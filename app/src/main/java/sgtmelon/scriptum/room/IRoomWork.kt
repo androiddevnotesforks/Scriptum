@@ -13,6 +13,6 @@ interface IRoomWork {
 
     fun openRoom() = RoomDb.getInstance(context)
 
-    fun inTheRoom(func: RoomDb.() -> Unit) = openRoom().apply(func).close()
+    fun inRoom(func: RoomDb.() -> Unit) = openRoom().apply(func).close()
 
 }

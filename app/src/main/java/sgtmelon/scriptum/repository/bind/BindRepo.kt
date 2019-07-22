@@ -19,15 +19,15 @@ class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
      * Возвращает пустой список если нет пунктов по данному id
      */
     override fun getRollList(noteId: Long) = ArrayList<RollEntity>().apply {
-        inTheRoom { addAll(getRollDao()[noteId]) }
+        inRoom { addAll(iRollDao[noteId]) }
     }
 
     override fun unbindNote(id: Long): NoteEntity? {
         val noteEntity: NoteEntity?
 
         openRoom().apply {
-            noteEntity = getNoteDao()[id]?.apply { isStatus = false }
-            noteEntity?.let { getNoteDao().update(it) }
+            noteEntity = iNoteDao[id]?.apply { isStatus = false }
+            noteEntity?.let { iNoteDao.update(it) }
         }.close()
 
         return noteEntity

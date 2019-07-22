@@ -22,49 +22,48 @@ import kotlin.random.Random
 class AlarmDaoTest : ParentIntegrationTest() {
 
     private fun RoomDb.insertAlarmRelation(noteEntity: NoteEntity, alarmEntity: AlarmEntity) {
-        getNoteDao().insert(noteEntity)
-        getAlarmDao().insert(alarmEntity)
+        iNoteDao.insert(noteEntity)
+        iAlarmDao.insert(alarmEntity)
     }
 
-    @Test fun insertWithUnique() = inTheRoom {
+    @Test fun insertWithUnique() = inRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
-        insertAlarmRelation(noteFirst, alarmFirst)
+        iAlarmDao.insert(alarmFirst)
 
-        assertTrue(getAlarmDao().get().size == 1)
+        assertTrue(iAlarmDao.get().size == 1)
     }
 
-    @Test fun delete() = inTheRoom {
+    @Test fun delete() = inRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
 
-        getAlarmDao().delete(alarmFirst.id)
-
-        assertNull(getAlarmDao()[alarmFirst.id])
+        iAlarmDao.delete(alarmFirst.id)
+        assertNull(iAlarmDao[alarmFirst.id])
     }
 
-    @Test fun update() = inTheRoom {
+    @Test fun update() = inRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
 
-        alarmFirst.copy().let {
-            getAlarmDao().update(it.apply { date = DATE_2 })
-            assertEquals(it, getAlarmDao()[alarmFirst.id])
+        alarmFirst.copy(date = DATE_2).let {
+            iAlarmDao.update(it)
+            assertEquals(it, iAlarmDao[alarmFirst.id])
         }
     }
 
-    @Test fun getOnWrongId() = inTheRoom { assertNull(getAlarmDao()[Random.nextLong()]) }
+    @Test fun getOnWrongId() = inRoom { assertNull(iAlarmDao[Random.nextLong()]) }
 
-    @Test fun getOnCorrectId() = inTheRoom {
+    @Test fun getOnCorrectId() = inRoom {
         insertAlarmRelation(noteFirst, alarmFirst)
 
-        assertEquals(alarmFirst, getAlarmDao()[alarmFirst.id])
+        assertEquals(alarmFirst, iAlarmDao[alarmFirst.id])
     }
 
-    @Test fun getList() = inTheRoom {
-        assertTrue(getAlarmDao().get().isEmpty())
+    @Test fun getList() = inRoom {
+        assertTrue(iAlarmDao.get().isEmpty())
 
         insertAlarmRelation(noteFirst, alarmFirst)
         insertAlarmRelation(noteSecond, alarmSecond)
 
-        assertEquals(notificationList, getAlarmDao().get())
+        assertEquals(notificationList, iAlarmDao.get())
     }
 
     private companion object {

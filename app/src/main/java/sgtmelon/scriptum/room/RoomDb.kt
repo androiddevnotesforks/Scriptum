@@ -27,13 +27,13 @@ import sgtmelon.scriptum.room.entity.RollEntity
 ], version = 4)
 abstract class RoomDb : RoomDatabase() {
 
-    abstract fun getNoteDao(): NoteDao
+    abstract val iNoteDao: NoteDao
 
-    abstract fun getRollDao(): RollDao
+    abstract val iRollDao: RollDao
 
-    abstract fun getRankDao(): RankDao
+    abstract val iRankDao: RankDao
 
-    abstract fun getAlarmDao(): AlarmDao
+    abstract val iAlarmDao: AlarmDao
 
     companion object {
         fun getInstance(context: Context): RoomDb =

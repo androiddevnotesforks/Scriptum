@@ -30,14 +30,14 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
 
     override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
-        inTheRoom {
-            val rankIdVisibleList = getRankDao().getIdVisibleList()
+        inRoom {
+            val rankIdVisibleList = iRankDao.getIdVisibleList()
 
             when (iPreferenceRepo.sort) {
-                Sort.change -> getNoteDao().getByChange(bin)
-                Sort.create -> getNoteDao().getByCreate(bin)
-                Sort.rank -> getNoteDao().getByRank(bin)
-                else -> getNoteDao().getByColor(bin)
+                Sort.change -> iNoteDao.getByChange(bin)
+                Sort.create -> iNoteDao.getByCreate(bin)
+                Sort.rank -> iNoteDao.getByRank(bin)
+                else -> iNoteDao.getByColor(bin)
             }.forEach {
                 val bindControl = BindControl(context, it)
 
@@ -47,8 +47,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
 
                     add(NoteModel(
-                            it, getRollDao().getView(it.id),
-                            alarmEntity = getAlarmDao()[it.id] ?: AlarmEntity())
+                            it, iRollDao.getView(it.id),
+                            alarmEntity = iAlarmDao[it.id] ?: AlarmEntity())
                     )
                 }
             }
@@ -58,53 +58,56 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     override fun isListHide(bin: Boolean): Boolean {
         var isListHide = false
 
-        inTheRoom {
-            val rankIdVisibleList = getRankDao().getIdVisibleList()
+        inRoom {
+            val rankIdVisibleList = iRankDao.getIdVisibleList()
 
-            getNoteDao().getByChange(bin).forEach {
-                if (it.isNotVisible(rankIdVisibleList)) isListHide = true
+            iNoteDao.getByChange(bin).forEach {
+                if (it.isNotVisible(rankIdVisibleList)) {
+                    isListHide = true
+                    // TODO break
+                }
             }
         }
 
         return isListHide
     }
 
-    override suspend fun clearBin() = inTheRoom {
-        val noteList = getNoteDao()[true].apply {
-            forEach { clearRankConnection(getRankDao(), it) }
+    override suspend fun clearBin() = inRoom {
+        val noteList = iNoteDao.getByChange(true).apply {
+            forEach { clearRankConnection(iRankDao, it) }
         }
 
-        getNoteDao().delete(noteList)
+        iNoteDao.delete(noteList)
     }
 
-    override suspend fun deleteNote(noteEntity: NoteEntity) = inTheRoom {
-        getNoteDao().update(noteEntity.apply {
+    override suspend fun deleteNote(noteEntity: NoteEntity) = inRoom {
+        iNoteDao.update(noteEntity.apply {
             change = context.getTime()
             isBin = true
             isStatus = false
         })
     }
 
-    override suspend fun restoreNote(noteEntity: NoteEntity) = inTheRoom {
-        getNoteDao().update(noteEntity.apply {
+    override suspend fun restoreNote(noteEntity: NoteEntity) = inRoom {
+        iNoteDao.update(noteEntity.apply {
             change = context.getTime()
             isBin = false
         })
     }
 
-    override suspend fun clearNote(noteEntity: NoteEntity) = inTheRoom {
-        clearRankConnection(getRankDao(), noteEntity)
-        getNoteDao().delete(noteEntity)
+    override suspend fun clearNote(noteEntity: NoteEntity) = inRoom {
+        clearRankConnection(iRankDao, noteEntity)
+        iNoteDao.delete(noteEntity)
     }
 
     override fun getRankIdVisibleList() = ArrayList<Long>().apply {
-        inTheRoom { addAll(getRankDao().getIdVisibleList()) }
+        inRoom { addAll(iRankDao.getIdVisibleList()) }
     }
 
     override fun getRankCount(): Boolean {
         val count: Int
 
-        openRoom().apply { count = getRankDao().getCount() }.close()
+        openRoom().apply { count = iRankDao.getCount() }.close()
 
         return count == 0
     }
@@ -116,16 +119,16 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
         openRoom().apply {
             noteModel = NoteModel(
-                    noteEntity = getNoteDao()[id] ?: NoteEntity(),
-                    rollList = getRollDao()[id],
-                    alarmEntity = getAlarmDao()[id] ?: AlarmEntity())
+                    noteEntity = iNoteDao[id] ?: NoteEntity(),
+                    rollList = iRollDao[id],
+                    alarmEntity = iAlarmDao[id] ?: AlarmEntity())
         }.close()
 
         return noteModel
     }
 
     override fun getRankNameList() = ArrayList<String>().apply {
-        inTheRoom { addAll(getRankDao().getNameList()) }
+        inRoom { addAll(iRankDao.getNameList()) }
     }
 
     override fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray {
@@ -140,7 +143,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         if (noteModel.noteEntity.type != NoteType.TEXT)
             throw ClassCastException("This method only for TEXT type")
 
-        inTheRoom {
+        inRoom {
             rollList.clear()
 
             var p = 0
@@ -149,7 +152,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     noteId = noteEntity.id
                     position = p++
                     text = it
-                    id = getRollDao().insert(rollEntity = this)
+                    id = iRollDao.insert(rollEntity = this)
                 })
             }
 
@@ -159,7 +162,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                 setCompleteText(check = 0, size = rollList.size)
             }
 
-            getNoteDao().update(noteEntity)
+            iNoteDao.update(noteEntity)
         }
     }
 
@@ -167,15 +170,15 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         if (noteModel.noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
-        inTheRoom {
+        inRoom {
             noteEntity.apply {
                 change = context.getTime()
                 type = NoteType.TEXT
-                text = getRollDao()[id].joinToString(separator = "\n") { it.text }
+                text = iRollDao[id].joinToString(separator = "\n") { it.text }
             }
 
-            getNoteDao().update(noteEntity)
-            getRollDao().delete(noteEntity.id)
+            iNoteDao.update(noteEntity)
+            iRollDao.delete(noteEntity.id)
 
             rollList.clear()
         }
@@ -185,8 +188,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         if (noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
-        inTheRoom {
-            append(getRollDao()[noteEntity.id].joinToString(separator = "\n") { it.text })
+        inRoom {
+            append(iRollDao[noteEntity.id].joinToString(separator = "\n") { it.text })
         }
     }.toString()
 
@@ -194,8 +197,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         if (noteEntity.type != NoteType.ROLL)
             throw ClassCastException("This method only for ROLL type")
 
-        inTheRoom {
-            append(getRollDao()[noteEntity.id]
+        inRoom {
+            append(iRollDao[noteEntity.id]
                     .joinToString(prefix = "${noteEntity.text}\n", separator = "\n") {
                         "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
                     }
@@ -204,16 +207,18 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }.toString()
 
     override fun getRankIdList() = ArrayList<Long>().apply {
-        inTheRoom { addAll(getRankDao().getIdList()) }
+        inRoom { addAll(iRankDao.getIdList()) }
     }
 
     override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {
         if (noteEntity.type != NoteType.TEXT)
             throw ClassCastException("This method only for TEXT type")
 
-        inTheRoom {
-            with(getNoteDao()) {
-                if (isCreate) noteEntity.id = insert(noteEntity) else update(noteEntity)
+        inRoom {
+            if (isCreate) {
+                noteEntity.id = iNoteDao.insert(noteEntity)
+            } else {
+                iNoteDao.update(noteEntity)
             }
         }
 
@@ -229,9 +234,9 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         rollList.clear()
         rollList.addAll(rollListTemp)
 
-        inTheRoom {
+        inRoom {
             if (isCreate) {
-                noteEntity.id = getNoteDao().insert(noteEntity)
+                noteEntity.id = iNoteDao.insert(noteEntity)
 
                 /**
                  * Запись в пунктов в БД
@@ -240,10 +245,10 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     item.apply {
                         noteId = noteEntity.id
                         position = i
-                    }.id = getRollDao().insert(item)
+                    }.id = iRollDao.insert(item)
                 }
             } else {
-                getNoteDao().update(noteEntity)
+                iNoteDao.update(noteEntity)
 
                 val idSaveList = ArrayList<Long>()
 
@@ -252,9 +257,9 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
                     val id = item.id
                     if (id == null) {
-                        item.id = getRollDao().insert(item)
+                        item.id = iRollDao.insert(item)
                     } else {
-                        getRollDao().update(id, i, item.text)
+                        iRollDao.update(id, i, item.text)
                     }
 
                     item.id?.let { idSaveList.add(it) }
@@ -263,7 +268,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                 /**
                  * Удаление пунктов, которые swipe
                  */
-                getRollDao().delete(noteEntity.id, idSaveList)
+                iRollDao.delete(noteEntity.id, idSaveList)
             }
         }
 
@@ -272,20 +277,19 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     override fun updateRollCheck(noteEntity: NoteEntity, rollEntity: RollEntity) {
         rollEntity.id?.let {
-            inTheRoom {
-                getRollDao().update(it, rollEntity.isCheck)
-                getNoteDao().update(noteEntity)
+            inRoom {
+                iRollDao.update(it, rollEntity.isCheck)
+                iNoteDao.update(noteEntity)
             }
         }
     }
 
-    override fun updateRollCheck(noteEntity: NoteEntity, check: Boolean) =
-            inTheRoom {
-                getRollDao().updateAllCheck(noteEntity.id, check)
-                getNoteDao().update(noteEntity)
-            }
+    override fun updateRollCheck(noteEntity: NoteEntity, check: Boolean) = inRoom {
+        iRollDao.updateAllCheck(noteEntity.id, check)
+        iNoteDao.update(noteEntity)
+    }
 
-    override fun updateNote(noteEntity: NoteEntity) = inTheRoom { getNoteDao().update(noteEntity) }
+    override fun updateNote(noteEntity: NoteEntity) = inRoom { iNoteDao.update(noteEntity) }
 
 
     // TODO прибрать private
@@ -293,8 +297,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     /**
      * Добавление или удаление id заметки к категорииё
      */
-    private fun updateRank(noteEntity: NoteEntity) = inTheRoom {
-        val list = getRankDao().get()
+    private fun updateRank(noteEntity: NoteEntity) = inRoom {
+        val list = iRankDao.get()
         val check = calculateRankCheckArray(noteEntity, db = this)
 
         val id = noteEntity.id
@@ -306,7 +310,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             }
         }
 
-        getRankDao().update(list)
+        iRankDao.update(list)
     }
 
     /**
@@ -325,7 +329,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     private fun calculateRankCheckArray(noteEntity: NoteEntity, db: RoomDb): BooleanArray {
-        val rankList = db.getRankDao().get()
+        val rankList = db.iRankDao.get()
         val check = BooleanArray(rankList.size)
 
         rankList.forEachIndexed { i, item -> check[i] = noteEntity.rankId.contains(item.id) }

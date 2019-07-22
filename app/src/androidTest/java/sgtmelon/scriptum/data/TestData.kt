@@ -66,13 +66,13 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
 
     fun insertRank(rank: RankEntity = rankEntity): RankEntity {
-        inTheRoom { rank.id = getRankDao().insert(rank) }
+        inRoom { rank.id = iRankDao.insert(rank) }
 
         return rank
     }
 
     fun insertText(note: NoteEntity = textNote): NoteModel {
-        inTheRoom { note.id = getNoteDao().insert(note) }
+        inRoom { note.id = iNoteDao.insert(note) }
 
         return NoteModel(note)
     }
@@ -80,11 +80,11 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
 
     fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteModel {
-        inTheRoom {
-            note.id = getNoteDao().insert(note)
+        inRoom {
+            note.id = iNoteDao.insert(note)
             list.forEach {
                 it.noteId = note.id
-                getRollDao().insert(it)
+                iRollDao.insert(it)
             }
         }
 
@@ -95,8 +95,8 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             insertRoll(note.apply { isBin = true }, list)
 
     fun insertNotification(noteModel: NoteModel): NoteModel {
-        inTheRoom {
-            getAlarmDao().insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = context.getTime()))
+        inRoom {
+            iAlarmDao.insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = context.getTime()))
         }
 
         return noteModel
@@ -129,7 +129,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             noteModel.noteEntity.rankPs.add(it.position.toLong())
         }
 
-        inTheRoom { getNoteDao().update(noteModel.noteEntity) }
+        inRoom { iNoteDao.update(noteModel.noteEntity) }
     }
 
     fun fillRankForBin() = ArrayList<RankEntity>().apply {
@@ -148,7 +148,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             noteModel.noteEntity.rankPs.add(it.position.toLong())
         }
 
-        inTheRoom { getNoteDao().update(noteModel.noteEntity) }
+        inRoom { iNoteDao.update(noteModel.noteEntity) }
     }
 
     fun fillNotes(count: Int = 10) = repeat(count) {
@@ -164,6 +164,6 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     }
 
 
-    fun clear() = apply { inTheRoom { clearAllTables() } }
+    fun clear() = apply { inRoom { clearAllTables() } }
 
 }

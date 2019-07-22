@@ -16,7 +16,7 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentIntegrationTest() {
 
-    private fun inTheRankDao(func: RankDao.() -> Unit) = inTheRoom { getRankDao().apply(func) }
+    private fun inRankDao(func: RankDao.() -> Unit) = inRoom { iRankDao.apply(func) }
 
     private fun RankDao.insertAll(): List<RankEntity> =
             arrayListOf(rankFirst, rankSecond, rankThird).apply {
@@ -24,7 +24,7 @@ class RankDaoTest : ParentIntegrationTest() {
                 sortBy { it.position }
             }
 
-    @Test fun insertWithWithUnique() = inTheRankDao {
+    @Test fun insertWithUnique() = inRankDao {
         insert(rankFirst)
 
         insert(rankSecond.copy(id = rankFirst.id))
@@ -34,13 +34,13 @@ class RankDaoTest : ParentIntegrationTest() {
         assertTrue(getCount() == 1)
     }
 
-    @Test fun delete() = inTheRankDao {
+    @Test fun delete() = inRankDao {
         insert(rankFirst)
         delete(rankFirst)
         assertNull(get(rankFirst.name))
     }
 
-    @Test fun update() = inTheRankDao {
+    @Test fun update() = inRankDao {
         insert(rankFirst)
 
         rankFirst.copy(name = "12345", isVisible = false).let {
@@ -49,7 +49,7 @@ class RankDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun updateByList() = inTheRankDao {
+    @Test fun updateByList() = inRankDao {
         insert(rankFirst)
         insert(rankSecond)
 
@@ -59,7 +59,7 @@ class RankDaoTest : ParentIntegrationTest() {
         assertEquals(updateList, get(updateList.map { it.id }))
     }
 
-    @Test fun updateWithUnique() = inTheRankDao {
+    @Test fun updateWithUnique() = inRankDao {
         insert(rankFirst)
         insert(rankSecond)
 
@@ -80,9 +80,9 @@ class RankDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun getOnWrongId() = inTheRankDao { assertNull(get(testData.uniqueString)) }
+    @Test fun getOnWrongId() = inRankDao { assertNull(get(testData.uniqueString)) }
 
-    @Test fun getOnCorrectId() = inTheRankDao {
+    @Test fun getOnCorrectId() = inRankDao {
         insert(rankFirst)
         assertEquals(rankFirst, get(rankFirst.name))
 
@@ -93,9 +93,9 @@ class RankDaoTest : ParentIntegrationTest() {
         assertEquals(rankThird, get(rankThird.name))
     }
 
-    @Test fun getList() = inTheRankDao { assertEquals(insertAll(), get()) }
+    @Test fun getList() = inRankDao { assertEquals(insertAll(), get()) }
 
-    @Test fun getListByIdList() = inTheRankDao {
+    @Test fun getListByIdList() = inRankDao {
         insertAll()
 
         arrayListOf(rankSecond, rankThird).let { list ->
@@ -103,19 +103,19 @@ class RankDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun getIdVisibleList() = inTheRankDao {
+    @Test fun getIdVisibleList() = inRankDao {
         assertEquals(insertAll().filter { it.isVisible }.map { it.id }, getIdVisibleList())
     }
 
-    @Test fun getCount() = inTheRankDao {
+    @Test fun getCount() = inRankDao {
         assertEquals(insertAll().size, getCount())
     }
 
-    @Test fun getNameList() = inTheRankDao {
+    @Test fun getNameList() = inRankDao {
         assertEquals(insertAll().map { it.name }, getNameList())
     }
 
-    @Test fun getIdList() = inTheRankDao {
+    @Test fun getIdList() = inRankDao {
         assertEquals(insertAll().map { it.id }, getIdList())
     }
 

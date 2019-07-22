@@ -18,166 +18,132 @@ import kotlin.random.Random
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentIntegrationTest() {
 
+    private fun inNoteDao(func: NoteDao.() -> Unit) = inRoom { iNoteDao.apply(func) }
+
     private fun NoteDao.insertAllTo(bin: Boolean) {
         insert(noteFirst.copy(isBin = bin))
         insert(noteSecond.copy(isBin = bin))
         insert(noteThird.copy(isBin = bin))
     }
 
-    @Test fun insertWithUnique() = inTheRoom {
-        with(getNoteDao()) {
-            insert(noteFirst)
-            insert(noteFirst)
+    private fun NoteDao.updateAllTo(bin: Boolean) {
+        update(noteFirst.copy(isBin = bin))
+        update(noteSecond.copy(isBin = bin))
+        update(noteThird.copy(isBin = bin))
+    }
 
-            assertTrue(get(bin = false).size == 1)
+    @Test fun insertWithUnique() = inNoteDao {
+        repeat(times = 2) { insert(noteFirst) }
+        assertTrue(getByChange(bin = false).size == 1)
+    }
+
+    @Test fun delete() = inNoteDao {
+        insert(noteFirst)
+        assertEquals(noteFirst, get(noteFirst.id))
+
+        delete(noteFirst)
+        assertNull(get(noteFirst.id))
+    }
+
+    @Test fun update() = inNoteDao {
+        insert(noteFirst)
+        assertEquals(noteFirst, get(noteFirst.id))
+
+        noteFirst.copy(color = 10, isBin = true).let {
+            update(it)
+            assertEquals(it, get(noteFirst.id))
         }
     }
 
-    @Test fun delete() = inTheRoom {
-        with(getNoteDao()) {
-            insert(noteFirst)
-            assertEquals(noteFirst, get(noteFirst.id))
+    @Test fun updateByList() = inNoteDao {
+        insert(noteFirst)
+        insert(noteThird)
+        assertEquals(arrayListOf(noteFirst, noteThird), getByColor(bin = false))
 
-            delete(noteFirst)
-            assertNull(get(noteFirst.id))
-        }
-    }
-
-    @Test fun update() = inTheRoom {
-        with(getNoteDao()) {
-            insert(noteFirst)
-            assertEquals(noteFirst, get(noteFirst.id))
-
-            noteFirst.copy(color = 10, isBin = true).let {
-                update(it)
-                assertEquals(it, get(noteFirst.id))
+        noteFirst.copy(color = 3).let { first ->
+            noteThird.copy(color = 2).let { third ->
+                update(arrayListOf(first, third))
+                assertEquals(arrayListOf(third, first), getByColor(bin = false))
             }
         }
     }
 
-    @Test fun updateByList() = inTheRoom {
-        with(getNoteDao()) {
-            insert(noteFirst)
-            insert(noteThird)
-            assertEquals(arrayListOf(noteFirst, noteThird), getByColor(bin = false))
+    @Test fun getOnWrongId() = inNoteDao { assertNull(get(Random.nextLong())) }
 
-            noteFirst.copy(color = 3).let {first ->
-                noteThird.copy(color = 2).let {third ->
-                    update(arrayListOf(first, third))
-                    assertEquals(arrayListOf(third, first), getByColor(bin = false))
-                }
-            }
-        }
+    @Test fun getOnCorrectId() = inNoteDao {
+        insert(noteFirst)
+        assertEquals(noteFirst, get(noteFirst.id))
+
+        insert(noteSecond)
+        assertEquals(noteSecond, get(noteSecond.id))
+
+        insert(noteThird)
+        assertEquals(noteThird, get(noteThird.id))
     }
 
-    @Test fun getOnWrongId() = inTheRoom { assertNull(getNoteDao()[Random.nextLong()]) }
+    @Test fun getByChange() = inNoteDao {
+        insertAllTo(bin = false)
 
-    @Test fun getOnCorrectId() = inTheRoom {
-        with(getNoteDao()) {
-            insert(noteFirst)
-            insert(noteSecond)
-            insert(noteThird)
+        assertEquals(arrayListOf(
+                noteThird, noteSecond.copy(isBin = false), noteFirst
+        ), getByChange(bin = false))
 
-            assertEquals(noteFirst, get(noteFirst.id))
-            assertEquals(noteSecond, get(noteSecond.id))
-            assertEquals(noteThird, get(noteThird.id))
-        }
+        updateAllTo(bin = true)
+
+        assertEquals(arrayListOf(
+                noteThird.copy(isBin = true), noteSecond, noteFirst.copy(isBin = true)
+        ), getByChange(bin = true))
     }
 
-    @Test fun getFromPage() = inTheRoom {
-        with(getNoteDao()) {
-            assertEquals(arrayListOf<NoteEntity>(), get(bin = false))
-            assertEquals(arrayListOf<NoteEntity>(), get(bin = true))
+    @Test fun getByCreate() = inNoteDao {
+        insertAllTo(bin = false)
 
-            insert(noteFirst)
-            insert(noteSecond)
+        assertEquals(arrayListOf(
+                noteThird, noteSecond.copy(isBin = false), noteFirst
+        ), getByCreate(bin = false))
 
-            assertEquals(arrayListOf(noteFirst), get(bin = false))
-            assertEquals(arrayListOf(noteSecond), get(bin = true))
-        }
+        updateAllTo(bin = true)
+
+        assertEquals(arrayListOf(
+                noteThird.copy(isBin = true), noteSecond, noteFirst.copy(isBin = true)
+        ), getByCreate(bin = true))
     }
 
-    @Test fun getByChange() = inTheRoom {
-        with(getNoteDao()) {
-            insertAllTo(bin = false)
+    @Test fun getByRank() = inNoteDao {
+        insertAllTo(bin = false)
 
-            assertEquals(arrayListOf(
-                    noteThird, noteSecond.copy(isBin = false), noteFirst
-            ), getByChange(bin = false))
+        assertEquals(arrayListOf(
+                noteSecond.copy(isBin = false), noteFirst, noteThird
+        ), getByRank(bin = false))
 
-            clearAllTables()
+        updateAllTo(bin = true)
 
-            insertAllTo(bin = true)
-
-            assertEquals(arrayListOf(
-                    noteThird.copy(isBin = true), noteSecond, noteFirst.copy(isBin = true)
-            ), getByChange(bin = true))
-        }
+        assertEquals(arrayListOf(
+                noteSecond, noteFirst.copy(isBin = true), noteThird.copy(isBin = true)
+        ), getByRank(bin = true))
     }
 
-    @Test fun getByCreate() = inTheRoom {
-        with(getNoteDao()) {
-            insertAllTo(bin = false)
+    @Test fun getByColor() = inNoteDao {
+        insertAllTo(bin = false)
 
-            assertEquals(arrayListOf(
-                    noteThird, noteSecond.copy(isBin = false), noteFirst
-            ), getByCreate(bin = false))
+        assertEquals(arrayListOf(
+                noteSecond.copy(isBin = false), noteFirst, noteThird
+        ), getByColor(bin = false))
 
-            clearAllTables()
+        updateAllTo(bin = true)
 
-            insertAllTo(bin = true)
-
-            assertEquals(arrayListOf(
-                    noteThird.copy(isBin = true), noteSecond, noteFirst.copy(isBin = true)
-            ), getByCreate(bin = true))
-        }
+        assertEquals(arrayListOf(
+                noteSecond, noteFirst.copy(isBin = true), noteThird.copy(isBin = true)
+        ), getByColor(bin = true))
     }
 
-    @Test fun getByRank() = inTheRoom {
-        with(getNoteDao()) {
-            insertAllTo(bin = false)
+    @Test fun getCount() = inNoteDao {
+        insertAllTo(bin = false)
 
-            assertEquals(arrayListOf(
-                    noteSecond.copy(isBin = false), noteFirst, noteThird
-            ), getByRank(bin = false))
-
-            clearAllTables()
-
-            insertAllTo(bin = true)
-
-            assertEquals(arrayListOf(
-                    noteSecond, noteFirst.copy(isBin = true), noteThird.copy(isBin = true)
-            ), getByRank(bin = true))
-        }
-    }
-
-    @Test fun getByColor() = inTheRoom {
-        with(getNoteDao()) {
-            insertAllTo(bin = false)
-
-            assertEquals(arrayListOf(
-                    noteSecond.copy(isBin = false), noteFirst, noteThird
-            ), getByColor(bin = false))
-
-            clearAllTables()
-
-            insertAllTo(bin = true)
-
-            assertEquals(arrayListOf(
-                    noteSecond, noteFirst.copy(isBin = true), noteThird.copy(isBin = true)
-            ), getByColor(bin = true))
-        }
-    }
-
-    @Test fun getCount() = inTheRoom {
-        with(getNoteDao()) {
-            insertAllTo(bin = false)
-
-            assertEquals(0, getCount(arrayListOf(1, 2, 3), NoteType.ROLL.ordinal))
-            assertEquals(1, getCount(arrayListOf(1, 4, 5), NoteType.TEXT.ordinal))
-            assertEquals(2, getCount(arrayListOf(1, 2, 5), NoteType.TEXT.ordinal))
-            assertEquals(3, getCount(arrayListOf(1, 2, 3), NoteType.TEXT.ordinal))
-        }
+        assertEquals(0, getCount(arrayListOf(1, 2, 3), NoteType.ROLL.ordinal))
+        assertEquals(1, getCount(arrayListOf(1, 4, 5), NoteType.TEXT.ordinal))
+        assertEquals(2, getCount(arrayListOf(1, 2, 5), NoteType.TEXT.ordinal))
+        assertEquals(3, getCount(arrayListOf(1, 2, 3), NoteType.TEXT.ordinal))
     }
 
     private companion object {

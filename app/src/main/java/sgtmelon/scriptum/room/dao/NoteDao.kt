@@ -15,8 +15,9 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 interface NoteDao {
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(noteEntity: NoteEntity): Long
+
 
     @Delete fun delete(noteEntity: NoteEntity)
 
@@ -25,6 +26,14 @@ interface NoteDao {
     @Update fun update(noteEntity: NoteEntity)
 
     @Update fun update(list: List<NoteEntity>)
+
+
+    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
+    operator fun get(id: Long): NoteEntity?
+
+    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
+    operator fun get(idList: List<Long>): List<NoteEntity>
+
 
     @Query(value = """SELECT * FROM NOTE_TABLE
         WHERE NT_BIN = :bin
@@ -50,15 +59,6 @@ interface NoteDao {
     """)
     fun getByColor(bin: Boolean): List<NoteEntity>
 
-    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID = :id")
-    operator fun get(id: Long): NoteEntity?
-
-    @Query(value = "SELECT * FROM NOTE_TABLE WHERE NT_ID IN(:idList)")
-    operator fun get(idList: List<Long>): List<NoteEntity>
-
-    @Query(value = """SELECT * FROM NOTE_TABLE WHERE NT_BIN = :bin
-        ORDER BY DATE(NT_CREATE) DESC, TIME(NT_CREATE) DESC""")
-    operator fun get(bin: Boolean): MutableList<NoteEntity>
 
     /**
      * Получение количества заметок с id из списка и определённого типа

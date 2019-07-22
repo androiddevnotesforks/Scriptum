@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.develop
 
 import android.content.Context
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
@@ -19,11 +20,12 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
 class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 
     override suspend fun getNoteTableData() = StringBuilder().apply {
-        val list: MutableList<NoteEntity>
+        val list: MutableList<NoteEntity> = ArrayList()
 
-        openRoom().apply {
-            with(getNoteDao()) { list = get(true).apply { addAll(get(false)) } }
-        }.close()
+        inRoom {
+            list.addAll(iNoteDao.getByChange(bin = true))
+            list.addAll(iNoteDao.getByChange(bin = false))
+        }
 
         append("Note table:")
 
@@ -45,9 +47,19 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     }.toString()
 
     override suspend fun getRollTableData() = StringBuilder().apply {
-        val list: List<RollEntity>
+        val list: MutableList<RollEntity> = ArrayList()
 
-        openRoom().apply { list = getRollDao().get() }.close()
+        inRoom {
+            iNoteDao.getByChange(bin = false)
+                    .filter { it.type == NoteType.ROLL }
+                    .map { it.id }
+                    .forEach {noteId -> iRollDao[noteId].forEach { list.add(it) } }
+
+            iNoteDao.getByChange(bin = true)
+                    .filter { it.type == NoteType.ROLL }
+                    .map { it.id }
+                    .forEach {noteId -> iRollDao[noteId].forEach { list.add(it) } }
+        }
 
         append("Roll table:")
 
@@ -65,7 +77,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
     override suspend fun getRankTableData() = StringBuilder().apply {
         val list: MutableList<RankEntity>
 
-        openRoom().apply { list = getRankDao().get() }.close()
+        openRoom().apply { list = iRankDao.get() }.close()
 
         append("Rank table:")
 

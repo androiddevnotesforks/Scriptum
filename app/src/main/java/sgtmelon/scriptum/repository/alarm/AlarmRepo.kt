@@ -15,10 +15,10 @@ import sgtmelon.scriptum.room.RoomDb
 class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 
     override fun getList() = ArrayList<NotificationItem>().apply {
-        inTheRoom { addAll(getAlarmDao().get()) }
+        inRoom { addAll(iAlarmDao.get()) }
     }
 
-    override fun delete(id: Long) = inTheRoom { getAlarmDao().delete(id) }
+    override fun delete(id: Long) = inRoom { iAlarmDao.delete(id) }
 
     companion object {
         fun getInstance(context: Context): IAlarmRepo = AlarmRepo(context)

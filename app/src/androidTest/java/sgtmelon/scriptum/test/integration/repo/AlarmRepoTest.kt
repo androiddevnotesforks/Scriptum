@@ -22,16 +22,16 @@ class AlarmRepoTest : ParentIntegrationTest() {
 
     private val iAlarmRepo = AlarmRepo.getInstance(context)
 
-    @Test fun getList() = inTheRoom {
-        getNoteDao().insert(noteEntity)
-        getAlarmDao().insert(alarmEntity)
+    @Test fun getList() = inRoom {
+        iNoteDao.insert(noteEntity)
+        iAlarmDao.insert(alarmEntity)
 
         assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
     }
 
-    @Test fun delete() = inTheRoom {
-        getNoteDao().insert(noteEntity)
-        getAlarmDao().insert(alarmEntity)
+    @Test fun delete() = inRoom {
+        iNoteDao.insert(noteEntity)
+        iAlarmDao.insert(alarmEntity)
 
         iAlarmRepo.delete(alarmEntity.id)
 

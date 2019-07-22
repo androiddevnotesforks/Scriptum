@@ -11,7 +11,7 @@ abstract class ParentIntegrationTest : ParentTest(), IRoomWork {
 
     override fun setUp() {
         super.setUp()
-        inTheRoom { clearAllTables() }
+        inRoom { clearAllTables() }
     }
 
     protected companion object {
