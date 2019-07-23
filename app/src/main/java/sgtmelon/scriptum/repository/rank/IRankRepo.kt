@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.repository.rank
 
-import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
@@ -17,7 +16,7 @@ interface IRankRepo {
 
     fun insert(rankEntity: RankEntity): Long
 
-    fun getRankModel(): RankModel
+    fun get(): MutableList<RankEntity>
 
     fun delete(name: String)
 

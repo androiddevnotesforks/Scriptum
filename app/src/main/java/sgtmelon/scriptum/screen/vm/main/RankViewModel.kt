@@ -4,8 +4,8 @@ import android.app.Application
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
-import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
@@ -23,14 +23,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     private val iRankRepo = RankRepo.getInstance(context)
 
-    private var rankModel: RankModel = RankModel(ArrayList())
+    private val rankList: MutableList<RankEntity> = ArrayList()
+    private val nameList: List<String> get() = rankList.map { it.name.toUpperCase() }
 
     override fun onUpdateData() {
-        rankModel = iRankRepo.getRankModel()
+        rankList.clearAndAdd(iRankRepo.get())
 
         callback?.apply {
-            notifyDataSetChanged(rankModel.itemList)
-            bindList(rankModel.size())
+            notifyDataSetChanged(rankList)
+            bindList(rankList.size)
         }
     }
 
@@ -41,21 +42,21 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
             bindToolbar(
                     isClearEnable = enterName.isNotEmpty(),
-                    isAddEnable = clearName.isNotEmpty() && !rankModel.nameList.contains(clearName)
+                    isAddEnable = clearName.isNotEmpty() && !nameList.contains(clearName)
             )
         }
     }
 
     override fun onShowRenameDialog(p: Int) {
-        callback?.showRenameDialog(p, rankModel.itemList[p].name, ArrayList(rankModel.nameList))
+        callback?.showRenameDialog(p, rankList[p].name, ArrayList(nameList))
     }
 
     override fun onRenameDialog(p: Int, name: String) {
-        rankModel.set(p, name)
+        rankList[p].name = name
 
         onUpdateToolbar()
 
-        rankModel.itemList[p].let {
+        rankList[p].let {
             iRankRepo.update(it)
             callback?.notifyItemChanged(p, it)
         }
@@ -70,7 +71,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         if (i != EditorInfo.IME_ACTION_DONE || enterName.isEmpty()) return false
 
-        if (clearName.isNotEmpty() && !rankModel.nameList.contains(clearName)) {
+        if (clearName.isNotEmpty() && !nameList.contains(clearName)) {
             onClickEnterAdd(simpleClick = true)
         }
 
@@ -82,35 +83,39 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         if (name.isEmpty()) return
 
-        val p = if (simpleClick) rankModel.size() else 0
+        val p = if (simpleClick) rankList.size else 0
         val rankEntity = RankEntity(name = name).apply {
             id = iRankRepo.insert(rankEntity = this)
         }
 
-        rankModel.add(p, rankEntity)
-        iRankRepo.update(rankModel.itemList)
+        rankList.add(p, rankEntity)
+        iRankRepo.update(rankList)
 
-        callback?.scrollToItem(simpleClick, rankModel.itemList)
+        callback?.scrollToItem(simpleClick, rankList)
     }
 
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
-        iRankRepo.update(rankModel.itemList)
+        iRankRepo.update(rankList)
         viewModelScope.launch { iRankRepo.notifyBind() }
 
-        callback?.notifyDataSetChanged(rankModel.itemList)
+        callback?.notifyDataSetChanged(rankList)
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
-        rankModel.move(from, to)
-        callback?.notifyItemMoved(from, to, rankModel.itemList)
+        val item = rankList[from]
+
+        rankList.removeAt(from)
+        rankList.add(to, item)
+
+        callback?.notifyItemMoved(from, to, rankList)
 
         return true
     }
 
 
     override fun onClickVisible(p: Int) {
-        val rankEntity = rankModel.itemList[p].apply { isVisible = !isVisible }
+        val rankEntity = rankList[p].apply { isVisible = !isVisible }
 
         iRankRepo.update(rankEntity)
         viewModelScope.launch { iRankRepo.notifyBind() }
@@ -119,7 +124,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onLongClickVisible(p: Int) {
-        val rankList = rankModel.itemList
         val startAnim = BooleanArray(rankList.size)
 
         rankList.forEachIndexed { i, item ->
@@ -143,14 +147,14 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickCancel(p: Int) {
-        iRankRepo.delete(rankModel.itemList[p].name)
+        iRankRepo.delete(rankList[p].name)
 
-        rankModel.remove(p)
+        rankList.removeAt(p)
 
-        iRankRepo.update(rankModel.itemList)
+        iRankRepo.update(rankList)
         viewModelScope.launch { iRankRepo.notifyBind() }
         
-        callback?.notifyItemRemoved(p, rankModel.itemList)
+        callback?.notifyItemRemoved(p, rankList)
     }
 
 }

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.room.RoomRepo
 import sgtmelon.scriptum.room.IRoomWork
@@ -36,7 +35,18 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return id
     }
 
-    override fun getRankModel() = RankModel(getCompleteRankList())
+    /**
+     * TODO подумать, может можно убрать дополнительный запрос для получения text/rollCount
+     */
+    override fun get() = ArrayList<RankEntity>().apply {
+        inRoom {
+            addAll(iRankDao.get())
+            forEach {
+                it.textCount = iNoteDao.getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
+                it.rollCount = iNoteDao.getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
+            }
+        }
+    }
 
     override fun delete(name: String) = inRoom { iRankDao.delete(name) }
 
@@ -55,19 +65,6 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         if (noteIdSet.isNotEmpty()) updateNoteRankPosition(noteIdSet.toList(), list, db = this)
 
         iRankDao.update(list)
-    }
-
-    /**
-     * TODO подумать, может можно убрать дополнительный запрос для получения text/rollCount
-     */
-    private fun getCompleteRankList() = ArrayList<RankEntity>().apply {
-        inRoom {
-            addAll(iRankDao.get())
-            forEach {
-                it.textCount = iNoteDao.getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
-                it.rollCount = iNoteDao.getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
-            }
-        }
     }
 
     /**

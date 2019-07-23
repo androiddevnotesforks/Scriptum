@@ -1,14 +1,13 @@
 package sgtmelon.scriptum.room.entity
 
 import androidx.room.*
-import sgtmelon.scriptum.model.RankModel
 import sgtmelon.scriptum.model.data.DbData.Rank
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.StringConverter
 import java.util.*
 
 /**
- * Элемент списка категорий [RankModel]
+ * Элемент списка категорий
  */
 @Entity(tableName = Rank.TABLE, indices = [Index(value = [Rank.NAME], unique = true)])
 @TypeConverters(BoolConverter::class, StringConverter::class)
