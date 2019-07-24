@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.screen.vm
 
 import android.content.Context
+import android.media.MediaPlayer
+import android.net.Uri
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -15,29 +17,20 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     private val iPreferenceRepo = PreferenceRepo(context)
 
-    private val themeSummary: Array<String> =
-            context.resources.getStringArray(R.array.text_app_theme)
+    private val themeSummary = context.resources.getStringArray(R.array.text_app_theme)
+    private val repeatSummary = context.resources.getStringArray(R.array.text_alarm_repeat)
+    private val sortSummary = context.resources.getStringArray(R.array.text_note_sort)
+    private val colorSummary = context.resources.getStringArray(R.array.text_note_color)
+    private val saveTimeSummary = context.resources.getStringArray(R.array.text_save_time)
 
-    private val repeatSummary: Array<String> =
-            context.resources.getStringArray(R.array.text_alarm_repeat)
+    private val melodyList: List<MelodyItem> = iPreferenceRepo.getMelodyList()
+    private val melodyTitleList: List<String> = melodyList.map { it.title }
+    private val melodyUriList: List<String> = melodyList.map { it.uri }
 
-    private val sortSummary: Array<String> =
-            context.resources.getStringArray(R.array.text_note_sort)
+    private var melodyPlayer: MediaPlayer? = null
 
-    private val colorSummary: Array<String> =
-            context.resources.getStringArray(R.array.text_note_color)
-
-    private val saveTimeSummary: Array<String> =
-            context.resources.getStringArray(R.array.text_save_time)
-
-    private lateinit var melodyList: List<MelodyItem>
-
-    private val melodyTitleList: List<String> by lazy {
-        ArrayList<String>().apply { melodyList.forEach { add(it.title) } }
-    }
-
-    private val melodyUriList: List<String> by lazy {
-        ArrayList<String>().apply { melodyList.forEach { add(it.uri) } }
+    private fun MediaPlayer.stopIfPlay() {
+        if (isPlaying) stop()
     }
 
     private fun getMelodyCheck(): Int = with(iPreferenceRepo) {
@@ -57,8 +50,6 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     override fun onSetup() {
         callback?.apply {
-            melodyList = iPreferenceRepo.getMelodyList()
-
             setupApp()
             setupNotification(melodyTitleList.toTypedArray())
             setupNote()
@@ -111,8 +102,13 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         }
     }
 
-    override fun onClickMelody() = alwaysTrue {
-        callback?.showMelodyDialog(getMelodyCheck())
+    override fun onClickMelody() = alwaysTrue { callback?.showMelodyDialog(getMelodyCheck()) }
+
+    override fun onSelectMelody(item: Int) {
+        melodyPlayer?.stop()
+
+        melodyPlayer = MediaPlayer.create(context, Uri.parse(melodyUriList[item]))
+        melodyPlayer?.start()
     }
 
     override fun onResultMelody(value: Int) {
@@ -120,9 +116,11 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         callback?.updateMelodySummary(melodyList[value].title)
     }
 
-    override fun onClickVolume() = alwaysTrue {
-        callback?.showVolumeDialog(iPreferenceRepo.volume)
+    override fun onDismissMelody() {
+        melodyPlayer?.stop()
     }
+
+    override fun onClickVolume() = alwaysTrue { callback?.showVolumeDialog(iPreferenceRepo.volume) }
 
     override fun onResultVolume(value: Int) {
         iPreferenceRepo.volume = value
@@ -130,9 +128,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
 
-    override fun onClickSort() = alwaysTrue {
-        callback?.showSortDialog(iPreferenceRepo.sort)
-    }
+    override fun onClickSort() = alwaysTrue { callback?.showSortDialog(iPreferenceRepo.sort) }
 
     override fun onResultNoteSort(value: Int) {
         iPreferenceRepo.sort = value

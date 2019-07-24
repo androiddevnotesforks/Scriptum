@@ -19,7 +19,7 @@ class SingleDialog : DialogBlank() {
     var check = 0
         private set
 
-    var itemClickListener: DialogInterface.OnClickListener? = null
+    var itemListener: DialogInterface.OnClickListener? = null
 
     fun setArguments(check: Int) {
         arguments = Bundle().apply {
@@ -37,7 +37,7 @@ class SingleDialog : DialogBlank() {
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)
                 .setSingleChoiceItems(itemArray, check) { _, i ->
-                    itemClickListener?.onClick(dialog, i)
+                    itemListener?.onClick(dialog, i)
                     check = i
                     setEnable()
                 }

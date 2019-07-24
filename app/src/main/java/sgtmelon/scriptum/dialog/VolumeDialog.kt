@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.WindowManager
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.IntRange
@@ -48,7 +47,6 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
                 .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
-                .apply { window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) }
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -66,13 +64,11 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
         if (progress < MIN_VALUE) {
             seekBar?.progress = MIN_VALUE
             this.progress = MIN_VALUE
-        } else if (progress % STEP_VALUE == 0) {
-            this.progress = progress
         } else {
-            this.progress = progress / 5 * 5
+            this.progress = progress
         }
 
-        progressText?.text = getString(R.string.dialog_text_volume, progress)
+        progressText?.text = getString(R.string.dialog_text_volume, this.progress)
         setEnable()
     }
 
@@ -82,7 +78,6 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
 
     companion object {
         const val MIN_VALUE = 10
-        const val STEP_VALUE = 5
     }
 
 }

@@ -2,7 +2,6 @@ package sgtmelon.safedialog
 
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import java.util.*
@@ -20,8 +19,6 @@ class MultiplyDialog : DialogBlank() {
     private var init = BooleanArray(size = 0)
     var check = BooleanArray(size = 0)
         private set
-
-    var itemClickListener: DialogInterface.OnMultiChoiceClickListener? = null
 
     var needOneSelect = false
 
@@ -44,7 +41,6 @@ class MultiplyDialog : DialogBlank() {
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)
                 .setMultiChoiceItems(itemList.toTypedArray(), check) { _, which, isChecked ->
-                    itemClickListener?.onClick(dialog, which, isChecked)
                     check[which] = isChecked
                     setEnable()
                 }

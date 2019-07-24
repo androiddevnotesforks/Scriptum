@@ -119,10 +119,16 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         melodyPreference.setOnPreferenceClickListener { iViewModel.onClickMelody() }
 
         melodyDialog.itemArray = melodyTitleList
+        melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
+            iViewModel.onSelectMelody(i)
+        }
         melodyDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultMelody(melodyDialog.check)
         }
-        melodyDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        melodyDialog.dismissListener = DialogInterface.OnDismissListener {
+            iViewModel.onDismissMelody()
+            openState.clear()
+        }
 
         volumePreference.setOnPreferenceClickListener { iViewModel.onClickVolume() }
 
