@@ -2,6 +2,7 @@ package sgtmelon.safedialog
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 
@@ -17,6 +18,8 @@ class SingleDialog : DialogBlank() {
     private var checkInit = 0
     var check = 0
         private set
+
+    var itemClickListener: DialogInterface.OnClickListener? = null
 
     fun setArguments(check: Int) {
         arguments = Bundle().apply {
@@ -34,6 +37,7 @@ class SingleDialog : DialogBlank() {
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)
                 .setSingleChoiceItems(itemArray, check) { _, i ->
+                    itemClickListener?.onClick(dialog, i)
                     check = i
                     setEnable()
                 }
