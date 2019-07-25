@@ -24,20 +24,14 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     private val saveTimeSummary = context.resources.getStringArray(R.array.text_save_time)
 
     private val melodyList: List<MelodyItem> = iPreferenceRepo.getMelodyList()
-    private val melodyTitleList: List<String> = melodyList.map { it.title }
-    private val melodyUriList: List<String> = melodyList.map { it.uri }
 
     private var melodyPlayer: MediaPlayer? = null
 
-    private fun MediaPlayer.stopIfPlay() {
-        if (isPlaying) stop()
-    }
-
     private fun getMelodyCheck(): Int = with(iPreferenceRepo) {
-        var check = melodyUriList.indexOf(melody)
+        var check = melodyList.map { it.uri }.indexOf(melody)
 
         if (melody.isEmpty() || check == -1) {
-            melody = melodyUriList.first()
+            melody = melodyList.first().uri
             check = 0
         }
 
@@ -51,7 +45,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     override fun onSetup() {
         callback?.apply {
             setupApp()
-            setupNotification(melodyTitleList.toTypedArray())
+            setupNotification(melodyList.map { it.title }.toTypedArray())
             setupNote()
             setupSave()
             setupOther()
@@ -61,7 +55,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             updateRepeatSummary(repeatSummary[iPreferenceRepo.repeat])
             updateSignalSummary(iPreferenceRepo.getSignalSummary())
             updateMelodyGroupEnabled(IntConverter().toArray(iPreferenceRepo.signal).first())
-            updateMelodySummary(melodyTitleList[getMelodyCheck()])
+            updateMelodySummary(melodyList[getMelodyCheck()].title)
             updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
 
             updateSortSummary(sortSummary[iPreferenceRepo.sort])
@@ -107,12 +101,12 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     override fun onSelectMelody(item: Int) {
         melodyPlayer?.stop()
 
-        melodyPlayer = MediaPlayer.create(context, Uri.parse(melodyUriList[item]))
+        melodyPlayer = MediaPlayer.create(context, Uri.parse(melodyList[item].uri))
         melodyPlayer?.start()
     }
 
     override fun onResultMelody(value: Int) {
-        iPreferenceRepo.melody = melodyUriList[value]
+        iPreferenceRepo.melody = melodyList[value].uri
         callback?.updateMelodySummary(melodyList[value].title)
     }
 
