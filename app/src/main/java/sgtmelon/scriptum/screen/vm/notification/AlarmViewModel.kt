@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import sgtmelon.scriptum.extension.getAppSimpleColor
@@ -20,13 +22,15 @@ import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
  *
  * @author SerjantArbuz
  */
-class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application), IAlarmViewModel {
+class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
+        IAlarmViewModel {
 
     private var id: Long = NoteData.Default.ID
     private var color: Int = iPreferenceRepo.defaultColor
 
     private lateinit var noteModel: NoteModel
 
+    private var melodyPlayer: MediaPlayer? = null
     private val longWaitHandler = Handler()
 
     override fun onSetup() {
@@ -44,6 +48,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         if (!::noteModel.isInitialized) {
             noteModel = iRoomRepo.getNoteModel(id)
         }
+
+        melodyPlayer = MediaPlayer.create(context, Uri.parse(iPreferenceRepo.getMelodyList()[0].uri))
+        melodyPlayer?.start()
 
         longWaitHandler.postDelayed({ callback?.finish() }, 15000)
 
@@ -64,6 +71,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onDestroy() {
         super.onDestroy()
         longWaitHandler.removeCallbacksAndMessages(null)
+        melodyPlayer?.stop()
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {

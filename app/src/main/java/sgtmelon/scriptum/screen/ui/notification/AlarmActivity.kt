@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
@@ -45,27 +46,27 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private var adapter: NoteAdapter? = null
 
     private val parentContainer: ViewGroup? by lazy {
-        findViewById<ViewGroup>(sgtmelon.scriptum.R.id.alarm_parent_container)
+        findViewById<ViewGroup>(R.id.alarm_parent_container)
     }
     private val rippleContainer: RippleContainer? by lazy {
-        findViewById<RippleContainer>(sgtmelon.scriptum.R.id.alarm_ripple_background)
+        findViewById<RippleContainer>(R.id.alarm_ripple_background)
     }
 
     private val logoView: View? by lazy {
-        findViewById<View>(sgtmelon.scriptum.R.id.alarm_logo_view)
+        findViewById<View>(R.id.alarm_logo_view)
     }
     private val recyclerView: RecyclerView? by lazy {
-        findViewById<RecyclerView>(sgtmelon.scriptum.R.id.alarm_recycler)
+        findViewById<RecyclerView>(R.id.alarm_recycler)
     }
 
     private val buttonContainer: ViewGroup? by lazy {
-        findViewById<ViewGroup>(sgtmelon.scriptum.R.id.alarm_button_container)
+        findViewById<ViewGroup>(R.id.alarm_button_container)
     }
     private val disableButton: Button? by lazy {
-        findViewById<Button>(sgtmelon.scriptum.R.id.alarm_disable_button)
+        findViewById<Button>(R.id.alarm_disable_button)
     }
     private val postponeButton: Button? by lazy {
-        findViewById<Button>(sgtmelon.scriptum.R.id.alarm_postpone_button)
+        findViewById<Button>(R.id.alarm_postpone_button)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,9 +115,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int) {
-        logoView?.let {
-            rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation()
-        }
+        logoView?.let { rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation() }
     }
 
     override fun startControlFadeAnimation() {
