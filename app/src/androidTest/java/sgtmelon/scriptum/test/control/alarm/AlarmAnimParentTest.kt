@@ -16,7 +16,10 @@ import kotlin.random.Random
 abstract class AlarmAnimParentTest : ParentUiTest() {
 
     protected fun startTest(@Theme theme: Int, @Color color: Int) {
-        iPreferenceRepo.theme = theme
+        with(iPreferenceRepo) {
+            melodyUri = melodyList.random().uri
+            this.theme = theme
+        }
 
         val noteModel = testData.clear().let {
             if (Random.nextBoolean()) {
