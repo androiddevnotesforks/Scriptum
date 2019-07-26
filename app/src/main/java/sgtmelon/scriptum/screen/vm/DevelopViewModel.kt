@@ -21,10 +21,10 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActiv
 
     override fun onSetup() = viewModelScope.launch {
         callback?.apply {
-            fillAboutNoteTable(iDevelopRepo.getNoteTableData())
-            fillAboutRollTable(iDevelopRepo.getRollTableData())
-            fillAboutRankTable(iDevelopRepo.getRankTableData())
-            fillAboutPreference(iPreferenceRepo.getData())
+            fillAboutNoteTable(iDevelopRepo.getNoteTablePrint())
+            fillAboutRollTable(iDevelopRepo.getRollTablePrint())
+            fillAboutRankTable(iDevelopRepo.getRankTablePrint())
+            fillAboutPreference(iDevelopRepo.getPreferencePrint())
         }
     }
 

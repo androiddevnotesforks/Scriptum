@@ -50,7 +50,4 @@ interface IPreferenceRepo {
 
     var savePeriod: Int
 
-
-    fun getData(): String
-
 }

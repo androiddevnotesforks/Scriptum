@@ -2,8 +2,8 @@ package sgtmelon.scriptum.screen.vm
 
 import android.content.Context
 import android.media.MediaPlayer
-import android.net.Uri
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
@@ -91,7 +91,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     override fun onSelectMelody(item: Int) {
         melodyPlayer?.stop()
 
-        melodyPlayer = MediaPlayer.create(context, Uri.parse(melodyList[item].uri))
+        melodyPlayer = MediaPlayer.create(context, melodyList[item].uri.toUri())
         melodyPlayer?.start()
     }
 

@@ -2,11 +2,11 @@ package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
 import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
@@ -49,7 +49,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             noteModel = iRoomRepo.getNoteModel(id)
         }
 
-        melodyPlayer = MediaPlayer.create(context, Uri.parse(iPreferenceRepo.melodyList[0].uri))
+        melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())
+        melodyPlayer?.isLooping = true
         melodyPlayer?.start()
 
         longWaitHandler.postDelayed({ callback?.finish() }, 15000)

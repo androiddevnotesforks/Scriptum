@@ -2,6 +2,7 @@ package sgtmelon.scriptum.repository.develop
 
 import android.content.Context
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.StringConverter
@@ -19,7 +20,9 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  */
 class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 
-    override suspend fun getNoteTableData() = StringBuilder().apply {
+    private val iPreferenceRepo = PreferenceRepo.getInstance(context)
+
+    override suspend fun getNoteTablePrint() = StringBuilder().apply {
         val list: MutableList<NoteEntity> = ArrayList()
 
         inRoom {
@@ -46,7 +49,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
         }
     }.toString()
 
-    override suspend fun getRollTableData() = StringBuilder().apply {
+    override suspend fun getRollTablePrint() = StringBuilder().apply {
         val list: MutableList<RollEntity> = ArrayList()
 
         inRoom {
@@ -74,7 +77,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
         }
     }.toString()
 
-    override suspend fun getRankTableData() = StringBuilder().apply {
+    override suspend fun getRankTablePrint() = StringBuilder().apply {
         val list: MutableList<RankEntity>
 
         openRoom().apply { list = iRankDao.get() }.close()
@@ -86,6 +89,24 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
             append("ID: ${it.id} | PS: ${it.position} | VS: ${it.isVisible}\n")
             append("NM: ${it.name}\n")
             append("CR: ${StringConverter().toString(it.noteId)}\n")
+        }
+    }.toString()
+
+    override suspend fun getPreferencePrint()  = StringBuilder().apply {
+        with(iPreferenceRepo) {
+            append("Preference:\n\n")
+            append("Theme: $theme\n")
+            append("Repeat: $repeat\n")
+            append("Signal: $signal\n")
+            append("Melody: $melodyUri\n")
+            append("Volume: $volume\n")
+            append("VolumeIncrease: $volumeIncrease\n")
+
+            append("Sort: $sort\n")
+            append("DefaultColor: $defaultColor\n")
+            append("PauseSave: $pauseSaveOn\n")
+            append("AutoSave: $autoSaveOn\n")
+            append("SaveTime: $savePeriod\n")
         }
     }.toString()
 

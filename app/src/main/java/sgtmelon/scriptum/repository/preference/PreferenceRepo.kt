@@ -141,23 +141,6 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preference.getInt(resources.getString(R.string.key_save_time), resources.getInteger(R.integer.value_save_time))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_save_time), value).apply()
 
-
-    override fun getData() = StringBuilder().apply {
-        append("Preference:\n\n")
-        append("Theme: $theme\n")
-        append("Repeat: $repeat\n")
-        append("Signal: $signal\n")
-        append("Melody: $melodyUri\n")
-        append("Volume: $volume\n")
-        append("VolumeIncrease: $volumeIncrease\n")
-
-        append("Sort: $sort\n")
-        append("DefaultColor: $defaultColor\n")
-        append("PauseSave: $pauseSaveOn\n")
-        append("AutoSave: $autoSaveOn\n")
-        append("SaveTime: $savePeriod\n")
-    }.toString()
-
     companion object {
         fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
 

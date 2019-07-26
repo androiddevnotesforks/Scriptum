@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.ui.preference
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.Preference
@@ -13,6 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -176,11 +176,13 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             val intent = Intent(Intent.ACTION_VIEW)
 
             try {
-                intent.data = Uri.parse(BuildConfig.MARKET_URL.plus(activity.packageName))
-                startActivity(intent)
+                startActivity(intent.apply {
+                    data = BuildConfig.MARKET_URL.plus(activity.packageName).toUri()
+                })
             } catch (exception: ActivityNotFoundException) {
-                intent.data = Uri.parse(BuildConfig.BROWSER_URL.plus(activity.packageName))
-                startActivity(intent)
+                startActivity(intent.apply {
+                    data = BuildConfig.BROWSER_URL.plus(activity.packageName).toUri()
+                })
             }
 
             return@setOnPreferenceClickListener true

@@ -7,10 +7,12 @@ package sgtmelon.scriptum.repository.develop
  */
 interface IDevelopRepo {
 
-    suspend fun getNoteTableData() : String
+    suspend fun getNoteTablePrint() : String
 
-    suspend fun getRollTableData() : String
+    suspend fun getRollTablePrint() : String
 
-    suspend fun getRankTableData() : String
+    suspend fun getRankTablePrint() : String
+
+    suspend fun getPreferencePrint() : String
 
 }
