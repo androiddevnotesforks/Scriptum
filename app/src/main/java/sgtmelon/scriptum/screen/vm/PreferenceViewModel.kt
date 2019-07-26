@@ -23,20 +23,9 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     private val colorSummary = context.resources.getStringArray(R.array.text_note_color)
     private val saveTimeSummary = context.resources.getStringArray(R.array.text_save_time)
 
-    private val melodyList: List<MelodyItem> = iPreferenceRepo.getMelodyList()
+    private val melodyList: List<MelodyItem> = iPreferenceRepo.melodyList
 
     private var melodyPlayer: MediaPlayer? = null
-
-    private fun getMelodyCheck(): Int = with(iPreferenceRepo) {
-        var check = melodyList.map { it.uri }.indexOf(melody)
-
-        if (melody.isEmpty() || check == -1) {
-            melody = melodyList.first().uri
-            check = 0
-        }
-
-        return check
-    }
 
     override fun onDestroy() {
         callback = null
@@ -53,9 +42,9 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             updateThemeSummary(themeSummary[iPreferenceRepo.theme])
 
             updateRepeatSummary(repeatSummary[iPreferenceRepo.repeat])
-            updateSignalSummary(iPreferenceRepo.getSignalSummary())
+            updateSignalSummary(iPreferenceRepo.signalSummary)
             updateMelodyGroupEnabled(IntConverter().toArray(iPreferenceRepo.signal).first())
-            updateMelodySummary(melodyList[getMelodyCheck()].title)
+            updateMelodySummary(melodyList[iPreferenceRepo.melodyCheck].title)
             updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
 
             updateSortSummary(sortSummary[iPreferenceRepo.sort])
@@ -91,12 +80,13 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     override fun onResultSignal(array: BooleanArray) {
         iPreferenceRepo.signal = IntConverter().toInt(array)
         callback?.apply {
-            updateSignalSummary(iPreferenceRepo.getSignalSummary())
+            updateSignalSummary(iPreferenceRepo.signalSummary)
             updateMelodyGroupEnabled(IntConverter().toArray(iPreferenceRepo.signal).first())
         }
     }
 
-    override fun onClickMelody() = alwaysTrue { callback?.showMelodyDialog(getMelodyCheck()) }
+    override fun onClickMelody() =
+            alwaysTrue { callback?.showMelodyDialog(iPreferenceRepo.melodyCheck) }
 
     override fun onSelectMelody(item: Int) {
         melodyPlayer?.stop()
@@ -106,7 +96,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
     override fun onResultMelody(value: Int) {
-        iPreferenceRepo.melody = melodyList[value].uri
+        iPreferenceRepo.melodyUri = melodyList[value].uri
         callback?.updateMelodySummary(melodyList[value].title)
     }
 
@@ -129,18 +119,16 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         callback?.updateSortSummary(sortSummary[value])
     }
 
-    override fun onClickNoteColor() = alwaysTrue {
-        callback?.showColorDialog(iPreferenceRepo.defaultColor)
-    }
+    override fun onClickNoteColor() =
+            alwaysTrue { callback?.showColorDialog(iPreferenceRepo.defaultColor) }
 
     override fun onResultNoteColor(@Color value: Int) {
         iPreferenceRepo.defaultColor = value
         callback?.updateColorSummary(colorSummary[value])
     }
 
-    override fun onClickSaveTime() = alwaysTrue {
-        callback?.showSaveTimeDialog(iPreferenceRepo.savePeriod)
-    }
+    override fun onClickSaveTime() =
+            alwaysTrue { callback?.showSaveTimeDialog(iPreferenceRepo.savePeriod) }
 
     override fun onResultSaveTime(value: Int) {
         iPreferenceRepo.savePeriod = value

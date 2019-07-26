@@ -49,7 +49,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             noteModel = iRoomRepo.getNoteModel(id)
         }
 
-        melodyPlayer = MediaPlayer.create(context, Uri.parse(iPreferenceRepo.getMelodyList()[0].uri))
+        melodyPlayer = MediaPlayer.create(context, Uri.parse(iPreferenceRepo.melodyList[0].uri))
         melodyPlayer?.start()
 
         longWaitHandler.postDelayed({ callback?.finish() }, 15000)

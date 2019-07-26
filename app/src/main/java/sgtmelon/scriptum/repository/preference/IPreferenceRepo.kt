@@ -16,15 +16,29 @@ interface IPreferenceRepo {
 
     @Theme var theme: Int
 
+
     var repeat: Int
 
     var signal: Int
 
-    var melody: String
+    val signalSummary: String
+
+    /**
+     * If melody not init or was delete - set first melody uri from list
+     */
+    var melodyUri: String
+
+    /**
+     * Index of melody uri in [melodyList]
+     */
+    val melodyCheck: Int
+
+    val melodyList: List<MelodyItem>
 
     var volume: Int
 
     val volumeIncrease: Boolean
+
 
     @Sort var sort: Int
 
@@ -36,10 +50,7 @@ interface IPreferenceRepo {
 
     var savePeriod: Int
 
-    fun getSignalSummary(): String
 
     fun getData(): String
-
-    fun getMelodyList(): List<MelodyItem>
 
 }
