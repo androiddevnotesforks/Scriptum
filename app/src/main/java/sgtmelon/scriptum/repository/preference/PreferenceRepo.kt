@@ -110,11 +110,9 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preference.getInt(resources.getString(R.string.key_alarm_volume), resources.getInteger(R.integer.value_alarm_volume))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_volume), value).apply()
 
-    override val volumeIncrease: Boolean
-        get() {
-            val defaultValue = resources.getBoolean(R.bool.value_alarm_increase)
-            return preference.getBoolean(resources.getString(R.string.key_alarm_increase), defaultValue)
-        }
+    override var volumeIncrease: Boolean
+        get() = preference.getBoolean(resources.getString(R.string.key_alarm_increase), resources.getBoolean(R.bool.value_alarm_increase))
+        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_alarm_increase), value).apply()
 
 
     @Sort override var sort: Int
@@ -125,17 +123,13 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preference.getInt(resources.getString(R.string.key_note_color), resources.getInteger(R.integer.value_note_color))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_note_color), value).apply()
 
-    override val pauseSaveOn: Boolean
-        get() {
-            val defaultValue = resources.getBoolean(R.bool.value_save_pause)
-            return preference.getBoolean(resources.getString(R.string.key_save_pause), defaultValue)
-        }
+    override var pauseSaveOn: Boolean
+        get() = preference.getBoolean(resources.getString(R.string.key_save_pause), resources.getBoolean(R.bool.value_save_pause))
+        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_save_pause), value).apply()
 
-    override val autoSaveOn: Boolean
-        get() {
-            val defaultValue = resources.getBoolean(R.bool.value_save_auto)
-            return preference.getBoolean(resources.getString(R.string.key_save_auto), defaultValue)
-        }
+    override var autoSaveOn: Boolean
+        get() = preference.getBoolean(resources.getString(R.string.key_save_auto), resources.getBoolean(R.bool.value_save_auto))
+        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_save_auto), value).apply()
 
     override var savePeriod: Int
         get() = preference.getInt(resources.getString(R.string.key_save_time), resources.getInteger(R.integer.value_save_time))

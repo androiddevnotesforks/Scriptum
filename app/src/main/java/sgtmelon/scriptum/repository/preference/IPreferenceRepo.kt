@@ -37,16 +37,16 @@ interface IPreferenceRepo {
 
     var volume: Int
 
-    val volumeIncrease: Boolean
+    var volumeIncrease: Boolean
 
 
     @Sort var sort: Int
 
     @Color var defaultColor: Int
 
-    val pauseSaveOn: Boolean
+    var pauseSaveOn: Boolean
 
-    val autoSaveOn: Boolean
+    var autoSaveOn: Boolean
 
     var savePeriod: Int
 

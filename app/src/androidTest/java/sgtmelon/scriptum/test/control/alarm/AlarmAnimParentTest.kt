@@ -17,8 +17,12 @@ abstract class AlarmAnimParentTest : ParentUiTest() {
 
     protected fun startTest(@Theme theme: Int, @Color color: Int) {
         with(iPreferenceRepo) {
-            melodyUri = melodyList.random().uri
             this.theme = theme
+
+            signal = Random.nextInt(from = 1, until = 7)
+            melodyUri = melodyList.random().uri
+            volume = Random.nextInt(from = 50, until = 100)
+            volumeIncrease = Random.nextBoolean()
         }
 
         val noteModel = testData.clear().let {
