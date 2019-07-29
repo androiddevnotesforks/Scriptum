@@ -49,8 +49,15 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             noteModel = iRoomRepo.getNoteModel(id)
         }
 
-        melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())
-        melodyPlayer?.isLooping = true
+        melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())?.apply {
+            isLooping = true
+
+            if (iPreferenceRepo.volumeIncrease) {
+                setVolume(0f, 0f)
+            } else {
+                setVolume(0f, 0f)
+            }
+        }
         melodyPlayer?.start()
 
         longWaitHandler.postDelayed({ callback?.finish() }, 15000)
