@@ -21,11 +21,13 @@ class SingleDialog : DialogBlank() {
 
     var itemListener: DialogInterface.OnClickListener? = null
 
-    fun setArguments(check: Int) {
+    fun setArguments(check: Int) : SingleDialog{
         arguments = Bundle().apply {
             putInt(INIT, check)
             putInt(VALUE, check)
         }
+
+        return this
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

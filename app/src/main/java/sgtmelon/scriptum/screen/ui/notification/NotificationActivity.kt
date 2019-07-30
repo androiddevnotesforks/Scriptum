@@ -42,7 +42,14 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private val openState = OpenState()
 
-    private lateinit var adapter: NotificationAdapter
+    private val adapter: NotificationAdapter by lazy {
+        NotificationAdapter(ItemListener.Click { v, p ->
+            when (v.id) {
+                R.id.notification_click_container -> openState.tryInvoke { iViewModel.onClickNote(p) }
+                R.id.notification_cancel_button -> iViewModel.onClickCancel(p)
+            }
+        })
+    }
 
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
@@ -83,12 +90,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         parentContainer = findViewById(R.id.notification_parent_container)
         emptyInfoView = findViewById(R.id.notification_info_include)
 
-        adapter = NotificationAdapter(theme, ItemListener.Click { v, p ->
-            when (v.id) {
-                R.id.notification_click_container -> openState.tryInvoke { iViewModel.onClickNote(p) }
-                R.id.notification_cancel_button -> iViewModel.onClickCancel(p)
-            }
-        })
+        adapter.theme = theme
 
         recyclerView = findViewById(R.id.notification_recycler)
         recyclerView?.let {

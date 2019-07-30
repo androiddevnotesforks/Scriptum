@@ -12,8 +12,8 @@ import sgtmelon.scriptum.R
 
 class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener
-    lateinit var dismissListener: DialogInterface.OnDismissListener
+    var itemSelectedListener: NavigationView.OnNavigationItemSelectedListener? = null
+    var dismissListener: DialogInterface.OnDismissListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View =
@@ -28,11 +28,11 @@ class SheetAddDialog : BottomSheetDialogFragment(), NavigationView.OnNavigationI
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        dismissListener.onDismiss(dialog)
+        dismissListener?.onDismiss(dialog)
     }
 
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
-        itemSelectedListener.onNavigationItemSelected(menuItem)
+        itemSelectedListener?.onNavigationItemSelected(menuItem)
         return false
     }
 

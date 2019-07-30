@@ -53,7 +53,12 @@ class NotesFragment : Fragment(), INotesFragment {
         DialogFactory.Main.getOptionsDialog(fragmentManager)
     }
 
-    private lateinit var adapter: NoteAdapter
+    private val adapter: NoteAdapter by lazy {
+        NoteAdapter(
+                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
+                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
+        )
+    }
 
     private var parentContainer: ViewGroup? = null
     private var emptyInfoView: View? = null
@@ -114,10 +119,7 @@ class NotesFragment : Fragment(), INotesFragment {
         parentContainer = view?.findViewById(R.id.notes_parent_container)
         emptyInfoView = view?.findViewById(R.id.notes_info_include)
 
-        adapter = NoteAdapter(theme,
-                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
-                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
-        )
+        adapter.theme = theme
 
         recyclerView = view?.findViewById(R.id.notes_recycler)
         recyclerView?.let {
@@ -159,7 +161,7 @@ class NotesFragment : Fragment(), INotesFragment {
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         fragmentManager?.let {
-            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Main.OPTIONS)
+            optionsDialog.setArguments(itemArray, p).show(it, DialogFactory.Main.OPTIONS)
         }
     }
 

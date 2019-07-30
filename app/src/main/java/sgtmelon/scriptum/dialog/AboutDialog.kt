@@ -14,7 +14,7 @@ import sgtmelon.scriptum.R
 
 class AboutDialog : DialogBlank(), View.OnClickListener {
 
-    lateinit var logoClick: View.OnClickListener
+    var logoClick: View.OnClickListener? = null
 
     private var click = 0
 
@@ -41,7 +41,7 @@ class AboutDialog : DialogBlank(), View.OnClickListener {
         context?.let {
             if (++click == it.resources.getInteger(R.integer.value_develop_open)) {
                 click = 0
-                logoClick.onClick(v)
+                logoClick?.onClick(v)
                 dialog?.cancel()
             }
         }

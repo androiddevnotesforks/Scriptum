@@ -244,7 +244,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
         hideKeyboard()
         fragmentManager?.let {
-            rankDialog.apply { setArguments(rankCheck) }.show(it, DialogFactory.Note.RANK)
+            rankDialog.setArguments(rankCheck).show(it, DialogFactory.Note.RANK)
         }
     }
 
@@ -253,7 +253,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         hideKeyboard()
         fragmentManager?.let {
-            colorDialog.apply { setArguments(color) }.show(it, DialogFactory.Note.COLOR)
+            colorDialog.setArguments(color).show(it, DialogFactory.Note.COLOR)
         }
     }
 

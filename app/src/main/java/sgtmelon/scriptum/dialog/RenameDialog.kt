@@ -22,17 +22,19 @@ class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
     var position = 0
         private set
 
-    private lateinit var nameList: ArrayList<String>
+    private var nameList: ArrayList<String> = arrayListOf()
     private var nameEnter: EditText? = null
 
     val name: String get() = nameEnter?.text?.toString()?.clearSpace() ?: ""
 
-    fun setArguments(p: Int, title: String, nameList: ArrayList<String>) {
+    fun setArguments(p: Int, title: String, nameList: ArrayList<String>) : RenameDialog {
         arguments = Bundle().apply {
             putInt(POSITION, p)
             putString(INIT, title)
             putStringArrayList(VALUE, nameList)
         }
+
+        return this
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

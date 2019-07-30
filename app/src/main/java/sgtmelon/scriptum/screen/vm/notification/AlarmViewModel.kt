@@ -29,7 +29,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private var id: Long = NoteData.Default.ID
     private var color: Int = iPreferenceRepo.defaultColor
 
-    private lateinit var noteModel: NoteModel
+    private var noteModel: NoteModel? = null
 
     private var melodyPlayer: MediaPlayer? = null
 
@@ -49,9 +49,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             color = bundle.getInt(NoteData.Intent.COLOR, iPreferenceRepo.defaultColor)
         }
 
-        if (!::noteModel.isInitialized) {
-            noteModel = iRoomRepo.getNoteModel(id)
-        }
+        if (noteModel == null) noteModel = iRoomRepo.getNoteModel(id)
 
         iPreferenceRepo.signalCheck.forEachIndexed { i, bool ->
             if (!bool) return@forEachIndexed
@@ -69,16 +67,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                         }
                     }
                 }
-                PreferenceRepo.SIGNAL_VIBRATION -> {
-                    vibrationHandler = Handler()
-                }
-                PreferenceRepo.SIGNAL_LIGHT -> {
-                    lightHandler = Handler()
-                }
+                PreferenceRepo.SIGNAL_VIBRATION -> vibrationHandler = Handler()
+                PreferenceRepo.SIGNAL_LIGHT -> lightHandler = Handler()
             }
         }
 
-        callback?.notifyDataSetChanged(noteModel)
+        noteModel?.let { callback?.notifyDataSetChanged(it) }
     }
 
     override fun onStart() {
@@ -115,8 +109,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     // TODO убираем уведомление из бд
     override fun onClickNote() {
+        val noteEntity = noteModel?.noteEntity ?: return
+
         callback?.apply {
-            startActivity(with(noteModel.noteEntity) { NoteActivity.getInstance(context, type, id) })
+            startActivity(NoteActivity.getInstance(context, noteEntity.type, noteEntity.id))
             finish()
         }
     }

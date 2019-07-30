@@ -13,11 +13,12 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
  *
  * @author SerjantArbuz
  */
-class RankAdapter(private val clickListener: ItemListener.Click,
-                  private val longClickListener: ItemListener.LongClick
+class RankAdapter(
+        private val clickListener: ItemListener.Click,
+        private val longClickListener: ItemListener.LongClick
 ) : ParentAdapter<RankEntity, RankHolder>() {
 
-    lateinit var dragListener: ItemListener.Drag
+    var dragListener: ItemListener.Drag? = null
 
     var startAnim: BooleanArray = BooleanArray(size = 0)
 

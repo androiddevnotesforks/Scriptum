@@ -202,9 +202,7 @@ class RankFragment : Fragment(), IRankFragment {
     override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) {
         fragmentManager?.let {
             openState.tryInvoke {
-                renameDialog.apply {
-                    setArguments(p, name, nameList)
-                }.show(it, DialogFactory.Main.RENAME)
+                renameDialog.setArguments(p, name, nameList).show(it, DialogFactory.Main.RENAME)
             }
         }
     }

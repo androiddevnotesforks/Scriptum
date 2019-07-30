@@ -206,7 +206,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
-        themeDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.THEME)
+        themeDialog.setArguments(value).show(fm, DialogFactory.Preference.THEME)
     }
 
     override fun updateRepeatSummary(summary: String) {
@@ -214,7 +214,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showRepeatDialog(value: Int) = openState.tryInvoke {
-        repeatDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.REPEAT)
+        repeatDialog.setArguments(value).show(fm, DialogFactory.Preference.REPEAT)
     }
 
     override fun updateSignalSummary(summary: String) {
@@ -222,7 +222,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showSignalDialog(value: BooleanArray) = openState.tryInvoke {
-        signalDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.SIGNAL)
+        signalDialog.setArguments(value).show(fm, DialogFactory.Preference.SIGNAL)
     }
 
     override fun updateMelodyGroupEnabled(enabled: Boolean) {
@@ -236,7 +236,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showMelodyDialog(value: Int) = openState.tryInvoke {
-        melodyDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.MELODY)
+        melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
     }
 
     override fun updateVolumeSummary(summary: String) {
@@ -244,7 +244,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showVolumeDialog(value: Int) = openState.tryInvoke {
-        volumeDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.VOLUME)
+        volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.VOLUME)
     }
 
     override fun updateSortSummary(summary: String) {
@@ -252,7 +252,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showSortDialog(value: Int) = openState.tryInvoke {
-        sortDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.SORT)
+        sortDialog.setArguments(value).show(fm, DialogFactory.Preference.SORT)
     }
 
     override fun updateColorSummary(summary: String) {
@@ -260,7 +260,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showColorDialog(@Color value: Int) = openState.tryInvoke {
-        colorDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.COLOR)
+        colorDialog.setArguments(value).show(fm, DialogFactory.Preference.COLOR)
     }
 
     override fun updateSaveTimeSummary(summary: String) {
@@ -268,7 +268,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
-        saveTimeDialog.apply { setArguments(value) }.show(fm, DialogFactory.Preference.SAVE_TIME)
+        saveTimeDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_TIME)
     }
 
 }

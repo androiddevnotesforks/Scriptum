@@ -20,11 +20,13 @@ class ColorDialog : DialogBlank() {
     var check: Int = 0
         private set
 
-    fun setArguments(check: Int) {
+    fun setArguments(check: Int) : ColorDialog {
         arguments = Bundle().apply {
             putInt(INIT, check)
             putInt(VALUE, check)
         }
+
+        return this
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

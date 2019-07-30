@@ -48,7 +48,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val openState = OpenState()
 
-    private var adapter: NoteAdapter? = null
+    private val adapter: NoteAdapter by lazy {
+        NoteAdapter(ItemListener.Click { _, _ -> openState.tryInvoke { iViewModel.onClickNote() } })
+    }
 
     private val parentContainer: ViewGroup? by lazy {
         findViewById<ViewGroup>(R.id.alarm_parent_container)
@@ -102,9 +104,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
 
     override fun setupView(@Theme theme: Int) {
-        adapter = NoteAdapter(theme, ItemListener.Click { _, _ ->
-            openState.tryInvoke { iViewModel.onClickNote() }
-        })
+        adapter.theme = theme
 
         recyclerView?.let {
             it.layoutManager = LinearLayoutManager(this)
@@ -115,9 +115,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         postponeButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickPostpone() } }
     }
 
-    override fun notifyDataSetChanged(noteModel: NoteModel) {
-        adapter?.notifyDataSetChanged(arrayListOf(noteModel))
-    }
+    override fun notifyDataSetChanged(noteModel: NoteModel) =
+            adapter.notifyDataSetChanged(arrayListOf(noteModel))
 
     override fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int) {
         logoView?.let { rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation() }

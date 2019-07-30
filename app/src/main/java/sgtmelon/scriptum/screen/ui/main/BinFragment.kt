@@ -50,7 +50,12 @@ class BinFragment : Fragment(), IBinFragment {
         DialogFactory.Main.getClearBinDialog(activity as Activity, fragmentManager)
     }
 
-    private lateinit var adapter: NoteAdapter
+    private val adapter: NoteAdapter by lazy {
+        NoteAdapter(
+                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
+                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
+        )
+    }
 
     private var toolbar: Toolbar? = null
     private var itemClearBin: MenuItem? = null
@@ -113,10 +118,7 @@ class BinFragment : Fragment(), IBinFragment {
         parentContainer = view?.findViewById(R.id.bin_parent_container)
         emptyInfoView = view?.findViewById(R.id.bin_info_include)
 
-        adapter = NoteAdapter(theme,
-                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
-                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
-        )
+        adapter.theme = theme
 
         recyclerView = view?.findViewById(R.id.bin_recycler)
         recyclerView?.let {
@@ -147,7 +149,7 @@ class BinFragment : Fragment(), IBinFragment {
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
         fragmentManager?.let {
-            optionsDialog.apply { setArguments(itemArray, p) }.show(it, DialogFactory.Main.OPTIONS)
+            optionsDialog.setArguments(itemArray, p).show(it, DialogFactory.Main.OPTIONS)
         }
     }
 

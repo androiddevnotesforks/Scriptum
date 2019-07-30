@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
 import android.content.Context
+import androidx.annotation.CallSuper
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.repository.room.RoomRepo
@@ -20,7 +21,7 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
 
     var callback: T? = null
 
-    open fun onDestroy(func: () -> Unit = {}) {
+    @CallSuper open fun onDestroy(func: () -> Unit = {}) {
         func()
         callback = null
     }

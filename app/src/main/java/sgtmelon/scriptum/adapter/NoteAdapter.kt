@@ -18,10 +18,12 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
  *
  * @author SerjantArbuz
  */
-class NoteAdapter(@Theme private val theme: Int,
+class NoteAdapter(
                   private val clickListener: ItemListener.Click,
                   private val longClickListener: ItemListener.LongClick? = null
 ) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>() {
+
+    @Theme var theme: Int = Theme.UNDEFINED
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
             if (viewType == NoteType.TEXT.ordinal) {

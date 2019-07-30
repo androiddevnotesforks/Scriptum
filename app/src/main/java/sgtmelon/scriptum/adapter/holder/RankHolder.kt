@@ -22,7 +22,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 class RankHolder(private val binding: ItemRankBinding,
                  private val clickListener: ItemListener.Click,
                  private val longClickListener: ItemListener.LongClick,
-                 private val dragListener: ItemListener.Drag
+                 private val dragListener: ItemListener.Drag?
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener {
 
@@ -64,7 +64,7 @@ class RankHolder(private val binding: ItemRankBinding,
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
-            dragListener.setDrag(v.id == clickView.id)
+            dragListener?.setDrag(v.id == clickView.id)
         }
         return false
     }
