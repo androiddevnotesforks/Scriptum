@@ -1,5 +1,8 @@
 package sgtmelon.scriptum.room.converter
 
+import kotlin.math.abs
+import kotlin.math.pow
+
 /**
  * Конвертер из числа в булевый массив
  *
@@ -11,14 +14,14 @@ class IntConverter {
         var value = 0
 
         array.forEachIndexed { i, bool ->
-            if (bool) value += Math.pow(2.0, i.toDouble()).toInt()
+            if (bool) value += 2.0.pow(i.toDouble()).toInt()
         }
 
         return value
     }
 
     fun toArray(value: Int, minSize: Int = 0) = ArrayList<Boolean>().apply {
-        var temp = Math.abs(value)
+        var temp = abs(value)
         var i = 0
 
         while (temp > 0) {

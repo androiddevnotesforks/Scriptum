@@ -21,6 +21,8 @@ interface IPreferenceRepo {
 
     var signal: Int
 
+    val signalCheck: BooleanArray
+
     val signalSummary: String
 
     /**

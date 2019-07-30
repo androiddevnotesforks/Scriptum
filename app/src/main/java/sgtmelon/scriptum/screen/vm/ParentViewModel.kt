@@ -20,7 +20,8 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
 
     var callback: T? = null
 
-    open fun onDestroy() {
+    open fun onDestroy(func: () -> Unit = {}) {
+        func()
         callback = null
     }
 

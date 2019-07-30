@@ -20,7 +20,11 @@ interface IAlarmActivity {
 
     fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int)
 
-    fun startControlFadeAnimation()
+    fun startButtonFadeInAnimation()
+
+    fun vibrateStart(pattern: LongArray)
+
+    fun vibrateStop()
 
     fun startActivity(intent: Intent)
 

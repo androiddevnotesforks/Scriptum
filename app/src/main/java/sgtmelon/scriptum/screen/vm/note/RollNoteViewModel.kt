@@ -296,10 +296,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    override fun onDestroy() {
-        super.onDestroy()
-        parentCallback = null
-        saveControl.setSaveHandlerEvent(isStart = false)
+    override fun onDestroy(func: () -> Unit) {
+        super.onDestroy {
+            parentCallback = null
+            saveControl.setSaveHandlerEvent(isStart = false)
+        }
     }
 
     override fun onUpdateData() {

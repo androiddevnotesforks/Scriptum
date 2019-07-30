@@ -49,10 +49,13 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preference.getInt(resources.getString(R.string.key_alarm_signal), resources.getInteger(R.integer.value_alarm_signal))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_signal), value).apply()
 
+    override val signalCheck: BooleanArray
+        get() = IntConverter().toArray(signal, SIGNAL_ARRAY_SIZE)
+
     override val signalSummary: String
         get() = StringBuilder().apply {
             val summary = resources.getStringArray(R.array.text_alarm_signal)
-            val array = IntConverter().toArray(signal)
+            val array = signalCheck
 
             if (summary.size < array.size) return@apply
 
@@ -136,9 +139,13 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         set(value) = preference.edit().putInt(resources.getString(R.string.key_save_time), value).apply()
 
     companion object {
-        fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
+        private const val SIGNAL_ARRAY_SIZE = 3
 
-        const val SIGNAL_ARRAY_SIZE = 3
+        const val SIGNAL_MELODY = 0
+        const val SIGNAL_VIBRATION = 1
+        const val SIGNAL_LIGHT = 2
+
+        fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
     }
 
 }

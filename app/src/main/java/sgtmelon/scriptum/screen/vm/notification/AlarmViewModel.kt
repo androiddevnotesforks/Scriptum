@@ -11,6 +11,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
@@ -31,7 +32,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private lateinit var noteModel: NoteModel
 
     private var melodyPlayer: MediaPlayer? = null
+
     private val longWaitHandler = Handler()
+    private var vibrationHandler: Handler? = null
+    private var lightHandler: Handler? = null
 
     override fun onSetup() {
         callback?.setupView(iPreferenceRepo.theme)
@@ -49,37 +53,59 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             noteModel = iRoomRepo.getNoteModel(id)
         }
 
-        melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())?.apply {
-            isLooping = true
+        iPreferenceRepo.signalCheck.forEachIndexed { i, bool ->
+            if (!bool) return@forEachIndexed
 
-            if (iPreferenceRepo.volumeIncrease) {
-                setVolume(0f, 0f)
-            } else {
-                setVolume(0f, 0f)
+            when (i) {
+                PreferenceRepo.SIGNAL_MELODY -> {
+                    melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())
+                    melodyPlayer?.apply {
+                        isLooping = true
+
+                        if (iPreferenceRepo.volumeIncrease) {
+                            setVolume(100f, 100f)
+                        } else {
+                            setVolume(100f, 100f)
+                        }
+                    }
+                }
+                PreferenceRepo.SIGNAL_VIBRATION -> {
+                    vibrationHandler = Handler()
+                }
+                PreferenceRepo.SIGNAL_LIGHT -> {
+                    lightHandler = Handler()
+                }
             }
         }
-        melodyPlayer?.start()
-
-        longWaitHandler.postDelayed({ callback?.finish() }, 15000)
 
         callback?.notifyDataSetChanged(noteModel)
     }
 
     override fun onStart() {
+        melodyPlayer?.start()
+
+        longWaitHandler.postDelayed({ callback?.finish() }, CANCEL_TIME)
+        vibrationHandler?.postDelayed({ callback?.vibrateStart(VIBRATION_PATTERN) }, VIBRATION_TIME)
+        lightHandler?.postDelayed({ TODO("") }, 0)
+
         callback?.let {
             val theme = iPreferenceRepo.theme
             it.startRippleAnimation(theme, context.getAppSimpleColor(color,
                     if (theme == Theme.light) ColorShade.ACCENT else ColorShade.DARK
             ))
 
-            it.startControlFadeAnimation()
+            it.startButtonFadeInAnimation()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        longWaitHandler.removeCallbacksAndMessages(null)
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        callback?.vibrateStop()
+
         melodyPlayer?.stop()
+
+        longWaitHandler.removeCallbacksAndMessages(null)
+        vibrationHandler?.removeCallbacksAndMessages(null)
+        lightHandler?.removeCallbacksAndMessages(null)
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -103,6 +129,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onClickPostpone() {
         context.showToast(text = "CLICK POSTPONE")
         callback?.finish()
+    }
+
+    companion object {
+        private const val CANCEL_TIME = 15000L
+        private const val VIBRATION_TIME = 1200L
+
+        private val VIBRATION_PATTERN = longArrayOf(200, 400, 200, 400)
     }
 
 }

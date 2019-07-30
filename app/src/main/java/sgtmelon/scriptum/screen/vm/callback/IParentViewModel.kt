@@ -5,6 +5,6 @@ package sgtmelon.scriptum.screen.vm.callback
  */
 interface IParentViewModel {
 
-    fun onDestroy()
+    fun onDestroy(func: () -> Unit = {})
 
 }

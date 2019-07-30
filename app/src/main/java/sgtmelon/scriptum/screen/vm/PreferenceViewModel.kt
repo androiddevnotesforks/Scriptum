@@ -27,7 +27,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     private var melodyPlayer: MediaPlayer? = null
 
-    override fun onDestroy() {
+    override fun onDestroy(func: () -> Unit) {
         callback = null
     }
 
@@ -43,7 +43,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
             updateRepeatSummary(repeatSummary[iPreferenceRepo.repeat])
             updateSignalSummary(iPreferenceRepo.signalSummary)
-            updateMelodyGroupEnabled(IntConverter().toArray(iPreferenceRepo.signal).first())
+            updateMelodyGroupEnabled(iPreferenceRepo.signalCheck.first())
             updateMelodySummary(melodyList[iPreferenceRepo.melodyCheck].title)
             updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
 
@@ -73,15 +73,14 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
     override fun onClickSignal() = alwaysTrue {
-        val array = IntConverter().toArray(iPreferenceRepo.signal, PreferenceRepo.SIGNAL_ARRAY_SIZE)
-        callback?.showSignalDialog(array)
+        callback?.showSignalDialog(iPreferenceRepo.signalCheck)
     }
 
     override fun onResultSignal(array: BooleanArray) {
         iPreferenceRepo.signal = IntConverter().toInt(array)
         callback?.apply {
             updateSignalSummary(iPreferenceRepo.signalSummary)
-            updateMelodyGroupEnabled(IntConverter().toArray(iPreferenceRepo.signal).first())
+            updateMelodyGroupEnabled(iPreferenceRepo.signalCheck.first())
         }
     }
 

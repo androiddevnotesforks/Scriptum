@@ -217,10 +217,12 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onResultInputTextChange() {
         callback?.bindInput(inputControl.access, noteModel)
     }
-    
+
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    override fun onDestroy() = saveControl.setSaveHandlerEvent(isStart = false)
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        saveControl.setSaveHandlerEvent(isStart = false)
+    }
 
     override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {

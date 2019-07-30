@@ -2,7 +2,10 @@ package sgtmelon.scriptum.screen.ui.notification
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -40,6 +43,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
             callback = this@AlarmActivity
         }
     }
+
+    private val vibration by lazy { getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator }
 
     private val openState = OpenState()
 
@@ -118,7 +123,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         logoView?.let { rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation() }
     }
 
-    override fun startControlFadeAnimation() {
+    override fun startButtonFadeInAnimation() {
         parentContainer?.let { group ->
             TransitionManager.beginDelayedTransition(group, Fade().apply {
                 startDelay = 500
@@ -131,6 +136,20 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
         recyclerView?.visibility = View.VISIBLE
         buttonContainer?.visibility = View.VISIBLE
+    }
+
+    override fun vibrateStart(pattern: LongArray) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibration?.vibrate(VibrationEffect.createWaveform(
+                    pattern, VibrationEffect.DEFAULT_AMPLITUDE
+            ))
+        } else {
+            vibration?.vibrate(pattern, -1)
+        }
+    }
+
+    override fun vibrateStop() {
+        vibration?.cancel()
     }
 
     companion object {
