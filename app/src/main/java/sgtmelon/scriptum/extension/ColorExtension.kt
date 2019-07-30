@@ -23,7 +23,7 @@ import android.graphics.Color as ColorUtil
  * [needDark] - Если элемент находится на тёмном фоне (например индикатор цвета заметки
  */
 @ColorInt fun Context.getAppThemeColor(@Color color: Int, needDark: Boolean) =
-        if (PreferenceRepo(context = this).theme == Theme.light) {
+        if (PreferenceRepo(context = this).theme == Theme.LIGHT) {
             if (needDark) getCompatColor(dark[color])
             else getCompatColor(light[color])
         } else {

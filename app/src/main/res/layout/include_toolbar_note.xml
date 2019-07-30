@@ -73,14 +73,14 @@
                 android:id="@+id/toolbar_note_color_view"
                 style="@style/Image.Color.Horizontal"
                 app:visibleTheme='@{currentTheme}'
-                app:visibleOn='@{theme.dark}'
+                app:visibleOn='@{theme.DARK}'
                 tools:background="@color/note_red_dark"
                 tools:visibility="gone"/>
 
         <View
                 style="@style/Divider.Horizontal"
                 app:visibleTheme='@{currentTheme}'
-                app:visibleOn='@{theme.light}'/>
+                app:visibleOn='@{theme.LIGHT}'/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

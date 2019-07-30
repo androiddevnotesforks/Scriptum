@@ -8,13 +8,13 @@ import androidx.annotation.IntDef
  *
  * @author SerjantArbuz
  */
-@IntDef(Theme.UNDEFINED, Theme.light, Theme.dark)
+@IntDef(Theme.UNDEFINED, Theme.LIGHT, Theme.DARK)
 annotation class Theme {
 
     companion object {
         const val UNDEFINED = -1
-        const val light = 0
-        const val dark = 1
+        const val LIGHT = 0
+        const val DARK = 1
     }
 
 }

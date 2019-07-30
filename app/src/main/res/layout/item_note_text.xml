@@ -58,7 +58,7 @@
                         android:contentDescription="@null"
                         app:indicatorColor='@{noteModel.noteEntity.color}'
                         app:indicatorTheme='@{currentTheme}'
-                        app:visibleOn='@{theme.dark}'
+                        app:visibleOn='@{theme.DARK}'
                         app:visibleTheme='@{currentTheme}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="gone"/>

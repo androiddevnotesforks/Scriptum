@@ -64,7 +64,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                 onDisplay(R.id.toolbar_note_container)
                 onDisplay(R.id.toolbar_note_scroll)
 
-                if (theme == Theme.dark) {
+                if (theme == Theme.DARK) {
                     onDisplay(R.id.toolbar_note_color_view)
                 } else {
                     notDisplay(R.id.toolbar_note_color_view)

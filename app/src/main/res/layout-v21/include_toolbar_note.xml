@@ -74,7 +74,7 @@
                 android:id="@+id/toolbar_note_color_view"
                 style="@style/Image.Color.Horizontal"
                 app:visibleTheme='@{currentTheme}'
-                app:visibleOn='@{theme.dark}'
+                app:visibleOn='@{theme.DARK}'
                 tools:background="@color/note_red_dark"
                 tools:visibility="visible"/>
 

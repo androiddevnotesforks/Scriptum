@@ -15,26 +15,26 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 @RunWith(AndroidJUnit4::class)
 class AlarmAnimLightTest : AlarmAnimParentTest() {
 
-    @Test fun colorRed() = startTest(Theme.light, Color.red)
+    @Test fun colorRed() = startTest(Theme.LIGHT, Color.red)
 
-    @Test fun colorPurple() = startTest(Theme.light, Color.purple)
+    @Test fun colorPurple() = startTest(Theme.LIGHT, Color.purple)
 
-    @Test fun colorIndigo() = startTest(Theme.light, Color.indigo)
+    @Test fun colorIndigo() = startTest(Theme.LIGHT, Color.indigo)
 
-    @Test fun colorBlue() = startTest(Theme.light, Color.blue)
+    @Test fun colorBlue() = startTest(Theme.LIGHT, Color.blue)
 
-    @Test fun colorTeal() = startTest(Theme.light, Color.teal)
+    @Test fun colorTeal() = startTest(Theme.LIGHT, Color.teal)
 
-    @Test fun colorGreen() = startTest(Theme.light, Color.green)
+    @Test fun colorGreen() = startTest(Theme.LIGHT, Color.green)
 
-    @Test fun colorYellow() = startTest(Theme.light, Color.yellow)
+    @Test fun colorYellow() = startTest(Theme.LIGHT, Color.yellow)
 
-    @Test fun colorOrange() = startTest(Theme.light, Color.orange)
+    @Test fun colorOrange() = startTest(Theme.LIGHT, Color.orange)
 
-    @Test fun colorBrown() = startTest(Theme.light, Color.brown)
+    @Test fun colorBrown() = startTest(Theme.LIGHT, Color.brown)
 
-    @Test fun colorBlueGrey() = startTest(Theme.light, Color.blueGrey)
+    @Test fun colorBlueGrey() = startTest(Theme.LIGHT, Color.blueGrey)
 
-    @Test fun colorWhite() = startTest(Theme.light, Color.white)
+    @Test fun colorWhite() = startTest(Theme.LIGHT, Color.white)
 
 }

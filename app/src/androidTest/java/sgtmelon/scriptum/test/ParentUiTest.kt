@@ -23,7 +23,7 @@ abstract class ParentUiTest : ParentTest() {
         super.setUp()
 
         iPreferenceRepo.apply {
-            theme = if (Random.nextBoolean()) Theme.light else Theme.dark
+            theme = if (Random.nextBoolean()) Theme.LIGHT else Theme.DARK
             firstStart = false
         }
 

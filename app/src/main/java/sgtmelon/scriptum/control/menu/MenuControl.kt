@@ -46,16 +46,16 @@ open class MenuControl(@Theme private val theme: Int,
             val position = it.animatedFraction
             var blended: Int
 
-            if (theme != Theme.dark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (theme != Theme.DARK && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 blended = statusColorFrom.blend(statusColorTo, position)
                 window.statusBarColor = blended
             }
 
             blended = toolbarColorFrom.blend(toolbarColorTo, position)
-            if (theme != Theme.dark) toolbar?.setBackgroundColor(blended)
+            if (theme != Theme.DARK) toolbar?.setBackgroundColor(blended)
 
             blended = indicatorColorFrom.blend(indicatorColorTo, position)
-            if (theme == Theme.dark) indicator?.setBackgroundColor(blended)
+            if (theme == Theme.DARK) indicator?.setBackgroundColor(blended)
         }
 
         anim.addUpdateListener(updateListener)
@@ -68,7 +68,7 @@ open class MenuControl(@Theme private val theme: Int,
      * @param color - Начальный цвет
      */
     fun setColor(@Color color: Int) {
-        if (theme != Theme.dark) {
+        if (theme != Theme.DARK) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = context.getAppThemeColor(color, statusOnDark)
             }

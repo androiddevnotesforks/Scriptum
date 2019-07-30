@@ -85,7 +85,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.let {
             val theme = iPreferenceRepo.theme
             it.startRippleAnimation(theme, context.getAppSimpleColor(color,
-                    if (theme == Theme.light) ColorShade.ACCENT else ColorShade.DARK
+                    if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
             ))
 
             it.startButtonFadeInAnimation()

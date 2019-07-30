@@ -73,7 +73,7 @@
                         app:indicatorTheme='@{currentTheme}'
                         app:indicatorColor='@{noteModel.noteEntity.color}'
                         app:visibleTheme='@{currentTheme}'
-                        app:visibleOn='@{theme.dark}'
+                        app:visibleOn='@{theme.DARK}'
                         tools:tint="@color/note_green_dark"
                         tools:visibility="visible"/>
 

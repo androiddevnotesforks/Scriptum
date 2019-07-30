@@ -45,7 +45,7 @@ class RippleContainer : RelativeLayout {
         val paint = Paint().apply {
             isAntiAlias = true
 
-            style = if (theme == Theme.light) Paint.Style.STROKE else Paint.Style.FILL
+            style = if (theme == Theme.LIGHT) Paint.Style.STROKE else Paint.Style.FILL
             strokeWidth = resources.getDimension(R.dimen.stroke_4dp)
             color = fillColor
         }
@@ -57,8 +57,8 @@ class RippleContainer : RelativeLayout {
         val duration = 1000L * count / 2
 
         val scaleTo = (maxSize / viewSize).toFloat() * when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> if (theme == Theme.light) 2f else 1.5f
-            else -> if (theme == Theme.light) 1.7f else 1.2f
+            Configuration.ORIENTATION_PORTRAIT -> if (theme == Theme.LIGHT) 2f else 1.5f
+            else -> if (theme == Theme.LIGHT) 1.7f else 1.2f
         }
 
         val layoutParams = LayoutParams(viewSize.toInt(), viewSize.toInt()).apply {
