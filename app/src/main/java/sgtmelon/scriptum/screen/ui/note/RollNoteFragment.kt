@@ -192,7 +192,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.name, iViewModel, inputCallback)
+                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, inputCallback)
             )
             it.addOnNextAction {
                 rollEnter?.apply {

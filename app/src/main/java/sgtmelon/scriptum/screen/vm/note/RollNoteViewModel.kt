@@ -129,8 +129,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             val rollList = noteModel.rollList
 
             when (item.tag) {
-                InputAction.rank -> noteEntity.rankId = StringConverter().toList(item[isUndo])
-                InputAction.color -> {
+                InputAction.RANK -> noteEntity.rankId = StringConverter().toList(item[isUndo])
+                InputAction.COLOR -> {
                     val colorFrom = noteEntity.color
                     val colorTo = item[isUndo].toInt()
 
@@ -138,14 +138,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
                     callback?.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
-                InputAction.roll -> {
+                InputAction.NAME -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.ROLL -> {
                     rollList[item.p].text = item[isUndo]
                     callback?.notifyItemChanged(item.p, rollList, cursor = item.cursor[isUndo])
                 }
-                InputAction.rollAdd, InputAction.rollRemove -> {
-                    val isAddUndo = isUndo && item.tag == InputAction.rollAdd
-                    val isRemoveRedo = !isUndo && item.tag == InputAction.rollRemove
+                InputAction.ROLL_ADD, InputAction.ROLL_REMOVE -> {
+                    val isAddUndo = isUndo && item.tag == InputAction.ROLL_ADD
+                    val isRemoveRedo = !isUndo && item.tag == InputAction.ROLL_REMOVE
 
                     if (isAddUndo || isRemoveRedo) {
                         rollList.removeAt(item.p)
@@ -157,7 +157,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                         callback?.notifyItemInserted(item.p, rollEntity.text.length, rollList)
                     }
                 }
-                InputAction.rollMove -> {
+                InputAction.ROLL_MOVE -> {
                     val from = item[!isUndo].toInt()
                     val to = item[isUndo].toInt()
 

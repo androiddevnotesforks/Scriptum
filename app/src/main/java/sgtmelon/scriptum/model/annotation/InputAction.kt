@@ -5,28 +5,28 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.item.InputItem
 
 /**
- * Для [InputItem.tag], [InputControl]
+ * For [InputItem.tag], [InputControl]
  *
  * @author SerjantArbuz
  */
 @IntDef(
-        InputAction.rank, InputAction.color,
-        InputAction.name, InputAction.text, InputAction.roll,
-        InputAction.rollAdd, InputAction.rollRemove, InputAction.rollMove
+        InputAction.RANK, InputAction.COLOR,
+        InputAction.NAME, InputAction.TEXT, InputAction.ROLL,
+        InputAction.ROLL_ADD, InputAction.ROLL_REMOVE, InputAction.ROLL_MOVE
 )
 annotation class InputAction {
 
     companion object {
-        const val rank = 0
-        const val color = 1
+        const val RANK = 0
+        const val COLOR = 1
 
-        const val name = 2
-        const val text = 3
-        const val roll = 4
+        const val NAME = 2
+        const val TEXT = 3
+        const val ROLL = 4
 
-        const val rollAdd = 5
-        const val rollRemove = 6
-        const val rollMove = 7
+        const val ROLL_ADD = 5
+        const val ROLL_REMOVE = 6
+        const val ROLL_MOVE = 7
     }
 
 }

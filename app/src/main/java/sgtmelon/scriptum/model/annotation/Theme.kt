@@ -4,7 +4,7 @@ import androidx.annotation.IntDef
 
 
 /**
- * Для описания стандартных тем
+ * Describes standard themes
  *
  * @author SerjantArbuz
  */

@@ -3,18 +3,18 @@ package sgtmelon.scriptum.model.annotation
 import androidx.annotation.IntDef
 
 /**
- * Для описания стандартных сортировок заметок
+ * Describes standard sorting types for notes
  *
  * @author SerjantArbuz
  */
-@IntDef(Sort.change, Sort.create, Sort.rank, Sort.color)
+@IntDef(Sort.CHANGE, Sort.CREATE, Sort.RANK, Sort.COLOR)
 annotation class Sort {
 
     companion object {
-        const val change = 0
-        const val create = 1
-        const val rank = 2
-        const val color = 3
+        const val CHANGE = 0
+        const val CREATE = 1
+        const val RANK = 2
+        const val COLOR = 3
     }
 
 }

@@ -119,8 +119,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             val noteEntity = noteModel.noteEntity
 
             when (item.tag) {
-                InputAction.rank -> noteEntity.rankId = StringConverter().toList(item[isUndo])
-                InputAction.color -> {
+                InputAction.RANK -> noteEntity.rankId = StringConverter().toList(item[isUndo])
+                InputAction.COLOR -> {
                     val colorFrom = noteEntity.color
                     val colorTo = item[isUndo].toInt()
 
@@ -128,8 +128,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
                     callback?.tintToolbar(colorFrom, colorTo)
                 }
-                InputAction.name -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
-                InputAction.text -> callback?.changeText(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.NAME -> callback?.changeName(item[isUndo], cursor = item.cursor[isUndo])
+                InputAction.TEXT -> callback?.changeText(item[isUndo], cursor = item.cursor[isUndo])
             }
         }
 

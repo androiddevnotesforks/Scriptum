@@ -165,7 +165,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.name, iViewModel, inputCallback)
+                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, inputCallback)
             )
             it.addOnNextAction {
                 textEnter?.apply {
@@ -179,7 +179,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
 
         textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputAction.text, iViewModel, inputCallback)
+                InputTextWatcher(textEnter, InputAction.TEXT, iViewModel, inputCallback)
         )
     }
 

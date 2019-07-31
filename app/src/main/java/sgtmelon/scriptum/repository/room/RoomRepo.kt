@@ -35,9 +35,9 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             val rankIdVisibleList = iRankDao.getIdVisibleList()
 
             when (iPreferenceRepo.sort) {
-                Sort.change -> iNoteDao.getByChange(bin)
-                Sort.create -> iNoteDao.getByCreate(bin)
-                Sort.rank -> iNoteDao.getByRank(bin)
+                Sort.CHANGE -> iNoteDao.getByChange(bin)
+                Sort.CREATE -> iNoteDao.getByCreate(bin)
+                Sort.RANK -> iNoteDao.getByRank(bin)
                 else -> iNoteDao.getByColor(bin)
             }.forEach {
                 val bindControl = BindControl(context, it)

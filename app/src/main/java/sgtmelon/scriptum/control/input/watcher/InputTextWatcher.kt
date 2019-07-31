@@ -36,8 +36,8 @@ class InputTextWatcher(private val view: EditText?,
         val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
 
         when (tag) {
-            InputAction.name -> inputCallback.onNameChange(textFrom, textTo, cursorItem)
-            InputAction.text -> inputCallback.onTextChange(textFrom, textTo, cursorItem)
+            InputAction.NAME -> inputCallback.onNameChange(textFrom, textTo, cursorItem)
+            InputAction.TEXT -> inputCallback.onTextChange(textFrom, textTo, cursorItem)
         }
 
         textFrom = textTo

@@ -102,28 +102,28 @@ class InputControl : InputCallback {
     }
 
     override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) =
-            add(InputItem(InputAction.rank, valueFrom.joinToString(), valueTo.joinToString()))
+            add(InputItem(InputAction.RANK, valueFrom.joinToString(), valueTo.joinToString()))
 
     override fun onColorChange(valueFrom: Int, valueTo: Int) =
-            add(InputItem(InputAction.color, valueFrom.toString(), valueTo.toString()))
+            add(InputItem(InputAction.COLOR, valueFrom.toString(), valueTo.toString()))
 
     override fun onNameChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
-            add(InputItem(InputAction.name, valueFrom, valueTo, cursor))
+            add(InputItem(InputAction.NAME, valueFrom, valueTo, cursor))
 
     override fun onTextChange(valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
-            add(InputItem(InputAction.text, valueFrom, valueTo, cursor))
+            add(InputItem(InputAction.TEXT, valueFrom, valueTo, cursor))
 
     override fun onRollChange(p: Int, valueFrom: String, valueTo: String, cursor: InputItem.Cursor) =
-            add(InputItem(InputAction.roll, valueFrom, valueTo, cursor, p))
+            add(InputItem(InputAction.ROLL, valueFrom, valueTo, cursor, p))
 
     override fun onRollAdd(p: Int, valueTo: String) =
-            add(InputItem(InputAction.rollAdd, "", valueTo, null, p))
+            add(InputItem(InputAction.ROLL_ADD, "", valueTo, null, p))
 
     override fun onRollRemove(p: Int, valueFrom: String) =
-            add(InputItem(InputAction.rollRemove, valueFrom, "", null, p))
+            add(InputItem(InputAction.ROLL_REMOVE, valueFrom, "", null, p))
 
     override fun onRollMove(valueFrom: Int, valueTo: Int) =
-            add(InputItem(InputAction.rollMove, valueFrom.toString(), valueTo.toString()))
+            add(InputItem(InputAction.ROLL_MOVE, valueFrom.toString(), valueTo.toString()))
 
     private fun listAll() {
         if (!logEnabled) return

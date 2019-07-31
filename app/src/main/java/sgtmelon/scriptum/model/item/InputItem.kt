@@ -17,7 +17,7 @@ class InputItem(
 ) {
 
     init {
-        if (tag == InputAction.name || tag == InputAction.text || tag == InputAction.roll) {
+        if (tag == InputAction.NAME || tag == InputAction.TEXT || tag == InputAction.ROLL) {
             if (cursor == null) {
                 throw NullPointerException(InputItem::class.java.simpleName + "#cursor is null")
             }
