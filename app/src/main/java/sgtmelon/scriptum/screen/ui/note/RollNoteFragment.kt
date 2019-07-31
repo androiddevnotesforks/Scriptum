@@ -62,7 +62,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }
     }
 
-    private lateinit var menuControl: MenuControl
+    private var menuControl: MenuControl? = null
 
     private val openState = OpenState()
     private val rankDialog by lazy {
@@ -154,10 +154,9 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
             }
         }
 
-        menuControl.apply {
-            setColor(color)
-            setDrawable(drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false)
-        }
+        menuControl?.setColor(color)?.setDrawable(
+                drawableOn = noteState.isEdit && !noteState.isCreate, needAnim = false
+        )
 
         toolbar?.setNavigationOnClickListener { iViewModel.onClickBackArrow() }
     }
@@ -278,13 +277,17 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
     override fun onPressBack() = iViewModel.onPressBack()
 
-    override fun tintToolbar(from: Int, to: Int) =
-            menuControl.apply { setColorFrom(from) }.startTint(to)
+    override fun tintToolbar(from: Int, to: Int) {
+        menuControl?.apply { setColorFrom(from) }?.startTint(to)
+    }
 
-    override fun tintToolbar(@Color color: Int) = menuControl.startTint(color)
+    override fun tintToolbar(@Color color: Int) {
+        menuControl?.startTint(color)
+    }
 
-    override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) =
-            menuControl.setDrawable(drawableOn, needAnim)
+    override fun changeToolbarIcon(drawableOn: Boolean, needAnim: Boolean) {
+        menuControl?.setDrawable(drawableOn, needAnim)
+    }
 
     override fun focusOnEdit() {
         nameEnter?.requestSelectionFocus()
@@ -368,7 +371,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     }
 
     override fun showColorDialog(color: Int) = openState.tryInvoke {
-        menuControl.setColorFrom(color)
+        menuControl?.setColorFrom(color)
 
         hideKeyboard()
         fragmentManager?.let {

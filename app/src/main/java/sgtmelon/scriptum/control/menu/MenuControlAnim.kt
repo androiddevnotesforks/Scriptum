@@ -9,18 +9,19 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.extension.getTintDrawable
+import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Класс для контроля меню с использованием анимации | Для версий API >= 21
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class MenuControlAnim(@Theme theme: Int,
-                      context: Context,
-                      window: Window,
-                      toolbar: Toolbar?,
-                      indicator: View?
+class MenuControlAnim(
+        @Theme theme: Int,
+        context: Context,
+        window: Window,
+        toolbar: Toolbar?,
+        indicator: View?
 ) : MenuControl(theme, context, window, toolbar, indicator) {
 
     private val cancelOnAnim = context.getTintDrawable(R.drawable.anim_cancel_enter)

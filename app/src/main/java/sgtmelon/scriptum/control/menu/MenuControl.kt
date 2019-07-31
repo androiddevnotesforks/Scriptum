@@ -20,11 +20,12 @@ import sgtmelon.scriptum.model.key.ColorShade
 /**
  * Класс для контроля меню | Для версий API < 21
  */
-open class MenuControl(@Theme private val theme: Int,
-                       protected val context: Context,
-                       private val window: Window,
-                       protected val toolbar: Toolbar?,
-                       private val indicator: View?
+open class MenuControl(
+        @Theme private val theme: Int,
+        protected val context: Context,
+        private val window: Window,
+        protected val toolbar: Toolbar?,
+        private val indicator: View?
 ) : IconAnimControl.Callback {
 
     // TODO сделать общение с классом через Interface
@@ -69,7 +70,7 @@ open class MenuControl(@Theme private val theme: Int,
      *
      * @param color - Начальный цвет
      */
-    fun setColor(@Color color: Int) {
+    fun setColor(@Color color: Int) : MenuControl {
         if (theme != Theme.DARK) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = context.getAppThemeColor(color, statusOnDark)
@@ -79,16 +80,18 @@ open class MenuControl(@Theme private val theme: Int,
 
         indicator?.setBackgroundColor(context.getAppThemeColor(color, true))
 
-        setColorFrom(color)
+        return setColorFrom(color)
     }
 
     /**
      * Установка начального цвета, [color] - начальный цвет
      */
-    fun setColorFrom(@Color color: Int) {
+    fun setColorFrom(@Color color: Int): MenuControl {
         statusColorFrom = context.getAppThemeColor(color, statusOnDark)
         toolbarColorFrom = context.getAppThemeColor(color, needDark = false)
         indicatorColorFrom = context.getAppSimpleColor(color, ColorShade.DARK)
+
+        return this
     }
 
     /**
