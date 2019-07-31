@@ -27,6 +27,8 @@ open class MenuControl(@Theme private val theme: Int,
                        private val indicator: View?
 ) : IconAnimControl.Callback {
 
+    // TODO сделать общение с классом через Interface
+
     private val statusOnDark = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
 
     private val anim: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)

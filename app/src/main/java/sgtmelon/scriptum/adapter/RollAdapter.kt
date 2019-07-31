@@ -17,15 +17,16 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
  *
  * @author SerjantArbuz
  */
-class RollAdapter(private val rollChangeCallback: RollWriteHolder.RollChange,
-                  private val clickListener: ItemListener.Click,
-                  private val longClickListener: ItemListener.LongClick
+class RollAdapter(
+        private val rollChangeCallback: RollWriteHolder.RollChange,
+        private val clickListener: ItemListener.Click,
+        private val longClickListener: ItemListener.LongClick
 ) : ParentAdapter<RollEntity, RecyclerView.ViewHolder>() {
 
-    lateinit var dragListener: ItemListener.Drag
-    lateinit var inputCallback: InputCallback
+    var dragListener: ItemListener.Drag? = null
+    var inputCallback: InputCallback? = null
 
-    lateinit var noteState: NoteState
+    var noteState: NoteState? = null
 
     var checkToggle: Boolean = false
     var cursorPosition = UNDEFINED
@@ -57,7 +58,8 @@ class RollAdapter(private val rollChangeCallback: RollWriteHolder.RollChange,
         }
     }
 
-    override fun getItemViewType(position: Int) = if (noteState.isEdit) TYPE_WRITE else TYPE_READ
+    override fun getItemViewType(position: Int) =
+            if (noteState?.isEdit == true) TYPE_WRITE else TYPE_READ
 
     private companion object {
         private const val UNDEFINED = -1

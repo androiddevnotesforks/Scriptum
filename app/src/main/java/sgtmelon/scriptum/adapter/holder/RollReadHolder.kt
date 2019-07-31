@@ -43,9 +43,9 @@ class RollReadHolder(private val binding: ItemRollReadBinding,
         }
     }
 
-    fun bind(rollEntity: RollEntity, noteState: NoteState, checkToggle: Boolean) {
+    fun bind(rollEntity: RollEntity, noteState: NoteState?, checkToggle: Boolean) {
         binding.rollEntity = rollEntity
-        binding.keyBin = noteState.isBin
+        binding.keyBin = noteState?.isBin == true
         binding.checkToggle = checkToggle
 
         binding.executePendingBindings()

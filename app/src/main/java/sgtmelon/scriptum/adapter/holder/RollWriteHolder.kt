@@ -22,10 +22,11 @@ import sgtmelon.scriptum.room.entity.RollEntity
  *
  * @author SerjantArbuz
  */
-class RollWriteHolder(private val binding: ItemRollWriteBinding,
-                      private val dragListener: ItemListener.Drag,
-                      private val changeCallback: RollChange,
-                      private val inputCallback: InputCallback
+class RollWriteHolder(
+        private val binding: ItemRollWriteBinding,
+        private val dragListener: ItemListener.Drag?,
+        private val changeCallback: RollChange,
+        private val inputCallback: InputCallback?
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener,
         TextWatcher {
@@ -51,7 +52,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(rollEntity: RollEntity) = inputCallback.makeNotEnabled {
+    fun bind(rollEntity: RollEntity) = inputCallback?.makeNotEnabled {
         binding.apply { this.rollEntity = rollEntity }.executePendingBindings()
     }
 
@@ -67,7 +68,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
     override fun onTouch(v: View, event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {
-            dragListener.setDrag(v.id == dragView.id)
+            dragListener?.setDrag(v.id == dragView.id)
         }
         return false
     }
@@ -90,7 +91,7 @@ class RollWriteHolder(private val binding: ItemRollWriteBinding,
 
         textFrom?.let {
             val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
-            inputCallback.onRollChange(adapterPosition, it, textTo, cursorItem)
+            inputCallback?.onRollChange(adapterPosition, it, textTo, cursorItem)
 
             textFrom = textTo
             cursorFrom = cursorTo
