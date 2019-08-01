@@ -152,8 +152,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     companion object {
-        fun Context.getAlarmIntent(id: Long, @Color color: Int): Intent =
-                Intent(this, AlarmActivity::class.java)
+        fun getInstance(context: Context, id: Long, @Color color: Int): Intent =
+                Intent(context, AlarmActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)
                         .putExtra(NoteData.Intent.COLOR, color)
     }

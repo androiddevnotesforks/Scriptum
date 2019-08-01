@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
-import sgtmelon.scriptum.screen.ui.notification.AlarmActivity.Companion.getAlarmIntent
+import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 
 /**
@@ -35,7 +35,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
                     callback?.startActivities(arrayOf(MainActivity.getInstance(context), intent))
                 }
                 OpenFrom.ALARM -> {
-                    callback?.startActivity(context.getAlarmIntent(
+                    callback?.startActivity(AlarmActivity.getInstance(context,
                             bundle.getLong(NoteData.Intent.ID),
                             bundle.getInt(NoteData.Intent.COLOR)
                     ))
