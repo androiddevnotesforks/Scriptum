@@ -40,7 +40,7 @@ interface IRollNoteViewModel : IParentViewModel,
 
     fun onResultColorDialog(check: Int)
 
-    fun onResultRankDialog(check: BooleanArray)
+    fun onResultRankDialog(check: Int)
 
     fun onResultConvertDialog()
 

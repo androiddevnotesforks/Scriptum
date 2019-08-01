@@ -23,7 +23,7 @@ interface ITextNoteFragment {
 
     fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState)
 
-    fun setupDialog(rankNameArray: List<String>)
+    fun setupDialog(rankNameArray: Array<String>)
 
     fun setupEnter(inputCallback: InputCallback)
 
@@ -49,7 +49,7 @@ interface ITextNoteFragment {
 
     fun hideKeyboard()
 
-    fun showRankDialog(rankCheck: BooleanArray)
+    fun showRankDialog(check: Int)
 
     fun showColorDialog(@Color color: Int)
 

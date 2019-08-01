@@ -20,7 +20,6 @@ import sgtmelon.scriptum.model.key.NoteType
 object DialogFactory {
 
     object Main {
-
         fun getRenameDialog(fm: FragmentManager?): RenameDialog =
                 fm?.findFragmentByTag(RENAME) as? RenameDialog ?: RenameDialog()
 
@@ -45,11 +44,9 @@ object DialogFactory {
         const val ADD = "${PREFIX}_ADD"
         const val OPTIONS = "${PREFIX}_OPTIONS"
         const val CLEAR_BIN = "${PREFIX}_CLEAR_BIN"
-
     }
 
     object Note {
-
         fun getConvertDialog(context: Context, fm: FragmentManager?, type: NoteType): MessageDialog {
             val dialog = fm?.findFragmentByTag(CONVERT) as? MessageDialog ?: MessageDialog()
 
@@ -62,8 +59,8 @@ object DialogFactory {
             return dialog
         }
 
-        fun getRankDialog(context: Context, fm: FragmentManager?): MultiplyDialog {
-            val dialog = fm?.findFragmentByTag(RANK) as? MultiplyDialog ?: MultiplyDialog()
+        fun getRankDialog(context: Context, fm: FragmentManager?): SingleDialog {
+            val dialog = fm?.findFragmentByTag(RANK) as? SingleDialog ?: SingleDialog()
 
             dialog.title = context.getString(R.string.dialog_title_rank)
 
@@ -94,11 +91,9 @@ object DialogFactory {
 
         const val RANK = "${PREFIX}_RANK"
         const val COLOR = "${PREFIX}_COLOR"
-
     }
 
     object Preference {
-
         fun getThemeDialog(context: Context, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
 
@@ -183,7 +178,6 @@ object DialogFactory {
         const val COLOR = "${PREFIX}_COLOR"
         const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
         const val ABOUT = "${PREFIX}_ABOUT"
-
     }
 
 }

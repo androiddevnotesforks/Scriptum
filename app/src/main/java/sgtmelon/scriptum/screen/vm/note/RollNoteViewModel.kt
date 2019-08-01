@@ -80,7 +80,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.apply {
             setupBinding(iPreferenceRepo.theme, isRankEmpty)
             setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
-            setupDialog(iRoomRepo.getRankNameList())
+            setupDialog(iRoomRepo.getRankNameArray())
             setupEnter(inputControl)
             setupRecycler(inputControl)
         }
@@ -434,7 +434,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
-    override fun onResultRankDialog(check: BooleanArray) {
+    override fun onResultRankDialog(check: Int) {
         val rankId = ArrayList<Long>()
         val rankPs = ArrayList<Long>()
 

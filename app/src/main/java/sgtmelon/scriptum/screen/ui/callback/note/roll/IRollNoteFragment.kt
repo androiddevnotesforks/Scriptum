@@ -24,7 +24,7 @@ interface IRollNoteFragment {
 
     fun setupToolbar(@Theme theme: Int, @Color color: Int, noteState: NoteState)
 
-    fun setupDialog(rankNameList: List<String>)
+    fun setupDialog(rankNameArray: Array<String>)
 
     fun setupEnter(inputCallback: InputCallback)
 
@@ -76,7 +76,7 @@ interface IRollNoteFragment {
 
     fun hideKeyboard()
 
-    fun showRankDialog(rankCheck: BooleanArray)
+    fun showRankDialog(check: Int)
 
     fun showColorDialog(color: Int)
 

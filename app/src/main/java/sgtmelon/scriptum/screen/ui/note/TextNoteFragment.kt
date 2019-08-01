@@ -134,9 +134,9 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         toolbar?.setNavigationOnClickListener { iViewModel.onClickBackArrow() }
     }
 
-    override fun setupDialog(rankNameArray: List<String>) {
+    override fun setupDialog(rankNameArray: Array<String>) {
         rankDialog.apply {
-            itemList = rankNameArray
+            itemArray = rankNameArray
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultRankDialog(rankDialog.check)
             }
@@ -244,10 +244,10 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         activity?.hideKeyboard()
     }
 
-    override fun showRankDialog(rankCheck: BooleanArray) = openState.tryInvoke {
+    override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()
         fragmentManager?.let {
-            rankDialog.setArguments(rankCheck).show(it, DialogFactory.Note.RANK)
+            rankDialog.setArguments(check).show(it, DialogFactory.Note.RANK)
         }
     }
 

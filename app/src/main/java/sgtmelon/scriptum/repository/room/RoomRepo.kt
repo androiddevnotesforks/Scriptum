@@ -128,9 +128,9 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         return noteModel
     }
 
-    override fun getRankNameList() = ArrayList<String>().apply {
+    override fun getRankNameArray(): Array<String> = ArrayList<String>().apply {
         inRoom { addAll(iRankDao.getNameList()) }
-    }
+    }.toTypedArray()
 
     override fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray {
         val array: BooleanArray

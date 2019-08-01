@@ -40,7 +40,7 @@ interface IRoomRepo {
     /**
      * @return Список с именами всех категорий
      */
-    fun getRankNameList(): List<String>
+    fun getRankNameArray(): Array<String>
 
     /**
      * @return Булевый массив с true - для категорий, принадлежащих заметке

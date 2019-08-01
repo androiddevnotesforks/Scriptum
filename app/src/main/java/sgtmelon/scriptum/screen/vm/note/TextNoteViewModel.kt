@@ -72,7 +72,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         callback?.apply {
             setupBinding(iPreferenceRepo.theme, isRankEmpty)
             setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
-            setupDialog(iRoomRepo.getRankNameList())
+            setupDialog(iRoomRepo.getRankNameArray())
             setupEnter(inputControl)
         }
 
@@ -271,7 +271,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         }
     }
 
-    override fun onResultRankDialog(check: BooleanArray) {
+    override fun onResultRankDialog(check: Int) {
         val rankId = ArrayList<Long>()
         val rankPs = ArrayList<Long>()
 
