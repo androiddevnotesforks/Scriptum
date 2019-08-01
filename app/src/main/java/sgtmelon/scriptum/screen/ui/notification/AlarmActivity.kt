@@ -78,12 +78,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(sgtmelon.scriptum.R.layout.activity_alarm)
+        setContentView(R.layout.activity_alarm)
 
-        iViewModel.apply {
-            onSetup()
-            onSetupData(bundle = savedInstanceState ?: intent.extras)
-        }
+        iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 
         parentContainer?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -137,17 +134,19 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
-    override fun vibrateStart(pattern: LongArray) {
+    override fun vibrateStart(pattern: LongArray, repeat: Int) {
+        if (vibration?.hasVibrator() == false) return
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibration?.vibrate(VibrationEffect.createWaveform(
-                    pattern, VibrationEffect.DEFAULT_AMPLITUDE
+                    pattern, IntArray(repeat) { VibrationEffect.DEFAULT_AMPLITUDE }, repeat
             ))
         } else {
-            vibration?.vibrate(pattern, -1)
+            vibration?.vibrate(pattern, repeat)
         }
     }
 
-    override fun vibrateStop() {
+    override fun vibrateCancel() {
         vibration?.cancel()
     }
 

@@ -43,7 +43,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
             updateRepeatSummary(repeatSummary[iPreferenceRepo.repeat])
             updateSignalSummary(iPreferenceRepo.signalSummary)
-            updateMelodyGroupEnabled(iPreferenceRepo.signalCheck.first())
+            updateMelodyGroupEnabled(iPreferenceRepo.signalState.isMelody)
             updateMelodySummary(melodyList[iPreferenceRepo.melodyCheck].title)
             updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
 
@@ -80,7 +80,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         iPreferenceRepo.signal = IntConverter().toInt(array)
         callback?.apply {
             updateSignalSummary(iPreferenceRepo.signalSummary)
-            updateMelodyGroupEnabled(iPreferenceRepo.signalCheck.first())
+            updateMelodyGroupEnabled(iPreferenceRepo.signalState.isMelody)
         }
     }
 

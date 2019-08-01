@@ -5,6 +5,8 @@ package sgtmelon.scriptum.screen.vm.callback
  */
 interface IParentViewModel {
 
+    // TODO fun onSetup(bundle: Bundle? = null)
+
     fun onDestroy(func: () -> Unit = {})
 
 }

@@ -4,6 +4,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
+import sgtmelon.scriptum.model.state.SignalState
 
 /**
  * Interface for communication with [PreferenceRepo]
@@ -22,6 +23,8 @@ interface IPreferenceRepo {
     var signal: Int
 
     val signalCheck: BooleanArray
+
+    val signalState: SignalState
 
     val signalSummary: String
 

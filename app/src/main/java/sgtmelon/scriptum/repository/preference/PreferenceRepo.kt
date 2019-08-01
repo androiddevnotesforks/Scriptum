@@ -7,14 +7,15 @@ import android.media.RingtoneManager
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Signal
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
+import sgtmelon.scriptum.model.state.SignalState
 import sgtmelon.scriptum.room.converter.IntConverter
 
-
 /**
- * Репозиторий для работы с [SharedPreferences]
+ * Repository for work with [SharedPreferences]
  *
  * @author SerjantArbuz
  */
@@ -49,8 +50,12 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preference.getInt(resources.getString(R.string.key_alarm_signal), resources.getInteger(R.integer.value_alarm_signal))
         set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_signal), value).apply()
 
-    override val signalCheck: BooleanArray
-        get() = IntConverter().toArray(signal, SIGNAL_ARRAY_SIZE)
+    override val signalCheck: BooleanArray get() = IntConverter().toArray(signal, Signal.size)
+
+    override val signalState: SignalState
+        get() = signalCheck.let {
+            SignalState(it[Signal.MELODY], it[Signal.VIBRATION], it[Signal.LIGHT])
+        }
 
     override val signalSummary: String
         get() = StringBuilder().apply {
@@ -77,7 +82,10 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
             var value = preference.getString(resources.getString(R.string.key_alarm_melody), "")
                     ?: ""
 
-            if (value.isEmpty() || !it.map { it.uri }.contains(value)) {
+            /**
+             * Check uri exist
+             */
+            if (value.isEmpty() || !it.map { item -> item.uri }.contains(value)) {
                 value = it.first().uri
                 melodyUri = value
             }
@@ -90,6 +98,9 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
     override val melodyList: List<MelodyItem>
         get() = ArrayList<MelodyItem>().apply {
+            /**
+             * Func which fill list with all [MelodyItem] for current [RingtoneManager] type
+             */
             val fillListByType = { type: Int ->
                 RingtoneManager(context).apply {
                     setType(type)
@@ -139,12 +150,6 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         set(value) = preference.edit().putInt(resources.getString(R.string.key_save_time), value).apply()
 
     companion object {
-        private const val SIGNAL_ARRAY_SIZE = 3
-
-        const val SIGNAL_MELODY = 0
-        const val SIGNAL_VIBRATION = 1
-        const val SIGNAL_LIGHT = 2
-
         fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
     }
 

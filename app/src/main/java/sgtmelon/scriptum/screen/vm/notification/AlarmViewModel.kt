@@ -11,7 +11,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
+import sgtmelon.scriptum.model.state.SignalState
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
@@ -29,74 +29,43 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private var id: Long = NoteData.Default.ID
     private var color: Int = iPreferenceRepo.defaultColor
 
-    private var noteModel: NoteModel? = null
+    private lateinit var noteModel: NoteModel
+    private lateinit var signalState: SignalState
 
     private var melodyPlayer: MediaPlayer? = null
 
     private val longWaitHandler = Handler()
     private val longWaitRunnable = Runnable { callback?.finish() }
 
-    private var vibrationHandler: Handler? = null
-    private val vibrationRunnable = object : Runnable {
-        override fun run() {
-            callback?.vibrateStart(vibrationPattern)
-            vibrationHandler?.postDelayed(this, vibrationPattern.sum())
-        }
-    }
-
-    private var lightHandler: Handler? = null
-    private val lightRunnable = object : Runnable {
-        override fun run() {
-            // TODO #RELEASE
-            context.showToast("Light on/off")
-            lightHandler?.postDelayed(this, LIGHT_DELAY)
-        }
-    }
-
-    override fun onSetup() {
-        callback?.setupView(iPreferenceRepo.theme)
-    }
-
     // TODO #RELEASE Обработка id = -1
     // TODO #RELEASE Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
-    override fun onSetupData(bundle: Bundle?) {
+    override fun onSetup(bundle: Bundle?) {
+        callback?.setupView(iPreferenceRepo.theme)
+
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
             color = bundle.getInt(NoteData.Intent.COLOR, iPreferenceRepo.defaultColor)
         }
 
-        if (noteModel == null) noteModel = iRoomRepo.getNoteModel(id)
+        if (!::noteModel.isInitialized) {
+            noteModel = iRoomRepo.getNoteModel(id)
+            signalState = iPreferenceRepo.signalState
 
-        iPreferenceRepo.signalCheck.forEachIndexed { i, bool ->
-            if (!bool) return@forEachIndexed
+            if (signalState.isMelody) {
+                melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())
+                melodyPlayer?.apply {
+                    isLooping = true
 
-            when (i) {
-                PreferenceRepo.SIGNAL_MELODY -> {
-                    melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())
-                    melodyPlayer?.apply {
-                        isLooping = true
-
-                        if (iPreferenceRepo.volumeIncrease) {
-                            setVolume(0.5f, 0.5f)
-                        } else {
-                            setVolume(0.5f, 0.5f)
-                        }
+                    if (iPreferenceRepo.volumeIncrease) {
+                        setVolume(0.5f, 0.5f)
+                    } else {
+                        setVolume(0.5f, 0.5f)
                     }
                 }
-                PreferenceRepo.SIGNAL_VIBRATION -> vibrationHandler = Handler()
-                PreferenceRepo.SIGNAL_LIGHT -> lightHandler = Handler()
             }
         }
 
-        noteModel?.let { callback?.notifyDataSetChanged(it) }
-    }
-
-    override fun onStart() {
-        melodyPlayer?.start()
-
-        longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
-        vibrationHandler?.postDelayed(vibrationRunnable, START_DELAY)
-        lightHandler?.postDelayed(lightRunnable, START_DELAY)
+        callback?.notifyDataSetChanged(noteModel)
 
         callback?.let {
             val theme = iPreferenceRepo.theme
@@ -108,14 +77,26 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
     }
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        callback?.vibrateStop()
+    override fun onStart() {
+        melodyPlayer?.start()
 
+        if (signalState.isVibration) callback?.vibrateStart(vibrationPattern, vibrationRepeat)
+
+        longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
+    }
+
+    override fun onPause() {
+        melodyPlayer?.pause()
+
+        if (signalState.isVibration) callback?.vibrateCancel()
+    }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
         melodyPlayer?.stop()
 
+        if (signalState.isVibration) callback?.vibrateCancel()
+
         longWaitHandler.removeCallbacks(longWaitRunnable)
-        vibrationHandler?.removeCallbacks(vibrationRunnable)
-        lightHandler?.removeCallbacks(lightRunnable)
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -125,7 +106,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     // TODO убираем уведомление из бд
     override fun onClickNote() {
-        val noteEntity = noteModel?.noteEntity ?: return
+        val noteEntity = noteModel.noteEntity
 
         callback?.apply {
             startActivity(NoteActivity.getInstance(context, noteEntity.type, noteEntity.id))
@@ -144,13 +125,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     companion object {
-        private const val START_DELAY = 0L
         private const val CANCEL_DELAY = 15000L
 
-        // TODO #RELEASE
-        private const val LIGHT_DELAY = 1000L
-
-        private val vibrationPattern = longArrayOf(600, 400, 800, 600)
+        private val vibrationPattern = longArrayOf(500, 750, 500, 750, 500, 0)
+        private val vibrationRepeat = (CANCEL_DELAY / vibrationPattern.sum()).toInt()
     }
 
 }

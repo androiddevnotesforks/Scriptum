@@ -11,7 +11,6 @@ import sgtmelon.scriptum.dialog.ColorDialog
  * - для [ColorDialog], элемент списка в [ColorAdapter]
  * - для индикатора у заметки и уведомления
  *
- *
  * @author SerjantArbuz
  */
 class ColorItem(@ColorRes val stroke: Int, @ColorRes val fill: Int, @ColorRes val content: Int)

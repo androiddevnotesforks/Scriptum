@@ -22,9 +22,9 @@ interface IAlarmActivity {
 
     fun startButtonFadeInAnimation()
 
-    fun vibrateStart(pattern: LongArray)
+    fun vibrateStart(pattern: LongArray, repeat: Int)
 
-    fun vibrateStop()
+    fun vibrateCancel()
 
     fun startActivity(intent: Intent)
 
