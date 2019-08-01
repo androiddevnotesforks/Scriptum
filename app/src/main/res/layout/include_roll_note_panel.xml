@@ -110,7 +110,7 @@
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{!noteModel.noteEntity.getRankId().isEmpty() ? R.attr.clAccent : R.attr.clContent}'
+                        app:trueColor='@{noteModel.noteEntity.rankId != 0 ? R.attr.clAccent : R.attr.clContent}'
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton

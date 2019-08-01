@@ -132,14 +132,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         inRoom { addAll(iRankDao.getNameList()) }
     }.toTypedArray()
 
-    override fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray {
-        val array: BooleanArray
-
-        openRoom().apply { array = calculateRankCheckArray(noteEntity, db = this) }.close()
-
-        return array
-    }
-
     override fun convertToRoll(noteModel: NoteModel) = noteModel.apply {
         if (noteModel.noteEntity.type != NoteType.TEXT)
             throw ClassCastException("This method only for TEXT type")

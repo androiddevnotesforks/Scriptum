@@ -141,7 +141,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuRank() {
-        callback?.showRankDialog(iRoomRepo.getRankCheckArray(noteModel.noteEntity))
+        callback?.showRankDialog(noteModel.noteEntity.rankPs)
     }
 
     override fun onMenuColor() {

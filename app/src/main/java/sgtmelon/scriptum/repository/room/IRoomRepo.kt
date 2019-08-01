@@ -43,11 +43,6 @@ interface IRoomRepo {
     fun getRankNameArray(): Array<String>
 
     /**
-     * @return Булевый массив с true - для категорий, принадлежащих заметке
-     */
-    fun getRankCheckArray(noteEntity: NoteEntity): BooleanArray
-
-    /**
      * @throws ClassCastException если [NoteEntity.type] != [NoteType.TEXT]
      */
     fun convertToRoll(noteModel: NoteModel): NoteModel
