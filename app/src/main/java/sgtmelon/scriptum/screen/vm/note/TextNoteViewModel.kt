@@ -119,7 +119,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             val noteEntity = noteModel.noteEntity
 
             when (item.tag) {
-                InputAction.RANK -> noteEntity.rankId = StringConverter().toList(item[isUndo])
+                InputAction.RANK -> {
+                    val list = StringConverter().toList(item[isUndo])
+                    noteEntity.rankId = list[0]
+                    noteEntity.rankPs = list[1].toInt()
+                }
                 InputAction.COLOR -> {
                     val colorFrom = noteEntity.color
                     val colorTo = item[isUndo].toInt()
@@ -272,23 +276,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onResultRankDialog(check: Int) {
-        val rankId = ArrayList<Long>()
-        val rankPs = ArrayList<Long>()
-
-        iRoomRepo.getRankIdList().forEachIndexed { i, id ->
-            if (check[i]) {
-                rankId.add(id)
-                rankPs.add(i.toLong())
-            }
-        }
-
         val noteEntity = noteModel.noteEntity
 
-        inputControl.onRankChange(noteEntity.rankId, rankId)
+        val rankId = iRoomRepo.getRankIdList()[check]
+        inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
 
         noteEntity.apply {
             this.rankId = rankId
-            this.rankPs = rankPs
+            this.rankPs = check
         }
 
         callback?.apply {

@@ -321,9 +321,10 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
      * @param noteEntity заметка, которая будет удалена
      */
     private fun clearRankConnection(rankDao: IRankDao, noteEntity: NoteEntity) {
-        if (noteEntity.rankId.isEmpty()) return
+        if (noteEntity.rankId == 0L) return
 
-        rankDao[noteEntity.rankId].apply {
+
+        rankDao[arrayListOf(noteEntity.rankId)].apply {
             forEach { it.noteId.remove(noteEntity.id) }
             rankDao.update(list = this)
         }

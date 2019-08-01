@@ -11,7 +11,7 @@ interface InputCallback {
 
     fun makeNotEnabled(func: () -> Unit)
 
-    fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>)
+    fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int)
 
     fun onColorChange(valueFrom: Int, valueTo: Int)
 

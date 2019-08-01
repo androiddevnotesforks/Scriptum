@@ -101,8 +101,11 @@ class InputControl : InputCallback {
         isEnabled = true
     }
 
-    override fun onRankChange(valueFrom: List<Long>, valueTo: List<Long>) =
-            add(InputItem(InputAction.RANK, valueFrom.joinToString(), valueTo.joinToString()))
+    override fun onRankChange(idFrom: Long, psFrom: Int, idTo: Long, psTo: Int) =
+            add(InputItem(InputAction.RANK,
+                    arrayOf(idFrom, psFrom).joinToString(),
+                    arrayOf(idTo, psTo).joinToString()
+            ))
 
     override fun onColorChange(valueFrom: Int, valueTo: Int) =
             add(InputItem(InputAction.COLOR, valueFrom.toString(), valueTo.toString()))

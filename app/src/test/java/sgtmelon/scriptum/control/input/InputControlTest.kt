@@ -21,14 +21,14 @@ class InputControlTest {
     }
 
     @Test fun `add changes to list and UNDO on not enable`() {
-        inputControl.onRankChange(valueFrom = listOf(0, 1), valueTo = listOf(0))
+        inputControl.onRankChange(idFrom, psFrom, idTo, psTo)
 
         assert { undoFail() }
     }
 
     @Test fun `add changes to list and REDO on not enable`() {
         inputControl.apply {
-            onRankChange(valueFrom = listOf(0, 1), valueTo = listOf(0))
+            onRankChange(idFrom, psFrom, idTo, psTo)
             undo()
         }
 
@@ -46,7 +46,7 @@ class InputControlTest {
     @Test fun `call UNDO at extreme position`() {
         inputControl.apply {
             isEnabled = true
-            onRankChange(rankValueFrom, rankValueTo)
+            onRankChange(idFrom, psFrom, idTo, psTo)
             undo()
         }
 
@@ -56,7 +56,7 @@ class InputControlTest {
     @Test fun `call REDO at extreme position`() {
         inputControl.apply {
             isEnabled = true
-            onRankChange(rankValueFrom, rankValueTo)
+            onRankChange(idFrom, psFrom, idTo, psTo)
         }
 
         assert { redoFail() }
@@ -65,7 +65,7 @@ class InputControlTest {
     @Test fun `call UNDO success`() {
         inputControl.apply {
             isEnabled = true
-            onRankChange(rankValueFrom, rankValueTo)
+            onRankChange(idFrom, psFrom, idTo, psTo)
         }
 
         assert { undoSuccess() }
@@ -74,7 +74,7 @@ class InputControlTest {
     @Test fun `call REDO success`() {
         inputControl.apply {
             isEnabled = true
-            onRankChange(rankValueFrom, rankValueTo)
+            onRankChange(idFrom, psFrom, idTo, psTo)
             undo()
         }
 
@@ -84,9 +84,9 @@ class InputControlTest {
     @Test fun `remove list items after add position`() {
         inputControl.apply {
             isEnabled = true
-            onRankChange(rankValueFrom, rankValueTo)
+            onRankChange(idFrom, psFrom, idTo, psTo)
             undo()
-            onRankChange(rankValueFrom, rankValueTo)
+            onRankChange(idFrom, psFrom, idTo, psTo)
         }
 
         assert { redoFail() }
@@ -96,7 +96,7 @@ class InputControlTest {
         inputControl.apply {
             isEnabled = true
 
-            repeat(times = INPUT_CONTROL_MAX_SIZE + 1) { onRankChange(rankValueFrom, rankValueTo) }
+            repeat(times = INPUT_CONTROL_MAX_SIZE + 1) { onRankChange(idFrom, psFrom, idTo, psTo) }
             repeat(times = INPUT_CONTROL_MAX_SIZE) { inputControl.undo() }
         }
 
@@ -106,7 +106,7 @@ class InputControlTest {
     @Test fun `input control reset`() {
         inputControl.apply {
             isEnabled = true
-            onRankChange(rankValueFrom, rankValueTo)
+            onRankChange(idFrom, psFrom, idTo, psTo)
             reset()
         }
 
@@ -114,8 +114,10 @@ class InputControlTest {
     }
 
     private companion object {
-        val rankValueFrom = listOf<Long>(0, 1, 2, 3)
-        val rankValueTo = listOf<Long>(0, 1)
+        const val idFrom = 0L
+        const val psFrom = 0
+        const val idTo = 1L
+        const val psTo = 1
     }
 
     class Assert(private val inputControl: InputControl) {
