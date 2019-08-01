@@ -10,8 +10,6 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  */
 interface IDevelopViewModel : IParentViewModel {
 
-    fun onSetup(): Any
-
     fun onIntroClick()
 
 }

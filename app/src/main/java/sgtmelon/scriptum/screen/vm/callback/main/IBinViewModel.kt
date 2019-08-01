@@ -11,8 +11,6 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
  */
 interface IBinViewModel : IParentViewModel {
 
-    fun onSetup()
-
     fun onUpdateData()
 
     fun onClickClearBin()

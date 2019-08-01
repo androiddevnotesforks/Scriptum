@@ -1,11 +1,16 @@
 package sgtmelon.scriptum.screen.vm.callback
 
+import android.os.Bundle
+import sgtmelon.scriptum.screen.vm.ParentViewModel
+
 /**
- * Родительский интерфейс для общения с ViewModel
+ * Parent interface for communication with children of [ParentViewModel]
+ *
+ * @author SerjantArbuz
  */
 interface IParentViewModel {
 
-    // TODO fun onSetup(bundle: Bundle? = null)
+    fun onSetup(bundle: Bundle? = null)
 
     fun onDestroy(func: () -> Unit = {})
 

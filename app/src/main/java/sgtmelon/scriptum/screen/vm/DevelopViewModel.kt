@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
+import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.repository.develop.DevelopRepo
@@ -19,12 +20,14 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActiv
 
     private val iDevelopRepo = DevelopRepo.getInstance(context)
 
-    override fun onSetup() = viewModelScope.launch {
-        callback?.apply {
-            fillAboutNoteTable(iDevelopRepo.getNoteTablePrint())
-            fillAboutRollTable(iDevelopRepo.getRollTablePrint())
-            fillAboutRankTable(iDevelopRepo.getRankTablePrint())
-            fillAboutPreference(iDevelopRepo.getPreferencePrint())
+    override fun onSetup(bundle: Bundle?) {
+        viewModelScope.launch {
+            callback?.apply {
+                fillAboutNoteTable(iDevelopRepo.getNoteTablePrint())
+                fillAboutRollTable(iDevelopRepo.getRollTablePrint())
+                fillAboutRankTable(iDevelopRepo.getRankTablePrint())
+                fillAboutPreference(iDevelopRepo.getPreferencePrint())
+            }
         }
     }
 

@@ -66,7 +66,14 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         callback?.notifyDataSetChanged(noteModel)
+    }
 
+    override fun onSaveData(bundle: Bundle) = with(bundle) {
+        putLong(NoteData.Intent.ID, id)
+        putInt(NoteData.Intent.COLOR, color)
+    }
+
+    override fun onStart() {
         callback?.let {
             val theme = iPreferenceRepo.theme
             it.startRippleAnimation(theme, context.getAppSimpleColor(color,
@@ -75,9 +82,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
             it.startButtonFadeInAnimation()
         }
-    }
 
-    override fun onStart() {
         melodyPlayer?.start()
 
         if (signalState.isVibration) callback?.vibrateStart(vibrationPattern, vibrationRepeat)
@@ -97,11 +102,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         if (signalState.isVibration) callback?.vibrateCancel()
 
         longWaitHandler.removeCallbacks(longWaitRunnable)
-    }
-
-    override fun onSaveData(bundle: Bundle) = with(bundle) {
-        putLong(NoteData.Intent.ID, id)
-        putInt(NoteData.Intent.COLOR, color)
     }
 
     // TODO убираем уведомление из бд

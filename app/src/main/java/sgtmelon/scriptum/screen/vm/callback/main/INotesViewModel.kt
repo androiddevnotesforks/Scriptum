@@ -11,8 +11,6 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 interface INotesViewModel : IParentViewModel {
 
-    fun onSetup()
-
     fun onUpdateData()
 
     fun onClickNote(p: Int)

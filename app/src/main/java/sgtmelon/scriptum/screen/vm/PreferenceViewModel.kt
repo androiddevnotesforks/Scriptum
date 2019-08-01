@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.annotation.Color
@@ -31,7 +32,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         callback = null
     }
 
-    override fun onSetup() {
+    override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupApp()
             setupNotification(melodyList.map { it.title }.toTypedArray())

@@ -13,8 +13,6 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  */
 interface INoteViewModel : IParentViewModel, NoteReceiver.Callback {
 
-    fun onSetupData(bundle: Bundle?)
-
     fun onSaveData(bundle: Bundle)
 
     fun onSetupFragment(isSave: Boolean)

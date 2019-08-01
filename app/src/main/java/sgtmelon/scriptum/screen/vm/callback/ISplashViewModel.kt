@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.vm.callback
 
-import android.os.Bundle
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
@@ -9,8 +8,4 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  *
  * @author SerjantArbuz
  */
-interface ISplashViewModel : IParentViewModel {
-
-    fun onSetup(bundle: Bundle?)
-
-}
+interface ISplashViewModel : IParentViewModel

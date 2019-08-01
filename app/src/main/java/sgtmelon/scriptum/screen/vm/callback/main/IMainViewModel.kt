@@ -15,8 +15,6 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
  */
 interface IMainViewModel : IParentViewModel, MainReceiver.Callback {
 
-    fun onSetupData(bundle: Bundle?)
-
     fun onSaveData(bundle: Bundle)
 
     fun onSelectItem(@IdRes itemId: Int): Boolean

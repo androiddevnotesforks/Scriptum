@@ -84,7 +84,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         openState.get(savedInstanceState)
 
-        iViewModel.onSetupData(savedInstanceState ?: arguments)
+        iViewModel.onSetup(savedInstanceState ?: arguments)
 
         panelContainer = view.findViewById(R.id.note_panel_container)
     }

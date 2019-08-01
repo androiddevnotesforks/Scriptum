@@ -12,8 +12,6 @@ import sgtmelon.scriptum.screen.vm.PreferenceViewModel
  */
 interface IPreferenceViewModel : IParentViewModel {
 
-    fun onSetup()
-
     fun onClickTheme(): Boolean
 
     fun onResultTheme(@Theme theme: Int)

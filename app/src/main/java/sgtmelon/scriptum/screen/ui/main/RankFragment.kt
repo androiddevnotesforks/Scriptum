@@ -77,8 +77,7 @@ class RankFragment : Fragment(), IRankFragment {
 
         openState.get(savedInstanceState)
 
-        setupToolbar()
-        setupRecycler()
+        iViewModel.onSetup()
     }
 
     override fun onResume() {
@@ -94,7 +93,7 @@ class RankFragment : Fragment(), IRankFragment {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
-    private fun setupToolbar() {
+    override fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_rank_container)?.apply {
             title = getString(R.string.title_rank)
         }
@@ -118,7 +117,7 @@ class RankFragment : Fragment(), IRankFragment {
         }
     }
 
-    private fun setupRecycler() {
+    override fun setupRecycler() {
         parentContainer = view?.findViewById(R.id.rank_parent_container)
         emptyInfoView = view?.findViewById(R.id.rank_info_include)
 

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
+import android.os.Bundle
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -30,7 +31,7 @@ class NotificationViewModel(application: Application) :
     private val repo = RoomRepo.getInstance(context)
     private val list: MutableList<NoteModel> = ArrayList()
 
-    override fun onSetup() {
+    override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
             setupRecycler(iPreferenceRepo.theme)

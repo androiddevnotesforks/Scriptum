@@ -10,8 +10,6 @@ import sgtmelon.scriptum.screen.vm.AppViewModel
  */
 interface IAppViewModel : IParentViewModel{
 
-    fun onSetup()
-
     fun isThemeChange(): Boolean
 
 }

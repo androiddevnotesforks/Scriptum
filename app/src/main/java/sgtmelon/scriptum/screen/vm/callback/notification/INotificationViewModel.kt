@@ -11,8 +11,6 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
  */
 interface INotificationViewModel : IParentViewModel {
 
-    fun onSetup()
-
     fun onUpdateData()
 
     fun onClickNote(p: Int)

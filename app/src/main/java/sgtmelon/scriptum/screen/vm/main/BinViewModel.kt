@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
+import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -23,7 +24,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
-    override fun onSetup() {
+    override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
             setupRecycler(iPreferenceRepo.theme)

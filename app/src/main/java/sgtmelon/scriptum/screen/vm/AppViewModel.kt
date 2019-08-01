@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
+import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.AppActivity
@@ -17,7 +18,7 @@ class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(app
 
     @Theme private var currentTheme: Int = 0
 
-    override fun onSetup() {
+    override fun onSetup(bundle: Bundle?) {
         currentTheme = iPreferenceRepo.theme
 
         when (currentTheme) {

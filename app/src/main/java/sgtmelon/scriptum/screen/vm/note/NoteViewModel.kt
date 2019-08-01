@@ -14,7 +14,7 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
     private var id: Long = NoteData.Default.ID
     private var type: NoteType? = null
 
-    override fun onSetupData(bundle: Bundle?) {
+    override fun onSetup(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         type = NoteType.values()

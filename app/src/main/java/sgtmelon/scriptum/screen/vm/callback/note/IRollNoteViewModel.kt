@@ -20,8 +20,6 @@ interface IRollNoteViewModel : IParentViewModel,
         RollWriteHolder.RollChange,
         RollTouchControl.Result {
 
-    fun onSetupData(bundle: Bundle?)
-
     fun onSaveData(bundle: Bundle)
 
     fun onPause()

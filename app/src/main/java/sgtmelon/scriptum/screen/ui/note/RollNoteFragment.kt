@@ -103,7 +103,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
         openState.get(savedInstanceState)
 
-        iViewModel.onSetupData(arguments ?: savedInstanceState)
+        iViewModel.onSetup(arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
         enterContainer = view.findViewById(R.id.roll_note_enter_container)

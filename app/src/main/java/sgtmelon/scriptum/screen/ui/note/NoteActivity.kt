@@ -38,7 +38,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
         setContentView(R.layout.activity_note)
 
         iViewModel.apply {
-            onSetupData(bundle = savedInstanceState ?: intent.extras)
+            onSetup(bundle = savedInstanceState ?: intent.extras)
             onSetupFragment(isSave = savedInstanceState != null)
         }
 

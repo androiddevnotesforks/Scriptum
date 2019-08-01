@@ -139,7 +139,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibration?.vibrate(VibrationEffect.createWaveform(
-                    pattern, IntArray(repeat) { VibrationEffect.DEFAULT_AMPLITUDE }, repeat
+                    pattern, IntArray(pattern.size) { VibrationEffect.DEFAULT_AMPLITUDE }, repeat
             ))
         } else {
             vibration?.vibrate(pattern, repeat)

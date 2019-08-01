@@ -24,7 +24,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     private var firstStart: Boolean = true
     private var pageFrom: MainPage = MainPage.NOTES
 
-    override fun onSetupData(bundle: Bundle?) {
+    override fun onSetup(bundle: Bundle?) {
         bundle?.let { pageFrom = MainPage.values()[it.getInt(PAGE_CURRENT)] }
 
         callback?.setupNavigation(pageItemId[pageFrom.ordinal])

@@ -12,13 +12,11 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
  */
 interface IAlarmViewModel: IParentViewModel {
 
-    fun onSetup(bundle: Bundle?)
+    fun onSaveData(bundle: Bundle)
 
     fun onStart()
 
     fun onPause()
-
-    fun onSaveData(bundle: Bundle)
 
     fun onClickNote()
 

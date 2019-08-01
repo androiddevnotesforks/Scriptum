@@ -47,7 +47,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     private val iconState = IconState()
 
-    override fun onSetupData(bundle: Bundle?) {
+    override fun onSetup(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         if (!::noteModel.isInitialized) {

@@ -55,7 +55,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     private val iconState = IconState()
     private val checkState = CheckState()
 
-    override fun onSetupData(bundle: Bundle?) {
+    override fun onSetup(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
         if (!::noteModel.isInitialized) {

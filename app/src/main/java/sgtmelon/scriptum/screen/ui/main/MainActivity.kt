@@ -59,7 +59,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
         openState.get(savedInstanceState)
 
-        iViewModel.onSetupData(savedInstanceState)
+        iViewModel.onSetup(savedInstanceState)
 
         registerReceiver(mainReceiver, IntentFilter(ReceiverData.Filter.MAIN))
     }

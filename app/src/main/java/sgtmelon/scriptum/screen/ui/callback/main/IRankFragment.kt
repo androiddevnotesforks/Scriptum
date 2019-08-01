@@ -11,6 +11,10 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
  */
 interface IRankFragment {
 
+    fun setupToolbar()
+
+    fun setupRecycler()
+
     fun bindList(size: Int)
 
     fun bindToolbar(isClearEnable: Boolean, isAddEnable: Boolean)

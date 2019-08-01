@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
+import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -25,6 +26,13 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     private val rankList: MutableList<RankEntity> = ArrayList()
     private val nameList: List<String> get() = rankList.map { it.name.toUpperCase() }
+
+    override fun onSetup(bundle: Bundle?) {
+        callback?.apply {
+            setupToolbar()
+            setupRecycler()
+        }
+    }
 
     override fun onUpdateData() {
         rankList.clearAndAdd(iRankRepo.get())

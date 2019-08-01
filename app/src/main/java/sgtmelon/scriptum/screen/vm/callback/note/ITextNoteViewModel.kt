@@ -14,8 +14,6 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
  */
 interface ITextNoteViewModel : IParentViewModel, ITextNoteMenu, InputTextWatcher.TextChange {
 
-    fun onSetupData(bundle: Bundle?)
-
     fun onSaveData(bundle: Bundle)
 
     fun onPause()
