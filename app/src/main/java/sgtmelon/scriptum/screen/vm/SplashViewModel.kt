@@ -52,8 +52,4 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
                 MainActivity.getInstance(context)
             })
 
-//    callback?.startActivity(Intent(context,
-//                    if (firstStart) IntroActivity::class.java else MainActivity::class.java
-//            ))
-
 }

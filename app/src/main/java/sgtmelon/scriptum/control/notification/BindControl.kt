@@ -19,7 +19,7 @@ import sgtmelon.scriptum.receiver.BindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
-import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.getSplashBindIntent
+import sgtmelon.scriptum.screen.ui.SplashActivity
 
 /**
  * Управление закреплением заметки в статус баре [NoteModel]
@@ -127,13 +127,11 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
         }
 
         private fun Context.getNotePendingIntent(noteEntity: NoteEntity): PendingIntent? =
-                with(TaskStackBuilder.create(this)) {
-                    addNextIntent(getSplashBindIntent(noteEntity))
-                    return@with getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
-                }
+                TaskStackBuilder.create(this).addNextIntent(SplashActivity.getBindInstance(
+                        context = this, noteEntity = noteEntity
+                )).getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
 
-
-        fun Context.getUnbindPendingIntent(noteEntity: NoteEntity): PendingIntent {
+        private fun Context.getUnbindPendingIntent(noteEntity: NoteEntity): PendingIntent {
             val intent = Intent(this, BindReceiver::class.java).apply {
                 putExtra(ReceiverData.Values.NOTE_ID, noteEntity.id)
             }

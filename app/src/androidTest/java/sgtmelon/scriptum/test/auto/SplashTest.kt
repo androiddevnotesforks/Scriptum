@@ -4,8 +4,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.ui.SplashActivity
-import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.getSplashAlarmIntent
-import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.getSplashBindIntent
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
@@ -21,25 +19,25 @@ class SplashTest : ParentUiTest() {
     @Test fun mainScreenOpen() = launch { mainScreen() }
 
     @Test fun bindTextNoteOpen() = testData.insertText().let {
-        launch(intent = context.getSplashBindIntent(it.noteEntity)) {
+        launch(intent = SplashActivity.getBindInstance(context, it.noteEntity)) {
             openTextNoteBind(it) { onPressBack() }
             mainScreen()
         }
     }
 
     @Test fun bindRollNoteOpen() = testData.insertRoll().let {
-        launch(intent = context.getSplashBindIntent(it.noteEntity)) {
+        launch(intent = SplashActivity.getBindInstance(context, it.noteEntity)) {
             openRollNoteBind(it) { onPressBack() }
             mainScreen()
         }
     }
 
     @Test fun alarmTextNoteOpen() = testData.insertText().let {
-        launch(intent = context.getSplashAlarmIntent(it.noteEntity)) { openAlarm(it) }
+        launch(intent = SplashActivity.getAlarmInstance(context, it.noteEntity)) { openAlarm(it) }
     }
 
     @Test fun alarmRollNoteOpen() = testData.insertRoll().let {
-        launch(intent = context.getSplashAlarmIntent(it.noteEntity)) { openAlarm(it) }
+        launch(intent = SplashActivity.getAlarmInstance(context, it.noteEntity)) { openAlarm(it) }
     }
 
 }

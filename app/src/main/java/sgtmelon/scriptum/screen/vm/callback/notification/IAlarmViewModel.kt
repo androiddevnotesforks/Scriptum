@@ -16,8 +16,6 @@ interface IAlarmViewModel: IParentViewModel {
 
     fun onStart()
 
-    fun onPause()
-
     fun onClickNote()
 
     fun onClickDisable()

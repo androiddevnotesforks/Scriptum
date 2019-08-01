@@ -34,8 +34,18 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     private var melodyPlayer: MediaPlayer? = null
 
+    private val vibrationHandler = Handler()
+    private val vibrationRunnable = object : Runnable {
+        override fun run() {
+            callback?.vibrateStart(vibrationPattern)
+            vibrationHandler.postDelayed(this, vibrationPattern.sum())
+        }
+    }
+
     private val longWaitHandler = Handler()
     private val longWaitRunnable = Runnable { callback?.finish() }
+
+    private var needRepeat = true
 
     // TODO #RELEASE Обработка id = -1
     // TODO #RELEASE Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
@@ -48,6 +58,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         if (!::noteModel.isInitialized) {
+            // TODO убрать уведомление из бд
+
             noteModel = iRoomRepo.getNoteModel(id)
             signalState = iPreferenceRepo.signalState
 
@@ -85,27 +97,31 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         melodyPlayer?.start()
 
-        if (signalState.isVibration) callback?.vibrateStart(vibrationPattern, vibrationRepeat)
+        if (signalState.isVibration) {
+            vibrationHandler.postDelayed(vibrationRunnable, START_DELAY)
+        }
 
         longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
-    }
-
-    override fun onPause() {
-        melodyPlayer?.pause()
-
-        if (signalState.isVibration) callback?.vibrateCancel()
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         melodyPlayer?.stop()
 
-        if (signalState.isVibration) callback?.vibrateCancel()
+        if (signalState.isVibration) {
+            callback?.vibrateCancel()
+            vibrationHandler.removeCallbacks(vibrationRunnable)
+        }
 
         longWaitHandler.removeCallbacks(longWaitRunnable)
+
+        if (needRepeat) {
+            // TODO запись в бд и установка alarm
+        }
     }
 
-    // TODO убираем уведомление из бд
     override fun onClickNote() {
+        needRepeat = false
+
         val noteEntity = noteModel.noteEntity
 
         callback?.apply {
@@ -115,6 +131,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onClickDisable() {
+        needRepeat = false
+
         context.showToast(text = "CLICK DISABLE")
         callback?.finish()
     }
@@ -125,10 +143,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     companion object {
+        private const val START_DELAY = 0L
         private const val CANCEL_DELAY = 15000L
 
         private val vibrationPattern = longArrayOf(500, 750, 500, 750, 500, 0)
-        private val vibrationRepeat = (CANCEL_DELAY / vibrationPattern.sum()).toInt()
     }
 
 }

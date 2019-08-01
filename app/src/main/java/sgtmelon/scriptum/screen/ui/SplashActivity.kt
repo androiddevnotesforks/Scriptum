@@ -16,7 +16,7 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 
 /**
- * Стартовый экран приложения
+ * Start screen of application
  *
  * @author SerjantArbuz
  */
@@ -60,17 +60,18 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
             }
         }
 
-        fun Context.getSplashAlarmIntent(noteEntity: NoteEntity): Intent =
-                Intent(this, SplashActivity::class.java)
+        fun getAlarmInstance(context: Context, noteEntity: NoteEntity): Intent =
+                Intent(context, SplashActivity::class.java)
                         .putExtra(OPEN_SCREEN, OpenFrom.ALARM)
                         .putExtra(NoteData.Intent.ID, noteEntity.id)
                         .putExtra(NoteData.Intent.COLOR, noteEntity.color)
 
-        fun Context.getSplashBindIntent(noteEntity: NoteEntity): Intent =
-                Intent(this, SplashActivity::class.java)
+        fun getBindInstance(context: Context, noteEntity: NoteEntity): Intent =
+                Intent(context, SplashActivity::class.java)
                         .putExtra(OPEN_SCREEN, OpenFrom.BIND)
                         .putExtra(NoteData.Intent.ID, noteEntity.id)
                         .putExtra(NoteData.Intent.TYPE, noteEntity.type.ordinal)
+
     }
 
 }

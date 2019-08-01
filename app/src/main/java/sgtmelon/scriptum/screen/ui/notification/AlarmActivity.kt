@@ -90,6 +90,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         })
     }
 
+    override fun onPause() {
+        super.onPause()
+        finish()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 
@@ -134,15 +139,15 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
-    override fun vibrateStart(pattern: LongArray, repeat: Int) {
+    override fun vibrateStart(pattern: LongArray) {
         if (vibration?.hasVibrator() == false) return
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibration?.vibrate(VibrationEffect.createWaveform(
-                    pattern, IntArray(pattern.size) { VibrationEffect.DEFAULT_AMPLITUDE }, repeat
+                    pattern, VibrationEffect.DEFAULT_AMPLITUDE
             ))
         } else {
-            vibration?.vibrate(pattern, repeat)
+            vibration?.vibrate(pattern, -1)
         }
     }
 
