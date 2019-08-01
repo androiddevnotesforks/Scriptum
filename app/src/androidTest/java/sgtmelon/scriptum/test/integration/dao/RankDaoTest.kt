@@ -56,7 +56,7 @@ class RankDaoTest : ParentIntegrationTest() {
         val updateList = arrayListOf(rankFirst.copy(position = 0), rankSecond.copy(position = 1))
 
         update(updateList)
-        assertEquals(updateList, get(updateList.map { it.id }))
+        updateList.forEach { assertEquals(it, get(it.id)) }
     }
 
     @Test fun updateWithUnique() = inRankDao {
@@ -95,12 +95,11 @@ class RankDaoTest : ParentIntegrationTest() {
 
     @Test fun getList() = inRankDao { assertEquals(insertAll(), get()) }
 
-    @Test fun getListByIdList() = inRankDao {
+    @Test fun getById() = inRankDao {
         insertAll()
 
-        arrayListOf(rankSecond, rankThird).let { list ->
-            assertEquals(list, get(list.map { it.id }))
-        }
+        assertEquals(rankSecond, get(rankSecond.id))
+        assertEquals(rankThird, get(rankThird.id))
     }
 
     @Test fun getIdVisibleList() = inRankDao {

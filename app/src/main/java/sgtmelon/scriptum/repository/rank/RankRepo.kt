@@ -76,18 +76,11 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
                 val noteList = get(noteIdList)
 
                 noteList.forEach { item ->
-                    val newIdList = ArrayList<Long>()
-                    val newPsList = ArrayList<Long>()
-
                     rankList.forEach {
-                        if (item.rankId.contains(it.id)) {
-                            newIdList.add(it.id)
-                            newPsList.add(it.position.toLong())
+                        if (item.rankId == it.id) {
+                            item.rankPs = it.position
                         }
                     }
-
-                    item.rankId = newIdList
-                    item.rankPs = newPsList
                 }
 
                 update(noteList)

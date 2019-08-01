@@ -33,8 +33,8 @@ interface IRankDao {
     @Query(value = "SELECT * FROM RANK_TABLE ORDER BY RK_POSITION ASC")
     fun get(): MutableList<RankEntity>
 
-    @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID IN(:idList) ORDER BY RK_POSITION ASC")
-    operator fun get(idList: List<Long>): List<RankEntity>
+    @Query(value = "SELECT * FROM RANK_TABLE WHERE RK_ID == :id ORDER BY RK_POSITION ASC")
+    operator fun get(id: Long): RankEntity
 
     @Query(value = "SELECT RK_ID FROM RANK_TABLE WHERE RK_VISIBLE = 1 ORDER BY RK_POSITION")
     fun getIdVisibleList(): List<Long>

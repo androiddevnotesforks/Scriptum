@@ -315,18 +315,15 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     private fun clearRankConnection(rankDao: IRankDao, noteEntity: NoteEntity) {
         if (noteEntity.rankId == 0L) return
 
-
-        rankDao[arrayListOf(noteEntity.rankId)].apply {
-            forEach { it.noteId.remove(noteEntity.id) }
-            rankDao.update(list = this)
-        }
+        val rankEntity = rankDao[noteEntity.rankId].apply { noteId.remove(noteEntity.id) }
+        rankDao.update(rankEntity)
     }
 
     private fun calculateRankCheckArray(noteEntity: NoteEntity, db: RoomDb): BooleanArray {
         val rankList = db.iRankDao.get()
         val check = BooleanArray(rankList.size)
 
-        rankList.forEachIndexed { i, item -> check[i] = noteEntity.rankId.contains(item.id) }
+        rankList.forEachIndexed { i, item -> check[i] = noteEntity.rankId == item.id }
 
         return check
     }

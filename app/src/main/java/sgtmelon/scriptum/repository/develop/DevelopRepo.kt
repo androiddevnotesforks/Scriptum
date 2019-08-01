@@ -43,8 +43,8 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 
             append("TX: $text ${if (it.text.length > 40) "..." else ""}\n")
             append("CL: ${it.color} | TP: ${it.type} | BN: ${it.isBin}\n")
-            append("RK ID: ${StringConverter().toString(it.rankId)}\n")
-            append("RK PS: ${StringConverter().toString(it.rankPs)}\n")
+            append("RK ID: ${it.rankId}\n")
+            append("RK PS: ${it.rankPs}\n")
             append("ST: ${it.isStatus}")
         }
     }.toString()
