@@ -34,8 +34,24 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private var melodyPlayer: MediaPlayer? = null
 
     private val longWaitHandler = Handler()
+    private val longWaitRunnable = Runnable { callback?.finish() }
+
     private var vibrationHandler: Handler? = null
+    private val vibrationRunnable = object : Runnable {
+        override fun run() {
+            callback?.vibrateStart(vibrationPattern)
+            vibrationHandler?.postDelayed(this, vibrationPattern.sum())
+        }
+    }
+
     private var lightHandler: Handler? = null
+    private val lightRunnable = object : Runnable {
+        override fun run() {
+            // TODO #RELEASE
+            context.showToast("Light on/off")
+            lightHandler?.postDelayed(this, LIGHT_DELAY)
+        }
+    }
 
     override fun onSetup() {
         callback?.setupView(iPreferenceRepo.theme)
@@ -61,9 +77,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                         isLooping = true
 
                         if (iPreferenceRepo.volumeIncrease) {
-                            setVolume(100f, 100f)
+                            setVolume(0.5f, 0.5f)
                         } else {
-                            setVolume(100f, 100f)
+                            setVolume(0.5f, 0.5f)
                         }
                     }
                 }
@@ -78,9 +94,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onStart() {
         melodyPlayer?.start()
 
-        longWaitHandler.postDelayed({ callback?.finish() }, CANCEL_TIME)
-        vibrationHandler?.postDelayed({ callback?.vibrateStart(VIBRATION_PATTERN) }, VIBRATION_TIME)
-        lightHandler?.postDelayed({ TODO("") }, 0)
+        longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
+        vibrationHandler?.postDelayed(vibrationRunnable, START_DELAY)
+        lightHandler?.postDelayed(lightRunnable, START_DELAY)
 
         callback?.let {
             val theme = iPreferenceRepo.theme
@@ -97,9 +113,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         melodyPlayer?.stop()
 
-        longWaitHandler.removeCallbacksAndMessages(null)
-        vibrationHandler?.removeCallbacksAndMessages(null)
-        lightHandler?.removeCallbacksAndMessages(null)
+        longWaitHandler.removeCallbacks(longWaitRunnable)
+        vibrationHandler?.removeCallbacks(vibrationRunnable)
+        lightHandler?.removeCallbacks(lightRunnable)
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -128,10 +144,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     companion object {
-        private const val CANCEL_TIME = 15000L
-        private const val VIBRATION_TIME = 1200L
+        private const val START_DELAY = 0L
+        private const val CANCEL_DELAY = 15000L
 
-        private val VIBRATION_PATTERN = longArrayOf(200, 400, 200, 400)
+        // TODO #RELEASE
+        private const val LIGHT_DELAY = 1000L
+
+        private val vibrationPattern = longArrayOf(600, 400, 800, 600)
     }
 
 }
