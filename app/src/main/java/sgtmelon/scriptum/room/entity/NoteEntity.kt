@@ -11,7 +11,6 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.converter.StringConverter
-import java.util.*
 
 /**
  * Элемент информации о заметки для [NoteModel]
@@ -28,8 +27,8 @@ data class NoteEntity(
         @ColumnInfo(name = Note.TEXT) var text: String = "",
         @ColumnInfo(name = Note.COLOR) @Color var color: Int = 0,
         @ColumnInfo(name = Note.TYPE) var type: NoteType = NoteType.TEXT,
-        @ColumnInfo(name = Note.RANK_PS) var rankPs: MutableList<Long> = ArrayList(),
-        @ColumnInfo(name = Note.RANK_ID) var rankId: MutableList<Long> = ArrayList(),
+        @ColumnInfo(name = Note.RANK_ID) var rankId: Long = 0L,
+        @ColumnInfo(name = Note.RANK_PS) var rankPs: Int = 0,
         @ColumnInfo(name = Note.BIN) var isBin: Boolean = false,
         @ColumnInfo(name = Note.STATUS) var isStatus: Boolean = false
 ) {
@@ -42,9 +41,9 @@ data class NoteEntity(
             text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
     fun isVisible(rankIdVisibleList: List<Long>) =
-            rankId.isEmpty() || rankIdVisibleList.contains(rankId[0])
+            rankId == 0L || rankIdVisibleList.contains(rankId)
 
     fun isNotVisible(rankIdVisibleList: List<Long>) =
-            rankId.isNotEmpty() && !rankIdVisibleList.contains(rankId[0])
+            rankId != 0L && !rankIdVisibleList.contains(rankId)
 
 }
