@@ -24,7 +24,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
     RollEntity::class,
     RankEntity::class,
     AlarmEntity::class
-], version = 4)
+], version = 5)
 abstract class RoomDb : RoomDatabase() {
 
     abstract val iNoteDao: INoteDao
@@ -39,9 +39,8 @@ abstract class RoomDb : RoomDatabase() {
         fun getInstance(context: Context): RoomDb =
                 Room.databaseBuilder(context, RoomDb::class.java, BuildConfig.DB_NAME)
                         .addMigrations(
-                                Migrate.FROM_1_TO_2,
-                                Migrate.FROM_2_TO_3,
-                                Migrate.FROM_3_TO_4
+                                Migrate.FROM_1_TO_2, Migrate.FROM_2_TO_3, Migrate.FROM_3_TO_4,
+                                Migrate.FROM_4_TO_5
                         ).allowMainThreadQueries()   // TODO: 27.09.2018 Сделай нормально
                         .build()
     }

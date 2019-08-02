@@ -41,7 +41,7 @@
                 android:id="@+id/note_info_rank_image"
                 style="@style/Image.Note.Info"
                 android:contentDescription="@null"
-                android:visibility='@{noteModel.noteEntity.rankId == 0 ? v.GONE : v.VISIBLE}'
+                android:visibility='@{noteModel.noteEntity.rankId == -1 ? v.GONE : v.VISIBLE}'
                 app:srcCompat="@drawable/ic_rank"
                 tools:visibility="visible"/>
 

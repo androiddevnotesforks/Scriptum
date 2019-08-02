@@ -12,18 +12,17 @@ class StringConverter {
 
     @TypeConverter fun toList(string: String): MutableList<Long> = ArrayList<Long>().apply {
         if (string != NONE && string.isNotEmpty()) {
-            string.split(DIVIDER.toRegex())
+            addAll(string.split(", ".toRegex())
                     .dropLastWhile { it.isEmpty() }
-                    .forEach { add(it.toLong()) }
+                    .map { it.toLong() })
         }
     }
 
     @TypeConverter fun toString(list: List<Long>?) =
-            if (list != null && list.isNotEmpty()) list.joinToString(DIVIDER) else NONE
+            if (list != null && list.isNotEmpty()) list.joinToString() else NONE
 
     companion object {
         const val NONE = "NONE"
-        private const val DIVIDER = ","
     }
 
 }

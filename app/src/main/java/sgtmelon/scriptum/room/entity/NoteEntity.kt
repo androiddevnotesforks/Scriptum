@@ -10,7 +10,6 @@ import sgtmelon.scriptum.model.data.DbData.Note
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
-import sgtmelon.scriptum.room.converter.StringConverter
 
 /**
  * Элемент информации о заметки для [NoteModel]
@@ -18,7 +17,7 @@ import sgtmelon.scriptum.room.converter.StringConverter
  * @author SerjantArbuz
  */
 @Entity(tableName = Note.TABLE)
-@TypeConverters(BoolConverter::class, StringConverter::class, NoteTypeConverter::class)
+@TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 data class NoteEntity(
         @ColumnInfo(name = Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @ColumnInfo(name = Note.CREATE) var create: String = "",
@@ -27,8 +26,8 @@ data class NoteEntity(
         @ColumnInfo(name = Note.TEXT) var text: String = "",
         @ColumnInfo(name = Note.COLOR) @Color var color: Int = 0,
         @ColumnInfo(name = Note.TYPE) var type: NoteType = NoteType.TEXT,
-        @ColumnInfo(name = Note.RANK_ID) var rankId: Long = 0L,
-        @ColumnInfo(name = Note.RANK_PS) var rankPs: Int = 0,
+        @ColumnInfo(name = Note.RANK_ID) var rankId: Long = RANK_ID_UNDEFINED,
+        @ColumnInfo(name = Note.RANK_PS) var rankPs: Int = RANK_PS_UNDEFINED,
         @ColumnInfo(name = Note.BIN) var isBin: Boolean = false,
         @ColumnInfo(name = Note.STATUS) var isStatus: Boolean = false
 ) {
@@ -41,9 +40,14 @@ data class NoteEntity(
             text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
     fun isVisible(rankIdVisibleList: List<Long>) =
-            rankId == 0L || rankIdVisibleList.contains(rankId)
+            rankId == RANK_ID_UNDEFINED || rankIdVisibleList.contains(rankId)
 
     fun isNotVisible(rankIdVisibleList: List<Long>) =
-            rankId != 0L && !rankIdVisibleList.contains(rankId)
+            rankId != RANK_ID_UNDEFINED && !rankIdVisibleList.contains(rankId)
+
+    companion object {
+        const val RANK_ID_UNDEFINED = -1L
+        const val RANK_PS_UNDEFINED = -1
+    }
 
 }
