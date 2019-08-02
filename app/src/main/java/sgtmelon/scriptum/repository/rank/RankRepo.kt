@@ -7,6 +7,7 @@ import sgtmelon.scriptum.repository.room.RoomRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
@@ -48,7 +49,18 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         }
     }
 
-    override fun delete(name: String) = inRoom { iRankDao.delete(name) }
+    override fun delete(rankEntity: RankEntity) = inRoom {
+        rankEntity.noteId.forEach {
+            val noteEntity = iNoteDao[it]?.apply {
+                rankId = NoteEntity.RANK_ID_UNDEFINED
+                rankPs = NoteEntity.RANK_PS_UNDEFINED
+            } ?: return@forEach
+
+            iNoteDao.update(noteEntity)
+        }
+
+        iRankDao.delete(rankEntity.name)
+    }
 
     override fun update(rankEntity: RankEntity) = inRoom { iRankDao.update(rankEntity) }
 

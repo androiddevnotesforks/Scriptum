@@ -108,25 +108,25 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankVisibleForNotes() = testData.fillRankForNotes().let {
+    @Test fun rankVisibleForNotes() = testData.insertRankForNotes().let {
         launch {
             mainScreen {
                 openNotesPage()
-                openRankPage { onClickVisible(it[1]) }
-                openNotesPage()
-                openRankPage { onClickVisible(it[0]) }
+                openRankPage { onClickVisible(it) }
                 openNotesPage(empty = true, hide = true)
+                openRankPage { onClickVisible(it) }
+                openNotesPage()
             }
         }
     }
 
-    @Test fun rankVisibleForBin() = testData.fillRankForBin().let {
+    @Test fun rankVisibleForBin() = testData.insertRankForBin().let {
         launch {
             mainScreen {
                 openBinPage()
-                openRankPage { onClickVisible(it[1]) }
+                openRankPage { onClickVisible(it) }
                 openBinPage()
-                openRankPage { onClickVisible(it[0]) }
+                openRankPage { onClickVisible(it) }
                 openBinPage()
             }
         }
@@ -143,24 +143,24 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankClearForNote() = testData.fillRankForNotes().let {
+    @Test fun rankClearForNote() = testData.insertRankForNotes().let {
         launch {
             mainScreen {
-                openRankPage { onClickVisible(it[0]) }
+                openRankPage { onClickVisible(it) }
                 openNotesPage(empty = true, hide = true)
-                openRankPage { onClickCancel(it[0]) }
+                openRankPage { onClickCancel(it) }
                 openNotesPage()
             }
         }
     }
 
-    @Test fun rankClearForBin() = testData.fillRankForBin().let {
+    @Test fun rankClearForBin() = testData.insertRankForBin().let {
         launch {
             mainScreen {
                 openBinPage()
-                openRankPage { onClickVisible(it[0]) }
+                openRankPage { onClickVisible(it) }
                 openBinPage()
-                openRankPage { onClickCancel(it[0]) }
+                openRankPage { onClickCancel(it) }
                 openBinPage()
             }
         }

@@ -18,7 +18,7 @@ interface IRankRepo {
 
     fun get(): MutableList<RankEntity>
 
-    fun delete(name: String)
+    fun delete(rankEntity: RankEntity)
 
     fun update(rankEntity: RankEntity)
 

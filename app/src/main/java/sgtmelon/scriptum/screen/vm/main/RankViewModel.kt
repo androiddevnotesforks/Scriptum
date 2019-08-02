@@ -155,7 +155,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onClickCancel(p: Int) {
-        iRankRepo.delete(rankList[p].name)
+        iRankRepo.delete(rankList[p])
 
         rankList.removeAt(p)
 

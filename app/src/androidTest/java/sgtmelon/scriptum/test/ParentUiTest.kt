@@ -25,6 +25,9 @@ abstract class ParentUiTest : ParentTest() {
         iPreferenceRepo.apply {
             theme = if (Random.nextBoolean()) Theme.LIGHT else Theme.DARK
             firstStart = false
+
+            autoSaveOn = false
+            pauseSaveOn = false
         }
 
         testData.clear()

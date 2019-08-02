@@ -71,6 +71,36 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         return rank
     }
 
+    fun insertRankForNotes(): RankEntity {
+        val noteModel = if (Random.nextBoolean()) insertText() else insertRoll()
+
+        val rankEntity = insertRank(rankEntity.apply {
+            noteId.add(noteModel.noteEntity.id)
+        })
+
+        noteModel.noteEntity.rankId = rankEntity.id
+        noteModel.noteEntity.rankPs = rankEntity.position
+
+        inRoom { iNoteDao.update(noteModel.noteEntity) }
+
+        return rankEntity
+    }
+
+    fun insertRankForBin(): RankEntity  {
+        val noteModel = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+
+        val rankEntity = insertRank(rankEntity.apply {
+            noteId.add(noteModel.noteEntity.id)
+        })
+
+        noteModel.noteEntity.rankId = rankEntity.id
+        noteModel.noteEntity.rankPs = rankEntity.position
+
+        inRoom { iNoteDao.update(noteModel.noteEntity) }
+
+        return rankEntity
+    }
+
     fun insertText(note: NoteEntity = textNote): NoteModel {
         inRoom { note.id = iNoteDao.insert(note) }
 
@@ -111,44 +141,6 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
                 isVisible = Random.nextBoolean()
             }))
         }
-    }
-
-    fun fillRankForNotes() = ArrayList<RankEntity>().apply {
-        val noteModel = if (Random.nextBoolean()) insertText() else insertRoll()
-
-        (0 until 2).forEach {
-            add(insertRank(rankEntity.apply {
-                name = "$it | $name"
-                noteId.add(noteModel.noteEntity.id)
-                position = it
-            }))
-        }
-
-        forEach {
-            noteModel.noteEntity.rankId.add(it.id)
-            noteModel.noteEntity.rankPs.add(it.position.toLong())
-        }
-
-        inRoom { iNoteDao.update(noteModel.noteEntity) }
-    }
-
-    fun fillRankForBin() = ArrayList<RankEntity>().apply {
-        val noteModel = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
-
-        (0 until 2).forEach {
-            add(insertRank(rankEntity.apply {
-                name = "$it | $name"
-                noteId.add(noteModel.noteEntity.id)
-                position = it
-            }))
-        }
-
-        forEach {
-            noteModel.noteEntity.rankId.add(it.id)
-            noteModel.noteEntity.rankPs.add(it.position.toLong())
-        }
-
-        inRoom { iNoteDao.update(noteModel.noteEntity) }
     }
 
     fun fillNotes(count: Int = 10) = repeat(count) {

@@ -149,17 +149,17 @@ class NoteDaoTest : ParentIntegrationTest() {
     private companion object {
         val noteFirst = NoteEntity(
                 id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",
-                color = 1, type = NoteType.TEXT, rankPs = arrayListOf(1, 3)
+                color = 1, type = NoteType.TEXT, rankPs = 1
         )
 
         val noteSecond = NoteEntity(
                 id = 2, create = DATE_2, change = DATE_3, text = "654", name = "321",
-                color = 1, type = NoteType.TEXT, rankPs = arrayListOf(1, 3), isBin = true
+                color = 1, type = NoteType.TEXT, rankPs = 1, isBin = true
         )
 
         val noteThird = NoteEntity(
                 id = 3, create = DATE_3, change = DATE_4, text = "123", name = "",
-                color = 3, type = NoteType.TEXT, rankPs = arrayListOf(2)
+                color = 3, type = NoteType.TEXT, rankPs = 2
         )
     }
 

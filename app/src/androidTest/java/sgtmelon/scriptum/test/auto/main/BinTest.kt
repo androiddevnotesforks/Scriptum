@@ -74,17 +74,18 @@ class BinTest : ParentUiTest() {
         }
     }
 
-    @Test fun clearDialogWorkWithHideNotes() = testData.fillRankForBin().let {
+    @Test fun clearDialogWorkWithHideNotes() = testData.insertRankForBin().let {
         launch({ testData.fillBin(count = 5) }) {
             mainScreen {
-                openRankPage { onClickVisible(it[0]) }
+                openBinPage()
+                openRankPage { onClickVisible(it) }
 
                 openBinPage() {
                     openClearDialog { onClickYes() }
                     assert(empty = true)
                 }
 
-                openRankPage { onClickVisible(it[0]) }
+                openRankPage { onClickVisible(it) }
                 openBinPage(empty = true)
             }
         }
