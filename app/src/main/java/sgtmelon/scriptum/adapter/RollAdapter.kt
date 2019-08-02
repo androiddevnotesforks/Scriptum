@@ -29,7 +29,7 @@ class RollAdapter(
     var noteState: NoteState? = null
 
     var checkToggle: Boolean = false
-    var cursorPosition = UNDEFINED
+    var cursorPosition = ND_CURSOR
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = if (viewType == TYPE_READ) {
         RollReadHolder(
@@ -50,9 +50,9 @@ class RollAdapter(
             is RollWriteHolder -> {
                 holder.bind(item)
 
-                if (cursorPosition != UNDEFINED) {
+                if (cursorPosition != ND_CURSOR) {
                     holder.setSelections(cursorPosition)
-                    cursorPosition = UNDEFINED
+                    cursorPosition = ND_CURSOR
                 }
             }
         }
@@ -62,10 +62,10 @@ class RollAdapter(
             if (noteState?.isEdit == true) TYPE_WRITE else TYPE_READ
 
     private companion object {
-        private const val UNDEFINED = -1
+        const val ND_CURSOR = -1
 
-        private const val TYPE_WRITE = 0
-        private const val TYPE_READ = 1
+        const val TYPE_WRITE = 0
+        const val TYPE_READ = 1
     }
 
 }

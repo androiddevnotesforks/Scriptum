@@ -52,8 +52,8 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     override fun delete(rankEntity: RankEntity) = inRoom {
         rankEntity.noteId.forEach {
             val noteEntity = iNoteDao[it]?.apply {
-                rankId = NoteEntity.RANK_ID_UNDEFINED
-                rankPs = NoteEntity.RANK_PS_UNDEFINED
+                rankId = NoteEntity.ND_RANK_ID
+                rankPs = NoteEntity.ND_RANK_PS
             } ?: return@forEach
 
             iNoteDao.update(noteEntity)

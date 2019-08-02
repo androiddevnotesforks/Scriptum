@@ -20,9 +20,9 @@ class BindReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (context == null || intent == null) return
 
-        val id = intent.getLongExtra(Values.NOTE_ID, Values.ID_UNDEFINED)
+        val id = intent.getLongExtra(Values.NOTE_ID, Values.ND_NOTE_ID)
 
-        if (id == Values.ID_UNDEFINED) return
+        if (id == Values.ND_NOTE_ID) return
 
         BindRepo.getInstance(context).unbindNote(id)?.let {
             BindControl(context, it).cancelBind()

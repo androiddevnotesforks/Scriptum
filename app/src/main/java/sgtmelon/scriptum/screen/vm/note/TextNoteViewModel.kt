@@ -279,10 +279,10 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onResultRankDialog(check: Int) {
         val noteEntity = noteModel.noteEntity
 
-        val rankId = if (check != NoteEntity.RANK_PS_UNDEFINED) {
+        val rankId = if (check != NoteEntity.ND_RANK_PS) {
             iRoomRepo.getRankIdList()[check]
         } else {
-            NoteEntity.RANK_ID_UNDEFINED
+            NoteEntity.ND_RANK_ID
         }
 
         inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)

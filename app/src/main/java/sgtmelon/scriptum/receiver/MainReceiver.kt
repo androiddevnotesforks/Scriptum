@@ -17,9 +17,9 @@ class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.getStringExtra(Values.COMMAND)) {
             Command.UNBIND_NOTE -> {
-                val id = intent.getLongExtra(Values.NOTE_ID, Values.ID_UNDEFINED)
+                val id = intent.getLongExtra(Values.NOTE_ID, Values.ND_NOTE_ID)
 
-                if (id != Values.ID_UNDEFINED) callback.onReceiveUnbindNote(id)
+                if (id != Values.ND_NOTE_ID) callback.onReceiveUnbindNote(id)
             }
         }
     }

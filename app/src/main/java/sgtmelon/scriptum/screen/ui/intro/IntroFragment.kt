@@ -19,7 +19,7 @@ class IntroFragment : Fragment() {
 
     private var binding: IncludeInfoBinding? = null
 
-    private var page: Int = UNDEFINED
+    private var page: Int = ND_PAGE
 
     private var parentContainer: View? = null
 
@@ -36,9 +36,9 @@ class IntroFragment : Fragment() {
 
         page = savedInstanceState?.getInt(PAGE_CURRENT)
                 ?: arguments?.getInt(PAGE_CURRENT)
-                ?: UNDEFINED
+                ?: ND_PAGE
 
-        if (page != UNDEFINED) binding?.bind(page)
+        if (page != ND_PAGE) binding?.bind(page)
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -63,7 +63,7 @@ class IntroFragment : Fragment() {
 
     companion object {
         private const val PAGE_CURRENT = "ARGUMENT_INTRO_PAGE_CURRENT"
-        private const val UNDEFINED = -1
+        private const val ND_PAGE = -1
 
         fun getInstance(page: Int) = IntroFragment().apply {
             arguments = Bundle().apply { putInt(PAGE_CURRENT, page) }

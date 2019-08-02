@@ -26,8 +26,8 @@ data class NoteEntity(
         @ColumnInfo(name = Note.TEXT) var text: String = "",
         @ColumnInfo(name = Note.COLOR) @Color var color: Int = 0,
         @ColumnInfo(name = Note.TYPE) var type: NoteType = NoteType.TEXT,
-        @ColumnInfo(name = Note.RANK_ID) var rankId: Long = RANK_ID_UNDEFINED,
-        @ColumnInfo(name = Note.RANK_PS) var rankPs: Int = RANK_PS_UNDEFINED,
+        @ColumnInfo(name = Note.RANK_ID) var rankId: Long = ND_RANK_ID,
+        @ColumnInfo(name = Note.RANK_PS) var rankPs: Int = ND_RANK_PS,
         @ColumnInfo(name = Note.BIN) var isBin: Boolean = false,
         @ColumnInfo(name = Note.STATUS) var isStatus: Boolean = false
 ) {
@@ -40,14 +40,14 @@ data class NoteEntity(
             text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
 
     fun isVisible(rankIdVisibleList: List<Long>) =
-            rankId == RANK_ID_UNDEFINED || rankIdVisibleList.contains(rankId)
+            rankId == ND_RANK_ID || rankIdVisibleList.contains(rankId)
 
     fun isNotVisible(rankIdVisibleList: List<Long>) =
-            rankId != RANK_ID_UNDEFINED && !rankIdVisibleList.contains(rankId)
+            rankId != ND_RANK_ID && !rankIdVisibleList.contains(rankId)
 
     companion object {
-        const val RANK_ID_UNDEFINED = -1L
-        const val RANK_PS_UNDEFINED = -1
+        const val ND_RANK_ID = -1L
+        const val ND_RANK_PS = -1
     }
 
 }

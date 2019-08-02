@@ -31,30 +31,46 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
 
-    override fun getNoteModelList(bin: Boolean) = ArrayList<NoteModel>().apply {
-        inRoom {
-            val rankIdVisibleList = iRankDao.getIdVisibleList()
+    override fun getNoteModelList(bin: Boolean): MutableList<NoteModel> {
+        val sortType = iPreferenceRepo.sort
 
-            when (iPreferenceRepo.sort) {
-                Sort.CHANGE -> iNoteDao.getByChange(bin)
-                Sort.CREATE -> iNoteDao.getByCreate(bin)
-                Sort.RANK -> iNoteDao.getByRank(bin)
-                else -> iNoteDao.getByColor(bin)
-            }.forEach {
-                val bindControl = BindControl(context, it)
+        val list = ArrayList<NoteModel>().apply {
+            inRoom {
+                val rankIdVisibleList = iRankDao.getIdVisibleList()
 
-                if (!bin && it.isNotVisible(rankIdVisibleList)) {
-                    bindControl.cancelBind()
-                } else {
-                    if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
+                when (sortType) {
+                    Sort.CHANGE -> iNoteDao.getByChange(bin)
+                    Sort.CREATE -> iNoteDao.getByCreate(bin)
+                    Sort.RANK -> iNoteDao.getByRank(bin)
+                    else -> iNoteDao.getByColor(bin)
+                }.forEach {
+                    val bindControl = BindControl(context, it)
 
-                    add(NoteModel(
-                            it, iRollDao.getView(it.id),
-                            alarmEntity = iAlarmDao[it.id] ?: AlarmEntity())
-                    )
+                    if (!bin && it.isNotVisible(rankIdVisibleList)) {
+                        bindControl.cancelBind()
+                    } else {
+                        if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
+
+                        add(NoteModel(
+                                it, iRollDao.getView(it.id),
+                                alarmEntity = iAlarmDao[it.id] ?: AlarmEntity())
+                        )
+                    }
                 }
             }
         }
+
+        if (sortType != Sort.RANK) return list
+
+        if (list.any { it.noteEntity.rankId != NoteEntity.ND_RANK_ID }) {
+            while (list.first().noteEntity.rankId == NoteEntity.ND_RANK_ID) {
+                val noteModel = list.first()
+                list.removeAt(0)
+                list.add(noteModel)
+            }
+        }
+
+        return list
     }
 
     override fun isListHide(bin: Boolean): Boolean {
@@ -315,7 +331,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
      * @param noteEntity заметка, которая будет удалена
      */
     private fun clearRankConnection(rankDao: IRankDao, noteEntity: NoteEntity) {
-        if (noteEntity.rankId == NoteEntity.RANK_ID_UNDEFINED) return
+        if (noteEntity.rankId == NoteEntity.ND_RANK_ID) return
 
         val rankEntity = rankDao[noteEntity.rankId].apply { noteId.remove(noteEntity.id) }
         rankDao.update(rankEntity)

@@ -25,7 +25,7 @@ object ReceiverData {
     object Values {
         private const val PREFIX = "RECEIVER_VALUES"
 
-        const val ID_UNDEFINED = -1L
+        const val ND_NOTE_ID = -1L
 
         const val COMMAND = "${PREFIX}_COMMAND"
         const val NOTE_ID = "${PREFIX}_NOTE_ID"
