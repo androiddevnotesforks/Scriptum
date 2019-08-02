@@ -37,7 +37,7 @@ class NoteModelTest {
 
         with(rollNoteModel) {
             assertFalse(isSaveEnabled())
-            rollList.addAll(rollList)
+            rollList.addAll(list)
             assertFalse(isSaveEnabled())
             rollList.random().text = TEST_TEXT
             assertTrue(isSaveEnabled())
@@ -50,7 +50,7 @@ class NoteModelTest {
         val textNoteModel = NoteModel(NoteEntity(type = NoteType.TEXT))
         val rollNoteModel = NoteModel(NoteEntity(type = NoteType.ROLL))
 
-        val rollList = arrayListOf(
+        val list = arrayListOf(
                 RollEntity(), RollEntity(), RollEntity(), RollEntity(), RollEntity()
         )
     }

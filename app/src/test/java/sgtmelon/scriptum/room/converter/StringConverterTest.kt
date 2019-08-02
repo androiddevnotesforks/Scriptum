@@ -29,7 +29,7 @@ class StringConverterTest {
 
     private companion object {
         val listFirst: List<Long> = arrayListOf(1, 2, 3, 4, 5)
-        const val stringFirst = "1,2,3,4,5"
+        const val stringFirst = "1, 2, 3, 4, 5"
 
         val listSecond: List<Long> = arrayListOf()
         const val stringSecond = StringConverter.NONE
