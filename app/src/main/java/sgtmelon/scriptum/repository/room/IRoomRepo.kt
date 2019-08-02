@@ -40,7 +40,7 @@ interface IRoomRepo {
     /**
      * @return Список с именами всех категорий
      */
-    fun getRankNameArray(): Array<String>
+    fun getRankDialogItemArray(): Array<String>
 
     /**
      * @throws ClassCastException если [NoteEntity.type] != [NoteType.TEXT]

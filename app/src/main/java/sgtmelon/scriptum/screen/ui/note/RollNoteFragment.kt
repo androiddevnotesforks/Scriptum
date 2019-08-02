@@ -165,7 +165,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         rankDialog.apply {
             itemArray = rankNameArray
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultRankDialog(rankDialog.check)
+                iViewModel.onResultRankDialog(check = rankDialog.check - 1)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }

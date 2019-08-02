@@ -18,6 +18,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
@@ -72,7 +73,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         callback?.apply {
             setupBinding(iPreferenceRepo.theme, isRankEmpty)
             setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
-            setupDialog(iRoomRepo.getRankNameArray())
+            setupDialog(iRoomRepo.getRankDialogItemArray())
             setupEnter(inputControl)
         }
 
@@ -141,7 +142,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuRank() {
-        callback?.showRankDialog(noteModel.noteEntity.rankPs)
+        callback?.showRankDialog(check = noteModel.noteEntity.rankPs + 1)
     }
 
     override fun onMenuColor() {
@@ -278,7 +279,12 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onResultRankDialog(check: Int) {
         val noteEntity = noteModel.noteEntity
 
-        val rankId = iRoomRepo.getRankIdList()[check]
+        val rankId = if (check != NoteEntity.RANK_PS_UNDEFINED) {
+            iRoomRepo.getRankIdList()[check]
+        } else {
+            NoteEntity.RANK_ID_UNDEFINED
+        }
+
         inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
 
         noteEntity.apply {

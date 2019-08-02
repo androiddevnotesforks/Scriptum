@@ -60,6 +60,8 @@
     <string name="dialog_title_color">Color</string>
     <string name="dialog_title_rank">Categories</string>
 
+    <string name="dialog_item_rank">Without category</string>
+
     <string name="dialog_title_convert">Convert</string>
     <string name="dialog_roll_convert_to_text">
         Are you sure you want to convert the note? All checks in the list will be lost.

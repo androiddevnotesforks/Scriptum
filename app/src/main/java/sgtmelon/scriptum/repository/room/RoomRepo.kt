@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.room
 
 import android.content.Context
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
@@ -128,7 +129,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         return noteModel
     }
 
-    override fun getRankNameArray(): Array<String> = ArrayList<String>().apply {
+    override fun getRankDialogItemArray(): Array<String> = ArrayList<String>().apply {
+        add(context.getString(R.string.dialog_item_rank))
         inRoom { addAll(iRankDao.getNameList()) }
     }.toTypedArray()
 
