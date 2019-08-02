@@ -130,7 +130,6 @@
 
     <!-- Items text -->
     <!-- Rank -->
-    <string name="list_item_rank_text_count">Тексты:</string>
-    <string name="list_item_rank_roll_count">Списки:</string>
+    <string name="list_item_rank_count">Заметок:</string>
 
 </resources>

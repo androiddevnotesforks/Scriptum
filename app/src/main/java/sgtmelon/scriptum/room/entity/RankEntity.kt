@@ -19,7 +19,6 @@ data class RankEntity(
         @ColumnInfo(name = Rank.VISIBLE) var isVisible: Boolean = true
 ) {
 
-    @Ignore var textCount = 0
-    @Ignore var rollCount = 0
+    @Ignore var noteCount = 0
 
 }

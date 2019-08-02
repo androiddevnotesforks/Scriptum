@@ -2,11 +2,9 @@ package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.room.RoomRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
-import sgtmelon.scriptum.room.converter.NoteTypeConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 
@@ -42,10 +40,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     override fun get() = ArrayList<RankEntity>().apply {
         inRoom {
             addAll(iRankDao.get())
-            forEach {
-                it.textCount = iNoteDao.getCount(it.noteId, NoteTypeConverter().toInt(NoteType.TEXT))
-                it.rollCount = iNoteDao.getCount(it.noteId, NoteTypeConverter().toInt(NoteType.ROLL))
-            }
+            forEach { it.noteCount = iNoteDao.getCount(it.noteId) }
         }
     }
 

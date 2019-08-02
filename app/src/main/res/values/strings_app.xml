@@ -136,7 +136,6 @@
 
     <!-- Items text -->
     <!-- Rank -->
-    <string name="list_item_rank_text_count">Texts:</string>
-    <string name="list_item_rank_roll_count">Lists:</string>
+    <string name="list_item_rank_count">Notes:</string>
 
 </resources>

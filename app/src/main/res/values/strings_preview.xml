@@ -19,8 +19,7 @@
     <string name="preview_note_done" translatable="false">3/5</string>
 
     <string name="preview_rank_name" translatable="false">Название какой-нибудь категории</string>
-    <string name="preview_rank_text" translatable="false">Тексты: 1</string>
-    <string name="preview_rank_roll" translatable="false">Списки: 10</string>
+    <string name="preview_rank_count" translatable="false">Заметок: 10</string>
 
     <string name="preview_notification_name" translatable="false">Обязательно сделать</string>
     <string name="preview_notification_date" translatable="false">25 авг. 2020г в 10:30</string>
