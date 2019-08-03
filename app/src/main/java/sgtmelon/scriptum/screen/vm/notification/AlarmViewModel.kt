@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.vm.notification
 
 import android.app.Application
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import sgtmelon.scriptum.extension.getAppSimpleColor
@@ -32,8 +31,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private lateinit var noteModel: NoteModel
     private lateinit var signalState: SignalState
 
-    private var melodyPlayer: MediaPlayer? = null
-
     private val vibrationHandler = Handler()
     private val vibrationRunnable = object : Runnable {
         override fun run() {
@@ -50,7 +47,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     // TODO #RELEASE Обработка id = -1
     // TODO #RELEASE Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
     override fun onSetup(bundle: Bundle?) {
-        callback?.setupView(iPreferenceRepo.theme)
+        callback?.apply {
+            setupView(iPreferenceRepo.theme)
+            setupMelodyPlayer(iPreferenceRepo.melodyUri.toUri())
+        }
 
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
@@ -62,19 +62,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
             noteModel = iRoomRepo.getNoteModel(id)
             signalState = iPreferenceRepo.signalState
-
-            if (signalState.isMelody) {
-                melodyPlayer = MediaPlayer.create(context, iPreferenceRepo.melodyUri.toUri())
-                melodyPlayer?.apply {
-                    isLooping = true
-
-                    if (iPreferenceRepo.volumeIncrease) {
-                        setVolume(0.5f, 0.5f)
-                    } else {
-                        setVolume(0.5f, 0.5f)
-                    }
-                }
-            }
         }
 
         callback?.notifyDataSetChanged(noteModel)
@@ -95,21 +82,33 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             it.startButtonFadeInAnimation()
         }
 
-        melodyPlayer?.start()
+        if (signalState.isMelody) {
+            callback?.melodyPlayerStart()
+        }
 
         if (signalState.isVibration) {
             vibrationHandler.postDelayed(vibrationRunnable, START_DELAY)
+        }
+
+        if (signalState.isLight) {
+            // TODO
         }
 
         longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        melodyPlayer?.stop()
+        if (signalState.isMelody) {
+            callback?.melodyPlayerStop()
+        }
 
         if (signalState.isVibration) {
             callback?.vibrateCancel()
             vibrationHandler.removeCallbacks(vibrationRunnable)
+        }
+
+        if (signalState.isLight) {
+            // TODO
         }
 
         longWaitHandler.removeCallbacks(longWaitRunnable)

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
 import android.content.Intent
+import android.net.Uri
 import androidx.annotation.ColorInt
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -16,11 +17,17 @@ interface IAlarmActivity {
 
     fun setupView(@Theme theme: Int)
 
+    fun setupMelodyPlayer(uri: Uri)
+
     fun notifyDataSetChanged(noteModel: NoteModel)
 
     fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int)
 
     fun startButtonFadeInAnimation()
+
+    fun melodyPlayerStart()
+
+    fun melodyPlayerStop()
 
     fun vibrateStart(pattern: LongArray)
 

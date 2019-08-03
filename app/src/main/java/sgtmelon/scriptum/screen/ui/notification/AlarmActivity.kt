@@ -2,6 +2,8 @@ package sgtmelon.scriptum.screen.ui.notification
 
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -30,7 +32,6 @@ import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
 
-
 /**
  * Экран с уведомлением запущенным по таймеру
  *
@@ -44,6 +45,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
     }
 
+    private var melodyPlayer: MediaPlayer? = null
     private val vibration by lazy { getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator }
 
     private val openState = OpenState()
@@ -117,8 +119,15 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         postponeButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickPostpone() } }
     }
 
+    override fun setupMelodyPlayer(uri: Uri) {
+        melodyPlayer = MediaPlayer.create(this, uri).apply {
+            isLooping = true
+        }
+    }
+
     override fun notifyDataSetChanged(noteModel: NoteModel) =
             adapter.notifyDataSetChanged(arrayListOf(noteModel))
+
 
     override fun startRippleAnimation(@Theme theme: Int, @ColorInt fillColor: Int) {
         logoView?.let { rippleContainer?.setupAnimation(theme, fillColor, it)?.startAnimation() }
@@ -139,6 +148,16 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
+
+    override fun melodyPlayerStart() {
+        melodyPlayer?.start()
+    }
+
+    override fun melodyPlayerStop() {
+        melodyPlayer?.stop()
+    }
+
+
     override fun vibrateStart(pattern: LongArray) {
         if (vibration?.hasVibrator() == false) return
 
@@ -154,6 +173,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun vibrateCancel() {
         vibration?.cancel()
     }
+
 
     companion object {
         fun getInstance(context: Context, id: Long, @Color color: Int): Intent =
