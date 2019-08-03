@@ -18,10 +18,12 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     private val iPreferenceRepo = PreferenceRepo(context)
 
-    private val themeSummary = context.resources.getStringArray(R.array.text_app_theme)
-    private val repeatSummary = context.resources.getStringArray(R.array.text_alarm_repeat)
     private val sortSummary = context.resources.getStringArray(R.array.text_note_sort)
     private val colorSummary = context.resources.getStringArray(R.array.text_note_color)
+
+    private val themeSummary = context.resources.getStringArray(R.array.text_app_theme)
+    private val repeatSummary = context.resources.getStringArray(R.array.text_alarm_repeat)
+
     private val saveTimeSummary = context.resources.getStringArray(R.array.text_save_time)
 
     private val melodyList: List<MelodyItem> = iPreferenceRepo.melodyList
@@ -35,8 +37,8 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupApp()
-            setupNotification(melodyList.map { it.title }.toTypedArray())
             setupNote()
+            setupNotification(melodyList.map { it.title }.toTypedArray())
             setupSave()
             setupOther()
 
@@ -54,6 +56,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         }
     }
 
+
     override fun onClickTheme() = alwaysTrue {
         callback?.showThemeDialog(iPreferenceRepo.theme)
     }
@@ -61,6 +64,22 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     override fun onResultTheme(@Theme theme: Int) {
         iPreferenceRepo.theme = theme
         callback?.updateThemeSummary(themeSummary[theme])
+    }
+
+
+    override fun onClickSort() = alwaysTrue { callback?.showSortDialog(iPreferenceRepo.sort) }
+
+    override fun onResultNoteSort(value: Int) {
+        iPreferenceRepo.sort = value
+        callback?.updateSortSummary(sortSummary[value])
+    }
+
+    override fun onClickNoteColor() =
+            alwaysTrue { callback?.showColorDialog(iPreferenceRepo.defaultColor) }
+
+    override fun onResultNoteColor(@Color value: Int) {
+        iPreferenceRepo.defaultColor = value
+        callback?.updateColorSummary(colorSummary[value])
     }
 
 
@@ -111,21 +130,6 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         callback?.updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, value))
     }
 
-
-    override fun onClickSort() = alwaysTrue { callback?.showSortDialog(iPreferenceRepo.sort) }
-
-    override fun onResultNoteSort(value: Int) {
-        iPreferenceRepo.sort = value
-        callback?.updateSortSummary(sortSummary[value])
-    }
-
-    override fun onClickNoteColor() =
-            alwaysTrue { callback?.showColorDialog(iPreferenceRepo.defaultColor) }
-
-    override fun onResultNoteColor(@Color value: Int) {
-        iPreferenceRepo.defaultColor = value
-        callback?.updateColorSummary(colorSummary[value])
-    }
 
     override fun onClickSaveTime() =
             alwaysTrue { callback?.showSaveTimeDialog(iPreferenceRepo.savePeriod) }

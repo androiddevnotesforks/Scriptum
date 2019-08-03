@@ -12,6 +12,23 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/header_note">
+
+        <Preference
+                android:defaultValue="@integer/value_note_sort"
+                android:key="@string/key_note_sort"
+                android:summary="@string/summary_note_sort"
+                android:title="@string/title_note_sort"/>
+
+        <Preference
+                android:defaultValue="@integer/value_note_color"
+                android:key="@string/key_note_color"
+                android:summary="@string/summary_note_color"
+                android:title="@string/title_note_color"/>
+
+    </PreferenceCategory>
+
+
     <PreferenceCategory android:title="@string/header_notification">
 
         <!-- TODO #RELEASE -->
@@ -44,22 +61,6 @@
                 android:key="@string/key_alarm_increase"
                 android:summary="@string/summary_alarm_increase"
                 android:title="@string/title_alarm_increase"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/header_note">
-
-        <Preference
-                android:defaultValue="@integer/value_note_sort"
-                android:key="@string/key_note_sort"
-                android:summary="@string/summary_note_sort"
-                android:title="@string/title_note_sort"/>
-
-        <Preference
-                android:defaultValue="@integer/value_note_color"
-                android:key="@string/key_note_color"
-                android:summary="@string/summary_note_color"
-                android:title="@string/title_note_color"/>
 
     </PreferenceCategory>
 

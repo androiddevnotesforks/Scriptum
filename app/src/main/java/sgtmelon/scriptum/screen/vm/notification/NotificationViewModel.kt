@@ -6,7 +6,6 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
-import sgtmelon.scriptum.repository.room.RoomRepo
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
@@ -27,8 +26,6 @@ class NotificationViewModel(application: Application) :
 
     private val notificationList: MutableList<NotificationItem> = ArrayList()
 
-    // TODO #RELEASE
-    private val repo = RoomRepo.getInstance(context)
     private val list: MutableList<NoteModel> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
@@ -37,8 +34,8 @@ class NotificationViewModel(application: Application) :
             setupRecycler(iPreferenceRepo.theme)
         }
 
-        // TODO #RELEASE
-        list.addAll(repo.getNoteModelList(bin = false))
+        // TODO #RELEASE remove
+        list.addAll(iRoomRepo.getNoteModelList(bin = false))
         if (list.isNotEmpty()) {
             list.random().noteEntity.let {
                 callback?.startActivity(AlarmActivity.getInstance(context, it.id, it.color))

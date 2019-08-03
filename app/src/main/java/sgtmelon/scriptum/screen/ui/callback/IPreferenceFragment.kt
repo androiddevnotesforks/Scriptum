@@ -14,17 +14,28 @@ interface IPreferenceFragment {
 
     fun setupApp()
 
-    fun setupNotification(melodyTitleList: Array<String>)
-
     fun setupNote()
+
+    fun setupNotification(melodyTitleList: Array<String>)
 
     fun setupSave()
 
     fun setupOther()
 
+
     fun updateThemeSummary(summary: String)
 
     fun showThemeDialog(@Theme value: Int)
+
+
+    fun updateSortSummary(summary: String)
+
+    fun showSortDialog(value: Int)
+
+    fun updateColorSummary(summary: String)
+
+    fun showColorDialog(@Color value: Int)
+
 
     fun updateRepeatSummary(summary: String)
 
@@ -44,13 +55,6 @@ interface IPreferenceFragment {
 
     fun showVolumeDialog(value: Int)
 
-    fun updateSortSummary(summary: String)
-
-    fun showSortDialog(value: Int)
-
-    fun updateColorSummary(summary: String)
-
-    fun showColorDialog(@Color value: Int)
 
     fun updateSaveTimeSummary(summary: String)
 

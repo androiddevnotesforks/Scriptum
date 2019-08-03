@@ -41,17 +41,21 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     private val themeDialog by lazy { DialogFactory.Preference.getThemeDialog(activity, fm) }
 
+    private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
+    private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
+
     private val repeatDialog by lazy { DialogFactory.Preference.getRepeatDialog(activity, fm) }
     private val signalDialog by lazy { DialogFactory.Preference.getSignalDialog(activity, fm) }
     private val melodyDialog by lazy { DialogFactory.Preference.getMelodyDialog(activity, fm) }
     private val volumeDialog by lazy { DialogFactory.Preference.getVolumeDialog(activity, fm) }
 
-    private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
-    private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
     private val saveTimeDialog by lazy { DialogFactory.Preference.getSaveTimeDialog(activity, fm) }
     private val aboutDialog by lazy { DialogFactory.Preference.getAboutDialog(fm) }
 
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
+
+    private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
+    private val colorPreference: Preference by lazy { findPreference(getString(R.string.key_note_color)) }
 
     private val repeatPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_repeat)) }
     private val signalPreference: Preference by lazy { findPreference(getString(R.string.key_alarm_signal)) }
@@ -59,8 +63,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val increasePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_increase)) }
     private val volumePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_volume)) }
 
-    private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
-    private val colorPreference: Preference by lazy { findPreference(getString(R.string.key_note_color)) }
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -90,6 +92,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
+
     override fun setupApp() {
         themePreference.setOnPreferenceClickListener { iViewModel.onClickTheme() }
 
@@ -100,8 +103,25 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         themeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    // TODO #RELEASE
+    override fun setupNote() {
+        sortPreference.setOnPreferenceClickListener { iViewModel.onClickSort() }
+
+        sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            iViewModel.onResultNoteSort(sortDialog.check)
+        }
+        sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+
+        colorPreference.setOnPreferenceClickListener { iViewModel.onClickNoteColor() }
+
+        colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            iViewModel.onResultNoteColor(colorDialog.check)
+        }
+        colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+    }
+
     override fun setupNotification(melodyTitleList: Array<String>) {
+        // TODO #RELEASE
+
         repeatPreference.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -136,22 +156,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             iViewModel.onResultVolume(volumeDialog.progress)
         }
         volumeDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-    }
-
-    override fun setupNote() {
-        sortPreference.setOnPreferenceClickListener { iViewModel.onClickSort() }
-
-        sortDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultNoteSort(sortDialog.check)
-        }
-        sortDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
-
-        colorPreference.setOnPreferenceClickListener { iViewModel.onClickNoteColor() }
-
-        colorDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultNoteColor(colorDialog.check)
-        }
-        colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupSave() {
@@ -201,6 +205,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         }
     }
 
+
     override fun updateThemeSummary(summary: String) {
         themePreference.summary = summary
     }
@@ -208,6 +213,24 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     override fun showThemeDialog(@Theme value: Int) = openState.tryInvoke {
         themeDialog.setArguments(value).show(fm, DialogFactory.Preference.THEME)
     }
+
+
+    override fun updateSortSummary(summary: String) {
+        sortPreference.summary = summary
+    }
+
+    override fun showSortDialog(value: Int) = openState.tryInvoke {
+        sortDialog.setArguments(value).show(fm, DialogFactory.Preference.SORT)
+    }
+
+    override fun updateColorSummary(summary: String) {
+        colorPreference.summary = summary
+    }
+
+    override fun showColorDialog(@Color value: Int) = openState.tryInvoke {
+        colorDialog.setArguments(value).show(fm, DialogFactory.Preference.COLOR)
+    }
+
 
     override fun updateRepeatSummary(summary: String) {
         repeatPreference.summary = summary
@@ -247,21 +270,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         volumeDialog.setArguments(value).show(fm, DialogFactory.Preference.VOLUME)
     }
 
-    override fun updateSortSummary(summary: String) {
-        sortPreference.summary = summary
-    }
-
-    override fun showSortDialog(value: Int) = openState.tryInvoke {
-        sortDialog.setArguments(value).show(fm, DialogFactory.Preference.SORT)
-    }
-
-    override fun updateColorSummary(summary: String) {
-        colorPreference.summary = summary
-    }
-
-    override fun showColorDialog(@Color value: Int) = openState.tryInvoke {
-        colorDialog.setArguments(value).show(fm, DialogFactory.Preference.COLOR)
-    }
 
     override fun updateSaveTimeSummary(summary: String) {
         saveTimePreference.summary = summary

@@ -2,8 +2,8 @@
 <resources>
 
     <string name="header_app">App</string>
-    <string name="header_notification">Notifications</string>
     <string name="header_note">Notes</string>
+    <string name="header_notification">Notifications</string>
     <string name="header_save">Save</string>
     <string name="header_other">Other</string>
 
@@ -11,14 +11,14 @@
 
     <string name="title_app_theme">Theme</string>
 
+    <string name="title_note_sort">Sort notes</string>
+    <string name="title_note_color">Default note color</string>
+
     <string name="title_alarm_repeat">Repeat time</string>
     <string name="title_alarm_signal">Signal type</string>
     <string name="title_alarm_melody">Melody</string>
     <string name="title_alarm_volume">Volume</string>
     <string name="title_alarm_increase">Volume increase</string>
-
-    <string name="title_note_sort">Sort notes</string>
-    <string name="title_note_color">Default note color</string>
 
     <string name="title_save_pause">Save when application paused</string>
     <string name="title_save_auto">Auto save</string>
@@ -31,15 +31,15 @@
 
     <string name="summary_app_theme">Selected theme</string>
 
+    <string name="summary_note_sort">Will be used by default</string>
+    <string name="summary_note_color">Will be used by default</string>
+
     <string name="summary_alarm_repeat">Will be used for repeat notification</string>
     <string name="summary_alarm_signal">will be used for notify you</string>
     <string name="summary_alarm_melody">Will be play on notification</string>
     <!-- TODO #RELEASE Другой текст -->
     <string name="summary_alarm_volume">Percent of volume: %d%%</string>
     <string name="summary_alarm_increase">Smooth volume increase from minimum</string>
-
-    <string name="summary_note_sort">Will be used by default</string>
-    <string name="summary_note_color">Will be used by default</string>
 
     <string name="summary_save_pause">When editing a note</string>
     <string name="summary_save_auto">When editing a note</string>
@@ -52,17 +52,6 @@
         <item>Dark</item>
     </string-array>
 
-    <string-array name="text_alarm_repeat">
-        <item>10 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-    </string-array>
-
-    <string-array name="text_alarm_signal">
-        <item>Melody</item>
-        <item>Vibration</item>
-        <item>Flashlight</item>
-    </string-array>
 
     <string-array name="text_note_sort">
         <item>By time of change</item>
@@ -85,6 +74,18 @@
         <item>White</item>
     </string-array>
 
+    <string-array name="text_alarm_repeat">
+        <item>10 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+    </string-array>
+
+    <string-array name="text_alarm_signal">
+        <item>Melody</item>
+        <item>Vibration</item>
+        <item>Flashlight</item>
+    </string-array>
+
     <string-array name="text_save_time">
         <item>1 minute</item>
         <item>3 minutes</item>
@@ -97,14 +98,14 @@
 
     <string name="key_app_theme" translatable="false">key_theme</string>
 
+    <string name="key_note_sort" translatable="false">key_note_sort</string>
+    <string name="key_note_color" translatable="false">key_color</string>
+
     <string name="key_alarm_repeat" translatable="false">key_alarm_repeat</string>
     <string name="key_alarm_signal" translatable="false">key_alarm_signal</string>
     <string name="key_alarm_melody" translatable="false">key_alarm_melody</string>
     <string name="key_alarm_volume" translatable="false">key_alarm_volume</string>
     <string name="key_alarm_increase" translatable="false">key_alarm_increase</string>
-
-    <string name="key_note_sort" translatable="false">key_note_sort</string>
-    <string name="key_note_color" translatable="false">key_color</string>
 
     <string name="key_save_pause" translatable="false">key_pause_save</string>
     <string name="key_save_auto" translatable="false">key_auto_save</string>

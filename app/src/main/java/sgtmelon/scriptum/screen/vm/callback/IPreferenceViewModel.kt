@@ -16,6 +16,16 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultTheme(@Theme theme: Int)
 
+
+    fun onClickSort(): Boolean
+
+    fun onResultNoteSort(value: Int)
+
+    fun onClickNoteColor(): Boolean
+
+    fun onResultNoteColor(@Color value: Int)
+
+
     fun onClickRepeat(): Boolean
 
     fun onResultRepeat(value: Int)
@@ -36,13 +46,6 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultVolume(value: Int)
 
-    fun onClickSort(): Boolean
-
-    fun onResultNoteSort(value: Int)
-
-    fun onClickNoteColor(): Boolean
-
-    fun onResultNoteColor(@Color value: Int)
 
     fun onClickSaveTime(): Boolean
 
