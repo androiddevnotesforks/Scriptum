@@ -157,7 +157,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         melodyPlayer?.stop()
     }
 
-
     override fun vibrateStart(pattern: LongArray) {
         if (vibration?.hasVibrator() == false) return
 
