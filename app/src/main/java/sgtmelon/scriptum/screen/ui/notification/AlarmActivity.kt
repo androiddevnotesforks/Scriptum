@@ -2,6 +2,9 @@ package sgtmelon.scriptum.screen.ui.notification
 
 import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -37,7 +40,7 @@ import sgtmelon.scriptum.view.RippleContainer
  *
  * @author SerjantArbuz
  */
-class AlarmActivity : AppActivity(), IAlarmActivity {
+class AlarmActivity : AppActivity(), IAlarmActivity, AudioManager.OnAudioFocusChangeListener {
 
     private val iViewModel: IAlarmViewModel by lazy {
         ViewModelProviders.of(this).get(AlarmViewModel::class.java).apply {
@@ -46,6 +49,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     private var melodyPlayer: MediaPlayer? = null
+    private val audioManager by lazy { getSystemService(Context.AUDIO_SERVICE) as? AudioManager }
+
     private val vibration by lazy { getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator }
 
     private val openState = OpenState()
@@ -120,6 +125,22 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     override fun setupMelodyPlayer(uri: Uri) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val audioAttributes = AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build()
+
+            audioManager?.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
+                    .setAudioAttributes(audioAttributes)
+                    .setAcceptsDelayedFocusGain(true)
+                    .setOnAudioFocusChangeListener(this).build())
+        } else {
+            audioManager?.requestAudioFocus(this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN)
+        }
+
+        val maxVolume = audioManager?.getStreamMaxVolume(AudioManager.STREAM_ALARM)
+
         melodyPlayer = MediaPlayer.create(this, uri).apply {
             isLooping = true
         }
@@ -171,6 +192,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun vibrateCancel() {
         vibration?.cancel()
+    }
+
+    override fun onAudioFocusChange(focusChange: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
