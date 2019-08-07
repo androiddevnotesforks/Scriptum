@@ -31,11 +31,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private lateinit var noteModel: NoteModel
     private lateinit var signalState: SignalState
 
-    private val vibrationHandler = Handler()
-    private val vibrationRunnable = object : Runnable {
+    private val vibratorHandler = Handler()
+    private val vibratorRunnable = object : Runnable {
         override fun run() {
             callback?.vibrateStart(vibrationPattern)
-            vibrationHandler.postDelayed(this, vibrationPattern.sum())
+            vibratorHandler.postDelayed(this, vibrationPattern.sum())
         }
     }
 
@@ -49,7 +49,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupView(iPreferenceRepo.theme)
-            setupMelodyPlayer(iPreferenceRepo.melodyUri.toUri())
+            setupMelody(iPreferenceRepo.melodyUri.toUri())
         }
 
         if (bundle != null) {
@@ -83,14 +83,14 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         if (signalState.isMelody) {
-            callback?.melodyPlayerStart()
+            callback?.melodyStart()
         }
 
         if (signalState.isVibration) {
-            vibrationHandler.postDelayed(vibrationRunnable, START_DELAY)
+            vibratorHandler.postDelayed(vibratorRunnable, START_DELAY)
         }
 
-        if (signalState.isLight) {
+        if (signalState.isFlashlight) {
             // TODO
         }
 
@@ -99,15 +99,15 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
         if (signalState.isMelody) {
-            callback?.melodyPlayerStop()
+            callback?.melodyStop()
         }
 
         if (signalState.isVibration) {
             callback?.vibrateCancel()
-            vibrationHandler.removeCallbacks(vibrationRunnable)
+            vibratorHandler.removeCallbacks(vibratorRunnable)
         }
 
-        if (signalState.isLight) {
+        if (signalState.isFlashlight) {
             // TODO
         }
 

@@ -17,7 +17,7 @@ interface IAlarmActivity {
 
     fun setupView(@Theme theme: Int)
 
-    fun setupMelodyPlayer(uri: Uri)
+    fun setupMelody(uri: Uri)
 
     fun notifyDataSetChanged(noteModel: NoteModel)
 
@@ -25,9 +25,9 @@ interface IAlarmActivity {
 
     fun startButtonFadeInAnimation()
 
-    fun melodyPlayerStart()
+    fun melodyStart()
 
-    fun melodyPlayerStop()
+    fun melodyStop()
 
     fun vibrateStart(pattern: LongArray)
 

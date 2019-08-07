@@ -7,4 +7,4 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
  *
  * @author SerjantArbuz
  */
-class SignalState(val isMelody: Boolean, val isVibration: Boolean, val isLight: Boolean)
+class SignalState(val isMelody: Boolean, val isVibration: Boolean, val isFlashlight: Boolean)

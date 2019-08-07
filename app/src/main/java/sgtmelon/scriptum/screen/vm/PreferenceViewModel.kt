@@ -32,6 +32,8 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     override fun onDestroy(func: () -> Unit) {
         callback = null
+
+        melodyPlayer?.release()
     }
 
     override fun onSetup(bundle: Bundle?) {

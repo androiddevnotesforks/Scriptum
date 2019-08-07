@@ -2,15 +2,8 @@ package sgtmelon.scriptum.screen.ui.notification
 
 import android.content.Context
 import android.content.Intent
-import android.media.AudioAttributes
-import android.media.AudioFocusRequest
-import android.media.AudioManager
-import android.media.MediaPlayer
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -23,6 +16,8 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.control.alarm.MelodyControl
+import sgtmelon.scriptum.control.alarm.VibratorControl
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
@@ -40,7 +35,7 @@ import sgtmelon.scriptum.view.RippleContainer
  *
  * @author SerjantArbuz
  */
-class AlarmActivity : AppActivity(), IAlarmActivity, AudioManager.OnAudioFocusChangeListener {
+class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val iViewModel: IAlarmViewModel by lazy {
         ViewModelProviders.of(this).get(AlarmViewModel::class.java).apply {
@@ -48,10 +43,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity, AudioManager.OnAudioFocusCh
         }
     }
 
-    private var melodyPlayer: MediaPlayer? = null
-    private val audioManager by lazy { getSystemService(Context.AUDIO_SERVICE) as? AudioManager }
-
-    private val vibration by lazy { getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator }
+    private val iMelodyControl by lazy { MelodyControl.getInstance(context = this) }
+    private val iVibratorControl by lazy { VibratorControl.getInstance(context = this) }
 
     private val openState = OpenState()
 
@@ -107,6 +100,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity, AudioManager.OnAudioFocusCh
 
         iViewModel.onDestroy()
         rippleContainer?.stopAnimation()
+
+        iMelodyControl.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -124,27 +119,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity, AudioManager.OnAudioFocusCh
         postponeButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickPostpone() } }
     }
 
-    override fun setupMelodyPlayer(uri: Uri) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val audioAttributes = AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_ALARM)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-
-            audioManager?.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
-                    .setAudioAttributes(audioAttributes)
-                    .setAcceptsDelayedFocusGain(true)
-                    .setOnAudioFocusChangeListener(this).build())
-        } else {
-            audioManager?.requestAudioFocus(this, AudioManager.STREAM_ALARM, AudioManager.AUDIOFOCUS_GAIN)
-        }
-
-        val maxVolume = audioManager?.getStreamMaxVolume(AudioManager.STREAM_ALARM)
-
-        melodyPlayer = MediaPlayer.create(this, uri).apply {
-            isLooping = true
-        }
-    }
+    override fun setupMelody(uri: Uri) = iMelodyControl.setupPlayer(uri, isLooping = true)
 
     override fun notifyDataSetChanged(noteModel: NoteModel) =
             adapter.notifyDataSetChanged(arrayListOf(noteModel))
@@ -170,34 +145,13 @@ class AlarmActivity : AppActivity(), IAlarmActivity, AudioManager.OnAudioFocusCh
     }
 
 
-    override fun melodyPlayerStart() {
-        melodyPlayer?.start()
-    }
+    override fun melodyStart() = iMelodyControl.start()
 
-    override fun melodyPlayerStop() {
-        melodyPlayer?.stop()
-    }
+    override fun melodyStop() = iMelodyControl.stop()
 
-    override fun vibrateStart(pattern: LongArray) {
-        if (vibration?.hasVibrator() == false) return
+    override fun vibrateStart(pattern: LongArray) = iVibratorControl.start(pattern)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            vibration?.vibrate(VibrationEffect.createWaveform(
-                    pattern, VibrationEffect.DEFAULT_AMPLITUDE
-            ))
-        } else {
-            vibration?.vibrate(pattern, -1)
-        }
-    }
-
-    override fun vibrateCancel() {
-        vibration?.cancel()
-    }
-
-    override fun onAudioFocusChange(focusChange: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    override fun vibrateCancel() = iVibratorControl.cancel()
 
     companion object {
         fun getInstance(context: Context, id: Long, @Color color: Int): Intent =

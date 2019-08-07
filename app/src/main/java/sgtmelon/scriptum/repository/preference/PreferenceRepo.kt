@@ -54,7 +54,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
     override val signalState: SignalState
         get() = signalCheck.let {
-            SignalState(it[Signal.MELODY], it[Signal.VIBRATION], it[Signal.LIGHT])
+            SignalState(it[Signal.MELODY], it[Signal.VIBRATION], it[Signal.FLASHLIGHT])
         }
 
     override val signalSummary: String
