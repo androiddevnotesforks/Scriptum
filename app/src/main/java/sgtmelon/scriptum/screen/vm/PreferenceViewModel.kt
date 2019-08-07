@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.vm
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.toUri
@@ -28,12 +27,8 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     private val melodyList: List<MelodyItem> = iPreferenceRepo.melodyList
 
-    private var melodyPlayer: MediaPlayer? = null
-
     override fun onDestroy(func: () -> Unit) {
         callback = null
-
-        melodyPlayer?.release()
     }
 
     override fun onSetup(bundle: Bundle?) {
@@ -110,19 +105,12 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             alwaysTrue { callback?.showMelodyDialog(iPreferenceRepo.melodyCheck) }
 
     override fun onSelectMelody(item: Int) {
-        melodyPlayer?.stop()
-
-        melodyPlayer = MediaPlayer.create(context, melodyList[item].uri.toUri())
-        melodyPlayer?.start()
+        callback?.playMelody(melodyList[item].uri.toUri())
     }
 
     override fun onResultMelody(value: Int) {
         iPreferenceRepo.melodyUri = melodyList[value].uri
         callback?.updateMelodySummary(melodyList[value].title)
-    }
-
-    override fun onDismissMelody() {
-        melodyPlayer?.stop()
     }
 
     override fun onClickVolume() = alwaysTrue { callback?.showVolumeDialog(iPreferenceRepo.volume) }

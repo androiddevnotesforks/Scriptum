@@ -40,8 +40,6 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultMelody(value: Int)
 
-    fun onDismissMelody()
-
     fun onClickVolume(): Boolean
 
     fun onResultVolume(value: Int)

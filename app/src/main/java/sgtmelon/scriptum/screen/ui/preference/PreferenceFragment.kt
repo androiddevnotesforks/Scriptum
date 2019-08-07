@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.ui.preference
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.Preference
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
@@ -65,6 +67,8 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
 
+    private val iMelodyControl by lazy { MelodyControl.getInstance(activity) }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
             super.onCreateView(inflater, container, savedInstanceState)?.apply {
@@ -86,7 +90,9 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     override fun onDestroy() {
         super.onDestroy()
+
         iViewModel.onDestroy()
+        iMelodyControl.release()
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -146,7 +152,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             iViewModel.onResultMelody(melodyDialog.check)
         }
         melodyDialog.dismissListener = DialogInterface.OnDismissListener {
-            iViewModel.onDismissMelody()
+            iMelodyControl.stop()
             openState.clear()
         }
 
@@ -260,6 +266,12 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     override fun showMelodyDialog(value: Int) = openState.tryInvoke {
         melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
+    }
+
+    override fun playMelody(uri: Uri) = with(iMelodyControl) {
+        stop()
+        setupPlayer(uri, isLooping = false)
+        start()
     }
 
     override fun updateVolumeSummary(summary: String) {
