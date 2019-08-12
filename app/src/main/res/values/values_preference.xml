@@ -10,6 +10,7 @@
 
     <integer name="value_alarm_repeat">0</integer>
     <integer name="value_alarm_signal">1</integer>
+    <string name="value_alarm_melody" translatable="false"/>
     <integer name="value_alarm_volume">75</integer>
     <bool name="value_alarm_increase">false</bool>
 

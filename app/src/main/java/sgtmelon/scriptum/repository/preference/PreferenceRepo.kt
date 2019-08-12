@@ -19,43 +19,41 @@ import sgtmelon.scriptum.room.converter.IntConverter
  *
  * @author SerjantArbuz
  */
+@Suppress("PrivatePropertyName")
 class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
     private val resources: Resources = context.resources
 
-    private val preference: SharedPreferences =
+    private val key = PreferenceProvider.Key(context)
+    private val def = PreferenceProvider.Def(context)
+
+    private val preferences: SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(context)
 
+    private fun edit(func: SharedPreferences.Editor.() -> Unit) =
+            preferences.edit().apply(func).apply()
+
     override var firstStart: Boolean
-        get() {
-            val defaultValue = resources.getBoolean(R.bool.value_first_start)
-            val value = preference.getBoolean(resources.getString(R.string.key_first_start), defaultValue)
-
-            if (value) firstStart = false
-
-            return value
+        get() = preferences.getBoolean(key.firstStart, def.firstStart).apply {
+            if (this) firstStart = false
         }
-        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_first_start), value).apply()
+        set(value) = edit { putBoolean(key.firstStart, value) }
 
     @Theme override var theme: Int
-        get() = preference.getInt(resources.getString(R.string.key_app_theme), resources.getInteger(R.integer.value_app_theme))
-        set(value) = preference.edit().putInt(resources.getString(R.string.key_app_theme), value).apply()
-
+        get() = preferences.getInt(key.theme, def.theme)
+        set(value) = edit { putInt(key.theme, value) }
 
     override var repeat: Int
-        get() = preference.getInt(resources.getString(R.string.key_alarm_repeat), resources.getInteger(R.integer.value_alarm_repeat))
-        set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_repeat), value).apply()
+        get() = preferences.getInt(key.repeat, def.repeat)
+        set(value) = edit { putInt(key.repeat, value) }
 
     override var signal: Int
-        get() = preference.getInt(resources.getString(R.string.key_alarm_signal), resources.getInteger(R.integer.value_alarm_signal))
-        set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_signal), value).apply()
+        get() = preferences.getInt(key.signal, def.signal)
+        set(value) = edit { putInt(key.signal, value) }
 
     override val signalCheck: BooleanArray get() = IntConverter().toArray(signal, Signal.size)
 
-    override val signalState: SignalState
-        get() = signalCheck.let {
-            SignalState(it[Signal.MELODY], it[Signal.VIBRATION], it[Signal.FLASHLIGHT])
-        }
+    override val signalState: SignalState get() = SignalState(signalCheck)
 
     override val signalSummary: String
         get() = StringBuilder().apply {
@@ -79,8 +77,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
     override var melodyUri: String
         get() = melodyList.let {
-            var value = preference.getString(resources.getString(R.string.key_alarm_melody), "")
-                    ?: ""
+            var value = preferences.getString(key.melodyUri, def.melodyUri) ?: def.melodyUri
 
             /**
              * Check uri exist
@@ -92,7 +89,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
             return value
         }
-        set(value) = preference.edit().putString(resources.getString(R.string.key_alarm_melody), value).apply()
+        set(value) = edit { putString(key.melodyUri, value) }
 
     override val melodyCheck: Int get() = melodyList.map { it.uri }.indexOf(melodyUri)
 
@@ -121,33 +118,32 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         }.sortedBy { it.title }
 
     override var volume: Int
-        get() = preference.getInt(resources.getString(R.string.key_alarm_volume), resources.getInteger(R.integer.value_alarm_volume))
-        set(value) = preference.edit().putInt(resources.getString(R.string.key_alarm_volume), value).apply()
+        get() = preferences.getInt(key.volume, def.volume)
+        set(value) = edit { putInt(key.volume, value) }
 
     override var volumeIncrease: Boolean
-        get() = preference.getBoolean(resources.getString(R.string.key_alarm_increase), resources.getBoolean(R.bool.value_alarm_increase))
-        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_alarm_increase), value).apply()
-
+        get() = preferences.getBoolean(key.volumeIncrease, def.volumeIncrease)
+        set(value) = edit { putBoolean(key.volumeIncrease, value) }
 
     @Sort override var sort: Int
-        get() = preference.getInt(resources.getString(R.string.key_note_sort), resources.getInteger(R.integer.value_note_sort))
-        set(value) = preference.edit().putInt(resources.getString(R.string.key_note_sort), value).apply()
+        get() = preferences.getInt(key.sort, def.sort)
+        set(value) = edit { putInt(key.sort, value) }
 
     @Color override var defaultColor: Int
-        get() = preference.getInt(resources.getString(R.string.key_note_color), resources.getInteger(R.integer.value_note_color))
-        set(value) = preference.edit().putInt(resources.getString(R.string.key_note_color), value).apply()
+        get() = preferences.getInt(key.defaultColor, def.defaultColor)
+        set(value) = edit { putInt(key.defaultColor, value) }
 
     override var pauseSaveOn: Boolean
-        get() = preference.getBoolean(resources.getString(R.string.key_save_pause), resources.getBoolean(R.bool.value_save_pause))
-        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_save_pause), value).apply()
+        get() = preferences.getBoolean(key.pauseSaveOn, def.pauseSaveOn)
+        set(value) = edit { putBoolean(key.pauseSaveOn, value) }
 
     override var autoSaveOn: Boolean
-        get() = preference.getBoolean(resources.getString(R.string.key_save_auto), resources.getBoolean(R.bool.value_save_auto))
-        set(value) = preference.edit().putBoolean(resources.getString(R.string.key_save_auto), value).apply()
+        get() = preferences.getBoolean(key.autoSaveOn, def.autoSaveOn)
+        set(value) = edit { putBoolean(key.autoSaveOn, value) }
 
     override var savePeriod: Int
-        get() = preference.getInt(resources.getString(R.string.key_save_time), resources.getInteger(R.integer.value_save_time))
-        set(value) = preference.edit().putInt(resources.getString(R.string.key_save_time), value).apply()
+        get() = preferences.getInt(key.savePeriod, def.savePeriod)
+        set(value) = edit { putInt(key.savePeriod, value) }
 
     companion object {
         fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
