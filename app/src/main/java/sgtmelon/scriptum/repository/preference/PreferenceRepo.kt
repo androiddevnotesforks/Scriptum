@@ -12,6 +12,7 @@ import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.model.state.SignalState
+import sgtmelon.scriptum.provider.PreferenceProvider
 import sgtmelon.scriptum.room.converter.IntConverter
 
 /**

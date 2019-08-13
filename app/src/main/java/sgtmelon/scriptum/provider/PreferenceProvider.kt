@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.preference
+package sgtmelon.scriptum.provider
 
 import android.content.Context
 import android.content.res.Resources
