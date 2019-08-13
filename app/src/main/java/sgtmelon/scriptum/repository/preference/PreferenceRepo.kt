@@ -34,22 +34,22 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
             preferences.edit().apply(func).apply()
 
     override var firstStart: Boolean
-        get() = preferences.getBoolean(key.firstStart, def.firstStart).apply {
+        get() = preferences.getBoolean(key.FIRST_START, def.FIRST_START).apply {
             if (this) firstStart = false
         }
-        set(value) = edit { putBoolean(key.firstStart, value) }
+        set(value) = edit { putBoolean(key.FIRST_START, value) }
 
     @Theme override var theme: Int
-        get() = preferences.getInt(key.theme, def.theme)
-        set(value) = edit { putInt(key.theme, value) }
+        get() = preferences.getInt(key.THEME, def.THEME)
+        set(value) = edit { putInt(key.THEME, value) }
 
     override var repeat: Int
-        get() = preferences.getInt(key.repeat, def.repeat)
-        set(value) = edit { putInt(key.repeat, value) }
+        get() = preferences.getInt(key.REPEAT, def.REPEAT)
+        set(value) = edit { putInt(key.REPEAT, value) }
 
     override var signal: Int
-        get() = preferences.getInt(key.signal, def.signal)
-        set(value) = edit { putInt(key.signal, value) }
+        get() = preferences.getInt(key.SIGNAL, def.SIGNAL)
+        set(value) = edit { putInt(key.SIGNAL, value) }
 
     override val signalCheck: BooleanArray get() = IntConverter().toArray(signal, Signal.size)
 
@@ -77,7 +77,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
     override var melodyUri: String
         get() = melodyList.let {
-            var value = preferences.getString(key.melodyUri, def.melodyUri) ?: def.melodyUri
+            var value = preferences.getString(key.MELODY_URI, def.MELODY_URI) ?: def.MELODY_URI
 
             /**
              * Check uri exist
@@ -89,7 +89,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
             return value
         }
-        set(value) = edit { putString(key.melodyUri, value) }
+        set(value) = edit { putString(key.MELODY_URI, value) }
 
     override val melodyCheck: Int get() = melodyList.map { it.uri }.indexOf(melodyUri)
 
@@ -118,32 +118,32 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         }.sortedBy { it.title }
 
     override var volume: Int
-        get() = preferences.getInt(key.volume, def.volume)
-        set(value) = edit { putInt(key.volume, value) }
+        get() = preferences.getInt(key.VOLUME, def.VOLUME)
+        set(value) = edit { putInt(key.VOLUME, value) }
 
     override var volumeIncrease: Boolean
-        get() = preferences.getBoolean(key.volumeIncrease, def.volumeIncrease)
-        set(value) = edit { putBoolean(key.volumeIncrease, value) }
+        get() = preferences.getBoolean(key.VOLUME_INCREASE, def.VOLUME_INCREASE)
+        set(value) = edit { putBoolean(key.VOLUME_INCREASE, value) }
 
     @Sort override var sort: Int
-        get() = preferences.getInt(key.sort, def.sort)
-        set(value) = edit { putInt(key.sort, value) }
+        get() = preferences.getInt(key.SORT, def.SORT)
+        set(value) = edit { putInt(key.SORT, value) }
 
     @Color override var defaultColor: Int
-        get() = preferences.getInt(key.defaultColor, def.defaultColor)
-        set(value) = edit { putInt(key.defaultColor, value) }
+        get() = preferences.getInt(key.DEFAULT_COLOR, def.DEFAULT_COLOR)
+        set(value) = edit { putInt(key.DEFAULT_COLOR, value) }
 
     override var pauseSaveOn: Boolean
-        get() = preferences.getBoolean(key.pauseSaveOn, def.pauseSaveOn)
-        set(value) = edit { putBoolean(key.pauseSaveOn, value) }
+        get() = preferences.getBoolean(key.PAUSE_SAVE_ON, def.PAUSE_SAVE_ON)
+        set(value) = edit { putBoolean(key.PAUSE_SAVE_ON, value) }
 
     override var autoSaveOn: Boolean
-        get() = preferences.getBoolean(key.autoSaveOn, def.autoSaveOn)
-        set(value) = edit { putBoolean(key.autoSaveOn, value) }
+        get() = preferences.getBoolean(key.AUTO_SAVE_ON, def.AUTO_SAVE_ON)
+        set(value) = edit { putBoolean(key.AUTO_SAVE_ON, value) }
 
     override var savePeriod: Int
-        get() = preferences.getInt(key.savePeriod, def.savePeriod)
-        set(value) = edit { putInt(key.savePeriod, value) }
+        get() = preferences.getInt(key.SAVE_PERIOD, def.SAVE_PERIOD)
+        set(value) = edit { putInt(key.SAVE_PERIOD, value) }
 
     companion object {
         fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
