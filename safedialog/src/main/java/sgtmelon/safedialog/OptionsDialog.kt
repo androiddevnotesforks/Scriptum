@@ -26,13 +26,11 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     var position: Int = 0
         private set
 
-    fun setArguments(itemArray: Array<String>, p: Int) : OptionsDialog {
+    fun setArguments(itemArray: Array<String>, p: Int) = apply {
         arguments = Bundle().apply {
             putStringArray(INIT, itemArray)
             putInt(VALUE, p)
         }
-
-        return this
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

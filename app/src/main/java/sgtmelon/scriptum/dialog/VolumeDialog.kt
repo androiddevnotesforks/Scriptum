@@ -19,13 +19,11 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
 
     private var progressText: TextView? = null
 
-    fun setArguments(@IntRange(from = 10, to = 100) progress: Int): VolumeDialog{
+    fun setArguments(@IntRange(from = 10, to = 100) progress: Int) = apply {
         arguments = Bundle().apply {
             putInt(INIT, progress)
             putInt(VALUE, progress)
         }
-
-        return this
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

@@ -34,6 +34,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.note.ITextNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
+import java.util.*
 
 
 /**
@@ -150,6 +151,20 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
+        dateDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultDateDialog(dateDialog.calendar)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }
+
+        timeDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultTimeDialog(timeDialog.calendar)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }
+
         convertDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultConvertDialog()
@@ -260,9 +275,19 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         }
     }
 
-    // TODO #RELEASE
-    override fun showDateDialog() {
-        fragmentManager?.let { timeDialog.show(it, DialogFactory.Note.TIME) }
+    override fun showDateDialog(calendar: Calendar) = openState.tryInvoke {
+        hideKeyboard()
+        fragmentManager?.let {
+            dateDialog.setArguments(calendar).show(it, DialogFactory.Note.DATE)
+        }
+    }
+
+    // TODO #RELEASE openState can't invoke after fast close another dialog
+    override fun showTimeDialog(calendar: Calendar) = openState.tryInvoke {
+        hideKeyboard()
+        fragmentManager?.let {
+            timeDialog.setArguments(calendar).show(it, DialogFactory.Note.TIME)
+        }
     }
 
     override fun showConvertDialog() = openState.tryInvoke {

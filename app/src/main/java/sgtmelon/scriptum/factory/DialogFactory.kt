@@ -75,13 +75,11 @@ object DialogFactory {
             return dialog
         }
 
-        fun getDateDialog(fm: FragmentManager?) =
-                fm?.findFragmentByTag(DATE) as? DateDialog
-                        ?: DateDialog()
+        fun getDateDialog(fm: FragmentManager?) = fm?.findFragmentByTag(DATE) as? DateDialog
+                ?: DateDialog()
 
-        fun getTimeDialog(fm: FragmentManager?) =
-                fm?.findFragmentByTag(TIME) as? TimeDialog
-                        ?: TimeDialog()
+        fun getTimeDialog(fm: FragmentManager?) = fm?.findFragmentByTag(TIME) as? TimeDialog
+                ?: TimeDialog()
 
         private const val PREFIX = "DIALOG"
 

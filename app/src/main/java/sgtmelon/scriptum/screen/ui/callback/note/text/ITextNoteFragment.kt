@@ -8,6 +8,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
+import java.util.*
 
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
@@ -53,7 +54,9 @@ interface ITextNoteFragment {
 
     fun showColorDialog(@Color color: Int)
 
-    fun showDateDialog()
+    fun showDateDialog(calendar: Calendar)
+
+    fun showTimeDialog(calendar: Calendar)
 
     fun showConvertDialog()
 

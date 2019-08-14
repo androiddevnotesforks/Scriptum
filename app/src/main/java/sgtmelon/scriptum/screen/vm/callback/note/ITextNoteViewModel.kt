@@ -6,6 +6,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteMenu
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
+import java.util.*
 
 /**
  * Interface for communication [TextNoteFragment] with [TextNoteViewModel]
@@ -25,6 +26,10 @@ interface ITextNoteViewModel : IParentViewModel, ITextNoteMenu, InputTextWatcher
     fun onResultColorDialog(check: Int)
 
     fun onResultRankDialog(check: Int)
+
+    fun onResultDateDialog(calendar: Calendar)
+
+    fun onResultTimeDialog(calendar: Calendar)
 
     fun onResultConvertDialog()
 

@@ -24,6 +24,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.note.ITextNoteViewModel
+import java.util.*
 
 /**
  * ViewModel for [TextNoteFragment]
@@ -174,8 +175,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         return true
     }
 
+    // TODO #RELEASE
     override fun onMenuNotification() {
-        callback?.showDateDialog()
+        callback?.showDateDialog(Calendar.getInstance())
     }
 
     override fun onMenuBind() = with(noteModel) {
@@ -296,6 +298,17 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             bindInput(inputControl.access, noteModel)
             bindNote(noteModel)
         }
+    }
+
+    // TODO #RELEASE
+    override fun onResultDateDialog(calendar: Calendar) {
+        context.showToast(text = "DATE: year = ${calendar.get(Calendar.YEAR)} |  month = ${calendar.get(Calendar.MONTH)} |  day = ${calendar.get(Calendar.DAY_OF_MONTH)}")
+        callback?.showTimeDialog(calendar)
+    }
+
+    // TODO #RELEASE
+    override fun onResultTimeDialog(calendar: Calendar) {
+        context.showToast(text = "DATE: hour = ${calendar.get(Calendar.HOUR)} |  minute = ${calendar.get(Calendar.MINUTE)} |  second = ${calendar.get(Calendar.SECOND)}")
     }
 
     override fun onResultConvertDialog() {
