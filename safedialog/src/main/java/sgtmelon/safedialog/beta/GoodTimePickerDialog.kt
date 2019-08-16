@@ -5,7 +5,7 @@ import android.content.Context
 import android.widget.TimePicker
 
 /**
- * Version of standard [TimePickerDialog] but with working listener
+ * Version of standard [TimePickerDialog] but with [changeListener]
  *
  * @author SerjantArbuz
  */
@@ -28,8 +28,8 @@ class GoodTimePickerDialog(
             val timePicker = timePickerField?.get(this) as? TimePicker
             timePicker?.setOnTimeChangedListener(this)
         } catch (e: NoSuchFieldException) {
-            e.printStackTrace();
-        } catch (e : IllegalAccessException) {
+            e.printStackTrace()
+        } catch (e: IllegalAccessException) {
             e.printStackTrace()
         }
     }

@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
  *
  * @author SerjantArbuz
  */
-class MultiplyDialog : DialogBlank() {
+class MultiplyDialog : BlankDialog() {
 
     var itemList: List<String> = ArrayList()
 

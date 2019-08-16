@@ -8,12 +8,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import sgtmelon.safedialog.DialogBlank
+import sgtmelon.safedialog.BlankDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
 import sgtmelon.scriptum.listener.ItemListener
 
-class ColorDialog : DialogBlank() {
+class ColorDialog : BlankDialog() {
 
     private var init: Int = 0
 

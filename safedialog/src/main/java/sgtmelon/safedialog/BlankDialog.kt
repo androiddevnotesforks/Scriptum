@@ -12,7 +12,7 @@ import android.app.AlertDialog as AlertDialogOld
  *
  * @author SerjantArbuz
  */
-abstract class DialogBlank : DialogFragment() {
+abstract class BlankDialog : DialogFragment() {
 
     var title: String = ""
     var message: String = ""

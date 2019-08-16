@@ -6,8 +6,8 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import sgtmelon.safedialog.DialogBlank.Companion.INIT
-import sgtmelon.safedialog.DialogBlank.Companion.VALUE
+import sgtmelon.safedialog.BlankDialog.Companion.INIT
+import sgtmelon.safedialog.BlankDialog.Companion.VALUE
 
 /**
  * Dialog showing options with list item

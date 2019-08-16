@@ -8,11 +8,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.DialogBlank
+import sgtmelon.safedialog.BlankDialog
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 
-class AboutDialog : DialogBlank(), View.OnClickListener {
+class AboutDialog : BlankDialog(), View.OnClickListener {
 
     var logoClick: View.OnClickListener? = null
 

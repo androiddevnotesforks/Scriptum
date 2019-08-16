@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog
  *
  * @author SerjantArbuz
  */
-class SingleDialog : DialogBlank() {
+class SingleDialog : BlankDialog() {
 
     var itemArray: Array<String> = arrayOf()
 

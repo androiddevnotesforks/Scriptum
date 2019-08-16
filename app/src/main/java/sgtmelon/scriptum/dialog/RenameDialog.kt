@@ -10,14 +10,14 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.DialogBlank
+import sgtmelon.safedialog.BlankDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.getColorAttr
 import java.util.*
 
-class RenameDialog : DialogBlank(), TextView.OnEditorActionListener {
+class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
     var position = 0
         private set

@@ -8,10 +8,10 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AlertDialog
-import sgtmelon.safedialog.DialogBlank
+import sgtmelon.safedialog.BlankDialog
 import sgtmelon.scriptum.R
 
-class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
+class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
 
     private var init = 0
     var progress = 0

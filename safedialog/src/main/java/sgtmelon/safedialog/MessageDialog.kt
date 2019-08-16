@@ -10,7 +10,7 @@ import androidx.appcompat.app.AlertDialog
  *
  * @author SerjantArbuz
  */
-class MessageDialog : DialogBlank() {
+class MessageDialog : BlankDialog() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialog.Builder(context as Context)
