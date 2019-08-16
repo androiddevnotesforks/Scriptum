@@ -5,6 +5,8 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
+import android.widget.TimePicker
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.safedialog.R
 import java.util.*
@@ -14,12 +16,16 @@ import java.util.*
  *
  * @author SerjantArbuz
  */
-class TimeDialog : DialogBlank() {
+class TimeDialog : DialogBlank(), TimePickerDialog.OnTimeSetListener {
 
     private val defaultTime get() = Calendar.getInstance().timeInMillis
 
     var calendar: Calendar = Calendar.getInstance()
         private set
+
+    fun getResult(): Calendar {
+        return calendar
+    }
 
     fun setArguments(calendar: Calendar) = apply {
         arguments = Bundle().apply { putLong(VALUE, calendar.timeInMillis) }
@@ -28,20 +34,17 @@ class TimeDialog : DialogBlank() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 
-        calendar.timeInMillis = savedInstanceState?.getLong(INIT) ?: bundle?.getLong(INIT)
+        calendar.timeInMillis = savedInstanceState?.getLong(VALUE) ?: bundle?.getLong(VALUE)
                 ?: defaultTime
 
-        return TimePickerDialog(context as Context,
-                TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
-                    calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
-                    calendar.set(Calendar.MINUTE, minute)
-                },
+        return GoodTimePickerDialog(context as Context, this,
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
                 true // TODO #RELEASE
         ).apply {
-            setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.dialog_btn_accept), onPositiveClick)
-            setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
+            setButton(DialogInterface.BUTTON_POSITIVE, "") { _, _ -> }
+            setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dialog_btn_accept), positiveListener)
+            setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
         }
     }
 
@@ -49,6 +52,10 @@ class TimeDialog : DialogBlank() {
         super.onSaveInstanceState(outState.apply {
             putLong(VALUE, calendar.timeInMillis)
         })
+    }
+
+    override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+        Log.i("HERE", "hour = $hourOfDay | min = $minute")
     }
 
 }

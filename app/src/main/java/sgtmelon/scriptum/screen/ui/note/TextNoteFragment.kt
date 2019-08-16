@@ -57,7 +57,6 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         DialogFactory.Note.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
     }
 
-    // TODO #RELEASE
     private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
     private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
 
@@ -153,14 +152,14 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         dateDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultDateDialog(dateDialog.calendar)
+                iViewModel.onResultDateDialog(dateDialog.getResult())
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
 
         timeDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultTimeDialog(timeDialog.calendar)
+                iViewModel.onResultTimeDialog(timeDialog.getResult())
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
@@ -282,8 +281,9 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         }
     }
 
-    // TODO #RELEASE openState can't invoke after fast close another dialog
-    override fun showTimeDialog(calendar: Calendar) = openState.tryInvoke {
+    override fun showTimeDialog(calendar: Calendar) {
+        openState.clear()
+
         hideKeyboard()
         fragmentManager?.let {
             timeDialog.setArguments(calendar).show(it, DialogFactory.Note.TIME)

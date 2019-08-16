@@ -8,6 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.extension.getDateFormat
 import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
@@ -302,13 +303,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     // TODO #RELEASE
     override fun onResultDateDialog(calendar: Calendar) {
-        context.showToast(text = "DATE: year = ${calendar.get(Calendar.YEAR)} |  month = ${calendar.get(Calendar.MONTH)} |  day = ${calendar.get(Calendar.DAY_OF_MONTH)}")
+        context.showToast(context.getDateFormat().format(calendar.time))
         callback?.showTimeDialog(calendar)
     }
 
     // TODO #RELEASE
     override fun onResultTimeDialog(calendar: Calendar) {
-        context.showToast(text = "DATE: hour = ${calendar.get(Calendar.HOUR)} |  minute = ${calendar.get(Calendar.MINUTE)} |  second = ${calendar.get(Calendar.SECOND)}")
+        context.showToast(context.getDateFormat().format(calendar.time))
     }
 
     override fun onResultConvertDialog() {
