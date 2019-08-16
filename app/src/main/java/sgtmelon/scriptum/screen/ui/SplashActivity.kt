@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.beforeFinish
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
@@ -60,11 +61,15 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
             }
         }
 
-        fun getAlarmInstance(context: Context, noteEntity: NoteEntity): Intent =
+        fun getAlarmInstance(context: Context, noteEntity: NoteEntity) =
+                getAlarmInstance(context, noteEntity.id, noteEntity.color)
+
+        fun getAlarmInstance(context: Context, id: Long, @Color color: Int): Intent =
                 Intent(context, SplashActivity::class.java)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         .putExtra(OPEN_SCREEN, OpenFrom.ALARM)
-                        .putExtra(NoteData.Intent.ID, noteEntity.id)
-                        .putExtra(NoteData.Intent.COLOR, noteEntity.color)
+                        .putExtra(NoteData.Intent.ID, id)
+                        .putExtra(NoteData.Intent.COLOR, color)
 
         fun getBindInstance(context: Context, noteEntity: NoteEntity): Intent =
                 Intent(context, SplashActivity::class.java)

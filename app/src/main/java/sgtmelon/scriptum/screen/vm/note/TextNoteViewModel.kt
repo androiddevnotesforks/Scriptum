@@ -8,9 +8,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.extension.getDateFormat
-import sgtmelon.scriptum.extension.getTime
-import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
@@ -18,6 +16,7 @@ import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
@@ -26,6 +25,7 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.note.ITextNoteViewModel
 import java.util.*
+
 
 /**
  * ViewModel for [TextNoteFragment]

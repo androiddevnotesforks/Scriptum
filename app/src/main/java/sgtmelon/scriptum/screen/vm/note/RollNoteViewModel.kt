@@ -19,6 +19,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity

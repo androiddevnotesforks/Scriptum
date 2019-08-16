@@ -26,9 +26,11 @@ object ReceiverData {
         private const val PREFIX = "RECEIVER_VALUES"
 
         const val ND_NOTE_ID = -1L
+        const val ND_NOTE_COLOR = -1
 
         const val COMMAND = "${PREFIX}_COMMAND"
         const val NOTE_ID = "${PREFIX}_NOTE_ID"
+        const val NOTE_COLOR = "${PREFIX}_COLOR"
     }
 
 }

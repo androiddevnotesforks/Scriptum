@@ -85,7 +85,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.BindReceiver"/>
+        <receiver android:name=".receiver.UnbindReceiver"/>
+        <receiver android:name=".receiver.AlarmReceiver"/>
 
     </application>
 

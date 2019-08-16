@@ -5,17 +5,15 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.receiver.BindReceiver
+import sgtmelon.scriptum.receiver.UnbindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -88,7 +86,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(context.getNotePendingIntent(noteEntity))
-                .addAction(0, context.getString(R.string.notification_button_unbind), context.getUnbindPendingIntent(noteEntity))
+                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver.getInstance(context, noteEntity))
                 .setAutoCancel(false)
                 .setOngoing(true)
 
@@ -131,15 +129,6 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
                         context = this, noteEntity = noteEntity
                 )).getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
 
-        private fun Context.getUnbindPendingIntent(noteEntity: NoteEntity): PendingIntent {
-            val intent = Intent(this, BindReceiver::class.java).apply {
-                putExtra(ReceiverData.Values.NOTE_ID, noteEntity.id)
-            }
-
-            return PendingIntent.getBroadcast(
-                    this, noteEntity.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
-            )
-        }
     }
 
 }

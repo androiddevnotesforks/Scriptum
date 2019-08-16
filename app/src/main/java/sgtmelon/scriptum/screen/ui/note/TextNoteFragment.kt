@@ -1,6 +1,8 @@
 package sgtmelon.scriptum.screen.ui.note
 
 import android.app.Activity
+import android.app.PendingIntent
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -66,6 +69,8 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
             parentCallback = context as INoteChild
         }
     }
+
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context as Context) }
 
     private var menuControl: MenuControl? = null
 
@@ -257,6 +262,9 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     override fun hideKeyboard() {
         activity?.hideKeyboard()
     }
+
+    override fun setAlarm(calendar: Calendar, intent: PendingIntent) =
+            iAlarmControl.set(calendar, intent)
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()
