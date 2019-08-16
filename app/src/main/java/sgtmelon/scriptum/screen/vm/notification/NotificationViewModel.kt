@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.item.NotificationItem
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
@@ -44,8 +45,11 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickCancel(p: Int) {
-        iAlarmRepo.delete(notificationList[p].alarm.id)
+        val item = notificationList[p]
+        iAlarmRepo.delete(item.alarm.id)
+
         callback?.notifyItemRemoved(p, notificationList.apply { removeAt(p) })
+        callback?.cancelAlarm(AlarmReceiver.getInstance(context, item.note.id, item.note.color))
     }
 
 }

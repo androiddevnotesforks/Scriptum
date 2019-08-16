@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.ReceiverData.Values
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
@@ -28,13 +29,16 @@ class AlarmReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        fun getInstance(context: Context, noteEntity: NoteEntity): PendingIntent {
+        fun getInstance(context: Context, noteEntity: NoteEntity) =
+                getInstance(context, noteEntity.id, noteEntity.color)
+
+        fun getInstance(context: Context, id: Long, @Color color: Int): PendingIntent {
             val intent = Intent(context, AlarmReceiver::class.java)
-                    .putExtra(Values.NOTE_ID, noteEntity.id)
-                    .putExtra(Values.NOTE_COLOR, noteEntity.color)
+                    .putExtra(Values.NOTE_ID, id)
+                    .putExtra(Values.NOTE_COLOR, color)
 
             return PendingIntent.getBroadcast(
-                    context, noteEntity.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
+                    context, id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }

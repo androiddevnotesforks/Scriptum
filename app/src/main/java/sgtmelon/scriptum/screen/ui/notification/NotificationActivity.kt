@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.notification
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
@@ -39,6 +41,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
             callback = this@NotificationActivity
         }
     }
+
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 
     private val openState = OpenState()
 
@@ -116,6 +120,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     override fun notifyItemRemoved(p: Int, list: MutableList<NotificationItem>) =
             adapter.notifyItemRemoved(p, list)
+
+    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
 
     companion object {
         fun getInstance(context: Context) = Intent(context, NotificationActivity::class.java)

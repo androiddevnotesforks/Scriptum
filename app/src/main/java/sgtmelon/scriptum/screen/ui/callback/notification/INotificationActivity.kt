@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
+import android.app.PendingIntent
 import android.content.Intent
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -22,6 +23,8 @@ interface INotificationActivity {
     fun notifyDataSetChanged(list: MutableList<NotificationItem>)
 
     fun notifyItemRemoved(p: Int, list: MutableList<NotificationItem>)
+
+    fun cancelAlarm(intent: PendingIntent)
 
     fun startActivity(intent: Intent)
 
