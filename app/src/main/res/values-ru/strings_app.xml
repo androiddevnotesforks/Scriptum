@@ -31,10 +31,6 @@
     <string name="menu_note_restore_open">Восстановить и открыть</string>
     <string name="menu_note_clear">Удалить навсегда</string>
 
-    <!-- Toast text -->
-    <string name="toast_note_save_done">Изменения сохранены</string>
-    <string name="toast_note_save_error">Изменения не сохранены</string>
-
     <!-- Notifications -->
     <string name="notification_channel">Заметки</string>
     <string name="notification_group">Заметки</string>
@@ -110,7 +106,12 @@
     </string-array>
 
     <!-- Toast -->
+    <string name="toast_note_save_done">Изменения сохранены</string>
+    <string name="toast_note_save_error">Изменения не сохранены</string>
+
     <string name="toast_text_copy">Текст скопирован</string>
+
+    <string name="toast_alarm_postpone">Отложено на %s</string>
 
     <!-- About dialog -->
     <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>

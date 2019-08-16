@@ -12,6 +12,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
@@ -97,6 +98,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
     override fun onConvertNote() = iViewModel.onConvertNote()
 
     companion object {
+        fun getInstance(context: Context, noteEntity: NoteEntity) =
+                getInstance(context, noteEntity.type, noteEntity.id)
+
         fun getInstance(context: Context, type: NoteType, id: Long? = NoteData.Default.ID): Intent =
                 Intent(context, NoteActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)

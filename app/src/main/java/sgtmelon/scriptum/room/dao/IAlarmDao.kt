@@ -17,8 +17,8 @@ interface IAlarmDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(alarmEntity: AlarmEntity): Long
 
-    @Query(value = "DELETE FROM ALARM_TABLE WHERE AL_ID = :id")
-    fun delete(id: Long)
+    @Query(value = "DELETE FROM ALARM_TABLE WHERE AL_NOTE_ID = :noteId")
+    fun delete(noteId: Long)
 
     @Update fun update(alarmEntity: AlarmEntity)
 

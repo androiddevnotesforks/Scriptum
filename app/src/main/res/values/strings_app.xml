@@ -33,10 +33,6 @@
     <string name="menu_note_restore_open">Restore and open</string>
     <string name="menu_note_clear">Delete forever</string>
 
-    <!-- Toast text -->
-    <string name="toast_note_save_done">Changes saved</string>
-    <string name="toast_note_save_error">Changes not saved</string>
-
     <!-- Notifications -->
     <string name="notification_channel_id" translatable="false">scriptum_channel_id</string>
 
@@ -116,7 +112,12 @@
     </string-array>
 
     <!-- Toast -->
+    <string name="toast_note_save_done">Changes saved</string>
+    <string name="toast_note_save_error">Changes not saved</string>
+
     <string name="toast_text_copy">Text copied</string>
+
+    <string name="toast_alarm_postpone">Postpone for %s</string>
 
     <!-- About dialog -->
     <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>

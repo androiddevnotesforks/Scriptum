@@ -12,7 +12,7 @@ interface IAlarmRepo {
 
     fun insertOrUpdate(alarmEntity: AlarmEntity)
 
-    fun delete(id: Long)
+    fun delete(noteId: Long)
 
     fun getList(): MutableList<NotificationItem>
 

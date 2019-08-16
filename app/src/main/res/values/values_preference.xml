@@ -9,6 +9,14 @@
     <integer name="value_note_color">10</integer>
 
     <integer name="value_alarm_repeat">0</integer>
+
+    <!-- Value in minutes -->
+    <integer-array name="value_alarm_repeat_array">
+        <item>10</item>
+        <item>30</item>
+        <item>60</item>
+    </integer-array>
+
     <integer name="value_alarm_signal">1</integer>
     <string name="value_alarm_melody" translatable="false"/>
     <integer name="value_alarm_volume">75</integer>

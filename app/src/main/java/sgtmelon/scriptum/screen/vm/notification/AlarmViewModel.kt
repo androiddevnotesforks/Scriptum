@@ -3,19 +3,22 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
+import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
-import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.extension.getDateFormat
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
+import java.util.*
 
 /**
  * ViewModel for [AlarmActivity]
@@ -42,10 +45,12 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private val longWaitHandler = Handler()
     private val longWaitRunnable = Runnable { callback?.finish() }
 
+    /**
+     * Control
+     */
     private var needRepeat = true
 
-    // TODO #RELEASE1 Обработка id = -1
-    // TODO #RELEASE1 Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
+    // TODO #RELEASE2 Обработка id = -1
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupView(iPreferenceRepo.theme)
@@ -58,7 +63,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         if (!::noteModel.isInitialized) {
-            // TODO убрать уведомление из бд
+            /**
+             * Delete before get [noteModel] for hide alarm icon
+             */
+            iAlarmRepo.delete(id)
 
             noteModel = iRoomRepo.getNoteModel(id)
             signalState = iPreferenceRepo.signalState
@@ -114,30 +122,37 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         longWaitHandler.removeCallbacks(longWaitRunnable)
 
         if (needRepeat) {
-            // TODO запись в бд и установка alarm
+            val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
+            val repeat = iPreferenceRepo.repeat
+
+            val calendar = Calendar.getInstance().apply {
+                add(Calendar.MINUTE, valueArray[repeat])
+            }
+
+            iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
+                date = context.getDateFormat().format(calendar.time)
+            })
+
+            callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
+            callback?.showPostponeToast(repeat)
         }
     }
 
     override fun onClickNote() {
         needRepeat = false
 
-        val noteEntity = noteModel.noteEntity
-
         callback?.apply {
-            startActivity(NoteActivity.getInstance(context, noteEntity.type, noteEntity.id))
+            startActivity(NoteActivity.getInstance(context, noteModel.noteEntity))
             finish()
         }
     }
 
     override fun onClickDisable() {
         needRepeat = false
-
-        context.showToast(text = "CLICK DISABLE")
         callback?.finish()
     }
 
     override fun onClickPostpone() {
-        context.showToast(text = "CLICK POSTPONE")
         callback?.finish()
     }
 

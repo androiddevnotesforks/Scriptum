@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
+import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.ColorInt
@@ -7,6 +8,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
+import java.util.*
 
 /**
  * Interface for communication [AlarmViewModel] with [AlarmActivity]
@@ -32,6 +34,10 @@ interface IAlarmActivity {
     fun vibrateStart(pattern: LongArray)
 
     fun vibrateCancel()
+
+    fun setAlarm(calendar: Calendar, intent: PendingIntent)
+
+    fun showPostponeToast(select: Int)
 
     fun startActivity(intent: Intent)
 

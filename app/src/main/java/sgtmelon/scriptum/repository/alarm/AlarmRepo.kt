@@ -23,7 +23,7 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
         }
     }
 
-    override fun delete(id: Long) = inRoom { iAlarmDao.delete(id) }
+    override fun delete(noteId: Long) = inRoom { iAlarmDao.delete(noteId) }
 
     override fun getList() = ArrayList<NotificationItem>().apply {
         inRoom { addAll(iAlarmDao.get()) }

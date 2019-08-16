@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.notification
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -16,8 +17,10 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.control.alarm.VibratorControl
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
@@ -29,6 +32,7 @@ import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
+import java.util.*
 
 /**
  * Экран с уведомлением запущенным по таймеру
@@ -45,6 +49,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val iMelodyControl by lazy { MelodyControl.getInstance(context = this) }
     private val iVibratorControl by lazy { VibratorControl.getInstance(context = this) }
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 
     private val openState = OpenState()
 
@@ -152,6 +157,12 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun vibrateStart(pattern: LongArray) = iVibratorControl.start(pattern)
 
     override fun vibrateCancel() = iVibratorControl.cancel()
+
+    override fun setAlarm(calendar: Calendar, intent: PendingIntent) =
+            iAlarmControl.set(calendar, intent)
+
+    override fun showPostponeToast(select: Int) =
+            showToast(getString(R.string.toast_alarm_postpone, resources.getStringArray(R.array.text_alarm_repeat)[select]))
 
     companion object {
         fun getInstance(context: Context, id: Long, @Color color: Int): Intent =
