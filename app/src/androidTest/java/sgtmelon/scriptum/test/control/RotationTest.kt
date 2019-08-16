@@ -25,15 +25,15 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankScreenContentList() = launch({ testData.fillRank() }) {
+    @Test fun rankScreenContentList() = launch({ data.fillRank() }) {
         mainScreen {
             openRankPage { onRotate { assert(empty = false) } }
             assert { onDisplayFab(visible = false) }
         }
     }
 
-    @Test fun rankScreenRenameDialog() = testData.insertRank().let {
-        val newName = testData.uniqueString
+    @Test fun rankScreenRenameDialog() = data.insertRank().let {
+        val newName = data.uniqueString
 
         launch {
             mainScreen {
@@ -55,18 +55,18 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun notesScreenContentList() = launch({ testData.fillNotes() }) {
+    @Test fun notesScreenContentList() = launch({ data.fillNotes() }) {
         mainScreen {
             openNotesPage { onRotate { assert(empty = false) } }
             assert { onDisplayFab(visible = true) }
         }
     }
 
-    @Test fun notesScreenTextNoteDialog() = testData.insertText().let {
+    @Test fun notesScreenTextNoteDialog() = data.insertText().let {
         launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
-    @Test fun notesScreenRollNoteDialog() = testData.insertRoll().let {
+    @Test fun notesScreenRollNoteDialog() = data.insertRoll().let {
         launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
@@ -78,22 +78,22 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun binScreenContentList() = launch({ testData.fillBin() }) {
+    @Test fun binScreenContentList() = launch({ data.fillBin() }) {
         mainScreen {
             openBinPage { onRotate { assert(empty = false) } }
             assert { onDisplayFab(visible = false) }
         }
     }
 
-    @Test fun binScreenClearDialog() = launch({ testData.fillBin() }) {
+    @Test fun binScreenClearDialog() = launch({ data.fillBin() }) {
         mainScreen { openBinPage { openClearDialog { onRotate { assert() } } } }
     }
 
-    @Test fun binScreenTextNoteDialog() = testData.insertTextToBin().let {
+    @Test fun binScreenTextNoteDialog() = data.insertTextToBin().let {
         launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
-    @Test fun binScreenRollNoteDialog() = testData.insertRollToBin().let {
+    @Test fun binScreenRollNoteDialog() = data.insertRollToBin().let {
         launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
@@ -106,7 +106,7 @@ class RotationTest : ParentUiTest() {
         }
     }
 
-    @Test fun notificationScreenContentList() = launch({ testData.fillNotification() }) {
+    @Test fun notificationScreenContentList() = launch({ data.fillNotification() }) {
         mainScreen { openNotesPage { openNotification { onRotate { assert(empty = false) } } } }
     }
 

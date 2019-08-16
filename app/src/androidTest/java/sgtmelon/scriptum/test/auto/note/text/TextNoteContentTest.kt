@@ -15,24 +15,24 @@ import sgtmelon.scriptum.test.ParentUiTest
 class TextNoteContentTest : ParentUiTest() {
 
     // TODO тест существует
-    @Test fun contentEmptyOnCreate() = testData.createText().let {
+    @Test fun contentEmptyOnCreate() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpen() = testData.insertText().let {
+    @Test fun contentFillOnOpen() = data.insertText().let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
     // TODO тест существует
-    @Test fun saveByControlOnCreate() = testData.createText().let {
+    @Test fun saveByControlOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createTextNote(it) {
-                        onEnterText(testData.uniqueString)
+                        onEnterText(data.uniqueString)
                         controlPanel { onClickSave() }
                     }
                 }
@@ -41,12 +41,12 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // TODO похожий тест textToolbar.saveByBackPressOnCreate
-    @Test fun saveByBackPressOnCreate() = testData.createText().let {
+    @Test fun saveByBackPressOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createTextNote(it) {
-                        onEnterText(testData.uniqueString)
+                        onEnterText(data.uniqueString)
                         onPressBack()
                     }
                 }
@@ -55,13 +55,13 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // tODO похожий тест textPanel.actionSaveOnEdit
-    @Test fun saveByControlOnEdit() = testData.insertText().let {
+    @Test fun saveByControlOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
-                        onEnterText(testData.uniqueString)
+                        onEnterText(data.uniqueString)
                         controlPanel { onClickSave() }
                     }
                 }
@@ -69,13 +69,13 @@ class TextNoteContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = testData.insertText().let {
+    @Test fun saveByBackPressOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
-                        onEnterText(testData.uniqueString)
+                        onEnterText(data.uniqueString)
                         onPressBack()
                     }
                 }
@@ -84,13 +84,13 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = testData.insertText().let {
+    @Test fun cancelOnEditByToolbar() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
-                        onEnterText(testData.uniqueString)
+                        onEnterText(data.uniqueString)
                         toolbar { onClickBack() }
                     }
                 }

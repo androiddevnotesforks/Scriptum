@@ -14,9 +14,9 @@ class RankTest : ParentUiTest() {
 
     @Test fun contentEmpty() = launch { mainScreen { openRankPage(empty = true) } }
 
-    @Test fun contentList() = launch({ testData.fillRank() }) { mainScreen { openRankPage() } }
+    @Test fun contentList() = launch({ data.fillRank() }) { mainScreen { openRankPage() } }
 
-    @Test fun listScroll() = launch({ testData.fillRank() }) {
+    @Test fun listScroll() = launch({ data.fillRank() }) {
         mainScreen { openRankPage { onScrollThrough() } }
     }
 
@@ -30,13 +30,13 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun toolbarEnterAddFromList() = testData.insertRank().let {
+    @Test fun toolbarEnterAddFromList() = data.insertRank().let {
         launch {
             mainScreen { openRankPage { toolbar { onEnterName(it.name, isAddEnabled = false) } } }
         }
     }
 
-    @Test fun toolbarEnterAddEnabled() = testData.uniqueString.let {
+    @Test fun toolbarEnterAddEnabled() = data.uniqueString.let {
         launch {
             mainScreen {
                 openRankPage(empty = true) { toolbar { onEnterName(it, isAddEnabled = true) } }
@@ -48,15 +48,15 @@ class RankTest : ParentUiTest() {
         mainScreen {
             openRankPage(empty = true) {
                 toolbar {
-                    onEnterName(testData.uniqueString, isAddEnabled = true)
+                    onEnterName(data.uniqueString, isAddEnabled = true)
                     onClickClear()
                 }
             }
         }
     }
 
-    @Test fun toolbarEnterAddStart() = testData.uniqueString.let {
-        launch({ testData.insertRank() }) {
+    @Test fun toolbarEnterAddStart() = data.uniqueString.let {
+        launch({ data.insertRank() }) {
             mainScreen {
                 openRankPage {
                     toolbar {
@@ -70,8 +70,8 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun toolbarEnterAddEnd() = testData.uniqueString.let {
-        launch({ testData.insertRank() }) {
+    @Test fun toolbarEnterAddEnd() = data.uniqueString.let {
+        launch({ data.insertRank() }) {
             mainScreen {
                 openRankPage {
                     toolbar {
@@ -89,7 +89,7 @@ class RankTest : ParentUiTest() {
      * Rank Card
      */
 
-    @Test fun rankVisibleAnimationClick() = testData.insertRank().let {
+    @Test fun rankVisibleAnimationClick() = data.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
@@ -100,7 +100,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankVisibleAnimationLongClick() = testData.fillRank(count = 5).let {
+    @Test fun rankVisibleAnimationLongClick() = data.fillRank(count = 5).let {
         launch {
             mainScreen {
                 openRankPage { it.forEach { waitAfter(time = 300) { onLongClickVisible(it) } } }
@@ -108,7 +108,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankVisibleForNotes() = testData.insertRankForNotes().let {
+    @Test fun rankVisibleForNotes() = data.insertRankForNotes().let {
         launch {
             mainScreen {
                 openNotesPage()
@@ -120,7 +120,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankVisibleForBin() = testData.insertRankForBin().let {
+    @Test fun rankVisibleForBin() = data.insertRankForBin().let {
         launch {
             mainScreen {
                 openBinPage()
@@ -132,7 +132,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankClearFromList() = testData.insertRank().let {
+    @Test fun rankClearFromList() = data.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
@@ -143,7 +143,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankClearForNote() = testData.insertRankForNotes().let {
+    @Test fun rankClearForNote() = data.insertRankForNotes().let {
         launch {
             mainScreen {
                 openRankPage { onClickVisible(it) }
@@ -154,7 +154,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun rankClearForBin() = testData.insertRankForBin().let {
+    @Test fun rankClearForBin() = data.insertRankForBin().let {
         launch {
             mainScreen {
                 openBinPage()
@@ -170,11 +170,11 @@ class RankTest : ParentUiTest() {
      * Rename Dialog
      */
 
-    @Test fun renameDialogOpen() = testData.insertRank().let {
+    @Test fun renameDialogOpen() = data.insertRank().let {
         launch { mainScreen { openRankPage { openRenameDialog(it.name) } } }
     }
 
-    @Test fun renameDialogCloseSoft() = testData.insertRank().let {
+    @Test fun renameDialogCloseSoft() = data.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
@@ -185,7 +185,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameDialogCloseCancel() = testData.insertRank().let {
+    @Test fun renameDialogCloseCancel() = data.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
@@ -196,7 +196,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameDialogBlockApplySameName() = testData.insertRank().let {
+    @Test fun renameDialogBlockApplySameName() = data.insertRank().let {
         launch {
             mainScreen {
                 openRankPage { openRenameDialog(it.name) { onEnterName(it.name, enabled = false) } }
@@ -204,7 +204,7 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameDialogBlockApplyFromList() = testData.fillRank().let {
+    @Test fun renameDialogBlockApplyFromList() = data.fillRank().let {
         launch {
             mainScreen {
                 openRankPage {
@@ -214,8 +214,8 @@ class RankTest : ParentUiTest() {
         }
     }
 
-    @Test fun renameDialogResult() = testData.insertRank().let {
-        val newName = testData.uniqueString
+    @Test fun renameDialogResult() = data.insertRank().let {
+        val newName = data.uniqueString
 
         launch {
             mainScreen {

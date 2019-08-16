@@ -30,7 +30,7 @@ abstract class ParentUiTest : ParentTest() {
             pauseSaveOn = false
         }
 
-        testData.clear()
+        data.clear()
     }
 
     protected fun launch(before: () -> Unit = {}, intent: Intent = Intent(), after: SplashScreen.() -> Unit) {

@@ -25,7 +25,7 @@ abstract class AlarmAnimParentTest : ParentUiTest() {
             volumeIncrease = Random.nextBoolean()
         }
 
-        val noteModel = testData.clear().let {
+        val noteModel = data.clear().let {
             if (Random.nextBoolean()) {
                 it.insertText(it.textNote.apply { this.color = color })
             } else {

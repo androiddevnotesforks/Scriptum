@@ -14,17 +14,17 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteTest : ParentUiTest() {
 
-    @Test fun binContentWithoutName() = testData.insertTextToBin(
-            testData.textNote.apply { name = "" }
+    @Test fun binContentWithoutName() = data.insertTextToBin(
+            data.textNote.apply { name = "" }
     ).let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
-    @Test fun binContentWithName() = testData.insertTextToBin().let {
+    @Test fun binContentWithName() = data.insertTextToBin().let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
-    @Test fun binClose()  = testData.insertTextToBin().let {
+    @Test fun binClose()  = data.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage { openTextNote(it) { toolbar { onClickBack() } } }
@@ -35,7 +35,7 @@ class TextNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun binActionRestore()  = testData.insertTextToBin().let {
+    @Test fun binActionRestore()  = data.insertTextToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -50,7 +50,7 @@ class TextNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun binActionRestoreOpen()  = testData.insertTextToBin().let {
+    @Test fun binActionRestoreOpen()  = data.insertTextToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -68,7 +68,7 @@ class TextNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun binActionClear() = testData.insertTextToBin().let {
+    @Test fun binActionClear() = data.insertTextToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)

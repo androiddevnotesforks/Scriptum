@@ -124,9 +124,9 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertRollToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
             insertRoll(note.apply { isBin = true }, list)
 
-    fun insertNotification(noteModel: NoteModel): NoteModel {
+    fun insertNotification(noteModel: NoteModel, date: String = context.getTime()): NoteModel {
         inRoom {
-            iAlarmDao.insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = context.getTime()))
+            iAlarmDao.insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = date))
         }
 
         return noteModel

@@ -15,7 +15,7 @@ import sgtmelon.scriptum.waitBefore
 @RunWith(AndroidJUnit4::class)
 class InfoAnimTest : ParentUiTest() {
 
-    @Test fun rankShowAndHide() = testData.rankEntity.let {
+    @Test fun rankShowAndHide() = data.rankEntity.let {
         launch {
             mainScreen {
                 openRankPage(empty = true) {
@@ -33,7 +33,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun notesShow() = testData.insertText().let {
+    @Test fun notesShow() = data.insertText().let {
         launch {
             mainScreen {
                 waitAfter(TIME) { openNotesPage { openNoteDialog(it) { onClickDelete() } } }
@@ -41,7 +41,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun notesHide() = testData.insertTextToBin().let {
+    @Test fun notesHide() = data.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage { openNoteDialog(it) { onClickRestore() } }
@@ -51,7 +51,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun binShow() = testData.insertTextToBin().let {
+    @Test fun binShow() = data.insertTextToBin().let {
         launch {
             mainScreen {
                 waitAfter(TIME) { openBinPage { openNoteDialog(it) { onClickClear() } } }
@@ -59,7 +59,7 @@ class InfoAnimTest : ParentUiTest() {
         }
     }
 
-    @Test fun binHide() = testData.insertText().let {
+    @Test fun binHide() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openNoteDialog(it) { onClickDelete() } }
@@ -69,7 +69,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun notificationShow() = testData.insertNotification(testData.insertText()).let {
+    @Test fun notificationShow() = data.insertNotification(data.insertText()).let {
         launch {
             mainScreen {
                 openNotesPage { openNotification { waitAfter(TIME) { onClickCancel(it) } } }

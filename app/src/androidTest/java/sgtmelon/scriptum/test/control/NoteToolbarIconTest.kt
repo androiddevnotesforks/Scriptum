@@ -17,21 +17,21 @@ import sgtmelon.scriptum.waitAfter
 @RunWith(AndroidJUnit4::class)
 class NoteToolbarIconTest : ParentUiTest() {
 
-    @Test fun arrowBackOnCreateTextNote() = testData.createText().let {
+    @Test fun arrowBackOnCreateTextNote() = data.createText().let {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createTextNote(it) } } } }
     }
 
-    @Test fun arrowBackOnCreateRollNote() = testData.createRoll().let {
+    @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createRollNote(it) } } } }
     }
 
-    @Test fun notAnimateOnSaveCreateTextNote() = testData.createText().let {
+    @Test fun notAnimateOnSaveCreateTextNote() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createTextNote(it) {
                         waitAfter(TIME) {
-                            onEnterText(testData.textNote.text)
+                            onEnterText(data.textNote.text)
                             controlPanel { onClickSave() }
                         }
                     }
@@ -40,13 +40,13 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnSaveCreateRollNote() = testData.createRoll().let {
+    @Test fun notAnimateOnSaveCreateRollNote() = data.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createRollNote(it) {
                         waitAfter(TIME) {
-                            enterPanel { onAddRoll(testData.rollList[0].text) }
+                            enterPanel { onAddRoll(data.rollList[0].text) }
                             controlPanel { onClickSave() }
                         }
                     }
@@ -55,7 +55,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenTextNote() = testData.insertTextToBin().let {
+    @Test fun notAnimateOnRestoreOpenTextNote() = data.insertTextToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -67,7 +67,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun notAnimateOnRestoreOpenRollNote() = testData.insertRollToBin().let {
+    @Test fun notAnimateOnRestoreOpenRollNote() = data.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage {
@@ -79,7 +79,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToSaveTextNote() = testData.insertText().let {
+    @Test fun animateOnEditToSaveTextNote() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -96,7 +96,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToSaveRollNote() = testData.insertRoll().let {
+    @Test fun animateOnEditToSaveRollNote() = data.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -113,7 +113,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToCancelTextNote() = testData.insertText().let {
+    @Test fun animateOnEditToCancelTextNote() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -128,7 +128,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    @Test fun animateOnEditToCancelRollNote() = testData.insertRoll().let {
+    @Test fun animateOnEditToCancelRollNote() = data.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {

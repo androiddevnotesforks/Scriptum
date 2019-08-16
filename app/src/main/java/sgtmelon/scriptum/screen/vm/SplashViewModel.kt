@@ -8,6 +8,7 @@ import sgtmelon.scriptum.extension.beforeNow
 import sgtmelon.scriptum.extension.getCalendar
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.OpenFrom
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
@@ -52,7 +53,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     }
 
     private suspend fun clearPastAlarm() = iAlarmRepo.getList().forEach {
-        if (it.alarm.date.getCalendar(context).beforeNow()) iAlarmRepo.delete(it.note.id)
+        if (it.alarm.date.getCalendar(context).beforeNow()) {
+            iAlarmControl.cancel(AlarmReceiver.getInstance(context, it.note.id, it.note.color))
+            iAlarmRepo.delete(it.note.id)
+        }
     }
 
     private fun onSimpleStart(firstStart: Boolean = iPreferenceRepo.firstStart) =

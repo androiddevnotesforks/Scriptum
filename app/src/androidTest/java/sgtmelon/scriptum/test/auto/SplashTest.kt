@@ -18,25 +18,25 @@ class SplashTest : ParentUiTest() {
 
     @Test fun mainScreenOpen() = launch { mainScreen() }
 
-    @Test fun bindTextNoteOpen() = testData.insertText().let {
+    @Test fun bindTextNoteOpen() = data.insertText().let {
         launch(intent = SplashActivity.getBindInstance(context, it.noteEntity)) {
             openTextNoteBind(it) { onPressBack() }
             mainScreen()
         }
     }
 
-    @Test fun bindRollNoteOpen() = testData.insertRoll().let {
+    @Test fun bindRollNoteOpen() = data.insertRoll().let {
         launch(intent = SplashActivity.getBindInstance(context, it.noteEntity)) {
             openRollNoteBind(it) { onPressBack() }
             mainScreen()
         }
     }
 
-    @Test fun alarmTextNoteOpen() = testData.insertText().let {
+    @Test fun alarmTextNoteOpen() = data.insertText().let {
         launch(intent = SplashActivity.getAlarmInstance(context, it.noteEntity)) { openAlarm(it) }
     }
 
-    @Test fun alarmRollNoteOpen() = testData.insertRoll().let {
+    @Test fun alarmRollNoteOpen() = data.insertRoll().let {
         launch(intent = SplashActivity.getAlarmInstance(context, it.noteEntity)) { openAlarm(it) }
     }
 

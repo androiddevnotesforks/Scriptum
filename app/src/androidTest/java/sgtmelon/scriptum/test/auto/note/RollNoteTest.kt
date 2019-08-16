@@ -14,17 +14,17 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteTest : ParentUiTest() {
 
-    @Test fun binContentWithoutName() = testData.insertRollToBin(
-            testData.rollNote.apply { name = "" }
+    @Test fun binContentWithoutName() = data.insertRollToBin(
+            data.rollNote.apply { name = "" }
     ).let {
         launch { mainScreen { openBinPage { openRollNote(it) } } }
     }
 
-    @Test fun binContentWithName() = testData.insertRollToBin().let {
+    @Test fun binContentWithName() = data.insertRollToBin().let {
         launch { mainScreen { openBinPage { openRollNote(it) } } }
     }
 
-    @Test fun binClose()  = testData.insertRollToBin().let {
+    @Test fun binClose()  = data.insertRollToBin().let {
         launch {
             mainScreen {
                 openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
@@ -35,7 +35,7 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun binActionRestore()  = testData.insertRollToBin().let {
+    @Test fun binActionRestore()  = data.insertRollToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -50,7 +50,7 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun binActionRestoreOpen()  = testData.insertRollToBin().let {
+    @Test fun binActionRestoreOpen()  = data.insertRollToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
@@ -68,7 +68,7 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun binActionClear() = testData.insertRollToBin().let {
+    @Test fun binActionClear() = data.insertRollToBin().let {
         launch {
             mainScreen {
                 openNotesPage(empty = true)

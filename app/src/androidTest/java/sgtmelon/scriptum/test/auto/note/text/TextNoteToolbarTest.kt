@@ -14,7 +14,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteToolbarTest : ParentUiTest() {
 
-    @Test fun closeByToolbarOnCreate() = testData.createText().let {
+    @Test fun closeByToolbarOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { toolbar { onClickBack() } } }
@@ -23,7 +23,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnCreate() = testData.createText().let {
+    @Test fun closeByBackPressOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { onPressBack() } }
@@ -32,7 +32,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpen() = testData.insertText().let {
+    @Test fun closeByToolbarOnOpen() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { toolbar { onClickBack() } } }
@@ -41,7 +41,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnOpen() = testData.insertText().let {
+    @Test fun closeByBackPressOnOpen() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { onPressBack() } }
@@ -52,12 +52,12 @@ class TextNoteToolbarTest : ParentUiTest() {
 
 
     // TODO тест существует
-    @Test fun contentEmptyOnCreate() = testData.createText().let {
+    @Test fun contentEmptyOnCreate() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
-    @Test fun contentEmptyOnOpen() = testData.insertText(
-            testData.textNote.apply { name = "" }
+    @Test fun contentEmptyOnOpen() = data.insertText(
+            data.textNote.apply { name = "" }
     ).let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
@@ -65,19 +65,19 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpen() = testData.insertText().let {
+    @Test fun contentFillOnOpen() = data.insertText().let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
-    @Test fun saveByControlOnCreate() = testData.createText().let {
+    @Test fun saveByControlOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createTextNote(it) {
-                        toolbar { onEnterName(testData.uniqueString) }
-                        onEnterText(testData.uniqueString)
+                        toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString)
                         controlPanel { onClickSave() }
                     }
                 }
@@ -85,13 +85,13 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnCreate() = testData.createText().let {
+    @Test fun saveByBackPressOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createTextNote(it) {
-                        toolbar { onEnterName(testData.uniqueString) }
-                        onEnterText(testData.uniqueString)
+                        toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString)
                         onPressBack()
                     }
                 }
@@ -99,13 +99,13 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByControlOnEdit() = testData.insertText().let {
+    @Test fun saveByControlOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
-                        toolbar { onEnterName(testData.uniqueString) }
+                        toolbar { onEnterName(data.uniqueString) }
                         controlPanel { onClickSave() }
                     }
                 }
@@ -113,13 +113,13 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = testData.insertText().let {
+    @Test fun saveByBackPressOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
-                        toolbar { onEnterName(testData.uniqueString) }
+                        toolbar { onEnterName(data.uniqueString) }
                         onPressBack()
                     }
                 }
@@ -128,14 +128,14 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = testData.insertText().let {
+    @Test fun cancelOnEditByToolbar() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
                         toolbar {
-                            onEnterName(testData.uniqueString)
+                            onEnterName(data.uniqueString)
                             onClickBack()
                         }
                     }

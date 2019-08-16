@@ -17,15 +17,15 @@ class NotificationTest : ParentUiTest() {
     @Test fun contentEmpty() =
             launch { mainScreen { openNotesPage(empty = true) { openNotification(empty = true) } } }
 
-    @Test fun contentList() = launch({ testData.fillNotification() }) {
+    @Test fun contentList() = launch({ data.fillNotification() }) {
         mainScreen { openNotesPage { openNotification() } }
     }
 
-    @Test fun listScroll() = launch({ testData.fillNotification() }) {
+    @Test fun listScroll() = launch({ data.fillNotification() }) {
         mainScreen { openNotesPage { openNotification { onScrollThrough() } } }
     }
 
-    @Test fun itemCancel() = testData.insertNotification(testData.insertText()).let {
+    @Test fun itemCancel() = data.insertNotification(data.insertText()).let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -38,7 +38,7 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemCancelOnDelete() = testData.insertNotification(testData.insertText()).let {
+    @Test fun itemCancelOnDelete() = data.insertNotification(data.insertText()).let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -49,15 +49,18 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
+    @Test fun itemCancelFromPast() = data.insertNotification(data.insertText(), DATE_0).let {
+        launch { mainScreen { openNotesPage { openNotification(empty = true) } } }
+    }
 
-    @Test fun textNoteOpen() = testData.insertText().let {
-        launch({ testData.insertNotification(it) }) {
+    @Test fun textNoteOpen() = data.insertText().let {
+        launch({ data.insertNotification(it) }) {
             mainScreen { openNotesPage { openNotification { openText(it) } } }
         }
     }
 
-    @Test fun rollNoteOpen() = testData.insertRoll().let {
-        launch({ testData.insertNotification(it) }) {
+    @Test fun rollNoteOpen() = data.insertRoll().let {
+        launch({ data.insertNotification(it) }) {
             mainScreen { openNotesPage { openNotification { openRoll(it) } } }
         }
     }

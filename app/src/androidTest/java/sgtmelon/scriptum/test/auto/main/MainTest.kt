@@ -60,11 +60,11 @@ class MainTest : ParentUiTest() {
         }
     }
 
-    @Test fun addDialogCreateTextNote() = testData.createText().let {
+    @Test fun addDialogCreateTextNote() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
-    @Test fun addDialogCreateRollNote() = testData.createRoll().let {
+    @Test fun addDialogCreateRollNote() = data.createRoll().let {
         launch { mainScreen { openAddDialog { createRollNote(it) } } }
     }
 
@@ -72,21 +72,21 @@ class MainTest : ParentUiTest() {
      * Page Scroll Top
      */
 
-    @Test fun rankScreenScrollTop() = launch({ testData.fillRank() }) {
+    @Test fun rankScreenScrollTop() = launch({ data.fillRank() }) {
         mainScreen {
             openRankPage { onScroll(Scroll.END) }
             onScrollTop(MainPage.RANK)
         }
     }
 
-    @Test fun notesScreenScrollTop() = launch({ testData.fillNotes() }) {
+    @Test fun notesScreenScrollTop() = launch({ data.fillNotes() }) {
         mainScreen {
             openNotesPage { onScroll(Scroll.END) }
             onScrollTop(MainPage.NOTES)
         }
     }
 
-    @Test fun binScreenScrollTop() = launch({ testData.fillBin() }) {
+    @Test fun binScreenScrollTop() = launch({ data.fillBin() }) {
         mainScreen {
             openBinPage { onScroll(Scroll.END) }
             onScrollTop(MainPage.BIN)

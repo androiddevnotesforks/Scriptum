@@ -80,7 +80,7 @@ class RankDaoTest : ParentIntegrationTest() {
         }
     }
 
-    @Test fun getOnWrongId() = inRankDao { assertNull(get(testData.uniqueString)) }
+    @Test fun getOnWrongId() = inRankDao { assertNull(get(data.uniqueString)) }
 
     @Test fun getOnCorrectId() = inRankDao {
         insert(rankFirst)

@@ -15,21 +15,21 @@ import sgtmelon.scriptum.test.ParentUiTest
 class TextNotePanelTest : ParentUiTest() {
 
     // TODO тест существует
-    @Test fun displayOnCreate() = testData.createText().let {
+    @Test fun displayOnCreate() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
-    @Test fun displayOnOpenNote() = testData.insertText().let {
+    @Test fun displayOnOpenNote() = data.insertText().let {
         launch { mainScreen { openNotesPage { openTextNote(it) } } }
     }
 
 
-    @Test fun saveByControlOnCreate() = testData.createText().let {
+    @Test fun saveByControlOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createTextNote(it) {
-                        onEnterText(testData.uniqueString)
+                        onEnterText(data.uniqueString)
                         controlPanel { onClickSave() }
                     }
                 }
@@ -37,12 +37,12 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByPressBackOnCreate() = testData.createText().let {
+    @Test fun saveByPressBackOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
                     createTextNote(it) {
-                        onEnterText(testData.uniqueString)
+                        onEnterText(data.uniqueString)
                         controlPanel { onPressBack() }
                     }
                 }
@@ -50,7 +50,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByControlOnEdit() = testData.insertText().let {
+    @Test fun saveByControlOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -65,7 +65,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByPressBackOnEdit() = testData.insertText().let {
+    @Test fun saveByPressBackOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -81,7 +81,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = testData.insertText().let {
+    @Test fun cancelOnEditByToolbar() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -96,7 +96,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionSaveOnCreate() = testData.createText().let {
+    @Test fun actionSaveOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -111,7 +111,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionSaveOnEdit() = testData.insertText().let {
+    @Test fun actionSaveOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -129,7 +129,7 @@ class TextNotePanelTest : ParentUiTest() {
     }
 
 
-    @Test fun actionBindToStatusBar() = testData.insertText().let {
+    @Test fun actionBindToStatusBar() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -144,8 +144,8 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionUnbindFromStatusBar() = testData.insertText(
-            testData.textNote.apply { isStatus = true }
+    @Test fun actionUnbindFromStatusBar() = data.insertText(
+            data.textNote.apply { isStatus = true }
     ).let {
         launch {
             mainScreen {
@@ -161,7 +161,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionDelete() = testData.insertText().let {
+    @Test fun actionDelete() = data.insertText().let {
         launch {
             mainScreen {
                 openBinPage(empty = true)
