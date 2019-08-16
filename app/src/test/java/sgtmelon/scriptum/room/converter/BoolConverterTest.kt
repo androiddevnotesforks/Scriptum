@@ -22,4 +22,5 @@ class BoolConverterTest {
         assertFalse(converter.toBool(0))
         assertFalse(converter.toBool(-1))
     }
+
 }

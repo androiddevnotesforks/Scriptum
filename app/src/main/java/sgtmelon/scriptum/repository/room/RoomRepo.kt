@@ -53,7 +53,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
                         add(NoteModel(
                                 it, iRollDao.getView(it.id),
-                                alarmEntity = iAlarmDao[it.id] ?: AlarmEntity())
+                                alarmEntity = iAlarmDao[it.id] ?: AlarmEntity(noteId = it.id))
                         )
                     }
                 }
@@ -139,7 +139,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             noteModel = NoteModel(
                     noteEntity = iNoteDao[id] ?: NoteEntity(),
                     rollList = iRollDao[id],
-                    alarmEntity = iAlarmDao[id] ?: AlarmEntity())
+                    alarmEntity = iAlarmDao[id] ?: AlarmEntity(noteId = id))
         }.close()
 
         return noteModel

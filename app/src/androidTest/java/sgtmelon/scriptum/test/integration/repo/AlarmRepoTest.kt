@@ -1,8 +1,7 @@
 package sgtmelon.scriptum.test.integration.repo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
+import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -22,11 +21,22 @@ class AlarmRepoTest : ParentIntegrationTest() {
 
     private val iAlarmRepo = AlarmRepo.getInstance(context)
 
-    @Test fun getList() = inRoom {
+    @Test fun insert() = inRoom {
+        iNoteDao.insert(noteEntity)
+
+        iAlarmRepo.insertOrUpdate(alarmEntity)
+
+        assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+    }
+
+    @Test fun update() = inRoom {
         iNoteDao.insert(noteEntity)
         iAlarmDao.insert(alarmEntity)
 
-        assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+        alarmEntity.copy(date = "").let {
+            iAlarmRepo.insertOrUpdate(it)
+            assertNotEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+        }
     }
 
     @Test fun delete() = inRoom {
@@ -36,6 +46,13 @@ class AlarmRepoTest : ParentIntegrationTest() {
         iAlarmRepo.delete(alarmEntity.id)
 
         assertTrue(iAlarmRepo.getList().isEmpty())
+    }
+
+    @Test fun getList() = inRoom {
+        iNoteDao.insert(noteEntity)
+        iAlarmDao.insert(alarmEntity)
+
+        assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
     }
 
     private companion object {

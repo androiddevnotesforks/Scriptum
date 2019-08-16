@@ -18,7 +18,7 @@ data class NoteModel(
         @Embedded val noteEntity: NoteEntity,
         @Relation(parentColumn = DbData.Note.ID, entityColumn = DbData.Roll.NOTE_ID)
         val rollList: MutableList<RollEntity> = ArrayList(),
-        @Embedded val alarmEntity: AlarmEntity = AlarmEntity()
+        @Embedded val alarmEntity: AlarmEntity = AlarmEntity(noteId = noteEntity.id)
 ) {
 
     // TODO заменить получение модели через один query
