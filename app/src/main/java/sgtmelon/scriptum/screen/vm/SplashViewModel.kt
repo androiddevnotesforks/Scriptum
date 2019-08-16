@@ -2,6 +2,10 @@ package sgtmelon.scriptum.screen.vm
 
 import android.app.Application
 import android.os.Bundle
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
+import sgtmelon.scriptum.extension.beforeNow
+import sgtmelon.scriptum.extension.getCalendar
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.SplashActivity
@@ -22,6 +26,8 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         ISplashViewModel {
 
     override fun onSetup(bundle: Bundle?) {
+        viewModelScope.launch { clearPastAlarm() }
+
         if (bundle == null) {
             onSimpleStart()
         } else {
@@ -43,6 +49,10 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
                 else -> onSimpleStart()
             }
         }
+    }
+
+    private suspend fun clearPastAlarm() = iAlarmRepo.getList().forEach {
+        if (it.alarm.date.getCalendar(context).beforeNow()) iAlarmRepo.delete(it.note.id)
     }
 
     private fun onSimpleStart(firstStart: Boolean = iPreferenceRepo.firstStart) =
