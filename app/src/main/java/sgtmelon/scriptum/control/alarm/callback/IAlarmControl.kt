@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.control.alarm.callback
 
 import android.app.PendingIntent
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import java.util.*
 
 /**
