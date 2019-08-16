@@ -48,7 +48,7 @@
                 <TextView
                         android:id="@+id/notification_name_text"
                         style="@style/Text.SmallCard.Title"
-                        android:text='@{notificationItem.note.name}'
+                        android:text='@{notificationItem.note.name.isEmpty() ? @string/hint_view_name : notificationItem.note.name}'
                         tools:text="@string/preview_notification_name"/>
 
                 <TextView
