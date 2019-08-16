@@ -26,8 +26,8 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  */
 class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
-    // TODO #RELEASE убрать отсюда методы связанные с rank в RankRepo
-    // TODO #RELEASE убрать throws
+    // TODO #RELEASE2 убрать отсюда методы связанные с rank в RankRepo
+    // TODO #RELEASE2 убрать throws
 
     private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
 

@@ -44,8 +44,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     private var needRepeat = true
 
-    // TODO #RELEASE Обработка id = -1
-    // TODO #RELEASE Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
+    // TODO #RELEASE1 Обработка id = -1
+    // TODO #RELEASE1 Убирать уведомление из бд при старте (чтобы не было индикатора на заметке) и потом уже обрабатывать остановку приложения, нажатие на кнопки
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupView(iPreferenceRepo.theme)

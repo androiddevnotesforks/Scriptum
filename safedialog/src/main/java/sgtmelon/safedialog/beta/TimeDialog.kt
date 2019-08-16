@@ -28,7 +28,7 @@ class TimeDialog : DateTimeBlankDialog() {
             setEnable()
         }
 
-        // TODO #RELEASE replace is24HourFormat with extension from [TimeExtension]
+        // TODO #RELEASE1 replace is24HourFormat with extension from [TimeExtension]
         return GoodTimePickerDialog(context as Context, this, changeListener,
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),

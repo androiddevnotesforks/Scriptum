@@ -22,7 +22,17 @@ import sgtmelon.scriptum.model.data.DbData.Note
         indices = [Index(Alarm.NOTE_ID)]
 )
 data class AlarmEntity(
-        @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
-        @ColumnInfo(name = Alarm.NOTE_ID) var noteId: Long = 0,
-        @ColumnInfo(name = Alarm.DATE) var date: String = ""
-)
+        @ColumnInfo(name = Alarm.ID) @PrimaryKey(autoGenerate = true) var id: Long = ND_ID,
+        @ColumnInfo(name = Alarm.NOTE_ID) var noteId: Long = ND_NOTE_ID,
+        @ColumnInfo(name = Alarm.DATE) var date: String = ND_DATE
+) {
+
+    fun needInsert() = id == ND_ID
+
+    companion object {
+        const val ND_ID = 0L
+        const val ND_NOTE_ID = 0L
+        const val ND_DATE = ""
+    }
+
+}

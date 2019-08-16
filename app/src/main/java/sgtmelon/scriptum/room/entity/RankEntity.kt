@@ -19,6 +19,8 @@ data class RankEntity(
         @ColumnInfo(name = Rank.VISIBLE) var isVisible: Boolean = true
 ) {
 
+    // TODO #RELEASE2 add ND_.. values for all
+
     @Ignore var noteCount = 0
 
 }

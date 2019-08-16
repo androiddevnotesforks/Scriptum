@@ -32,6 +32,8 @@ data class RollEntity(
         @ColumnInfo(name = Roll.TEXT) var text: String = ""
 ) {
 
+    // TODO #RELEASE2 add ND_.. values for all
+
     override fun toString() = JSONObject().apply {
         put(Roll.ID, if (id != null) id else -1L)
         put(Roll.NOTE_ID, noteId)

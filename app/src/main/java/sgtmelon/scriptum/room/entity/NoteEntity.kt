@@ -32,6 +32,8 @@ data class NoteEntity(
         @ColumnInfo(name = Note.STATUS) var isStatus: Boolean = false
 ) {
 
+    // TODO #RELEASE2 add ND_.. values for all
+
     fun setCompleteText(check: Int, size: Int) {
         text = "$check/$size"
     }

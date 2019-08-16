@@ -37,7 +37,7 @@
     <string name="summary_alarm_repeat">Will be used for repeat notification</string>
     <string name="summary_alarm_signal">will be used for notify you</string>
     <string name="summary_alarm_melody">Will be play on notification</string>
-    <!-- TODO #RELEASE Другой текст -->
+    <!-- TODO #RELEASE1 Другой текст -->
     <string name="summary_alarm_volume">Percent of volume: %d%%</string>
     <string name="summary_alarm_increase">Smooth volume increase from minimum</string>
 

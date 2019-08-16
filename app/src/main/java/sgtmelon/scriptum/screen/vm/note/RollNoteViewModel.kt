@@ -215,8 +215,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         return true
     }
 
-    override fun onMenuNotification() =
-            Toast.makeText(context, "ROLL NOTE NOTIFICATION", Toast.LENGTH_LONG).show()
+    override fun onMenuNotification() {
+        callback?.showDateDialog(noteModel.alarmEntity.date.getCalendar(context))
+    }
 
     override fun onMenuBind() = with(noteModel) {
         noteEntity.isStatus = !noteEntity.isStatus
@@ -457,6 +458,22 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             bindInput(inputControl.access, noteModel)
             bindNote(noteModel)
         }
+    }
+
+    override fun onResultDateDialog(calendar: Calendar) {
+        callback?.showTimeDialog(calendar)
+    }
+
+    // TODO #RELEASE1 set alarm to androidDevice
+    override fun onResultTimeDialog(calendar: Calendar) {
+        if (calendar.beforeNow()) return
+
+        iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
+            date = context.getDateFormat().format(calendar.time)
+        })
+
+        callback?.bindNote(noteModel)
+        callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
     }
 
     override fun onResultConvertDialog() {

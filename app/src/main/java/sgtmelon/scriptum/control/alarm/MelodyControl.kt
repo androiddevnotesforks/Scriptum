@@ -16,6 +16,8 @@ import android.os.Build
 class MelodyControl(private val context: Context) : IMelodyControl,
         AudioManager.OnAudioFocusChangeListener {
 
+    // TODO #RELEASE1 when melody ends return melody which play before
+
     private var mediaPlayer: MediaPlayer? = null
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager
 

@@ -31,8 +31,6 @@
 
     <PreferenceCategory android:title="@string/header_notification">
 
-        <!-- TODO #RELEASE -->
-
         <Preference
                 android:defaultValue="@integer/value_alarm_repeat"
                 android:key="@string/key_alarm_repeat"
