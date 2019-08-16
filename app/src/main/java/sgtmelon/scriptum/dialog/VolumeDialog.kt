@@ -57,7 +57,7 @@ class VolumeDialog : DialogBlank(), SeekBar.OnSeekBarChangeListener {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive?.isEnabled = init != progress
+        positiveButton?.isEnabled = init != progress
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {

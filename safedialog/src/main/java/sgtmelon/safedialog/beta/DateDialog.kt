@@ -19,15 +19,11 @@ class DateDialog : DialogBlank(), DatePickerDialog.OnDateSetListener {
 
     private val defaultTime get() = Calendar.getInstance().timeInMillis
 
-    private var calendar: Calendar = Calendar.getInstance()
+    var calendar: Calendar = Calendar.getInstance()
+        private set
 
     fun setArguments(calendar: Calendar) = apply {
         arguments = Bundle().apply { putLong(VALUE, calendar.timeInMillis) }
-    }
-
-    fun getResult(): Calendar {
-        val d = (dialog as? DatePickerDialog)?.datePicker
-        return calendar.apply { d?.let { set(it.year, it.month, it.dayOfMonth) } }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -40,12 +36,7 @@ class DateDialog : DialogBlank(), DatePickerDialog.OnDateSetListener {
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-        ).apply {
-            setButton(DialogInterface.BUTTON_POSITIVE, getString(R.string.dialog_btn_accept), onPositiveClick)
-            setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
-
-            datePicker.minDate = defaultTime
-        }
+        ).apply { datePicker.minDate = defaultTime }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -54,6 +45,15 @@ class DateDialog : DialogBlank(), DatePickerDialog.OnDateSetListener {
         })
     }
 
-    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {}
+    override fun setupButton() {
+        super.setupButton()
+        positiveButton?.text = getString(R.string.dialog_btn_accept)
+        negativeButton?.text = getString(R.string.dialog_btn_cancel)
+    }
+
+    override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        calendar.set(year, month, dayOfMonth)
+        onPositiveClick.onClick(dialog, DialogInterface.BUTTON_POSITIVE)
+    }
 
 }

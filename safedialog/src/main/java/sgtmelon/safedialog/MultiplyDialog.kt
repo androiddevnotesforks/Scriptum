@@ -58,7 +58,7 @@ class MultiplyDialog : DialogBlank() {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive?.isEnabled =
+        positiveButton?.isEnabled =
                 !Arrays.equals(init, check) && if (needOneSelect) check.contains(true) else true
     }
 

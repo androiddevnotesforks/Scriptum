@@ -17,7 +17,8 @@ abstract class DialogBlank : DialogFragment() {
     var title: String = ""
     var message: String = ""
 
-    protected var buttonPositive: Button? = null
+    protected var positiveButton: Button? = null
+    protected var negativeButton: Button? = null
 
     var positiveListener: DialogInterface.OnClickListener? = null
 
@@ -30,6 +31,7 @@ abstract class DialogBlank : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
+        setupButton()
         setEnable()
     }
 
@@ -38,13 +40,23 @@ abstract class DialogBlank : DialogFragment() {
         dismissListener?.onDismiss(dialog)
     }
 
-    @CallSuper protected open fun setEnable() {
-        buttonPositive = when (val dialog = dialog) {
+    @CallSuper protected open fun setupButton() {
+        val dialog = dialog
+
+        positiveButton = when (dialog) {
             is AlertDialog -> dialog.getButton(DialogInterface.BUTTON_POSITIVE)
             is AlertDialogOld -> dialog.getButton(DialogInterface.BUTTON_POSITIVE)
             else -> null
         }
+
+        negativeButton = when (dialog) {
+            is AlertDialog -> dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+            is AlertDialogOld -> dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+            else -> null
+        }
     }
+
+    @CallSuper protected open fun setEnable() {}
 
     companion object {
         private const val PREFIX = "SAFE_DIALOG"

@@ -67,7 +67,7 @@ class ColorDialog : DialogBlank() {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive?.isEnabled = init != check
+        positiveButton?.isEnabled = init != check
     }
 
 }

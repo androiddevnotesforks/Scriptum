@@ -55,7 +55,7 @@ class SingleDialog : DialogBlank() {
 
     override fun setEnable() {
         super.setEnable()
-        buttonPositive?.isEnabled = checkInit != check
+        positiveButton?.isEnabled = checkInit != check
     }
 
 }
