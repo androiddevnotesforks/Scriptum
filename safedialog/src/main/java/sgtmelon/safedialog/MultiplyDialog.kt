@@ -22,6 +22,9 @@ class MultiplyDialog : DialogBlank() {
 
     var needOneSelect = false
 
+    /**
+     * Call before [show]
+     */
     fun setArguments(checkArray: BooleanArray) = apply {
         arguments = Bundle().apply {
             putBooleanArray(INIT, checkArray.clone())

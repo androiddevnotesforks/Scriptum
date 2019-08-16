@@ -22,7 +22,11 @@ class DateDialog : DialogBlank(), DatePickerDialog.OnDateSetListener {
     var calendar: Calendar = Calendar.getInstance()
         private set
 
+    /**
+     * Call before [show]
+     */
     fun setArguments(calendar: Calendar) = apply {
+        calendar.set(Calendar.SECOND, 0)
         arguments = Bundle().apply { putLong(VALUE, calendar.timeInMillis) }
     }
 
@@ -45,14 +49,23 @@ class DateDialog : DialogBlank(), DatePickerDialog.OnDateSetListener {
         })
     }
 
+    /**
+     * Change button text without override listener which call [onDateSet]
+     */
     override fun setupButton() {
         super.setupButton()
         positiveButton?.text = getString(R.string.dialog_btn_accept)
         negativeButton?.text = getString(R.string.dialog_btn_cancel)
     }
 
+    /**
+     * This func calls after [positiveButton] click
+     */
     override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        calendar.set(year, month, dayOfMonth)
+        calendar.set(Calendar.YEAR, year)
+        calendar.set(Calendar.MONTH, month)
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
         onPositiveClick.onClick(dialog, DialogInterface.BUTTON_POSITIVE)
     }
 

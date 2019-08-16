@@ -11,7 +11,8 @@ import android.widget.TimePicker
  */
 class GoodTimePickerDialog(
         context: Context,
-        private  val listener: OnTimeSetListener,
+        listener: OnTimeSetListener,
+        private val changeListener: OnTimeSetListener,
         hourOfDay: Int,
         minute: Int,
         is24HourView: Boolean
@@ -35,7 +36,7 @@ class GoodTimePickerDialog(
 
     override fun onTimeChanged(view: TimePicker?, hourOfDay: Int, minute: Int) {
         super.onTimeChanged(view, hourOfDay, minute)
-        listener.onTimeSet(view, hourOfDay, minute)
+        changeListener.onTimeSet(view, hourOfDay, minute)
     }
 
 }

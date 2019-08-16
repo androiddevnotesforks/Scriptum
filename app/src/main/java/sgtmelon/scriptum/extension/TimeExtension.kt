@@ -1,19 +1,16 @@
 package sgtmelon.scriptum.extension
 
 import android.content.Context
+import android.text.format.DateFormat
 import android.text.format.DateUtils
 import sgtmelon.scriptum.R
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 fun Context.getDateFormat(): SimpleDateFormat =
         SimpleDateFormat(getString(R.string.date_app_format), Locale.getDefault())
 
-fun Locale.useAmPm(): Boolean =
-        (DateFormat.getTimeInstance(DateFormat.FULL, this)).let {
-            return it is SimpleDateFormat && it.toPattern().contains("a")
-        }
+fun Context.is24Format(): Boolean = DateFormat.is24HourFormat(this)
 
 /**
  * Текущее время в нужном формате

@@ -112,7 +112,7 @@ fun TextView.bindPastTime(dateTime: String) {
         }
 
         SimpleDateFormat(when {
-            calendar.isToday() -> if (locale.useAmPm()) context.getString(R.string.format_time_am) else context.getString(R.string.format_time)
+            calendar.isToday() -> if (context.is24Format()) context.getString(R.string.format_time) else context.getString(R.string.format_time_am)
             calendar.isThisYear() -> context.getString(R.string.format_date_medium)
             else -> context.getString(R.string.format_date_short)
         }, locale).format(calendar.time)

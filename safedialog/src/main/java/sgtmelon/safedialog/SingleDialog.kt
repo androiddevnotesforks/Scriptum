@@ -21,6 +21,9 @@ class SingleDialog : DialogBlank() {
 
     var itemListener: DialogInterface.OnClickListener? = null
 
+    /**
+     * Call before [show]
+     */
     fun setArguments(check: Int) = apply {
         arguments = Bundle().apply {
             putInt(INIT, check)

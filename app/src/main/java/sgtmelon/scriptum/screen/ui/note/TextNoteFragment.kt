@@ -159,7 +159,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         timeDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
-                iViewModel.onResultTimeDialog(timeDialog.getResult())
+                iViewModel.onResultTimeDialog(timeDialog.calendar)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }

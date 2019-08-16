@@ -26,6 +26,9 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     var position: Int = 0
         private set
 
+    /**
+     * Call before [show]
+     */
     fun setArguments(itemArray: Array<String>, p: Int) = apply {
         arguments = Bundle().apply {
             putStringArray(INIT, itemArray)

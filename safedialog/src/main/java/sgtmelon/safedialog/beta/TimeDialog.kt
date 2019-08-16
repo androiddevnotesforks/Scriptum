@@ -5,7 +5,7 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
+import android.text.format.DateFormat
 import android.widget.TimePicker
 import sgtmelon.safedialog.DialogBlank
 import sgtmelon.safedialog.R
@@ -23,11 +23,11 @@ class TimeDialog : DialogBlank(), TimePickerDialog.OnTimeSetListener {
     var calendar: Calendar = Calendar.getInstance()
         private set
 
-    fun getResult(): Calendar {
-        return calendar
-    }
-
+    /**
+     * Call before [show]
+     */
     fun setArguments(calendar: Calendar) = apply {
+        calendar.set(Calendar.SECOND, 0)
         arguments = Bundle().apply { putLong(VALUE, calendar.timeInMillis) }
     }
 
@@ -37,15 +37,18 @@ class TimeDialog : DialogBlank(), TimePickerDialog.OnTimeSetListener {
         calendar.timeInMillis = savedInstanceState?.getLong(VALUE) ?: bundle?.getLong(VALUE)
                 ?: defaultTime
 
-        return GoodTimePickerDialog(context as Context, this,
+        val changeListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            calendar.set(Calendar.MINUTE, minute)
+            setEnable()
+        }
+
+        // TODO #RELEASE replace is24HourFormat with extension from [TimeExtension]
+        return GoodTimePickerDialog(context as Context, this, changeListener,
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
-                true // TODO #RELEASE
-        ).apply {
-            setButton(DialogInterface.BUTTON_POSITIVE, "") { _, _ -> }
-            setButton(DialogInterface.BUTTON_NEGATIVE, getString(R.string.dialog_btn_accept), positiveListener)
-            setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
-        }
+                DateFormat.is24HourFormat(context as Context)
+        )
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -54,8 +57,31 @@ class TimeDialog : DialogBlank(), TimePickerDialog.OnTimeSetListener {
         })
     }
 
+    /**
+     * Change button text without override listener which call [onTimeSet]
+     */
+    override fun setupButton() {
+        super.setupButton()
+        positiveButton?.text = getString(R.string.dialog_btn_accept)
+        negativeButton?.text = getString(R.string.dialog_btn_cancel)
+    }
+
+    /**
+     * Check that date and time of [calendar] are not from the past
+     */
+    override fun setEnable() {
+        super.setEnable()
+        positiveButton?.isEnabled = calendar.after(Calendar.getInstance())
+    }
+
+    /**
+     * This func calls after [positiveButton] click
+     */
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        Log.i("HERE", "hour = $hourOfDay | min = $minute")
+        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        calendar.set(Calendar.MINUTE, minute)
+
+        onPositiveClick.onClick(dialog, DialogInterface.BUTTON_POSITIVE)
     }
 
 }
