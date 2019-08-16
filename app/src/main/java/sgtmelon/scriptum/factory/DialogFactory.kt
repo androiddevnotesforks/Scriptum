@@ -6,8 +6,8 @@ import sgtmelon.safedialog.MessageDialog
 import sgtmelon.safedialog.MultiplyDialog
 import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.safedialog.SingleDialog
-import sgtmelon.safedialog.beta.DateDialog
-import sgtmelon.safedialog.beta.TimeDialog
+import sgtmelon.safedialog.time.DateDialog
+import sgtmelon.safedialog.time.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.dialog.*
 import sgtmelon.scriptum.model.key.NoteType
