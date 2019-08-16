@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 
 /**
  * Class for help control [Vibrator]

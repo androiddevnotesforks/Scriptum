@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.control.alarm
+package sgtmelon.scriptum.control.alarm.callback
 
 /**
  * Interface for [VibratorControl]

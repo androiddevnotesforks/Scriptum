@@ -7,6 +7,7 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
+import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 
 /**
  * Class for help control [MediaPlayer] and [AudioManager]
