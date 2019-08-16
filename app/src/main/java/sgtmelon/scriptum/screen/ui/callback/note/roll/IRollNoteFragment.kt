@@ -9,6 +9,7 @@ import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
+import java.util.*
 
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
@@ -79,6 +80,10 @@ interface IRollNoteFragment {
     fun showRankDialog(check: Int)
 
     fun showColorDialog(color: Int)
+
+    fun showDateDialog(calendar: Calendar)
+
+    fun showTimeDialog(calendar: Calendar)
 
     fun showConvertDialog()
 

@@ -45,6 +45,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.note.IRollNoteViewModel
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
+import java.util.*
 
 /**
  * Фрагмент для отображения заметки списка
@@ -71,6 +72,9 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     private val colorDialog by lazy {
         DialogFactory.Note.getColorDialog(context as Activity, fragmentManager)
     }
+
+    private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
+    private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
     private val convertDialog by lazy {
         DialogFactory.Note.getConvertDialog(context as Activity, fragmentManager, NoteType.ROLL)
     }
@@ -173,6 +177,20 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         colorDialog.apply {
             positiveListener = DialogInterface.OnClickListener { _, _ ->
                 iViewModel.onResultColorDialog(colorDialog.check)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }
+
+        dateDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultDateDialog(dateDialog.calendar)
+            }
+            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+        }
+
+        timeDialog.apply {
+            positiveListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultTimeDialog(timeDialog.calendar)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
@@ -376,6 +394,20 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         hideKeyboard()
         fragmentManager?.let {
             colorDialog.setArguments(color).show(it, DialogFactory.Note.COLOR)
+        }
+    }
+
+    override fun showDateDialog(calendar: Calendar) = openState.tryInvoke {
+        hideKeyboard()
+        fragmentManager?.let {
+            dateDialog.setArguments(calendar).show(it, DialogFactory.Note.DATE)
+        }
+    }
+
+    override fun showTimeDialog(calendar: Calendar) = openState.apply { clear() }.tryInvoke {
+        hideKeyboard()
+        fragmentManager?.let {
+            timeDialog.setArguments(calendar).show(it, DialogFactory.Note.TIME)
         }
     }
 

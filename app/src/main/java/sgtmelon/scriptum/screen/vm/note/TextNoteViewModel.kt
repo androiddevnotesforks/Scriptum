@@ -307,7 +307,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         callback?.showTimeDialog(calendar)
     }
 
-    // TODO #RELEASE
+    // TODO #RELEASE1 set alarm to androidDevice
     override fun onResultTimeDialog(calendar: Calendar) {
         context.showToast(context.getDateFormat().format(calendar.time))
     }

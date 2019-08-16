@@ -8,6 +8,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteMenu
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
+import java.util.*
 
 /**
  * Interface for communication [RollNoteFragment] with [RollNoteViewModel]
@@ -41,6 +42,10 @@ interface IRollNoteViewModel : IParentViewModel,
     fun onResultColorDialog(check: Int)
 
     fun onResultRankDialog(check: Int)
+
+    fun onResultDateDialog(calendar: Calendar)
+
+    fun onResultTimeDialog(calendar: Calendar)
 
     fun onResultConvertDialog()
 

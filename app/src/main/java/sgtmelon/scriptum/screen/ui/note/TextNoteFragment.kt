@@ -53,12 +53,12 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private val colorDialog by lazy {
         DialogFactory.Note.getColorDialog(context as Activity, fragmentManager)
     }
-    private val convertDialog by lazy {
-        DialogFactory.Note.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
-    }
 
     private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
     private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
+    private val convertDialog by lazy {
+        DialogFactory.Note.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
+    }
 
     private val iViewModel: ITextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
@@ -281,9 +281,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         }
     }
 
-    override fun showTimeDialog(calendar: Calendar) {
-        openState.clear()
-
+    override fun showTimeDialog(calendar: Calendar) = openState.apply { clear() }.tryInvoke {
         hideKeyboard()
         fragmentManager?.let {
             timeDialog.setArguments(calendar).show(it, DialogFactory.Note.TIME)

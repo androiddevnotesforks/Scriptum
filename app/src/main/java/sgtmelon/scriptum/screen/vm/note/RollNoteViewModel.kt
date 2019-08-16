@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm.note
 import android.app.Application
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
-import android.widget.Toast
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
@@ -11,10 +10,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.extension.getCheck
-import sgtmelon.scriptum.extension.getTime
-import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.extension.swap
+import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
@@ -31,6 +27,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.note.IRollNoteViewModel
+import java.util.*
 
 /**
  * ViewModel for [RollNoteFragment]
