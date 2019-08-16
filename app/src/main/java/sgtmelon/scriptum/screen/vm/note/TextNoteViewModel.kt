@@ -176,9 +176,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         return true
     }
 
-    // TODO #RELEASE
     override fun onMenuNotification() {
-        callback?.showDateDialog(Calendar.getInstance())
+        callback?.showDateDialog(noteModel.alarmEntity.date.getCalendar(context))
     }
 
     override fun onMenuBind() = with(noteModel) {
@@ -301,15 +300,20 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         }
     }
 
-    // TODO #RELEASE
     override fun onResultDateDialog(calendar: Calendar) {
-        context.showToast(context.getDateFormat().format(calendar.time))
         callback?.showTimeDialog(calendar)
     }
 
     // TODO #RELEASE1 set alarm to androidDevice
     override fun onResultTimeDialog(calendar: Calendar) {
-        context.showToast(context.getDateFormat().format(calendar.time))
+        if (calendar.beforeNow()) return
+
+        iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
+            date = context.getDateFormat().format(calendar.time)
+        })
+
+        callback?.bindNote(noteModel)
+        callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
     }
 
     override fun onResultConvertDialog() {

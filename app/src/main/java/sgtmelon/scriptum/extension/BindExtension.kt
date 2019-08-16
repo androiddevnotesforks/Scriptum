@@ -117,6 +117,7 @@ fun TextView.bindPastTime(dateTime: String) {
             else -> context.getString(R.string.format_date_short)
         }, locale).format(calendar.time)
     } catch (e: Throwable) {
+        e.printStackTrace()
         null
     }
 }
@@ -135,6 +136,7 @@ fun TextView.bindFutureTime(dateTime: String) {
                 DateUtils.DAY_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0
         ).toString()
     } catch (e: Throwable) {
+        e.printStackTrace()
         null
     }
 }
