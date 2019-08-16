@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.callback.note.text
 
-import android.app.PendingIntent
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.NoteModel
@@ -50,8 +49,6 @@ interface ITextNoteFragment {
     fun changeText(text: String, cursor: Int)
 
     fun hideKeyboard()
-
-    fun setAlarm(calendar: Calendar, intent: PendingIntent)
 
     fun showRankDialog(check: Int)
 

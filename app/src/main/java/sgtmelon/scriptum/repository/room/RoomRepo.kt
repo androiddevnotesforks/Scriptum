@@ -99,6 +99,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override suspend fun deleteNote(noteEntity: NoteEntity) = inRoom {
+        iAlarmDao.delete(noteEntity.id)
+
         iNoteDao.update(noteEntity.apply {
             change = context.getTime()
             isBin = true

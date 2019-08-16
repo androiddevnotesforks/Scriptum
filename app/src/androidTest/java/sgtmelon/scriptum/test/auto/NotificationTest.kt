@@ -38,6 +38,17 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
+    @Test fun itemCancelOnDelete() = testData.insertNotification(testData.insertText()).let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openNoteDialog(it) { onClickDelete() }
+                    openNotification(empty = true)
+                }
+            }
+        }
+    }
+
 
     @Test fun textNoteOpen() = testData.insertText().let {
         launch({ testData.insertNotification(it) }) {

@@ -235,8 +235,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuDelete() {
-        noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.deleteNote(it) } }
+        val noteEntity = noteModel.noteEntity
+
         BindControl(context, noteModel).cancelBind()
+        iAlarmControl.cancel(AlarmReceiver.getInstance(context, noteEntity))
+        viewModelScope.launch { iRoomRepo.deleteNote(noteEntity) }
 
         parentCallback?.finish()
     }
@@ -474,7 +477,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         })
 
         callback?.bindNote(noteModel)
-        callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
+        iAlarmControl.set(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
     }
 
     override fun onResultConvertDialog() {

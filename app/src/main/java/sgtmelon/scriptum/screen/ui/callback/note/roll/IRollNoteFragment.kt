@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.callback.note.roll
 
-import android.app.PendingIntent
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.NoteModel
@@ -77,8 +76,6 @@ interface IRollNoteFragment {
     fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>)
 
     fun hideKeyboard()
-
-    fun setAlarm(calendar: Calendar, intent: PendingIntent)
 
     fun showRankDialog(check: Int)
 

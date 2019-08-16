@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.lifecycle.AndroidViewModel
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.repository.room.RoomRepo
@@ -20,6 +21,8 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
     protected val iPreferenceRepo = PreferenceRepo(context)
     protected val iRoomRepo = RoomRepo.getInstance(context)
     protected val iAlarmRepo = AlarmRepo.getInstance(context)
+
+    protected val iAlarmControl = AlarmControl.getInstance(context)
 
     var callback: T? = null
 

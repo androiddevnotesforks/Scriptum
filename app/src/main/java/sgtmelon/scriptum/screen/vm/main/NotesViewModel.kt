@@ -10,6 +10,7 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
@@ -94,10 +95,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     private fun onMenuDelete(p: Int) = noteModelList.apply {
-        get(p).noteEntity.let {
-            viewModelScope.launch { iRoomRepo.deleteNote(it) }
-            BindControl(context, it).cancelBind()
-        }
+        val noteEntity = get(p).noteEntity
+
+        BindControl(context, noteEntity).cancelBind()
+        iAlarmControl.cancel(AlarmReceiver.getInstance(context, noteEntity))
+        viewModelScope.launch { iRoomRepo.deleteNote(noteEntity) }
 
         removeAt(p)
     }
