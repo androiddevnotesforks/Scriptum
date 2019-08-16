@@ -43,7 +43,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
         iNoteDao.insert(noteEntity)
         iAlarmDao.insert(alarmEntity)
 
-        iAlarmRepo.delete(alarmEntity.id)
+        iAlarmRepo.delete(alarmEntity.noteId)
 
         assertTrue(iAlarmRepo.getList().isEmpty())
     }

@@ -46,7 +46,7 @@ class NotificationViewModel(application: Application) :
 
     override fun onClickCancel(p: Int) {
         val item = notificationList[p]
-        iAlarmRepo.delete(item.alarm.id)
+        iAlarmRepo.delete(item.note.id)
 
         callback?.notifyItemRemoved(p, notificationList.apply { removeAt(p) })
         callback?.cancelAlarm(AlarmReceiver.getInstance(context, item.note.id, item.note.color))
