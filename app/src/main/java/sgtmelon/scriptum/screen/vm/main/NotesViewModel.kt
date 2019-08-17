@@ -98,7 +98,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         val noteEntity = get(p).noteEntity
 
         BindControl(context, noteEntity).cancelBind()
-        iAlarmControl.cancel(AlarmReceiver.getInstance(context, noteEntity))
+        callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteEntity))
         viewModelScope.launch { iRoomRepo.deleteNote(noteEntity) }
 
         removeAt(p)

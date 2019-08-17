@@ -93,6 +93,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
     )
 
+
     override fun onMenuRestore() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
         parentCallback?.finish()
@@ -238,7 +239,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val noteEntity = noteModel.noteEntity
 
         BindControl(context, noteModel).cancelBind()
-        iAlarmControl.cancel(AlarmReceiver.getInstance(context, noteEntity))
+        callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteEntity))
         viewModelScope.launch { iRoomRepo.deleteNote(noteEntity) }
 
         parentCallback?.finish()
@@ -262,6 +263,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         saveControl.setSaveHandlerEvent(editMode)
     }
+
 
     override fun onResultInputTextChange() {
         callback?.bindInput(inputControl.access, noteModel)
@@ -301,13 +303,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         return true
     }
 
+
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    override fun onDestroy(func: () -> Unit) {
-        super.onDestroy {
-            parentCallback = null
-            saveControl.setSaveHandlerEvent(isStart = false)
-        }
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        parentCallback = null
+        saveControl.setSaveHandlerEvent(isStart = false)
     }
 
     override fun onUpdateData() {
@@ -355,6 +356,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         return true
     }
+
 
     override fun onEditorClick(i: Int): Boolean {
         val enterText = callback?.getEnterText() ?: ""
@@ -476,8 +478,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             date = context.getDateFormat().format(calendar.time)
         })
 
+        callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
         callback?.bindNote(noteModel)
-        iAlarmControl.set(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
     }
 
     override fun onResultConvertDialog() {

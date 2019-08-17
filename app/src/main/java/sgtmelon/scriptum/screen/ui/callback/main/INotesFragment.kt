@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
 import android.content.Intent
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
@@ -11,7 +12,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  *
  * @author SerjantArbuz
  */
-interface INotesFragment {
+interface INotesFragment : AlarmControl.CancelCallback {
 
     fun setupToolbar()
 

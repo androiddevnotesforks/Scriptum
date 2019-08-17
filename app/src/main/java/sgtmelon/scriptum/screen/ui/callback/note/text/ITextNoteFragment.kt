@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.note.text
 
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.NoteModel
@@ -15,7 +16,7 @@ import java.util.*
  *
  * @author SerjantArbuz
  */
-interface ITextNoteFragment {
+interface ITextNoteFragment : AlarmControl.Callback {
 
     /**
      * Установка элементов для биндинга, которые постоянные

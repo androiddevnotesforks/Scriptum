@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.note
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,7 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -59,10 +61,11 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     private val iViewModel: IRollNoteViewModel by lazy {
         ViewModelProviders.of(this).get(RollNoteViewModel::class.java).apply {
             callback = this@RollNoteFragment
-            parentCallback = context as INoteChild
+            parentCallback = context as? INoteChild
         }
     }
 
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()
@@ -357,19 +360,11 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     override fun notifyDataSetChanged(list: MutableList<RollEntity>) =
             adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
 
-    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>) {
-        adapter.apply {
-            cursorPosition = cursor
-            notifyItemInserted(p, list)
-        }
-    }
+    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>) =
+            adapter.apply { cursorPosition = cursor }.notifyItemInserted(p, list)
 
-    override fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int) {
-        adapter.apply {
-            cursorPosition = cursor
-            notifyItemChanged(p, list)
-        }
-    }
+    override fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int) =
+            adapter.apply { cursorPosition = cursor }.notifyItemChanged(p, list)
 
     override fun notifyItemRemoved(p: Int, list: MutableList<RollEntity>) =
             adapter.notifyItemRemoved(p, list)
@@ -415,6 +410,13 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         hideKeyboard()
         fragmentManager?.let { convertDialog.show(it, DialogFactory.Note.CONVERT) }
     }
+
+
+    override fun setAlarm(calendar: Calendar, intent: PendingIntent) =
+            iAlarmControl.set(calendar, intent)
+
+    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
+
 
     companion object {
         fun getInstance(id: Long) = RollNoteFragment().apply {

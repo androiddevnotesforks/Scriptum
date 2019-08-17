@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.NoteData
@@ -29,6 +31,8 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         }
     }
 
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
@@ -47,6 +51,8 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         super.finish()
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
+
+    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
 
     companion object {
         const val OPEN_SCREEN = "INTENT_SPLASH_OPEN_SCREEN"

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
 import android.content.Intent
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
@@ -11,7 +12,7 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
  *
  * @author SerjantArbuz
  */
-interface INotificationActivity {
+interface INotificationActivity : AlarmControl.CancelCallback {
 
     fun setupToolbar()
 

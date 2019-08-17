@@ -88,6 +88,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
     )
 
+
     override fun onMenuRestore() {
         noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
         parentCallback?.finish()
@@ -198,7 +199,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         val noteEntity = noteModel.noteEntity
 
         BindControl(context, noteEntity).cancelBind()
-        iAlarmControl.cancel(AlarmReceiver.getInstance(context, noteEntity))
+        callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteEntity))
         viewModelScope.launch { iRoomRepo.deleteNote(noteEntity) }
 
         parentCallback?.finish()
@@ -226,9 +227,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         callback?.bindInput(inputControl.access, noteModel)
     }
 
+
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        parentCallback = null
         saveControl.setSaveHandlerEvent(isStart = false)
     }
 
@@ -267,6 +270,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         return true
     }
+
 
     override fun onResultColorDialog(check: Int) {
         val noteEntity = noteModel.noteEntity
@@ -313,8 +317,8 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             date = context.getDateFormat().format(calendar.time)
         })
 
+        callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
         callback?.bindNote(noteModel)
-        iAlarmControl.set(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
     }
 
     override fun onResultConvertDialog() {

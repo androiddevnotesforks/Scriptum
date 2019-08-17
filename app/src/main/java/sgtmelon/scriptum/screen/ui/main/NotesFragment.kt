@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.main
 
+import android.app.PendingIntent
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
@@ -47,6 +49,8 @@ class NotesFragment : Fragment(), INotesFragment {
             callback = this@NotesFragment
         }
     }
+
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
 
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy {
@@ -173,5 +177,7 @@ class NotesFragment : Fragment(), INotesFragment {
 
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
             adapter.notifyItemRemoved(p, list)
+
+    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
 
 }

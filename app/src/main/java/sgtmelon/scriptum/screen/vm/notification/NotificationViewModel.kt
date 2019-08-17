@@ -29,6 +29,7 @@ class NotificationViewModel(application: Application) :
         }
     }
 
+
     override fun onUpdateData() {
         notificationList.clearAndAdd(iAlarmRepo.getList())
 
@@ -48,8 +49,8 @@ class NotificationViewModel(application: Application) :
         val item = notificationList[p]
 
         iAlarmRepo.delete(item.note.id)
-        iAlarmControl.cancel(AlarmReceiver.getInstance(context, item.note.id, item.note.color))
 
+        callback?.cancelAlarm(AlarmReceiver.getInstance(context, item.note.id, item.note.color))
         callback?.notifyItemRemoved(p, notificationList.apply { removeAt(p) })
     }
 

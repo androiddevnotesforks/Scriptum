@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.ui.note
 
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -63,10 +65,11 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private val iViewModel: ITextNoteViewModel by lazy {
         ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
             callback = this@TextNoteFragment
-            parentCallback = context as INoteChild
+            parentCallback = context as? INoteChild
         }
     }
 
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
     private var menuControl: MenuControl? = null
 
     private var nameEnter: EditText? = null
@@ -292,6 +295,13 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         hideKeyboard()
         fragmentManager?.let { convertDialog.show(it, DialogFactory.Note.CONVERT) }
     }
+
+
+    override fun setAlarm(calendar: Calendar, intent: PendingIntent) =
+            iAlarmControl.set(calendar, intent)
+
+    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
+
 
     companion object {
         fun getInstance(id: Long) = TextNoteFragment().apply {
