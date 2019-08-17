@@ -50,7 +50,7 @@ class NotificationViewModel(application: Application) :
 
         iAlarmRepo.delete(item.note.id)
 
-        callback?.cancelAlarm(AlarmReceiver.getInstance(context, item.note.id, item.note.color))
+        callback?.cancelAlarm(AlarmReceiver.getInstance(context, item))
         callback?.notifyItemRemoved(p, notificationList.apply { removeAt(p) })
     }
 

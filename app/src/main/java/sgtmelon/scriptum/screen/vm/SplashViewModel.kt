@@ -56,7 +56,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     @Suppress("RedundantSuspendModifier")
     private suspend fun clearPastAlarm() = iAlarmRepo.getList().forEach {
         if (it.alarm.date.getCalendar(context).beforeNow()) {
-            callback?.cancelAlarm(AlarmReceiver.getInstance(context, it.note.id, it.note.color))
+            callback?.cancelAlarm(AlarmReceiver.getInstance(context, it))
             iAlarmRepo.delete(it.note.id)
         }
     }

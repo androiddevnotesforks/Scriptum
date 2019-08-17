@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.ReceiverData.Values
+import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
@@ -32,7 +33,10 @@ class AlarmReceiver : BroadcastReceiver() {
         fun getInstance(context: Context, noteEntity: NoteEntity) =
                 getInstance(context, noteEntity.id, noteEntity.color)
 
-        fun getInstance(context: Context, id: Long, @Color color: Int): PendingIntent {
+        fun getInstance(context: Context, notificationItem: NotificationItem)=
+                getInstance(context, notificationItem.note.id, notificationItem.note.color)
+
+        private fun getInstance(context: Context, id: Long, @Color color: Int): PendingIntent {
             val intent = Intent(context, AlarmReceiver::class.java)
                     .putExtra(Values.NOTE_ID, id)
                     .putExtra(Values.NOTE_COLOR, color)
