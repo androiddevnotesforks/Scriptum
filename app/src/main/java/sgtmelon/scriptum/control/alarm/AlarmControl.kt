@@ -23,21 +23,6 @@ class AlarmControl(context: Context?) : IAlarmControl {
         alarmManager?.cancel(intent)
     }
 
-
-    /**
-     * Implement this callback in activity/fragment to access [AlarmControl] from viewModel
-     */
-    interface Callback : SetCallback, CancelCallback
-
-    interface SetCallback {
-        fun setAlarm(calendar: Calendar, intent: PendingIntent)
-    }
-
-    interface CancelCallback {
-        fun cancelAlarm(intent: PendingIntent)
-    }
-
-
     companion object {
         fun getInstance(context: Context?): IAlarmControl = AlarmControl(context)
     }

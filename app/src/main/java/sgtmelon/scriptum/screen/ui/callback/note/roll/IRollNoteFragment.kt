@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.note.roll
 
-import sgtmelon.scriptum.control.alarm.AlarmControl
+import android.app.PendingIntent
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.NoteModel
@@ -17,7 +17,7 @@ import java.util.*
  *
  * @author SerjantArbuz
  */
-interface IRollNoteFragment : AlarmControl.Callback {
+interface IRollNoteFragment {
 
     /**
      * Установка элементов для биндинга, которые постоянные
@@ -87,5 +87,10 @@ interface IRollNoteFragment : AlarmControl.Callback {
     fun showTimeDialog(calendar: Calendar)
 
     fun showConvertDialog()
+
+
+    fun setAlarm(calendar: Calendar, intent: PendingIntent)
+
+    fun cancelAlarm(intent: PendingIntent)
 
 }

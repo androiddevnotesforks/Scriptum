@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
+import android.app.PendingIntent
 import android.content.Intent
-import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
@@ -12,7 +12,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  *
  * @author SerjantArbuz
  */
-interface INotesFragment : AlarmControl.CancelCallback {
+interface INotesFragment {
 
     fun setupToolbar()
 
@@ -33,5 +33,7 @@ interface INotesFragment : AlarmControl.CancelCallback {
     fun notifyItemChanged(p: Int, list: MutableList<NoteModel>)
 
     fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>)
+
+    fun cancelAlarm(intent: PendingIntent)
 
 }
