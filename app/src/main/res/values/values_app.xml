@@ -3,8 +3,6 @@
 
     <!-- Time format -->
 
-    <string name="date_app_format" translatable="false">yyyy-MM-dd HH:mm:ss</string>
-
     <string name="format_time_am" translatable="false">h:mm a</string>
     <string name="format_time" translatable="false">HH:mm</string>
     <string name="format_date_medium" translatable="false">d MMM</string>

@@ -12,6 +12,10 @@ import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import sgtmelon.extension.getDateFormat
+import sgtmelon.extension.is24Format
+import sgtmelon.extension.isThisYear
+import sgtmelon.extension.isToday
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -108,7 +112,7 @@ fun TextView.bindPastTime(dateTime: String) {
     text = try {
         val locale = Locale.getDefault()
         val calendar = Calendar.getInstance().apply {
-            time = context.getDateFormat().parse(dateTime)
+            time = getDateFormat().parse(dateTime)
         }
 
         SimpleDateFormat(when {
@@ -129,7 +133,7 @@ fun TextView.bindPastTime(dateTime: String) {
 fun TextView.bindFutureTime(dateTime: String) {
     text = try {
         val calendar = Calendar.getInstance().apply {
-            time = context.getDateFormat().parse(dateTime)
+            time = getDateFormat().parse(dateTime)
         }
 
         DateUtils.getRelativeDateTimeString(context, calendar.timeInMillis,

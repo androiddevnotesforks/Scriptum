@@ -3,9 +3,9 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
+import sgtmelon.extension.getDateFormat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
-import sgtmelon.scriptum.extension.getDateFormat
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -130,7 +130,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             }
 
             iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
-                date = context.getDateFormat().format(calendar.time)
+                date = getDateFormat().format(calendar.time)
             })
 
             callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))

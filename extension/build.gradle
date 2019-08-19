@@ -9,6 +9,13 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
+
+        buildConfigField "String", "APP_DATE_FORMAT", '"yyyy-MM-dd HH:mm:ss"'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {

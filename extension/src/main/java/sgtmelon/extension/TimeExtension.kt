@@ -6,22 +6,23 @@ import android.text.format.DateUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val dateAppFormat = "yyyy-MM-dd HH:mm:ss"
+// TODO #RELEASE2 объединить с форматированием строки (посмотреть нужно ли всезде)
+fun getDateFormat(): SimpleDateFormat =
+        SimpleDateFormat(BuildConfig.APP_DATE_FORMAT, Locale.getDefault())
 
-fun getDateFormat(): SimpleDateFormat = SimpleDateFormat(dateAppFormat, Locale.getDefault())
-
-fun Context.is24Format(): Boolean = DateFormat.is24HourFormat(this)
+fun Context?.is24Format(): Boolean =
+        if (this != null) DateFormat.is24HourFormat(this) else true
 
 /**
  * Текущее время в нужном формате
  */
-fun Context.getTime(): String = getDateFormat().format(Calendar.getInstance().time)
+fun getTime(): String = getDateFormat().format(Calendar.getInstance().time)
 
 fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
 
 fun Calendar.isThisYear() = get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
 
-fun String.getCalendar(context: Context): Calendar {
+fun String.getCalendar(): Calendar {
     val calendar = Calendar.getInstance()
 
     try {

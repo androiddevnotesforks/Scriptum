@@ -4,8 +4,8 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.extension.beforeNow
-import sgtmelon.scriptum.extension.getCalendar
+import sgtmelon.extension.beforeNow
+import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.AlarmReceiver
@@ -55,7 +55,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     // TODO #RELEASE3
     @Suppress("RedundantSuspendModifier")
     private suspend fun clearPastAlarm() = iAlarmRepo.getList().forEach {
-        if (it.alarm.date.getCalendar(context).beforeNow()) {
+        if (it.alarm.date.getCalendar().beforeNow()) {
             callback?.cancelAlarm(AlarmReceiver.getInstance(context, it))
             iAlarmRepo.delete(it.note.id)
         }

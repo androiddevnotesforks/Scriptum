@@ -4,11 +4,15 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import sgtmelon.extension.beforeNow
+import sgtmelon.extension.getCalendar
+import sgtmelon.extension.getDateFormat
+import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
@@ -59,7 +63,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
             if (id == NoteData.Default.ID) {
                 noteModel = NoteModel.getCreate(
-                        context.getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
+                        getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
                 )
 
                 noteState = NoteState(isCreate = true)
@@ -98,7 +102,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         noteState.isBin = false
 
         noteModel.noteEntity.apply {
-            change = context.getTime()
+            change = getTime()
             isBin = false
         }
 
@@ -155,7 +159,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuSave(changeMode: Boolean): Boolean {
         if (!noteModel.isSaveEnabled()) return false
 
-        noteModel.noteEntity.change = context.getTime()
+        noteModel.noteEntity.change = getTime()
 
         if (changeMode) {
             callback?.hideKeyboard()
@@ -178,7 +182,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuNotification() {
-        callback?.showDateDialog(noteModel.alarmEntity.date.getCalendar(context))
+        callback?.showDateDialog(noteModel.alarmEntity.date.getCalendar())
     }
 
     override fun onMenuBind() = with(noteModel) {
@@ -316,7 +320,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         if (calendar.beforeNow()) return
 
         iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
-            date = context.getDateFormat().format(calendar.time)
+            date = getDateFormat().format(calendar.time)
         })
 
         callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))

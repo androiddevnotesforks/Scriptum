@@ -6,11 +6,17 @@ import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import kotlinx.coroutines.launch
+import sgtmelon.extension.beforeNow
+import sgtmelon.extension.getCalendar
+import sgtmelon.extension.getDateFormat
+import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.extension.*
+import sgtmelon.scriptum.extension.getCheck
+import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.extension.swap
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
@@ -63,7 +69,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
             if (id == NoteData.Default.ID) {
                 noteModel = NoteModel.getCreate(
-                        context.getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
+                        getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
                 )
 
                 noteState = NoteState(isCreate = true)
@@ -103,7 +109,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteState.isBin = false
 
         noteModel.noteEntity.apply {
-            change = context.getTime()
+            change = getTime()
             isBin = false
         }
 
@@ -188,7 +194,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         if (!noteModel.isSaveEnabled()) return false
 
         noteModel.noteEntity.apply {
-            change = context.getTime()
+            change = getTime()
             setCompleteText(rollList.getCheck(), rollList.size)
         }
 
@@ -218,7 +224,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuNotification() {
-        callback?.showDateDialog(noteModel.alarmEntity.date.getCalendar(context))
+        callback?.showDateDialog(noteModel.alarmEntity.date.getCalendar())
     }
 
     override fun onMenuBind() = with(noteModel) {
@@ -399,7 +405,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val check = rollList.getCheck()
 
         val noteEntity = noteModel.noteEntity.apply {
-            change = context.getTime()
+            change = getTime()
             setCompleteText(check, rollList.size)
         }
 
@@ -417,7 +423,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         noteModel.updateCheck(!isAll)
 
         val noteEntity = noteModel.noteEntity.apply {
-            change = context.getTime()
+            change = getTime()
             setCompleteText(if (isAll) 0 else size, size)
         }
 
@@ -477,7 +483,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         if (calendar.beforeNow()) return
 
         iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
-            date = context.getDateFormat().format(calendar.time)
+            date = getDateFormat().format(calendar.time)
         })
 
         callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))

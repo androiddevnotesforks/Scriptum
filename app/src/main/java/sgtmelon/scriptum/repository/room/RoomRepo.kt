@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.repository.room
 
 import android.content.Context
+import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.NoteData
@@ -102,7 +102,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         iAlarmDao.delete(noteEntity.id)
 
         iNoteDao.update(noteEntity.apply {
-            change = context.getTime()
+            change = getTime()
             isBin = true
             isStatus = false
         })
@@ -110,7 +110,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
     override suspend fun restoreNote(noteEntity: NoteEntity) = inRoom {
         iNoteDao.update(noteEntity.apply {
-            change = context.getTime()
+            change = getTime()
             isBin = false
         })
     }
@@ -170,7 +170,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             }
 
             noteEntity.apply {
-                change = context.getTime()
+                change = getTime()
                 type = NoteType.ROLL
                 setCompleteText(check = 0, size = rollList.size)
             }
@@ -185,7 +185,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
         inRoom {
             noteEntity.apply {
-                change = context.getTime()
+                change = getTime()
                 type = NoteType.TEXT
                 text = iRollDao[id].joinToString(separator = "\n") { it.text }
             }

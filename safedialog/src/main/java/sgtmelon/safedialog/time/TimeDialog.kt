@@ -4,7 +4,8 @@ import android.app.Dialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.text.format.DateFormat
+import sgtmelon.extension.afterNow
+import sgtmelon.extension.is24Format
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -49,7 +50,7 @@ class TimeDialog : DateTimeBlankDialog() {
         return GoodTimePickerDialog(context as Context, this, changeListener,
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
-                DateFormat.is24HourFormat(context as Context)
+                context.is24Format()
         )
     }
 
@@ -63,7 +64,7 @@ class TimeDialog : DateTimeBlankDialog() {
      */
     override fun setEnable() {
         super.setEnable()
-        positiveButton?.isEnabled = calendar.after(Calendar.getInstance())
+        positiveButton?.isEnabled = calendar.afterNow()
     }
 
 }
