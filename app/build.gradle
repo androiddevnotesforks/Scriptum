@@ -65,11 +65,10 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(":iconanim")
     implementation project(":idling")
     implementation project(":safedialog")
+    implementation project(":extension")
 
     //region Kotlin
 

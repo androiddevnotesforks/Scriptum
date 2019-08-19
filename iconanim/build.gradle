@@ -27,8 +27,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation jetbrains.kotlin
 
     implementation androidx.appcompat

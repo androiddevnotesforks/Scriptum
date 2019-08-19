@@ -1,15 +1,14 @@
-package sgtmelon.scriptum.extension
+package sgtmelon.extension
 
 import android.content.Context
 import android.text.format.DateFormat
 import android.text.format.DateUtils
-import sgtmelon.scriptum.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-// TODO remove context
-fun Context.getDateFormat(): SimpleDateFormat =
-        SimpleDateFormat(getString(R.string.date_app_format), Locale.getDefault())
+const val dateAppFormat = "yyyy-MM-dd HH:mm:ss"
+
+fun getDateFormat(): SimpleDateFormat = SimpleDateFormat(dateAppFormat, Locale.getDefault())
 
 fun Context.is24Format(): Boolean = DateFormat.is24HourFormat(this)
 
@@ -26,7 +25,7 @@ fun String.getCalendar(context: Context): Calendar {
     val calendar = Calendar.getInstance()
 
     try {
-        calendar.time = context.getDateFormat().parse(this)
+        calendar.time = getDateFormat().parse(this)
     } catch (e: Throwable) {
         e.printStackTrace()
     }
