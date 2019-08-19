@@ -306,7 +306,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onResultDateDialog(calendar: Calendar) {
-        callback?.showTimeDialog(calendar)
+        viewModelScope.launch {
+            callback?.showTimeDialog(calendar, iAlarmRepo.getList().map { it.alarm.date })
+        }
     }
 
     // TODO #RELEASE1 set alarm to androidDevice

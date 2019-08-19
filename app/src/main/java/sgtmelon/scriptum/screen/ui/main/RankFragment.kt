@@ -198,13 +198,12 @@ class RankFragment : Fragment(), IRankFragment {
         }
     }
 
-    override fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>) {
-        fragmentManager?.let {
+    override fun showRenameDialog(p: Int, name: String, nameList: List<String>) =
             openState.tryInvoke {
-                renameDialog.setArguments(p, name, nameList).show(it, DialogFactory.Main.RENAME)
+                fragmentManager?.let {
+                    renameDialog.setArguments(p, name, nameList).show(it, DialogFactory.Main.RENAME)
+                }
             }
-        }
-    }
 
     override fun notifyVisible(p: Int, item: RankEntity) = adapter.setListItem(p, item)
 

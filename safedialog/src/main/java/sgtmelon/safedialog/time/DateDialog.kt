@@ -15,6 +15,14 @@ class DateDialog : DateTimeBlankDialog() {
 
     // TODO #RELEASE1 add neutral button for delete alarm
 
+    /**
+     * Call before [show]
+     */
+    fun setArguments(calendar: Calendar) = apply {
+        calendar.set(Calendar.SECOND, 0)
+        arguments = Bundle().apply { putLong(VALUE, calendar.timeInMillis) }
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
 

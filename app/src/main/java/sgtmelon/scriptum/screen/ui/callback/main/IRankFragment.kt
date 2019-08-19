@@ -27,7 +27,7 @@ interface IRankFragment {
 
     fun scrollToItem(simpleClick: Boolean, list: MutableList<RankEntity>)
 
-    fun showRenameDialog(p: Int, name: String, nameList: ArrayList<String>)
+    fun showRenameDialog(p: Int, name: String, nameList: List<String>)
 
     fun notifyVisible(p: Int, item: RankEntity)
 

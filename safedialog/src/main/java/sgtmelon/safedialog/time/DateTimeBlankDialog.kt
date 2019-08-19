@@ -24,14 +24,6 @@ abstract class DateTimeBlankDialog : BlankDialog(),
     var calendar: Calendar = Calendar.getInstance()
         private set
 
-    /**
-     * Call before [show]
-     */
-    fun setArguments(calendar: Calendar) = apply {
-        calendar.set(Calendar.SECOND, 0)
-        arguments = Bundle().apply { putLong(VALUE, calendar.timeInMillis) }
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState.apply {
             putLong(VALUE, calendar.timeInMillis)

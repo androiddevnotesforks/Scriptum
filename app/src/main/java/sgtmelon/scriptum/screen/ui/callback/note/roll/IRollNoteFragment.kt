@@ -84,7 +84,7 @@ interface IRollNoteFragment {
 
     fun showDateDialog(calendar: Calendar)
 
-    fun showTimeDialog(calendar: Calendar)
+    fun showTimeDialog(calendar: Calendar, dateList: List<String>)
 
     fun showConvertDialog()
 

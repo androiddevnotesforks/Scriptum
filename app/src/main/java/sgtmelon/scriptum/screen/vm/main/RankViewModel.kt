@@ -56,7 +56,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onShowRenameDialog(p: Int) {
-        callback?.showRenameDialog(p, rankList[p].name, ArrayList(nameList))
+        callback?.showRenameDialog(p, rankList[p].name, nameList)
     }
 
     override fun onRenameDialog(p: Int, name: String) {
