@@ -29,12 +29,6 @@ data class AlarmEntity(
 
     fun needInsert() = id == ND_ID
 
-    fun clear() {
-        id = ND_ID
-        noteId = ND_NOTE_ID
-        date = ND_DATE
-    }
-
     companion object {
         const val ND_ID = 0L
         const val ND_NOTE_ID = 0L

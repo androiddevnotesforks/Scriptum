@@ -27,6 +27,7 @@ import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.converter.StringConverter
+import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
@@ -481,7 +482,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onResultDateDialogClear() {
         iAlarmRepo.delete(noteModel.alarmEntity.noteId)
 
-        noteModel.alarmEntity.clear()
+        noteModel.alarmEntity.apply {
+            id = AlarmEntity.ND_ID
+            date = AlarmEntity.ND_DATE
+        }
 
         callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteModel.noteEntity))
         callback?.bindNote(noteModel)
