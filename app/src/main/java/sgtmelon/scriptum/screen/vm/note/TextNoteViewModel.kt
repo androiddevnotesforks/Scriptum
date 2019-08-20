@@ -315,6 +315,15 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         }
     }
 
+    override fun onResultDateDialogClear() {
+        iAlarmRepo.delete(noteModel.alarmEntity.noteId)
+
+        noteModel.alarmEntity.clear()
+
+        callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteModel.noteEntity))
+        callback?.bindNote(noteModel)
+    }
+
     // TODO #RELEASE1 set alarm to androidDevice
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return

@@ -29,6 +29,8 @@ interface ITextNoteViewModel : IParentViewModel, ITextNoteMenu, InputTextWatcher
 
     fun onResultDateDialog(calendar: Calendar)
 
+    fun  onResultDateDialogClear()
+
     fun onResultTimeDialog(calendar: Calendar)
 
     fun onResultConvertDialog()

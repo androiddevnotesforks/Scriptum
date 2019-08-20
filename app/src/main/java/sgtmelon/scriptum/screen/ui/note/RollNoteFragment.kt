@@ -189,6 +189,9 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
                 iViewModel.onResultDateDialog(dateDialog.calendar)
             }
             dismissListener = DialogInterface.OnDismissListener { openState.clear() }
+            neutralListener = DialogInterface.OnClickListener { _, _ ->
+                iViewModel.onResultDateDialogClear()
+            }
         }
 
         timeDialog.apply {

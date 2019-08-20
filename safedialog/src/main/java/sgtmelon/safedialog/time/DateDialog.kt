@@ -3,7 +3,9 @@ package sgtmelon.safedialog.time
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
+import sgtmelon.safedialog.R
 import java.util.*
 
 /**
@@ -13,7 +15,7 @@ import java.util.*
  */
 class DateDialog : DateTimeBlankDialog() {
 
-    // TODO #RELEASE1 add neutral button for delete alarm
+    var neutralListener: DialogInterface.OnClickListener? = null
 
     /**
      * Call before [show]
@@ -22,6 +24,8 @@ class DateDialog : DateTimeBlankDialog() {
         calendar.set(Calendar.SECOND, 0)
         arguments = Bundle().apply { putLong(VALUE, calendar.timeInMillis) }
     }
+
+    // TODO #RELEASE1 visible neutral button or not
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bundle = arguments
@@ -33,7 +37,11 @@ class DateDialog : DateTimeBlankDialog() {
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
                 calendar.get(Calendar.DAY_OF_MONTH)
-        ).apply { datePicker.minDate = defaultTime }
+        ).apply {
+            datePicker.minDate = defaultTime
+
+            setButton(DialogInterface.BUTTON_NEUTRAL, getString(R.string.dialog_button_reset), neutralListener)
+        }
     }
 
 }
