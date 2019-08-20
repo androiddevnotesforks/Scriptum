@@ -82,7 +82,7 @@ interface IRollNoteFragment {
 
     fun showColorDialog(color: Int)
 
-    fun showDateDialog(calendar: Calendar)
+    fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
 
     fun showTimeDialog(calendar: Calendar, dateList: List<String>)
 

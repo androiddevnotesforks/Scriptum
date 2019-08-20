@@ -19,6 +19,7 @@ abstract class BlankDialog : DialogFragment() {
 
     protected var positiveButton: Button? = null
     protected var negativeButton: Button? = null
+    protected var neutralButton: Button? = null
 
     var positiveListener: DialogInterface.OnClickListener? = null
 
@@ -52,6 +53,12 @@ abstract class BlankDialog : DialogFragment() {
         negativeButton = when (dialog) {
             is AlertDialog -> dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
             is AlertDialogOld -> dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+            else -> null
+        }
+
+        neutralButton = when (dialog) {
+            is AlertDialog -> dialog.getButton(DialogInterface.BUTTON_NEUTRAL)
+            is AlertDialogOld -> dialog.getButton(DialogInterface.BUTTON_NEUTRAL)
             else -> null
         }
     }

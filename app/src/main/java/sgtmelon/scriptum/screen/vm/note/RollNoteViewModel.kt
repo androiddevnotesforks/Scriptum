@@ -225,7 +225,8 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuNotification() {
-        callback?.showDateDialog(noteModel.alarmEntity.date.getCalendar())
+        val date = noteModel.alarmEntity.date
+        callback?.showDateDialog(date.getCalendar(), date.isNotEmpty())
     }
 
     override fun onMenuBind() = with(noteModel) {

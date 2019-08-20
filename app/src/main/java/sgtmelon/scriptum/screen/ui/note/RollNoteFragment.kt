@@ -395,10 +395,10 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }
     }
 
-    override fun showDateDialog(calendar: Calendar) = openState.tryInvoke {
+    override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
         hideKeyboard()
         fragmentManager?.let {
-            dateDialog.setArguments(calendar).show(it, DialogFactory.Note.DATE)
+            dateDialog.setArguments(calendar, resetVisible).show(it, DialogFactory.Note.DATE)
         }
     }
 

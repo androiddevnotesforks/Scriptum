@@ -23,9 +23,8 @@ class TimeDialog : DateTimeBlankDialog() {
      * Call before [show]
      */
     fun setArguments(calendar: Calendar, dateList: List<String>) = apply {
-        calendar.set(Calendar.SECOND, 0)
         arguments = Bundle().apply {
-            putLong(INIT, calendar.timeInMillis)
+            putLong(INIT, calendar.apply { set(Calendar.SECOND, 0) }.timeInMillis)
             putStringArrayList(VALUE, ArrayList(dateList))
         }
     }
@@ -52,8 +51,12 @@ class TimeDialog : DateTimeBlankDialog() {
         )
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { putStringArrayList(VALUE, dateList) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            putLong(INIT, calendar.timeInMillis)
+            putStringArrayList(VALUE, dateList)
+        })
+    }
 
     /**
      * Check that date and time of [calendar] are not from the past

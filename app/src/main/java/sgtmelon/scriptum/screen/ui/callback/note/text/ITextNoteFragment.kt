@@ -55,7 +55,7 @@ interface ITextNoteFragment {
 
     fun showColorDialog(@Color color: Int)
 
-    fun showDateDialog(calendar: Calendar)
+    fun showDateDialog(calendar: Calendar, resetVisible: Boolean)
 
     fun showTimeDialog(calendar: Calendar, dateList: List<String>)
 

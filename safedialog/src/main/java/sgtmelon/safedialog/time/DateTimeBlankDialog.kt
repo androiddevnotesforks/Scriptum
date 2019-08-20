@@ -3,7 +3,6 @@ package sgtmelon.safedialog.time
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
-import android.os.Bundle
 import android.widget.DatePicker
 import android.widget.TimePicker
 import sgtmelon.safedialog.BlankDialog
@@ -23,12 +22,6 @@ abstract class DateTimeBlankDialog : BlankDialog(),
 
     var calendar: Calendar = Calendar.getInstance()
         private set
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState.apply {
-            putLong(VALUE, calendar.timeInMillis)
-        })
-    }
 
     /**
      * Change button text without override listener which call [onTimeSet]
