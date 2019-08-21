@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Тест для [IntroActivity]
+ * Test for [IntroActivity]
  *
  * @author SerjantArbuz
  */

@@ -14,7 +14,7 @@
     <string name="title_note_sort">Sort notes</string>
     <string name="title_note_color">Default note color</string>
 
-    <string name="title_alarm_repeat">Repeat time</string>
+    <string name="title_alarm_repeat">Postpone time</string>
     <string name="title_alarm_signal">Signal type</string>
     <string name="title_alarm_melody">Melody</string>
     <string name="title_alarm_volume">Volume</string>

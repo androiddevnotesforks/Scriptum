@@ -5,7 +5,7 @@ import org.junit.Test
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
- * Тест для [NoteTypeConverter]
+ * Test for [NoteTypeConverter]
  *
  * @author SerjantArbuz
  */

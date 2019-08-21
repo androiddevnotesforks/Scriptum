@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Тест для [SplashActivity]
+ * Test for [SplashActivity]
  *
  * @author SerjantArbuz
  */
@@ -19,25 +19,21 @@ class SplashTest : ParentUiTest() {
     @Test fun mainScreenOpen() = launch { mainScreen() }
 
     @Test fun bindTextNoteOpen() = data.insertText().let {
-        launch(intent = SplashActivity.getBindInstance(context, it.noteEntity)) {
+        launchBind(it) {
             openTextNoteBind(it) { onPressBack() }
             mainScreen()
         }
     }
 
     @Test fun bindRollNoteOpen() = data.insertRoll().let {
-        launch(intent = SplashActivity.getBindInstance(context, it.noteEntity)) {
+        launchBind(it) {
             openRollNoteBind(it) { onPressBack() }
             mainScreen()
         }
     }
 
-    @Test fun alarmTextNoteOpen() = data.insertText().let {
-        launch(intent = SplashActivity.getAlarmInstance(context, it.noteEntity)) { openAlarm(it) }
-    }
+    @Test fun alarmTextNoteOpen() = data.insertText().let { launchAlarm(it) { openAlarm(it) } }
 
-    @Test fun alarmRollNoteOpen() = data.insertRoll().let {
-        launch(intent = SplashActivity.getAlarmInstance(context, it.noteEntity)) { openAlarm(it) }
-    }
+    @Test fun alarmRollNoteOpen() = data.insertRoll().let { launchAlarm(it) { openAlarm(it) } }
 
 }

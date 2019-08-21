@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Тест для [TextNoteFragment]
+ * Test for [TextNoteFragment]
  *
  * @author SerjantArbuz
  */

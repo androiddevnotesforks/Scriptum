@@ -8,7 +8,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Тест для [NoteModel]
+ * Test for [NoteModel]
  *
  * @author SerjantArbuz
  */

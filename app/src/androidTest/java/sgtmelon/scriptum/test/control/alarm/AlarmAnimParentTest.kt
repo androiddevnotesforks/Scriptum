@@ -2,7 +2,6 @@ package sgtmelon.scriptum.test.control.alarm
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
@@ -33,9 +32,11 @@ abstract class AlarmAnimParentTest : ParentUiTest() {
             }
         }
 
-        launch(intent = SplashActivity.getAlarmInstance(context, noteModel.noteEntity)) {
-            waitAfter(time = 15000) { openAlarm(noteModel) }
-        }
+        launchAlarm(noteModel) { waitAfter(TEST_TIME) { openAlarm(noteModel) } }
+    }
+
+    private companion object {
+        const val TEST_TIME = 12000L
     }
 
 }

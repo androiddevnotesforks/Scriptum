@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.repository.preference
 
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
@@ -18,7 +19,7 @@ interface IPreferenceRepo {
     @Theme var theme: Int
 
 
-    var repeat: Int
+    @Repeat var repeat: Int
 
     var signal: Int
 

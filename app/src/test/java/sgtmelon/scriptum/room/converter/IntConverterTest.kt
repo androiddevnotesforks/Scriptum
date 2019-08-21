@@ -6,7 +6,7 @@ import org.junit.Test
 
 
 /**
- * Тест для [IntConverter]
+ * Test for [IntConverter]
  *
  * @author SerjantArbuz
  */

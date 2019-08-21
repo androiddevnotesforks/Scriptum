@@ -6,10 +6,7 @@ import android.content.res.Resources
 import android.media.RingtoneManager
 import android.preference.PreferenceManager
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Signal
-import sgtmelon.scriptum.model.annotation.Sort
-import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.annotation.*
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.model.state.SignalState
 import sgtmelon.scriptum.provider.PreferenceProvider
@@ -44,7 +41,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.THEME, def.THEME)
         set(value) = edit { putInt(key.THEME, value) }
 
-    override var repeat: Int
+    @Repeat override var repeat: Int
         get() = preferences.getInt(key.REPEAT, def.REPEAT)
         set(value) = edit { putInt(key.REPEAT, value) }
 

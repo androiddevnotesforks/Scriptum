@@ -6,7 +6,7 @@ import org.junit.Test
 import sgtmelon.scriptum.BuildConfig.INPUT_CONTROL_MAX_SIZE
 
 /**
- * Тест для [InputControl]
+ * Test for [InputControl]
  *
  * @author SerjantArbuz
  */

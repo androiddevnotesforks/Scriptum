@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Тест для [NotificationActivity]
+ * Test for [NotificationActivity]
  *
  * @author SerjantArbuz
  */

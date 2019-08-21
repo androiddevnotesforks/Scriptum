@@ -111,6 +111,11 @@ class RotationTest : ParentUiTest() {
     }
 
 
+    @Test fun alarmScreenContent() = data.insertText().let {
+        launchAlarm(it) { openAlarm(it) { onRotate { assert() } } }
+    }
+
+
     private fun onRotate(func: () -> Unit) = waitAfter(TIME) {
         func()
         testRule.activity?.runOnUiThread { context.showToast(text = "ROTATE NOW!") }

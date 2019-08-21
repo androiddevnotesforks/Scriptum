@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.data
 
 import android.content.Context
+import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getCheck
-import sgtmelon.scriptum.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
@@ -23,8 +23,8 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
     val textNote: NoteEntity
         get() = NoteEntity().apply {
-            create = context.getTime()
-            change = context.getTime()
+            create = getTime()
+            change = getTime()
             name = context.getString(R.string.test_note_name)
             text = context.getString(R.string.test_note_text)
             color = (0 until ColorData.size).random()
@@ -33,8 +33,8 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
     val rollNote: NoteEntity
         get() = NoteEntity().apply {
-            create = context.getTime()
-            change = context.getTime()
+            create = getTime()
+            change = getTime()
             name = context.getString(R.string.test_note_name)
             setCompleteText(rollList.getCheck(), rollList.size)
             color = (0 until ColorData.size).random()
@@ -56,13 +56,9 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
 
-    fun createText() = NoteModel.getCreate(
-            context.getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
-    )
+    fun createText() = NoteModel.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT)
 
-    fun createRoll() = NoteModel.getCreate(
-            context.getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
-    )
+    fun createRoll() = NoteModel.getCreate(getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL)
 
 
     fun insertRank(rank: RankEntity = rankEntity): RankEntity {
@@ -72,7 +68,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     }
 
     fun insertRankForNotes(): RankEntity {
-        val noteModel = if (Random.nextBoolean()) insertText() else insertRoll()
+        val noteModel = insertNote()
 
         val rankEntity = insertRank(rankEntity.apply {
             noteId.add(noteModel.noteEntity.id)
@@ -86,8 +82,8 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         return rankEntity
     }
 
-    fun insertRankForBin(): RankEntity  {
-        val noteModel = if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+    fun insertRankForBin(): RankEntity {
+        val noteModel = insertNoteToBin()
 
         val rankEntity = insertRank(rankEntity.apply {
             noteId.add(noteModel.noteEntity.id)
@@ -124,7 +120,13 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertRollToBin(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList) =
             insertRoll(note.apply { isBin = true }, list)
 
-    fun insertNotification(noteModel: NoteModel, date: String = context.getTime()): NoteModel {
+
+    fun insertNote(): NoteModel = if (Random.nextBoolean()) insertText() else insertRoll()
+
+    fun insertNoteToBin(): NoteModel =
+            if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
+
+    fun insertNotification(noteModel: NoteModel, date: String = getTime()): NoteModel {
         inRoom {
             iAlarmDao.insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = date))
         }
@@ -143,17 +145,11 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         }
     }
 
-    fun fillNotes(count: Int = 10) = repeat(count) {
-        if (Random.nextBoolean()) insertText() else insertRoll()
-    }
+    fun fillNotes(count: Int = 10) = repeat(count) { insertNote() }
 
-    fun fillBin(count: Int = 10) = repeat(count) {
-        if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
-    }
+    fun fillBin(count: Int = 10) = repeat(count) { insertNoteToBin() }
 
-    fun fillNotification(count: Int = 10) = repeat(count) {
-        insertNotification(if (Random.nextBoolean()) insertText() else insertRoll())
-    }
+    fun fillNotification(count: Int = 10) = repeat(count) { insertNotification(insertNote()) }
 
 
     fun clear() = apply { inRoom { clearAllTables() } }

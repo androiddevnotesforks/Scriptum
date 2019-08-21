@@ -5,7 +5,7 @@ import org.junit.Assert.assertNotEquals
 import org.junit.Test
 
 /**
- * Тест для [StringConverter]
+ * Test for [StringConverter]
  *
  * @author SerjantArbuz
  */
