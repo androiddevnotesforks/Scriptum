@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.NoteData
@@ -31,7 +32,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         }
     }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context = this) }
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

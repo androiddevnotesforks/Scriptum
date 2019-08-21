@@ -16,6 +16,7 @@ import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
@@ -50,7 +51,7 @@ class NotesFragment : Fragment(), INotesFragment {
         }
     }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context) }
 
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy {

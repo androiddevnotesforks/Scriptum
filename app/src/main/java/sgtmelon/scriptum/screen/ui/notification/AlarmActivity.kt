@@ -20,6 +20,9 @@ import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.control.alarm.VibratorControl
+import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
+import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
+import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
@@ -47,9 +50,9 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         }
     }
 
-    private val iMelodyControl by lazy { MelodyControl.getInstance(context = this) }
-    private val iVibratorControl by lazy { VibratorControl.getInstance(context = this) }
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
+    private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context = this) }
 
     private val openState = OpenState()
 

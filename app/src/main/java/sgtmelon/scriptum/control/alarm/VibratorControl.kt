@@ -31,8 +31,4 @@ class VibratorControl(context: Context) : IVibratorControl {
         vibrator?.cancel()
     }
 
-    companion object {
-        fun getInstance(context: Context): IVibratorControl = VibratorControl(context)
-    }
-
 }

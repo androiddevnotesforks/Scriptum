@@ -14,6 +14,7 @@ import androidx.fragment.app.FragmentManager
 import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.MelodyControl
+import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
@@ -67,7 +68,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
 
-    private val iMelodyControl by lazy { MelodyControl.getInstance(activity) }
+    private val iMelodyControl: IMelodyControl by lazy { MelodyControl(activity) }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? =
@@ -126,7 +127,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupNotification(melodyTitleList: Array<String>) {
-        // TODO #RELEASE
+        // TODO #RELEASE1
 
         repeatPreference.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
 

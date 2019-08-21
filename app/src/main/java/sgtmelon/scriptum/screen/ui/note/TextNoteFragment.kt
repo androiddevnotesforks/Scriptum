@@ -16,6 +16,7 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -69,7 +70,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         }
     }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context) }
     private var menuControl: MenuControl? = null
 
     private var nameEnter: EditText? = null

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
@@ -42,7 +43,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         }
     }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context = this) }
 
     private val openState = OpenState()
 

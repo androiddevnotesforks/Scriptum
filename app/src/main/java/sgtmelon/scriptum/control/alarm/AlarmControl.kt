@@ -23,8 +23,4 @@ class AlarmControl(context: Context?) : IAlarmControl {
         alarmManager?.cancel(intent)
     }
 
-    companion object {
-        fun getInstance(context: Context?): IAlarmControl = AlarmControl(context)
-    }
-
 }

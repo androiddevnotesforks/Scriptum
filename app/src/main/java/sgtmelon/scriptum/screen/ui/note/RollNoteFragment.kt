@@ -24,6 +24,7 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -65,7 +66,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }
     }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context) }
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()

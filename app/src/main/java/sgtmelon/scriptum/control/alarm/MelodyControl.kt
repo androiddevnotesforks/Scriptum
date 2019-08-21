@@ -65,11 +65,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
     }
 
     override fun onAudioFocusChange(focusChange: Int) {
-        // TODO("not implemented")
-    }
-
-    companion object {
-        fun getInstance(context: Context): IMelodyControl = MelodyControl(context)
+        // TODO #RELEASE1
     }
 
 }

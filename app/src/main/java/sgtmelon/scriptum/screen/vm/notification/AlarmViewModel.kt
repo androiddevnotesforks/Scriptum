@@ -99,7 +99,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         if (signalState.isFlashlight) {
-            // TODO
+            // TODO #RELEASE1
         }
 
         longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
@@ -116,7 +116,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         if (signalState.isFlashlight) {
-            // TODO
+            // TODO #RELEASE1
         }
 
         longWaitHandler.removeCallbacks(longWaitRunnable)
