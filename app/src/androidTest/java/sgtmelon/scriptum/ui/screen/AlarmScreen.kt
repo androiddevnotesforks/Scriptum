@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.ui.screen
 
-import androidx.test.espresso.Espresso.pressBack
+import androidx.test.espresso.Espresso.pressBackUnconditionally
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
@@ -36,7 +36,7 @@ class AlarmScreen(private val noteModel: NoteModel) : ParentUi() {
 
     fun onClickPostpone() = action { onClick(R.id.alarm_postpone_button) }
 
-    fun onPressBack() = pressBack()
+    fun onPressBack() = pressBackUnconditionally()
 
     companion object {
         operator fun invoke(func: AlarmScreen.() -> Unit, noteModel: NoteModel) =
