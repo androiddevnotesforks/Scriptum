@@ -7,4 +7,8 @@ import sgtmelon.scriptum.control.alarm.FlashlightControl
  *
  * @author SerjantArbuz
  */
-interface IFlashlightControl
+interface IFlashlightControl {
+
+    fun toggle()
+
+}

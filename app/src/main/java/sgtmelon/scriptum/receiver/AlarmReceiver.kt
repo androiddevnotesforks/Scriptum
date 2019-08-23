@@ -33,7 +33,7 @@ class AlarmReceiver : BroadcastReceiver() {
         fun getInstance(context: Context, noteEntity: NoteEntity) =
                 getInstance(context, noteEntity.id, noteEntity.color)
 
-        fun getInstance(context: Context, notificationItem: NotificationItem)=
+        fun getInstance(context: Context, notificationItem: NotificationItem) =
                 getInstance(context, notificationItem.note.id, notificationItem.note.color)
 
         private fun getInstance(context: Context, id: Long, @Color color: Int): PendingIntent {

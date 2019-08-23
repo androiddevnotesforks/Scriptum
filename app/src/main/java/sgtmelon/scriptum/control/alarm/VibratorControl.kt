@@ -13,6 +13,8 @@ import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
  */
 class VibratorControl(context: Context) : IVibratorControl {
 
+    // TODO #RELEASE1 coroutine
+
     private val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
 
     override fun start(pattern: LongArray) {

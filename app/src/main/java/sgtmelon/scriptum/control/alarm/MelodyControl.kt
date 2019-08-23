@@ -17,6 +17,8 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 class MelodyControl(private val context: Context) : IMelodyControl,
         AudioManager.OnAudioFocusChangeListener {
 
+    // TODO #RELEASE1 coroutine
+
     // TODO #RELEASE1 when melody ends return melody which play before
 
     private var mediaPlayer: MediaPlayer? = null

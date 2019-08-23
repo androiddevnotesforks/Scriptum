@@ -38,9 +38,8 @@ class UnbindReceiver : BroadcastReceiver() {
 
     companion object {
         fun getInstance(context: Context, noteEntity: NoteEntity): PendingIntent {
-            val intent = Intent(context, UnbindReceiver::class.java).apply {
-                putExtra(Values.NOTE_ID, noteEntity.id)
-            }
+            val intent = Intent(context, UnbindReceiver::class.java)
+                    .putExtra(Values.NOTE_ID, noteEntity.id)
 
             return PendingIntent.getBroadcast(
                     context, noteEntity.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
