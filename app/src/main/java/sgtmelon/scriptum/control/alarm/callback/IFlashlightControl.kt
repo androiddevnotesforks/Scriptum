@@ -11,4 +11,8 @@ interface IFlashlightControl {
 
     fun toggle()
 
+    fun turnOn()
+
+    fun turnOff()
+
 }
