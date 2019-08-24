@@ -98,10 +98,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             vibratorHandler.postDelayed(vibratorRunnable, START_DELAY)
         }
 
-        if (signalState.isFlashlight) {
-            // TODO #RELEASE1
-        }
-
         longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
     }
 
@@ -113,10 +109,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         if (signalState.isVibration) {
             callback?.vibrateCancel()
             vibratorHandler.removeCallbacks(vibratorRunnable)
-        }
-
-        if (signalState.isFlashlight) {
-            // TODO #RELEASE1
         }
 
         longWaitHandler.removeCallbacks(longWaitRunnable)

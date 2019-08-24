@@ -49,7 +49,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.SIGNAL, def.SIGNAL)
         set(value) = edit { putInt(key.SIGNAL, value) }
 
-    override val signalCheck: BooleanArray get() = IntConverter().toArray(signal, Signal.size)
+    override val signalCheck: BooleanArray get() = IntConverter().toArray(signal, Signal.digitCount)
 
     override val signalState: SignalState get() = SignalState(signalCheck)
 

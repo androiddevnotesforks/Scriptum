@@ -65,7 +65,6 @@
     <string-array name="text_alarm_signal">
         <item>Мелодия</item>
         <item>Вибрация</item>
-        <item>Фонарик</item>
     </string-array>
 
     <string-array name="text_note_sort">

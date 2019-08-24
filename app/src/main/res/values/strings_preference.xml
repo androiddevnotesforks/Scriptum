@@ -83,7 +83,6 @@
     <string-array name="text_alarm_signal">
         <item>Melody</item>
         <item>Vibration</item>
-        <item>Flashlight</item>
     </string-array>
 
     <string-array name="text_save_time">

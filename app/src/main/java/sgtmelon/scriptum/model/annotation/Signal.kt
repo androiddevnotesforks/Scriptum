@@ -6,15 +6,14 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 /**
  * Describes signals in [PreferenceRepo.signalCheck]
  */
-@IntDef(Signal.MELODY, Signal.VIBRATION, Signal.FLASHLIGHT)
+@IntDef(Signal.MELODY, Signal.VIBRATION)
 annotation class Signal {
 
     companion object {
         const val MELODY = 0
         const val VIBRATION = 1
-        const val FLASHLIGHT = 2
 
-        const val size = 3
+        const val digitCount = 2
     }
 
 }

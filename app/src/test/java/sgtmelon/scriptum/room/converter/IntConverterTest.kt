@@ -29,10 +29,10 @@ class IntConverterTest {
     }
 
     @Test fun toArray() = with(converter) {
-        assertEquals(toArray(value = 0, minSize = 3).toList(), arrayListOf(F, F, F))
-        assertEquals(toArray(value = 1, minSize = 3).toList(), arrayListOf(T, F, F))
-        assertEquals(toArray(value = 2, minSize = 3).toList(), arrayListOf(F, T, F))
-        assertEquals(toArray(value = 3, minSize = 3).toList(), arrayListOf(T, T, F))
+        assertEquals(toArray(value = 0, minSize = 2).toList(), arrayListOf(F, F))
+        assertEquals(toArray(value = 1, minSize = 2).toList(), arrayListOf(T, F))
+        assertEquals(toArray(value = 2, minSize = 2).toList(), arrayListOf(F, T))
+        assertEquals(toArray(value = 3, minSize = 2).toList(), arrayListOf(T, T))
         assertEquals(toArray(value = 4, minSize = 3).toList(), arrayListOf(F, F, T))
         assertEquals(toArray(value = 5, minSize = 3).toList(), arrayListOf(T, F, T))
         assertEquals(toArray(value = 6, minSize = 3).toList(), arrayListOf(F, T, T))

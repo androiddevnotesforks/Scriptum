@@ -8,9 +8,8 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
  *
  * @author SerjantArbuz
  */
-class SignalState(val isMelody: Boolean, val isVibration: Boolean, val isFlashlight: Boolean) {
+class SignalState(val isMelody: Boolean, val isVibration: Boolean) {
 
-    constructor(array: BooleanArray) :
-            this(array[Signal.MELODY], array[Signal.VIBRATION], array[Signal.FLASHLIGHT])
+    constructor(array: BooleanArray) : this(array[Signal.MELODY], array[Signal.VIBRATION])
 
 }
