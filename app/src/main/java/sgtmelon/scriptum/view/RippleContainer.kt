@@ -121,10 +121,9 @@ class RippleContainer : RelativeLayout {
                 repeatCount = ObjectAnimator.INFINITE
                 repeatMode = ObjectAnimator.RESTART
 
-                // TODO #RELEASE1
-                interpolator = when (animName) {
-                    Anim.ALPHA -> DecelerateInterpolator()
-                    else -> AccelerateDecelerateInterpolator()
+                when (animName) {
+                    Anim.ALPHA -> interpolator = DecelerateInterpolator()
+                    else -> interpolator = AccelerateDecelerateInterpolator()
                 }
 
                 this.startDelay = startDelay
