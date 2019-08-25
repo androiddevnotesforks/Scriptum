@@ -80,8 +80,8 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
         positiveButton?.isEnabled = name.isNotEmpty() && !nameList.contains(name.toUpperCase())
     }
 
-    override fun onEditorAction(textView: TextView, i: Int, keyEvent: KeyEvent): Boolean {
-        if (i != EditorInfo.IME_ACTION_DONE) return false
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        if (actionId != EditorInfo.IME_ACTION_DONE) return false
 
         if (name.isNotEmpty() && !nameList.contains(name.toUpperCase())) {
             positiveButton?.callOnClick()
