@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.ui.notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -90,12 +91,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 
-        parentContainer?.viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                parentContainer?.viewTreeObserver?.removeOnGlobalLayoutListener(this)
-                iViewModel.onStart()
-            }
-        })
+        parentContainer?.afterLayoutConfiguration { iViewModel.onStart() }
     }
 
     override fun onPause() {
@@ -114,6 +110,14 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { iViewModel.onSaveData(bundle = this) })
+
+    /**
+     * It calls when orientation changes
+     */
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        parentContainer?.afterLayoutConfiguration { rippleContainer?.invalidate(logoView) }
+    }
 
     override fun setupView(@Theme theme: Int) {
         adapter.theme = theme
@@ -166,6 +170,19 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun showPostponeToast(select: Int) =
             showToast(getString(R.string.toast_alarm_postpone, resources.getStringArray(R.array.text_alarm_repeat)[select]))
+
+
+    /**
+     * Function for detect when layout compleatly configure
+     */
+    private fun ViewGroup.afterLayoutConfiguration(func: () -> Unit) {
+        viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewTreeObserver?.removeOnGlobalLayoutListener(this)
+                func()
+            }
+        })
+    }
 
     companion object {
         fun getInstance(context: Context, id: Long, @Color color: Int): Intent =

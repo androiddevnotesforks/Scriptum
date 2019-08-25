@@ -46,7 +46,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private val longWaitRunnable = Runnable { callback?.finish() }
 
     /**
-     * Control
+     * Control setup alarm repeat in [onDestroy]
      */
     private var needRepeat = true
 

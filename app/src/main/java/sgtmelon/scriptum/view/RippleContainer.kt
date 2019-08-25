@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.content.res.Configuration
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
@@ -31,6 +30,8 @@ class RippleContainer : RelativeLayout {
 
     private val viewList = ArrayList<RippleView>()
 
+    private lateinit var params: RippleParams
+
     constructor (context: Context) : super(context)
 
     constructor (context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -41,7 +42,14 @@ class RippleContainer : RelativeLayout {
      * Вызывать метод перед [startAnimation]
      * Элемент, относительно которого будет расчитываться центр для ripple, передавать через [hookView]
      */
-    fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View): RippleContainer {
+    fun setupAnimation(@Theme theme: Int, @ColorInt fillColor: Int, hookView: View) = apply {
+        params = RippleParams(theme, parentView = this, hookView = hookView)
+
+        animatorList.apply {
+            add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, params.delay, *LOGO_PULS))
+            add(hookView.getAnimator(Anim.SCALE_Y, NO_DELAY, params.delay, *LOGO_PULS))
+        }
+
         val paint = Paint().apply {
             isAntiAlias = true
 
@@ -50,47 +58,22 @@ class RippleContainer : RelativeLayout {
             color = fillColor
         }
 
-        val viewSize = hookView.width / 1.3
-        val maxSize = Math.max(width, height)
-
-        val count = maxSize / (viewSize / 2).toInt()
-        val duration = 1000L * count / 2
-
-        val scaleTo = (maxSize / viewSize).toFloat() * when (resources.configuration.orientation) {
-            Configuration.ORIENTATION_PORTRAIT -> if (theme == Theme.LIGHT) 2f else 1.5f
-            else -> if (theme == Theme.LIGHT) 1.7f else 1.2f
-        }
-
-        val layoutParams = LayoutParams(viewSize.toInt(), viewSize.toInt()).apply {
-            addRule(CENTER_HORIZONTAL, TRUE)
-            topMargin = hookView.top + ((hookView.height - viewSize) / 2).toInt()
-        }
-
-        val simpleDelay = duration / count
-
-        animatorList.apply {
-            add(hookView.getAnimator(AnimName.SCALE_X, 0, simpleDelay, 1f, 0.95f, 1f))
-            add(hookView.getAnimator(AnimName.SCALE_Y, 0, simpleDelay, 1f, 0.95f, 1f))
-        }
-
-        for (i in 0 until count) {
+        for (i in 0 until params.count) {
             val view = RippleView(context).apply { this.paint = paint }
 
-            addView(view, layoutParams)
+            addView(view, params.childParams)
             viewList.add(view)
 
-            val startDelay = i * simpleDelay
+            val delay = i * params.delay
 
             animatorList.apply {
-                add(view.getAnimator(AnimName.SCALE_X, startDelay, duration, SCALE_FROM, scaleTo))
-                add(view.getAnimator(AnimName.SCALE_Y, startDelay, duration, SCALE_FROM, scaleTo))
-                add(view.getAnimator(AnimName.ALPHA, startDelay, duration, ALPHA_FROM, ALPHA_TO))
+                add(view.getAnimator(Anim.SCALE_X, delay, params.duration, SCALE_FROM, params.scaleTo))
+                add(view.getAnimator(Anim.SCALE_Y, delay, params.duration, SCALE_FROM, params.scaleTo))
+                add(view.getAnimator(Anim.ALPHA, delay, params.duration, ALPHA_FROM, ALPHA_TO))
             }
         }
 
         animatorSet.playTogether(animatorList)
-
-        return this
     }
 
     fun startAnimation() {
@@ -111,36 +94,51 @@ class RippleContainer : RelativeLayout {
         }
     }
 
+    /**
+     * Call this on configuration changes
+     */
+    fun invalidate(hookView: View?) {
+        if (hookView == null) return
+
+        params.hookView = hookView
+
+        viewList.forEach { it.layoutParams = params.childParams }
+    }
+
+
+    @StringDef(Anim.SCALE_X, Anim.SCALE_Y, Anim.ALPHA)
+    private annotation class Anim {
+        companion object {
+            const val SCALE_X = "ScaleX"
+            const val SCALE_Y = "ScaleY"
+            const val ALPHA = "Alpha"
+        }
+    }
+
+    private fun View.getAnimator(@Anim animName: String, startDelay: Long, duration: Long,
+                                 vararg values: Float): ObjectAnimator =
+            ObjectAnimator.ofFloat(this, animName, *values).apply {
+                repeatCount = ObjectAnimator.INFINITE
+                repeatMode = ObjectAnimator.RESTART
+
+                // TODO #RELEASE1
+                interpolator = when (animName) {
+                    Anim.ALPHA -> DecelerateInterpolator()
+                    else -> AccelerateDecelerateInterpolator()
+                }
+
+                this.startDelay = startDelay
+                this.duration = duration
+            }
+
     private companion object {
+        const val NO_DELAY = 0L
 
         const val SCALE_FROM = 1f
         const val ALPHA_FROM = 0.7f
         const val ALPHA_TO = 0f
 
-        fun View.getAnimator(@AnimName animName: String, startDelay: Long, duration: Long,
-                             vararg values: Float): ObjectAnimator =
-                ObjectAnimator.ofFloat(this, animName, *values).apply {
-                    repeatCount = ObjectAnimator.INFINITE
-                    repeatMode = ObjectAnimator.RESTART
-
-                    interpolator = when (animName) {
-                        AnimName.ALPHA -> DecelerateInterpolator()
-                        else -> AccelerateDecelerateInterpolator()
-                    }
-
-                    this.startDelay = startDelay
-                    this.duration = duration
-                }
-
-        @StringDef(AnimName.SCALE_X, AnimName.SCALE_Y, AnimName.ALPHA)
-        annotation class AnimName {
-            companion object {
-                const val SCALE_X = "ScaleX"
-                const val SCALE_Y = "ScaleY"
-                const val ALPHA = "Alpha"
-            }
-        }
-
+        val LOGO_PULS = floatArrayOf(1f, 0.95f, 1f)
     }
 
 }
