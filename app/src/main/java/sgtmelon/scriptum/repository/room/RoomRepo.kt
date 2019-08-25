@@ -230,6 +230,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         inRoom {
             if (isCreate) {
                 noteEntity.id = iNoteDao.insert(noteEntity)
+                alarmEntity.noteId = noteEntity.id
             } else {
                 iNoteDao.update(noteEntity)
             }
@@ -250,6 +251,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         inRoom {
             if (isCreate) {
                 noteEntity.id = iNoteDao.insert(noteEntity)
+                alarmEntity.noteId = noteEntity.id
 
                 /**
                  * Запись в пунктов в БД
