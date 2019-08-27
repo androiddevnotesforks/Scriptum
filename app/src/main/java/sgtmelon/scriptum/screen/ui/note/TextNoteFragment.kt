@@ -70,7 +70,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         }
     }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context) }
     private var menuControl: MenuControl? = null
 
     private var nameEnter: EditText? = null

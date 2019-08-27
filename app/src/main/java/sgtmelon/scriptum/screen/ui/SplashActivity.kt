@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         }
     }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context = this) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

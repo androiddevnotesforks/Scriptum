@@ -66,7 +66,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }
     }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context) }
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()

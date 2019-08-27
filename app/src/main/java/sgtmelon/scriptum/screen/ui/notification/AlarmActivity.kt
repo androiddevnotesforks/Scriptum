@@ -53,7 +53,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context = this) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 
     private val openState = OpenState()
 

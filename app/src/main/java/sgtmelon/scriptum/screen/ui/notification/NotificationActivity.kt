@@ -43,7 +43,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         }
     }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context = this) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 
     private val openState = OpenState()
 

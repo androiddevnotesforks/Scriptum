@@ -51,7 +51,7 @@ class NotesFragment : Fragment(), INotesFragment {
         }
     }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl(context) }
+    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context) }
 
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy {
