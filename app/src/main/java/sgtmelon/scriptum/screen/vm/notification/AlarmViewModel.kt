@@ -53,6 +53,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     // TODO #RELEASE2 Обработка id = -1
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
+            acquirePhone(CANCEL_DELAY)
             setupView(iPreferenceRepo.theme)
             setupMelody(iPreferenceRepo.melodyUri.toUri())
         }
@@ -128,6 +129,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
             callback?.showPostponeToast(repeat)
         }
+
+        callback?.releasePhone()
     }
 
     override fun onClickNote() {

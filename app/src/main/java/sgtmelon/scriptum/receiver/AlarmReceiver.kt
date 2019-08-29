@@ -11,6 +11,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 
+
 /**
  * Receiver for open [AlarmActivity] by time
  *

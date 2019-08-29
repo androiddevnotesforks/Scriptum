@@ -17,6 +17,31 @@ import java.util.*
  */
 interface IAlarmActivity {
 
+    /**
+     * TODO Lock phone -> finish alarm
+     *
+     * Don't use onPause/onResume, because:
+     *
+     * 1. If phone unlock
+     * onResume -> HAPPY
+     *
+     * 2. If phone lock and don't have password
+     * AWAKE -> onResume -> HAPPY
+     *
+     * 3. If phone lock and have password activity will call
+     * AWAKE -> onResume -> onPause -> PASSWORD -> onResume -> HAPPY
+     */
+
+    /**
+     * Awake phone if it sleeps
+     */
+    fun acquirePhone(timeout: Long)
+
+    /**
+     * Comeback phone to sleep if it need
+     */
+    fun releasePhone()
+
     fun setupView(@Theme theme: Int)
 
     fun setupMelody(uri: Uri)

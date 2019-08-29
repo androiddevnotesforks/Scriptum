@@ -20,9 +20,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.alarm.MelodyControl
+import sgtmelon.scriptum.control.alarm.PowerControl
 import sgtmelon.scriptum.control.alarm.VibratorControl
 import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
+import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.listener.ItemListener
@@ -54,6 +56,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
     private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iPowerControl: IPowerControl by lazy { PowerControl(context = this) }
 
     private val openState = OpenState()
 
@@ -94,11 +97,6 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         parentContainer?.afterLayoutConfiguration { iViewModel.onStart() }
     }
 
-    override fun onPause() {
-        super.onPause()
-        finish()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
 
@@ -118,6 +116,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         super.onConfigurationChanged(newConfig)
         parentContainer?.afterLayoutConfiguration { rippleContainer?.invalidate(logoView) }
     }
+
+    override fun acquirePhone(timeout: Long) = iPowerControl.acquire(timeout)
+
+    override fun releasePhone() = iPowerControl.release()
 
     override fun setupView(@Theme theme: Int) {
         adapter.theme = theme
@@ -173,7 +175,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
 
     /**
-     * Function for detect when layout compleatly configure
+     * Function for detect when layout completely configure
      */
     private fun ViewGroup.afterLayoutConfiguration(func: () -> Unit) {
         viewTreeObserver?.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
