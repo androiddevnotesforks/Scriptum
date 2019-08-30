@@ -204,11 +204,13 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
-        aboutDialog.apply {
-            logoClick = View.OnClickListener {
+        aboutDialog.dismissListener = DialogInterface.OnDismissListener {
+            openState.clear()
+
+            if (aboutDialog.hideOpen) {
+                aboutDialog.clear()
                 startActivity(Intent(activity, DevelopActivity::class.java))
             }
-            dismissListener = DialogInterface.OnDismissListener { openState.clear() }
         }
     }
 

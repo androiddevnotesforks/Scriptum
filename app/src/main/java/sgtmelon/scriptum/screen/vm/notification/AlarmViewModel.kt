@@ -37,8 +37,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private val vibratorHandler = Handler()
     private val vibratorRunnable = object : Runnable {
         override fun run() {
-            callback?.vibrateStart(vibrationPattern)
-            vibratorHandler.postDelayed(this, vibrationPattern.sum())
+            callback?.vibrateStart(vibratorPattern)
+            vibratorHandler.postDelayed(this, vibratorPattern.sum())
         }
     }
 
@@ -155,7 +155,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         private const val START_DELAY = 0L
         private const val CANCEL_DELAY = 15000L
 
-        private val vibrationPattern = longArrayOf(500, 750, 500, 750, 500, 0)
+        private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
     }
 
 }
