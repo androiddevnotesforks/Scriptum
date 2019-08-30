@@ -46,8 +46,8 @@ class RippleContainer : RelativeLayout {
         params = RippleParams(theme, parentView = this, hookView = hookView)
 
         animatorList.apply {
-            add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, params.delay, *LOGO_PULS))
-            add(hookView.getAnimator(Anim.SCALE_Y, NO_DELAY, params.delay, *LOGO_PULS))
+            add(hookView.getAnimator(Anim.SCALE_X, NO_DELAY, params.delay, *LOGO_PULSE))
+            add(hookView.getAnimator(Anim.SCALE_Y, NO_DELAY, params.delay, *LOGO_PULSE))
         }
 
         val paint = Paint().apply {
@@ -137,7 +137,7 @@ class RippleContainer : RelativeLayout {
         const val ALPHA_FROM = 0.7f
         const val ALPHA_TO = 0f
 
-        val LOGO_PULS = floatArrayOf(1f, 0.95f, 1f)
+        val LOGO_PULSE = floatArrayOf(1f, 0.95f, 1f)
     }
 
 }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -16,12 +17,13 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
 
     var logoClick: View.OnClickListener? = null
 
+    private val maxClick by lazy {
+        context?.resources?.getInteger(R.integer.value_develop_open) ?: 1
+    }
     private var click = 0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        if (savedInstanceState != null) {
-            click = savedInstanceState.getInt(VALUE)
-        }
+        savedInstanceState?.also { click = it.getInt(VALUE) }
 
         val view = LayoutInflater.from(context).inflate(R.layout.view_about, null)
 
@@ -38,13 +40,27 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
             super.onSaveInstanceState(outState.apply { putInt(VALUE, click) })
 
     override fun onClick(v: View) {
-        context?.let {
-            if (++click == it.resources.getInteger(R.integer.value_develop_open)) {
-                click = 0
-                logoClick?.onClick(v)
-                dialog?.cancel()
-            }
+        if (++click == maxClick) {
+            click = 0
+            logoClick?.onClick(v)
+            dialog?.cancel()
+        } else {
+            v.isEnabled = false
+            v.scale(getScaleTo()) { v.scale(SCALE_FROM) { v.isEnabled = true } }
         }
+    }
+
+    private fun getScaleTo() = SCALE_FROM - (SCALE_FROM - SCALE_TO) * click / maxClick
+
+    private fun View.scale(value: Float, func: () -> Unit) = animate()
+            .setInterpolator(AccelerateDecelerateInterpolator()).setDuration(DURATION)
+            .scaleX(value).scaleY(value)
+            .withEndAction(func)
+
+    private companion object {
+        const val DURATION = 150L
+        const val SCALE_FROM = 1f
+        const val SCALE_TO = 0.9f
     }
 
 }
