@@ -7,37 +7,53 @@
         android:orientation="vertical"
         tools:context=".screen.ui.DevelopActivity">
 
-    <ScrollView
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.35"
-            android:fillViewport="true">
+            android:layout_weight="0.35">
 
-        <TextView
-                android:id="@+id/develop_note_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/layout_4dp"
-                android:text="@string/preview_note_data_base"/>
-    </ScrollView>
+        <ProgressBar
+                android:id="@+id/develop_note_progress"
+                style="@style/ProgressBar.Develop" />
+
+        <ScrollView
+                android:id="@+id/develop_note_scroll"
+                style="@style/Container.Develop.Scroll"
+                tools:visibility="visible">
+
+            <TextView
+                    android:id="@+id/develop_note_text"
+                    style="@style/Text.Develop"
+                    android:text="@string/preview_note_data_base" />
+
+        </ScrollView>
+
+    </FrameLayout>
 
     <View style="@style/Divider.Horizontal"/>
 
-    <ScrollView
+    <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.35"
-            android:fillViewport="true">
+            android:layout_weight="0.35">
 
-        <TextView
-                android:id="@+id/develop_roll_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:padding="@dimen/layout_4dp"
-                android:text="@string/preview_roll_data_base"/>
-    </ScrollView>
+        <ProgressBar
+                android:id="@+id/develop_roll_progress"
+                style="@style/ProgressBar.Develop" />
+
+        <ScrollView
+                android:id="@+id/develop_roll_scroll"
+                style="@style/Container.Develop.Scroll"
+                tools:visibility="visible">
+
+            <TextView
+                    android:id="@+id/develop_roll_text"
+                    style="@style/Text.Develop"
+                    android:text="@string/preview_roll_data_base" />
+
+        </ScrollView>
+
+    </FrameLayout>
 
     <View style="@style/Divider.Horizontal"/>
 
@@ -46,41 +62,56 @@
             android:layout_height="0dp"
             android:layout_weight="0.3"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="1"
+            tools:ignore="NestedWeights">
 
-        <ScrollView
+        <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.6"
-                android:fillViewport="true"
-                tools:ignore="NestedWeights">
+                android:layout_weight="0.6">
 
-            <TextView
-                    android:id="@+id/develop_rank_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="@dimen/layout_4dp"
-                    android:text="@string/preview_rank_data_base"/>
-        </ScrollView>
+            <ProgressBar
+                    android:id="@+id/develop_rank_progress"
+                    style="@style/ProgressBar.Develop" />
+
+            <ScrollView
+                    android:id="@+id/develop_rank_scroll"
+                    style="@style/Container.Develop.Scroll"
+                    tools:visibility="visible">
+
+                <TextView
+                        android:id="@+id/develop_rank_text"
+                        style="@style/Text.Develop"
+                        android:text="@string/preview_rank_data_base" />
+
+            </ScrollView>
+
+        </FrameLayout>
 
         <View style="@style/Divider.Vertical"/>
 
-        <ScrollView
+        <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.4"
-                android:fillViewport="true">
+                android:layout_weight="0.4">
 
-            <TextView
-                    android:id="@+id/develop_preference_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:padding="@dimen/layout_4dp"
-                    android:text="@string/preview_preference"/>
+            <ProgressBar
+                    android:id="@+id/develop_preference_progress"
+                    style="@style/ProgressBar.Develop" />
 
-        </ScrollView>
+            <ScrollView
+                    android:id="@+id/develop_preference_scroll"
+                    style="@style/Container.Develop.Scroll"
+                    tools:visibility="visible">
+
+                <TextView
+                        android:id="@+id/develop_preference_text"
+                        style="@style/Text.Develop"
+                        android:text="@string/preview_preference" />
+
+            </ScrollView>
+
+        </FrameLayout>
 
     </LinearLayout>
 

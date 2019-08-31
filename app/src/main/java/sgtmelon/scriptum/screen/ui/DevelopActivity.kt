@@ -1,7 +1,10 @@
 package sgtmelon.scriptum.screen.ui
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
@@ -40,18 +43,30 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
     }
 
     override fun fillAboutNoteTable(data: String) {
+        findViewById<ProgressBar?>(R.id.develop_note_progress)?.visibility = View.GONE
+        findViewById<ScrollView?>(R.id.develop_note_scroll)?.visibility = View.VISIBLE
+
         findViewById<TextView?>(R.id.develop_note_text)?.text = data
     }
 
     override fun fillAboutRollTable(data: String) {
+        findViewById<ProgressBar?>(R.id.develop_roll_progress)?.visibility = View.GONE
+        findViewById<ScrollView?>(R.id.develop_roll_scroll)?.visibility = View.VISIBLE
+
         findViewById<TextView?>(R.id.develop_roll_text)?.text = data
     }
 
     override fun fillAboutRankTable(data: String) {
+        findViewById<ProgressBar?>(R.id.develop_rank_progress)?.visibility = View.GONE
+        findViewById<ScrollView?>(R.id.develop_rank_scroll)?.visibility = View.VISIBLE
+
         findViewById<TextView?>(R.id.develop_rank_text)?.text = data
     }
 
     override fun fillAboutPreference(data: String) {
+        findViewById<ProgressBar?>(R.id.develop_preference_progress)?.visibility = View.GONE
+        findViewById<ScrollView?>(R.id.develop_preference_scroll)?.visibility = View.VISIBLE
+
         findViewById<TextView?>(R.id.develop_preference_text)?.text = data
     }
 
