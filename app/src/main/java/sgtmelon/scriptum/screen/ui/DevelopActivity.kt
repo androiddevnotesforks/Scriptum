@@ -20,6 +20,15 @@ import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
  */
 class DevelopActivity : AppCompatActivity(), IDevelopActivity {
 
+    // TODO #RELEASE2 Add different windows for every table
+    // TODO #RELEASE2 for example: note+roll, note+alarm, note+rank, preference, other
+    // TODO #RELEASE2 in note+roll/alarm/rank: textView with dataBase
+    // TODO #RELEASE2 in preference: textView with data, button for reset all keys
+    // TODO #RELEASE2 in other: open intro, open alarm
+
+    // TODO #RELEASE2 activity: toolbar, fragment
+    // TODO #RELEASE2 change toolbar text when change fragment
+
     private val iViewModel: IDevelopViewModel by lazy {
         ViewModelProviders.of(this).get(DevelopViewModel::class.java).apply {
             callback = this@DevelopActivity

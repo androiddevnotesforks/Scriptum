@@ -492,7 +492,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.bindNote(noteModel)
     }
 
-    // TODO #RELEASE1 set alarm to androidDevice
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 

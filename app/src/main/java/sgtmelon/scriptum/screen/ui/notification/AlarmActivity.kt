@@ -133,7 +133,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         postponeButton?.setOnClickListener { openState.tryInvoke { iViewModel.onClickPostpone() } }
     }
 
-    override fun setupMelody(uri: Uri) = iMelodyControl.setupPlayer(uri, isLooping = true)
+    override fun setupPlayer(volume: Int, increase: Boolean, uri: Uri) = with(iMelodyControl) {
+        setupVolume(volume, increase)
+        setupPlayer(uri, isLooping = true)
+    }
 
     override fun notifyDataSetChanged(noteModel: NoteModel) =
             adapter.notifyDataSetChanged(arrayListOf(noteModel))

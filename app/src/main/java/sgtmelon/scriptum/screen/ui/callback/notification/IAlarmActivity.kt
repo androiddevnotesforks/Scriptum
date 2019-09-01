@@ -44,7 +44,7 @@ interface IAlarmActivity {
 
     fun setupView(@Theme theme: Int)
 
-    fun setupMelody(uri: Uri)
+    fun setupPlayer(volume: Int, increase: Boolean, uri: Uri)
 
     fun notifyDataSetChanged(noteModel: NoteModel)
 

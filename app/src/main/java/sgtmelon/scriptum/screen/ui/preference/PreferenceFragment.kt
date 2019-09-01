@@ -127,8 +127,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
     override fun setupNotification(melodyTitleList: Array<String>) {
-        // TODO #RELEASE1
-
         repeatPreference.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->

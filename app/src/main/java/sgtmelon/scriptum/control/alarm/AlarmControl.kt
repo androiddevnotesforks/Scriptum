@@ -13,7 +13,7 @@ import java.util.*
  */
 class AlarmControl(context: Context?) : IAlarmControl {
 
-    // TODO #RELEASE1 coroutine
+    // TODO #RELEASE2 coroutine
 
     private val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
 

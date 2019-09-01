@@ -54,8 +54,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
-            setupView(iPreferenceRepo.theme)
-            setupMelody(iPreferenceRepo.melodyUri.toUri())
+
+            iPreferenceRepo.let {
+                setupView(it.theme)
+                setupPlayer(it.volume, it.volumeIncrease, it.melodyUri.toUri())
+            }
         }
 
         if (bundle != null) {
@@ -153,7 +156,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     companion object {
         private const val START_DELAY = 0L
-        private const val CANCEL_DELAY = 15000L
+        const val CANCEL_DELAY = 20000L
 
         private val vibratorPattern = longArrayOf(500, 750, 500, 750, 500, 0)
     }

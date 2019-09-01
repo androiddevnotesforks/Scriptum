@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 
@@ -25,7 +26,9 @@ class AlarmTest : ParentUiTest() {
     private fun waitPostpone(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
-        data.insertNote().let { launchAlarm(it) { waitAfter(WAIT_TIME) { openAlarm(it) } } }
+        data.insertNote().let {
+            launchAlarm(it) { waitAfter(AlarmViewModel.CANCEL_DELAY) { openAlarm(it) } }
+        }
     }
 
     private fun backPostpone(@Repeat repeat: Int) {
@@ -67,10 +70,5 @@ class AlarmTest : ParentUiTest() {
     @Test fun backPostponeMin30() = backPostpone(Repeat.MIN_30)
 
     @Test fun backPostponeMin60() = backPostpone(Repeat.MIN_60)
-
-
-    private companion object {
-        const val WAIT_TIME = 16000L
-    }
 
 }

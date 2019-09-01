@@ -10,7 +10,7 @@ import sgtmelon.scriptum.control.alarm.MelodyControl
  */
 interface IMelodyControl {
 
-    fun setupVolume()
+    fun setupVolume(volume: Int, increase: Boolean)
 
     fun setupPlayer(uri: Uri, isLooping: Boolean)
 
