@@ -35,7 +35,7 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
         }
     }
 
-    private val introButton: Button? by lazy { findViewById<Button>(R.id.develop_intro_button) }
+    private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

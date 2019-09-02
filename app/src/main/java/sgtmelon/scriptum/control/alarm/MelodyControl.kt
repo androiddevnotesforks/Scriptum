@@ -63,7 +63,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
         override fun run() {
             if (maxVolume == null || increaseCurrent >= increaseMax) return
 
-            setVolume(maxVolume.getPercentOf(increaseCurrent++))
+            setVolume(increaseCurrent++)
             increaseHandler.postDelayed(this, INCREASE_PERIOD)
         }
     }
@@ -143,7 +143,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
     private fun Int.getPercentOf(value: Int) = this * value / 100
 
     companion object {
-        private const val INCREASE_PERIOD = 150L
+        private const val INCREASE_PERIOD = 1000L
     }
 
 }

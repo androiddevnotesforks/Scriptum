@@ -51,7 +51,7 @@ class MainActivity : AppActivity(), IMainActivity {
     private val openState = OpenState()
     private val addDialog by lazy { DialogFactory.Main.getAddDialog(supportFragmentManager) }
 
-    private val fab by lazy { findViewById<FloatingActionButton>(R.id.main_add_fab) }
+    private val fab by lazy { findViewById<FloatingActionButton?>(R.id.main_add_fab) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,7 +90,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     override fun setupNavigation(@IdRes itemId: Int) {
-        fab.setOnClickListener {
+        fab?.setOnClickListener {
             openState.tryInvoke { addDialog.show(supportFragmentManager, DialogFactory.Main.ADD) }
         }
 
@@ -107,7 +107,9 @@ class MainActivity : AppActivity(), IMainActivity {
         addDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    override fun changeFabState(state: Boolean) = fab.setState(state)
+    override fun changeFabState(state: Boolean) {
+        fab?.setState(state)
+    }
 
     override fun scrollTop(mainPage: MainPage) = when (mainPage) {
         MainPage.RANK -> rankFragment.scrollTop()

@@ -23,8 +23,8 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
     private val pagerAdapter = PagerAdapter(supportFragmentManager)
 
-    private val pageIndicator: View by lazy { findViewById<View>(R.id.intro_page_indicator) }
-    private val pageButtonEnd: Button by lazy { findViewById<Button>(R.id.intro_end_button) }
+    private val pageIndicator by lazy { findViewById<View?>(R.id.intro_page_indicator) }
+    private val pageButtonEnd by lazy { findViewById<Button?>(R.id.intro_end_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     }
 
     private fun setupViewPager() {
-        pageButtonEnd.apply {
+        pageButtonEnd?.apply {
             alpha = 0f
             isEnabled = false
 
@@ -60,15 +60,15 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             pagerAdapter.notifyItem(position + 1, positionOffset)
         }
 
-        pageButtonEnd.isEnabled = position == pagerAdapter.count - 1
+        pageButtonEnd?.isEnabled = position == pagerAdapter.count - 1
 
         if (position == pagerAdapter.count - 2) {
-            with(pageIndicator) {
+            pageIndicator?.apply {
                 alpha = 1 - 2 * positionOffset
                 translationY = -positionOffset * height
             }
 
-            with(pageButtonEnd) {
+            pageButtonEnd?.apply {
                 alpha = positionOffset
                 translationY = height - positionOffset * height
             }
