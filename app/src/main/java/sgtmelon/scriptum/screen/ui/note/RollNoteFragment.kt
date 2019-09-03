@@ -227,16 +227,16 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }
 
         rollEnter = view?.findViewById(R.id.roll_note_enter)
-        rollEnter?.let {
-            it.setRawInputType(InputType.TYPE_CLASS_TEXT
+        rollEnter?.apply {
+            setRawInputType(InputType.TYPE_CLASS_TEXT
                     or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES
                     or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
                     or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
             )
-            it.imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
-            it.addTextChangedListener(on = { bindEnter() })
-            it.setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
+            addTextChangedListener(on = { bindEnter() })
+            setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
         }
 
         view?.findViewById<ImageButton>(R.id.roll_note_add_button)?.apply {

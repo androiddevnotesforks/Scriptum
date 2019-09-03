@@ -205,10 +205,9 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         aboutDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
 
-            if (aboutDialog.hideOpen) {
-                aboutDialog.clear()
-                startActivity(Intent(activity, DevelopActivity::class.java))
-            }
+            if (aboutDialog.hideOpen) startActivity(Intent(activity, DevelopActivity::class.java))
+
+            aboutDialog.clear()
         }
     }
 

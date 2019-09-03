@@ -5,13 +5,11 @@
         tools:showIn="@layout/fragment_roll_note">
 
     <data>
-
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
 
         <variable name="editMode" type="boolean"/>
         <variable name="enterEmpty" type="boolean"/>
-
     </data>
 
     <LinearLayout
@@ -32,8 +30,10 @@
                 android:padding="@dimen/layout_4dp">
 
             <!--
-                imeOptions и inputType устанавливаются программно, потому что не получается
-                получить тот же результат через xml
+                Dream effect: multiline with done action button
+
+                imeOptions and inputType set programmatically, because I can't get the same
+                effect using xml
             -->
             <EditText
                     android:id="@+id/roll_note_enter"
