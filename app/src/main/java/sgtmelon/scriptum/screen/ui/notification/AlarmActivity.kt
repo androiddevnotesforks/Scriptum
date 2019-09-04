@@ -64,29 +64,15 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         NoteAdapter(ItemListener.Click { _, _ -> openState.tryInvoke { iViewModel.onClickNote() } })
     }
 
-    private val parentContainer: ViewGroup? by lazy {
-        findViewById<ViewGroup>(R.id.alarm_parent_container)
-    }
-    private val rippleContainer: RippleContainer? by lazy {
-        findViewById<RippleContainer>(R.id.alarm_ripple_background)
-    }
+    private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_parent_container) }
+    private val rippleContainer by lazy { findViewById<RippleContainer?>(R.id.alarm_ripple_background) }
 
-    private val logoView: View? by lazy {
-        findViewById<View>(R.id.alarm_logo_view)
-    }
-    private val recyclerView: RecyclerView? by lazy {
-        findViewById<RecyclerView>(R.id.alarm_recycler)
-    }
+    private val logoView by lazy { findViewById<View?>(R.id.alarm_logo_view) }
+    private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.alarm_recycler) }
 
-    private val buttonContainer: ViewGroup? by lazy {
-        findViewById<ViewGroup>(R.id.alarm_button_container)
-    }
-    private val disableButton: Button? by lazy {
-        findViewById<Button>(R.id.alarm_disable_button)
-    }
-    private val postponeButton: Button? by lazy {
-        findViewById<Button>(R.id.alarm_postpone_button)
-    }
+    private val buttonContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_button_container) }
+    private val disableButton by lazy { findViewById<Button?>(R.id.alarm_disable_button) }
+    private val postponeButton by lazy { findViewById<Button?>(R.id.alarm_postpone_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

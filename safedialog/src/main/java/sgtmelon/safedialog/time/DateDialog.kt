@@ -31,12 +31,10 @@ class DateDialog : DateTimeBlankDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
-
-        calendar.timeInMillis = savedInstanceState?.getLong(INIT) ?: bundle?.getLong(INIT)
+        calendar.timeInMillis = savedInstanceState?.getLong(INIT) ?: arguments?.getLong(INIT)
                 ?: defaultTime
 
-        neutralVisible = savedInstanceState?.getBoolean(VALUE) ?: bundle?.getBoolean(VALUE)
+        neutralVisible = savedInstanceState?.getBoolean(VALUE) ?: arguments?.getBoolean(VALUE)
                 ?: false
 
         return DatePickerDialog(context as Context, this,

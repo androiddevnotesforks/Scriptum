@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
@@ -19,11 +18,11 @@ import java.util.*
 
 class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
-    var position = 0
-        private set
+    private val nameEnter get() = dialog?.findViewById<EditText?>(R.id.rename_enter)
 
     private var nameList: ArrayList<String> = ArrayList()
-    private var nameEnter: EditText? = null
+    var position = 0
+        private set
 
     val name: String get() = nameEnter?.text?.toString()?.clearSpace() ?: ""
 
@@ -36,36 +35,19 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
-
-        position = savedInstanceState?.getInt(POSITION) ?: bundle?.getInt(POSITION) ?: 0
-        title = savedInstanceState?.getString(INIT) ?: bundle?.getString(INIT) ?: ""
+        position = savedInstanceState?.getInt(POSITION) ?: arguments?.getInt(POSITION) ?: 0
+        title = savedInstanceState?.getString(INIT) ?: arguments?.getString(INIT) ?: ""
 
         nameList = savedInstanceState?.getStringArrayList(VALUE)
-                ?: bundle?.getStringArrayList(VALUE) ?: ArrayList()
-
-        val view = LayoutInflater.from(context).inflate(R.layout.view_rename, null)
-
-        nameEnter = view.findViewById(R.id.rename_enter)
-        nameEnter?.apply {
-            setTextColor(context.getColorAttr(R.attr.clContent))
-            setHintTextColor(context.getColorAttr(R.attr.clDisable))
-
-            setOnEditorActionListener(this@RenameDialog)
-            addTextChangedListener(on = { setEnable() })
-        }
+                ?: arguments?.getStringArrayList(VALUE) ?: ArrayList()
 
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)
-                .setView(view)
+                .setView(R.layout.view_rename)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
-                .apply {
-                    nameEnter?.requestFocus()
-                    window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE)
-                }
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -74,6 +56,22 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
                 putString(INIT, title)
                 putStringArrayList(VALUE, nameList)
             })
+
+    override fun setupView() {
+        super.setupView()
+
+        nameEnter?.apply {
+            setTextColor(context.getColorAttr(R.attr.clContent))
+            setHintTextColor(context.getColorAttr(R.attr.clDisable))
+
+            setOnEditorActionListener(this@RenameDialog)
+            addTextChangedListener(on = { setEnable() })
+
+            requestFocus()
+        }
+
+        dialog?.window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE)
+    }
 
     override fun setEnable() {
         super.setEnable()

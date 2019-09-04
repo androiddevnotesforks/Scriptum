@@ -3,7 +3,6 @@ package sgtmelon.scriptum.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.annotation.IntRange
@@ -13,11 +12,12 @@ import sgtmelon.scriptum.R
 
 class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
 
+    private val seekBar get() = dialog?.findViewById<SeekBar?>(R.id.volume_seek_bar)
+    private val progressText get() = dialog?.findViewById<TextView?>(R.id.volume_progress_text)
+
     private var init = 0
     var progress = 0
         private set
-
-    private var progressText: TextView? = null
 
     fun setArguments(@IntRange(from = 10, to = 100) progress: Int) = apply {
         arguments = Bundle().apply {
@@ -30,19 +30,9 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
         init = savedInstanceState?.getInt(INIT) ?: arguments?.getInt(INIT) ?: 0
         progress = savedInstanceState?.getInt(VALUE) ?: arguments?.getInt(VALUE) ?: 0
 
-        val view = LayoutInflater.from(context).inflate(R.layout.view_volume, null)
-
-        view.findViewById<SeekBar>(R.id.volume_seek_bar).apply {
-            progress = this@VolumeDialog.progress
-            setOnSeekBarChangeListener(this@VolumeDialog)
-        }
-
-        progressText = view.findViewById(R.id.volume_progress_text)
-        progressText?.text = getString(R.string.dialog_text_volume, progress)
-
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)
-                .setView(view)
+                .setView(R.layout.view_volume)
                 .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
                 .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
@@ -54,6 +44,17 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
                 putInt(INIT, init)
                 putInt(VALUE, progress)
             })
+
+    override fun setupView() {
+        super.setupView()
+
+        seekBar?.apply {
+            progress = this@VolumeDialog.progress
+            setOnSeekBarChangeListener(this@VolumeDialog)
+        }
+
+        progressText?.text = getString(R.string.dialog_text_volume, progress)
+    }
 
     override fun setEnable() {
         super.setEnable()

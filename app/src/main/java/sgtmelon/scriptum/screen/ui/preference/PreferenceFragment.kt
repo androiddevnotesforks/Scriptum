@@ -47,6 +47,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
     private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
 
+    // TODO check by DialogFactory
     private val repeatDialog by lazy { DialogFactory.Preference.getRepeatDialog(activity, fm) }
     private val signalDialog by lazy { DialogFactory.Preference.getSignalDialog(activity, fm) }
     private val melodyDialog by lazy { DialogFactory.Preference.getMelodyDialog(activity, fm) }

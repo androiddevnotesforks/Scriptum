@@ -30,13 +30,11 @@ class TimeDialog : DateTimeBlankDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
+        calendar.timeInMillis = savedInstanceState?.getLong(INIT)
+                ?: arguments?.getLong(INIT) ?: defaultTime
 
-        calendar.timeInMillis = savedInstanceState?.getLong(INIT) ?: bundle?.getLong(INIT)
-                ?: defaultTime
-
-        this.dateList = savedInstanceState?.getStringArrayList(VALUE)
-                ?: bundle?.getStringArrayList(VALUE) ?: ArrayList()
+        dateList = savedInstanceState?.getStringArrayList(VALUE)
+                ?: arguments?.getStringArrayList(VALUE) ?: ArrayList()
 
         val changeListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)

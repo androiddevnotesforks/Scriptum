@@ -32,6 +32,7 @@ abstract class BlankDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
+        setupView()
         setupButton()
         setEnable()
     }
@@ -40,6 +41,11 @@ abstract class BlankDialog : DialogFragment() {
         super.onDismiss(dialog)
         dismissListener?.onDismiss(dialog)
     }
+
+    /**
+     * Func
+     */
+    @CallSuper protected open fun setupView() {}
 
     @CallSuper protected open fun setupButton() {
         val dialog = dialog

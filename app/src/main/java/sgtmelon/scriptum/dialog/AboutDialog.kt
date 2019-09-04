@@ -3,7 +3,6 @@ package sgtmelon.scriptum.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,9 +13,10 @@ import sgtmelon.scriptum.R
 
 class AboutDialog : BlankDialog(), View.OnClickListener {
 
-    private var click = 0
+    private val logoImage get() = dialog?.findViewById<ImageView?>(R.id.about_logo_image)
+    private val versionText get() = dialog?.findViewById<TextView?>(R.id.about_version)
 
-    private val maxClick get() = context?.resources?.getInteger(R.integer.value_develop_open) ?: 1
+    private var click = 0
 
     var hideOpen = false
         private set
@@ -24,13 +24,8 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         savedInstanceState?.also { click = it.getInt(VALUE) }
 
-        val view = LayoutInflater.from(context).inflate(R.layout.view_about, null)
-
-        view.findViewById<ImageView>(R.id.about_logo_image).setOnClickListener(this)
-        view.findViewById<TextView>(R.id.about_version).text = BuildConfig.VERSION_NAME
-
         return AlertDialog.Builder(context as Context)
-                .setView(view)
+                .setView(R.layout.view_about)
                 .setCancelable(true)
                 .create()
     }
@@ -38,8 +33,15 @@ class AboutDialog : BlankDialog(), View.OnClickListener {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { putInt(VALUE, click) })
 
+    override fun setupView() {
+        super.setupView()
+
+        logoImage?.setOnClickListener(this)
+        versionText?.text = BuildConfig.VERSION_NAME
+    }
+
     override fun onClick(v: View) {
-        if (++click == maxClick) {
+        if (++click == context?.resources?.getInteger(R.integer.value_develop_open)) {
             hideOpen = true
             dialog?.cancel()
         }

@@ -33,13 +33,11 @@ class MultiplyDialog : BlankDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
-
         init = savedInstanceState?.getBooleanArray(INIT)
-                ?: bundle?.getBooleanArray(INIT) ?: BooleanArray(size = 0)
+                ?: arguments?.getBooleanArray(INIT) ?: BooleanArray(size = 0)
 
         check = savedInstanceState?.getBooleanArray(VALUE)
-                ?: bundle?.getBooleanArray(VALUE) ?: BooleanArray(size = 0)
+                ?: arguments?.getBooleanArray(VALUE) ?: BooleanArray(size = 0)
 
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)

@@ -37,13 +37,11 @@ class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val bundle = arguments
-
         itemList = savedInstanceState?.getStringArray(INIT)?.toList()
-                ?: bundle?.getStringArray(INIT)?.toList() ?: ArrayList()
+                ?: arguments?.getStringArray(INIT)?.toList() ?: ArrayList()
 
         position = savedInstanceState?.getInt(VALUE)
-                ?: bundle?.getInt(VALUE) ?: 0
+                ?: arguments?.getInt(VALUE) ?: 0
 
         return AlertDialog.Builder(context as Activity)
                 .setItems(itemList.toTypedArray(), this)
