@@ -7,10 +7,10 @@ ext {
     ]
 
     jetbrains = [
-            kotlin    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31",
+            kotlin    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50",
             coroutines: [
-                    core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.1.1",
-                    android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1"
+                    core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1",
+                    android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1"
             ]
     ]
 
@@ -38,13 +38,13 @@ ext {
             ],
             test            : [
                     instrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
-                    runner               : "androidx.test:runner:1.1.1",
-                    rules                : "androidx.test:rules:1.1.1",
-                    junit                : "androidx.test.ext:junit:1.1.0",
+                    runner               : "androidx.test:runner:1.2.0",
+                    rules                : "androidx.test:rules:1.2.0",
+                    junit                : "androidx.test.ext:junit:1.1.1",
                     espresso             : [
-                            idling : "androidx.test.espresso:espresso-idling-resource:3.1.1",
-                            core   : "androidx.test.espresso:espresso-core:3.1.1",
-                            contrib: "androidx.test.espresso:espresso-contrib:3.1.1"
+                            idling : "androidx.test.espresso:espresso-idling-resource:3.2.0",
+                            core   : "androidx.test.espresso:espresso-core:3.2.0",
+                            contrib: "androidx.test.espresso:espresso-contrib:3.2.0"
                     ]
             ]
     ]
@@ -58,9 +58,9 @@ ext {
     ]
 
     powermock = [
-            module      : "org.powermock:powermock-module-junit4:1.6.6",
-            rule        : "org.powermock:powermock-module-junit4-rule:1.6.6",
-            api         : "org.powermock:powermock-api-mockito:1.6.6",
-            classloading: "org.powermock:powermock-classloading-xstream:1.6.6"
+            module      : "org.powermock:powermock-module-junit4:2.0.2",
+            rule        : "org.powermock:powermock-module-junit4-rule:2.0.2",
+            api         : "org.powermock:powermock-api-mockito:1.7.4",
+            classloading: "org.powermock:powermock-classloading-xstream:2.0.2"
     ]
 }
