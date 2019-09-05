@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.screen.ui.note
 
 import android.app.PendingIntent
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -46,18 +45,12 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private var binding: FragmentTextNoteBinding? = null
 
     private val openState = OpenState()
-    private val rankDialog by lazy {
-        DialogFactory.Note.getRankDialog(context as Context, fragmentManager)
-    }
-    private val colorDialog by lazy {
-        DialogFactory.Note.getColorDialog(context as Context, fragmentManager)
-    }
+    private val rankDialog by lazy { DialogFactory.Note.getRankDialog(context, fragmentManager) }
+    private val colorDialog by lazy { DialogFactory.Note.getColorDialog(context, fragmentManager) }
 
     private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
     private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
-    private val convertDialog by lazy {
-        DialogFactory.Note.getConvertDialog(context as Context, fragmentManager, NoteType.TEXT)
-    }
+    private val convertDialog by lazy { DialogFactory.Note.getConvertDialog(context, fragmentManager, NoteType.TEXT) }
 
     private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
 

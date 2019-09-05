@@ -29,8 +29,10 @@ object DialogFactory {
         fun getOptionsDialog(fm: FragmentManager?): OptionsDialog =
                 fm?.findFragmentByTag(OPTIONS) as? OptionsDialog ?: OptionsDialog()
 
-        fun getClearBinDialog(context: Context, fm: FragmentManager?): MessageDialog {
+        fun getClearBinDialog(context: Context?, fm: FragmentManager?): MessageDialog {
             val dialog = fm?.findFragmentByTag(CLEAR_BIN) as? MessageDialog ?: MessageDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.dialog_title_clear_bin)
             dialog.message = context.getString(R.string.dialog_text_clear_bin)
@@ -47,8 +49,10 @@ object DialogFactory {
     }
 
     object Note {
-        fun getConvertDialog(context: Context, fm: FragmentManager?, type: NoteType): MessageDialog {
+        fun getConvertDialog(context: Context?, fm: FragmentManager?, type: NoteType): MessageDialog {
             val dialog = fm?.findFragmentByTag(CONVERT) as? MessageDialog ?: MessageDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.dialog_title_convert)
             dialog.message = when (type) {
@@ -59,16 +63,20 @@ object DialogFactory {
             return dialog
         }
 
-        fun getRankDialog(context: Context, fm: FragmentManager?): SingleDialog {
+        fun getRankDialog(context: Context?, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(RANK) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.dialog_title_rank)
 
             return dialog
         }
 
-        fun getColorDialog(context: Context, fm: FragmentManager?): ColorDialog {
+        fun getColorDialog(context: Context?, fm: FragmentManager?): ColorDialog {
             val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.dialog_title_color)
 
@@ -92,8 +100,10 @@ object DialogFactory {
     }
 
     object Preference {
-        fun getThemeDialog(context: Context, fm: FragmentManager?): SingleDialog {
+        fun getThemeDialog(context: Context?, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.title_app_theme)
             dialog.itemArray = context.resources.getStringArray(R.array.text_app_theme)
@@ -101,8 +111,10 @@ object DialogFactory {
             return dialog
         }
 
-        fun getRepeatDialog(context: Context, fm: FragmentManager?): SingleDialog {
+        fun getRepeatDialog(context: Context?, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.title_alarm_repeat)
             dialog.itemArray = context.resources.getStringArray(R.array.text_alarm_repeat)
@@ -110,8 +122,10 @@ object DialogFactory {
             return dialog
         }
 
-        fun getSignalDialog(context: Context, fm: FragmentManager?): MultiplyDialog {
+        fun getSignalDialog(context: Context?, fm: FragmentManager?): MultiplyDialog {
             val dialog = fm?.findFragmentByTag(SIGNAL) as? MultiplyDialog ?: MultiplyDialog()
+
+            if (context == null) return dialog
 
             dialog.needOneSelect = true
             dialog.title = context.getString(R.string.title_alarm_signal)
@@ -120,24 +134,30 @@ object DialogFactory {
             return dialog
         }
 
-        fun getMelodyDialog(context: Context, fm: FragmentManager?): SingleDialog {
+        fun getMelodyDialog(context: Context?, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(MELODY) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.title_alarm_melody)
 
             return dialog
         }
 
-        fun getVolumeDialog(context: Context, fm: FragmentManager?): VolumeDialog {
+        fun getVolumeDialog(context: Context?, fm: FragmentManager?): VolumeDialog {
             val dialog = fm?.findFragmentByTag(VOLUME) as? VolumeDialog ?: VolumeDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.title_alarm_volume)
 
             return dialog
         }
 
-        fun getSortDialog(context: Context, fm: FragmentManager?): SingleDialog {
+        fun getSortDialog(context: Context?, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.title_note_sort)
             dialog.itemArray = context.resources.getStringArray(R.array.text_note_sort)
@@ -145,16 +165,20 @@ object DialogFactory {
             return dialog
         }
 
-        fun getColorDialog(context: Context, fm: FragmentManager?): ColorDialog {
+        fun getColorDialog(context: Context?, fm: FragmentManager?): ColorDialog {
             val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.title_note_color)
 
             return dialog
         }
 
-        fun getSaveTimeDialog(context: Context, fm: FragmentManager?): SingleDialog {
+        fun getSaveTimeDialog(context: Context?, fm: FragmentManager?): SingleDialog {
             val dialog = fm?.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
 
             dialog.title = context.getString(R.string.title_save_time)
             dialog.itemArray = context.resources.getStringArray(R.array.text_save_time)

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.main
 
-import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,9 +39,7 @@ class BinFragment : Fragment(), IBinFragment {
 
     private val openState = OpenState()
     private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
-    private val clearBinDialog by lazy {
-        DialogFactory.Main.getClearBinDialog(activity as Activity, fragmentManager)
-    }
+    private val clearBinDialog by lazy { DialogFactory.Main.getClearBinDialog(context, fragmentManager) }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(
