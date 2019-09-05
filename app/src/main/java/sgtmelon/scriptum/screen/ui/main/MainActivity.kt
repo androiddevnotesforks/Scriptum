@@ -11,7 +11,6 @@ import android.view.View
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
@@ -19,28 +18,22 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
-import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
-import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
 /**
- * Экран отвечающий за отображение главного меню и фрагментов
- * [RankFragment], [NotesFragment], [BinFragment]
+ * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment]
  *
  * @author SerjantArbuz
  */
 class MainActivity : AppActivity(), IMainActivity {
 
-    private val iViewModel: IMainViewModel by lazy {
-        ViewModelProviders.of(this).get(MainViewModel::class.java).apply {
-            callback = this@MainActivity
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getMainViewModel(activity = this) }
 
     private val mainReceiver by lazy { MainReceiver(iViewModel) }
 

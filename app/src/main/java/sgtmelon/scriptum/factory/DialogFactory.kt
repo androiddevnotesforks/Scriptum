@@ -13,7 +13,7 @@ import sgtmelon.scriptum.dialog.*
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
- * Фабрика для создания диалогов
+ * Factory for create/get dialogs
  *
  * @author SerjantArbuz
  */

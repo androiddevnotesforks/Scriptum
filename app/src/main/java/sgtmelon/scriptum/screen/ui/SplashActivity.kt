@@ -7,17 +7,14 @@ import android.os.Bundle
 import androidx.annotation.StringDef
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.extension.beforeFinish
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
-import sgtmelon.scriptum.screen.vm.SplashViewModel
-import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 
 /**
  * Start screen of application
@@ -26,13 +23,9 @@ import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
  */
 class SplashActivity : AppCompatActivity(), ISplashActivity {
 
-    private val iViewModel: ISplashViewModel by lazy {
-        ViewModelProviders.of(this).get(SplashViewModel::class.java).apply {
-            callback = this@SplashActivity
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getSplashViewModel(activity = this) }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

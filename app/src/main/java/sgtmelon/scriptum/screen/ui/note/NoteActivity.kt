@@ -6,8 +6,8 @@ import android.content.IntentFilter
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.NoteType
@@ -16,8 +16,6 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteActivity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
-import sgtmelon.scriptum.screen.vm.callback.note.INoteViewModel
-import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
 /**
  * Экран для отображения заметки - [TextNoteFragment], [RollNoteFragment]
@@ -26,11 +24,7 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
-    private val iViewModel: INoteViewModel by lazy {
-        ViewModelProviders.of(this).get(NoteViewModel::class.java).apply {
-            callback = this@NoteActivity
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getNoteViewModel(activity = this) }
 
     private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 

@@ -7,29 +7,26 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.extension.inflateBinding
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
-import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
 /**
- * Экран со списком уведомлений
+ * Screen with list of notifications
  *
  * @author SerjantArbuz
  */
@@ -37,13 +34,9 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private var binding: ActivityNotificationBinding? = null
 
-    private val iViewModel: INotificationViewModel by lazy {
-        ViewModelProviders.of(this).get(NotificationViewModel::class.java).apply {
-            callback = this@NotificationActivity
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getNotificationViewModel(activity = this) }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 
     private val openState = OpenState()
 
@@ -56,9 +49,9 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         })
     }
 
-    private var parentContainer: ViewGroup? = null
-    private var emptyInfoView: View? = null
-    private var recyclerView: RecyclerView? = null
+    private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.notification_parent_container) }
+    private val emptyInfoView by lazy { findViewById<View?>(R.id.notification_info_include) }
+    private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.notification_recycler) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,12 +85,8 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     }
 
     override fun setupRecycler(@Theme theme: Int) {
-        parentContainer = findViewById(R.id.notification_parent_container)
-        emptyInfoView = findViewById(R.id.notification_info_include)
-
         adapter.theme = theme
 
-        recyclerView = findViewById(R.id.notification_recycler)
         recyclerView?.let {
             it.itemAnimator = object : DefaultItemAnimator() {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()

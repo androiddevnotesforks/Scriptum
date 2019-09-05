@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,17 +19,16 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
-import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
-import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
- * Фрагмент для отображения списка удалённых заметок - [NoteEntity]
+ * Fragment which displays list of deleted notes - [NoteEntity]
  *
  * @author SerjantArbuz
  */
@@ -38,11 +36,7 @@ class BinFragment : Fragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 
-    private val iViewModel: IBinViewModel by lazy {
-        ViewModelProviders.of(this).get(BinViewModel::class.java).apply {
-            callback = this@BinFragment
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getBinViewModel(fragment = this) }
 
     private val openState = OpenState()
     private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }

@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,15 +21,14 @@ import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
-import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
-import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
- * Фрагмент для отображения списка категорий - [RankEntity]
+ * Fragment which displays list of categories - [RankEntity]
  *
  * @author SerjantArbuz
  */
@@ -38,11 +36,7 @@ class RankFragment : Fragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
-    private val iViewModel: IRankViewModel by lazy {
-        ViewModelProviders.of(this).get(RankViewModel::class.java).apply {
-            callback = this@RankFragment
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getRankViewModel(fragment = this) }
 
     private val openState = OpenState()
     private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fragmentManager) }

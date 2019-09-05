@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +15,12 @@ import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -31,11 +30,9 @@ import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
-import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
-import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
- * Фрагмент для отображения списка заметок - [NoteEntity]
+ * Fragment which displays list of notes - [NoteEntity]
  *
  * @author SerjantArbuz
  */
@@ -45,13 +42,9 @@ class NotesFragment : Fragment(), INotesFragment {
 
     private var binding: FragmentNotesBinding? = null
 
-    private val iViewModel: INotesViewModel by lazy {
-        ViewModelProviders.of(this).get(NotesViewModel::class.java).apply {
-            callback = this@NotesFragment
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getNotesViewModel(fragment = this) }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
 
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy {

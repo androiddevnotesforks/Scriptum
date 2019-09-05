@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Button
 import androidx.annotation.ColorInt
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
@@ -22,11 +21,11 @@ import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.control.alarm.PowerControl
 import sgtmelon.scriptum.control.alarm.VibratorControl
-import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
@@ -35,27 +34,21 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
-import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
-import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.view.RippleContainer
 import java.util.*
 
 /**
- * Экран с уведомлением запущенным по таймеру
+ * Screen with notification opened by timer
  *
  * @author SerjantArbuz
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    private val iViewModel: IAlarmViewModel by lazy {
-        ViewModelProviders.of(this).get(AlarmViewModel::class.java).apply {
-            callback = this@AlarmActivity
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getAlarmViewModel(activity = this) }
 
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
     private val iPowerControl: IPowerControl by lazy { PowerControl(context = this) }
 
     private val openState = OpenState()

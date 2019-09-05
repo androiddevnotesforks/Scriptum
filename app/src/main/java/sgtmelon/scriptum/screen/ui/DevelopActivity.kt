@@ -7,14 +7,12 @@ import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
-import sgtmelon.scriptum.screen.vm.DevelopViewModel
-import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 
 /**
- * Экран для подробного отображения информации из бд
+ * Screen which displays information for developer
  *
  * @author SerjantArbuz
  */
@@ -29,11 +27,7 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
     // TODO #RELEASE2 activity: toolbar, fragment
     // TODO #RELEASE2 change toolbar text when change fragment
 
-    private val iViewModel: IDevelopViewModel by lazy {
-        ViewModelProviders.of(this).get(DevelopViewModel::class.java).apply {
-            callback = this@DevelopActivity
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getDevelopViewModel(activity = this) }
 
     private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 

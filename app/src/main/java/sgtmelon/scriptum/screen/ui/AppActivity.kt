@@ -3,25 +3,19 @@ package sgtmelon.scriptum.screen.ui
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProviders
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.screen.ui.callback.IAppActivity
-import sgtmelon.scriptum.screen.vm.AppViewModel
-import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
 /**
- * Родительская activity приложения, от которой нужно наследоваться при необходимости обработки темы
+ * Parent activity for application, which need extends when need change theme
  *
  * @author SerjantArbuz
  */
 abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
-    private val iViewModel: IAppViewModel by lazy {
-        ViewModelProviders.of(this).get(AppViewModel::class.java).apply {
-            callback = this@AppActivity
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getAppViewModel(activity = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +40,7 @@ abstract class AppActivity : AppCompatActivity(), IAppActivity {
     fun checkThemeChange() {
         if (!iViewModel.isThemeChange()) return
 
-        val intent = intent
-        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+        val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
 
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()

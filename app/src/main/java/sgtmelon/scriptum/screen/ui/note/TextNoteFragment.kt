@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.ui.note
 
-import android.app.Activity
 import android.app.PendingIntent
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -11,12 +11,10 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.alarm.callback.IAlarmControl
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
@@ -25,6 +23,7 @@ import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
+import sgtmelon.scriptum.factory.VmFactory
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -33,10 +32,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
-import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
-import sgtmelon.scriptum.screen.vm.callback.note.ITextNoteViewModel
-import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
 
 
@@ -51,26 +47,21 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
     private val openState = OpenState()
     private val rankDialog by lazy {
-        DialogFactory.Note.getRankDialog(context as Activity, fragmentManager)
+        DialogFactory.Note.getRankDialog(context as Context, fragmentManager)
     }
     private val colorDialog by lazy {
-        DialogFactory.Note.getColorDialog(context as Activity, fragmentManager)
+        DialogFactory.Note.getColorDialog(context as Context, fragmentManager)
     }
 
     private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
     private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
     private val convertDialog by lazy {
-        DialogFactory.Note.getConvertDialog(context as Activity, fragmentManager, NoteType.TEXT)
+        DialogFactory.Note.getConvertDialog(context as Context, fragmentManager, NoteType.TEXT)
     }
 
-    private val iViewModel: ITextNoteViewModel by lazy {
-        ViewModelProviders.of(this).get(TextNoteViewModel::class.java).apply {
-            callback = this@TextNoteFragment
-            parentCallback = context as? INoteChild
-        }
-    }
+    private val iViewModel by lazy { VmFactory.getTextNoteViewModel(fragment = this) }
 
-    private val iAlarmControl: IAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
     private var menuControl: MenuControl? = null
 
     private var nameEnter: EditText? = null

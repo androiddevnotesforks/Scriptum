@@ -6,6 +6,11 @@ import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 
+/**
+ * Factory for create/get fragments
+ *
+ * @author SerjantArbuz
+ */
 object FragmentFactory {
 
     fun getRankFragment(fm: FragmentManager?): RankFragment =
