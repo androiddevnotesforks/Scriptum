@@ -81,7 +81,7 @@ object DialogFactory {
         fun getTimeDialog(fm: FragmentManager?) = fm?.findFragmentByTag(TIME) as? TimeDialog
                 ?: TimeDialog()
 
-        private const val PREFIX = "DIALOG"
+        private const val PREFIX = "DIALOG_NOTE"
 
         const val DATE = "${PREFIX}_DATE"
         const val TIME = "${PREFIX}_TIME"

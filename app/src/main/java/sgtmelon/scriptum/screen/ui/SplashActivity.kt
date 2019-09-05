@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.extension.beforeFinish
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.room.entity.NoteEntity
@@ -23,7 +23,7 @@ import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
  */
 class SplashActivity : AppCompatActivity(), ISplashActivity {
 
-    private val iViewModel by lazy { VmFactory.getSplashViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.getSplashViewModel(activity = this) }
 
     private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 

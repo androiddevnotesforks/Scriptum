@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.NoteType
@@ -24,7 +24,7 @@ import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
-    private val iViewModel by lazy { VmFactory.getNoteViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.getNoteViewModel(activity = this) }
 
     private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 

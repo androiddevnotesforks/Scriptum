@@ -8,7 +8,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
 
 /**
@@ -27,7 +27,7 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
     // TODO #RELEASE2 activity: toolbar, fragment
     // TODO #RELEASE2 change toolbar text when change fragment
 
-    private val iViewModel by lazy { VmFactory.getDevelopViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.getDevelopViewModel(activity = this) }
 
     private val introButton by lazy { findViewById<Button?>(R.id.develop_intro_button) }
 

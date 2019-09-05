@@ -46,7 +46,7 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
  *
  * @author SerjantArbuz
  */
-object VmFactory {
+object ViewModelFactory {
 
     // TODO #RELEASE2 refactor names and structure
 

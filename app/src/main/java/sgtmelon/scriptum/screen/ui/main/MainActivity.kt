@@ -18,7 +18,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.FragmentFactory
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.state.OpenState
@@ -33,7 +33,7 @@ import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
  */
 class MainActivity : AppActivity(), IMainActivity {
 
-    private val iViewModel by lazy { VmFactory.getMainViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.getMainViewModel(activity = this) }
 
     private val mainReceiver by lazy { MainReceiver(iViewModel) }
 

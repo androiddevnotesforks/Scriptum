@@ -21,7 +21,7 @@ import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -36,7 +36,7 @@ class RankFragment : Fragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
-    private val iViewModel by lazy { VmFactory.getRankViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.getRankViewModel(fragment = this) }
 
     private val openState = OpenState()
     private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fragmentManager) }

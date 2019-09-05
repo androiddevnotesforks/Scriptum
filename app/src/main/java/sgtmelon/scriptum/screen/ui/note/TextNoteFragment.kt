@@ -23,7 +23,7 @@ import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.databinding.FragmentTextNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -59,7 +59,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         DialogFactory.Note.getConvertDialog(context as Context, fragmentManager, NoteType.TEXT)
     }
 
-    private val iViewModel by lazy { VmFactory.getTextNoteViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
     private var menuControl: MenuControl? = null

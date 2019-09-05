@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.screen.ui.callback.IAppActivity
 
 /**
@@ -15,7 +15,7 @@ import sgtmelon.scriptum.screen.ui.callback.IAppActivity
  */
 abstract class AppActivity : AppCompatActivity(), IAppActivity {
 
-    private val iViewModel by lazy { VmFactory.getAppViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.getAppViewModel(activity = this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

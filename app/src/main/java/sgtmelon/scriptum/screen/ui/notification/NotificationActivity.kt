@@ -17,7 +17,7 @@ import sgtmelon.scriptum.databinding.ActivityNotificationBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.extension.inflateBinding
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -34,7 +34,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private var binding: ActivityNotificationBinding? = null
 
-    private val iViewModel by lazy { VmFactory.getNotificationViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.getNotificationViewModel(activity = this) }
 
     private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
 

@@ -20,7 +20,7 @@ import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.extension.tintIcon
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -42,7 +42,7 @@ class NotesFragment : Fragment(), INotesFragment {
 
     private var binding: FragmentNotesBinding? = null
 
-    private val iViewModel by lazy { VmFactory.getNotesViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.getNotesViewModel(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
 

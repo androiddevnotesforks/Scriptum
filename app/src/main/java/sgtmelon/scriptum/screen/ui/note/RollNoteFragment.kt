@@ -32,7 +32,7 @@ import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.extension.*
 import sgtmelon.scriptum.factory.DialogFactory
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
@@ -55,7 +55,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
     private var binding: FragmentRollNoteBinding? = null
 
-    private val iViewModel by lazy { VmFactory.getRollNoteViewModel(fragment = this) }
+    private val iViewModel by lazy { ViewModelFactory.getRollNoteViewModel(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
     private var menuControl: MenuControl? = null

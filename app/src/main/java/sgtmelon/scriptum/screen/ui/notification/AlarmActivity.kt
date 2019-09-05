@@ -25,7 +25,7 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.factory.VmFactory
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
@@ -44,7 +44,7 @@ import java.util.*
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 
-    private val iViewModel by lazy { VmFactory.getAlarmViewModel(activity = this) }
+    private val iViewModel by lazy { ViewModelFactory.getAlarmViewModel(activity = this) }
 
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
