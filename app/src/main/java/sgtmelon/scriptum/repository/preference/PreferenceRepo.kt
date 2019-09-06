@@ -143,8 +143,4 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.SAVE_PERIOD, def.SAVE_PERIOD)
         set(value) = edit { putInt(key.SAVE_PERIOD, value) }
 
-    companion object {
-        fun getInstance(context: Context): IPreferenceRepo = PreferenceRepo(context)
-    }
-
 }

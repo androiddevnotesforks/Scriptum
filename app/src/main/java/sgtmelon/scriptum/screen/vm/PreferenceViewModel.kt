@@ -7,6 +7,8 @@ import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
+import sgtmelon.scriptum.provider.SummaryProvider
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.converter.IntConverter
 import sgtmelon.scriptum.screen.ui.callback.IPreferenceFragment
@@ -15,15 +17,9 @@ import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 class PreferenceViewModel(private val context: Context, var callback: IPreferenceFragment?) :
         IPreferenceViewModel {
 
-    private val iPreferenceRepo = PreferenceRepo(context)
+    private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
-    private val sortSummary = context.resources.getStringArray(R.array.text_note_sort)
-    private val colorSummary = context.resources.getStringArray(R.array.text_note_color)
-
-    private val themeSummary = context.resources.getStringArray(R.array.text_app_theme)
-    private val repeatSummary = context.resources.getStringArray(R.array.text_alarm_repeat)
-
-    private val saveTimeSummary = context.resources.getStringArray(R.array.text_save_time)
+    private val summary = SummaryProvider(context)
 
     private val melodyList: List<MelodyItem> = iPreferenceRepo.melodyList
 
@@ -39,17 +35,17 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             setupSave()
             setupOther()
 
-            updateThemeSummary(themeSummary[iPreferenceRepo.theme])
+            updateThemeSummary(summary.theme[iPreferenceRepo.theme])
 
-            updateRepeatSummary(repeatSummary[iPreferenceRepo.repeat])
+            updateRepeatSummary(summary.repeat[iPreferenceRepo.repeat])
             updateSignalSummary(iPreferenceRepo.signalSummary)
             updateMelodyGroupEnabled(iPreferenceRepo.signalState.isMelody)
             updateMelodySummary(melodyList[iPreferenceRepo.melodyCheck].title)
             updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
 
-            updateSortSummary(sortSummary[iPreferenceRepo.sort])
-            updateColorSummary(colorSummary[iPreferenceRepo.defaultColor])
-            updateSaveTimeSummary(saveTimeSummary[iPreferenceRepo.savePeriod])
+            updateSortSummary(summary.sort[iPreferenceRepo.sort])
+            updateColorSummary(summary.color[iPreferenceRepo.defaultColor])
+            updateSaveTimeSummary(summary.saveTime[iPreferenceRepo.savePeriod])
         }
     }
 
@@ -60,23 +56,26 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     override fun onResultTheme(@Theme theme: Int) {
         iPreferenceRepo.theme = theme
-        callback?.updateThemeSummary(themeSummary[theme])
+        callback?.updateThemeSummary(summary.theme[theme])
     }
 
 
-    override fun onClickSort() = alwaysTrue { callback?.showSortDialog(iPreferenceRepo.sort) }
+    override fun onClickSort() = alwaysTrue {
+        callback?.showSortDialog(iPreferenceRepo.sort)
+    }
 
     override fun onResultNoteSort(value: Int) {
         iPreferenceRepo.sort = value
-        callback?.updateSortSummary(sortSummary[value])
+        callback?.updateSortSummary(summary.sort[value])
     }
 
-    override fun onClickNoteColor() =
-            alwaysTrue { callback?.showColorDialog(iPreferenceRepo.defaultColor) }
+    override fun onClickNoteColor() = alwaysTrue {
+        callback?.showColorDialog(iPreferenceRepo.defaultColor)
+    }
 
     override fun onResultNoteColor(@Color value: Int) {
         iPreferenceRepo.defaultColor = value
-        callback?.updateColorSummary(colorSummary[value])
+        callback?.updateColorSummary(summary.color[value])
     }
 
 
@@ -86,7 +85,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     override fun onResultRepeat(value: Int) {
         iPreferenceRepo.repeat = value
-        callback?.updateRepeatSummary(repeatSummary[value])
+        callback?.updateRepeatSummary(summary.repeat[value])
     }
 
     override fun onClickSignal() = alwaysTrue {
@@ -101,8 +100,9 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         }
     }
 
-    override fun onClickMelody() =
-            alwaysTrue { callback?.showMelodyDialog(iPreferenceRepo.melodyCheck) }
+    override fun onClickMelody() = alwaysTrue {
+        callback?.showMelodyDialog(iPreferenceRepo.melodyCheck)
+    }
 
     override fun onSelectMelody(item: Int) {
         callback?.playMelody(melodyList[item].uri.toUri())
@@ -113,7 +113,9 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         callback?.updateMelodySummary(melodyList[value].title)
     }
 
-    override fun onClickVolume() = alwaysTrue { callback?.showVolumeDialog(iPreferenceRepo.volume) }
+    override fun onClickVolume() = alwaysTrue {
+        callback?.showVolumeDialog(iPreferenceRepo.volume)
+    }
 
     override fun onResultVolume(value: Int) {
         iPreferenceRepo.volume = value
@@ -121,12 +123,13 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
 
-    override fun onClickSaveTime() =
-            alwaysTrue { callback?.showSaveTimeDialog(iPreferenceRepo.savePeriod) }
+    override fun onClickSaveTime() = alwaysTrue {
+        callback?.showSaveTimeDialog(iPreferenceRepo.savePeriod)
+    }
 
     override fun onResultSaveTime(value: Int) {
         iPreferenceRepo.savePeriod = value
-        callback?.updateSaveTimeSummary(saveTimeSummary[value])
+        callback?.updateSaveTimeSummary(summary.saveTime[value])
     }
 
     private fun alwaysTrue(func: () -> Unit): Boolean {

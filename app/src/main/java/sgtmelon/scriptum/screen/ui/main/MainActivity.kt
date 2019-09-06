@@ -37,9 +37,10 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val mainReceiver by lazy { MainReceiver(iViewModel) }
 
-    private val rankFragment by lazy { FragmentFactory.getRankFragment(supportFragmentManager) }
-    private val notesFragment by lazy { FragmentFactory.getNotesFragment(supportFragmentManager) }
-    private val binFragment by lazy { FragmentFactory.getBinFragment(supportFragmentManager) }
+    private val fragmentFactory by lazy { FragmentFactory(supportFragmentManager) }
+    private val rankFragment by lazy { fragmentFactory.getRankFragment() }
+    private val notesFragment by lazy { fragmentFactory.getNotesFragment() }
+    private val binFragment by lazy { fragmentFactory.getBinFragment() }
 
     private val openState = OpenState()
     private val addDialog by lazy { DialogFactory.Main.getAddDialog(supportFragmentManager) }

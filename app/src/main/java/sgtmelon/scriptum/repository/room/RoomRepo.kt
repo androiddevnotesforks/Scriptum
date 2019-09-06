@@ -8,6 +8,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
@@ -29,7 +30,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     // TODO #RELEASE2 убрать отсюда методы связанные с rank в RankRepo
     // TODO #RELEASE2 убрать throws
 
-    private val iPreferenceRepo = PreferenceRepo(context) // TODO подумай, как лучше убрать от сюда iPreferenceRepo
+    // TODO подумай, как лучше убрать от сюда iPreferenceRepo
+    private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     override fun getNoteModelList(bin: Boolean): MutableList<NoteModel> {
         val sortType = iPreferenceRepo.sort

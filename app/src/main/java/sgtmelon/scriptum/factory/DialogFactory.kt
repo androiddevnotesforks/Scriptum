@@ -48,8 +48,9 @@ object DialogFactory {
         const val CLEAR_BIN = "${PREFIX}_CLEAR_BIN"
     }
 
-    object Note {
-        fun getConvertDialog(context: Context?, fm: FragmentManager?, type: NoteType): MessageDialog {
+    class Note(private val context: Context?, private val fm: FragmentManager?) {
+
+        fun getConvertDialog(type: NoteType): MessageDialog {
             val dialog = fm?.findFragmentByTag(CONVERT) as? MessageDialog ?: MessageDialog()
 
             if (context == null) return dialog
@@ -63,7 +64,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getRankDialog(context: Context?, fm: FragmentManager?): SingleDialog {
+        fun getRankDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(RANK) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
@@ -73,7 +74,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getColorDialog(context: Context?, fm: FragmentManager?): ColorDialog {
+        fun getColorDialog(): ColorDialog {
             val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
 
             if (context == null) return dialog
@@ -83,24 +84,28 @@ object DialogFactory {
             return dialog
         }
 
-        fun getDateDialog(fm: FragmentManager?) = fm?.findFragmentByTag(DATE) as? DateDialog
-                ?: DateDialog()
+        fun getDateDialog(): DateDialog =
+                fm?.findFragmentByTag(DATE) as? DateDialog ?: DateDialog()
 
-        fun getTimeDialog(fm: FragmentManager?) = fm?.findFragmentByTag(TIME) as? TimeDialog
-                ?: TimeDialog()
+        fun getTimeDialog(): TimeDialog =
+                fm?.findFragmentByTag(TIME) as? TimeDialog ?: TimeDialog()
 
-        private const val PREFIX = "DIALOG_NOTE"
+        companion object {
+            private const val PREFIX = "DIALOG_NOTE"
 
-        const val DATE = "${PREFIX}_DATE"
-        const val TIME = "${PREFIX}_TIME"
-        const val CONVERT = "${PREFIX}_CONVERT"
+            const val DATE = "${PREFIX}_DATE"
+            const val TIME = "${PREFIX}_TIME"
+            const val CONVERT = "${PREFIX}_CONVERT"
 
-        const val RANK = "${PREFIX}_RANK"
-        const val COLOR = "${PREFIX}_COLOR"
+            const val RANK = "${PREFIX}_RANK"
+            const val COLOR = "${PREFIX}_COLOR"
+        }
+
     }
 
-    object Preference {
-        fun getThemeDialog(context: Context?, fm: FragmentManager?): SingleDialog {
+    class Preference(private val context: Context?, private val fm: FragmentManager?) {
+
+        fun getThemeDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(THEME) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
@@ -111,7 +116,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getRepeatDialog(context: Context?, fm: FragmentManager?): SingleDialog {
+        fun getRepeatDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
@@ -122,7 +127,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getSignalDialog(context: Context?, fm: FragmentManager?): MultiplyDialog {
+        fun getSignalDialog(): MultiplyDialog {
             val dialog = fm?.findFragmentByTag(SIGNAL) as? MultiplyDialog ?: MultiplyDialog()
 
             if (context == null) return dialog
@@ -134,7 +139,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getMelodyDialog(context: Context?, fm: FragmentManager?): SingleDialog {
+        fun getMelodyDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(MELODY) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
@@ -144,7 +149,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getVolumeDialog(context: Context?, fm: FragmentManager?): VolumeDialog {
+        fun getVolumeDialog(): VolumeDialog {
             val dialog = fm?.findFragmentByTag(VOLUME) as? VolumeDialog ?: VolumeDialog()
 
             if (context == null) return dialog
@@ -154,7 +159,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getSortDialog(context: Context?, fm: FragmentManager?): SingleDialog {
+        fun getSortDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
@@ -165,7 +170,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getColorDialog(context: Context?, fm: FragmentManager?): ColorDialog {
+        fun getColorDialog(): ColorDialog {
             val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
 
             if (context == null) return dialog
@@ -175,7 +180,7 @@ object DialogFactory {
             return dialog
         }
 
-        fun getSaveTimeDialog(context: Context?, fm: FragmentManager?): SingleDialog {
+        fun getSaveTimeDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
 
             if (context == null) return dialog
@@ -186,20 +191,23 @@ object DialogFactory {
             return dialog
         }
 
-        fun getAboutDialog(fm: FragmentManager?): AboutDialog =
+        fun getAboutDialog(): AboutDialog =
                 fm?.findFragmentByTag(ABOUT) as? AboutDialog ?: AboutDialog()
 
-        private const val PREFIX = "DIALOG_PREF"
+        companion object {
+            private const val PREFIX = "DIALOG_PREF"
 
-        const val THEME = "${PREFIX}_THEME"
-        const val REPEAT = "${PREFIX}_REPEAT"
-        const val SIGNAL = "${PREFIX}_SIGNAL"
-        const val MELODY = "${PREFIX}_MELODY"
-        const val VOLUME = "${PREFIX}_VOLUME"
-        const val SORT = "${PREFIX}_SORT"
-        const val COLOR = "${PREFIX}_COLOR"
-        const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
-        const val ABOUT = "${PREFIX}_ABOUT"
+            const val THEME = "${PREFIX}_THEME"
+            const val REPEAT = "${PREFIX}_REPEAT"
+            const val SIGNAL = "${PREFIX}_SIGNAL"
+            const val MELODY = "${PREFIX}_MELODY"
+            const val VOLUME = "${PREFIX}_VOLUME"
+            const val SORT = "${PREFIX}_SORT"
+            const val COLOR = "${PREFIX}_COLOR"
+            const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
+            const val ABOUT = "${PREFIX}_ABOUT"
+        }
+
     }
 
 }

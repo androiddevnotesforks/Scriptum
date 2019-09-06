@@ -45,12 +45,14 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private var binding: FragmentTextNoteBinding? = null
 
     private val openState = OpenState()
-    private val rankDialog by lazy { DialogFactory.Note.getRankDialog(context, fragmentManager) }
-    private val colorDialog by lazy { DialogFactory.Note.getColorDialog(context, fragmentManager) }
+    private val dialogFactory by lazy { DialogFactory.Note(context, fragmentManager) }
 
-    private val dateDialog by lazy { DialogFactory.Note.getDateDialog(fragmentManager) }
-    private val timeDialog by lazy { DialogFactory.Note.getTimeDialog(fragmentManager) }
-    private val convertDialog by lazy { DialogFactory.Note.getConvertDialog(context, fragmentManager, NoteType.TEXT) }
+    private val rankDialog by lazy { dialogFactory.getRankDialog() }
+    private val colorDialog by lazy { dialogFactory.getColorDialog() }
+
+    private val dateDialog by lazy { dialogFactory.getDateDialog() }
+    private val timeDialog by lazy { dialogFactory.getTimeDialog() }
+    private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.TEXT) }
 
     private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
 

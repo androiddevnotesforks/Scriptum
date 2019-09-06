@@ -2,6 +2,7 @@ package sgtmelon.scriptum.repository.develop
 
 import android.content.Context
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
@@ -20,7 +21,7 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  */
 class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 
-    private val iPreferenceRepo = PreferenceRepo.getInstance(context)
+    private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     override suspend fun getNoteTablePrint() = StringBuilder().apply {
         val list: MutableList<NoteEntity> = ArrayList()

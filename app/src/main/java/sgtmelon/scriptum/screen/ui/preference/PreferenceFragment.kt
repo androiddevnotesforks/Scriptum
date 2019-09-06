@@ -36,25 +36,24 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val activity: PreferenceActivity by lazy { getActivity() as PreferenceActivity }
     private val fm: FragmentManager by lazy { activity.supportFragmentManager }
 
-    private val iViewModel: IPreferenceViewModel by lazy {
-        PreferenceViewModel(activity, callback = this)
-    }
+    private val iViewModel: IPreferenceViewModel by lazy { PreferenceViewModel(activity, callback = this) }
 
     private val openState = OpenState()
 
-    private val themeDialog by lazy { DialogFactory.Preference.getThemeDialog(activity, fm) }
+    private val dialogFactory by lazy { DialogFactory.Preference(activity, fm) }
 
-    private val sortDialog by lazy { DialogFactory.Preference.getSortDialog(activity, fm) }
-    private val colorDialog by lazy { DialogFactory.Preference.getColorDialog(activity, fm) }
+    private val themeDialog by lazy { dialogFactory.getThemeDialog() }
 
-    // TODO check by DialogFactory
-    private val repeatDialog by lazy { DialogFactory.Preference.getRepeatDialog(activity, fm) }
-    private val signalDialog by lazy { DialogFactory.Preference.getSignalDialog(activity, fm) }
-    private val melodyDialog by lazy { DialogFactory.Preference.getMelodyDialog(activity, fm) }
-    private val volumeDialog by lazy { DialogFactory.Preference.getVolumeDialog(activity, fm) }
+    private val sortDialog by lazy { dialogFactory.getSortDialog() }
+    private val colorDialog by lazy { dialogFactory.getColorDialog() }
 
-    private val saveTimeDialog by lazy { DialogFactory.Preference.getSaveTimeDialog(activity, fm) }
-    private val aboutDialog by lazy { DialogFactory.Preference.getAboutDialog(fm) }
+    private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
+    private val signalDialog by lazy { dialogFactory.getSignalDialog() }
+    private val melodyDialog by lazy { dialogFactory.getMelodyDialog() }
+    private val volumeDialog by lazy { dialogFactory.getVolumeDialog() }
+
+    private val saveTimeDialog by lazy { dialogFactory.getSaveTimeDialog() }
+    private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
 
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
 
@@ -265,6 +264,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         melodyPreference.summary = summary
     }
 
+    // TODO read external storage permission
     override fun showMelodyDialog(value: Int) = openState.tryInvoke {
         melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
     }

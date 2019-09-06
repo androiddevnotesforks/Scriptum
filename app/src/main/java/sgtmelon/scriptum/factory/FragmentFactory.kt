@@ -11,15 +11,15 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
  *
  * @author SerjantArbuz
  */
-object FragmentFactory {
+class FragmentFactory(private val fm: FragmentManager?) {
 
-    fun getRankFragment(fm: FragmentManager?): RankFragment =
-            fm?.findFragmentByTag(MainPage.RANK.name) as RankFragment? ?: RankFragment()
+    fun getRankFragment(): RankFragment =
+            fm?.findFragmentByTag(MainPage.RANK.name) as? RankFragment ?: RankFragment()
 
-    fun getNotesFragment(fm: FragmentManager?): NotesFragment =
-            fm?.findFragmentByTag(MainPage.NOTES.name) as NotesFragment? ?: NotesFragment()
+    fun getNotesFragment(): NotesFragment =
+            fm?.findFragmentByTag(MainPage.NOTES.name) as? NotesFragment ?: NotesFragment()
 
-    fun getBinFragment(fm: FragmentManager?): BinFragment =
-            fm?.findFragmentByTag(MainPage.BIN.name) as BinFragment? ?: BinFragment()
+    fun getBinFragment(): BinFragment =
+            fm?.findFragmentByTag(MainPage.BIN.name) as? BinFragment ?: BinFragment()
 
 }

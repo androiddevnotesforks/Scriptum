@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.lifecycle.AndroidViewModel
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.repository.room.RoomRepo
 
@@ -17,7 +18,7 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
 
     protected val context: Context = application.applicationContext
 
-    protected val iPreferenceRepo = PreferenceRepo(context)
+    protected val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
     protected val iRoomRepo = RoomRepo.getInstance(context)
     protected val iAlarmRepo = AlarmRepo.getInstance(context)
 

@@ -3,7 +3,15 @@ package sgtmelon.scriptum.provider
 import android.content.Context
 import android.content.res.Resources
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.provider.PreferenceProvider.Def
+import sgtmelon.scriptum.provider.PreferenceProvider.Key
+import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
+/**
+ * Provider of [Key] and [Def] values for [PreferenceRepo]
+ *
+ * @author SerjantArbuz
+ */
 @Suppress("PropertyName")
 class PreferenceProvider {
 

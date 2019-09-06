@@ -6,6 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.junit.After
 import org.junit.Before
 import sgtmelon.scriptum.data.TestData
+import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
@@ -17,7 +18,7 @@ abstract class ParentTest {
 
     val context: Context = getInstrumentation().targetContext
 
-    val iPreferenceRepo = PreferenceRepo.getInstance(context)
+    val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     val data = TestData(context, iPreferenceRepo)
 
