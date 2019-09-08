@@ -78,7 +78,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                         if (name.isNotEmpty()) {
                             onDisplay(R.id.toolbar_note_text, name)
                         } else {
-                            onDisplayHint(R.id.toolbar_note_text, R.string.hint_view_name)
+                            onDisplayHint(R.id.toolbar_note_text, R.string.hint_text_name)
                         }
                     }
                     State.EDIT, State.NEW -> {

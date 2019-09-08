@@ -28,8 +28,8 @@ abstract class DateTimeBlankDialog : BlankDialog(),
      */
     override fun setupButton() {
         super.setupButton()
-        positiveButton?.text = getString(R.string.dialog_btn_accept)
-        negativeButton?.text = getString(R.string.dialog_btn_cancel)
+        positiveButton?.text = getString(R.string.dialog_button_accept)
+        negativeButton?.text = getString(R.string.dialog_button_cancel)
     }
 
     /**

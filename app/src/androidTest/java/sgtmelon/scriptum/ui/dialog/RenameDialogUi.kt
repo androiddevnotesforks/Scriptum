@@ -24,11 +24,11 @@ class RenameDialogUi(private val title: String) : ParentUi() {
     }
 
     fun onClickCancel() = waitAfter(time = 300) {
-        action { onClickText(R.string.dialog_btn_cancel) }
+        action { onClickText(R.string.dialog_button_cancel) }
     }
 
     fun onClickAccept() = waitAfter(time = 300) {
-        action { onClickText(R.string.dialog_btn_accept) }
+        action { onClickText(R.string.dialog_button_accept) }
     }
 
     fun onEnterName(name: String, enabled: Boolean) {
@@ -58,10 +58,10 @@ class RenameDialogUi(private val title: String) : ParentUi() {
                 onDisplayHint(R.id.rename_enter, R.string.hint_enter_rank_rename)
             }
 
-            onDisplayText(R.string.dialog_btn_accept)
-            onDisplayText(R.string.dialog_btn_cancel)
+            onDisplayText(R.string.dialog_button_accept)
+            onDisplayText(R.string.dialog_button_cancel)
 
-            isEnabledText(R.string.dialog_btn_accept, enabled)
+            isEnabledText(R.string.dialog_button_accept, enabled)
         }
 
     }

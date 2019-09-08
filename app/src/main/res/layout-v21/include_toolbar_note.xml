@@ -59,7 +59,7 @@
                     <TextView
                             android:id="@+id/toolbar_note_text"
                             style="@style/Text.ToolbarNote"
-                            android:hint="@string/hint_view_name"
+                            android:hint="@string/hint_text_name"
                             android:text='@{editMode ? "" : noteModel.noteEntity.name}'
                             android:visibility='@{!editMode ? v.VISIBLE : v.INVISIBLE}'
                             tools:text="@string/preview_note_name"/>

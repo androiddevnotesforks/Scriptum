@@ -33,8 +33,8 @@ class VolumeDialog : BlankDialog(), SeekBar.OnSeekBarChangeListener {
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)
                 .setView(R.layout.view_volume)
-                .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
+                .setPositiveButton(getString(R.string.dialog_button_accept), onPositiveClick)
+                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
     }

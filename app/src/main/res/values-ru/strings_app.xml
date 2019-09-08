@@ -41,70 +41,6 @@
     <string name="button_postpone">Отложить</string>
     <string name="button_disable">Отключить</string>
 
-    <!-- Dialog -->
-
-    <!-- Dialog titles and text -->
-    <string name="dialog_title_clear_bin">Очистить корзину</string>
-    <string name="dialog_text_clear_bin">
-        Вы уверены, что хотите безвозвратно удалить все не скрытые заметки из корзины?
-    </string>
-
-    <string name="dialog_title_color">Цвет</string>
-    <string name="dialog_title_rank">Категории</string>
-
-    <string name="dialog_item_rank">Без категории</string>
-
-    <string name="dialog_title_convert">Конвертировать</string>
-    <string name="dialog_roll_convert_to_text">
-        Вы уверены что, хотите конвертировать заметку? Все отметки в списке будут утеряны.
-    </string>
-    <string name="dialog_text_convert_to_roll">
-        Вы уверены что, хотите конвертировать заметку? Все пустые строки будут удалены.
-    </string>
-
-    <string name="dialog_title_add_note">Создать заметку</string>
-
-    <!-- Dialog buttons -->
-    <string name="dialog_btn_accept">Применить</string>
-    <string name="dialog_btn_cancel">Отмена</string>
-
-    <string name="dialog_btn_yes">Да</string>
-    <string name="dialog_btn_no">Нет</string>
-
-    <!-- Dialog menu buttons -->
-    <string name="dialog_menu_delete">Удалить</string>
-    <string name="dialog_menu_clear">Удалить навсегда</string>
-    <string name="dialog_menu_restore">Восстановить</string>
-    <string name="dialog_menu_copy">Копировать текст</string>
-
-    <string name="dialog_menu_status_bind">Закрепить в статус баре</string>
-    <string name="dialog_menu_status_unbind">Открепить от статус бара</string>
-    <string name="dialog_menu_convert_to_text">Конвертировать в текст</string>
-    <string name="dialog_menu_convert_to_roll">Конвертировать в список</string>
-
-    <string name="dialog_add_text">Текст</string>
-    <string name="dialog_add_roll">Список</string>
-
-    <string-array name="dialog_menu_text">
-        <item/>
-        <item>@string/dialog_menu_convert_to_roll</item>
-        <item>@string/dialog_menu_copy</item>
-        <item>@string/dialog_menu_delete</item>
-    </string-array>
-
-    <string-array name="dialog_menu_roll">
-        <item/>
-        <item>@string/dialog_menu_convert_to_text</item>
-        <item>@string/dialog_menu_copy</item>
-        <item>@string/dialog_menu_delete</item>
-    </string-array>
-
-    <string-array name="dialog_menu_bin">
-        <item>@string/dialog_menu_restore</item>
-        <item>@string/dialog_menu_copy</item>
-        <item>@string/dialog_menu_clear</item>
-    </string-array>
-
     <!-- Toast -->
     <string name="toast_note_save_done">Изменения сохранены</string>
     <string name="toast_note_save_error">Изменения не сохранены</string>
@@ -113,10 +49,6 @@
 
     <string name="toast_alarm_postpone">Отложено на %s</string>
 
-    <!-- About dialog -->
-    <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>
-    <string name="about_app_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
-
     <!-- Develop -->
     <string name="button_show_intro">Вступление</string>
 
@@ -124,7 +56,7 @@
     <string name="hint_enter_rank_new">Новая категория</string>
     <string name="hint_enter_rank_rename">Новое имя для категории</string>
     <string name="hint_enter_name">Название заметки</string>
-    <string name="hint_view_name">Без названия</string>
+    <string name="hint_text_name">Без названия</string>
     <string name="hint_enter_text">Ваш текст</string>
     <string name="hint_enter_roll">Ваш пункт</string>
     <string name="hind_enter_roll_empty">Этот пункт будет удалён</string>

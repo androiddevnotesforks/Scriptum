@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.ui.dialog
 
 import androidx.test.espresso.Espresso.pressBack
-import sgtmelon.safedialog.MultiplyDialog
+import sgtmelon.safedialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
@@ -11,7 +11,7 @@ import sgtmelon.scriptum.waitAfter
 import sgtmelon.scriptum.waitBefore
 
 /**
- * Класс для ui контроля диалога [MultiplyDialog] при долгом нажатии на заметку
+ * Класс для ui контроля диалога [MultipleDialog] при долгом нажатии на заметку
  *
  * @author SerjantArbuz
  */

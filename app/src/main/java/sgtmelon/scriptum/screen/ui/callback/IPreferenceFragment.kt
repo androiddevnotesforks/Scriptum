@@ -23,7 +23,6 @@ interface IPreferenceFragment {
 
     fun setupOther()
 
-
     fun updateThemeSummary(summary: String)
 
     fun showThemeDialog(@Theme value: Int)
@@ -45,6 +44,8 @@ interface IPreferenceFragment {
     fun updateSignalSummary(summary: String)
 
     fun showSignalDialog(value: BooleanArray)
+
+    fun showMelodyPermissionDialog()
 
     fun updateMelodyGroupEnabled(enabled: Boolean)
 

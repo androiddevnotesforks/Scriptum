@@ -1,9 +1,11 @@
 package sgtmelon.scriptum.screen.ui.preference
 
+import android.Manifest
 import android.content.ActivityNotFoundException
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.preference.CheckBoxPreference
 import android.preference.Preference
@@ -15,11 +17,14 @@ import sgtmelon.scriptum.BuildConfig
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.MelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
+import sgtmelon.scriptum.extension.isGranted
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.key.PermissionResult
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.model.state.PermissionState
 import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.ui.callback.IPreferenceFragment
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
@@ -39,6 +44,9 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val iViewModel: IPreferenceViewModel by lazy { PreferenceViewModel(activity, callback = this) }
 
     private val openState = OpenState()
+    private val melodyPermissionState by lazy {
+        PermissionState(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
+    }
 
     private val dialogFactory by lazy { DialogFactory.Preference(activity, fm) }
 
@@ -49,6 +57,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     private val repeatDialog by lazy { dialogFactory.getRepeatDialog() }
     private val signalDialog by lazy { dialogFactory.getSignalDialog() }
+    private val melodyPermissionDialog by lazy { dialogFactory.getMelodyPermissionDialog() }
     private val melodyDialog by lazy { dialogFactory.getMelodyDialog() }
     private val volumeDialog by lazy { dialogFactory.getVolumeDialog() }
 
@@ -99,6 +108,19 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == MELODY_REQUEST) {
+            iViewModel.onClickMelody(if (grantResults[MELODY_REQUEST].isGranted()) {
+                PermissionResult.GRANTED
+            } else {
+                PermissionResult.FORBIDDEN
+            })
+        }
+    }
+
 
     override fun setupApp() {
         themePreference.setOnPreferenceClickListener { iViewModel.onClickTheme() }
@@ -141,7 +163,18 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         }
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
-        melodyPreference.setOnPreferenceClickListener { iViewModel.onClickMelody() }
+        melodyPreference.setOnPreferenceClickListener {
+            iViewModel.onClickMelody(melodyPermissionState.getResult())
+        }
+
+        melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
+
+            requestPermissions(arrayOf(melodyPermissionState.permission), MELODY_REQUEST)
+        }
+        melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
+            openState.clear()
+        }
 
         melodyDialog.itemArray = melodyTitleList
         melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
@@ -254,6 +287,10 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         signalDialog.setArguments(value).show(fm, DialogFactory.Preference.SIGNAL)
     }
 
+    override fun showMelodyPermissionDialog() = openState.tryInvoke {
+        melodyPermissionDialog.show(fm, DialogFactory.Preference.MELODY_PERMISSION)
+    }
+
     override fun updateMelodyGroupEnabled(enabled: Boolean) {
         melodyPreference.isEnabled = enabled
         increasePreference.isEnabled = enabled
@@ -264,7 +301,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         melodyPreference.summary = summary
     }
 
-    // TODO read external storage permission
     override fun showMelodyDialog(value: Int) = openState.tryInvoke {
         melodyDialog.setArguments(value).show(fm, DialogFactory.Preference.MELODY)
     }
@@ -290,6 +326,10 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     override fun showSaveTimeDialog(value: Int) = openState.tryInvoke {
         saveTimeDialog.setArguments(value).show(fm, DialogFactory.Preference.SAVE_TIME)
+    }
+
+    companion object {
+        private const val MELODY_REQUEST = 0
     }
 
 }

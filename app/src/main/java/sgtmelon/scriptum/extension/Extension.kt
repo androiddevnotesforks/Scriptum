@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -118,4 +119,9 @@ fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long 
     target.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun String.toUri() = Uri.parse(this)
+fun String.toUri(): Uri = Uri.parse(this)
+
+/**
+ * Extension for fast check permission Granted/Denied
+ */
+fun Int.isGranted() = this == PackageManager.PERMISSION_GRANTED

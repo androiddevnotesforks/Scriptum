@@ -42,8 +42,8 @@ class SingleDialog : BlankDialog() {
                     check = i
                     setEnable()
                 }
-                .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
+                .setPositiveButton(getString(R.string.dialog_button_accept), onPositiveClick)
+                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
     }

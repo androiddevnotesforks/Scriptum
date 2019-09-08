@@ -12,7 +12,7 @@ import kotlin.collections.ArrayList
  *
  * @author SerjantArbuz
  */
-class MultiplyDialog : BlankDialog() {
+class MultipleDialog : BlankDialog() {
 
     var itemList: List<String> = ArrayList()
 
@@ -45,8 +45,8 @@ class MultiplyDialog : BlankDialog() {
                     check[which] = isChecked
                     setEnable()
                 }
-                .setPositiveButton(getString(R.string.dialog_btn_accept), onPositiveClick)
-                .setNegativeButton(getString(R.string.dialog_btn_cancel)) { dialog, _ -> dialog.cancel() }
+                .setPositiveButton(getString(R.string.dialog_button_accept), onPositiveClick)
+                .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
     }

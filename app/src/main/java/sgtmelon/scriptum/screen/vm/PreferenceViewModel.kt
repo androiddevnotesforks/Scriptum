@@ -7,6 +7,7 @@ import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
+import sgtmelon.scriptum.model.key.PermissionResult
 import sgtmelon.scriptum.provider.SummaryProvider
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
@@ -21,7 +22,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     private val summary = SummaryProvider(context)
 
-    private val melodyList: List<MelodyItem> = iPreferenceRepo.melodyList
+    private val melodyList: List<MelodyItem> get() = iPreferenceRepo.melodyList
 
     override fun onDestroy(func: () -> Unit) {
         callback = null
@@ -100,8 +101,12 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         }
     }
 
-    override fun onClickMelody() = alwaysTrue {
-        callback?.showMelodyDialog(iPreferenceRepo.melodyCheck)
+    override fun onClickMelody(result: PermissionResult) = alwaysTrue {
+        if (result == PermissionResult.ALLOWED) {
+            callback?.showMelodyPermissionDialog()
+        } else {
+            callback?.showMelodyDialog(iPreferenceRepo.melodyCheck)
+        }
     }
 
     override fun onSelectMelody(item: Int) {

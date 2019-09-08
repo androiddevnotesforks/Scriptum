@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.callback
 
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.model.key.PermissionResult
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 
@@ -34,7 +35,7 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultSignal(array: BooleanArray)
 
-    fun onClickMelody(): Boolean
+    fun onClickMelody(result: PermissionResult): Boolean
 
     fun onSelectMelody(item: Int)
 

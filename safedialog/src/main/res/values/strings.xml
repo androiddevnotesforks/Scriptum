@@ -1,11 +1,13 @@
 <resources>
 
     <!-- Dialog buttons -->
-    <string name="dialog_btn_accept">Apply</string>
-    <string name="dialog_btn_cancel">Cancel</string>
+    <string name="dialog_button_accept">Apply</string>
+    <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_reset">Reset</string>
 
-    <string name="dialog_btn_yes">Yes</string>
-    <string name="dialog_btn_no">No</string>
+    <string name="dialog_button_yes">Yes</string>
+    <string name="dialog_button_no">No</string>
+
+    <string name="dialog_button_ok">OK</string>
 
 </resources>

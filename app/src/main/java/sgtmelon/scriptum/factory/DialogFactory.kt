@@ -2,10 +2,7 @@ package sgtmelon.scriptum.factory
 
 import android.content.Context
 import androidx.fragment.app.FragmentManager
-import sgtmelon.safedialog.MessageDialog
-import sgtmelon.safedialog.MultiplyDialog
-import sgtmelon.safedialog.OptionsDialog
-import sgtmelon.safedialog.SingleDialog
+import sgtmelon.safedialog.*
 import sgtmelon.safedialog.time.DateDialog
 import sgtmelon.safedialog.time.TimeDialog
 import sgtmelon.scriptum.R
@@ -34,6 +31,7 @@ object DialogFactory {
 
             if (context == null) return dialog
 
+            dialog.type = MessageType.CHOICE
             dialog.title = context.getString(R.string.dialog_title_clear_bin)
             dialog.message = context.getString(R.string.dialog_text_clear_bin)
 
@@ -55,6 +53,7 @@ object DialogFactory {
 
             if (context == null) return dialog
 
+            dialog.type = MessageType.CHOICE
             dialog.title = context.getString(R.string.dialog_title_convert)
             dialog.message = when (type) {
                 NoteType.TEXT -> context.getString(R.string.dialog_text_convert_to_roll)
@@ -127,14 +126,27 @@ object DialogFactory {
             return dialog
         }
 
-        fun getSignalDialog(): MultiplyDialog {
-            val dialog = fm?.findFragmentByTag(SIGNAL) as? MultiplyDialog ?: MultiplyDialog()
+        fun getSignalDialog(): MultipleDialog {
+            val dialog = fm?.findFragmentByTag(SIGNAL) as? MultipleDialog ?: MultipleDialog()
 
             if (context == null) return dialog
 
             dialog.needOneSelect = true
             dialog.title = context.getString(R.string.title_alarm_signal)
             dialog.itemList = context.resources.getStringArray(R.array.text_alarm_signal).toList()
+
+            return dialog
+        }
+
+        fun getMelodyPermissionDialog(): MessageDialog {
+            val dialog  = fm?.findFragmentByTag(MELODY_PERMISSION) as? MessageDialog
+                    ?: MessageDialog()
+
+            if (context == null) return dialog
+
+            dialog.type = MessageType.INFO
+            dialog.title = context.getString(R.string.dialog_title_melody_permission)
+            dialog.message = context.getString(R.string.dialog_text_melody_permission)
 
             return dialog
         }
@@ -200,6 +212,7 @@ object DialogFactory {
             const val THEME = "${PREFIX}_THEME"
             const val REPEAT = "${PREFIX}_REPEAT"
             const val SIGNAL = "${PREFIX}_SIGNAL"
+            const val MELODY_PERMISSION = "${PREFIX}_MELODY_PERMISSION"
             const val MELODY = "${PREFIX}_MELODY"
             const val VOLUME = "${PREFIX}_VOLUME"
             const val SORT = "${PREFIX}_SORT"

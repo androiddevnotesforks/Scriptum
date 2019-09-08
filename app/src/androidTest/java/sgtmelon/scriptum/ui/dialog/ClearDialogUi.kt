@@ -19,9 +19,9 @@ class ClearDialogUi : ParentUi() {
 
     fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
 
-    fun onClickNo() = waitAfter(time = 300) { action { onClickText(R.string.dialog_btn_no) } }
+    fun onClickNo() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_no) } }
 
-    fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_btn_yes) } }
+    fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_yes) } }
 
     companion object {
         operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
@@ -38,8 +38,8 @@ class ClearDialogUi : ParentUi() {
             onDisplayText(R.string.dialog_title_clear_bin)
             onDisplayText(R.string.dialog_text_clear_bin)
 
-            onDisplayText(R.string.dialog_btn_yes)
-            onDisplayText(R.string.dialog_btn_no)
+            onDisplayText(R.string.dialog_button_yes)
+            onDisplayText(R.string.dialog_button_no)
         }
 
     }

@@ -42,7 +42,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
 
     init {
         val title = with(noteEntity) {
-            "${if (type == NoteType.ROLL) "$text |" else ""} ${if (name.isEmpty()) context.getString(R.string.hint_view_name) else name}"
+            "${if (type == NoteType.ROLL) "$text |" else ""} ${if (name.isEmpty()) context.getString(R.string.hint_text_name) else name}"
         }
 
         val icon: Int
