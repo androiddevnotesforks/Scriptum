@@ -50,4 +50,9 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onResultSaveTime(value: Int)
 
+
+    fun onClickExport(): Boolean
+
+    fun onClickImport(): Boolean
+
 }

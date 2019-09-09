@@ -21,7 +21,10 @@ interface IPreferenceFragment {
 
     fun setupSave()
 
+    fun setupBackup()
+
     fun setupOther()
+
 
     fun updateThemeSummary(summary: String)
 

@@ -44,9 +44,11 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val iViewModel: IPreferenceViewModel by lazy { PreferenceViewModel(activity, callback = this) }
 
     private val openState = OpenState()
-    private val melodyPermissionState by lazy {
+    private val externalPermissionState by lazy {
         PermissionState(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
     }
+
+    //region Dialogs
 
     private val dialogFactory by lazy { DialogFactory.Preference(activity, fm) }
 
@@ -64,6 +66,10 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val saveTimeDialog by lazy { dialogFactory.getSaveTimeDialog() }
     private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
 
+    //endregion
+
+    //region Preferences
+
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
 
     private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
@@ -76,6 +82,11 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val volumePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_volume)) }
 
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
+
+    private val exportPreference: Preference by lazy { findPreference(getString(R.string.key_backup_export)) }
+    private val importPreference: Preference by lazy { findPreference(getString(R.string.key_backup_import)) }
+
+    //endregion
 
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(activity) }
 
@@ -164,13 +175,13 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
         melodyPreference.setOnPreferenceClickListener {
-            iViewModel.onClickMelody(melodyPermissionState.getResult())
+            iViewModel.onClickMelody(externalPermissionState.getResult())
         }
 
         melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(melodyPermissionState.permission), MELODY_REQUEST)
+            requestPermissions(arrayOf(externalPermissionState.permission), MELODY_REQUEST)
         }
         melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
@@ -212,6 +223,12 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         }
 
         saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
+    }
+
+    override fun setupBackup() {
+        exportPreference.setOnPreferenceClickListener { iViewModel.onClickExport() }
+
+        importPreference.setOnPreferenceClickListener { iViewModel.onClickImport() }
     }
 
     override fun setupOther() {
