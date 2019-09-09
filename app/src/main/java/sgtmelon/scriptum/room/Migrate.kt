@@ -14,7 +14,7 @@ import java.util.UUID.randomUUID
 @Suppress("KDocUnresolvedReference")
 object Migrate {
 
-    val FROM_4_TO_5 = object : Migration(4, 5) {
+    private val FROM_4_TO_5 = object : Migration(4, 5) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
             /**
              * Note table:
@@ -147,7 +147,7 @@ object Migrate {
         }
     }
 
-    val FROM_3_TO_4 = object : Migration(3, 4) {
+    private val FROM_3_TO_4 = object : Migration(3, 4) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
             /**
              * Rank table:
@@ -177,7 +177,7 @@ object Migrate {
         }
     }
 
-    val FROM_2_TO_3 = object : Migration(2, 3) {
+    private val FROM_2_TO_3 = object : Migration(2, 3) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
             /**
              * Alarm table:
@@ -202,7 +202,7 @@ object Migrate {
         }
     }
 
-    val FROM_1_TO_2 = object : Migration(1, 2) {
+    private val FROM_1_TO_2 = object : Migration(1, 2) {
         override fun migrate(database: SupportSQLiteDatabase) = with(database) {
             /**
              * Note table:
@@ -357,5 +357,10 @@ object Migrate {
             execSQL("DROP TABLE $tempRankTable")
         }
     }
+
+    val sequence = arrayOf(
+            FROM_1_TO_2, FROM_2_TO_3,
+            FROM_3_TO_4, FROM_4_TO_5
+    )
 
 }
