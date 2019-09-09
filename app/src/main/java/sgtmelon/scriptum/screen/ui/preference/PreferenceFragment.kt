@@ -119,6 +119,9 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         iMelodyControl.release()
     }
 
+    // TODO #RELEASE2 check permission update
+    override fun onResume() = super.onResume()
+
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
@@ -126,7 +129,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        when(requestCode) {
+        when (requestCode) {
             MELODY_REQUEST -> {
                 iViewModel.onClickMelody(if (grantResults.first().isGranted()) {
                     PermissionResult.GRANTED
@@ -199,7 +202,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             openState.clear()
         }
 
-        // TODO #RELEASE1 setup on show
         melodyDialog.itemArray = melodyTitleArray
         melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
             iViewModel.onSelectMelody(i)
@@ -237,7 +239,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
     }
 
-    override fun setupBackup() {
+    override fun setupBackup(importFileArray: Array<String>) {
         exportPreference.setOnPreferenceClickListener { iViewModel.onClickExport() }
 
         importPreference.setOnPreferenceClickListener {
@@ -253,6 +255,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             openState.clear()
         }
 
+        importDialog.itemArray = importFileArray
         importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             iViewModel.onResultImport(importDialog.check)
         }
@@ -370,8 +373,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         importPermissionDialog.show(fm, DialogFactory.Preference.IMPORT_PERMISSION)
     }
 
-    override fun showImportDialog(itemArray: Array<String>) = openState.tryInvoke {
-        importDialog.itemArray = itemArray
+    override fun showImportDialog() = openState.tryInvoke {
         importDialog.show(fm, DialogFactory.Preference.IMPORT)
     }
 

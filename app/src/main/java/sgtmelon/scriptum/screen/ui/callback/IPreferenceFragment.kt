@@ -21,7 +21,7 @@ interface IPreferenceFragment {
 
     fun setupSave()
 
-    fun setupBackup()
+    fun setupBackup(importFileArray: Array<String>)
 
     fun setupOther()
 
@@ -65,7 +65,7 @@ interface IPreferenceFragment {
 
     fun showImportPermissionDialog()
 
-    fun showImportDialog(itemArray: Array<String>)
+    fun showImportDialog()
 
 
     fun updateSaveTimeSummary(summary: String)

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:key="screen">
+        android:key="screen">
 
     <PreferenceCategory android:title="@string/header_app">
 
@@ -8,7 +8,7 @@
                 android:defaultValue="@integer/value_app_theme"
                 android:key="@string/key_app_theme"
                 android:summary="@string/summary_app_theme"
-                android:title="@string/title_app_theme"/>
+                android:title="@string/title_app_theme" />
 
     </PreferenceCategory>
 
@@ -18,47 +18,46 @@
                 android:defaultValue="@integer/value_note_sort"
                 android:key="@string/key_note_sort"
                 android:summary="@string/summary_note_sort"
-                android:title="@string/title_note_sort"/>
+                android:title="@string/title_note_sort" />
 
         <Preference
                 android:defaultValue="@integer/value_note_color"
                 android:key="@string/key_note_color"
                 android:summary="@string/summary_note_color"
-                android:title="@string/title_note_color"/>
+                android:title="@string/title_note_color" />
 
     </PreferenceCategory>
 
-
     <PreferenceCategory android:title="@string/header_notification">
-
-        <Preference
-                android:defaultValue="@integer/value_alarm_repeat"
-                android:key="@string/key_alarm_repeat"
-                android:summary="@string/summary_alarm_repeat"
-                android:title="@string/title_alarm_repeat"/>
-
-        <Preference
-                android:defaultValue="@integer/value_alarm_signal"
-                android:key="@string/key_alarm_signal"
-                android:summary="@string/summary_alarm_signal"
-                android:title="@string/title_alarm_signal"/>
-
-        <Preference
-                android:key="@string/key_alarm_melody"
-                android:summary="@string/summary_alarm_melody"
-                android:title="@string/title_alarm_melody"/>
-
-        <Preference
-                android:defaultValue="@integer/value_alarm_volume"
-                android:key="@string/key_alarm_volume"
-                android:summary="@string/summary_alarm_volume"
-                android:title="@string/title_alarm_volume"/>
 
         <CheckBoxPreference
                 android:defaultValue="@bool/value_alarm_increase"
                 android:key="@string/key_alarm_increase"
                 android:summary="@string/summary_alarm_increase"
-                android:title="@string/title_alarm_increase"/>
+                android:title="@string/title_alarm_increase" />
+
+        <Preference
+                android:defaultValue="@integer/value_alarm_signal"
+                android:key="@string/key_alarm_signal"
+                android:summary="@string/summary_alarm_signal"
+                android:title="@string/title_alarm_signal" />
+
+        <Preference
+                android:key="@string/key_alarm_melody"
+                android:summary="@string/summary_alarm_melody"
+                android:title="@string/title_alarm_melody" />
+
+        <Preference
+                android:defaultValue="@integer/value_alarm_volume"
+                android:key="@string/key_alarm_volume"
+                android:summary="@string/summary_alarm_volume"
+                android:title="@string/title_alarm_volume" />
+
+        <Preference
+                android:defaultValue="@integer/value_alarm_repeat"
+                android:key="@string/key_alarm_repeat"
+                android:summary="@string/summary_alarm_repeat"
+                android:title="@string/title_alarm_repeat" />
 
     </PreferenceCategory>
 
@@ -68,31 +67,31 @@
                 android:defaultValue="@bool/value_save_pause"
                 android:key="@string/key_save_pause"
                 android:summary="@string/summary_save_pause"
-                android:title="@string/title_save_pause"/>
+                android:title="@string/title_save_pause" />
 
         <CheckBoxPreference
                 android:defaultValue="@bool/value_save_auto"
                 android:key="@string/key_save_auto"
                 android:summary="@string/summary_save_auto"
-                android:title="@string/title_save_auto"/>
+                android:title="@string/title_save_auto" />
 
         <Preference
                 android:defaultValue="@integer/value_save_time"
                 android:key="@string/key_save_time"
                 android:summary="@string/summary_save_time"
-                android:title="@string/title_save_time"/>
+                android:title="@string/title_save_time" />
 
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/header_backup">
 
         <Preference
-            android:key="@string/key_backup_export"
-            android:title="@string/title_backup_export"/>
+                android:key="@string/key_backup_export"
+                android:title="@string/title_backup_export" />
 
         <Preference
-            android:key="@string/key_backup_import"
-            android:title="@string/title_backup_import"/>
+                android:key="@string/key_backup_import"
+                android:title="@string/title_backup_import" />
 
     </PreferenceCategory>
 
@@ -100,11 +99,11 @@
 
         <Preference
                 android:key="@string/key_other_rate"
-                android:title="@string/title_other_rate"/>
+                android:title="@string/title_other_rate" />
 
         <Preference
                 android:key="@string/key_other_about"
-                android:title="@string/title_other_about"/>
+                android:title="@string/title_other_about" />
 
     </PreferenceCategory>
 

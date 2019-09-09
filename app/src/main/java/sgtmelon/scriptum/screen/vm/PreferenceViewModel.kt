@@ -35,7 +35,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             setupNote()
             setupNotification(melodyList.map { it.title }.toTypedArray())
             setupSave()
-            setupBackup()
+            setupBackup(arrayOf("1", "2", "3", "4", "5"))
             setupOther()
 
             updateThemeSummary(summary.theme[iPreferenceRepo.theme])
@@ -140,21 +140,20 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
 
-    override fun onClickExport() = alwaysTrue {
-        context.showToast("Export")
-    }
+    override fun onClickExport() = alwaysTrue { context.showToast("Export") }
 
     override fun onClickImport(result: PermissionResult) = alwaysTrue {
         if (result == PermissionResult.ALLOWED) {
             callback?.showImportPermissionDialog()
         } else {
-            callback?.showImportDialog(arrayOf("1", "2", "3", "4", "5"))
+            callback?.showImportDialog()
         }
     }
 
     override fun onResultImport(check: Int) {
         context.showToast("check = $check")
     }
+
 
     private fun alwaysTrue(func: () -> Unit): Boolean {
         func()
