@@ -68,7 +68,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
         append("Roll table:")
 
         list.forEach {
-            val text = it.text.substring(0, Math.min(it.text.length, 40))
+            val text = it.text.substring(0, it.text.length.coerceAtMost(maximumValue = 40))
                     .replace("\n", " ")
 
             append("\n\n")
@@ -89,7 +89,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
             append("\n\n")
             append("ID: ${it.id} | PS: ${it.position} | VS: ${it.isVisible}\n")
             append("NM: ${it.name}\n")
-            append("CR: ${StringConverter().toString(it.noteId)}\n")
+            append("CR: ${StringConverter().toString(it.noteId)}")
         }
     }.toString()
 
@@ -107,7 +107,7 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
             append("DefaultColor: $defaultColor\n")
             append("PauseSave: $pauseSaveOn\n")
             append("AutoSave: $autoSaveOn\n")
-            append("SaveTime: $savePeriod\n")
+            append("SaveTime: $savePeriod")
         }
     }.toString()
 
