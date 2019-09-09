@@ -118,5 +118,7 @@ dependencies {
     testImplementation powermock.api
     testImplementation powermock.classloading
 
+    testImplementation json.core
+
     //endregion
 }

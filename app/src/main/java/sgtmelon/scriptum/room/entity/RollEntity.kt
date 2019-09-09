@@ -43,16 +43,19 @@ data class RollEntity(
     }.toString()
 
     companion object {
-        operator fun get(data: String) = with(JSONObject(data)){
-            val id = getLong(Roll.ID)
-
-            return@with RollEntity(
-                    if (id != -1L) id else null,
-                    getLong(Roll.NOTE_ID),
-                    getInt(Roll.POSITION),
-                    getBoolean(Roll.CHECK),
-                    getString(Roll.TEXT)
-            )
+        operator fun get(data: String): RollEntity? = try {
+            JSONObject(data).let {
+                val id = it.getLong(Roll.ID)
+                return@let RollEntity(
+                        if (id != -1L) id else null,
+                        it.getLong(Roll.NOTE_ID),
+                        it.getInt(Roll.POSITION),
+                        it.getBoolean(Roll.CHECK),
+                        it.getString(Roll.TEXT)
+                )
+            }
+        } catch (e: Throwable) {
+            null
         }
     }
 

@@ -63,4 +63,8 @@ ext {
             api         : "org.powermock:powermock-api-mockito:1.7.4",
             classloading: "org.powermock:powermock-classloading-xstream:2.0.2"
     ]
+
+    json = [
+            core: "org.json:json:20140107"
+    ]
 }

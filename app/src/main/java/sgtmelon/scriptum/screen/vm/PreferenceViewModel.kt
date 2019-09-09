@@ -22,7 +22,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     private val summary = SummaryProvider(context)
 
-    private val melodyList: List<MelodyItem> get() = iPreferenceRepo.melodyList
+    private val melodyList: List<MelodyItem> = iPreferenceRepo.melodyList
 
     override fun onDestroy(func: () -> Unit) {
         callback = null

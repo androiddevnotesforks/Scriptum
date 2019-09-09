@@ -176,6 +176,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             openState.clear()
         }
 
+        // TODO #RELEASE1 setup on show
         melodyDialog.itemArray = melodyTitleList
         melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
             iViewModel.onSelectMelody(i)

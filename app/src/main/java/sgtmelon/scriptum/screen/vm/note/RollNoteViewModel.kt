@@ -163,9 +163,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                         callback?.notifyItemRemoved(item.p, rollList)
                     } else {
                         val rollEntity = RollEntity[item[isUndo]]
-
-                        rollList.add(item.p, rollEntity)
-                        callback?.notifyItemInserted(item.p, rollEntity.text.length, rollList)
+                        if (rollEntity != null) {
+                            rollList.add(item.p, rollEntity)
+                            callback?.notifyItemInserted(item.p, rollEntity.text.length, rollList)
+                        }
                     }
                 }
                 InputAction.ROLL_MOVE -> {
