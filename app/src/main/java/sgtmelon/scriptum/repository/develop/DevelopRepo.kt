@@ -111,8 +111,4 @@ class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
         }
     }.toString()
 
-    companion object {
-        fun getInstance(context: Context): IDevelopRepo = DevelopRepo(context)
-    }
-
 }

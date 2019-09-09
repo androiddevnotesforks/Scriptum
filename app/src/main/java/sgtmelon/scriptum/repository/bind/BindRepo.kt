@@ -33,8 +33,4 @@ class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
         return noteEntity
     }
 
-    companion object {
-        fun getInstance(context: Context): IBindRepo = BindRepo(context)
-    }
-
 }

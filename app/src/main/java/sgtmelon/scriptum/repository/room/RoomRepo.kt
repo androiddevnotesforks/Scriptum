@@ -352,8 +352,4 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         return check
     }
 
-    companion object {
-        fun getInstance(context: Context): IRoomRepo = RoomRepo(context)
-    }
-
 }

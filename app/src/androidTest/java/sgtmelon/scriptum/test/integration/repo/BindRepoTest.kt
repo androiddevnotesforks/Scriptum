@@ -7,6 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.bind.BindRepo
+import sgtmelon.scriptum.repository.bind.IBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
@@ -19,7 +20,7 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentIntegrationTest() {
 
-    private val iBindRepo = BindRepo.getInstance(context)
+    private val iBindRepo: IBindRepo = BindRepo(context)
 
     @Test fun getRollListOnTextNote() = inRoom {
         textNote.let {

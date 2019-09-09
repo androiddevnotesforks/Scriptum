@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
+import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
@@ -22,7 +23,7 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {
 
-    private val iRankRepo = RankRepo.getInstance(context)
+    private val iRankRepo: IRankRepo = RankRepo(context)
 
     private val rankList: MutableList<RankEntity> = ArrayList()
     private val nameList: List<String> get() = rankList.map { it.name.toUpperCase() }
