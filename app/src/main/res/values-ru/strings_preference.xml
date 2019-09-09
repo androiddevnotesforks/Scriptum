@@ -5,6 +5,7 @@
     <string name="header_notification">Уведомления</string>
     <string name="header_note">Заметки</string>
     <string name="header_save">Сохранение</string>
+    <string name="header_backup">Резервное копирование</string>
     <string name="header_other">Прочее</string>
 
     <!---->
@@ -23,6 +24,9 @@
     <string name="title_save_pause">Сохранение при остановке приложения</string>
     <string name="title_save_auto">Автоматическое сохранение</string>
     <string name="title_save_time">Период</string>
+
+    <string name="title_backup_export">Сохранить данные в файл</string>
+    <string name="title_backup_import">Загрузить данные из файла</string>
 
     <string name="title_other_rate">Оценить</string>
     <string name="title_other_about">О приложении</string>
