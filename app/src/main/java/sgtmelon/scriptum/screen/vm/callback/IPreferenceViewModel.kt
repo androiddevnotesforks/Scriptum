@@ -53,6 +53,8 @@ interface IPreferenceViewModel : IParentViewModel {
 
     fun onClickExport(): Boolean
 
-    fun onClickImport(): Boolean
+    fun onClickImport(result: PermissionResult): Boolean
+
+    fun onResultImport(check: Int)
 
 }

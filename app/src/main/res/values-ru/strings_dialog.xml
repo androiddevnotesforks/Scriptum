@@ -23,9 +23,22 @@
     </string>
 
     <string name="dialog_title_add_note">Создать заметку</string>
-
     <string name="dialog_add_text">Текст</string>
     <string name="dialog_add_roll">Список</string>
+
+    <string name="dialog_title_melody_permission">Требуется разрешение</string>
+    <string name="dialog_text_melody_permission">
+        Для того что бы использовать мелодии находящиеся на SD карте,
+        приложению необходимо ваше разрешение. Иначе некоторые мелодии будут не доступны для вас.
+    </string>
+
+    <string name="dialog_title_import_permission">Требуется разрешение</string>
+    <string name="dialog_text_import_permission">
+        Для поиска файлов находящихся на SD карте, приложению необходимо ваше разрешение.
+        Иначе некоторые файлы будут не доступны для вас.
+    </string>
+
+    <string name="dialog_title_import">Выберите файл</string>
 
     <!-- Dialog menu buttons -->
     <string name="dialog_menu_delete">Удалить</string>
@@ -38,16 +51,6 @@
     <string name="dialog_menu_convert_to_text">Конвертировать в текст</string>
     <string name="dialog_menu_convert_to_roll">Конвертировать в список</string>
 
-    <string name="dialog_title_melody_permission">Требуется разрешение</string>
-
-    <string name="dialog_text_melody_permission">
-        Для того что бы использовать мелодии находящиеся на SD карте,
-        приложению необходимо ваше разрешение. Иначе некоторые мелодии будут не доступны для вас.
-    </string>
-
-    <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>
-
-    <string name="about_app_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
     <string-array name="dialog_menu_text">
         <item/>
         <item>@string/dialog_menu_convert_to_roll</item>
@@ -55,18 +58,20 @@
         <item>@string/dialog_menu_delete</item>
     </string-array>
 
-    <!-- About dialog -->
     <string-array name="dialog_menu_roll">
         <item/>
         <item>@string/dialog_menu_convert_to_text</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
+
     <string-array name="dialog_menu_bin">
         <item>@string/dialog_menu_restore</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_clear</item>
     </string-array>
 
+    <string name="about_app_developer">Разработчик:\nКузнецов Алексей</string>
+    <string name="about_app_logo_designer">Дизайнер логотипа:\nПолепкина Арина</string>
 
 </resources>

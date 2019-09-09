@@ -17,7 +17,7 @@ interface IPreferenceFragment {
 
     fun setupNote()
 
-    fun setupNotification(melodyTitleList: Array<String>)
+    fun setupNotification(melodyTitleArray: Array<String>)
 
     fun setupSave()
 
@@ -61,6 +61,11 @@ interface IPreferenceFragment {
     fun updateVolumeSummary(summary: String)
 
     fun showVolumeDialog(value: Int)
+
+
+    fun showImportPermissionDialog()
+
+    fun showImportDialog(itemArray: Array<String>)
 
 
     fun updateSaveTimeSummary(summary: String)

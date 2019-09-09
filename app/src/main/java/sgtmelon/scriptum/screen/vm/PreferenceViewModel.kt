@@ -140,9 +140,21 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
 
-    override fun onClickExport() = alwaysTrue { context.showToast("Export") }
+    override fun onClickExport() = alwaysTrue {
+        context.showToast("Export")
+    }
 
-    override fun onClickImport() = alwaysTrue { context.showToast("Import") }
+    override fun onClickImport(result: PermissionResult) = alwaysTrue {
+        if (result == PermissionResult.ALLOWED) {
+            callback?.showImportPermissionDialog()
+        } else {
+            callback?.showImportDialog(arrayOf("1", "2", "3", "4", "5"))
+        }
+    }
+
+    override fun onResultImport(check: Int) {
+        context.showToast("check = $check")
+    }
 
     private fun alwaysTrue(func: () -> Unit): Boolean {
         func()

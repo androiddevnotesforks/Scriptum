@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog
 class SingleDialog : BlankDialog() {
 
     var itemArray: Array<String> = arrayOf()
+    var applyEnable: Boolean = false
 
     private var checkInit = 0
     var check = 0
@@ -56,7 +57,7 @@ class SingleDialog : BlankDialog() {
 
     override fun setEnable() {
         super.setEnable()
-        positiveButton?.isEnabled = checkInit != check
+        positiveButton?.isEnabled = applyEnable || checkInit != check
     }
 
 }

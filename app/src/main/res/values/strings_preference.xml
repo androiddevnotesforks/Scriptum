@@ -110,8 +110,8 @@
     <string name="key_alarm_volume" translatable="false">key_alarm_volume</string>
     <string name="key_alarm_increase" translatable="false">key_alarm_increase</string>
 
-    <string name="key_save_pause" translatable="false">key_pause_save</string>
-    <string name="key_save_auto" translatable="false">key_auto_save</string>
+    <string name="key_save_pause" translatable="false">key_save_pause</string>
+    <string name="key_save_auto" translatable="false">key_save_auto</string>
     <string name="key_save_time" translatable="false">key_save_time</string>
 
     <string name="key_backup_export" translatable="false">key_backup_export</string>
