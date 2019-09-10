@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.view
 
-import android.content.res.Configuration
 import android.view.View
 import android.widget.RelativeLayout
 import sgtmelon.scriptum.model.annotation.Theme
@@ -20,10 +19,7 @@ class RippleParams(@Theme private val theme: Int, private val parentView: View, 
     val duration get() = 1000L * count / 2
     val delay get() = duration / count
 
-    private val scaleFactor get() = when (parentView.resources.configuration.orientation) {
-        Configuration.ORIENTATION_PORTRAIT -> if (theme == Theme.LIGHT) 2f else 1.5f
-        else -> if (theme == Theme.LIGHT) 1.7f else 1.2f
-    }
+    private val scaleFactor get() =  if (theme == Theme.LIGHT) 2f else 1.5f
 
     val scaleTo get() = (maxSize / minSize).toFloat() * scaleFactor
 
