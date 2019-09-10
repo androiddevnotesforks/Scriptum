@@ -7,6 +7,7 @@ import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
+import sgtmelon.scriptum.repository.alarm.IAlarmRepo
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
@@ -19,7 +20,7 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 @RunWith(AndroidJUnit4::class)
 class AlarmRepoTest : ParentIntegrationTest() {
 
-    private val iAlarmRepo = AlarmRepo.getInstance(context)
+    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
 
     @Test fun insert() = inRoom {
         iNoteDao.insert(noteEntity)

@@ -29,8 +29,4 @@ class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
         inRoom { addAll(iAlarmDao.get()) }
     }
 
-    companion object {
-        fun getInstance(context: Context): IAlarmRepo = AlarmRepo(context)
-    }
-
 }

@@ -13,7 +13,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
-import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
 
@@ -48,7 +48,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
     override fun onClickNote(p: Int) {
         with(noteModelList[p].noteEntity) {
-            callback?.startActivity(context.getNoteIntent(type, id))
+            callback?.startActivity(NoteActivity.getInstance(context, type, id))
         }
     }
 

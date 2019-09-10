@@ -94,8 +94,4 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
                 update(noteList)
             }
 
-    companion object {
-        fun getInstance(context: Context): IRankRepo = RankRepo(context)
-    }
-
 }

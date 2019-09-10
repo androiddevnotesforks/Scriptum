@@ -6,7 +6,7 @@ import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
@@ -41,7 +41,7 @@ class NotificationViewModel(application: Application) :
 
     override fun onClickNote(p: Int) {
         with(notificationList[p].note) {
-            callback?.startActivity(context.getNoteIntent(type, id))
+            callback?.startActivity(NoteActivity.getInstance(context, type, id))
         }
     }
 

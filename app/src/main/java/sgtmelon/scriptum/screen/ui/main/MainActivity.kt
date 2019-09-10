@@ -37,7 +37,7 @@ class MainActivity : AppActivity(), IMainActivity {
 
     private val mainReceiver by lazy { MainReceiver(iViewModel) }
 
-    private val fragmentFactory by lazy { FragmentFactory(supportFragmentManager) }
+    private val fragmentFactory = FragmentFactory.Main(supportFragmentManager)
     private val rankFragment by lazy { fragmentFactory.getRankFragment() }
     private val notesFragment by lazy { fragmentFactory.getNotesFragment() }
     private val binFragment by lazy { fragmentFactory.getBinFragment() }
@@ -116,16 +116,18 @@ class MainActivity : AppActivity(), IMainActivity {
             beginTransaction().apply {
                 setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
 
-                if (findFragmentByTag(pageFrom.name) != null) {
+                if (findFragmentByTag(pageFrom.getFragmentTag()) != null) {
                     hide(pageFrom.getFragmentByName())
                 }
 
                 val fragmentTo = pageTo.getFragmentByName()
-                if (findFragmentByTag(pageTo.name) != null) {
+                val fragmentToTag = pageTo.getFragmentTag()
+
+                if (findFragmentByTag(fragmentToTag) != null) {
                     show(fragmentTo)
                     fragmentTo.onResume()
                 } else {
-                    add(R.id.main_fragment_container, fragmentTo, pageTo.name)
+                    add(R.id.main_fragment_container, fragmentTo, fragmentToTag)
                 }
 
                 commit()
@@ -133,32 +135,39 @@ class MainActivity : AppActivity(), IMainActivity {
         }
     }
 
+    override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
+
+
     private fun MainPage.getFragmentByName(): Fragment = when (this) {
         MainPage.RANK -> rankFragment
         MainPage.NOTES -> notesFragment
         MainPage.BIN -> binFragment
     }
 
-    override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
+    private fun MainPage.getFragmentTag(): String = when (this) {
+        MainPage.RANK -> FragmentFactory.Main.RANK
+        MainPage.NOTES -> FragmentFactory.Main.NOTES
+        MainPage.BIN -> FragmentFactory.Main.BIN
+    }
+
+    private fun FloatingActionButton.setState(state: Boolean) {
+        if (state) show() else hide()
+        isEnabled = state
+    }
+
+    /**
+     * Функция определяет произошёл ли [MotionEvent] на объекте
+     */
+    private fun MotionEvent?.onView(view: View?): Boolean {
+        if (view == null || this == null) return false
+
+        return Rect().apply {
+            view.getGlobalVisibleRect(this)
+        }.contains(rawX.toInt(), rawY.toInt())
+    }
 
     companion object {
         fun getInstance(context: Context) = Intent(context, MainActivity::class.java)
-
-        private fun FloatingActionButton.setState(state: Boolean) {
-            if (state) show() else hide()
-            isEnabled = state
-        }
-
-        /**
-         * Функция определяет произошёл ли [MotionEvent] на объекте
-         */
-        private fun MotionEvent?.onView(view: View?) = if (view != null && this != null) {
-            Rect().apply {
-                view.getGlobalVisibleRect(this)
-            }.contains(rawX.toInt(), rawY.toInt())
-        } else {
-            false
-        }
     }
 
 }

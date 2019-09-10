@@ -120,16 +120,14 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
      */
     fun cancelBind() = notificationManager.cancel(noteEntity.id.toInt())
 
-    companion object {
-        private fun List<RollEntity>.toStatusText() = joinToString(separator = "\n") {
-            "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
-        }
 
-        private fun Context.getNotePendingIntent(noteEntity: NoteEntity): PendingIntent? =
-                TaskStackBuilder.create(this).addNextIntent(SplashActivity.getBindInstance(
-                        context = this, noteEntity = noteEntity
-                )).getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
-
+    private fun List<RollEntity>.toStatusText() = joinToString(separator = "\n") {
+        "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
     }
+
+    private fun Context.getNotePendingIntent(noteEntity: NoteEntity): PendingIntent? =
+            TaskStackBuilder.create(this).addNextIntent(SplashActivity.getBindInstance(
+                    context = this, noteEntity = noteEntity
+            )).getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
 
 }
