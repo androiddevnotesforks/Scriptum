@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="sgtmelon.scriptum">
+        package="sgtmelon.scriptum">
 
     <application
             android:allowBackup="true"
@@ -92,8 +92,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receiver.UnbindReceiver"/>
-        <receiver android:name=".receiver.AlarmReceiver"/>
+        <receiver android:name=".receiver.UnbindReceiver" />
+        <receiver android:name=".receiver.AlarmReceiver" />
 
     </application>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
