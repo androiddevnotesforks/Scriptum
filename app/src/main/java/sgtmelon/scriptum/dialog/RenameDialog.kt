@@ -57,6 +57,7 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
                 putStringArrayList(VALUE, nameList)
             })
 
+    // TODO not show keyboard
     override fun setupView() {
         super.setupView()
 
@@ -75,7 +76,11 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
     override fun setEnable() {
         super.setEnable()
-        positiveButton?.isEnabled = name.isNotEmpty() && !nameList.contains(name.toUpperCase())
+
+        val isTitle = title.toUpperCase() == name.toUpperCase()
+
+        positiveButton?.isEnabled = name.isNotEmpty() &&
+                if (isTitle) title != name else !nameList.contains(name.toUpperCase())
     }
 
     override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
@@ -88,5 +93,8 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
         return false
     }
+
+
+    private fun String.toUpperCase() = toUpperCase(Locale.ROOT)
 
 }
