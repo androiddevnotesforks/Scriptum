@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.repository.develop.DevelopRepo
+import sgtmelon.scriptum.repository.develop.IDevelopRepo
 import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
@@ -18,7 +19,7 @@ import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActivity>(application),
         IDevelopViewModel {
 
-    private val iDevelopRepo = DevelopRepo.getInstance(context)
+    private val iDevelopRepo: IDevelopRepo = DevelopRepo(context)
 
     override fun onSetup(bundle: Bundle?) {
         viewModelScope.launch {

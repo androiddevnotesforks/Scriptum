@@ -27,6 +27,11 @@
 
     <string name="dialog_text_volume" translatable="false">%d%%</string>
 
+    <string name="dialog_title_melody_permission">Required permission</string>
+    <string name="dialog_text_melody_permission">
+        In order to use the melodies located on the SD card, application needs your permission.
+        Otherwise some ringtones will not be available to you.
+    </string>
 
     <!-- Dialog menu buttons -->
     <string name="dialog_menu_delete">Delete</string>
@@ -39,16 +44,6 @@
     <string name="dialog_menu_convert_to_text">Convert to text</string>
     <string name="dialog_menu_convert_to_roll">Convert to roll</string>
 
-    <string name="dialog_title_melody_permission">Required permission</string>
-
-    <string name="dialog_text_melody_permission">
-        In order to use the melodies located on the SD card, application needs your permission.
-        Otherwise some ringtones will not be available to you.
-    </string>
-
-    <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>
-
-    <string name="about_app_logo_designer">Logo designer:\nPolepkina Arina</string>
     <string-array name="dialog_menu_text">
         <item/>
         <item>@string/dialog_menu_convert_to_roll</item>
@@ -56,17 +51,20 @@
         <item>@string/dialog_menu_delete</item>
     </string-array>
 
-    <!-- About dialog -->
     <string-array name="dialog_menu_roll">
         <item/>
         <item>@string/dialog_menu_convert_to_text</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_delete</item>
     </string-array>
+
     <string-array name="dialog_menu_bin">
         <item>@string/dialog_menu_restore</item>
         <item>@string/dialog_menu_copy</item>
         <item>@string/dialog_menu_clear</item>
     </string-array>
+
+    <string name="about_app_developer">Developer:\nKuznetsov Alexey</string>
+    <string name="about_app_logo_designer">Logo designer:\nPolepkina Arina</string>
 
 </resources>

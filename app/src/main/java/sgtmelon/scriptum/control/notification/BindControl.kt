@@ -15,6 +15,7 @@ import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.UnbindReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
+import sgtmelon.scriptum.repository.bind.IBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
@@ -31,7 +32,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
      */
     constructor(context: Context, noteEntity: NoteEntity) : this(context, NoteModel(noteEntity))
 
-    private val iBindRepo = BindRepo.getInstance(context)
+    private val iBindRepo: IBindRepo = BindRepo(context)
 
     private val noteEntity: NoteEntity = noteModel.noteEntity
 
@@ -119,16 +120,14 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
      */
     fun cancelBind() = notificationManager.cancel(noteEntity.id.toInt())
 
-    companion object {
-        private fun List<RollEntity>.toStatusText() = joinToString(separator = "\n") {
-            "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
-        }
 
-        private fun Context.getNotePendingIntent(noteEntity: NoteEntity): PendingIntent? =
-                TaskStackBuilder.create(this).addNextIntent(SplashActivity.getBindInstance(
-                        context = this, noteEntity = noteEntity
-                )).getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
-
+    private fun List<RollEntity>.toStatusText() = joinToString(separator = "\n") {
+        "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
     }
+
+    private fun Context.getNotePendingIntent(noteEntity: NoteEntity): PendingIntent? =
+            TaskStackBuilder.create(this).addNextIntent(SplashActivity.getBindInstance(
+                    context = this, noteEntity = noteEntity
+            )).getPendingIntent(noteEntity.id.toInt(), PendingIntent.FLAG_UPDATE_CURRENT)
 
 }

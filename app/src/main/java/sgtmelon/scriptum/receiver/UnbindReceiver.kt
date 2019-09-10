@@ -26,7 +26,7 @@ class UnbindReceiver : BroadcastReceiver() {
 
         if (id == Values.ND_NOTE_ID) return
 
-        BindRepo.getInstance(context).unbindNote(id)?.let {
+        BindRepo(context).unbindNote(id)?.let {
             BindControl(context, it).cancelBind()
         }
 

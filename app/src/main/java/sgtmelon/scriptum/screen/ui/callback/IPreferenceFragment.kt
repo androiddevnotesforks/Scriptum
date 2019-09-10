@@ -17,11 +17,12 @@ interface IPreferenceFragment {
 
     fun setupNote()
 
-    fun setupNotification(melodyTitleList: Array<String>)
+    fun setupNotification(melodyTitleArray: Array<String>)
 
     fun setupSave()
 
     fun setupOther()
+
 
     fun updateThemeSummary(summary: String)
 

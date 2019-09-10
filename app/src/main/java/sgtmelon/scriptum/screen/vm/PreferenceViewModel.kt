@@ -137,6 +137,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         callback?.updateSaveTimeSummary(summary.saveTime[value])
     }
 
+
     private fun alwaysTrue(func: () -> Unit): Boolean {
         func()
         return true

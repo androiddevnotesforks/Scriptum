@@ -96,7 +96,7 @@ fun Context.copyToClipboard(noteEntity: NoteEntity) {
      */
     copyText += when (noteEntity.type) {
         NoteType.TEXT -> noteEntity.text
-        NoteType.ROLL -> RoomRepo.getInstance(context = this).getRollListString(noteEntity)
+        NoteType.ROLL -> RoomRepo(context = this).getRollListString(noteEntity)
     }
 
     /**

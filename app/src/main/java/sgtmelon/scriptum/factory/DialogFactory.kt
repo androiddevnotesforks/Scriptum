@@ -115,6 +115,29 @@ object DialogFactory {
             return dialog
         }
 
+
+        fun getSortDialog(): SingleDialog {
+            val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
+
+            if (context == null) return dialog
+
+            dialog.title = context.getString(R.string.title_note_sort)
+            dialog.itemArray = context.resources.getStringArray(R.array.text_note_sort)
+
+            return dialog
+        }
+
+        fun getColorDialog(): ColorDialog {
+            val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
+
+            if (context == null) return dialog
+
+            dialog.title = context.getString(R.string.title_note_color)
+
+            return dialog
+        }
+
+
         fun getRepeatDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(REPEAT) as? SingleDialog ?: SingleDialog()
 
@@ -171,26 +194,6 @@ object DialogFactory {
             return dialog
         }
 
-        fun getSortDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(SORT) as? SingleDialog ?: SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.title_note_sort)
-            dialog.itemArray = context.resources.getStringArray(R.array.text_note_sort)
-
-            return dialog
-        }
-
-        fun getColorDialog(): ColorDialog {
-            val dialog = fm?.findFragmentByTag(COLOR) as? ColorDialog ?: ColorDialog()
-
-            if (context == null) return dialog
-
-            dialog.title = context.getString(R.string.title_note_color)
-
-            return dialog
-        }
 
         fun getSaveTimeDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
@@ -210,13 +213,16 @@ object DialogFactory {
             private const val PREFIX = "DIALOG_PREF"
 
             const val THEME = "${PREFIX}_THEME"
+
+            const val SORT = "${PREFIX}_SORT"
+            const val COLOR = "${PREFIX}_COLOR"
+
             const val REPEAT = "${PREFIX}_REPEAT"
             const val SIGNAL = "${PREFIX}_SIGNAL"
             const val MELODY_PERMISSION = "${PREFIX}_MELODY_PERMISSION"
             const val MELODY = "${PREFIX}_MELODY"
             const val VOLUME = "${PREFIX}_VOLUME"
-            const val SORT = "${PREFIX}_SORT"
-            const val COLOR = "${PREFIX}_COLOR"
+
             const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
             const val ABOUT = "${PREFIX}_ABOUT"
         }

@@ -44,9 +44,11 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val iViewModel: IPreferenceViewModel by lazy { PreferenceViewModel(activity, callback = this) }
 
     private val openState = OpenState()
-    private val melodyPermissionState by lazy {
+    private val externalPermissionState by lazy {
         PermissionState(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
     }
+
+    //region Dialogs
 
     private val dialogFactory by lazy { DialogFactory.Preference(activity, fm) }
 
@@ -64,6 +66,10 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val saveTimeDialog by lazy { dialogFactory.getSaveTimeDialog() }
     private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
 
+    //endregion
+
+    //region Preferences
+
     private val themePreference: Preference by lazy { findPreference(getString(R.string.key_app_theme)) }
 
     private val sortPreference: Preference by lazy { findPreference(getString(R.string.key_note_sort)) }
@@ -76,6 +82,8 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val volumePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_volume)) }
 
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
+
+    //endregion
 
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(activity) }
 
@@ -105,6 +113,9 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         iMelodyControl.release()
     }
 
+    // TODO #RELEASE2 check permission update
+    override fun onResume() = super.onResume()
+
     override fun onSaveInstanceState(outState: Bundle) =
             super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
 
@@ -112,12 +123,14 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
                                             grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode == MELODY_REQUEST) {
-            iViewModel.onClickMelody(if (grantResults[MELODY_REQUEST].isGranted()) {
-                PermissionResult.GRANTED
-            } else {
-                PermissionResult.FORBIDDEN
-            })
+        when (requestCode) {
+            MELODY_REQUEST -> {
+                iViewModel.onClickMelody(if (grantResults.first().isGranted()) {
+                    PermissionResult.GRANTED
+                } else {
+                    PermissionResult.FORBIDDEN
+                })
+            }
         }
     }
 
@@ -148,7 +161,7 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         colorDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
-    override fun setupNotification(melodyTitleList: Array<String>) {
+    override fun setupNotification(melodyTitleArray: Array<String>) {
         repeatPreference.setOnPreferenceClickListener { iViewModel.onClickRepeat() }
 
         repeatDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
@@ -164,20 +177,19 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         signalDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
 
         melodyPreference.setOnPreferenceClickListener {
-            iViewModel.onClickMelody(melodyPermissionState.getResult())
+            iViewModel.onClickMelody(externalPermissionState.getResult())
         }
 
         melodyPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
 
-            requestPermissions(arrayOf(melodyPermissionState.permission), MELODY_REQUEST)
+            requestPermissions(arrayOf(externalPermissionState.permission), MELODY_REQUEST)
         }
         melodyPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
             openState.clear()
         }
 
-        // TODO #RELEASE1 setup on show
-        melodyDialog.itemArray = melodyTitleList
+        melodyDialog.itemArray = melodyTitleArray
         melodyDialog.itemListener = DialogInterface.OnClickListener { _, i ->
             iViewModel.onSelectMelody(i)
         }

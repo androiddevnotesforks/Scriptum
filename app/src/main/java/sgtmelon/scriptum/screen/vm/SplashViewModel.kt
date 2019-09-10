@@ -14,7 +14,7 @@ import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.OpenFrom
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
-import sgtmelon.scriptum.screen.ui.note.NoteActivity.Companion.getNoteIntent
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 
@@ -34,7 +34,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         } else {
             when (bundle.getString(SplashActivity.OPEN_SCREEN) ?: "") {
                 OpenFrom.BIND -> {
-                    val intent = context.getNoteIntent(
+                    val intent = NoteActivity.getInstance(context,
                             NoteType.values()[bundle.getInt(NoteData.Intent.TYPE)],
                             bundle.getLong(NoteData.Intent.ID)
                     )

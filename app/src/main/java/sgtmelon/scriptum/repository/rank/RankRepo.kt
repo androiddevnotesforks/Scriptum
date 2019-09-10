@@ -2,6 +2,7 @@ package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
 import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.repository.room.IRoomRepo
 import sgtmelon.scriptum.repository.room.RoomRepo
 import sgtmelon.scriptum.room.IRoomWork
 import sgtmelon.scriptum.room.RoomDb
@@ -18,7 +19,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     // TODO убрать roomRepo
-    private val iRoomRepo = RoomRepo.getInstance(context)
+    private val iRoomRepo: IRoomRepo = RoomRepo(context)
 
     override suspend fun notifyBind() = inRoom {
         val rankIdVisibleList = iRankDao.getIdVisibleList()
@@ -92,9 +93,5 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
                 update(noteList)
             }
-
-    companion object {
-        fun getInstance(context: Context): IRankRepo = RankRepo(context)
-    }
 
 }

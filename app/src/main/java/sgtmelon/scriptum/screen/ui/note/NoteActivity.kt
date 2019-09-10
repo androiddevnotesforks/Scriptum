@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
@@ -25,6 +26,10 @@ import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     private val iViewModel by lazy { ViewModelFactory.getNoteViewModel(activity = this) }
+
+    private val fragmentFactory = FragmentFactory.Note(supportFragmentManager)
+    private val textNoteFragment get() = fragmentFactory.getTextNoteFragment()
+    private val rollNoteFragment get() = fragmentFactory.getRollNoteFragment()
 
     private val noteReceiver by lazy { NoteReceiver(iViewModel) }
 
@@ -55,41 +60,42 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
     }
 
     override fun showTextFragment(id: Long, checkCache: Boolean) {
-        showFragment(NoteType.TEXT.name, if (checkCache) {
-            findTextNoteFragment() ?: TextNoteFragment.getInstance(id)
+        showFragment(FragmentFactory.Note.TEXT, if (checkCache) {
+            textNoteFragment ?: TextNoteFragment.getInstance(id)
         } else {
             TextNoteFragment.getInstance(id)
         })
     }
 
     override fun showRollFragment(id: Long, checkCache: Boolean) {
-        showFragment(NoteType.ROLL.name, if (checkCache) {
-            findRollNoteFragment() ?: RollNoteFragment.getInstance(id)
+        showFragment(FragmentFactory.Note.ROLL, if (checkCache) {
+            rollNoteFragment ?: RollNoteFragment.getInstance(id)
         } else {
             RollNoteFragment.getInstance(id)
         })
     }
 
-    private fun showFragment(key: String, fragment: Fragment) = supportFragmentManager
-            .beginTransaction()
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            .replace(R.id.note_fragment_container, fragment, key)
-            .commit()
+    override fun onPressBackText() = textNoteFragment?.onPressBack() ?: false
 
-    override fun onPressBackText() = findTextNoteFragment()?.onPressBack() ?: false
-
-    override fun onPressBackRoll() = findRollNoteFragment()?.onPressBack() ?: false
+    override fun onPressBackRoll() = rollNoteFragment?.onPressBack() ?: false
 
     override fun onCancelNoteBind(type: NoteType) {
         when (type) {
-            NoteType.TEXT -> findTextNoteFragment()?.onCancelNoteBind()
-            NoteType.ROLL -> findRollNoteFragment()?.onCancelNoteBind()
+            NoteType.TEXT -> textNoteFragment?.onCancelNoteBind()
+            NoteType.ROLL -> rollNoteFragment?.onCancelNoteBind()
         }
     }
 
     override fun onUpdateNoteId(id: Long) = iViewModel.onUpdateNoteId(id)
 
     override fun onConvertNote() = iViewModel.onConvertNote()
+
+
+    private fun showFragment(key: String, fragment: Fragment) = supportFragmentManager
+            .beginTransaction()
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .replace(R.id.note_fragment_container, fragment, key)
+            .commit()
 
     companion object {
         fun getInstance(context: Context, noteEntity: NoteEntity) =
@@ -99,17 +105,6 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
                 Intent(context, NoteActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)
                         .putExtra(NoteData.Intent.TYPE, type.ordinal)
-
-        fun Context.getNoteIntent(type: NoteType, id: Long? = NoteData.Default.ID): Intent =
-                Intent(this, NoteActivity::class.java)
-                        .putExtra(NoteData.Intent.ID, id)
-                        .putExtra(NoteData.Intent.TYPE, type.ordinal)
-
-        private fun AppActivity.findTextNoteFragment(): TextNoteFragment? =
-                supportFragmentManager.findFragmentByTag(NoteType.TEXT.name) as? TextNoteFragment
-
-        private fun AppActivity.findRollNoteFragment(): RollNoteFragment? =
-                supportFragmentManager.findFragmentByTag(NoteType.ROLL.name) as? RollNoteFragment
     }
 
 }

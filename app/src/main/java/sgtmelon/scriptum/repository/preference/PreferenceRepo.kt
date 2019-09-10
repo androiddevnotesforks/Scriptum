@@ -20,6 +20,8 @@ import sgtmelon.scriptum.room.converter.IntConverter
 @Suppress("PrivatePropertyName")
 class PreferenceRepo(private val context: Context) : IPreferenceRepo {
 
+    // TODO #RELEASE2 add interactor
+
     private val resources: Resources = context.resources
 
     private val key = PreferenceProvider.Key(context)
@@ -31,6 +33,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
     private fun edit(func: SharedPreferences.Editor.() -> Unit) =
             preferences.edit().apply(func).apply()
 
+    // TODO #RELEASE2 logic to interactor
     override var firstStart: Boolean
         get() = preferences.getBoolean(key.FIRST_START, def.FIRST_START).apply {
             if (this) firstStart = false
@@ -49,10 +52,13 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.SIGNAL, def.SIGNAL)
         set(value) = edit { putInt(key.SIGNAL, value) }
 
+    // TODO #RELEASE2 to interactor
     override val signalCheck: BooleanArray get() = IntConverter().toArray(signal, Signal.digitCount)
 
+    // TODO #RELEASE2 to interactor
     override val signalState: SignalState get() = SignalState(signalCheck)
 
+    // TODO #RELEASE2 to interactor
     override val signalSummary: String
         get() = StringBuilder().apply {
             val summary = resources.getStringArray(R.array.text_alarm_signal)
@@ -73,6 +79,7 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
             }
         }.toString()
 
+    // TODO #RELEASE2 to interactor
     override var melodyUri: String
         get() = melodyList.let {
             var value = preferences.getString(key.MELODY_URI, def.MELODY_URI) ?: def.MELODY_URI
@@ -89,8 +96,10 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         }
         set(value) = edit { putString(key.MELODY_URI, value) }
 
+    // TODO #RELEASE2 to interactor
     override val melodyCheck: Int get() = melodyList.map { it.uri }.indexOf(melodyUri)
 
+    // TODO #RELEASE2 to interactor
     override val melodyList: List<MelodyItem>
         get() = ArrayList<MelodyItem>().apply {
             /**
