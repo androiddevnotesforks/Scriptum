@@ -63,9 +63,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val melodyDialog by lazy { dialogFactory.getMelodyDialog() }
     private val volumeDialog by lazy { dialogFactory.getVolumeDialog() }
 
-    private val importPermissionDialog by lazy { dialogFactory.getImportPermissionDialog() }
-    private val importDialog by lazy { dialogFactory.getImportDialog() }
-
     private val saveTimeDialog by lazy { dialogFactory.getSaveTimeDialog() }
     private val aboutDialog by lazy { dialogFactory.getAboutDialog() }
 
@@ -85,9 +82,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     private val volumePreference: Preference by lazy { findPreference(getString(R.string.key_alarm_volume)) }
 
     private val saveTimePreference: Preference by lazy { findPreference(getString(R.string.key_save_time)) }
-
-    private val exportPreference: Preference by lazy { findPreference(getString(R.string.key_backup_export)) }
-    private val importPreference: Preference by lazy { findPreference(getString(R.string.key_backup_import)) }
 
     //endregion
 
@@ -132,13 +126,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         when (requestCode) {
             MELODY_REQUEST -> {
                 iViewModel.onClickMelody(if (grantResults.first().isGranted()) {
-                    PermissionResult.GRANTED
-                } else {
-                    PermissionResult.FORBIDDEN
-                })
-            }
-            IMPORT_REQUEST -> {
-                iViewModel.onClickImport(if (grantResults.first().isGranted()) {
                     PermissionResult.GRANTED
                 } else {
                     PermissionResult.FORBIDDEN
@@ -237,29 +224,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
         }
 
         saveTimePreference.isEnabled = autoSavePreference?.isChecked == true
-    }
-
-    override fun setupBackup(importFileArray: Array<String>) {
-        exportPreference.setOnPreferenceClickListener { iViewModel.onClickExport() }
-
-        importPreference.setOnPreferenceClickListener {
-            iViewModel.onClickImport(externalPermissionState.getResult())
-        }
-
-        importPermissionDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return@OnClickListener
-
-            requestPermissions(arrayOf(externalPermissionState.permission), IMPORT_REQUEST)
-        }
-        importPermissionDialog.dismissListener = DialogInterface.OnDismissListener {
-            openState.clear()
-        }
-
-        importDialog.itemArray = importFileArray
-        importDialog.positiveListener = DialogInterface.OnClickListener { _, _ ->
-            iViewModel.onResultImport(importDialog.check)
-        }
-        importDialog.dismissListener = DialogInterface.OnDismissListener { openState.clear() }
     }
 
     override fun setupOther() {
@@ -369,15 +333,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
     }
 
 
-    override fun showImportPermissionDialog() = openState.tryInvoke {
-        importPermissionDialog.show(fm, DialogFactory.Preference.IMPORT_PERMISSION)
-    }
-
-    override fun showImportDialog() = openState.tryInvoke {
-        importDialog.show(fm, DialogFactory.Preference.IMPORT)
-    }
-
-
     override fun updateSaveTimeSummary(summary: String) {
         saveTimePreference.summary = summary
     }
@@ -388,7 +343,6 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 
     companion object {
         private const val MELODY_REQUEST = 0
-        private const val IMPORT_REQUEST = 1
     }
 
 }

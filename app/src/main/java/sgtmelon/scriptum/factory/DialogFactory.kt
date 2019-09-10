@@ -195,31 +195,6 @@ object DialogFactory {
         }
 
 
-        fun getImportPermissionDialog(): MessageDialog {
-            val dialog  = fm?.findFragmentByTag(IMPORT_PERMISSION) as? MessageDialog
-                    ?: MessageDialog()
-
-            if (context == null) return dialog
-
-            dialog.type = MessageType.INFO
-            dialog.title = context.getString(R.string.dialog_title_import_permission)
-            dialog.message = context.getString(R.string.dialog_text_import_permission)
-
-            return dialog
-        }
-
-        fun getImportDialog(): SingleDialog {
-            val dialog = fm?.findFragmentByTag(IMPORT) as? SingleDialog ?: SingleDialog()
-
-            if (context == null) return dialog
-
-            dialog.applyEnable = true
-            dialog.title = context.getString(R.string.dialog_title_import)
-
-            return dialog
-        }
-
-
         fun getSaveTimeDialog(): SingleDialog {
             val dialog = fm?.findFragmentByTag(SAVE_TIME) as? SingleDialog ?: SingleDialog()
 
@@ -247,9 +222,6 @@ object DialogFactory {
             const val MELODY_PERMISSION = "${PREFIX}_MELODY_PERMISSION"
             const val MELODY = "${PREFIX}_MELODY"
             const val VOLUME = "${PREFIX}_VOLUME"
-
-            const val IMPORT_PERMISSION = "${PREFIX}_IMPORT_PERMISSION"
-            const val IMPORT = "${PREFIX}_IMPORT"
 
             const val SAVE_TIME = "${PREFIX}_SAVE_TIME"
             const val ABOUT = "${PREFIX}_ABOUT"

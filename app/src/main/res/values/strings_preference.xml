@@ -5,7 +5,6 @@
     <string name="header_note">Notes</string>
     <string name="header_notification">Notifications</string>
     <string name="header_save">Save</string>
-    <string name="header_backup">Backup</string>
     <string name="header_other">Other</string>
 
     <!---->
@@ -24,9 +23,6 @@
     <string name="title_save_pause">Save when application paused</string>
     <string name="title_save_auto">Auto save</string>
     <string name="title_save_time">Period</string>
-
-    <string name="title_backup_export">Save data to file</string>
-    <string name="title_backup_import">Load data from file</string>
 
     <string name="title_other_rate">Rate</string>
     <string name="title_other_about">About app</string>
@@ -113,9 +109,6 @@
     <string name="key_save_pause" translatable="false">key_save_pause</string>
     <string name="key_save_auto" translatable="false">key_save_auto</string>
     <string name="key_save_time" translatable="false">key_save_time</string>
-
-    <string name="key_backup_export" translatable="false">key_backup_export</string>
-    <string name="key_backup_import" translatable="false">key_backup_import</string>
     
     <string name="key_other_rate" translatable="false">key_rate</string>
     <string name="key_other_about" translatable="false">key_about</string>

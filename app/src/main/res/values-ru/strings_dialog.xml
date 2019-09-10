@@ -32,14 +32,6 @@
         приложению необходимо ваше разрешение. Иначе некоторые мелодии будут не доступны для вас.
     </string>
 
-    <string name="dialog_title_import_permission">Требуется разрешение</string>
-    <string name="dialog_text_import_permission">
-        Для поиска файлов находящихся на SD карте, приложению необходимо ваше разрешение.
-        Иначе некоторые файлы будут не доступны для вас.
-    </string>
-
-    <string name="dialog_title_import">Выберите файл</string>
-
     <!-- Dialog menu buttons -->
     <string name="dialog_menu_delete">Удалить</string>
     <string name="dialog_menu_clear">Удалить навсегда</string>

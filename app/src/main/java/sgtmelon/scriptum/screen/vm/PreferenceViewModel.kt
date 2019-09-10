@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.vm
 import android.content.Context
 import android.os.Bundle
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -35,7 +34,6 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             setupNote()
             setupNotification(melodyList.map { it.title }.toTypedArray())
             setupSave()
-            setupBackup(arrayOf("1", "2", "3", "4", "5"))
             setupOther()
 
             updateThemeSummary(summary.theme[iPreferenceRepo.theme])
@@ -137,21 +135,6 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     override fun onResultSaveTime(value: Int) {
         iPreferenceRepo.savePeriod = value
         callback?.updateSaveTimeSummary(summary.saveTime[value])
-    }
-
-
-    override fun onClickExport() = alwaysTrue { context.showToast("Export") }
-
-    override fun onClickImport(result: PermissionResult) = alwaysTrue {
-        if (result == PermissionResult.ALLOWED) {
-            callback?.showImportPermissionDialog()
-        } else {
-            callback?.showImportDialog()
-        }
-    }
-
-    override fun onResultImport(check: Int) {
-        context.showToast("check = $check")
     }
 
 

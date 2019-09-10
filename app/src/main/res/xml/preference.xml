@@ -83,18 +83,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/header_backup">
-
-        <Preference
-                android:key="@string/key_backup_export"
-                android:title="@string/title_backup_export" />
-
-        <Preference
-                android:key="@string/key_backup_import"
-                android:title="@string/title_backup_import" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/header_other">
 
         <Preference

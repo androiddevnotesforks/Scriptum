@@ -33,14 +33,6 @@
         Otherwise some ringtones will not be available to you.
     </string>
 
-    <string name="dialog_title_import_permission">Required permission</string>
-    <string name="dialog_text_import_permission">
-        In order to find files located on the SD card, application needs your permission.
-        Otherwise some files will not be available to you.
-    </string>
-
-    <string name="dialog_title_import">Choose file</string>
-
     <!-- Dialog menu buttons -->
     <string name="dialog_menu_delete">Delete</string>
     <string name="dialog_menu_restore">Restore</string>

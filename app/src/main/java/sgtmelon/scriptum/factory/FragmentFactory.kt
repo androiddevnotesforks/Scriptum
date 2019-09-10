@@ -12,7 +12,7 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
  *
  * @author SerjantArbuz
  */
-class FragmentFactory() {
+object FragmentFactory {
 
     class Note(private val fm: FragmentManager) {
 
