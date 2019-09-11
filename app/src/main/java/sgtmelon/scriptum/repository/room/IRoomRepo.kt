@@ -33,9 +33,9 @@ interface IRoomRepo {
     fun getRankCount(): Boolean
 
     /**
-     * @throws NullPointerException когда заметка не сохранена в базу данных и [NoteEntity.id] == [NoteData.Default.ID]
+     * Return null if note not found in DataBase or [NoteEntity.id] == [NoteData.Default.ID]
      */
-    fun getNoteModel(id: Long): NoteModel
+    fun getNoteModel(id: Long): NoteModel?
 
     /**
      * @return Список с именами всех категорий

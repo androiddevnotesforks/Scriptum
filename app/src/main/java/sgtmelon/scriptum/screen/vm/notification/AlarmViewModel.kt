@@ -31,8 +31,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private var id: Long = NoteData.Default.ID
     private var color: Int = iPreferenceRepo.defaultColor
 
-    private lateinit var noteModel: NoteModel
-    private lateinit var signalState: SignalState
+    private var noteModel: NoteModel? = null
+    private var signalState: SignalState? = null
 
     private val vibratorHandler = Handler()
     private val vibratorRunnable = object : Runnable {
@@ -66,17 +66,23 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             color = bundle.getInt(NoteData.Intent.COLOR, iPreferenceRepo.defaultColor)
         }
 
-        if (!::noteModel.isInitialized) {
+        if (noteModel == null) {
             /**
              * Delete before get [noteModel] for hide alarm icon
              */
             iAlarmRepo.delete(id)
 
-            noteModel = iRoomRepo.getNoteModel(id)
+            iRoomRepo.getNoteModel(id)?.let {
+                noteModel = it
+            } ?: run {
+                callback?.finish()
+                return
+            }
+
             signalState = iPreferenceRepo.signalState
         }
 
-        callback?.notifyDataSetChanged(noteModel)
+        noteModel?.let { callback?.notifyDataSetChanged(it) }
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {
@@ -94,11 +100,11 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             it.startButtonFadeInAnimation()
         }
 
-        if (signalState.isMelody) {
+        if (signalState?.isMelody == true) {
             callback?.melodyStart()
         }
 
-        if (signalState.isVibration) {
+        if (signalState?.isVibration == true) {
             vibratorHandler.postDelayed(vibratorRunnable, START_DELAY)
         }
 
@@ -106,18 +112,20 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        if (signalState.isMelody) {
+        val noteModel = noteModel
+
+        if (signalState?.isMelody == true) {
             callback?.melodyStop()
         }
 
-        if (signalState.isVibration) {
+        if (signalState?.isVibration == true) {
             callback?.vibrateCancel()
             vibratorHandler.removeCallbacks(vibratorRunnable)
         }
 
         longWaitHandler.removeCallbacks(longWaitRunnable)
 
-        if (needRepeat) {
+        if (needRepeat && noteModel != null) {
             val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
             val repeat = iPreferenceRepo.repeat
 
@@ -137,6 +145,8 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onClickNote() {
+        val noteModel = noteModel ?: return
+
         needRepeat = false
 
         callback?.apply {

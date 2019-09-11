@@ -75,7 +75,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
                 noteState = NoteState(isCreate = true)
             } else {
-                noteModel = iRoomRepo.getNoteModel(id)
+                iRoomRepo.getNoteModel(id)?.let {
+                    noteModel = it
+                } ?: run {
+                    parentCallback?.finish()
+                    return
+                }
 
                 BindControl(context, noteModel).updateBind(rankIdVisibleList)
 
@@ -355,7 +360,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         if (id == NoteData.Default.ID) return false
 
         val colorFrom = noteModel.noteEntity.color
-        noteModel = iRoomRepo.getNoteModel(id)
+
+        iRoomRepo.getNoteModel(id)?.let {
+            noteModel = it
+        } ?: run {
+            parentCallback?.finish()
+            return false
+        }
 
         callback?.notifyDataSetChanged(noteModel.rollList)
         onMenuEdit(editMode = false)

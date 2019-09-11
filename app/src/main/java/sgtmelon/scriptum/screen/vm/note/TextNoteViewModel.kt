@@ -69,7 +69,12 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
                 noteState = NoteState(isCreate = true)
             } else {
-                noteModel = iRoomRepo.getNoteModel(id)
+                iRoomRepo.getNoteModel(id)?.let {
+                    noteModel = it
+                } ?: run {
+                    parentCallback?.finish()
+                    return
+                }
 
                 BindControl(context, noteModel.noteEntity).updateBind(rankIdVisibleList)
 
@@ -267,7 +272,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         if (id == NoteData.Default.ID) return false
 
         val colorFrom = noteModel.noteEntity.color
-        noteModel = iRoomRepo.getNoteModel(id)
+
+        iRoomRepo.getNoteModel(id)?.let {
+            noteModel = it
+        } ?: run {
+            parentCallback?.finish()
+            return false
+        }
 
         onMenuEdit(editMode = false)
         callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)

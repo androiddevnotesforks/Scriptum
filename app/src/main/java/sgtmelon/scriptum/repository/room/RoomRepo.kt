@@ -134,16 +134,20 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         return count == 0
     }
 
-    override fun getNoteModel(id: Long): NoteModel {
-        if (id == NoteData.Default.ID) throw NullPointerException("You try to get note with no id")
+    override fun getNoteModel(id: Long): NoteModel? {
+        if (id == NoteData.Default.ID) return null
 
-        val noteModel: NoteModel
+        val noteModel: NoteModel?
 
         openRoom().apply {
-            noteModel = NoteModel(
-                    noteEntity = iNoteDao[id] ?: NoteEntity(),
-                    rollList = iRollDao[id],
-                    alarmEntity = iAlarmDao[id] ?: AlarmEntity(noteId = id))
+            val noteEntity = iNoteDao[id]
+            val alarmEntity = iAlarmDao[id] ?: AlarmEntity(noteId = id)
+
+            noteModel = if (noteEntity != null) {
+                NoteModel(noteEntity, iRollDao[id], alarmEntity)
+            } else {
+                null
+            }
         }.close()
 
         return noteModel
