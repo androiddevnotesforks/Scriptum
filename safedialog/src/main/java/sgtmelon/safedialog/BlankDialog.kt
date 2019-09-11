@@ -43,7 +43,7 @@ abstract class BlankDialog : DialogFragment() {
     }
 
     /**
-     * Func
+     * Func for setup child view's of custom view
      */
     @CallSuper protected open fun setupView() {}
 

@@ -48,6 +48,7 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
                 .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()
+                .apply { window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE) }
     }
 
     override fun onSaveInstanceState(outState: Bundle) =
@@ -57,7 +58,6 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
                 putStringArrayList(VALUE, nameList)
             })
 
-    // TODO not show keyboard
     override fun setupView() {
         super.setupView()
 
@@ -70,8 +70,6 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
             requestFocus()
         }
-
-        dialog?.window?.setSoftInputMode(SOFT_INPUT_STATE_VISIBLE)
     }
 
     override fun setEnable() {

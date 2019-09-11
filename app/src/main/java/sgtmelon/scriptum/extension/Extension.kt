@@ -27,7 +27,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.room.RoomRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 
-fun <T: ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int) : T =
+fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T =
         DataBindingUtil.setContentView(this, layoutId)
 
 fun <T : ViewDataBinding> LayoutInflater.inflateBinding(@LayoutRes layoutId: Int, parent: ViewGroup?,
