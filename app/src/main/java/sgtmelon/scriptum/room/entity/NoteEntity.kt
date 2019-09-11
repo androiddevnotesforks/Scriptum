@@ -19,20 +19,18 @@ import sgtmelon.scriptum.room.converter.NoteTypeConverter
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)
 data class NoteEntity(
-        @ColumnInfo(name = Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = 0,
-        @ColumnInfo(name = Note.CREATE) var create: String = "",
-        @ColumnInfo(name = Note.CHANGE) var change: String = "",
-        @ColumnInfo(name = Note.NAME) var name: String = "",
-        @ColumnInfo(name = Note.TEXT) var text: String = "",
-        @ColumnInfo(name = Note.COLOR) @Color var color: Int = 0,
+        @ColumnInfo(name = Note.ID) @PrimaryKey(autoGenerate = true) var id: Long = ND_ID,
+        @ColumnInfo(name = Note.CREATE) var create: String = ND_CREATE,
+        @ColumnInfo(name = Note.CHANGE) var change: String = ND_CHANGE,
+        @ColumnInfo(name = Note.NAME) var name: String = ND_NAME,
+        @ColumnInfo(name = Note.TEXT) var text: String = ND_TEXT,
+        @ColumnInfo(name = Note.COLOR) @Color var color: Int = ND_COLOR,
         @ColumnInfo(name = Note.TYPE) var type: NoteType = NoteType.TEXT,
         @ColumnInfo(name = Note.RANK_ID) var rankId: Long = ND_RANK_ID,
         @ColumnInfo(name = Note.RANK_PS) var rankPs: Int = ND_RANK_PS,
-        @ColumnInfo(name = Note.BIN) var isBin: Boolean = false,
-        @ColumnInfo(name = Note.STATUS) var isStatus: Boolean = false
+        @ColumnInfo(name = Note.BIN) var isBin: Boolean = ND_BIN,
+        @ColumnInfo(name = Note.STATUS) var isStatus: Boolean = ND_STATUS
 ) {
-
-    // TODO #RELEASE2 add ND_.. values for all
 
     fun setCompleteText(check: Int, size: Int) {
         text = "$check/$size"
@@ -48,8 +46,16 @@ data class NoteEntity(
             rankId != ND_RANK_ID && !rankIdVisibleList.contains(rankId)
 
     companion object {
+        const val ND_ID = 0L
+        const val ND_CREATE = ""
+        const val ND_CHANGE = ""
+        const val ND_NAME = ""
+        const val ND_TEXT = ""
+        const val ND_COLOR = 0
         const val ND_RANK_ID = -1L
         const val ND_RANK_PS = -1
+        const val ND_BIN = false
+        const val ND_STATUS = false
     }
 
 }
