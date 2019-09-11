@@ -13,11 +13,12 @@ import sgtmelon.iconanim.IconAnimControl
 import sgtmelon.iconanim.R
 
 /**
- * Кнопка с автоматизацией процесса смены иконки
+ * Button with automatic icon change
+ *
+ * @author SerjantArbuz
  */
-open class SwitchButton(internal val context:
-                        Context, attrs: AttributeSet
-) : AppCompatImageButton(context, attrs),
+open class SwitchButton(context: Context, attrs: AttributeSet)
+    : AppCompatImageButton(context, attrs),
         IconAnimControl.Callback {
 
     @DrawableRes protected val srcDisable: Int
@@ -28,45 +29,37 @@ open class SwitchButton(internal val context:
     @ColorInt protected val srcDisableColor: Int
     @ColorInt protected val srcSelectColor: Int
 
-    protected val drawableDisable: Drawable?
-    protected val drawableSelect: Drawable?
-
     init {
         val array = context.obtainStyledAttributes(attrs, R.styleable.SwitchButton)
 
-        srcDisable = array.getResourceId(R.styleable.SwitchButton_srcDisable, SRC_NULL)
-        srcSelect = array.getResourceId(R.styleable.SwitchButton_srcSelect, SRC_NULL)
+        srcDisable = array.getResourceId(R.styleable.SwitchButton_srcDisable, ND_SRC)
+        srcSelect = array.getResourceId(R.styleable.SwitchButton_srcSelect, ND_SRC)
 
-        srcDisableAnim = array.getResourceId(R.styleable.SwitchButton_srcDisableAnim, SRC_NULL)
-        srcSelectAnim = array.getResourceId(R.styleable.SwitchButton_srcSelectAnim, SRC_NULL)
+        srcDisableAnim = array.getResourceId(R.styleable.SwitchButton_srcDisableAnim, ND_SRC)
+        srcSelectAnim = array.getResourceId(R.styleable.SwitchButton_srcSelectAnim, ND_SRC)
 
         srcDisableColor = array.getColor(R.styleable.SwitchButton_srcDisableColor, Color.BLACK)
         srcSelectColor = array.getColor(R.styleable.SwitchButton_srcSelectColor, Color.BLACK)
 
         array.recycle()
-
-        if (srcDisable != SRC_NULL) {
-            drawableDisable = ContextCompat.getDrawable(context, srcDisable)
-            drawableDisable?.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP)
-        } else {
-            drawableDisable = null
-        }
-
-        if (srcSelect != SRC_NULL) {
-            drawableSelect = ContextCompat.getDrawable(context, srcSelect)
-            drawableSelect?.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
-        } else {
-            drawableSelect = null
-        }
     }
 
-    override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
-        setImageDrawable(if (drawableOn) drawableSelect
-        else drawableDisable)
+    protected val iconDisable: Drawable? =
+            if (srcDisable != ND_SRC) ContextCompat.getDrawable(context, srcDisable) else null
+
+    protected val iconSelect: Drawable? =
+            if (srcSelect != ND_SRC) ContextCompat.getDrawable(context, srcSelect) else null
+
+    init {
+        iconDisable?.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP)
+        iconSelect?.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
     }
+
+    override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) =
+            setImageDrawable(if (drawableOn) iconSelect else iconDisable)
 
     companion object {
-        const val SRC_NULL = -1
+        const val ND_SRC = -1
     }
 
 }

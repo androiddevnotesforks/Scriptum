@@ -7,22 +7,26 @@ import android.os.Handler
 import androidx.annotation.RequiresApi
 
 /**
- * Handler для регистрации начала и конца анимации
+ * Handler for register animation start/end
+ *
+ * @author SerjantArbuz
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class IconAnimControl(context: Context,
-                      val animOn: AnimatedVectorDrawable?,
-                      val animOff: AnimatedVectorDrawable?,
-                      private val callback: Callback) {
+class IconAnimControl(
+        context: Context,
+        val iconAnimOn: AnimatedVectorDrawable?,
+        val iconAnimOff: AnimatedVectorDrawable?,
+        private val callback: Callback
+) {
 
     private val animTime: Int = context.resources.getInteger(android.R.integer.config_shortAnimTime)
 
     private val animHandler = Handler()
 
     private val animRunnable: Runnable = Runnable {
-        if (animOn == null || animOff == null) return@Runnable
+        if (iconAnimOn == null || iconAnimOff == null) return@Runnable
 
-        if (animOn.isRunning || animOff.isRunning) {
+        if (iconAnimOn.isRunning || iconAnimOff.isRunning) {
             waitAnimationEnd()
         } else {
             callback.setDrawable(animState, needAnim = false)

@@ -10,53 +10,46 @@ import androidx.core.content.ContextCompat
 import sgtmelon.iconanim.IconAnimControl
 
 /**
- * Версия [SwitchButton] с анимацией иконок при их смене
+ * Version of [SwitchButton] with icon animation on switch
+ *
+ * @author SerjantArbuz
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(context, attrs) {
 
-    private val iconAnimControl: IconAnimControl?
+    private val iconDisableAnim = if (srcDisableAnim != ND_SRC) {
+        ContextCompat.getDrawable(context, srcDisableAnim) as? AnimatedVectorDrawable
+    } else {
+        null
+    }
 
-    private val drawableDisableAnim: AnimatedVectorDrawable?
-    private val drawableSelectAnim: AnimatedVectorDrawable?
+    private val iconSelectAnim = if (srcSelectAnim != ND_SRC) {
+        ContextCompat.getDrawable(context, srcSelectAnim) as? AnimatedVectorDrawable
+    } else {
+        null
+    }
+
+    private val iconAnimControl: IconAnimControl = IconAnimControl(
+            context, iconSelectAnim, iconDisableAnim, this
+    )
 
     init {
-        if (srcDisableAnim != SRC_NULL) {
-            drawableDisableAnim = ContextCompat.getDrawable(getContext(), srcDisableAnim)
-                    as AnimatedVectorDrawable?
-            drawableDisableAnim?.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP)
-        } else {
-            drawableDisableAnim = null
-        }
-
-        if (srcSelectAnim != SRC_NULL) {
-            drawableSelectAnim = ContextCompat.getDrawable(getContext(), srcSelectAnim)
-                    as AnimatedVectorDrawable?
-            drawableSelectAnim!!.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
-        } else {
-            drawableSelectAnim = null
-        }
-
-        iconAnimControl = if (drawableSelectAnim != null && drawableDisableAnim != null) {
-            IconAnimControl(getContext(), drawableSelectAnim, drawableDisableAnim, this)
-        } else {
-            null
-        }
-
+        iconDisableAnim?.setColorFilter(srcDisableColor, PorterDuff.Mode.SRC_ATOP)
+        iconSelectAnim?.setColorFilter(srcSelectColor, PorterDuff.Mode.SRC_ATOP)
     }
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            setImageDrawable(if (drawableOn) drawableSelect else drawableDisable)
-        } else if (iconAnimControl != null) {
+            setImageDrawable(if (drawableOn) iconSelect else iconDisable)
+        } else {
             iconAnimControl.animState = drawableOn
-            if (drawableOn) {
-                setImageDrawable(iconAnimControl.animOn)
-                iconAnimControl.animOn?.start()
+
+            setImageDrawable(if (drawableOn) {
+                iconAnimControl.iconAnimOn?.apply { start() }
             } else {
-                setImageDrawable(iconAnimControl.animOff)
-                iconAnimControl.animOff?.start()
-            }
+                iconAnimControl.iconAnimOff?.apply { start() }
+            })
+
             iconAnimControl.waitAnimationEnd()
         }
     }

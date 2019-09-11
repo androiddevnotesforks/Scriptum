@@ -39,13 +39,13 @@ class MenuControlAnim(
             toolbar?.navigationIcon = if (drawableOn) cancelOn else cancelOff
         } else {
             iconAnimControl.animState = drawableOn
-            if (drawableOn) {
-                toolbar?.navigationIcon = iconAnimControl.animOn
-                iconAnimControl.animOn?.start()
+
+            toolbar?.navigationIcon = if (drawableOn) {
+                iconAnimControl.iconAnimOn?.apply { start() }
             } else {
-                toolbar?.navigationIcon = iconAnimControl.animOff
-                iconAnimControl.animOff?.start()
+                iconAnimControl.iconAnimOff?.apply { start() }
             }
+
             iconAnimControl.waitAnimationEnd()
         }
     }
