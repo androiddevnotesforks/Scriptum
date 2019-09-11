@@ -82,8 +82,6 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     private var recyclerView: RecyclerView? = null
 
     private var parentContainer: ViewGroup? = null
-    private var enterContainer: View? = null
-
     private var panelContainer: ViewGroup? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -100,8 +98,6 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         iViewModel.onSetup(arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
-        enterContainer = view.findViewById(R.id.roll_note_enter_container)
-
         panelContainer = view.findViewById(R.id.roll_note_content_container)
     }
 

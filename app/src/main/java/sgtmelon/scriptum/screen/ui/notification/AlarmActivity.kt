@@ -24,6 +24,7 @@ import sgtmelon.scriptum.control.alarm.VibratorControl
 import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
+import sgtmelon.scriptum.extension.hideKeyboard
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
@@ -74,6 +75,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         iViewModel.onSetup(bundle = savedInstanceState ?: intent.extras)
 
         parentContainer?.afterLayoutConfiguration { iViewModel.onStart() }
+
+        /**
+         * If keyboard was open in another app
+         */
+        hideKeyboard()
     }
 
     override fun onDestroy() {
