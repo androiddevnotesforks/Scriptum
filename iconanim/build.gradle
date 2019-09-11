@@ -27,6 +27,8 @@ android {
 }
 
 dependencies {
+    implementation project(":extension")
+
     implementation jetbrains.kotlin
 
     implementation androidx.appcompat

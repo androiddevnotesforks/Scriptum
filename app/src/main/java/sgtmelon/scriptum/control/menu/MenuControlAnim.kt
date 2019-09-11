@@ -13,7 +13,11 @@ import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.model.annotation.Theme
 
 /**
- * Класс для контроля меню с использованием анимации | Для версий API >= 21
+ * Version of [MenuControl] with icon animation on switch
+ *
+ * Use only for API version >= 21
+ *
+ * @author SerjantArbuz
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class MenuControlAnim(
@@ -25,10 +29,10 @@ class MenuControlAnim(
 ) : MenuControl(theme, context, window, toolbar, indicator) {
 
     private val cancelOnAnim = context.getTintDrawable(R.drawable.anim_cancel_enter)
-            as? AnimatedVectorDrawable?
+            as? AnimatedVectorDrawable
 
     private val cancelOffAnim = context.getTintDrawable(R.drawable.anim_cancel_exit)
-            as? AnimatedVectorDrawable?
+            as? AnimatedVectorDrawable
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(
             context, cancelOnAnim, cancelOffAnim, callback = this
@@ -36,14 +40,14 @@ class MenuControlAnim(
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            toolbar?.navigationIcon = if (drawableOn) cancelOn else cancelOff
+            super.setDrawable(drawableOn, needAnim)
         } else {
             iconAnimControl.animState = drawableOn
 
             toolbar?.navigationIcon = if (drawableOn) {
-                iconAnimControl.iconAnimOn?.apply { start() }
+                iconAnimControl.iconOn?.apply { start() }
             } else {
-                iconAnimControl.iconAnimOff?.apply { start() }
+                iconAnimControl.iconOff?.apply { start() }
             }
 
             iconAnimControl.waitAnimationEnd()

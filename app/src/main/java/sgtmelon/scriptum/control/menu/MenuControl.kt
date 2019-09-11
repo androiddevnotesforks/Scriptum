@@ -7,18 +7,25 @@ import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.appcompat.widget.Toolbar
-import sgtmelon.iconanim.IconAnimControl
+import sgtmelon.extension.getShortAnimTime
+import sgtmelon.iconanim.IconCallback
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.extension.blend
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.getAppThemeColor
 import sgtmelon.scriptum.extension.getTintDrawable
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.ColorShade
+import sgtmelon.scriptum.model.state.MenuColorState
+import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
+import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 
 /**
- * Класс для контроля меню | Для версий API < 21
+ * Control menu of [TextNoteFragment], [RollNoteFragment] without animation
+ *
+ * Use only for API version < 21
+ *
+ * @author SerjantArbuz
  */
 open class MenuControl(
         @Theme private val theme: Int,
@@ -26,23 +33,20 @@ open class MenuControl(
         private val window: Window,
         protected val toolbar: Toolbar?,
         private val indicator: View?
-) : IconAnimControl.Callback {
+) : IconCallback {
 
     // TODO сделать общение с классом через Interface
 
     private val statusOnDark = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
 
-    private val anim: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
+    private val colorAnimator: ValueAnimator = ValueAnimator.ofFloat(0F, 1F)
 
-    protected val cancelOn: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_enter)
-    protected val cancelOff: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_exit)
+    private val cancelOn: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_enter)
+    private val cancelOff: Drawable? = context.getTintDrawable(R.drawable.ic_cancel_exit)
 
-    private var statusColorFrom: Int = 0
-    private var statusColorTo: Int = 0
-    private var toolbarColorFrom: Int = 0
-    private var toolbarColorTo: Int = 0
-    private var indicatorColorFrom: Int = 0
-    private var indicatorColorTo: Int = 0
+    private val statusState = MenuColorState()
+    private val toolbarState = MenuColorState()
+    private val indicatorState = MenuColorState()
 
     init {
         val updateListener = ValueAnimator.AnimatorUpdateListener {
@@ -50,27 +54,27 @@ open class MenuControl(
             var blended: Int
 
             if (theme != Theme.DARK && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                blended = statusColorFrom.blend(statusColorTo, position)
+                blended = statusState.blend(position)
                 window.statusBarColor = blended
             }
 
-            blended = toolbarColorFrom.blend(toolbarColorTo, position)
+            blended = toolbarState.blend(position)
             if (theme != Theme.DARK) toolbar?.setBackgroundColor(blended)
 
-            blended = indicatorColorFrom.blend(indicatorColorTo, position)
+            blended = indicatorState.blend(position)
             if (theme == Theme.DARK) indicator?.setBackgroundColor(blended)
         }
 
-        anim.addUpdateListener(updateListener)
-        anim.duration = context.resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
+        colorAnimator.addUpdateListener(updateListener)
+        colorAnimator.duration = context.getShortAnimTime()
     }
 
     /**
-     * Установка цвета для UI
+     * Set colors for UI
      *
      * @param color - Начальный цвет
      */
-    fun setColor(@Color color: Int) : MenuControl {
+    fun setColor(@Color color: Int) = apply {
         if (theme != Theme.DARK) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 window.statusBarColor = context.getAppThemeColor(color, statusOnDark)
@@ -80,35 +84,32 @@ open class MenuControl(
 
         indicator?.setBackgroundColor(context.getAppThemeColor(color, true))
 
-        return setColorFrom(color)
+        setColorFrom(color)
+    }
+
+    fun setColorFrom(@Color color: Int) = apply {
+        statusState.from = context.getAppThemeColor(color, statusOnDark)
+        toolbarState.from = context.getAppThemeColor(color, needDark = false)
+        indicatorState.from = context.getAppSimpleColor(color, ColorShade.DARK)
     }
 
     /**
-     * Установка начального цвета, [color] - начальный цвет
-     */
-    fun setColorFrom(@Color color: Int): MenuControl {
-        statusColorFrom = context.getAppThemeColor(color, statusOnDark)
-        toolbarColorFrom = context.getAppThemeColor(color, needDark = false)
-        indicatorColorFrom = context.getAppSimpleColor(color, ColorShade.DARK)
-
-        return this
-    }
-
-    /**
-     * Покраска UI элементов с анимацией, [color] - конечный цвет
+     * Set end [color] and start animation if need
      */
     fun startTint(@Color color: Int) {
-        statusColorTo = context.getAppThemeColor(color, statusOnDark)
-        toolbarColorTo = context.getAppThemeColor(color, needDark = false)
-        indicatorColorTo = context.getAppSimpleColor(color, ColorShade.DARK)
+        statusState.to = context.getAppThemeColor(color, statusOnDark)
+        toolbarState.to = context.getAppThemeColor(color, needDark = false)
+        indicatorState.to = context.getAppSimpleColor(color, ColorShade.DARK)
 
-        if (statusColorFrom != statusColorTo
-                || toolbarColorFrom != toolbarColorTo
-                || indicatorColorFrom != indicatorColorTo) anim.start()
+        if (statusState.isDifferent()
+                || toolbarState.isDifferent()
+                || indicatorState.isDifferent()) colorAnimator.start()
     }
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         toolbar?.navigationIcon = if (drawableOn) cancelOn else cancelOff
     }
+
+    override fun setEnabled(enabled: Boolean) {}
 
 }

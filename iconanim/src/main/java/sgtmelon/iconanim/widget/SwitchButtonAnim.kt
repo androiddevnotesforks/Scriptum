@@ -30,7 +30,7 @@ class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(con
     }
 
     private val iconAnimControl: IconAnimControl = IconAnimControl(
-            context, iconSelectAnim, iconDisableAnim, this
+            context, iconSelectAnim, iconDisableAnim, callback = this
     )
 
     init {
@@ -40,14 +40,14 @@ class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(con
 
     override fun setDrawable(drawableOn: Boolean, needAnim: Boolean) {
         if (!needAnim) {
-            setImageDrawable(if (drawableOn) iconSelect else iconDisable)
+            super.setDrawable(drawableOn, needAnim)
         } else {
             iconAnimControl.animState = drawableOn
 
             setImageDrawable(if (drawableOn) {
-                iconAnimControl.iconAnimOn?.apply { start() }
+                iconAnimControl.iconOn?.apply { start() }
             } else {
-                iconAnimControl.iconAnimOff?.apply { start() }
+                iconAnimControl.iconOff?.apply { start() }
             })
 
             iconAnimControl.waitAnimationEnd()

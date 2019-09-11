@@ -43,6 +43,8 @@ class ColorDialog : BlankDialog() {
         val recyclerView = RecyclerView(context).apply {
             setPadding(padding, padding, padding, padding)
             overScrollMode = View.OVER_SCROLL_NEVER
+
+            setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.column_color))
 
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false

@@ -37,3 +37,6 @@ fun String.getCalendar(): Calendar {
 fun Calendar.beforeNow() = this.before(Calendar.getInstance())
 
 fun Calendar.afterNow() = this.after(Calendar.getInstance())
+
+fun Context.getShortAnimTime(): Long =
+        resources.getInteger(android.R.integer.config_shortAnimTime).toLong()

@@ -5,7 +5,10 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.util.TypedValue
 import android.view.MenuItem
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import sgtmelon.scriptum.R
@@ -16,7 +19,6 @@ import sgtmelon.scriptum.model.data.ColorData.dark
 import sgtmelon.scriptum.model.data.ColorData.light
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
-import android.graphics.Color as ColorUtil
 
 /**
  * Получение цвета заметки в зависимости от темы и заднего фона
@@ -71,19 +73,4 @@ fun Context.getTintDrawable(@DrawableRes id: Int): Drawable? {
     drawable.setColorFilter(getColorAttr(R.attr.clContent), PorterDuff.Mode.SRC_ATOP)
 
     return drawable
-}
-
-/**
- * Получение RGB промежуточного цвета в записимости от значения трансформации
- * [ratio] - положение трансформации
- * [this] - цвет от которого идёт трансформация
- */
-@ColorInt fun Int.blend(colorTo: Int, @FloatRange(from = 0.0, to = 1.0) ratio: Float): Int {
-    val inverseRatio = 1f - ratio
-
-    val r = ColorUtil.red(colorTo) * ratio + ColorUtil.red(this) * inverseRatio
-    val g = ColorUtil.green(colorTo) * ratio + ColorUtil.green(this) * inverseRatio
-    val b = ColorUtil.blue(colorTo) * ratio + ColorUtil.blue(this) * inverseRatio
-
-    return ColorUtil.rgb(r.toInt(), g.toInt(), b.toInt())
 }

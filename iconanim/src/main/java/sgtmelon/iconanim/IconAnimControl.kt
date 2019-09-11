@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Build
 import android.os.Handler
 import androidx.annotation.RequiresApi
+import sgtmelon.extension.getShortAnimTime
 
 /**
  * Handler for register animation start/end
@@ -14,33 +15,30 @@ import androidx.annotation.RequiresApi
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class IconAnimControl(
         context: Context,
-        val iconAnimOn: AnimatedVectorDrawable?,
-        val iconAnimOff: AnimatedVectorDrawable?,
-        private val callback: Callback
+        val iconOn: AnimatedVectorDrawable?,
+        val iconOff: AnimatedVectorDrawable?,
+        private val callback: IconCallback
 ) {
 
-    private val animTime: Int = context.resources.getInteger(android.R.integer.config_shortAnimTime)
+    var animState: Boolean = false
+
+    private val time = context.getShortAnimTime()
 
     private val animHandler = Handler()
-
     private val animRunnable: Runnable = Runnable {
-        if (iconAnimOn == null || iconAnimOff == null) return@Runnable
+        if (iconOn == null || iconOff == null) return@Runnable
 
-        if (iconAnimOn.isRunning || iconAnimOff.isRunning) {
+        if (iconOn.isRunning || iconOff.isRunning) {
             waitAnimationEnd()
         } else {
+            callback.setEnabled(enabled = true)
             callback.setDrawable(animState, needAnim = false)
         }
     }
 
-    var animState: Boolean = false
-
     fun waitAnimationEnd() {
-        animHandler.postDelayed(animRunnable, animTime.toLong())
-    }
-
-    interface Callback {
-        fun setDrawable(drawableOn: Boolean, needAnim: Boolean)
+        callback.setEnabled(enabled = false)
+        animHandler.postDelayed(animRunnable, time)
     }
 
 }
