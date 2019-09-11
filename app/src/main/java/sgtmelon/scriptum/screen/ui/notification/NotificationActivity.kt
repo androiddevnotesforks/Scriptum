@@ -92,6 +92,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
             }
 
+            it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(this)
             it.adapter = adapter
         }

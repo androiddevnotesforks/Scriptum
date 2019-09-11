@@ -117,6 +117,7 @@ class BinFragment : Fragment(), IBinFragment {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
             }
 
+            it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
         }

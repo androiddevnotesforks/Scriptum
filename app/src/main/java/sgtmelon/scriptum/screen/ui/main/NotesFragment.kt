@@ -123,13 +123,14 @@ class NotesFragment : Fragment(), INotesFragment {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) = bind()
             }
 
+            it.setHasFixedSize(true)
             it.layoutManager = LinearLayoutManager(context)
             it.adapter = adapter
 
             it.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
-                    mainCallback?.changeFabState(dy <= 0)
+                    mainCallback?.changeFabState(state = dy <= 0)
                 }
             })
         }

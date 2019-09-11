@@ -245,6 +245,8 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         recyclerView = view?.findViewById(R.id.roll_note_recycler)
         recyclerView?.let {
             (it.itemAnimator as? SimpleItemAnimator?)?.supportsChangeAnimations = false
+
+            it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter
         }

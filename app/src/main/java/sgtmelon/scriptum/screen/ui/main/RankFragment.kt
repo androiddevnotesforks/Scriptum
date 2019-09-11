@@ -125,6 +125,8 @@ class RankFragment : Fragment(), IRankFragment {
                 override fun onAnimationFinished(viewHolder: RecyclerView.ViewHolder) =
                         bindList(adapter.itemCount)
             }
+
+            it.setHasFixedSize(true)
             it.layoutManager = layoutManager
             it.adapter = adapter
         }
