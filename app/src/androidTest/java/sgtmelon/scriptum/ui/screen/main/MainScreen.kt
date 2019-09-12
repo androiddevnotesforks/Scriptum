@@ -19,6 +19,12 @@ class MainScreen : ParentUi() {
 
     fun assert(func: Assert.() -> Unit = {}) = Assert().apply { func() }
 
+    fun openPage(page: MainPage, empty: Boolean = false) = when(page) {
+        MainPage.RANK -> openRankPage(empty)
+        MainPage.NOTES -> openNotesPage(empty)
+        MainPage.BIN -> openBinPage(empty)
+    }
+
     fun openRankPage(empty: Boolean = false, func: RankScreen.() -> Unit = {}) {
         wasNavigate = true
         onNavigateTo(MainPage.RANK)
@@ -78,7 +84,6 @@ class MainScreen : ParentUi() {
     }
 
     class Assert : BasicMatch() {
-
         init {
             onDisplay(R.id.main_parent_container)
             onDisplay(R.id.main_toolbar_holder)

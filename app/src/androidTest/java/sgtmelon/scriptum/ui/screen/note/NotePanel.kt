@@ -96,7 +96,6 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
     }
 
     class Assert(callback: INoteScreen) : BasicMatch() {
-
         init {
             with(callback) {
                 onDisplay(R.id.note_panel_container)
@@ -137,7 +136,6 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
                 }
             }
         }
-
     }
 
 }

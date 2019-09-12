@@ -4,6 +4,7 @@ import android.content.Context
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getCheck
+import sgtmelon.scriptum.getFutureTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
@@ -41,15 +42,13 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             type = NoteType.ROLL
         }
 
-    val rollList = object : ArrayList<RollEntity>() {
-        init {
-            for (i in 0 until 10) {
-                add(RollEntity().apply {
-                    position = i
-                    isCheck = Random.nextBoolean()
-                    text = i.toString() + " | " + context.getString(R.string.test_roll_text)
-                })
-            }
+    val rollList = ArrayList<RollEntity>().apply {
+        (0 until 10).forEach {
+            add(RollEntity().apply {
+                position = it
+                isCheck = Random.nextBoolean()
+                text = "$it | ${context.getString(R.string.test_roll_text)}"
+            })
         }
     }
 
@@ -126,7 +125,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertNoteToBin(): NoteModel =
             if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
 
-    fun insertNotification(noteModel: NoteModel, date: String = getTime()): NoteModel {
+    fun insertNotification(noteModel: NoteModel, date: String = getFutureTime()): NoteModel {
         inRoom {
             iAlarmDao.insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = date))
         }
@@ -149,7 +148,9 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
 
     fun fillBin(count: Int = 10) = repeat(count) { insertNoteToBin() }
 
-    fun fillNotification(count: Int = 10) = repeat(count) { insertNotification(insertNote()) }
+    fun fillNotification(count: Int = 10) = repeat(count) {
+        insertNotification(insertNote(), getFutureTime())
+    }
 
 
     fun clear() = apply { inRoom { clearAllTables() } }

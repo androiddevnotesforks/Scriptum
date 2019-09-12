@@ -70,7 +70,6 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     }
 
     class Assert(empty: Boolean) : BasicMatch() {
-
         init {
             onDisplay(R.id.rank_parent_container)
 
@@ -84,7 +83,6 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
                 onDisplay(R.id.rank_recycler)
             }
         }
-
     }
 
 }

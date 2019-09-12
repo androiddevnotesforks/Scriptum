@@ -29,6 +29,8 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
     fun assert(empty: Boolean) = Assert(empty)
 
+    fun onClickClose() = action { onClickToolbarButton() }
+
     fun openText(noteModel: NoteModel, p: Int = positionRandom,
                  func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
@@ -54,7 +56,6 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     }
 
     class NotificationAction {
-
         fun onClick(name: String, @IdRes childId: Int): ViewInteraction =
                 onView(button(name, childId)).perform(click())
 
@@ -66,7 +67,6 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     }
 
     class Assert(empty: Boolean) : BasicMatch() {
-
         init {
             onDisplay(R.id.notification_parent_container)
 
@@ -82,7 +82,6 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
                 onDisplay(R.id.notification_recycler)
             }
         }
-
     }
 
 }

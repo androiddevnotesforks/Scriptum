@@ -16,25 +16,10 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentUiTest() {
 
-    private val pageList = arrayListOf(
-            MainPage.RANK, MainPage.NOTES, MainPage.BIN,
-            MainPage.RANK, MainPage.BIN, MainPage.NOTES
-    )
-
     @Test fun startScreen() = launch { mainScreen() }
 
     @Test fun menuClickCorrectScreen() = launch {
-        mainScreen {
-            repeat(times = 3) {
-                pageList.forEach {
-                    when (it) {
-                        MainPage.RANK -> openRankPage(empty = true)
-                        MainPage.NOTES -> openNotesPage(empty = true)
-                        MainPage.BIN -> openBinPage(empty = true)
-                    }
-                }
-            }
-        }
+        mainScreen { repeat(times = 3) { pageList.forEach { openPage(it, empty = true) } } }
     }
 
     @Test fun addFabVisible() =
@@ -91,6 +76,14 @@ class MainTest : ParentUiTest() {
             openBinPage { onScroll(Scroll.END) }
             onScrollTop(MainPage.BIN)
         }
+    }
+
+
+    private companion object {
+        val pageList = arrayListOf(
+                MainPage.RANK, MainPage.NOTES, MainPage.BIN,
+                MainPage.RANK, MainPage.BIN, MainPage.NOTES
+        )
     }
 
 }

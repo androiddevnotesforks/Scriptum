@@ -51,7 +51,6 @@ class BinScreen() : ParentRecyclerScreen(R.id.bin_recycler) {
     }
 
     class Assert(empty: Boolean) : BasicMatch() {
-
         init {
             onDisplay(R.id.bin_parent_container)
 
@@ -71,7 +70,6 @@ class BinScreen() : ParentRecyclerScreen(R.id.bin_recycler) {
                 onDisplay(R.id.bin_recycler)
             }
         }
-
     }
 
 }

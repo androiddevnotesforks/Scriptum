@@ -55,7 +55,6 @@ class IntroScreen : ParentUi() {
     }
 
     class Assert(p: Int, enabled: Boolean) : BasicMatch() {
-
         init {
             onDisplay(R.id.intro_pager)
             onDisplay(R.id.intro_page_indicator)
@@ -69,7 +68,6 @@ class IntroScreen : ParentUi() {
                 onDisplay(R.id.intro_end_button, R.string.info_intro_button)
             }
         }
-
     }
 
 }

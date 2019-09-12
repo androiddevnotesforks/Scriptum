@@ -58,7 +58,6 @@ class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler)
     }
 
     class Assert(empty: Boolean, hide: Boolean) : BasicMatch() {
-
         init {
             onDisplay(R.id.notes_parent_container)
 
@@ -86,7 +85,6 @@ class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler)
                 onDisplay(R.id.notes_recycler)
             }
         }
-
     }
 
 }

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
@@ -19,7 +19,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 class RollNoteScreen(override var state: State,
         override var noteModel: NoteModel,
         override val isRankEmpty: Boolean
-) : ParentUi(), INoteScreen {
+) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen {
 
     override var shadowModel = NoteModel(noteModel)
 
@@ -66,12 +66,10 @@ class RollNoteScreen(override var state: State,
     }
 
     class Assert(callback: INoteScreen) : BasicMatch() {
-
         init {
             onDisplay(R.id.roll_note_parent_container)
             onDisplay(R.id.roll_note_recycler)
         }
-
     }
 
 }

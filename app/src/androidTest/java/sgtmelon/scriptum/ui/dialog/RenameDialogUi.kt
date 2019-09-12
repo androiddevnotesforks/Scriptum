@@ -47,7 +47,6 @@ class RenameDialogUi(private val title: String) : ParentUi() {
     }
 
     class Assert(title: String, enter: String, enabled: Boolean) : BasicMatch() {
-
         init {
             onDisplay(R.id.rename_parent_container)
             onDisplayText(title, R.id.rename_parent_container)
@@ -63,7 +62,6 @@ class RenameDialogUi(private val title: String) : ParentUi() {
 
             isEnabledText(R.string.dialog_button_accept, enabled)
         }
-
     }
 
 }

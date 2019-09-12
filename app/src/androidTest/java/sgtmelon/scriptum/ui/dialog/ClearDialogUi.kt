@@ -33,7 +33,6 @@ class ClearDialogUi : ParentUi() {
     }
 
     class Assert : BasicMatch() {
-
         init {
             onDisplayText(R.string.dialog_title_clear_bin)
             onDisplayText(R.string.dialog_text_clear_bin)
@@ -41,7 +40,6 @@ class ClearDialogUi : ParentUi() {
             onDisplayText(R.string.dialog_button_yes)
             onDisplayText(R.string.dialog_button_no)
         }
-
     }
 
 }

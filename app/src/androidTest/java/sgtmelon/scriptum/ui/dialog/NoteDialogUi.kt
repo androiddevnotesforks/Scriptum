@@ -71,7 +71,6 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
 
     class Assert(noteModel: NoteModel) : BasicMatch() {
-
         init {
             with(noteModel.noteEntity) {
                 if (isBin) {
@@ -89,7 +88,6 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
                 }
             }
         }
-
     }
 
 }

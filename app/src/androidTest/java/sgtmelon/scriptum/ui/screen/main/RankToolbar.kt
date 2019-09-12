@@ -38,7 +38,6 @@ class RankToolbar : ParentUi() {
     }
 
     class Assert(isClearEnabled: Boolean, isAddEnabled: Boolean) : BasicMatch() {
-
         init {
             onDisplay(R.id.toolbar_rank_container)
             onDisplay(R.id.toolbar_rank_cancel_button)
@@ -48,7 +47,6 @@ class RankToolbar : ParentUi() {
             isEnabled(R.id.toolbar_rank_cancel_button, isClearEnabled)
             isEnabled(R.id.toolbar_rank_add_button, isAddEnabled)
         }
-
     }
 
 }

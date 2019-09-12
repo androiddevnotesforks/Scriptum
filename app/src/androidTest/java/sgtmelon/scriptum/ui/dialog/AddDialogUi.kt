@@ -53,13 +53,11 @@ class AddDialogUi : ParentUi() {
     }
 
     class Assert : BasicMatch() {
-
         init {
             onDisplay(R.id.add_navigation)
             onDisplayText(R.string.dialog_add_text)
             onDisplayText(R.string.dialog_add_roll)
         }
-
     }
 
 }

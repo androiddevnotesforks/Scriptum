@@ -87,7 +87,6 @@ class TextNoteScreen(override var state: State,
     }
 
     class Assert(callback: INoteScreen) : BasicMatch() {
-
         init {
             with(callback) {
                 onDisplay(R.id.text_note_parent_container)
@@ -120,7 +119,6 @@ class TextNoteScreen(override var state: State,
                 }
             }
         }
-
     }
 
 }

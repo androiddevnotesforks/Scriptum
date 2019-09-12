@@ -13,7 +13,7 @@ fun <T> MutableList<T>.clearAndAdd(replace: MutableList<T>) {
     addAll(replace)
 }
 
-fun MutableList<RollEntity>.getCheck(): Int {
+fun List<RollEntity>.getCheck(): Int {
     var rollCheck = 0
     this.forEach { if (it.isCheck) rollCheck++ }
     return rollCheck
