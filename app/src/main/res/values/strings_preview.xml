@@ -18,11 +18,19 @@
     <string name="preview_note_time" translatable="false">25 Авг 2018</string>
     <string name="preview_note_done" translatable="false">3/5</string>
 
-    <string name="preview_rank_name" translatable="false">Название какой-нибудь категории</string>
-    <string name="preview_rank_count" translatable="false">Заметок: 10</string>
+    <string name="preview_rank_name" translatable="false">
+        Название какой-нибудь категории, к которой будут привязаны заметки
+    </string>
+    <string name="preview_rank_count" translatable="false">
+        Заметок: 10 | А сейчас добавлю текст, который не имеет никакого значения
+    </string>
 
-    <string name="preview_notification_name" translatable="false">Обязательно сделать</string>
-    <string name="preview_notification_date" translatable="false">25 авг. 2020г в 10:30</string>
+    <string name="preview_notification_name" translatable="false">
+        Обязательно сделать, очень очень обязательно
+    </string>
+    <string name="preview_notification_date" translatable="false">
+        25 авг. 2020г в 10:30 | Дата уведомления не может быть такой длинной, но всё же
+    </string>
 
     <!-- Activity develop test -->
     <string name="preview_note_data_base" translatable="false">Note Data Base:</string>

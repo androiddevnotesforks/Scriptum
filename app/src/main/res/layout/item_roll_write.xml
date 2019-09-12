@@ -4,11 +4,9 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="sgtmelon.scriptum.R"/>
 
         <variable name="rollEntity" type="sgtmelon.scriptum.room.entity.RollEntity"/>
-
     </data>
 
     <androidx.cardview.widget.CardView

@@ -45,7 +45,8 @@
                     android:importantForAutofill="noExcludeDescendants"
                     android:maxLines="5"
                     tools:ignore="TextFields"
-                    tools:targetApi="o"/>
+                    tools:targetApi="o"
+                    tools:text="@string/preview_note_text" />
 
             <ImageButton
                     android:id="@+id/roll_note_add_button"
