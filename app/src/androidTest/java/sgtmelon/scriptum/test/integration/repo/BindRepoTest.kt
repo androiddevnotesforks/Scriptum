@@ -6,27 +6,27 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.bind.BindRepo
-import sgtmelon.scriptum.repository.room.bind.IBindRepo
+import sgtmelon.scriptum.repository.room.bind.IRoomBindRepo
+import sgtmelon.scriptum.repository.room.bind.RoomBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Integration test for [BindRepo]
+ * Integration test for [RoomBindRepo]
  *
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentIntegrationTest() {
 
-    private val iBindRepo: IBindRepo = BindRepo(context)
+    private val iRoomBindRepo: IRoomBindRepo = RoomBindRepo(context)
 
     @Test fun getRollListOnTextNote() = inRoom {
         textNote.let {
             iNoteDao.insert(it)
 
-            assertTrue(iBindRepo.getRollList(it.id).isEmpty())
+            assertTrue(iRoomBindRepo.getRollList(it.id).isEmpty())
         }
     }
 
@@ -34,11 +34,11 @@ class BindRepoTest : ParentIntegrationTest() {
         rollNote.let {
             iNoteDao.insert(it)
 
-            assertTrue(iBindRepo.getRollList(it.id).isEmpty())
+            assertTrue(iRoomBindRepo.getRollList(it.id).isEmpty())
 
             rollList.forEach { item -> iRollDao.insert(item) }
 
-            assertEquals(rollList, iBindRepo.getRollList(it.id))
+            assertEquals(rollList, iRoomBindRepo.getRollList(it.id))
         }
     }
 
@@ -46,7 +46,7 @@ class BindRepoTest : ParentIntegrationTest() {
         textNote.let {
             iNoteDao.insert(it)
 
-            assertEquals(it.apply { isStatus = false }, iBindRepo.unbindNote(it.id))
+            assertEquals(it.apply { isStatus = false }, iRoomBindRepo.unbindNote(it.id))
             assertEquals(it, iNoteDao[it.id])
         }
     }

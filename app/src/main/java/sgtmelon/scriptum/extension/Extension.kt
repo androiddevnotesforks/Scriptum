@@ -26,6 +26,7 @@ import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.room.RoomRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
+import java.util.*
 
 fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T =
         DataBindingUtil.setContentView(this, layoutId)
@@ -125,3 +126,8 @@ fun String.toUri(): Uri = Uri.parse(this)
  * Extension for fast check permission Granted/Denied
  */
 fun Int.isGranted() = this == PackageManager.PERMISSION_GRANTED
+
+/**
+ * Make string upperCase without warning and wthout arguments
+ */
+fun String.toUpperCase() = toUpperCase(Locale.ROOT)

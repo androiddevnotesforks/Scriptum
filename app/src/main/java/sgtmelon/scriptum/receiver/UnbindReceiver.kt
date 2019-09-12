@@ -9,7 +9,7 @@ import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
-import sgtmelon.scriptum.repository.room.bind.BindRepo
+import sgtmelon.scriptum.repository.room.bind.RoomBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**
@@ -26,7 +26,7 @@ class UnbindReceiver : BroadcastReceiver() {
 
         if (id == Values.ND_NOTE_ID) return
 
-        BindRepo(context).unbindNote(id)?.let {
+        RoomBindRepo(context).unbindNote(id)?.let {
             BindControl(context, it).cancelBind()
         }
 

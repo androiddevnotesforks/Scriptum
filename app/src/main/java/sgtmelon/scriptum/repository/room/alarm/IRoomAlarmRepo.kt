@@ -4,11 +4,11 @@ import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
- * Interface for communication with [AlarmRepo]
+ * Interface for communication with [RoomAlarmRepo]
  *
  * @author SerjantArbuz
  */
-interface IAlarmRepo {
+interface IRoomAlarmRepo {
 
     fun insertOrUpdate(alarmEntity: AlarmEntity)
 

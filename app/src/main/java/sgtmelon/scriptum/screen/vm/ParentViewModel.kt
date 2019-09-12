@@ -8,8 +8,8 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.repository.room.IRoomRepo
 import sgtmelon.scriptum.repository.room.RoomRepo
-import sgtmelon.scriptum.repository.room.alarm.AlarmRepo
-import sgtmelon.scriptum.repository.room.alarm.IAlarmRepo
+import sgtmelon.scriptum.repository.room.alarm.IRoomAlarmRepo
+import sgtmelon.scriptum.repository.room.alarm.RoomAlarmRepo
 
 /**
  * Родительский ViewModel
@@ -22,7 +22,7 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
 
     protected val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
     protected val iRoomRepo: IRoomRepo = RoomRepo(context)
-    protected val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
+    protected val iRoomAlarmRepo: IRoomAlarmRepo = RoomAlarmRepo(context)
 
     var callback: T? = null
 

@@ -14,8 +14,8 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.UnbindReceiver
-import sgtmelon.scriptum.repository.room.bind.BindRepo
-import sgtmelon.scriptum.repository.room.bind.IBindRepo
+import sgtmelon.scriptum.repository.room.bind.IRoomBindRepo
+import sgtmelon.scriptum.repository.room.bind.RoomBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
@@ -27,12 +27,14 @@ import sgtmelon.scriptum.screen.ui.SplashActivity
  */
 class BindControl(private val context: Context, noteModel: NoteModel) {
 
+    // TODO #RELEASE2 It is interactor
+
     /**
      * Конструктор, на случай, если нет списка пунктов для уведомления или он не нужен
      */
     constructor(context: Context, noteEntity: NoteEntity) : this(context, NoteModel(noteEntity))
 
-    private val iBindRepo: IBindRepo = BindRepo(context)
+    private val iRoomBindRepo: IRoomBindRepo = RoomBindRepo(context)
 
     private val noteEntity: NoteEntity = noteModel.noteEntity
 
@@ -56,7 +58,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
             }
             NoteType.ROLL -> {
                 val rollList = with(noteModel.rollList) {
-                    if (isNotEmpty()) this else iBindRepo.getRollList(noteEntity.id)
+                    if (isNotEmpty()) this else iRoomBindRepo.getRollList(noteEntity.id)
                 }
 
                 icon = R.drawable.notif_bind_roll

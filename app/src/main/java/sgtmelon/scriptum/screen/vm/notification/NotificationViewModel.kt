@@ -31,7 +31,7 @@ class NotificationViewModel(application: Application) :
 
 
     override fun onUpdateData() {
-        notificationList.clearAndAdd(iAlarmRepo.getList())
+        notificationList.clearAndAdd(iRoomAlarmRepo.getList())
 
         callback?.apply {
             notifyDataSetChanged(notificationList)
@@ -48,7 +48,7 @@ class NotificationViewModel(application: Application) :
     override fun onClickCancel(p: Int) {
         val item = notificationList[p]
 
-        iAlarmRepo.delete(item.note.id)
+        iRoomAlarmRepo.delete(item.note.id)
 
         callback?.cancelAlarm(AlarmReceiver.getInstance(context, item))
         callback?.notifyItemRemoved(p, notificationList.apply { removeAt(p) })

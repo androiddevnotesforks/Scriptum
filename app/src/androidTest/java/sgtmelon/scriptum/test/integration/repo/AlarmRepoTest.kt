@@ -6,28 +6,28 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.alarm.AlarmRepo
-import sgtmelon.scriptum.repository.room.alarm.IAlarmRepo
+import sgtmelon.scriptum.repository.room.alarm.IRoomAlarmRepo
+import sgtmelon.scriptum.repository.room.alarm.RoomAlarmRepo
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Integration test for [AlarmRepo]
+ * Integration test for [RoomAlarmRepo]
  *
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmRepoTest : ParentIntegrationTest() {
 
-    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
+    private val iRoomAlarmRepo: IRoomAlarmRepo = RoomAlarmRepo(context)
 
     @Test fun insert() = inRoom {
         iNoteDao.insert(noteEntity)
 
-        iAlarmRepo.insertOrUpdate(alarmEntity)
+        iRoomAlarmRepo.insertOrUpdate(alarmEntity)
 
-        assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+        assertEquals(arrayListOf(notificationItem), iRoomAlarmRepo.getList())
     }
 
     @Test fun update() = inRoom {
@@ -35,8 +35,8 @@ class AlarmRepoTest : ParentIntegrationTest() {
         iAlarmDao.insert(alarmEntity)
 
         alarmEntity.copy(date = "").let {
-            iAlarmRepo.insertOrUpdate(it)
-            assertNotEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+            iRoomAlarmRepo.insertOrUpdate(it)
+            assertNotEquals(arrayListOf(notificationItem), iRoomAlarmRepo.getList())
         }
     }
 
@@ -44,16 +44,16 @@ class AlarmRepoTest : ParentIntegrationTest() {
         iNoteDao.insert(noteEntity)
         iAlarmDao.insert(alarmEntity)
 
-        iAlarmRepo.delete(alarmEntity.noteId)
+        iRoomAlarmRepo.delete(alarmEntity.noteId)
 
-        assertTrue(iAlarmRepo.getList().isEmpty())
+        assertTrue(iRoomAlarmRepo.getList().isEmpty())
     }
 
     @Test fun getList() = inRoom {
         iNoteDao.insert(noteEntity)
         iAlarmDao.insert(alarmEntity)
 
-        assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+        assertEquals(arrayListOf(notificationItem), iRoomAlarmRepo.getList())
     }
 
     private companion object {

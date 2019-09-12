@@ -14,6 +14,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.addTextChangedListener
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.getColorAttr
+import sgtmelon.scriptum.extension.toUpperCase
 import java.util.*
 
 class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
@@ -91,8 +92,5 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
 
         return false
     }
-
-
-    private fun String.toUpperCase() = toUpperCase(Locale.ROOT)
 
 }
