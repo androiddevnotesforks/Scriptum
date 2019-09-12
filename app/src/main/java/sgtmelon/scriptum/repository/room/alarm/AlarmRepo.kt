@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.alarm
+package sgtmelon.scriptum.repository.room.alarm
 
 import android.content.Context
 import sgtmelon.scriptum.model.item.NotificationItem

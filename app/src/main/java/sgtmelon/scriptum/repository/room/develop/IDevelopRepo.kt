@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.develop
+package sgtmelon.scriptum.repository.room.develop
 
 /**
  * Interface for communication with [DevelopRepo]

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.rank
+package sgtmelon.scriptum.repository.room.rank
 
 import sgtmelon.scriptum.room.entity.RankEntity
 

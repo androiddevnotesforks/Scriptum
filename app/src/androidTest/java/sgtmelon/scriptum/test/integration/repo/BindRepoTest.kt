@@ -6,8 +6,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.bind.BindRepo
-import sgtmelon.scriptum.repository.bind.IBindRepo
+import sgtmelon.scriptum.repository.room.bind.BindRepo
+import sgtmelon.scriptum.repository.room.bind.IBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest

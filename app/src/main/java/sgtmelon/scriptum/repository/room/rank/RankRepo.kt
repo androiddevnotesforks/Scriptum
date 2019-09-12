@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.rank
+package sgtmelon.scriptum.repository.room.rank
 
 import android.content.Context
 import sgtmelon.scriptum.control.notification.BindControl
@@ -21,6 +21,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     // TODO убрать roomRepo
     private val iRoomRepo: IRoomRepo = RoomRepo(context)
 
+    // TODO move to interactor
     override suspend fun notifyBind() = inRoom {
         val rankIdVisibleList = iRankDao.getIdVisibleList()
 
