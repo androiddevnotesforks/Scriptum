@@ -101,36 +101,28 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         iNoteDao.delete(noteList)
     }
 
-    // tODO remove
-    override suspend fun deleteNote(noteEntity: NoteEntity) = inRoom {
-        iAlarmDao.delete(noteEntity.id)
+    override suspend fun deleteNote(noteModel: NoteModel) = inRoom {
+        iAlarmDao.delete(noteModel.noteEntity.id)
 
-        iNoteDao.update(noteEntity.apply {
+        iNoteDao.update(noteModel.noteEntity.apply {
             change = getTime()
             isBin = true
             isStatus = false
         })
     }
 
-    override suspend fun deleteNote(noteModel: NoteModel) = deleteNote(noteModel.noteEntity)
-
-    // TODO remove
-    override suspend fun restoreNote(noteEntity: NoteEntity) = inRoom {
-        iNoteDao.update(noteEntity.apply {
+    override suspend fun restoreNote(noteModel: NoteModel) = inRoom {
+        iNoteDao.update(noteModel.noteEntity.apply {
             change = getTime()
             isBin = false
         })
     }
 
-    override suspend fun restoreNote(noteModel: NoteModel) = restoreNote(noteModel.noteEntity)
-
-    // TODO remove
-    override suspend fun clearNote(noteEntity: NoteEntity) = inRoom {
-        clearRankConnection(iRankDao, noteEntity)
-        iNoteDao.delete(noteEntity)
+    override suspend fun clearNote(noteModel: NoteModel) = inRoom {
+        clearRankConnection(iRankDao, noteModel.noteEntity)
+        iNoteDao.delete(noteModel.noteEntity)
     }
 
-    override suspend fun clearNote(noteModel: NoteModel) = clearNote(noteModel.noteEntity)
 
     override fun getRankIdVisibleList() = ArrayList<Long>().apply {
         inRoom { addAll(iRankDao.getIdVisibleList()) }

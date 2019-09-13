@@ -100,7 +100,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
 
     override fun onMenuRestore() {
-        noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
+        noteModel.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
         parentCallback?.finish()
     }
 
@@ -118,7 +118,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuClear() {
-        noteModel.noteEntity.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
+        noteModel.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
         parentCallback?.finish()
     }
 
@@ -211,7 +211,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         BindControl(context, noteEntity).cancelBind()
         callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteEntity))
-        viewModelScope.launch { iRoomRepo.deleteNote(noteEntity) }
+        viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
 
         parentCallback?.finish()
     }

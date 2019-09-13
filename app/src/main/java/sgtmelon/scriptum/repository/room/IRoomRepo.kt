@@ -22,19 +22,13 @@ interface IRoomRepo {
 
     suspend fun clearBin()
 
-    suspend fun deleteNote(noteEntity: NoteEntity)
-
     suspend fun deleteNote(noteModel: NoteModel)
-
-    suspend fun restoreNote(noteEntity: NoteEntity)
 
     suspend fun restoreNote(noteModel: NoteModel)
 
     /**
      * Полное удаление заметки из базы данных и очистка категорий от неё
      */
-    suspend fun clearNote(noteEntity: NoteEntity)
-
     suspend fun clearNote(noteModel: NoteModel)
 
     fun getRankIdVisibleList(): List<Long>

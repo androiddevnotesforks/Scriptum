@@ -20,6 +20,11 @@ class IntroTest : ParentUiTest() {
         iPreferenceRepo.firstStart = true
     }
 
+    override fun tearDown() {
+        super.tearDown()
+        iPreferenceRepo.firstStart = false
+    }
+
     @Test fun contentPlacement() = launch {
         introScreen {
             onPassThrough(Scroll.END)
