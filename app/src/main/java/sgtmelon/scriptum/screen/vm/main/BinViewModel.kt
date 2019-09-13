@@ -86,6 +86,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
         removeAt(p)
     }
 
+
     @IntDef(Options.RESTORE, Options.COPY, Options.CLEAR)
     private annotation class Options {
         companion object {

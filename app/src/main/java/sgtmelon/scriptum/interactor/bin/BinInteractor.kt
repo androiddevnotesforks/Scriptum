@@ -3,7 +3,13 @@ package sgtmelon.scriptum.interactor.bin
 import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
+/**
+ * Interactor for [BinViewModel]
+ *
+ * @author SerjantArbuz
+ */
 class BinInteractor(context: Context) : ParentInteractor(context), IBinInteractor {
 
     override val theme: Int get() = iPreferenceRepo.theme

@@ -9,6 +9,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
+import sgtmelon.scriptum.interactor.notes.INotesInteractor
+import sgtmelon.scriptum.interactor.notes.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.AlarmReceiver
@@ -26,21 +28,23 @@ import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
         INotesViewModel {
 
+    private val iNotesInteractor: INotesInteractor = NotesInteractor(context)
+
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
-            setupRecycler(iPreferenceRepo.theme)
+            setupRecycler(iNotesInteractor.theme)
         }
     }
 
     override fun onUpdateData() {
-        noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = false))
+        noteModelList.clearAndAdd(iNotesInteractor.getList())
 
         callback?.apply {
             notifyDataSetChanged(noteModelList)
-            setupBinding(iRoomRepo.isListHide(bin = false))
+            setupBinding(iNotesInteractor.isListHide())
             bind()
         }
 
@@ -77,19 +81,13 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         get(p).noteEntity.let {
             it.isStatus = !it.isStatus
 
-            viewModelScope.launch { iRoomRepo.updateNote(it) }
+            viewModelScope.launch { iNotesInteractor.updateNote(it) }
             BindControl(context, it).updateBind()
         }
     }
 
     private fun onMenuConvert(p: Int) = noteModelList.apply {
-        set(p, get(p).let {
-            return@let when (it.noteEntity.type) {
-                NoteType.TEXT -> iRoomRepo.convertToRoll(it)
-                NoteType.ROLL -> iRoomRepo.convertToText(it)
-            }
-        })
-
+        set(p, iNotesInteractor.convert(get(p)))
         BindControl(context, get(p).noteEntity).updateBind()
     }
 
@@ -98,8 +96,8 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
         BindControl(context, noteEntity).cancelBind()
         callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteEntity))
-        viewModelScope.launch { iRoomRepo.deleteNote(noteEntity) }
 
+        get(p).let { viewModelScope.launch { iNotesInteractor.deleteNote(it) } }
         removeAt(p)
     }
 

@@ -15,11 +15,16 @@ interface IRoomRepo {
 
     fun getNoteModelList(bin: Boolean): MutableList<NoteModel>
 
+    /**
+     * Have hide notes in list or not
+     */
     fun isListHide(bin: Boolean): Boolean
 
     suspend fun clearBin()
 
     suspend fun deleteNote(noteEntity: NoteEntity)
+
+    suspend fun deleteNote(noteModel: NoteModel)
 
     suspend fun restoreNote(noteEntity: NoteEntity)
 

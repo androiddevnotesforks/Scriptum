@@ -85,7 +85,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             iNoteDao.getByChange(bin).forEach {
                 if (it.isNotVisible(rankIdVisibleList)) {
                     isListHide = true
-                    // TODO break
+                    return@forEach
                 }
             }
         }
@@ -101,6 +101,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         iNoteDao.delete(noteList)
     }
 
+    // tODO remove
     override suspend fun deleteNote(noteEntity: NoteEntity) = inRoom {
         iAlarmDao.delete(noteEntity.id)
 
@@ -110,6 +111,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             isStatus = false
         })
     }
+
+    override suspend fun deleteNote(noteModel: NoteModel) = deleteNote(noteModel.noteEntity)
 
     // TODO remove
     override suspend fun restoreNote(noteEntity: NoteEntity) = inRoom {
