@@ -2,11 +2,14 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.IntDef
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
+import sgtmelon.scriptum.interactor.bin.BinInteractor
+import sgtmelon.scriptum.interactor.bin.IBinInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.main.BinFragment
@@ -22,17 +25,19 @@ import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
         IBinViewModel {
 
+    private val iBinInteractor: IBinInteractor = BinInteractor(context)
+
     private val noteModelList: MutableList<NoteModel> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
-            setupRecycler(iPreferenceRepo.theme)
+            setupRecycler(iBinInteractor.theme)
         }
     }
 
     override fun onUpdateData() {
-        noteModelList.clearAndAdd(iRoomRepo.getNoteModelList(bin = true))
+        noteModelList.clearAndAdd(iBinInteractor.getList())
 
         callback?.apply {
             notifyDataSetChanged(noteModelList)
@@ -42,7 +47,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickClearBin() {
-        viewModelScope.launch { iRoomRepo.clearBin() }
+        viewModelScope.launch { iBinInteractor.clearBin() }
 
         noteModelList.clear()
 
@@ -54,9 +59,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickNote(p: Int) {
-        with(noteModelList[p].noteEntity) {
-            callback?.startActivity(NoteActivity.getInstance(context, type, id))
-        }
+        callback?.startActivity(NoteActivity.getInstance(context, noteModelList[p].noteEntity))
     }
 
     override fun onShowOptionsDialog(p: Int) {
@@ -65,32 +68,31 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            OptionsBin.restore -> callback?.notifyItemRemoved(p, restoreItem(p))
-            OptionsBin.copy -> context.copyToClipboard(noteModelList[p].noteEntity)
-            OptionsBin.clear -> callback?.notifyItemRemoved(p, clearItem(p))
+            Options.RESTORE -> callback?.notifyItemRemoved(p, restoreItem(p))
+            Options.COPY -> context.copyToClipboard(noteModelList[p].noteEntity)
+            Options.CLEAR -> callback?.notifyItemRemoved(p, clearItem(p))
         }
 
         callback?.notifyMenuClearBin()
     }
 
     private fun restoreItem(p: Int) = noteModelList.apply {
-        get(p).noteEntity.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
+        get(p).let { viewModelScope.launch { iBinInteractor.restoreNote(it) } }
         removeAt(p)
     }
 
     private fun clearItem(p: Int) = noteModelList.apply {
-        get(p).noteEntity.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
+        get(p).let { viewModelScope.launch { iBinInteractor.clearNote(it) } }
         removeAt(p)
     }
 
-    companion object {
-
-        object OptionsBin {
-            const val restore = 0
-            const val copy = 1
-            const val clear = 2
+    @IntDef(Options.RESTORE, Options.COPY, Options.CLEAR)
+    private annotation class Options {
+        companion object {
+            const val RESTORE = 0
+            const val COPY = 1
+            const val CLEAR = 2
         }
-
     }
 
 }

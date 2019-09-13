@@ -111,6 +111,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         })
     }
 
+    // TODO remove
     override suspend fun restoreNote(noteEntity: NoteEntity) = inRoom {
         iNoteDao.update(noteEntity.apply {
             change = getTime()
@@ -118,10 +119,15 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         })
     }
 
+    override suspend fun restoreNote(noteModel: NoteModel) = restoreNote(noteModel.noteEntity)
+
+    // TODO remove
     override suspend fun clearNote(noteEntity: NoteEntity) = inRoom {
         clearRankConnection(iRankDao, noteEntity)
         iNoteDao.delete(noteEntity)
     }
+
+    override suspend fun clearNote(noteModel: NoteModel) = clearNote(noteModel.noteEntity)
 
     override fun getRankIdVisibleList() = ArrayList<Long>().apply {
         inRoom { addAll(iRankDao.getIdVisibleList()) }

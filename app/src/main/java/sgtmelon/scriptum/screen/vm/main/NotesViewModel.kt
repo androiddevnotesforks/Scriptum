@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
+import androidx.annotation.IntDef
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -47,9 +48,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     override fun onClickNote(p: Int) {
-        with(noteModelList[p].noteEntity) {
-            callback?.startActivity(NoteActivity.getInstance(context, type, id))
-        }
+        callback?.startActivity(NoteActivity.getInstance(context, noteModelList[p].noteEntity))
     }
 
     override fun onShowOptionsDialog(p: Int) {
@@ -67,10 +66,10 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
-            OptionsNote.bind -> callback?.notifyItemChanged(p, onMenuBind(p))
-            OptionsNote.convert -> callback?.notifyItemChanged(p, onMenuConvert(p))
-            OptionsNote.copy -> context.copyToClipboard(noteModelList[p].noteEntity)
-            OptionsNote.delete -> callback?.notifyItemRemoved(p, onMenuDelete(p))
+            Options.BIND -> callback?.notifyItemChanged(p, onMenuBind(p))
+            Options.CONVERT -> callback?.notifyItemChanged(p, onMenuConvert(p))
+            Options.COPY -> context.copyToClipboard(noteModelList[p].noteEntity)
+            Options.DELETE -> callback?.notifyItemRemoved(p, onMenuDelete(p))
         }
     }
 
@@ -112,18 +111,22 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         }
     }
 
+
+    @IntDef(Options.BIND, Options.CONVERT, Options.COPY, Options.DELETE)
+    private annotation class Options {
+        companion object {
+            const val BIND = 0
+            const val CONVERT = 1
+            const val COPY = 2
+            const val DELETE = 3
+        }
+    }
+
     companion object {
         /**
          * Для единовременного обновления статус бара
          */
         var updateStatus = true
-
-        private object OptionsNote {
-            const val bind = 0
-            const val convert = 1
-            const val copy = 2
-            const val delete = 3
-        }
     }
 
 }
