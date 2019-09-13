@@ -33,11 +33,8 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
     private fun edit(func: SharedPreferences.Editor.() -> Unit) =
             preferences.edit().apply(func).apply()
 
-    // TODO #RELEASE2 logic to interactor
     override var firstStart: Boolean
-        get() = preferences.getBoolean(key.FIRST_START, def.FIRST_START).apply {
-            if (this) firstStart = false
-        }
+        get() = preferences.getBoolean(key.FIRST_START, def.FIRST_START)
         set(value) = edit { putBoolean(key.FIRST_START, value) }
 
     @Theme override var theme: Int

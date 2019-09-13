@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
+import sgtmelon.scriptum.interactor.splash.ISplashInteractor
+import sgtmelon.scriptum.interactor.splash.SplashInteractor
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.AlarmReceiver
@@ -25,6 +27,8 @@ import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
  */
 class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
         ISplashViewModel {
+
+    private val iSplashInteractor: ISplashInteractor = SplashInteractor(context)
 
     override fun onSetup(bundle: Bundle?) {
         viewModelScope.launch { clearPastAlarm() }
@@ -61,7 +65,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         }
     }
 
-    private fun onSimpleStart(firstStart: Boolean = iPreferenceRepo.firstStart) =
+    private fun onSimpleStart(firstStart: Boolean = iSplashInteractor.firstStart) =
             callback?.startActivity(if (firstStart) {
                 IntroActivity.getInstance(context)
             } else {
