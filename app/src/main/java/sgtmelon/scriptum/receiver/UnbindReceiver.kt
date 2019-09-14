@@ -24,8 +24,9 @@ class UnbindReceiver : BroadcastReceiver() {
 
         if (id == Values.ND_NOTE_ID) return
 
-        BindRepo(context).unbindNote(id)?.let {
-            BindControl(context, it).cancelBind()
+        val repo = BindRepo(context)
+        repo.unbindNote(id)?.let {
+            BindControl(context).setup(it, repo.getRollList(id)).cancelBind()
         }
 
         context.apply {

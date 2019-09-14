@@ -5,7 +5,7 @@ import sgtmelon.scriptum.receiver.AlarmReceiver
 import java.util.*
 
 /**
- * Callback which need implement in interface what pass to ViewModel.
+ * Callback which need implement in interface what pass to ViewModel
  * It's need to get access [AlarmControl] inside Interactor
  */
 interface AlarmCallback {

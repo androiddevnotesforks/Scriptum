@@ -28,32 +28,25 @@ class AlarmReceiver : BroadcastReceiver() {
         context.startActivity(SplashActivity.getAlarmInstance(context, id, color))
     }
 
-    data class Model(val id: Long, @Color val color: Int) {
-
+    /**
+     * Model for quick create access to [AlarmReceiver]
+     */
+    class Model(val id: Long, @Color val color: Int) {
         constructor(noteEntity: NoteEntity) : this(noteEntity.id, noteEntity.color)
-
-        constructor(notificationItem: NotificationItem) :
-                this(notificationItem.note.id, notificationItem.note.color)
-
+        constructor(item: NotificationItem) : this(item.note.id, item.note.color)
     }
 
     companion object {
         operator fun get(noteEntity: NoteEntity) = Model(noteEntity)
         operator fun get(notificationItem: NotificationItem) = Model(notificationItem)
 
-        operator fun get(context: Context, noteEntity: NoteEntity) =
-                get(context, noteEntity.id, noteEntity.color)
-
-        operator fun get(context: Context, model: Model) =
-                get(context, model.id, model.color)
-
-        private fun get(context: Context, id: Long, @Color color: Int): PendingIntent {
+        operator fun get(context: Context, model: Model): PendingIntent {
             val intent = Intent(context, AlarmReceiver::class.java)
-                    .putExtra(Values.NOTE_ID, id)
-                    .putExtra(Values.NOTE_COLOR, color)
+                    .putExtra(Values.NOTE_ID, model.id)
+                    .putExtra(Values.NOTE_COLOR, model.color)
 
             return PendingIntent.getBroadcast(
-                    context, id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
+                    context, model.id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT
             )
         }
     }

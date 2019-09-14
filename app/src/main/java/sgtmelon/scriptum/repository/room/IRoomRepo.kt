@@ -43,15 +43,9 @@ interface IRoomRepo {
      */
     fun getRankDialogItemArray(): Array<String>
 
-    /**
-     * @throws ClassCastException если [NoteEntity.type] != [NoteType.TEXT]
-     */
-    fun convertToRoll(noteModel: NoteModel): NoteModel
+    fun convertToRoll(noteModel: NoteModel)
 
-    /**
-     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
-     */
-    fun convertToText(noteModel: NoteModel): NoteModel
+    fun convertToText(noteModel: NoteModel)
 
     /**
      * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]

@@ -6,7 +6,6 @@ import androidx.annotation.IntDef
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.interactor.main.notes.INotesInteractor
@@ -75,23 +74,17 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     private fun onMenuBind(p: Int) = itemList.apply {
-        get(p).noteEntity.let {
-            it.isStatus = !it.isStatus
+        val noteEntity = get(p).noteEntity.apply { isStatus = !isStatus }
 
-            viewModelScope.launch { iInteractor.updateNote(it) }
-            BindControl(context, it).updateBind()
-        }
+        viewModelScope.launch { iInteractor.updateNote(noteEntity) }
     }
 
     private fun onMenuConvert(p: Int) = itemList.apply {
         set(p, iInteractor.convert(get(p)))
-        BindControl(context, get(p).noteEntity).updateBind()
     }
 
     private fun onMenuDelete(p: Int) = itemList.apply {
-        BindControl(context, get(p).noteEntity).cancelBind()
         get(p).let { viewModelScope.launch { iInteractor.deleteNote(it, callback) } }
-
         removeAt(p)
     }
 

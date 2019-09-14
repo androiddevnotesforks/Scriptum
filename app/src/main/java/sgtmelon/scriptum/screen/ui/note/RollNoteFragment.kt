@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.note
 
-import android.app.PendingIntent
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -41,6 +40,7 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
 import java.util.*
@@ -400,11 +400,11 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     }
 
 
-    override fun setAlarm(calendar: Calendar, intent: PendingIntent) =
-            iAlarmControl.set(calendar, intent)
+    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) =
+            iAlarmControl.set(calendar, model)
 
-    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
-
+    override fun cancelAlarm(model: AlarmReceiver.Model) =
+            iAlarmControl.cancel(model)
 
     companion object {
         operator fun get(id: Long) = RollNoteFragment().apply {

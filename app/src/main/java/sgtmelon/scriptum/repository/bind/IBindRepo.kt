@@ -8,7 +8,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
  */
 interface IBindRepo {
 
-    fun getRollList(noteId: Long): List<RollEntity>
+    fun getRollList(noteId: Long): MutableList<RollEntity>
 
     fun unbindNote(id: Long): NoteEntity?
 

@@ -8,6 +8,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
@@ -45,7 +46,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     Sort.RANK -> iNoteDao.getByRank(bin)
                     else -> iNoteDao.getByColor(bin)
                 }.forEach {
-                    val bindControl = BindControl(context, it)
+                    val bindControl = BindControl(context).setup(it, BindRepo(context).getRollList(it.id))
 
                     if (!bin && it.isNotVisible(rankIdVisibleList)) {
                         bindControl.cancelBind()
@@ -158,9 +159,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         inRoom { addAll(iRankDao.getNameList()) }
     }.toTypedArray()
 
-    override fun convertToRoll(noteModel: NoteModel) = noteModel.apply {
-        if (noteModel.noteEntity.type != NoteType.TEXT)
-            throw ClassCastException("This method only for TEXT type")
+    override fun convertToRoll(noteModel: NoteModel) = with(noteModel) {
+        if (noteEntity.type != NoteType.TEXT) return
 
         inRoom {
             rollList.clear()
@@ -185,11 +185,12 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         }
     }
 
-    override fun convertToText(noteModel: NoteModel) = noteModel.apply {
-        if (noteModel.noteEntity.type != NoteType.ROLL)
-            throw ClassCastException("This method only for ROLL type")
+    override fun convertToText(noteModel: NoteModel) = with(noteModel) {
+        if (noteEntity.type != NoteType.ROLL) return
 
         inRoom {
+            rollList.clear()
+
             noteEntity.apply {
                 change = getTime()
                 type = NoteType.TEXT
@@ -198,8 +199,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 
             iNoteDao.update(noteEntity)
             iRollDao.delete(noteEntity.id)
-
-            rollList.clear()
         }
     }
 

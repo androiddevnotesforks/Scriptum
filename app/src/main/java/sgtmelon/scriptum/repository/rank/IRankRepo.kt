@@ -7,11 +7,6 @@ import sgtmelon.scriptum.room.entity.RankEntity
  */
 interface IRankRepo {
 
-    /**
-     * Обновление по категориям всех прикреплённых заметок в статус баре
-     */
-    suspend fun notifyBind()
-
     fun insert(rankEntity: RankEntity): Long
 
     fun getList(): MutableList<RankEntity>
