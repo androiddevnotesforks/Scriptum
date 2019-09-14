@@ -13,7 +13,6 @@ import sgtmelon.scriptum.interactor.notes.INotesInteractor
 import sgtmelon.scriptum.interactor.notes.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -90,12 +89,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     private fun onMenuDelete(p: Int) = noteModelList.apply {
-        val noteEntity = get(p).noteEntity
+        BindControl(context, get(p).noteEntity).cancelBind()
+        get(p).let { viewModelScope.launch { iNotesInteractor.deleteNote(it, callback) } }
 
-        BindControl(context, noteEntity).cancelBind()
-        callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteEntity))
-
-        get(p).let { viewModelScope.launch { iNotesInteractor.deleteNote(it) } }
         removeAt(p)
     }
 

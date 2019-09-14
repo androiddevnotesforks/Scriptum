@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.main
 
-import android.app.PendingIntent
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,6 +24,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
@@ -169,6 +169,6 @@ class NotesFragment : Fragment(), INotesFragment {
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
             adapter.notifyItemRemoved(p, list)
 
-    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
+    override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
 }

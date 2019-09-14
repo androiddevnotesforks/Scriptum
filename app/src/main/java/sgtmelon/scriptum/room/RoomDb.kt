@@ -15,7 +15,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Class for comminication with [RoomDatabase]
+ * Class for communication with [RoomDatabase]
  */
 @Database(entities = [
     NoteEntity::class,

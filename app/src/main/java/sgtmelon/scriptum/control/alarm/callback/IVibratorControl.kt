@@ -3,7 +3,7 @@ package sgtmelon.scriptum.control.alarm.callback
 import sgtmelon.scriptum.control.alarm.VibratorControl
 
 /**
- * Interface for comminication with [VibratorControl]
+ * Interface for communication with [VibratorControl]
  */
 interface IVibratorControl {
 

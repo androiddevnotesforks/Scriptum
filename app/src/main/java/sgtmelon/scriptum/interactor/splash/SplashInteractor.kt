@@ -25,7 +25,7 @@ class SplashInteractor(context: Context) : ParentInteractor(context), ISplashInt
     override suspend fun clearPastAlarm(callback: AlarmCallback.Cancel?) =
             iAlarmRepo.getList().forEach {
                 if (it.alarm.date.getCalendar().beforeNow()) {
-                    callback?.cancelAlarm(AlarmReceiver.getInstance(context, it))
+                    callback?.cancelAlarm(AlarmReceiver[it])
                     iAlarmRepo.delete(it.note.id)
                 }
             }

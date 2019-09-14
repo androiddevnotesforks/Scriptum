@@ -9,7 +9,7 @@ import sgtmelon.scriptum.repository.room.RoomRepo
 /**
  * Parent class for interactor's
  */
-abstract class ParentInteractor(protected val context: Context) {
+abstract class ParentInteractor(context: Context) {
 
     protected val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
     protected val iRoomRepo: IRoomRepo = RoomRepo(context)

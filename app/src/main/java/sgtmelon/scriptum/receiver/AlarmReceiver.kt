@@ -28,12 +28,27 @@ class AlarmReceiver : BroadcastReceiver() {
         context.startActivity(SplashActivity.getAlarmInstance(context, id, color))
     }
 
+    data class Model(val id: Long, @Color val color: Int) {
+
+        constructor(noteEntity: NoteEntity) : this(noteEntity.id, noteEntity.color)
+
+        constructor(notificationItem: NotificationItem) :
+                this(notificationItem.note.id, notificationItem.note.color)
+
+    }
+
     companion object {
+        operator fun get(noteEntity: NoteEntity) = Model(noteEntity)
+        operator fun get(notificationItem: NotificationItem) = Model(notificationItem)
+
         fun getInstance(context: Context, noteEntity: NoteEntity) =
                 getInstance(context, noteEntity.id, noteEntity.color)
 
         fun getInstance(context: Context, notificationItem: NotificationItem) =
                 getInstance(context, notificationItem.note.id, notificationItem.note.color)
+
+        fun getInstance(context: Context, model: Model) =
+                getInstance(context, model.id, model.color)
 
         private fun getInstance(context: Context, id: Long, @Color color: Int): PendingIntent {
             val intent = Intent(context, AlarmReceiver::class.java)
