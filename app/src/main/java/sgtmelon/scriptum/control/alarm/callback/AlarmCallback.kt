@@ -2,6 +2,7 @@ package sgtmelon.scriptum.control.alarm.callback
 
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.receiver.AlarmReceiver
+import java.util.*
 
 /**
  * Callback which need implement in interface what pass to ViewModel.
@@ -10,7 +11,7 @@ import sgtmelon.scriptum.receiver.AlarmReceiver
 interface AlarmCallback {
 
     interface Set {
-        fun setAlarm(model: AlarmReceiver.Model)
+        fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model)
     }
 
     interface Cancel {

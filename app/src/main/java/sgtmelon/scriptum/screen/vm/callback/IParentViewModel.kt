@@ -4,7 +4,7 @@ import android.os.Bundle
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 
 /**
- * Parent interface for communication with children of [ParentViewModel]
+ * Parent interface for communicate with children of [ParentViewModel]
  */
 interface IParentViewModel {
 

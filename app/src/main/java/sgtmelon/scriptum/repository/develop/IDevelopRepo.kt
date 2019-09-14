@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.repository.develop
 
 /**
- * Interface for communication with [DevelopRepo]
+ * Interface for communicate with [DevelopRepo]
  */
 interface IDevelopRepo {
 

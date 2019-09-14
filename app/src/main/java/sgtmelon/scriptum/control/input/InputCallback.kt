@@ -3,7 +3,7 @@ package sgtmelon.scriptum.control.input
 import sgtmelon.scriptum.model.item.InputItem
 
 /**
- * Interface for communication with [InputControl]
+ * Interface for communicate with [InputControl]
  */
 interface InputCallback {
 

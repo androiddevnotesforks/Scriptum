@@ -1,10 +1,10 @@
-package sgtmelon.scriptum.interactor.preference
+package sgtmelon.scriptum.interactor.notification.preference
 
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.model.state.SignalState
 
 /**
- * Interface for communication with [SignalInteractor]
+ * Interface for communicate with [SignalInteractor]
  */
 interface ISignalInteractor {
 

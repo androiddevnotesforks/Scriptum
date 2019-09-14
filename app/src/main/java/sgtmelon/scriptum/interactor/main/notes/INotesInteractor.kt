@@ -7,7 +7,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 
 
 /**
- * Interface for communication with [NotesInteractor]
+ * Interface for communicate with [NotesInteractor]
  */
 interface INotesInteractor {
 

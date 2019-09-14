@@ -4,7 +4,7 @@ import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
- * Interface for communication with [AlarmRepo]
+ * Interface for communicate with [AlarmRepo]
  */
 interface IAlarmRepo {
 

@@ -3,24 +3,23 @@ package sgtmelon.scriptum.screen.vm.notification
 import android.app.Application
 import android.os.Bundle
 import android.os.Handler
-import sgtmelon.extension.getDateFormat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.toUri
-import sgtmelon.scriptum.interactor.preference.ISignalInteractor
-import sgtmelon.scriptum.interactor.preference.SignalInteractor
+import sgtmelon.scriptum.interactor.notification.AlarmInteractor
+import sgtmelon.scriptum.interactor.notification.IAlarmInteractor
+import sgtmelon.scriptum.interactor.notification.preference.ISignalInteractor
+import sgtmelon.scriptum.interactor.notification.preference.SignalInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
-import java.util.*
 
 /**
  * ViewModel for [AlarmActivity]
@@ -28,10 +27,11 @@ import java.util.*
 class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
         IAlarmViewModel {
 
-    private val iSignalInteractor : ISignalInteractor = SignalInteractor(context)
+    private val iAlarmInteractor: IAlarmInteractor = AlarmInteractor(context)
+    private val iSignalInteractor: ISignalInteractor = SignalInteractor(context)
 
     private var id: Long = NoteData.Default.ID
-    private var color: Int = iPreferenceRepo.defaultColor
+    private var color: Int = iAlarmInteractor.defaultColor
 
     private var noteModel: NoteModel? = null
     private var signalState: SignalState? = null
@@ -56,7 +56,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
 
-            iPreferenceRepo.let {
+            iAlarmInteractor.let {
                 setupView(it.theme)
                 setupPlayer(it.volume, it.volumeIncrease, iSignalInteractor.melodyUri.toUri())
             }
@@ -64,19 +64,14 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-            color = bundle.getInt(NoteData.Intent.COLOR, iPreferenceRepo.defaultColor)
+            color = bundle.getInt(NoteData.Intent.COLOR, iAlarmInteractor.defaultColor)
         }
 
         /**
          * If first open
          */
         if (noteModel == null) {
-            /**
-             * Delete before get [noteModel] for hide alarm icon
-             */
-            iAlarmRepo.delete(id)
-
-            iRoomRepo.getNoteModel(id)?.let {
+            iAlarmInteractor.getModel(id)?.let {
                 noteModel = it
             } ?: run {
                 callback?.finish()
@@ -95,13 +90,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onStart() {
-        callback?.let {
-            val theme = iPreferenceRepo.theme
-            it.startRippleAnimation(theme, context.getAppSimpleColor(color,
+        callback?.apply {
+            val theme = iAlarmInteractor.theme
+            startRippleAnimation(theme, context.getAppSimpleColor(color,
                     if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
             ))
 
-            it.startButtonFadeInAnimation()
+            startButtonFadeInAnimation()
         }
 
         if (signalState?.isMelody == true) {
@@ -116,8 +111,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     }
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        val noteModel = noteModel
-
         if (signalState?.isMelody == true) {
             callback?.melodyStop()
         }
@@ -129,20 +122,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         longWaitHandler.removeCallbacks(longWaitRunnable)
 
-        if (needRepeat && noteModel != null) {
-            val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-            val repeat = iPreferenceRepo.repeat
-
-            val calendar = Calendar.getInstance().apply {
-                add(Calendar.MINUTE, valueArray[repeat])
+        if (needRepeat) {
+            noteModel?.let {
+                val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
+                iAlarmInteractor.setupRepeat(it, callback, valueArray)
             }
 
-            iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
-                date = getDateFormat().format(calendar.time)
-            })
-
-            callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
-            callback?.showPostponeToast(repeat)
+            callback?.showPostponeToast(iAlarmInteractor.repeat)
         }
 
         callback?.releasePhone()

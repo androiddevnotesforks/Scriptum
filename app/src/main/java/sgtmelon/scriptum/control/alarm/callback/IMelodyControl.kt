@@ -4,7 +4,7 @@ import android.net.Uri
 import sgtmelon.scriptum.control.alarm.MelodyControl
 
 /**
- * Interface for communication with [MelodyControl]
+ * Interface for communicate with [MelodyControl]
  */
 interface IMelodyControl {
 

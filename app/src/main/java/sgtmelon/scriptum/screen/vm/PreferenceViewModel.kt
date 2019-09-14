@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.toUri
-import sgtmelon.scriptum.interactor.preference.ISignalInteractor
-import sgtmelon.scriptum.interactor.preference.SignalInteractor
+import sgtmelon.scriptum.interactor.notification.preference.ISignalInteractor
+import sgtmelon.scriptum.interactor.notification.preference.SignalInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem

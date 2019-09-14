@@ -33,6 +33,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
 import sgtmelon.scriptum.view.RippleContainer
@@ -153,8 +154,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun vibrateCancel() = iVibratorControl.cancel()
 
-    override fun setAlarm(calendar: Calendar, intent: PendingIntent) =
-            iAlarmControl.set(calendar, intent)
+    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) =
+            iAlarmControl.set(calendar, model)
 
     override fun showPostponeToast(select: Int) =
             showToast(getString(R.string.toast_alarm_postpone, resources.getStringArray(R.array.text_alarm_repeat)[select]))

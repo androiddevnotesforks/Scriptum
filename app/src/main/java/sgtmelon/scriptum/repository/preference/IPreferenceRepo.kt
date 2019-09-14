@@ -6,7 +6,7 @@ import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 
 /**
- * Interface for communication with [PreferenceRepo]
+ * Interface for communicate with [PreferenceRepo]
  */
 interface IPreferenceRepo {
 

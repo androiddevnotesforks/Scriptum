@@ -3,6 +3,7 @@ package sgtmelon.scriptum.interactor.main.bin
 import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
@@ -10,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
  */
 class BinInteractor(context: Context) : ParentInteractor(context), IBinInteractor {
 
-    override val theme: Int get() = iPreferenceRepo.theme
+    @Theme override val theme: Int get() = iPreferenceRepo.theme
 
     override fun getList() = iRoomRepo.getNoteModelList(bin = true)
 

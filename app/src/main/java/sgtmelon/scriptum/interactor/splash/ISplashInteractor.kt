@@ -3,7 +3,7 @@ package sgtmelon.scriptum.interactor.splash
 import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 
 /**
- * Interface for communication with [SplashInteractor]
+ * Interface for communicate with [SplashInteractor]
  */
 interface ISplashInteractor {
 

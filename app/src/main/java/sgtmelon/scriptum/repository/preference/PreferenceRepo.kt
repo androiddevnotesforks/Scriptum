@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.preference
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import sgtmelon.scriptum.interactor.preference.SignalInteractor
+import sgtmelon.scriptum.interactor.notification.preference.SignalInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Sort
@@ -13,8 +13,7 @@ import sgtmelon.scriptum.provider.PreferenceProvider
 /**
  * Repository for work with [SharedPreferences]
  */
-@Suppress("PrivatePropertyName")
-class PreferenceRepo(private val context: Context) : IPreferenceRepo {
+class PreferenceRepo(context: Context) : IPreferenceRepo {
 
     private val key = PreferenceProvider.Key(context)
     private val def = PreferenceProvider.Def(context)

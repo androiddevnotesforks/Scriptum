@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.ColorInt
+import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
@@ -13,7 +14,7 @@ import java.util.*
 /**
  * Interface for communication [AlarmViewModel] with [AlarmActivity]
  */
-interface IAlarmActivity {
+interface IAlarmActivity : AlarmCallback.Set {
 
     /**
      * TODO Lock phone -> finish alarm
@@ -57,8 +58,6 @@ interface IAlarmActivity {
     fun vibrateStart(pattern: LongArray)
 
     fun vibrateCancel()
-
-    fun setAlarm(calendar: Calendar, intent: PendingIntent)
 
     fun showPostponeToast(select: Int)
 

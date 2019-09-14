@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.rank
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
- * Interface for communication with [RankRepo]
+ * Interface for communicate with [RankRepo]
  */
 interface IRankRepo {
 

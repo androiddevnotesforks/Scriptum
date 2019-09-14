@@ -4,7 +4,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Interface for communication with [BindRepo]
+ * Interface for communicate with [BindRepo]
  */
 interface IBindRepo {
 

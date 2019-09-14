@@ -6,7 +6,7 @@ import sgtmelon.scriptum.receiver.AlarmReceiver
 import java.util.*
 
 /**
- * Interface for communication with [AlarmControl]
+ * Interface for communicate with [AlarmControl]
  */
 interface IAlarmControl {
 

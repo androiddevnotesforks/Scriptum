@@ -4,7 +4,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 
 /**
- * Interface for communication with [BinInteractor]
+ * Interface for communicate with [BinInteractor]
  */
 interface IBinInteractor {
 

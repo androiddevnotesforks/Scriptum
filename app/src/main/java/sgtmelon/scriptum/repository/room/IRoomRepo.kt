@@ -7,7 +7,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Interface for communication with [RoomRepo]
+ * Interface for communicate with [RoomRepo]
  */
 interface IRoomRepo {
 
