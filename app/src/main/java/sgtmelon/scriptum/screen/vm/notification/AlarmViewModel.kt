@@ -8,8 +8,8 @@ import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.toUri
 import sgtmelon.scriptum.interactor.notification.AlarmInteractor
 import sgtmelon.scriptum.interactor.notification.IAlarmInteractor
-import sgtmelon.scriptum.interactor.notification.preference.ISignalInteractor
-import sgtmelon.scriptum.interactor.notification.preference.SignalInteractor
+import sgtmelon.scriptum.interactor.notification.signal.ISignalInteractor
+import sgtmelon.scriptum.interactor.notification.signal.SignalInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData

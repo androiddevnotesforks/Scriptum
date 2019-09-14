@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.notification.preference
+package sgtmelon.scriptum.interactor.notification.signal
 
 import android.content.Context
 import android.media.RingtoneManager
