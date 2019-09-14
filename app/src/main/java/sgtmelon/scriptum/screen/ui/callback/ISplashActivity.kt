@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback
 
-import android.app.PendingIntent
 import android.content.Intent
+import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
@@ -10,12 +10,10 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  *
  * @author SerjantArbuz
  */
-interface ISplashActivity {
+interface ISplashActivity : AlarmCallback.Cancel {
 
     fun startActivities(arrayIntent: Array<Intent>)
 
     fun startActivity(intent: Intent)
-
-    fun cancelAlarm(intent: PendingIntent)
 
 }

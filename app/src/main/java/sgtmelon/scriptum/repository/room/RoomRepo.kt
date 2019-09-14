@@ -85,7 +85,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             iNoteDao.getByChange(bin).forEach {
                 if (it.isNotVisible(rankIdVisibleList)) {
                     isListHide = true
-                    return@forEach
+                    // TODO break
                 }
             }
         }

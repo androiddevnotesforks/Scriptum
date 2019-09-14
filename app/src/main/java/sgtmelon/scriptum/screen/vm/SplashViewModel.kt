@@ -4,13 +4,10 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.extension.beforeNow
-import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.interactor.splash.ISplashInteractor
 import sgtmelon.scriptum.interactor.splash.SplashInteractor
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.OpenFrom
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
@@ -31,7 +28,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     private val iSplashInteractor: ISplashInteractor = SplashInteractor(context)
 
     override fun onSetup(bundle: Bundle?) {
-        viewModelScope.launch { clearPastAlarm() }
+        viewModelScope.launch { iSplashInteractor.clearPastAlarm(callback) }
 
         if (bundle == null) {
             onSimpleStart()
@@ -53,15 +50,6 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
                 }
                 else -> onSimpleStart()
             }
-        }
-    }
-
-    // TODO #RELEASE3
-    @Suppress("RedundantSuspendModifier")
-    private suspend fun clearPastAlarm() = iRoomAlarmRepo.getList().forEach {
-        if (it.alarm.date.getCalendar().beforeNow()) {
-            callback?.cancelAlarm(AlarmReceiver.getInstance(context, it))
-            iRoomAlarmRepo.delete(it.note.id)
         }
     }
 
