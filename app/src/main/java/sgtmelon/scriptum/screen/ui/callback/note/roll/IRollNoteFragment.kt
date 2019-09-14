@@ -14,8 +14,6 @@ import java.util.*
 
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
- *
- * @author SerjantArbuz
  */
 interface IRollNoteFragment {
 

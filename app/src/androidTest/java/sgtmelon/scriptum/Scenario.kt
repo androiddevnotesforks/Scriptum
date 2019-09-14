@@ -34,8 +34,6 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  * MANUAL - Проверяется вручную тестировщиком
  *
  * Для поворота экрана использовать ctrl + left/rightArrow
- *
- * @author SerjantArbuz
  */
 @Suppress("unused")
 private class Scenario {

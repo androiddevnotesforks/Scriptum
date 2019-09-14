@@ -9,9 +9,7 @@ import sgtmelon.scriptum.model.data.DbData.Roll
 import sgtmelon.scriptum.room.converter.BoolConverter
 
 /**
- * Элемент списка пунктов в [NoteModel]
- *
- * @author SerjantArbuz
+ * Element of list in [NoteModel]
  */
 @Entity(tableName = Roll.TABLE,
         foreignKeys = [ForeignKey(

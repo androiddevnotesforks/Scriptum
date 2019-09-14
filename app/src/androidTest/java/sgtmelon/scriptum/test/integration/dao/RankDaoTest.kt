@@ -10,8 +10,6 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
  * Integration test for [IRankDao]
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class RankDaoTest : ParentIntegrationTest() {

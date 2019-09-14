@@ -5,9 +5,7 @@ import sgtmelon.scriptum.control.alarm.AlarmControl
 import java.util.*
 
 /**
- * Interface for [AlarmControl]
- *
- * @author SerjantArbuz
+ * Interface for comminication with [AlarmControl]
  */
 interface IAlarmControl {
 

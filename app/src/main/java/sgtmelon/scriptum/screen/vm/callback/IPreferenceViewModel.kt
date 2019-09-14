@@ -8,8 +8,6 @@ import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 
 /**
  * Interface for communication [PreferenceFragment] with [PreferenceViewModel]
- *
- * @author SerjantArbuz
  */
 interface IPreferenceViewModel : IParentViewModel {
 

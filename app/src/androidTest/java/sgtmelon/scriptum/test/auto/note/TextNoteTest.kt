@@ -8,8 +8,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Test for [TextNoteFragment]
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class TextNoteTest : ParentUiTest() {

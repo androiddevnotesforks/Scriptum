@@ -9,8 +9,6 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
  * Provider of [Key] and [Def] values for [PreferenceRepo]
- *
- * @author SerjantArbuz
  */
 @Suppress("PropertyName")
 class PreferenceProvider {

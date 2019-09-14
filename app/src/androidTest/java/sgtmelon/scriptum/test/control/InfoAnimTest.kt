@@ -8,9 +8,7 @@ import sgtmelon.scriptum.waitAfter
 import sgtmelon.scriptum.waitBefore
 
 /**
- * Тест работы анимации информации о пустом списке
- *
- * @author SerjantArbuz
+ * Test of animation info about empty list
  */
 @RunWith(AndroidJUnit4::class)
 class InfoAnimTest : ParentUiTest() {

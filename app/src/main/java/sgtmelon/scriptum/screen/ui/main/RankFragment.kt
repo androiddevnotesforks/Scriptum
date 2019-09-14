@@ -29,8 +29,6 @@ import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 
 /**
  * Fragment which displays list of categories - [RankEntity]
- *
- * @author SerjantArbuz
  */
 class RankFragment : Fragment(), IRankFragment {
 

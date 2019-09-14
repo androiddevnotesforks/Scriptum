@@ -1,11 +1,9 @@
 package sgtmelon.scriptum.model.data
 
 /**
- * Константы для БД
- * Наименование столов и столбцов базы данных
- * Постоянные и строки для формирования сортировки заметок
- *
- * @author SerjantArbuz
+ * Constants for DataBase
+ * Naming of tables and columns for DataBase
+ * Constants and strings for buildup notes sort
  */
 object DbData {
 

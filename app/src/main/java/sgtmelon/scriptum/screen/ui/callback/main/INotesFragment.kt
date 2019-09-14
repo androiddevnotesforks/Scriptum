@@ -9,8 +9,6 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
  * Interface for communication [NotesViewModel] with [NotesFragment]
- *
- * @author SerjantArbuz
  */
 interface INotesFragment {
 

@@ -4,8 +4,6 @@ import sgtmelon.scriptum.ui.basic.BasicAction
 
 /**
  * Родительский класс для доступа к стандартному функционалу ui
- *
- * @author SerjantArbuz
  */
 abstract class ParentUi {
 

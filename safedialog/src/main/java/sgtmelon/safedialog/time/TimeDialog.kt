@@ -12,8 +12,6 @@ import kotlin.collections.ArrayList
 
 /**
  * Dialog for choose time
- *
- * @author SerjantArbuz
  */
 class TimeDialog : DateTimeBlankDialog() {
 

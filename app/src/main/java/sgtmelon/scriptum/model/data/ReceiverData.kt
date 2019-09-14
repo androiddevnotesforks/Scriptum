@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver
 
 /**
  * Ключи для работы с [BroadcastReceiver]
- *
- * @author SerjantArbuz
  */
 object ReceiverData {
 

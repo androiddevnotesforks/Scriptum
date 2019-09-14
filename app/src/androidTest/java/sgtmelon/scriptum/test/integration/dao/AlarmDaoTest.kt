@@ -15,8 +15,6 @@ import kotlin.random.Random
 
 /**
  * Integration test for [IAlarmDao]
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmDaoTest : ParentIntegrationTest() {

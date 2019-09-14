@@ -8,8 +8,6 @@ import sgtmelon.scriptum.control.alarm.callback.IPowerControl
 
 /**
  * Class for help control [PowerManager]
- *
- * @author SerjantArbuz
  */
 class PowerControl(context: Context?) : IPowerControl {
 

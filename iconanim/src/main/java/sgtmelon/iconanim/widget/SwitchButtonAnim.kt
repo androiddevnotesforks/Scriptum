@@ -11,8 +11,6 @@ import sgtmelon.iconanim.IconAnimControl
 
 /**
  * Version of [SwitchButton] with icon animation on switch
- *
- * @author SerjantArbuz
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class SwitchButtonAnim(context: Context, attrs: AttributeSet) : SwitchButton(context, attrs) {

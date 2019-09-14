@@ -13,8 +13,6 @@ import sgtmelon.scriptum.model.item.NotificationItem
 
 /**
  * Держатель уведомления для [NotificationAdapter]
- *
- * @author SerjantArbuz
  */
 class NotificationHolder(private val binding: ItemNotificationBinding,
                          private val clickListener: ItemListener.Click

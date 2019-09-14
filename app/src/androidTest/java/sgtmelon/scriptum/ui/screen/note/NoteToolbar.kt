@@ -10,8 +10,6 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
- *
- * @author SerjantArbuz
  */
 class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 

@@ -10,8 +10,6 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
  * Репозиторий обработки данных [RoomDb] для работы с будильником
  *
  * @param context для открытия [RoomDb]
- *
- * @author SerjantArbuz
  */
 class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 

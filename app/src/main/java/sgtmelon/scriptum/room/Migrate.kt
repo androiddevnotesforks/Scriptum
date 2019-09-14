@@ -7,9 +7,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 import java.util.UUID.randomUUID
 
 /**
- * Класс с объектами для миграции базы данных
- *
- * @author SerjantArbuz
+ * Class with objects for db migration
  */
 @Suppress("KDocUnresolvedReference")
 object Migrate {

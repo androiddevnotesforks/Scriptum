@@ -5,8 +5,6 @@ import org.junit.Test
 
 /**
  * Test for [Migrate]
- *
- * @author SerjantArbuz
  */
 class MigrateTest {
 

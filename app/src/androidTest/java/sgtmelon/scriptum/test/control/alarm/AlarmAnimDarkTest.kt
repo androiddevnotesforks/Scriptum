@@ -8,9 +8,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 
 /**
- * Тест работы анимации и цветовой схемы экрана [AlarmActivity] в тёмной теме
- *
- * @author SerjantArbuz
+ * Test of animation and color scheme of [AlarmActivity] in dark theme
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmAnimDarkTest: AlarmAnimParentTest() {

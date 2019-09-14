@@ -14,8 +14,6 @@ import sgtmelon.scriptum.room.converter.IntConverter
 
 /**
  * Repository for work with [SharedPreferences]
- *
- * @author SerjantArbuz
  */
 @Suppress("PrivatePropertyName")
 class PreferenceRepo(private val context: Context) : IPreferenceRepo {

@@ -3,9 +3,7 @@ package sgtmelon.iconanim
 import android.graphics.drawable.AnimatedVectorDrawable
 
 /**
- * Interface for [IconAnimControl] and for UI classes
- *
- * @author SerjantArbuz
+ * Interface for comminication with [IconAnimControl] and for UI classes
  */
 interface IconCallback {
 

@@ -5,12 +5,10 @@ import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
 /**
- * Абстрактный класс адаптера, с часто повторяющимся функционалом
+ * Parent abstract class for adapters with common functions
  *
- * @param <E>  - модель списка
- * @param <VH> - холдер для модели
- *
- * @author SerjantArbuz
+ * @param <E>  - list model
+ * @param <VH> - holder for model
  */
 abstract class ParentAdapter<T, VH : RecyclerView.ViewHolder>() : RecyclerView.Adapter<VH>() {
 

@@ -16,8 +16,6 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  * Репозиторий обработки данных [RoomDb] для [DevelopViewModel]
  *
  * @param context для открытия [RoomDb]
- *
- * @author SerjantArbuz
  */
 class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 

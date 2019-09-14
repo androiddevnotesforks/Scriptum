@@ -10,8 +10,6 @@ import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 
 /**
  * ViewModel for [AppActivity]
- *
- * @author SerjantArbuz
  */
 class AppViewModel(application: Application) : ParentViewModel<IAppActivity>(application),
         IAppViewModel {

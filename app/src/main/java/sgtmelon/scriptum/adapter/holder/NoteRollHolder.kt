@@ -12,8 +12,6 @@ import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Держатель заметки-списка для [NoteAdapter]
- *
- * @author SerjantArbuz
  */
 class NoteRollHolder(private val binding: ItemNoteRollBinding,
                      private val clickListener: ItemListener.Click,

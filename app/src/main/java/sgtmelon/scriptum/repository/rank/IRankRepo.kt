@@ -4,8 +4,6 @@ import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
  * Interface for communication with [RankRepo]
- *
- * @author SerjantArbuz
  */
 interface IRankRepo {
 

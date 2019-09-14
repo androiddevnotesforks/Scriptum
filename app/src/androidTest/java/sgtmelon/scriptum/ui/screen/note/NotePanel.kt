@@ -9,8 +9,6 @@ import sgtmelon.scriptum.ui.screen.main.BinScreen
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
- *
- * @author SerjantArbuz
  */
 class NotePanel(private val callback: INoteScreen) : ParentUi() {
 

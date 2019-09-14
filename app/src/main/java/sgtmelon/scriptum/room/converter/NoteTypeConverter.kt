@@ -4,9 +4,7 @@ import androidx.room.TypeConverter
 import sgtmelon.scriptum.model.key.NoteType
 
 /**
- * Конвертер из числа в [NoteType]
- *
- * @author SerjantArbuz
+ * Converter from number to [NoteType] and vice versa
  */
 class NoteTypeConverter {
 

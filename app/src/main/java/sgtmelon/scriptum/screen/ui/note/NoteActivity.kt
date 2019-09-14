@@ -20,8 +20,6 @@ import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 
 /**
  * Экран для отображения заметки - [TextNoteFragment], [RollNoteFragment]
- *
- * @author SerjantArbuz
  */
 class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 

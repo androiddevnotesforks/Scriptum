@@ -10,9 +10,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 
 /**
- * Тест анимации кнопки у тулбара [MenuControlAnim] в [TextNoteFragment] и [RollNoteFragment]
- *
- * @author SerjantArbuz
+ * Test of [MenuControlAnim] animations for [TextNoteFragment], [RollNoteFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class NoteToolbarIconTest : ParentUiTest() {

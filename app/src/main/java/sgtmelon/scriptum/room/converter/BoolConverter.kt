@@ -4,9 +4,7 @@ import androidx.annotation.IntRange
 import androidx.room.TypeConverter
 
 /**
- * Конвертер из числа в булевое значение
- *
- * @author SerjantArbuz
+ * Converter from number to boolean value and vice versa
  */
 class BoolConverter {
 

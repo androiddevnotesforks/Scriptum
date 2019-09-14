@@ -7,8 +7,6 @@ import sgtmelon.scriptum.model.NoteModel
 
 /**
  * Interface for communication дочерних ui абстракций с [TextNoteScreen] и [RollNoteScreen]
- *
- * @author SerjantArbuz
  */
 interface INoteScreen {
 

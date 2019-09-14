@@ -14,8 +14,6 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
  * Класс содержащий стандартные проверки для ui
- *
- * @author SerjantArbuz
  */
 abstract class BasicMatch {
 

@@ -6,8 +6,6 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
  * Interface for communication [RankViewModel] with [RankFragment]
- *
- * @author SerjantArbuz
  */
 interface IRankFragment {
 

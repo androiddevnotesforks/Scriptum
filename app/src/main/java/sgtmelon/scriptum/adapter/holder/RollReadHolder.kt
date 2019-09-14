@@ -13,8 +13,6 @@ import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Держатель пункта списка в состоянии просмотра для [RollAdapter]
- *
- * @author SerjantArbuz
  */
 class RollReadHolder(private val binding: ItemRollReadBinding,
                      private val clickListener: ItemListener.Click,

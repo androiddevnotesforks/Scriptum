@@ -8,9 +8,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 
 /**
- * Тест работы приложения при повороте экрана
- *
- * @author SerjantArbuz
+ * Test of application work with phone rotation
  */
 @RunWith(AndroidJUnit4::class)
 class RotationTest : ParentUiTest() {

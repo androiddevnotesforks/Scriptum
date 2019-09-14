@@ -8,8 +8,6 @@ import sgtmelon.scriptum.control.alarm.callback.IVibratorControl
 
 /**
  * Class for help control [Vibrator]
- *
- * @author SerjantArbuz
  */
 class VibratorControl(context: Context?) : IVibratorControl {
 

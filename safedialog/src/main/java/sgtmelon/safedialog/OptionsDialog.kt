@@ -11,8 +11,6 @@ import sgtmelon.safedialog.BlankDialog.Companion.VALUE
 
 /**
  * Dialog showing options with list item
- *
- * @author SerjantArbuz
  */
 class OptionsDialog : DialogFragment(), DialogInterface.OnClickListener {
 

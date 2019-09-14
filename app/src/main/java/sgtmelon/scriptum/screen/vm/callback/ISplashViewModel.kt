@@ -5,7 +5,5 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
  * Interface for communication [SplashActivity] with [SplashViewModel]
- *
- * @author SerjantArbuz
  */
 interface ISplashViewModel : IParentViewModel

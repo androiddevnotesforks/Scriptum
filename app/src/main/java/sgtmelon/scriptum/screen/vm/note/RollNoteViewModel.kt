@@ -39,8 +39,6 @@ import java.util.*
 
 /**
  * ViewModel for [RollNoteFragment]
- *
- * @author SerjantArbuz
  */
 class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFragment>(application),
         IRollNoteViewModel,

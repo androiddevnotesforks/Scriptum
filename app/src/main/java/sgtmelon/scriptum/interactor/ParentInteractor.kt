@@ -8,8 +8,6 @@ import sgtmelon.scriptum.repository.room.RoomRepo
 
 /**
  * Parent class for interactor's
- *
- * @author SerjantArbuz
  */
 abstract class ParentInteractor(protected val context: Context) {
 

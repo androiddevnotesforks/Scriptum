@@ -17,9 +17,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import java.util.*
 
 /**
- * ViewGroup элемент для создания ripple анимации
- *
- * @author SerjantArbuz
+ * ViewGroup element for create ripple animation
  */
 class RippleContainer : RelativeLayout {
 

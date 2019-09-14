@@ -11,8 +11,6 @@ import java.util.*
 
 /**
  * Dialog for choose date
- *
- * @author SerjantArbuz
  */
 class DateDialog : DateTimeBlankDialog() {
 

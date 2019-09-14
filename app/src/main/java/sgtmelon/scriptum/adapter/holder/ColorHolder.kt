@@ -8,15 +8,13 @@ import androidx.transition.Fade
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.ColorAdapter
-import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.extension.bindIndicatorColor
 import sgtmelon.scriptum.extension.getCompatColor
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Держатель цвета приложения для [ColorAdapter]
- *
- * @author SerjantArbuz
  */
 class ColorHolder(view: View) : RecyclerView.ViewHolder(view) {
 

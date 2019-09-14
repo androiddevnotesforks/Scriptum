@@ -10,8 +10,6 @@ import sgtmelon.scriptum.screen.ui.callback.IAppActivity
 
 /**
  * Parent activity for application, which need extends when need change theme
- *
- * @author SerjantArbuz
  */
 abstract class AppActivity : AppCompatActivity(), IAppActivity {
 

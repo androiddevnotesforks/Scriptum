@@ -11,9 +11,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
- * Адаптер списка цветов приложения для [ColorDialog]
- *
- * @author SerjantArbuz
+ * Adapter which displays list of application colors for [ColorDialog]
  */
 class ColorAdapter(context: Context, private val clickListener: ItemListener.Click)
     : ParentAdapter<Int, ColorHolder>() {

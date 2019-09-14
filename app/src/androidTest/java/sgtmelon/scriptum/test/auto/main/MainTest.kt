@@ -9,9 +9,7 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Тест работы [MainActivity]
- *
- * @author SerjantArbuz
+ * Test for[MainActivity]
  */
 @RunWith(AndroidJUnit4::class)
 class MainTest : ParentUiTest() {

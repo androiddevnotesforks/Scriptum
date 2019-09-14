@@ -9,8 +9,6 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 
 /**
  * Ресивер обработки комманд для [MainActivity]
- *
- * @author SerjantArbuz
  */
 class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
 

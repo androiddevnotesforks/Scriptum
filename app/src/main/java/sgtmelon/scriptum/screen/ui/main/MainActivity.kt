@@ -28,8 +28,6 @@ import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 
 /**
  * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment]
- *
- * @author SerjantArbuz
  */
 class MainActivity : AppActivity(), IMainActivity {
 

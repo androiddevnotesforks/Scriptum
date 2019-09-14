@@ -12,8 +12,6 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
  * Interactor for [SplashViewModel]
- *
- * @author SerjantArbuz
  */
 class SplashInteractor(context: Context) : ParentInteractor(context), ISplashInteractor {
 

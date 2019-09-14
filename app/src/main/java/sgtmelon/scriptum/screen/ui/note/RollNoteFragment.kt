@@ -47,8 +47,6 @@ import java.util.*
 
 /**
  * Фрагмент для отображения заметки списка
- *
- * @author SerjantArbuz
  */
 class RollNoteFragment : Fragment(), IRollNoteFragment {
 

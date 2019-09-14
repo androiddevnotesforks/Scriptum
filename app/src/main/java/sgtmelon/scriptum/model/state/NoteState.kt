@@ -2,8 +2,6 @@ package sgtmelon.scriptum.model.state
 
 /**
  * Состояние для фрагментов с заметками, необходимое для управления её редактированием
- *
- * @author SerjantArbuz
  */
 class NoteState(var isCreate: Boolean, var isBin: Boolean = false) {
 

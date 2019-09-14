@@ -6,8 +6,6 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
 /**
  * Interface for communication [NoteViewModel] with [NoteActivity]
- *
- * @author SerjantArbuz
  */
 interface INoteActivity {
 

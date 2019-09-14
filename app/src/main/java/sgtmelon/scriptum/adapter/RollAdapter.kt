@@ -13,9 +13,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 
 /**
- * Адаптер для [RollNoteFragment]
- *
- * @author SerjantArbuz
+ * Adapter which displays list of rolls for [RollNoteFragment]
  */
 class RollAdapter(
         private val rollChangeCallback: RollWriteHolder.RollChange,

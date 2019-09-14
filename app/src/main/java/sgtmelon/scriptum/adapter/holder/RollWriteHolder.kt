@@ -19,8 +19,6 @@ import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Держатель пункта списка в состоянии редактирования для [RollAdapter]
- *
- * @author SerjantArbuz
  */
 class RollWriteHolder(
         private val binding: ItemRollWriteBinding,

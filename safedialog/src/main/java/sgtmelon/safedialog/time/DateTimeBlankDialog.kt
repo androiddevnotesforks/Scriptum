@@ -11,8 +11,6 @@ import java.util.*
 
 /**
  * Base class for [DateDialog] and [TimeDialog]
- *
- * @author SerjantArbuz
  */
 abstract class DateTimeBlankDialog : BlankDialog(),
         DatePickerDialog.OnDateSetListener,

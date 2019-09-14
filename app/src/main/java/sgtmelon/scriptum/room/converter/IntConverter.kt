@@ -4,9 +4,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 
 /**
- * Конвертер из числа в булевый массив
- *
- * @author SerjantArbuz
+ * Converter from number to boolean array and vice versa
  */
 class IntConverter {
 

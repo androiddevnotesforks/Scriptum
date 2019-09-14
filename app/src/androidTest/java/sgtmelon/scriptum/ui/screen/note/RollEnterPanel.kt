@@ -7,8 +7,6 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
  * Часть UI абстракции для [RollNoteScreen]
- *
- * @author SerjantArbuz
  */
 class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
 

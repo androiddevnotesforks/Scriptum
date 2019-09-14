@@ -33,8 +33,6 @@ import android.preference.PreferenceFragment as OldPreferenceFragment
 
 /**
  * Экран настроек приложения
- *
- * @author SerjantArbuz
  */
 class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
 

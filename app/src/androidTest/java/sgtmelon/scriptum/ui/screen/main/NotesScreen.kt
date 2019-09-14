@@ -13,9 +13,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Класс для ui контроля экрана [NotesFragment]
- *
- * @author SerjantArbuz
+ * Class for UI control of [NotesFragment]
  */
 class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 

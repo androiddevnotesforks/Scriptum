@@ -10,8 +10,6 @@ import sgtmelon.scriptum.waitBefore
 
 /**
  * Класс для ui контроля диалога [MessageDialog] при отчистке корзины
- *
- * @author SerjantArbuz
  */
 class ClearDialogUi : ParentUi() {
 

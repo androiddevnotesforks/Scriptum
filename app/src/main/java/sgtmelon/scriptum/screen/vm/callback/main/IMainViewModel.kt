@@ -10,8 +10,6 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
 /**
  * Interface for communication [MainActivity] with [MainViewModel]
- *
- * @author SerjantArbuz
  */
 interface IMainViewModel : IParentViewModel, MainReceiver.Callback {
 

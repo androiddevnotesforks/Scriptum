@@ -7,9 +7,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Interface for communicate [DbData.Roll.TABLE] with [RoomDb]
- *
- * @author SerjantArbuz
+ * Interface for communications [DbData.Roll.TABLE] with [RoomDb]
  */
 @Dao
 @TypeConverters(BoolConverter::class)

@@ -15,8 +15,6 @@ import sgtmelon.scriptum.waitBefore
 
 /**
  * Класс для ui контроля диалога [SheetAddDialog]
- *
- * @author SerjantArbuz
  */
 class AddDialogUi : ParentUi() {
 

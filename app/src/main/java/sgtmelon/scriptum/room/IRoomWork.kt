@@ -4,8 +4,6 @@ import android.content.Context
 
 /**
  * Interface for easy work with Room
- *
- * @author SerjantArbuz
  */
 interface IRoomWork {
 

@@ -10,8 +10,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Test open screens with wrong intent data, check error handling
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class WrongData : ParentUiTest() {

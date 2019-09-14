@@ -7,8 +7,6 @@ import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
  * Interface for communication [RankFragment] with [RankViewModel]
- *
- * @author SerjantArbuz
  */
 interface IRankViewModel : IParentViewModel, RankTouchControl.Result {
 

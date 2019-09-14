@@ -33,8 +33,6 @@ import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 
 /**
  * Fragment which displays list of notes - [NoteEntity]
- *
- * @author SerjantArbuz
  */
 class NotesFragment : Fragment(), INotesFragment {
 

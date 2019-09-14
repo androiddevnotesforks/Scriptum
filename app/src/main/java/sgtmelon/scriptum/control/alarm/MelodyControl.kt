@@ -12,8 +12,6 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 
 /**
  * Class for help control [MediaPlayer] and [AudioManager]
- *
- * @author SerjantArbuz
  */
 class MelodyControl(private val context: Context) : IMelodyControl,
         AudioManager.OnAudioFocusChangeListener {

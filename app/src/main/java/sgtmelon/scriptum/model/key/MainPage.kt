@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.model.key
 
 /**
- * Класс идентифицирующий страницы главного меню
- *
- * @author SerjantArbuz
+ * Class identifying pages of main menu
  */
 enum class MainPage { RANK, NOTES, BIN }

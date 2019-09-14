@@ -9,9 +9,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Класс для ui контроля экрана [SplashActivity]
- *
- * @author SerjantArbuz
+ * Class for UI control of [SplashActivity]
  */
 class SplashScreen : ParentUi() {
 

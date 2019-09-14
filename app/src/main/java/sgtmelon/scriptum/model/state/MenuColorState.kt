@@ -6,8 +6,6 @@ import androidx.annotation.FloatRange
 
 /**
  * State for from/to colors of menu
- *
- * @author SerjantArbuz
  */
 class MenuColorState(var from: Int = 0, var to: Int = 0) {
 

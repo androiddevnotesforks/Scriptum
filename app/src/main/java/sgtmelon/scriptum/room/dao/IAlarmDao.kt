@@ -7,9 +7,7 @@ import sgtmelon.scriptum.room.RoomDb
 import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
- * Interface for communicate [DbData.Alarm.TABLE] with [RoomDb]
- *
- * @author SerjantArbuz
+ * Interface for communications [DbData.Alarm.TABLE] with [RoomDb]
  */
 @Dao
 interface IAlarmDao {

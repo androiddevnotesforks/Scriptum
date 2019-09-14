@@ -19,8 +19,6 @@ import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 
 /**
  * ViewModel for [BinFragment]
- *
- * @author SerjantArbuz
  */
 class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
         IBinViewModel {

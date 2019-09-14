@@ -8,9 +8,7 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
- * Класс для ui контроля экрана [PreferenceActivity], [PreferenceFragment]
- *
- * @author SerjantArbuz
+ * Class for UI control of [PreferenceActivity], [PreferenceFragment]
  */
 class PreferenceScreen : ParentUi() {
 

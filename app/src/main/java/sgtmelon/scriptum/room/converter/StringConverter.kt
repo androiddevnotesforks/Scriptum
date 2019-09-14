@@ -4,9 +4,7 @@ import androidx.room.TypeConverter
 import java.util.*
 
 /**
- * Конвертер из строки в массив Long
- *
- * @author SerjantArbuz
+ * Converter from string to long array and vice versa
  */
 class StringConverter {
 

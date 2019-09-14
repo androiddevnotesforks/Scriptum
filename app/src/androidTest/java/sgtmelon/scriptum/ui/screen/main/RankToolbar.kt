@@ -7,8 +7,6 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
  * Часть UI абстракции для [RankScreen]
- *
- * @author SerjantArbuz
  */
 class RankToolbar : ParentUi() {
 

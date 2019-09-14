@@ -9,8 +9,6 @@ import sgtmelon.extension.getShortAnimTime
 
 /**
  * Handler for register animation start/end
- *
- * @author SerjantArbuz
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class IconAnimControl(

@@ -6,8 +6,6 @@ import sgtmelon.scriptum.screen.vm.PreferenceViewModel
 
 /**
  * Provider of summary arrays for [PreferenceViewModel]
- *
- * @author SerjantArbuz
  */
 class SummaryProvider(context: Context) {
 

@@ -7,8 +7,6 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 
 /**
  * Interface for communication [AlarmActivity] with [AlarmViewModel]
- *
- * @author SerjantArbuz
  */
 interface IAlarmViewModel: IParentViewModel {
 

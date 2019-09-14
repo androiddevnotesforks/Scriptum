@@ -8,8 +8,6 @@ import java.util.*
 
 /**
  * Class for help control [AlarmManager]
- *
- * @author SerjantArbuz
  */
 class AlarmControl(context: Context?) : IAlarmControl {
 

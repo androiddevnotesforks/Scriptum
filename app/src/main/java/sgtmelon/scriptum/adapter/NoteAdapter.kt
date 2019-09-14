@@ -14,9 +14,7 @@ import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 
 /**
- * Адаптер списка заметок для [NotesFragment], [BinFragment]
- *
- * @author SerjantArbuz
+ * Adapter which displays list of notes for [NotesFragment], [BinFragment]
  */
 class NoteAdapter(
                   private val clickListener: ItemListener.Click,

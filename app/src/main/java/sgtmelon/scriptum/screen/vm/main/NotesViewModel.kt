@@ -22,8 +22,6 @@ import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
 
 /**
  * ViewModel for [NotesFragment]
- *
- * @author SerjantArbuz
  */
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
         INotesViewModel {

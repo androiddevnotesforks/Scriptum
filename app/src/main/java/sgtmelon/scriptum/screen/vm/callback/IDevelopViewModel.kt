@@ -5,8 +5,6 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
  * Interface for communication [DevelopActivity] with [DevelopViewModel]
- *
- * @author SerjantArbuz
  */
 interface IDevelopViewModel : IParentViewModel {
 

@@ -10,8 +10,6 @@ import sgtmelon.scriptum.room.entity.RollEntity
  * Репозиторий обработки данных [RoomDb] для работы с закреплением заметки в StatusBar'е
  *
  * @param context для открытия [RoomDb]
- *
- * @author SerjantArbuz
  */
 class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
 

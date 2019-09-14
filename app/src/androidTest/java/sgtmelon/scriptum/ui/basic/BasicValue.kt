@@ -11,8 +11,6 @@ import org.hamcrest.TypeSafeMatcher
 
 /**
  * Класс содержащий стандартные методы подсчёта значений ui
- *
- * @author SerjantArbuz
  */
 class BasicValue {
 

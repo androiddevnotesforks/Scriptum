@@ -9,8 +9,6 @@ import kotlin.collections.ArrayList
 
 /**
  * Dialog for multiply check choice
- *
- * @author SerjantArbuz
  */
 class MultipleDialog : BlankDialog() {
 

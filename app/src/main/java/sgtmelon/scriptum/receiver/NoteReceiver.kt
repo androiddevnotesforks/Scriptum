@@ -9,8 +9,6 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
  * Ресивер обработки комманд для [NoteActivity]
- *
- * @author SerjantArbuz
  */
 class NoteReceiver(private val callback: Callback) : BroadcastReceiver() {
 

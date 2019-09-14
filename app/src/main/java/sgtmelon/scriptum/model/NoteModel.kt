@@ -10,9 +10,7 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Модель заметки
- *
- * @author SerjantArbuz
+ * Model of note
  */
 data class NoteModel(
         @Embedded val noteEntity: NoteEntity,

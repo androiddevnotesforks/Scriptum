@@ -7,8 +7,6 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
  * Interface for communication [SplashViewModel] with [SplashActivity]
- *
- * @author SerjantArbuz
  */
 interface ISplashActivity : AlarmCallback.Cancel {
 

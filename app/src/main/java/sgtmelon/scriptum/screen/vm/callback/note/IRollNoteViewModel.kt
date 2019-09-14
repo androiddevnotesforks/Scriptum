@@ -12,8 +12,6 @@ import java.util.*
 
 /**
  * Interface for communication [RollNoteFragment] with [RollNoteViewModel]
- *
- * @author SerjantArbuz
  */
 interface IRollNoteViewModel : IParentViewModel,
         IRollNoteMenu,

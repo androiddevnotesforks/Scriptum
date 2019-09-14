@@ -14,8 +14,6 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
  * Integration test for [AlarmRepo]
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmRepoTest : ParentIntegrationTest() {

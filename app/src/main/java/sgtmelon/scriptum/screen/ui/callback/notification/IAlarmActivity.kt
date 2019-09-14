@@ -12,8 +12,6 @@ import java.util.*
 
 /**
  * Interface for communication [AlarmViewModel] with [AlarmActivity]
- *
- * @author SerjantArbuz
  */
 interface IAlarmActivity {
 

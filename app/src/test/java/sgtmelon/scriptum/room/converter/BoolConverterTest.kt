@@ -5,8 +5,6 @@ import org.junit.Test
 
 /**
  * Test for [BoolConverter]
- *
- * @author SerjantArbuz
  */
 class BoolConverterTest {
 

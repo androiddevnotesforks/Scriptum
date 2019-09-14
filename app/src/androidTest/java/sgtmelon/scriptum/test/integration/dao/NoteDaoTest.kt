@@ -12,8 +12,6 @@ import kotlin.random.Random
 
 /**
  * Integration test for [INoteDao]
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class NoteDaoTest : ParentIntegrationTest() {

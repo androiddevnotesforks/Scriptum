@@ -8,8 +8,6 @@ import sgtmelon.scriptum.screen.vm.note.NoteViewModel
 
 /**
  * Interface for communication [NoteActivity] with [NoteViewModel]
- *
- * @author SerjantArbuz
  */
 interface INoteViewModel : IParentViewModel, NoteReceiver.Callback {
 

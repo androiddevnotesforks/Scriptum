@@ -12,8 +12,6 @@ import kotlin.random.Random
 
 /**
  * Data for weight tests
- *
- * @author SerjantArbuz
  */
 class WeightData(override val context: Context) : IRoomWork {
 

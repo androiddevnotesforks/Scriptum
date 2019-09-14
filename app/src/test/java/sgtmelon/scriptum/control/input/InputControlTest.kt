@@ -7,8 +7,6 @@ import sgtmelon.scriptum.BuildConfig.INPUT_CONTROL_MAX_SIZE
 
 /**
  * Test for [InputControl]
- *
- * @author SerjantArbuz
  */
 class InputControlTest {
 

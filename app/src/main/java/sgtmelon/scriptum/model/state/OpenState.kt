@@ -4,8 +4,6 @@ import android.os.Bundle
 
 /**
  * Состояние для диалогов, сохраняющее открыт ли он
- *
- * @author SerjantArbuz
  */
 class OpenState {
 

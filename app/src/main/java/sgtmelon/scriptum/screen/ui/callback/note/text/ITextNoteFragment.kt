@@ -13,8 +13,6 @@ import java.util.*
 
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
- *
- * @author SerjantArbuz
  */
 interface ITextNoteFragment {
 

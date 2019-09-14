@@ -5,8 +5,6 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
- *
- * @author SerjantArbuz
  */
 interface IRollNoteMenu {
 

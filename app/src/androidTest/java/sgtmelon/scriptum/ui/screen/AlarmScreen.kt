@@ -12,9 +12,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.waitBefore
 
 /**
- * Класс для ui контроля экрана [AlarmActivity]
- *
- * @author SerjantArbuz
+ * Class for UI control of [AlarmActivity]
  */
 class AlarmScreen(private val noteModel: NoteModel) : ParentUi() {
 

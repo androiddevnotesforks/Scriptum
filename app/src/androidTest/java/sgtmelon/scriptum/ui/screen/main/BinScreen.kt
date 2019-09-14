@@ -12,9 +12,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Класс для ui контроля экрана [BinFragment]
- *
- * @author SerjantArbuz
+ * Class for UI control of [BinFragment]
  */
 class BinScreen() : ParentRecyclerScreen(R.id.bin_recycler) {
 

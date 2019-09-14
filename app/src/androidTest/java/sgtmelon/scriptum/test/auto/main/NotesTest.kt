@@ -8,9 +8,7 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Тест работы [NotesFragment]
- *
- * @author SerjantArbuz
+ * Test for[NotesFragment]
  */
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentUiTest() {

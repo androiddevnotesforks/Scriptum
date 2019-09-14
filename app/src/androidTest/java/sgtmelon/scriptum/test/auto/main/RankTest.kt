@@ -6,9 +6,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.waitAfter
 
 /**
- * Тест работы [RankFragment]
- *
- * @author SerjantArbuz
+ * Test for[RankFragment]
  */
 class RankTest : ParentUiTest() {
 

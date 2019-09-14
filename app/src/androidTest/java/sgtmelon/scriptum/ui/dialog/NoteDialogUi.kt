@@ -12,8 +12,6 @@ import sgtmelon.scriptum.waitBefore
 
 /**
  * Класс для ui контроля диалога [MultipleDialog] при долгом нажатии на заметку
- *
- * @author SerjantArbuz
  */
 class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
 

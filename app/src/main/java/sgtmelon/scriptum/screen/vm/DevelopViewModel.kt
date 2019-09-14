@@ -13,8 +13,6 @@ import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 
 /**
  * ViewModel for [DevelopActivity]
- *
- * @author SerjantArbuz
  */
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActivity>(application),
         IDevelopViewModel {

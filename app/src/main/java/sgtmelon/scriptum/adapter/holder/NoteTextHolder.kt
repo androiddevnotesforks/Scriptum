@@ -12,8 +12,6 @@ import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Держатель заметки-текста для [NoteAdapter]
- *
- * @author SerjantArbuz
  */
 class NoteTextHolder(private val binding: ItemNoteTextBinding,
                      private val clickListener: ItemListener.Click,

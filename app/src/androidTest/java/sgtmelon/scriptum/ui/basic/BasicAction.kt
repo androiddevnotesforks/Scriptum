@@ -19,9 +19,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 
 /**
- * Класс содержащий стандартные действия над элементами ui
- *
- * @author SerjantArbuz
+ * Class contains standard actions with UI elements
  */
 class BasicAction {
 

@@ -8,8 +8,6 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
  * Interface for communication [BinViewModel] with [BinFragment]
- *
- * @author SerjantArbuz
  */
 interface IBinFragment {
 

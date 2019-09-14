@@ -5,8 +5,6 @@ import sgtmelon.scriptum.screen.vm.ParentViewModel
 
 /**
  * Parent interface for communication with children of [ParentViewModel]
- *
- * @author SerjantArbuz
  */
 interface IParentViewModel {
 

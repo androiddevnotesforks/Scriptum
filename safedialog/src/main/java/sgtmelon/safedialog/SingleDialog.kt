@@ -8,8 +8,6 @@ import androidx.appcompat.app.AlertDialog
 
 /**
  * Dialog for single choice
- *
- * @author SerjantArbuz
  */
 class SingleDialog : BlankDialog() {
 

@@ -17,9 +17,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
 
 /**
- * Класс для ui контроля экрана [RankFragment]
- *
- * @author SerjantArbuz
+ * Class for UI control of [RankFragment]
  */
 class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 

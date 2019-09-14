@@ -22,8 +22,6 @@ import sgtmelon.scriptum.screen.ui.SplashActivity
 
 /**
  * Управление закреплением заметки в статус баре [NoteModel]
- *
- * @author SerjantArbuz
  */
 class BindControl(private val context: Context, noteModel: NoteModel) {
 

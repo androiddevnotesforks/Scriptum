@@ -8,8 +8,6 @@ import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
 /**
  * Interface for communication [MainViewModel] with [MainActivity]
- *
- * @author SerjantArbuz
  */
 interface IMainActivity {
 

@@ -11,8 +11,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Test recyclerView lists for lags
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class ListTest : ParentUiTest() {

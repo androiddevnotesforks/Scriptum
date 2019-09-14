@@ -8,8 +8,6 @@ import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Interface for communication with [RoomRepo]
- *
- * @author SerjantArbuz
  */
 interface IRoomRepo {
 

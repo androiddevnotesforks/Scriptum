@@ -27,8 +27,6 @@ import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 
 /**
  * Screen with list of notifications
- *
- * @author SerjantArbuz
  */
 class NotificationActivity : AppActivity(), INotificationActivity {
 

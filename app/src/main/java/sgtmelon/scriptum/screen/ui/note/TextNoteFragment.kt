@@ -37,8 +37,6 @@ import java.util.*
 
 /**
  * Фрагмент для отображения тектовой заметки
- *
- * @author SerjantArbuz
  */
 class TextNoteFragment : Fragment(), ITextNoteFragment {
 

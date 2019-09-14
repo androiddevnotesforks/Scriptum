@@ -5,8 +5,6 @@ import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Interface for communication with [BindRepo]
- *
- * @author SerjantArbuz
  */
 interface IBindRepo {
 

@@ -9,8 +9,6 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 
 /**
  * Factory for create/get fragments
- *
- * @author SerjantArbuz
  */
 object FragmentFactory {
 

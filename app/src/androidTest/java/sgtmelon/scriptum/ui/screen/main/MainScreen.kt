@@ -9,9 +9,7 @@ import sgtmelon.scriptum.ui.dialog.AddDialogUi
 import sgtmelon.scriptum.waitAfter
 
 /**
- * Класс для ui контроля экрана [MainActivity]
- *
- * @author SerjantArbuz
+ * Class for UI control of [MainActivity]
  */
 class MainScreen : ParentUi() {
 

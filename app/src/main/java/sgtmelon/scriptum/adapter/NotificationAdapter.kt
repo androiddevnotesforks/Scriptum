@@ -10,9 +10,7 @@ import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 
 /**
- * Адаптер списка уведомлений для [NotificationActivity]
- *
- * @author SerjantArbuz
+ * Adapter which displays list of notifications for [NotificationActivity]
  */
 class NotificationAdapter(private val clickListener: ItemListener.Click) :
         ParentAdapter<NotificationItem, NotificationHolder>() {

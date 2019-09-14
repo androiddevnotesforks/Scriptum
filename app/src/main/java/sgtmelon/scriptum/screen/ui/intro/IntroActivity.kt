@@ -16,8 +16,6 @@ import sgtmelon.scriptum.screen.ui.main.MainActivity
 
 /**
  * Экран со вступительным туториалом
- *
- * @author SerjantArbuz
  */
 class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 

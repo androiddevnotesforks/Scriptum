@@ -22,8 +22,6 @@ import java.util.*
 
 /**
  * ViewModel for [AlarmActivity]
- *
- * @author SerjantArbuz
  */
 class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
         IAlarmViewModel {

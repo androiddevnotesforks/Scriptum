@@ -10,9 +10,7 @@ import sgtmelon.scriptum.ui.screen.SplashScreen
 import kotlin.random.Random
 
 /**
- * Родительский класс для UI тестов
- *
- * @author SerjantArbuz
+ * Parent class for UI tests
  */
 abstract class ParentUiTest : ParentTest() {
 

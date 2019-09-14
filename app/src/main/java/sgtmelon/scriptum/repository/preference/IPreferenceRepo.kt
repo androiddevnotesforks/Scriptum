@@ -9,8 +9,6 @@ import sgtmelon.scriptum.model.state.SignalState
 
 /**
  * Interface for communication with [PreferenceRepo]
- *
- * @author SerjantArbuz
  */
 interface IPreferenceRepo {
 

@@ -5,8 +5,6 @@ import sgtmelon.scriptum.control.input.InputControl
 
 /**
  * Describes actions in [InputControl]
- *
- * @author SerjantArbuz
  */
 @IntDef(
         InputAction.RANK, InputAction.COLOR,

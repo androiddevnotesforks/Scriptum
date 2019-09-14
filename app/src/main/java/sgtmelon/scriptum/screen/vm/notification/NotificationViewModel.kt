@@ -13,8 +13,6 @@ import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
 
 /**
  * ViewModel for [NotificationActivity]
- *
- * @author SerjantArbuz
  */
 class NotificationViewModel(application: Application) :
         ParentViewModel<INotificationActivity>(application),

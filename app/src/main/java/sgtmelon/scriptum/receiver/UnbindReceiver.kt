@@ -14,8 +14,6 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**
  * Ресивер обработки нажатий по кнопкам для [BindControl]
- *
- * @author SerjantArbuz
  */
 class UnbindReceiver : BroadcastReceiver() {
 

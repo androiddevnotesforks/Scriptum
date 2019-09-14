@@ -6,8 +6,6 @@ import androidx.test.espresso.IdlingResource
 /**
  * Класс для поддержки работоспособности тестов, во время ожидания операции
  * Замена для Thread.sleep(...)
- *
- * @author SerjantArbuz
  */
 class AppIdlingResource : IdlingResource, AppIdlingCallback {
 

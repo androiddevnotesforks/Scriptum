@@ -11,8 +11,6 @@ import sgtmelon.scriptum.model.key.NoteType
 
 /**
  * Factory for create/get dialogs
- *
- * @author SerjantArbuz
  */
 object DialogFactory {
 

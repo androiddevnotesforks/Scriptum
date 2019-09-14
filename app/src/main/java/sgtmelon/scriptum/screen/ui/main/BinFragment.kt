@@ -28,8 +28,6 @@ import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 
 /**
  * Fragment which displays list of deleted notes - [NoteEntity]
- *
- * @author SerjantArbuz
  */
 class BinFragment : Fragment(), IBinFragment {
 

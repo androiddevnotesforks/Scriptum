@@ -7,7 +7,7 @@ import sgtmelon.scriptum.screen.ui.intro.IntroFragment
 import java.util.*
 
 /**
- * Адаптер страниц для вступления [IntroActivity]
+ * Adapter which displays pages of intro for [IntroActivity]
  */
 class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 

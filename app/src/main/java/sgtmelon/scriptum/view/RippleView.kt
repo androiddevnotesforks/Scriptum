@@ -8,9 +8,7 @@ import sgtmelon.scriptum.R
 import kotlin.math.min
 
 /**
- * View элемент использующийся внутри [RippleContainer]
- *
- * @author SerjantArbuz
+ * View element which uses inside [RippleContainer]
  */
 class RippleView(context: Context) : View(context) {
 

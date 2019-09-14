@@ -5,8 +5,6 @@ import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
- *
- * @author SerjantArbuz
  */
 interface ITextNoteMenu {
 

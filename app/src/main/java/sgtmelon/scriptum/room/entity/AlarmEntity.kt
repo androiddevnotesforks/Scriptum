@@ -7,9 +7,7 @@ import sgtmelon.scriptum.model.data.DbData.Alarm
 import sgtmelon.scriptum.model.data.DbData.Note
 
 /**
- * Элемент будильника в [NoteModel]
- *
- * @author SerjantArbuz
+ * Element of alarm for [NoteModel]
  */
 @Entity(tableName = Alarm.TABLE,
         foreignKeys = [ForeignKey(

@@ -9,8 +9,6 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
  * Interactor for [NotesViewModel]
- *
- * @author SerjantArbuz
  */
 class NotesInteractor(context: Context) : ParentInteractor(context), INotesInteractor {
 

@@ -9,8 +9,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Test for [IntroActivity]
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class IntroTest : ParentUiTest() {

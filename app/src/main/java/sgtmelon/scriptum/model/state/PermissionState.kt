@@ -7,8 +7,6 @@ import sgtmelon.scriptum.model.key.PermissionResult
 
 /**
  * State for permission request
- *
- * @author SerjantArbuz
  */
 class PermissionState(private val activity: Activity, val permission: String) {
 

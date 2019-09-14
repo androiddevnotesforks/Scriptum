@@ -10,8 +10,6 @@ import sgtmelon.scriptum.model.item.InputItem
 
 /**
  * Контроллер ввода текста для [InputControl]
- *
- * @author SerjantArbuz
  */
 class InputTextWatcher(private val view: EditText?,
                        @InputAction private val tag: Int,

@@ -5,8 +5,6 @@ import sgtmelon.scriptum.model.annotation.Theme
 
 /**
  * Interface for communication with [BinInteractor]
- *
- * @author SerjantArbuz
  */
 interface IBinInteractor {
 

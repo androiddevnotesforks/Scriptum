@@ -13,8 +13,6 @@ import sgtmelon.scriptum.repository.room.RoomRepo
 
 /**
  * Родительский ViewModel
- *
- * @author SerjantArbuz
  */
 abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(application) {
 

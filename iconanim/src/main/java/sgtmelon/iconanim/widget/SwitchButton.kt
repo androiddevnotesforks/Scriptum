@@ -14,8 +14,6 @@ import sgtmelon.iconanim.R
 
 /**
  * Button with automatic icon change via [setDrawable]
- *
- * @author SerjantArbuz
  */
 open class SwitchButton(context: Context, attrs: AttributeSet)
     : AppCompatImageButton(context, attrs),

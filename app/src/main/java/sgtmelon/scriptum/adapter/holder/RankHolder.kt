@@ -15,8 +15,6 @@ import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
  * Держатель категори для [RankAdapter]
- *
- * @author SerjantArbuz
  */
 @SuppressLint("ClickableViewAccessibility")
 class RankHolder(private val binding: ItemRankBinding,

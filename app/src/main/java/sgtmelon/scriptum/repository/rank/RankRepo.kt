@@ -13,8 +13,6 @@ import sgtmelon.scriptum.room.entity.RankEntity
  * Репозиторий обработки данных [RoomDb] для работы с категориями
  *
  * @param context для открытия [RoomDb]
- *
- * @author SerjantArbuz
  */
 class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 

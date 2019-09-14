@@ -15,8 +15,6 @@ import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
  * Integration test for [IRollDao]
- *
- * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class RollDaoTest : ParentIntegrationTest() {

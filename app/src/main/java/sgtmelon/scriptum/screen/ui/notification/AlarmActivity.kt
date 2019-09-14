@@ -40,8 +40,6 @@ import java.util.*
 
 /**
  * Screen with notification opened by timer
- *
- * @author SerjantArbuz
  */
 class AlarmActivity : AppActivity(), IAlarmActivity {
 

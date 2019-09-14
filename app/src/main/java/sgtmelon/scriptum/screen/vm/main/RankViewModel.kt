@@ -18,8 +18,6 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 
 /**
  * ViewModel for [RankFragment]
- *
- * @author SerjantArbuz
  */
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {

@@ -10,8 +10,6 @@ import java.util.*
 
 /**
  * Interface for communication [TextNoteFragment] with [TextNoteViewModel]
- *
- * @author SerjantArbuz
  */
 interface ITextNoteViewModel : IParentViewModel, ITextNoteMenu, InputTextWatcher.TextChange {
 

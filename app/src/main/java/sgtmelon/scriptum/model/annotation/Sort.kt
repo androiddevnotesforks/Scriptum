@@ -4,8 +4,6 @@ import androidx.annotation.IntDef
 
 /**
  * Describes standard sorting types for notes
- *
- * @author SerjantArbuz
  */
 @IntDef(Sort.CHANGE, Sort.CREATE, Sort.RANK, Sort.COLOR)
 annotation class Sort {

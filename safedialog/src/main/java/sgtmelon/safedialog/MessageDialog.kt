@@ -7,8 +7,6 @@ import androidx.appcompat.app.AlertDialog
 
 /**
  * Dialog with message for user
- *
- * @author SerjantArbuz
  */
 class MessageDialog : BlankDialog() {
 

@@ -11,8 +11,6 @@ import sgtmelon.scriptum.waitBefore
 
 /**
  * Класс для ui контроля диалога [RenameDialog]
- *
- * @author SerjantArbuz
  */
 class RenameDialogUi(private val title: String) : ParentUi() {
 

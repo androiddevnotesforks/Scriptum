@@ -5,8 +5,6 @@ import sgtmelon.scriptum.screen.vm.AppViewModel
 
 /**
  * Interface for communication [AppActivity] with [AppViewModel]
- *
- * @author SerjantArbuz
  */
 interface IAppViewModel : IParentViewModel{
 

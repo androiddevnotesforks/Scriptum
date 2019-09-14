@@ -7,8 +7,6 @@ import org.junit.Test
 
 /**
  * Test for [IntConverter]
- *
- * @author SerjantArbuz
  */
 class IntConverterTest {
 

@@ -7,8 +7,6 @@ import kotlin.math.max
 
 /**
  * Model with params for [RippleContainer]
- *
- * @author SerjantArbuz
  */
 class RippleParams(@Theme private val theme: Int, private val parentView: View, var hookView: View) {
 

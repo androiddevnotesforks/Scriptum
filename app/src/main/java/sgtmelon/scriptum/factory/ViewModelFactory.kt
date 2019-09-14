@@ -43,8 +43,6 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
 /**
  * Factory for create viewModel
- *
- * @author SerjantArbuz
  */
 object ViewModelFactory {
 

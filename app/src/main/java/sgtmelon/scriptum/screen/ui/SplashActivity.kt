@@ -18,8 +18,6 @@ import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 
 /**
  * Start screen of application
- *
- * @author SerjantArbuz
  */
 class SplashActivity : AppCompatActivity(), ISplashActivity {
 

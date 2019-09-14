@@ -6,8 +6,6 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 
 /**
  * Interface for communication [NotificationActivity] with [NotificationViewModel]
- *
- * @author SerjantArbuz
  */
 interface INotificationViewModel : IParentViewModel {
 

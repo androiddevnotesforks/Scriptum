@@ -6,8 +6,6 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
  * Interface for communication [BinFragment] with [BinViewModel]
- *
- * @author SerjantArbuz
  */
 interface IBinViewModel : IParentViewModel {
 

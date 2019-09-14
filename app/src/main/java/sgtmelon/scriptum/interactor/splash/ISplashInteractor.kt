@@ -4,8 +4,6 @@ import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 
 /**
  * Interface for communication with [SplashInteractor]
- *
- * @author SerjantArbuz
  */
 interface ISplashInteractor {
 

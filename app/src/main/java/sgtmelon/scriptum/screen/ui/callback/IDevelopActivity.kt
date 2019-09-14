@@ -6,8 +6,6 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
 
 /**
  * Interface for communication [DevelopViewModel] with [DevelopActivity]
- *
- * @author SerjantArbuz
  */
 interface IDevelopActivity {
 

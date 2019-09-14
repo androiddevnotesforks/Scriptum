@@ -9,8 +9,6 @@ import android.app.AlertDialog as AlertDialogOld
 
 /**
  * Base class for safe dialogs
- *
- * @author SerjantArbuz
  */
 abstract class BlankDialog : DialogFragment() {
 

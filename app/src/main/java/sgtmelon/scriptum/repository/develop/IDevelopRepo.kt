@@ -2,8 +2,6 @@ package sgtmelon.scriptum.repository.develop
 
 /**
  * Interface for communication with [DevelopRepo]
- *
- * @author SerjantArbuz
  */
 interface IDevelopRepo {
 

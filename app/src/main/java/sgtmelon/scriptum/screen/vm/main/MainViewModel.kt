@@ -15,8 +15,6 @@ import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 
 /**
  * ViewModel for [MainActivity]
- *
- * @author SerjantArbuz
  */
 class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(application),
         IMainViewModel {

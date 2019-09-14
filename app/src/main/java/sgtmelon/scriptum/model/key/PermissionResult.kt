@@ -7,7 +7,5 @@ package sgtmelon.scriptum.model.key
  * [ALLOWED] - You may ask for permission
  * [FORBIDDEN] - User don't want see permission request
  * [GRANTED] - User gave you permission
- *
- * @author SerjantArbuz
  */
 enum class PermissionResult {LOW_API, ALLOWED, FORBIDDEN, GRANTED}

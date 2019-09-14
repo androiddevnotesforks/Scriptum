@@ -7,8 +7,6 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
 /**
  * Interactor for [BinViewModel]
- *
- * @author SerjantArbuz
  */
 class BinInteractor(context: Context) : ParentInteractor(context), IBinInteractor {
 

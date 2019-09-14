@@ -34,8 +34,6 @@ import java.util.*
 
 /**
  * ViewModel for [TextNoteFragment]
- *
- * @author SerjantArbuz
  */
 class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
         ITextNoteViewModel,

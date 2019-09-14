@@ -6,8 +6,6 @@ import sgtmelon.scriptum.model.key.NoteType
 
 /**
  * Test for [NoteTypeConverter]
- *
- * @author SerjantArbuz
  */
 class NoteTypeConverterTest {
 

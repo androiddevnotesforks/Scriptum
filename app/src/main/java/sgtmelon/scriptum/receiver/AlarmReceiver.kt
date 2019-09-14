@@ -14,8 +14,6 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 
 /**
  * Receiver for open [AlarmActivity] by time
- *
- * @author SerjantArbuz
  */
 class AlarmReceiver : BroadcastReceiver() {
 

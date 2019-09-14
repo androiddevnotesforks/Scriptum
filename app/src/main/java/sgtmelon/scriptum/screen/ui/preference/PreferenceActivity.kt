@@ -10,8 +10,6 @@ import sgtmelon.scriptum.screen.ui.AppActivity
 
 /**
  * Активити для отображения [PreferenceFragment]
- *
- * @author SerjantArbuz
  */
 class PreferenceActivity : AppActivity() {
 

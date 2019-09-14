@@ -12,9 +12,7 @@ import sgtmelon.scriptum.room.converter.BoolConverter
 import sgtmelon.scriptum.room.converter.NoteTypeConverter
 
 /**
- * Элемент информации о заметки для [NoteModel]
- *
- * @author SerjantArbuz
+ * Element of information about note for [NoteModel]
  */
 @Entity(tableName = Note.TABLE)
 @TypeConverters(BoolConverter::class, NoteTypeConverter::class)

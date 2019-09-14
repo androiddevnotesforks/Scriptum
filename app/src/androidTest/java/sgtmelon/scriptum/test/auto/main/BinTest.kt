@@ -6,9 +6,7 @@ import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Тест работы [BinFragment]
- *
- * @author SerjantArbuz
+ * Test for[BinFragment]
  */
 class BinTest : ParentUiTest() {
 

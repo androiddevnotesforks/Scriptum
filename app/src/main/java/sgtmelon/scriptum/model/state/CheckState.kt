@@ -5,8 +5,6 @@ import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Состояние для отметок, определяющее отмечено ли всё в списке с элементами [RollEntity]
- *
- * @author SerjantArbuz
  */
 class CheckState {
 

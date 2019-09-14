@@ -6,9 +6,7 @@ import sgtmelon.scriptum.ui.basic.BasicValue
 import sgtmelon.scriptum.waitAfter
 
 /**
- * Родительский класс для экранов содержащих [RecyclerView]
- *
- * @author SerjantArbuz
+ * Parent class for screens which contains [RecyclerView]
  */
 abstract class ParentRecyclerScreen(protected val recyclerId: Int) : ParentUi() {
 

@@ -12,9 +12,7 @@ import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
 
 /**
- * Класс для ui контроля экрана [NoteActivity], [RollNoteFragment]
- *
- * @author SerjantArbuz
+ * Class for UI control of [NoteActivity], [RollNoteFragment]
  */
 class RollNoteScreen(override var state: State,
         override var noteModel: NoteModel,

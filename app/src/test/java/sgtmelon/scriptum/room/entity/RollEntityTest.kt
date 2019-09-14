@@ -5,8 +5,6 @@ import org.junit.Test
 
 /**
  * Test for [RollEntity]
- *
- * @author SerjantArbuz
  */
 class RollEntityTest {
 

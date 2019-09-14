@@ -10,8 +10,6 @@ import sgtmelon.scriptum.room.converter.NoteTypeConverter
 /**
  * Модель для хранения краткой информации о заметке (необходимой для отображения элемента списка)
  * и информацию об уведомлении к ней
- *
- * @author SerjantArbuz
  */
 @TypeConverters(NoteTypeConverter::class)
 data class NotificationItem(@Embedded val note: Note, @Embedded val alarm: Alarm) {

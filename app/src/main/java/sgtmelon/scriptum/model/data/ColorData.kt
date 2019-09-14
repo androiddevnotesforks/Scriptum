@@ -7,8 +7,6 @@ import sgtmelon.scriptum.model.item.ColorItem
 
 /**
  * Описание цветов заметок
- *
- * @author SerjantArbuz
  */
 object ColorData {
 

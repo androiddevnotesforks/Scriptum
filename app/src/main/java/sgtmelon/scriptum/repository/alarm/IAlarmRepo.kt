@@ -5,8 +5,6 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
 
 /**
  * Interface for communication with [AlarmRepo]
- *
- * @author SerjantArbuz
  */
 interface IAlarmRepo {
 

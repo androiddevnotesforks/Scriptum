@@ -14,9 +14,7 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 
 
 /**
- * Класс для ui контроля экрана [NoteActivity], [TextNoteFragment]
- *
- * @author SerjantArbuz
+ * Class for UI control of [NoteActivity], [TextNoteFragment]
  */
 class TextNoteScreen(override var state: State,
                      override var noteModel: NoteModel,

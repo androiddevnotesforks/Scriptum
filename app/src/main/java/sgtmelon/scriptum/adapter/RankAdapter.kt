@@ -9,9 +9,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 
 /**
- * Адаптер для [RankFragment]
- *
- * @author SerjantArbuz
+ * Adapter which displays list of ranks for [RankFragment]
  */
 class RankAdapter(
         private val clickListener: ItemListener.Click,

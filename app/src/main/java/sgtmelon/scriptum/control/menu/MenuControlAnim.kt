@@ -16,8 +16,6 @@ import sgtmelon.scriptum.model.annotation.Theme
  * Version of [MenuControl] with icon animation on switch
  *
  * Use only for API version >= 21
- *
- * @author SerjantArbuz
  */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class MenuControlAnim(

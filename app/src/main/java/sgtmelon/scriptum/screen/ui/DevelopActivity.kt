@@ -13,8 +13,6 @@ import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
 
 /**
  * Screen which displays information for developer
- *
- * @author SerjantArbuz
  */
 class DevelopActivity : AppCompatActivity(), IDevelopActivity {
 

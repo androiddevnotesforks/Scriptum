@@ -22,8 +22,6 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
  * Репозиторий обработки данных [RoomDb]
  *
  * @param context для открытия [RoomDb] и получения данных из [PreferenceRepo]
- *
- * @author SerjantArbuz
  */
 class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
 

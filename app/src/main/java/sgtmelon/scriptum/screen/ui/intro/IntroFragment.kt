@@ -12,8 +12,6 @@ import sgtmelon.scriptum.model.data.IntroData
 
 /**
  * Фрагмент страницы для вступления [IntroActivity]
- *
- * @author SerjantArbuz
  */
 class IntroFragment : Fragment() {
 

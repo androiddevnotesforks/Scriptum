@@ -9,8 +9,6 @@ import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Test for [NoteModel]
- *
- * @author SerjantArbuz
  */
 class NoteModelTest {
 

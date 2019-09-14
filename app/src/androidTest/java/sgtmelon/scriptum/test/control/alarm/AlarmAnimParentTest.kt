@@ -9,8 +9,6 @@ import kotlin.random.Random
 
 /**
  * Родительский класс для тестов [AlarmActivity] с разными темами
- *
- * @author SerjantArbuz
  */
 abstract class AlarmAnimParentTest : ParentUiTest() {
 

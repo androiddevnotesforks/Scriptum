@@ -19,8 +19,6 @@ import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 
 /**
  * ViewModel for [SplashActivity]
- *
- * @author SerjantArbuz
  */
 class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
         ISplashViewModel {

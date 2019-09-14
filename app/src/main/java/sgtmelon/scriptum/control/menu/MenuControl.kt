@@ -24,8 +24,6 @@ import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
  * Control menu of [TextNoteFragment], [RollNoteFragment] without animation
  *
  * Use only for API version < 21
- *
- * @author SerjantArbuz
  */
 open class MenuControl(
         @Theme private val theme: Int,
