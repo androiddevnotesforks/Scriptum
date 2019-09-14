@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.toUpperCase
-import sgtmelon.scriptum.repository.rank.IRankRepo
-import sgtmelon.scriptum.repository.rank.RankRepo
+import sgtmelon.scriptum.interactor.main.rank.IRankInteractor
+import sgtmelon.scriptum.interactor.main.rank.RankInteractor
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.ui.main.RankFragment
@@ -22,7 +22,7 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {
 
-    private val iRankRepo: IRankRepo = RankRepo(context)
+    private val iInteractor: IRankInteractor = RankInteractor(context)
 
     private val itemList: MutableList<RankEntity> = ArrayList()
     private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
@@ -35,7 +35,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onUpdateData() {
-        itemList.clearAndAdd(iRankRepo.get())
+        itemList.clearAndAdd(iInteractor.getList())
 
         callback?.apply {
             notifyDataSetChanged(itemList)
@@ -60,14 +60,12 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onRenameDialog(p: Int, name: String) {
-        itemList[p].name = name
+        val item = itemList[p].apply { this.name = name }
+
+        viewModelScope.launch { iInteractor.update(item) }
 
         onUpdateToolbar()
-
-        itemList[p].let {
-            iRankRepo.update(it)
-            callback?.notifyItemChanged(p, it)
-        }
+        callback?.notifyItemChanged(p, item)
     }
 
 
@@ -92,20 +90,17 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         if (name.isEmpty()) return
 
         val p = if (simpleClick) itemList.size else 0
-        val rankEntity = RankEntity(name = name).apply {
-            id = iRankRepo.insert(rankEntity = this)
-        }
+        itemList.add(p, iInteractor.insert(name))
 
-        itemList.add(p, rankEntity)
-        iRankRepo.update(itemList)
+        iInteractor.update(itemList)
 
         callback?.scrollToItem(simpleClick, itemList)
     }
 
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
-        iRankRepo.update(itemList)
-        viewModelScope.launch { iRankRepo.notifyBind() }
+        iInteractor.update(itemList)
+        viewModelScope.launch { iInteractor.notifyBind() }
 
         callback?.notifyDataSetChanged(itemList)
     }
@@ -123,12 +118,14 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
 
     override fun onClickVisible(p: Int) {
-        val rankEntity = itemList[p].apply { isVisible = !isVisible }
+        val item = itemList[p].apply { isVisible = !isVisible }
 
-        iRankRepo.update(rankEntity)
-        viewModelScope.launch { iRankRepo.notifyBind() }
+        viewModelScope.launch {
+            iInteractor.update(item)
+            iInteractor.notifyBind()
+        }
 
-        callback?.notifyVisible(p, rankEntity)
+        callback?.notifyVisible(p, item)
     }
 
     override fun onLongClickVisible(p: Int) {
@@ -150,18 +147,18 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         callback?.notifyVisible(startAnim, itemList)
 
-        iRankRepo.update(itemList)
-        viewModelScope.launch { iRankRepo.notifyBind() }
+        iInteractor.update(itemList)
+        viewModelScope.launch { iInteractor.notifyBind() }
     }
 
     override fun onClickCancel(p: Int) {
-        iRankRepo.delete(itemList[p])
+        iInteractor.delete(itemList[p])
 
         itemList.removeAt(p)
 
-        iRankRepo.update(itemList)
-        viewModelScope.launch { iRankRepo.notifyBind() }
-        
+        iInteractor.update(itemList)
+        viewModelScope.launch { iInteractor.notifyBind() }
+
         callback?.notifyItemRemoved(p, itemList)
     }
 

@@ -5,7 +5,6 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.room.entity.NoteEntity
 
-
 /**
  * Interface for communicate with [NotesInteractor]
  */

@@ -14,12 +14,12 @@ interface IRankRepo {
 
     fun insert(rankEntity: RankEntity): Long
 
-    fun get(): MutableList<RankEntity>
+    fun getList(): MutableList<RankEntity>
 
     fun delete(rankEntity: RankEntity)
 
     fun update(rankEntity: RankEntity)
 
-    fun update(list: MutableList<RankEntity>)
+    fun update(list: List<RankEntity>)
 
 }

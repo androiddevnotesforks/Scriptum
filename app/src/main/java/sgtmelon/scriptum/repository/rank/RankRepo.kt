@@ -37,7 +37,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
     /**
      * TODO подумать, может можно убрать дополнительный запрос для получения text/rollCount
      */
-    override fun get() = ArrayList<RankEntity>().apply {
+    override fun getList() = ArrayList<RankEntity>().apply {
         inRoom {
             addAll(iRankDao.get())
             forEach { it.noteCount = iNoteDao.getCount(it.noteId) }
@@ -59,7 +59,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     override fun update(rankEntity: RankEntity) = inRoom { iRankDao.update(rankEntity) }
 
-    override fun update(list: MutableList<RankEntity>) = inRoom {
+    override fun update(list: List<RankEntity>) = inRoom {
         val noteIdSet: MutableSet<Long> = mutableSetOf()
 
         list.forEachIndexed { i, item ->
