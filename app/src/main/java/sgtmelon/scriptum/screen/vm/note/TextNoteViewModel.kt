@@ -211,7 +211,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         val noteEntity = noteModel.noteEntity
 
         BindControl(context, noteEntity).cancelBind()
-        callback?.cancelAlarm(AlarmReceiver[context, noteEntity])
+        callback?.cancelAlarm(AlarmReceiver[noteEntity])
         viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
 
         parentCallback?.finish()
@@ -337,7 +337,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             date = AlarmEntity.ND_DATE
         }
 
-        callback?.cancelAlarm(AlarmReceiver[context, noteModel.noteEntity])
+        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
         callback?.bindNote(noteModel)
     }
 
@@ -348,7 +348,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             date = getDateFormat().format(calendar.time)
         })
 
-        callback?.setAlarm(calendar, AlarmReceiver[context, noteModel.noteEntity])
+        callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
         callback?.bindNote(noteModel)
     }
 

@@ -27,10 +27,6 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
 
     private val melodyList: List<MelodyItem> = iSignalInteractor.melodyList
 
-    override fun onDestroy(func: () -> Unit) {
-        callback = null
-    }
-
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupApp()
@@ -51,6 +47,10 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             updateColorSummary(summary.color[iPreferenceRepo.defaultColor])
             updateSaveTimeSummary(summary.saveTime[iPreferenceRepo.savePeriod])
         }
+    }
+
+    override fun onDestroy(func: () -> Unit) {
+        callback = null
     }
 
 

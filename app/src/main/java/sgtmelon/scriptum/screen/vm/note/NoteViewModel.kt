@@ -15,10 +15,10 @@ class NoteViewModel(application: Application) : ParentViewModel<INoteActivity>(a
     private var type: NoteType? = null
 
     override fun onSetup(bundle: Bundle?) {
-        if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-
-        type = NoteType.values()
-                .getOrNull(index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE)
+        id = bundle?.getLong(NoteData.Intent.ID, NoteData.Default.ID) ?: NoteData.Default.ID
+        type = NoteType.values().getOrNull(
+                index = bundle?.getInt(NoteData.Intent.TYPE) ?: NoteData.Default.TYPE
+        )
     }
 
     override fun onSaveData(bundle: Bundle) = with(bundle) {

@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.note.text
 
-import android.app.PendingIntent
+import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.NoteModel
@@ -14,7 +14,7 @@ import java.util.*
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
  */
-interface ITextNoteFragment {
+interface ITextNoteFragment : AlarmCallback.Set, AlarmCallback.Cancel {
 
     /**
      * Установка элементов для биндинга, которые постоянные
@@ -58,10 +58,5 @@ interface ITextNoteFragment {
     fun showTimeDialog(calendar: Calendar, dateList: List<String>)
 
     fun showConvertDialog()
-
-
-    fun setAlarm(calendar: Calendar, intent: PendingIntent)
-
-    fun cancelAlarm(intent: PendingIntent)
 
 }
