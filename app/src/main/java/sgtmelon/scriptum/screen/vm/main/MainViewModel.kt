@@ -25,7 +25,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     override fun onSetup(bundle: Bundle?) {
         bundle?.let { pageFrom = MainPage.values()[it.getInt(PAGE_CURRENT)] }
 
-        callback?.setupNavigation(pageItemId[pageFrom.ordinal])
+        callback?.setupNavigation(pageFrom.getMenuId())
 
         bundle?.let { callback?.changeFabState(state = pageFrom == MainPage.NOTES) }
     }
@@ -33,7 +33,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
     override fun onSaveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
 
     override fun onSelectItem(@IdRes itemId: Int): Boolean {
-        val pageTo = itemId.getPageById()
+        val pageTo = itemId.getPageById() ?: return true
 
         if (!firstStart && pageTo == pageFrom) {
             callback?.scrollTop(pageTo)
@@ -60,18 +60,22 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         if (pageFrom == MainPage.NOTES) callback?.onCancelNoteBind(id)
     }
 
+
+    private fun MainPage.getMenuId(): Int = when(this) {
+        MainPage.RANK -> R.id.item_page_rank
+        MainPage.NOTES -> R.id.item_page_notes
+        MainPage.BIN -> R.id.item_page_bin
+    }
+
+    private fun Int.getPageById(): MainPage? = when (this) {
+        R.id.item_page_rank -> MainPage.RANK
+        R.id.item_page_notes -> MainPage.NOTES
+        R.id.item_page_bin -> MainPage.BIN
+        else -> null
+    }
+
     companion object {
-        private const val PAGE_CURRENT = "INSTANCE_MAIN_PAGE_CURRENT"
-
-        private val pageItemId =
-                intArrayOf(R.id.item_page_rank, R.id.item_page_notes, R.id.item_page_bin)
-
-        private fun Int.getPageById(): MainPage = when (this) {
-            R.id.item_page_rank -> MainPage.RANK
-            R.id.item_page_notes -> MainPage.NOTES
-            R.id.item_page_bin -> MainPage.BIN
-            else -> throw NoSuchFieldException("Id doesn't match any of page")
-        }
+        private const val PAGE_CURRENT = "MAIN_PAGE_CURRENT"
     }
 
 }
