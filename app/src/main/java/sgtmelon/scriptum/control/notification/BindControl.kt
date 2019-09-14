@@ -9,8 +9,6 @@ import androidx.core.app.NotificationCompat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.BindModel
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.room.entity.NoteEntity
-import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
  * Управление закреплением заметки в статус баре [NoteModel]
@@ -33,9 +31,6 @@ class BindControl(private val context: Context) {
             })
         }
     }
-
-    fun setup(noteEntity: NoteEntity, rollList: MutableList<RollEntity>) =
-            setup(BindModel(noteEntity, rollList))
 
     fun setup(noteModel: NoteModel) = setup(BindModel(noteModel))
 

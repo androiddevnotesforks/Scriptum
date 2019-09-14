@@ -46,7 +46,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     Sort.RANK -> iNoteDao.getByRank(bin)
                     else -> iNoteDao.getByColor(bin)
                 }.forEach {
-                    val bindControl = BindControl(context).setup(it, BindRepo(context).getRollList(it.id))
+                    val bindControl = BindControl(context).setup(NoteModel(it, BindRepo(context).getRollList(it.id)))
 
                     if (!bin && it.isNotVisible(rankIdVisibleList)) {
                         bindControl.cancelBind()

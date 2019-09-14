@@ -9,20 +9,18 @@ import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.UnbindReceiver
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
 
 /**
  * Model for [BindControl]
+ *
+ * Don't care about [NoteModel.rollList] if:
+ * - If note type is [NoteType.TEXT]
+ * - If type is [NoteType.ROLL] and [NoteModel.rollList] is completely load
+ * - If you need only call [BindControl.cancelBind]
  */
 class BindModel(private val noteModel: NoteModel) {
-
-    /**
-     * Constructor for load rollList separately
-     */
-    constructor(noteEntity: NoteEntity, rollList: MutableList<RollEntity>) :
-            this(NoteModel(noteEntity, rollList))
 
     val id = noteModel.noteEntity.id.toInt()
 

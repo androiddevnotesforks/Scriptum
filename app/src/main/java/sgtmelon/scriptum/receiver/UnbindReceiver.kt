@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.sendTo
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
@@ -24,9 +25,8 @@ class UnbindReceiver : BroadcastReceiver() {
 
         if (id == Values.ND_NOTE_ID) return
 
-        val repo = BindRepo(context)
-        repo.unbindNote(id)?.let {
-            BindControl(context).setup(it, repo.getRollList(id)).cancelBind()
+        BindRepo(context).unbindNote(id)?.let {
+            BindControl(context).setup(NoteModel(it)).cancelBind()
         }
 
         context.apply {

@@ -29,7 +29,7 @@ class NotesInteractor(private val context: Context) : ParentInteractor(context),
     override fun updateNote(noteEntity: NoteEntity) {
         iRoomRepo.updateNote(noteEntity)
 
-        BindControl(context).setup(noteEntity, iBindRepo.getRollList(noteEntity.id)).updateBind()
+        BindControl(context).setup(NoteModel(noteEntity, iBindRepo.getRollList(noteEntity.id))).updateBind()
     }
 
     override fun convert(noteModel: NoteModel): NoteModel {
