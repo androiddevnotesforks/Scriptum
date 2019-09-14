@@ -34,7 +34,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
 
     private val iViewModel by lazy { ViewModelFactory.getNotificationViewModel(activity = this) }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl by lazy { AlarmControl[this] }
 
     private val openState = OpenState()
 
@@ -113,7 +113,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
     companion object {
-        fun getInstance(context: Context) = Intent(context, NotificationActivity::class.java)
+        operator fun get(context: Context) = Intent(context, NotificationActivity::class.java)
     }
 
 }

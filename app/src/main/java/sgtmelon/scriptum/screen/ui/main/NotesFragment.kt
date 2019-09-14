@@ -42,7 +42,7 @@ class NotesFragment : Fragment(), INotesFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getNotesViewModel(fragment = this) }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl by lazy { AlarmControl[context] }
 
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
@@ -92,8 +92,8 @@ class NotesFragment : Fragment(), INotesFragment {
             setOnMenuItemClickListener {
                 openState.tryInvoke {
                     startActivity(when (it.itemId) {
-                        R.id.item_notification -> NotificationActivity.getInstance(context)
-                        else -> PreferenceActivity.getInstance(context)
+                        R.id.item_notification -> NotificationActivity[context]
+                        else -> PreferenceActivity[context]
                     })
                 }
 

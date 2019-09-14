@@ -35,7 +35,7 @@ class UnbindReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        fun getInstance(context: Context, noteEntity: NoteEntity): PendingIntent {
+        operator fun get(context: Context, noteEntity: NoteEntity): PendingIntent {
             val intent = Intent(context, UnbindReceiver::class.java)
                     .putExtra(Values.NOTE_ID, noteEntity.id)
 

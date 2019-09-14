@@ -24,7 +24,7 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     override fun set(calendar: Calendar, model: AlarmReceiver.Model) {
         if (context == null) return
 
-        val intent = AlarmReceiver.getInstance(context, model)
+        val intent = AlarmReceiver[context, model]
         alarmManager?.set(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, intent)
     }
 
@@ -36,13 +36,13 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
     override fun cancel(model: AlarmReceiver.Model) {
         if (context == null) return
 
-        alarmManager?.cancel(AlarmReceiver.getInstance(context, model))
+        alarmManager?.cancel(AlarmReceiver[context, model])
     }
 
     companion object {
         private var callback: IAlarmControl? = null
 
-        fun getInstance(context: Context?): IAlarmControl =
+        operator fun get(context: Context?): IAlarmControl =
                 callback ?: AlarmControl(context).also { callback = it }
     }
 

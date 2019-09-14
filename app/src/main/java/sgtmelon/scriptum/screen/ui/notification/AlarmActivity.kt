@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.notification
 
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -48,7 +47,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     private val iMelodyControl: IMelodyControl by lazy { MelodyControl(context = this) }
     private val iVibratorControl: IVibratorControl by lazy { VibratorControl(context = this) }
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl by lazy { AlarmControl[this] }
     private val iPowerControl: IPowerControl by lazy { PowerControl(context = this) }
 
     private val openState = OpenState()
@@ -174,7 +173,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     }
 
     companion object {
-        fun getInstance(context: Context, id: Long, @Color color: Int): Intent =
+        operator fun get(context: Context, id: Long, @Color color: Int): Intent =
                 Intent(context, AlarmActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)
                         .putExtra(NoteData.Intent.COLOR, color)

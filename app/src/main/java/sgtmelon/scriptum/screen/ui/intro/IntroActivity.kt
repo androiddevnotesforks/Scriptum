@@ -38,11 +38,11 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
 
             setOnClickListener {
                 AppIdlingResource.worker.startHardWork()
-                beforeFinish { startActivity(MainActivity.getInstance(context = this@IntroActivity)) }
+                beforeFinish { startActivity(MainActivity[this@IntroActivity]) }
             }
         }
 
-        for (i in 0 until IntroData.count) pagerAdapter.addItem(IntroFragment.getInstance(i))
+        for (i in 0 until IntroData.count) pagerAdapter.addItem(IntroFragment[i])
 
         findViewById<ViewPager>(R.id.intro_pager).apply {
             adapter = pagerAdapter
@@ -78,7 +78,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
     override fun onPageScrollStateChanged(state: Int) {}
 
     companion object {
-        fun getInstance(context: Context): Intent = Intent(context, IntroActivity::class.java)
+        operator fun get(context: Context): Intent = Intent(context, IntroActivity::class.java)
     }
 
 }

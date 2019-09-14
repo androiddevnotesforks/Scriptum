@@ -32,20 +32,8 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
             onSimpleStart()
         } else {
             when (bundle.getString(SplashActivity.OPEN_SCREEN) ?: "") {
-                OpenFrom.BIND -> {
-                    val intent = NoteActivity.getInstance(context,
-                            NoteType.values()[bundle.getInt(NoteData.Intent.TYPE)],
-                            bundle.getLong(NoteData.Intent.ID)
-                    )
-
-                    callback?.startActivities(arrayOf(MainActivity.getInstance(context), intent))
-                }
-                OpenFrom.ALARM -> {
-                    callback?.startActivity(AlarmActivity.getInstance(context,
-                            bundle.getLong(NoteData.Intent.ID),
-                            bundle.getInt(NoteData.Intent.COLOR)
-                    ))
-                }
+                OpenFrom.BIND -> onBindStart(bundle)
+                OpenFrom.ALARM -> onAlarmStart(bundle)
                 else -> onSimpleStart()
             }
         }
@@ -53,9 +41,23 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
 
     private fun onSimpleStart(firstStart: Boolean = iInteractor.firstStart) =
             callback?.startActivity(if (firstStart) {
-                IntroActivity.getInstance(context)
+                IntroActivity[context]
             } else {
-                MainActivity.getInstance(context)
+                MainActivity[context]
             })
+
+    private fun onBindStart(bundle: Bundle) {
+        val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+        val type = NoteType.values()[bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)]
+
+        callback?.startActivities(arrayOf(MainActivity[context], NoteActivity[context, type, id]))
+    }
+
+    private fun onAlarmStart(bundle: Bundle) {
+        val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
+        val color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
+
+        callback?.startActivity(AlarmActivity[context, id, color])
+    }
 
 }

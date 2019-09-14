@@ -33,7 +33,7 @@ class PreferenceActivity : AppActivity() {
     }
 
     companion object {
-        fun getInstance(context: Context) = Intent(context, PreferenceActivity::class.java)
+        operator fun get(context: Context) = Intent(context, PreferenceActivity::class.java)
     }
 
 }

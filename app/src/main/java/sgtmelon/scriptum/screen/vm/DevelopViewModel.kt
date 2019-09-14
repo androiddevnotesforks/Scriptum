@@ -31,7 +31,7 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActiv
     }
 
     override fun onIntroClick() {
-        callback?.startActivity(IntroActivity.getInstance(context))
+        callback?.startActivity(IntroActivity[context])
     }
 
 }

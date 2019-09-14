@@ -22,6 +22,7 @@ object NoteData {
     object Default {
         const val ID = -1L
         const val TYPE = -1
+        const val COLOR = 0
     }
 
 }

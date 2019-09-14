@@ -43,7 +43,7 @@ class NotificationViewModel(application: Application) :
 
     override fun onClickNote(p: Int) {
         val item = itemList[p].note
-        callback?.startActivity(NoteActivity.getInstance(context, item.type, item.id))
+        callback?.startActivity(NoteActivity[context, item.type, item.id])
     }
 
     override fun onClickCancel(p: Int) {

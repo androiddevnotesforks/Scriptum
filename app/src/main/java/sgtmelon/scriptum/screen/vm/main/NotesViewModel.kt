@@ -49,15 +49,15 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startActivity(NoteActivity.getInstance(context, itemList[p].noteEntity))
+        callback?.startActivity(NoteActivity[context, itemList[p].noteEntity])
     }
 
     override fun onShowOptionsDialog(p: Int) {
         with(itemList[p].noteEntity) {
-            val itemArray: Array<String> = when (type) {
-                NoteType.TEXT -> context.resources.getStringArray(R.array.dialog_menu_text)
-                NoteType.ROLL -> context.resources.getStringArray(R.array.dialog_menu_roll)
-            }
+            val itemArray: Array<String> = context.resources.getStringArray(when (type) {
+                NoteType.TEXT -> R.array.dialog_menu_text
+                NoteType.ROLL -> R.array.dialog_menu_roll
+            })
 
             itemArray[0] = if (isStatus) context.getString(R.string.dialog_menu_status_unbind) else context.getString(R.string.dialog_menu_status_bind)
 

@@ -53,7 +53,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
     override fun onResultAddDialog(menuItem: MenuItem) {
         val noteType = NoteData.getTypeById(menuItem.itemId) ?: return
-        callback?.startActivity(NoteActivity.getInstance(context, noteType))
+        callback?.startActivity(NoteActivity[context, noteType])
     }
 
     override fun onReceiveUnbindNote(id: Long) {

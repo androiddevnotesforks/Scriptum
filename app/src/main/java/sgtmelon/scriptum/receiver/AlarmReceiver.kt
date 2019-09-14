@@ -41,16 +41,13 @@ class AlarmReceiver : BroadcastReceiver() {
         operator fun get(noteEntity: NoteEntity) = Model(noteEntity)
         operator fun get(notificationItem: NotificationItem) = Model(notificationItem)
 
-        fun getInstance(context: Context, noteEntity: NoteEntity) =
-                getInstance(context, noteEntity.id, noteEntity.color)
+        operator fun get(context: Context, noteEntity: NoteEntity) =
+                get(context, noteEntity.id, noteEntity.color)
 
-        fun getInstance(context: Context, notificationItem: NotificationItem) =
-                getInstance(context, notificationItem.note.id, notificationItem.note.color)
+        operator fun get(context: Context, model: Model) =
+                get(context, model.id, model.color)
 
-        fun getInstance(context: Context, model: Model) =
-                getInstance(context, model.id, model.color)
-
-        private fun getInstance(context: Context, id: Long, @Color color: Int): PendingIntent {
+        private fun get(context: Context, id: Long, @Color color: Int): PendingIntent {
             val intent = Intent(context, AlarmReceiver::class.java)
                     .putExtra(Values.NOTE_ID, id)
                     .putExtra(Values.NOTE_COLOR, color)

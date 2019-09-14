@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
 
     private val iViewModel by lazy { ViewModelFactory.getSplashViewModel(activity = this) }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context = this) }
+    private val iAlarmControl by lazy { AlarmControl[this] }
 
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)

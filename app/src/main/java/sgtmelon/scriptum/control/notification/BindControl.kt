@@ -87,7 +87,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
                 .setStyle(NotificationCompat.BigTextStyle().bigText(text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(context.getNotePendingIntent(noteEntity))
-                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver.getInstance(context, noteEntity))
+                .addAction(0, context.getString(R.string.notification_button_unbind), UnbindReceiver[context, noteEntity])
                 .setAutoCancel(false)
                 .setOngoing(true)
 

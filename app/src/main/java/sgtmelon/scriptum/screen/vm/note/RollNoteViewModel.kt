@@ -254,7 +254,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val noteEntity = noteModel.noteEntity
 
         BindControl(context, noteModel).cancelBind()
-        callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteEntity))
+        callback?.cancelAlarm(AlarmReceiver[context, noteEntity])
         viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
 
         parentCallback?.finish()
@@ -501,7 +501,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             date = AlarmEntity.ND_DATE
         }
 
-        callback?.cancelAlarm(AlarmReceiver.getInstance(context, noteModel.noteEntity))
+        callback?.cancelAlarm(AlarmReceiver[context, noteModel.noteEntity])
         callback?.bindNote(noteModel)
     }
 
@@ -512,7 +512,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             date = getDateFormat().format(calendar.time)
         })
 
-        callback?.setAlarm(calendar, AlarmReceiver.getInstance(context, noteModel.noteEntity))
+        callback?.setAlarm(calendar, AlarmReceiver[context, noteModel.noteEntity])
         callback?.bindNote(noteModel)
     }
 

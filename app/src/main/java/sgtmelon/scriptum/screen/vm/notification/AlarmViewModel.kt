@@ -31,7 +31,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
     private val iSignalInteractor: ISignalInteractor = SignalInteractor(context)
 
     private var id: Long = NoteData.Default.ID
-    private var color: Int = iInteractor.defaultColor
+    private var color: Int = NoteData.Default.COLOR
 
     private var noteModel: NoteModel? = null
     private var signalState: SignalState? = null
@@ -64,7 +64,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-            color = bundle.getInt(NoteData.Intent.COLOR, iInteractor.defaultColor)
+            color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
         }
 
         /**
@@ -140,7 +140,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         needRepeat = false
 
         callback?.apply {
-            startActivity(NoteActivity.getInstance(context, noteModel.noteEntity))
+            startActivity(NoteActivity[context, noteModel.noteEntity])
             finish()
         }
     }

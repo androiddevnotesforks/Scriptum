@@ -47,8 +47,8 @@ class IntroFragment : Fragment() {
      */
     fun setChange(alpha: Float, scale: Float) = parentContainer?.apply {
         this.alpha = alpha
-        scaleX = scale
-        scaleY = scale
+        this.scaleX = scale
+        this.scaleY = scale
     }
 
     private fun IncludeInfoBinding.bind(page: Int) {
@@ -63,7 +63,7 @@ class IntroFragment : Fragment() {
         private const val PAGE_CURRENT = "ARGUMENT_INTRO_PAGE_CURRENT"
         private const val ND_PAGE = -1
 
-        fun getInstance(page: Int) = IntroFragment().apply {
+        operator fun get(page: Int) = IntroFragment().apply {
             arguments = Bundle().apply { putInt(PAGE_CURRENT, page) }
         }
     }

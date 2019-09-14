@@ -59,17 +59,17 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     override fun showTextFragment(id: Long, checkCache: Boolean) {
         showFragment(FragmentFactory.Note.TEXT, if (checkCache) {
-            textNoteFragment ?: TextNoteFragment.getInstance(id)
+            textNoteFragment ?: TextNoteFragment[id]
         } else {
-            TextNoteFragment.getInstance(id)
+            TextNoteFragment[id]
         })
     }
 
     override fun showRollFragment(id: Long, checkCache: Boolean) {
         showFragment(FragmentFactory.Note.ROLL, if (checkCache) {
-            rollNoteFragment ?: RollNoteFragment.getInstance(id)
+            rollNoteFragment ?: RollNoteFragment[id]
         } else {
-            RollNoteFragment.getInstance(id)
+            RollNoteFragment[id]
         })
     }
 
@@ -96,10 +96,10 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
             .commit()
 
     companion object {
-        fun getInstance(context: Context, noteEntity: NoteEntity) =
-                getInstance(context, noteEntity.type, noteEntity.id)
+        operator fun get(context: Context, noteEntity: NoteEntity) =
+                get(context, noteEntity.type, noteEntity.id)
 
-        fun getInstance(context: Context, type: NoteType, id: Long? = NoteData.Default.ID): Intent =
+        operator fun get(context: Context, type: NoteType, id: Long? = NoteData.Default.ID): Intent =
                 Intent(context, NoteActivity::class.java)
                         .putExtra(NoteData.Intent.ID, id)
                         .putExtra(NoteData.Intent.TYPE, type.ordinal)

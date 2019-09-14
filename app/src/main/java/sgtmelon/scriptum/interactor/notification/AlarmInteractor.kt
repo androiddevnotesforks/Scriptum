@@ -5,7 +5,6 @@ import sgtmelon.extension.getDateFormat
 import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
@@ -27,8 +26,6 @@ class AlarmInteractor(context: Context) : ParentInteractor(context), IAlarmInter
     override val volume: Int get() = iPreferenceRepo.volume
 
     override val volumeIncrease: Boolean get() = iPreferenceRepo.volumeIncrease
-
-    @Color override val defaultColor: Int get() = iPreferenceRepo.defaultColor
 
     override fun getModel(id: Long): NoteModel? {
         /**

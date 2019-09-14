@@ -54,7 +54,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getRollNoteViewModel(fragment = this) }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl by lazy { AlarmControl[context] }
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()
@@ -93,7 +93,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
         openState.get(savedInstanceState)
 
-        iViewModel.onSetup(arguments ?: savedInstanceState)
+        iViewModel.onSetup(bundle = arguments ?: savedInstanceState)
 
         parentContainer = view.findViewById(R.id.roll_note_parent_container)
         panelContainer = view.findViewById(R.id.roll_note_content_container)
@@ -407,7 +407,7 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
 
     companion object {
-        fun getInstance(id: Long) = RollNoteFragment().apply {
+        operator fun get(id: Long) = RollNoteFragment().apply {
             arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }
         }
     }

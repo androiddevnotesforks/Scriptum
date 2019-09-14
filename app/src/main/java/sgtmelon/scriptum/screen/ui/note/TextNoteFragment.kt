@@ -54,7 +54,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
 
-    private val iAlarmControl by lazy { AlarmControl.getInstance(context) }
+    private val iAlarmControl by lazy { AlarmControl[context] }
     private var menuControl: MenuControl? = null
 
     private var nameEnter: EditText? = null
@@ -294,7 +294,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
 
     companion object {
-        fun getInstance(id: Long) = TextNoteFragment().apply {
+        operator fun get(id: Long) = TextNoteFragment().apply {
             arguments = Bundle().apply { putLong(NoteData.Intent.ID, id) }
         }
     }

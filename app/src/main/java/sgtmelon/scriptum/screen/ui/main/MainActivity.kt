@@ -165,7 +165,7 @@ class MainActivity : AppActivity(), IMainActivity {
     }
 
     companion object {
-        fun getInstance(context: Context) = Intent(context, MainActivity::class.java)
+        operator fun get(context: Context) = Intent(context, MainActivity::class.java)
     }
 
 }
