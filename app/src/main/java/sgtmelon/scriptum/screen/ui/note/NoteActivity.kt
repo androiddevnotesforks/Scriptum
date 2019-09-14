@@ -11,6 +11,7 @@ import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.data.ReceiverData
+import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.NoteReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
@@ -96,6 +97,9 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
             .commit()
 
     companion object {
+        operator fun get(context: Context, notificationItem: NotificationItem) =
+                get(context, notificationItem.note.type, notificationItem.note.id)
+
         operator fun get(context: Context, noteEntity: NoteEntity) =
                 get(context, noteEntity.type, noteEntity.id)
 
