@@ -62,6 +62,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onSetup(bundle: Bundle?) {
         if (bundle != null) id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
 
+        /**
+         * If first open
+         */
         if (!::noteModel.isInitialized) {
             rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
             isRankEmpty = iRoomRepo.getRankCount()

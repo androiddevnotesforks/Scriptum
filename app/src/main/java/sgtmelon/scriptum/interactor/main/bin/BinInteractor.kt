@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.bin
+package sgtmelon.scriptum.interactor.main.bin
 
 import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor

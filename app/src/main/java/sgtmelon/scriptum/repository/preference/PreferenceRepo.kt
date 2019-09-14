@@ -2,25 +2,19 @@ package sgtmelon.scriptum.repository.preference
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Resources
-import android.media.RingtoneManager
 import android.preference.PreferenceManager
-import sgtmelon.scriptum.R
-import sgtmelon.scriptum.model.annotation.*
-import sgtmelon.scriptum.model.item.MelodyItem
-import sgtmelon.scriptum.model.state.SignalState
+import sgtmelon.scriptum.interactor.preference.SignalInteractor
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Repeat
+import sgtmelon.scriptum.model.annotation.Sort
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.provider.PreferenceProvider
-import sgtmelon.scriptum.room.converter.IntConverter
 
 /**
  * Repository for work with [SharedPreferences]
  */
 @Suppress("PrivatePropertyName")
 class PreferenceRepo(private val context: Context) : IPreferenceRepo {
-
-    // TODO #RELEASE2 add interactor
-
-    private val resources: Resources = context.resources
 
     private val key = PreferenceProvider.Key(context)
     private val def = PreferenceProvider.Def(context)
@@ -47,77 +41,12 @@ class PreferenceRepo(private val context: Context) : IPreferenceRepo {
         get() = preferences.getInt(key.SIGNAL, def.SIGNAL)
         set(value) = edit { putInt(key.SIGNAL, value) }
 
-    // TODO #RELEASE2 to interactor
-    override val signalCheck: BooleanArray get() = IntConverter().toArray(signal, Signal.digitCount)
-
-    // TODO #RELEASE2 to interactor
-    override val signalState: SignalState get() = SignalState(signalCheck)
-
-    // TODO #RELEASE2 to interactor
-    override val signalSummary: String
-        get() = StringBuilder().apply {
-            val summary = resources.getStringArray(R.array.text_alarm_signal)
-            val array = signalCheck
-
-            if (summary.size < array.size) return@apply
-
-            var firstAppend = true
-            array.forEachIndexed { i, bool ->
-                if (bool) {
-                    append(if (firstAppend) {
-                        firstAppend = false
-                        summary[i]
-                    } else {
-                        (", ").plus(summary[i].toLowerCase())
-                    })
-                }
-            }
-        }.toString()
-
-    // TODO #RELEASE2 to interactor
+    /**
+     * Access only from [SignalInteractor.melodyUri]
+     */
     override var melodyUri: String
-        get() = melodyList.let {
-            var value = preferences.getString(key.MELODY_URI, def.MELODY_URI) ?: def.MELODY_URI
-
-            /**
-             * Check uri exist
-             */
-            if (value.isEmpty() || !it.map { item -> item.uri }.contains(value)) {
-                value = it.first().uri
-                melodyUri = value
-            }
-
-            return value
-        }
+        get() = preferences.getString(key.MELODY_URI, def.MELODY_URI) ?: def.MELODY_URI
         set(value) = edit { putString(key.MELODY_URI, value) }
-
-    // TODO #RELEASE2 to interactor
-    override val melodyCheck: Int get() = melodyList.map { it.uri }.indexOf(melodyUri)
-
-    // TODO #RELEASE2 to interactor
-    override val melodyList: List<MelodyItem>
-        get() = ArrayList<MelodyItem>().apply {
-            /**
-             * Func which fill list with all [MelodyItem] for current [RingtoneManager] type
-             */
-            val fillListByType = { type: Int ->
-                RingtoneManager(context).apply {
-                    setType(type)
-                    cursor.apply {
-                        while (moveToNext()) {
-                            val title = getString(RingtoneManager.TITLE_COLUMN_INDEX) ?: continue
-                            val uri = getString(RingtoneManager.URI_COLUMN_INDEX) ?: continue
-                            val id = getString(RingtoneManager.ID_COLUMN_INDEX) ?: continue
-
-                            add(MelodyItem(title, uri, id))
-                        }
-                    }.close()
-                }
-            }
-
-            fillListByType(RingtoneManager.TYPE_ALARM)
-            fillListByType(RingtoneManager.TYPE_RINGTONE)
-        }.sortedBy { it.title }
 
     override var volume: Int
         get() = preferences.getInt(key.VOLUME, def.VOLUME)

@@ -7,6 +7,8 @@ import sgtmelon.extension.getDateFormat
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.toUri
+import sgtmelon.scriptum.interactor.preference.ISignalInteractor
+import sgtmelon.scriptum.interactor.preference.SignalInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
@@ -25,6 +27,8 @@ import java.util.*
  */
 class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
         IAlarmViewModel {
+
+    private val iSignalInteractor : ISignalInteractor = SignalInteractor(context)
 
     private var id: Long = NoteData.Default.ID
     private var color: Int = iPreferenceRepo.defaultColor
@@ -48,14 +52,13 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
      */
     private var needRepeat = true
 
-    // TODO #RELEASE2 Обработка id = -1
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
 
             iPreferenceRepo.let {
                 setupView(it.theme)
-                setupPlayer(it.volume, it.volumeIncrease, it.melodyUri.toUri())
+                setupPlayer(it.volume, it.volumeIncrease, iSignalInteractor.melodyUri.toUri())
             }
         }
 
@@ -64,6 +67,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             color = bundle.getInt(NoteData.Intent.COLOR, iPreferenceRepo.defaultColor)
         }
 
+        /**
+         * If first open
+         */
         if (noteModel == null) {
             /**
              * Delete before get [noteModel] for hide alarm icon
@@ -77,7 +83,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                 return
             }
 
-            signalState = iPreferenceRepo.signalState
+            signalState = iSignalInteractor.signalState
         }
 
         noteModel?.let { callback?.notifyDataSetChanged(it) }

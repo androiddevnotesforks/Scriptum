@@ -9,8 +9,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
-import sgtmelon.scriptum.interactor.notes.INotesInteractor
-import sgtmelon.scriptum.interactor.notes.NotesInteractor
+import sgtmelon.scriptum.interactor.main.notes.INotesInteractor
+import sgtmelon.scriptum.interactor.main.notes.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment

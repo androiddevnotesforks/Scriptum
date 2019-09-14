@@ -4,8 +4,6 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
-import sgtmelon.scriptum.model.item.MelodyItem
-import sgtmelon.scriptum.model.state.SignalState
 
 /**
  * Interface for communication with [PreferenceRepo]
@@ -21,23 +19,7 @@ interface IPreferenceRepo {
 
     var signal: Int
 
-    val signalCheck: BooleanArray
-
-    val signalState: SignalState
-
-    val signalSummary: String
-
-    /**
-     * If melody not init or was delete - set first melody uri from list
-     */
     var melodyUri: String
-
-    /**
-     * Index of melody uri in [melodyList]
-     */
-    val melodyCheck: Int
-
-    val melodyList: List<MelodyItem>
 
     var volume: Int
 

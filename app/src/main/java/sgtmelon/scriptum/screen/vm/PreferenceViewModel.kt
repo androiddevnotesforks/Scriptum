@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Bundle
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.toUri
+import sgtmelon.scriptum.interactor.preference.ISignalInteractor
+import sgtmelon.scriptum.interactor.preference.SignalInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.MelodyItem
@@ -18,11 +20,12 @@ import sgtmelon.scriptum.screen.vm.callback.IPreferenceViewModel
 class PreferenceViewModel(private val context: Context, var callback: IPreferenceFragment?) :
         IPreferenceViewModel {
 
+    private val iSignalInteractor : ISignalInteractor = SignalInteractor(context)
     private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 
     private val summary = SummaryProvider(context)
 
-    private val melodyList: List<MelodyItem> = iPreferenceRepo.melodyList
+    private val melodyList: List<MelodyItem> = iSignalInteractor.melodyList
 
     override fun onDestroy(func: () -> Unit) {
         callback = null
@@ -39,9 +42,9 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
             updateThemeSummary(summary.theme[iPreferenceRepo.theme])
 
             updateRepeatSummary(summary.repeat[iPreferenceRepo.repeat])
-            updateSignalSummary(iPreferenceRepo.signalSummary)
-            updateMelodyGroupEnabled(iPreferenceRepo.signalState.isMelody)
-            updateMelodySummary(melodyList[iPreferenceRepo.melodyCheck].title)
+            updateSignalSummary(iSignalInteractor.getSignalSummary(summary.signal))
+            updateMelodyGroupEnabled(iSignalInteractor.signalState.isMelody)
+            updateMelodySummary(melodyList[iSignalInteractor.melodyCheck].title)
             updateVolumeSummary(context.resources.getString(R.string.summary_alarm_volume, iPreferenceRepo.volume))
 
             updateSortSummary(summary.sort[iPreferenceRepo.sort])
@@ -90,14 +93,14 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
     override fun onClickSignal() = alwaysTrue {
-        callback?.showSignalDialog(iPreferenceRepo.signalCheck)
+        callback?.showSignalDialog(iSignalInteractor.signalCheck)
     }
 
     override fun onResultSignal(array: BooleanArray) {
         iPreferenceRepo.signal = IntConverter().toInt(array)
         callback?.apply {
-            updateSignalSummary(iPreferenceRepo.signalSummary)
-            updateMelodyGroupEnabled(iPreferenceRepo.signalState.isMelody)
+            updateSignalSummary(iSignalInteractor.getSignalSummary(summary.signal))
+            updateMelodyGroupEnabled(iSignalInteractor.signalState.isMelody)
         }
     }
 
@@ -105,7 +108,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
         if (result == PermissionResult.ALLOWED) {
             callback?.showMelodyPermissionDialog()
         } else {
-            callback?.showMelodyDialog(iPreferenceRepo.melodyCheck)
+            callback?.showMelodyDialog(iSignalInteractor.melodyCheck)
         }
     }
 
@@ -114,7 +117,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
     override fun onResultMelody(value: Int) {
-        iPreferenceRepo.melodyUri = melodyList[value].uri
+        iSignalInteractor.melodyUri = melodyList[value].uri
         callback?.updateMelodySummary(melodyList[value].title)
     }
 

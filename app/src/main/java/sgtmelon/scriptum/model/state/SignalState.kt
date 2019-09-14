@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.model.state
 
 import sgtmelon.scriptum.model.annotation.Signal
-import sgtmelon.scriptum.repository.preference.IPreferenceRepo
+import sgtmelon.scriptum.room.converter.IntConverter
 
 /**
- * State for control signal without use [IPreferenceRepo.signalCheck]
+ * State for control signal without use [IntConverter]
  */
 class SignalState(val isMelody: Boolean, val isVibration: Boolean) {
 

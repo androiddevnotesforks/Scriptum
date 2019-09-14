@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.bin
+package sgtmelon.scriptum.interactor.main.bin
 
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
