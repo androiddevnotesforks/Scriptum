@@ -16,7 +16,7 @@ import sgtmelon.scriptum.room.entity.RankEntity
  *
  * @author SerjantArbuz
  */
-class RoomRankRepo(override val context: Context) : IRoomRankRepo, IRoomWork {
+class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
 
     // TODO убрать roomRepo
     private val iRoomRepo: IRoomRepo = RoomRepo(context)

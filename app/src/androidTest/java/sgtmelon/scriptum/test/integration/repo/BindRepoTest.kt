@@ -6,21 +6,21 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.bind.IRoomBindRepo
-import sgtmelon.scriptum.repository.room.bind.RoomBindRepo
+import sgtmelon.scriptum.repository.room.bind.IBindRepo
+import sgtmelon.scriptum.repository.room.bind.BindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentIntegrationTest
 
 /**
- * Integration test for [RoomBindRepo]
+ * Integration test for [BindRepo]
  *
  * @author SerjantArbuz
  */
 @RunWith(AndroidJUnit4::class)
 class BindRepoTest : ParentIntegrationTest() {
 
-    private val iRoomBindRepo: IRoomBindRepo = RoomBindRepo(context)
+    private val iRoomBindRepo: IBindRepo = BindRepo(context)
 
     @Test fun getRollListOnTextNote() = inRoom {
         textNote.let {

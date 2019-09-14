@@ -13,7 +13,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
  *
  * @author SerjantArbuz
  */
-class RoomBindRepo(override val context: Context) : IRoomBindRepo, IRoomWork {
+class BindRepo(override val context: Context) : IBindRepo, IRoomWork {
 
     /**
      * Возвращает пустой список если нет пунктов по данному id

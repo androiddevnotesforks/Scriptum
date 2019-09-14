@@ -6,8 +6,8 @@ import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.receiver.AlarmReceiver
-import sgtmelon.scriptum.repository.room.alarm.IRoomAlarmRepo
-import sgtmelon.scriptum.repository.room.alarm.RoomAlarmRepo
+import sgtmelon.scriptum.repository.room.alarm.IAlarmRepo
+import sgtmelon.scriptum.repository.room.alarm.AlarmRepo
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
 /**
@@ -17,7 +17,7 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  */
 class SplashInteractor(context: Context) : ParentInteractor(context), ISplashInteractor {
 
-    private val iAlarmRepo: IRoomAlarmRepo = RoomAlarmRepo(context)
+    private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
 
     override val firstStart: Boolean
         get() = iPreferenceRepo.firstStart.apply {

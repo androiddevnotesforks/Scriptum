@@ -4,8 +4,8 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.repository.room.develop.IRoomDevRepo
-import sgtmelon.scriptum.repository.room.develop.RoomDevRepo
+import sgtmelon.scriptum.repository.room.develop.IDevelopRepo
+import sgtmelon.scriptum.repository.room.develop.DevelopRepo
 import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
@@ -19,15 +19,15 @@ import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActivity>(application),
         IDevelopViewModel {
 
-    private val iRoomDevRepo: IRoomDevRepo = RoomDevRepo(context)
+    private val iDevelopRepo: IDevelopRepo = DevelopRepo(context)
 
     override fun onSetup(bundle: Bundle?) {
         viewModelScope.launch {
             callback?.apply {
-                fillAboutNoteTable(iRoomDevRepo.getNoteTablePrint())
-                fillAboutRollTable(iRoomDevRepo.getRollTablePrint())
-                fillAboutRankTable(iRoomDevRepo.getRankTablePrint())
-                fillAboutPreference(iRoomDevRepo.getPreferencePrint())
+                fillAboutNoteTable(iDevelopRepo.getNoteTablePrint())
+                fillAboutRollTable(iDevelopRepo.getRollTablePrint())
+                fillAboutRankTable(iDevelopRepo.getRankTablePrint())
+                fillAboutPreference(iDevelopRepo.getPreferencePrint())
             }
         }
     }

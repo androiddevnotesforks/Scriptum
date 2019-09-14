@@ -19,7 +19,7 @@ import sgtmelon.scriptum.screen.vm.DevelopViewModel
  *
  * @author SerjantArbuz
  */
-class RoomDevRepo(override val context: Context) : IRoomDevRepo, IRoomWork {
+class DevelopRepo(override val context: Context) : IDevelopRepo, IRoomWork {
 
     private val iPreferenceRepo: IPreferenceRepo = PreferenceRepo(context)
 

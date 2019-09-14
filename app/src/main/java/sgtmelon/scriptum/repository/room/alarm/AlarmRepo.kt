@@ -13,7 +13,7 @@ import sgtmelon.scriptum.room.entity.AlarmEntity
  *
  * @author SerjantArbuz
  */
-class RoomAlarmRepo(override val context: Context) : IRoomAlarmRepo, IRoomWork {
+class AlarmRepo(override val context: Context) : IAlarmRepo, IRoomWork {
 
     override fun insertOrUpdate(alarmEntity: AlarmEntity) = inRoom {
         if (alarmEntity.needInsert()) {

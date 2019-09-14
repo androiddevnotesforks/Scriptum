@@ -14,8 +14,8 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.UnbindReceiver
-import sgtmelon.scriptum.repository.room.bind.IRoomBindRepo
-import sgtmelon.scriptum.repository.room.bind.RoomBindRepo
+import sgtmelon.scriptum.repository.room.bind.IBindRepo
+import sgtmelon.scriptum.repository.room.bind.BindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.SplashActivity
@@ -34,7 +34,7 @@ class BindControl(private val context: Context, noteModel: NoteModel) {
      */
     constructor(context: Context, noteEntity: NoteEntity) : this(context, NoteModel(noteEntity))
 
-    private val iRoomBindRepo: IRoomBindRepo = RoomBindRepo(context)
+    private val iRoomBindRepo: IBindRepo = BindRepo(context)
 
     private val noteEntity: NoteEntity = noteModel.noteEntity
 

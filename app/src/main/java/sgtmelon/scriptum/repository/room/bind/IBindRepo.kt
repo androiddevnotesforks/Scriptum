@@ -4,11 +4,11 @@ import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
 /**
- * Interface for communication with [RoomBindRepo]
+ * Interface for communication with [BindRepo]
  *
  * @author SerjantArbuz
  */
-interface IRoomBindRepo {
+interface IBindRepo {
 
     fun getRollList(noteId: Long): List<RollEntity>
 

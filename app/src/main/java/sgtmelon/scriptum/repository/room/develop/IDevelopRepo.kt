@@ -1,11 +1,11 @@
 package sgtmelon.scriptum.repository.room.develop
 
 /**
- * Interface for communication with [RoomDevRepo]
+ * Interface for communication with [DevelopRepo]
  *
  * @author SerjantArbuz
  */
-interface IRoomDevRepo {
+interface IDevelopRepo {
 
     suspend fun getNoteTablePrint() : String
 

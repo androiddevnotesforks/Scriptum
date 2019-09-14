@@ -3,11 +3,11 @@ package sgtmelon.scriptum.repository.room.rank
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**
- * Interface for communication with [RoomRankRepo]
+ * Interface for communication with [RankRepo]
  *
  * @author SerjantArbuz
  */
-interface IRoomRankRepo {
+interface IRankRepo {
 
     /**
      * Обновление по категориям всех прикреплённых заметок в статус баре

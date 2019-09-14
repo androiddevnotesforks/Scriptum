@@ -488,12 +488,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onResultDateDialog(calendar: Calendar) {
         viewModelScope.launch {
-            callback?.showTimeDialog(calendar, iRoomAlarmRepo.getList().map { it.alarm.date })
+            callback?.showTimeDialog(calendar, iAlarmRepo.getList().map { it.alarm.date })
         }
     }
 
     override fun onResultDateDialogClear() {
-        iRoomAlarmRepo.delete(noteModel.alarmEntity.noteId)
+        iAlarmRepo.delete(noteModel.alarmEntity.noteId)
 
         noteModel.alarmEntity.apply {
             id = AlarmEntity.ND_ID
@@ -507,7 +507,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 
-        iRoomAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
+        iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
             date = getDateFormat().format(calendar.time)
         })
 

@@ -70,7 +70,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
             /**
              * Delete before get [noteModel] for hide alarm icon
              */
-            iRoomAlarmRepo.delete(id)
+            iAlarmRepo.delete(id)
 
             iRoomRepo.getNoteModel(id)?.let {
                 noteModel = it
@@ -133,7 +133,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
                 add(Calendar.MINUTE, valueArray[repeat])
             }
 
-            iRoomAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
+            iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
                 date = getDateFormat().format(calendar.time)
             })
 
