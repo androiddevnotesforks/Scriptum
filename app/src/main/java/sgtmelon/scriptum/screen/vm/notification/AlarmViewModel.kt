@@ -27,11 +27,11 @@ import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
         IAlarmViewModel {
 
-    private val iAlarmInteractor: IAlarmInteractor = AlarmInteractor(context)
+    private val iInteractor: IAlarmInteractor = AlarmInteractor(context)
     private val iSignalInteractor: ISignalInteractor = SignalInteractor(context)
 
     private var id: Long = NoteData.Default.ID
-    private var color: Int = iAlarmInteractor.defaultColor
+    private var color: Int = iInteractor.defaultColor
 
     private var noteModel: NoteModel? = null
     private var signalState: SignalState? = null
@@ -56,7 +56,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         callback?.apply {
             acquirePhone(CANCEL_DELAY)
 
-            iAlarmInteractor.let {
+            iInteractor.let {
                 setupView(it.theme)
                 setupPlayer(it.volume, it.volumeIncrease, iSignalInteractor.melodyUri.toUri())
             }
@@ -64,14 +64,14 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         if (bundle != null) {
             id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
-            color = bundle.getInt(NoteData.Intent.COLOR, iAlarmInteractor.defaultColor)
+            color = bundle.getInt(NoteData.Intent.COLOR, iInteractor.defaultColor)
         }
 
         /**
          * If first open
          */
         if (noteModel == null) {
-            iAlarmInteractor.getModel(id)?.let {
+            iInteractor.getModel(id)?.let {
                 noteModel = it
             } ?: run {
                 callback?.finish()
@@ -91,7 +91,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
     override fun onStart() {
         callback?.apply {
-            val theme = iAlarmInteractor.theme
+            val theme = iInteractor.theme
             startRippleAnimation(theme, context.getAppSimpleColor(color,
                     if (theme == Theme.LIGHT) ColorShade.ACCENT else ColorShade.DARK
             ))
@@ -125,10 +125,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         if (needRepeat) {
             noteModel?.let {
                 val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-                iAlarmInteractor.setupRepeat(it, callback, valueArray)
+                iInteractor.setupRepeat(it, callback, valueArray)
             }
 
-            callback?.showPostponeToast(iAlarmInteractor.repeat)
+            callback?.showPostponeToast(iInteractor.repeat)
         }
 
         callback?.releasePhone()

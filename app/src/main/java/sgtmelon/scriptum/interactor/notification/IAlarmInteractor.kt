@@ -13,13 +13,13 @@ interface IAlarmInteractor {
 
     @Theme val theme: Int
 
+    @Repeat val repeat: Int
+
     val volume: Int
 
     val volumeIncrease: Boolean
 
     @Color val defaultColor: Int
-
-    @Repeat val repeat: Int
 
     fun getModel(id: Long): NoteModel?
 

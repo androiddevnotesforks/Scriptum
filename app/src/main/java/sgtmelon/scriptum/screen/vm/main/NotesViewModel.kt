@@ -25,23 +25,23 @@ import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
         INotesViewModel {
 
-    private val iNotesInteractor: INotesInteractor = NotesInteractor(context)
+    private val iInteractor: INotesInteractor = NotesInteractor(context)
 
-    private val noteModelList: MutableList<NoteModel> = ArrayList()
+    private val itemList: MutableList<NoteModel> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
-            setupRecycler(iNotesInteractor.theme)
+            setupRecycler(iInteractor.theme)
         }
     }
 
     override fun onUpdateData() {
-        noteModelList.clearAndAdd(iNotesInteractor.getList())
+        itemList.clearAndAdd(iInteractor.getList())
 
         callback?.apply {
-            notifyDataSetChanged(noteModelList)
-            setupBinding(iNotesInteractor.isListHide())
+            notifyDataSetChanged(itemList)
+            setupBinding(iInteractor.isListHide())
             bind()
         }
 
@@ -49,11 +49,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startActivity(NoteActivity.getInstance(context, noteModelList[p].noteEntity))
+        callback?.startActivity(NoteActivity.getInstance(context, itemList[p].noteEntity))
     }
 
     override fun onShowOptionsDialog(p: Int) {
-        with(noteModelList[p].noteEntity) {
+        with(itemList[p].noteEntity) {
             val itemArray: Array<String> = when (type) {
                 NoteType.TEXT -> context.resources.getStringArray(R.array.dialog_menu_text)
                 NoteType.ROLL -> context.resources.getStringArray(R.array.dialog_menu_roll)
@@ -69,36 +69,36 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         when (which) {
             Options.BIND -> callback?.notifyItemChanged(p, onMenuBind(p))
             Options.CONVERT -> callback?.notifyItemChanged(p, onMenuConvert(p))
-            Options.COPY -> context.copyToClipboard(noteModelList[p].noteEntity)
+            Options.COPY -> context.copyToClipboard(itemList[p].noteEntity)
             Options.DELETE -> callback?.notifyItemRemoved(p, onMenuDelete(p))
         }
     }
 
-    private fun onMenuBind(p: Int) = noteModelList.apply {
+    private fun onMenuBind(p: Int) = itemList.apply {
         get(p).noteEntity.let {
             it.isStatus = !it.isStatus
 
-            viewModelScope.launch { iNotesInteractor.updateNote(it) }
+            viewModelScope.launch { iInteractor.updateNote(it) }
             BindControl(context, it).updateBind()
         }
     }
 
-    private fun onMenuConvert(p: Int) = noteModelList.apply {
-        set(p, iNotesInteractor.convert(get(p)))
+    private fun onMenuConvert(p: Int) = itemList.apply {
+        set(p, iInteractor.convert(get(p)))
         BindControl(context, get(p).noteEntity).updateBind()
     }
 
-    private fun onMenuDelete(p: Int) = noteModelList.apply {
+    private fun onMenuDelete(p: Int) = itemList.apply {
         BindControl(context, get(p).noteEntity).cancelBind()
-        get(p).let { viewModelScope.launch { iNotesInteractor.deleteNote(it, callback) } }
+        get(p).let { viewModelScope.launch { iInteractor.deleteNote(it, callback) } }
 
         removeAt(p)
     }
 
-    override fun onCancelNoteBind(id: Long) = noteModelList.forEachIndexed { i, it ->
+    override fun onCancelNoteBind(id: Long) = itemList.forEachIndexed { i, it ->
         if (it.noteEntity.id == id) {
             it.noteEntity.isStatus = false
-            callback?.notifyItemChanged(i, noteModelList)
+            callback?.notifyItemChanged(i, itemList)
             return@forEachIndexed
         }
     }

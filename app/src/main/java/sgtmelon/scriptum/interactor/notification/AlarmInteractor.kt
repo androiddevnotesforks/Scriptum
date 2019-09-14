@@ -22,20 +22,19 @@ class AlarmInteractor(context: Context) : ParentInteractor(context), IAlarmInter
 
     @Theme override val theme: Int get() = iPreferenceRepo.theme
 
+    override val repeat: Int get() = iPreferenceRepo.repeat
+
     override val volume: Int get() = iPreferenceRepo.volume
 
     override val volumeIncrease: Boolean get() = iPreferenceRepo.volumeIncrease
 
     @Color override val defaultColor: Int get() = iPreferenceRepo.defaultColor
 
-    override val repeat: Int get() = iPreferenceRepo.repeat
-
     override fun getModel(id: Long): NoteModel? {
         /**
          * Delete before return noteModel for hide alarm icon
          */
         iAlarmRepo.delete(id)
-
         return iRoomRepo.getNoteModel(id)
     }
 

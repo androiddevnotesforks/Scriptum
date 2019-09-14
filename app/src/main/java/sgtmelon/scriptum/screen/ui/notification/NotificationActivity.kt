@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.notification
 
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -22,6 +21,7 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.model.state.OpenState
+import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
 
@@ -110,7 +110,7 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     override fun notifyItemRemoved(p: Int, list: MutableList<NotificationItem>) =
             adapter.notifyItemRemoved(p, list)
 
-    override fun cancelAlarm(intent: PendingIntent) = iAlarmControl.cancel(intent)
+    override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
     companion object {
         fun getInstance(context: Context) = Intent(context, NotificationActivity::class.java)

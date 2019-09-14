@@ -24,8 +24,8 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     private val iRankRepo: IRankRepo = RankRepo(context)
 
-    private val rankList: MutableList<RankEntity> = ArrayList()
-    private val nameList: List<String> get() = rankList.map { it.name.toUpperCase() }
+    private val itemList: MutableList<RankEntity> = ArrayList()
+    private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
@@ -35,11 +35,11 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onUpdateData() {
-        rankList.clearAndAdd(iRankRepo.get())
+        itemList.clearAndAdd(iRankRepo.get())
 
         callback?.apply {
-            notifyDataSetChanged(rankList)
-            bindList(rankList.size)
+            notifyDataSetChanged(itemList)
+            bindList(itemList.size)
         }
     }
 
@@ -56,15 +56,15 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onShowRenameDialog(p: Int) {
-        callback?.showRenameDialog(p, rankList[p].name, nameList)
+        callback?.showRenameDialog(p, itemList[p].name, nameList)
     }
 
     override fun onRenameDialog(p: Int, name: String) {
-        rankList[p].name = name
+        itemList[p].name = name
 
         onUpdateToolbar()
 
-        rankList[p].let {
+        itemList[p].let {
             iRankRepo.update(it)
             callback?.notifyItemChanged(p, it)
         }
@@ -91,39 +91,39 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         if (name.isEmpty()) return
 
-        val p = if (simpleClick) rankList.size else 0
+        val p = if (simpleClick) itemList.size else 0
         val rankEntity = RankEntity(name = name).apply {
             id = iRankRepo.insert(rankEntity = this)
         }
 
-        rankList.add(p, rankEntity)
-        iRankRepo.update(rankList)
+        itemList.add(p, rankEntity)
+        iRankRepo.update(itemList)
 
-        callback?.scrollToItem(simpleClick, rankList)
+        callback?.scrollToItem(simpleClick, itemList)
     }
 
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
-        iRankRepo.update(rankList)
+        iRankRepo.update(itemList)
         viewModelScope.launch { iRankRepo.notifyBind() }
 
-        callback?.notifyDataSetChanged(rankList)
+        callback?.notifyDataSetChanged(itemList)
     }
 
     override fun onResultTouchMove(from: Int, to: Int): Boolean {
-        val item = rankList[from]
+        val item = itemList[from]
 
-        rankList.removeAt(from)
-        rankList.add(to, item)
+        itemList.removeAt(from)
+        itemList.add(to, item)
 
-        callback?.notifyItemMoved(from, to, rankList)
+        callback?.notifyItemMoved(from, to, itemList)
 
         return true
     }
 
 
     override fun onClickVisible(p: Int) {
-        val rankEntity = rankList[p].apply { isVisible = !isVisible }
+        val rankEntity = itemList[p].apply { isVisible = !isVisible }
 
         iRankRepo.update(rankEntity)
         viewModelScope.launch { iRankRepo.notifyBind() }
@@ -132,9 +132,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
     }
 
     override fun onLongClickVisible(p: Int) {
-        val startAnim = BooleanArray(rankList.size)
+        val startAnim = BooleanArray(itemList.size)
 
-        rankList.forEachIndexed { i, item ->
+        itemList.forEachIndexed { i, item ->
             if (i == p) {
                 if (!item.isVisible) {
                     item.isVisible = true
@@ -148,21 +148,21 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             }
         }
 
-        callback?.notifyVisible(startAnim, rankList)
+        callback?.notifyVisible(startAnim, itemList)
 
-        iRankRepo.update(rankList)
+        iRankRepo.update(itemList)
         viewModelScope.launch { iRankRepo.notifyBind() }
     }
 
     override fun onClickCancel(p: Int) {
-        iRankRepo.delete(rankList[p])
+        iRankRepo.delete(itemList[p])
 
-        rankList.removeAt(p)
+        itemList.removeAt(p)
 
-        iRankRepo.update(rankList)
+        iRankRepo.update(itemList)
         viewModelScope.launch { iRankRepo.notifyBind() }
         
-        callback?.notifyItemRemoved(p, rankList)
+        callback?.notifyItemRemoved(p, itemList)
     }
 
 }

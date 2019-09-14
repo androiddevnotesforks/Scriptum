@@ -23,41 +23,41 @@ import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
         IBinViewModel {
 
-    private val iBinInteractor: IBinInteractor = BinInteractor(context)
+    private val iInteractor: IBinInteractor = BinInteractor(context)
 
-    private val noteModelList: MutableList<NoteModel> = ArrayList()
+    private val itemList: MutableList<NoteModel> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
         callback?.apply {
             setupToolbar()
-            setupRecycler(iBinInteractor.theme)
+            setupRecycler(iInteractor.theme)
         }
     }
 
     override fun onUpdateData() {
-        noteModelList.clearAndAdd(iBinInteractor.getList())
+        itemList.clearAndAdd(iInteractor.getList())
 
         callback?.apply {
-            notifyDataSetChanged(noteModelList)
+            notifyDataSetChanged(itemList)
             notifyMenuClearBin()
             bind()
         }
     }
 
     override fun onClickClearBin() {
-        viewModelScope.launch { iBinInteractor.clearBin() }
+        viewModelScope.launch { iInteractor.clearBin() }
 
-        noteModelList.clear()
+        itemList.clear()
 
         callback?.apply {
-            notifyDataSetChanged(noteModelList)
+            notifyDataSetChanged(itemList)
             notifyMenuClearBin()
             bind()
         }
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startActivity(NoteActivity.getInstance(context, noteModelList[p].noteEntity))
+        callback?.startActivity(NoteActivity.getInstance(context, itemList[p].noteEntity))
     }
 
     override fun onShowOptionsDialog(p: Int) {
@@ -67,20 +67,20 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             Options.RESTORE -> callback?.notifyItemRemoved(p, restoreItem(p))
-            Options.COPY -> context.copyToClipboard(noteModelList[p].noteEntity)
+            Options.COPY -> context.copyToClipboard(itemList[p].noteEntity)
             Options.CLEAR -> callback?.notifyItemRemoved(p, clearItem(p))
         }
 
         callback?.notifyMenuClearBin()
     }
 
-    private fun restoreItem(p: Int) = noteModelList.apply {
-        get(p).let { viewModelScope.launch { iBinInteractor.restoreNote(it) } }
+    private fun restoreItem(p: Int) = itemList.apply {
+        get(p).let { viewModelScope.launch { iInteractor.restoreNote(it) } }
         removeAt(p)
     }
 
-    private fun clearItem(p: Int) = noteModelList.apply {
-        get(p).let { viewModelScope.launch { iBinInteractor.clearNote(it) } }
+    private fun clearItem(p: Int) = itemList.apply {
+        get(p).let { viewModelScope.launch { iInteractor.clearNote(it) } }
         removeAt(p)
     }
 
