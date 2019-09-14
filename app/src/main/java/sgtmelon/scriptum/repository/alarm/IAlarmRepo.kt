@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.room.alarm
+package sgtmelon.scriptum.repository.alarm
 
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.room.entity.AlarmEntity

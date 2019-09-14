@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.room.bind
+package sgtmelon.scriptum.repository.bind
 
 import android.content.Context
 import sgtmelon.scriptum.room.IRoomWork

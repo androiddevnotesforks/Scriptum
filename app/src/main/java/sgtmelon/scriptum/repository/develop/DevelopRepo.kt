@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.room.develop
+package sgtmelon.scriptum.repository.develop
 
 import android.content.Context
 import sgtmelon.scriptum.model.key.NoteType

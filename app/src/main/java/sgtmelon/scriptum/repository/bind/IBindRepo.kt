@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.room.bind
+package sgtmelon.scriptum.repository.bind
 
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.repository.room.rank
+package sgtmelon.scriptum.repository.rank
 
 import android.content.Context
 import sgtmelon.scriptum.control.notification.BindControl

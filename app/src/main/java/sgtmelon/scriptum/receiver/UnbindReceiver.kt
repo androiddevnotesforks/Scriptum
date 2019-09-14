@@ -9,7 +9,7 @@ import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter
 import sgtmelon.scriptum.model.data.ReceiverData.Values
-import sgtmelon.scriptum.repository.room.bind.BindRepo
+import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
 
 /**

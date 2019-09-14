@@ -4,12 +4,12 @@ import android.app.Application
 import android.content.Context
 import androidx.annotation.CallSuper
 import androidx.lifecycle.AndroidViewModel
+import sgtmelon.scriptum.repository.alarm.AlarmRepo
+import sgtmelon.scriptum.repository.alarm.IAlarmRepo
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.repository.room.IRoomRepo
 import sgtmelon.scriptum.repository.room.RoomRepo
-import sgtmelon.scriptum.repository.room.alarm.IAlarmRepo
-import sgtmelon.scriptum.repository.room.alarm.AlarmRepo
 
 /**
  * Родительский ViewModel
