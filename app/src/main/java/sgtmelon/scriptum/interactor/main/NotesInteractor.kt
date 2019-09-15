@@ -2,8 +2,9 @@ package sgtmelon.scriptum.interactor.main
 
 import android.content.Context
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.bind.BindControl
 
-import sgtmelon.scriptum.control.bind.IBindBridge
+
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -28,14 +29,14 @@ class NotesInteractor(context: Context) : ParentInteractor(context), INotesInter
 
     override fun isListHide() = iRoomRepo.isListHide(bin = false)
 
-    override fun updateNote(noteEntity: NoteEntity, callback: IBindBridge.Notify?) {
+    override fun updateNote(noteEntity: NoteEntity, callback: BindControl.Bridge.Notify?) {
         iRoomRepo.updateNote(noteEntity)
 
         val noteModel = NoteModel(noteEntity, iBindRepo.getRollList(noteEntity.id))
         callback?.notifyBind(noteModel, iRoomRepo.getRankIdVisibleList())
     }
 
-    override fun convert(noteModel: NoteModel, callback: IBindBridge.Notify?): NoteModel {
+    override fun convert(noteModel: NoteModel, callback: BindControl.Bridge.Notify?): NoteModel {
         when (noteModel.noteEntity.type) {
             NoteType.TEXT -> iRoomRepo.convertToRoll(noteModel)
             NoteType.ROLL -> {
@@ -56,7 +57,7 @@ class NotesInteractor(context: Context) : ParentInteractor(context), INotesInter
     }
 
     override suspend fun deleteNote(noteModel: NoteModel, alarmCallback: AlarmControl.Bridge.Cancel?,
-                                    bindCallback: IBindBridge.Cancel?) {
+                                    bindCallback: BindControl.Bridge.Cancel?) {
         iRoomRepo.deleteNote(noteModel)
 
         alarmCallback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])

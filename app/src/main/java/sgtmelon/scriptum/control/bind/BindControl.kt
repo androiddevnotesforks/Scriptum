@@ -71,4 +71,19 @@ class BindControl(private val context: Context) : IBindControl {
     override fun cancel(id: Int) {
         manager?.cancel(id)
     }
+
+    /**
+     * Callback which need implement in interface what pass to Interactor
+     * It's need to get access [BindControl] inside Interactor
+     */
+    interface Bridge {
+        interface Notify {
+            fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>)
+        }
+
+        interface Cancel {
+            fun cancelBind(id: Int)
+        }
+    }
+
 }

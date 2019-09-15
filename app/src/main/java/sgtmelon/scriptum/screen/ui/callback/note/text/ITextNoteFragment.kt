@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.screen.ui.callback.note.text
 
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.bind.IBindBridge
+import sgtmelon.scriptum.control.bind.BindControl
+
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.NoteModel
@@ -15,8 +16,11 @@ import java.util.*
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
  */
-interface ITextNoteFragment : AlarmControl.Bridge.Set, AlarmControl.Bridge.Cancel, IBindBridge.Notify,
-        IBindBridge.Cancel {
+interface ITextNoteFragment :
+        AlarmControl.Bridge.Set,
+        AlarmControl.Bridge.Cancel,
+        BindControl.Bridge.Notify,
+        BindControl.Bridge.Cancel {
 
     /**
      * Установка элементов для биндинга, которые постоянные
