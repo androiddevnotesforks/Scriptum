@@ -9,7 +9,7 @@ import sgtmelon.scriptum.factory.NotificationFactory
 import sgtmelon.scriptum.model.NoteModel
 
 /**
- * Управление закреплением заметки в статус баре [NoteModel]
+ * Class for help control [NoteModel] notification bind in statusBar
  */
 class BindControl(private val context: Context?) : IBindControl {
 

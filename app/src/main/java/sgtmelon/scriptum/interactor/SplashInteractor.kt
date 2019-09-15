@@ -22,10 +22,7 @@ class SplashInteractor(context: Context, private var callback: ISplashBridge?) :
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
 
-    override val firstStart: Boolean
-        get() = iPreferenceRepo.firstStart.apply {
-            if (this) iPreferenceRepo.firstStart = false
-        }
+    override val firstStart: Boolean get() = iPreferenceRepo.firstStart
 
     override suspend fun clearPastAlarm() = iAlarmRepo.getList().forEach {
         if (it.alarm.date.getCalendar().beforeNow()) {

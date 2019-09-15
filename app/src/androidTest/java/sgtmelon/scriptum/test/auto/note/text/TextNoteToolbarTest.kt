@@ -1,18 +1,15 @@
 package sgtmelon.scriptum.test.auto.note.text
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Test
-import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Test for [TextNoteFragment]
  */
-@RunWith(AndroidJUnit4::class)
+//@RunWith(AndroidJUnit4::class)
 class TextNoteToolbarTest : ParentUiTest() {
 
-    @Test fun closeByToolbarOnCreate() = data.createText().let {
+    private fun closeByToolbarOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { toolbar { onClickBack() } } }
@@ -21,7 +18,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnCreate() = data.createText().let {
+    private fun closeByBackPressOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog { createTextNote(it) { onPressBack() } }
@@ -30,7 +27,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpen() = data.insertText().let {
+    private fun closeByToolbarOnOpen() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { toolbar { onClickBack() } } }
@@ -39,7 +36,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnOpen() = data.insertText().let {
+    private fun closeByBackPressOnOpen() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage { openTextNote(it) { onPressBack() } }
@@ -50,11 +47,11 @@ class TextNoteToolbarTest : ParentUiTest() {
 
 
     // TODO тест существует
-    @Test fun contentEmptyOnCreate() = data.createText().let {
+    private fun contentEmptyOnCreate() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
-    @Test fun contentEmptyOnOpen() = data.insertText(
+    private fun contentEmptyOnOpen() = data.insertText(
             data.textNote.apply { name = "" }
     ).let {
         launch {
@@ -63,13 +60,13 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpen() = data.insertText().let {
+    private fun contentFillOnOpen() = data.insertText().let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
-    @Test fun saveByControlOnCreate() = data.createText().let {
+    private fun saveByControlOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -83,7 +80,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnCreate() = data.createText().let {
+    private fun saveByBackPressOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -97,7 +94,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByControlOnEdit() = data.insertText().let {
+    private fun saveByControlOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -111,7 +108,7 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = data.insertText().let {
+    private fun saveByBackPressOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -126,7 +123,7 @@ class TextNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = data.insertText().let {
+    private fun cancelOnEditByToolbar() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {

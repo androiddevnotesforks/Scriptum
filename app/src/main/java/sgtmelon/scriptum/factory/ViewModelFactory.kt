@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import sgtmelon.scriptum.screen.ui.callback.IAppActivity
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
+import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
@@ -18,9 +19,11 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.screen.vm.AppViewModel
 import sgtmelon.scriptum.screen.vm.DevelopViewModel
+import sgtmelon.scriptum.screen.vm.IntroViewModel
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 import sgtmelon.scriptum.screen.vm.callback.IAppViewModel
 import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
+import sgtmelon.scriptum.screen.vm.callback.IIntroViewModel
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
@@ -58,6 +61,11 @@ object ViewModelFactory {
     fun getSplashViewModel(activity: AppCompatActivity): ISplashViewModel =
             ViewModelProviders.of(activity).get(SplashViewModel::class.java).apply {
                 callback = activity as? ISplashActivity
+            }
+
+    fun getIntroViewModel(activity: AppCompatActivity): IIntroViewModel =
+            ViewModelProviders.of(activity).get(IntroViewModel::class.java).apply {
+                callback = activity as? IIntroActivity
             }
 
     // ---------------------------

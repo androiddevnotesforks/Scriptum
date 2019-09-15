@@ -1,18 +1,15 @@
 package sgtmelon.scriptum.test.auto.note.roll
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Test
-import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Test for [RollNoteFragment]
  */
-@RunWith(AndroidJUnit4::class)
+//@RunWith(AndroidJUnit4::class)
 class RollNoteToolbarTest : ParentUiTest() {
 
-    @Test fun closeByToolbarOnCreate() = data.createRoll().let {
+    private fun closeByToolbarOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
@@ -21,7 +18,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnCreate() = data.createRoll().let {
+    private fun closeByBackPressOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { onPressBack() } }
@@ -30,7 +27,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByToolbarOnOpen() = data.insertRoll().let {
+    private fun closeByToolbarOnOpen() = data.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
@@ -39,7 +36,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun closeByBackPressOnOpen() = data.insertRoll().let {
+    private fun closeByBackPressOnOpen() = data.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage { openRollNote(it) { onPressBack() } }
@@ -49,11 +46,11 @@ class RollNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun contentEmptyOnCreate() = data.createRoll().let {
+    private fun contentEmptyOnCreate() = data.createRoll().let {
         launch { mainScreen { openAddDialog { createRollNote(it) } } }
     }
 
-    @Test fun contentEmptyOnOpen() = data.insertRoll(
+    private fun contentEmptyOnOpen() = data.insertRoll(
             data.rollNote.apply { name = "" }
     ).let {
         launch {
@@ -61,14 +58,14 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun contentFillOnOpen() = data.insertRoll().let {
+    private fun contentFillOnOpen() = data.insertRoll().let {
         launch {
             mainScreen { openNotesPage { openRollNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
 
-    @Test fun saveByControlOnCreate() = data.createRoll().let {
+    private fun saveByControlOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -82,7 +79,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnCreate() = data.createRoll().let {
+    private fun saveByBackPressOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -96,7 +93,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByControlOnEdit() = data.insertRoll().let {
+    private fun saveByControlOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -110,7 +107,7 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = data.insertRoll().let {
+    private fun saveByBackPressOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -125,7 +122,7 @@ class RollNoteToolbarTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEdit() = data.createRoll().let {
+    private fun cancelOnEdit() = data.createRoll().let {
         launch {
             mainScreen {
                 openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }

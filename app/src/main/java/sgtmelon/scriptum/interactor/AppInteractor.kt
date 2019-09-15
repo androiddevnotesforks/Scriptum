@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.interactor
 
 import android.content.Context
-import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.vm.AppViewModel

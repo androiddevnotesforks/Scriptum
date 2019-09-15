@@ -21,13 +21,13 @@ import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
  */
 class SplashActivity : AppCompatActivity(), ISplashActivity {
 
-    private val iViewModel by lazy { ViewModelFactory.getSplashViewModel(activity = this) }
-
-    private val iAlarmControl by lazy { AlarmControl[this] }
-
     init {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
     }
+
+    private val iViewModel by lazy { ViewModelFactory.getSplashViewModel(activity = this) }
+
+    private val iAlarmControl by lazy { AlarmControl[this] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

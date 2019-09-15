@@ -11,34 +11,43 @@ import sgtmelon.idling.AppIdlingResource
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.PagerAdapter
 import sgtmelon.scriptum.extension.beforeFinish
+import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.IntroData
-import sgtmelon.scriptum.screen.ui.main.MainActivity
+import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
 
 /**
- * Экран со вступительным туториалом
+ * Activity with start intro
  */
-class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
+class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChangeListener {
+
+    private val iViewModel by lazy { ViewModelFactory.getIntroViewModel(activity = this) }
 
     private val pagerAdapter = PagerAdapter(supportFragmentManager)
 
     private val pageIndicator by lazy { findViewById<View?>(R.id.intro_page_indicator) }
-    private val pageButtonEnd by lazy { findViewById<Button?>(R.id.intro_end_button) }
+    private val endButton by lazy { findViewById<Button?>(R.id.intro_end_button) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_intro)
 
-        setupViewPager()
+        iViewModel.onSetup()
     }
 
-    private fun setupViewPager() {
-        pageButtonEnd?.apply {
+    override fun onDestroy() {
+        super.onDestroy()
+        iViewModel.onDestroy()
+    }
+
+
+    override fun setupViewPager() {
+        endButton?.apply {
             alpha = 0f
             isEnabled = false
 
             setOnClickListener {
                 AppIdlingResource.worker.startHardWork()
-                beforeFinish { startActivity(MainActivity[this@IntroActivity]) }
+                beforeFinish { iViewModel.onClickEnd() }
             }
         }
 
@@ -51,6 +60,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
         }
     }
 
+
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
         pagerAdapter.notifyItem(position, 1 - positionOffset)
 
@@ -58,7 +68,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
             pagerAdapter.notifyItem(position + 1, positionOffset)
         }
 
-        pageButtonEnd?.isEnabled = position == pagerAdapter.count - 1
+        endButton?.isEnabled = position == pagerAdapter.count - 1
 
         if (position == pagerAdapter.count - 2) {
             pageIndicator?.apply {
@@ -66,7 +76,7 @@ class IntroActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
                 translationY = -positionOffset * height
             }
 
-            pageButtonEnd?.apply {
+            endButton?.apply {
                 alpha = positionOffset
                 translationY = height - positionOffset * height
             }

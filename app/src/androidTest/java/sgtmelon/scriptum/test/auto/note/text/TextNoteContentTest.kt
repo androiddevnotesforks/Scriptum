@@ -1,31 +1,28 @@
 package sgtmelon.scriptum.test.auto.note.text
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Test
-import org.junit.runner.RunWith
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
  * Test for [TextNoteFragment]
  */
-@RunWith(AndroidJUnit4::class)
+//@RunWith(AndroidJUnit4::class)
 class TextNoteContentTest : ParentUiTest() {
 
     // TODO тест существует
-    @Test fun contentEmptyOnCreate() = data.createText().let {
+    private fun contentEmptyOnCreate() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
     // TODO тест существует
-    @Test fun contentFillOnOpen() = data.insertText().let {
+    private fun contentFillOnOpen() = data.insertText().let {
         launch {
             mainScreen { openNotesPage { openTextNote(it) { controlPanel { onClickEdit() } } } }
         }
     }
 
     // TODO тест существует
-    @Test fun saveByControlOnCreate() = data.createText().let {
+    private fun saveByControlOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -39,7 +36,7 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // TODO похожий тест textToolbar.saveByBackPressOnCreate
-    @Test fun saveByBackPressOnCreate() = data.createText().let {
+    private fun saveByBackPressOnCreate() = data.createText().let {
         launch {
             mainScreen {
                 openAddDialog {
@@ -53,7 +50,7 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
     // tODO похожий тест textPanel.actionSaveOnEdit
-    @Test fun saveByControlOnEdit() = data.insertText().let {
+    private fun saveByControlOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -67,7 +64,7 @@ class TextNoteContentTest : ParentUiTest() {
         }
     }
 
-    @Test fun saveByBackPressOnEdit() = data.insertText().let {
+    private fun saveByBackPressOnEdit() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -82,7 +79,7 @@ class TextNoteContentTest : ParentUiTest() {
     }
 
 
-    @Test fun cancelOnEditByToolbar() = data.insertText().let {
+    private fun cancelOnEditByToolbar() = data.insertText().let {
         launch {
             mainScreen {
                 openNotesPage {

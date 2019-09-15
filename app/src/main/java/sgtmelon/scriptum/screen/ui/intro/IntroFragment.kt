@@ -51,6 +51,7 @@ class IntroFragment : Fragment() {
         this.scaleY = scale
     }
 
+
     private fun IncludeInfoBinding.bind(page: Int) {
         icon = IntroData.icon[page]
         title = IntroData.title[page]

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
@@ -48,7 +47,7 @@ class NotesFragment : Fragment(), INotesFragment {
     private val iBindControl: IBindControl by lazy { BindControl(context) }
 
     private val openState = OpenState()
-    private val optionsDialog: OptionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
+    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(
