@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.interactor.callback.main
 
 import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.interactor.main.RankInteractor
 
 import sgtmelon.scriptum.room.entity.RankEntity
 

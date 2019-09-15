@@ -14,14 +14,20 @@ import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.repository.bind.BindRepo
 import sgtmelon.scriptum.repository.bind.IBindRepo
 import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.screen.ui.callback.main.INotesBridge
 import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
  * Interactor for [NotesViewModel]
  */
-class NotesInteractor(context: Context) : ParentInteractor(context), INotesInteractor {
+class NotesInteractor(context: Context, private var callback: INotesBridge?) :
+        ParentInteractor(context),
+        INotesInteractor {
 
     private val iBindRepo: IBindRepo = BindRepo(context)
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
+
 
     @Theme override val theme: Int get() = iPreferenceRepo.theme
 

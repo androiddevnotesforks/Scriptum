@@ -24,7 +24,7 @@ import sgtmelon.scriptum.model.annotation.Options.Notes as Options
 class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>(application),
         INotesViewModel {
 
-    private val iInteractor: INotesInteractor = NotesInteractor(context)
+    private val iInteractor: INotesInteractor by lazy { NotesInteractor(context, callback) }
 
     private val itemList: MutableList<NoteModel> = ArrayList()
 
@@ -34,6 +34,11 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             setupRecycler(iInteractor.theme)
         }
     }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+
+
+
 
     override fun onUpdateData() {
         itemList.clearAndAdd(iInteractor.getList())

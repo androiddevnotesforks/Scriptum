@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.interactor.callback.notification
 
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.interactor.notification.NotificationInteractor
 
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem

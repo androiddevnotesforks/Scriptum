@@ -32,6 +32,8 @@ class AlarmControl(private val context: Context?) : IAlarmControl {
      * It's need to get access [AlarmControl] inside Interactor
      */
     interface Bridge {
+        interface Full : Set, Cancel
+
         interface Set {
             fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model)
         }

@@ -10,6 +10,7 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 import sgtmelon.scriptum.repository.room.IRoomRepo
 import sgtmelon.scriptum.repository.room.RoomRepo
+import sgtmelon.scriptum.screen.vm.callback.IParentViewModel
 
 /**
  * Parent ViewModel
@@ -24,6 +25,9 @@ abstract class ParentViewModel<T>(application: Application) : AndroidViewModel(a
 
     var callback: T? = null
 
+    /**
+     * Same func like in [IParentViewModel] use for clear [callback] when cause [onDestroy]
+     */
     @CallSuper open fun onDestroy(func: () -> Unit = {}) {
         func()
         callback = null

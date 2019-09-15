@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.interactor.callback.main
 
+import sgtmelon.scriptum.interactor.main.BinInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 

@@ -77,6 +77,8 @@ class BindControl(private val context: Context) : IBindControl {
      * It's need to get access [BindControl] inside Interactor
      */
     interface Bridge {
+        interface Full : Notify, Cancel
+
         interface Notify {
             fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>)
         }
