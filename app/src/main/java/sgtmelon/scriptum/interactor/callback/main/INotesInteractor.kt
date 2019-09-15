@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.interactor.callback.main
 
-import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -19,11 +17,10 @@ interface INotesInteractor : IParentInteractor {
 
     fun isListHide(): Boolean
 
-    fun updateNote(noteEntity: NoteEntity, callback: BindControl.Bridge.Notify?)
+    fun updateNote(noteEntity: NoteEntity)
 
-    fun convert(noteModel: NoteModel, callback: BindControl.Bridge.Notify?): NoteModel
+    fun convert(noteModel: NoteModel): NoteModel
 
-    suspend fun deleteNote(noteModel: NoteModel, alarmCallback: AlarmControl.Bridge.Cancel?,
-                           bindCallback: BindControl.Bridge.Cancel?)
+    suspend fun deleteNote(noteModel: NoteModel)
 
 }

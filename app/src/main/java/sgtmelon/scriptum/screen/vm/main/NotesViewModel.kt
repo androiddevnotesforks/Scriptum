@@ -85,15 +85,15 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuBind(p: Int) = itemList.apply {
         val noteEntity = get(p).noteEntity.apply { isStatus = !isStatus }
 
-        viewModelScope.launch { iInteractor.updateNote(noteEntity, callback) }
+        viewModelScope.launch { iInteractor.updateNote(noteEntity) }
     }
 
     private fun onMenuConvert(p: Int) = itemList.apply {
-        set(p, iInteractor.convert(get(p), callback))
+        set(p, iInteractor.convert(get(p)))
     }
 
     private fun onMenuDelete(p: Int) = itemList.apply {
-        get(p).let { viewModelScope.launch { iInteractor.deleteNote(it, callback, callback) } }
+        get(p).let { viewModelScope.launch { iInteractor.deleteNote(it) } }
         removeAt(p)
     }
 
