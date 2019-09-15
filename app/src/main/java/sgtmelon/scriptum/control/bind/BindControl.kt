@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.control.notification
+package sgtmelon.scriptum.control.bind
 
 import android.app.Notification
 import android.app.NotificationChannel

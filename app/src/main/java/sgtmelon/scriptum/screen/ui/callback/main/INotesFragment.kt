@@ -2,7 +2,7 @@ package sgtmelon.scriptum.screen.ui.callback.main
 
 import android.content.Intent
 import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
-import sgtmelon.scriptum.control.notification.IBindBridge
+import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.main.NotesFragment

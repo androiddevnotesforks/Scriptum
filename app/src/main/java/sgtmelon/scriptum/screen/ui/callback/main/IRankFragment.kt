@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
-import sgtmelon.scriptum.control.notification.IBindBridge
+import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.screen.vm.main.RankViewModel

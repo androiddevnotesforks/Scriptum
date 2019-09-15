@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.interactor.main.rank
 
 import android.content.Context
-import sgtmelon.scriptum.control.notification.IBindBridge
+import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo

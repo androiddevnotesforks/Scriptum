@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.screen.ui.callback.note.roll
 
 import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.control.notification.IBindBridge
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme

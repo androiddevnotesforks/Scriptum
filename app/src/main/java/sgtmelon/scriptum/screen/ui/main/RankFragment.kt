@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
-import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.control.notification.IBindControl
+import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.extension.addTextChangedListener

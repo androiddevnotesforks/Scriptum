@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.interactor.main.rank
 
-import sgtmelon.scriptum.control.notification.IBindBridge
+import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.room.entity.RankEntity
 
 /**

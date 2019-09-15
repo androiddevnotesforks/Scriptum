@@ -4,7 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import androidx.core.app.TaskStackBuilder
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.key.NoteType

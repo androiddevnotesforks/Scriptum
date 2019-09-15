@@ -22,13 +22,13 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.menu.MenuControl
 import sgtmelon.scriptum.control.menu.MenuControlAnim
-import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.control.notification.IBindControl
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.databinding.FragmentRollNoteBinding
 import sgtmelon.scriptum.extension.*

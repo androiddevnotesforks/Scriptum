@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.room
 import android.content.Context
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.data.NoteData

@@ -4,7 +4,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.extension.sendTo
 import sgtmelon.scriptum.model.data.ReceiverData.Command
 import sgtmelon.scriptum.model.data.ReceiverData.Filter

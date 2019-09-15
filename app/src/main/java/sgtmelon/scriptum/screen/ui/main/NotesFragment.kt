@@ -15,8 +15,8 @@ import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.notification.BindControl
-import sgtmelon.scriptum.control.notification.IBindControl
+import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.control.bind.IBindControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
