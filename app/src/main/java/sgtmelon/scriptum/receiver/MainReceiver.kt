@@ -22,6 +22,9 @@ class MainReceiver(private val callback: Callback) : BroadcastReceiver() {
         }
     }
 
+    /**
+     * Interface for update UI elements
+     */
     interface Callback {
         fun onReceiveUnbindNote(id: Long)
     }

@@ -2,7 +2,6 @@ package sgtmelon.scriptum.repository.room
 
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.NoteData
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 
@@ -31,7 +30,7 @@ interface IRoomRepo {
 
     fun getRankIdVisibleList(): List<Long>
 
-    fun getRankCount(): Boolean
+    fun isRankEmpty(): Boolean
 
     /**
      * Return null if note not found in DataBase or [NoteEntity.id] == [NoteData.Default.ID]
@@ -47,26 +46,14 @@ interface IRoomRepo {
 
     fun convertToText(noteModel: NoteModel)
 
-    /**
-     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
-     */
     fun getRollListString(noteEntity: NoteEntity): String
 
-    /**
-     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
-     */
     fun getRollStatusString(noteEntity: NoteEntity): String
 
     fun getRankIdList(): List<Long>
 
-    /**
-     * @throws ClassCastException если [NoteEntity.type] != [NoteType.TEXT]
-     */
-    fun saveTextNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
+    fun saveTextNote(noteModel: NoteModel, isCreate: Boolean)
 
-    /**
-     * @throws ClassCastException если [NoteEntity.type] != [NoteType.ROLL]
-     */
     fun saveRollNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
 
 

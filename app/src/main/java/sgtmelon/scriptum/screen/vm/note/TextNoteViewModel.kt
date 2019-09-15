@@ -21,10 +21,8 @@ import sgtmelon.scriptum.model.item.InputItem.Cursor.Companion.get
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
@@ -51,7 +49,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     private lateinit var noteModel: NoteModel
 
     private lateinit var noteState: NoteState
-    private lateinit var rankIdVisibleList: List<Long>
     private var isRankEmpty: Boolean = true
 
     private val iconState = IconState()
@@ -63,33 +60,30 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
          * If first open
          */
         if (!::noteModel.isInitialized) {
-            rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
-            isRankEmpty = iRoomRepo.getRankCount()
+            isRankEmpty = iInteractor.isRankEmpty()
 
             if (id == NoteData.Default.ID) {
                 noteModel = NoteModel.getCreate(
-                        getTime(), iPreferenceRepo.defaultColor, NoteType.TEXT
+                        getTime(), iInteractor.defaultColor, NoteType.TEXT
                 )
 
                 noteState = NoteState(isCreate = true)
             } else {
-                iRoomRepo.getNoteModel(id)?.let {
+                iInteractor.getModel(id, updateBind = true)?.let {
                     noteModel = it
                 } ?: run {
                     parentCallback?.finish()
                     return
                 }
 
-                callback?.notifyBind(noteModel, rankIdVisibleList)
-
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteEntity.isBin)
             }
         }
 
         callback?.apply {
-            setupBinding(iPreferenceRepo.theme, isRankEmpty)
-            setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
-            setupDialog(iRoomRepo.getRankDialogItemArray())
+            setupBinding(iInteractor.theme, isRankEmpty)
+            setupToolbar(iInteractor.theme, noteModel.noteEntity.color, noteState)
+            setupDialog(iInteractor.getRankDialogItemArray())
             setupEnter(inputControl)
         }
 
@@ -111,7 +105,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
 
     override fun onMenuRestore() {
-        noteModel.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
+        noteModel.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
         parentCallback?.finish()
     }
 
@@ -125,11 +119,11 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         iconState.notAnimate { onMenuEdit(editMode = false) }
 
-        iRoomRepo.updateNote(noteModel.noteEntity)
+        viewModelScope.launch { iInteractor.updateNote(noteModel) }
     }
 
     override fun onMenuClear() {
-        noteModel.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
+        noteModel.let { viewModelScope.launch { iInteractor.clearNote(it) } }
         parentCallback?.finish()
     }
 
@@ -184,9 +178,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             inputControl.reset()
         }
 
-        noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
-
-        callback?.notifyBind(noteModel, rankIdVisibleList)
+        iInteractor.saveNote(noteModel, noteState.isCreate)
 
         noteState.ifCreate {
             id = noteModel.noteEntity.id
@@ -203,13 +195,12 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         callback?.showDateDialog(date.getCalendar(), date.isNotEmpty())
     }
 
-    override fun onMenuBind() = with(noteModel) {
-        noteEntity.apply { isStatus = !isStatus }
+    override fun onMenuBind() {
+        noteModel.noteEntity.apply { isStatus = !isStatus }
 
-        callback?.notifyBind(noteModel, rankIdVisibleList)
-        callback?.bindEdit(noteState.isEdit, this)
+        callback?.bindEdit(noteState.isEdit, noteModel)
 
-        iRoomRepo.updateNote(noteEntity)
+        viewModelScope.launch { iInteractor.updateNote(noteModel) }
     }
 
     override fun onMenuConvert() {
@@ -217,13 +208,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuDelete() {
-        val noteEntity = noteModel.noteEntity
-
-        callback?.cancelAlarm(AlarmReceiver[noteEntity])
-        callback?.cancelBind(noteEntity.id.toInt())
-
-        viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
-
+        viewModelScope.launch { iInteractor.deleteNote(noteModel) }
         parentCallback?.finish()
     }
 
@@ -279,7 +264,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         val colorFrom = noteModel.noteEntity.color
 
-        iRoomRepo.getNoteModel(id)?.let {
+        iInteractor.getModel(id, updateBind = false)?.let {
             noteModel = it
         } ?: run {
             parentCallback?.finish()
@@ -309,11 +294,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onResultRankDialog(check: Int) {
         val noteEntity = noteModel.noteEntity
 
-        val rankId = if (check != NoteEntity.ND_RANK_PS) {
-            iRoomRepo.getRankIdList()[check]
-        } else {
-            NoteEntity.ND_RANK_ID
-        }
+        val rankId = iInteractor.getRankId(check)
 
         inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
 
@@ -329,37 +310,32 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch {
-            callback?.showTimeDialog(calendar, iAlarmRepo.getList().map { it.alarm.date })
-        }
+        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList()) }
     }
 
     override fun onResultDateDialogClear() {
-        iAlarmRepo.delete(noteModel.alarmEntity.noteId)
+        viewModelScope.launch { iInteractor.clearDate(noteModel) }
 
         noteModel.alarmEntity.apply {
             id = AlarmEntity.ND_ID
             date = AlarmEntity.ND_DATE
         }
 
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
         callback?.bindNote(noteModel)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 
-        iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
-            date = getDateFormat().format(calendar.time)
-        })
+        noteModel.alarmEntity.date = getDateFormat().format(calendar.time)
 
-        callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
+        viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
+
         callback?.bindNote(noteModel)
     }
 
     override fun onResultConvertDialog() {
-        iRoomRepo.convertToRoll(noteModel)
-
+        iInteractor.convert(noteModel)
         parentCallback?.onConvertNote()
     }
 

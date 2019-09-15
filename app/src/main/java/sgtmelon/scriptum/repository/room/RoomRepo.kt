@@ -130,7 +130,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         inRoom { addAll(iRankDao.getIdVisibleList()) }
     }
 
-    override fun getRankCount(): Boolean {
+    override fun isRankEmpty(): Boolean {
         val count: Int
 
         openRoom().apply { count = iRankDao.getCount() }.close()
@@ -206,8 +206,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override fun getRollListString(noteEntity: NoteEntity) = StringBuilder().apply {
-        if (noteEntity.type != NoteType.ROLL)
-            throw ClassCastException("This method only for ROLL type")
+        if (noteEntity.type != NoteType.ROLL) return@apply
 
         inRoom {
             append(iRollDao[noteEntity.id].joinToString(separator = "\n") { it.text })
@@ -215,8 +214,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }.toString()
 
     override fun getRollStatusString(noteEntity: NoteEntity) = StringBuilder().apply {
-        if (noteEntity.type != NoteType.ROLL)
-            throw ClassCastException("This method only for ROLL type")
+        if (noteEntity.type != NoteType.ROLL) return@apply
 
         inRoom {
             append(iRollDao[noteEntity.id]
@@ -231,9 +229,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         inRoom { addAll(iRankDao.getIdList()) }
     }
 
-    override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {
-        if (noteEntity.type != NoteType.TEXT)
-            throw ClassCastException("This method only for TEXT type")
+    override fun saveTextNote(noteModel: NoteModel, isCreate: Boolean) = with(noteModel) {
+        if (noteEntity.type != NoteType.TEXT) return@with
 
         inRoom {
             if (isCreate) {
@@ -248,8 +245,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
     }
 
     override fun saveRollNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {
-        if (noteEntity.type != NoteType.ROLL)
-            throw ClassCastException("This method only for ROLL type")
+        if (noteEntity.type != NoteType.ROLL) return@apply
 
         //TODO !! Оптимизировать
         val rollListTemp = rollList.filterNot { it.text.isEmpty() }

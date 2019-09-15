@@ -70,7 +70,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          */
         if (!::noteModel.isInitialized) {
             rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
-            isRankEmpty = iRoomRepo.getRankCount()
+            isRankEmpty = iRoomRepo.isRankEmpty()
 
             if (id == NoteData.Default.ID) {
                 noteModel = NoteModel.getCreate(

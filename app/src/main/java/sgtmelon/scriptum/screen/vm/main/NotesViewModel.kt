@@ -38,8 +38,6 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
 
 
-
-
     override fun onUpdateData() {
         itemList.clearAndAdd(iInteractor.getList())
 
@@ -107,7 +105,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
 
     companion object {
         /**
-         * Для единовременного обновления статус бара
+         * For one-time update statusBar binds
          */
         var updateStatus = true
     }
