@@ -13,9 +13,10 @@ import java.util.*
 /**
  * Interactor for work with alarm signal
  */
-class SignalInteractor(context: Context) : ParentInteractor(context), ISignalInteractor {
+class SignalInteractor(private val context: Context) : ParentInteractor(context),
+        ISignalInteractor {
 
-    private val ringtoneManager = RingtoneManager(context)
+    private val ringtoneManager get() = RingtoneManager(context)
 
     override val signalCheck: BooleanArray
         get() = IntConverter().toArray(iPreferenceRepo.signal, Signal.digitCount)
