@@ -59,7 +59,7 @@ class BindControl(private val context: Context) : IBindControl {
     override fun notify(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
         val id = noteModel.noteEntity.id.toInt()
         val notify = with(noteModel.noteEntity) {
-            isStatus && isVisible(rankIdVisibleList)
+            !isBin && isStatus && isVisible(rankIdVisibleList)
         }
 
         if (notify) manager?.notify(id, createNotification(noteModel)) else cancel(id)

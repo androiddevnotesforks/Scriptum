@@ -21,7 +21,7 @@ interface INotesInteractor {
 
     fun convert(noteModel: NoteModel, callback: BindCallback.Notify?): NoteModel
 
-    suspend fun deleteNote(noteModel: NoteModel, bindCallback: BindCallback.Cancel?,
-                           alarmCallback: AlarmCallback.Cancel?)
+    suspend fun deleteNote(noteModel: NoteModel, alarmCallback: AlarmCallback.Cancel?,
+                           bindCallback: BindCallback.Cancel?)
 
 }

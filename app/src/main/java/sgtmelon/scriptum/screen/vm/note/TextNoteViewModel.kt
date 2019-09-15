@@ -11,7 +11,6 @@ import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.control.notification.BindControl
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
@@ -77,7 +76,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                     return
                 }
 
-                BindControl(context).notify(noteModel, rankIdVisibleList)
+                callback?.notifyBind(noteModel, rankIdVisibleList)
 
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteEntity.isBin)
             }
@@ -176,7 +175,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
 
-        BindControl(context).notify(noteModel, rankIdVisibleList)
+        callback?.notifyBind(noteModel, rankIdVisibleList)
 
         noteState.ifCreate {
             id = noteModel.noteEntity.id
@@ -196,8 +195,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuBind() = with(noteModel) {
         noteEntity.apply { isStatus = !isStatus }
 
-        BindControl(context).notify(noteModel, rankIdVisibleList)
-
+        callback?.notifyBind(noteModel, rankIdVisibleList)
         callback?.bindEdit(noteState.isEdit, this)
 
         iRoomRepo.updateNote(noteEntity)
@@ -210,8 +208,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuDelete() {
         val noteEntity = noteModel.noteEntity
 
-        BindControl(context).cancel(noteEntity.id.toInt())
         callback?.cancelAlarm(AlarmReceiver[noteEntity])
+        callback?.cancelBind(noteEntity.id.toInt())
+
         viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
 
         parentCallback?.finish()

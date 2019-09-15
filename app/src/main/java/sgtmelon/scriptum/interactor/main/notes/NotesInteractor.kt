@@ -53,12 +53,12 @@ class NotesInteractor(context: Context) : ParentInteractor(context), INotesInter
         return noteModel
     }
 
-    override suspend fun deleteNote(noteModel: NoteModel, bindCallback: BindCallback.Cancel?,
-                                    alarmCallback: AlarmCallback.Cancel?) {
+    override suspend fun deleteNote(noteModel: NoteModel, alarmCallback: AlarmCallback.Cancel?,
+                                    bindCallback: BindCallback.Cancel?) {
         iRoomRepo.deleteNote(noteModel)
 
-        bindCallback?.cancelBind(noteModel.noteEntity.id.toInt())
         alarmCallback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+        bindCallback?.cancelBind(noteModel.noteEntity.id.toInt())
     }
 
 }

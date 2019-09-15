@@ -45,8 +45,8 @@ class NotesFragment : Fragment(), INotesFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getNotesViewModel(fragment = this) }
 
-    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
     private val iAlarmControl by lazy { AlarmControl[context] }
+    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
 
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
