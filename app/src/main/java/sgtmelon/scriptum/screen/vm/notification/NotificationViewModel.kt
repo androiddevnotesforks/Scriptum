@@ -21,7 +21,7 @@ class NotificationViewModel(application: Application) :
         ParentViewModel<INotificationActivity>(application),
         INotificationViewModel {
 
-    private val iInteractor: INotificationInteractor = NotificationInteractor(context)
+    private val iInteractor: INotificationInteractor by lazy { NotificationInteractor(context, callback) }
     private val itemList: MutableList<NotificationItem> = ArrayList()
 
     override fun onSetup(bundle: Bundle?) {
@@ -30,6 +30,8 @@ class NotificationViewModel(application: Application) :
             setupRecycler(iInteractor.theme)
         }
     }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
 
 
     override fun onUpdateData() {
@@ -46,7 +48,7 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickCancel(p: Int) {
-        itemList[p].let { viewModelScope.launch { iInteractor.cancelNotification(it, callback) } }
+        itemList[p].let { viewModelScope.launch { iInteractor.cancelNotification(it) } }
 
         callback?.notifyItemRemoved(p, itemList.apply { removeAt(p) })
     }
