@@ -8,7 +8,7 @@ import java.util.*
  * Callback which need implement in interface what pass to ViewModel
  * It's need to get access [AlarmControl] inside Interactor
  */
-interface AlarmCallback {
+interface IAlarmBridge {
 
     interface Set {
         fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model)

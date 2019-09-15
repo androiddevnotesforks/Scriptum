@@ -2,7 +2,7 @@ package sgtmelon.scriptum.interactor.notification
 
 import android.content.Context
 import sgtmelon.extension.getDateFormat
-import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
+import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -35,7 +35,7 @@ class AlarmInteractor(context: Context) : ParentInteractor(context), IAlarmInter
         return iRoomRepo.getNoteModel(id)
     }
 
-    override fun setupRepeat(noteModel: NoteModel, callback: AlarmCallback.Set?,
+    override fun setupRepeat(noteModel: NoteModel, callback: IAlarmBridge.Set?,
                              valueArray: IntArray) {
         val calendar = Calendar.getInstance().apply {
             add(Calendar.MINUTE, valueArray[repeat])

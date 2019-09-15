@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.screen.ui.callback.note.roll
 
-import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
-import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
-import sgtmelon.scriptum.control.notification.BindCallback
+import sgtmelon.scriptum.control.notification.IBindBridge
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -16,8 +16,8 @@ import java.util.*
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
  */
-interface IRollNoteFragment : AlarmCallback.Set, AlarmCallback.Cancel, BindCallback.Notify,
-        BindCallback.Cancel {
+interface IRollNoteFragment : IAlarmBridge.Set, IAlarmBridge.Cancel, IBindBridge.Notify,
+        IBindBridge.Cancel {
 
     /**
      * Установка элементов для биндинга, которые постоянные
@@ -28,9 +28,9 @@ interface IRollNoteFragment : AlarmCallback.Set, AlarmCallback.Cancel, BindCallb
 
     fun setupDialog(rankNameArray: Array<String>)
 
-    fun setupEnter(inputCallback: InputCallback)
+    fun setupEnter(iInputControl: IInputControl)
 
-    fun setupRecycler(inputCallback: InputCallback)
+    fun setupRecycler(iInputControl: IInputControl)
 
     fun bindEdit(editMode: Boolean, noteModel: NoteModel)
 

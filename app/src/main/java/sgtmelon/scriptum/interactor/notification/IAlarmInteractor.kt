@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.interactor.notification
 
-import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
+import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Theme
@@ -20,6 +20,6 @@ interface IAlarmInteractor {
 
     fun getModel(id: Long): NoteModel?
 
-    fun setupRepeat(noteModel: NoteModel, callback: AlarmCallback.Set?, valueArray: IntArray)
+    fun setupRepeat(noteModel: NoteModel, callback: IAlarmBridge.Set?, valueArray: IntArray)
 
 }

@@ -20,7 +20,7 @@ import java.util.*
  * Roll swipe   - Номер пункта : значение
  * Roll move    - Перемещение (до/после)
  */
-class InputControl : InputCallback {
+class InputControl : IInputControl {
 
     var logEnabled = BuildConfig.DEBUG
 

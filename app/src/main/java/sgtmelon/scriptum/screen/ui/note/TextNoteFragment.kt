@@ -14,7 +14,7 @@ import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.menu.MenuControl
@@ -167,13 +167,13 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         }
     }
 
-    override fun setupEnter(inputCallback: InputCallback) {
+    override fun setupEnter(iInputControl: IInputControl) {
         nameEnter = view?.findViewById(R.id.toolbar_note_enter)
         view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, inputCallback)
+                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, iInputControl)
             )
             it.addOnNextAction {
                 textEnter?.apply {
@@ -187,7 +187,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         view?.findViewById<View>(R.id.text_note_content_scroll)?.requestFocusOnVisible(textEnter)
 
         textEnter?.addTextChangedListener(
-                InputTextWatcher(textEnter, InputAction.TEXT, iViewModel, inputCallback)
+                InputTextWatcher(textEnter, InputAction.TEXT, iViewModel, iInputControl)
         )
     }
 

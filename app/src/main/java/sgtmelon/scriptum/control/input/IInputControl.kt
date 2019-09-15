@@ -5,7 +5,7 @@ import sgtmelon.scriptum.model.item.InputItem
 /**
  * Interface for communicate with [InputControl]
  */
-interface InputCallback {
+interface IInputControl {
 
     var isEnabled: Boolean
 

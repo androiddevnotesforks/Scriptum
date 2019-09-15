@@ -22,7 +22,7 @@ import androidx.transition.TransitionManager
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.menu.MenuControl
@@ -194,13 +194,13 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }
     }
 
-    override fun setupEnter(inputCallback: InputCallback) {
+    override fun setupEnter(iInputControl: IInputControl) {
         nameEnter = view?.findViewById(R.id.toolbar_note_enter)
         view?.findViewById<View>(R.id.toolbar_note_scroll)?.requestFocusOnVisible(nameEnter)
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, inputCallback)
+                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, iInputControl)
             )
             it.addOnNextAction {
                 rollEnter?.apply {
@@ -232,12 +232,12 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         }
     }
 
-    override fun setupRecycler(inputCallback: InputCallback) {
+    override fun setupRecycler(iInputControl: IInputControl) {
         val touchCallback = RollTouchControl(iViewModel)
 
         adapter.apply {
             dragListener = touchCallback
-            this.inputCallback = inputCallback
+            this.iInputControl = iInputControl
         }
 
         recyclerView = view?.findViewById(R.id.roll_note_recycler)

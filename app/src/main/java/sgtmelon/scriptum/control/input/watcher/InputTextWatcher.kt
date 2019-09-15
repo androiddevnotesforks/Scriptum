@@ -3,7 +3,7 @@ package sgtmelon.scriptum.control.input.watcher
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
-import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.item.InputItem
@@ -14,7 +14,7 @@ import sgtmelon.scriptum.model.item.InputItem
 class InputTextWatcher(private val view: EditText?,
                        @InputAction private val tag: Int,
                        private val changeCallback: TextChange,
-                       private val inputCallback: InputCallback
+                       private val iInputControl: IInputControl
 ) : TextWatcher {
 
     private var textFrom = ""
@@ -34,8 +34,8 @@ class InputTextWatcher(private val view: EditText?,
         val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
 
         when (tag) {
-            InputAction.NAME -> inputCallback.onNameChange(textFrom, textTo, cursorItem)
-            InputAction.TEXT -> inputCallback.onTextChange(textFrom, textTo, cursorItem)
+            InputAction.NAME -> iInputControl.onNameChange(textFrom, textTo, cursorItem)
+            InputAction.TEXT -> iInputControl.onTextChange(textFrom, textTo, cursorItem)
         }
 
         textFrom = textTo

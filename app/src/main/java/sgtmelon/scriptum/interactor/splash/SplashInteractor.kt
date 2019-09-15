@@ -3,7 +3,7 @@ package sgtmelon.scriptum.interactor.splash
 import android.content.Context
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
+import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
@@ -22,7 +22,7 @@ class SplashInteractor(context: Context) : ParentInteractor(context), ISplashInt
             if (this) iPreferenceRepo.firstStart = false
         }
 
-    override suspend fun clearPastAlarm(callback: AlarmCallback.Cancel?) =
+    override suspend fun clearPastAlarm(callback: IAlarmBridge.Cancel?) =
             iAlarmRepo.getList().forEach {
                 if (it.alarm.date.getCalendar().beforeNow()) {
                     callback?.cancelAlarm(AlarmReceiver[it])

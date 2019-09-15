@@ -11,7 +11,7 @@ import androidx.annotation.IntRange
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
-import sgtmelon.scriptum.control.input.InputCallback
+import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.InputItem
@@ -24,7 +24,7 @@ class RollWriteHolder(
         private val binding: ItemRollWriteBinding,
         private val dragListener: ItemListener.Drag?,
         private val changeCallback: RollChange,
-        private val inputCallback: InputCallback?
+        private val iInputControl: IInputControl?
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener,
         TextWatcher {
@@ -50,7 +50,7 @@ class RollWriteHolder(
         dragView.setOnTouchListener(this)
     }
 
-    fun bind(rollEntity: RollEntity) = inputCallback?.makeNotEnabled {
+    fun bind(rollEntity: RollEntity) = iInputControl?.makeNotEnabled {
         binding.apply { this.rollEntity = rollEntity }.executePendingBindings()
     }
 
@@ -89,7 +89,7 @@ class RollWriteHolder(
 
         textFrom?.let {
             val cursorItem = InputItem.Cursor(cursorFrom, cursorTo)
-            inputCallback?.onRollChange(adapterPosition, it, textTo, cursorItem)
+            iInputControl?.onRollChange(adapterPosition, it, textTo, cursorItem)
 
             textFrom = textTo
             cursorFrom = cursorTo

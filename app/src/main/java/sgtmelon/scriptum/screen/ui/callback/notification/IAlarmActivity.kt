@@ -1,20 +1,18 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
-import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.ColorInt
-import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
+import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
-import java.util.*
 
 /**
  * Interface for communication [AlarmViewModel] with [AlarmActivity]
  */
-interface IAlarmActivity : AlarmCallback.Set {
+interface IAlarmActivity : IAlarmBridge.Set {
 
     /**
      * TODO Lock phone -> finish alarm
