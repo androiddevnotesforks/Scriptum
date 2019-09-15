@@ -100,7 +100,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind() }
+        viewModelScope.launch { iInteractor.notifyBind(callback) }
 
         callback?.notifyDataSetChanged(itemList)
     }
@@ -122,7 +122,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         viewModelScope.launch {
             iInteractor.update(item)
-            iInteractor.notifyBind()
+            iInteractor.notifyBind(callback)
         }
 
         callback?.notifyVisible(p, item)
@@ -148,7 +148,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyVisible(startAnim, itemList)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind() }
+        viewModelScope.launch { iInteractor.notifyBind(callback) }
     }
 
     override fun onClickCancel(p: Int) {
@@ -157,7 +157,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         itemList.removeAt(p)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind() }
+        viewModelScope.launch { iInteractor.notifyBind(callback) }
 
         callback?.notifyItemRemoved(p, itemList)
     }

@@ -45,6 +45,12 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
     private var binding: FragmentTextNoteBinding? = null
 
+    private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
+
+    private val iAlarmControl by lazy { AlarmControl[context] }
+    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
+    private var menuControl: MenuControl? = null
+
     private val openState = OpenState()
     private val dialogFactory by lazy { DialogFactory.Note(context, fragmentManager) }
 
@@ -54,13 +60,6 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private val dateDialog by lazy { dialogFactory.getDateDialog() }
     private val timeDialog by lazy { dialogFactory.getTimeDialog() }
     private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.TEXT) }
-
-    private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
-
-    private val iAlarmControl by lazy { AlarmControl[context] }
-    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
-
-    private var menuControl: MenuControl? = null
 
     private var nameEnter: EditText? = null
     private var textEnter: EditText? = null

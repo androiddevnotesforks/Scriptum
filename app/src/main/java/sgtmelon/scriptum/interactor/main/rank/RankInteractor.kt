@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.interactor.main.rank
 
 import android.content.Context
-import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.control.notification.BindCallback
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
@@ -18,11 +18,11 @@ class RankInteractor(private val context: Context) : ParentInteractor(context), 
     /**
      * Обновление по категориям всех прикреплённых заметок в статус баре
      */
-    override suspend fun notifyBind() {
+    override suspend fun notifyBind(callback: BindCallback.Notify?) {
         val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
         iRoomRepo.getNoteModelList(bin = false).forEach {
-            BindControl(context).notify(it, rankIdVisibleList)
+            callback?.notifyBind(it, rankIdVisibleList)
         }
     }
 

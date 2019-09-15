@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.main
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RankAdapter
+import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.control.notification.IBindControl
 import sgtmelon.scriptum.control.touch.RankTouchControl
 import sgtmelon.scriptum.databinding.FragmentRankBinding
 import sgtmelon.scriptum.extension.addTextChangedListener
@@ -23,6 +26,7 @@ import sgtmelon.scriptum.extension.inflateBinding
 import sgtmelon.scriptum.factory.DialogFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.listener.ItemListener
+import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
@@ -35,6 +39,8 @@ class RankFragment : Fragment(), IRankFragment {
     private var binding: FragmentRankBinding? = null
 
     private val iViewModel by lazy { ViewModelFactory.getRankViewModel(fragment = this) }
+
+    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
 
     private val openState = OpenState()
     private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fragmentManager) }
@@ -219,4 +225,7 @@ class RankFragment : Fragment(), IRankFragment {
     override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankEntity>) =
             adapter.notifyItemMoved(from, to, list)
 
+
+    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) =
+            iBindControl.notify(noteModel, rankIdVisibleList)
 }
