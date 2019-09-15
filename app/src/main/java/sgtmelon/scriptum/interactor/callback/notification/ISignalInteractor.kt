@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.notification.signal
+package sgtmelon.scriptum.interactor.callback.notification
 
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.model.state.SignalState

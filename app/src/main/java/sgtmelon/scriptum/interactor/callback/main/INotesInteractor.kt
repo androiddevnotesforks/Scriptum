@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.main.notes
+package sgtmelon.scriptum.interactor.callback.main
 
 import sgtmelon.scriptum.control.alarm.AlarmControl
 

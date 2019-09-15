@@ -3,8 +3,8 @@ package sgtmelon.scriptum.screen.vm
 import android.app.Application
 import android.os.Bundle
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.interactor.app.AppInteractor
-import sgtmelon.scriptum.interactor.app.IAppInteractor
+import sgtmelon.scriptum.interactor.AppInteractor
+import sgtmelon.scriptum.interactor.callback.IAppInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.IAppActivity

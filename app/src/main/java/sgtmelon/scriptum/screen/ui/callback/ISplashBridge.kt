@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback
 
 import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.interactor.splash.SplashInteractor
+import sgtmelon.scriptum.interactor.SplashInteractor
 import sgtmelon.scriptum.screen.ui.SplashActivity
 
 /**

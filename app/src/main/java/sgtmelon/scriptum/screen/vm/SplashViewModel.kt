@@ -4,8 +4,8 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.interactor.splash.ISplashInteractor
-import sgtmelon.scriptum.interactor.splash.SplashInteractor
+import sgtmelon.scriptum.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.interactor.SplashInteractor
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.SplashActivity

@@ -1,6 +1,6 @@
-package sgtmelon.scriptum.interactor.splash
+package sgtmelon.scriptum.interactor.callback
 
-import sgtmelon.scriptum.interactor.IParentInteractor
+import sgtmelon.scriptum.interactor.callback.IParentInteractor
 
 /**
  * Interface for communicate with [SplashInteractor]

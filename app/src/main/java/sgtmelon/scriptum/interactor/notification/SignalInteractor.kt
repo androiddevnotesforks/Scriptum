@@ -1,8 +1,9 @@
-package sgtmelon.scriptum.interactor.notification.signal
+package sgtmelon.scriptum.interactor.notification
 
 import android.content.Context
 import android.media.RingtoneManager
 import sgtmelon.scriptum.interactor.ParentInteractor
+import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
 import sgtmelon.scriptum.model.annotation.Signal
 import sgtmelon.scriptum.model.item.MelodyItem
 import sgtmelon.scriptum.model.state.SignalState

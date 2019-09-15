@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
-import sgtmelon.scriptum.interactor.notification.INotificationInteractor
+import sgtmelon.scriptum.interactor.callback.notification.INotificationInteractor
 import sgtmelon.scriptum.interactor.notification.NotificationInteractor
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity

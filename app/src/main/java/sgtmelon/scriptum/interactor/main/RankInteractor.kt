@@ -1,8 +1,9 @@
-package sgtmelon.scriptum.interactor.main.rank
+package sgtmelon.scriptum.interactor.main
 
 import android.content.Context
 import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.interactor.ParentInteractor
+import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity

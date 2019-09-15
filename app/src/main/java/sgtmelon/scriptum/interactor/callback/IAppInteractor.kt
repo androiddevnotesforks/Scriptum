@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.app
+package sgtmelon.scriptum.interactor.callback
 
 import sgtmelon.scriptum.model.annotation.Theme
 

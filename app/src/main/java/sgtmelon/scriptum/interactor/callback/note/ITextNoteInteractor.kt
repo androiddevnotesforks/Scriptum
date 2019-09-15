@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.note
+package sgtmelon.scriptum.interactor.callback.note
 
 /**
  * Interface for communicate with [TextNoteInteractor]

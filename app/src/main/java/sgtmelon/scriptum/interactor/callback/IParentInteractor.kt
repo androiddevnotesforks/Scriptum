@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor
+package sgtmelon.scriptum.interactor.callback
 
 /**
  * Parent interface for communicate with children of [ParentInteractor]

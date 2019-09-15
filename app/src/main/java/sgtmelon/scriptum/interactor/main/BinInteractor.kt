@@ -1,7 +1,8 @@
-package sgtmelon.scriptum.interactor.main.bin
+package sgtmelon.scriptum.interactor.main
 
 import android.content.Context
 import sgtmelon.scriptum.interactor.ParentInteractor
+import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.vm.main.BinViewModel

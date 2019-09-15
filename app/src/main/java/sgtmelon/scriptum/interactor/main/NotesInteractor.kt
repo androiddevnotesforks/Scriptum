@@ -1,10 +1,11 @@
-package sgtmelon.scriptum.interactor.main.notes
+package sgtmelon.scriptum.interactor.main
 
 import android.content.Context
 import sgtmelon.scriptum.control.alarm.AlarmControl
 
 import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.interactor.ParentInteractor
+import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.NoteType

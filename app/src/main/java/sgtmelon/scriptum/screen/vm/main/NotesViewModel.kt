@@ -7,8 +7,8 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.copyToClipboard
-import sgtmelon.scriptum.interactor.main.notes.INotesInteractor
-import sgtmelon.scriptum.interactor.main.notes.NotesInteractor
+import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
+import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment

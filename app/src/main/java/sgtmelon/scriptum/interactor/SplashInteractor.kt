@@ -1,9 +1,9 @@
-package sgtmelon.scriptum.interactor.splash
+package sgtmelon.scriptum.interactor
 
 import android.content.Context
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.scriptum.interactor.ParentInteractor
+import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo

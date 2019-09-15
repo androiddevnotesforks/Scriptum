@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.interactor.main.rank
+package sgtmelon.scriptum.interactor.callback.main
 
 import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.room.entity.RankEntity

@@ -8,8 +8,8 @@ import kotlinx.coroutines.launch
 import sgtmelon.scriptum.extension.clearAndAdd
 import sgtmelon.scriptum.extension.clearSpace
 import sgtmelon.scriptum.extension.toUpperCase
-import sgtmelon.scriptum.interactor.main.rank.IRankInteractor
-import sgtmelon.scriptum.interactor.main.rank.RankInteractor
+import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
+import sgtmelon.scriptum.interactor.main.RankInteractor
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
 import sgtmelon.scriptum.screen.ui.main.RankFragment

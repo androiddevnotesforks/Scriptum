@@ -3,7 +3,7 @@ package sgtmelon.scriptum.repository.preference
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import sgtmelon.scriptum.interactor.notification.signal.SignalInteractor
+import sgtmelon.scriptum.interactor.notification.SignalInteractor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.model.annotation.Sort
