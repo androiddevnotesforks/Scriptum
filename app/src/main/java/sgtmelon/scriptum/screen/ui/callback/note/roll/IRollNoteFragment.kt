@@ -1,8 +1,5 @@
 package sgtmelon.scriptum.screen.ui.callback.note.roll
 
-import sgtmelon.scriptum.control.alarm.AlarmControl
-import sgtmelon.scriptum.control.bind.BindControl
-
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.model.NoteModel
@@ -17,14 +14,10 @@ import java.util.*
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
  */
-interface IRollNoteFragment :
-        AlarmControl.Bridge.Set,
-        AlarmControl.Bridge.Cancel,
-        BindControl.Bridge.Notify,
-        BindControl.Bridge.Cancel {
+interface IRollNoteFragment : IRollNoteBridge {
 
     /**
-     * Установка элементов для биндинга, которые постоянные
+     * Setup elements for binding which is constants
      */
     fun setupBinding(@Theme theme: Int, rankEmpty: Boolean)
 
@@ -81,6 +74,7 @@ interface IRollNoteFragment :
     fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>)
 
     fun hideKeyboard()
+
 
     fun showRankDialog(check: Int)
 

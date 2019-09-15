@@ -16,6 +16,8 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.extension.showToast
 import sgtmelon.scriptum.extension.swap
+import sgtmelon.scriptum.interactor.callback.note.IRollNoteInteractor
+import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
@@ -42,6 +44,8 @@ import java.util.*
 class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFragment>(application),
         IRollNoteViewModel,
         SaveControl.Result {
+
+    private val iInteractor: IRollNoteInteractor by lazy { RollNoteInteractor(context, callback) }
 
     var parentCallback: INoteChild? = null
 
@@ -98,6 +102,13 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }
     }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        iInteractor.onDestroy()
+        parentCallback = null
+        saveControl.setSaveHandlerEvent(isStart = false)
+    }
+
 
     override fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
@@ -320,10 +331,6 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        parentCallback = null
-        saveControl.setSaveHandlerEvent(isStart = false)
-    }
 
     override fun onUpdateData() {
         checkState.setAll(noteModel.rollList)

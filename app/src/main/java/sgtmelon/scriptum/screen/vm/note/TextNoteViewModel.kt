@@ -12,6 +12,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.extension.showToast
+import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
+import sgtmelon.scriptum.interactor.note.TextNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.data.NoteData
@@ -37,6 +39,8 @@ import java.util.*
 class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
         ITextNoteViewModel,
         SaveControl.Result {
+
+    private val iInteractor: ITextNoteInteractor by lazy { TextNoteInteractor(context, callback) }
 
     var parentCallback: INoteChild? = null
 
@@ -91,6 +95,13 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         iconState.notAnimate { onMenuEdit(noteState.isEdit) }
     }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        iInteractor.onDestroy()
+        parentCallback = null
+        saveControl.setSaveHandlerEvent(isStart = false)
+    }
+
 
     override fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
@@ -240,11 +251,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
 
     override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
-
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        parentCallback = null
-        saveControl.setSaveHandlerEvent(isStart = false)
-    }
 
     override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
