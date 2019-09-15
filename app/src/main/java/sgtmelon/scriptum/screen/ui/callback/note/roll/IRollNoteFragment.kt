@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.ui.callback.note.roll
 import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
 import sgtmelon.scriptum.control.input.InputCallback
 import sgtmelon.scriptum.control.input.InputControl
+import sgtmelon.scriptum.control.notification.BindCallback
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -15,7 +16,8 @@ import java.util.*
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
  */
-interface IRollNoteFragment : AlarmCallback.Set, AlarmCallback.Cancel {
+interface IRollNoteFragment : AlarmCallback.Set, AlarmCallback.Cancel, BindCallback.Notify,
+        BindCallback.Cancel {
 
     /**
      * Установка элементов для биндинга, которые постоянные
