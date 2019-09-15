@@ -3,7 +3,7 @@ package sgtmelon.scriptum.control.bind
 import sgtmelon.scriptum.model.NoteModel
 
 /**
- * Callback which need implement in interface what pass to ViewModel
+ * Callback which need implement in interface what pass to Interactor
  * It's need to get access [BindControl] inside Interactor
  */
 interface IBindBridge {

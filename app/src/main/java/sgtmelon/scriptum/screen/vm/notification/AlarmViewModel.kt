@@ -27,7 +27,7 @@ import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
 class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>(application),
         IAlarmViewModel {
 
-    private val iInteractor: IAlarmInteractor = AlarmInteractor(context)
+    private val iInteractor: IAlarmInteractor by lazy { AlarmInteractor(context, callback) }
     private val iSignalInteractor: ISignalInteractor = SignalInteractor(context)
 
     private var id: Long = NoteData.Default.ID
@@ -84,6 +84,33 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         noteModel?.let { callback?.notifyDataSetChanged(it) }
     }
 
+    override fun onDestroy(func: () -> Unit) = super.onDestroy {
+        if (signalState?.isMelody == true) {
+            callback?.melodyStop()
+        }
+
+        if (signalState?.isVibration == true) {
+            callback?.vibrateCancel()
+            vibratorHandler.removeCallbacks(vibratorRunnable)
+        }
+
+        longWaitHandler.removeCallbacks(longWaitRunnable)
+
+        if (needRepeat) {
+            noteModel?.let {
+                val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
+                iInteractor.setupRepeat(it, valueArray)
+            }
+
+            callback?.showPostponeToast(iInteractor.repeat)
+        }
+
+        callback?.releasePhone()
+
+        iInteractor.onDestroy()
+    }
+
+
     override fun onSaveData(bundle: Bundle) = with(bundle) {
         putLong(NoteData.Intent.ID, id)
         putInt(NoteData.Intent.COLOR, color)
@@ -108,30 +135,6 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         }
 
         longWaitHandler.postDelayed(longWaitRunnable, CANCEL_DELAY)
-    }
-
-    override fun onDestroy(func: () -> Unit) = super.onDestroy {
-        if (signalState?.isMelody == true) {
-            callback?.melodyStop()
-        }
-
-        if (signalState?.isVibration == true) {
-            callback?.vibrateCancel()
-            vibratorHandler.removeCallbacks(vibratorRunnable)
-        }
-
-        longWaitHandler.removeCallbacks(longWaitRunnable)
-
-        if (needRepeat) {
-            noteModel?.let {
-                val valueArray = context.resources.getIntArray(R.array.value_alarm_repeat_array)
-                iInteractor.setupRepeat(it, callback, valueArray)
-            }
-
-            callback?.showPostponeToast(iInteractor.repeat)
-        }
-
-        callback?.releasePhone()
     }
 
     override fun onClickNote() {

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.interactor.notification
 
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.alarm.AlarmControl
+
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 
@@ -13,6 +14,6 @@ interface INotificationInteractor {
 
     fun getList(): MutableList<NotificationItem>
 
-    suspend fun cancelNotification(item: NotificationItem, callback: IAlarmBridge.Cancel?)
+    suspend fun cancelNotification(item: NotificationItem, callback: AlarmControl.Bridge.Cancel?)
 
 }

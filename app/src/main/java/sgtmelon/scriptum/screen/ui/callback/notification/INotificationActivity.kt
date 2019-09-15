@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.screen.ui.callback.notification
 
 import android.content.Intent
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.alarm.AlarmControl
+
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
@@ -10,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.notification.NotificationViewModel
 /**
  * Interface for communication [NotificationViewModel] with [NotificationActivity]
  */
-interface INotificationActivity : IAlarmBridge.Cancel {
+interface INotificationActivity : AlarmControl.Bridge.Cancel {
 
     fun setupToolbar()
 

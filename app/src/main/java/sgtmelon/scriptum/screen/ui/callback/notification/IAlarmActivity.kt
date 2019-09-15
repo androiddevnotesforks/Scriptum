@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.ui.callback.notification
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.ColorInt
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
@@ -12,7 +11,7 @@ import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 /**
  * Interface for communication [AlarmViewModel] with [AlarmActivity]
  */
-interface IAlarmActivity : IAlarmBridge.Set {
+interface IAlarmActivity : IAlarmBridge {
 
     /**
      * TODO Lock phone -> finish alarm

@@ -1,14 +1,14 @@
 package sgtmelon.scriptum.interactor.splash
 
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.interactor.IParentInteractor
 
 /**
  * Interface for communicate with [SplashInteractor]
  */
-interface ISplashInteractor {
+interface ISplashInteractor : IParentInteractor {
 
     val firstStart: Boolean
 
-    suspend fun clearPastAlarm(callback: IAlarmBridge.Cancel?)
+    suspend fun clearPastAlarm()
 
 }

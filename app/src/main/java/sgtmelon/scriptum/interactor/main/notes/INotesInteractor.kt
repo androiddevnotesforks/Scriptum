@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.interactor.main.notes
 
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.alarm.AlarmControl
+
 import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -21,7 +22,7 @@ interface INotesInteractor {
 
     fun convert(noteModel: NoteModel, callback: IBindBridge.Notify?): NoteModel
 
-    suspend fun deleteNote(noteModel: NoteModel, alarmCallback: IAlarmBridge.Cancel?,
+    suspend fun deleteNote(noteModel: NoteModel, alarmCallback: AlarmControl.Bridge.Cancel?,
                            bindCallback: IBindBridge.Cancel?)
 
 }

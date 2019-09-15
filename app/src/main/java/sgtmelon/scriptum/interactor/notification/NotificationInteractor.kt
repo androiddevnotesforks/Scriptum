@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.interactor.notification
 
 import android.content.Context
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.alarm.AlarmControl
+
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -23,7 +24,7 @@ class NotificationInteractor(context: Context) : ParentInteractor(context),
     override fun getList() = iAlarmRepo.getList()
 
     override suspend fun cancelNotification(item: NotificationItem,
-                                            callback: IAlarmBridge.Cancel?) {
+                                            callback: AlarmControl.Bridge.Cancel?) {
         iAlarmRepo.delete(item.note.id)
         callback?.cancelAlarm(AlarmReceiver[item])
     }

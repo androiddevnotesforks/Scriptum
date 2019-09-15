@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.interactor.main.notes
 
 import android.content.Context
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.alarm.AlarmControl
+
 import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -53,7 +54,7 @@ class NotesInteractor(context: Context) : ParentInteractor(context), INotesInter
         return noteModel
     }
 
-    override suspend fun deleteNote(noteModel: NoteModel, alarmCallback: IAlarmBridge.Cancel?,
+    override suspend fun deleteNote(noteModel: NoteModel, alarmCallback: AlarmControl.Bridge.Cancel?,
                                     bindCallback: IBindBridge.Cancel?) {
         iRoomRepo.deleteNote(noteModel)
 

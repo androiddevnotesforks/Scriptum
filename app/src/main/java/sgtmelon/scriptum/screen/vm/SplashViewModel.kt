@@ -23,10 +23,10 @@ import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 class SplashViewModel(application: Application) : ParentViewModel<ISplashActivity>(application),
         ISplashViewModel {
 
-    private val iInteractor: ISplashInteractor = SplashInteractor(context)
+    private val iInteractor: ISplashInteractor by lazy { SplashInteractor(context, callback) }
 
     override fun onSetup(bundle: Bundle?) {
-        viewModelScope.launch { iInteractor.clearPastAlarm(callback) }
+        viewModelScope.launch { iInteractor.clearPastAlarm() }
 
         if (bundle == null) {
             onSimpleStart()
@@ -38,6 +38,9 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
             }
         }
     }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+
 
     private fun onSimpleStart(firstStart: Boolean = iInteractor.firstStart) =
             callback?.startActivity(if (firstStart) {

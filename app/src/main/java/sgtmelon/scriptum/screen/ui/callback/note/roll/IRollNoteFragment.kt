@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.note.roll
 
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
@@ -16,7 +16,7 @@ import java.util.*
 /**
  * Interface for communication [RollNoteViewModel] with [RollNoteFragment]
  */
-interface IRollNoteFragment : IAlarmBridge.Set, IAlarmBridge.Cancel, IBindBridge.Notify,
+interface IRollNoteFragment : AlarmControl.Bridge.Set, AlarmControl.Bridge.Cancel, IBindBridge.Notify,
         IBindBridge.Cancel {
 
     /**

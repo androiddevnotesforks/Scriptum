@@ -10,13 +10,7 @@ import java.util.*
  */
 interface IAlarmControl {
 
-    // TODO remove
-    fun set(calendar: Calendar, intent: PendingIntent)
-
     fun set(calendar: Calendar, model: AlarmReceiver.Model)
-
-    // TODO remove
-    fun cancel(intent: PendingIntent)
 
     fun cancel(model: AlarmReceiver.Model)
 

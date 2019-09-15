@@ -2,22 +2,28 @@ package sgtmelon.scriptum.interactor.notification
 
 import android.content.Context
 import sgtmelon.extension.getDateFormat
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.repository.alarm.AlarmRepo
 import sgtmelon.scriptum.repository.alarm.IAlarmRepo
+import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmBridge
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import java.util.*
 
 /**
  * Interactor for [AlarmViewModel]
  */
-class AlarmInteractor(context: Context) : ParentInteractor(context), IAlarmInteractor {
+class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
+        ParentInteractor(context),
+        IAlarmInteractor {
 
     private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
+
 
     @Theme override val theme: Int get() = iPreferenceRepo.theme
 
@@ -35,8 +41,7 @@ class AlarmInteractor(context: Context) : ParentInteractor(context), IAlarmInter
         return iRoomRepo.getNoteModel(id)
     }
 
-    override fun setupRepeat(noteModel: NoteModel, callback: IAlarmBridge.Set?,
-                             valueArray: IntArray) {
+    override fun setupRepeat(noteModel: NoteModel, valueArray: IntArray) {
         val calendar = Calendar.getInstance().apply {
             add(Calendar.MINUTE, valueArray[repeat])
         }

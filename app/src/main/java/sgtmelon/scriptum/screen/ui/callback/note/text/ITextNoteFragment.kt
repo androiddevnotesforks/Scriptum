@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.screen.ui.callback.note.text
 
-import sgtmelon.scriptum.control.alarm.callback.IAlarmBridge
+import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.IBindBridge
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.control.input.InputControl
@@ -15,7 +15,7 @@ import java.util.*
 /**
  * Interface for communication [TextNoteViewModel] with [TextNoteFragment]
  */
-interface ITextNoteFragment : IAlarmBridge.Set, IAlarmBridge.Cancel, IBindBridge.Notify,
+interface ITextNoteFragment : AlarmControl.Bridge.Set, AlarmControl.Bridge.Cancel, IBindBridge.Notify,
         IBindBridge.Cancel {
 
     /**
