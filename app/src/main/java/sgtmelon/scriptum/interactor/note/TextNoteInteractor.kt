@@ -47,9 +47,9 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
 
     override suspend fun restoreNote(noteModel: NoteModel) = iRoomRepo.restoreNote(noteModel)
 
-    override suspend fun updateNote(noteModel: NoteModel) {
+    override suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean) {
         iRoomRepo.updateNote(noteModel.noteEntity)
-        callback?.notifyBind(noteModel, rankIdVisibleList)
+        if (updateBind) callback?.notifyBind(noteModel, rankIdVisibleList)
     }
 
     override suspend fun clearNote(noteModel: NoteModel) = iRoomRepo.clearNote(noteModel)

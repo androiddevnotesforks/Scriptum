@@ -16,6 +16,7 @@ interface ITextNoteInteractor : IParentInteractor {
 
     @Color val defaultColor: Int
 
+
     fun isRankEmpty(): Boolean
 
     fun getModel(id: Long, updateBind: Boolean): NoteModel?
@@ -24,7 +25,7 @@ interface ITextNoteInteractor : IParentInteractor {
 
     suspend fun restoreNote(noteModel: NoteModel)
 
-    suspend fun updateNote(noteModel: NoteModel)
+    suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean)
 
     suspend fun clearNote(noteModel: NoteModel)
 

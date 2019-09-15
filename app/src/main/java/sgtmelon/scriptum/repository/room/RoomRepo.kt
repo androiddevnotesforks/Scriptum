@@ -244,8 +244,8 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         updateRank(noteEntity)
     }
 
-    override fun saveRollNote(noteModel: NoteModel, isCreate: Boolean) = noteModel.apply {
-        if (noteEntity.type != NoteType.ROLL) return@apply
+    override fun saveRollNote(noteModel: NoteModel, isCreate: Boolean) = with(noteModel) {
+        if (noteEntity.type != NoteType.ROLL) return@with
 
         //TODO !! Оптимизировать
         val rollListTemp = rollList.filterNot { it.text.isEmpty() }

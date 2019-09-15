@@ -47,7 +47,6 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     private var id: Long = NoteData.Default.ID
     private lateinit var noteModel: NoteModel
-
     private lateinit var noteState: NoteState
     private var isRankEmpty: Boolean = true
 
@@ -119,7 +118,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         iconState.notAnimate { onMenuEdit(editMode = false) }
 
-        viewModelScope.launch { iInteractor.updateNote(noteModel) }
+        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = false) }
     }
 
     override fun onMenuClear() {
@@ -200,7 +199,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         callback?.bindEdit(noteState.isEdit, noteModel)
 
-        viewModelScope.launch { iInteractor.updateNote(noteModel) }
+        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = true) }
     }
 
     override fun onMenuConvert() {

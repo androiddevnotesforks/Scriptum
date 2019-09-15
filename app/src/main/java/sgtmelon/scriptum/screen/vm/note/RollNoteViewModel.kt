@@ -26,10 +26,8 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.CheckState
 import sgtmelon.scriptum.model.state.IconState
 import sgtmelon.scriptum.model.state.NoteState
-import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.converter.StringConverter
 import sgtmelon.scriptum.room.entity.AlarmEntity
-import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.screen.ui.callback.note.INoteChild
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteFragment
@@ -54,9 +52,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
     private var id: Long = NoteData.Default.ID
     private lateinit var noteModel: NoteModel
-
     private lateinit var noteState: NoteState
-    private lateinit var rankIdVisibleList: List<Long>
     private var isRankEmpty: Boolean = true
 
     private val iconState = IconState()
@@ -69,33 +65,30 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
          * If first open
          */
         if (!::noteModel.isInitialized) {
-            rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
-            isRankEmpty = iRoomRepo.isRankEmpty()
+            isRankEmpty = iInteractor.isRankEmpty()
 
             if (id == NoteData.Default.ID) {
                 noteModel = NoteModel.getCreate(
-                        getTime(), iPreferenceRepo.defaultColor, NoteType.ROLL
+                        getTime(), iInteractor.defaultColor, NoteType.ROLL
                 )
 
                 noteState = NoteState(isCreate = true)
             } else {
-                iRoomRepo.getNoteModel(id)?.let {
+                iInteractor.getModel(id, updateBind = true)?.let {
                     noteModel = it
                 } ?: run {
                     parentCallback?.finish()
                     return
                 }
 
-                callback?.notifyBind(noteModel, rankIdVisibleList)
-
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteEntity.isBin)
             }
         }
 
         callback?.apply {
-            setupBinding(iPreferenceRepo.theme, isRankEmpty)
-            setupToolbar(iPreferenceRepo.theme, noteModel.noteEntity.color, noteState)
-            setupDialog(iRoomRepo.getRankDialogItemArray())
+            setupBinding(iInteractor.theme, isRankEmpty)
+            setupToolbar(iInteractor.theme, noteModel.noteEntity.color, noteState)
+            setupDialog(iInteractor.getRankDialogItemArray())
             setupEnter(inputControl)
             setupRecycler(inputControl)
         }
@@ -118,7 +111,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
 
     override fun onMenuRestore() {
-        noteModel.let { viewModelScope.launch { iRoomRepo.restoreNote(it) } }
+        noteModel.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
         parentCallback?.finish()
     }
 
@@ -132,11 +125,11 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         iconState.notAnimate { onMenuEdit(editMode = false) }
 
-        iRoomRepo.updateNote(noteModel.noteEntity)
+        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = false) }
     }
 
     override fun onMenuClear() {
-        noteModel.let { viewModelScope.launch { iRoomRepo.clearNote(it) } }
+        noteModel.let { viewModelScope.launch { iInteractor.clearNote(it) } }
         parentCallback?.finish()
     }
 
@@ -225,9 +218,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             inputControl.reset()
         }
 
-        noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
-
-        callback?.notifyBind(noteModel, rankIdVisibleList)
+        iInteractor.saveNote(noteModel, noteState.isCreate)
 
         noteState.ifCreate {
             id = noteModel.noteEntity.id
@@ -246,14 +237,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         callback?.showDateDialog(date.getCalendar(), date.isNotEmpty())
     }
 
-    override fun onMenuBind() = with(noteModel) {
-        noteEntity.apply { isStatus = !isStatus }
-
-        callback?.notifyBind(noteModel, rankIdVisibleList)
+    override fun onMenuBind() {
+        noteModel.noteEntity.apply { isStatus = !isStatus }
 
         callback?.bindEdit(noteState.isEdit, noteModel)
 
-        iRoomRepo.updateNote(noteEntity)
+        viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = true) }
     }
 
     override fun onMenuConvert() {
@@ -261,12 +250,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuDelete() {
-        val noteEntity = noteModel.noteEntity
-
-        callback?.cancelBind(noteEntity.id.toInt())
-        callback?.cancelAlarm(AlarmReceiver[noteEntity])
-        viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
-
+        viewModelScope.launch { iInteractor.deleteNote(noteModel) }
         parentCallback?.finish()
     }
 
@@ -368,7 +352,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         val colorFrom = noteModel.noteEntity.color
 
-        iRoomRepo.getNoteModel(id)?.let {
+        iInteractor.getModel(id, updateBind = false)?.let {
             noteModel = it
         } ?: run {
             parentCallback?.finish()
@@ -425,16 +409,14 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         val check = rollList.getCheck()
 
-        val noteEntity = noteModel.noteEntity.apply {
+        noteModel.noteEntity.apply {
             change = getTime()
             setCompleteText(check, rollList.size)
         }
 
         if (checkState.setAll(check, rollList.size)) callback?.bindNote(noteModel)
 
-        iRoomRepo.updateRollCheck(noteEntity, rollEntity)
-
-        callback?.notifyBind(noteModel, rankIdVisibleList)
+        iInteractor.updateRollCheck(noteModel, rollEntity)
     }
 
     override fun onLongClickItemCheck() {
@@ -442,14 +424,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         val isAll = checkState.isAll
 
         noteModel.updateCheck(!isAll)
-
-        val noteEntity = noteModel.noteEntity.apply {
+        noteModel.noteEntity.apply {
             change = getTime()
             setCompleteText(if (isAll) 0 else size, size)
         }
 
-        iRoomRepo.updateRollCheck(noteEntity, !isAll)
-        callback?.notifyBind(noteModel, rankIdVisibleList)
+        iInteractor.updateRollCheck(noteModel, !isAll)
 
         callback?.apply {
             bindNote(noteModel)
@@ -473,12 +453,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onResultRankDialog(check: Int) {
         val noteEntity = noteModel.noteEntity
 
-
-        val rankId = if (check != NoteEntity.ND_RANK_PS) {
-            iRoomRepo.getRankIdList()[check]
-        } else {
-            NoteEntity.ND_RANK_ID
-        }
+        val rankId = iInteractor.getRankId(check)
 
         inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
 
@@ -494,37 +469,32 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch {
-            callback?.showTimeDialog(calendar, iAlarmRepo.getList().map { it.alarm.date })
-        }
+        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList()) }
     }
 
     override fun onResultDateDialogClear() {
-        iAlarmRepo.delete(noteModel.alarmEntity.noteId)
+        viewModelScope.launch { iInteractor.clearDate(noteModel) }
 
         noteModel.alarmEntity.apply {
             id = AlarmEntity.ND_ID
             date = AlarmEntity.ND_DATE
         }
 
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
         callback?.bindNote(noteModel)
     }
 
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 
-        iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
-            date = getDateFormat().format(calendar.time)
-        })
+        noteModel.alarmEntity.date = getDateFormat().format(calendar.time)
 
-        callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])
+        viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
+
         callback?.bindNote(noteModel)
     }
 
     override fun onResultConvertDialog() {
-        iRoomRepo.convertToText(noteModel)
-
+        iInteractor.convert(noteModel)
         parentCallback?.onConvertNote()
     }
 

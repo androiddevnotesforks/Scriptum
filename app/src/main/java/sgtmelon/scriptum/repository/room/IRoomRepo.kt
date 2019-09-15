@@ -54,7 +54,7 @@ interface IRoomRepo {
 
     fun saveTextNote(noteModel: NoteModel, isCreate: Boolean)
 
-    fun saveRollNote(noteModel: NoteModel, isCreate: Boolean): NoteModel
+    fun saveRollNote(noteModel: NoteModel, isCreate: Boolean)
 
 
     /**
