@@ -22,7 +22,7 @@ class RankInteractor(private val context: Context) : ParentInteractor(context), 
         val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
         iRoomRepo.getNoteModelList(bin = false).forEach {
-            BindControl(context).setup(it).updateBind(rankIdVisibleList)
+            BindControl(context).notify(it, rankIdVisibleList)
         }
     }
 

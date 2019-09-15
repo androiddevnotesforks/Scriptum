@@ -18,7 +18,7 @@ import sgtmelon.scriptum.screen.ui.SplashActivity
  * Don't care about [NoteModel.rollList] if:
  * - If note type is [NoteType.TEXT]
  * - If type is [NoteType.ROLL] and [NoteModel.rollList] is completely load
- * - If you need only call [BindControl.cancelBind]
+ * - If you need only call [BindControl.cancel]
  */
 class BindModel(private val noteModel: NoteModel) {
 

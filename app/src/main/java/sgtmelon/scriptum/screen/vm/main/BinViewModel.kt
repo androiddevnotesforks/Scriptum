@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.IntDef
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -16,6 +15,7 @@ import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
+import sgtmelon.scriptum.model.annotation.Options.Bin as Options
 
 /**
  * ViewModel for [BinFragment]
@@ -82,16 +82,6 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     private fun clearItem(p: Int) = itemList.apply {
         get(p).let { viewModelScope.launch { iInteractor.clearNote(it) } }
         removeAt(p)
-    }
-
-
-    @IntDef(Options.RESTORE, Options.COPY, Options.CLEAR)
-    private annotation class Options {
-        companion object {
-            const val RESTORE = 0
-            const val COPY = 1
-            const val CLEAR = 2
-        }
     }
 
 }

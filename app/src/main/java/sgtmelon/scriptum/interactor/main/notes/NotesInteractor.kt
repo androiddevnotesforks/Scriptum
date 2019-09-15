@@ -2,7 +2,7 @@ package sgtmelon.scriptum.interactor.main.notes
 
 import android.content.Context
 import sgtmelon.scriptum.control.alarm.callback.AlarmCallback
-import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.control.notification.BindCallback
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -16,7 +16,7 @@ import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 /**
  * Interactor for [NotesViewModel]
  */
-class NotesInteractor(private val context: Context) : ParentInteractor(context), INotesInteractor {
+class NotesInteractor(context: Context) : ParentInteractor(context), INotesInteractor {
 
     private val iBindRepo: IBindRepo = BindRepo(context)
 
@@ -26,34 +26,39 @@ class NotesInteractor(private val context: Context) : ParentInteractor(context),
 
     override fun isListHide() = iRoomRepo.isListHide(bin = false)
 
-    override fun updateNote(noteEntity: NoteEntity) {
+    override fun updateNote(noteEntity: NoteEntity, callback: BindCallback.Notify?) {
         iRoomRepo.updateNote(noteEntity)
 
-        BindControl(context).setup(NoteModel(noteEntity, iBindRepo.getRollList(noteEntity.id))).updateBind()
+        val noteModel = NoteModel(noteEntity, iBindRepo.getRollList(noteEntity.id))
+        callback?.notifyBind(noteModel, iRoomRepo.getRankIdVisibleList())
     }
 
-    override fun convert(noteModel: NoteModel): NoteModel {
+    override fun convert(noteModel: NoteModel, callback: BindCallback.Notify?): NoteModel {
         when (noteModel.noteEntity.type) {
             NoteType.TEXT -> iRoomRepo.convertToRoll(noteModel)
             NoteType.ROLL -> {
                 iRoomRepo.convertToText(noteModel)
 
+                /**
+                 * Optimisation for get only first 4 items
+                 */
                 if (noteModel.rollList.size > 4) {
                     noteModel.rollList.dropLast(n = noteModel.rollList.size - 4)
                 }
             }
         }
 
-        BindControl(context).setup(noteModel).updateBind()
+        callback?.notifyBind(noteModel, iRoomRepo.getRankIdVisibleList())
 
         return noteModel
     }
 
-    override suspend fun deleteNote(noteModel: NoteModel, callback: AlarmCallback.Cancel?) {
+    override suspend fun deleteNote(noteModel: NoteModel, bindCallback: BindCallback.Cancel?,
+                                    alarmCallback: AlarmCallback.Cancel?) {
         iRoomRepo.deleteNote(noteModel)
 
-        BindControl(context).setup(noteModel).cancelBind()
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+        bindCallback?.cancelBind(noteModel.noteEntity.id.toInt())
+        alarmCallback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
     }
 
 }

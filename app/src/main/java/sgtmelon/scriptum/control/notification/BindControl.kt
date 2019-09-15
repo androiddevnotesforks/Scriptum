@@ -13,13 +13,10 @@ import sgtmelon.scriptum.model.NoteModel
 /**
  * Управление закреплением заметки в статус баре [NoteModel]
  */
-class BindControl(private val context: Context) {
+class BindControl(private val context: Context) : IBindControl {
 
     private val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-
-    private var notification: Notification? = null
-    private var bindModel: BindModel? = null
 
     init {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -32,10 +29,8 @@ class BindControl(private val context: Context) {
         }
     }
 
-    fun setup(noteModel: NoteModel) = setup(BindModel(noteModel))
-
-    private fun setup(bindModel: BindModel) = apply {
-        this.bindModel = bindModel
+    private fun createNotification(noteModel: NoteModel): Notification {
+        val bindModel = BindModel(noteModel)
 
         val builder = NotificationCompat.Builder(context, context.getString(R.string.notification_channel_id))
                 .setSmallIcon(bindModel.icon)
@@ -55,42 +50,25 @@ class BindControl(private val context: Context) {
             builder.setGroup(context.getString(R.string.notification_group))
         }
 
-        notification = builder.build()
+        return builder.build()
     }
 
     /**
-     * Update notification if it isStatus and isVisible
+     * Update notification if note isStatus and isVisible, otherwise cancel notification
      */
-    fun updateBind(rankIdVisibleList: List<Long>) {
-        val bindModel = bindModel ?: return
+    override fun notify(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+        val id = noteModel.noteEntity.id.toInt()
+        val notify = with(noteModel.noteEntity) {
+            isStatus && isVisible(rankIdVisibleList)
+        }
 
-        if (!bindModel.isStatus) return
-
-        if (bindModel.isVisible(rankIdVisibleList)) notifyBind() else cancelBind()
-    }
-
-    fun updateBind() {
-        val bindModel = bindModel ?: return
-
-        if (bindModel.isStatus) notifyBind() else cancelBind()
-    }
-
-    /**
-     * Show notification in statusBar
-     */
-    fun notifyBind() {
-        val bindModel = bindModel ?: return
-
-        manager?.notify(bindModel.id, notification)
+        if (notify) manager?.notify(id, createNotification(noteModel)) else cancel(id)
     }
 
     /**
      * Remove notification from statusBar
      */
-    fun cancelBind() {
-        val bindModel = bindModel ?: return
-
-        manager?.cancel(bindModel.id)
+    override fun cancel(id: Int) {
+        manager?.cancel(id)
     }
-
 }

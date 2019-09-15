@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.screen.ui.main
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,8 @@ import sgtmelon.safedialog.OptionsDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
+import sgtmelon.scriptum.control.notification.BindControl
+import sgtmelon.scriptum.control.notification.IBindControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
@@ -42,6 +45,7 @@ class NotesFragment : Fragment(), INotesFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getNotesViewModel(fragment = this) }
 
+    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
     private val iAlarmControl by lazy { AlarmControl[context] }
 
     private val openState = OpenState()
@@ -169,6 +173,12 @@ class NotesFragment : Fragment(), INotesFragment {
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
             adapter.notifyItemRemoved(p, list)
 
+
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
+
+    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) =
+            iBindControl.notify(noteModel, rankIdVisibleList)
+
+    override fun cancelBind(id: Int) = iBindControl.cancel(id)
 
 }

@@ -82,6 +82,7 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
 
 
 /**
+ * TODO change without repo
  * Копирование текста заметки в память
  */
 fun Context.copyToClipboard(noteEntity: NoteEntity) {

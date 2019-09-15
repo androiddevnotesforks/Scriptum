@@ -2,7 +2,6 @@ package sgtmelon.scriptum.screen.vm.main
 
 import android.app.Application
 import android.os.Bundle
-import androidx.annotation.IntDef
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
@@ -17,6 +16,7 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
+import sgtmelon.scriptum.model.annotation.Options.Notes as Options
 
 /**
  * ViewModel for [NotesFragment]
@@ -52,16 +52,20 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     override fun onShowOptionsDialog(p: Int) {
-        with(itemList[p].noteEntity) {
-            val itemArray: Array<String> = context.resources.getStringArray(when (type) {
-                NoteType.TEXT -> R.array.dialog_menu_text
-                NoteType.ROLL -> R.array.dialog_menu_roll
-            })
+        val noteEntity = itemList[p].noteEntity
 
-            itemArray[0] = if (isStatus) context.getString(R.string.dialog_menu_status_unbind) else context.getString(R.string.dialog_menu_status_bind)
+        val itemArray: Array<String> = context.resources.getStringArray(when (noteEntity.type) {
+            NoteType.TEXT -> R.array.dialog_menu_text
+            NoteType.ROLL -> R.array.dialog_menu_roll
+        })
 
-            callback?.showOptionsDialog(itemArray, p)
+        itemArray[0] = if (noteEntity.isStatus) {
+            context.getString(R.string.dialog_menu_status_unbind)
+        } else {
+            context.getString(R.string.dialog_menu_status_bind)
         }
+
+        callback?.showOptionsDialog(itemArray, p)
     }
 
     override fun onResultOptionsDialog(p: Int, which: Int) {
@@ -76,15 +80,15 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     private fun onMenuBind(p: Int) = itemList.apply {
         val noteEntity = get(p).noteEntity.apply { isStatus = !isStatus }
 
-        viewModelScope.launch { iInteractor.updateNote(noteEntity) }
+        viewModelScope.launch { iInteractor.updateNote(noteEntity, callback) }
     }
 
     private fun onMenuConvert(p: Int) = itemList.apply {
-        set(p, iInteractor.convert(get(p)))
+        set(p, iInteractor.convert(get(p), callback))
     }
 
     private fun onMenuDelete(p: Int) = itemList.apply {
-        get(p).let { viewModelScope.launch { iInteractor.deleteNote(it, callback) } }
+        get(p).let { viewModelScope.launch { iInteractor.deleteNote(it, callback, callback) } }
         removeAt(p)
     }
 
@@ -93,17 +97,6 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
             it.noteEntity.isStatus = false
             callback?.notifyItemChanged(i, itemList)
             return@forEachIndexed
-        }
-    }
-
-
-    @IntDef(Options.BIND, Options.CONVERT, Options.COPY, Options.DELETE)
-    private annotation class Options {
-        companion object {
-            const val BIND = 0
-            const val CONVERT = 1
-            const val COPY = 2
-            const val DELETE = 3
         }
     }
 

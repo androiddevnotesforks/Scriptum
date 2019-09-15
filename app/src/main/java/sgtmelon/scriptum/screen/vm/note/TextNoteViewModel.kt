@@ -77,7 +77,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                     return
                 }
 
-                BindControl(context).setup(noteModel).updateBind(rankIdVisibleList)
+                BindControl(context).notify(noteModel, rankIdVisibleList)
 
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteEntity.isBin)
             }
@@ -176,7 +176,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         noteModel = iRoomRepo.saveTextNote(noteModel, noteState.isCreate)
 
-        BindControl(context).setup(noteModel).updateBind(rankIdVisibleList)
+        BindControl(context).notify(noteModel, rankIdVisibleList)
 
         noteState.ifCreate {
             id = noteModel.noteEntity.id
@@ -194,9 +194,9 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     }
 
     override fun onMenuBind() = with(noteModel) {
-        noteEntity.isStatus = !noteEntity.isStatus
+        noteEntity.apply { isStatus = !isStatus }
 
-        if (noteEntity.isVisible(rankIdVisibleList)) BindControl(context).setup(noteModel).updateBind()
+        BindControl(context).notify(noteModel, rankIdVisibleList)
 
         callback?.bindEdit(noteState.isEdit, this)
 
@@ -210,7 +210,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onMenuDelete() {
         val noteEntity = noteModel.noteEntity
 
-        BindControl(context).setup(noteModel).cancelBind()
+        BindControl(context).cancel(noteEntity.id.toInt())
         callback?.cancelAlarm(AlarmReceiver[noteEntity])
         viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
 

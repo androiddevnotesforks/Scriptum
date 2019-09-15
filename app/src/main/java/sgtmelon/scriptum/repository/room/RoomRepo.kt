@@ -46,12 +46,15 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
                     Sort.RANK -> iNoteDao.getByRank(bin)
                     else -> iNoteDao.getByColor(bin)
                 }.forEach {
-                    val bindControl = BindControl(context).setup(NoteModel(it, BindRepo(context).getRollList(it.id)))
+                    val bindControl = BindControl(context)
 
                     if (!bin && it.isNotVisible(rankIdVisibleList)) {
-                        bindControl.cancelBind()
+                        bindControl.cancel(it.id.toInt())
                     } else {
-                        if (it.isStatus && NotesViewModel.updateStatus) bindControl.notifyBind()
+                        if (NotesViewModel.updateStatus) {
+                            val noteModel = NoteModel(it, BindRepo(context).getRollList(it.id))
+                            bindControl.notify(noteModel, rankIdVisibleList)
+                        }
 
                         add(NoteModel(
                                 it, iRollDao.getView(it.id),

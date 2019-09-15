@@ -83,7 +83,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
                     return
                 }
 
-                BindControl(context).setup(noteModel).updateBind(rankIdVisibleList)
+                BindControl(context).notify(noteModel, rankIdVisibleList)
 
                 noteState = NoteState(isCreate = false, isBin = noteModel.noteEntity.isBin)
             }
@@ -217,7 +217,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteModel = iRoomRepo.saveRollNote(noteModel, noteState.isCreate)
 
-        BindControl(context).setup(noteModel).updateBind(rankIdVisibleList)
+        BindControl(context).notify(noteModel, rankIdVisibleList)
 
         noteState.ifCreate {
             id = noteModel.noteEntity.id
@@ -237,9 +237,9 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     }
 
     override fun onMenuBind() = with(noteModel) {
-        noteEntity.isStatus = !noteEntity.isStatus
+        noteEntity.apply { isStatus = !isStatus }
 
-        if (noteEntity.isVisible(rankIdVisibleList)) BindControl(context).setup(noteModel).updateBind()
+        BindControl(context).notify(noteModel, rankIdVisibleList)
 
         callback?.bindEdit(noteState.isEdit, noteModel)
 
@@ -253,7 +253,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onMenuDelete() {
         val noteEntity = noteModel.noteEntity
 
-        BindControl(context).setup(noteModel).cancelBind()
+        BindControl(context).cancel(noteEntity.id.toInt())
         callback?.cancelAlarm(AlarmReceiver[noteEntity])
         viewModelScope.launch { iRoomRepo.deleteNote(noteModel) }
 
@@ -428,7 +428,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         iRoomRepo.updateRollCheck(noteEntity, rollEntity)
 
-        BindControl(context).setup(noteModel).updateBind(rankIdVisibleList)
+        BindControl(context).notify(noteModel, rankIdVisibleList)
     }
 
     override fun onLongClickItemCheck() {
@@ -443,7 +443,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         iRoomRepo.updateRollCheck(noteEntity, !isAll)
-        BindControl(context).setup(noteModel).updateBind(rankIdVisibleList)
+        BindControl(context).notify(noteModel, rankIdVisibleList)
 
         callback?.apply {
             bindNote(noteModel)
