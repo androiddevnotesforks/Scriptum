@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.main
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -46,7 +45,7 @@ class NotesFragment : Fragment(), INotesFragment {
     private val iViewModel by lazy { ViewModelFactory.getNotesViewModel(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl[context] }
-    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
+    private val iBindControl: IBindControl by lazy { BindControl(context) }
 
     private val openState = OpenState()
     private val optionsDialog: OptionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }

@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.note
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
@@ -48,7 +47,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private val iViewModel by lazy { ViewModelFactory.getTextNoteViewModel(fragment = this) }
 
     private val iAlarmControl by lazy { AlarmControl[context] }
-    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
+    private val iBindControl: IBindControl by lazy { BindControl(context) }
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()

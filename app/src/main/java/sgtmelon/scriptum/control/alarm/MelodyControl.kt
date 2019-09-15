@@ -16,7 +16,6 @@ import sgtmelon.scriptum.control.alarm.callback.IMelodyControl
 class MelodyControl(private val context: Context) : IMelodyControl,
         AudioManager.OnAudioFocusChangeListener {
 
-    // TODO #RELEASE2 coroutine
     // TODO #RELEASE2 when melody ends return melody which play before
 
     private val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as? AudioManager

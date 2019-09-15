@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.screen.ui.main
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -40,7 +39,7 @@ class RankFragment : Fragment(), IRankFragment {
 
     private val iViewModel by lazy { ViewModelFactory.getRankViewModel(fragment = this) }
 
-    private val iBindControl: IBindControl by lazy { BindControl(context as Context) }
+    private val iBindControl: IBindControl by lazy { BindControl(context) }
 
     private val openState = OpenState()
     private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fragmentManager) }
