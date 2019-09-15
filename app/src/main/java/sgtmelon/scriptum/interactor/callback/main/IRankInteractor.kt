@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.interactor.callback.main
 
-import sgtmelon.scriptum.control.bind.BindControl
+import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.RankInteractor
 
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -8,9 +8,9 @@ import sgtmelon.scriptum.room.entity.RankEntity
 /**
  * Interface for communicate with [RankInteractor]
  */
-interface IRankInteractor {
+interface IRankInteractor : IParentInteractor {
 
-    suspend fun notifyBind(callback: BindControl.Bridge.Notify?)
+    suspend fun notifyBind()
 
     fun insert(name: String): RankEntity
 

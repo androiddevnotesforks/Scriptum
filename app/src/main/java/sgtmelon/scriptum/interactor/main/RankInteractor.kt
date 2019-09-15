@@ -1,26 +1,31 @@
 package sgtmelon.scriptum.interactor.main
 
 import android.content.Context
-import sgtmelon.scriptum.control.bind.BindControl
 
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.main.IRankInteractor
 import sgtmelon.scriptum.repository.rank.IRankRepo
 import sgtmelon.scriptum.repository.rank.RankRepo
 import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.screen.ui.callback.main.IRankBridge
 import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
  * Interactor for [RankViewModel]
  */
-class RankInteractor(private val context: Context) : ParentInteractor(context), IRankInteractor {
+class RankInteractor(context: Context, private var callback: IRankBridge?) :
+        ParentInteractor(context),
+        IRankInteractor {
 
     private val iRankRepo: IRankRepo = RankRepo(context)
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
+
 
     /**
      * Обновление по категориям всех прикреплённых заметок в статус баре
      */
-    override suspend fun notifyBind(callback: BindControl.Bridge.Notify?) {
+    override suspend fun notifyBind() {
         val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
         iRoomRepo.getNoteModelList(bin = false).forEach {

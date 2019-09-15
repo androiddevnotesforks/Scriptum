@@ -22,7 +22,7 @@ import sgtmelon.scriptum.screen.vm.callback.main.IRankViewModel
 class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(application),
         IRankViewModel {
 
-    private val iInteractor: IRankInteractor = RankInteractor(context)
+    private val iInteractor: IRankInteractor by lazy { RankInteractor(context, callback) }
 
     private val itemList: MutableList<RankEntity> = ArrayList()
     private val nameList: List<String> get() = itemList.map { it.name.toUpperCase() }
@@ -33,6 +33,9 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
             setupRecycler()
         }
     }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
+
 
     override fun onUpdateData() {
         itemList.clearAndAdd(iInteractor.getList())
@@ -100,7 +103,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind(callback) }
+        viewModelScope.launch { iInteractor.notifyBind() }
 
         callback?.notifyDataSetChanged(itemList)
     }
@@ -122,7 +125,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
         viewModelScope.launch {
             iInteractor.update(item)
-            iInteractor.notifyBind(callback)
+            iInteractor.notifyBind()
         }
 
         callback?.notifyVisible(p, item)
@@ -148,7 +151,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyVisible(startAnim, itemList)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind(callback) }
+        viewModelScope.launch { iInteractor.notifyBind() }
     }
 
     override fun onClickCancel(p: Int) {
@@ -157,7 +160,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         itemList.removeAt(p)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind(callback) }
+        viewModelScope.launch { iInteractor.notifyBind() }
 
         callback?.notifyItemRemoved(p, itemList)
     }
