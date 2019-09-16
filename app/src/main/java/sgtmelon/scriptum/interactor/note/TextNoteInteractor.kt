@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.interactor.note
 
 import android.content.Context
+import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.note.ITextNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -27,6 +28,10 @@ class TextNoteInteractor(context: Context, private var callback: ITextNoteBridge
 
     override fun onDestroy(func: () -> Unit) = super.onDestroy { callback = null }
 
+
+    override fun getSaveModel() = with(iPreferenceRepo) {
+        SaveControl.Model(pauseSaveOn, autoSaveOn, savePeriod)
+    }
 
     @Theme override val theme: Int get() = iPreferenceRepo.theme
 

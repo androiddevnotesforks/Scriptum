@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.interactor.callback.note
 
+import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.note.RollNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -13,6 +14,8 @@ import java.util.*
  * Interface for communication [RollNoteViewModel] with [RollNoteInteractor]
  */
 interface IRollNoteInteractor : IParentInteractor {
+
+    fun getSaveModel(): SaveControl.Model
 
     @Theme val theme: Int
 

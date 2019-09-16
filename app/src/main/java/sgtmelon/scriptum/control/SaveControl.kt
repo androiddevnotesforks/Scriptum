@@ -2,24 +2,17 @@ package sgtmelon.scriptum.control
 
 import android.content.Context
 import android.os.Handler
-
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
- * Класс контроля сохранений заметки
+ * Class for help control note pause/auto save
  */
-class SaveControl(context: Context, private val callback: Callback) {
-
-    // TODO вынести отсюда PreferenceRepo
+class SaveControl(context: Context, private val model: Model, private val callback: Callback) {
 
     private val saveHandler = Handler()
 
-    private val isPauseSaveOn: Boolean = PreferenceRepo(context).pauseSaveOn
-    private val isAutoSaveOn: Boolean = PreferenceRepo(context).autoSaveOn
-
-    private val saveTime: Int = if (isAutoSaveOn) {
-        context.resources.getIntArray(R.array.value_save_time_array)[PreferenceRepo(context).savePeriod]
+    private val saveTime: Int = if (model.autoSaveOn) {
+        context.resources.getIntArray(R.array.value_save_time_array)[model.savePeriod]
     } else {
         0
     }
@@ -30,29 +23,31 @@ class SaveControl(context: Context, private val callback: Callback) {
     }
 
     /**
-     * Пауза срабатывает не только при сворачивании (если закрыли активность например)
+     * onPause cause not only if application turn (e.g. if we close activity)
      */
     var needSave = true
 
     fun setSaveHandlerEvent(isStart: Boolean) {
-        if (!isAutoSaveOn) return
+        if (!model.autoSaveOn) return
 
         if (isStart) {
             saveHandler.postDelayed(saveRunnable, saveTime.toLong())
         } else {
-            saveHandler.removeCallbacksAndMessages(null)
+            saveHandler.removeCallbacks(saveRunnable)
         }
     }
 
     fun onPauseSave(editMode: Boolean) {
         setSaveHandlerEvent(false)
 
-        if (needSave && editMode && isPauseSaveOn) {
+        if (needSave && editMode && model.pauseSaveOn) {
             callback.onResultSaveControl()
         } else {
             needSave = true
         }
     }
+
+    class Model(val pauseSaveOn: Boolean, val autoSaveOn: Boolean, val savePeriod: Int)
 
     interface Callback {
         fun onResultSaveControl()

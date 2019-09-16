@@ -42,11 +42,11 @@ import java.util.*
 class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFragment>(application),
         IRollNoteViewModel {
 
-    private val iInteractor: IRollNoteInteractor by lazy { RollNoteInteractor(context, callback) }
-
     var parentCallback: INoteChild? = null
 
-    private val saveControl = SaveControl(context, callback = this)
+    private val iInteractor: IRollNoteInteractor by lazy { RollNoteInteractor(context, callback) }
+
+    private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()
 
     private var id: Long = NoteData.Default.ID

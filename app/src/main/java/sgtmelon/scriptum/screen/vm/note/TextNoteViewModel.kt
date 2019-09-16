@@ -37,11 +37,11 @@ import java.util.*
 class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
         ITextNoteViewModel {
 
-    private val iInteractor: ITextNoteInteractor by lazy { TextNoteInteractor(context, callback) }
-
     var parentCallback: INoteChild? = null
 
-    private val saveControl = SaveControl(context, callback = this)
+    private val iInteractor: ITextNoteInteractor by lazy { TextNoteInteractor(context, callback) }
+
+    private val saveControl by lazy { SaveControl(context, iInteractor.getSaveModel(), callback = this) }
     private val inputControl = InputControl()
 
     private var id: Long = NoteData.Default.ID
