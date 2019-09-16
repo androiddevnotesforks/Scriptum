@@ -14,6 +14,7 @@ import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
+import sgtmelon.scriptum.screen.ui.main.MainActivity
 
 /**
  * Activity with start intro
@@ -59,6 +60,9 @@ class IntroActivity : AppCompatActivity(), IIntroActivity, ViewPager.OnPageChang
             addOnPageChangeListener(this@IntroActivity)
         }
     }
+
+    override fun startMainActivity() = startActivity(MainActivity[this])
+
 
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {

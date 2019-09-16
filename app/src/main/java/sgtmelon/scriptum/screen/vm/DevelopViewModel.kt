@@ -8,7 +8,6 @@ import sgtmelon.scriptum.repository.develop.DevelopRepo
 import sgtmelon.scriptum.repository.develop.IDevelopRepo
 import sgtmelon.scriptum.screen.ui.DevelopActivity
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
-import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.vm.callback.IDevelopViewModel
 
 /**
@@ -31,7 +30,7 @@ class DevelopViewModel(application: Application) : ParentViewModel<IDevelopActiv
     }
 
     override fun onIntroClick() {
-        callback?.startActivity(IntroActivity[context])
+        callback?.startIntroActivity()
     }
 
 }

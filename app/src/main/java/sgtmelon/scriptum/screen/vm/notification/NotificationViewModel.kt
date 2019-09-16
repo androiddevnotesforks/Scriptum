@@ -9,7 +9,6 @@ import sgtmelon.scriptum.interactor.callback.notification.INotificationInteracto
 import sgtmelon.scriptum.interactor.notification.NotificationInteractor
 import sgtmelon.scriptum.model.item.NotificationItem
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.INotificationViewModel
@@ -44,7 +43,7 @@ class NotificationViewModel(application: Application) :
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startActivity(NoteActivity[context, itemList[p]])
+        callback?.startNoteActivity(itemList[p])
     }
 
     override fun onClickCancel(p: Int) {

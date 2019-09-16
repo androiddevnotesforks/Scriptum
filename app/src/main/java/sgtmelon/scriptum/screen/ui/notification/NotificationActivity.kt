@@ -24,6 +24,7 @@ import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.INotificationActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
  * Screen with list of notifications
@@ -102,6 +103,10 @@ class NotificationActivity : AppActivity(), INotificationActivity {
         parentContainer?.createVisibleAnim(emptyInfoView, empty, if (!empty) 0 else 200)
 
         binding?.apply { isListEmpty = empty }?.executePendingBindings()
+    }
+
+    override fun startNoteActivity(notificationItem: NotificationItem) {
+        startActivity(NoteActivity[this, notificationItem])
     }
 
     override fun notifyDataSetChanged(list: MutableList<NotificationItem>) =

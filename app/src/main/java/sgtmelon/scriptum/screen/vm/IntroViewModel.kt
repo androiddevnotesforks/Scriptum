@@ -6,7 +6,6 @@ import sgtmelon.scriptum.interactor.IntroInteractor
 import sgtmelon.scriptum.interactor.callback.IIntroInteractor
 import sgtmelon.scriptum.screen.ui.callback.IIntroActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
-import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.vm.callback.IIntroViewModel
 
 /**
@@ -23,7 +22,7 @@ class IntroViewModel(application: Application) : ParentViewModel<IIntroActivity>
 
     override fun onClickEnd() {
         iInteractor.onIntroFinish()
-        callback?.startActivity(MainActivity[context])
+        callback?.startMainActivity()
     }
 
 }

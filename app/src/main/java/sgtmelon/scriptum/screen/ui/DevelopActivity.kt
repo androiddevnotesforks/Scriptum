@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.screen.ui.callback.IDevelopActivity
+import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 
 /**
  * Screen which displays information for developer
@@ -70,5 +71,7 @@ class DevelopActivity : AppCompatActivity(), IDevelopActivity {
 
         findViewById<TextView?>(R.id.develop_preference_text)?.text = data
     }
+
+    override fun startIntroActivity() = startActivity(IntroActivity[this])
 
 }

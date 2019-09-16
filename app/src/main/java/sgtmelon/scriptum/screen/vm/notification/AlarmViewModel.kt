@@ -6,9 +6,9 @@ import android.os.Handler
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getAppSimpleColor
 import sgtmelon.scriptum.extension.toUri
-import sgtmelon.scriptum.interactor.notification.AlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.interactor.callback.notification.ISignalInteractor
+import sgtmelon.scriptum.interactor.notification.AlarmInteractor
 import sgtmelon.scriptum.interactor.notification.SignalInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -16,7 +16,6 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.model.state.SignalState
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.notification.IAlarmViewModel
@@ -143,7 +142,7 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
         needRepeat = false
 
         callback?.apply {
-            startActivity(NoteActivity[context, noteModel.noteEntity])
+            startNoteActivity(noteModel.noteEntity)
             finish()
         }
     }

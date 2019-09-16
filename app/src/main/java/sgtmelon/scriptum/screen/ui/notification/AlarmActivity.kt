@@ -33,8 +33,10 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.AlarmReceiver
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.notification.IAlarmActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.view.RippleContainer
 import java.util.*
 
@@ -56,6 +58,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         NoteAdapter(ItemListener.Click { _, _ -> openState.tryInvoke { iViewModel.onClickNote() } })
     }
 
+    //region Views
+
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_parent_container) }
     private val rippleContainer by lazy { findViewById<RippleContainer?>(R.id.alarm_ripple_background) }
 
@@ -65,6 +69,8 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val buttonContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_button_container) }
     private val disableButton by lazy { findViewById<Button?>(R.id.alarm_disable_button) }
     private val postponeButton by lazy { findViewById<Button?>(R.id.alarm_postpone_button) }
+
+    //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +109,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     override fun acquirePhone(timeout: Long) = iPowerControl.acquire(timeout)
 
     override fun releasePhone() = iPowerControl.release()
+
 
     override fun setupView(@Theme theme: Int) {
         adapter.theme = theme
@@ -144,6 +151,10 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
         buttonContainer?.visibility = View.VISIBLE
     }
 
+    override fun startNoteActivity(noteEntity: NoteEntity) {
+        startActivity(NoteActivity[this, noteEntity])
+    }
+
 
     override fun melodyStart() = iMelodyControl.start()
 
@@ -153,11 +164,13 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
 
     override fun vibrateCancel() = iVibratorControl.cancel()
 
-    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) =
-            iAlarmControl.set(calendar, model)
+    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
+        iAlarmControl.set(calendar, model)
+    }
 
-    override fun showPostponeToast(select: Int) =
-            showToast(getString(R.string.toast_alarm_postpone, resources.getStringArray(R.array.text_alarm_repeat)[select]))
+    override fun showPostponeToast(select: Int) {
+        showToast(getString(R.string.toast_alarm_postpone, resources.getStringArray(R.array.text_alarm_repeat)[select]))
+    }
 
 
     /**
