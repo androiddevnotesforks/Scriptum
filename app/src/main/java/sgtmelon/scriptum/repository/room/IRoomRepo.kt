@@ -46,7 +46,8 @@ interface IRoomRepo {
 
     fun convertToText(noteModel: NoteModel)
 
-    fun getRollListString(noteEntity: NoteEntity): String
+    // TODO to another repo
+    suspend fun getCopyText(noteEntity: NoteEntity):String
 
     fun getRankIdList(): List<Long>
 

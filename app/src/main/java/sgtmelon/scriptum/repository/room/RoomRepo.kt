@@ -205,11 +205,16 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         }
     }
 
-    override fun getRollListString(noteEntity: NoteEntity) = StringBuilder().apply {
-        if (noteEntity.type != NoteType.ROLL) return@apply
+    override suspend fun getCopyText(noteEntity: NoteEntity) = StringBuilder().apply {
+        if (noteEntity.name.isNotEmpty()) {
+            append(noteEntity.name).append("\n")
+        }
 
-        inRoom {
-            append(iRollDao[noteEntity.id].joinToString(separator = "\n") { it.text })
+        when (noteEntity.type) {
+            NoteType.TEXT -> append(noteEntity.text)
+            NoteType.ROLL -> inRoom {
+                append(iRollDao[noteEntity.id].joinToString(separator = "\n") { it.text })
+            }
         }
     }.toString()
 

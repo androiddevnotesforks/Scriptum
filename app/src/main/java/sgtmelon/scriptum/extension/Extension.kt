@@ -1,8 +1,6 @@
 package sgtmelon.scriptum.extension
 
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
@@ -21,11 +19,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Fade
 import androidx.transition.TransitionManager
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.data.ReceiverData
-import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.repository.room.RoomRepo
-import sgtmelon.scriptum.room.entity.NoteEntity
 import java.util.*
 
 fun <T : ViewDataBinding> Activity.inflateBinding(@LayoutRes layoutId: Int): T =
@@ -79,37 +73,6 @@ fun Context.sendTo(place: String, command: String, extras: Intent.() -> Unit = {
             putExtra(ReceiverData.Values.COMMAND, command)
             putExtras(Intent().apply(extras))
         })
-
-
-/**
- * TODO change without repo
- * Копирование текста заметки в память
- */
-fun Context.copyToClipboard(noteEntity: NoteEntity) {
-    var copyText = ""
-
-    /**
-     * Если есть название то добавляем его
-     */
-    if (noteEntity.name.isNotEmpty()) copyText = noteEntity.name + "\n"
-
-    /**
-     * В зависимости от типа составляем текст
-     */
-    copyText += when (noteEntity.type) {
-        NoteType.TEXT -> noteEntity.text
-        NoteType.ROLL -> RoomRepo(context = this).getRollListString(noteEntity)
-    }
-
-    /**
-     * Сохраняем данные в память
-     */
-    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager
-    clipboard?.let {
-        it.primaryClip = ClipData.newPlainText("NoteText", copyText) // TODO: 02.11.2018 вынеси
-        showToast(getString(R.string.toast_text_copy))
-    }
-}
 
 fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long = 200) {
     if (target == null) return

@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.control.clipboard.ClipboardControl
+import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentBinBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
@@ -35,6 +37,8 @@ class BinFragment : Fragment(), IBinFragment {
     private var binding: FragmentBinBinding? = null
 
     private val iViewModel by lazy { ViewModelFactory.getBinViewModel(fragment = this) }
+
+    private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
     private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
@@ -159,5 +163,8 @@ class BinFragment : Fragment(), IBinFragment {
     override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) {
         adapter.notifyItemRemoved(p, list)
     }
+
+
+    override fun copyClipboard(text: String) = iClipboardCompiler.copy(text)
 
 }

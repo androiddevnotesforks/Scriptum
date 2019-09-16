@@ -22,6 +22,8 @@ interface INotesInteractor : IParentInteractor {
 
     fun convert(noteModel: NoteModel): NoteModel
 
+    suspend fun copy(noteEntity: NoteEntity)
+
     suspend fun deleteNote(noteModel: NoteModel)
 
 }

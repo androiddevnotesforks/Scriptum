@@ -60,6 +60,10 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
         return noteModel
     }
 
+    override suspend fun copy(noteEntity: NoteEntity) {
+        callback?.copyClipboard(iRoomRepo.getCopyText(noteEntity))
+    }
+
     override suspend fun deleteNote(noteModel: NoteModel) {
         iRoomRepo.deleteNote(noteModel)
 

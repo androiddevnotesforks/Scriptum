@@ -15,6 +15,8 @@ import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
 import sgtmelon.scriptum.control.bind.IBindControl
+import sgtmelon.scriptum.control.clipboard.ClipboardControl
+import sgtmelon.scriptum.control.clipboard.IClipboardControl
 import sgtmelon.scriptum.databinding.FragmentNotesBinding
 import sgtmelon.scriptum.extension.createVisibleAnim
 import sgtmelon.scriptum.extension.inflateBinding
@@ -46,6 +48,7 @@ class NotesFragment : Fragment(), INotesFragment {
 
     private val iAlarmControl by lazy { AlarmControl[context] }
     private val iBindControl: IBindControl by lazy { BindControl(context) }
+    private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
     private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
@@ -187,5 +190,7 @@ class NotesFragment : Fragment(), INotesFragment {
     }
 
     override fun cancelBind(id: Int) = iBindControl.cancel(id)
+
+    override fun copyClipboard(text: String) = iClipboardCompiler.copy(text)
 
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
-import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.interactor.callback.main.INotesInteractor
 import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -74,7 +73,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         when (which) {
             Options.BIND -> callback?.notifyItemChanged(p, onMenuBind(p))
             Options.CONVERT -> callback?.notifyItemChanged(p, onMenuConvert(p))
-            Options.COPY -> context.copyToClipboard(itemList[p].noteEntity)
+            Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p].noteEntity) }
             Options.DELETE -> callback?.notifyItemRemoved(p, onMenuDelete(p))
         }
     }

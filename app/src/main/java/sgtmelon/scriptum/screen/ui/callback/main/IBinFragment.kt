@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.vm.main.BinViewModel
 /**
  * Interface for communication [BinViewModel] with [BinFragment]
  */
-interface IBinFragment {
+interface IBinFragment : IBinBridge{
 
     fun setupToolbar()
 

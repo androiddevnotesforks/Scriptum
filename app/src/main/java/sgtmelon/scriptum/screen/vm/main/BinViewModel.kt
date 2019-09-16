@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.clearAndAdd
-import sgtmelon.scriptum.extension.copyToClipboard
 import sgtmelon.scriptum.interactor.callback.main.IBinInteractor
 import sgtmelon.scriptum.interactor.main.BinInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -22,7 +21,7 @@ import sgtmelon.scriptum.model.annotation.Options.Bin as Options
 class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(application),
         IBinViewModel {
 
-    private val iInteractor: IBinInteractor = BinInteractor(context)
+    private val iInteractor: IBinInteractor by lazy { BinInteractor(context, callback) }
 
     private val itemList: MutableList<NoteModel> = ArrayList()
 
@@ -32,6 +31,8 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
             setupRecycler(iInteractor.theme)
         }
     }
+
+    override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
 
 
     override fun onUpdateData() {
@@ -67,7 +68,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     override fun onResultOptionsDialog(p: Int, which: Int) {
         when (which) {
             Options.RESTORE -> callback?.notifyItemRemoved(p, restoreItem(p))
-            Options.COPY -> context.copyToClipboard(itemList[p].noteEntity)
+            Options.COPY -> viewModelScope.launch { iInteractor.copy(itemList[p].noteEntity) }
             Options.CLEAR -> callback?.notifyItemRemoved(p, clearItem(p))
         }
 
