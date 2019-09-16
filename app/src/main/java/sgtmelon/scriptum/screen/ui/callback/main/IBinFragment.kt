@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
-import android.content.Intent
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.screen.vm.main.BinViewModel
 
@@ -19,7 +19,7 @@ interface IBinFragment {
 
     fun scrollTop()
 
-    fun startActivity(intent: Intent)
+    fun startNoteActivity(noteEntity: NoteEntity)
 
     fun showOptionsDialog(itemArray: Array<String>, p: Int)
 

@@ -13,7 +13,6 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.INotesViewModel
 import sgtmelon.scriptum.model.annotation.Options.Notes as Options
@@ -51,7 +50,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startActivity(NoteActivity[context, itemList[p].noteEntity])
+        callback?.startNoteActivity(itemList[p].noteEntity)
     }
 
     override fun onShowOptionsDialog(p: Int) {
@@ -94,6 +93,7 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         get(p).let { viewModelScope.launch { iInteractor.deleteNote(it) } }
         removeAt(p)
     }
+
 
     /**
      * Calls on cancel note bind from status bar and need update UI

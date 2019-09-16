@@ -9,7 +9,6 @@ import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.main.MainActivity
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IMainViewModel
 
@@ -54,7 +53,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
 
     override fun onResultAddDialog(menuItem: MenuItem) {
         val noteType = NoteData.getTypeById(menuItem.itemId) ?: return
-        callback?.startActivity(NoteActivity[context, noteType])
+        callback?.startNoteActivity(noteType)
     }
 
     override fun onReceiveUnbindNote(id: Long) {

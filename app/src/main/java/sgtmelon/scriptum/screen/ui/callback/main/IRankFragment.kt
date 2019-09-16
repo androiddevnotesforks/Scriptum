@@ -27,6 +27,7 @@ interface IRankFragment : IRankBridge {
 
     fun showRenameDialog(p: Int, name: String, nameList: List<String>)
 
+
     fun notifyVisible(p: Int, item: RankEntity)
 
     fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankEntity>)

@@ -12,7 +12,6 @@ import sgtmelon.scriptum.interactor.main.BinInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.main.BinFragment
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.vm.ParentViewModel
 import sgtmelon.scriptum.screen.vm.callback.main.IBinViewModel
 import sgtmelon.scriptum.model.annotation.Options.Bin as Options
@@ -58,7 +57,7 @@ class BinViewModel(application: Application) : ParentViewModel<IBinFragment>(app
     }
 
     override fun onClickNote(p: Int) {
-        callback?.startActivity(NoteActivity[context, itemList[p].noteEntity])
+        callback?.startNoteActivity(itemList[p].noteEntity)
     }
 
     override fun onShowOptionsDialog(p: Int) {

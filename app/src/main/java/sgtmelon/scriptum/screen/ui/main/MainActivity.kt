@@ -21,10 +21,12 @@ import sgtmelon.scriptum.factory.FragmentFactory
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.data.ReceiverData
 import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.MainReceiver
 import sgtmelon.scriptum.screen.ui.AppActivity
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
  * Screen which displays main menu and fragments: [RankFragment], [NotesFragment], [BinFragment]
@@ -132,6 +134,8 @@ class MainActivity : AppActivity(), IMainActivity {
             }
         }
     }
+
+    override fun startNoteActivity(noteType: NoteType) = startActivity(NoteActivity[this, noteType])
 
     override fun onCancelNoteBind(id: Long) = notesFragment.onCancelNoteBind(id)
 

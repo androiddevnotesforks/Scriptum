@@ -1,8 +1,8 @@
 package sgtmelon.scriptum.screen.ui.callback.main
 
-import android.content.Intent
 import androidx.annotation.IdRes
 import sgtmelon.scriptum.model.key.MainPage
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.screen.vm.main.MainViewModel
 
@@ -19,8 +19,8 @@ interface IMainActivity {
 
     fun showPage(pageFrom: MainPage, pageTo: MainPage)
 
-    fun onCancelNoteBind(id: Long)
+    fun startNoteActivity(noteType: NoteType)
 
-    fun startActivity(intent: Intent)
+    fun onCancelNoteBind(id: Long)
 
 }

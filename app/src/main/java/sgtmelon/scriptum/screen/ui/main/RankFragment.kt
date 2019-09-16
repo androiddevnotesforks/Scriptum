@@ -87,8 +87,10 @@ class RankFragment : Fragment(), IRankFragment {
         iViewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply { openState.save(bundle = this) })
+    }
+
 
     override fun setupToolbar() {
         view?.findViewById<Toolbar>(R.id.toolbar_rank_container)?.apply {
@@ -197,34 +199,41 @@ class RankFragment : Fragment(), IRankFragment {
         }
     }
 
-    override fun showRenameDialog(p: Int, name: String, nameList: List<String>) =
-            openState.tryInvoke {
-                fragmentManager?.let {
-                    renameDialog.setArguments(p, name, nameList).show(it, DialogFactory.Main.RENAME)
-                }
-            }
+    override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
+        val fm = fragmentManager ?: return
+
+        openState.tryInvoke {
+            renameDialog.setArguments(p, name, nameList).show(fm, DialogFactory.Main.RENAME)
+        }
+    }
+
 
     override fun notifyVisible(p: Int, item: RankEntity) = adapter.setListItem(p, item)
 
-    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankEntity>) =
-            adapter.apply {
-                setList(list)
-                this.startAnim = startAnim
-            }.notifyDataSetChanged()
+    override fun notifyVisible(startAnim: BooleanArray, list: MutableList<RankEntity>) {
+        adapter.apply {
+            setList(list)
+            this.startAnim = startAnim
+        }.notifyDataSetChanged()
+    }
 
-    override fun notifyDataSetChanged(list: MutableList<RankEntity>) =
-            adapter.notifyDataSetChanged(list)
+    override fun notifyDataSetChanged(list: MutableList<RankEntity>) {
+        adapter.notifyDataSetChanged(list)
+    }
 
-    override fun notifyItemChanged(p: Int, item: RankEntity) =
-            adapter.notifyItemChanged(item, p)
+    override fun notifyItemChanged(p: Int, item: RankEntity) = adapter.notifyItemChanged(item, p)
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<RankEntity>) =
-            adapter.notifyItemRemoved(p, list)
+    override fun notifyItemRemoved(p: Int, list: MutableList<RankEntity>) {
+        adapter.notifyItemRemoved(p, list)
+    }
 
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankEntity>) =
-            adapter.notifyItemMoved(from, to, list)
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RankEntity>) {
+        adapter.notifyItemMoved(from, to, list)
+    }
 
 
-    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) =
-            iBindControl.notify(noteModel, rankIdVisibleList)
+    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+        iBindControl.notify(noteModel, rankIdVisibleList)
+    }
+
 }

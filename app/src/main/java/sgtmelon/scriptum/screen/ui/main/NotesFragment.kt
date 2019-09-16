@@ -29,6 +29,7 @@ import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 
@@ -156,26 +157,34 @@ class NotesFragment : Fragment(), INotesFragment {
         recyclerView?.smoothScrollToPosition(0)
     }
 
-    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
-        fragmentManager?.let {
-            optionsDialog.setArguments(itemArray, p).show(it, DialogFactory.Main.OPTIONS)
-        }
+    override fun startNoteActivity(noteEntity: NoteEntity) {
+        startActivity(NoteActivity[context ?: return, noteEntity])
     }
 
-    override fun notifyDataSetChanged(list: MutableList<NoteModel>) =
-            adapter.notifyDataSetChanged(list)
+    override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
+        val fm = fragmentManager ?: return
 
-    override fun notifyItemChanged(p: Int, list: MutableList<NoteModel>) =
-            adapter.notifyItemChanged(p, list)
+        optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
+    }
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) =
-            adapter.notifyItemRemoved(p, list)
+    override fun notifyDataSetChanged(list: MutableList<NoteModel>) {
+        adapter.notifyDataSetChanged(list)
+    }
+
+    override fun notifyItemChanged(p: Int, list: MutableList<NoteModel>) {
+        adapter.notifyItemChanged(p, list)
+    }
+
+    override fun notifyItemRemoved(p: Int, list: MutableList<NoteModel>) {
+        adapter.notifyItemRemoved(p, list)
+    }
 
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
-    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) =
-            iBindControl.notify(noteModel, rankIdVisibleList)
+    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+        iBindControl.notify(noteModel, rankIdVisibleList)
+    }
 
     override fun cancelBind(id: Int) = iBindControl.cancel(id)
 
