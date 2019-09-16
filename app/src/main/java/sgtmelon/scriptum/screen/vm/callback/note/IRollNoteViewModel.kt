@@ -2,6 +2,7 @@ package sgtmelon.scriptum.screen.vm.callback.note
 
 import android.os.Bundle
 import sgtmelon.scriptum.adapter.holder.RollWriteHolder
+import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.control.touch.RollTouchControl
 import sgtmelon.scriptum.screen.ui.callback.note.roll.IRollNoteMenu
@@ -15,9 +16,10 @@ import java.util.*
  */
 interface IRollNoteViewModel : IParentViewModel,
         IRollNoteMenu,
-        InputTextWatcher.TextChange,
-        RollWriteHolder.RollChange,
-        RollTouchControl.Result {
+        SaveControl.Callback,
+        InputTextWatcher.Callback,
+        RollWriteHolder.Callback,
+        RollTouchControl.Callback {
 
     fun onSaveData(bundle: Bundle)
 
@@ -29,6 +31,7 @@ interface IRollNoteViewModel : IParentViewModel,
 
     fun onPressBack(): Boolean
 
+
     fun onEditorClick(i: Int): Boolean
 
     fun onClickAdd(simpleClick: Boolean)
@@ -36,6 +39,7 @@ interface IRollNoteViewModel : IParentViewModel,
     fun onClickItemCheck(p: Int)
 
     fun onLongClickItemCheck()
+
 
     fun onResultColorDialog(check: Int)
 
@@ -48,6 +52,7 @@ interface IRollNoteViewModel : IParentViewModel,
     fun onResultTimeDialog(calendar: Calendar)
 
     fun onResultConvertDialog()
+
 
     fun onCancelNoteBind()
 

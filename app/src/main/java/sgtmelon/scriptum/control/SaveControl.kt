@@ -9,7 +9,7 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 /**
  * Класс контроля сохранений заметки
  */
-class SaveControl(context: Context, private val result: Result) {
+class SaveControl(context: Context, private val callback: Callback) {
 
     // TODO вынести отсюда PreferenceRepo
 
@@ -25,7 +25,7 @@ class SaveControl(context: Context, private val result: Result) {
     }
 
     private val saveRunnable = {
-        result.onResultSaveControl()
+        callback.onResultSaveControl()
         setSaveHandlerEvent(true)
     }
 
@@ -48,13 +48,13 @@ class SaveControl(context: Context, private val result: Result) {
         setSaveHandlerEvent(false)
 
         if (needSave && editMode && isPauseSaveOn) {
-            result.onResultSaveControl()
+            callback.onResultSaveControl()
         } else {
             needSave = true
         }
     }
 
-    interface Result {
+    interface Callback {
         fun onResultSaveControl()
     }
 

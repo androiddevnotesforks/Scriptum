@@ -100,26 +100,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.scrollToItem(simpleClick, itemList)
     }
 
-
-    override fun onResultTouchClear(dragFrom: Int, dragTo: Int) {
-        iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind() }
-
-        callback?.notifyDataSetChanged(itemList)
-    }
-
-    override fun onResultTouchMove(from: Int, to: Int): Boolean {
-        val item = itemList[from]
-
-        itemList.removeAt(from)
-        itemList.add(to, item)
-
-        callback?.notifyItemMoved(from, to, itemList)
-
-        return true
-    }
-
-
     override fun onClickVisible(p: Int) {
         val item = itemList[p].apply { isVisible = !isVisible }
 
@@ -163,6 +143,25 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         viewModelScope.launch { iInteractor.notifyBind() }
 
         callback?.notifyItemRemoved(p, itemList)
+    }
+
+
+    override fun onTouchMove(from: Int, to: Int): Boolean {
+        val item = itemList[from]
+
+        itemList.removeAt(from)
+        itemList.add(to, item)
+
+        callback?.notifyItemMoved(from, to, itemList)
+
+        return true
+    }
+
+    override fun onTouchMoveResult(from: Int, to: Int) {
+        iInteractor.update(itemList)
+        viewModelScope.launch { iInteractor.notifyBind() }
+
+        callback?.notifyDataSetChanged(itemList)
     }
 
 }

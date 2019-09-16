@@ -9,12 +9,13 @@ import sgtmelon.scriptum.model.annotation.InputAction
 import sgtmelon.scriptum.model.item.InputItem
 
 /**
- * Контроллер ввода текста для [InputControl]
+ * Text watcher of enter text for [InputControl]
  */
-class InputTextWatcher(private val view: EditText?,
-                       @InputAction private val tag: Int,
-                       private val changeCallback: TextChange,
-                       private val iInputControl: IInputControl
+class InputTextWatcher(
+        private val view: EditText?,
+        @InputAction private val tag: Int,
+        private val callback: Callback,
+        private val iInputControl: IInputControl
 ) : TextWatcher {
 
     private var textFrom = ""
@@ -42,10 +43,10 @@ class InputTextWatcher(private val view: EditText?,
         cursorFrom = cursorTo
     }
 
-    override fun afterTextChanged(s: Editable?) = changeCallback.onResultInputTextChange()
+    override fun afterTextChanged(s: Editable?) = callback.onInputTextChange()
 
-    interface TextChange {
-        fun onResultInputTextChange()
+    interface Callback {
+        fun onInputTextChange()
     }
 
 }

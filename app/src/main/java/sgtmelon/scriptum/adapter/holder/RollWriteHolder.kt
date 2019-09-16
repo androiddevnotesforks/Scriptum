@@ -23,7 +23,7 @@ import sgtmelon.scriptum.room.entity.RollEntity
 class RollWriteHolder(
         private val binding: ItemRollWriteBinding,
         private val dragListener: ItemListener.Drag?,
-        private val changeCallback: RollChange,
+        private val callback: Callback,
         private val iInputControl: IInputControl?
 ) : RecyclerView.ViewHolder(binding.root),
         View.OnTouchListener,
@@ -97,10 +97,10 @@ class RollWriteHolder(
     }
 
     override fun afterTextChanged(s: Editable) =
-            changeCallback.onResultInputRollChange(adapterPosition, s.toString())
+            callback.onInputRollChange(adapterPosition, s.toString())
 
-    interface RollChange {
-        fun onResultInputRollChange(p: Int, text: String)
+    interface Callback {
+        fun onInputRollChange(p: Int, text: String)
     }
 
 }

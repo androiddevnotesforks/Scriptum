@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.screen.vm.callback.note
 
 import android.os.Bundle
+import sgtmelon.scriptum.control.SaveControl
 import sgtmelon.scriptum.control.input.watcher.InputTextWatcher
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteMenu
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
@@ -11,15 +12,20 @@ import java.util.*
 /**
  * Interface for communication [TextNoteFragment] with [TextNoteViewModel]
  */
-interface ITextNoteViewModel : IParentViewModel, ITextNoteMenu, InputTextWatcher.TextChange {
+interface ITextNoteViewModel : IParentViewModel,
+        ITextNoteMenu,
+        SaveControl.Callback,
+        InputTextWatcher.Callback {
 
     fun onSaveData(bundle: Bundle)
 
     fun onPause()
 
+
     fun onClickBackArrow()
 
     fun onPressBack(): Boolean
+
 
     fun onResultColorDialog(check: Int)
 
@@ -32,6 +38,7 @@ interface ITextNoteViewModel : IParentViewModel, ITextNoteMenu, InputTextWatcher
     fun onResultTimeDialog(calendar: Calendar)
 
     fun onResultConvertDialog()
+
 
     fun onCancelNoteBind()
 

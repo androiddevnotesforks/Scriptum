@@ -35,15 +35,14 @@ import java.util.*
  * ViewModel for [TextNoteFragment]
  */
 class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFragment>(application),
-        ITextNoteViewModel,
-        SaveControl.Result {
+        ITextNoteViewModel {
 
     private val iInteractor: ITextNoteInteractor by lazy { TextNoteInteractor(context, callback) }
 
     var parentCallback: INoteChild? = null
 
+    private val saveControl = SaveControl(context, callback = this)
     private val inputControl = InputControl()
-    private val saveControl = SaveControl(context, result = this)
 
     private var id: Long = NoteData.Default.ID
     private lateinit var noteModel: NoteModel
@@ -98,10 +97,124 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
-    override fun onResultSaveControl() = context.showToast(
-            if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
-    )
+    override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
 
+    override fun onClickBackArrow() {
+        if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
+            callback?.hideKeyboard()
+            onRestoreData()
+        } else {
+            saveControl.needSave = false
+            parentCallback?.finish()
+        }
+    }
+
+    /**
+     * FALSE - will call super.onBackPress()
+     */
+    override fun onPressBack(): Boolean {
+        if (!noteState.isEdit) return false
+
+        saveControl.needSave = false
+
+        return if (!onMenuSave(changeMode = true)) {
+            if (!noteState.isCreate) onRestoreData() else false
+        } else {
+            true
+        }
+    }
+
+    private fun onRestoreData(): Boolean {
+        if (id == NoteData.Default.ID) return false
+
+        val colorFrom = noteModel.noteEntity.color
+
+        iInteractor.getModel(id, updateBind = false)?.let {
+            noteModel = it
+        } ?: run {
+            parentCallback?.finish()
+            return false
+        }
+
+        onMenuEdit(editMode = false)
+        callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
+
+        inputControl.reset()
+
+        return true
+    }
+
+    //region Results of dialogs
+
+    override fun onResultColorDialog(check: Int) {
+        val noteEntity = noteModel.noteEntity
+        inputControl.onColorChange(noteEntity.color, check)
+        noteEntity.color = check
+
+        callback?.apply {
+            bindInput(inputControl.access, noteModel)
+            tintToolbar(check)
+        }
+    }
+
+    override fun onResultRankDialog(check: Int) {
+        val noteEntity = noteModel.noteEntity
+
+        val rankId = iInteractor.getRankId(check)
+
+        inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
+
+        noteEntity.apply {
+            this.rankId = rankId
+            this.rankPs = check
+        }
+
+        callback?.apply {
+            bindInput(inputControl.access, noteModel)
+            bindNote(noteModel)
+        }
+    }
+
+    override fun onResultDateDialog(calendar: Calendar) {
+        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList()) }
+    }
+
+    override fun onResultDateDialogClear() {
+        viewModelScope.launch { iInteractor.clearDate(noteModel) }
+
+        noteModel.alarmEntity.apply {
+            id = AlarmEntity.ND_ID
+            date = AlarmEntity.ND_DATE
+        }
+
+        callback?.bindNote(noteModel)
+    }
+
+    override fun onResultTimeDialog(calendar: Calendar) {
+        if (calendar.beforeNow()) return
+
+        noteModel.alarmEntity.date = getDateFormat().format(calendar.time)
+
+        viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
+
+        callback?.bindNote(noteModel)
+    }
+
+    override fun onResultConvertDialog() {
+        iInteractor.convert(noteModel)
+        parentCallback?.onConvertNote()
+    }
+
+    //endregion
+
+    /**
+     * Calls on cancel note bind from status bar and need update UI
+     */
+    override fun onCancelNoteBind() {
+        callback?.bindNote(noteModel.apply { noteEntity.isStatus = false })
+    }
+
+    //region Menu click
 
     override fun onMenuRestore() {
         noteModel.let { viewModelScope.launch { iInteractor.restoreNote(it) } }
@@ -125,6 +238,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         noteModel.let { viewModelScope.launch { iInteractor.clearNote(it) } }
         parentCallback?.finish()
     }
+
 
     override fun onMenuUndo() = onMenuUndoRedo(isUndo = true)
 
@@ -189,6 +303,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         return true
     }
 
+
     override fun onMenuNotification() {
         val date = noteModel.alarmEntity.date
         callback?.showDateDialog(date.getCalendar(), date.isNotEmpty())
@@ -229,117 +344,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         saveControl.setSaveHandlerEvent(editMode)
     }
 
-    override fun onResultInputTextChange() {
+    //endregion
+
+    override fun onResultSaveControl() = context.showToast(
+            if (onMenuSave(changeMode = false)) R.string.toast_note_save_done else R.string.toast_note_save_error
+    )
+
+    override fun onInputTextChange() {
         callback?.bindInput(inputControl.access, noteModel)
-    }
-
-
-    override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
-
-    override fun onClickBackArrow() {
-        if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {
-            callback?.hideKeyboard()
-            onRestoreData()
-        } else {
-            saveControl.needSave = false
-            parentCallback?.finish()
-        }
-    }
-
-    override fun onPressBack(): Boolean {
-        if (!noteState.isEdit) return false
-
-        saveControl.needSave = false
-
-        return if (!onMenuSave(changeMode = true)) {
-            if (!noteState.isCreate) onRestoreData() else false
-        } else {
-            true
-        }
-    }
-
-    private fun onRestoreData(): Boolean {
-        if (id == NoteData.Default.ID) return false
-
-        val colorFrom = noteModel.noteEntity.color
-
-        iInteractor.getModel(id, updateBind = false)?.let {
-            noteModel = it
-        } ?: run {
-            parentCallback?.finish()
-            return false
-        }
-
-        onMenuEdit(editMode = false)
-        callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
-
-        inputControl.reset()
-
-        return true
-    }
-
-
-    override fun onResultColorDialog(check: Int) {
-        val noteEntity = noteModel.noteEntity
-        inputControl.onColorChange(noteEntity.color, check)
-        noteEntity.color = check
-
-        callback?.apply {
-            bindInput(inputControl.access, noteModel)
-            tintToolbar(check)
-        }
-    }
-
-    override fun onResultRankDialog(check: Int) {
-        val noteEntity = noteModel.noteEntity
-
-        val rankId = iInteractor.getRankId(check)
-
-        inputControl.onRankChange(noteEntity.rankId, noteEntity.rankPs, rankId, check)
-
-        noteEntity.apply {
-            this.rankId = rankId
-            this.rankPs = check
-        }
-
-        callback?.apply {
-            bindInput(inputControl.access, noteModel)
-            bindNote(noteModel)
-        }
-    }
-
-    override fun onResultDateDialog(calendar: Calendar) {
-        viewModelScope.launch { callback?.showTimeDialog(calendar, iInteractor.getDateList()) }
-    }
-
-    override fun onResultDateDialogClear() {
-        viewModelScope.launch { iInteractor.clearDate(noteModel) }
-
-        noteModel.alarmEntity.apply {
-            id = AlarmEntity.ND_ID
-            date = AlarmEntity.ND_DATE
-        }
-
-        callback?.bindNote(noteModel)
-    }
-
-    override fun onResultTimeDialog(calendar: Calendar) {
-        if (calendar.beforeNow()) return
-
-        noteModel.alarmEntity.date = getDateFormat().format(calendar.time)
-
-        viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
-
-        callback?.bindNote(noteModel)
-    }
-
-    override fun onResultConvertDialog() {
-        iInteractor.convert(noteModel)
-        parentCallback?.onConvertNote()
-    }
-
-    override fun onCancelNoteBind() {
-        callback?.bindNote(noteModel.apply { noteEntity.isStatus = false })
     }
 
 }

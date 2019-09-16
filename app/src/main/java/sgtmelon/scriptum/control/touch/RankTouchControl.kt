@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 /**
  * Управление перетаскиванием для [RankFragment]
  */
-class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(),
+class RankTouchControl(private val callback: Callback) : ItemTouchHelper.Callback(),
         ItemListener.Drag {
 
     private var drag = false
@@ -40,19 +40,19 @@ class RankTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
 
         val dragTo = viewHolder.adapterPosition
         if (dragFrom != dragTo) {
-            callback.onResultTouchClear(dragFrom, dragTo)
+            callback.onTouchMoveResult(dragFrom, dragTo)
         }
     }
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder) =
-            callback.onResultTouchMove(viewHolder.adapterPosition, target.adapterPosition)
+            callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
-    interface Result {
-        fun onResultTouchClear(dragFrom: Int, dragTo: Int)
-        fun onResultTouchMove(from: Int, to: Int): Boolean
+    interface Callback {
+        fun onTouchMove(from: Int, to: Int): Boolean
+        fun onTouchMoveResult(from: Int, to: Int)
     }
 
 }

@@ -16,7 +16,7 @@ import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
  * Adapter which displays list of rolls for [RollNoteFragment]
  */
 class RollAdapter(
-        private val rollChangeCallback: RollWriteHolder.RollChange,
+        private val rollWriteCallback: RollWriteHolder.Callback,
         private val clickListener: ItemListener.Click,
         private val longClickListener: ItemListener.LongClick
 ) : ParentAdapter<RollEntity, RecyclerView.ViewHolder>() {
@@ -36,7 +36,7 @@ class RollAdapter(
     } else {
         RollWriteHolder(
                 parent.inflateBinding(R.layout.item_roll_write),
-                dragListener, rollChangeCallback, iInputControl
+                dragListener, rollWriteCallback, iInputControl
         )
     }
 

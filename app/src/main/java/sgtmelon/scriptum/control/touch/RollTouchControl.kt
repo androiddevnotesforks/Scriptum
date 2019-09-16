@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 /**
  * Управление перетаскиванием для [RollNoteFragment], реализовывать в [RollNoteViewModel]
  */
-class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(),
+class RollTouchControl(private val callback: Callback) : ItemTouchHelper.Callback(),
         ItemListener.Drag {
 
     private var drag = false
@@ -22,7 +22,7 @@ class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
     private var dragFrom = RecyclerView.NO_POSITION
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) =
-            callback.onResultTouchFlags(drag)
+            callback.onTouchGetFlags(drag)
 
     override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
         super.onSelectedChanged(viewHolder, actionState)
@@ -45,17 +45,17 @@ class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
                 || dragTo == RecyclerView.NO_POSITION
                 || dragFrom == dragTo) return
 
-        callback.onResultTouchClear(dragFrom, dragTo)
+        callback.onTouchMoveResult(dragFrom, dragTo)
 
         dragFrom = RecyclerView.NO_POSITION
     }
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) =
-            callback.onResultTouchSwipe(viewHolder.adapterPosition)
+            callback.onTouchSwipe(viewHolder.adapterPosition)
 
     override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder) =
-            callback.onResultTouchMove(viewHolder.adapterPosition, target.adapterPosition)
+            callback.onTouchMove(viewHolder.adapterPosition, target.adapterPosition)
 
     override fun onChildDraw(c: Canvas, recyclerView: RecyclerView,
                              viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
@@ -80,11 +80,11 @@ class RollTouchControl(private val callback: Result) : ItemTouchHelper.Callback(
         super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
-    interface Result {
-        fun onResultTouchFlags(drag: Boolean): Int
-        fun onResultTouchClear(dragFrom: Int, dragTo: Int)
-        fun onResultTouchSwipe(p: Int)
-        fun onResultTouchMove(from: Int, to: Int): Boolean
+    interface Callback {
+        fun onTouchGetFlags(drag: Boolean): Int
+        fun onTouchSwipe(p: Int)
+        fun onTouchMove(from: Int, to: Int): Boolean
+        fun onTouchMoveResult(from: Int, to: Int)
     }
 
 }
