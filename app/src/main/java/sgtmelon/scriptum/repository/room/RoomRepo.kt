@@ -213,18 +213,6 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
         }
     }.toString()
 
-    override fun getRollStatusString(noteEntity: NoteEntity) = StringBuilder().apply {
-        if (noteEntity.type != NoteType.ROLL) return@apply
-
-        inRoom {
-            append(iRollDao[noteEntity.id]
-                    .joinToString(prefix = "${noteEntity.text}\n", separator = "\n") {
-                        "${if (it.isCheck) "\u25CF" else "\u25CB"} ${it.text}"
-                    }
-            )
-        }
-    }.toString()
-
     override fun getRankIdList() = ArrayList<Long>().apply {
         inRoom { addAll(iRankDao.getIdList()) }
     }

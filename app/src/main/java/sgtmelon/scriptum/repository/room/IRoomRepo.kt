@@ -48,8 +48,6 @@ interface IRoomRepo {
 
     fun getRollListString(noteEntity: NoteEntity): String
 
-    fun getRollStatusString(noteEntity: NoteEntity): String
-
     fun getRankIdList(): List<Long>
 
     fun saveTextNote(noteModel: NoteModel, isCreate: Boolean)

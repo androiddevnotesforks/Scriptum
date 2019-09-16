@@ -33,6 +33,9 @@
     <string name="menu_note_restore_open">Restore and open</string>
     <string name="menu_note_clear">Delete forever</string>
 
+    <!-- Clipboard -->
+    <string name="clipboard_label" translatable="false">Scriptum note</string>
+
     <!-- Notifications -->
     <string name="notification_channel_id" translatable="false">scriptum_channel_id</string>
 
