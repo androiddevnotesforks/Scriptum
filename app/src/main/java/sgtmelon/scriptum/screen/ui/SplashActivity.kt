@@ -3,7 +3,6 @@ package sgtmelon.scriptum.screen.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.StringDef
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import sgtmelon.scriptum.R
@@ -11,10 +10,16 @@ import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.extension.beforeFinish
 import sgtmelon.scriptum.factory.ViewModelFactory
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
+import sgtmelon.scriptum.screen.ui.intro.IntroActivity
+import sgtmelon.scriptum.screen.ui.main.MainActivity
+import sgtmelon.scriptum.screen.ui.note.NoteActivity
+import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 
 /**
  * Start screen of application
@@ -44,34 +49,35 @@ class SplashActivity : AppCompatActivity(), ISplashActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
+    override fun startIntroActivity() = startActivity(IntroActivity[this])
+
+    override fun startMainActivity() = startActivity(MainActivity[this])
+
+    override fun startNoteActivity(id: Long, type: NoteType) {
+        startActivities(arrayOf(MainActivity[this], NoteActivity[this, type, id]))
+    }
+
+    override fun startAlarmActivity(id: Long, @Color color: Int) {
+        startActivity(AlarmActivity[this, id, color])
+    }
+
+
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
     companion object {
-        const val OPEN_SCREEN = "INTENT_SPLASH_OPEN_SCREEN"
-
-        @StringDef(OpenFrom.BIND, OpenFrom.ALARM)
-        annotation class OpenFrom {
-            companion object {
-                private const val PREFIX = "OPEN_FROM"
-
-                const val BIND = "${PREFIX}_BIND"
-                const val ALARM = "${PREFIX}_ALARM"
-            }
-        }
-
         fun getAlarmInstance(context: Context, noteEntity: NoteEntity) =
                 getAlarmInstance(context, noteEntity.id, noteEntity.color)
 
         fun getAlarmInstance(context: Context, id: Long, @Color color: Int): Intent =
                 Intent(context, SplashActivity::class.java)
                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                        .putExtra(OPEN_SCREEN, OpenFrom.ALARM)
+                        .putExtra(OpenFrom.INTENT_KEY, OpenFrom.ALARM)
                         .putExtra(NoteData.Intent.ID, id)
                         .putExtra(NoteData.Intent.COLOR, color)
 
         fun getBindInstance(context: Context, noteEntity: NoteEntity): Intent =
                 Intent(context, SplashActivity::class.java)
-                        .putExtra(OPEN_SCREEN, OpenFrom.BIND)
+                        .putExtra(OpenFrom.INTENT_KEY, OpenFrom.BIND)
                         .putExtra(NoteData.Intent.ID, noteEntity.id)
                         .putExtra(NoteData.Intent.TYPE, noteEntity.type.ordinal)
 

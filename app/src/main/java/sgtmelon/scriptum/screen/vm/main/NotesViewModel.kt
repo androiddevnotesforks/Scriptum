@@ -95,6 +95,9 @@ class NotesViewModel(application: Application) : ParentViewModel<INotesFragment>
         removeAt(p)
     }
 
+    /**
+     * Calls on cancel note bind from status bar and need update UI
+     */
     override fun onCancelNoteBind(id: Long) = itemList.forEachIndexed { i, it ->
         if (it.noteEntity.id == id) {
             it.noteEntity.isStatus = false

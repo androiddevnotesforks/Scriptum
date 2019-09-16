@@ -4,17 +4,13 @@ import android.app.Application
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import sgtmelon.scriptum.interactor.callback.ISplashInteractor
 import sgtmelon.scriptum.interactor.SplashInteractor
+import sgtmelon.scriptum.interactor.callback.ISplashInteractor
+import sgtmelon.scriptum.model.annotation.OpenFrom
 import sgtmelon.scriptum.model.data.NoteData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.SplashActivity
-import sgtmelon.scriptum.screen.ui.SplashActivity.Companion.OpenFrom
 import sgtmelon.scriptum.screen.ui.callback.ISplashActivity
-import sgtmelon.scriptum.screen.ui.intro.IntroActivity
-import sgtmelon.scriptum.screen.ui.main.MainActivity
-import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.screen.vm.callback.ISplashViewModel
 
 /**
@@ -31,7 +27,7 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
         if (bundle == null) {
             onSimpleStart()
         } else {
-            when (bundle.getString(SplashActivity.OPEN_SCREEN) ?: "") {
+            when (bundle.getString(OpenFrom.INTENT_KEY) ?: "") {
                 OpenFrom.BIND -> onBindStart(bundle)
                 OpenFrom.ALARM -> onAlarmStart(bundle)
                 else -> onSimpleStart()
@@ -42,25 +38,24 @@ class SplashViewModel(application: Application) : ParentViewModel<ISplashActivit
     override fun onDestroy(func: () -> Unit) = super.onDestroy { iInteractor.onDestroy() }
 
 
-    private fun onSimpleStart(firstStart: Boolean = iInteractor.firstStart) =
-            callback?.startActivity(if (firstStart) {
-                IntroActivity[context]
-            } else {
-                MainActivity[context]
-            })
+    private fun onSimpleStart() = if (iInteractor.firstStart) {
+        callback?.startIntroActivity()
+    } else {
+        callback?.startMainActivity()
+    }
 
     private fun onBindStart(bundle: Bundle) {
         val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         val type = NoteType.values()[bundle.getInt(NoteData.Intent.TYPE, NoteData.Default.TYPE)]
 
-        callback?.startActivities(arrayOf(MainActivity[context], NoteActivity[context, type, id]))
+        callback?.startNoteActivity(id, type)
     }
 
     private fun onAlarmStart(bundle: Bundle) {
         val id = bundle.getLong(NoteData.Intent.ID, NoteData.Default.ID)
         val color = bundle.getInt(NoteData.Intent.COLOR, NoteData.Default.COLOR)
 
-        callback?.startActivity(AlarmActivity[context, id, color])
+        callback?.startAlarmActivity(id, color)
     }
 
 }

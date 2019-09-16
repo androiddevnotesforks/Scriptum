@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.screen.ui.callback
 
-import android.content.Intent
-
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.SplashActivity
 import sgtmelon.scriptum.screen.vm.SplashViewModel
 
@@ -10,8 +10,12 @@ import sgtmelon.scriptum.screen.vm.SplashViewModel
  */
 interface ISplashActivity : ISplashBridge {
 
-    fun startActivities(arrayIntent: Array<Intent>)
+    fun startIntroActivity()
 
-    fun startActivity(intent: Intent)
+    fun startMainActivity()
+
+    fun startNoteActivity(id: Long, type: NoteType)
+
+    fun startAlarmActivity(id: Long, @Color color: Int)
 
 }

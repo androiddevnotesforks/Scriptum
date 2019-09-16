@@ -30,6 +30,7 @@ class MainViewModel(application: Application) : ParentViewModel<IMainActivity>(a
         bundle?.let { callback?.changeFabState(state = pageFrom == MainPage.NOTES) }
     }
 
+
     override fun onSaveData(bundle: Bundle) = bundle.putInt(PAGE_CURRENT, pageFrom.ordinal)
 
     override fun onSelectItem(@IdRes itemId: Int): Boolean {
