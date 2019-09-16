@@ -46,7 +46,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     private var id: Long = NoteData.Default.ID
     private lateinit var noteModel: NoteModel
-    private lateinit var noteState: NoteState
+    private var noteState: NoteState = NoteState()
     private var isRankEmpty: Boolean = true
 
     private val iconState = IconState()
@@ -74,7 +74,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
                     return
                 }
 
-                noteState = NoteState(isCreate = false, isBin = noteModel.noteEntity.isBin)
+                noteState = NoteState(isBin = noteModel.noteEntity.isBin)
             }
         }
 
