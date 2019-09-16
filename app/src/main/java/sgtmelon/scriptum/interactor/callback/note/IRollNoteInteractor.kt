@@ -6,10 +6,11 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.room.entity.RollEntity
+import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
 import java.util.*
 
 /**
- * Interface for communicate with [RollNoteInteractor]
+ * Interface for communication [RollNoteViewModel] with [RollNoteInteractor]
  */
 interface IRollNoteInteractor : IParentInteractor {
 

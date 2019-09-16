@@ -5,10 +5,11 @@ import sgtmelon.scriptum.interactor.note.TextNoteInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
+import sgtmelon.scriptum.screen.vm.note.TextNoteViewModel
 import java.util.*
 
 /**
- * Interface for communicate with [TextNoteInteractor]
+ * Interface for communication [TextNoteViewModel] with [TextNoteInteractor]
  */
 interface ITextNoteInteractor : IParentInteractor {
 

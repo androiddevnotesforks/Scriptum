@@ -4,9 +4,10 @@ import sgtmelon.scriptum.interactor.callback.IParentInteractor
 import sgtmelon.scriptum.interactor.main.RankInteractor
 
 import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.screen.vm.main.RankViewModel
 
 /**
- * Interface for communicate with [RankInteractor]
+ * Interface for communication [RankViewModel] with [RankInteractor]
  */
 interface IRankInteractor : IParentInteractor {
 

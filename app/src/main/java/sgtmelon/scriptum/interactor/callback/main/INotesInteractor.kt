@@ -5,9 +5,10 @@ import sgtmelon.scriptum.interactor.main.NotesInteractor
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.screen.vm.main.NotesViewModel
 
 /**
- * Interface for communicate with [NotesInteractor]
+ * Interface for communication [NotesViewModel] with [NotesInteractor]
  */
 interface INotesInteractor : IParentInteractor {
 
