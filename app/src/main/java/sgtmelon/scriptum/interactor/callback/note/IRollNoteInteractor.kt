@@ -29,17 +29,6 @@ interface IRollNoteInteractor : IParentInteractor {
     fun getRankDialogItemArray(): Array<String>
 
 
-    suspend fun restoreNote(noteModel: NoteModel)
-
-    suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean)
-
-    suspend fun clearNote(noteModel: NoteModel)
-
-    fun saveNote(noteModel: NoteModel, isCreate: Boolean)
-
-    suspend fun deleteNote(noteModel: NoteModel)
-
-
     /**
      * Обновление конкретного пункта списка
      */
@@ -54,7 +43,6 @@ interface IRollNoteInteractor : IParentInteractor {
 
     fun getRankId(check: Int): Long
 
-
     suspend fun getDateList(): List<String>
 
     suspend fun clearDate(noteModel: NoteModel)
@@ -62,5 +50,16 @@ interface IRollNoteInteractor : IParentInteractor {
     suspend fun setDate(noteModel: NoteModel, calendar: Calendar)
 
     fun convert(noteModel: NoteModel)
+
+
+    suspend fun restoreNote(noteModel: NoteModel)
+
+    suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean)
+
+    suspend fun clearNote(noteModel: NoteModel)
+
+    fun saveNote(noteModel: NoteModel, isCreate: Boolean)
+
+    suspend fun deleteNote(noteModel: NoteModel)
 
 }

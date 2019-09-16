@@ -51,27 +51,6 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
 
     override fun getRankDialogItemArray() = iRoomRepo.getRankDialogItemArray()
 
-    override suspend fun restoreNote(noteModel: NoteModel) = iRoomRepo.restoreNote(noteModel)
-
-    override suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean) {
-        iRoomRepo.updateNote(noteModel.noteEntity)
-        if (updateBind) callback?.notifyBind(noteModel, rankIdVisibleList)
-    }
-
-    override suspend fun clearNote(noteModel: NoteModel) = iRoomRepo.clearNote(noteModel)
-
-    override fun saveNote(noteModel: NoteModel, isCreate: Boolean) {
-        iRoomRepo.saveRollNote(noteModel, isCreate)
-        callback?.notifyBind(noteModel, rankIdVisibleList)
-    }
-
-    override suspend fun deleteNote(noteModel: NoteModel) {
-        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
-        callback?.cancelBind(noteModel.noteEntity.id.toInt())
-
-        iRoomRepo.deleteNote(noteModel)
-    }
-
 
     override fun updateRollCheck(noteModel: NoteModel, rollEntity: RollEntity) {
         iRoomRepo.updateRollCheck(noteModel.noteEntity, rollEntity)
@@ -102,5 +81,27 @@ class RollNoteInteractor(context: Context, private var callback: IRollNoteBridge
     }
 
     override fun convert(noteModel: NoteModel) = iRoomRepo.convertToText(noteModel)
+
+
+    override suspend fun restoreNote(noteModel: NoteModel) = iRoomRepo.restoreNote(noteModel)
+
+    override suspend fun updateNote(noteModel: NoteModel, updateBind: Boolean) {
+        iRoomRepo.updateNote(noteModel.noteEntity)
+        if (updateBind) callback?.notifyBind(noteModel, rankIdVisibleList)
+    }
+
+    override suspend fun clearNote(noteModel: NoteModel) = iRoomRepo.clearNote(noteModel)
+
+    override fun saveNote(noteModel: NoteModel, isCreate: Boolean) {
+        iRoomRepo.saveRollNote(noteModel, isCreate)
+        callback?.notifyBind(noteModel, rankIdVisibleList)
+    }
+
+    override suspend fun deleteNote(noteModel: NoteModel) {
+        callback?.cancelAlarm(AlarmReceiver[noteModel.noteEntity])
+        callback?.cancelBind(noteModel.noteEntity.id.toInt())
+
+        iRoomRepo.deleteNote(noteModel)
+    }
 
 }
