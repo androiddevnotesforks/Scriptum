@@ -12,62 +12,26 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteTest : ParentUiTest() {
 
-    //region Bin
+    //region Content
 
-    @Test fun binContentWithoutName() = data.insertTextToBin(data.textNote.copy(name = "")).let {
+    @Test fun contentOnBinWithoutName() = data.insertTextToBin(data.textNote.copy(name = "")).let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
-    @Test fun binContentWithName() = data.insertTextToBin().let {
+    @Test fun contentOnBinWithName() = data.insertTextToBin().let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
-    @Test fun binActionRestore()  = data.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) { controlPanel { onClickRestore() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
-            }
-        }
+    @Test fun contentOnCreate() = data.createText().let {
+        launch { mainScreen { openAddDialog { createTextNote(it) } } }
     }
 
-    @Test fun binActionRestoreOpen()  = data.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) {
-                        controlPanel { onClickRestoreOpen() }
-                        onPressBack()
-                    }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
-            }
-        }
+    @Test fun contentOnReadWithoutName() = data.insertText(data.textNote.copy(name = "")).let {
+        launch { mainScreen { openNotesPage { openTextNote(it) } } }
     }
 
-    @Test fun binActionClear() = data.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) { controlPanel { onClickClear() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage(empty = true)
-            }
-        }
+    @Test fun contentOnReadWithName() = data.insertText().let {
+        launch { mainScreen { openNotesPage { openTextNote(it) } } }
     }
 
     //endregion
@@ -128,6 +92,7 @@ class TextNoteTest : ParentUiTest() {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString)
                         onPressBack()
                     }
                 }
@@ -141,12 +106,65 @@ class TextNoteTest : ParentUiTest() {
                 openNotesPage {
                     openTextNote(it) {
                         controlPanel { onClickEdit() }
+                        onEnterText(data.uniqueString)
                         toolbar {
                             onEnterName(data.uniqueString)
                             onClickBack()
                         }
                     }
                 }
+            }
+        }
+    }
+
+    //endregion
+
+    //region Bin
+
+    @Test fun actionOnBinRestore()  = data.insertTextToBin().let {
+        launch {
+            mainScreen {
+                openNotesPage(empty = true)
+
+                openBinPage {
+                    openTextNote(it) { controlPanel { onClickRestore() } }
+                    assert(empty = true)
+                }
+
+                openNotesPage()
+            }
+        }
+    }
+
+    @Test fun actionOnBinRestoreOpen()  = data.insertTextToBin().let {
+        launch {
+            mainScreen {
+                openNotesPage(empty = true)
+
+                openBinPage {
+                    openTextNote(it) {
+                        controlPanel { onClickRestoreOpen() }
+                        onPressBack()
+                    }
+                    assert(empty = true)
+                }
+
+                openNotesPage()
+            }
+        }
+    }
+
+    @Test fun actionOnBinClear() = data.insertTextToBin().let {
+        launch {
+            mainScreen {
+                openNotesPage(empty = true)
+
+                openBinPage {
+                    openTextNote(it) { controlPanel { onClickClear() } }
+                    assert(empty = true)
+                }
+
+                openNotesPage(empty = true)
             }
         }
     }

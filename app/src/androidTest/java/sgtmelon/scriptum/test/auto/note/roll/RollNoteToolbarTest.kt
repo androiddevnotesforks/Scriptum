@@ -9,25 +9,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 //@RunWith(AndroidJUnit4::class)
 class RollNoteToolbarTest : ParentUiTest() {
 
-    private fun contentEmptyOnCreate() = data.createRoll().let {
-        launch { mainScreen { openAddDialog { createRollNote(it) } } }
-    }
-
-    private fun contentEmptyOnOpen() = data.insertRoll(
-            data.rollNote.apply { name = "" }
-    ).let {
-        launch {
-            mainScreen { openNotesPage { openRollNote(it) { controlPanel { onClickEdit() } } } }
-        }
-    }
-
-    private fun contentFillOnOpen() = data.insertRoll().let {
-        launch {
-            mainScreen { openNotesPage { openRollNote(it) { controlPanel { onClickEdit() } } } }
-        }
-    }
-
-
     private fun saveByControlOnCreate() = data.createRoll().let {
         launch {
             mainScreen {

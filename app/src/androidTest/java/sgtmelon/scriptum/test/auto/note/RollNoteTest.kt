@@ -12,62 +12,26 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteTest : ParentUiTest() {
 
-    //region Bin
+    //region Content
 
-    @Test fun binContentWithoutName() = data.insertRollToBin(data.rollNote.copy(name = "")).let {
+    @Test fun contentOnBinWithoutName() = data.insertRollToBin(data.rollNote.copy(name = "")).let {
         launch { mainScreen { openBinPage { openRollNote(it) } } }
     }
 
-    @Test fun binContentWithName() = data.insertRollToBin().let {
+    @Test fun contentOnBinWithName() = data.insertRollToBin().let {
         launch { mainScreen { openBinPage { openRollNote(it) } } }
     }
 
-    @Test fun binActionRestore()  = data.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openRollNote(it) { controlPanel { onClickRestore() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
-            }
-        }
+    @Test fun contentOnCreate() = data.createRoll().let {
+        launch { mainScreen { openAddDialog { createRollNote(it) } } }
     }
 
-    @Test fun binActionRestoreOpen()  = data.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openRollNote(it) {
-                        controlPanel { onClickRestoreOpen() }
-                        onPressBack()
-                    }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
-            }
-        }
+    @Test fun contentOnReadWithoutName() = data.insertRoll(data.rollNote.copy(name = "")).let {
+        launch { mainScreen { openNotesPage { openRollNote(it) } } }
     }
 
-    @Test fun binActionClear() = data.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openRollNote(it) { controlPanel { onClickClear() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage(empty = true)
-            }
-        }
+    @Test fun contentOnReadWithName() = data.insertRoll().let {
+        launch { mainScreen { openNotesPage { openRollNote(it) } } }
     }
 
     //endregion
@@ -142,6 +106,58 @@ class RollNoteTest : ParentUiTest() {
                 assert()
                 openAddDialog { createRollNote(it) { onPressBack() } }
                 assert()
+            }
+        }
+    }
+
+    //endregion
+
+    //region Panel action
+
+    @Test fun actionOnBinRestore()  = data.insertRollToBin().let {
+        launch {
+            mainScreen {
+                openNotesPage(empty = true)
+
+                openBinPage {
+                    openRollNote(it) { controlPanel { onClickRestore() } }
+                    assert(empty = true)
+                }
+
+                openNotesPage()
+            }
+        }
+    }
+
+    @Test fun actionOnBinRestoreOpen()  = data.insertRollToBin().let {
+        launch {
+            mainScreen {
+                openNotesPage(empty = true)
+
+                openBinPage {
+                    openRollNote(it) {
+                        controlPanel { onClickRestoreOpen() }
+                        onPressBack()
+                    }
+                    assert(empty = true)
+                }
+
+                openNotesPage()
+            }
+        }
+    }
+
+    @Test fun actionOnBinClear() = data.insertRollToBin().let {
+        launch {
+            mainScreen {
+                openNotesPage(empty = true)
+
+                openBinPage {
+                    openRollNote(it) { controlPanel { onClickClear() } }
+                    assert(empty = true)
+                }
+
+                openNotesPage(empty = true)
             }
         }
     }

@@ -9,16 +9,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 //@RunWith(AndroidJUnit4::class)
 class TextNotePanelTest : ParentUiTest() {
 
-    // TODO тест существует
-    private fun displayOnCreate() = data.createText().let {
-        launch { mainScreen { openAddDialog { createTextNote(it) } } }
-    }
-
-    private fun displayOnOpenNote() = data.insertText().let {
-        launch { mainScreen { openNotesPage { openTextNote(it) } } }
-    }
-
-
     private fun saveByControlOnCreate() = data.createText().let {
         launch {
             mainScreen {
@@ -26,19 +16,6 @@ class TextNotePanelTest : ParentUiTest() {
                     createTextNote(it) {
                         onEnterText(data.uniqueString)
                         controlPanel { onClickSave() }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun saveByPressBackOnCreate() = data.createText().let {
-        launch {
-            mainScreen {
-                openAddDialog {
-                    createTextNote(it) {
-                        onEnterText(data.uniqueString)
-                        controlPanel { onPressBack() }
                     }
                 }
             }
@@ -60,36 +37,7 @@ class TextNotePanelTest : ParentUiTest() {
         }
     }
 
-    private fun saveByPressBackOnEdit() = data.insertText().let {
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openTextNote(it) {
-                        controlPanel {
-                            onClickEdit()
-                            onPressBack()
-                        }
-                    }
-                }
-            }
-        }
-    }
 
-
-    private fun cancelOnEditByToolbar() = data.insertText().let {
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openTextNote(it) {
-                        controlPanel {
-                            onClickEdit()
-                            toolbar { onClickBack() }
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     private fun actionSaveOnCreate() = data.createText().let {
         launch {
