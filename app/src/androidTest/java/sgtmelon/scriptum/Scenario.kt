@@ -1,7 +1,7 @@
 package sgtmelon.scriptum
 
 import sgtmelon.scriptum.test.control.NoteToolbarIconTest
-import sgtmelon.scriptum.test.control.RotationTest
+import sgtmelon.scriptum.test.control.rotation.RotationTest
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 

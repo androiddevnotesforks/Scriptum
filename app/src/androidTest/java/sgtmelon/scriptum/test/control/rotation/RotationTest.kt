@@ -1,20 +1,21 @@
-package sgtmelon.scriptum.test.control
+package sgtmelon.scriptum.test.control.rotation
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.test.ParentRotationTest
 
 /**
  * Test of application work with phone rotation
  */
 @RunWith(AndroidJUnit4::class)
-class RotationTest : ParentUiTest() {
+class RotationTest : ParentRotationTest() {
 
     @Test fun addDialog() = launch { mainScreen { openAddDialog { onRotate { assert() } } } }
 
+    /**
+     * RankScreen
+     */
 
     @Test fun rankScreenContentEmpty() = launch {
         mainScreen {
@@ -45,6 +46,9 @@ class RotationTest : ParentUiTest() {
         }
     }
 
+    /**
+     * NotesScreen
+     */
 
     @Test fun notesScreenContentEmpty() = launch {
         mainScreen {
@@ -68,6 +72,9 @@ class RotationTest : ParentUiTest() {
         launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
+    /**
+     * BinScreen
+     */
 
     @Test fun binScreenContentEmpty() = launch {
         mainScreen {
@@ -95,6 +102,9 @@ class RotationTest : ParentUiTest() {
         launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
+    /**
+     * Notification / alarm
+     */
 
     @Test fun notificationScreenContentEmpty() = launch {
         mainScreen {
@@ -108,19 +118,8 @@ class RotationTest : ParentUiTest() {
         mainScreen { openNotesPage { openNotification { onRotate { assert(empty = false) } } } }
     }
 
-
     @Test fun alarmScreenContent() = data.insertText().let {
         launchAlarm(it) { openAlarm(it) { onRotate { assert() } } }
-    }
-
-
-    private fun onRotate(func: () -> Unit) = waitAfter(TIME) {
-        func()
-        testRule.activity?.runOnUiThread { context.showToast(text = "ROTATE NOW!") }
-    }
-
-    private companion object {
-        const val TIME = 5000L
     }
 
 }

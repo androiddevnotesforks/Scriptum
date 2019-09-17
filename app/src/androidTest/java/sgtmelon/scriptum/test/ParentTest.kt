@@ -10,7 +10,7 @@ import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
- * Parent class for UI/Integration tests
+ * Parent class for tests
  */
 abstract class ParentTest {
 
