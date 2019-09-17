@@ -153,7 +153,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
 
         callback?.notifyDataSetChanged(noteModel.rollList)
-        onMenuEdit(editMode = false)
+        onMenuEdit(isEdit = false)
         callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
 
         inputControl.reset()
@@ -317,7 +317,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
             isBin = false
         }
 
-        iconState.notAnimate { onMenuEdit(editMode = false) }
+        iconState.notAnimate { onMenuEdit(isEdit = false) }
 
         viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = false) }
     }
@@ -450,23 +450,23 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         parentCallback?.finish()
     }
 
-    override fun onMenuEdit(editMode: Boolean) = inputControl.makeNotEnabled {
-        noteState.isEdit = editMode
+    override fun onMenuEdit(isEdit: Boolean) = inputControl.makeNotEnabled {
+        noteState.isEdit = isEdit
 
         callback?.apply {
             changeToolbarIcon(
-                    drawableOn = editMode && !noteState.isCreate,
+                    drawableOn = isEdit && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(editMode, noteModel)
+            bindEdit(isEdit, noteModel)
             bindInput(inputControl.access, noteModel)
             updateNoteState(noteState)
 
-            if (editMode) focusOnEdit()
+            if (isEdit) focusOnEdit()
         }
 
-        saveControl.setSaveHandlerEvent(editMode)
+        saveControl.setSaveHandlerEvent(isEdit)
     }
 
     //endregion

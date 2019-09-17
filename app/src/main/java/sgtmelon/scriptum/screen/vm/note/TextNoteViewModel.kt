@@ -136,7 +136,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             return false
         }
 
-        onMenuEdit(editMode = false)
+        onMenuEdit(isEdit = false)
         callback?.tintToolbar(colorFrom, noteModel.noteEntity.color)
 
         inputControl.reset()
@@ -229,7 +229,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
             isBin = false
         }
 
-        iconState.notAnimate { onMenuEdit(editMode = false) }
+        iconState.notAnimate { onMenuEdit(isEdit = false) }
 
         viewModelScope.launch { iInteractor.updateNote(noteModel, updateBind = false) }
     }
@@ -287,7 +287,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
         if (changeMode) {
             callback?.hideKeyboard()
-            onMenuEdit(editMode = false)
+            onMenuEdit(isEdit = false)
             inputControl.reset()
         }
 
@@ -326,22 +326,22 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
         parentCallback?.finish()
     }
 
-    override fun onMenuEdit(editMode: Boolean) = inputControl.makeNotEnabled {
-        noteState.isEdit = editMode
+    override fun onMenuEdit(isEdit: Boolean) = inputControl.makeNotEnabled {
+        noteState.isEdit = isEdit
 
         callback?.apply {
             changeToolbarIcon(
-                    drawableOn = editMode && !noteState.isCreate,
+                    drawableOn = isEdit && !noteState.isCreate,
                     needAnim = !noteState.isCreate && iconState.animate
             )
 
-            bindEdit(editMode, noteModel)
+            bindEdit(isEdit, noteModel)
             bindInput(inputControl.access, noteModel)
 
-            if (editMode) focusOnEdit()
+            if (isEdit) focusOnEdit()
         }
 
-        saveControl.setSaveHandlerEvent(editMode)
+        saveControl.setSaveHandlerEvent(isEdit)
     }
 
     //endregion

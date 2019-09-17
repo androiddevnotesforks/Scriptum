@@ -162,6 +162,53 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
+
+    @Test fun actionOnReadNotification() {}
+
+    @Test fun actionOnReadBind() = bindTestPrototype(isStatus = false)
+
+    @Test fun actionOnReadUnbind() = bindTestPrototype(isStatus = true)
+
+    private fun bindTestPrototype(isStatus: Boolean) {
+        val model = data.insertRoll(data.rollNote.copy(isStatus = isStatus))
+
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openRollNote(model) {
+                        controlPanel { onClickBind() }
+                        onPressBack()
+                    }
+
+                    openNoteDialog(model)
+                }
+            }
+        }
+    }
+
+    @Test fun actionOnReadConvert() {}
+
+    @Test fun actionOnReadDelete() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                openBinPage(empty = true)
+
+                openNotesPage {
+                    openRollNote(it) { controlPanel { onClickDelete() } }
+                    assert(empty = true)
+                }
+
+                openBinPage()
+            }
+        }
+    }
+
+    @Test fun actionOnReadEdit() {}
+
+    //endregion
+
+    //region Dialogs
+
     //endregion
 
 }

@@ -119,7 +119,7 @@ class TextNoteTest : ParentUiTest() {
 
     //endregion
 
-    //region Bin
+    //region Panel action
 
     @Test fun actionOnBinRestore()  = data.insertTextToBin().let {
         launch {
@@ -168,6 +168,53 @@ class TextNoteTest : ParentUiTest() {
             }
         }
     }
+
+
+    @Test fun actionOnReadNotification() {}
+
+    @Test fun actionOnReadBind() = bindTestPrototype(isStatus = false)
+
+    @Test fun actionOnReadUnbind() = bindTestPrototype(isStatus = true)
+
+    private fun bindTestPrototype(isStatus: Boolean) {
+        val model = data.insertText(data.textNote.copy(isStatus = isStatus))
+
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openTextNote(model) {
+                        controlPanel { onClickBind() }
+                        onPressBack()
+                    }
+
+                    openNoteDialog(model)
+                }
+            }
+        }
+    }
+
+    @Test fun actionOnReadConvert() {}
+
+    @Test fun actionOnReadDelete() = data.insertText().let {
+        launch {
+            mainScreen {
+                openBinPage(empty = true)
+
+                openNotesPage {
+                    openTextNote(it) { controlPanel { onClickDelete() } }
+                    assert(empty = true)
+                }
+
+                openBinPage()
+            }
+        }
+    }
+
+    @Test fun actionOnReadEdit() {}
+
+    //endregion
+
+    //region Dialogs
 
     //endregion
 

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="sgtmelon.scriptum">
 
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
             android:allowBackup="true"
             android:fullBackupContent="@xml/backup_descriptor"
@@ -96,10 +100,5 @@
         <receiver android:name=".receiver.AlarmReceiver" />
 
     </application>
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.VIBRATE" />
 
 </manifest>

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.screen.vm.note.RollNoteViewModel
  */
 interface IRollNoteMenu {
 
-    //region Внутри корзины
+    //region Inside bin
 
     fun onMenuRestore()
 
@@ -18,7 +18,7 @@ interface IRollNoteMenu {
 
     //endregion
 
-    //region Режим редактирования
+    //region Edit mode
 
     fun onMenuUndo()
 
@@ -29,13 +29,14 @@ interface IRollNoteMenu {
     fun onMenuColor()
 
     /**
-     * При успешном сохранении возвращает - true, [changeMode] - надо ли менять режим редактирования
+     * Return true on success save
+     * [changeMode] - need change mode or not
      */
     fun onMenuSave(changeMode: Boolean): Boolean
 
     //endregion
 
-    //region Режим просмотра
+    //region Read mode
 
     fun onMenuNotification()
 
@@ -46,9 +47,9 @@ interface IRollNoteMenu {
     fun onMenuDelete()
 
     /**
-     * @param editMode установка режима редактирования
+     * [isEdit] - setup edit mode
      */
-    fun onMenuEdit(editMode: Boolean)
+    fun onMenuEdit(isEdit: Boolean)
 
     //endregion
 
