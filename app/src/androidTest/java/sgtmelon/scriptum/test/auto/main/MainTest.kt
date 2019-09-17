@@ -29,15 +29,10 @@ class MainTest : ParentUiTest() {
 
     @Test fun addDialogOpen() = launch { mainScreen { openAddDialog() } }
 
-    @Test fun addDialogCloseSoft() = launch {
+    @Test fun addDialogClose() = launch {
         mainScreen {
             openAddDialog { onCloseSoft() }
             assert()
-        }
-    }
-
-    @Test fun addDialogCloseSwipe() = launch {
-        mainScreen {
             openAddDialog { onCloseSwipe() }
             assert()
         }

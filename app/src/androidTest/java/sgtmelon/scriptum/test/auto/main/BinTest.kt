@@ -45,27 +45,13 @@ class BinTest : ParentUiTest() {
         mainScreen { openBinPage { openClearDialog() } }
     }
 
-    @Test fun clearDialogCloseSoft() = launch({ data.fillBin() }) {
+    @Test fun clearDialogCloseAndWork() = launch({ data.fillBin() }) {
         mainScreen {
             openBinPage {
                 openClearDialog { onCloseSoft() }
                 assert(empty = false)
-            }
-        }
-    }
-
-    @Test fun clearDialogCloseCancel() = launch({ data.fillBin() }) {
-        mainScreen {
-            openBinPage {
                 openClearDialog { onClickNo() }
                 assert(empty = false)
-            }
-        }
-    }
-
-    @Test fun clearDialogWork() = launch({ data.fillBin() }) {
-        mainScreen {
-            openBinPage {
                 openClearDialog { onClickYes() }
                 assert(empty = true)
             }

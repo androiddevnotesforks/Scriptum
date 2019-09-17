@@ -12,7 +12,9 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteTest : ParentUiTest() {
 
-    //region Content
+    /**
+     * Content
+     */
 
     @Test fun contentOnBinWithoutName() = data.insertTextToBin(data.textNote.copy(name = "")).let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
@@ -34,9 +36,9 @@ class TextNoteTest : ParentUiTest() {
         launch { mainScreen { openNotesPage { openTextNote(it) } } }
     }
 
-    //endregion
-
-    //region ToolbarArrow / BackPress
+    /**
+     * ToolbarArrow / BackPress
+     */
 
     @Test fun closeOnBin()  = data.insertTextToBin().let {
         launch {
@@ -117,9 +119,9 @@ class TextNoteTest : ParentUiTest() {
         }
     }
 
-    //endregion
-
-    //region Panel action
+    /**
+     * Panel action
+     */
 
     @Test fun actionOnBinRestore()  = data.insertTextToBin().let {
         launch {
@@ -216,10 +218,25 @@ class TextNoteTest : ParentUiTest() {
 
     @Test fun actionOnReadEdit() {}
 
-    //endregion
+    /**
+     * Dialogs
+     */
 
-    //region Dialogs
-
-    //endregion
+    // TODO end assert
+    @Test fun convertDialogCloseAndWork() = data.insertText().let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openTextNote(it) {
+                        controlPanel { onConvert { onCloseSoft() } }
+                        assert()
+                        controlPanel { onConvert { onClickNo() } }
+                        assert()
+                        controlPanel { onConvert { onClickYes() } }
+                    }
+                }
+            }
+        }
+    }
 
 }

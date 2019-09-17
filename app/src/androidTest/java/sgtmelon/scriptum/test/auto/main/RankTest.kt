@@ -168,25 +168,12 @@ class RankTest : ParentUiTest() {
      * Rename Dialog
      */
 
-    @Test fun renameDialogOpen() = data.insertRank().let {
-        launch { mainScreen { openRankPage { openRenameDialog(it.name) } } }
-    }
-
-    @Test fun renameDialogCloseSoft() = data.insertRank().let {
+    @Test fun renameDialogClose() = data.insertRank().let {
         launch {
             mainScreen {
                 openRankPage {
                     openRenameDialog(it.name) { onCloseSoft() }
                     assert(empty = false)
-                }
-            }
-        }
-    }
-
-    @Test fun renameDialogCloseCancel() = data.insertRank().let {
-        launch {
-            mainScreen {
-                openRankPage {
                     openRenameDialog(it.name) { onClickCancel() }
                     assert(empty = false)
                 }
