@@ -45,13 +45,6 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         onClick(noteModel.noteEntity.name, R.id.notification_cancel_button)
     }
 
-    companion object {
-        operator fun invoke(func: NotificationScreen.() -> Unit, empty: Boolean) =
-                NotificationScreen().apply {
-                    assert(empty)
-                    func()
-                }
-    }
 
     class NotificationAction {
         fun onClick(name: String, @IdRes childId: Int): ViewInteraction =
@@ -80,6 +73,14 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
                 onDisplay(R.id.notification_recycler)
             }
         }
+    }
+
+    companion object {
+        operator fun invoke(func: NotificationScreen.() -> Unit, empty: Boolean) =
+                NotificationScreen().apply {
+                    assert(empty)
+                    func()
+                }
     }
 
 }

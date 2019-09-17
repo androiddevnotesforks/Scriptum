@@ -30,7 +30,8 @@ class MainScreen : ParentUi() {
         RankScreen.invoke(func, empty)
     }
 
-    fun openNotesPage(empty: Boolean = false,  hide: Boolean = false, func: NotesScreen.() -> Unit = {}) {
+    fun openNotesPage(empty: Boolean = false,  hide: Boolean = false,
+                      func: NotesScreen.() -> Unit = {}) {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
 
         NotesScreen.invoke(func, empty, hide)
@@ -71,15 +72,6 @@ class MainScreen : ParentUi() {
         }
     }
 
-    companion object {
-        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply {
-            assert {
-                onDisplayContent(MainPage.NOTES)
-                onDisplayFab(visible = true)
-            }
-            func()
-        }
-    }
 
     class Assert : BasicMatch() {
         init {
@@ -97,6 +89,16 @@ class MainScreen : ParentUi() {
         fun onDisplayFab(visible: Boolean) =
                 if (visible) onDisplay(R.id.main_add_fab) else notDisplay(R.id.main_add_fab)
 
+    }
+
+    companion object {
+        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply {
+            assert {
+                onDisplayContent(MainPage.NOTES)
+                onDisplayFab(visible = true)
+            }
+            func()
+        }
     }
 
 }

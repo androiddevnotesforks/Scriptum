@@ -47,13 +47,6 @@ class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler)
         RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    companion object {
-        operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean, hide: Boolean) =
-                NotesScreen(hide).apply {
-                    assert(empty)
-                    func()
-                }
-    }
 
     class Assert(empty: Boolean, hide: Boolean) : BasicMatch() {
         init {
@@ -83,6 +76,14 @@ class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler)
                 onDisplay(R.id.notes_recycler)
             }
         }
+    }
+
+    companion object {
+        operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean, hide: Boolean) =
+                NotesScreen(hide).apply {
+                    assert(empty)
+                    func()
+                }
     }
 
 }

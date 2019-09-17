@@ -41,12 +41,6 @@ class BinScreen() : ParentRecyclerScreen(R.id.bin_recycler) {
         RollNoteScreen.invoke(func, State.BIN, noteModel)
     }
 
-    companion object {
-        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) = BinScreen().apply {
-            assert(empty)
-            func()
-        }
-    }
 
     class Assert(empty: Boolean) : BasicMatch() {
         init {
@@ -67,6 +61,13 @@ class BinScreen() : ParentRecyclerScreen(R.id.bin_recycler) {
 
                 onDisplay(R.id.bin_recycler)
             }
+        }
+    }
+
+    companion object {
+        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) = BinScreen().apply {
+            assert(empty)
+            func()
         }
     }
 

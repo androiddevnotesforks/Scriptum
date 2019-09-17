@@ -36,17 +36,9 @@ class AlarmScreen(private val noteModel: NoteModel) : ParentUi() {
 
     fun onPressBack() = pressBackUnconditionally()
 
-    companion object {
-        operator fun invoke(func: AlarmScreen.() -> Unit, noteModel: NoteModel) =
-                AlarmScreen(noteModel).apply {
-                    waitBefore(time = 1000) { assert() }
-                    func()
-                }
-    }
 
+    //TODO больше onDisplay
     class Assert : BasicMatch() {
-
-        //TODO больше onDisplay
         init {
             onDisplay(R.id.alarm_parent_container)
             onDisplay(R.id.alarm_ripple_background)
@@ -57,7 +49,14 @@ class AlarmScreen(private val noteModel: NoteModel) : ParentUi() {
             onDisplay(R.id.alarm_disable_button)
             onDisplay(R.id.alarm_postpone_button)
         }
+    }
 
+    companion object {
+        operator fun invoke(func: AlarmScreen.() -> Unit, noteModel: NoteModel) =
+                AlarmScreen(noteModel).apply {
+                    waitBefore(time = 1000) { assert() }
+                    func()
+                }
     }
 
 }

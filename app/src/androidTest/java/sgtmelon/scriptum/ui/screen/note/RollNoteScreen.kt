@@ -32,9 +32,13 @@ class RollNoteScreen(
         enterPanel { assert() }
     }
 
-    fun assert() = Assert(callback = this)
+
+    fun assert() = Assert()
+
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
+
     fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
+
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
     fun onSwipeAll() = (0 until count).forEach { onSwipe(it) }
@@ -62,6 +66,16 @@ class RollNoteScreen(
         }
     }
 
+
+    class Assert : BasicMatch() {
+        init {
+            onDisplay(R.id.roll_note_parent_container)
+            onDisplay(R.id.roll_note_content_container)
+
+            onDisplay(R.id.roll_note_recycler)
+        }
+    }
+
     companion object {
         operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
                             noteModel: NoteModel, isRankEmpty: Boolean = true) =
@@ -69,13 +83,6 @@ class RollNoteScreen(
                     fullAssert()
                     func()
                 }
-    }
-
-    class Assert(callback: INoteScreen) : BasicMatch() {
-        init {
-            onDisplay(R.id.roll_note_parent_container)
-            onDisplay(R.id.roll_note_recycler)
-        }
     }
 
 }

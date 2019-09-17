@@ -31,8 +31,11 @@ class TextNoteScreen(override var state: State,
         controlPanel { assert() }
     }
 
+
     fun assert() = Assert(callback = this)
+
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
+
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
     fun onEnterText(text: String = "") {
@@ -74,6 +77,7 @@ class TextNoteScreen(override var state: State,
             }
         }
     }
+
 
     class Assert(callback: INoteScreen) : BasicMatch() {
         init {

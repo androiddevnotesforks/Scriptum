@@ -18,22 +18,21 @@ class PreferenceScreen : ParentUi() {
 
     fun onClickClose() = action { onClickToolbarButton() }
 
-    companion object {
-        operator fun invoke(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
-            assert()
-            func()
-        }
-    }
 
+    // TODO больше assert
     class Assert : BasicMatch() {
-
-        // TODO больше assert
         init {
             onDisplay(R.id.preference_parent_container)
 
             onDisplayToolbar(R.id.toolbar_container, R.string.title_preference)
         }
+    }
 
+    companion object {
+        operator fun invoke(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
+            assert()
+            func()
+        }
     }
 
 }

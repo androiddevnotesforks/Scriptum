@@ -57,6 +57,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
     fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
 
+
     class Assert(noteModel: NoteModel) : BasicMatch() {
         init {
             noteModel.noteEntity.apply {

@@ -42,14 +42,6 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     fun onClickCancel(rankEntity: RankEntity) =
             rankAction { onClick(rankEntity.name, R.id.rank_cancel_button) }
 
-    companion object {
-        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean) = RankScreen().apply {
-            assert(empty)
-            toolbar { assert() }
-            func()
-        }
-    }
-
 
     class RankAction {
 
@@ -80,6 +72,14 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
                 notDisplay(R.id.info_details_text, R.string.info_rank_empty_details)
                 onDisplay(R.id.rank_recycler)
             }
+        }
+    }
+
+    companion object {
+        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean) = RankScreen().apply {
+            assert(empty)
+            toolbar { assert() }
+            func()
         }
     }
 

@@ -45,18 +45,9 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
         }
     }
 
-    companion object {
-        operator fun invoke(func: NoteToolbar.() -> Unit, callback: INoteScreen) =
-                NoteToolbar(callback).apply {
-                    assert()
-                    func()
-                }
-    }
 
+    // TODO #TEST (focus on title check)
     class Assert(callback: INoteScreen) : BasicMatch() {
-
-        // TODO #TEST (focus on title check)
-
         init {
             with(callback) {
                 onDisplay(R.id.toolbar_note_container)
@@ -91,9 +82,15 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
                     }
                 }
             }
-
         }
+    }
 
+    companion object {
+        operator fun invoke(func: NoteToolbar.() -> Unit, callback: INoteScreen) =
+                NoteToolbar(callback).apply {
+                    assert()
+                    func()
+                }
     }
 
 }

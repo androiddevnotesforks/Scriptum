@@ -31,9 +31,6 @@ class RankToolbar : ParentUi() {
 
     fun onLongClickAdd() = action { onLongClick(R.id.toolbar_rank_add_button) }
 
-    companion object {
-        operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply(func)
-    }
 
     class Assert(isClearEnabled: Boolean, isAddEnabled: Boolean) : BasicMatch() {
         init {
@@ -45,6 +42,10 @@ class RankToolbar : ParentUi() {
             isEnabled(R.id.toolbar_rank_cancel_button, isClearEnabled)
             isEnabled(R.id.toolbar_rank_add_button, isAddEnabled)
         }
+    }
+
+    companion object {
+        operator fun invoke(func: RankToolbar.() -> Unit) = RankToolbar().apply(func)
     }
 
 }

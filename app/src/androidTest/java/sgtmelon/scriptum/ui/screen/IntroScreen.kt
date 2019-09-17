@@ -45,12 +45,6 @@ class IntroScreen : ParentUi() {
         MainScreen.invoke(func)
     }
 
-    companion object {
-        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply {
-            assert()
-            func()
-        }
-    }
 
     class Assert(p: Int, enabled: Boolean) : BasicMatch() {
         init {
@@ -65,6 +59,13 @@ class IntroScreen : ParentUi() {
             if (enabled) {
                 onDisplay(R.id.intro_end_button, R.string.info_intro_button)
             }
+        }
+    }
+
+    companion object {
+        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply {
+            assert()
+            func()
         }
     }
 

@@ -26,6 +26,7 @@ class SplashScreen : ParentUi() {
     fun openAlarm(noteModel: NoteModel, func: AlarmScreen.() -> Unit = {}) =
             AlarmScreen.invoke(func, noteModel)
 
+
     companion object {
         operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply { func() }
     }

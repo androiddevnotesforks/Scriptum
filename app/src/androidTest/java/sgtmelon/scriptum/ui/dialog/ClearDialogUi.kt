@@ -21,6 +21,7 @@ class ClearDialogUi : ParentUi() {
 
     fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_yes) } }
 
+
     class Assert : BasicMatch() {
         init {
             onDisplayText(R.string.dialog_title_clear_bin)

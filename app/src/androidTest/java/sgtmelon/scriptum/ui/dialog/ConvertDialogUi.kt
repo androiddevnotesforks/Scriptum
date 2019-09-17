@@ -24,6 +24,7 @@ class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
     fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_yes) } }
 
+
     class Assert(noteModel: NoteModel) : BasicMatch() {
         init {
             onDisplayText(R.string.dialog_title_convert)

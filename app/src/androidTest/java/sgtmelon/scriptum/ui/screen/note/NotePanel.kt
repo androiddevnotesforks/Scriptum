@@ -90,6 +90,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
         }.fullAssert()
     }
 
+
     class Assert(callback: INoteScreen) : BasicMatch() {
         init {
             callback.apply {

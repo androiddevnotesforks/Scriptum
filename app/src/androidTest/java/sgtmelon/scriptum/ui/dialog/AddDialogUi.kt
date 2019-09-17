@@ -41,6 +41,7 @@ class AddDialogUi : ParentUi() {
 
     fun onCloseSwipe() = waitAfter(time = 300) { action { onSwipeDown(R.id.add_navigation) } }
 
+
     class Assert : BasicMatch() {
         init {
             onDisplay(R.id.add_navigation)

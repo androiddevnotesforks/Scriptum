@@ -11,32 +11,36 @@ import kotlin.random.Random
  */
 class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
 
-    fun assert() = Assert(callback)
+    private var enterText: String = ""
 
-    fun onAddRoll(text: String) = action {
-        onEnter(R.id.roll_note_enter, text)
+    fun assert() = Assert(callback, enterText)
 
-        if (Random.nextBoolean()) {
+    fun onAddRoll(text: String) {
+        onEnter(text)
+
+        enterText = text
+        assert()
+
+        onClickAdd()
+    }
+
+    private fun onEnter(text: String) = action { onEnter(R.id.roll_note_enter, text) }
+
+    private fun onClickAdd(longClick: Boolean = Random.nextBoolean()) = action {
+        if (longClick) {
             onClick(R.id.roll_note_add_button)
         } else {
             onLongClick(R.id.roll_note_add_button)
         }
+
+        enterText = ""
+        assert()
     }
 
-    companion object {
-        operator fun invoke(func: RollEnterPanel.() -> Unit, callback: INoteScreen) =
-                RollEnterPanel(callback).apply {
-                    assert()
-                    func()
-                }
-    }
 
-    class Assert(callback: INoteScreen) : BasicMatch() {
-
-        // tODO assert Доступа к кнопке (при отсутствии текста / при введённом тексте)
-
+    class Assert(callback: INoteScreen, enterText: String) : BasicMatch() {
         init {
-            with(callback) {
+            callback.apply {
                 when (state) {
                     State.READ, State.BIN -> {
                         notDisplay(R.id.roll_note_enter_container)
@@ -50,8 +54,17 @@ class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
                     }
                 }
             }
-        }
 
+            isEnabled(R.id.roll_note_add_button, enterText.isNotEmpty())
+        }
+    }
+
+    companion object {
+        operator fun invoke(func: RollEnterPanel.() -> Unit, callback: INoteScreen) =
+                RollEnterPanel(callback).apply {
+                    assert()
+                    func()
+                }
     }
 
 }
