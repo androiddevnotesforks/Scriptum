@@ -12,25 +12,14 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class TextNoteTest : ParentUiTest() {
 
-    @Test fun binContentWithoutName() = data.insertTextToBin(
-            data.textNote.apply { name = "" }
-    ).let {
+    //region Bin
+
+    @Test fun binContentWithoutName() = data.insertTextToBin(data.textNote.copy(name = "")).let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
     }
 
     @Test fun binContentWithName() = data.insertTextToBin().let {
         launch { mainScreen { openBinPage { openTextNote(it) } } }
-    }
-
-    @Test fun binClose()  = data.insertTextToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openTextNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openBinPage { openTextNote(it) { onPressBack() } }
-                assert()
-            }
-        }
     }
 
     @Test fun binActionRestore()  = data.insertTextToBin().let {
@@ -80,5 +69,44 @@ class TextNoteTest : ParentUiTest() {
             }
         }
     }
+
+    //endregion
+
+    //region Close
+
+    @Test fun closeOnBin()  = data.insertTextToBin().let {
+        launch {
+            mainScreen {
+                openBinPage { openTextNote(it) { toolbar { onClickBack() } } }
+                assert()
+                openBinPage { openTextNote(it) { onPressBack() } }
+                assert()
+            }
+        }
+    }
+
+    @Test fun closeOnCreate() = data.createText().let {
+        launch {
+            mainScreen {
+                openAddDialog { createTextNote(it) { toolbar { onClickBack() } } }
+                assert()
+                openAddDialog { createTextNote(it) { onPressBack() } }
+                assert()
+            }
+        }
+    }
+
+    @Test fun closeOnRead() = data.insertText().let {
+        launch {
+            mainScreen {
+                openNotesPage { openTextNote(it) { toolbar { onClickBack() } } }
+                assert()
+                openNotesPage { openTextNote(it) { onPressBack() } }
+                assert()
+            }
+        }
+    }
+
+    //endregion
 
 }

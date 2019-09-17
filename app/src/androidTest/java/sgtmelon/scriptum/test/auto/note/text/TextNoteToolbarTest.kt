@@ -9,43 +9,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 //@RunWith(AndroidJUnit4::class)
 class TextNoteToolbarTest : ParentUiTest() {
 
-    private fun closeByToolbarOnCreate() = data.createText().let {
-        launch {
-            mainScreen {
-                openAddDialog { createTextNote(it) { toolbar { onClickBack() } } }
-                assert()
-            }
-        }
-    }
-
-    private fun closeByBackPressOnCreate() = data.createText().let {
-        launch {
-            mainScreen {
-                openAddDialog { createTextNote(it) { onPressBack() } }
-                assert()
-            }
-        }
-    }
-
-    private fun closeByToolbarOnOpen() = data.insertText().let {
-        launch {
-            mainScreen {
-                openNotesPage { openTextNote(it) { toolbar { onClickBack() } } }
-                assert()
-            }
-        }
-    }
-
-    private fun closeByBackPressOnOpen() = data.insertText().let {
-        launch {
-            mainScreen {
-                openNotesPage { openTextNote(it) { onPressBack() } }
-                assert()
-            }
-        }
-    }
-
-
     // TODO тест существует
     private fun contentEmptyOnCreate() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) } } }

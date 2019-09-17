@@ -9,43 +9,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 //@RunWith(AndroidJUnit4::class)
 class RollNoteToolbarTest : ParentUiTest() {
 
-    private fun closeByToolbarOnCreate() = data.createRoll().let {
-        launch {
-            mainScreen {
-                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-            }
-        }
-    }
-
-    private fun closeByBackPressOnCreate() = data.createRoll().let {
-        launch {
-            mainScreen {
-                openAddDialog { createRollNote(it) { onPressBack() } }
-                assert()
-            }
-        }
-    }
-
-    private fun closeByToolbarOnOpen() = data.insertRoll().let {
-        launch {
-            mainScreen {
-                openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-            }
-        }
-    }
-
-    private fun closeByBackPressOnOpen() = data.insertRoll().let {
-        launch {
-            mainScreen {
-                openNotesPage { openRollNote(it) { onPressBack() } }
-                assert()
-            }
-        }
-    }
-
-
     private fun contentEmptyOnCreate() = data.createRoll().let {
         launch { mainScreen { openAddDialog { createRollNote(it) } } }
     }

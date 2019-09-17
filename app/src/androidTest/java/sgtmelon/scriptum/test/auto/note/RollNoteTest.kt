@@ -12,25 +12,14 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class RollNoteTest : ParentUiTest() {
 
-    @Test fun binContentWithoutName() = data.insertRollToBin(
-            data.rollNote.apply { name = "" }
-    ).let {
+    //region Bin
+
+    @Test fun binContentWithoutName() = data.insertRollToBin(data.rollNote.copy(name = "")).let {
         launch { mainScreen { openBinPage { openRollNote(it) } } }
     }
 
     @Test fun binContentWithName() = data.insertRollToBin().let {
         launch { mainScreen { openBinPage { openRollNote(it) } } }
-    }
-
-    @Test fun binClose()  = data.insertRollToBin().let {
-        launch {
-            mainScreen {
-                openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openBinPage { openRollNote(it) { onPressBack() } }
-                assert()
-            }
-        }
     }
 
     @Test fun binActionRestore()  = data.insertRollToBin().let {
@@ -80,5 +69,44 @@ class RollNoteTest : ParentUiTest() {
             }
         }
     }
+
+    //endregion
+
+    //region Close
+
+    @Test fun closeOnBin()  = data.insertRollToBin().let {
+        launch {
+            mainScreen {
+                openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
+                assert()
+                openBinPage { openRollNote(it) { onPressBack() } }
+                assert()
+            }
+        }
+    }
+
+    @Test fun closeOnCreate() = data.createRoll().let {
+        launch {
+            mainScreen {
+                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
+                assert()
+                openAddDialog { createRollNote(it) { onPressBack() } }
+                assert()
+            }
+        }
+    }
+
+    @Test fun closeOnRead() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
+                assert()
+                openNotesPage { openRollNote(it) { onPressBack() } }
+                assert()
+            }
+        }
+    }
+
+    //endregion
 
 }
