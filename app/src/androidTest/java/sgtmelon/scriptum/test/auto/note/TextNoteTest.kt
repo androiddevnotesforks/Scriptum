@@ -90,7 +90,7 @@ class TextNoteTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
-                        controlPanel { onClickEdit() }
+                        controlPanel { onEdit() }
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(data.uniqueString)
                         onPressBack()
@@ -105,7 +105,7 @@ class TextNoteTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
-                        controlPanel { onClickEdit() }
+                        controlPanel { onEdit() }
                         onEnterText(data.uniqueString)
                         toolbar {
                             onEnterName(data.uniqueString)
@@ -127,7 +127,7 @@ class TextNoteTest : ParentUiTest() {
                 openNotesPage(empty = true)
 
                 openBinPage {
-                    openTextNote(it) { controlPanel { onClickRestore() } }
+                    openTextNote(it) { controlPanel { onRestore() } }
                     assert(empty = true)
                 }
 
@@ -143,7 +143,7 @@ class TextNoteTest : ParentUiTest() {
 
                 openBinPage {
                     openTextNote(it) {
-                        controlPanel { onClickRestoreOpen() }
+                        controlPanel { onRestoreOpen() }
                         onPressBack()
                     }
                     assert(empty = true)
@@ -160,7 +160,7 @@ class TextNoteTest : ParentUiTest() {
                 openNotesPage(empty = true)
 
                 openBinPage {
-                    openTextNote(it) { controlPanel { onClickClear() } }
+                    openTextNote(it) { controlPanel { onClear() } }
                     assert(empty = true)
                 }
 
@@ -183,7 +183,7 @@ class TextNoteTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote(model) {
-                        controlPanel { onClickBind() }
+                        controlPanel { onBind() }
                         onPressBack()
                     }
 
@@ -193,7 +193,11 @@ class TextNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnReadConvert() {}
+    @Test fun actionOnReadConvert() = data.insertText().let {
+        launch {
+            mainScreen { openNotesPage { openTextNote(it) { controlPanel { onConvert() } } } }
+        }
+    }
 
     @Test fun actionOnReadDelete() = data.insertText().let {
         launch {
@@ -201,7 +205,7 @@ class TextNoteTest : ParentUiTest() {
                 openBinPage(empty = true)
 
                 openNotesPage {
-                    openTextNote(it) { controlPanel { onClickDelete() } }
+                    openTextNote(it) { controlPanel { onDelete() } }
                     assert(empty = true)
                 }
 

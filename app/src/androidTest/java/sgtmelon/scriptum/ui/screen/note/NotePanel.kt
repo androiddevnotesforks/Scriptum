@@ -5,6 +5,7 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 
 /**
@@ -17,11 +18,11 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
     /**
      * Будет возврат на экран [BinScreen]
      */
-    fun onClickRestore() = callback.throwOnWrongState(State.BIN) {
+    fun onRestore() = callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_restore_button) }
     }
 
-    fun onClickRestoreOpen() = callback.throwOnWrongState(State.BIN) {
+    fun onRestoreOpen() = callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_restore_open_button) }
         callback.apply { state = State.READ }.fullAssert()
     }
@@ -29,33 +30,33 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
     /**
      * Будет возврат на экран [BinScreen]
      */
-    fun onClickClear() = callback.throwOnWrongState(State.BIN) {
+    fun onClear() = callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_clear_button) }
     }
 
-    fun onClickUndo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun onUndo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_undo_button) }
         callback.apply {
             //            shadowModel = inputControl.undo()
         }.fullAssert()
     }
 
-    fun onClickRedo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun onRedo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_redo_button) }
         callback.apply {
             //            shadowModel = inputControl.redo()
         }.fullAssert()
     }
 
-    fun onClickRank() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun onRank() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_rank_button) }
     }
 
-    fun onClickColor() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun onColor() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_color_button) }
     }
 
-    fun onClickSave() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun onSave() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_save_button) }
 
         callback.apply {
@@ -65,20 +66,21 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
         }.fullAssert()
     }
 
-    fun onClickBind() = callback.throwOnWrongState(State.READ) {
+    fun onBind() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_bind_button) }
         with(callback.noteModel.noteEntity) { isStatus = !isStatus }
     }
 
-    fun onClickConvert() = callback.throwOnWrongState(State.READ) {
+    fun onConvert(func: ConvertDialogUi.() -> Unit = {}) = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_convert_button) }
+        ConvertDialogUi.invoke(func, callback.noteModel)
     }
 
-    fun onClickDelete() = callback.throwOnWrongState(State.READ) {
+    fun onDelete() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_delete_button) }
     }
 
-    fun onClickEdit() = callback.throwOnWrongState(State.READ) {
+    fun onEdit() = callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_edit_button) }
 
         callback.apply {
@@ -86,11 +88,6 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
             shadowModel = NoteModel(noteModel)
             inputControl.reset()
         }.fullAssert()
-    }
-
-    companion object {
-        operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) =
-                NotePanel(callback).apply(func)
     }
 
     class Assert(callback: INoteScreen) : BasicMatch() {
@@ -134,6 +131,11 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
                 }
             }
         }
+    }
+
+    companion object {
+        operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) =
+                NotePanel(callback).apply(func)
     }
 
 }

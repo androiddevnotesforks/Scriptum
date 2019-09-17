@@ -30,7 +30,7 @@ class NoteToolbarIconTest : ParentUiTest() {
                     createTextNote(it) {
                         waitAfter(TIME) {
                             onEnterText(data.textNote.text)
-                            controlPanel { onClickSave() }
+                            controlPanel { onSave() }
                         }
                     }
                 }
@@ -45,7 +45,7 @@ class NoteToolbarIconTest : ParentUiTest() {
                     createRollNote(it) {
                         waitAfter(TIME) {
                             enterPanel { onAddRoll(data.rollList.first().text) }
-                            controlPanel { onClickSave() }
+                            controlPanel { onSave() }
                         }
                     }
                 }
@@ -58,7 +58,7 @@ class NoteToolbarIconTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openTextNote(it) {
-                        waitAfter(TIME) { controlPanel { onClickRestoreOpen() } }
+                        waitAfter(TIME) { controlPanel { onRestoreOpen() } }
                     }
                 }
             }
@@ -70,7 +70,7 @@ class NoteToolbarIconTest : ParentUiTest() {
             mainScreen {
                 openBinPage {
                     openRollNote(it) {
-                        waitAfter(TIME) { controlPanel { onClickRestoreOpen() } }
+                        waitAfter(TIME) { controlPanel { onRestoreOpen() } }
                     }
                 }
             }
@@ -84,8 +84,8 @@ class NoteToolbarIconTest : ParentUiTest() {
                     openTextNote(it) {
                         controlPanel {
                             repeat(times = 3) {
-                                waitAfter(TIME) { onClickEdit() }
-                                waitAfter(TIME) { onClickSave() }
+                                waitAfter(TIME) { onEdit() }
+                                waitAfter(TIME) { onSave() }
                             }
                         }
                     }
@@ -101,8 +101,8 @@ class NoteToolbarIconTest : ParentUiTest() {
                     openRollNote(it) {
                         controlPanel {
                             repeat(times = 3) {
-                                waitAfter(TIME) { onClickEdit() }
-                                waitAfter(TIME) { onClickSave() }
+                                waitAfter(TIME) { onEdit() }
+                                waitAfter(TIME) { onSave() }
                             }
                         }
                     }
@@ -116,9 +116,9 @@ class NoteToolbarIconTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
-                        waitAfter(TIME) { controlPanel { onClickEdit() } }
+                        waitAfter(TIME) { controlPanel { onEdit() } }
                         waitAfter(TIME) { onPressBack() }
-                        waitAfter(TIME) { controlPanel { onClickEdit() } }
+                        waitAfter(TIME) { controlPanel { onEdit() } }
                         waitAfter(TIME) { toolbar { onClickBack() } }
                     }
                 }
@@ -131,9 +131,9 @@ class NoteToolbarIconTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openRollNote(it) {
-                        waitAfter(TIME) { controlPanel { onClickEdit() } }
+                        waitAfter(TIME) { controlPanel { onEdit() } }
                         waitAfter(TIME) { onPressBack() }
-                        waitAfter(TIME) { controlPanel { onClickEdit() } }
+                        waitAfter(TIME) { controlPanel { onEdit() } }
                         waitAfter(TIME) { toolbar { onClickBack() } }
                     }
                 }

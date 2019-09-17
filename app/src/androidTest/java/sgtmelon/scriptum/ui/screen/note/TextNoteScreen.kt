@@ -75,18 +75,9 @@ class TextNoteScreen(override var state: State,
         }
     }
 
-    companion object {
-        operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
-                            noteModel: NoteModel, isRankEmpty: Boolean = true) =
-                TextNoteScreen(state, noteModel, isRankEmpty).apply {
-                    fullAssert()
-                    func()
-                }
-    }
-
     class Assert(callback: INoteScreen) : BasicMatch() {
         init {
-            with(callback) {
+            callback.apply {
                 onDisplay(R.id.text_note_parent_container)
 
                 onDisplay(R.id.text_note_content_card)
@@ -117,6 +108,15 @@ class TextNoteScreen(override var state: State,
                 }
             }
         }
+    }
+
+    companion object {
+        operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
+                            noteModel: NoteModel, isRankEmpty: Boolean = true) =
+                TextNoteScreen(state, noteModel, isRankEmpty).apply {
+                    fullAssert()
+                    func()
+                }
     }
 
 }

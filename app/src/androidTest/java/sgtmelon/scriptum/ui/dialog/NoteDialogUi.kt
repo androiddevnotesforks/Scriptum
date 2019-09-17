@@ -11,7 +11,7 @@ import sgtmelon.scriptum.waitAfter
 import sgtmelon.scriptum.waitBefore
 
 /**
- * Класс для ui контроля диалога [MultipleDialog] при долгом нажатии на заметку
+ * Class for UI control of [MultipleDialog] when cause long click on note
  */
 class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
@@ -57,20 +57,9 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
     fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
 
-    companion object {
-        operator fun invoke(func: NoteDialogUi.() -> Unit, noteModel: NoteModel) =
-                NoteDialogUi(noteModel).apply {
-                    waitBefore(time = 100) {
-                        assert()
-                        func()
-                    }
-                }
-    }
-
-
     class Assert(noteModel: NoteModel) : BasicMatch() {
         init {
-            with(noteModel.noteEntity) {
+            noteModel.noteEntity.apply {
                 if (isBin) {
                     onDisplayText(R.string.dialog_menu_restore)
                     onDisplayText(R.string.dialog_menu_copy)
@@ -86,6 +75,16 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
                 }
             }
         }
+    }
+
+    companion object {
+        operator fun invoke(func: NoteDialogUi.() -> Unit, noteModel: NoteModel) =
+                NoteDialogUi(noteModel).apply {
+                    waitBefore(time = 100) {
+                        assert()
+                        func()
+                    }
+                }
     }
 
 }

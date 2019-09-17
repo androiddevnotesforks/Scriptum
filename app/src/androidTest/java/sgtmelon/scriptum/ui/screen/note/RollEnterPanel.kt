@@ -4,6 +4,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import kotlin.random.Random
 
 /**
  * Часть UI абстракции для [RollNoteScreen]
@@ -14,7 +15,12 @@ class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
 
     fun onAddRoll(text: String) = action {
         onEnter(R.id.roll_note_enter, text)
-        onClick(R.id.roll_note_add_button)
+
+        if (Random.nextBoolean()) {
+            onClick(R.id.roll_note_add_button)
+        } else {
+            onLongClick(R.id.roll_note_add_button)
+        }
     }
 
     companion object {

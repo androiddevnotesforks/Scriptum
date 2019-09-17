@@ -9,7 +9,7 @@ import sgtmelon.scriptum.waitAfter
 import sgtmelon.scriptum.waitBefore
 
 /**
- * Класс для ui контроля диалога [MessageDialog] при отчистке корзины
+ * Class for UI control of [MessageDialog] when clear bin
  */
 class ClearDialogUi : ParentUi() {
 
@@ -21,15 +21,6 @@ class ClearDialogUi : ParentUi() {
 
     fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_yes) } }
 
-    companion object {
-        operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
-            waitBefore(time = 100) {
-                assert()
-                func()
-            }
-        }
-    }
-
     class Assert : BasicMatch() {
         init {
             onDisplayText(R.string.dialog_title_clear_bin)
@@ -37,6 +28,15 @@ class ClearDialogUi : ParentUi() {
 
             onDisplayText(R.string.dialog_button_yes)
             onDisplayText(R.string.dialog_button_no)
+        }
+    }
+
+    companion object {
+        operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
+            waitBefore(time = 100) {
+                assert()
+                func()
+            }
         }
     }
 

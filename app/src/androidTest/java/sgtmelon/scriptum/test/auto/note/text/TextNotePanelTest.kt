@@ -18,7 +18,7 @@ class TextNotePanelTest : ParentUiTest() {
                         onEnterText(text = "")
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(text = "123")
-                        controlPanel { onClickSave() }
+                        controlPanel { onSave() }
                     }
                 }
             }
@@ -30,11 +30,11 @@ class TextNotePanelTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openTextNote(it) {
-                        controlPanel { onClickEdit() }
+                        controlPanel { onEdit() }
                         onEnterText(text = "")
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(text = "123")
-                        controlPanel { onClickSave() }
+                        controlPanel { onSave() }
                     }
                 }
             }

@@ -10,7 +10,7 @@ import sgtmelon.scriptum.waitAfter
 import sgtmelon.scriptum.waitBefore
 
 /**
- * Класс для ui контроля диалога [RenameDialog]
+ * Class for UI control of [RenameDialog]
  */
 class RenameDialogUi(private val title: String) : ParentUi() {
 
@@ -21,27 +21,13 @@ class RenameDialogUi(private val title: String) : ParentUi() {
         pressBack()
     }
 
-    fun onClickCancel() = waitAfter(time = 300) {
-        action { onClickText(R.string.dialog_button_cancel) }
-    }
+    fun onClickCancel() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_cancel) } }
 
-    fun onClickAccept() = waitAfter(time = 300) {
-        action { onClickText(R.string.dialog_button_accept) }
-    }
+    fun onClickAccept() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_accept) } }
 
     fun onEnterName(name: String, enabled: Boolean) {
         action { onEnter(R.id.rename_enter, name) }
         assert(name, enabled)
-    }
-
-    companion object {
-        operator fun invoke(func: RenameDialogUi.() -> Unit, title: String) =
-                RenameDialogUi(title).apply {
-                    waitBefore(time = 100) {
-                        assert()
-                        func()
-                    }
-                }
     }
 
     class Assert(title: String, enter: String, enabled: Boolean) : BasicMatch() {
@@ -60,6 +46,16 @@ class RenameDialogUi(private val title: String) : ParentUi() {
 
             isEnabledText(R.string.dialog_button_accept, enabled)
         }
+    }
+
+    companion object {
+        operator fun invoke(func: RenameDialogUi.() -> Unit, title: String) =
+                RenameDialogUi(title).apply {
+                    waitBefore(time = 100) {
+                        assert()
+                        func()
+                    }
+                }
     }
 
 }

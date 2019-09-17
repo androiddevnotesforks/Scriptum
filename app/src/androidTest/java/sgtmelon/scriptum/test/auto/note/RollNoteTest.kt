@@ -90,8 +90,9 @@ class RollNoteTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openRollNote(it) {
-                        controlPanel { onClickEdit() }
+                        controlPanel { onEdit() }
                         toolbar { onEnterName(data.uniqueString) }
+                        enterPanel { onAddRoll(data.uniqueString) }
                         onPressBack()
                     }
                 }
@@ -99,13 +100,19 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun cancelOnEdit() = data.createRoll().let {
+    @Test fun cancelOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
-                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openAddDialog { createRollNote(it) { onPressBack() } }
-                assert()
+                openNotesPage {
+                    openRollNote(it) {
+                        controlPanel { onEdit() }
+                        enterPanel { onAddRoll(data.uniqueString) }
+                        toolbar {
+                            onEnterName(data.uniqueString)
+                            onClickBack()
+                        }
+                    }
+                }
             }
         }
     }
@@ -120,7 +127,7 @@ class RollNoteTest : ParentUiTest() {
                 openNotesPage(empty = true)
 
                 openBinPage {
-                    openRollNote(it) { controlPanel { onClickRestore() } }
+                    openRollNote(it) { controlPanel { onRestore() } }
                     assert(empty = true)
                 }
 
@@ -136,7 +143,7 @@ class RollNoteTest : ParentUiTest() {
 
                 openBinPage {
                     openRollNote(it) {
-                        controlPanel { onClickRestoreOpen() }
+                        controlPanel { onRestoreOpen() }
                         onPressBack()
                     }
                     assert(empty = true)
@@ -153,7 +160,7 @@ class RollNoteTest : ParentUiTest() {
                 openNotesPage(empty = true)
 
                 openBinPage {
-                    openRollNote(it) { controlPanel { onClickClear() } }
+                    openRollNote(it) { controlPanel { onClear() } }
                     assert(empty = true)
                 }
 
@@ -176,7 +183,7 @@ class RollNoteTest : ParentUiTest() {
             mainScreen {
                 openNotesPage {
                     openRollNote(model) {
-                        controlPanel { onClickBind() }
+                        controlPanel { onBind() }
                         onPressBack()
                     }
 
@@ -186,7 +193,11 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnReadConvert() {}
+    @Test fun actionOnReadConvert() = data.insertRoll().let {
+        launch {
+            mainScreen { openNotesPage { openRollNote(it) { controlPanel { onConvert() } } } }
+        }
+    }
 
     @Test fun actionOnReadDelete() = data.insertRoll().let {
         launch {
@@ -194,7 +205,7 @@ class RollNoteTest : ParentUiTest() {
                 openBinPage(empty = true)
 
                 openNotesPage {
-                    openRollNote(it) { controlPanel { onClickDelete() } }
+                    openRollNote(it) { controlPanel { onDelete() } }
                     assert(empty = true)
                 }
 

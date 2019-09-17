@@ -14,7 +14,7 @@ import sgtmelon.scriptum.waitAfter
 import sgtmelon.scriptum.waitBefore
 
 /**
- * Класс для ui контроля диалога [SheetAddDialog]
+ * Class for UI control [SheetAddDialog]
  */
 class AddDialogUi : ParentUi() {
 
@@ -41,20 +41,20 @@ class AddDialogUi : ParentUi() {
 
     fun onCloseSwipe() = waitAfter(time = 300) { action { onSwipeDown(R.id.add_navigation) } }
 
+    class Assert : BasicMatch() {
+        init {
+            onDisplay(R.id.add_navigation)
+            onDisplayText(R.string.dialog_add_text)
+            onDisplayText(R.string.dialog_add_roll)
+        }
+    }
+
     companion object {
         operator fun invoke(func: AddDialogUi.() -> Unit) = AddDialogUi().apply {
             waitBefore(time = 100) {
                 assert()
                 func()
             }
-        }
-    }
-
-    class Assert : BasicMatch() {
-        init {
-            onDisplay(R.id.add_navigation)
-            onDisplayText(R.string.dialog_add_text)
-            onDisplayText(R.string.dialog_add_roll)
         }
     }
 
