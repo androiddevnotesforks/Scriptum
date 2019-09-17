@@ -17,6 +17,7 @@ import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
+import kotlin.random.Random
 
 /**
  * Class contains standard actions with UI elements
@@ -46,6 +47,7 @@ class BasicAction {
     fun onScroll(@IdRes recyclerId: Int, position: Int): ViewInteraction =
             onView(withId(recyclerId)).perform(scrollToPosition<RecyclerView.ViewHolder>(position))
 
+
     fun onSwipeLeft(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).perform(swipeLeft())
 
@@ -57,6 +59,14 @@ class BasicAction {
 
     fun onSwipeDown(@IdRes viewId: Int): ViewInteraction =
             onView(withId(viewId)).perform(swipeDown())
+
+
+    fun onSwipeItem(@IdRes recyclerId: Int, position: Int): ViewInteraction =
+            onView(withId(recyclerId))
+                    .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position,
+                            if (Random.nextBoolean()) swipeLeft() else swipeRight()
+                    ))
+
 
     fun onClickToolbarButton(): ViewInteraction = onView(toolbarButtonMatcher).perform(click())
 

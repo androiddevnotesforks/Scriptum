@@ -15,6 +15,8 @@ import sgtmelon.scriptum.waitAfter
 @RunWith(AndroidJUnit4::class)
 class NoteToolbarIconTest : ParentUiTest() {
 
+    // TODO Анимация из стрелки в крестик при автоматическом сохранении текста/списка
+
     @Test fun arrowBackOnCreateTextNote() = data.createText().let {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createTextNote(it) } } } }
     }
@@ -22,6 +24,7 @@ class NoteToolbarIconTest : ParentUiTest() {
     @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createRollNote(it) } } } }
     }
+
 
     @Test fun notAnimateOnSaveCreateTextNote() = data.createText().let {
         launch {
@@ -76,6 +79,7 @@ class NoteToolbarIconTest : ParentUiTest() {
             }
         }
     }
+
 
     @Test fun animateOnEditToSaveTextNote() = data.insertText().let {
         launch {
@@ -140,6 +144,7 @@ class NoteToolbarIconTest : ParentUiTest() {
             }
         }
     }
+
 
     private companion object {
         const val TIME = 500L

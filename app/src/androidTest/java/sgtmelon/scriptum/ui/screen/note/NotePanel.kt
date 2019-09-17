@@ -16,7 +16,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
     fun assert() = Assert(callback)
 
     /**
-     * Будет возврат на экран [BinScreen]
+     * Return user to [BinScreen]
      */
     fun onRestore() = callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_restore_button) }
@@ -28,7 +28,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
     }
 
     /**
-     * Будет возврат на экран [BinScreen]
+     * Return user to [BinScreen]
      */
     fun onClear() = callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_clear_button) }
@@ -92,7 +92,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
 
     class Assert(callback: INoteScreen) : BasicMatch() {
         init {
-            with(callback) {
+            callback.apply {
                 onDisplay(R.id.note_panel_container)
 
                 when (state) {

@@ -172,6 +172,7 @@ class TextNoteTest : ParentUiTest() {
     }
 
 
+    // TODO write test
     @Test fun actionOnReadNotification() {}
 
     @Test fun actionOnReadBind() = bindTestPrototype(isStatus = false)
@@ -216,7 +217,51 @@ class TextNoteTest : ParentUiTest() {
         }
     }
 
-    @Test fun actionOnReadEdit() {}
+    @Test fun actionOnReadEdit() = data.insertText().let {
+        launch { mainScreen { openNotesPage { openTextNote(it) { controlPanel { onEdit() } } } } }
+    }
+
+
+    // TODO write test
+    @Test fun actionOnEditUndoRedo() {}
+
+    // TODO write test
+    @Test fun actionOnEditRank() {}
+
+    // TODO write test
+    @Test fun actionOnEditColor() {}
+
+    @Test fun actionOnCreateSave() = data.createText().let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createTextNote(it) {
+                        toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString)
+                        onEnterText()
+                        onEnterText(data.uniqueString)
+                        controlPanel { onSave() }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun actionOnEditSave() = data.insertText().let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openTextNote(it) {
+                        controlPanel { onEdit() }
+                        onEnterText()
+                        toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString)
+                        controlPanel { onSave() }
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * Dialogs
@@ -238,5 +283,11 @@ class TextNoteTest : ParentUiTest() {
             }
         }
     }
+
+    // TODO add note to rank and check it hide
+    @Test fun rankDialogCloseAndWork() {}
+
+    // TODO write test
+    @Test fun colorDialogCloseAndWork() {}
 
 }

@@ -5,12 +5,14 @@ import sgtmelon.scriptum.waitBefore
 
 /**
  * Parent class for Rotation tests
+ *
+ * For rotate screen use: ctrl + left/rightArrow
  */
 abstract class ParentRotationTest : ParentUiTest() {
 
     protected fun onRotate(beforeFunc: () -> Unit, afterFunc: () -> Unit) {
-        testRule.activity?.runOnUiThread { context.showToast(TOAST_TEXT) }
-        waitBefore(TIME) { afterFunc() }
+        beforeFunc()
+        onRotate(afterFunc)
     }
 
     protected fun onRotate(afterFunc: () -> Unit) {
@@ -20,7 +22,7 @@ abstract class ParentRotationTest : ParentUiTest() {
 
     private companion object {
         const val TIME = 5000L
-        const val TOAST_TEXT = "Rotate now!"
+        const val TOAST_TEXT = "ROTATE NOW!!!"
     }
 
 }

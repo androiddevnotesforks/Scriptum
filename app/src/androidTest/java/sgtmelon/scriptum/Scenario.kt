@@ -1,10 +1,5 @@
 package sgtmelon.scriptum
 
-import sgtmelon.scriptum.test.control.NoteToolbarIconTest
-import sgtmelon.scriptum.test.control.rotation.RotationTest
-import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
-import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
-
 /**
  * Описание сценариев для UI тестов
  *
@@ -27,8 +22,6 @@ private class Scenario {
          * Тесты с нагрузкой
          * Тесты для автоматического сохранения (отдельный класс)
          */
-
-        // TODO - Вынести control тесты из auto
 
         /**
          * TODO Сценарий - При нажатии на кнопку отмены тулбара, после автоматического сохранения, заметка закрывалась, а не переходила в режим просмотра
@@ -70,60 +63,6 @@ private class Scenario {
          * TODO
          */
         class Preference
-
-    }
-
-    /**
-     * Сценарии для тестов требующих контроля тестировщика
-     */
-    class Control {
-
-        /**
-         * Сценарии для [NoteToolbarIconTest]
-         */
-        class NoteToolbarIcon {
-
-            /**
-             * TODO - Анимация из стрелки в крестик при автоматическом сохранении текста/списка
-             */
-
-        }
-
-        /**
-         * Сценарии для [RotationTest]
-         */
-        class Rotation {
-
-
-            // TODO --------------------------------------------------------------------------------
-
-            /**
-             * Страница [TextNoteScreen] - TODO
-             */
-
-            /**
-             * Страница [RollNoteScreen] - TODO
-             */
-
-            /**
-             * TODO
-             * После конвертирования
-             * # Из текста в список
-             * # Из списка в текст
-             */
-
-        }
-
-        /**
-         * Сценарии для [BindNoteText]
-         */
-        class BindNote {
-
-            // TODO проверка обновления ui при откреплении заметки через шторку
-            // NotesScreen
-            // Text/RollNoteScreen
-
-        }
 
     }
 

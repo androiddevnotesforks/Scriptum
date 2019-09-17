@@ -35,7 +35,7 @@ class TextNoteScreen(override var state: State,
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
-    fun onEnterText(text: String) {
+    fun onEnterText(text: String = "") {
         action { onEnter(R.id.text_note_content_enter, text) }
 
         if (text.isEmpty()) {
