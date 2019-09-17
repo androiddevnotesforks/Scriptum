@@ -43,19 +43,17 @@ class NotesInteractor(context: Context, private var callback: INotesBridge?) :
     override fun convert(noteModel: NoteModel): NoteModel {
         when (noteModel.noteEntity.type) {
             NoteType.TEXT -> iRoomRepo.convertToRoll(noteModel)
-            NoteType.ROLL -> {
-                iRoomRepo.convertToText(noteModel)
-
-                /**
-                 * Optimisation for get only first 4 items
-                 */
-                if (noteModel.rollList.size > 4) {
-                    noteModel.rollList.dropLast(n = noteModel.rollList.size - 4)
-                }
-            }
+            NoteType.ROLL -> iRoomRepo.convertToText(noteModel)
         }
 
         callback?.notifyBind(noteModel, iRoomRepo.getRankIdVisibleList())
+
+        /**
+         * Optimisation for get only first 4 items
+         */
+        if (noteModel.rollList.size > 4) {
+            noteModel.rollList.dropLast(n = noteModel.rollList.size - 4)
+        }
 
         return noteModel
     }
