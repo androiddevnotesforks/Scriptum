@@ -72,7 +72,7 @@ class TextNoteTest : ParentUiTest() {
 
     //endregion
 
-    //region Close
+    //region ToolbarArrow / BackPress
 
     @Test fun closeOnBin()  = data.insertTextToBin().let {
         launch {
@@ -103,6 +103,50 @@ class TextNoteTest : ParentUiTest() {
                 assert()
                 openNotesPage { openTextNote(it) { onPressBack() } }
                 assert()
+            }
+        }
+    }
+
+    @Test fun saveOnCreate() = data.createText().let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createTextNote(it) {
+                        toolbar { onEnterName(data.uniqueString) }
+                        onEnterText(data.uniqueString)
+                        onPressBack()
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun saveOnEdit() = data.insertText().let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openTextNote(it) {
+                        controlPanel { onClickEdit() }
+                        toolbar { onEnterName(data.uniqueString) }
+                        onPressBack()
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun cancelOnEdit() = data.insertText().let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openTextNote(it) {
+                        controlPanel { onClickEdit() }
+                        toolbar {
+                            onEnterName(data.uniqueString)
+                            onClickBack()
+                        }
+                    }
+                }
             }
         }
     }

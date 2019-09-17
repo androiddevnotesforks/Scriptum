@@ -29,6 +29,8 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
+
+
     private fun saveByControlOnCreate() = data.createText().let {
         launch {
             mainScreen {
@@ -43,20 +45,6 @@ class TextNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    private fun saveByBackPressOnCreate() = data.createText().let {
-        launch {
-            mainScreen {
-                openAddDialog {
-                    createTextNote(it) {
-                        toolbar { onEnterName(data.uniqueString) }
-                        onEnterText(data.uniqueString)
-                        onPressBack()
-                    }
-                }
-            }
-        }
-    }
-
     private fun saveByControlOnEdit() = data.insertText().let {
         launch {
             mainScreen {
@@ -65,37 +53,6 @@ class TextNoteToolbarTest : ParentUiTest() {
                         controlPanel { onClickEdit() }
                         toolbar { onEnterName(data.uniqueString) }
                         controlPanel { onClickSave() }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun saveByBackPressOnEdit() = data.insertText().let {
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openTextNote(it) {
-                        controlPanel { onClickEdit() }
-                        toolbar { onEnterName(data.uniqueString) }
-                        onPressBack()
-                    }
-                }
-            }
-        }
-    }
-
-
-    private fun cancelOnEditByToolbar() = data.insertText().let {
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openTextNote(it) {
-                        controlPanel { onClickEdit() }
-                        toolbar {
-                            onEnterName(data.uniqueString)
-                            onClickBack()
-                        }
                     }
                 }
             }

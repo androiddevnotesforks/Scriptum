@@ -42,20 +42,6 @@ class RollNoteToolbarTest : ParentUiTest() {
         }
     }
 
-    private fun saveByBackPressOnCreate() = data.createRoll().let {
-        launch {
-            mainScreen {
-                openAddDialog {
-                    createRollNote(it) {
-                        toolbar { onEnterName(data.uniqueString) }
-                        enterPanel { onAddRoll(data.uniqueString) }
-                        onPressBack()
-                    }
-                }
-            }
-        }
-    }
-
     private fun saveByControlOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
@@ -66,32 +52,6 @@ class RollNoteToolbarTest : ParentUiTest() {
                         controlPanel { onClickSave() }
                     }
                 }
-            }
-        }
-    }
-
-    private fun saveByBackPressOnEdit() = data.insertRoll().let {
-        launch {
-            mainScreen {
-                openNotesPage {
-                    openRollNote(it) {
-                        controlPanel { onClickEdit() }
-                        toolbar { onEnterName(data.uniqueString) }
-                        onPressBack()
-                    }
-                }
-            }
-        }
-    }
-
-
-    private fun cancelOnEdit() = data.createRoll().let {
-        launch {
-            mainScreen {
-                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openAddDialog { createRollNote(it) { onPressBack() } }
-                assert()
             }
         }
     }

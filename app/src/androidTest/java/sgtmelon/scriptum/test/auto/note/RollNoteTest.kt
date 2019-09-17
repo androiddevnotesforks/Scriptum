@@ -72,7 +72,7 @@ class RollNoteTest : ParentUiTest() {
 
     //endregion
 
-    //region Close
+    //region ToolbarArrow / BackPress
 
     @Test fun closeOnBin()  = data.insertRollToBin().let {
         launch {
@@ -102,6 +102,45 @@ class RollNoteTest : ParentUiTest() {
                 openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
                 assert()
                 openNotesPage { openRollNote(it) { onPressBack() } }
+                assert()
+            }
+        }
+    }
+
+    @Test fun saveOnCreate() = data.createRoll().let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createRollNote(it) {
+                        toolbar { onEnterName(data.uniqueString) }
+                        enterPanel { onAddRoll(data.uniqueString) }
+                        onPressBack()
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun saveOnEdit() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                openNotesPage {
+                    openRollNote(it) {
+                        controlPanel { onClickEdit() }
+                        toolbar { onEnterName(data.uniqueString) }
+                        onPressBack()
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun cancelOnEdit() = data.createRoll().let {
+        launch {
+            mainScreen {
+                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
+                assert()
+                openAddDialog { createRollNote(it) { onPressBack() } }
                 assert()
             }
         }
