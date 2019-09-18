@@ -43,7 +43,7 @@ class RenameDialogUi(private val title: String) : ParentDialogUi() {
 
     companion object {
         operator fun invoke(func: RenameDialogUi.() -> Unit, title: String) =
-                RenameDialogUi(title).apply(func).apply { waitOpen { assert() } }
+                RenameDialogUi(title).apply { waitOpen { assert() } }.apply(func)
     }
 
 }

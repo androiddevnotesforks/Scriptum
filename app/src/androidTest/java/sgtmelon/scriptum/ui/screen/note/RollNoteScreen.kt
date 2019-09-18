@@ -10,7 +10,7 @@ import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.waitBefore
+import sgtmelon.scriptum.waitAfter
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment]
@@ -41,10 +41,11 @@ class RollNoteScreen(
 
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
-    fun onSwipeAll() = (0 until count).forEach { onSwipe(it) }
+    fun onSwipeAll() = repeat(times = count) { onSwipe() }
 
-    fun onSwipe(p: Int = positionRandom) = waitBefore(time = 150) {
-        action { onSwipeItem(recyclerId, p) }
+    fun onSwipe(p: Int = positionRandom) {
+        waitAfter(time = 150) { action { onSwipeItem(recyclerId, p) } }
+        assert()
     }
 
     fun onPressBack() {

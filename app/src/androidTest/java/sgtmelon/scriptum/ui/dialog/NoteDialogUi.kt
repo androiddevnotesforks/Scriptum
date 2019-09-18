@@ -76,7 +76,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
 
     companion object {
         operator fun invoke(func: NoteDialogUi.() -> Unit, noteModel: NoteModel) =
-                NoteDialogUi(noteModel).apply(func).apply { waitOpen { assert() } }
+                NoteDialogUi(noteModel).apply { waitOpen { assert() } }.apply(func)
     }
 
 }

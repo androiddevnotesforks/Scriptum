@@ -7,7 +7,6 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.ui.ParentDialogUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.waitAfter
 
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert
@@ -17,9 +16,10 @@ class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
     fun assert() = Assert(noteModel)
 
 
-    fun onClickNo() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_no) } }
+    fun onClickNo() = waitClose { action { onClickText(R.string.dialog_button_no) } }
 
-    fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_yes) } }
+    // TODO add callback for getting result in [NotePanel]
+    fun onClickYes() = waitClose { action { onClickText(R.string.dialog_button_yes) } }
 
 
     class Assert(noteModel: NoteModel) : BasicMatch() {
@@ -38,10 +38,7 @@ class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
 
     companion object {
         operator fun invoke(func: ConvertDialogUi.() -> Unit, noteModel: NoteModel) =
-                ConvertDialogUi(noteModel).apply {
-                    func()
-                    waitOpen { assert() }
-                }
+                ConvertDialogUi(noteModel).apply { waitOpen { assert() } }.apply(func)
     }
 
 }

@@ -48,7 +48,7 @@ class AddDialogUi : ParentDialogUi() {
 
     companion object {
         operator fun invoke(func: AddDialogUi.() -> Unit) =
-                AddDialogUi().apply(func).apply { waitOpen { assert() } }
+                AddDialogUi().apply { waitOpen { assert() } }.apply(func)
     }
 
 }
