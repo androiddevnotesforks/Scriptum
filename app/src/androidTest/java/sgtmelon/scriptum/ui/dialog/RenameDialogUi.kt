@@ -8,14 +8,12 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 /**
  * Class for UI control of [RenameDialog]
  */
-class RenameDialogUi(private val title: String) : ParentDialogUi<RenameDialogUi.Assert>() {
+class RenameDialogUi(private val title: String) : ParentDialogUi() {
 
-    override fun assert() = Assert(title, enter = "", enabled = false)
-
-    fun assert(enter: String, enabled: Boolean) = Assert(title, enter, enabled)
+    fun assert(enter: String = "", enabled: Boolean = false) = Assert(title, enter, enabled)
 
 
-    fun onReame(name: String, enabled: Boolean) = apply {
+    fun onRename(name: String, enabled: Boolean) = apply {
         action { onEnter(R.id.rename_enter, name) }
         assert(name, enabled)
     }
@@ -45,7 +43,7 @@ class RenameDialogUi(private val title: String) : ParentDialogUi<RenameDialogUi.
 
     companion object {
         operator fun invoke(func: RenameDialogUi.() -> Unit, title: String) =
-                RenameDialogUi(title).apply(func)
+                RenameDialogUi(title).apply(func).apply { waitOpen { assert() } }
     }
 
 }

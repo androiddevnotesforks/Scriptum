@@ -8,9 +8,10 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 /**
  * Class for UI control of [MessageDialog] when clear bin
  */
-class ClearDialogUi : ParentDialogUi<ClearDialogUi.Assert>() {
+class ClearDialogUi : ParentDialogUi() {
 
-    override fun assert() = Assert()
+    fun assert() = Assert()
+
 
     fun onClickNo() = waitClose { action { onClickText(R.string.dialog_button_no) } }
 
@@ -29,6 +30,7 @@ class ClearDialogUi : ParentDialogUi<ClearDialogUi.Assert>() {
 
     companion object {
         operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply(func)
+                .apply { waitOpen { assert() } }
     }
 
 }

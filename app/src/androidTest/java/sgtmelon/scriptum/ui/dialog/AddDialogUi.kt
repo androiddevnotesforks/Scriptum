@@ -13,9 +13,10 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control [SheetAddDialog]
  */
-class AddDialogUi : ParentDialogUi<AddDialogUi.Assert>() {
+class AddDialogUi : ParentDialogUi() {
 
-    override fun assert() = Assert()
+    fun assert() = Assert()
+
 
     fun createTextNote(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(NoteType.TEXT)
@@ -46,7 +47,8 @@ class AddDialogUi : ParentDialogUi<AddDialogUi.Assert>() {
     }
 
     companion object {
-        operator fun invoke(func: AddDialogUi.() -> Unit) = AddDialogUi().apply(func)
+        operator fun invoke(func: AddDialogUi.() -> Unit) =
+                AddDialogUi().apply(func).apply { waitOpen { assert() } }
     }
 
 }

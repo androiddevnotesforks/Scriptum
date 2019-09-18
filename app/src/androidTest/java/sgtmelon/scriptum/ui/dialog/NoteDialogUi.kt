@@ -10,9 +10,9 @@ import sgtmelon.scriptum.ui.basic.BasicMatch
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note
  */
-class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi<NoteDialogUi.Assert>() {
+class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
 
-    override fun assert() = Assert(noteModel)
+    fun assert() = Assert(noteModel)
 
 
     fun onClickBind() = waitClose {
@@ -76,7 +76,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi<NoteDialog
 
     companion object {
         operator fun invoke(func: NoteDialogUi.() -> Unit, noteModel: NoteModel) =
-                NoteDialogUi(noteModel).apply(func)
+                NoteDialogUi(noteModel).apply(func).apply { waitOpen { assert() } }
     }
 
 }

@@ -12,9 +12,9 @@ import sgtmelon.scriptum.waitAfter
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert
  */
-class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi<ConvertDialogUi.Assert>() {
+class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
 
-    override fun assert() = Assert(noteModel)
+    fun assert() = Assert(noteModel)
 
 
     fun onClickNo() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_no) } }
@@ -38,7 +38,10 @@ class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi<Convert
 
     companion object {
         operator fun invoke(func: ConvertDialogUi.() -> Unit, noteModel: NoteModel) =
-                ConvertDialogUi(noteModel).apply(func)
+                ConvertDialogUi(noteModel).apply {
+                    func()
+                    waitOpen { assert() }
+                }
     }
 
 }
