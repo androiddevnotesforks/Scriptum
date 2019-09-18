@@ -1,34 +1,28 @@
 package sgtmelon.scriptum.ui.dialog
 
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.dialog.RenameDialog
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.ParentDialogUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.waitAfter
-import sgtmelon.scriptum.waitBefore
 
 /**
  * Class for UI control of [RenameDialog]
  */
-class RenameDialogUi(private val title: String) : ParentUi() {
+class RenameDialogUi(private val title: String) : ParentDialogUi<RenameDialogUi.Assert>() {
 
-    fun assert(enter: String = "", enabled: Boolean = false) = Assert(title, enter, enabled)
+    override fun assert() = Assert(title, enter = "", enabled = false)
 
-    fun onCloseSoft() = waitAfter(time = 300) {
-        closeSoftKeyboard()
-        pressBack()
-    }
+    fun assert(enter: String, enabled: Boolean) = Assert(title, enter, enabled)
 
-    fun onClickCancel() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_cancel) } }
 
-    fun onClickAccept() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_accept) } }
-
-    fun onEnterName(name: String, enabled: Boolean) {
+    fun onReame(name: String, enabled: Boolean) = apply {
         action { onEnter(R.id.rename_enter, name) }
         assert(name, enabled)
     }
+
+    fun onClickCancel() = waitClose { action { onClickText(R.string.dialog_button_cancel) } }
+
+    fun onClickAccept() = waitClose { action { onClickText(R.string.dialog_button_accept) } }
 
 
     class Assert(title: String, enter: String, enabled: Boolean) : BasicMatch() {
@@ -42,8 +36,8 @@ class RenameDialogUi(private val title: String) : ParentUi() {
                 onDisplayHint(R.id.rename_enter, R.string.hint_enter_rank_rename)
             }
 
-            onDisplayText(R.string.dialog_button_accept)
             onDisplayText(R.string.dialog_button_cancel)
+            onDisplayText(R.string.dialog_button_accept)
 
             isEnabledText(R.string.dialog_button_accept, enabled)
         }
@@ -51,12 +45,7 @@ class RenameDialogUi(private val title: String) : ParentUi() {
 
     companion object {
         operator fun invoke(func: RenameDialogUi.() -> Unit, title: String) =
-                RenameDialogUi(title).apply {
-                    waitBefore(time = 100) {
-                        assert()
-                        func()
-                    }
-                }
+                RenameDialogUi(title).apply(func)
     }
 
 }

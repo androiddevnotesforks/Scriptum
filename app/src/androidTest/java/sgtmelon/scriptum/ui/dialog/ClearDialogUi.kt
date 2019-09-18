@@ -1,25 +1,20 @@
 package sgtmelon.scriptum.ui.dialog
 
-import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.safedialog.MessageDialog
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.ParentDialogUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.waitAfter
-import sgtmelon.scriptum.waitBefore
 
 /**
  * Class for UI control of [MessageDialog] when clear bin
  */
-class ClearDialogUi : ParentUi() {
+class ClearDialogUi : ParentDialogUi<ClearDialogUi.Assert>() {
 
-    fun assert() = Assert()
+    override fun assert() = Assert()
 
-    fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
+    fun onClickNo() = waitClose { action { onClickText(R.string.dialog_button_no) } }
 
-    fun onClickNo() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_no) } }
-
-    fun onClickYes() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_yes) } }
+    fun onClickYes() = waitClose { action { onClickText(R.string.dialog_button_yes) } }
 
 
     class Assert : BasicMatch() {
@@ -33,12 +28,7 @@ class ClearDialogUi : ParentUi() {
     }
 
     companion object {
-        operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply {
-            waitBefore(time = 100) {
-                assert()
-                func()
-            }
-        }
+        operator fun invoke(func: ClearDialogUi.() -> Unit) = ClearDialogUi().apply(func)
     }
 
 }

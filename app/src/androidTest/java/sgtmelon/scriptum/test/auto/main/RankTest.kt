@@ -184,7 +184,7 @@ class RankTest : ParentUiTest() {
     @Test fun renameDialogApplySameName() = data.insertRank().let {
         launch {
             mainScreen {
-                openRankPage { openRenameDialog(it.name) { onEnterName(it.name, enabled = false) } }
+                openRankPage { openRenameDialog(it.name) { onReame(it.name, enabled = false) } }
             }
         }
     }
@@ -193,7 +193,7 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(it[0].name, p = 0) { onEnterName(it[1].name, enabled = false) }
+                    openRenameDialog(it[0].name, p = 0) { onReame(it[1].name, enabled = false) }
                 }
             }
         }
@@ -203,9 +203,7 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(it.name) {
-                        onEnterName(it.name.toUpperCase(), enabled = true)
-                    }
+                    openRenameDialog(it.name) { onReame(it.name.toUpperCase(), enabled = true) }
                 }
             }
         }
@@ -217,11 +215,7 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(it.name) {
-                        onEnterName(newName, enabled = true)
-                        onClickAccept()
-                    }
-
+                    openRenameDialog(it.name) { onReame(newName, enabled = true).onClickAccept() }
                     openRenameDialog(newName)
                 }
             }

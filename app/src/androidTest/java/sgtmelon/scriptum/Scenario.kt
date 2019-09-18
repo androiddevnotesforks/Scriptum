@@ -13,6 +13,8 @@ package sgtmelon.scriptum
 @Suppress("unused")
 private class Scenario {
 
+    // TODO проверка установки стартового цвета
+
     class TODO {
 
         /**

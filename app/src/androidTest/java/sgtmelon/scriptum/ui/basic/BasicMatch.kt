@@ -60,6 +60,7 @@ abstract class BasicMatch {
             onView(allOf(withId(viewId), withText(string))).check(matches(isDisplayed()))
 
     protected fun onDisplayHint(@IdRes viewId: Int, @StringRes stringId: Int): ViewInteraction =
-            onView(allOf(withId(viewId), withHint(stringId), withText(""))).check(matches(isDisplayed()))
+            onView(allOf(withId(viewId), withHint(stringId), withText("")))
+                    .check(matches(isDisplayed()))
 
 }

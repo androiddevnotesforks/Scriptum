@@ -5,13 +5,14 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
  */
-class NotePanel(private val callback: INoteScreen) : ParentUi() {
+class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.Callback {
 
     fun assert() = Assert(callback)
 
@@ -22,10 +23,10 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
         action { onClick(R.id.note_panel_restore_button) }
     }
 
-    fun onRestoreOpen() = callback.throwOnWrongState(State.BIN) {
+    fun onRestoreOpen() = apply { callback.throwOnWrongState(State.BIN) {
         action { onClick(R.id.note_panel_restore_open_button) }
         callback.apply { state = State.READ }.fullAssert()
-    }
+    } }
 
     /**
      * Return user to [BinScreen]
@@ -34,29 +35,39 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
         action { onClick(R.id.note_panel_clear_button) }
     }
 
-    fun onUndo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
-        action { onClick(R.id.note_panel_undo_button) }
-        callback.apply {
-            //            shadowModel = inputControl.undo()
-        }.fullAssert()
+    fun onUndo() = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            action { onClick(R.id.note_panel_undo_button) }
+            callback.apply {
+                //            shadowModel = inputControl.undo()
+            }.fullAssert()
+        }
     }
 
-    fun onRedo() = callback.throwOnWrongState(State.EDIT, State.NEW) {
-        action { onClick(R.id.note_panel_redo_button) }
-        callback.apply {
-            //            shadowModel = inputControl.redo()
-        }.fullAssert()
+    fun onRedo() = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            action { onClick(R.id.note_panel_redo_button) }
+            callback.apply {
+                //            shadowModel = inputControl.redo()
+            }.fullAssert()
+        }
     }
 
     fun onRank() = callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_rank_button) }
     }
 
-    fun onColor() = callback.throwOnWrongState(State.EDIT, State.NEW) {
-        action { onClick(R.id.note_panel_color_button) }
+    fun onColor(func: ColorDialogUi.() -> Unit = {}) {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            action { onClick(R.id.note_panel_color_button) }
+
+            val check = callback.noteModel.noteEntity.color
+            ColorDialogUi.invoke(func, ColorDialogUi.Place.NOTE, check, callback = this)
+        }
     }
 
-    fun onSave() = callback.throwOnWrongState(State.EDIT, State.NEW) {
+    fun onSave() = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
         action { onClick(R.id.note_panel_save_button) }
 
         callback.apply {
@@ -64,11 +75,14 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
             noteModel = NoteModel(shadowModel)
             inputControl.reset()
         }.fullAssert()
+        }
     }
 
-    fun onBind() = callback.throwOnWrongState(State.READ) {
+    fun onBind() = apply {
+        callback.throwOnWrongState(State.READ) {
         action { onClick(R.id.note_panel_bind_button) }
         with(callback.noteModel.noteEntity) { isStatus = !isStatus }
+        }
     }
 
     fun onConvert(func: ConvertDialogUi.() -> Unit = {}) = callback.throwOnWrongState(State.READ) {
@@ -80,15 +94,22 @@ class NotePanel(private val callback: INoteScreen) : ParentUi() {
         action { onClick(R.id.note_panel_delete_button) }
     }
 
-    fun onEdit() = callback.throwOnWrongState(State.READ) {
-        action { onClick(R.id.note_panel_edit_button) }
+    fun onEdit() = apply {
+        callback.throwOnWrongState(State.READ) {
+            action { onClick(R.id.note_panel_edit_button) }
 
-        callback.apply {
-            state = State.EDIT
-            shadowModel = NoteModel(noteModel)
-            inputControl.reset()
-        }.fullAssert()
+            callback.apply {
+                state = State.EDIT
+                shadowModel = NoteModel(noteModel)
+                inputControl.reset()
+            }.fullAssert()
+        }
     }
+
+    override fun onDialogResult(check: Int) = callback.apply {
+        inputControl.onColorChange(shadowModel.noteEntity.color, check)
+        shadowModel.noteEntity.color = check
+    }.fullAssert()
 
 
     class Assert(callback: INoteScreen) : BasicMatch() {

@@ -33,14 +33,10 @@ class ColorDialog : BlankDialog() {
 
         val context = context as Context
 
-        val adapter = ColorAdapter(context, ItemListener.Click { _, p ->
-            check = p
-            setEnable()
-        })
-        adapter.setCheck(check)
-
         val padding = 24
         val recyclerView = RecyclerView(context).apply {
+            id = R.id.color_recycler_view
+
             setPadding(padding, padding, padding, padding)
             overScrollMode = View.OVER_SCROLL_NEVER
 
@@ -48,9 +44,12 @@ class ColorDialog : BlankDialog() {
             layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.column_color))
 
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
-        }
 
-        recyclerView.adapter = adapter
+            adapter = ColorAdapter(context, ItemListener.Click { _, p ->
+                check = p
+                setEnable()
+            }).setCheck(check)
+        }
 
         return AlertDialog.Builder(context)
                 .setTitle(title)

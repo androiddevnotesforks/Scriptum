@@ -1,24 +1,21 @@
 package sgtmelon.scriptum.ui.dialog
 
-import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.safedialog.MessageDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.ParentDialogUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
 import sgtmelon.scriptum.waitAfter
-import sgtmelon.scriptum.waitBefore
 
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert
  */
-class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi() {
+class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi<ConvertDialogUi.Assert>() {
 
-    fun assert() = Assert(noteModel)
+    override fun assert() = Assert(noteModel)
 
-    fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
 
     fun onClickNo() = waitAfter(time = 300) { action { onClickText(R.string.dialog_button_no) } }
 
@@ -41,12 +38,7 @@ class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
     companion object {
         operator fun invoke(func: ConvertDialogUi.() -> Unit, noteModel: NoteModel) =
-                ConvertDialogUi(noteModel).apply {
-                    waitBefore(time = 100) {
-                        assert()
-                        func()
-                    }
-                }
+                ConvertDialogUi(noteModel).apply(func)
     }
 
 }

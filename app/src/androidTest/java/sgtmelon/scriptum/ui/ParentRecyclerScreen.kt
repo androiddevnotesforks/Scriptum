@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui
 
+import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.ui.basic.BasicValue
@@ -8,11 +9,9 @@ import sgtmelon.scriptum.waitAfter
 /**
  * Parent class for screens which contains [RecyclerView]
  */
-abstract class ParentRecyclerScreen(protected val recyclerId: Int) : ParentUi() {
+abstract class ParentRecyclerScreen(@IdRes protected val recyclerId: Int) : ParentUi() {
 
-    private val value: BasicValue = BasicValue()
-
-    val count: Int get() = value.getCount(recyclerId)
+    val count: Int get() = BasicValue().getCount(recyclerId)
 
     protected val positionRandom: Int get() = (0 until count).random()
 

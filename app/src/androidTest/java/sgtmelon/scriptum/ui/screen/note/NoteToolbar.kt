@@ -47,9 +47,10 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
 
     // TODO #TEST (focus on title check)
+    // TODO assert color (set contentDescription may be, or tag)
     class Assert(callback: INoteScreen) : BasicMatch() {
         init {
-            with(callback) {
+            callback.apply {
                 onDisplay(R.id.toolbar_note_container)
                 onDisplay(R.id.toolbar_note_scroll)
 

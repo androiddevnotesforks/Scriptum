@@ -228,8 +228,19 @@ class TextNoteTest : ParentUiTest() {
     // TODO write test
     @Test fun actionOnEditRank() {}
 
-    // TODO write test
-    @Test fun actionOnEditColor() {}
+    @Test fun actionOnCreateColor() = data.createText().let {
+        launch {
+            mainScreen { openAddDialog { createTextNote(it) { controlPanel { onColor() } } } }
+        }
+    }
+
+    @Test fun actionOnEditColor() = data.insertText().let {
+        launch {
+            mainScreen {
+                openNotesPage { openTextNote(it) { controlPanel { onEdit().onColor() } } }
+            }
+        }
+    }
 
     @Test fun actionOnCreateSave() = data.createText().let {
         launch {
@@ -287,7 +298,22 @@ class TextNoteTest : ParentUiTest() {
     // TODO add note to rank and check it hide
     @Test fun rankDialogCloseAndWork() {}
 
-    // TODO write test
-    @Test fun colorDialogCloseAndWork() {}
+    @Test fun colorDialogCloseAndWork() = data.createText().let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createTextNote(it) {
+                        controlPanel { onColor { onCloseSoft() } }
+                        assert()
+                        controlPanel { onColor { onClickCancel() } }
+                        assert()
+                        controlPanel {
+                            onColor { onClickEveryItem().onClickItem().onClickAccept() }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }

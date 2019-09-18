@@ -28,7 +28,7 @@ class ColorAdapter(context: Context, private val clickListener: ItemListener.Cli
         visibleArray = BooleanArray(itemCount)
     }
 
-    fun setCheck(check: Int) {
+    fun setCheck(check: Int) = apply {
         this.check = check
 
         visibleArray.fill(element = false)

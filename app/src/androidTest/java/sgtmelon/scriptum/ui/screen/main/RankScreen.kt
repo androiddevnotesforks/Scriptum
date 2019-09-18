@@ -43,6 +43,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             rankAction { onClick(rankEntity.name, R.id.rank_cancel_button) }
 
 
+    // TODO replace with recyclerAction
     class RankAction {
 
         fun onClick(name: String, @IdRes childId: Int): ViewInteraction =

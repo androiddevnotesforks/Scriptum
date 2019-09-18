@@ -1,33 +1,31 @@
 package sgtmelon.scriptum.ui.dialog
 
-import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.safedialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.ParentDialogUi
 import sgtmelon.scriptum.ui.basic.BasicMatch
-import sgtmelon.scriptum.waitAfter
-import sgtmelon.scriptum.waitBefore
 
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note
  */
-class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
+class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi<NoteDialogUi.Assert>() {
 
-    fun assert() = Assert(noteModel)
+    override fun assert() = Assert(noteModel)
 
-    fun onClickBind() = waitAfter(time = 300) {
+
+    fun onClickBind() = waitClose {
         action { onClickText(R.string.dialog_menu_status_bind) }
         noteModel.noteEntity.isStatus = true
     }
 
-    fun onClickUnbind() = waitAfter(time = 300) {
+    fun onClickUnbind() = waitClose {
         action { onClickText(R.string.dialog_menu_status_unbind) }
         noteModel.noteEntity.isStatus = false
     }
 
-    fun onClickConvert() = waitAfter(time = 300) {
+    fun onClickConvert() = waitClose {
         when (noteModel.noteEntity.type) {
             NoteType.TEXT -> {
                 action { onClickText(R.string.dialog_menu_convert_to_roll) }
@@ -40,7 +38,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
         }
     }
 
-    fun onClickDelete() = waitAfter(time = 300) {
+    fun onClickDelete() = waitClose {
         action { onClickText(R.string.dialog_menu_delete) }
         noteModel.noteEntity.apply {
             isBin = true
@@ -48,14 +46,12 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
         }
     }
 
-    fun onClickRestore() = waitAfter(time = 300) {
+    fun onClickRestore() = waitClose {
         action { onClickText(R.string.dialog_menu_restore) }
         noteModel.noteEntity.isBin = false
     }
 
-    fun onClickClear() = waitAfter(time = 300) { action { onClickText(R.string.dialog_menu_clear) } }
-
-    fun onCloseSoft() = waitAfter(time = 300) { pressBack() }
+    fun onClickClear() = waitClose { action { onClickText(R.string.dialog_menu_clear) } }
 
 
     class Assert(noteModel: NoteModel) : BasicMatch() {
@@ -80,12 +76,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi() {
 
     companion object {
         operator fun invoke(func: NoteDialogUi.() -> Unit, noteModel: NoteModel) =
-                NoteDialogUi(noteModel).apply {
-                    waitBefore(time = 100) {
-                        assert()
-                        func()
-                    }
-                }
+                NoteDialogUi(noteModel).apply(func)
     }
 
 }
