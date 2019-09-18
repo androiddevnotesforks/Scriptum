@@ -12,6 +12,10 @@ import sgtmelon.scriptum.test.ParentRotationTest
 @RunWith(AndroidJUnit4::class)
 class RotationRollNoteTest : ParentRotationTest() {
 
+    /**
+     * Content
+     */
+
     @Test fun contentOnBin() = data.insertRollToBin().let {
         launch { mainScreen { openBinPage { openRollNote(it) { onRotate { assert() } } } } }
     }
@@ -35,7 +39,7 @@ class RotationRollNoteTest : ParentRotationTest() {
     }
 
     /**
-     * Convert dialog
+     * Dialogs
      */
 
     @Test fun convertDialog() = data.insertRoll().let {
@@ -56,6 +60,23 @@ class RotationRollNoteTest : ParentRotationTest() {
                         controlPanel { onConvert { onClickYes() } }
                         onRotate {
                             // TODO end assert
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun colorDialog() = data.createRoll().let {
+        launch {
+            mainScreen {
+                openAddDialog {
+                    createRollNote(it) {
+                        controlPanel {
+                            onColor {
+                                onClickItem()
+                                onRotate { assert() }
+                            }
                         }
                     }
                 }
