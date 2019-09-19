@@ -6,7 +6,8 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 import sgtmelon.scriptum.waitBefore
@@ -16,39 +17,49 @@ import sgtmelon.scriptum.waitBefore
  */
 class AlarmScreen(private val noteModel: NoteModel) : ParentUi() {
 
-    fun assert() = Assert()
+    //region Views
 
-    private fun openNote() = action { onClick(R.id.alarm_recycler, position = 0) }
+    private val parentContainer = getViewById(R.id.alarm_parent_container)
+    private val rippleContainer = getViewById(R.id.alarm_ripple_container)
+    private val logoView = getViewById(R.id.alarm_logo_view)
+    private val recyclerView = getViewById(R.id.alarm_recycler)
+    private val buttonContainer = getViewById(R.id.alarm_button_container)
+
+    private val disableButton = getViewById(R.id.alarm_disable_button)
+    private val postponeButton = getViewById(R.id.alarm_postpone_button)
+
+    //endregion
 
     fun openTextNote(func: TextNoteScreen.() -> Unit = {}) {
-        openNote()
+        recyclerView.click(p = 0)
         TextNoteScreen.invoke(func, State.READ, noteModel)
     }
 
     fun openRollNote(func: RollNoteScreen.() -> Unit = {}) {
-        openNote()
+        recyclerView.click(p = 0)
         RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun onClickDisable() = action { onClick(R.id.alarm_disable_button) }
+    fun onClickDisable() {
+        disableButton.click()
+    }
 
-    fun onClickPostpone() = action { onClick(R.id.alarm_postpone_button) }
+    fun onClickPostpone() {
+        postponeButton.click()
+    }
 
     fun onPressBack() = pressBackUnconditionally()
 
 
-    //TODO больше onDisplay
-    class Assert : BasicMatch() {
-        init {
-            onDisplay(R.id.alarm_parent_container)
-            onDisplay(R.id.alarm_ripple_background)
-            onDisplay(R.id.alarm_logo_view) // TODO #RELEASE2 content description
-            onDisplay(R.id.alarm_recycler)
+    fun assert() {
+        parentContainer.isDisplayed()
+        rippleContainer.isDisplayed()
+        logoView.isDisplayed()
+        recyclerView.isDisplayed()
 
-            onDisplay(R.id.alarm_button_container)
-            onDisplay(R.id.alarm_disable_button)
-            onDisplay(R.id.alarm_postpone_button)
-        }
+        buttonContainer.isDisplayed()
+        disableButton.isDisplayed()
+        postponeButton.isDisplayed()
     }
 
     companion object {

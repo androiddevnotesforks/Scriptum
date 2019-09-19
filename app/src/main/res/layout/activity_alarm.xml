@@ -10,7 +10,7 @@
         tools:context=".screen.ui.notification.AlarmActivity">
 
     <sgtmelon.scriptum.view.RippleContainer
-            android:id="@+id/alarm_ripple_background"
+            android:id="@+id/alarm_ripple_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"

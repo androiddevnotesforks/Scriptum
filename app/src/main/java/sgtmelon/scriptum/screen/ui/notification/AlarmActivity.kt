@@ -61,7 +61,7 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     //region Views
 
     private val parentContainer by lazy { findViewById<ViewGroup?>(R.id.alarm_parent_container) }
-    private val rippleContainer by lazy { findViewById<RippleContainer?>(R.id.alarm_ripple_background) }
+    private val rippleContainer by lazy { findViewById<RippleContainer?>(R.id.alarm_ripple_container) }
 
     private val logoView by lazy { findViewById<View?>(R.id.alarm_logo_view) }
     private val recyclerView by lazy { findViewById<RecyclerView?>(R.id.alarm_recycler) }

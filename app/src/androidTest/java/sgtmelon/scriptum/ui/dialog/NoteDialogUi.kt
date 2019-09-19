@@ -5,41 +5,58 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.isEnabled
 
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note
  */
 class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
 
-    fun assert() = Assert(noteModel)
+    //region Views
 
+    private val bindButton = getViewByText(if (noteModel.noteEntity.isStatus) {
+        R.string.dialog_menu_status_unbind
+    } else {
+        R.string.dialog_menu_status_bind
+    })
+
+    private val convertButton = getViewByText(when (noteModel.noteEntity.type) {
+        NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
+        NoteType.ROLL -> R.string.dialog_menu_convert_to_text
+    })
+
+    private val copyButton = getViewByText(R.string.dialog_menu_copy)
+
+    private val deleteButton = getViewByText(R.string.dialog_menu_delete)
+    private val restoreButton = getViewByText(R.string.dialog_menu_restore)
+    private val clearButton = getViewByText(R.string.dialog_menu_clear)
+
+    //endregion
 
     fun onClickBind() = waitClose {
-        action { onClickText(R.string.dialog_menu_status_bind) }
-        noteModel.noteEntity.isStatus = true
-    }
+        bindButton.click()
 
-    fun onClickUnbind() = waitClose {
-        action { onClickText(R.string.dialog_menu_status_unbind) }
-        noteModel.noteEntity.isStatus = false
+        noteModel.noteEntity.apply { isStatus = !isStatus }
     }
 
     fun onClickConvert() = waitClose {
-        when (noteModel.noteEntity.type) {
-            NoteType.TEXT -> {
-                action { onClickText(R.string.dialog_menu_convert_to_roll) }
-                noteModel.noteEntity.type = NoteType.ROLL
-            }
-            NoteType.ROLL -> {
-                action { onClickText(R.string.dialog_menu_convert_to_text) }
-                noteModel.noteEntity.type = NoteType.TEXT
+        convertButton.click()
+
+        noteModel.noteEntity.apply {
+            type = when (type) {
+                NoteType.TEXT -> NoteType.ROLL
+                NoteType.ROLL -> NoteType.TEXT
             }
         }
     }
 
+    fun onClickCopy() = waitClose { copyButton.click() }
+
     fun onClickDelete() = waitClose {
-        action { onClickText(R.string.dialog_menu_delete) }
+        deleteButton.click()
+
         noteModel.noteEntity.apply {
             isBin = true
             isStatus = false
@@ -47,30 +64,24 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
     }
 
     fun onClickRestore() = waitClose {
-        action { onClickText(R.string.dialog_menu_restore) }
+        restoreButton.click()
+
         noteModel.noteEntity.isBin = false
     }
 
-    fun onClickClear() = waitClose { action { onClickText(R.string.dialog_menu_clear) } }
+    fun onClickClear() = waitClose { clearButton.click() }
 
 
-    class Assert(noteModel: NoteModel) : BasicMatch() {
-        init {
-            noteModel.noteEntity.apply {
-                if (isBin) {
-                    onDisplayText(R.string.dialog_menu_restore)
-                    onDisplayText(R.string.dialog_menu_copy)
-                    onDisplayText(R.string.dialog_menu_clear)
-                } else {
-                    onDisplayText(if (isStatus) R.string.dialog_menu_status_unbind else R.string.dialog_menu_status_bind)
-                    onDisplayText(when (type) {
-                        NoteType.TEXT -> R.string.dialog_menu_convert_to_roll
-                        NoteType.ROLL -> R.string.dialog_menu_convert_to_text
-                    })
-                    onDisplayText(R.string.dialog_menu_copy)
-                    onDisplayText(R.string.dialog_menu_delete)
-                }
-            }
+    fun assert() {
+        if (noteModel.noteEntity.isBin) {
+            restoreButton.isDisplayed().isEnabled(enabled = true)
+            copyButton.isDisplayed().isEnabled(enabled = true)
+            clearButton.isDisplayed().isEnabled(enabled = true)
+        } else {
+            bindButton.isDisplayed().isEnabled(enabled = true)
+            convertButton.isDisplayed().isEnabled(enabled = true)
+            copyButton.isDisplayed().isEnabled(enabled = true)
+            deleteButton.isDisplayed().isEnabled(enabled = true)
         }
     }
 

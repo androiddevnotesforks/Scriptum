@@ -54,7 +54,7 @@ class ColorDialog : BlankDialog() {
         return AlertDialog.Builder(context)
                 .setTitle(title)
                 .setView(recyclerView)
-                .setPositiveButton(getString(R.string.dialog_button_accept), onPositiveClick)
+                .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
                 .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()

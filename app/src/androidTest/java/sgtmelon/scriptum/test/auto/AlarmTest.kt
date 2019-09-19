@@ -15,27 +15,6 @@ import sgtmelon.scriptum.waitAfter
 @RunWith(AndroidJUnit4::class)
 class AlarmTest : ParentUiTest() {
 
-    private fun clickPostpone(@Repeat repeat: Int) {
-        iPreferenceRepo.repeat = repeat
-
-        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onClickPostpone() } } }
-    }
-
-    private fun waitPostpone(@Repeat repeat: Int) {
-        iPreferenceRepo.repeat = repeat
-
-        data.insertNote().let {
-            launchAlarm(it) { waitAfter(AlarmViewModel.CANCEL_DELAY) { openAlarm(it) } }
-        }
-    }
-
-    private fun backPostpone(@Repeat repeat: Int) {
-        iPreferenceRepo.repeat = repeat
-
-        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onPressBack() } } }
-    }
-
-
     @Test fun openTextNote() = data.insertText().let {
         launchAlarm(it) { openAlarm(it) { openTextNote() } }
     }
@@ -68,5 +47,26 @@ class AlarmTest : ParentUiTest() {
     @Test fun backPostponeMin30() = backPostpone(Repeat.MIN_30)
 
     @Test fun backPostponeMin60() = backPostpone(Repeat.MIN_60)
+
+
+    private fun clickPostpone(@Repeat repeat: Int) {
+        iPreferenceRepo.repeat = repeat
+
+        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onClickPostpone() } } }
+    }
+
+    private fun waitPostpone(@Repeat repeat: Int) {
+        iPreferenceRepo.repeat = repeat
+
+        data.insertNote().let {
+            launchAlarm(it) { waitAfter(AlarmViewModel.CANCEL_DELAY) { openAlarm(it) } }
+        }
+    }
+
+    private fun backPostpone(@Repeat repeat: Int) {
+        iPreferenceRepo.repeat = repeat
+
+        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onPressBack() } } }
+    }
 
 }

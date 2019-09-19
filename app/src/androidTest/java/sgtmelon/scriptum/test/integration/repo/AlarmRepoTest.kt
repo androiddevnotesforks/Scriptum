@@ -20,12 +20,14 @@ class AlarmRepoTest : ParentIntegrationTest() {
 
     private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
 
+    // TODO fix test
     @Test fun insert() = inRoom {
-        iNoteDao.insert(noteEntity)
+        val alarmEntity = alarmEntity.copy()
 
+        iNoteDao.insert(noteEntity)
         iAlarmRepo.insertOrUpdate(alarmEntity)
 
-        assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+        assertEquals(arrayListOf(notificationItem.copy(alarm = notificationItem.alarm.copy(id = alarmEntity.id))), iAlarmRepo.getList())
     }
 
     @Test fun update() = inRoom {
@@ -60,11 +62,11 @@ class AlarmRepoTest : ParentIntegrationTest() {
                 color = 5, type = NoteType.TEXT
         )
 
-        val alarmEntity = AlarmEntity(id = 1, noteId = 1, date = DATE_1)
+        val alarmEntity = AlarmEntity(noteId = 1, date = DATE_1)
 
         val notificationItem = NotificationItem(
                 with(noteEntity) { NotificationItem.Note(id, name, color, type) },
-                with(alarmEntity) { NotificationItem.Alarm(id, date) }
+                NotificationItem.Alarm(id = 0, date = alarmEntity.date)
         )
     }
 

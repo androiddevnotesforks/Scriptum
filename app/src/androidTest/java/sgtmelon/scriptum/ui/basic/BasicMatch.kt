@@ -1,15 +1,18 @@
 package sgtmelon.scriptum.ui.basic
 
 import android.content.Context
+import android.view.View
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
 /**
@@ -63,4 +66,26 @@ abstract class BasicMatch {
             onView(allOf(withId(viewId), withHint(stringId), withText("")))
                     .check(matches(isDisplayed()))
 
+}
+
+private fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
+    onView(viewMatcher).check(matches(checkMatcher))
+}
+
+fun Matcher<View>.isDisplayed() = also { matchOnView(it, ViewMatchers.isDisplayed()) }
+
+fun Matcher<View>.isEnabled(enabled: Boolean) = also {
+    matchOnView(it, if (enabled) isEnabled() else not(isEnabled()))
+}
+
+fun Matcher<View>.excludeParent(parentView: Matcher<View>): Matcher<View> = let {
+    allOf(not(withParent(parentView)), it)
+}
+
+fun Matcher<View>.withText(text: String): Matcher<View> = let {
+    allOf(it, ViewMatchers.withText(text))
+}
+
+fun Matcher<View>.withHint(@StringRes stringId: Int): Matcher<View> = let {
+    allOf(it, ViewMatchers.withHint(stringId), ViewMatchers.withText(""))
 }

@@ -4,9 +4,11 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.dialog.SheetAddDialog
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.isEnabled
+import sgtmelon.scriptum.ui.basic.swipeDown
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -15,35 +17,32 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class AddDialogUi : ParentDialogUi() {
 
-    fun assert() = Assert()
+    //region Views
 
+    private val navigationView = getViewById(R.id.add_navigation)
+    private val textButton = getViewByText(R.string.dialog_add_text)
+    private val rollButton = getViewByText(R.string.dialog_add_roll)
+
+    //endregion
 
     fun createTextNote(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) {
-        onClickItem(NoteType.TEXT)
+        textButton.click()
         TextNoteScreen.invoke(func, State.NEW, noteModel)
     }
 
     fun createRollNote(noteModel: NoteModel, func: RollNoteScreen.() -> Unit = {}) {
-        onClickItem(NoteType.ROLL)
+        rollButton.click()
         RollNoteScreen.invoke(func, State.NEW, noteModel)
     }
 
-    private fun onClickItem(type: NoteType) = action {
-        onClickText(when (type) {
-            NoteType.TEXT -> R.string.dialog_add_text
-            NoteType.ROLL -> R.string.dialog_add_roll
-        })
-    }
-
-    fun onCloseSwipe() = waitClose { action { onSwipeDown(R.id.add_navigation) } }
+    fun onCloseSwipe() = waitClose { navigationView.swipeDown() }
 
 
-    class Assert : BasicMatch() {
-        init {
-            onDisplay(R.id.add_navigation)
-            onDisplayText(R.string.dialog_add_text)
-            onDisplayText(R.string.dialog_add_roll)
-        }
+    fun assert() {
+        navigationView.isDisplayed()
+
+        textButton.isDisplayed().isEnabled(enabled = true)
+        rollButton.isDisplayed().isEnabled(enabled = true)
     }
 
     companion object {

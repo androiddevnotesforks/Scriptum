@@ -6,34 +6,41 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.isEnabled
 
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert
  */
 class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
 
-    fun assert() = Assert(noteModel)
-
-
-    fun onClickNo() = waitClose { action { onClickText(R.string.dialog_button_no) } }
-
     // TODO add callback for getting result in [NotePanel]
-    fun onClickYes() = waitClose { action { onClickText(R.string.dialog_button_yes) } }
+
+    //region Views
+
+    private val titleText = getViewByText(R.string.dialog_title_convert)
+    private val messageText = getViewByText(when (noteModel.noteEntity.type) {
+        NoteType.TEXT -> R.string.dialog_text_convert_to_roll
+        NoteType.ROLL -> R.string.dialog_roll_convert_to_text
+    })
+
+    private val noButton = getViewByText(R.string.dialog_button_no)
+    private val yesButton = getViewByText(R.string.dialog_button_yes)
+
+    //endregion
+
+    fun onClickNo() = waitClose { noButton.click() }
+
+    fun onClickYes() = waitClose { yesButton.click() }
 
 
-    class Assert(noteModel: NoteModel) : BasicMatch() {
-        init {
-            onDisplayText(R.string.dialog_title_convert)
+    fun assert() {
+        titleText.isDisplayed()
+        messageText.isDisplayed()
 
-            onDisplayText(when (noteModel.noteEntity.type) {
-                NoteType.TEXT -> R.string.dialog_text_convert_to_roll
-                NoteType.ROLL -> R.string.dialog_roll_convert_to_text
-            })
-
-            onDisplayText(R.string.dialog_button_no)
-            onDisplayText(R.string.dialog_button_yes)
-        }
+        noButton.isDisplayed().isEnabled(enabled = true)
+        yesButton.isDisplayed().isEnabled(enabled = true)
     }
 
     companion object {

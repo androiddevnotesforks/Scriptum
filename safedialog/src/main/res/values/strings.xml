@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Dialog buttons -->
-    <string name="dialog_button_accept">Apply</string>
+    <string name="dialog_button_apply">Apply</string>
     <string name="dialog_button_cancel">Cancel</string>
     <string name="dialog_button_reset">Reset</string>
 

@@ -45,7 +45,7 @@ class RenameDialog : BlankDialog(), TextView.OnEditorActionListener {
         return AlertDialog.Builder(context as Context)
                 .setTitle(title)
                 .setView(R.layout.view_rename)
-                .setPositiveButton(getString(R.string.dialog_button_accept), onPositiveClick)
+                .setPositiveButton(getString(R.string.dialog_button_apply), onPositiveClick)
                 .setNegativeButton(getString(R.string.dialog_button_cancel)) { dialog, _ -> dialog.cancel() }
                 .setCancelable(true)
                 .create()

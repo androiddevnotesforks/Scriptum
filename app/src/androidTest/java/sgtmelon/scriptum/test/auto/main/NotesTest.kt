@@ -143,7 +143,7 @@ class NotesTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(it) { onClickUnbind() }
+                    openNoteDialog(it) { onClickBind() }
                     openNoteDialog(it)
                 }
             }
@@ -219,7 +219,7 @@ class NotesTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage {
-                    openNoteDialog(it) { onClickUnbind() }
+                    openNoteDialog(it) { onClickBind() }
                     openNoteDialog(it)
                 }
             }
