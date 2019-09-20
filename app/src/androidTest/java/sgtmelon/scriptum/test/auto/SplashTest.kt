@@ -12,7 +12,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class SplashTest : ParentUiTest() {
 
-    // TODO #FIX_TEST
     @Test fun introScreenOpen() = launch({ iPreferenceRepo.firstStart = true }) { introScreen() }
 
     @Test fun mainScreenOpen() = launch { mainScreen() }
@@ -24,7 +23,6 @@ class SplashTest : ParentUiTest() {
         }
     }
 
-    // TODO #FIX_TEST
     @Test fun bindRollNoteOpen() = data.insertRoll().let {
         launchBind(it) {
             openRollNoteBind(it) { onPressBack() }

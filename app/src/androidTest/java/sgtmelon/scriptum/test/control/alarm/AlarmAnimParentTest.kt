@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.test.control.alarm
 
+import sgtmelon.scriptum.basic.waitAfter
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.basic.waitAfter
 import kotlin.random.Random
 
 /**
@@ -33,7 +33,7 @@ abstract class AlarmAnimParentTest : ParentUiTest() {
     }
 
     private companion object {
-        const val TEST_TIME = 12000L
+        const val TEST_TIME = 6000L
     }
 
 }

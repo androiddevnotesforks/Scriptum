@@ -3,11 +3,11 @@ package sgtmelon.scriptum.test.control
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.waitAfter
 import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Test of [MenuControlAnim] animations for [TextNoteFragment], [RollNoteFragment]
@@ -21,7 +21,6 @@ class NoteToolbarIconTest : ParentUiTest() {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createTextNote(it) } } } }
     }
 
-    // TODO #FIX_TEST
     @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createRollNote(it) } } } }
     }
@@ -42,7 +41,6 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    // TODO #FIX_TEST
     @Test fun notAnimateOnSaveCreateRollNote() = data.createRoll().let {
         launch {
             mainScreen {
@@ -58,7 +56,6 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    // TODO #FIX_TEST
     @Test fun notAnimateOnRestoreOpenTextNote() = data.insertTextToBin().let {
         launch {
             mainScreen {
@@ -71,7 +68,6 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    // TODO #FIX_TEST
     @Test fun notAnimateOnRestoreOpenRollNote() = data.insertRollToBin().let {
         launch {
             mainScreen {
@@ -102,7 +98,6 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    // TODO #FIX_TEST
     @Test fun animateOnEditToSaveRollNote() = data.insertRoll().let {
         launch {
             mainScreen {
@@ -135,7 +130,6 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
-    // TODO #FIX_TEST
     @Test fun animateOnEditToCancelRollNote() = data.insertRoll().let {
         launch {
             mainScreen {

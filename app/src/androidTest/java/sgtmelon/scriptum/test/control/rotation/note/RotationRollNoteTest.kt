@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.ParentRotationTest
 @RunWith(AndroidJUnit4::class)
 class RotationRollNoteTest : ParentRotationTest() {
 
-    // TODO #FIX_TEST
+    // TODO restoreOpen test
 
     /**
      * Content

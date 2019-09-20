@@ -3,12 +3,12 @@ package sgtmelon.scriptum.ui.screen
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.*
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.basic.*
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
@@ -50,9 +50,11 @@ class IntroScreen : ParentUi() {
         }
     }
 
-    private fun onSwipe(scroll: Scroll) = when (scroll) {
-        Scroll.START -> viewPager.swipeRight()
-        Scroll.END -> viewPager.swipeLeft()
+    private fun onSwipe(scroll: Scroll) = waitAfter(SWIPE_TIME) {
+        when (scroll) {
+            Scroll.START -> viewPager.swipeRight()
+            Scroll.END -> viewPager.swipeLeft()
+        }
     }
 
     fun onClickEndButton(func: MainScreen.() -> Unit = {}) {
@@ -72,6 +74,8 @@ class IntroScreen : ParentUi() {
     }
 
     companion object {
+        const val SWIPE_TIME = 150L
+
         operator fun invoke(func: IntroScreen.() -> Unit) =
                 IntroScreen().apply { assert() }.apply(func)
     }

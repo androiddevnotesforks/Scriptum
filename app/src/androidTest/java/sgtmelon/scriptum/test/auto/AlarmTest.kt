@@ -3,17 +3,19 @@ package sgtmelon.scriptum.test.auto
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.basic.waitAfter
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Test for [IntroActivity]
  */
 @RunWith(AndroidJUnit4::class)
 class AlarmTest : ParentUiTest() {
+
+    // TODO open note -> close by back press
 
     @Test fun openTextNote() = data.insertText().let {
         launchAlarm(it) { openAlarm(it) { openTextNote() } }
