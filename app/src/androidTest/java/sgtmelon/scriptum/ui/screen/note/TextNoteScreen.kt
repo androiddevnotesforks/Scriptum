@@ -10,8 +10,8 @@ import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.isDisplayed
-import sgtmelon.scriptum.ui.basic.typeText
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.typeText
 
 
 /**

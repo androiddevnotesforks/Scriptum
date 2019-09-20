@@ -5,8 +5,8 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
 
 /**
  * Class for UI control of [PreferenceActivity], [PreferenceFragment]

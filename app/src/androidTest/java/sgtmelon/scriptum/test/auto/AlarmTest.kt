@@ -7,7 +7,7 @@ import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Test for [IntroActivity]

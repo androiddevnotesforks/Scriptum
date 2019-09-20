@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.screen.note
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.*
+import sgtmelon.scriptum.basic.*
 import kotlin.random.Random
 
 /**

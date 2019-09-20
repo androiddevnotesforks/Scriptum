@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.basic
+package sgtmelon.scriptum.basic
 
 import android.view.View
 import androidx.test.espresso.Espresso.onView

@@ -13,8 +13,8 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 

@@ -4,7 +4,7 @@ import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.basic.waitAfter
 import kotlin.random.Random
 
 /**

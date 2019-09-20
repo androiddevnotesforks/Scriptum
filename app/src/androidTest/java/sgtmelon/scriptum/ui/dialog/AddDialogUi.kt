@@ -5,10 +5,10 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.dialog.SheetAddDialog
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
-import sgtmelon.scriptum.ui.basic.isEnabled
-import sgtmelon.scriptum.ui.basic.swipeDown
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.isEnabled
+import sgtmelon.scriptum.basic.swipeDown
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 

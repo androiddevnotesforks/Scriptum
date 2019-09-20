@@ -1,7 +1,7 @@
 package sgtmelon.scriptum.test
 
 import sgtmelon.scriptum.extension.showToast
-import sgtmelon.scriptum.waitBefore
+import sgtmelon.scriptum.basic.waitBefore
 
 /**
  * Parent class for Rotation tests

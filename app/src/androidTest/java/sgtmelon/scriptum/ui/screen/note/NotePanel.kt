@@ -4,9 +4,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
-import sgtmelon.scriptum.ui.basic.isEnabled
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.isEnabled
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen

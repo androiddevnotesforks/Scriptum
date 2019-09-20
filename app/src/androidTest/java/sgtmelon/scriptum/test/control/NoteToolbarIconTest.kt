@@ -7,7 +7,7 @@ import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Test of [MenuControlAnim] animations for [TextNoteFragment], [RollNoteFragment]

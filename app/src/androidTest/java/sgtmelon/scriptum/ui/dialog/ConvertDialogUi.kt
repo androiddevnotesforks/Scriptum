@@ -6,9 +6,9 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
-import sgtmelon.scriptum.ui.basic.isEnabled
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.isEnabled
 
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert

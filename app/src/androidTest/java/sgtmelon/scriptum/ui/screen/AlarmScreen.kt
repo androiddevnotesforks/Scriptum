@@ -6,11 +6,11 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.waitBefore
+import sgtmelon.scriptum.basic.waitBefore
 
 /**
  * Class for UI control of [AlarmActivity]

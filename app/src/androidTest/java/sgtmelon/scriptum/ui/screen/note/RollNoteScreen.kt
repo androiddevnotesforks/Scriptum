@@ -9,9 +9,9 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.basic.isDisplayed
-import sgtmelon.scriptum.ui.basic.swipeItem
-import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.swipeItem
+import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment]
@@ -49,7 +49,7 @@ class RollNoteScreen(
     fun onSwipeAll() = repeat(times = count) { onSwipe() }
 
     fun onSwipe(p: Int = positionRandom) {
-        waitAfter(time = 150) { recyclerView.swipeItem(p) }
+        waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
         assert()
     }
 
@@ -81,6 +81,8 @@ class RollNoteScreen(
     }
 
     companion object {
+        private const val SWIPE_TIME = 150L
+
         operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
                             noteModel: NoteModel, isRankEmpty: Boolean = true) =
                 RollNoteScreen(state, noteModel, isRankEmpty).apply { fullAssert() }.apply(func)

@@ -4,12 +4,12 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
-import sgtmelon.scriptum.ui.basic.isSelected
-import sgtmelon.scriptum.ui.basic.longClick
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.isSelected
+import sgtmelon.scriptum.basic.longClick
 import sgtmelon.scriptum.ui.dialog.AddDialogUi
-import sgtmelon.scriptum.waitAfter
+import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Class for UI control of [MainActivity]

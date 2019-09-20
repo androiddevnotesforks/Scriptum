@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.waitAfter
-import sgtmelon.scriptum.waitBefore
+import sgtmelon.scriptum.basic.waitAfter
+import sgtmelon.scriptum.basic.waitBefore
 
 /**
  * Test of animation info about empty list

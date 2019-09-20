@@ -6,9 +6,9 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.click
-import sgtmelon.scriptum.ui.basic.isDisplayed
-import sgtmelon.scriptum.ui.basic.typeText
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.typeText
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]

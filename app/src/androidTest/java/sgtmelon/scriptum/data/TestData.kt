@@ -4,7 +4,7 @@ import android.content.Context
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.extension.getCheck
-import sgtmelon.scriptum.getFutureTime
+import sgtmelon.scriptum.basic.getFutureTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType

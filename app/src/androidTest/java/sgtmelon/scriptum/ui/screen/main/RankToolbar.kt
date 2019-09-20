@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.screen.main
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.*
+import sgtmelon.scriptum.basic.*
 
 /**
  * Часть UI абстракции для [RankScreen]
