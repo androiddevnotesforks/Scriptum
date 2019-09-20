@@ -57,6 +57,7 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun rollNoteOpen() = data.insertRoll().let {
         launch({ data.insertNotification(it) }) {
             mainScreen { openNotesPage { openNotification { openRoll(it) } } }

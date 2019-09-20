@@ -45,10 +45,7 @@ class RankTest : ParentUiTest() {
     @Test fun toolbarEnterClear() = launch {
         mainScreen {
             openRankPage(empty = true) {
-                toolbar {
-                    onEnterName(data.uniqueString, isAddEnabled = true)
-                    onClickClear()
-                }
+                toolbar { onEnterName(data.uniqueString, isAddEnabled = true).onClickClear() }
             }
         }
     }
@@ -57,11 +54,7 @@ class RankTest : ParentUiTest() {
         launch({ data.insertRank() }) {
             mainScreen {
                 openRankPage {
-                    toolbar {
-                        onEnterName(it, isAddEnabled = true)
-                        onLongClickAdd()
-                    }
-
+                    toolbar { onEnterName(it, isAddEnabled = true).onLongClickAdd() }
                     openRenameDialog(it, p = 0)
                 }
             }
@@ -72,11 +65,7 @@ class RankTest : ParentUiTest() {
         launch({ data.insertRank() }) {
             mainScreen {
                 openRankPage {
-                    toolbar {
-                        onEnterName(it, isAddEnabled = true)
-                        onClickAdd()
-                    }
-
+                    toolbar { onEnterName(it, isAddEnabled = true).onClickAdd() }
                     openRenameDialog(it, p = count - 1)
                 }
             }

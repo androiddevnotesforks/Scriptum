@@ -3,45 +3,65 @@ package sgtmelon.scriptum.ui.screen.main
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.*
 
 /**
  * Часть UI абстракции для [RankScreen]
  */
 class RankToolbar : ParentUi() {
 
-    fun assert(isClearEnabled: Boolean = false, isAddEnabled: Boolean = false) =
-            Assert(isClearEnabled, isAddEnabled)
+    //region Views
 
-    fun onEnterName(name: String, isAddEnabled: Boolean) {
-        action { onEnter(R.id.toolbar_rank_enter, name) }
-        assert(isClearEnabled = name.isNotEmpty(), isAddEnabled = isAddEnabled)
+    private val parentContainer = getViewById(R.id.toolbar_rank_container)
+    private val nameEnter = getViewById(R.id.toolbar_rank_enter)
+
+    private val clearButton = getViewById(R.id.toolbar_rank_clear_button)
+    private val addButton = getViewById(R.id.toolbar_rank_add_button)
+
+    //endregion
+
+    private var enter = ""
+
+    fun onEnterName(name: String, isAddEnabled: Boolean) = apply {
+        enter = name
+
+        nameEnter.typeText(name)
+        assert(isAddEnabled = isAddEnabled)
     }
 
     fun onClickClear() {
-        action { onClick(R.id.toolbar_rank_cancel_button) }
+        enter = ""
+
+        clearButton.click()
         assert()
     }
 
     fun onClickAdd() {
+        enter = ""
+
         closeSoftKeyboard()
-        action { onClick(R.id.toolbar_rank_add_button) }
+        addButton.click()
         assert()
     }
 
-    fun onLongClickAdd() = action { onLongClick(R.id.toolbar_rank_add_button) }
+    fun onLongClickAdd() {
+        enter = ""
+
+        closeSoftKeyboard()
+        addButton.longClick()
+        assert()
+    }
 
 
-    class Assert(isClearEnabled: Boolean, isAddEnabled: Boolean) : BasicMatch() {
-        init {
-            onDisplay(R.id.toolbar_rank_container)
-            onDisplay(R.id.toolbar_rank_cancel_button)
-            onDisplay(R.id.toolbar_rank_enter)
-            onDisplay(R.id.toolbar_rank_add_button)
+    fun assert(isAddEnabled: Boolean = false) {
+        parentContainer.isDisplayed()
 
-            isEnabled(R.id.toolbar_rank_cancel_button, isClearEnabled)
-            isEnabled(R.id.toolbar_rank_add_button, isAddEnabled)
+        nameEnter.isDisplayed().apply {
+            if (enter.isNotEmpty()) withText(enter) else withHint(R.string.hint_enter_rank_new)
         }
+
+        clearButton.isDisplayed().isEnabled(enter.isNotEmpty())
+        addButton.isDisplayed().isEnabled(isAddEnabled)
     }
 
     companion object {

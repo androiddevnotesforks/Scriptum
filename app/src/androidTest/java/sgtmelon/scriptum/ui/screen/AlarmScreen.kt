@@ -64,10 +64,7 @@ class AlarmScreen(private val noteModel: NoteModel) : ParentUi() {
 
     companion object {
         operator fun invoke(func: AlarmScreen.() -> Unit, noteModel: NoteModel) =
-                AlarmScreen(noteModel).apply {
-                    waitBefore(time = 1000) { assert() }
-                    func()
-                }
+                AlarmScreen(noteModel).apply { waitBefore(time = 1000) { assert() } }.apply(func)
     }
 
 }

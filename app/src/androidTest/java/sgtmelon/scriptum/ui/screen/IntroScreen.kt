@@ -1,12 +1,14 @@
 package sgtmelon.scriptum.ui.screen
 
+import android.view.View
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.ui.intro.IntroFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.*
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
@@ -14,14 +16,31 @@ import sgtmelon.scriptum.ui.screen.main.MainScreen
  */
 class IntroScreen : ParentUi() {
 
-    fun assert(p: Int = 0, enabled: Boolean = false) = Assert(p, enabled)
+    //region Views
+
+    private val viewPager = getViewById(R.id.intro_pager)
+    private val pageIndicator = getViewById(R.id.intro_page_indicator)
+
+    private fun getTitleText(p: Int): Matcher<View> {
+        return getViewById(R.id.info_title_text).withText(IntroData.title[p])
+    }
+
+    private fun getDetailsText(p: Int): Matcher<View> {
+        return getViewById(R.id.info_details_text).withText(IntroData.details[p])
+    }
+
+    private val endButton = getViewById(R.id.intro_end_button).withText(R.string.info_intro_button)
+
+    //endregion
 
     fun onPassThrough(scroll: Scroll) {
+        val count = IntroData.count
+
         (when (scroll) {
             Scroll.START -> count - 1 downTo 0
             Scroll.END -> 0 until count - 1
         }).forEach {
-            assert(it, enabled = it == IntroData.count - 1)
+            assert(it, enabled = it == count - 1)
             onSwipe(scroll)
         }
 
@@ -31,42 +50,30 @@ class IntroScreen : ParentUi() {
         }
     }
 
-    private val count: Int get() = IntroData.count
-
-    private fun onSwipe(scroll: Scroll) = action {
-        when (scroll) {
-            Scroll.START -> onSwipeRight(R.id.intro_pager)
-            Scroll.END -> onSwipeLeft(R.id.intro_pager)
-        }
+    private fun onSwipe(scroll: Scroll) = when (scroll) {
+        Scroll.START -> viewPager.swipeRight()
+        Scroll.END -> viewPager.swipeLeft()
     }
 
     fun onClickEndButton(func: MainScreen.() -> Unit = {}) {
-        action { onClick(R.id.intro_end_button) }
+        endButton.click()
         MainScreen.invoke(func)
     }
 
 
-    class Assert(p: Int, enabled: Boolean) : BasicMatch() {
-        init {
-            onDisplay(R.id.intro_pager)
-            onDisplay(R.id.intro_page_indicator)
+    fun assert(p: Int = 0, enabled: Boolean = false) {
+        viewPager.isDisplayed()
+        pageIndicator.isDisplayed()
 
-            onDisplay(R.id.info_title_text, IntroData.title[p])
-            onDisplay(R.id.info_details_text, IntroData.details[p])
+        getTitleText(p).isDisplayed()
+        getDetailsText(p).isDisplayed()
 
-            isEnabled(R.id.intro_end_button, enabled)
-
-            if (enabled) {
-                onDisplay(R.id.intro_end_button, R.string.info_intro_button)
-            }
-        }
+        endButton.isEnabled(enabled).apply { if (enabled) isDisplayed() }
     }
 
     companion object {
-        operator fun invoke(func: IntroScreen.() -> Unit) = IntroScreen().apply {
-            assert()
-            func()
-        }
+        operator fun invoke(func: IntroScreen.() -> Unit) =
+                IntroScreen().apply { assert() }.apply(func)
     }
 
 }

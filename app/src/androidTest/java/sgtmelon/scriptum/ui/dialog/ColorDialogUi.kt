@@ -54,7 +54,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         titleText.isDisplayed()
         recyclerView.isDisplayed()
 
-        cancelButton.isDisplayed().isEnabled(enabled = true)
+        cancelButton.isDisplayed().isEnabled()
         applyButton.isDisplayed().isEnabled(enabled = check != initCheck)
     }
 

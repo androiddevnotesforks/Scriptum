@@ -28,7 +28,7 @@ class SplashScreen : ParentUi() {
 
 
     companion object {
-        operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply { func() }
+        operator fun invoke(func: SplashScreen.() -> Unit) = SplashScreen().apply(func)
     }
 
 }

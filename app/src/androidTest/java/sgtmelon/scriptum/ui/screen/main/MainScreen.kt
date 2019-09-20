@@ -4,7 +4,10 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.isSelected
+import sgtmelon.scriptum.ui.basic.longClick
 import sgtmelon.scriptum.ui.dialog.AddDialogUi
 import sgtmelon.scriptum.waitAfter
 
@@ -13,9 +16,21 @@ import sgtmelon.scriptum.waitAfter
  */
 class MainScreen : ParentUi() {
 
-    private var wasNavigate = false
+    //region Views
 
-    fun assert(func: Assert.() -> Unit = {}) = Assert().apply { func() }
+    private val parentContainer = getViewById(R.id.main_parent_container)
+    private val toolbarHolder = getViewById(R.id.main_toolbar_holder)
+    private val menuNavigation = getViewById(R.id.main_menu_navigation)
+
+    private val rankMenuItem = getViewById(R.id.item_page_rank)
+    private val notesMenuItem = getViewById(R.id.item_page_notes)
+    private val binMenuItem = getViewById(R.id.item_page_bin)
+
+    private val addFab = getViewById(R.id.main_add_fab)
+
+    //endregion
+
+    private var wasNavigate = false
 
     fun openPage(page: MainPage, empty: Boolean = false) = when(page) {
         MainPage.RANK -> openRankPage(empty)
@@ -45,60 +60,48 @@ class MainScreen : ParentUi() {
     }
 
     fun openAddDialog(func: AddDialogUi.() -> Unit = {}) {
-        action { onClick(R.id.main_add_fab) }
+        addFab.click()
         AddDialogUi.invoke(func)
     }
 
-    fun onNavigateTo(page: MainPage) = action {
-        onClick(when (page) {
-            MainPage.RANK -> R.id.item_page_rank
-            MainPage.NOTES -> R.id.item_page_notes
-            MainPage.BIN -> R.id.item_page_bin
-        })
-
-        assert {
-            onDisplayContent(page)
-            onDisplayFab(visible = page == MainPage.NOTES)
+    fun onNavigateTo(page: MainPage) {
+        when (page) {
+            MainPage.RANK -> rankMenuItem.click()
+            MainPage.NOTES -> notesMenuItem.click()
+            MainPage.BIN -> binMenuItem.click()
         }
+
+        assert(page, fabVisible = page == MainPage.NOTES)
     }
 
-    fun onScrollTop(page: MainPage) = action {
-        waitAfter(time = 500) {
-            onLongClick(when (page) {
-                MainPage.RANK -> R.id.item_page_rank
-                MainPage.NOTES -> R.id.item_page_notes
-                MainPage.BIN -> R.id.item_page_bin
-            })
+    fun onScrollTop(page: MainPage) = waitAfter(SCROLL_TIME) {
+        when (page) {
+            MainPage.RANK -> rankMenuItem.longClick()
+            MainPage.NOTES -> notesMenuItem.longClick()
+            MainPage.BIN -> binMenuItem.longClick()
         }
     }
 
 
-    class Assert : BasicMatch() {
-        init {
-            onDisplay(R.id.main_parent_container)
-            onDisplay(R.id.main_toolbar_holder)
-            onDisplay(R.id.main_menu_navigation)
+    fun assert(page: MainPage? = null, fabVisible: Boolean? = null) {
+        parentContainer.isDisplayed()
+        toolbarHolder.isDisplayed()
+        menuNavigation.isDisplayed()
+
+        when (page) {
+            MainPage.RANK -> rankMenuItem.isSelected()
+            MainPage.NOTES -> notesMenuItem.isSelected()
+            MainPage.BIN -> binMenuItem.isSelected()
         }
 
-        fun onDisplayContent(page: MainPage) = when (page) {
-            MainPage.RANK -> isSelected(R.id.item_page_rank)
-            MainPage.NOTES -> isSelected(R.id.item_page_notes)
-            MainPage.BIN -> isSelected(R.id.item_page_bin)
-        }
-
-        fun onDisplayFab(visible: Boolean) =
-                if (visible) onDisplay(R.id.main_add_fab) else notDisplay(R.id.main_add_fab)
-
+        if (fabVisible != null) addFab.isDisplayed(fabVisible)
     }
 
     companion object {
-        operator fun invoke(func: MainScreen.() -> Unit) = MainScreen().apply {
-            assert {
-                onDisplayContent(MainPage.NOTES)
-                onDisplayFab(visible = true)
-            }
-            func()
-        }
+        private const val SCROLL_TIME = 500L
+
+        operator fun invoke(func: MainScreen.() -> Unit) =
+                MainScreen().apply { assert(MainPage.NOTES, fabVisible = true) }.apply(func)
     }
 
 }

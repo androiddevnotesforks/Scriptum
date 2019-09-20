@@ -18,6 +18,7 @@ class IntroTest : ParentUiTest() {
         iPreferenceRepo.firstStart = true
     }
 
+    // TODO #FIX_TEST
     @Test fun contentPlacement() = launch {
         introScreen {
             onPassThrough(Scroll.END)
@@ -26,6 +27,7 @@ class IntroTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun endButtonWork() = launch {
         introScreen {
             onPassThrough(Scroll.END)

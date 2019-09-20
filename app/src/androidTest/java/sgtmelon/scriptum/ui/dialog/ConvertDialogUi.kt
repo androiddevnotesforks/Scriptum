@@ -39,8 +39,8 @@ class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
         titleText.isDisplayed()
         messageText.isDisplayed()
 
-        noButton.isDisplayed().isEnabled(enabled = true)
-        yesButton.isDisplayed().isEnabled(enabled = true)
+        noButton.isDisplayed().isEnabled()
+        yesButton.isDisplayed().isEnabled()
     }
 
     companion object {

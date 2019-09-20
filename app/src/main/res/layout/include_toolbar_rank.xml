@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content">
 
                     <ImageButton
-                            android:id="@+id/toolbar_rank_cancel_button"
+                            android:id="@+id/toolbar_rank_clear_button"
                             style="@style/Button.Small"
                             android:contentDescription="@null"
                             app:boolExpression='@{isClearEnable}'

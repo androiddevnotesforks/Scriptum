@@ -13,7 +13,8 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -22,12 +23,19 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
  */
 class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
-    private fun notificationAction(func: NotificationAction.() -> Unit) =
-            NotificationAction().apply { func() }
+    //region Views
 
-    fun assert(empty: Boolean) = Assert(empty)
+    private val parentContainer = getViewById(R.id.notification_parent_container)
+    private val toolbar = getToolbar(R.string.title_notification)
 
-    fun onClickClose() = action { onClickToolbarButton() }
+    private val infoTitleText = getViewById(R.id.info_title_text).withText(R.string.info_notification_empty_title)
+    private val infoDetailsText = getViewById(R.id.info_details_text).withText(R.string.info_notification_empty_details)
+
+    //endregion
+
+    fun onClickClose() {
+        getToolbarButton().click()
+    }
 
     fun openText(noteModel: NoteModel, p: Int = positionRandom,
                  func: TextNoteScreen.() -> Unit = {}) {
@@ -41,11 +49,13 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun onClickCancel(noteModel: NoteModel) = notificationAction {
+    // TODO refactor
+    fun onClickCancel(noteModel: NoteModel) = NotificationAction().apply {
         onClick(noteModel.noteEntity.name, R.id.notification_cancel_button)
     }
 
 
+    // TODO refactor
     class NotificationAction {
         fun onClick(name: String, @IdRes childId: Int): ViewInteraction =
                 onView(button(name, childId)).perform(click())
@@ -57,30 +67,18 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
                 )))))
     }
 
-    class Assert(empty: Boolean) : BasicMatch() {
-        init {
-            onDisplay(R.id.notification_parent_container)
+    fun assert(empty: Boolean) {
+        parentContainer.isDisplayed()
+        toolbar.isDisplayed()
 
-            onDisplayToolbar(R.id.toolbar_container, R.string.title_notification)
-
-            if (empty) {
-                onDisplay(R.id.info_title_text, R.string.info_notification_empty_title)
-                onDisplay(R.id.info_details_text, R.string.info_notification_empty_details)
-                notDisplay(R.id.notification_recycler)
-            } else {
-                notDisplay(R.id.info_title_text, R.string.info_notification_empty_title)
-                notDisplay(R.id.info_details_text, R.string.info_notification_empty_details)
-                onDisplay(R.id.notification_recycler)
-            }
-        }
+        infoTitleText.isDisplayed(empty)
+        infoDetailsText.isDisplayed(empty)
+        recyclerView.isDisplayed(!empty)
     }
 
     companion object {
         operator fun invoke(func: NotificationScreen.() -> Unit, empty: Boolean) =
-                NotificationScreen().apply {
-                    assert(empty)
-                    func()
-                }
+                NotificationScreen().apply { assert(empty) }.apply(func)
     }
 
 }

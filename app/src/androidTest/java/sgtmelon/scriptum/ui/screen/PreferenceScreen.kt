@@ -5,34 +5,36 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
 
 /**
  * Class for UI control of [PreferenceActivity], [PreferenceFragment]
  */
 class PreferenceScreen : ParentUi() {
 
-    fun assert(func: Assert.() -> Unit = {}) = Assert().apply { func() }
+    //region Views
+
+    private val parentContainer = getViewById(R.id.preference_parent_container)
+    private val toolbar = getToolbar(R.string.title_preference)
+
+    //endregion
 
     fun onPressBack() = pressBack()
 
-    fun onClickClose() = action { onClickToolbarButton() }
+    fun onClickClose() {
+        getToolbarButton().click()
+    }
 
 
-    // TODO больше assert
-    class Assert : BasicMatch() {
-        init {
-            onDisplay(R.id.preference_parent_container)
-
-            onDisplayToolbar(R.id.toolbar_container, R.string.title_preference)
-        }
+    fun assert() {
+        parentContainer.isDisplayed()
+        toolbar.isDisplayed()
     }
 
     companion object {
-        operator fun invoke(func: PreferenceScreen.() -> Unit) = PreferenceScreen().apply {
-            assert()
-            func()
-        }
+        operator fun invoke(func: PreferenceScreen.() -> Unit) =
+                PreferenceScreen().apply { assert() }.apply(func)
     }
 
 }

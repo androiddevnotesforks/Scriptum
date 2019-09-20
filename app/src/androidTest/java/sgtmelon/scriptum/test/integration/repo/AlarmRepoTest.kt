@@ -1,7 +1,8 @@
 package sgtmelon.scriptum.test.integration.repo
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.scriptum.model.item.NotificationItem
@@ -20,23 +21,25 @@ class AlarmRepoTest : ParentIntegrationTest() {
 
     private val iAlarmRepo: IAlarmRepo = AlarmRepo(context)
 
-    // TODO fix test
     @Test fun insert() = inRoom {
         val alarmEntity = alarmEntity.copy()
 
         iNoteDao.insert(noteEntity)
         iAlarmRepo.insertOrUpdate(alarmEntity)
 
-        assertEquals(arrayListOf(notificationItem.copy(alarm = notificationItem.alarm.copy(id = alarmEntity.id))), iAlarmRepo.getList())
+        assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
     }
 
     @Test fun update() = inRoom {
-        iNoteDao.insert(noteEntity)
-        iAlarmDao.insert(alarmEntity)
+        val alarmEntity = alarmEntity
 
-        alarmEntity.copy(date = "").let {
+        iNoteDao.insert(noteEntity)
+        alarmEntity.let {
+            it.id = iAlarmDao.insert(it)
+            it.date = ""
+
             iAlarmRepo.insertOrUpdate(it)
-            assertNotEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+            assertEquals(arrayListOf(getNotificationItem(it)), iAlarmRepo.getList())
         }
     }
 
@@ -50,10 +53,19 @@ class AlarmRepoTest : ParentIntegrationTest() {
     }
 
     @Test fun getList() = inRoom {
-        iNoteDao.insert(noteEntity)
-        iAlarmDao.insert(alarmEntity)
+        val alarmEntity = alarmEntity
 
-        assertEquals(arrayListOf(notificationItem), iAlarmRepo.getList())
+        iNoteDao.insert(noteEntity)
+        alarmEntity.let { it.id = iAlarmDao.insert(it) }
+
+        assertEquals(arrayListOf(getNotificationItem(alarmEntity)), iAlarmRepo.getList())
+    }
+
+
+    private fun getNotificationItem(alarmEntity: AlarmEntity) : NotificationItem {
+        return NotificationItem(notificationNote, with(alarmEntity) {
+            NotificationItem.Alarm(id, date)
+        })
     }
 
     private companion object {
@@ -64,10 +76,7 @@ class AlarmRepoTest : ParentIntegrationTest() {
 
         val alarmEntity = AlarmEntity(noteId = 1, date = DATE_1)
 
-        val notificationItem = NotificationItem(
-                with(noteEntity) { NotificationItem.Note(id, name, color, type) },
-                NotificationItem.Alarm(id = 0, date = alarmEntity.date)
-        )
+        val notificationNote = with(noteEntity) { NotificationItem.Note(id, name, color, type) }
     }
 
 }

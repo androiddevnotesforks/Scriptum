@@ -10,7 +10,8 @@ import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.typeText
 
 
 /**
@@ -20,6 +21,18 @@ class TextNoteScreen(override var state: State,
                      override var noteModel: NoteModel,
                      override val isRankEmpty: Boolean
 ) : ParentUi(), INoteScreen {
+
+    //region Views
+
+    private val parentContainer = getViewById(R.id.text_note_parent_container)
+
+    private val contentCard = getViewById(R.id.text_note_content_card)
+    private val contentScroll = getViewById(R.id.text_note_content_scroll)
+
+    private val contentText = getViewById(R.id.text_note_content_text)
+    private val contentEnter = getViewById(R.id.text_note_content_enter)
+
+    //endregion
 
     override var shadowModel = NoteModel(noteModel)
 
@@ -31,15 +44,12 @@ class TextNoteScreen(override var state: State,
         controlPanel { assert() }
     }
 
-
-    fun assert() = Assert(callback = this)
-
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
 
     fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
 
     fun onEnterText(text: String = "") {
-        action { onEnter(R.id.text_note_content_enter, text) }
+        contentEnter.typeText(text)
 
         if (text.isEmpty()) {
             val valueFrom = shadowModel.noteEntity.text
@@ -79,36 +89,23 @@ class TextNoteScreen(override var state: State,
     }
 
 
-    class Assert(callback: INoteScreen) : BasicMatch() {
-        init {
-            callback.apply {
-                onDisplay(R.id.text_note_parent_container)
+    fun assert() {
+        parentContainer.isDisplayed()
+        contentCard.isDisplayed()
+        contentScroll.isDisplayed()
 
-                onDisplay(R.id.text_note_content_card)
-                onDisplay(R.id.text_note_content_scroll)
+        when (state) {
+            State.READ, State.BIN -> {
+                contentText.withText(noteModel.noteEntity.text).isDisplayed()
+                contentEnter.isDisplayed(visible = false)
+            }
+            State.EDIT, State.NEW -> {
+                contentText.isDisplayed(visible = false)
 
-                when (state) {
-                    State.READ, State.BIN -> {
-                        notDisplay(R.id.text_note_content_enter)
-                        onDisplay(R.id.text_note_content_text)
-                    }
-                    State.EDIT, State.NEW -> {
-                        onDisplay(R.id.text_note_content_enter)
-                        notDisplay(R.id.text_note_content_text)
-                    }
-                }
-
-                when (state) {
-                    State.READ, State.BIN -> {
-                        onDisplay(R.id.text_note_content_text, noteModel.noteEntity.text)
-                    }
-                    State.EDIT, State.NEW -> {
-                        if (shadowModel.noteEntity.text.isNotEmpty()) {
-                            onDisplay(R.id.text_note_content_enter, shadowModel.noteEntity.text)
-                        } else {
-                            onDisplayHint(R.id.text_note_content_enter, R.string.hint_enter_text)
-                        }
-                    }
+                if (shadowModel.noteEntity.text.isEmpty()) {
+                    contentEnter.withHint(R.string.hint_enter_text).isDisplayed()
+                } else {
+                    contentEnter.withText(shadowModel.noteEntity.text).isDisplayed()
                 }
             }
         }
@@ -117,10 +114,7 @@ class TextNoteScreen(override var state: State,
     companion object {
         operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
                             noteModel: NoteModel, isRankEmpty: Boolean = true) =
-                TextNoteScreen(state, noteModel, isRankEmpty).apply {
-                    fullAssert()
-                    func()
-                }
+                TextNoteScreen(state, noteModel, isRankEmpty).apply { fullAssert() }.apply(func)
     }
 
 }

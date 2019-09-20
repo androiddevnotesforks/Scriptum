@@ -9,7 +9,8 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.swipeItem
 import sgtmelon.scriptum.waitAfter
 
 /**
@@ -20,6 +21,13 @@ class RollNoteScreen(
         override var noteModel: NoteModel,
         override val isRankEmpty: Boolean
 ) : ParentRecyclerScreen(R.id.roll_note_recycler), INoteScreen {
+
+    //region Views
+
+    private val parentContainer = getViewById(R.id.roll_note_parent_container)
+    private val contentContainer = getViewById(R.id.roll_note_content_container)
+
+    //endregion
 
     override var shadowModel = NoteModel(noteModel)
 
@@ -32,9 +40,6 @@ class RollNoteScreen(
         enterPanel { assert() }
     }
 
-
-    fun assert() = Assert()
-
     fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
 
     fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
@@ -44,7 +49,7 @@ class RollNoteScreen(
     fun onSwipeAll() = repeat(times = count) { onSwipe() }
 
     fun onSwipe(p: Int = positionRandom) {
-        waitAfter(time = 150) { action { onSwipeItem(recyclerId, p) } }
+        waitAfter(time = 150) { recyclerView.swipeItem(p) }
         assert()
     }
 
@@ -68,22 +73,17 @@ class RollNoteScreen(
     }
 
 
-    class Assert : BasicMatch() {
-        init {
-            onDisplay(R.id.roll_note_parent_container)
-            onDisplay(R.id.roll_note_content_container)
+    fun assert() {
+        parentContainer.isDisplayed()
+        contentContainer.isDisplayed()
 
-            onDisplay(R.id.roll_note_recycler)
-        }
+        recyclerView.isDisplayed()
     }
 
     companion object {
         operator fun invoke(func: RollNoteScreen.() -> Unit, state: State,
                             noteModel: NoteModel, isRankEmpty: Boolean = true) =
-                RollNoteScreen(state, noteModel, isRankEmpty).apply {
-                    fullAssert()
-                    func()
-                }
+                RollNoteScreen(state, noteModel, isRankEmpty).apply { fullAssert() }.apply(func)
     }
 
 }

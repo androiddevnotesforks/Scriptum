@@ -5,7 +5,9 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.longClick
 import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -14,18 +16,28 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control of [BinFragment]
  */
-class BinScreen() : ParentRecyclerScreen(R.id.bin_recycler) {
+class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
-    fun assert(empty: Boolean) = Assert(empty)
+    //region Views
+
+    private val parentContainer = getViewById(R.id.bin_parent_container)
+
+    private val toolbar = getToolbar(R.string.title_bin)
+    private val clearMenuItem = getViewById(R.id.item_clear)
+
+    private val infoTitleText = getViewById(R.id.info_title_text).withText(R.string.info_bin_empty_title)
+    private val infoDetailsText = getViewById(R.id.info_details_text).withText(R.string.info_bin_empty_details)
+
+    //endregion
 
     fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) {
-        action { onClick(R.id.item_clear) }
+        clearMenuItem.click()
         ClearDialogUi.invoke(func)
     }
 
     fun openNoteDialog(noteModel: NoteModel, p: Int = positionRandom,
                        func: NoteDialogUi.() -> Unit = {}) {
-        action { onLongClick(recyclerId, p) }
+        recyclerView.longClick(p)
         NoteDialogUi.invoke(func, noteModel)
     }
 
@@ -42,33 +54,20 @@ class BinScreen() : ParentRecyclerScreen(R.id.bin_recycler) {
     }
 
 
-    class Assert(empty: Boolean) : BasicMatch() {
-        init {
-            onDisplay(R.id.bin_parent_container)
+    fun assert(empty: Boolean) {
+        parentContainer.isDisplayed()
+        toolbar.isDisplayed()
 
-            onDisplayToolbar(R.id.toolbar_container, R.string.title_bin)
+        if (!empty) clearMenuItem.isDisplayed()
 
-            if (empty) {
-                onDisplay(R.id.info_title_text, R.string.info_bin_empty_title)
-                onDisplay(R.id.info_details_text, R.string.info_bin_empty_details)
-
-                notDisplay(R.id.bin_recycler)
-            } else {
-                onDisplay(R.id.item_clear)
-
-                notDisplay(R.id.info_title_text, R.string.info_bin_empty_title)
-                notDisplay(R.id.info_details_text, R.string.info_bin_empty_details)
-
-                onDisplay(R.id.bin_recycler)
-            }
-        }
+        infoTitleText.isDisplayed(empty)
+        infoDetailsText.isDisplayed(empty)
+        recyclerView.isDisplayed(!empty)
     }
 
     companion object {
-        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) = BinScreen().apply {
-            assert(empty)
-            func()
-        }
+        operator fun invoke(func: BinScreen.() -> Unit, empty: Boolean) =
+                BinScreen().apply {assert(empty) }.apply(func)
     }
 
 }

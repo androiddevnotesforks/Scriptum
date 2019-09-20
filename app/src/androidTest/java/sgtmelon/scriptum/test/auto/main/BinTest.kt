@@ -29,6 +29,7 @@ class BinTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun rollNoteOpen() = data.insertRollToBin().let {
         launch {
             mainScreen {

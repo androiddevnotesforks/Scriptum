@@ -2,10 +2,6 @@ package sgtmelon.scriptum.ui.screen.main
 
 import android.view.View
 import androidx.annotation.IdRes
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.ViewInteraction
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.longClick
 import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
@@ -13,7 +9,9 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.longClick
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
 
 /**
@@ -21,9 +19,26 @@ import sgtmelon.scriptum.ui.dialog.RenameDialogUi
  */
 class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
-    private fun rankAction(func: RankAction.() -> Unit) = RankAction().apply { func() }
+    //region Views
 
-    fun assert(empty: Boolean) = Assert(empty)
+    private val parentContainer = getViewById(R.id.rank_parent_container)
+
+    private val infoTitleText = getViewById(R.id.info_title_text).withText(R.string.info_rank_empty_title)
+    private val infoDetailsText = getViewById(R.id.info_details_text).withText(R.string.info_rank_empty_details)
+
+    private fun getVisibleButton(name: String) = getButton(name, R.id.rank_visible_button)
+
+    private fun getCancelButton(name: String) = getButton(name, R.id.rank_cancel_button)
+
+    // TODO replace with recyclerAction
+    private fun getButton(name: String, @IdRes childId: Int): Matcher<View> =
+            allOf(withId(childId), withParent(allOf(
+                    withId(R.id.rank_click_container), withChild(allOf(
+                    withId(R.id.rank_content_container), withChild(withText(name))
+            )))))
+
+    //endregion
+
 
     fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
 
@@ -33,55 +48,32 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         RenameDialogUi.invoke(func, title)
     }
 
-    fun onClickVisible(rankEntity: RankEntity) =
-            rankAction { onClick(rankEntity.name, R.id.rank_visible_button) }
-
-    fun onLongClickVisible(rankEntity: RankEntity) =
-            rankAction { onLongClick(rankEntity.name, R.id.rank_visible_button) }
-
-    fun onClickCancel(rankEntity: RankEntity) =
-            rankAction { onClick(rankEntity.name, R.id.rank_cancel_button) }
-
-
-    // TODO replace with recyclerAction
-    class RankAction {
-
-        fun onClick(name: String, @IdRes childId: Int): ViewInteraction =
-                onView(button(name, childId)).perform(click())
-
-        fun onLongClick(name: String, @IdRes childId: Int): ViewInteraction =
-                onView(button(name, childId)).perform(longClick())
-
-        private fun button(name: String, @IdRes childId: Int): Matcher<View> =
-                allOf(withId(childId), withParent(allOf(
-                        withId(R.id.rank_click_container), withChild(allOf(
-                        withId(R.id.rank_content_container), withChild(withText(name))
-                )))))
-
+    fun onClickVisible(rankEntity: RankEntity) {
+        getVisibleButton(rankEntity.name).click()
     }
 
-    class Assert(empty: Boolean) : BasicMatch() {
-        init {
-            onDisplay(R.id.rank_parent_container)
+    fun onLongClickVisible(rankEntity: RankEntity) {
+        getVisibleButton(rankEntity.name).longClick()
+    }
 
-            if (empty) {
-                onDisplay(R.id.info_title_text, R.string.info_rank_empty_title)
-                onDisplay(R.id.info_details_text, R.string.info_rank_empty_details)
-                notDisplay(R.id.rank_recycler)
-            } else {
-                notDisplay(R.id.info_title_text, R.string.info_rank_empty_title)
-                notDisplay(R.id.info_details_text, R.string.info_rank_empty_details)
-                onDisplay(R.id.rank_recycler)
-            }
-        }
+    fun onClickCancel(rankEntity: RankEntity) {
+        getCancelButton(rankEntity.name).click()
+    }
+
+
+    fun assert(empty: Boolean) {
+        toolbar { assert() }
+
+        parentContainer.isDisplayed()
+
+        infoTitleText.isDisplayed(empty)
+        infoDetailsText.isDisplayed(empty)
+        recyclerView.isDisplayed(!empty)
     }
 
     companion object {
-        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean) = RankScreen().apply {
-            assert(empty)
-            toolbar { assert() }
-            func()
-        }
+        operator fun invoke(func: RankScreen.() -> Unit, empty: Boolean) =
+                RankScreen().apply { assert(empty) }.apply(func)
     }
 
 }

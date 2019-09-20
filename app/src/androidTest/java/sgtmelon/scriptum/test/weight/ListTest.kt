@@ -70,6 +70,7 @@ class ListTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun rollNoteOpen() = data.insertRoll(list = weightData.rollList).let { model ->
         launch {
             mainScreen {
@@ -80,6 +81,7 @@ class ListTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun rollNoteScroll() = data.insertRoll(list = weightData.rollList).let {
         launch {
             mainScreen { openNotesPage { openRollNote(it) { onScroll(Scroll.END, SCROLL_COUNT) } } }

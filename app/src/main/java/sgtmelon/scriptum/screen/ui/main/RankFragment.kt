@@ -97,7 +97,7 @@ class RankFragment : Fragment(), IRankFragment {
             title = getString(R.string.title_rank)
         }
 
-        view?.findViewById<ImageButton>(R.id.toolbar_rank_cancel_button)?.apply {
+        view?.findViewById<ImageButton>(R.id.toolbar_rank_clear_button)?.apply {
             setOnClickListener { iViewModel.onClickEnterCancel() }
         }
 

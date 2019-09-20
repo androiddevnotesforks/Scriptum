@@ -5,7 +5,9 @@ import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.longClick
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
@@ -15,23 +17,41 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control of [NotesFragment]
  */
-class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
+class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
-    fun assert(empty: Boolean) = Assert(empty, hide)
+    //region Views
+
+    private val parentContainer = getViewById(R.id.notes_parent_container)
+    private val toolbar = getToolbar(R.string.title_notes)
+
+    private val notificationMenuItem = getViewById(R.id.item_notification)
+    private val preferenceMenuItem = getViewById(R.id.item_preference)
+
+    private val infoTitleText = getViewById(R.id.info_title_text).withText(
+            if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
+    )
+
+    private val infoDetailsText = getViewById(R.id.info_details_text).withText(if (hide) {
+        R.string.info_notes_hide_details
+    } else {
+        R.string.info_notes_empty_details
+    })
+
+    //endregion
 
     fun openNotification(empty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
-        action { onClick(R.id.item_notification) }
+        notificationMenuItem.click()
         NotificationScreen.invoke(func, empty)
     }
 
     fun openPreference(func: PreferenceScreen.() -> Unit = {}) {
-        action { onClick(R.id.item_preference) }
+        preferenceMenuItem.click()
         PreferenceScreen.invoke(func)
     }
 
     fun openNoteDialog(noteModel: NoteModel, p: Int = positionRandom,
                        func: NoteDialogUi.() -> Unit = {}) {
-        action { onLongClick(recyclerId, p) }
+        recyclerView.longClick(p)
         NoteDialogUi.invoke(func, noteModel)
     }
 
@@ -48,42 +68,21 @@ class NotesScreen(var hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler)
     }
 
 
-    class Assert(empty: Boolean, hide: Boolean) : BasicMatch() {
-        init {
-            onDisplay(R.id.notes_parent_container)
+    fun assert(empty: Boolean) {
+        parentContainer.isDisplayed()
+        toolbar.isDisplayed()
 
-            onDisplayToolbar(R.id.toolbar_container, R.string.title_notes)
-            onDisplay(R.id.item_notification)
-            onDisplay(R.id.item_preference)
+        notificationMenuItem.isDisplayed()
+        preferenceMenuItem.isDisplayed()
 
-            if (empty) {
-                onDisplay(R.id.info_title_text,
-                        if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
-                )
-                onDisplay(R.id.info_details_text,
-                        if (hide) R.string.info_notes_hide_details else R.string.info_notes_empty_details
-                )
-
-                notDisplay(R.id.notes_recycler)
-            } else {
-                notDisplay(R.id.info_title_text,
-                        if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
-                )
-                notDisplay(R.id.info_details_text,
-                        if (hide) R.string.info_notes_hide_details else R.string.info_notes_empty_details
-                )
-
-                onDisplay(R.id.notes_recycler)
-            }
-        }
+        infoTitleText.isDisplayed(empty)
+        infoDetailsText.isDisplayed(empty)
+        recyclerView.isDisplayed(!empty)
     }
 
     companion object {
         operator fun invoke(func: NotesScreen.() -> Unit, empty: Boolean, hide: Boolean) =
-                NotesScreen(hide).apply {
-                    assert(empty)
-                    func()
-                }
+                NotesScreen(hide).apply { assert(empty) }.apply(func)
     }
 
 }

@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import sgtmelon.scriptum.data.Scroll
-import sgtmelon.scriptum.ui.basic.BasicValue
+import sgtmelon.scriptum.ui.basic.*
 import sgtmelon.scriptum.waitAfter
 
 /**
@@ -11,21 +11,21 @@ import sgtmelon.scriptum.waitAfter
  */
 abstract class ParentRecyclerScreen(@IdRes protected val recyclerId: Int) : ParentUi() {
 
-    val count: Int get() = BasicValue().getCount(recyclerId)
+    protected val recyclerView = getViewById(recyclerId)
 
-    protected val positionRandom: Int get() = (0 until count).random()
+    val count: Int get() = recyclerView.getCount()
 
-    protected fun onClickItem(position: Int = positionRandom) = action {
-        onClick(recyclerId, position)
+    protected val positionRandom: Int get() = recyclerView.getRandomPosition()
+
+    protected fun onClickItem(position: Int = positionRandom) {
+        recyclerView.click(position)
     }
 
-    fun onScroll(scroll: Scroll, time: Int = 2) = action {
-        repeat(time) {
-            waitAfter(time = 200) {
-                when (scroll) {
-                    Scroll.START -> onSwipeDown(recyclerId)
-                    Scroll.END -> onSwipeUp(recyclerId)
-                }
+    fun onScroll(scroll: Scroll, time: Int = 2) = repeat(time) {
+        waitAfter(time = 200) {
+            when (scroll) {
+                Scroll.START -> recyclerView.swipeDown()
+                Scroll.END -> recyclerView.swipeUp()
             }
         }
     }

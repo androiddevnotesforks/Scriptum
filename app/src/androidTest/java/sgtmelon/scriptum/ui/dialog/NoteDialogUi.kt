@@ -74,14 +74,14 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
 
     fun assert() {
         if (noteModel.noteEntity.isBin) {
-            restoreButton.isDisplayed().isEnabled(enabled = true)
-            copyButton.isDisplayed().isEnabled(enabled = true)
-            clearButton.isDisplayed().isEnabled(enabled = true)
+            restoreButton.isDisplayed().isEnabled()
+            copyButton.isDisplayed().isEnabled()
+            clearButton.isDisplayed().isEnabled()
         } else {
-            bindButton.isDisplayed().isEnabled(enabled = true)
-            convertButton.isDisplayed().isEnabled(enabled = true)
-            copyButton.isDisplayed().isEnabled(enabled = true)
-            deleteButton.isDisplayed().isEnabled(enabled = true)
+            bindButton.isDisplayed().isEnabled()
+            convertButton.isDisplayed().isEnabled()
+            copyButton.isDisplayed().isEnabled()
+            deleteButton.isDisplayed().isEnabled()
         }
     }
 

@@ -20,14 +20,14 @@ class RotationTest : ParentRotationTest() {
     @Test fun rankScreenContentEmpty() = launch {
         mainScreen {
             openRankPage(empty = true) { onRotate { assert(empty = true) } }
-            assert { onDisplayFab(visible = false) }
+            assert(fabVisible = false)
         }
     }
 
     @Test fun rankScreenContentList() = launch({ data.fillRank() }) {
         mainScreen {
             openRankPage { onRotate { assert(empty = false) } }
-            assert { onDisplayFab(visible = false) }
+            assert(fabVisible = false)
         }
     }
 
@@ -53,14 +53,14 @@ class RotationTest : ParentRotationTest() {
     @Test fun notesScreenContentEmpty() = launch {
         mainScreen {
             openNotesPage(empty = true) { onRotate { assert(empty = true) } }
-            assert { onDisplayFab(visible = true) }
+            assert(fabVisible = true)
         }
     }
 
     @Test fun notesScreenContentList() = launch({ data.fillNotes() }) {
         mainScreen {
             openNotesPage { onRotate { assert(empty = false) } }
-            assert { onDisplayFab(visible = true) }
+            assert(fabVisible = true)
         }
     }
 
@@ -79,14 +79,14 @@ class RotationTest : ParentRotationTest() {
     @Test fun binScreenContentEmpty() = launch {
         mainScreen {
             openBinPage(empty = true) { onRotate { assert(empty = true) } }
-            assert { onDisplayFab(visible = false) }
+            assert(fabVisible = false)
         }
     }
 
     @Test fun binScreenContentList() = launch({ data.fillBin() }) {
         mainScreen {
             openBinPage { onRotate { assert(empty = false) } }
-            assert { onDisplayFab(visible = false) }
+            assert(fabVisible = false)
         }
     }
 

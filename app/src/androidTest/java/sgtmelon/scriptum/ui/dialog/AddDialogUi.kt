@@ -41,8 +41,8 @@ class AddDialogUi : ParentDialogUi() {
     fun assert() {
         navigationView.isDisplayed()
 
-        textButton.isDisplayed().isEnabled(enabled = true)
-        rollButton.isDisplayed().isEnabled(enabled = true)
+        textButton.isDisplayed().isEnabled()
+        rollButton.isDisplayed().isEnabled()
     }
 
     companion object {

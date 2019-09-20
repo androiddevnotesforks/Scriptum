@@ -21,6 +21,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createTextNote(it) } } } }
     }
 
+    // TODO #FIX_TEST
     @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createRollNote(it) } } } }
     }
@@ -41,6 +42,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun notAnimateOnSaveCreateRollNote() = data.createRoll().let {
         launch {
             mainScreen {
@@ -56,6 +58,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun notAnimateOnRestoreOpenTextNote() = data.insertTextToBin().let {
         launch {
             mainScreen {
@@ -68,6 +71,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun notAnimateOnRestoreOpenRollNote() = data.insertRollToBin().let {
         launch {
             mainScreen {
@@ -98,6 +102,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun animateOnEditToSaveRollNote() = data.insertRoll().let {
         launch {
             mainScreen {
@@ -130,6 +135,7 @@ class NoteToolbarIconTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun animateOnEditToCancelRollNote() = data.insertRoll().let {
         launch {
             mainScreen {

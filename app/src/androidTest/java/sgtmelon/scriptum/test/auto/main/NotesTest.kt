@@ -28,9 +28,9 @@ class NotesTest : ParentUiTest() {
     @Test fun addFabVisibleOnScroll() = launch({ data.fillNotes() }) {
         mainScreen {
             openNotesPage { onScroll(Scroll.END, time = 1) }
-            assert { onDisplayFab(visible = false) }
+            assert(fabVisible = false)
             openNotesPage { onScroll(Scroll.START, time = 1) }
-            assert { onDisplayFab(visible = true) }
+            assert(fabVisible = true)
         }
     }
 
@@ -45,6 +45,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun rollNoteOpen() = data.insertRoll().let {
         launch {
             mainScreen {
@@ -66,6 +67,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun rollNoteCreateAndReturn() = data.createRoll().let {
         launch {
             mainScreen {
@@ -93,6 +95,7 @@ class NotesTest : ParentUiTest() {
         }
     }
 
+    // TODO #FIX_TEST
     @Test fun rollNoteCreateAndReturnWithSave() = data.createRoll().let {
         launch {
             mainScreen {

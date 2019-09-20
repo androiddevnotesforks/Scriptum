@@ -6,17 +6,29 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.basic.BasicMatch
+import sgtmelon.scriptum.ui.basic.click
+import sgtmelon.scriptum.ui.basic.isDisplayed
+import sgtmelon.scriptum.ui.basic.typeText
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
  */
 class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
-    fun assert() = Assert(callback)
+    //region Views
+
+    private val parentContainer = getViewById(R.id.toolbar_note_container)
+    private val nameScroll = getViewById(R.id.toolbar_note_scroll)
+
+    private val colorView = getViewById(R.id.toolbar_note_color_view)
+
+    private val nameText = getViewById(R.id.toolbar_note_text)
+    private val nameEnter = getViewById(R.id.toolbar_note_enter)
+
+    //endregion
 
     fun onEnterName(name: String) = callback.throwOnWrongState(State.EDIT, State.NEW) {
-        action { onEnter(R.id.toolbar_note_enter, name) }
+        nameEnter.typeText(name)
 
         callback.apply {
             name.forEachIndexed { i, c ->
@@ -33,7 +45,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
     }
 
     fun onClickBack() {
-        action { onClickToolbarButton() }
+        getToolbarButton().click()
 
         with(callback) {
             if (state == State.EDIT) {
@@ -48,38 +60,28 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
     // TODO #TEST (focus on title check)
     // TODO assert color (set contentDescription may be, or tag)
-    class Assert(callback: INoteScreen) : BasicMatch() {
-        init {
-            callback.apply {
-                onDisplay(R.id.toolbar_note_container)
-                onDisplay(R.id.toolbar_note_scroll)
+    fun assert() {
+        parentContainer.isDisplayed()
+        nameScroll.isDisplayed()
 
-                if (theme == Theme.DARK) {
-                    onDisplay(R.id.toolbar_note_color_view)
-                } else {
-                    notDisplay(R.id.toolbar_note_color_view)
-                }
+        colorView.isDisplayed(visible = theme == Theme.DARK)
 
-                when (state) {
-                    State.READ, State.BIN -> {
-                        notDisplay(R.id.toolbar_note_enter)
+        callback.apply {
+            when (state) {
+                State.READ, State.BIN -> {
+                    val name = noteModel.noteEntity.name
 
-                        val name = noteModel.noteEntity.name
-                        if (name.isNotEmpty()) {
-                            onDisplay(R.id.toolbar_note_text, name)
-                        } else {
-                            onDisplayHint(R.id.toolbar_note_text, R.string.hint_text_name)
-                        }
+                    nameEnter.isDisplayed(visible = false)
+                    nameText.isDisplayed().apply {
+                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_text_name)
                     }
-                    State.EDIT, State.NEW -> {
-                        notDisplay(R.id.toolbar_note_text)
+                }
+                State.EDIT, State.NEW -> {
+                    val name = shadowModel.noteEntity.name
 
-                        val name = shadowModel.noteEntity.name
-                        if (name.isNotEmpty()) {
-                            onDisplay(R.id.toolbar_note_enter, name)
-                        } else {
-                            onDisplayHint(R.id.toolbar_note_enter, R.string.hint_enter_name)
-                        }
+                    nameText.isDisplayed(visible = false)
+                    nameEnter.isDisplayed().apply {
+                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_enter_name)
                     }
                 }
             }
@@ -88,10 +90,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
     companion object {
         operator fun invoke(func: NoteToolbar.() -> Unit, callback: INoteScreen) =
-                NoteToolbar(callback).apply {
-                    assert()
-                    func()
-                }
+                NoteToolbar(callback).apply { assert() }.apply(func)
     }
 
 }
