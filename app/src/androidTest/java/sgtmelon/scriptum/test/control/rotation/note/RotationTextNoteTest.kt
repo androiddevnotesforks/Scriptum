@@ -20,6 +20,19 @@ class RotationTextNoteTest : ParentRotationTest() {
         launch { mainScreen { openBinPage { openTextNote(it) { onRotate { assert() } } } } }
     }
 
+    @Test fun contentOnRestoreOpen() = data.insertTextToBin().let {
+        launch {
+            mainScreen {
+                openBinPage {
+                    openTextNote(it) {
+                        controlPanel { onRestoreOpen() }
+                        onRotate { assert() }
+                    }
+                }
+            }
+        }
+    }
+
     @Test fun contentOnCreate() = data.createText().let {
         launch { mainScreen { openAddDialog { createTextNote(it) { onRotate { assert() } } } } }
     }

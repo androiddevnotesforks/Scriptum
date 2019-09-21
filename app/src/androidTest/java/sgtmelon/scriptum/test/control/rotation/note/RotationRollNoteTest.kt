@@ -12,14 +12,25 @@ import sgtmelon.scriptum.test.ParentRotationTest
 @RunWith(AndroidJUnit4::class)
 class RotationRollNoteTest : ParentRotationTest() {
 
-    // TODO restoreOpen test
-
     /**
      * Content
      */
 
     @Test fun contentOnBin() = data.insertRollToBin().let {
         launch { mainScreen { openBinPage { openRollNote(it) { onRotate { assert() } } } } }
+    }
+
+    @Test fun contentOnRestoreOpen() = data.insertRollToBin().let {
+        launch {
+            mainScreen {
+                openBinPage {
+                    openRollNote(it) {
+                        controlPanel { onRestoreOpen() }
+                        onRotate { assert() }
+                    }
+                }
+            }
+        }
     }
 
     @Test fun contentOnCreate() = data.createRoll().let {
