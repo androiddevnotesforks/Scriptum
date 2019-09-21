@@ -165,10 +165,12 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onEditorClick(i: Int): Boolean {
         val enterText = callback?.getEnterText() ?: ""
 
-        if (enterText.isEmpty() || i != EditorInfo.IME_ACTION_DONE) return false
+        if (enterText.isEmpty() || i != EditorInfo.IME_ACTION_DONE) {
+            onMenuSave(changeMode = true)
+            return false
+        }
 
         onClickAdd(simpleClick = true)
-
         return true
     }
 
