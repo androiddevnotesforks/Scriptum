@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.test.control.alarm
 
-import sgtmelon.scriptum.basic.waitAfter
+import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity

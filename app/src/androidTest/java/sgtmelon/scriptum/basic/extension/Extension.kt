@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.basic
+package sgtmelon.scriptum.basic.extension
 
 import sgtmelon.extension.getDateFormat
 import java.util.*

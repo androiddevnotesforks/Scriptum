@@ -2,12 +2,12 @@ package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.safedialog.MultipleDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.isEnabled
 
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note

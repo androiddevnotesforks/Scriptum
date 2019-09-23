@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui
 
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.basic.*
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.Scroll
 
 /**
@@ -33,7 +33,6 @@ abstract class ParentRecyclerScreen(@IdRes protected val recyclerId: Int) : Pare
         onScroll(Scroll.END)
         onScroll(Scroll.START)
     }
-
 
     companion object {
         const val SCROLL_TIME = 200L

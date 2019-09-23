@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.control
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.basic.waitAfter
+import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.control.menu.MenuControlAnim
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment

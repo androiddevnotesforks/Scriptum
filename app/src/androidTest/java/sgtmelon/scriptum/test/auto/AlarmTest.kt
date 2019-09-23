@@ -3,7 +3,7 @@ package sgtmelon.scriptum.test.auto
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.basic.waitAfter
+import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.model.annotation.Repeat
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity
 import sgtmelon.scriptum.screen.vm.notification.AlarmViewModel

@@ -2,15 +2,15 @@ package sgtmelon.scriptum.ui.screen
 
 import androidx.test.espresso.Espresso.pressBackUnconditionally
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.waitBefore
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
-import sgtmelon.scriptum.basic.waitBefore
 
 /**
  * Class for UI control of [AlarmActivity]

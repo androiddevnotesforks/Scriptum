@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.ui.screen.note
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.isEnabled
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen

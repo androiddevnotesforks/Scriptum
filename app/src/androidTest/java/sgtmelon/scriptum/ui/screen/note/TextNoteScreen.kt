@@ -3,6 +3,8 @@ package sgtmelon.scriptum.ui.screen.note
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.typeText
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
@@ -10,8 +12,6 @@ import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.typeText
 
 
 /**

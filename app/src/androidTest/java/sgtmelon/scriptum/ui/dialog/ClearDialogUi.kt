@@ -2,10 +2,10 @@ package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.safedialog.MessageDialog
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.isEnabled
 
 /**
  * Class for UI control of [MessageDialog] when clear bin

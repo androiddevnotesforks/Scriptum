@@ -2,8 +2,8 @@ package sgtmelon.scriptum.ui
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
-import sgtmelon.scriptum.basic.waitAfter
-import sgtmelon.scriptum.basic.waitBefore
+import sgtmelon.scriptum.basic.extension.waitAfter
+import sgtmelon.scriptum.basic.extension.waitBefore
 
 /**
  * Parent class for dialogs

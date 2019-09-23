@@ -1,12 +1,12 @@
 package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.typeText
 import sgtmelon.scriptum.dialog.RenameDialog
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.isEnabled
-import sgtmelon.scriptum.basic.typeText
 
 /**
  * Class for UI control of [RenameDialog]

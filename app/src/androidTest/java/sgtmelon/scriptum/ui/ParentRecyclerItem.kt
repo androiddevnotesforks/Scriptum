@@ -1,10 +1,14 @@
 package sgtmelon.scriptum.ui
 
 import android.view.View
+import androidx.recyclerview.widget.RecyclerView
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.basic.extension.scrollTo
 import sgtmelon.scriptum.basic.matcher.RecyclerItemMatcher
-import sgtmelon.scriptum.basic.scrollTo
 
+/**
+ * Parent class for children of [ParentRecyclerScreen] and for describes [RecyclerView] items
+ */
 open class ParentRecyclerItem(
         private val listMatcher: Matcher<View>,
         private val itemMatcher: Matcher<View>

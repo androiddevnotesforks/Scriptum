@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.ui.ParentDialogUi
-import sgtmelon.scriptum.basic.*
 
 /**
  * Class for UI control of [ColorDialog]

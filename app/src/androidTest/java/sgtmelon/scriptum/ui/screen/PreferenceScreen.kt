@@ -2,11 +2,11 @@ package sgtmelon.scriptum.ui.screen
 
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
 
 /**
  * Class for UI control of [PreferenceActivity], [PreferenceFragment]

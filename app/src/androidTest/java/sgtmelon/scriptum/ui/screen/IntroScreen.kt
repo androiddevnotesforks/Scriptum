@@ -3,7 +3,7 @@ package sgtmelon.scriptum.ui.screen
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.*
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.model.data.IntroData
 import sgtmelon.scriptum.screen.ui.intro.IntroActivity

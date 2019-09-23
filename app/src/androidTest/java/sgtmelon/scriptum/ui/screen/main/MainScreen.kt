@@ -2,7 +2,7 @@ package sgtmelon.scriptum.ui.screen.main
 
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.*
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
