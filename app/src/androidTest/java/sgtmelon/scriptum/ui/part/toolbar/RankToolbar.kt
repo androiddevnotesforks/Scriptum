@@ -1,9 +1,10 @@
-package sgtmelon.scriptum.ui.part
+package sgtmelon.scriptum.ui.part.toolbar
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.screen.main.RankScreen
 
 /**
  * Часть UI абстракции для [RankScreen]

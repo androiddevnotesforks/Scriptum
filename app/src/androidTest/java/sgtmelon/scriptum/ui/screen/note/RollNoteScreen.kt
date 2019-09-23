@@ -12,9 +12,9 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.ui.part.NotePanel
-import sgtmelon.scriptum.ui.part.NoteToolbar
-import sgtmelon.scriptum.ui.part.RollEnterPanel
+import sgtmelon.scriptum.ui.part.panel.NotePanel
+import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
+import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment]

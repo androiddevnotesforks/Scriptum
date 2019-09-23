@@ -12,8 +12,8 @@ import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.ui.part.NotePanel
-import sgtmelon.scriptum.ui.part.NoteToolbar
+import sgtmelon.scriptum.ui.part.panel.NotePanel
+import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 
 /**
