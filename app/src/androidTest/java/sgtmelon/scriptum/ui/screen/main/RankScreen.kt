@@ -1,17 +1,16 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import android.view.View
-import androidx.annotation.IdRes
-import androidx.test.espresso.matcher.ViewMatchers.*
-import org.hamcrest.CoreMatchers.allOf
+import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.room.entity.RankEntity
-import sgtmelon.scriptum.screen.ui.main.RankFragment
-import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.basic.click
 import sgtmelon.scriptum.basic.isDisplayed
 import sgtmelon.scriptum.basic.longClick
+import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.screen.ui.main.RankFragment
+import sgtmelon.scriptum.ui.ParentRecyclerItem
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
 
 /**
@@ -26,40 +25,33 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     private val infoTitleText = getViewById(R.id.info_title_text).withText(R.string.info_rank_empty_title)
     private val infoDetailsText = getViewById(R.id.info_details_text).withText(R.string.info_rank_empty_details)
 
-    private fun getVisibleButton(name: String) = getButton(name, R.id.rank_visible_button)
-
-    private fun getCancelButton(name: String) = getButton(name, R.id.rank_cancel_button)
-
-    // TODO replace with recyclerAction
-    private fun getButton(name: String, @IdRes childId: Int): Matcher<View> =
-            allOf(withId(childId), withParent(allOf(
-                    withId(R.id.rank_click_container), withChild(allOf(
-                    withId(R.id.rank_content_container), withChild(withText(name))
-            )))))
-
-    //endregion
-
+    private fun getItem(rankEntity: RankEntity) = Item(recyclerView, rankEntity)
 
     fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
 
-    fun openRenameDialog(title: String, p: Int = positionRandom,
-                         func: RenameDialogUi.() -> Unit = {}) {
+    //endregion
+
+    fun openRenameDialog(title: String, p: Int = random, func: RenameDialogUi.() -> Unit = {}) {
         onClickItem(p)
         RenameDialogUi.invoke(func, title)
     }
 
     fun onClickVisible(rankEntity: RankEntity) {
-        getVisibleButton(rankEntity.name).click()
+        getItem(rankEntity).visibleButton.click()
     }
 
     fun onLongClickVisible(rankEntity: RankEntity) {
-        getVisibleButton(rankEntity.name).longClick()
+        getItem(rankEntity).visibleButton.longClick()
     }
 
     fun onClickCancel(rankEntity: RankEntity) {
-        getCancelButton(rankEntity.name).click()
+        getItem(rankEntity).cancelButton.click()
     }
 
+
+    fun onAssertItem(rankEntity: RankEntity) {
+        getItem(rankEntity).assert()
+    }
 
     fun assert(empty: Boolean) {
         toolbar { assert() }
@@ -69,6 +61,27 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         infoTitleText.isDisplayed(empty)
         infoDetailsText.isDisplayed(empty)
         recyclerView.isDisplayed(!empty)
+    }
+
+    private inner class Item(list: Matcher<View>, private val rankEntity: RankEntity) :
+            ParentRecyclerItem(list, hasDescendant(
+                    getViewById(R.id.rank_name_text).withText(rankEntity.name)
+            )) {
+
+        val visibleButton by lazy { getChild(getViewById(R.id.rank_visible_button)) }
+        val cancelButton by lazy { getChild(getViewById(R.id.rank_cancel_button)) }
+
+        val nameText by lazy { getChild(getViewById(R.id.rank_name_text)) }
+        val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
+
+        fun assert() {
+            visibleButton.isDisplayed()
+            cancelButton.isDisplayed()
+
+            nameText.isDisplayed()
+            countText.isDisplayed()
+        }
+
     }
 
     companion object {

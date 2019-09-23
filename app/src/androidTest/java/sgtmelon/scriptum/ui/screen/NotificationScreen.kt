@@ -9,12 +9,12 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -37,13 +37,13 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         getToolbarButton().click()
     }
 
-    fun openText(noteModel: NoteModel, p: Int = positionRandom,
+    fun openText(noteModel: NoteModel, p: Int = random,
                  func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
         TextNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun openRoll(noteModel: NoteModel, p: Int = positionRandom,
+    fun openRoll(noteModel: NoteModel, p: Int = random,
                  func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
         RollNoteScreen.invoke(func, State.READ, noteModel)

@@ -2,9 +2,8 @@ package sgtmelon.scriptum.ui
 
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import sgtmelon.scriptum.data.Scroll
 import sgtmelon.scriptum.basic.*
-import sgtmelon.scriptum.basic.waitAfter
+import sgtmelon.scriptum.data.Scroll
 
 /**
  * Parent class for screens which contains [RecyclerView]
@@ -15,9 +14,9 @@ abstract class ParentRecyclerScreen(@IdRes protected val recyclerId: Int) : Pare
 
     val count: Int get() = recyclerView.getCount()
 
-    protected val positionRandom: Int get() = recyclerView.getRandomPosition()
+    protected val random: Int get() = recyclerView.getRandomPosition()
 
-    protected fun onClickItem(position: Int = positionRandom) {
+    protected fun onClickItem(position: Int = random) {
         recyclerView.click(position)
     }
 
@@ -34,6 +33,7 @@ abstract class ParentRecyclerScreen(@IdRes protected val recyclerId: Int) : Pare
         onScroll(Scroll.END)
         onScroll(Scroll.START)
     }
+
 
     companion object {
         const val SCROLL_TIME = 200L

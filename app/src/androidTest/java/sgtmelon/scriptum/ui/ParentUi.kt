@@ -59,12 +59,12 @@ abstract class ParentUi {
         allOf(it, ViewMatchers.withHint(stringId), ViewMatchers.withText(""))
     }
 
-    protected fun Matcher<View>.excludeParent(parentView: Matcher<View>): Matcher<View> = let {
-        allOf(it, not(withParent(parentView)))
+    protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
+        allOf(it, not(withParent(parentMatcher)))
     }
 
-    private fun Matcher<View>.includeChild(childView: Matcher<View>): Matcher<View> = let {
-        allOf(it, withChild(childView))
+    private fun Matcher<View>.includeChild(childMatcher: Matcher<View>): Matcher<View> = let {
+        allOf(it, withChild(childMatcher))
     }
 
 }

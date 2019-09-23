@@ -6,6 +6,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.clearText
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import org.hamcrest.Matcher
 import kotlin.random.Random
@@ -35,6 +36,10 @@ fun Matcher<View>.swipeDown() = also { actionOnView(it, ViewActions.swipeDown())
 /**
  * RecyclerView
  */
+
+fun Matcher<View>.scrollTo(itemMatcher: Matcher<View>) = also {
+    actionOnView(it, RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(itemMatcher))
+}
 
 fun Matcher<View>.click(p: Int) = also {
     actionOnView(it, actionOnItemAtPosition<RecyclerView.ViewHolder>(p, ViewActions.click()))

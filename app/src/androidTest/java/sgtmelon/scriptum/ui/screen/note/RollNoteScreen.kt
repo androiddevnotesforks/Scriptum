@@ -3,15 +3,15 @@ package sgtmelon.scriptum.ui.screen.note
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.swipeItem
+import sgtmelon.scriptum.basic.waitAfter
 import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.RollNoteFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.swipeItem
-import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Class for UI control of [NoteActivity], [RollNoteFragment]
@@ -48,7 +48,7 @@ class RollNoteScreen(
 
     fun onSwipeAll() = repeat(times = count) { onSwipe() }
 
-    fun onSwipe(p: Int = positionRandom) {
+    fun onSwipe(p: Int = random) {
         waitAfter(SWIPE_TIME) { recyclerView.swipeItem(p) }
         assert()
     }

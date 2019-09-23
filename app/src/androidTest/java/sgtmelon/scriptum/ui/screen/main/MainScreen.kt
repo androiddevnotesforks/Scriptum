@@ -1,15 +1,12 @@
 package sgtmelon.scriptum.ui.screen.main
 
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.*
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.ui.ParentUi
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.isSelected
-import sgtmelon.scriptum.basic.longClick
 import sgtmelon.scriptum.ui.dialog.AddDialogUi
-import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Class for UI control of [MainActivity]
@@ -18,15 +15,15 @@ class MainScreen : ParentUi() {
 
     //region Views
 
-    private val parentContainer = getViewById(R.id.main_parent_container)
-    private val toolbarHolder = getViewById(R.id.main_toolbar_holder)
-    private val menuNavigation = getViewById(R.id.main_menu_navigation)
+    private val parentContainer = withId(R.id.main_parent_container)
+    private val toolbarHolder = withId(R.id.main_toolbar_holder)
+    private val menuNavigation = withId(R.id.main_menu_navigation)
 
-    private val rankMenuItem = getViewById(R.id.item_page_rank)
-    private val notesMenuItem = getViewById(R.id.item_page_notes)
-    private val binMenuItem = getViewById(R.id.item_page_bin)
+    private val rankMenuItem = withId(R.id.item_page_rank)
+    private val notesMenuItem = withId(R.id.item_page_notes)
+    private val binMenuItem = withId(R.id.item_page_bin)
 
-    private val addFab = getViewById(R.id.main_add_fab)
+    private val addFab = withId(R.id.main_add_fab)
 
     //endregion
 

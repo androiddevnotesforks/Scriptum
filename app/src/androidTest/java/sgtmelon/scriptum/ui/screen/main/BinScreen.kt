@@ -1,13 +1,13 @@
 package sgtmelon.scriptum.ui.screen.main
 
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.click
+import sgtmelon.scriptum.basic.isDisplayed
+import sgtmelon.scriptum.basic.longClick
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
-import sgtmelon.scriptum.basic.click
-import sgtmelon.scriptum.basic.isDisplayed
-import sgtmelon.scriptum.basic.longClick
 import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -35,19 +35,19 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
         ClearDialogUi.invoke(func)
     }
 
-    fun openNoteDialog(noteModel: NoteModel, p: Int = positionRandom,
+    fun openNoteDialog(noteModel: NoteModel, p: Int = random,
                        func: NoteDialogUi.() -> Unit = {}) {
         recyclerView.longClick(p)
         NoteDialogUi.invoke(func, noteModel)
     }
 
-    fun openTextNote(noteModel: NoteModel, p: Int = positionRandom,
+    fun openTextNote(noteModel: NoteModel, p: Int = random,
                      func: TextNoteScreen.() -> Unit = {}) {
         onClickItem(p)
         TextNoteScreen.invoke(func, State.BIN, noteModel)
     }
 
-    fun openRollNote(noteModel: NoteModel, p: Int = positionRandom,
+    fun openRollNote(noteModel: NoteModel, p: Int = random,
                      func: RollNoteScreen.() -> Unit = {}) {
         onClickItem(p)
         RollNoteScreen.invoke(func, State.BIN, noteModel)

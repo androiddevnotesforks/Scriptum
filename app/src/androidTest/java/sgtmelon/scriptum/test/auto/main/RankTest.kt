@@ -1,9 +1,9 @@
 package sgtmelon.scriptum.test.auto.main
 
 import org.junit.Test
+import sgtmelon.scriptum.basic.waitAfter
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
-import sgtmelon.scriptum.basic.waitAfter
 
 /**
  * Test for[RankFragment]
@@ -81,7 +81,7 @@ class RankTest : ParentUiTest() {
             mainScreen {
                 openRankPage {
                     onClickVisible(it)
-                    wait(time = 500) { onClickVisible(it) }
+                    wait(time = 300) { onClickVisible(it) }
                 }
             }
         }
