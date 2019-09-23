@@ -25,8 +25,8 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     private val toolbar = getToolbar(R.string.title_bin)
     private val clearMenuItem = getViewById(R.id.item_clear)
 
-    private val infoTitleText = getViewById(R.id.info_title_text).withText(R.string.info_bin_empty_title)
-    private val infoDetailsText = getViewById(R.id.info_details_text).withText(R.string.info_bin_empty_details)
+    private val infoTitleText = getView(R.id.info_title_text, R.string.info_bin_empty_title)
+    private val infoDetailsText = getView(R.id.info_details_text, R.string.info_bin_empty_details)
 
     //endregion
 

@@ -3,6 +3,8 @@ package sgtmelon.scriptum.ui.screen.note
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.basic.extension.haveHint
+import sgtmelon.scriptum.basic.extension.haveText
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.typeText
 import sgtmelon.scriptum.control.input.InputControl
@@ -98,16 +100,15 @@ class TextNoteScreen(override var state: State,
 
         when (state) {
             State.READ, State.BIN -> {
-                contentText.withText(noteModel.noteEntity.text).isDisplayed()
+                contentText.haveText(noteModel.noteEntity.text).isDisplayed()
                 contentEnter.isDisplayed(visible = false)
             }
             State.EDIT, State.NEW -> {
                 contentText.isDisplayed(visible = false)
 
-                if (shadowModel.noteEntity.text.isEmpty()) {
-                    contentEnter.withHint(R.string.hint_enter_text).isDisplayed()
-                } else {
-                    contentEnter.withText(shadowModel.noteEntity.text).isDisplayed()
+                val text = shadowModel.noteEntity.text
+                contentEnter.isDisplayed().apply {
+                    if (text.isNotEmpty()) haveText(text) else haveHint(R.string.hint_enter_text)
                 }
             }
         }

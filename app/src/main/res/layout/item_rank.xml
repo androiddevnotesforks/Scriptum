@@ -4,9 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable name="rankEntity" type="sgtmelon.scriptum.room.entity.RankEntity"/>
-
     </data>
 
     <androidx.cardview.widget.CardView

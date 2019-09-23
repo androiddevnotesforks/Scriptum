@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.ui.screen
 
-import android.view.View
-import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.Scroll
@@ -21,15 +19,10 @@ class IntroScreen : ParentUi() {
     private val viewPager = getViewById(R.id.intro_pager)
     private val pageIndicator = getViewById(R.id.intro_page_indicator)
 
-    private fun getTitleText(p: Int): Matcher<View> {
-        return getViewById(R.id.info_title_text).withText(IntroData.title[p])
-    }
+    private fun getTitleText(p: Int) = getView(R.id.info_title_text, IntroData.title[p])
+    private fun getDetailsText(p: Int) = getView(R.id.info_details_text, IntroData.details[p])
 
-    private fun getDetailsText(p: Int): Matcher<View> {
-        return getViewById(R.id.info_details_text).withText(IntroData.details[p])
-    }
-
-    private val endButton = getViewById(R.id.intro_end_button).withText(R.string.info_intro_button)
+    private val endButton = getView(R.id.intro_end_button, R.string.info_intro_button)
 
     //endregion
 

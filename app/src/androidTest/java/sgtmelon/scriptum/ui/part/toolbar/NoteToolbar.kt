@@ -1,9 +1,7 @@
 package sgtmelon.scriptum.ui.part.toolbar
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
@@ -76,7 +74,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
                     nameEnter.isDisplayed(visible = false)
                     nameText.isDisplayed().apply {
-                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_text_name)
+                        if (name.isNotEmpty()) haveText(name) else haveHint(R.string.hint_text_name)
                     }
                 }
                 State.EDIT, State.NEW -> {
@@ -84,7 +82,7 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
                     nameText.isDisplayed(visible = false)
                     nameEnter.isDisplayed().apply {
-                        if (name.isNotEmpty()) withText(name) else withHint(R.string.hint_enter_name)
+                        if (name.isNotEmpty()) haveText(name) else haveHint(R.string.hint_enter_name)
                     }
                 }
             }

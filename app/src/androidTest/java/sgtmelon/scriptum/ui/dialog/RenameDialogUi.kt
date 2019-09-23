@@ -1,10 +1,7 @@
 package sgtmelon.scriptum.ui.dialog
 
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.basic.extension.typeText
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.dialog.RenameDialog
 import sgtmelon.scriptum.ui.ParentDialogUi
 
@@ -41,7 +38,7 @@ class RenameDialogUi(private val title: String) : ParentDialogUi() {
         viewContainer.isDisplayed()
 
         renameEnter.isDisplayed().apply {
-            if (enter.isNotEmpty()) withText(enter) else withHint(R.string.hint_enter_rank_rename)
+            if (enter.isNotEmpty()) haveText(enter) else haveHint(R.string.hint_enter_rank_rename)
         }
 
         cancelButton.isDisplayed().isEnabled()

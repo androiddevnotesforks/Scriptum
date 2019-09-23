@@ -8,7 +8,6 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.Toolbar
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.Matcher
@@ -22,7 +21,7 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
 abstract class ParentUi {
 
     // TODO remove
-    private val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
+    protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
     private val iPreferenceRepo = PreferenceRepo(context)
     val theme: Int get() = iPreferenceRepo.theme
 
@@ -31,10 +30,19 @@ abstract class ParentUi {
 
     protected fun getViewByText(@StringRes stringId: Int): Matcher<View> = withText(stringId)
 
-    protected fun getViewByText(text: String): Matcher<View> = withText(text)
+    protected fun getViewByText(string: String): Matcher<View> = withText(string)
+
+    protected fun getView(@IdRes viewId: Int, @StringRes stringId: Int): Matcher<View> {
+        return allOf(getViewById(viewId), getViewByText(stringId))
+    }
+
+    protected fun getView(@IdRes viewId: Int, string: String): Matcher<View> {
+        return allOf(getViewById(viewId), getViewByText(string))
+    }
+
 
     protected fun getToolbar(@StringRes titleId: Int): Matcher<View> {
-        return getViewById(R.id.toolbar_container).includeChild(getViewByText(titleId))
+        return allOf(getViewById(R.id.toolbar_container), withChild(getViewByText(titleId)))
     }
 
     protected fun getToolbarButton(): Matcher<View> = allOf(
@@ -46,25 +54,8 @@ abstract class ParentUi {
     )
 
 
-
-    protected fun Matcher<View>.withText(text: String): Matcher<View> = let {
-        allOf(it, ViewMatchers.withText(text))
-    }
-
-    protected fun Matcher<View>.withText(@StringRes stringId: Int): Matcher<View> = let {
-        allOf(it, ViewMatchers.withText(stringId))
-    }
-
-    protected fun Matcher<View>.withHint(@StringRes stringId: Int): Matcher<View> = let {
-        allOf(it, ViewMatchers.withHint(stringId), ViewMatchers.withText(""))
-    }
-
     protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
         allOf(it, not(withParent(parentMatcher)))
-    }
-
-    private fun Matcher<View>.includeChild(childMatcher: Matcher<View>): Matcher<View> = let {
-        allOf(it, withChild(childMatcher))
     }
 
 }

@@ -11,7 +11,7 @@
     </data>
 
     <androidx.cardview.widget.CardView
-            android:id="@+id/rank_parent_card"
+            android:id="@+id/notification_parent_card"
             style="@style/Card"
             app:cardBackgroundColor="?attr/clPrimary"
             app:cardCornerRadius="@dimen/radius_4dp"

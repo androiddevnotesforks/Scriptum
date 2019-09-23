@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control of [NotesFragment]
  */
-class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
+class NotesScreen(private val hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     //region Views
 
@@ -27,11 +27,11 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     private val notificationMenuItem = getViewById(R.id.item_notification)
     private val preferenceMenuItem = getViewById(R.id.item_preference)
 
-    private val infoTitleText = getViewById(R.id.info_title_text).withText(
+    private val infoTitleText = getView(R.id.info_title_text,
             if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
     )
 
-    private val infoDetailsText = getViewById(R.id.info_details_text).withText(if (hide) {
+    private val infoDetailsText = getView(R.id.info_details_text, if (hide) {
         R.string.info_notes_hide_details
     } else {
         R.string.info_notes_empty_details
