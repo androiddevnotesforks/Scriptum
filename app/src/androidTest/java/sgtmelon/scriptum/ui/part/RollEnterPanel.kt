@@ -1,9 +1,10 @@
-package sgtmelon.scriptum.ui.screen.note
+package sgtmelon.scriptum.ui.part
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import kotlin.random.Random
 
 /**

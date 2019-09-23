@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.screen.note
+package sgtmelon.scriptum.ui.part
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -9,6 +9,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.screen.note.INoteScreen
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]

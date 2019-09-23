@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.screen.note
+package sgtmelon.scriptum.ui.part
 
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -10,6 +10,7 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen
+import sgtmelon.scriptum.ui.screen.note.INoteScreen
 
 /**
  * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]

@@ -1,4 +1,4 @@
-package sgtmelon.scriptum.ui.screen.main
+package sgtmelon.scriptum.ui.part
 
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import sgtmelon.scriptum.R

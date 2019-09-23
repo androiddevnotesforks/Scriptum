@@ -12,6 +12,7 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.RenameDialogUi
+import sgtmelon.scriptum.ui.part.RankToolbar
 
 /**
  * Class for UI control of [RankFragment]
