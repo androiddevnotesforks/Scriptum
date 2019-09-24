@@ -10,6 +10,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.basic.matcher.DrawableMatcher
+
+
 
 private fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
     onView(viewMatcher).check(matches(checkMatcher))
@@ -32,4 +35,8 @@ fun Matcher<View>.haveText(string: String) = also { matchOnView(it, withText(str
 
 fun Matcher<View>.haveHint(@StringRes stringId: Int) = also {
     matchOnView(it, allOf(withHint(stringId), withText("")))
+}
+
+fun Matcher<View>.withDrawable(resourceId: Int): Matcher<View> = also {
+    matchOnView(it, DrawableMatcher(resourceId))
 }
