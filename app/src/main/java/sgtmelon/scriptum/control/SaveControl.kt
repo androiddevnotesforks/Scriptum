@@ -33,7 +33,7 @@ class SaveControl(context: Context, private val model: Model, private val callba
         if (isStart) {
             saveHandler.postDelayed(saveRunnable, saveTime.toLong())
         } else {
-            saveHandler.removeCallbacks(saveRunnable)
+            saveHandler.removeCallbacksAndMessages(null)
         }
     }
 

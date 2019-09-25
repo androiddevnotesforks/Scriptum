@@ -97,7 +97,14 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
 
     override fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
-    override fun onPause() = saveControl.onPauseSave(noteState.isEdit)
+    override fun onResume() {
+        saveControl.setSaveHandlerEvent(isStart = true)
+    }
+
+    override fun onPause() {
+        saveControl.onPauseSave(noteState.isEdit)
+        saveControl.setSaveHandlerEvent(isStart = false)
+    }
 
     override fun onClickBackArrow() {
         if (!noteState.isCreate && noteState.isEdit && id != NoteData.Default.ID) {

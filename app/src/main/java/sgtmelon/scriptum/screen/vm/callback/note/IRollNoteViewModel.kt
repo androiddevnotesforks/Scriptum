@@ -23,7 +23,10 @@ interface IRollNoteViewModel : IParentViewModel,
 
     fun onSaveData(bundle: Bundle)
 
+    fun onResume()
+
     fun onPause()
+
 
     fun onUpdateData()
 

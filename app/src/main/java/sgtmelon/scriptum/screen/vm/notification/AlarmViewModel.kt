@@ -90,10 +90,10 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
         if (signalState?.isVibration == true) {
             callback?.vibrateCancel()
-            vibratorHandler.removeCallbacks(vibratorRunnable)
+            vibratorHandler.removeCallbacksAndMessages(null)
         }
 
-        longWaitHandler.removeCallbacks(longWaitRunnable)
+        longWaitHandler.removeCallbacksAndMessages(null)
 
         if (needRepeat) {
             noteModel?.let {

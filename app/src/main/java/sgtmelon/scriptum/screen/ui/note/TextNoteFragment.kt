@@ -80,6 +80,11 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         panelContainer = view.findViewById(R.id.note_panel_container)
     }
 
+    override fun onResume() {
+        super.onResume()
+        iViewModel.onResume()
+    }
+
     override fun onPause() {
         super.onPause()
         iViewModel.onPause()

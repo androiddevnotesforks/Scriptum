@@ -19,6 +19,8 @@ interface ITextNoteViewModel : IParentViewModel,
 
     fun onSaveData(bundle: Bundle)
 
+    fun onResume()
+
     fun onPause()
 
 

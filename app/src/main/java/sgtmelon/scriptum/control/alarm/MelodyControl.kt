@@ -113,7 +113,7 @@ class MelodyControl(private val context: Context) : IMelodyControl,
     override fun release() {
         mediaPlayer?.release()
 
-        increaseHandler.removeCallbacks(increaseRunnable)
+        increaseHandler.removeCallbacksAndMessages(null)
 
         /**
          * Return volume which was before
