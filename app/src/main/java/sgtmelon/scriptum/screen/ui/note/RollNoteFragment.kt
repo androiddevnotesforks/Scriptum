@@ -200,14 +200,10 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, iInputControl)
+                    InputTextWatcher(it, InputAction.NAME, iViewModel, iInputControl)
             )
-            it.addOnNextAction {
-                rollEnter?.apply {
-                    requestFocus()
-                    setSelection(text.toString().length)
-                }
-            }
+
+            it.addOnNextAction { onFocusEnter() }
         }
 
         rollEnter = view?.findViewById(R.id.roll_note_enter)
@@ -309,6 +305,13 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
             requestFocus()
             setText(text)
             setSelection(cursor)
+        }
+    }
+
+    override fun onFocusEnter() {
+        rollEnter?.apply {
+            requestFocus()
+            setSelection(text.toString().length)
         }
     }
 

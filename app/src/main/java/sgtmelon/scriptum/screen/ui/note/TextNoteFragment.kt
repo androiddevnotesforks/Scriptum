@@ -177,7 +177,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
         nameEnter?.let {
             it.addTextChangedListener(
-                    InputTextWatcher(nameEnter, InputAction.NAME, iViewModel, iInputControl)
+                    InputTextWatcher(it, InputAction.NAME, iViewModel, iInputControl)
             )
             it.addOnNextAction {
                 textEnter?.apply {

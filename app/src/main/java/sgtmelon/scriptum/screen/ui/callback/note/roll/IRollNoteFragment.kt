@@ -49,6 +49,8 @@ interface IRollNoteFragment : IRollNoteBridge {
 
     fun changeName(text: String, cursor: Int)
 
+    fun onFocusEnter()
+
     fun getEnterText(): String
 
     fun clearEnterText()

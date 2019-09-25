@@ -110,9 +110,9 @@ class RankFragment : Fragment(), IRankFragment {
         }
 
         nameEnter = view?.findViewById(R.id.toolbar_rank_enter)
-        nameEnter?.let {
-            it.addTextChangedListener(on = { iViewModel.onUpdateToolbar() })
-            it.setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
+        nameEnter?.apply {
+            addTextChangedListener(on = { iViewModel.onUpdateToolbar() })
+            setOnEditorActionListener { _, i, _ -> iViewModel.onEditorClick(i) }
         }
     }
 

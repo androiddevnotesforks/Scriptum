@@ -13,6 +13,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.input.IInputControl
 import sgtmelon.scriptum.databinding.ItemRollWriteBinding
+import sgtmelon.scriptum.extension.addOnNextAction
 import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.item.InputItem
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -42,8 +43,9 @@ class RollWriteHolder(
                     or InputType.TYPE_TEXT_FLAG_AUTO_CORRECT
                     or InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE
             )
-            imeOptions = EditorInfo.IME_ACTION_DONE or EditorInfo.IME_FLAG_NO_FULLSCREEN
+            imeOptions = EditorInfo.IME_ACTION_NEXT or EditorInfo.IME_FLAG_NO_FULLSCREEN
 
+            addOnNextAction { callback.onRollActionNext() }
             addTextChangedListener(this@RollWriteHolder)
             setOnTouchListener(this@RollWriteHolder)
         }
@@ -101,6 +103,7 @@ class RollWriteHolder(
 
     interface Callback {
         fun onInputRollChange(p: Int, text: String)
+        fun onRollActionNext()
     }
 
 }

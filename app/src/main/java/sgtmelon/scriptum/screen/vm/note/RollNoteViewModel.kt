@@ -495,6 +495,10 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
         }
     }
 
+    override fun onRollActionNext() {
+        callback?.onFocusEnter()
+    }
+
     //region Touch callbacks
 
     override fun onTouchGetFlags(drag: Boolean) = ItemTouchHelper.Callback.makeMovementFlags(
