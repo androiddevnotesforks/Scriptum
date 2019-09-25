@@ -25,7 +25,7 @@
                 android:contentDescription="@null"
                 app:colorAttr='@{R.attr.clContent}'
                 app:drawableId='@{icon}'
-                tools:srcCompat="@mipmap/img_info_notes"
+                tools:src="@mipmap/img_info_notes"
                 tools:tint="?attr/clContent"/>
 
         <TextView

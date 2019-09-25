@@ -4,6 +4,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.withDrawable
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.BinFragment
@@ -25,6 +26,8 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     private val toolbar = getToolbar(R.string.title_bin)
     private val clearMenuItem = getViewById(R.id.item_clear)
 
+    private val infoContainer = getViewById(R.id.bin_info_include)
+    private val infoImage = getViewById(R.id.info_image).includeParent(infoContainer)
     private val infoTitleText = getView(R.id.info_title_text, R.string.info_bin_empty_title)
     private val infoDetailsText = getView(R.id.info_details_text, R.string.info_bin_empty_details)
 
@@ -60,8 +63,11 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
         if (!empty) clearMenuItem.isDisplayed()
 
+        infoContainer.isDisplayed(empty)
+        infoImage.isDisplayed(empty).withDrawable(R.mipmap.img_info_bin, R.attr.clContent)
         infoTitleText.isDisplayed(empty)
         infoDetailsText.isDisplayed(empty)
+
         recyclerView.isDisplayed(!empty)
     }
 

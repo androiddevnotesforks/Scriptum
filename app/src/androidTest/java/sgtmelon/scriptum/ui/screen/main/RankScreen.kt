@@ -4,10 +4,7 @@ import android.view.View
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.basic.extension.haveText
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.ui.ParentRecyclerItem
@@ -24,6 +21,9 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
     private val parentContainer = getViewById(R.id.rank_parent_container)
 
+
+    private val infoContainer = getViewById(R.id.rank_info_include)
+    private val infoImage = getViewById(R.id.info_image).includeParent(infoContainer)
     private val infoTitleText = getView(R.id.info_title_text, R.string.info_rank_empty_title)
     private val infoDetailsText = getView(R.id.info_details_text, R.string.info_rank_empty_details)
 
@@ -60,8 +60,11 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
         parentContainer.isDisplayed()
 
+        infoContainer.isDisplayed(empty)
+        infoImage.isDisplayed(empty).withDrawable(R.mipmap.img_info_rank, R.attr.clContent)
         infoTitleText.isDisplayed(empty)
         infoDetailsText.isDisplayed(empty)
+
         recyclerView.isDisplayed(!empty)
     }
 

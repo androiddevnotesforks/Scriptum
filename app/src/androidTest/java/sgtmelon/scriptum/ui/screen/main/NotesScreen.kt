@@ -4,6 +4,7 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.longClick
+import sgtmelon.scriptum.basic.extension.withDrawable
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
@@ -17,7 +18,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control of [NotesFragment]
  */
-class NotesScreen(private val hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
+class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     //region Views
 
@@ -27,6 +28,8 @@ class NotesScreen(private val hide: Boolean) : ParentRecyclerScreen(R.id.notes_r
     private val notificationMenuItem = getViewById(R.id.item_notification)
     private val preferenceMenuItem = getViewById(R.id.item_preference)
 
+    private val infoContainer = getViewById(R.id.notes_info_include)
+    private val infoImage = getViewById(R.id.info_image).includeParent(infoContainer)
     private val infoTitleText = getView(R.id.info_title_text,
             if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
     )
@@ -75,8 +78,11 @@ class NotesScreen(private val hide: Boolean) : ParentRecyclerScreen(R.id.notes_r
         notificationMenuItem.isDisplayed()
         preferenceMenuItem.isDisplayed()
 
+        infoContainer.isDisplayed(empty)
+        infoImage.isDisplayed(empty).withDrawable(R.mipmap.img_info_notes, R.attr.clContent)
         infoTitleText.isDisplayed(empty)
         infoDetailsText.isDisplayed(empty)
+
         recyclerView.isDisplayed(!empty)
     }
 

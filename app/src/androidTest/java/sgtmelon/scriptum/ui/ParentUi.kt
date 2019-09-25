@@ -3,7 +3,6 @@ package sgtmelon.scriptum.ui
 import android.content.Context
 import android.view.View
 import android.widget.ImageButton
-
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageButton
@@ -53,6 +52,10 @@ abstract class ParentUi {
             ))
     )
 
+
+    protected fun Matcher<View>.includeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
+        allOf(it, withParent(parentMatcher))
+    }
 
     protected fun Matcher<View>.excludeParent(parentMatcher: Matcher<View>): Matcher<View> = let {
         allOf(it, not(withParent(parentMatcher)))

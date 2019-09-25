@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.basic.extension
 
 import android.view.View
+import androidx.annotation.AttrRes
 import androidx.annotation.StringRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -37,6 +38,6 @@ fun Matcher<View>.haveHint(@StringRes stringId: Int) = also {
     matchOnView(it, allOf(withHint(stringId), withText("")))
 }
 
-fun Matcher<View>.withDrawable(resourceId: Int): Matcher<View> = also {
-    matchOnView(it, DrawableMatcher(resourceId))
+fun Matcher<View>.withDrawable(resourceId: Int = -1, @AttrRes attrColor: Int = -1) = also {
+    matchOnView(it, DrawableMatcher(resourceId, attrColor))
 }
