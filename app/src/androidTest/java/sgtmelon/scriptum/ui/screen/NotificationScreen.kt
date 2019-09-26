@@ -6,11 +6,13 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
+import sgtmelon.scriptum.ui.part.InfoContainer
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
@@ -24,8 +26,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     private val parentContainer = getViewById(R.id.notification_parent_container)
     private val toolbar = getToolbar(R.string.title_notification)
 
-    private val infoTitleText = getView(R.id.info_title_text, R.string.info_notification_empty_title)
-    private val infoDetailsText = getView(R.id.info_details_text, R.string.info_notification_empty_details)
+    private val infoContainer = InfoContainer(InfoPage.NOTIFICATION)
 
     private fun getItem(noteModel: NoteModel) = Item(recyclerView, noteModel)
 
@@ -60,8 +61,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         parentContainer.isDisplayed()
         toolbar.isDisplayed()
 
-        infoTitleText.isDisplayed(empty)
-        infoDetailsText.isDisplayed(empty)
+        infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
     }
 

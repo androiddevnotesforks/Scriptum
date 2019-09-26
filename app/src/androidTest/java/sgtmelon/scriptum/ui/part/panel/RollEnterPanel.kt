@@ -9,7 +9,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import kotlin.random.Random
 
 /**
- * Часть UI абстракции для [RollNoteScreen]
+ * Part of UI abstraction for [RollNoteScreen]
  */
 class RollEnterPanel(private val callback: INoteScreen) : ParentUi() {
 

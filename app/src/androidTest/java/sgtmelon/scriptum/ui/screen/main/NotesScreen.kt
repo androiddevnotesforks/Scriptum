@@ -4,12 +4,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.longClick
-import sgtmelon.scriptum.basic.extension.withDrawable
+import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
+import sgtmelon.scriptum.ui.part.InfoContainer
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -28,17 +29,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     private val notificationMenuItem = getViewById(R.id.item_notification)
     private val preferenceMenuItem = getViewById(R.id.item_preference)
 
-    private val infoContainer = getViewById(R.id.notes_info_include)
-    private val infoImage = getViewById(R.id.info_image).includeParent(infoContainer)
-    private val infoTitleText = getView(R.id.info_title_text,
-            if (hide) R.string.info_notes_hide_title else R.string.info_notes_empty_title
-    )
-
-    private val infoDetailsText = getView(R.id.info_details_text, if (hide) {
-        R.string.info_notes_hide_details
-    } else {
-        R.string.info_notes_empty_details
-    })
+    private val infoContainer = InfoContainer(InfoPage.NOTES, hide)
 
     //endregion
 
@@ -78,11 +69,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
         notificationMenuItem.isDisplayed()
         preferenceMenuItem.isDisplayed()
 
-        infoContainer.isDisplayed(empty)
-        infoImage.isDisplayed(empty).withDrawable(R.mipmap.img_info_notes, R.attr.clContent)
-        infoTitleText.isDisplayed(empty)
-        infoDetailsText.isDisplayed(empty)
-
+        infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
     }
 

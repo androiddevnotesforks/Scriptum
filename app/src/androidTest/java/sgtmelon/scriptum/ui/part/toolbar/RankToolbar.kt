@@ -7,7 +7,7 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.RankScreen
 
 /**
- * Часть UI абстракции для [RankScreen]
+ * Part of UI abstraction for [RankScreen]
  */
 class RankToolbar : ParentUi() {
 

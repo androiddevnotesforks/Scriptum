@@ -15,7 +15,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Часть UI абстракции для [TextNoteScreen] и [RollNoteScreen]
+ * Part of UI abstraction for [TextNoteScreen] и [RollNoteScreen]
  */
 class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.Callback {
 

@@ -23,6 +23,8 @@
 
         <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
+            <!-- TODO replace icon -->
+
             <include
                     android:id="@+id/notification_info_include"
                     layout="@layout/include_info"
