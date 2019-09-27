@@ -135,15 +135,6 @@ class NoteDaoTest : ParentIntegrationTest() {
         ), getByColor(bin = true))
     }
 
-    @Test fun getCount() = inNoteDao {
-        insertAllTo(bin = false)
-
-        assertEquals(0, getCount(arrayListOf(4, 5, 6)))
-        assertEquals(1, getCount(arrayListOf(1, 5, 6)))
-        assertEquals(2, getCount(arrayListOf(1, 2, 6)))
-        assertEquals(3, getCount(arrayListOf(1, 2, 3)))
-    }
-
     private companion object {
         val noteFirst = NoteEntity(
                 id = 1, create = DATE_1, change = DATE_2, text = "123", name = "456",

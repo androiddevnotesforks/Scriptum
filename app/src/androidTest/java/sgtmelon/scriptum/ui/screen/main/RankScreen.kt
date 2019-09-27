@@ -80,7 +80,7 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
             cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
 
             nameText.isDisplayed().haveText(rankEntity.name)
-            countText.isDisplayed().haveText(string = "${context.getString(R.string.list_item_rank_count)} ${rankEntity.noteCount}")
+            countText.isDisplayed().haveText(string = "${context.getString(R.string.list_item_rank_count)} ${rankEntity.noteId.size}")
         }
 
     }

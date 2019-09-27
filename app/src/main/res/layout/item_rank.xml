@@ -60,7 +60,7 @@
                         style="@style/Text.SmallCard.Subtitle"
                         android:layout_marginEnd="@dimen/layout_4dp"
                         android:layout_marginRight="@dimen/layout_4dp"
-                        android:text='@{@string/list_item_rank_count + " " + rankEntity.noteCount}'
+                        android:text='@{@string/list_item_rank_count + " " + rankEntity.noteId.size()}'
                         tools:text="@string/preview_rank_count"/>
 
             </LinearLayout>

@@ -73,10 +73,12 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             noteId.add(noteModel.noteEntity.id)
         })
 
-        noteModel.noteEntity.rankId = rankEntity.id
-        noteModel.noteEntity.rankPs = rankEntity.position
-
-        inRoom { iNoteDao.update(noteModel.noteEntity) }
+        inRoom {
+            iNoteDao.update(noteModel.noteEntity.apply {
+                rankId = rankEntity.id
+                rankPs = rankEntity.position
+            })
+        }
 
         return rankEntity
     }
@@ -88,10 +90,12 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
             noteId.add(noteModel.noteEntity.id)
         })
 
-        noteModel.noteEntity.rankId = rankEntity.id
-        noteModel.noteEntity.rankPs = rankEntity.position
-
-        inRoom { iNoteDao.update(noteModel.noteEntity) }
+        inRoom {
+            iNoteDao.update(noteModel.noteEntity.apply {
+                rankId = rankEntity.id
+                rankPs = rankEntity.position
+            })
+        }
 
         return rankEntity
     }
@@ -141,6 +145,34 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
                 position = it
                 isVisible = Random.nextBoolean()
             }))
+        }
+    }
+
+    fun fillRankRelation(count: Int = 10) = ArrayList<RankEntity>().apply {
+        (0 until count).forEach {
+            val noteCount = (0 until 5).random()
+            val noteList = ArrayList<NoteModel>().apply {
+                repeat(noteCount) { add(insertNote()) }
+            }
+
+            val rankEntity = insertRank(rankEntity.apply {
+                name = "$it | $name"
+                position = it
+                isVisible = Random.nextBoolean()
+
+                noteList.map { it.noteEntity.id }.forEach { noteId.add(it) }
+            })
+
+            add(rankEntity)
+
+            inRoom {
+                noteList.map { it.noteEntity }.forEach {
+                    iNoteDao.update(it.apply {
+                        rankId = rankEntity.id
+                        rankPs = rankEntity.position
+                    })
+                }
+            }
         }
     }
 

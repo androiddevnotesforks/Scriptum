@@ -56,8 +56,4 @@ interface INoteDao {
     """)
     fun getByColor(bin: Boolean): List<NoteEntity>
 
-
-    @Query(value = "SELECT COUNT(NT_ID) FROM NOTE_TABLE WHERE NT_ID IN(:noteIdList)")
-    fun getCount(noteIdList: List<Long>): Int
-
 }

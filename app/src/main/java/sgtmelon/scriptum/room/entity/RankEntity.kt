@@ -18,8 +18,6 @@ data class RankEntity(
         @ColumnInfo(name = Rank.VISIBLE) var isVisible: Boolean = ND_VISIBLE
 ) {
 
-    @Ignore var noteCount = 0
-
     companion object {
         const val ND_ID = 0L
         const val ND_POSITION = 0

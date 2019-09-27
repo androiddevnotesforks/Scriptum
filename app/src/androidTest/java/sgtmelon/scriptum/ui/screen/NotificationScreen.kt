@@ -6,6 +6,7 @@ import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
+import sgtmelon.scriptum.basic.extension.withDrawable
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
@@ -84,7 +85,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
             nameText.isDisplayed()
             dateText.isDisplayed()
 
-            cancelButton.isDisplayed()
+            cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
         }
 
     }

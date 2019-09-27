@@ -19,15 +19,7 @@ class RankRepo(override val context: Context) : IRankRepo, IRoomWork {
         return id
     }
 
-    /**
-     * TODO подумать, может можно убрать дополнительный запрос для получения text/rollCount
-     */
-    override fun getList() = ArrayList<RankEntity>().apply {
-        inRoom {
-            addAll(iRankDao.get())
-            forEach { it.noteCount = iNoteDao.getCount(it.noteId) }
-        }
-    }
+    override fun getList() = ArrayList<RankEntity>().apply { inRoom { addAll(iRankDao.get()) } }
 
     override fun delete(rankEntity: RankEntity) = inRoom {
         rankEntity.noteId.forEach {
