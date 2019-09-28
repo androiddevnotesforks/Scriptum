@@ -105,12 +105,16 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
     override fun onSaveData(bundle: Bundle) = bundle.putLong(NoteData.Intent.ID, id)
 
     override fun onResume() {
-        saveControl.setSaveHandlerEvent(isStart = true)
+        if (noteState.isEdit) {
+            saveControl.setSaveHandlerEvent(isStart = true)
+        }
     }
 
     override fun onPause() {
-        saveControl.onPauseSave(noteState.isEdit)
-        saveControl.setSaveHandlerEvent(isStart = false)
+        if (noteState.isEdit) {
+            saveControl.onPauseSave(noteState.isEdit)
+            saveControl.setSaveHandlerEvent(isStart = false)
+        }
     }
 
     override fun onUpdateData() {

@@ -30,10 +30,10 @@ class SaveControl(context: Context, private val model: Model, private val callba
     fun setSaveHandlerEvent(isStart: Boolean) {
         if (!model.autoSaveOn) return
 
+        saveHandler.removeCallbacksAndMessages(null)
+
         if (isStart) {
             saveHandler.postDelayed(saveRunnable, saveTime.toLong())
-        } else {
-            saveHandler.removeCallbacksAndMessages(null)
         }
     }
 
