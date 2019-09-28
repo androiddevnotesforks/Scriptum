@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.test.auto.main
 
 import org.junit.Test
-import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -77,22 +76,11 @@ class RankTest : ParentUiTest() {
      */
 
     @Test fun rankVisibleAnimationClick() = data.insertRank().let {
-        launch {
-            mainScreen {
-                openRankPage {
-                    onClickVisible(it)
-                    wait(time = 300) { onClickVisible(it) }
-                }
-            }
-        }
+        launch { mainScreen { openRankPage { onClickVisible(it).onClickVisible(it) } } }
     }
 
     @Test fun rankVisibleAnimationLongClick() = data.fillRank(count = 5).let {
-        launch {
-            mainScreen {
-                openRankPage { it.forEach { waitAfter(time = 300) { onLongClickVisible(it) } } }
-            }
-        }
+        launch { mainScreen { openRankPage { it.forEach { onLongClickVisible(it) } } } }
     }
 
     @Test fun rankVisibleForNotes() = data.insertRankForNotes().let {
@@ -120,14 +108,7 @@ class RankTest : ParentUiTest() {
     }
 
     @Test fun rankClearFromList() = data.insertRank().let {
-        launch {
-            mainScreen {
-                openRankPage {
-                    onClickCancel(it)
-                    assert(empty = true)
-                }
-            }
-        }
+        launch { mainScreen { openRankPage { onClickCancel(it).assert(empty = true) } } }
     }
 
     @Test fun rankClearForNote() = data.insertRankForNotes().let {

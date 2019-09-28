@@ -35,15 +35,15 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         RenameDialogUi.invoke(func, title)
     }
 
-    fun onClickVisible(rankEntity: RankEntity) = waitAfter(ANIM_TIME) {
-        getItem(rankEntity).visibleButton.click()
+    fun onClickVisible(rankEntity: RankEntity) = apply {
+        waitAfter(ANIM_TIME) { getItem(rankEntity).visibleButton.click() }
     }
 
-    fun onLongClickVisible(rankEntity: RankEntity) = waitAfter(ANIM_TIME) {
-        getItem(rankEntity).visibleButton.longClick()
+    fun onLongClickVisible(rankEntity: RankEntity) = apply {
+        waitAfter(ANIM_TIME) { getItem(rankEntity).visibleButton.longClick() }
     }
 
-    fun onClickCancel(rankEntity: RankEntity) {
+    fun onClickCancel(rankEntity: RankEntity) = apply {
         getItem(rankEntity).cancelButton.click()
     }
 

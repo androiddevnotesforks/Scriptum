@@ -99,11 +99,11 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
     }
 
     private fun Description.appendNotMatching(matcher: Matcher<View>) = apply {
-        appendText("No found view with matcher = [$matcher]")
+        appendText("\nNo found view with matcher = [$matcher]")
     }
 
     private fun Description.appendMatching(matcher: Matcher<View>) = apply {
-        appendText("Found view with matcher = [$matcher]")
+        appendText("\nFound view with matcher = [$matcher]")
     }
 
 
