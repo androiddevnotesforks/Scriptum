@@ -14,10 +14,70 @@ import org.hamcrest.TypeSafeMatcher
  */
 class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
 
-    // TODO assert position (write position of recyclerView item when match).
-
     private var recyclerView: RecyclerView? = null
     private var itemView: View? = null
+
+
+    fun atItem(p: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
+        override fun describeTo(description: Description?) {
+            if (recyclerView == null) {
+                description?.appendNotMatching(listMatcher)
+                return
+            }
+
+            description?.appendMatching(listMatcher)
+
+            if (itemView == null) {
+                description?.appendNotMatching(p)
+                return
+            }
+        }
+
+        override fun matchesSafely(item: View?): Boolean {
+            val itemView = itemView ?: findItemView(p, item?.rootView) ?: return false
+
+            return itemView == item
+        }
+    }
+
+    fun atItemChild(p: Int, childMatcher: Matcher<View>) = object : TypeSafeMatcher<View>() {
+        var childView: View? = null
+
+        override fun describeTo(description: Description?) {
+            if (recyclerView == null) {
+                description?.appendNotMatching(listMatcher)
+                return
+            }
+
+            description?.appendMatching(listMatcher)
+
+            if (itemView == null) {
+                description?.appendNotMatching(p)
+                return
+            }
+
+            description?.appendMatching(p)
+
+            if (childView == null) {
+                description?.appendNotMatching(childMatcher)
+                return
+            }
+        }
+
+        override fun matchesSafely(item: View?): Boolean {
+            val itemView = itemView ?: findItemView(p, item?.rootView) ?: return false
+
+            for (childView in TreeIterables.breadthFirstViewTraversal(itemView)) {
+                if (childMatcher.matches(childView)) {
+                    this.childView = childView
+                    break
+                }
+            }
+
+            return childView?.let { it == item } ?: false
+        }
+    }
+
 
     fun atItem(itemMatcher: Matcher<View>): Matcher<View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description?) {
@@ -80,13 +140,28 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
         }
     }
 
+
+    private fun findItemView(p: Int, rootView: View?): View? {
+        for (childView in TreeIterables.breadthFirstViewTraversal(rootView)) {
+            if (!listMatcher.matches(childView)) continue
+
+            val recyclerView = childView as? RecyclerView ?: continue
+
+            this.recyclerView = recyclerView
+
+            return recyclerView.findViewHolderForAdapterPosition(p)?.itemView
+        }
+
+        return null
+    }
+
     private fun findItemView(itemMatcher: Matcher<View>, rootView: View?): View? {
         for (childView in TreeIterables.breadthFirstViewTraversal(rootView)) {
             if (!listMatcher.matches(childView)) continue
 
             val recyclerView = childView as? RecyclerView ?: continue
 
-            this.recyclerView = recyclerView    // to describe the error
+            this.recyclerView = recyclerView
 
             val holderMatcher: Matcher<RecyclerView.ViewHolder> = getHolderMatcher(itemMatcher)
 
@@ -98,12 +173,21 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
         return null
     }
 
+
     private fun Description.appendNotMatching(matcher: Matcher<View>) = apply {
         appendText("\nNo found view with matcher = [$matcher]")
     }
 
+    private fun Description.appendNotMatching(position: Int) = apply {
+        appendText("\nNo found view with position = [$position]")
+    }
+
     private fun Description.appendMatching(matcher: Matcher<View>) = apply {
         appendText("\nFound view with matcher = [$matcher]")
+    }
+
+    private fun Description.appendMatching(position: Int) = apply {
+        appendText("\nFound view with position = [$position]")
     }
 
 

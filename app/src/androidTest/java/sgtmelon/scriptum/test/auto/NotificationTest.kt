@@ -26,12 +26,7 @@ class NotificationTest : ParentUiTest() {
     @Test fun itemCancel() = data.insertNotification(data.insertText()).let {
         launch {
             mainScreen {
-                openNotesPage {
-                    openNotification {
-                        onClickCancel(it)
-                        assert(empty = true)
-                    }
-                }
+                openNotesPage { openNotification { onClickCancel().assert(empty = true) } }
             }
         }
     }

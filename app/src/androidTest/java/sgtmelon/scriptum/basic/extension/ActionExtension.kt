@@ -41,6 +41,11 @@ fun Matcher<View>.scrollTo(itemMatcher: Matcher<View>) = also {
     actionOnView(it, RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(itemMatcher))
 }
 
+fun Matcher<View>.scrollTo(p: Int) = also {
+    actionOnView(it, actionOnItemAtPosition<RecyclerView.ViewHolder>(p, ViewActions.scrollTo()))
+}
+
+
 fun Matcher<View>.click(p: Int) = also {
     actionOnView(it, actionOnItemAtPosition<RecyclerView.ViewHolder>(p, ViewActions.click()))
 }

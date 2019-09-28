@@ -1,10 +1,10 @@
 package sgtmelon.scriptum.ui.screen
 
 import android.view.View
-import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
+import sgtmelon.scriptum.basic.extension.haveText
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.withDrawable
 import sgtmelon.scriptum.data.InfoPage
@@ -29,7 +29,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.NOTIFICATION)
 
-    private fun getItem(noteModel: NoteModel) = Item(recyclerView, noteModel)
+    private fun getItem(p: Int) = Item(recyclerView, p)
 
     //endregion
 
@@ -37,25 +37,21 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         getToolbarButton().click()
     }
 
-    fun openText(noteModel: NoteModel, p: Int = random,
-                 func: TextNoteScreen.() -> Unit = {}) {
-        onClickItem(p)
+    fun openText(noteModel: NoteModel, p: Int = random, func: TextNoteScreen.() -> Unit = {}) {
+        getItem(p).view.click()
         TextNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun openRoll(noteModel: NoteModel, p: Int = random,
-                 func: RollNoteScreen.() -> Unit = {}) {
-        onClickItem(p)
+    fun openRoll(noteModel: NoteModel, p: Int = random, func: RollNoteScreen.() -> Unit = {}) {
+        getItem(p).view.click()
         RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
-    fun onClickCancel(noteModel: NoteModel) {
-        getItem(noteModel).cancelButton.click()
-    }
+    fun onClickCancel(p: Int = random) = apply { getItem(p).cancelButton.click() }
 
 
-    fun onAssertItem(noteModel: NoteModel) {
-        getItem(noteModel).assert()
+    fun onAssertItem(p: Int, noteModel: NoteModel) {
+        getItem(p).assert(noteModel)
     }
 
     fun assert(empty: Boolean) {
@@ -66,23 +62,21 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
-    private inner class Item(list: Matcher<View>, noteModel: NoteModel) :
-            ParentRecyclerItem(list, hasDescendant(
-                    getView(R.id.notification_name_text, noteModel.noteEntity.name)
-            )) {
+    private inner class Item(list: Matcher<View>, p: Int) : ParentRecyclerItem(list, p) {
 
         private val colorView by lazy { getChild(getViewById(R.id.notification_color_view)) }
 
-        private val nameText by lazy { getChild(getView(R.id.notification_name_text, noteModel.noteEntity.name)) }
-        private val dateText by lazy { getChild(getViewById(R.id.notification_date_text)) } // todo get with text
+        // TODO get with text
+        private val nameText by lazy { getChild(getViewById(R.id.notification_name_text)) }
+        private val dateText by lazy { getChild(getViewById(R.id.notification_date_text)) }
 
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
         // TODO have src / color
-        fun assert() {
+        fun assert(noteModel: NoteModel) {
             colorView.isDisplayed()
 
-            nameText.isDisplayed()
+            nameText.isDisplayed().haveText(noteModel.noteEntity.name)
             dateText.isDisplayed()
 
             cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
