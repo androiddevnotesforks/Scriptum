@@ -5,12 +5,13 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.ui.ParentDialogUi
+import sgtmelon.scriptum.ui.IDialogUi
+import sgtmelon.scriptum.ui.ParentUi
 
 /**
  * Class for UI control of [MessageDialog] when clear bin
  */
-class ClearDialogUi : ParentDialogUi() {
+class ClearDialogUi : ParentUi(), IDialogUi {
 
     //region Views
 

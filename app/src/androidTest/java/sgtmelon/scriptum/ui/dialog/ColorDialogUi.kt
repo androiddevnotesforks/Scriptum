@@ -4,13 +4,14 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.model.annotation.Color
-import sgtmelon.scriptum.ui.ParentDialogUi
+import sgtmelon.scriptum.ui.IDialogUi
+import sgtmelon.scriptum.ui.ParentRecyclerScreen
 
 /**
  * Class for UI control of [ColorDialog]
  */
 class ColorDialogUi(place: Place, @Color private var check: Int, private val callback: Callback) :
-        ParentDialogUi() {
+        ParentRecyclerScreen(R.id.color_recycler_view), IDialogUi {
 
     // TODO create check assert for all items (may be with contentDescription)
 
@@ -20,8 +21,6 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         Place.NOTE -> R.string.dialog_title_color
         Place.PREF -> R.string.title_note_color
     })
-
-    private val recyclerView = getViewById(R.id.color_recycler_view)
 
     private val cancelButton = getViewByText(R.string.dialog_button_cancel)
     private val applyButton = getViewByText(R.string.dialog_button_apply)

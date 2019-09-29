@@ -6,18 +6,18 @@ import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.basic.extension.waitBefore
 
 /**
- * Parent class for dialogs
+ * Interface which need use in dialog classes
  */
-abstract class ParentDialogUi : ParentUi() {
+interface IDialogUi {
 
     fun onCloseSoft() = waitClose {
         closeSoftKeyboard()
         pressBack()
     }
 
-    protected fun waitClose(func: () -> Unit) = waitAfter(TIME_CLOSE) { func() }
+    fun waitClose(func: () -> Unit) = waitAfter(TIME_CLOSE) { func() }
 
-    protected fun waitOpen(func: () -> Unit) = waitBefore(TIME_OPEN) { func() }
+    fun waitOpen(func: () -> Unit) = waitBefore(TIME_OPEN) { func() }
 
     private companion object {
         const val TIME_CLOSE = 300L

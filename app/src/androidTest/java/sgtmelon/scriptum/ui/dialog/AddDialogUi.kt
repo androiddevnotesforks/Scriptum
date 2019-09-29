@@ -8,14 +8,15 @@ import sgtmelon.scriptum.basic.extension.swipeDown
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.dialog.SheetAddDialog
 import sgtmelon.scriptum.model.NoteModel
-import sgtmelon.scriptum.ui.ParentDialogUi
+import sgtmelon.scriptum.ui.IDialogUi
+import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
  * Class for UI control [SheetAddDialog]
  */
-class AddDialogUi : ParentDialogUi() {
+class AddDialogUi : ParentUi(), IDialogUi {
 
     //region Views
 

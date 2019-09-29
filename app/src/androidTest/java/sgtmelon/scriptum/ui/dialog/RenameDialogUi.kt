@@ -3,12 +3,13 @@ package sgtmelon.scriptum.ui.dialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.dialog.RenameDialog
-import sgtmelon.scriptum.ui.ParentDialogUi
+import sgtmelon.scriptum.ui.IDialogUi
+import sgtmelon.scriptum.ui.ParentUi
 
 /**
  * Class for UI control of [RenameDialog]
  */
-class RenameDialogUi(private val title: String) : ParentDialogUi() {
+class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
 
     //region Views
 

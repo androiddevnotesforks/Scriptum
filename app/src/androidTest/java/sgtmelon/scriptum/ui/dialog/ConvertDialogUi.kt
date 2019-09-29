@@ -8,12 +8,13 @@ import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
-import sgtmelon.scriptum.ui.ParentDialogUi
+import sgtmelon.scriptum.ui.IDialogUi
+import sgtmelon.scriptum.ui.ParentUi
 
 /**
  * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert
  */
-class ConvertDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
+class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
 
     // TODO add callback for getting result in [NotePanel]
 

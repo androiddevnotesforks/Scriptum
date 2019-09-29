@@ -8,7 +8,7 @@ import sgtmelon.scriptum.data.Scroll
 /**
  * Parent class for screens which contains [RecyclerView]
  */
-abstract class ParentRecyclerScreen(@IdRes protected val recyclerId: Int) : ParentUi() {
+abstract class ParentRecyclerScreen(@IdRes recyclerId: Int) : ParentUi() {
 
     protected val recyclerView = getViewById(recyclerId)
 

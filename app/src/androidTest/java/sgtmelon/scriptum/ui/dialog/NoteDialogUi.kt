@@ -7,12 +7,13 @@ import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
-import sgtmelon.scriptum.ui.ParentDialogUi
+import sgtmelon.scriptum.ui.IDialogUi
+import sgtmelon.scriptum.ui.ParentUi
 
 /**
  * Class for UI control of [MultipleDialog] when cause long click on note
  */
-class NoteDialogUi(private val noteModel: NoteModel) : ParentDialogUi() {
+class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
 
     //region Views
 
