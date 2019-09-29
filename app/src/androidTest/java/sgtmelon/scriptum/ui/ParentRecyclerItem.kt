@@ -11,7 +11,7 @@ import sgtmelon.scriptum.basic.matcher.RecyclerItemMatcher
  *
  * [itemMatcher] or [position] must be provided.
  */
-abstract class ParentRecyclerItem private constructor(
+abstract class ParentRecyclerItem<T> protected constructor(
         private val listMatcher: Matcher<View>,
         private val itemMatcher: Matcher<View>?,
         private val position: Int?
@@ -34,7 +34,9 @@ abstract class ParentRecyclerItem private constructor(
         scrollToItem()
     }
 
-    private fun scrollToItem(): ParentRecyclerItem = apply {
+    abstract fun assert(model: T)
+
+    private fun scrollToItem(): ParentRecyclerItem<T> = apply {
         itemMatcher?.let { listMatcher.scrollTo(it) }
                 ?: position?.let { listMatcher.scrollTo(it) }
                 ?: throw NullPointerException(PROVIDE_ERROR_TEXT)

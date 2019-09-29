@@ -76,7 +76,7 @@ class RankTest : ParentUiTest() {
      */
 
     @Test fun rankVisibleAnimationClick() = data.insertRank().let {
-        launch { mainScreen { openRankPage { onClickVisible(it).onClickVisible(it) } } }
+        launch { mainScreen { openRankPage { onClickVisible().onClickVisible() } } }
     }
 
     @Test fun rankVisibleAnimationLongClick() = data.fillRank(count = 5).let {
@@ -87,9 +87,9 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage()
-                openRankPage { onClickVisible(it) }
+                openRankPage { onClickVisible() }
                 openNotesPage(empty = true, hide = true)
-                openRankPage { onClickVisible(it) }
+                openRankPage { onClickVisible() }
                 openNotesPage()
             }
         }
@@ -99,24 +99,24 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage()
-                openRankPage { onClickVisible(it) }
+                openRankPage { onClickVisible() }
                 openBinPage()
-                openRankPage { onClickVisible(it) }
+                openRankPage { onClickVisible() }
                 openBinPage()
             }
         }
     }
 
     @Test fun rankClearFromList() = data.insertRank().let {
-        launch { mainScreen { openRankPage { onClickCancel(it).assert(empty = true) } } }
+        launch { mainScreen { openRankPage { onClickCancel().assert(empty = true) } } }
     }
 
     @Test fun rankClearForNote() = data.insertRankForNotes().let {
         launch {
             mainScreen {
-                openRankPage { onClickVisible(it) }
+                openRankPage { onClickVisible() }
                 openNotesPage(empty = true, hide = true)
-                openRankPage { onClickCancel(it) }
+                openRankPage { onClickCancel() }
                 openNotesPage()
             }
         }
@@ -126,9 +126,9 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openBinPage()
-                openRankPage { onClickVisible(it) }
+                openRankPage { onClickVisible() }
                 openBinPage()
-                openRankPage { onClickCancel(it) }
+                openRankPage { onClickCancel() }
                 openBinPage()
             }
         }
@@ -142,10 +142,8 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(it.name) { onCloseSoft() }
-                    assert(empty = false)
-                    openRenameDialog(it.name) { onClickCancel() }
-                    assert(empty = false)
+                    openRenameDialog(it.name) { onCloseSoft() }.assert(empty = false)
+                    openRenameDialog(it.name) { onClickCancel() }.assert(empty = false)
                 }
             }
         }

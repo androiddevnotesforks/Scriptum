@@ -18,8 +18,11 @@ class InfoAnimTest : ParentUiTest() {
             mainScreen {
                 openRankPage(empty = true) {
                     repeat(times = 3) { _ ->
-                        toolbar { onEnterName(it.name, isAddEnabled = true).onClickAdd() }
-                        waitAfter(TIME) { waitBefore(TIME) { onClickCancel(it) } }
+                        waitAfter(TIME) {
+                            toolbar { onEnterName(it.name, isAddEnabled = true).onClickAdd() }
+                        }
+
+                        waitBefore(TIME) { onClickCancel() }
                     }
                 }
             }

@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.ui.screen.main
 
+import android.view.View
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
@@ -8,6 +10,7 @@ import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
+import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
 import sgtmelon.scriptum.ui.part.InfoContainer
@@ -31,6 +34,8 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.NOTES, hide)
 
+    private fun getItem(p: Int) = Item(recyclerView, p)
+
     //endregion
 
     fun openNotification(empty: Boolean = false, func: NotificationScreen.() -> Unit = {}) {
@@ -45,22 +50,26 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     fun openNoteDialog(noteModel: NoteModel, p: Int = random,
                        func: NoteDialogUi.() -> Unit = {}) {
-        recyclerView.longClick(p)
+        getItem(p).view.longClick()
         NoteDialogUi.invoke(func, noteModel)
     }
 
     fun openTextNote(noteModel: NoteModel, p: Int = random,
                      func: TextNoteScreen.() -> Unit = {}) {
-        onClickItem(p)
+        getItem(p).view.click()
         TextNoteScreen.invoke(func, State.READ, noteModel)
     }
 
     fun openRollNote(noteModel: NoteModel, p: Int = random,
                      func: RollNoteScreen.() -> Unit = {}) {
-        onClickItem(p)
+        getItem(p).view.click()
         RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
+
+    fun onAssertItem(p: Int, noteModel: NoteModel) {
+        getItem(p).assert(noteModel)
+    }
 
     fun assert(empty: Boolean) {
         parentContainer.isDisplayed()
@@ -71,6 +80,14 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
+    }
+
+    private inner class Item(list: Matcher<View>, p: Int): ParentRecyclerItem<NoteModel>(list, p) {
+
+        override fun assert(model: NoteModel) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
     }
 
     companion object {

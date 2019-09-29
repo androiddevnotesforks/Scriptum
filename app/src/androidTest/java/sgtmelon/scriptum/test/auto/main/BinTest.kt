@@ -48,12 +48,9 @@ class BinTest : ParentUiTest() {
     @Test fun clearDialogCloseAndWork() = launch({ data.fillBin() }) {
         mainScreen {
             openBinPage {
-                openClearDialog { onCloseSoft() }
-                assert(empty = false)
-                openClearDialog { onClickNo() }
-                assert(empty = false)
-                openClearDialog { onClickYes() }
-                assert(empty = true)
+                openClearDialog { onCloseSoft() }.assert(empty = false)
+                openClearDialog { onClickNo() }.assert(empty = false)
+                openClearDialog { onClickYes() }.assert(empty = true)
             }
         }
     }
@@ -62,14 +59,11 @@ class BinTest : ParentUiTest() {
         launch({ data.fillBin(count = 5) }) {
             mainScreen {
                 openBinPage()
-                openRankPage { onClickVisible(it) }
 
-                openBinPage() {
-                    openClearDialog { onClickYes() }
-                    assert(empty = true)
-                }
+                openRankPage { onClickVisible() }
+                openBinPage { openClearDialog { onClickYes() }.assert(empty = true) }
 
-                openRankPage { onClickVisible(it) }
+                openRankPage { onClickVisible() }
                 openBinPage(empty = true)
             }
         }

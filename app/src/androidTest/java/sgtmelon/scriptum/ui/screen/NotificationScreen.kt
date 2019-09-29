@@ -62,7 +62,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
-    private inner class Item(list: Matcher<View>, p: Int) : ParentRecyclerItem(list, p) {
+    private inner class Item(list: Matcher<View>, p: Int) : ParentRecyclerItem<NoteModel>(list, p) {
 
         private val colorView by lazy { getChild(getViewById(R.id.notification_color_view)) }
 
@@ -73,10 +73,10 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
         // TODO have src / color
-        fun assert(noteModel: NoteModel) {
+        override fun assert(model: NoteModel) {
             colorView.isDisplayed()
 
-            nameText.isDisplayed().haveText(noteModel.noteEntity.name)
+            nameText.isDisplayed().haveText(model.noteEntity.name)
             dateText.isDisplayed()
 
             cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)

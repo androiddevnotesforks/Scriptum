@@ -24,14 +24,17 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     private val parentContainer = getViewById(R.id.rank_parent_container)
     private val infoContainer = InfoContainer(InfoPage.RANK)
 
-    private fun getItem(rankEntity: RankEntity) = Item(recyclerView, rankEntity)
+    private fun getItem(rankEntity: RankEntity) = Item(recyclerView, rankEntity.name)
+
+    private fun getItem(position: Int) = Item(recyclerView, position)
 
     fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
 
     //endregion
 
-    fun openRenameDialog(title: String, p: Int = random, func: RenameDialogUi.() -> Unit = {}) {
-        onClickItem(p)
+    fun openRenameDialog(title: String, p: Int = random,
+                         func: RenameDialogUi.() -> Unit = {}) = apply {
+        getItem(p).view.click()
         RenameDialogUi.invoke(func, title)
     }
 
@@ -39,17 +42,21 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         waitAfter(ANIM_TIME) { getItem(rankEntity).visibleButton.click() }
     }
 
+    fun onClickVisible(p: Int = random) = apply {
+        waitAfter(ANIM_TIME) { getItem(p).visibleButton.click() }
+    }
+
     fun onLongClickVisible(rankEntity: RankEntity) = apply {
         waitAfter(ANIM_TIME) { getItem(rankEntity).visibleButton.longClick() }
     }
 
-    fun onClickCancel(rankEntity: RankEntity) = apply {
-        getItem(rankEntity).cancelButton.click()
+    fun onClickCancel(p: Int = random) = apply {
+        waitAfter(ANIM_TIME) { getItem(p).cancelButton.click() }
     }
 
 
     fun onAssertItem(rankEntity: RankEntity) {
-        getItem(rankEntity).assert()
+        getItem(rankEntity).assert(rankEntity)
     }
 
     fun assert(empty: Boolean) {
@@ -61,8 +68,17 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
-    private inner class Item(list: Matcher<View>, private val rankEntity: RankEntity) :
-            ParentRecyclerItem(list, hasDescendant(getView(R.id.rank_name_text, rankEntity.name))) {
+    private inner class Item private constructor(
+            listMatcher: Matcher<View>,
+            itemMatcher: Matcher<View>?,
+            position: Int?
+    ) : ParentRecyclerItem<RankEntity>(listMatcher, itemMatcher, position) {
+
+        constructor(listMatcher: Matcher<View>, position: Int) :
+                this(listMatcher, null, position)
+
+        constructor(listMatcher: Matcher<View>, name: String) :
+                this(listMatcher, hasDescendant(getView(R.id.rank_name_text, name)), null)
 
         val visibleButton by lazy { getChild(getViewById(R.id.rank_visible_button)) }
         val cancelButton by lazy { getChild(getViewById(R.id.rank_cancel_button)) }
@@ -70,8 +86,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         private val nameText by lazy { getChild(getViewById(R.id.rank_name_text)) }
         private val countText by lazy { getChild(getViewById(R.id.rank_text_count_text)) }
 
-        fun assert() {
-            val isVisible = rankEntity.isVisible
+        override fun assert(model: RankEntity) {
+            val isVisible = model.isVisible
             visibleButton.isDisplayed().withDrawable(
                     if (isVisible) R.drawable.ic_visible_exit else R.drawable.ic_visible_enter,
                     if (isVisible) R.attr.clAccent else R.attr.clContent
@@ -79,8 +95,8 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
             cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
 
-            nameText.isDisplayed().haveText(rankEntity.name)
-            countText.isDisplayed().haveText(string = "${context.getString(R.string.list_item_rank_count)} ${rankEntity.noteId.size}")
+            nameText.isDisplayed().haveText(model.name)
+            countText.isDisplayed().haveText(string = "${context.getString(R.string.list_item_rank_count)} ${model.noteId.size}")
         }
 
     }
