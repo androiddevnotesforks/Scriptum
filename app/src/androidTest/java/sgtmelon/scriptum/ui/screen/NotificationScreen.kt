@@ -20,7 +20,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Class for UI control of [NotificationActivity]
+ * Class for UI control of [NotificationActivity].
  */
 class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
