@@ -2,6 +2,8 @@ package sgtmelon.scriptum.ui.screen
 
 import android.view.View
 import org.hamcrest.Matcher
+import sgtmelon.extension.formatFuture
+import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.haveText
@@ -50,7 +52,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     fun onClickCancel(p: Int = random) = apply { getItem(p).cancelButton.click() }
 
 
-    fun onAssertItem(p: Int, noteModel: NoteModel) {
+    fun onAssertItem(noteModel: NoteModel, p: Int = 0) {
         getItem(p).assert(noteModel)
     }
 
@@ -77,7 +79,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
             colorView.isDisplayed()
 
             nameText.isDisplayed().haveText(model.noteEntity.name)
-            dateText.isDisplayed()
+            dateText.isDisplayed().haveText(model.alarmEntity.date.getCalendar().formatFuture(context))
 
             cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
         }

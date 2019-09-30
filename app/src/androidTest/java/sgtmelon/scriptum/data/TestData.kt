@@ -10,7 +10,6 @@ import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.repository.preference.IPreferenceRepo
 import sgtmelon.scriptum.room.IRoomWork
-import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.room.entity.NoteEntity
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.room.entity.RollEntity
@@ -129,10 +128,10 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertNoteToBin(): NoteModel =
             if (Random.nextBoolean()) insertTextToBin() else insertRollToBin()
 
-    fun insertNotification(noteModel: NoteModel, date: String = getFutureTime()): NoteModel {
-        inRoom {
-            iAlarmDao.insert(AlarmEntity(noteId = noteModel.noteEntity.id, date = date))
-        }
+    fun insertNotification(noteModel: NoteModel = insertNote(), date: String = getFutureTime()): NoteModel {
+        noteModel.alarmEntity.date = date
+
+        inRoom { noteModel.alarmEntity.id = iAlarmDao.insert(noteModel.alarmEntity) }
 
         return noteModel
     }
@@ -181,7 +180,7 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun fillBin(count: Int = 10) = repeat(count) { insertNoteToBin() }
 
     fun fillNotification(count: Int = 10) = repeat(count) {
-        insertNotification(insertNote(), getFutureTime())
+        insertNotification(date = getFutureTime())
     }
 
 

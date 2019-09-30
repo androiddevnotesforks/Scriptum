@@ -23,7 +23,7 @@ class NotificationTest : ParentUiTest() {
         mainScreen { openNotesPage { openNotification { onScrollThrough() } } }
     }
 
-    @Test fun itemCancel() = data.insertNotification(data.insertText()).let {
+    @Test fun itemCancel() = data.insertNotification().let {
         launch {
             mainScreen {
                 openNotesPage { openNotification { onClickCancel().assert(empty = true) } }
@@ -31,7 +31,7 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemCancelOnDelete() = data.insertNotification(data.insertText()).let {
+    @Test fun itemCancelOnDelete() = data.insertNotification().let {
         launch {
             mainScreen {
                 openNotesPage {
@@ -42,7 +42,7 @@ class NotificationTest : ParentUiTest() {
         }
     }
 
-    @Test fun itemCancelFromPast() = data.insertNotification(data.insertText(), DATE_0).let {
+    @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_0).let {
         launch { mainScreen { openNotesPage { openNotification(empty = true) } } }
     }
 

@@ -1,7 +1,6 @@
 package sgtmelon.scriptum.extension
 
 import android.graphics.drawable.GradientDrawable
-import android.text.format.DateUtils
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -12,10 +11,7 @@ import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import sgtmelon.extension.getDateFormat
-import sgtmelon.extension.is24Format
-import sgtmelon.extension.isThisYear
-import sgtmelon.extension.isToday
+import sgtmelon.extension.*
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
@@ -132,13 +128,7 @@ fun TextView.bindPastTime(dateTime: String) {
 @BindingAdapter(value = ["futureTime"])
 fun TextView.bindFutureTime(dateTime: String) {
     text = try {
-        val calendar = Calendar.getInstance().apply {
-            time = getDateFormat().parse(dateTime)
-        }
-
-        DateUtils.getRelativeDateTimeString(context, calendar.timeInMillis,
-                DateUtils.DAY_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0
-        ).toString()
+        dateTime.getCalendar().formatFuture(context)
     } catch (e: Throwable) {
         e.printStackTrace()
         null

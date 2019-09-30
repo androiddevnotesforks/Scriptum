@@ -66,7 +66,7 @@ class InfoAnimTest : ParentUiTest() {
     }
 
 
-    @Test fun notificationShow() = data.insertNotification(data.insertText()).let {
+    @Test fun notificationShow() = data.insertNotification().let {
         launch {
             mainScreen {
                 openNotesPage { openNotification { waitAfter(TIME) { onClickCancel() } } }
