@@ -52,7 +52,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
     fun onClickCancel(p: Int = random) = apply { getItem(p).cancelButton.click() }
 
 
-    fun onAssertItem(noteModel: NoteModel, p: Int = 0) {
+    fun onAssertItem(p: Int, noteModel: NoteModel) {
         getItem(p).assert(noteModel)
     }
 
@@ -68,13 +68,12 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
         private val colorView by lazy { getChild(getViewById(R.id.notification_color_view)) }
 
-        // TODO get with text
         private val nameText by lazy { getChild(getViewById(R.id.notification_name_text)) }
         private val dateText by lazy { getChild(getViewById(R.id.notification_date_text)) }
 
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
-        // TODO have src / color
+        // TODO have color/stroke
         override fun assert(model: NoteModel) {
             colorView.isDisplayed()
 
