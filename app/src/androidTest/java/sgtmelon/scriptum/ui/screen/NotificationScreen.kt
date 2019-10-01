@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.ui.screen
 
-import android.view.View
-import org.hamcrest.Matcher
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
@@ -28,7 +26,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.NOTIFICATION)
 
-    private fun getItem(p: Int) = Item(recyclerView, p)
+    private fun getItem(p: Int) = Item(p)
 
     //endregion
 
@@ -53,7 +51,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         getItem(p).assert(noteModel)
     }
 
-    fun assert(empty: Boolean) = waitBefore(1000) {
+    fun assert(empty: Boolean) {
         parentContainer.isDisplayed()
         toolbar.isDisplayed()
 
@@ -61,7 +59,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
-    private inner class Item(list: Matcher<View>, p: Int) : ParentRecyclerItem<NoteModel>(list, p) {
+    private inner class Item(p: Int) : ParentRecyclerItem<NoteModel>(recyclerView, p) {
 
         private val colorView by lazy { getChild(getViewById(R.id.notification_color_view)) }
 
@@ -76,7 +74,9 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
             )
 
             nameText.isDisplayed().haveText(model.noteEntity.name)
-            dateText.isDisplayed().haveText(model.alarmEntity.date.getCalendar().formatFuture(context))
+
+            val date = model.alarmEntity.date.getCalendar().formatFuture(context)
+            dateText.isDisplayed().haveText(date)
 
             cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
         }

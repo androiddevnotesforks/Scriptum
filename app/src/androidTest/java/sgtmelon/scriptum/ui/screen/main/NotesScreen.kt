@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.ui.screen.main
 
-import android.view.View
-import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
@@ -34,7 +32,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.NOTES, hide)
 
-    private fun getItem(p: Int) = Item(recyclerView, p)
+    private fun getItem(p: Int) = Item(p)
 
     //endregion
 
@@ -82,7 +80,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
-    private inner class Item(list: Matcher<View>, p: Int): ParentRecyclerItem<NoteModel>(list, p) {
+    private inner class Item(p: Int): ParentRecyclerItem<NoteModel>(recyclerView, p) {
 
         override fun assert(model: NoteModel) {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

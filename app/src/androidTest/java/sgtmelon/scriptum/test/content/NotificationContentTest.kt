@@ -6,6 +6,7 @@ import org.junit.runner.RunWith
 import sgtmelon.extension.getDateFormat
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 import java.util.*
@@ -17,16 +18,24 @@ import kotlin.collections.ArrayList
 @RunWith(AndroidJUnit4::class)
 class NotificationContentTest : ParentUiTest() {
 
-    @Test fun itemTime() = onAssertList(ArrayList<NoteModel>().also { list ->
+    @Test fun time() = onAssertList(ArrayList<NoteModel>().also { list ->
         nextArray.forEach { list.add(data.insertNotification(date = getTime(it))) }
     })
 
-    @Test fun itemColor() = onAssertList(ArrayList<NoteModel>().also { list ->
-        Color.list.forEach {
-            with(data) { list.add(insertNotification(insertText(textNote.copy(color = it)))) }
-        }
-    })
+    @Test fun colorLight() = startColorTest(Theme.LIGHT)
 
+    @Test fun colorDark() = startColorTest(Theme.DARK)
+
+
+    private fun startColorTest(@Theme theme: Int) {
+        iPreferenceRepo.theme = theme
+
+        onAssertList(ArrayList<NoteModel>().also { list ->
+            Color.list.forEach {
+                with(data) { list.add(insertNotification(insertText(textNote.copy(color = it)))) }
+            }
+        })
+    }
 
     private fun onAssertList(list: List<NoteModel>) {
         launch {

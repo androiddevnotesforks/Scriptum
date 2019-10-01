@@ -19,11 +19,8 @@ import sgtmelon.scriptum.repository.preference.PreferenceRepo
  */
 abstract class ParentUi {
 
-    // TODO remove
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
-    private val iPreferenceRepo = PreferenceRepo(context)
-    val theme: Int get() = iPreferenceRepo.theme
-
+    protected val theme: Int get() = PreferenceRepo(context).theme
 
     protected fun getViewById(@IdRes viewId: Int): Matcher<View> = withId(viewId)
 
