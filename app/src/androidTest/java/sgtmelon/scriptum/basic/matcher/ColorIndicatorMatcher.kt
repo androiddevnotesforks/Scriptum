@@ -26,6 +26,8 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color co
     override fun matchesSafely(item: View?): Boolean {
         if (item !is View) return false
 
+        setSize(item)
+
         if (resourceId == -1) return item.background == null
 
         val context = item.context
@@ -33,9 +35,7 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color co
         val expectedBackground = ContextCompat.getDrawable(context, resourceId) ?: return false
         expectedBackground.setColor(context, colorItem)
 
-        val actualBackground = item.background.constantState?.newDrawable() ?: return false
-
-        return compare(actualBackground, expectedBackground)
+        return compare(item.background, expectedBackground)
     }
 
 }
