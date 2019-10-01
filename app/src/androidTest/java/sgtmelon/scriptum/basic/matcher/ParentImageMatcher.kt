@@ -22,7 +22,10 @@ abstract class ParentImageMatcher(@IdRes protected val resourceId: Int) : TypeSa
     }
 
     private fun getBitmap(drawable: Drawable): Bitmap = with(drawable) {
-        val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+        val width = if (intrinsicWidth > 0) intrinsicWidth else 64
+        val height = if (intrinsicHeight > 0) intrinsicHeight else 64
+
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
 
         val canvas = Canvas(bitmap)
         setBounds(0, 0, canvas.width, canvas.height)

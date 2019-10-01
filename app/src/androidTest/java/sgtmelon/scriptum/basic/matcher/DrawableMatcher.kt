@@ -25,13 +25,13 @@ class DrawableMatcher(@IdRes resourceId: Int, @AttrRes private val attrColor: In
 
         val context = item.context
 
-        val drawable = ContextCompat.getDrawable(context, resourceId) ?: return false
+        val expectedDrawable = ContextCompat.getDrawable(context, resourceId) ?: return false
 
         if (attrColor != -1) {
-            drawable.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
+            expectedDrawable.setColorFilter(context.getColorAttr(attrColor), PorterDuff.Mode.SRC_ATOP)
         }
 
-        return compare(item.drawable, drawable)
+        return compare(item.drawable, expectedDrawable)
     }
 
 }

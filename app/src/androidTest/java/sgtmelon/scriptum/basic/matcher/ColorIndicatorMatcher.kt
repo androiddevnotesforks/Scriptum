@@ -30,11 +30,12 @@ class ColorIndicatorMatcher(@IdRes resourceId: Int, @Theme theme: Int, @Color co
 
         val context = item.context
 
-        val background = ContextCompat.getDrawable(context, resourceId) ?: return false
+        val expectedBackground = ContextCompat.getDrawable(context, resourceId) ?: return false
+        expectedBackground.setColor(context, colorItem)
 
-        background.setColor(context, colorItem)
+        val actualBackground = item.background.constantState?.newDrawable() ?: return false
 
-        return compare(item.background, background)
+        return compare(actualBackground, expectedBackground)
     }
 
 }

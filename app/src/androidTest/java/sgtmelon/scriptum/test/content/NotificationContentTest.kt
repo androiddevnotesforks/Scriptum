@@ -5,6 +5,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import sgtmelon.extension.getDateFormat
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 import java.util.*
@@ -16,11 +17,18 @@ import kotlin.collections.ArrayList
 @RunWith(AndroidJUnit4::class)
 class NotificationContentTest : ParentUiTest() {
 
-    @Test fun itemTime() {
-        val list = ArrayList<NoteModel>()
-
+    @Test fun itemTime() = onAssertList(ArrayList<NoteModel>().also { list ->
         nextArray.forEach { list.add(data.insertNotification(date = getTime(it))) }
+    })
 
+    @Test fun itemColor() = onAssertList(ArrayList<NoteModel>().also { list ->
+        Color.list.forEach {
+            with(data) { list.add(insertNotification(insertText(textNote.copy(color = it)))) }
+        }
+    })
+
+
+    private fun onAssertList(list: List<NoteModel>) {
         launch {
             mainScreen {
                 openNotesPage {
@@ -29,7 +37,6 @@ class NotificationContentTest : ParentUiTest() {
             }
         }
     }
-
 
     private fun getTime(addValue: Int) = getDateFormat().format(Calendar.getInstance().apply {
         add(Calendar.MINUTE, addValue)
