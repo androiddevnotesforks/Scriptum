@@ -1,6 +1,5 @@
 package sgtmelon.scriptum.extension
 
-import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.CheckBox
 import android.widget.ImageButton
@@ -36,10 +35,7 @@ fun CardView.bindNoteColor(@Color color: Int) =
 fun View.bindIndicatorColor(@Theme theme: Int, @Color color: Int): ColorItem {
     val colorItem = ColorData.getColorItem(theme, color)
 
-    (background as? GradientDrawable)?.apply {
-        setColor(context.getCompatColor(colorItem.fill))
-        setStroke(context.getDimen(value = 1f), context.getCompatColor(colorItem.stroke))
-    }
+    background.setColor(context, colorItem)
 
     return colorItem
 }

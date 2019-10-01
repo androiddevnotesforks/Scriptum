@@ -21,7 +21,7 @@ class DrawableMatcher(@IdRes resourceId: Int, @AttrRes private val attrColor: In
     override fun matchesSafely(item: View?): Boolean {
         if (item !is ImageView) return false
 
-        if (resourceId < 0) return item.drawable == null
+        if (resourceId == -1) return item.drawable == null
 
         val context = item.context
 

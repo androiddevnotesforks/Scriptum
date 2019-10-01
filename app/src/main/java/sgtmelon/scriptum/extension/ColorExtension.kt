@@ -3,6 +3,7 @@ package sgtmelon.scriptum.extension
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
 import android.util.TypedValue
 import android.view.MenuItem
 import androidx.annotation.AttrRes
@@ -17,6 +18,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.ColorData.accent
 import sgtmelon.scriptum.model.data.ColorData.dark
 import sgtmelon.scriptum.model.data.ColorData.light
+import sgtmelon.scriptum.model.item.ColorItem
 import sgtmelon.scriptum.model.key.ColorShade
 import sgtmelon.scriptum.repository.preference.PreferenceRepo
 
@@ -73,4 +75,11 @@ fun Context.getTintDrawable(@DrawableRes id: Int): Drawable? {
     drawable.setColorFilter(getColorAttr(R.attr.clContent), PorterDuff.Mode.SRC_ATOP)
 
     return drawable
+}
+
+fun Drawable.setColor(context: Context, colorItem: ColorItem) {
+    if (this !is GradientDrawable) return
+
+    setColor(context.getCompatColor(colorItem.fill))
+    setStroke(context.getDimen(value = 1f), context.getCompatColor(colorItem.stroke))
 }

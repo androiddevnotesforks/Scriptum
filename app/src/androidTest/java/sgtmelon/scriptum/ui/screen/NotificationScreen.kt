@@ -5,10 +5,7 @@ import org.hamcrest.Matcher
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.basic.extension.haveText
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.withDrawable
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
@@ -56,7 +53,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         getItem(p).assert(noteModel)
     }
 
-    fun assert(empty: Boolean) {
+    fun assert(empty: Boolean) = waitBefore(1000) {
         parentContainer.isDisplayed()
         toolbar.isDisplayed()
 
@@ -73,9 +70,10 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
         val cancelButton by lazy { getChild(getViewById(R.id.notification_cancel_button)) }
 
-        // TODO have color/stroke
         override fun assert(model: NoteModel) {
-            colorView.isDisplayed()
+            colorView.isDisplayed().withColorIndicator(
+                    R.drawable.ic_color_indicator, theme, model.noteEntity.color
+            )
 
             nameText.isDisplayed().haveText(model.noteEntity.name)
             dateText.isDisplayed().haveText(model.alarmEntity.date.getCalendar().formatFuture(context))

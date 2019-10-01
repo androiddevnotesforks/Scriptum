@@ -11,8 +11,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
+import sgtmelon.scriptum.basic.matcher.ColorIndicatorMatcher
 import sgtmelon.scriptum.basic.matcher.DrawableMatcher
-
+import sgtmelon.scriptum.model.annotation.Color
+import sgtmelon.scriptum.model.annotation.Theme
 
 
 private fun matchOnView(viewMatcher: Matcher<View>, checkMatcher: Matcher<in View>) {
@@ -40,4 +42,10 @@ fun Matcher<View>.haveHint(@StringRes stringId: Int) = also {
 
 fun Matcher<View>.withDrawable(resourceId: Int = -1, @AttrRes attrColor: Int = -1) = also {
     matchOnView(it, DrawableMatcher(resourceId, attrColor))
+}
+
+fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
+                                     @Theme theme: Int,
+                                     @Color color: Int) = also {
+    matchOnView(it, ColorIndicatorMatcher(resourceId, theme, color))
 }

@@ -12,7 +12,7 @@ import org.hamcrest.TypeSafeMatcher
 /**
  * Matcher for [RecyclerView] items and items children
  */
-class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
+class RecyclerItemMatcher(private val listMatcher: Matcher<View>) {
 
     private var recyclerView: RecyclerView? = null
     private var itemView: View? = null
@@ -20,17 +20,7 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
 
     fun atItem(p: Int): Matcher<View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description?) {
-            if (recyclerView == null) {
-                description?.appendNotMatching(listMatcher)
-                return
-            }
-
-            description?.appendMatching(listMatcher)
-
-            if (itemView == null) {
-                description?.appendNotMatching(p)
-                return
-            }
+            description?.appendText("\nMatch view with position: [$p]")
         }
 
         override fun matchesSafely(item: View?): Boolean {
@@ -44,24 +34,8 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
         var childView: View? = null
 
         override fun describeTo(description: Description?) {
-            if (recyclerView == null) {
-                description?.appendNotMatching(listMatcher)
-                return
-            }
-
-            description?.appendMatching(listMatcher)
-
-            if (itemView == null) {
-                description?.appendNotMatching(p)
-                return
-            }
-
-            description?.appendMatching(p)
-
-            if (childView == null) {
-                description?.appendNotMatching(childMatcher)
-                return
-            }
+            description?.appendText("\nMatch view with position: [$p]")
+            description?.appendText("\nAnd with child matcher: [$childMatcher] ")
         }
 
         override fun matchesSafely(item: View?): Boolean {
@@ -81,17 +55,7 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
 
     fun atItem(itemMatcher: Matcher<View>): Matcher<View> = object : TypeSafeMatcher<View>() {
         override fun describeTo(description: Description?) {
-            if (recyclerView == null) {
-                description?.appendNotMatching(listMatcher)
-                return
-            }
-
-            description?.appendMatching(listMatcher)
-
-            if (itemView == null) {
-                description?.appendNotMatching(itemMatcher)
-                return
-            }
+            description?.appendText("\nMatch view with matcher: [$itemMatcher] ")
         }
 
         override fun matchesSafely(item: View?): Boolean {
@@ -106,24 +70,8 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
         var childView: View? = null
 
         override fun describeTo(description: Description?) {
-            if (recyclerView == null) {
-                description?.appendNotMatching(listMatcher)
-                return
-            }
-
-            description?.appendMatching(listMatcher)
-
-            if (itemView == null) {
-                description?.appendNotMatching(itemMatcher)
-                return
-            }
-
-            description?.appendMatching(itemMatcher)
-
-            if (childView == null) {
-                description?.appendNotMatching(childMatcher)
-                return
-            }
+            description?.appendText("\nMatch view with matcher: [$itemMatcher] ")
+            description?.appendText("\nAnd with child matcher: [$childMatcher] ")
         }
 
         override fun matchesSafely(item: View?): Boolean {
@@ -174,23 +122,6 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
     }
 
 
-    private fun Description.appendNotMatching(matcher: Matcher<View>) = apply {
-        appendText("\nNo found view with matcher = [$matcher]")
-    }
-
-    private fun Description.appendNotMatching(position: Int) = apply {
-        appendText("\nNo found view with position = [$position]")
-    }
-
-    private fun Description.appendMatching(matcher: Matcher<View>) = apply {
-        appendText("\nFound view with matcher = [$matcher]")
-    }
-
-    private fun Description.appendMatching(position: Int) = apply {
-        appendText("\nFound view with position = [$position]")
-    }
-
-
     //region from RecyclerViewActions
 
     /**
@@ -213,7 +144,7 @@ class RecyclerItemMatcher(val listMatcher: Matcher<View>) {
                 override fun matchesSafely(item: VH): Boolean = itemMatcher.matches(item.itemView)
 
                 override fun describeTo(description: Description?) {
-                    itemMatcher.describeTo(description?.appendText("holder with view: "))
+                    description?.appendText("\nMatch viewHolder with matcher: [$itemMatcher]")
                 }
             }
 

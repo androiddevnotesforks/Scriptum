@@ -14,7 +14,7 @@ import org.hamcrest.TypeSafeMatcher
 abstract class ParentImageMatcher(@IdRes protected val resourceId: Int) : TypeSafeMatcher<View>() {
 
     override fun describeTo(description: Description?) {
-        description?.appendText("\nMatcher with drawable from resource id: [$resourceId]")
+        description?.appendText("\nMatch view with drawable from resource id: [$resourceId]")
     }
 
     protected fun compare(actual: Drawable, expected: Drawable): Boolean {
