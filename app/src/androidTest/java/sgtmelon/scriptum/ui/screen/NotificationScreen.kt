@@ -78,7 +78,9 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
             val date = model.alarmEntity.date.getCalendar().formatFuture(context)
             dateText.isDisplayed().haveText(date)
 
-            cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
+            cancelButton.isDisplayed().withDrawableAttr(
+                    R.drawable.ic_cancel_enter, R.attr.clContent
+            )
         }
 
     }

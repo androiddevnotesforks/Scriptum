@@ -25,7 +25,6 @@ interface IRankViewModel : IParentViewModel, RankTouchControl.Callback {
 
     fun onClickEnterAdd(simpleClick: Boolean)
 
-
     fun onClickVisible(p: Int)
 
     fun onLongClickVisible(p: Int)

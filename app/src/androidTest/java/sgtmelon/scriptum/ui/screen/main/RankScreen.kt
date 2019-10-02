@@ -84,12 +84,14 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
         override fun assert(model: RankEntity) {
             val isVisible = model.isVisible
-            visibleButton.isDisplayed().withDrawable(
+            visibleButton.isDisplayed().withDrawableAttr(
                     if (isVisible) R.drawable.ic_visible_exit else R.drawable.ic_visible_enter,
                     if (isVisible) R.attr.clAccent else R.attr.clContent
             )
 
-            cancelButton.isDisplayed().withDrawable(R.drawable.ic_cancel_enter, R.attr.clContent)
+            cancelButton.isDisplayed().withDrawableAttr(
+                    R.drawable.ic_cancel_enter, R.attr.clContent
+            )
 
             nameText.isDisplayed().haveText(model.name)
             countText.isDisplayed().haveText(string = "${context.getString(R.string.list_item_rank_count)} ${model.noteId.size}")

@@ -87,8 +87,8 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
             parentContainer.isDisplayed()
 
             backgroundView.isDisplayed().withColorIndicator(R.drawable.ic_color, theme, model)
-            checkImage.isDisplayed(visible = model == check).withDrawable(
-                    R.drawable.ic_check, colorId = ColorData.getColorItem(theme, model).content
+            checkImage.isDisplayed(visible = model == check).withDrawableColor(
+                    R.drawable.ic_check, ColorData.getColorItem(theme, model).content
             )
 
             clickView.isDisplayed()

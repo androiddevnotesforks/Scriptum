@@ -13,7 +13,8 @@ import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.basic.matcher.ColorIndicatorMatcher
-import sgtmelon.scriptum.basic.matcher.DrawableMatcher
+import sgtmelon.scriptum.basic.matcher.DrawableAttrMatcher
+import sgtmelon.scriptum.basic.matcher.DrawableColorMatcher
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 
@@ -41,11 +42,13 @@ fun Matcher<View>.haveHint(@StringRes stringId: Int) = also {
     matchOnView(it, allOf(withHint(stringId), withText("")))
 }
 
-fun Matcher<View>.withDrawable(resourceId: Int = -1, @AttrRes attrColor: Int = -1,
-                               @ColorRes colorId: Int = -1) = also {
-    matchOnView(it, DrawableMatcher(resourceId, attrColor, colorId))
+fun Matcher<View>.withDrawableColor(resourceId: Int = -1, @ColorRes colorId: Int = -1) = also {
+    matchOnView(it, DrawableColorMatcher(resourceId, colorId))
 }
 
+fun Matcher<View>.withDrawableAttr(resourceId: Int, @AttrRes attrColor: Int = -1) = also {
+    matchOnView(it, DrawableAttrMatcher(resourceId, attrColor))
+}
 
 fun Matcher<View>.withColorIndicator(resourceId: Int = -1,
                                      @Theme theme: Int,
