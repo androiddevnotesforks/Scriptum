@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.ui.screen
 
+import android.view.View
+import org.hamcrest.Matcher
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
@@ -26,7 +28,7 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.NOTIFICATION)
 
-    private fun getItem(p: Int) = Item(p)
+    private fun getItem(p: Int) = Item(recyclerView, p)
 
     //endregion
 
@@ -59,7 +61,8 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
-    private inner class Item(p: Int) : ParentRecyclerItem<NoteModel>(recyclerView, p) {
+    private class Item(listMatcher: Matcher<View>, p: Int) :
+            ParentRecyclerItem<NoteModel>(listMatcher, p) {
 
         private val colorView by lazy { getChild(getViewById(R.id.notification_color_view)) }
 

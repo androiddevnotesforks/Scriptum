@@ -8,9 +8,9 @@ import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.NotesFragment
-import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
+import sgtmelon.scriptum.ui.item.NoteItem
 import sgtmelon.scriptum.ui.part.InfoContainer
 import sgtmelon.scriptum.ui.screen.NotificationScreen
 import sgtmelon.scriptum.ui.screen.PreferenceScreen
@@ -32,7 +32,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.NOTES, hide)
 
-    private fun getItem(p: Int) = Item(p)
+    private fun getItem(p: Int) = NoteItem(recyclerView, p)
 
     //endregion
 
@@ -78,14 +78,6 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
-    }
-
-    private inner class Item(p: Int): ParentRecyclerItem<NoteModel>(recyclerView, p) {
-
-        override fun assert(model: NoteModel) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
     }
 
     companion object {

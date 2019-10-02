@@ -1,5 +1,7 @@
 package sgtmelon.scriptum.ui.dialog
 
+import android.view.View
+import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.dialog.ColorDialog
@@ -25,7 +27,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     private val cancelButton = getViewByText(R.string.dialog_button_cancel)
     private val applyButton = getViewByText(R.string.dialog_button_apply)
 
-    private fun getItem(p: Int) = Item(p)
+    private fun getItem(p: Int) = Item(recyclerView, p)
 
     //endregion
 
@@ -50,7 +52,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
 
 
     private fun onAssertItem(p: Int) {
-        getItem(p).assert(p)
+        getItem(p).assert(ColorItem(p, isCheck = p == check))
     }
 
     fun onAssertEveryItem() {
@@ -76,25 +78,31 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     }
 
 
-    private inner class Item(p: Int) : ParentRecyclerItem<Int>(recyclerView, p) {
+    private class Item(listMatcher: Matcher<View>, p: Int) :
+            ParentRecyclerItem<ColorItem>(listMatcher, p) {
 
         private val parentContainer by lazy { getChild(getViewById(R.id.color_parent_container)) }
         private val backgroundView by lazy { getChild(getViewById(R.id.color_background_view)) }
         private val checkImage by lazy { getChild(getViewById(R.id.color_check_image)) }
         private val clickView by lazy { getChild(getViewById(R.id.color_click_view)) }
 
-        override fun assert(model: Int) {
+        override fun assert(model: ColorItem) {
             parentContainer.isDisplayed()
 
-            backgroundView.isDisplayed().withColorIndicator(R.drawable.ic_color, theme, model)
-            checkImage.isDisplayed(visible = model == check).withDrawableColor(
-                    R.drawable.ic_check, ColorData.getColorItem(theme, model).content
+            backgroundView.isDisplayed().withColorIndicator(R.drawable.ic_color, theme, model.color)
+            checkImage.isDisplayed(model.isCheck).withDrawableColor(
+                    R.drawable.ic_check, ColorData.getColorItem(theme, model.color).content
             )
 
             clickView.isDisplayed()
         }
 
     }
+
+    /**
+     * Model for [Item.assert]
+     */
+    private data class ColorItem(val color: Int, val isCheck: Boolean)
 
     /**
      * Describes [Place] of [ColorDialog] for decide title

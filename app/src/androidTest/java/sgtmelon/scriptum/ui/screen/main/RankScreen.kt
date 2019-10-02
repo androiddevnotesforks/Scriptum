@@ -24,9 +24,11 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
     private val parentContainer = getViewById(R.id.rank_parent_container)
     private val infoContainer = InfoContainer(InfoPage.RANK)
 
-    private fun getItem(rankEntity: RankEntity) = Item(rankEntity.name)
+    private fun getItem(rankEntity: RankEntity): Item {
+        return Item(recyclerView, hasDescendant(getView(R.id.rank_name_text, rankEntity.name)))
+    }
 
-    private fun getItem(position: Int) = Item(position)
+    private fun getItem(position: Int) = Item(recyclerView, position)
 
     fun toolbar(func: RankToolbar.() -> Unit) = RankToolbar.invoke(func)
 
@@ -68,13 +70,17 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
-    private inner class Item private constructor(itemMatcher: Matcher<View>?, position: Int?) :
-            ParentRecyclerItem<RankEntity>(recyclerView, itemMatcher, position) {
+    private class Item private constructor(
+            listMatcher: Matcher<View>,
+            itemMatcher: Matcher<View>?,
+            position: Int?
+    ) : ParentRecyclerItem<RankEntity>(listMatcher, itemMatcher, position) {
 
-        constructor(position: Int) : this(null, position)
+        constructor(listMatcher: Matcher<View>, position: Int) :
+                this(listMatcher, null, position)
 
-        constructor(name: String) :
-                this(hasDescendant(getView(R.id.rank_name_text, name)), null)
+        constructor(listMatcher: Matcher<View>, itemMatcher: Matcher<View>) :
+                this(listMatcher, itemMatcher, null)
 
         val visibleButton by lazy { getChild(getViewById(R.id.rank_visible_button)) }
         val cancelButton by lazy { getChild(getViewById(R.id.rank_cancel_button)) }

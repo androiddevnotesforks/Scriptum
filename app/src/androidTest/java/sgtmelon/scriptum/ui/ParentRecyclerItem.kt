@@ -15,7 +15,7 @@ abstract class ParentRecyclerItem<T> protected constructor(
         private val listMatcher: Matcher<View>,
         private val itemMatcher: Matcher<View>?,
         private val position: Int?
-) {
+) : ParentUi() {
 
     constructor(listMatcher: Matcher<View>, position: Int) :
             this(listMatcher, null, position)

@@ -8,10 +8,10 @@ import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.main.BinFragment
-import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.dialog.ClearDialogUi
 import sgtmelon.scriptum.ui.dialog.NoteDialogUi
+import sgtmelon.scriptum.ui.item.NoteItem
 import sgtmelon.scriptum.ui.part.InfoContainer
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
@@ -30,7 +30,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     private val infoContainer = InfoContainer(InfoPage.BIN)
 
-    private fun getItem(p: Int) = Item(p)
+    private fun getItem(p: Int) = NoteItem(recyclerView, p)
 
     //endregion
 
@@ -70,14 +70,6 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
         infoContainer.assert(empty)
         recyclerView.isDisplayed(!empty)
-    }
-
-    private inner class Item(p: Int): ParentRecyclerItem<NoteModel>(recyclerView, p) {
-
-        override fun assert(model: NoteModel) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
-
     }
 
     companion object {
