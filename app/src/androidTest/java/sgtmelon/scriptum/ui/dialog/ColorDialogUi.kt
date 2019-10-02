@@ -3,7 +3,6 @@ package sgtmelon.scriptum.ui.dialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.dialog.ColorDialog
-import sgtmelon.scriptum.extension.getCompatColor
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.ui.IDialogUi
@@ -32,17 +31,15 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
 
     @Color private var initCheck: Int = check
 
-    fun onClickItem(@Color position: Int = recyclerView.getRandomPosition()) = apply {
-        check = getNewPosition(position)
+    fun onClickItem(p: Int = recyclerView.getRandomPosition()) = apply {
+        check = getNewPosition(p)
 
         recyclerView.click(check)
 
         assert()
     }
 
-    fun onClickEveryItem() = apply {
-        (0 until recyclerView.getCount()).forEach { onClickItem(it) }
-    }
+    fun onClickEveryItem() = apply { (0 until recyclerView.getCount()).forEach { onClickItem(it) } }
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
@@ -52,8 +49,15 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     }
 
 
-    fun onAssertItem(p: Int) {
+    private fun onAssertItem(p: Int) {
         getItem(p).assert(p)
+    }
+
+    fun onAssertEveryItem() {
+        (0 until recyclerView.getCount()).forEach {
+            (0 until recyclerView.getCount()).forEach { p -> onAssertItem(p) }
+            onClickItem(it).onAssertItem(it)
+        }
     }
 
     fun assert() {
@@ -83,10 +87,8 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
             parentContainer.isDisplayed()
 
             backgroundView.isDisplayed().withColorIndicator(R.drawable.ic_color, theme, model)
-
-            val checkTint = context.getCompatColor(ColorData.getColorItem(theme, model).content)
             checkImage.isDisplayed(visible = model == check).withDrawable(
-                    R.drawable.ic_check, checkTint
+                    R.drawable.ic_check, colorId = ColorData.getColorItem(theme, model).content
             )
 
             clickView.isDisplayed()
@@ -95,7 +97,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     }
 
     /**
-     * Describes [Place] of [ColorDialog] for decide title in [Assert]
+     * Describes [Place] of [ColorDialog] for decide title
      */
     enum class Place { NOTE, PREF }
 

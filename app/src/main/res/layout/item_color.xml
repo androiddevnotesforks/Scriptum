@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/color_parent_container"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_gravity="center"
-             android:gravity="center"
-             android:padding="8dp">
-
-    <View
-            android:id="@+id/color_background_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_color"
-            android:contentDescription="@null"/>
-
-    <!-- TODO 13.10.18 Сделать область нажатия круглой, для pre API21 -->
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/color_parent_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="@dimen/layout_8dp">
 
     <ImageView
             android:id="@+id/color_check_image"
@@ -24,14 +14,24 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_check"/>
+            app:srcCompat="@drawable/ic_check" />
+
+    <!-- TODO 13.10.18 Сделать область нажатия круглой, для pre API21 -->
+
+    <View
+            android:id="@+id/color_background_view"
+            android:layout_width="@dimen/icon_48dp"
+            android:layout_height="@dimen/icon_48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_color"
+            android:contentDescription="@null" />
 
     <View
             android:id="@+id/color_click_view"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="@dimen/icon_48dp"
+            android:layout_height="@dimen/icon_48dp"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="@null"/>
+            android:contentDescription="@null" />
 
 </FrameLayout>

@@ -5,10 +5,10 @@ import sgtmelon.scriptum.adapter.ColorAdapter
 import sgtmelon.scriptum.dialog.ColorDialog
 
 /**
- * Модель для описания цветов для различныъ view
+ * Model for describe colors of different views.
  *
- * Используется:
- * - для [ColorDialog], элемент списка в [ColorAdapter]
- * - для индикатора у заметки и уведомления
+ * Use in:
+ * - for [ColorDialog], list element in [ColorAdapter];
+ * - for notes and notification color indicators.
  */
 class ColorItem(@ColorRes val stroke: Int, @ColorRes val fill: Int, @ColorRes val content: Int)
