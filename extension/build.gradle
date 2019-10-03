@@ -10,7 +10,8 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
 
-        buildConfigField "String", "APP_DATE_FORMAT", '"yyyy-MM-dd HH:mm:ss"'
+        buildConfigField "String", "DATE_FORMAT_DB", '"yyyy-MM-dd HH:mm:ss"'
+        buildConfigField "String", "DATE_FORMAT_DATE_MEDIUM", '"d MMM"'
     }
 
     compileOptions {

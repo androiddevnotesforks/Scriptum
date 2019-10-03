@@ -10,14 +10,13 @@ import androidx.annotation.DrawableRes
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import sgtmelon.extension.*
-import sgtmelon.scriptum.R
+import sgtmelon.extension.formatFuture
+import sgtmelon.extension.formatPast
+import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.item.ColorItem
-import java.text.SimpleDateFormat
-import java.util.*
 
 //region Color and Theme
 
@@ -25,8 +24,9 @@ import java.util.*
  * Установка цвета карточки в соответствии с цветом заметки
  */
 @BindingAdapter("noteColor")
-fun CardView.bindNoteColor(@Color color: Int) =
-        setCardBackgroundColor(context.getAppThemeColor(color, needDark = false))
+fun CardView.bindNoteColor(@Color color: Int) {
+    setCardBackgroundColor(context.getAppThemeColor(color, needDark = false))
+}
 
 /**
  * Установка цвета для индикатора на основании темы
@@ -68,14 +68,9 @@ fun ImageView.bindDrawable(@DrawableRes drawableId: Int, @AttrRes color: Int) {
 @BindingAdapter(value = ["boolExpression", "trueColor", "falseColor"])
 fun ImageButton.bindBoolTint(boolExpression: Boolean,
                              @AttrRes trueColor: Int,
-                             @AttrRes falseColor: Int) =
-        setColorFilter(context.getColorAttr(if (boolExpression) trueColor else falseColor))
-
-@BindingAdapter(value = ["boolExpression", "trueColor", "falseColor"])
-fun TextView.bindBoolTextColor(boolExpression: Boolean,
-                               @AttrRes trueColor: Int,
-                               @AttrRes falseColor: Int) =
-        setTextColor(context.getColorAttr(if (boolExpression) trueColor else falseColor))
+                             @AttrRes falseColor: Int) {
+    setColorFilter(context.getColorAttr(if (boolExpression) trueColor else falseColor))
+}
 
 /**
  * Установка доступа к [ImageButton]
@@ -89,8 +84,9 @@ fun ImageButton.bindEnabled(enabled: Boolean) {
  * Изменение состояния [CheckBox] с анимацией или установка значения [checkState]
  */
 @BindingAdapter(value = ["checkToggle", "checkState"])
-fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) =
-        if (checkToggle) toggle() else isChecked = checkState
+fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) {
+    if (checkToggle) toggle() else isChecked = checkState
+}
 
 //endregion
 
@@ -102,16 +98,7 @@ fun CheckBox.bindCheck(checkToggle: Boolean, checkState: Boolean) =
 @BindingAdapter(value = ["pastTime"])
 fun TextView.bindPastTime(dateTime: String) {
     text = try {
-        val locale = Locale.getDefault()
-        val calendar = Calendar.getInstance().apply {
-            time = getDateFormat().parse(dateTime)
-        }
-
-        SimpleDateFormat(when {
-            calendar.isToday() -> if (context.is24Format()) context.getString(R.string.format_time) else context.getString(R.string.format_time_am)
-            calendar.isThisYear() -> context.getString(R.string.format_date_medium)
-            else -> context.getString(R.string.format_date_short)
-        }, locale).format(calendar.time)
+        dateTime.getCalendar().formatPast()
     } catch (e: Throwable) {
         e.printStackTrace()
         null

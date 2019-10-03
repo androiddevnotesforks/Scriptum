@@ -65,7 +65,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     }
 
 
-    fun onAssertItem(p: Int, noteModel: NoteModel) {
+    fun onAssertItem(noteModel: NoteModel, p: Int = random) {
         getItem(p).assert(noteModel)
     }
 

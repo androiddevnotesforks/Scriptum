@@ -21,7 +21,7 @@
                 tools:srcCompat="@drawable/ic_check_done"/>
 
         <TextView
-                android:id="@+id/note_roll_text"
+                android:id="@+id/note_roll_content_text"
                 style="@style/Text.Note.Roll"
                 android:text='@{rollEntity != null ? rollEntity.text : ""}'
                 tools:text="@string/preview_note_roll"/>

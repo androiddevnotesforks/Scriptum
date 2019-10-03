@@ -1,17 +1,20 @@
 package sgtmelon.extension
 
 import android.content.Context
-import android.text.format.DateFormat
 import android.text.format.DateUtils
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import android.text.format.DateFormat as DateFormatAndroid
 
 // TODO #RELEASE2 объединить с форматированием строки (посмотреть нужно ли всезде)
-fun getDateFormat(): SimpleDateFormat =
-        SimpleDateFormat(BuildConfig.APP_DATE_FORMAT, Locale.getDefault())
+fun getDateFormat(): SimpleDateFormat {
+    return SimpleDateFormat(BuildConfig.DATE_FORMAT_DB, Locale.getDefault())
+}
 
-fun Context?.is24Format(): Boolean =
-        if (this != null) DateFormat.is24HourFormat(this) else true
+fun Context?.is24Format(): Boolean {
+    return if (this != null) DateFormatAndroid.is24HourFormat(this) else true
+}
 
 /**
  * Текущее время в нужном формате
@@ -45,4 +48,12 @@ fun Calendar.formatFuture(context: Context) : String {
     return DateUtils.getRelativeDateTimeString(context, timeInMillis,
             DateUtils.DAY_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0
     ).toString()
+}
+
+fun Calendar.formatPast(): String {
+    return when {
+        isToday() -> DateFormat.getTimeInstance(DateFormat.SHORT).format(time)
+        isThisYear() -> SimpleDateFormat(BuildConfig.DATE_FORMAT_DATE_MEDIUM, Locale.getDefault()).format(time)
+        else -> DateFormat.getDateInstance(DateFormat.SHORT).format(time)
+    }
 }

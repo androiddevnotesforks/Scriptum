@@ -39,21 +39,25 @@
                             tools:text="@string/preview_note_name"/>
 
                     <include
+                            android:id="@+id/note_roll_row0_container"
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 1 ? v.VISIBLE : v.GONE}'
                             app:rollEntity='@{noteModel.rollList.size() &gt;= 1 ? noteModel.rollList.get(0) : null}'/>
 
                     <include
+                            android:id="@+id/note_roll_row1_container"
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 2 ? v.VISIBLE : v.GONE}'
                             app:rollEntity='@{noteModel.rollList.size() &gt;= 2 ? noteModel.rollList.get(1) : null}'/>
 
                     <include
+                            android:id="@+id/note_roll_row2_container"
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 3 ? v.VISIBLE : v.GONE}'
                             app:rollEntity='@{noteModel.rollList.size() &gt;= 3 ? noteModel.rollList.get(2) : null}'/>
 
                     <include
+                            android:id="@+id/note_roll_row3_container"
                             layout="@layout/include_item_note_roll"
                             android:visibility='@{noteModel.rollList.size() &gt;= 4 ? v.VISIBLE : v.GONE}'
                             app:rollEntity='@{noteModel.rollList.size() &gt;= 4 ? noteModel.rollList.get(3) : null}'/>
