@@ -4,13 +4,11 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="sgtmelon.scriptum.R"/>
 
         <variable name="icon" type="int"/>
         <variable name="title" type="int"/>
         <variable name="details" type="int"/>
-
     </data>
 
     <!-- TODO #RELEASE2 добавить contentDescription и на основании него делать тесты -->

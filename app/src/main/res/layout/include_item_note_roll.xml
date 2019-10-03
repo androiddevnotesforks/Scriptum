@@ -4,9 +4,7 @@
         tools:showIn="@layout/item_note_roll">
 
     <data>
-
         <variable name="rollEntity" type="sgtmelon.scriptum.room.entity.RollEntity"/>
-
     </data>
 
     <LinearLayout

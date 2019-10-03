@@ -5,12 +5,10 @@
         tools:showIn="@layout/item_note_text">
 
     <data>
-
         <import alias="v" type="android.view.View"/>
         <import alias="noteType" type="sgtmelon.scriptum.model.key.NoteType"/>
 
         <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
-
     </data>
 
     <LinearLayout

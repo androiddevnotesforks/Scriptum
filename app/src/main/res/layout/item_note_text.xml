@@ -4,13 +4,11 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import alias="v" type="android.view.View"/>
         <import alias="theme" type="sgtmelon.scriptum.model.annotation.Theme"/>
 
         <variable name="currentTheme" type="int"/>
         <variable name="noteModel" type="sgtmelon.scriptum.model.NoteModel"/>
-
     </data>
 
     <androidx.cardview.widget.CardView

@@ -5,12 +5,10 @@
         tools:showIn="@layout/fragment_rank">
 
     <data>
-
         <import type="sgtmelon.scriptum.R"/>
 
         <variable name="isClearEnable" type="boolean"/>
         <variable name="isAddEnable" type="boolean"/>
-
     </data>
 
     <com.google.android.material.appbar.AppBarLayout

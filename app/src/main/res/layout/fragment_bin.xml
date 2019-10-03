@@ -4,12 +4,10 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="sgtmelon.scriptum.R"/>
         <import alias="v" type="android.view.View"/>
 
         <variable name="isListEmpty" type="boolean"/>
-
     </data>
 
     <LinearLayout

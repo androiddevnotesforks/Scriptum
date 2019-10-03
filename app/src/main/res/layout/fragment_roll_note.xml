@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable name="currentTheme" type="int"/>
 
         <variable name="menuCallback"
@@ -17,7 +16,6 @@
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
 
         <variable name="enterEmpty" type="boolean"/>
-
     </data>
 
     <LinearLayout

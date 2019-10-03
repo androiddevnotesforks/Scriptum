@@ -4,7 +4,6 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import alias="v" type="android.view.View"/>
 
         <variable name="currentTheme" type="int"/>
@@ -17,7 +16,6 @@
         <variable name="editMode" type="boolean"/>
 
         <variable name="inputAccess" type="sgtmelon.scriptum.control.input.InputControl.Access"/>
-
     </data>
 
     <LinearLayout
