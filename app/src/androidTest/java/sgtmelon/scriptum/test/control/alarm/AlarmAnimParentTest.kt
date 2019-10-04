@@ -10,11 +10,23 @@ import kotlin.random.Random
 /**
  * Родительский класс для тестов [AlarmActivity] с разными темами
  */
-abstract class AlarmAnimParentTest : ParentUiTest() {
+abstract class AlarmAnimParentTest(@Theme private val theme: Int) : ParentUiTest() {
 
-    protected fun startTest(@Theme theme: Int, @Color color: Int) {
+    abstract fun colorRed()
+    abstract fun colorPurple()
+    abstract fun colorIndigo()
+    abstract fun colorBlue()
+    abstract fun colorTeal()
+    abstract fun colorGreen()
+    abstract fun colorYellow()
+    abstract fun colorOrange()
+    abstract fun colorBrown()
+    abstract fun colorBlueGrey()
+    abstract fun colorWhite()
+
+    protected fun startTest(@Color color: Int) {
         with(iPreferenceRepo) {
-            this.theme = theme
+            theme = this@AlarmAnimParentTest.theme
 
             signal = Random.nextInt(from = 1, until = 3)
             volume = Random.nextInt(from = 50, until = 100)
