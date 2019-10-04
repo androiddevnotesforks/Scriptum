@@ -18,7 +18,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Class for UI control of [NotesFragment]
+ * Class for UI control of [NotesFragment].
  */
 class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
 
@@ -65,7 +65,7 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     }
 
 
-    fun onAssertItem(noteModel: NoteModel, p: Int = random) {
+    fun onAssertItem(p: Int, noteModel: NoteModel) {
         getItem(p).assert(noteModel)
     }
 

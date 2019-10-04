@@ -9,7 +9,7 @@ import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
- * Class for UI control of [MessageDialog] when clear bin
+ * Class for UI control of [MessageDialog] when clear bin.
  */
 class ClearDialogUi : ParentUi(), IDialogUi {
 

@@ -8,7 +8,7 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.AddDialogUi
 
 /**
- * Class for UI control of [MainActivity]
+ * Class for UI control of [MainActivity].
  */
 class MainScreen : ParentUi() {
 

@@ -5,6 +5,7 @@ import org.hamcrest.Matcher
 import sgtmelon.extension.formatFuture
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.adapter.NotificationAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
@@ -61,6 +62,9 @@ class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
+    /**
+     * Class for UI control of [NotificationAdapter].
+     */
     private class Item(listMatcher: Matcher<View>, p: Int) :
             ParentRecyclerItem<NoteModel>(listMatcher, p) {
 

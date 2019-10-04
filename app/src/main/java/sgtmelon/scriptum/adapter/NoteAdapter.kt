@@ -17,8 +17,8 @@ import sgtmelon.scriptum.screen.ui.main.NotesFragment
  * Adapter which displays list of notes for [NotesFragment], [BinFragment]
  */
 class NoteAdapter(
-                  private val clickListener: ItemListener.Click,
-                  private val longClickListener: ItemListener.LongClick? = null
+        private val clickListener: ItemListener.Click,
+        private val longClickListener: ItemListener.LongClick? = null
 ) : ParentAdapter<NoteModel, RecyclerView.ViewHolder>() {
 
     @Theme var theme: Int = Theme.UNDEFINED

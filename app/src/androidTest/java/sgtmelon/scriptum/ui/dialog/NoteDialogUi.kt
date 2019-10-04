@@ -11,7 +11,7 @@ import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
- * Class for UI control of [MultipleDialog] when cause long click on note
+ * Class for UI control of [MultipleDialog] when cause long click on note.
  */
 class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
 

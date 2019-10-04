@@ -22,10 +22,18 @@ class NotificationContentTest : ParentUiTest() {
         nextArray.forEach { list.add(data.insertNotification(date = getTime(it))) }
     })
 
+    /**
+     * Add minutes for current time
+     */
+    private fun getTime(minute: Int): String {
+        return getDateFormat().format(Calendar.getInstance().apply {
+            add(Calendar.MINUTE, minute)
+        }.time)
+    }
+
     @Test fun colorLight() = startColorTest(Theme.LIGHT)
 
     @Test fun colorDark() = startColorTest(Theme.DARK)
-
 
     private fun startColorTest(@Theme theme: Int) {
         iPreferenceRepo.theme = theme
@@ -37,6 +45,7 @@ class NotificationContentTest : ParentUiTest() {
         })
     }
 
+
     private fun onAssertList(list: List<NoteModel>) {
         launch {
             mainScreen {
@@ -46,10 +55,6 @@ class NotificationContentTest : ParentUiTest() {
             }
         }
     }
-
-    private fun getTime(addValue: Int) = getDateFormat().format(Calendar.getInstance().apply {
-        add(Calendar.MINUTE, addValue)
-    }.time)
 
     private companion object {
         const val NEXT_HOUR = 60

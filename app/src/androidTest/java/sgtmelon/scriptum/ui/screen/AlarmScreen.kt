@@ -13,7 +13,7 @@ import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
 import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 
 /**
- * Class for UI control of [AlarmActivity]
+ * Class for UI control of [AlarmActivity].
  */
 class AlarmScreen(private val noteModel: NoteModel) : ParentUi() {
 

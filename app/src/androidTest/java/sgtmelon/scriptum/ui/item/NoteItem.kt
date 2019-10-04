@@ -6,6 +6,7 @@ import org.hamcrest.Matcher
 import sgtmelon.extension.formatPast
 import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.basic.extension.haveText
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.withColorIndicator
@@ -16,6 +17,9 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 
+/**
+ * Class for UI control of [NoteAdapter].
+ */
 class NoteItem(listMatcher: Matcher<View>, p: Int) :
         ParentRecyclerItem<NoteModel>(listMatcher, p) {
 

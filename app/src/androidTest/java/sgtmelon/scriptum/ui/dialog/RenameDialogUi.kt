@@ -7,7 +7,7 @@ import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
- * Class for UI control of [RenameDialog]
+ * Class for UI control of [RenameDialog].
  */
 class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
 

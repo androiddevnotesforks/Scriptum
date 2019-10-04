@@ -19,7 +19,7 @@ import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 
 /**
- * Class for UI control of [NoteActivity], [TextNoteFragment]
+ * Class for UI control of [NoteActivity], [TextNoteFragment].
  */
 class TextNoteScreen(override var state: State,
                      override var noteModel: NoteModel,

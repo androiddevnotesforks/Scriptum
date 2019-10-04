@@ -3,6 +3,7 @@ package sgtmelon.scriptum.ui.dialog
 import android.view.View
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.adapter.ColorAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.dialog.ColorDialog
 import sgtmelon.scriptum.model.annotation.Color
@@ -12,7 +13,7 @@ import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 
 /**
- * Class for UI control of [ColorDialog]
+ * Class for UI control of [ColorDialog].
  */
 class ColorDialogUi(place: Place, @Color private var check: Int, private val callback: Callback) :
         ParentRecyclerScreen(R.id.color_recycler_view), IDialogUi {
@@ -77,7 +78,9 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
         return if (p == check || p == initCheck) getNewPosition() else p
     }
 
-
+    /**
+     * Class for UI control of [ColorAdapter].
+     */
     private class Item(listMatcher: Matcher<View>, p: Int) :
             ParentRecyclerItem<ColorItem>(listMatcher, p) {
 

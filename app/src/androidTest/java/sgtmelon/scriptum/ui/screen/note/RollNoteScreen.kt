@@ -17,7 +17,7 @@ import sgtmelon.scriptum.ui.part.panel.RollEnterPanel
 import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 
 /**
- * Class for UI control of [NoteActivity], [RollNoteFragment]
+ * Class for UI control of [NoteActivity], [RollNoteFragment].
  */
 class RollNoteScreen(
         override var state: State,

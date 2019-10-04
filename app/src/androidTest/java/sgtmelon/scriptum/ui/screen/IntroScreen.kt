@@ -10,7 +10,7 @@ import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.main.MainScreen
 
 /**
- * Class for UI control of [IntroActivity], [IntroFragment]
+ * Class for UI control of [IntroActivity], [IntroFragment].
  */
 class IntroScreen : ParentUi() {
 

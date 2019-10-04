@@ -9,7 +9,7 @@ import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
- * Class for UI control of [PreferenceActivity], [PreferenceFragment]
+ * Class for UI control of [PreferenceActivity], [PreferenceFragment].
  */
 class PreferenceScreen : ParentUi() {
 

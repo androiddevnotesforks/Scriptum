@@ -12,7 +12,7 @@ import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 
 /**
- * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert
+ * Class for UI control of [MessageDialog] which open from [NoteActivity] on convert.
  */
 class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
 

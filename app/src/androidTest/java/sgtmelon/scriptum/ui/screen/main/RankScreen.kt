@@ -4,6 +4,7 @@ import android.view.View
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import org.hamcrest.Matcher
 import sgtmelon.scriptum.R
+import sgtmelon.scriptum.adapter.RankAdapter
 import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.room.entity.RankEntity
@@ -15,7 +16,7 @@ import sgtmelon.scriptum.ui.part.InfoContainer
 import sgtmelon.scriptum.ui.part.toolbar.RankToolbar
 
 /**
- * Class for UI control of [RankFragment]
+ * Class for UI control of [RankFragment].
  */
 class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
 
@@ -70,6 +71,9 @@ class RankScreen : ParentRecyclerScreen(R.id.rank_recycler) {
         recyclerView.isDisplayed(!empty)
     }
 
+    /**
+     * Class for UI control of [RankAdapter].
+     */
     private class Item private constructor(
             listMatcher: Matcher<View>,
             itemMatcher: Matcher<View>?,
