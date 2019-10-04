@@ -15,7 +15,7 @@ import sgtmelon.scriptum.ui.screen.main.NotesScreen
  * Test for [NoteItem] inside [NotesScreen]
  */
 @RunWith(AndroidJUnit4::class)
-class NotesContent : ParentUiTest() {
+class NotesContentTest : ParentUiTest() {
 
     @Test fun colorTextLight() = startColorTest(NoteType.TEXT, Theme.LIGHT)
 
