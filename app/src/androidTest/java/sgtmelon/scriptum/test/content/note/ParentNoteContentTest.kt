@@ -24,8 +24,11 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     }
 
     open fun colorTextLight() = startColorTest(NoteType.TEXT, Theme.LIGHT)
+
     open fun colorTextDark() = startColorTest(NoteType.TEXT, Theme.DARK)
+
     open fun colorRollLight() = startColorTest(NoteType.ROLL, Theme.LIGHT)
+
     open fun colorRollDark() = startColorTest(NoteType.ROLL, Theme.DARK)
 
     private fun startColorTest(type: NoteType, @Theme theme: Int) {
@@ -54,7 +57,9 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         })
     }
 
+
     open fun timeText() = startTimeTest(NoteType.TEXT)
+
     open fun timeRoll() = startTimeTest(NoteType.ROLL)
 
     private fun startTimeTest(type: NoteType) = onAssertList(ArrayList<NoteModel>().also { list ->
@@ -79,7 +84,20 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         }
     })
 
-    protected fun onAssertList(list: List<NoteModel>) {
+
+    open fun rollRow1() = startRowTest(count = 1)
+
+    open fun rollRow2() = startRowTest(count = 2)
+
+    open fun rollRow3() = startRowTest(count = 3)
+
+    open fun rollRow4() = startRowTest(count = 4)
+
+    private fun startRowTest(count: Int) = onAssertList(ArrayList<NoteModel>().apply {
+        TODO ("#TEST create test")
+    })
+
+    private fun onAssertList(list: List<NoteModel>) {
         launch {
             mainScreen {
                 when (page) {
@@ -94,7 +112,6 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
             }
         }
     }
-
 
     companion object {
         private const val ERROR_TEXT = "This class test only screens with [NoteAdapter]"
