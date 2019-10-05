@@ -172,7 +172,7 @@ class RollNoteTest : ParentUiTest() {
     }
 
 
-    // TODO write test
+    // TODO #TEST write test
     @Test fun actionOnReadNotification() {}
 
     @Test fun actionOnReadBind() = bindTestPrototype(isStatus = false)
@@ -222,10 +222,10 @@ class RollNoteTest : ParentUiTest() {
     }
 
 
-    // TODO write test
+    // TODO #TEST write test
     @Test fun actionOnEditUndoRedo() {}
 
-    // TODO write test
+    // TODO #TEST write test
     @Test fun actionOnEditRank() {}
 
     @Test fun actionOnCreateColor() = data.createRoll().let {
@@ -277,7 +277,7 @@ class RollNoteTest : ParentUiTest() {
      * Dialogs
      */
 
-    // TODO end assert
+    // TODO #TEST end assert
     @Test fun convertDialogCloseAndWork() = data.insertRoll().let {
         launch {
             mainScreen {
@@ -294,7 +294,7 @@ class RollNoteTest : ParentUiTest() {
         }
     }
 
-    // TODO add note to rank and check it hide
+    // TODO #TEST add note to rank and check it hide
     @Test fun rankDialogCloseAndWork() {}
 
     @Test fun colorDialogCloseAndWork() = data.createRoll().let {

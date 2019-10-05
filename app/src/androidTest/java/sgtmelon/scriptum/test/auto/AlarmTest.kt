@@ -15,7 +15,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmTest : ParentUiTest() {
 
-    // TODO open note -> close by back press
+    // TODO #TEST open note -> close by back press
 
     @Test fun openTextNote() = data.insertText().let {
         launchAlarm(it) { openAlarm(it) { openTextNote() } }

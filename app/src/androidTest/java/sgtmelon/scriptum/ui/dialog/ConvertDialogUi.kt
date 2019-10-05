@@ -16,7 +16,7 @@ import sgtmelon.scriptum.ui.ParentUi
  */
 class ConvertDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
 
-    // TODO add callback for getting result in [NotePanel]
+    // TODO #TEST add callback for getting result in [NotePanel]
 
     //region Views
 

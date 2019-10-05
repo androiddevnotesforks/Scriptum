@@ -16,3 +16,12 @@ fun waitAfter(time: Long, func: () -> Unit) {
 fun getFutureTime(): String = getDateFormat().format(
         Date(Calendar.getInstance().timeInMillis + Random().nextLong())
 )
+
+/**
+ * Add minutes for current time
+ */
+fun getTime(minute: Int): String {
+    return getDateFormat().format(Calendar.getInstance().apply {
+        add(Calendar.MINUTE, minute)
+    }.time)
+}

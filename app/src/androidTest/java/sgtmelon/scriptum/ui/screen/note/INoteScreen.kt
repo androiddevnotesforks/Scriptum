@@ -10,7 +10,7 @@ import sgtmelon.scriptum.model.NoteModel
  */
 interface INoteScreen {
 
-    // TODO добавить контроль выхода с экрана
+    // TODO #TEST добавить контроль выхода с экрана
 
     var state: State
 

@@ -48,7 +48,7 @@ abstract class ParentUiTest : ParentTest() {
             intent = SplashActivity.getAlarmInstance(context, noteModel.noteEntity), after = func
     )
 
-    // TODO #RELEASE2 переделать before
+    // TODO #TEST переделать before
     protected fun wait(time: Long, after: () -> Unit = {}) {
         Thread.sleep(time)
         after()

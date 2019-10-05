@@ -414,7 +414,7 @@ class RollNoteViewModel(application: Application) : ParentViewModel<IRollNoteFra
 
         noteModel.noteEntity.apply {
             change = getTime()
-            setCompleteText(rollList.getCheck(), rollList.size)
+            setCompleteText(rollList)
         }
 
         /**

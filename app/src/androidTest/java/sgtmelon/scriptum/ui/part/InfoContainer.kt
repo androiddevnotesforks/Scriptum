@@ -46,7 +46,7 @@ class InfoContainer(private val page: InfoPage, hide: Boolean = false) : ParentU
     fun assert(visible: Boolean) {
         infoContainer.isDisplayed(visible)
 
-        // TODO RELEASE fix image
+        // TODO #TEST fix image
         infoImage.isDisplayed(visible).withDrawableAttr(when (page) {
             InfoPage.RANK -> R.mipmap.img_info_rank
             InfoPage.NOTES -> R.mipmap.img_info_notes

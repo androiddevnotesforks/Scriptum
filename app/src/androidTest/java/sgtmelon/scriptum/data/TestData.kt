@@ -2,9 +2,7 @@ package sgtmelon.scriptum.data
 
 import android.content.Context
 import sgtmelon.extension.getTime
-import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.getFutureTime
-import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.data.ColorData
 import sgtmelon.scriptum.model.key.NoteType
@@ -25,8 +23,8 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         get() = NoteEntity().apply {
             create = getTime()
             change = getTime()
-            name = context.getString(R.string.test_note_name)
-            text = context.getString(R.string.test_note_text)
+            name = uniqueString
+            text = uniqueString.repeat(n = (1 until 10).random())
             color = (0 until ColorData.size).random()
             type = NoteType.TEXT
         }
@@ -35,21 +33,21 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
         get() = NoteEntity().apply {
             create = getTime()
             change = getTime()
-            name = context.getString(R.string.test_note_name)
-            setCompleteText(rollList.getCheck(), rollList.size)
+            name = uniqueString
             color = (0 until ColorData.size).random()
             type = NoteType.ROLL
         }
 
-    val rollList = ArrayList<RollEntity>().apply {
-        (0 until 10).forEach {
-            add(RollEntity().apply {
-                position = it
-                isCheck = Random.nextBoolean()
-                text = "$it | ${context.getString(R.string.test_roll_text)}"
-            })
+    val rollList: ArrayList<RollEntity>
+        get() = ArrayList<RollEntity>().apply {
+            (0 until (1 until 6).random()).forEach {
+                add(RollEntity().apply {
+                    position = it
+                    isCheck = Random.nextBoolean()
+                    text = "$it | $uniqueString"
+                })
+            }
         }
-    }
 
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)
 
@@ -100,6 +98,8 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     }
 
     fun insertText(note: NoteEntity = textNote): NoteModel {
+        if (note.type != NoteType.TEXT) throw IllegalAccessException("Wrong note type")
+
         inRoom { note.id = iNoteDao.insert(note) }
 
         return NoteModel(note)
@@ -108,6 +108,10 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     fun insertTextToBin(note: NoteEntity = textNote) = insertText(note.apply { isBin = true })
 
     fun insertRoll(note: NoteEntity = rollNote, list: ArrayList<RollEntity> = rollList): NoteModel {
+        if (note.type != NoteType.ROLL) throw IllegalAccessException("Wrong note type")
+
+        note.setCompleteText(list)
+
         inRoom {
             note.id = iNoteDao.insert(note)
             list.forEach {

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import sgtmelon.scriptum.extension.getCheck
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.data.DbData.Note
@@ -32,6 +33,10 @@ data class NoteEntity(
 
     fun setCompleteText(check: Int, size: Int) {
         text = "$check/$size"
+    }
+
+    fun setCompleteText(rollList: List<RollEntity>) {
+        setCompleteText(rollList.getCheck(), rollList.size)
     }
 
     fun splitTextForRoll() =

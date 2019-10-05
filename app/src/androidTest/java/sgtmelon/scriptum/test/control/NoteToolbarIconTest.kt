@@ -15,7 +15,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NoteToolbarIconTest : ParentUiTest() {
 
-    // TODO Анимация из стрелки в крестик при автоматическом сохранении текста/списка
+    // TODO #TEST Анимация из стрелки в крестик при автоматическом сохранении текста/списка
 
     @Test fun arrowBackOnCreateTextNote() = data.createText().let {
         launch { mainScreen { openAddDialog { waitAfter(TIME) { createTextNote(it) } } } }

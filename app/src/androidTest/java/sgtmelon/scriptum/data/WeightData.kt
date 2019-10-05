@@ -20,7 +20,7 @@ class WeightData(override val context: Context) : IRoomWork {
             create = getTime()
             change = getTime()
             name = context.getString(R.string.test_note_name)
-            text = "${context.getString(R.string.test_note_text)}\n\n".repeat(100)
+            text = "${context.getString(R.string.test_note_text)}\n\n".repeat(n = 100)
             color = (0 until ColorData.size).random()
             type = NoteType.TEXT
         }

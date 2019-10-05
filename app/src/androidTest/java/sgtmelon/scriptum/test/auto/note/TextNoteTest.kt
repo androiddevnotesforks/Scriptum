@@ -172,7 +172,7 @@ class TextNoteTest : ParentUiTest() {
     }
 
 
-    // TODO write test
+    // TODO #TEST write test
     @Test fun actionOnReadNotification() {}
 
     @Test fun actionOnReadBind() = bindTestPrototype(isStatus = false)
@@ -222,10 +222,10 @@ class TextNoteTest : ParentUiTest() {
     }
 
 
-    // TODO write test
+    // TODO #TEST write test
     @Test fun actionOnEditUndoRedo() {}
 
-    // TODO write test
+    // TODO #TEST write test
     @Test fun actionOnEditRank() {}
 
     @Test fun actionOnCreateColor() = data.createText().let {
@@ -278,7 +278,7 @@ class TextNoteTest : ParentUiTest() {
      * Dialogs
      */
 
-    // TODO end assert
+    // TODO #TEST end assert
     @Test fun convertDialogCloseAndWork() = data.insertText().let {
         launch {
             mainScreen {
@@ -295,7 +295,7 @@ class TextNoteTest : ParentUiTest() {
         }
     }
 
-    // TODO add note to rank and check it hide
+    // TODO #TEST add note to rank and check it hide
     @Test fun rankDialogCloseAndWork() {}
 
     @Test fun colorDialogCloseAndWork() = data.createText().let {

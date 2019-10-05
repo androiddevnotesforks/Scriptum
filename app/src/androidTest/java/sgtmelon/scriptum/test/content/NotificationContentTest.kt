@@ -3,14 +3,12 @@ package sgtmelon.scriptum.test.content
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.extension.getDateFormat
+import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.test.ParentUiTest
 import sgtmelon.scriptum.ui.screen.NotificationScreen
-import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Test for [NotificationScreen.Item]
@@ -21,15 +19,6 @@ class NotificationContentTest : ParentUiTest() {
     @Test fun time() = onAssertList(ArrayList<NoteModel>().also { list ->
         nextArray.forEach { list.add(data.insertNotification(date = getTime(it))) }
     })
-
-    /**
-     * Add minutes for current time
-     */
-    private fun getTime(minute: Int): String {
-        return getDateFormat().format(Calendar.getInstance().apply {
-            add(Calendar.MINUTE, minute)
-        }.time)
-    }
 
     @Test fun colorLight() = startColorTest(Theme.LIGHT)
 

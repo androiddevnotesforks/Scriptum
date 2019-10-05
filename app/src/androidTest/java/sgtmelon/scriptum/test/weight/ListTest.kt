@@ -15,7 +15,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class ListTest : ParentUiTest() {
 
-    // TODO optimization textNote inside lists (because now i load all text length)
+    // TODO #TEST optimization textNote inside lists (because now i load all text length)
 
     private val weightData = WeightData(context)
 

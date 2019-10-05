@@ -72,7 +72,7 @@ class RotationRollNoteTest : ParentRotationTest() {
                     openRollNote(it) {
                         controlPanel { onConvert { onClickYes() } }
                         onRotate {
-                            // TODO end assert
+                            // TODO #TEST end assert
                         }
                     }
                 }
