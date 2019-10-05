@@ -12,17 +12,17 @@ import kotlin.random.Random
  */
 abstract class AlarmAnimParentTest(@Theme private val theme: Int) : ParentUiTest() {
 
-    abstract fun colorRed()
-    abstract fun colorPurple()
-    abstract fun colorIndigo()
-    abstract fun colorBlue()
-    abstract fun colorTeal()
-    abstract fun colorGreen()
-    abstract fun colorYellow()
-    abstract fun colorOrange()
-    abstract fun colorBrown()
-    abstract fun colorBlueGrey()
-    abstract fun colorWhite()
+    open fun colorRed() = startTest(Color.RED)
+    open fun colorPurple() = startTest(Color.PURPLE)
+    open fun colorIndigo() = startTest(Color.INDIGO)
+    open fun colorBlue() = startTest(Color.BLUE)
+    open fun colorTeal() = startTest(Color.TEAL)
+    open fun colorGreen() = startTest(Color.GREEN)
+    open fun colorYellow() = startTest(Color.YELLOW)
+    open fun colorOrange() = startTest(Color.ORANGE)
+    open fun colorBrown() = startTest(Color.BROWN)
+    open fun colorBlueGrey() = startTest(Color.BLUE_GREY)
+    open fun colorWhite() = startTest(Color.WHITE)
 
     protected fun startTest(@Color color: Int) {
         with(iPreferenceRepo) {

@@ -1,6 +1,7 @@
 package sgtmelon.scriptum.test.content.note
 
 import sgtmelon.scriptum.adapter.NoteAdapter
+import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Sort
@@ -22,34 +23,61 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         iPreferenceRepo.sort = Sort.CHANGE
     }
 
-    abstract fun colorTextLight()
-    abstract fun colorTextDark()
-    abstract fun colorRollLight()
-    abstract fun colorRollDark()
+    open fun colorTextLight() = startColorTest(NoteType.TEXT, Theme.LIGHT)
+    open fun colorTextDark() = startColorTest(NoteType.TEXT, Theme.DARK)
+    open fun colorRollLight() = startColorTest(NoteType.ROLL, Theme.LIGHT)
+    open fun colorRollDark() = startColorTest(NoteType.ROLL, Theme.DARK)
 
-    abstract fun timeText()
-    abstract fun timeRoll()
-
-    protected fun startColorTest(type: NoteType, @Theme theme: Int) {
+    private fun startColorTest(type: NoteType, @Theme theme: Int) {
         iPreferenceRepo.theme = theme
         iPreferenceRepo.sort = Sort.COLOR
 
         onAssertList(ArrayList<NoteModel>().also { list ->
             Color.list.forEach {
+                val note = when(type) {
+                    NoteType.TEXT -> data.textNote.copy(color = it)
+                    NoteType.ROLL -> data.rollNote.copy(color = it)
+                }
+
                 list.add(when(page) {
                     MainPage.RANK -> throw IllegalAccessException(ERROR_TEXT)
                     MainPage.NOTES ->when (type) {
-                        NoteType.TEXT -> with(data) { insertText(textNote.copy(color = it)) }
-                        NoteType.ROLL -> with(data) { insertRoll(rollNote.copy(color = it)) }
+                        NoteType.TEXT -> data.insertText(note)
+                        NoteType.ROLL -> data.insertRoll(note)
                     }
                     MainPage.BIN -> when (type) {
-                        NoteType.TEXT -> with(data) { insertTextToBin(textNote.copy(color = it)) }
-                        NoteType.ROLL -> with(data) { insertRollToBin(rollNote.copy(color = it)) }
+                        NoteType.TEXT -> data.insertTextToBin(note)
+                        NoteType.ROLL -> data.insertRollToBin(note)
                     }
                 })
             }
         })
     }
+
+    open fun timeText() = startTimeTest(NoteType.TEXT)
+    open fun timeRoll() = startTimeTest(NoteType.ROLL)
+
+    private fun startTimeTest(type: NoteType) = onAssertList(ArrayList<NoteModel>().also { list ->
+        lastArray.forEach {
+            val time = getTime(it)
+            val note = when(type) {
+                NoteType.TEXT -> data.textNote.copy(create = time, change = time)
+                NoteType.ROLL -> data.rollNote.copy(create = time, change = time)
+            }
+
+            list.add(when(page) {
+                MainPage.RANK -> throw IllegalAccessException(ERROR_TEXT)
+                MainPage.NOTES -> when(type) {
+                    NoteType.TEXT -> data.insertText(note)
+                    NoteType.ROLL -> data.insertRoll(note)
+                }
+                MainPage.BIN -> when(type) {
+                    NoteType.TEXT -> data.insertTextToBin(note)
+                    NoteType.ROLL -> data.insertRollToBin(note)
+                }
+            })
+        }
+    })
 
     protected fun onAssertList(list: List<NoteModel>) {
         launch {

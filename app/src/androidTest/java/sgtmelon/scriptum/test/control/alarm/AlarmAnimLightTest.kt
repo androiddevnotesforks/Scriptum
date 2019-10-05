@@ -3,7 +3,6 @@ package sgtmelon.scriptum.test.control.alarm
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
-import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 
@@ -13,26 +12,26 @@ import sgtmelon.scriptum.screen.ui.notification.AlarmActivity
 @RunWith(AndroidJUnit4::class)
 class AlarmAnimLightTest : AlarmAnimParentTest(Theme.LIGHT) {
 
-    @Test override fun colorRed() = startTest(Color.RED)
+    @Test override fun colorRed() = super.colorRed()
 
-    @Test override fun colorPurple() = startTest(Color.PURPLE)
+    @Test override fun colorPurple() = super.colorPurple()
 
-    @Test override fun colorIndigo() = startTest(Color.INDIGO)
+    @Test override fun colorIndigo() = super.colorIndigo()
 
-    @Test override fun colorBlue() = startTest(Color.BLUE)
+    @Test override fun colorBlue() = super.colorBlue()
 
-    @Test override fun colorTeal() = startTest(Color.TEAL)
+    @Test override fun colorTeal() = super.colorTeal()
 
-    @Test override fun colorGreen() = startTest(Color.GREEN)
+    @Test override fun colorGreen() = super.colorGreen()
 
-    @Test override fun colorYellow() = startTest(Color.YELLOW)
+    @Test override fun colorYellow() = super.colorYellow()
 
-    @Test override fun colorOrange() = startTest(Color.ORANGE)
+    @Test override fun colorOrange() = super.colorOrange()
 
-    @Test override fun colorBrown() = startTest(Color.BROWN)
+    @Test override fun colorBrown() = super.colorBrown()
 
-    @Test override fun colorBlueGrey() = startTest(Color.BLUE_GREY)
+    @Test override fun colorBlueGrey() = super.colorBlueGrey()
 
-    @Test override fun colorWhite() = startTest(Color.WHITE)
+    @Test override fun colorWhite() = super.colorWhite()
 
 }
