@@ -38,7 +38,7 @@ class RotationTest : ParentRotationTest() {
             mainScreen {
                 openRankPage {
                     openRenameDialog(it.name) {
-                        onRename(newName, enabled = true)
+                        onEnter(newName)
                         onRotate { assert(newName, enabled = true) }
                     }
                 }

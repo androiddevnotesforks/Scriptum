@@ -36,7 +36,7 @@ class RankTest : ParentUiTest() {
     @Test fun toolbarEnterAddEnabled() = data.uniqueString.let {
         launch {
             mainScreen {
-                openRankPage(empty = true) { toolbar { onEnterName(it, isAddEnabled = true) } }
+                openRankPage(empty = true) { toolbar { onEnterName(it) } }
             }
         }
     }
@@ -44,7 +44,7 @@ class RankTest : ParentUiTest() {
     @Test fun toolbarEnterClear() = launch {
         mainScreen {
             openRankPage(empty = true) {
-                toolbar { onEnterName(data.uniqueString, isAddEnabled = true).onClickClear() }
+                toolbar { onEnterName(data.uniqueString).onClickClear() }
             }
         }
     }
@@ -53,7 +53,7 @@ class RankTest : ParentUiTest() {
         launch({ data.insertRank() }) {
             mainScreen {
                 openRankPage {
-                    toolbar { onEnterName(it, isAddEnabled = true).onLongClickAdd() }
+                    toolbar { onEnterName(it).onLongClickAdd() }
                     openRenameDialog(it, p = 0)
                 }
             }
@@ -64,8 +64,24 @@ class RankTest : ParentUiTest() {
         launch({ data.insertRank() }) {
             mainScreen {
                 openRankPage {
-                    toolbar { onEnterName(it, isAddEnabled = true).onClickAdd() }
+                    toolbar { onEnterName(it).onClickAdd() }
                     openRenameDialog(it, p = count - 1)
+                }
+            }
+        }
+    }
+
+    @Test fun toolbarUpdateOnRename() = data.insertRank().let {
+        val newName = data.uniqueString
+
+        launch {
+            mainScreen {
+                openRankPage {
+                    toolbar {
+                        onEnterName(newName)
+                        openRenameDialog(it.name) { onEnter(newName).onClickAccept() }
+                        assert(isAddEnabled = false)
+                    }
                 }
             }
         }
@@ -144,7 +160,7 @@ class RankTest : ParentUiTest() {
     @Test fun renameDialogApplySameName() = data.insertRank().let {
         launch {
             mainScreen {
-                openRankPage { openRenameDialog(it.name) { onRename(it.name, enabled = false) } }
+                openRankPage { openRenameDialog(it.name) { onEnter(it.name, enabled = false) } }
             }
         }
     }
@@ -153,7 +169,7 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(it[0].name, p = 0) { onRename(it[1].name, enabled = false) }
+                    openRenameDialog(it[0].name, p = 0) { onEnter(it[1].name, enabled = false) }
                 }
             }
         }
@@ -162,9 +178,7 @@ class RankTest : ParentUiTest() {
     @Test fun renameDialogApplyRegister()  = data.insertRank().let {
         launch {
             mainScreen {
-                openRankPage {
-                    openRenameDialog(it.name) { onRename(it.name.toUpperCase(), enabled = true) }
-                }
+                openRankPage { openRenameDialog(it.name) { onEnter(it.name.toUpperCase()) } }
             }
         }
     }
@@ -175,7 +189,7 @@ class RankTest : ParentUiTest() {
         launch {
             mainScreen {
                 openRankPage {
-                    openRenameDialog(it.name) { onRename(newName, enabled = true).onClickAccept() }
+                    openRenameDialog(it.name) { onEnter(newName).onClickAccept() }
                     openRenameDialog(newName)
                 }
             }

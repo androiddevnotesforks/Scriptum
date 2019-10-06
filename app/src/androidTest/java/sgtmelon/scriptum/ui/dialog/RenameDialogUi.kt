@@ -23,7 +23,7 @@ class RenameDialogUi(private val title: String) : ParentUi(), IDialogUi {
 
     //endregion
 
-    fun onRename(name: String, enabled: Boolean) = apply {
+    fun onEnter(name: String, enabled: Boolean = true) = apply {
         renameEnter.typeText(name)
         assert(name, enabled)
     }
