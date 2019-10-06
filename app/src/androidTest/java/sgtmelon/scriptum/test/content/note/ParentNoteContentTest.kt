@@ -136,6 +136,14 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
         TODO("#TEST write test")
     }
 
+    open fun rankTextCancel() {
+        TODO("#TEST write test")
+    }
+
+    open fun rankRollCancel() {
+        TODO("#TEST write test")
+    }
+
     private fun onAssertList(list: List<NoteModel>) {
         launch {
             mainScreen {

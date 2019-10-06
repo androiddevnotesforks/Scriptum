@@ -42,4 +42,8 @@ class BinContentTest : ParentNoteContentTest(MainPage.BIN) {
 
     @Test override fun rankSort() = super.rankSort()
 
+    @Test override fun rankTextCancel() = super.rankTextCancel()
+
+    @Test override fun rankRollCancel() = super.rankRollCancel()
+
 }
