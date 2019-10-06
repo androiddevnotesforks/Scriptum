@@ -8,6 +8,7 @@ import sgtmelon.scriptum.model.annotation.Sort
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.key.MainPage
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
@@ -16,12 +17,6 @@ import sgtmelon.scriptum.test.ParentUiTest
 abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest() {
 
     // TODO #TEST create sort test
-
-    override fun setUp() {
-        super.setUp()
-
-        iPreferenceRepo.sort = Sort.CHANGE
-    }
 
     open fun colorTextLight() = startColorTest(NoteType.TEXT, Theme.LIGHT)
 
@@ -43,7 +38,7 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
                 }
 
                 list.add(when(page) {
-                    MainPage.RANK -> throw IllegalAccessException(ERROR_TEXT)
+                    MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
                     MainPage.NOTES ->when (type) {
                         NoteType.TEXT -> data.insertText(note)
                         NoteType.ROLL -> data.insertRoll(note)
@@ -58,31 +53,47 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     }
 
 
-    open fun timeText() = startTimeTest(NoteType.TEXT)
+    open fun timeCreateText() = startTimeTest(NoteType.TEXT, Sort.CREATE)
 
-    open fun timeRoll() = startTimeTest(NoteType.ROLL)
+    open fun timeCreateRoll() = startTimeTest(NoteType.ROLL, Sort.CREATE)
 
-    private fun startTimeTest(type: NoteType) = onAssertList(ArrayList<NoteModel>().also { list ->
-        lastArray.forEach {
-            val time = getTime(it)
-            val note = when(type) {
-                NoteType.TEXT -> data.textNote.copy(create = time, change = time)
-                NoteType.ROLL -> data.rollNote.copy(create = time, change = time)
+    open fun timeChangeText() = startTimeTest(NoteType.TEXT, Sort.CHANGE)
+
+    open fun timeChangeRoll() = startTimeTest(NoteType.ROLL, Sort.CHANGE)
+
+    private fun startTimeTest(type: NoteType, @Sort sort: Int) {
+        iPreferenceRepo.sort = sort
+
+        onAssertList(ArrayList<NoteModel>().also { list ->
+            lastArray.forEach {
+                val time = getTime(it)
+                val note = when (type) {
+                    NoteType.TEXT -> when (sort) {
+                        Sort.CREATE -> data.textNote.copy(create = time)
+                        Sort.CHANGE -> data.textNote.copy(change = time)
+                        else -> throw IllegalAccessException(SORT_ERROR_TEXT)
+                    }
+                    NoteType.ROLL -> when (sort) {
+                        Sort.CREATE -> data.rollNote.copy(create = time)
+                        Sort.CHANGE -> data.rollNote.copy(change = time)
+                        else -> throw IllegalAccessException(SORT_ERROR_TEXT)
+                    }
+                }
+
+                list.add(when (page) {
+                    MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                    MainPage.NOTES -> when (type) {
+                        NoteType.TEXT -> data.insertText(note)
+                        NoteType.ROLL -> data.insertRoll(note)
+                    }
+                    MainPage.BIN -> when (type) {
+                        NoteType.TEXT -> data.insertTextToBin(note)
+                        NoteType.ROLL -> data.insertRollToBin(note)
+                    }
+                })
             }
-
-            list.add(when(page) {
-                MainPage.RANK -> throw IllegalAccessException(ERROR_TEXT)
-                MainPage.NOTES -> when(type) {
-                    NoteType.TEXT -> data.insertText(note)
-                    NoteType.ROLL -> data.insertRoll(note)
-                }
-                MainPage.BIN -> when(type) {
-                    NoteType.TEXT -> data.insertTextToBin(note)
-                    NoteType.ROLL -> data.insertRollToBin(note)
-                }
-            })
-        }
-    })
+        })
+    }
 
 
     open fun rollRow1() = startRowTest(count = 1)
@@ -93,15 +104,29 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
     open fun rollRow4() = startRowTest(count = 4)
 
-    private fun startRowTest(count: Int) = onAssertList(ArrayList<NoteModel>().apply {
-        TODO ("#TEST create test")
+    private fun startRowTest(count: Int) = onAssertList(ArrayList<NoteModel>().also { list ->
+        val rollList = ArrayList<RollEntity>()
+
+        (0 until count).forEach {
+            rollList.add(data.rollEntity.apply {
+                position = it
+                text = "$it | $text"
+            })
+        }
+
+        list.add(when (page) {
+            MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+            MainPage.NOTES -> data.insertRoll(data.rollNote, rollList)
+            MainPage.BIN -> data.insertRollToBin(data.rollNote, rollList)
+        })
     })
+
 
     private fun onAssertList(list: List<NoteModel>) {
         launch {
             mainScreen {
                 when (page) {
-                    MainPage.RANK -> throw IllegalAccessException(ERROR_TEXT)
+                    MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
                     MainPage.NOTES -> openNotesPage {
                         list.forEachIndexed { p, model -> onAssertItem(p, model) }
                     }
@@ -114,7 +139,8 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     }
 
     companion object {
-        private const val ERROR_TEXT = "This class test only screens with [NoteAdapter]"
+        private const val PAGE_ERROR_TEXT = "This class test only screens with [NoteAdapter]"
+        private const val SORT_ERROR_TEXT = "Wrong sort type"
 
         private const val LAST_HOUR = -60
         private const val LAST_DAY = LAST_HOUR * 24

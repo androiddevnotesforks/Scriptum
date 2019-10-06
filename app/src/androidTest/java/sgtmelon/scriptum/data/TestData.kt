@@ -41,12 +41,17 @@ class TestData(override val context: Context, private val iPreferenceRepo: IPref
     val rollList: ArrayList<RollEntity>
         get() = ArrayList<RollEntity>().apply {
             (0 until (1 until 6).random()).forEach {
-                add(RollEntity().apply {
+                add(rollEntity.apply {
                     position = it
-                    isCheck = Random.nextBoolean()
-                    text = "$it | $uniqueString"
+                    text = "$it | $text"
                 })
             }
+        }
+
+    val rollEntity: RollEntity
+        get() = RollEntity().apply {
+            isCheck = Random.nextBoolean()
+            text = uniqueString
         }
 
     val rankEntity: RankEntity get() = RankEntity(name = uniqueString)

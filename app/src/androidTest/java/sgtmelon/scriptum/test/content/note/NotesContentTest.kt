@@ -22,9 +22,13 @@ class NotesContentTest : ParentNoteContentTest(MainPage.NOTES) {
     @Test override fun colorRollDark() = super.colorRollDark()
 
 
-    @Test override fun timeText() = super.timeText()
+    @Test override fun timeCreateText() = super.timeCreateText()
 
-    @Test override fun timeRoll() = super.timeRoll()
+    @Test override fun timeCreateRoll() = super.timeCreateRoll()
+
+    @Test override fun timeChangeText() = super.timeChangeText()
+
+    @Test override fun timeChangeRoll() = super.timeChangeRoll()
 
 
     @Test override fun rollRow1() = super.rollRow1()
