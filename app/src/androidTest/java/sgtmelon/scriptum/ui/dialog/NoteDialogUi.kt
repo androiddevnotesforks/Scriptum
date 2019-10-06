@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.dialog
 
+import sgtmelon.extension.getTime
 import sgtmelon.safedialog.MultipleDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -7,6 +8,7 @@ import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.key.NoteType
+import sgtmelon.scriptum.room.entity.RollEntity
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 
@@ -46,10 +48,29 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
         convertButton.click()
 
         noteModel.noteEntity.apply {
-            type = when (type) {
-                NoteType.TEXT -> NoteType.ROLL
-                NoteType.ROLL -> NoteType.TEXT
+            change = getTime()
+            when (type) {
+                NoteType.TEXT -> {
+                    type = NoteType.ROLL
+
+                    // TODO #TEST optimization
+                    var p = 0
+                    splitTextForRoll().forEach {
+                        if (it.isNotEmpty()) noteModel.rollList.add(RollEntity().apply {
+                            noteId = noteModel.noteEntity.id
+                            position = p++
+                            text = it
+                        })
+                    }
+
+                    setCompleteText(check = 0, size = noteModel.rollList.size)
+                }
+                NoteType.ROLL -> {
+                    type = NoteType.TEXT
+                    setText(noteModel.rollList)
+                }
             }
+
         }
     }
 
@@ -59,6 +80,7 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
         deleteButton.click()
 
         noteModel.noteEntity.apply {
+            change = getTime()
             isBin = true
             isStatus = false
         }
@@ -67,7 +89,10 @@ class NoteDialogUi(private val noteModel: NoteModel) : ParentUi(), IDialogUi {
     fun onClickRestore() = waitClose {
         restoreButton.click()
 
-        noteModel.noteEntity.isBin = false
+        noteModel.noteEntity.apply {
+            change = getTime()
+            isBin = false
+        }
     }
 
     fun onClickClear() = waitClose { clearButton.click() }

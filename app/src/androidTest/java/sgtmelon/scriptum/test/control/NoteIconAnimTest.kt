@@ -13,7 +13,7 @@ import sgtmelon.scriptum.test.ParentUiTest
  * Test of [MenuControlAnim] animations for [TextNoteFragment], [RollNoteFragment]
  */
 @RunWith(AndroidJUnit4::class)
-class NoteToolbarIconTest : ParentUiTest() {
+class NoteIconAnimTest : ParentUiTest() {
 
     // TODO #TEST Анимация из стрелки в крестик при автоматическом сохранении текста/списка
 

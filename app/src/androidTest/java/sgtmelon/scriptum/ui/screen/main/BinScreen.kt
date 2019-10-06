@@ -40,19 +40,19 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
     }
 
     fun openNoteDialog(noteModel: NoteModel, p: Int = random,
-                       func: NoteDialogUi.() -> Unit = {}) {
+                       func: NoteDialogUi.() -> Unit = {}) = apply {
         getItem(p).view.longClick()
         NoteDialogUi.invoke(func, noteModel)
     }
 
     fun openTextNote(noteModel: NoteModel, p: Int = random,
-                     func: TextNoteScreen.() -> Unit = {}) {
+                     func: TextNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
         TextNoteScreen.invoke(func, State.BIN, noteModel)
     }
 
     fun openRollNote(noteModel: NoteModel, p: Int = random,
-                     func: RollNoteScreen.() -> Unit = {}) {
+                     func: RollNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
         RollNoteScreen.invoke(func, State.BIN, noteModel)
     }

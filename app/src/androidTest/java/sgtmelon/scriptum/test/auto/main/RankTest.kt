@@ -5,7 +5,7 @@ import sgtmelon.scriptum.screen.ui.main.RankFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test for[RankFragment]
+ * Test for [RankFragment]
  */
 class RankTest : ParentUiTest() {
 
@@ -74,14 +74,6 @@ class RankTest : ParentUiTest() {
     /**
      * Rank Card
      */
-
-    @Test fun rankVisibleAnimationClick() = data.insertRank().let {
-        launch { mainScreen { openRankPage { onClickVisible().onClickVisible() } } }
-    }
-
-    @Test fun rankVisibleAnimationLongClick() = data.fillRank(count = 5).let {
-        launch { mainScreen { openRankPage { it.forEach { onLongClickVisible(it) } } } }
-    }
 
     @Test fun rankVisibleForNotes() = data.insertRankForNotes().let {
         launch {

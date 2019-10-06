@@ -197,7 +197,7 @@ class RoomRepo(override val context: Context) : IRoomRepo, IRoomWork {
             noteEntity.apply {
                 change = getTime()
                 type = NoteType.TEXT
-                text = iRollDao[id].joinToString(separator = "\n") { it.text }
+                setText(iRollDao[id])
             }
 
             iNoteDao.update(noteEntity)

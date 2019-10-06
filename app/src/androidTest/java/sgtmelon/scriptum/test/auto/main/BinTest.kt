@@ -6,7 +6,7 @@ import sgtmelon.scriptum.screen.ui.main.BinFragment
 import sgtmelon.scriptum.test.ParentUiTest
 
 /**
- * Test for[BinFragment]
+ * Test for [BinFragment]
  */
 class BinTest : ParentUiTest() {
 
@@ -20,23 +20,13 @@ class BinTest : ParentUiTest() {
 
     @Test fun textNoteOpen() = data.insertTextToBin().let {
         launch {
-            mainScreen {
-                openBinPage {
-                    openTextNote(it) { onPressBack() }
-                    assert(empty = false)
-                }
-            }
+            mainScreen { openBinPage { openTextNote(it) { onPressBack() }.assert(empty = false) } }
         }
     }
 
     @Test fun rollNoteOpen() = data.insertRollToBin().let {
         launch {
-            mainScreen {
-                openBinPage {
-                    openRollNote(it) { onPressBack() }
-                    assert(empty = false)
-                }
-            }
+            mainScreen { openBinPage { openRollNote(it) { onPressBack() }.assert(empty = false) } }
         }
     }
 
@@ -77,10 +67,7 @@ class BinTest : ParentUiTest() {
     @Test fun textNoteDialogClose() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openNoteDialog(it) { onCloseSoft() }
-                    assert(empty = false)
-                }
+                openBinPage { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
             }
         }
     }
@@ -89,12 +76,7 @@ class BinTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
-
-                openBinPage {
-                    openNoteDialog(it) { onClickRestore() }
-                    assert(empty = true)
-                }
-
+                openBinPage { openNoteDialog(it) { onClickRestore() }.assert(empty = true) }
                 openNotesPage()
             }
         }
@@ -103,11 +85,7 @@ class BinTest : ParentUiTest() {
     @Test fun textNoteDialogClear() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openNoteDialog(it) { onClickClear() }
-                    assert(empty = true)
-                }
-
+                openBinPage { openNoteDialog(it) { onClickClear() }.assert(empty = true) }
                 openNotesPage(empty = true)
             }
         }
@@ -121,10 +99,7 @@ class BinTest : ParentUiTest() {
     @Test fun rollNoteDialogClose() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openNoteDialog(it) { onCloseSoft() }
-                    assert(empty = false)
-                }
+                openBinPage { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
             }
         }
     }
@@ -133,12 +108,7 @@ class BinTest : ParentUiTest() {
         launch {
             mainScreen {
                 openNotesPage(empty = true)
-
-                openBinPage {
-                    openNoteDialog(it) { onClickRestore() }
-                    assert(empty = true)
-                }
-
+                openBinPage { openNoteDialog(it) { onClickRestore() }.assert(empty = true) }
                 openNotesPage()
             }
         }
@@ -147,11 +117,7 @@ class BinTest : ParentUiTest() {
     @Test fun rollNoteDialogClear() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openNoteDialog(it) { onClickClear() }
-                    assert(empty = true)
-                }
-
+                openBinPage { openNoteDialog(it) { onClickClear() }.assert(empty = true) }
                 openNotesPage(empty = true)
             }
         }

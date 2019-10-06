@@ -47,25 +47,25 @@ class NotesScreen(hide: Boolean) : ParentRecyclerScreen(R.id.notes_recycler) {
     }
 
     fun openNoteDialog(noteModel: NoteModel, p: Int = random,
-                       func: NoteDialogUi.() -> Unit = {}) {
+                       func: NoteDialogUi.() -> Unit = {}) = apply {
         getItem(p).view.longClick()
         NoteDialogUi.invoke(func, noteModel)
     }
 
     fun openTextNote(noteModel: NoteModel, p: Int = random,
-                     func: TextNoteScreen.() -> Unit = {}) {
+                     func: TextNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
         TextNoteScreen.invoke(func, State.READ, noteModel)
     }
 
     fun openRollNote(noteModel: NoteModel, p: Int = random,
-                     func: RollNoteScreen.() -> Unit = {}) {
+                     func: RollNoteScreen.() -> Unit = {}) = apply {
         getItem(p).view.click()
         RollNoteScreen.invoke(func, State.READ, noteModel)
     }
 
 
-    fun onAssertItem(p: Int, noteModel: NoteModel) {
+    fun onAssertItem(noteModel: NoteModel, p: Int = random) {
         getItem(p).assert(noteModel)
     }
 

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.part.panel
 
+import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
@@ -47,12 +48,18 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
     /**
      * Return user to [BinScreen]
      */
-    fun onRestore() = callback.throwOnWrongState(State.BIN) { restoreButton.click() }
+    fun onRestore() = callback.throwOnWrongState(State.BIN) {
+        restoreButton.click()
+        callback.noteModel.noteEntity.change = getTime()
+    }
 
     fun onRestoreOpen() = apply {
         callback.throwOnWrongState(State.BIN) {
             restoreOpenButton.click()
-            callback.apply { state = State.READ }.fullAssert()
+            callback.apply {
+                noteModel.noteEntity.change = getTime()
+                state = State.READ
+            }.fullAssert()
         }
     }
 
@@ -96,7 +103,10 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
 
             callback.apply {
                 state = State.READ
+
                 noteModel = NoteModel(shadowModel)
+                noteModel.noteEntity.change = getTime()
+
                 inputControl.reset()
             }.fullAssert()
         }
@@ -114,7 +124,10 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
         ConvertDialogUi.invoke(func, callback.noteModel)
     }
 
-    fun onDelete() = callback.throwOnWrongState(State.READ) { deleteButton.click() }
+    fun onDelete() = callback.throwOnWrongState(State.READ) {
+        deleteButton.click()
+        callback.noteModel.noteEntity.change = getTime()
+    }
 
     fun onEdit() = apply {
         callback.throwOnWrongState(State.READ) {
