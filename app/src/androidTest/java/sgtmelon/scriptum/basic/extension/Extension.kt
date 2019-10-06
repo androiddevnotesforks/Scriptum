@@ -3,7 +3,7 @@ package sgtmelon.scriptum.basic.extension
 import sgtmelon.extension.getDateFormat
 import java.util.*
 
-fun waitBefore(time: Long, func: () -> Unit) {
+fun waitBefore(time: Long, func: () -> Unit = {}) {
     Thread.sleep(time)
     func()
 }
