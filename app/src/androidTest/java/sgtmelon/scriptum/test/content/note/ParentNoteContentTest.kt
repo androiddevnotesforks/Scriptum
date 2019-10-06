@@ -122,6 +122,20 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
     })
 
 
+    open fun rankSort() {
+        iPreferenceRepo.sort = Sort.RANK
+
+        onAssertList(ArrayList<NoteModel>().also { list ->
+            list.add(when (page) {
+                MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
+                MainPage.NOTES -> data.insertText(data.textNote)
+                MainPage.BIN -> data.insertTextToBin(data.textNote)
+            })
+        })
+
+        TODO("#TEST write test")
+    }
+
     private fun onAssertList(list: List<NoteModel>) {
         launch {
             mainScreen {

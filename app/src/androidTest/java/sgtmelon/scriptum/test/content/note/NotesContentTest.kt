@@ -39,4 +39,7 @@ class NotesContentTest : ParentNoteContentTest(MainPage.NOTES) {
 
     @Test override fun rollRow4() = super.rollRow4()
 
+
+    @Test override fun rankSort() = super.rankSort()
+
 }

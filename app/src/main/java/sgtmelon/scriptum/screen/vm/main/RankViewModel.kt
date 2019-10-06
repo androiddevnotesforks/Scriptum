@@ -131,7 +131,7 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
         callback?.notifyVisible(startAnim, itemList)
 
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind() }
+        iInteractor.notifyBind()
     }
 
     override fun onClickCancel(p: Int) {

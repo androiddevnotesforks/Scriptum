@@ -25,7 +25,7 @@ class RankInteractor(context: Context, private var callback: IRankBridge?) :
     /**
      * Обновление по категориям всех прикреплённых заметок в статус баре
      */
-    override suspend fun notifyBind() {
+    override fun notifyBind() {
         val rankIdVisibleList = iRoomRepo.getRankIdVisibleList()
 
         iRoomRepo.getNoteModelList(bin = false).forEach {

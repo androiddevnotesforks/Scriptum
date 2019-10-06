@@ -39,4 +39,7 @@ class BinContentTest : ParentNoteContentTest(MainPage.BIN) {
 
     @Test override fun rollRow4() = super.rollRow4()
 
+
+    @Test override fun rankSort() = super.rankSort()
+
 }
