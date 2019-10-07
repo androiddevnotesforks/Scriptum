@@ -3,13 +3,14 @@ package sgtmelon.scriptum.test.control.rotation
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.scriptum.screen.ui.main.MainActivity
 import sgtmelon.scriptum.test.ParentRotationTest
 
 /**
- * Test of application work with phone rotation
+ * Test of [MainActivity] work with phone rotation
  */
 @RunWith(AndroidJUnit4::class)
-class RotationTest : ParentRotationTest() {
+class MainRotationTest : ParentRotationTest() {
 
     @Test fun addDialog() = launch { mainScreen { openAddDialog { onRotate { assert() } } } }
 
@@ -17,21 +18,21 @@ class RotationTest : ParentRotationTest() {
      * RankScreen
      */
 
-    @Test fun rankScreenContentEmpty() = launch {
+    @Test fun rankContentEmpty() = launch {
         mainScreen {
             openRankPage(empty = true) { onRotate { assert(empty = true) } }
             assert(fabVisible = false)
         }
     }
 
-    @Test fun rankScreenContentList() = launch({ data.fillRank() }) {
+    @Test fun rankContentList() = launch({ data.fillRank() }) {
         mainScreen {
             openRankPage { onRotate { assert(empty = false) } }
             assert(fabVisible = false)
         }
     }
 
-    @Test fun rankScreenRenameDialog() = data.insertRank().let {
+    @Test fun rankRenameDialog() = data.insertRank().let {
         val newName = data.uniqueString
 
         launch {
@@ -50,25 +51,25 @@ class RotationTest : ParentRotationTest() {
      * NotesScreen
      */
 
-    @Test fun notesScreenContentEmpty() = launch {
+    @Test fun notesContentEmpty() = launch {
         mainScreen {
             openNotesPage(empty = true) { onRotate { assert(empty = true) } }
             assert(fabVisible = true)
         }
     }
 
-    @Test fun notesScreenContentList() = launch({ data.fillNotes() }) {
+    @Test fun notesContentList() = launch({ data.fillNotes() }) {
         mainScreen {
             openNotesPage { onRotate { assert(empty = false) } }
             assert(fabVisible = true)
         }
     }
 
-    @Test fun notesScreenTextNoteDialog() = data.insertText().let {
+    @Test fun notesTextNoteDialog() = data.insertText().let {
         launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
-    @Test fun notesScreenRollNoteDialog() = data.insertRoll().let {
+    @Test fun notesRollNoteDialog() = data.insertRoll().let {
         launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
@@ -76,50 +77,30 @@ class RotationTest : ParentRotationTest() {
      * BinScreen
      */
 
-    @Test fun binScreenContentEmpty() = launch {
+    @Test fun binContentEmpty() = launch {
         mainScreen {
             openBinPage(empty = true) { onRotate { assert(empty = true) } }
             assert(fabVisible = false)
         }
     }
 
-    @Test fun binScreenContentList() = launch({ data.fillBin() }) {
+    @Test fun binContentList() = launch({ data.fillBin() }) {
         mainScreen {
             openBinPage { onRotate { assert(empty = false) } }
             assert(fabVisible = false)
         }
     }
 
-    @Test fun binScreenClearDialog() = launch({ data.fillBin() }) {
+    @Test fun binClearDialog() = launch({ data.fillBin() }) {
         mainScreen { openBinPage { openClearDialog { onRotate { assert() } } } }
     }
 
-    @Test fun binScreenTextNoteDialog() = data.insertTextToBin().let {
+    @Test fun binTextNoteDialog() = data.insertTextToBin().let {
         launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
-    @Test fun binScreenRollNoteDialog() = data.insertRollToBin().let {
+    @Test fun binRollNoteDialog() = data.insertRollToBin().let {
         launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
-    }
-
-    /**
-     * Notification / alarm
-     */
-
-    @Test fun notificationScreenContentEmpty() = launch {
-        mainScreen {
-            openNotesPage(empty = true) {
-                openNotification(empty = true) { onRotate { assert(empty = true) } }
-            }
-        }
-    }
-
-    @Test fun notificationScreenContentList() = launch({ data.fillNotification() }) {
-        mainScreen { openNotesPage { openNotification { onRotate { assert(empty = false) } } } }
-    }
-
-    @Test fun alarmScreenContent() = data.insertText().let {
-        launchAlarm(it) { openAlarm(it) { onRotate { assert() } } }
     }
 
 }

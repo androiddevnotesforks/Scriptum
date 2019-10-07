@@ -10,7 +10,7 @@ import sgtmelon.scriptum.test.ParentRotationTest
  * Test of [RollNoteFragment] work with phone rotation
  */
 @RunWith(AndroidJUnit4::class)
-class RotationRollNoteTest : ParentRotationTest() {
+class RollNoteRotationTest : ParentRotationTest() {
 
     /**
      * Content
