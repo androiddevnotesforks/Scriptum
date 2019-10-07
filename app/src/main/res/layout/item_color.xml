@@ -8,6 +8,14 @@
         android:gravity="center"
         android:padding="@dimen/layout_8dp">
 
+    <View
+            android:id="@+id/color_background_view"
+            android:layout_width="@dimen/icon_48dp"
+            android:layout_height="@dimen/icon_48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_color"
+            android:contentDescription="@null" />
+
     <ImageView
             android:id="@+id/color_check_image"
             android:layout_width="wrap_content"
@@ -17,14 +25,6 @@
             app:srcCompat="@drawable/ic_check" />
 
     <!-- TODO 13.10.18 Сделать область нажатия круглой, для pre API21 -->
-
-    <View
-            android:id="@+id/color_background_view"
-            android:layout_width="@dimen/icon_48dp"
-            android:layout_height="@dimen/icon_48dp"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_color"
-            android:contentDescription="@null" />
 
     <View
             android:id="@+id/color_click_view"
