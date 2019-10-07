@@ -13,8 +13,6 @@ package sgtmelon.scriptum
 @Suppress("unused")
 private class Scenario {
 
-    // TODO #TEST проверка установки стартового цвета
-
     class TODO {
 
         /**
@@ -51,18 +49,6 @@ private class Scenario {
          * # Начать с TextNote
          * # Начать с RollNote
          */
-
-    }
-
-    /**
-     * Сценарии для тестов выполняющихся автоматически
-     */
-    class Auto {
-
-        /**
-         * TODO
-         */
-        class Preference
 
     }
 
