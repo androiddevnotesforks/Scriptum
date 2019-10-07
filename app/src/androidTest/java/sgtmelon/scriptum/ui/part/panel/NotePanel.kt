@@ -141,7 +141,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
         }
     }
 
-    override fun onDialogResult(check: Int) = callback.apply {
+    override fun onColorDialogResult(check: Int) = callback.apply {
         inputControl.onColorChange(shadowModel.noteEntity.color, check)
         shadowModel.noteEntity.color = check
     }.fullAssert()

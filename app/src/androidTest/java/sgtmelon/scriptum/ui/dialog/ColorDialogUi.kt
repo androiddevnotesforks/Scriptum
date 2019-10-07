@@ -48,7 +48,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
 
     fun onClickAccept() = waitClose {
         applyButton.click()
-        callback.onDialogResult(check)
+        callback.onColorDialogResult(check)
     }
 
 
@@ -113,7 +113,7 @@ class ColorDialogUi(place: Place, @Color private var check: Int, private val cal
     enum class Place { NOTE, PREF }
 
     interface Callback {
-        fun onDialogResult(@Color check: Int)
+        fun onColorDialogResult(@Color check: Int)
     }
 
     companion object {

@@ -159,7 +159,6 @@ class RankViewModel(application: Application) : ParentViewModel<IRankFragment>(a
 
     override fun onTouchMoveResult(from: Int, to: Int) {
         iInteractor.update(itemList)
-        viewModelScope.launch { iInteractor.notifyBind() }
 
         callback?.notifyDataSetChanged(itemList)
     }

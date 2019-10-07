@@ -39,6 +39,12 @@ class PreferenceDefaultColorTest : ParentUiTest(), IColorTest {
     override fun startTest(color: Int) {
         iPreferenceRepo.defaultColor = color
 
-        TODO("#TEST not implemented") //To change body of created functions use File | Settings | File Templates.
+        launch {
+            mainScreen {
+                openNotesPage(empty = true) {
+                    openPreference { onClickDefaultColor(color) { onAssertItem() } }
+                }
+            }
+        }
     }
 }
