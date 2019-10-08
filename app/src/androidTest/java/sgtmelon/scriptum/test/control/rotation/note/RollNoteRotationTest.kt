@@ -17,13 +17,13 @@ class RollNoteRotationTest : ParentRotationTest() {
      */
 
     @Test fun contentOnBin() = data.insertRollToBin().let {
-        launch { mainScreen { openBinPage { openRollNote(it) { onRotate { assert() } } } } }
+        launch { mainScreen { binScreen { openRollNote(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnRestoreOpen() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openBinPage {
+                binScreen {
                     openRollNote(it) {
                         controlPanel { onRestoreOpen() }
                         onRotate { assert() }
@@ -34,17 +34,17 @@ class RollNoteRotationTest : ParentRotationTest() {
     }
 
     @Test fun contentOnCreate() = data.createRoll().let {
-        launch { mainScreen { openAddDialog { createRollNote(it) { onRotate { assert() } } } } }
+        launch { mainScreen { addDialog { createRoll(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnRead() = data.insertRoll().let {
-        launch { mainScreen { openNotesPage { openRollNote(it) { onRotate { assert() } } } } }
+        launch { mainScreen { notesScreen { openRollNote(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) { onRotate({ controlPanel { onEdit() } }) { assert() } }
                 }
             }
@@ -58,7 +58,7 @@ class RollNoteRotationTest : ParentRotationTest() {
     @Test fun convertDialog() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) { controlPanel { onConvert { onRotate { assert() } } } }
                 }
             }
@@ -68,7 +68,7 @@ class RollNoteRotationTest : ParentRotationTest() {
     @Test fun convertDialogResult() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) {
                         controlPanel { onConvert { onClickYes() } }
                         onRotate {
@@ -83,8 +83,8 @@ class RollNoteRotationTest : ParentRotationTest() {
     @Test fun colorDialog() = data.createRoll().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createRollNote(it) {
+                addDialog {
+                    createRoll(it) {
                         controlPanel {
                             onColor {
                                 onClickItem()

@@ -38,7 +38,7 @@ class NotificationContentTest : ParentUiTest() {
     private fun onAssertList(list: List<NoteModel>) {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openNotification { list.forEachIndexed { p, model -> onAssertItem(p, model) } }
                 }
             }

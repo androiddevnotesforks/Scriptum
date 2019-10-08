@@ -13,13 +13,13 @@ import sgtmelon.scriptum.test.ParentRotationTest
 class PreferenceRotationTest : ParentRotationTest() {
 
     @Test fun content() = launch {
-        mainScreen { openNotesPage { openPreference { onRotate { assert() } } } }
+        mainScreen { notesScreen { openPreference { onRotate { assert() } } } }
     }
 
     @Test fun colorDialog() = launch {
         val color = iPreferenceRepo.defaultColor
         mainScreen {
-            openNotesPage {
+            notesScreen {
                 openPreference { onClickDefaultColor(color) { onRotate { assert() } } }
             }
         }

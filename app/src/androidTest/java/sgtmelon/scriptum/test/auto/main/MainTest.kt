@@ -20,30 +20,29 @@ class MainTest : ParentUiTest() {
         mainScreen { repeat(times = 3) { pageList.forEach { openPage(it, empty = true) } } }
     }
 
-    @Test fun addFabVisible() =
-            launch { mainScreen { repeat(times = 3) { pageList.forEach { onNavigateTo(it) } } } }
+    @Test fun addFabVisible() = launch {
+        mainScreen { repeat(times = 3) { pageList.forEach { onNavigateTo(it) } } }
+    }
 
     /**
      * Add Dialog
      */
 
-    @Test fun addDialogOpen() = launch { mainScreen { openAddDialog() } }
+    @Test fun addDialogOpen() = launch { mainScreen { addDialog() } }
 
     @Test fun addDialogClose() = launch {
         mainScreen {
-            openAddDialog { onCloseSoft() }
-            assert()
-            openAddDialog { onCloseSwipe() }
-            assert()
+            addDialog { onCloseSoft() }.assert()
+            addDialog { onCloseSwipe() }.assert()
         }
     }
 
     @Test fun addDialogCreateTextNote() = data.createText().let {
-        launch { mainScreen { openAddDialog { createTextNote(it) } } }
+        launch { mainScreen { addDialog { createText(it) } } }
     }
 
     @Test fun addDialogCreateRollNote() = data.createRoll().let {
-        launch { mainScreen { openAddDialog { createRollNote(it) } } }
+        launch { mainScreen { addDialog { createRoll(it) } } }
     }
 
     /**
@@ -51,24 +50,15 @@ class MainTest : ParentUiTest() {
      */
 
     @Test fun rankScreenScrollTop() = launch({ data.fillRank() }) {
-        mainScreen {
-            openRankPage { onScroll(Scroll.END) }
-            onScrollTop(MainPage.RANK)
-        }
+        mainScreen { rankScreen { onScroll(Scroll.END) }.onScrollTop() }
     }
 
     @Test fun notesScreenScrollTop() = launch({ data.fillNotes() }) {
-        mainScreen {
-            openNotesPage { onScroll(Scroll.END) }
-            onScrollTop(MainPage.NOTES)
-        }
+        mainScreen { notesScreen { onScroll(Scroll.END) }.onScrollTop() }
     }
 
     @Test fun binScreenScrollTop() = launch({ data.fillBin() }) {
-        mainScreen {
-            openBinPage { onScroll(Scroll.END) }
-            onScrollTop(MainPage.BIN)
-        }
+        mainScreen { binScreen { onScroll(Scroll.END) }.onScrollTop() }
     }
 
 

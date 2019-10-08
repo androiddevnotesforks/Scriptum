@@ -13,23 +13,23 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotesTest : ParentUiTest() {
 
-    @Test fun contentEmpty() = launch { mainScreen { openNotesPage(empty = true) } }
+    @Test fun contentEmpty() = launch { mainScreen { notesScreen(empty = true) } }
 
-    @Test fun contentList() = launch({ data.fillNotes() }) { mainScreen { openNotesPage() } }
+    @Test fun contentList() = launch({ data.fillNotes() }) { mainScreen { notesScreen() } }
 
     @Test fun openPreference() = launch {
-        mainScreen { openNotesPage(empty = true) { openPreference() } }
+        mainScreen { notesScreen(empty = true) { openPreference() } }
     }
 
     @Test fun listScroll() = launch({ data.fillNotes() }) {
-        mainScreen { openNotesPage { onScrollThrough() } }
+        mainScreen { notesScreen { onScrollThrough() } }
     }
 
     @Test fun addFabVisibleOnScroll() = launch({ data.fillNotes() }) {
         mainScreen {
-            openNotesPage { onScroll(Scroll.END, time = 1) }
+            notesScreen { onScroll(Scroll.END, time = 1) }
             assert(fabVisible = false)
-            openNotesPage { onScroll(Scroll.START, time = 1) }
+            notesScreen { onScroll(Scroll.START, time = 1) }
             assert(fabVisible = true)
         }
     }
@@ -37,7 +37,7 @@ class NotesTest : ParentUiTest() {
     @Test fun textNoteOpen() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage { openTextNote(it) { onPressBack() }.assert(empty = false) }
+                notesScreen { openTextNote(it) { onPressBack() }.assert(empty = false) }
             }
         }
     }
@@ -45,7 +45,7 @@ class NotesTest : ParentUiTest() {
     @Test fun rollNoteOpen() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage { openRollNote(it) { onPressBack() }.assert(empty = false) }
+                notesScreen { openRollNote(it) { onPressBack() }.assert(empty = false) }
             }
         }
     }
@@ -53,9 +53,9 @@ class NotesTest : ParentUiTest() {
     @Test fun textNoteCreateAndReturn() = data.createText().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
-                openAddDialog { createTextNote(it) { onPressBack() } }
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
+                addDialog { createText(it) { onPressBack() } }
+                notesScreen(empty = true)
             }
         }
     }
@@ -63,9 +63,9 @@ class NotesTest : ParentUiTest() {
     @Test fun rollNoteCreateAndReturn() = data.createRoll().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
-                openAddDialog { createRollNote(it) { onPressBack() } }
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
+                addDialog { createRoll(it) { onPressBack() } }
+                notesScreen(empty = true)
             }
         }
     }
@@ -73,16 +73,16 @@ class NotesTest : ParentUiTest() {
     @Test fun textNoteCreateAndReturnWithSave() = data.createText().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
 
-                openAddDialog {
-                    createTextNote(it) {
+                addDialog {
+                    createText(it) {
                         data.insertText()
                         toolbar { onClickBack() }
                     }
                 }
 
-                openNotesPage()
+                notesScreen()
             }
         }
     }
@@ -90,42 +90,42 @@ class NotesTest : ParentUiTest() {
     @Test fun rollNoteCreateAndReturnWithSave() = data.createRoll().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
 
-                openAddDialog {
-                    createRollNote(it) {
+                addDialog {
+                    createRoll(it) {
                         data.insertRoll()
                         toolbar { onClickBack() }
                     }
                 }
 
-                openNotesPage()
+                notesScreen()
             }
         }
     }
 
 
     @Test fun textNoteDialogOpen() = data.insertText().let {
-        launch { mainScreen { openNotesPage { openNoteDialog(it) } } }
+        launch { mainScreen { notesScreen { openNoteDialog(it) } } }
     }
 
     @Test fun textNoteDialogClose() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
+                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
             }
         }
     }
 
     @Test fun textNoteDialogBind() = data.insertText().let {
         launch {
-            mainScreen { openNotesPage { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
         }
     }
 
     @Test fun textNoteDialogUnbind() = data.insertText(data.textNote.copy(isStatus = true)).let {
         launch {
-            mainScreen { openNotesPage { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
         }
     }
 
@@ -134,9 +134,9 @@ class NotesTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onClickDelete() } }
-                openBinPage { openNoteDialog(it) { onClickRestore() } }
-                openNotesPage { onAssertItem(it) }
+                notesScreen { openNoteDialog(it) { onClickDelete() } }
+                binScreen { openNoteDialog(it) { onClickRestore() } }
+                notesScreen { onAssertItem(it) }
             }
         }
     }
@@ -144,7 +144,7 @@ class NotesTest : ParentUiTest() {
     @Test fun textNoteDialogConvert() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onClickConvert() }.onAssertItem(it) }
+                notesScreen { openNoteDialog(it) { onClickConvert() }.onAssertItem(it) }
             }
         }
     }
@@ -152,34 +152,34 @@ class NotesTest : ParentUiTest() {
     @Test fun textNoteDialogDelete() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onClickDelete() }.assert(empty = true) }
-                openBinPage()
+                notesScreen { openNoteDialog(it) { onClickDelete() }.assert(empty = true) }
+                binScreen()
             }
         }
     }
 
 
     @Test fun rollNoteDialogOpen() = data.insertRoll().let {
-        launch { mainScreen { openNotesPage { openNoteDialog(it) } } }
+        launch { mainScreen { notesScreen { openNoteDialog(it) } } }
     }
 
     @Test fun rollNoteDialogClose() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
+                notesScreen { openNoteDialog(it) { onCloseSoft() }.assert(empty = false) }
             }
         }
     }
 
     @Test fun rollNoteDialogBind() = data.insertRoll().let {
         launch {
-            mainScreen { openNotesPage { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
         }
     }
 
     @Test fun rollNoteDialogUnbind() = data.insertRoll(data.rollNote.copy(isStatus = true)).let {
         launch {
-            mainScreen { openNotesPage { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
+            mainScreen { notesScreen { openNoteDialog(it) { onClickBind() }.onAssertItem(it) } }
         }
     }
 
@@ -188,9 +188,9 @@ class NotesTest : ParentUiTest() {
     }.let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onClickDelete() } }
-                openBinPage { openNoteDialog(it) { onClickRestore() } }
-                openNotesPage { onAssertItem(it) }
+                notesScreen { openNoteDialog(it) { onClickDelete() } }
+                binScreen { openNoteDialog(it) { onClickRestore() } }
+                notesScreen { onAssertItem(it) }
             }
         }
     }
@@ -198,7 +198,7 @@ class NotesTest : ParentUiTest() {
     @Test fun rollNoteDialogConvert() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onClickConvert() }.onAssertItem(it) }
+                notesScreen { openNoteDialog(it) { onClickConvert() }.onAssertItem(it) }
             }
         }
     }
@@ -206,8 +206,8 @@ class NotesTest : ParentUiTest() {
     @Test fun rollNoteDialogDelete() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onClickDelete() }.assert(empty = true) }
-                openBinPage()
+                notesScreen { openNoteDialog(it) { onClickDelete() }.assert(empty = true) }
+                binScreen()
             }
         }
     }

@@ -27,40 +27,43 @@ class MainScreen : ParentUi() {
     //endregion
 
     private var wasNavigate = false
+    private var page = MainPage.NOTES
 
     fun openPage(page: MainPage, empty: Boolean = false) = when(page) {
-        MainPage.RANK -> openRankPage(empty)
-        MainPage.NOTES -> openNotesPage(empty)
-        MainPage.BIN -> openBinPage(empty)
+        MainPage.RANK -> rankScreen(empty)
+        MainPage.NOTES -> notesScreen(empty)
+        MainPage.BIN -> binScreen(empty)
     }
 
-    fun openRankPage(empty: Boolean = false, func: RankScreen.() -> Unit = {}) {
+    fun rankScreen(empty: Boolean = false, func: RankScreen.() -> Unit = {}) = apply {
         wasNavigate = true
         onNavigateTo(MainPage.RANK)
 
         RankScreen.invoke(func, empty)
     }
 
-    fun openNotesPage(empty: Boolean = false,  hide: Boolean = false,
-                      func: NotesScreen.() -> Unit = {}) {
+    fun notesScreen(empty: Boolean = false, hide: Boolean = false,
+                    func: NotesScreen.() -> Unit = {}) = apply {
         if (wasNavigate) onNavigateTo(MainPage.NOTES)
 
         NotesScreen.invoke(func, empty, hide)
     }
 
-    fun openBinPage(empty: Boolean = false, func: BinScreen.() -> Unit = {}) {
+    fun binScreen(empty: Boolean = false, func: BinScreen.() -> Unit = {}) = apply {
         wasNavigate = true
         onNavigateTo(MainPage.BIN)
 
         BinScreen.invoke(func, empty)
     }
 
-    fun openAddDialog(func: AddDialogUi.() -> Unit = {}) {
+    fun addDialog(func: AddDialogUi.() -> Unit = {}) = apply {
         addFab.click()
         AddDialogUi.invoke(func)
     }
 
     fun onNavigateTo(page: MainPage) {
+        this.page = page
+
         when (page) {
             MainPage.RANK -> rankMenuItem.click()
             MainPage.NOTES -> notesMenuItem.click()
@@ -70,7 +73,7 @@ class MainScreen : ParentUi() {
         assert(page, fabVisible = page == MainPage.NOTES)
     }
 
-    fun onScrollTop(page: MainPage) = waitAfter(SCROLL_TIME) {
+    fun onScrollTop() = waitAfter(SCROLL_TIME) {
         when (page) {
             MainPage.RANK -> rankMenuItem.longClick()
             MainPage.NOTES -> notesMenuItem.longClick()

@@ -17,13 +17,13 @@ class TextNoteRotationTest : ParentRotationTest() {
      */
 
     @Test fun contentOnBin() = data.insertTextToBin().let {
-        launch { mainScreen { openBinPage { openTextNote(it) { onRotate { assert() } } } } }
+        launch { mainScreen { binScreen { openTextNote(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnRestoreOpen() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openBinPage {
+                binScreen {
                     openTextNote(it) {
                         controlPanel { onRestoreOpen() }
                         onRotate { assert() }
@@ -34,17 +34,17 @@ class TextNoteRotationTest : ParentRotationTest() {
     }
 
     @Test fun contentOnCreate() = data.createText().let {
-        launch { mainScreen { openAddDialog { createTextNote(it) { onRotate { assert() } } } } }
+        launch { mainScreen { addDialog { createText(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnRead() = data.insertText().let {
-        launch { mainScreen { openNotesPage { openTextNote(it) { onRotate { assert() } } } } }
+        launch { mainScreen { notesScreen { openTextNote(it) { onRotate { assert() } } } } }
     }
 
     @Test fun contentOnEdit() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) { onRotate({ controlPanel { onEdit() } }) { assert() } }
                 }
             }
@@ -58,7 +58,7 @@ class TextNoteRotationTest : ParentRotationTest() {
     @Test fun convertDialog() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) { controlPanel { onConvert { onRotate { assert() } } } }
                 }
             }
@@ -68,7 +68,7 @@ class TextNoteRotationTest : ParentRotationTest() {
     @Test fun convertDialogResult() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) {
                         controlPanel {
                             onConvert { onClickYes() }
@@ -85,8 +85,8 @@ class TextNoteRotationTest : ParentRotationTest() {
     @Test fun colorDialog() = data.createText().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createTextNote(it) {
+                addDialog {
+                    createText(it) {
                         controlPanel {
                             onColor {
                                 onClickItem()

@@ -17,23 +17,23 @@ class TextNoteTest : ParentUiTest() {
      */
 
     @Test fun contentOnBinWithoutName() = data.insertTextToBin(data.textNote.copy(name = "")).let {
-        launch { mainScreen { openBinPage { openTextNote(it) } } }
+        launch { mainScreen { binScreen { openTextNote(it) } } }
     }
 
     @Test fun contentOnBinWithName() = data.insertTextToBin().let {
-        launch { mainScreen { openBinPage { openTextNote(it) } } }
+        launch { mainScreen { binScreen { openTextNote(it) } } }
     }
 
     @Test fun contentOnCreate() = data.createText().let {
-        launch { mainScreen { openAddDialog { createTextNote(it) } } }
+        launch { mainScreen { addDialog { createText(it) } } }
     }
 
     @Test fun contentOnReadWithoutName() = data.insertText(data.textNote.copy(name = "")).let {
-        launch { mainScreen { openNotesPage { openTextNote(it) } } }
+        launch { mainScreen { notesScreen { openTextNote(it) } } }
     }
 
     @Test fun contentOnReadWithName() = data.insertText().let {
-        launch { mainScreen { openNotesPage { openTextNote(it) } } }
+        launch { mainScreen { notesScreen { openTextNote(it) } } }
     }
 
     /**
@@ -43,10 +43,8 @@ class TextNoteTest : ParentUiTest() {
     @Test fun closeOnBin()  = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openBinPage { openTextNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openBinPage { openTextNote(it) { onPressBack() } }
-                assert()
+                binScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
+                binScreen { openTextNote(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -54,10 +52,8 @@ class TextNoteTest : ParentUiTest() {
     @Test fun closeOnCreate() = data.createText().let {
         launch {
             mainScreen {
-                openAddDialog { createTextNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openAddDialog { createTextNote(it) { onPressBack() } }
-                assert()
+                addDialog { createText(it) { toolbar { onClickBack() } } }.assert()
+                addDialog { createText(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -65,10 +61,8 @@ class TextNoteTest : ParentUiTest() {
     @Test fun closeOnRead() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage { openTextNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openNotesPage { openTextNote(it) { onPressBack() } }
-                assert()
+                notesScreen { openTextNote(it) { toolbar { onClickBack() } } }.assert()
+                notesScreen { openTextNote(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -76,8 +70,8 @@ class TextNoteTest : ParentUiTest() {
     @Test fun saveOnCreate() = data.createText().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createTextNote(it) {
+                addDialog {
+                    createText(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         onEnterText(data.uniqueString)
                         onPressBack()
@@ -90,7 +84,7 @@ class TextNoteTest : ParentUiTest() {
     @Test fun saveOnEdit() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(data.uniqueString) }
@@ -105,14 +99,11 @@ class TextNoteTest : ParentUiTest() {
     @Test fun cancelOnEdit() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
                         onEnterText(data.uniqueString)
-                        toolbar {
-                            onEnterName(data.uniqueString)
-                            onClickBack()
-                        }
+                        toolbar { onEnterName(data.uniqueString).onClickBack() }
                     }
                 }
             }
@@ -126,14 +117,9 @@ class TextNoteTest : ParentUiTest() {
     @Test fun actionOnBinRestore()  = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) { controlPanel { onRestore() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
+                notesScreen(empty = true)
+                binScreen { openTextNote(it) { controlPanel { onRestore() } }.assert(empty = true) }
+                notesScreen()
             }
         }
     }
@@ -141,17 +127,14 @@ class TextNoteTest : ParentUiTest() {
     @Test fun actionOnBinRestoreOpen()  = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
 
-                openBinPage {
-                    openTextNote(it) {
-                        controlPanel { onRestoreOpen() }
-                        onPressBack()
-                    }
+                binScreen {
+                    openTextNote(it) { controlPanel { onRestoreOpen() }.onPressBack() }
                     assert(empty = true)
                 }
 
-                openNotesPage()
+                notesScreen()
             }
         }
     }
@@ -159,14 +142,9 @@ class TextNoteTest : ParentUiTest() {
     @Test fun actionOnBinClear() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openTextNote(it) { controlPanel { onClear() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
+                binScreen { openTextNote(it) { controlPanel { onClear() } }.assert(empty = true) }
+                notesScreen(empty = true)
             }
         }
     }
@@ -184,12 +162,8 @@ class TextNoteTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                openNotesPage {
-                    openTextNote(model) {
-                        controlPanel { onBind() }
-                        onPressBack()
-                    }
-
+                notesScreen {
+                    openTextNote(model) { controlPanel { onBind() }.onPressBack() }
                     openNoteDialog(model)
                 }
             }
@@ -197,28 +171,25 @@ class TextNoteTest : ParentUiTest() {
     }
 
     @Test fun actionOnReadConvert() = data.insertText().let {
-        launch {
-            mainScreen { openNotesPage { openTextNote(it) { controlPanel { onConvert() } } } }
-        }
+        launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onConvert() } } } } }
     }
 
     @Test fun actionOnReadDelete() = data.insertText().let {
         launch {
             mainScreen {
-                openBinPage(empty = true)
+                binScreen(empty = true)
 
-                openNotesPage {
-                    openTextNote(it) { controlPanel { onDelete() } }
-                    assert(empty = true)
+                notesScreen {
+                    openTextNote(it) { controlPanel { onDelete() } }.assert(empty = true)
                 }
 
-                openBinPage()
+                binScreen()
             }
         }
     }
 
     @Test fun actionOnReadEdit() = data.insertText().let {
-        launch { mainScreen { openNotesPage { openTextNote(it) { controlPanel { onEdit() } } } } }
+        launch { mainScreen { notesScreen { openTextNote(it) { controlPanel { onEdit() } } } } }
     }
 
 
@@ -229,28 +200,22 @@ class TextNoteTest : ParentUiTest() {
     @Test fun actionOnEditRank() {}
 
     @Test fun actionOnCreateColor() = data.createText().let {
-        launch {
-            mainScreen { openAddDialog { createTextNote(it) { controlPanel { onColor() } } } }
-        }
+        launch { mainScreen { addDialog { createText(it) { controlPanel { onColor() } } } } }
     }
 
     @Test fun actionOnEditColor() = data.insertText().let {
         launch {
-            mainScreen {
-                openNotesPage { openTextNote(it) { controlPanel { onEdit().onColor() } } }
-            }
+            mainScreen { notesScreen { openTextNote(it) { controlPanel { onEdit().onColor() } } } }
         }
     }
 
     @Test fun actionOnCreateSave() = data.createText().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createTextNote(it) {
+                addDialog {
+                    createText(it) {
                         toolbar { onEnterName(data.uniqueString) }
-                        onEnterText(data.uniqueString)
-                        onEnterText()
-                        onEnterText(data.uniqueString)
+                        onEnterText(data.uniqueString).onEnterText().onEnterText(data.uniqueString)
                         controlPanel { onSave() }
                     }
                 }
@@ -261,7 +226,7 @@ class TextNoteTest : ParentUiTest() {
     @Test fun actionOnEditSave() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) {
                         controlPanel { onEdit() }
                         onEnterText()
@@ -282,12 +247,10 @@ class TextNoteTest : ParentUiTest() {
     @Test fun convertDialogCloseAndWork() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) {
-                        controlPanel { onConvert { onCloseSoft() } }
-                        assert()
-                        controlPanel { onConvert { onClickNo() } }
-                        assert()
+                        controlPanel { onConvert { onCloseSoft() } }.assert()
+                        controlPanel { onConvert { onClickNo() } }.assert()
                         controlPanel { onConvert { onClickYes() } }
                     }
                 }
@@ -301,15 +264,11 @@ class TextNoteTest : ParentUiTest() {
     @Test fun colorDialogCloseAndWork() = data.createText().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createTextNote(it) {
-                        controlPanel { onColor { onCloseSoft() } }
-                        assert()
-                        controlPanel { onColor { onClickCancel() } }
-                        assert()
-                        controlPanel {
-                            onColor { onClickEveryItem().onClickItem().onClickAccept() }
-                        }
+                addDialog {
+                    createText(it) {
+                        controlPanel { onColor { onCloseSoft() } }.assert()
+                        controlPanel { onColor { onClickCancel() } }.assert()
+                        controlPanel { onColor { onClickAll().onClickItem().onClickAccept() } }
                     }
                 }
             }

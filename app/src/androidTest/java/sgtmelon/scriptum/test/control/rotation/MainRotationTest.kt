@@ -12,7 +12,7 @@ import sgtmelon.scriptum.test.ParentRotationTest
 @RunWith(AndroidJUnit4::class)
 class MainRotationTest : ParentRotationTest() {
 
-    @Test fun addDialog() = launch { mainScreen { openAddDialog { onRotate { assert() } } } }
+    @Test fun addDialog() = launch { mainScreen { addDialog { onRotate { assert() } } } }
 
     /**
      * RankScreen
@@ -20,16 +20,13 @@ class MainRotationTest : ParentRotationTest() {
 
     @Test fun rankContentEmpty() = launch {
         mainScreen {
-            openRankPage(empty = true) { onRotate { assert(empty = true) } }
+            rankScreen(empty = true) { onRotate { assert(empty = true) } }
             assert(fabVisible = false)
         }
     }
 
     @Test fun rankContentList() = launch({ data.fillRank() }) {
-        mainScreen {
-            openRankPage { onRotate { assert(empty = false) } }
-            assert(fabVisible = false)
-        }
+        mainScreen { rankScreen { onRotate { assert(empty = false) } }.assert(fabVisible = false) }
     }
 
     @Test fun rankRenameDialog() = data.insertRank().let {
@@ -37,7 +34,7 @@ class MainRotationTest : ParentRotationTest() {
 
         launch {
             mainScreen {
-                openRankPage {
+                rankScreen {
                     openRenameDialog(it.name) {
                         onEnter(newName)
                         onRotate { assert(newName, enabled = true) }
@@ -53,24 +50,21 @@ class MainRotationTest : ParentRotationTest() {
 
     @Test fun notesContentEmpty() = launch {
         mainScreen {
-            openNotesPage(empty = true) { onRotate { assert(empty = true) } }
+            notesScreen(empty = true) { onRotate { assert(empty = true) } }
             assert(fabVisible = true)
         }
     }
 
     @Test fun notesContentList() = launch({ data.fillNotes() }) {
-        mainScreen {
-            openNotesPage { onRotate { assert(empty = false) } }
-            assert(fabVisible = true)
-        }
+        mainScreen { notesScreen { onRotate { assert(empty = false) } }.assert(fabVisible = true) }
     }
 
     @Test fun notesTextNoteDialog() = data.insertText().let {
-        launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
+        launch { mainScreen { notesScreen { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
     @Test fun notesRollNoteDialog() = data.insertRoll().let {
-        launch { mainScreen { openNotesPage { openNoteDialog(it) { onRotate { assert() } } } } }
+        launch { mainScreen { notesScreen { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
     /**
@@ -79,28 +73,25 @@ class MainRotationTest : ParentRotationTest() {
 
     @Test fun binContentEmpty() = launch {
         mainScreen {
-            openBinPage(empty = true) { onRotate { assert(empty = true) } }
+            binScreen(empty = true) { onRotate { assert(empty = true) } }
             assert(fabVisible = false)
         }
     }
 
     @Test fun binContentList() = launch({ data.fillBin() }) {
-        mainScreen {
-            openBinPage { onRotate { assert(empty = false) } }
-            assert(fabVisible = false)
-        }
+        mainScreen { binScreen { onRotate { assert(empty = false) } }.assert(fabVisible = false) }
     }
 
     @Test fun binClearDialog() = launch({ data.fillBin() }) {
-        mainScreen { openBinPage { openClearDialog { onRotate { assert() } } } }
+        mainScreen { binScreen { clearDialog { onRotate { assert() } } } }
     }
 
     @Test fun binTextNoteDialog() = data.insertTextToBin().let {
-        launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
+        launch { mainScreen { binScreen { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
     @Test fun binRollNoteDialog() = data.insertRollToBin().let {
-        launch { mainScreen { openBinPage { openNoteDialog(it) { onRotate { assert() } } } } }
+        launch { mainScreen { binScreen { openNoteDialog(it) { onRotate { assert() } } } } }
     }
 
 }

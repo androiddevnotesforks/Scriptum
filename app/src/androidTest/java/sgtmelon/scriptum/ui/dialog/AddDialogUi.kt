@@ -26,12 +26,12 @@ class AddDialogUi : ParentUi(), IDialogUi {
 
     //endregion
 
-    fun createTextNote(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) {
+    fun createText(noteModel: NoteModel, func: TextNoteScreen.() -> Unit = {}) {
         textButton.click()
         TextNoteScreen.invoke(func, State.NEW, noteModel)
     }
 
-    fun createRollNote(noteModel: NoteModel, func: RollNoteScreen.() -> Unit = {}) {
+    fun createRoll(noteModel: NoteModel, func: RollNoteScreen.() -> Unit = {}) {
         rollButton.click()
         RollNoteScreen.invoke(func, State.NEW, noteModel)
     }

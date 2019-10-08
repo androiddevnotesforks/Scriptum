@@ -29,15 +29,15 @@ class ListTest : ParentUiTest() {
     }
 
     @Test fun rankScroll() = launch(before = { data.fillRank(RANK_COUNT) }) {
-        mainScreen { openRankPage { onScroll(Scroll.END, SCROLL_COUNT) } }
+        mainScreen { rankScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
     @Test fun notesScroll() = launch(before = { data.fillNotes(NOTES_COUNT) }) {
-        mainScreen { openNotesPage { onScroll(Scroll.END, SCROLL_COUNT) } }
+        mainScreen { notesScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
     @Test fun binScroll() = launch(before = { data.fillBin(BIN_COUNT) }) {
-        mainScreen { openBinPage { onScroll(Scroll.END, SCROLL_COUNT) } }
+        mainScreen { binScreen { onScroll(Scroll.END, SCROLL_COUNT) } }
     }
 
 
@@ -45,14 +45,14 @@ class ListTest : ParentUiTest() {
         data.fillNotification(NOTIFICATION_COUNT)
     }) {
         mainScreen {
-            openNotesPage { repeat(REPEAT_COUNT) { openNotification { onClickClose() } } }
+            notesScreen { repeat(REPEAT_COUNT) { openNotification { onClickClose() } } }
         }
     }
 
     @Test fun notificationScroll() = launch(before = {
         data.fillNotification(NOTIFICATION_COUNT)
     }) {
-        mainScreen { openNotesPage { openNotification { onScroll(Scroll.END, SCROLL_COUNT) } } }
+        mainScreen { notesScreen { openNotification { onScroll(Scroll.END, SCROLL_COUNT) } } }
     }
 
 
@@ -63,7 +63,7 @@ class ListTest : ParentUiTest() {
     @Test fun textNoteOpen() = data.insertText(weightData.textNote).let { model ->
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     repeat(REPEAT_COUNT) { openTextNote(model) { toolbar { onClickBack() } } }
                 }
             }
@@ -73,7 +73,7 @@ class ListTest : ParentUiTest() {
     @Test fun rollNoteOpen() = data.insertRoll(list = weightData.rollList).let { model ->
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     repeat(REPEAT_COUNT) { openRollNote(model) { toolbar { onClickBack() } } }
                 }
             }
@@ -82,7 +82,7 @@ class ListTest : ParentUiTest() {
 
     @Test fun rollNoteScroll() = data.insertRoll(list = weightData.rollList).let {
         launch {
-            mainScreen { openNotesPage { openRollNote(it) { onScroll(Scroll.END, SCROLL_COUNT) } } }
+            mainScreen { notesScreen { openRollNote(it) { onScroll(Scroll.END, SCROLL_COUNT) } } }
         }
     }
 

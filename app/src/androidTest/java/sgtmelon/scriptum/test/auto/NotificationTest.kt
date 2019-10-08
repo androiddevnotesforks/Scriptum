@@ -13,48 +13,45 @@ import sgtmelon.scriptum.test.ParentUiTest
 class NotificationTest : ParentUiTest() {
 
     @Test fun contentEmpty() =
-            launch { mainScreen { openNotesPage(empty = true) { openNotification(empty = true) } } }
+            launch { mainScreen { notesScreen(empty = true) { openNotification(empty = true) } } }
 
     @Test fun contentList() = launch({ data.fillNotification() }) {
-        mainScreen { openNotesPage { openNotification() } }
+        mainScreen { notesScreen { openNotification() } }
     }
 
     @Test fun listScroll() = launch({ data.fillNotification() }) {
-        mainScreen { openNotesPage { openNotification { onScrollThrough() } } }
+        mainScreen { notesScreen { openNotification { onScrollThrough() } } }
     }
 
     @Test fun itemCancel() = data.insertNotification().let {
         launch {
-            mainScreen {
-                openNotesPage { openNotification { onClickCancel().assert(empty = true) } }
-            }
+            mainScreen { notesScreen { openNotification { onClickCancel().assert(empty = true) } } }
         }
     }
 
     @Test fun itemCancelOnDelete() = data.insertNotification().let {
         launch {
             mainScreen {
-                openNotesPage {
-                    openNoteDialog(it) { onClickDelete() }
-                    openNotification(empty = true)
+                notesScreen { 
+                    openNoteDialog(it) { onClickDelete() }.openNotification(empty = true)
                 }
             }
         }
     }
 
     @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_0).let {
-        launch { mainScreen { openNotesPage { openNotification(empty = true) } } }
+        launch { mainScreen { notesScreen { openNotification(empty = true) } } }
     }
 
     @Test fun textNoteOpen() = data.insertText().let {
         launch({ data.insertNotification(it) }) {
-            mainScreen { openNotesPage { openNotification { openText(it) } } }
+            mainScreen { notesScreen { openNotification { openText(it) } } }
         }
     }
 
     @Test fun rollNoteOpen() = data.insertRoll().let {
         launch({ data.insertNotification(it) }) {
-            mainScreen { openNotesPage { openNotification { openRoll(it) } } }
+            mainScreen { notesScreen { openNotification { openRoll(it) } } }
         }
     }
 

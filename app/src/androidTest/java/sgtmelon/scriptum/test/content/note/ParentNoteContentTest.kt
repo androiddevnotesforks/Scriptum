@@ -149,10 +149,10 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
             mainScreen {
                 when (page) {
                     MainPage.RANK -> throw IllegalAccessException(PAGE_ERROR_TEXT)
-                    MainPage.NOTES -> openNotesPage {
+                    MainPage.NOTES -> notesScreen {
                         list.forEachIndexed { p, model -> onAssertItem(model, p) }
                     }
-                    MainPage.BIN -> openBinPage {
+                    MainPage.BIN -> binScreen {
                         list.forEachIndexed { p, model -> onAssertItem(p, model) }
                     }
                 }

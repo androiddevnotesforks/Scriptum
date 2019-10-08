@@ -34,7 +34,7 @@ class BinScreen : ParentRecyclerScreen(R.id.bin_recycler) {
 
     //endregion
 
-    fun openClearDialog(func: ClearDialogUi.() -> Unit = {}) = apply {
+    fun clearDialog(func: ClearDialogUi.() -> Unit = {}) = apply {
         clearMenuItem.click()
         ClearDialogUi.invoke(func)
     }

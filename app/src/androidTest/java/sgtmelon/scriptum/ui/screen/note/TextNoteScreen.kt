@@ -48,11 +48,15 @@ class TextNoteScreen(override var state: State,
         controlPanel { assert() }
     }
 
-    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
+    fun toolbar(func: NoteToolbar.() -> Unit) = apply {
+        NoteToolbar.invoke(func, callback = this)
+    }
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
+    fun controlPanel(func: NotePanel.() -> Unit) = apply {
+        NotePanel.invoke(func, callback = this)
+    }
 
-    fun onEnterText(text: String = "") {
+    fun onEnterText(text: String = "") = apply {
         contentEnter.typeText(text)
 
         if (text.isEmpty()) {

@@ -17,23 +17,23 @@ class RollNoteTest : ParentUiTest() {
      */
 
     @Test fun contentOnBinWithoutName() = data.insertRollToBin(data.rollNote.copy(name = "")).let {
-        launch { mainScreen { openBinPage { openRollNote(it) } } }
+        launch { mainScreen { binScreen { openRollNote(it) } } }
     }
 
     @Test fun contentOnBinWithName() = data.insertRollToBin().let {
-        launch { mainScreen { openBinPage { openRollNote(it) } } }
+        launch { mainScreen { binScreen { openRollNote(it) } } }
     }
 
     @Test fun contentOnCreate() = data.createRoll().let {
-        launch { mainScreen { openAddDialog { createRollNote(it) } } }
+        launch { mainScreen { addDialog { createRoll(it) } } }
     }
 
     @Test fun contentOnReadWithoutName() = data.insertRoll(data.rollNote.copy(name = "")).let {
-        launch { mainScreen { openNotesPage { openRollNote(it) } } }
+        launch { mainScreen { notesScreen { openRollNote(it) } } }
     }
 
     @Test fun contentOnReadWithName() = data.insertRoll().let {
-        launch { mainScreen { openNotesPage { openRollNote(it) } } }
+        launch { mainScreen { notesScreen { openRollNote(it) } } }
     }
 
     /**
@@ -43,10 +43,8 @@ class RollNoteTest : ParentUiTest() {
     @Test fun closeOnBin() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openBinPage { openRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openBinPage { openRollNote(it) { onPressBack() } }
-                assert()
+                binScreen { openRollNote(it) { toolbar { onClickBack() } } }.assert()
+                binScreen { openRollNote(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -54,10 +52,8 @@ class RollNoteTest : ParentUiTest() {
     @Test fun closeOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
-                openAddDialog { createRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openAddDialog { createRollNote(it) { onPressBack() } }
-                assert()
+                addDialog { createRoll(it) { toolbar { onClickBack() } } }.assert()
+                addDialog { createRoll(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -65,10 +61,8 @@ class RollNoteTest : ParentUiTest() {
     @Test fun closeOnRead() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage { openRollNote(it) { toolbar { onClickBack() } } }
-                assert()
-                openNotesPage { openRollNote(it) { onPressBack() } }
-                assert()
+                notesScreen { openRollNote(it) { toolbar { onClickBack() } } }.assert()
+                notesScreen { openRollNote(it) { onPressBack() } }.assert()
             }
         }
     }
@@ -76,8 +70,8 @@ class RollNoteTest : ParentUiTest() {
     @Test fun saveOnCreate() = data.createRoll().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createRollNote(it) {
+                addDialog {
+                    createRoll(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         enterPanel { onAddRoll(data.uniqueString) }
                         onPressBack()
@@ -90,7 +84,7 @@ class RollNoteTest : ParentUiTest() {
     @Test fun saveOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(data.uniqueString) }
@@ -105,7 +99,7 @@ class RollNoteTest : ParentUiTest() {
     @Test fun cancelOnEdit() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
                         enterPanel { onAddRoll(data.uniqueString) }
@@ -126,14 +120,9 @@ class RollNoteTest : ParentUiTest() {
     @Test fun actionOnBinRestore() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openRollNote(it) { controlPanel { onRestore() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage()
+                notesScreen(empty = true)
+                binScreen { openRollNote(it) { controlPanel { onRestore() } }.assert(empty = true) }
+                notesScreen()
             }
         }
     }
@@ -141,9 +130,9 @@ class RollNoteTest : ParentUiTest() {
     @Test fun actionOnBinRestoreOpen() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
 
-                openBinPage {
+                binScreen {
                     openRollNote(it) {
                         controlPanel { onRestoreOpen() }
                         onPressBack()
@@ -151,7 +140,7 @@ class RollNoteTest : ParentUiTest() {
                     assert(empty = true)
                 }
 
-                openNotesPage()
+                notesScreen()
             }
         }
     }
@@ -159,14 +148,9 @@ class RollNoteTest : ParentUiTest() {
     @Test fun actionOnBinClear() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openNotesPage(empty = true)
-
-                openBinPage {
-                    openRollNote(it) { controlPanel { onClear() } }
-                    assert(empty = true)
-                }
-
-                openNotesPage(empty = true)
+                notesScreen(empty = true)
+                binScreen { openRollNote(it) { controlPanel { onClear() } }.assert(empty = true) }
+                notesScreen(empty = true)
             }
         }
     }
@@ -184,7 +168,7 @@ class RollNoteTest : ParentUiTest() {
 
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(model) {
                         controlPanel { onBind() }
                         onPressBack()
@@ -198,27 +182,26 @@ class RollNoteTest : ParentUiTest() {
 
     @Test fun actionOnReadConvert() = data.insertRoll().let {
         launch {
-            mainScreen { openNotesPage { openRollNote(it) { controlPanel { onConvert() } } } }
+            mainScreen { notesScreen { openRollNote(it) { controlPanel { onConvert() } } } }
         }
     }
 
     @Test fun actionOnReadDelete() = data.insertRoll().let {
         launch {
             mainScreen {
-                openBinPage(empty = true)
+                binScreen(empty = true)
 
-                openNotesPage {
-                    openRollNote(it) { controlPanel { onDelete() } }
-                    assert(empty = true)
+                notesScreen {
+                    openRollNote(it) { controlPanel { onDelete() } }.assert(empty = true)
                 }
 
-                openBinPage()
+                binScreen()
             }
         }
     }
 
     @Test fun actionOnReadEdit() = data.insertRoll().let {
-        launch { mainScreen { openNotesPage { openRollNote(it) { controlPanel { onEdit() } } } } }
+        launch { mainScreen { notesScreen { openRollNote(it) { controlPanel { onEdit() } } } } }
     }
 
 
@@ -229,15 +212,13 @@ class RollNoteTest : ParentUiTest() {
     @Test fun actionOnEditRank() {}
 
     @Test fun actionOnCreateColor() = data.createRoll().let {
-        launch {
-            mainScreen { openAddDialog { createRollNote(it) { controlPanel { onColor() } } } }
-        }
+        launch { mainScreen { addDialog { createRoll(it) { controlPanel { onColor() } } } } }
     }
 
     @Test fun actionOnEditColor() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage { openRollNote(it) { controlPanel { onEdit().onColor() } } }
+                notesScreen { openRollNote(it) { controlPanel { onEdit().onColor() } } }
             }
         }
     }
@@ -245,8 +226,8 @@ class RollNoteTest : ParentUiTest() {
     @Test fun actionOnCreateSave() = data.createRoll().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createRollNote(it) {
+                addDialog {
+                    createRoll(it) {
                         toolbar { onEnterName(data.uniqueString) }
                         repeat(times = 3) { enterPanel { onAddRoll(data.uniqueString) } }
                         onSwipe()
@@ -260,7 +241,7 @@ class RollNoteTest : ParentUiTest() {
     @Test fun actionOnEditSave() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) {
                         controlPanel { onEdit() }
                         toolbar { onEnterName(data.uniqueString) }
@@ -281,12 +262,10 @@ class RollNoteTest : ParentUiTest() {
     @Test fun convertDialogCloseAndWork() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) {
-                        controlPanel { onConvert { onCloseSoft() } }
-                        assert()
-                        controlPanel { onConvert { onClickNo() } }
-                        assert()
+                        controlPanel { onConvert { onCloseSoft() } }.assert()
+                        controlPanel { onConvert { onClickNo() } }.assert()
                         controlPanel { onConvert { onClickYes() } }
                     }
                 }
@@ -300,15 +279,11 @@ class RollNoteTest : ParentUiTest() {
     @Test fun colorDialogCloseAndWork() = data.createRoll().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createRollNote(it) {
-                        controlPanel { onColor { onCloseSoft() } }
-                        assert()
-                        controlPanel { onColor { onClickCancel() } }
-                        assert()
-                        controlPanel {
-                            onColor { onClickEveryItem().onClickItem().onClickAccept() }
-                        }
+                addDialog {
+                    createRoll(it) {
+                        controlPanel { onColor { onCloseSoft() } }.assert()
+                        controlPanel { onColor { onClickCancel() } }.assert()
+                        controlPanel { onColor { onClickAll().onClickItem().onClickAccept() } }
                     }
                 }
             }

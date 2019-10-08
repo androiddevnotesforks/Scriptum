@@ -23,11 +23,11 @@ class RankToolbar : ParentUi() {
 
     private var enter = ""
 
-    fun onEnterName(name: String, isAddEnabled: Boolean = true) = apply {
+    fun onEnterName(name: String, addEnabled: Boolean = true) = apply {
         enter = name
 
         nameEnter.typeText(name)
-        assert(isAddEnabled = isAddEnabled)
+        assert(isAddEnabled = addEnabled)
     }
 
     fun onClickClear() {

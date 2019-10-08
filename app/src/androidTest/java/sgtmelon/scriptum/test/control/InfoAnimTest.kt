@@ -16,7 +16,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun rankShowAndHide() = data.rankEntity.let {
         launch {
             mainScreen {
-                openRankPage(empty = true) {
+                rankScreen(empty = true) {
                     repeat(times = 3) { _ ->
                         waitAfter(TIME) { toolbar { onEnterName(it.name).onClickAdd() } }
                         waitBefore(TIME) { onClickCancel() }
@@ -30,7 +30,7 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notesShow() = data.insertText().let {
         launch {
             mainScreen {
-                waitAfter(TIME) { openNotesPage { openNoteDialog(it) { onClickDelete() } } }
+                waitAfter(TIME) { notesScreen { openNoteDialog(it) { onClickDelete() } } }
             }
         }
     }
@@ -38,8 +38,8 @@ class InfoAnimTest : ParentUiTest() {
     @Test fun notesHide() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openBinPage { openNoteDialog(it) { onClickRestore() } }
-                waitAfter(TIME) { openNotesPage() }
+                binScreen { openNoteDialog(it) { onClickRestore() } }
+                waitAfter(TIME) { notesScreen() }
             }
         }
     }
@@ -47,28 +47,22 @@ class InfoAnimTest : ParentUiTest() {
 
     @Test fun binShow() = data.insertTextToBin().let {
         launch {
-            mainScreen {
-                waitAfter(TIME) { openBinPage { openNoteDialog(it) { onClickClear() } } }
-            }
+            mainScreen { waitAfter(TIME) { binScreen { openNoteDialog(it) { onClickClear() } } } }
         }
     }
 
     @Test fun binHide() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage { openNoteDialog(it) { onClickDelete() } }
-                waitAfter(TIME) { openBinPage() }
+                notesScreen { openNoteDialog(it) { onClickDelete() } }
+                waitAfter(TIME) { binScreen() }
             }
         }
     }
 
 
-    @Test fun notificationShow() = data.insertNotification().let {
-        launch {
-            mainScreen {
-                openNotesPage { openNotification { waitAfter(TIME) { onClickCancel() } } }
-            }
-        }
+    @Test fun notificationShow() = launch({ data.insertNotification() }) {
+        mainScreen { notesScreen { openNotification { waitAfter(TIME) { onClickCancel() } } } }
     }
 
 

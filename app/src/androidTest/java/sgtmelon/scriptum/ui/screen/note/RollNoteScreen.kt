@@ -43,11 +43,17 @@ class RollNoteScreen(
         enterPanel { assert() }
     }
 
-    fun toolbar(func: NoteToolbar.() -> Unit) = NoteToolbar.invoke(func, callback = this)
+    fun toolbar(func: NoteToolbar.() -> Unit) = apply {
+        NoteToolbar.invoke(func, callback = this)
+    }
 
-    fun enterPanel(func: RollEnterPanel.() -> Unit) = RollEnterPanel.invoke(func, callback = this)
+    fun enterPanel(func: RollEnterPanel.() -> Unit) = apply {
+        RollEnterPanel.invoke(func, callback = this)
+    }
 
-    fun controlPanel(func: NotePanel.() -> Unit) = NotePanel.invoke(func, callback = this)
+    fun controlPanel(func: NotePanel.() -> Unit) = apply {
+        NotePanel.invoke(func, callback = this)
+    }
 
     fun onSwipeAll() = repeat(times = count) { onSwipe() }
 

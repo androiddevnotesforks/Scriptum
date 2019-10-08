@@ -18,22 +18,21 @@ class NoteIconAnimTest : ParentUiTest() {
     // TODO #TEST Анимация из стрелки в крестик при автоматическом сохранении текста/списка
 
     @Test fun arrowBackOnCreateTextNote() = data.createText().let {
-        launch { mainScreen { openAddDialog { waitAfter(TIME) { createTextNote(it) } } } }
+        launch { mainScreen { addDialog { waitAfter(TIME) { createText(it) } } } }
     }
 
     @Test fun arrowBackOnCreateRollNote() = data.createRoll().let {
-        launch { mainScreen { openAddDialog { waitAfter(TIME) { createRollNote(it) } } } }
+        launch { mainScreen { addDialog { waitAfter(TIME) { createRoll(it) } } } }
     }
 
 
     @Test fun notAnimateOnSaveCreateTextNote() = data.createText().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createTextNote(it) {
+                addDialog {
+                    createText(it) {
                         waitAfter(TIME) {
-                            onEnterText(data.textNote.text)
-                            controlPanel { onSave() }
+                            onEnterText(data.textNote.text).controlPanel { onSave() }
                         }
                     }
                 }
@@ -44,8 +43,8 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun notAnimateOnSaveCreateRollNote() = data.createRoll().let {
         launch {
             mainScreen {
-                openAddDialog {
-                    createRollNote(it) {
+                addDialog {
+                    createRoll(it) {
                         waitAfter(TIME) {
                             enterPanel { onAddRoll(data.rollList.first().text) }
                             controlPanel { onSave() }
@@ -59,10 +58,8 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun notAnimateOnRestoreOpenTextNote() = data.insertTextToBin().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openTextNote(it) {
-                        waitAfter(TIME) { controlPanel { onRestoreOpen() } }
-                    }
+                binScreen {
+                    openTextNote(it) { waitAfter(TIME) { controlPanel { onRestoreOpen() } } }
                 }
             }
         }
@@ -71,10 +68,8 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun notAnimateOnRestoreOpenRollNote() = data.insertRollToBin().let {
         launch {
             mainScreen {
-                openBinPage {
-                    openRollNote(it) {
-                        waitAfter(TIME) { controlPanel { onRestoreOpen() } }
-                    }
+                binScreen {
+                    openRollNote(it) { waitAfter(TIME) { controlPanel { onRestoreOpen() } } }
                 }
             }
         }
@@ -84,7 +79,7 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToSaveTextNote() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) {
                         controlPanel {
                             repeat(times = 3) {
@@ -101,7 +96,7 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToSaveRollNote() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) {
                         controlPanel {
                             repeat(times = 3) {
@@ -118,7 +113,7 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToCancelTextNote() = data.insertText().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openTextNote(it) {
                         waitAfter(TIME) { controlPanel { onEdit() } }
                         waitAfter(TIME) { onPressBack() }
@@ -133,7 +128,7 @@ class NoteIconAnimTest : ParentUiTest() {
     @Test fun animateOnEditToCancelRollNote() = data.insertRoll().let {
         launch {
             mainScreen {
-                openNotesPage {
+                notesScreen {
                     openRollNote(it) {
                         waitAfter(TIME) { controlPanel { onEdit() } }
                         waitAfter(TIME) { onPressBack() }

@@ -28,21 +28,23 @@ class NoteToolbar(private val callback: INoteScreen) : ParentUi() {
 
     //endregion
 
-    fun onEnterName(name: String) = callback.throwOnWrongState(State.EDIT, State.NEW) {
-        nameEnter.typeText(name)
+    fun onEnterName(name: String) = apply {
+        callback.throwOnWrongState(State.EDIT, State.NEW) {
+            nameEnter.typeText(name)
 
-        callback.apply {
-            name.forEachIndexed { i, c ->
-                val valueFrom = if (i == 0) shadowModel.noteEntity.text else name[i - 1].toString()
-                val valueTo = c.toString()
+            callback.apply {
+                name.forEachIndexed { i, c ->
+                    val valueFrom = if (i == 0) shadowModel.noteEntity.text else name[i - 1].toString()
+                    val valueTo = c.toString()
 
-                inputControl.onNameChange(
-                        valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
-                )
-            }
+                    inputControl.onNameChange(
+                            valueFrom, valueTo, InputItem.Cursor(valueFrom.length, valueTo.length)
+                    )
+                }
 
-            shadowModel.noteEntity.name = name
-        }.fullAssert()
+                shadowModel.noteEntity.name = name
+            }.fullAssert()
+        }
     }
 
     fun onClickBack() {
