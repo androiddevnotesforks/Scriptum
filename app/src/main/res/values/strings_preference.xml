@@ -25,6 +25,7 @@
     <string name="title_save_time">Period</string>
 
     <string name="title_other_rate">Rate</string>
+    <string name="title_other_privacy_policy">Privacy policy</string>
     <string name="title_other_about">About app</string>
 
     <!---->
@@ -111,6 +112,7 @@
     <string name="key_save_time" translatable="false">key_save_time</string>
     
     <string name="key_other_rate" translatable="false">key_rate</string>
+    <string name="key_other_privacy_policy" translatable="false">key_privacy_policy</string>
     <string name="key_other_about" translatable="false">key_about</string>
 
 </resources>

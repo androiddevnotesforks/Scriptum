@@ -84,7 +84,13 @@ fun ViewGroup.createVisibleAnim(target: View?, visible: Boolean, duration: Long 
     target.visibility = if (visible) View.VISIBLE else View.GONE
 }
 
-fun String.toUri(): Uri = Uri.parse(this)
+fun String.toUri(): Uri? = let {
+    return@let try {
+        Uri.parse(it)
+    } catch (t: Throwable) {
+        null
+    }
+}
 
 /**
  * Extension for fast check permission Granted/Denied

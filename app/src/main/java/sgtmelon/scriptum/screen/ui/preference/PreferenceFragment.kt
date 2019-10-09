@@ -241,6 +241,14 @@ class PreferenceFragment : OldPreferenceFragment(), IPreferenceFragment {
             return@setOnPreferenceClickListener true
         }
 
+        findPreference(getString(R.string.key_other_privacy_policy)).setOnPreferenceClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = BuildConfig.PRIVACY_POLICY_URL.toUri()
+            })
+
+            return@setOnPreferenceClickListener true
+        }
+
         findPreference(getString(R.string.key_other_about)).setOnPreferenceClickListener {
             openState.tryInvoke { aboutDialog.show(fm, DialogFactory.Preference.ABOUT) }
             return@setOnPreferenceClickListener true

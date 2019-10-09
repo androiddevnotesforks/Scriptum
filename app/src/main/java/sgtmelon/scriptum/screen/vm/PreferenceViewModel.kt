@@ -113,7 +113,7 @@ class PreferenceViewModel(private val context: Context, var callback: IPreferenc
     }
 
     override fun onSelectMelody(item: Int) {
-        callback?.playMelody(melodyList[item].uri.toUri())
+        callback?.playMelody(uri = melodyList[item].uri.toUri() ?: return)
     }
 
     override fun onResultMelody(value: Int) {

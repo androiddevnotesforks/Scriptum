@@ -90,6 +90,10 @@
                 android:title="@string/title_other_rate" />
 
         <Preference
+                android:key="@string/key_other_privacy_policy"
+                android:title="@string/title_other_privacy_policy"/>
+
+        <Preference
                 android:key="@string/key_other_about"
                 android:title="@string/title_other_about" />
 

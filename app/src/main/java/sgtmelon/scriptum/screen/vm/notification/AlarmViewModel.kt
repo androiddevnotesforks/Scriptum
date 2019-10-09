@@ -57,7 +57,9 @@ class AlarmViewModel(application: Application) : ParentViewModel<IAlarmActivity>
 
             iInteractor.let {
                 setupView(it.theme)
-                setupPlayer(it.volume, it.volumeIncrease, iSignalInteractor.melodyUri.toUri())
+
+                val uri = iSignalInteractor.melodyUri.toUri()
+                if (uri != null) setupPlayer(it.volume, it.volumeIncrease, uri)
             }
         }
 
