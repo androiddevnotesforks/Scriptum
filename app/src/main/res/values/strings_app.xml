@@ -55,6 +55,8 @@
     <string name="toast_text_copy">Text copied</string>
 
     <string name="toast_alarm_postpone">Postpone for %s</string>
+    <string name="toast_alarm_set">Set for %s</string>
+
 
     <!-- Develop -->
     <string name="button_show_intro">Show intro</string>

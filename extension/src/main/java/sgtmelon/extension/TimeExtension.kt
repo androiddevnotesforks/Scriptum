@@ -44,9 +44,10 @@ fun Calendar.afterNow() = this.after(Calendar.getInstance())
 fun Context.getShortAnimTime(): Long =
         resources.getInteger(android.R.integer.config_shortAnimTime).toLong()
 
-fun Calendar.formatFuture(context: Context) : String {
+fun Calendar.formatFuture(context: Context,
+                          maxResolution: Long = DateUtils.WEEK_IN_MILLIS) : String {
     return DateUtils.getRelativeDateTimeString(context, timeInMillis,
-            DateUtils.DAY_IN_MILLIS, DateUtils.WEEK_IN_MILLIS, 0
+            DateUtils.DAY_IN_MILLIS, maxResolution, 0
     ).toString()
 }
 

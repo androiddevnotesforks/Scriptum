@@ -3,6 +3,7 @@ package sgtmelon.scriptum.screen.ui.note
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import sgtmelon.extension.formatFuture
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.alarm.AlarmControl
 import sgtmelon.scriptum.control.bind.BindControl
@@ -295,13 +297,20 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     }
 
 
-    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) =
-            iAlarmControl.set(calendar, model)
+    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
+        iAlarmControl.set(calendar, model)
+
+        context?.let {
+            val date = calendar.formatFuture(it, DateUtils.WEEK_IN_MILLIS).toLowerCase()
+            it.showToast(it.getString(R.string.toast_alarm_set, date))
+        }
+    }
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
-    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) =
-            iBindControl.notify(noteModel, rankIdVisibleList)
+    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+        iBindControl.notify(noteModel, rankIdVisibleList)
+    }
 
     override fun cancelBind(id: Int) = iBindControl.cancel(id)
 

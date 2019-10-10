@@ -48,6 +48,7 @@
     <string name="toast_text_copy">Текст скопирован</string>
 
     <string name="toast_alarm_postpone">Отложено на %s</string>
+    <string name="toast_alarm_set">Установлено на %s</string>
 
     <!-- Develop -->
     <string name="button_show_intro">Вступление</string>

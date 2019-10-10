@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.text.InputType
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import sgtmelon.extension.formatFuture
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.adapter.RollAdapter
 import sgtmelon.scriptum.control.alarm.AlarmControl
@@ -118,11 +120,12 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         iViewModel.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) =
-            super.onSaveInstanceState(outState.apply {
-                openState.save(bundle = this)
-                iViewModel.onSaveData(bundle = this)
-            })
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState.apply {
+            openState.save(bundle = this)
+            iViewModel.onSaveData(bundle = this)
+        })
+    }
 
     fun onCancelNoteBind() = iViewModel.onCancelNoteBind()
 
@@ -343,27 +346,33 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
         adapter.checkToggle = state
     }
 
-    override fun updateNoteState(noteState: NoteState) =
-            adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
+    override fun updateNoteState(noteState: NoteState) {
+        adapter.apply { this.noteState = noteState }.notifyDataSetChanged()
+    }
 
     override fun notifyListItem(p: Int, rollEntity: RollEntity) = adapter.setListItem(p, rollEntity)
 
     override fun notifyList(list: MutableList<RollEntity>) = adapter.setList(list)
 
-    override fun notifyDataSetChanged(list: MutableList<RollEntity>) =
-            adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
+    override fun notifyDataSetChanged(list: MutableList<RollEntity>) {
+        adapter.apply { setList(list) }.notifyItemRangeChanged(0, list.size)
+    }
 
-    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>) =
-            adapter.apply { cursorPosition = cursor }.notifyItemInserted(p, list)
+    override fun notifyItemInserted(p: Int, cursor: Int, list: MutableList<RollEntity>) {
+        adapter.apply { cursorPosition = cursor }.notifyItemInserted(p, list)
+    }
 
-    override fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int) =
-            adapter.apply { cursorPosition = cursor }.notifyItemChanged(p, list)
+    override fun notifyItemChanged(p: Int, list: MutableList<RollEntity>, cursor: Int) {
+        adapter.apply { cursorPosition = cursor }.notifyItemChanged(p, list)
+    }
 
-    override fun notifyItemRemoved(p: Int, list: MutableList<RollEntity>) =
-            adapter.notifyItemRemoved(p, list)
+    override fun notifyItemRemoved(p: Int, list: MutableList<RollEntity>) {
+        adapter.notifyItemRemoved(p, list)
+    }
 
-    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>) =
-            adapter.notifyItemMoved(from, to, list)
+    override fun notifyItemMoved(from: Int, to: Int, list: MutableList<RollEntity>) {
+        adapter.notifyItemMoved(from, to, list)
+    }
 
     override fun hideKeyboard() {
         activity?.hideKeyboard()
@@ -407,13 +416,20 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     }
 
 
-    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) =
-            iAlarmControl.set(calendar, model)
+    override fun setAlarm(calendar: Calendar, model: AlarmReceiver.Model) {
+        iAlarmControl.set(calendar, model)
+
+        context?.let {
+            val date = calendar.formatFuture(it, DateUtils.WEEK_IN_MILLIS).toLowerCase()
+            it.showToast(it.getString(R.string.toast_alarm_set, date))
+        }
+    }
 
     override fun cancelAlarm(model: AlarmReceiver.Model) = iAlarmControl.cancel(model)
 
-    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) =
-            iBindControl.notify(noteModel, rankIdVisibleList)
+    override fun notifyBind(noteModel: NoteModel, rankIdVisibleList: List<Long>) {
+        iBindControl.notify(noteModel, rankIdVisibleList)
+    }
 
     override fun cancelBind(id: Int) = iBindControl.cancel(id)
 

@@ -98,6 +98,8 @@ fun String.toUri(): Uri? = let {
 fun Int.isGranted() = this == PackageManager.PERMISSION_GRANTED
 
 /**
- * Make string upperCase without warning and wthout arguments
+ * Make string upperCase without warning and without arguments
  */
 fun String.toUpperCase() = toUpperCase(Locale.ROOT)
+
+fun String.toLowerCase() = toLowerCase(Locale.ROOT)
