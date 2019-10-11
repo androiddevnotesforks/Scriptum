@@ -60,8 +60,13 @@ class TimeDialog : DateTimeBlankDialog() {
     override fun setEnable() {
         super.setEnable()
 
-        positiveButton?.isEnabled = calendar.afterNow()
-                && !dateList.contains(getDateFormat().format(calendar.time))
+        positiveButton?.isEnabled = getPositiveEnabled(calendar, dateList)
+    }
+
+    companion object {
+        fun getPositiveEnabled(calendar: Calendar, dateList: List<String>) : Boolean{
+            return calendar.afterNow() && !dateList.contains(getDateFormat().format(calendar.time))
+        }
     }
 
 }
