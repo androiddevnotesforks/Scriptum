@@ -1,19 +1,19 @@
 package sgtmelon.scriptum.ui.screen
 
-import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.model.annotation.Color
 import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 import sgtmelon.scriptum.screen.ui.preference.PreferenceFragment
+import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 
 /**
  * Class for UI control of [PreferenceActivity], [PreferenceFragment].
  */
-class PreferenceScreen : ParentUi(), ColorDialogUi.Callback {
+class PreferenceScreen : ParentUi(), ColorDialogUi.Callback, IPressBack {
 
     //region Views
 
@@ -23,8 +23,6 @@ class PreferenceScreen : ParentUi(), ColorDialogUi.Callback {
     private val colorTitle = getViewByText(R.string.title_note_color)
 
     //endregion
-
-    fun onPressBack() = pressBack()
 
     fun onClickClose() {
         getToolbarButton().click()

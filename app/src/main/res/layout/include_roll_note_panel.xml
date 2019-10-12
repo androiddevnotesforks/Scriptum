@@ -108,7 +108,7 @@
                         app:enabled='@{!rankEmpty}'
                         app:falseColor='@{R.attr.clDisable}'
                         app:srcCompat="@drawable/ic_rank"
-                        app:trueColor='@{noteModel.noteEntity.rankId == -1 ? R.attr.clContent : R.attr.clAccent}'
+                        app:trueColor='@{noteModel.noteEntity.haveRank() ? R.attr.clAccent : R.attr.clContent}'
                         tools:tint="?attr/clAccent"/>
 
                 <ImageButton

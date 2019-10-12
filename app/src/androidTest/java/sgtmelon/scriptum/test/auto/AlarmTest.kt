@@ -21,6 +21,10 @@ class AlarmTest : ParentUiTest() {
         launchAlarm(it) { openAlarm(it) { openTextNote() } }
     }
 
+    @Test fun backTextNote() = data.insertText().let {
+        launchAlarm(it) { openAlarm(it) { openTextNote {  }} }
+    }
+
     @Test fun openRollNote() = data.insertRoll().let {
         launchAlarm(it) { openAlarm(it) { openRollNote() } }
     }
@@ -30,34 +34,26 @@ class AlarmTest : ParentUiTest() {
     }
 
 
-    @Test fun clickPostponeMin10() = clickPostpone(Repeat.MIN_10)
+    @Test fun clickPostponeMin10() = startPostponeTest(Repeat.MIN_10)
 
-    @Test fun clickPostponeMin30() = clickPostpone(Repeat.MIN_30)
+    @Test fun clickPostponeMin30() = startPostponeTest(Repeat.MIN_30)
 
-    @Test fun clickPostponeMin60() = clickPostpone(Repeat.MIN_60)
+    @Test fun clickPostponeMin60() = startPostponeTest(Repeat.MIN_60)
 
-
-    @Test fun waitPostponeMin10() = waitPostpone(Repeat.MIN_10)
-
-    @Test fun waitPostponeMin30() = waitPostpone(Repeat.MIN_30)
-
-    @Test fun waitPostponeMin60() = waitPostpone(Repeat.MIN_60)
-
-
-    @Test fun backPostponeMin10() = backPostpone(Repeat.MIN_10)
-
-    @Test fun backPostponeMin30() = backPostpone(Repeat.MIN_30)
-
-    @Test fun backPostponeMin60() = backPostpone(Repeat.MIN_60)
-
-
-    private fun clickPostpone(@Repeat repeat: Int) {
+    private fun startPostponeTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
         data.insertNote().let { launchAlarm(it) { openAlarm(it) { onClickPostpone() } } }
     }
 
-    private fun waitPostpone(@Repeat repeat: Int) {
+
+    @Test fun waitPostponeMin10() = startWaitPostponeTest(Repeat.MIN_10)
+
+    @Test fun waitPostponeMin30() = startWaitPostponeTest(Repeat.MIN_30)
+
+    @Test fun waitPostponeMin60() = startWaitPostponeTest(Repeat.MIN_60)
+
+    private fun startWaitPostponeTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
         data.insertNote().let {
@@ -65,10 +61,17 @@ class AlarmTest : ParentUiTest() {
         }
     }
 
-    private fun backPostpone(@Repeat repeat: Int) {
+
+    @Test fun backPostponeMin10() = startBackPostponeTest(Repeat.MIN_10)
+
+    @Test fun backPostponeMin30() = startBackPostponeTest(Repeat.MIN_30)
+
+    @Test fun backPostponeMin60() = startBackPostponeTest(Repeat.MIN_60)
+
+    private fun startBackPostponeTest(@Repeat repeat: Int) {
         iPreferenceRepo.repeat = repeat
 
-        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onPressBack() } } }
+        data.insertNote().let { launchAlarm(it) { openAlarm(it) { onPressClose() } } }
     }
 
 }

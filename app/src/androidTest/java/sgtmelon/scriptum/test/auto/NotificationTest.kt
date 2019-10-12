@@ -12,8 +12,18 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class NotificationTest : ParentUiTest() {
 
-    @Test fun contentEmpty() =
-            launch { mainScreen { notesScreen(empty = true) { openNotification(empty = true) } } }
+    @Test fun close() = launch {
+        mainScreen {
+            notesScreen(empty = true) {
+                openNotification(empty = true) { onPressBack() }
+                openNotification(empty = true) { onClickClose() }
+            }
+        }
+    }
+
+    @Test fun contentEmpty() = launch {
+        mainScreen { notesScreen(empty = true) { openNotification(empty = true) } }
+    }
 
     @Test fun contentList() = launch({ data.fillNotification() }) {
         mainScreen { notesScreen { openNotification() } }
@@ -22,6 +32,7 @@ class NotificationTest : ParentUiTest() {
     @Test fun listScroll() = launch({ data.fillNotification() }) {
         mainScreen { notesScreen { openNotification { onScrollThrough() } } }
     }
+
 
     @Test fun itemCancel() = data.insertNotification().let {
         launch {
@@ -42,6 +53,7 @@ class NotificationTest : ParentUiTest() {
     @Test fun itemCancelFromPast() = data.insertNotification(date = DATE_0).let {
         launch { mainScreen { notesScreen { openNotification(empty = true) } } }
     }
+
 
     @Test fun textNoteOpen() = data.insertText().let {
         launch({ data.insertNotification(it) }) {

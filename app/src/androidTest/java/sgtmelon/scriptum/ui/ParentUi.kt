@@ -22,6 +22,8 @@ abstract class ParentUi {
     protected val context: Context = InstrumentationRegistry.getInstrumentation().targetContext
     protected val theme: Int get() = PreferenceRepo(context).theme
 
+    protected fun getViewByName(name: String): Matcher<View> = withResourceName(name)
+
     protected fun getViewById(@IdRes viewId: Int): Matcher<View> = withId(viewId)
 
     protected fun getViewByText(@StringRes stringId: Int): Matcher<View> = withText(stringId)

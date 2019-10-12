@@ -11,6 +11,7 @@ import sgtmelon.scriptum.data.InfoPage
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.screen.ui.notification.NotificationActivity
+import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentRecyclerItem
 import sgtmelon.scriptum.ui.ParentRecyclerScreen
 import sgtmelon.scriptum.ui.part.InfoContainer
@@ -20,7 +21,7 @@ import sgtmelon.scriptum.ui.screen.note.TextNoteScreen
 /**
  * Class for UI control of [NotificationActivity].
  */
-class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler) {
+class NotificationScreen : ParentRecyclerScreen(R.id.notification_recycler), IPressBack {
 
     //region Views
 

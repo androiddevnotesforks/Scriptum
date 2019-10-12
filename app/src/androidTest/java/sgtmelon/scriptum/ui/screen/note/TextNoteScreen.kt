@@ -1,7 +1,5 @@
 package sgtmelon.scriptum.ui.screen.note
 
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.haveHint
 import sgtmelon.scriptum.basic.extension.haveText
@@ -11,8 +9,10 @@ import sgtmelon.scriptum.control.input.InputControl
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.item.InputItem
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 import sgtmelon.scriptum.screen.ui.note.TextNoteFragment
+import sgtmelon.scriptum.ui.IPressBack
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.part.panel.NotePanel
 import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
@@ -24,7 +24,7 @@ import sgtmelon.scriptum.ui.part.toolbar.NoteToolbar
 class TextNoteScreen(override var state: State,
                      override var noteModel: NoteModel,
                      override val isRankEmpty: Boolean
-) : ParentUi(), INoteScreen {
+) : ParentUi(), INoteScreen, IPressBack {
 
     //region Views
 
@@ -77,9 +77,8 @@ class TextNoteScreen(override var state: State,
         fullAssert()
     }
 
-    fun onPressBack() {
-        closeSoftKeyboard()
-        pressBack()
+    override fun onPressBack() {
+        super.onPressBack()
 
         if (state == State.EDIT || state == State.NEW) {
             if (shadowModel.isSaveEnabled()) {
@@ -120,8 +119,13 @@ class TextNoteScreen(override var state: State,
 
     companion object {
         operator fun invoke(func: TextNoteScreen.() -> Unit, state: State,
-                            noteModel: NoteModel, isRankEmpty: Boolean = true) =
-                TextNoteScreen(state, noteModel, isRankEmpty).apply { fullAssert() }.apply(func)
+                            noteModel: NoteModel, isRankEmpty: Boolean = true) : TextNoteScreen{
+            if (noteModel.noteEntity.type != NoteType.TEXT) {
+                throw IllegalAccessException("Wrong note type!")
+            }
+
+            return TextNoteScreen(state, noteModel, isRankEmpty).apply { fullAssert() }.apply(func)
+        }
     }
 
 }

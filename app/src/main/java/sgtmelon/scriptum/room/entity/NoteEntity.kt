@@ -53,6 +53,8 @@ data class NoteEntity(
     fun isNotVisible(rankIdVisibleList: List<Long>) =
             rankId != ND_RANK_ID && !rankIdVisibleList.contains(rankId)
 
+    fun haveRank() = rankId != ND_RANK_ID
+
     companion object {
         const val ND_ID = 0L
         const val ND_CREATE = ""

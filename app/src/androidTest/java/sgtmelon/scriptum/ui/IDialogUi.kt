@@ -1,19 +1,14 @@
 package sgtmelon.scriptum.ui
 
-import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.pressBack
 import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.basic.extension.waitBefore
 
 /**
- * Interface which need use in dialog classes
+ * Interface need use in dialog classes
  */
-interface IDialogUi {
+interface IDialogUi : IPressBack {
 
-    fun onCloseSoft() = waitClose {
-        closeSoftKeyboard()
-        pressBack()
-    }
+    fun onCloseSoft() = waitClose { onPressBack() }
 
     fun waitClose(func: () -> Unit) = waitAfter(TIME_CLOSE) { func() }
 

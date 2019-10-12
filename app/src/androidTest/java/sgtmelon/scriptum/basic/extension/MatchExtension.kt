@@ -38,6 +38,8 @@ fun Matcher<View>.isSelected(selected: Boolean = true) = also {
 
 fun Matcher<View>.haveText(string: String) = also { matchOnView(it, withText(string)) }
 
+fun Matcher<View>.haveText(@StringRes stringId: Int) = also { matchOnView(it, withText(stringId)) }
+
 fun Matcher<View>.haveHint(@StringRes stringId: Int) = also {
     matchOnView(it, allOf(withHint(stringId), withText("")))
 }

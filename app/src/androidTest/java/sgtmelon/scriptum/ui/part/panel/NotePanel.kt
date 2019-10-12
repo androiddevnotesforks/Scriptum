@@ -1,15 +1,16 @@
 package sgtmelon.scriptum.ui.part.panel
 
+import androidx.annotation.AttrRes
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
-import sgtmelon.scriptum.basic.extension.click
-import sgtmelon.scriptum.basic.extension.isDisplayed
-import sgtmelon.scriptum.basic.extension.isEnabled
+import sgtmelon.scriptum.basic.extension.*
 import sgtmelon.scriptum.data.State
 import sgtmelon.scriptum.model.NoteModel
+import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.dialog.ColorDialogUi
 import sgtmelon.scriptum.ui.dialog.ConvertDialogUi
+import sgtmelon.scriptum.ui.dialog.DateDialogUi
 import sgtmelon.scriptum.ui.screen.main.BinScreen
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import sgtmelon.scriptum.ui.screen.note.RollNoteScreen
@@ -112,6 +113,13 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
         }
     }
 
+    fun onNotification(updateDate: Boolean = false, func: DateDialogUi.() -> Unit) = apply {
+        callback.throwOnWrongState(State.READ) {
+            notificationButton.click()
+            DateDialogUi.invoke(func, updateDate, callback)
+        }
+    }
+
     fun onBind() = apply {
         callback.throwOnWrongState(State.READ) {
             bindButton.click()
@@ -155,33 +163,62 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
                 State.READ -> {
                     readContainer.isDisplayed()
 
-                    notificationButton.isDisplayed()
-                    bindButton.isDisplayed()
-                    convertButton.isDisplayed()
-                    deleteButton.isDisplayed()
+                    notificationButton.isDisplayed().withDrawableAttr(
+                            R.drawable.ic_notifications,
+                            getTint(noteModel.alarmEntity.date.isNotEmpty())
+                    )
 
-                    editButton.isDisplayed()
+                    bindButton.isDisplayed().withDrawableAttr(
+                            when (noteModel.noteEntity.type) {
+                                NoteType.TEXT -> R.drawable.ic_bind_text
+                                NoteType.ROLL -> R.drawable.ic_bind_roll
+                            }, getTint(noteModel.noteEntity.isStatus)
+                    )
+
+                    convertButton.isDisplayed().withDrawableAttr(R.drawable.ic_convert, R.attr.clContent)
+                    deleteButton.isDisplayed().withDrawableAttr(R.drawable.ic_bin, R.attr.clContent)
+
+                    editButton.haveText(R.string.menu_note_edit).isDisplayed()
                 }
                 State.BIN -> {
                     binContainer.isDisplayed()
 
-                    restoreButton.isDisplayed()
-                    restoreOpenButton.isDisplayed()
-                    clearButton.isDisplayed()
+                    restoreButton.isDisplayed().withDrawableAttr(R.drawable.ic_restore, R.attr.clContent)
+                    restoreOpenButton.isDisplayed().withDrawableAttr(R.drawable.ic_restore_open, R.attr.clContent)
+                    clearButton.isDisplayed().withDrawableAttr(R.drawable.ic_clear, R.attr.clAccent)
                 }
                 State.EDIT, State.NEW -> {
                     editContainer.isDisplayed()
 
-                    undoButton.isDisplayed().isEnabled(inputControl.isUndoAccess)
-                    redoButton.isDisplayed().isEnabled(inputControl.isRedoAccess)
-                    rankButton.isDisplayed().isEnabled(!isRankEmpty)
-                    colorButton.isDisplayed()
+                    inputControl.isUndoAccess.let { undo ->
+                        undoButton.isDisplayed()
+                                .withDrawableAttr(R.drawable.ic_undo, getTint(undo))
+                                .isEnabled(undo)
+                    }
 
-                    saveButton.isDisplayed().isEnabled(shadowModel.isSaveEnabled())
+                    inputControl.isRedoAccess.let { redo ->
+                        redoButton.isDisplayed()
+                                .withDrawableAttr(R.drawable.ic_redo, getTint(redo))
+                                .isEnabled(redo)
+                    }
+
+                    rankButton.isDisplayed()
+                            .withDrawableAttr(R.drawable.ic_rank, if (isRankEmpty) {
+                                R.attr.clDisable
+                            } else {
+                                getTint(noteModel.noteEntity.haveRank())
+                            })
+                            .isEnabled(!isRankEmpty)
+
+                    colorButton.isDisplayed().withDrawableAttr(R.drawable.ic_palette, R.attr.clContent)
+
+                    saveButton.haveText(R.string.menu_note_save).isDisplayed().isEnabled(shadowModel.isSaveEnabled())
                 }
             }
         }
     }
+
+    @AttrRes private fun getTint(b: Boolean) = if (b) R.attr.clAccent else R.attr.clContent
 
     companion object {
         operator fun invoke(func: NotePanel.() -> Unit, callback: INoteScreen) =
