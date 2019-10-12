@@ -8,7 +8,7 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class DateTimeDialogTest : ParentUiTest() {
 
-    @Test fun textNoteReset() = data.insertNotification(data.insertText()).let {
+    @Test fun textNoteDateReset() = data.insertNotification(data.insertText()).let {
         launch {
             mainScreen {
                 notesScreen {
@@ -20,7 +20,7 @@ class DateTimeDialogTest : ParentUiTest() {
         }
     }
 
-    @Test fun rollNoteReset() = data.insertNotification(data.insertRoll()).let {
+    @Test fun rollNoteDateReset() = data.insertNotification(data.insertRoll()).let {
         launch {
             mainScreen {
                 notesScreen {

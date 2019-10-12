@@ -15,7 +15,8 @@ import java.util.*
 /**
  * Class for UI control [DateDialog]
  */
-class DateDialogUi(private val callback: INoteScreen) : ParentUi(), IDialogUi {
+class DateDialogUi(private val callback: INoteScreen, private val updateDate: Boolean) : ParentUi(),
+        IDialogUi {
 
     //region Views
 
@@ -55,7 +56,7 @@ class DateDialogUi(private val callback: INoteScreen) : ParentUi(), IDialogUi {
         TimeDialogUi.invoke(func)
     }
 
-    fun assert(updateDate: Boolean) {
+    fun assert() {
         resetButton.isDisplayed(updateDate).isEnabled()
 
         cancelButton.isDisplayed().isEnabled()
@@ -65,7 +66,7 @@ class DateDialogUi(private val callback: INoteScreen) : ParentUi(), IDialogUi {
     companion object {
         operator fun invoke(func: DateDialogUi.() -> Unit, updateDate: Boolean,
                             callback: INoteScreen) =
-                DateDialogUi(callback).apply { waitOpen { assert(updateDate) } }.apply(func)
+                DateDialogUi(callback, updateDate).apply { waitOpen { assert() } }.apply(func)
     }
 
 }
