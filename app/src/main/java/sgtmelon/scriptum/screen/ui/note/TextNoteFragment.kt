@@ -301,7 +301,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
         iAlarmControl.set(calendar, model)
 
         context?.let {
-            val date = calendar.formatFuture(it, DateUtils.WEEK_IN_MILLIS).toLowerCase()
+            val date = calendar.formatFuture(it, DateUtils.DAY_IN_MILLIS).toLowerCase()
             it.showToast(it.getString(R.string.toast_alarm_set, date))
         }
     }
