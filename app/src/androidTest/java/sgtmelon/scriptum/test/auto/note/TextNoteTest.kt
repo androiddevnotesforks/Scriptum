@@ -150,8 +150,11 @@ class TextNoteTest : ParentUiTest() {
     }
 
 
-    // TODO #TEST write test
-    @Test fun actionOnReadNotification() {}
+    @Test fun actionOnReadNotification() = data.insertText().let {
+        launch {
+            mainScreen { notesScreen { openTextNote(it) { controlPanel { onNotification() } } } }
+        }
+    }
 
     @Test fun actionOnReadBind() = bindTestPrototype(isStatus = false)
 
@@ -242,6 +245,20 @@ class TextNoteTest : ParentUiTest() {
     /**
      * Dialogs
      */
+
+    @Test fun dateDialogCloseAndWork() = data.insertText().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) {
+                        controlPanel { onNotification { onCloseSoft() } }.assert()
+                        controlPanel { onNotification { onClickCancel() } }.assert()
+                        controlPanel { onNotification { onClickApply() } }
+                    }
+                }
+            }
+        }
+    }
 
     // TODO #TEST end assert
     @Test fun convertDialogCloseAndWork() = data.insertText().let {

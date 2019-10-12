@@ -51,7 +51,7 @@ class DateDialogUi(private val callback: INoteScreen, private val updateDate: Bo
 
     fun onClickCancel() = waitClose { cancelButton.click() }
 
-    fun onClickApply(func: TimeDialogUi.() -> Unit) = waitClose {
+    fun onClickApply(func: TimeDialogUi.() -> Unit = {}) = waitClose {
         applyButton.click()
         TimeDialogUi.invoke(func)
     }

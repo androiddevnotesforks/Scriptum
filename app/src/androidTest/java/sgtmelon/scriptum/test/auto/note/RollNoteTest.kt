@@ -156,14 +156,17 @@ class RollNoteTest : ParentUiTest() {
     }
 
 
-    // TODO #TEST write test
-    @Test fun actionOnReadNotification() {}
+    @Test fun actionOnReadNotification() = data.insertRoll().let {
+        launch {
+            mainScreen { notesScreen { openRollNote(it) { controlPanel { onNotification() } } } }
+        }
+    }
 
-    @Test fun actionOnReadBind() = bindTestPrototype(isStatus = false)
+    @Test fun actionOnReadBind() = startBindTest(isStatus = false)
 
-    @Test fun actionOnReadUnbind() = bindTestPrototype(isStatus = true)
+    @Test fun actionOnReadUnbind() = startBindTest(isStatus = true)
 
-    private fun bindTestPrototype(isStatus: Boolean) {
+    private fun startBindTest(isStatus: Boolean) {
         val model = data.insertRoll(data.rollNote.copy(isStatus = isStatus))
 
         launch {
@@ -257,6 +260,20 @@ class RollNoteTest : ParentUiTest() {
     /**
      * Dialogs
      */
+
+    @Test fun dateDialogCloseAndWork() = data.insertRoll().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openRollNote(it) {
+                        controlPanel { onNotification { onCloseSoft() } }.assert()
+                        controlPanel { onNotification { onClickCancel() } }.assert()
+                        controlPanel { onNotification { onClickApply() } }
+                    }
+                }
+            }
+        }
+    }
 
     // TODO #TEST end assert
     @Test fun convertDialogCloseAndWork() = data.insertRoll().let {
