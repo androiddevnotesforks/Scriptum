@@ -5,15 +5,16 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
 import sgtmelon.extension.afterNow
-import sgtmelon.extension.getDateFormat
+import sgtmelon.extension.getString
 import sgtmelon.extension.is24Format
+import sgtmelon.safedialog.BuildConfig
 import java.util.*
 import kotlin.collections.ArrayList
 
 /**
  * Dialog for choose time
  */
-class TimeDialog : DateTimeBlankDialog() {
+class TimeDialog : DateTimeBlankDialog(), ITimeDialog {
 
     private var dateList: ArrayList<String> = ArrayList()
 
@@ -28,6 +29,8 @@ class TimeDialog : DateTimeBlankDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        if (BuildConfig.DEBUG) callback = this
+
         calendar.timeInMillis = savedInstanceState?.getLong(INIT)
                 ?: arguments?.getLong(INIT) ?: defaultTime
 
@@ -37,6 +40,7 @@ class TimeDialog : DateTimeBlankDialog() {
         val changeListener = TimePickerDialog.OnTimeSetListener { _, hourOfDay, minute ->
             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
             calendar.set(Calendar.MINUTE, minute)
+
             setEnable()
         }
 
@@ -63,9 +67,20 @@ class TimeDialog : DateTimeBlankDialog() {
         positiveButton?.isEnabled = getPositiveEnabled(calendar, dateList)
     }
 
+    override fun updateTime(calendar: Calendar) {
+        activity?.runOnUiThread {
+            (dialog as? TimePickerDialog)?.updateTime(
+                    calendar.get(Calendar.HOUR_OF_DAY),
+                    calendar.get(Calendar.MINUTE)
+            )
+        }
+    }
+
     companion object {
+        var callback: ITimeDialog? = null
+
         fun getPositiveEnabled(calendar: Calendar, dateList: List<String>) : Boolean{
-            return calendar.afterNow() && !dateList.contains(getDateFormat().format(calendar.time))
+            return calendar.afterNow() && !dateList.contains(calendar.getString())
         }
     }
 

@@ -116,7 +116,7 @@ class NotePanel(private val callback: INoteScreen) : ParentUi(), ColorDialogUi.C
     fun onNotification(updateDate: Boolean = false, func: DateDialogUi.() -> Unit = {}) {
         callback.throwOnWrongState(State.READ) {
             notificationButton.click()
-            DateDialogUi.invoke(func, updateDate, callback)
+            DateDialogUi.invoke(updateDate, callback, func)
         }
     }
 

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import sgtmelon.extension.beforeNow
 import sgtmelon.extension.getCalendar
-import sgtmelon.extension.getDateFormat
+import sgtmelon.extension.getString
 import sgtmelon.extension.getTime
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.control.SaveControl
@@ -204,7 +204,7 @@ class TextNoteViewModel(application: Application) : ParentViewModel<ITextNoteFra
     override fun onResultTimeDialog(calendar: Calendar) {
         if (calendar.beforeNow()) return
 
-        noteModel.alarmEntity.date = getDateFormat().format(calendar.time)
+        noteModel.alarmEntity.date = calendar.getString()
 
         viewModelScope.launch { iInteractor.setDate(noteModel, calendar) }
 

@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.content
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.getString
 import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Color
@@ -17,7 +18,7 @@ import sgtmelon.scriptum.ui.screen.NotificationScreen
 class NotificationContentTest : ParentUiTest() {
 
     @Test fun time() = onAssertList(ArrayList<NoteModel>().also { list ->
-        nextArray.forEach { list.add(data.insertNotification(date = getTime(it))) }
+        nextArray.forEach { list.add(data.insertNotification(date = getTime(it).getString())) }
     })
 
     @Test fun colorLight() = startColorTest(Theme.LIGHT)

@@ -6,13 +6,14 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import sgtmelon.safedialog.BuildConfig
 import sgtmelon.safedialog.R
 import java.util.*
 
 /**
  * Dialog for choose date
  */
-class DateDialog : DateTimeBlankDialog() {
+class DateDialog : DateTimeBlankDialog(), IDateDialog {
 
     var neutralListener: DialogInterface.OnClickListener? = null
 
@@ -29,6 +30,8 @@ class DateDialog : DateTimeBlankDialog() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        if (BuildConfig.DEBUG) callback = this
+
         calendar.timeInMillis = savedInstanceState?.getLong(INIT) ?: arguments?.getLong(INIT)
                 ?: defaultTime
 
@@ -56,6 +59,20 @@ class DateDialog : DateTimeBlankDialog() {
     override fun setupButton() {
         super.setupButton()
         neutralButton?.visibility = if (neutralVisible) View.VISIBLE else View.GONE
+    }
+
+    override fun updateDate(calendar: Calendar) {
+        activity?.runOnUiThread {
+            (dialog as? DatePickerDialog)?.updateDate(
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+            )
+        }
+    }
+
+    companion object {
+        var callback: IDateDialog? = null
     }
 
 }

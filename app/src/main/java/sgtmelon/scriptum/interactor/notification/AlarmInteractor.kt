@@ -1,8 +1,7 @@
 package sgtmelon.scriptum.interactor.notification
 
 import android.content.Context
-import sgtmelon.extension.getDateFormat
-
+import sgtmelon.extension.getString
 import sgtmelon.scriptum.interactor.ParentInteractor
 import sgtmelon.scriptum.interactor.callback.notification.IAlarmInteractor
 import sgtmelon.scriptum.model.NoteModel
@@ -48,7 +47,7 @@ class AlarmInteractor(context: Context, private var callback: IAlarmBridge?) :
         }
 
         iAlarmRepo.insertOrUpdate(noteModel.alarmEntity.apply {
-            date = getDateFormat().format(calendar.time)
+            date = calendar.getString()
         })
 
         callback?.setAlarm(calendar, AlarmReceiver[noteModel.noteEntity])

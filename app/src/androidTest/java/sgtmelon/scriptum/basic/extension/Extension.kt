@@ -20,8 +20,6 @@ fun getFutureTime(): String = getDateFormat().format(
 /**
  * Add minutes for current time
  */
-fun getTime(minute: Int): String {
-    return getDateFormat().format(Calendar.getInstance().apply {
-        add(Calendar.MINUTE, minute)
-    }.time)
+fun getTime(minute: Int): Calendar = Calendar.getInstance().apply {
+    add(Calendar.MINUTE, minute)
 }

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.test.content.note
 
+import sgtmelon.extension.getString
 import sgtmelon.scriptum.adapter.NoteAdapter
 import sgtmelon.scriptum.basic.extension.getTime
 import sgtmelon.scriptum.model.NoteModel
@@ -66,7 +67,8 @@ abstract class ParentNoteContentTest(private val page: MainPage) : ParentUiTest(
 
         onAssertList(ArrayList<NoteModel>().also { list ->
             lastArray.forEach {
-                val time = getTime(it)
+                val time = getTime(it).getString()
+
                 val note = when (type) {
                     NoteType.TEXT -> when (sort) {
                         Sort.CREATE -> data.textNote.copy(create = time)

@@ -1,5 +1,6 @@
 package sgtmelon.scriptum.ui.dialog
 
+import sgtmelon.extension.getString
 import sgtmelon.safedialog.time.TimeDialog
 import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
@@ -7,13 +8,17 @@ import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
+import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Class for UI control [TimeDialog]
  */
-class TimeDialogUi : ParentUi(), IDialogUi {
+class TimeDialogUi(
+        private val callback: INoteScreen,
+        private val calendar: Calendar,
+        private val dateList: List<String>
+) : ParentUi(), IDialogUi {
 
     //region Views
 
@@ -22,23 +27,37 @@ class TimeDialogUi : ParentUi(), IDialogUi {
 
     //endregion
 
-    private val currentTime get() = Calendar.getInstance()
+    fun onChangeTime(minute: Int) = apply {
+        calendar.add(Calendar.MINUTE, minute)
 
-    // TODO #TEST create UI
+        TimeDialog.callback?.updateTime(calendar)
+    }
 
-    fun onClickCancel() = waitClose { cancelButton.click() }
+    fun onClickCancel() {
+        waitClose { cancelButton.click() }
+        callback.fullAssert()
+    }
 
-    fun onClickApply() = waitClose { applyButton.click() }
+    fun onClickApply() {
+        waitClose { applyButton.click() }
+
+        callback.noteModel.alarmEntity.apply {
+            date = calendar.getString()
+        }
+
+        callback.fullAssert()
+    }
 
 
-    fun assert(dateList: List<String> = ArrayList()) {
+    fun assert() {
         cancelButton.isDisplayed().isEnabled()
-        applyButton.isDisplayed().isEnabled(TimeDialog.getPositiveEnabled(currentTime, dateList))
+        applyButton.isDisplayed().isEnabled(TimeDialog.getPositiveEnabled(calendar, dateList))
     }
 
     companion object {
-        operator fun invoke(func: TimeDialogUi.() -> Unit) =
-                TimeDialogUi().apply { waitOpen { assert() } }.apply(func)
+        operator fun invoke(callback: INoteScreen, calendar: Calendar,
+                            dateList: List<String>, func: TimeDialogUi.() -> Unit) =
+                TimeDialogUi(callback, calendar, dateList).apply { waitOpen { assert() } }.apply(func)
     }
 
 }

@@ -19,23 +19,25 @@ fun Context?.is24Format(): Boolean {
 /**
  * Текущее время в нужном формате
  */
-fun getTime(): String = getDateFormat().format(Calendar.getInstance().time)
+fun getTime(): String = Calendar.getInstance().getString()
 
 fun Calendar.isToday() = DateUtils.isToday(timeInMillis)
 
 fun Calendar.isThisYear() = get(Calendar.YEAR) == Calendar.getInstance().get(Calendar.YEAR)
 
-fun String.getCalendar(): Calendar {
+fun String.getCalendar(): Calendar = let {
     val calendar = Calendar.getInstance()
 
     try {
-        calendar.time = getDateFormat().parse(this)
+        calendar.time = getDateFormat().parse(it)
     } catch (e: Throwable) {
         e.printStackTrace()
     }
 
     return calendar
 }
+
+fun Calendar.getString(): String = let { getDateFormat().format(it.time) }
 
 fun Calendar.beforeNow() = this.before(Calendar.getInstance())
 

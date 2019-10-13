@@ -5,22 +5,22 @@ import sgtmelon.scriptum.R
 import sgtmelon.scriptum.basic.extension.click
 import sgtmelon.scriptum.basic.extension.isDisplayed
 import sgtmelon.scriptum.basic.extension.isEnabled
-import sgtmelon.scriptum.basic.extension.swipeLeft
 import sgtmelon.scriptum.room.entity.AlarmEntity
 import sgtmelon.scriptum.ui.IDialogUi
 import sgtmelon.scriptum.ui.ParentUi
 import sgtmelon.scriptum.ui.screen.note.INoteScreen
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Class for UI control [DateDialog]
  */
-class DateDialogUi(private val callback: INoteScreen, private val updateDate: Boolean) : ParentUi(),
-        IDialogUi {
+class DateDialogUi(
+        private val callback: INoteScreen,
+        private val updateDate: Boolean
+) : ParentUi(), IDialogUi {
 
     //region Views
-
-    private val dayPicker = getViewByName(name = "date_picker_day_picker")
 
     private val resetButton = getViewByText(R.string.dialog_button_reset)
     private val cancelButton = getViewByText(R.string.dialog_button_cancel)
@@ -28,32 +28,34 @@ class DateDialogUi(private val callback: INoteScreen, private val updateDate: Bo
 
     //endregion
 
-    private val currentDate get() = Calendar.getInstance()
+    private val calendar = Calendar.getInstance()
 
+    fun onChangeDate(day: Int) = apply {
+        calendar.add(Calendar.DAY_OF_YEAR, day)
 
-    fun onClickAnotherDay() {
-        repeat(times = 3) { dayPicker.swipeLeft() }
+        DateDialog.callback?.updateDate(calendar)
     }
 
-
-    // TODO #TEST create UI
-
-    fun onClickReset() = waitClose {
-        resetButton.click()
+    fun onClickReset() {
+        waitClose { resetButton.click() }
 
         callback.noteModel.alarmEntity.apply {
-            id = AlarmEntity.ND_ID
             date = AlarmEntity.ND_DATE
         }
 
         callback.fullAssert()
     }
 
-    fun onClickCancel() = waitClose { cancelButton.click() }
+    fun onClickCancel() {
+        waitClose { cancelButton.click() }
 
-    fun onClickApply(func: TimeDialogUi.() -> Unit = {}) = waitClose {
+        callback.fullAssert()
+    }
+
+    fun onClickApply(dateList: List<String> = ArrayList(),
+                     func: TimeDialogUi.() -> Unit = {}) = waitClose {
         applyButton.click()
-        TimeDialogUi.invoke(func)
+        TimeDialogUi.invoke(callback, calendar, dateList, func)
     }
 
     fun assert() {
@@ -64,8 +66,8 @@ class DateDialogUi(private val callback: INoteScreen, private val updateDate: Bo
     }
 
     companion object {
-        operator fun invoke(func: DateDialogUi.() -> Unit, updateDate: Boolean,
-                            callback: INoteScreen) =
+        operator fun invoke(updateDate: Boolean, callback: INoteScreen,
+                            func: DateDialogUi.() -> Unit) =
                 DateDialogUi(callback, updateDate).apply { waitOpen { assert() } }.apply(func)
     }
 
