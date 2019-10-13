@@ -3,23 +3,23 @@
 
     <!-- Info for intro and empty pages -->
     <string name="info_intro_title_1">Two types of notes</string>
-    <string name="info_intro_title_2">Colors</string>
-    <string name="info_intro_title_3">Always near at hand!</string>
-    <string name="info_intro_title_4">Categories</string>
-    <string name="info_intro_title_5">Visibility</string>
-    <string name="info_intro_title_6">Settings</string>
-    <string name="info_intro_title_7">Rubbish bin</string>
+    <string name="info_intro_title_2">Beautiful colors</string>
+    <string name="info_intro_title_3">Categories</string>
+    <string name="info_intro_title_4">Visibility</string>
+    <string name="info_intro_title_5">Notifications</string>
+    <string name="info_intro_title_6">Always near at hand!</string>
+
 
     <string name="info_intro_details_1">You can create text or list</string>
     <string name="info_intro_details_2">Choose one of 11 colors</string>
-    <string name="info_intro_details_3">Bind your notes in the status bar</string>
-    <string name="info_intro_details_4">Group notes by your categories</string>
-    <string name="info_intro_details_5">Hide categories and notes with them</string>
-    <string name="info_intro_details_6">Sort notes\nSet up saving\nChoose app theme</string>
-    <string name="info_intro_details_7">
-        After deleting notes, they are moved to rubbish bin, where they can be restored or
-        permanently delete
+    <string name="info_intro_details_3">Group notes by your categories</string>
+    <string name="info_intro_details_4">
+        Hide categories and focus on what is really important to you now
     </string>
+    <string name="info_intro_details_5">
+        With notification you will not be able to forget important things!
+    </string>
+    <string name="info_intro_details_6">Bind your notes in the status bar</string>
 
     <string name="info_intro_button">Get started</string>
 

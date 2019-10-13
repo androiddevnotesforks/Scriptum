@@ -3,25 +3,21 @@
 
     <!-- Info for intro and empty pages -->
     <string name="info_intro_title_1">Два типа заметок</string>
-    <string name="info_intro_title_2">Цвета</string>
-    <string name="info_intro_title_3">Всегда под рукой!</string>
-    <string name="info_intro_title_4">Категории</string>
-    <string name="info_intro_title_5">Видимость</string>
-    <string name="info_intro_title_6">Настройки</string>
-    <string name="info_intro_title_7">Корзина</string>
+    <string name="info_intro_title_2">Красочные цвета</string>
+    <string name="info_intro_title_3">Категории</string>
+    <string name="info_intro_title_4">Видимость</string>
+    <string name="info_intro_title_5">Уведомления</string>
+    <string name="info_intro_title_6">Всегда под рукой!</string>
+
 
     <string name="info_intro_details_1">Вы можете создать текст или список</string>
     <string name="info_intro_details_2">Выбирайте один из 11 цветов</string>
-    <string name="info_intro_details_3">Закрепляйте свои заметки в статус баре</string>
-    <string name="info_intro_details_4">Группируйте заметки по своим категориям</string>
-    <string name="info_intro_details_5">Скрывайте категории и заметки вместе с ними</string>
-    <string name="info_intro_details_6">
-        Сортируйте заметки\nНастраивайте сохранение\nВыбирайте тему приложения
+    <string name="info_intro_details_3">Группируйте заметки по своим категориям</string>
+    <string name="info_intro_details_4">
+        Скрывайте категории и сфокусируйтесь на том, что действительно важно для вас сейчас!
     </string>
-    <string name="info_intro_details_7">
-        После удаления заметки перемещаются в корзину, откуда их можно восстановить или
-        удалить окончательно
-    </string>
+    <string name="info_intro_details_5">С напоминаниями вы не забудете о своих важных делах!</string>
+    <string name="info_intro_details_6">Закрепляйте свои заметки в статус баре</string>
 
     <string name="info_intro_button">Приступить к работе</string>
 
