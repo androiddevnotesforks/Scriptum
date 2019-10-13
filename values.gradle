@@ -9,8 +9,8 @@ ext {
     jetbrains = [
             kotlin    : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50",
             coroutines: [
-                    core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.1",
-                    android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.1"
+                    core   : "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2",
+                    android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.2"
             ]
     ]
 
@@ -20,21 +20,21 @@ ext {
 
     androidx = [
             lifecycle       : [
-                    extensions: "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha01",
-                    viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-alpha01",
-                    compiler  : "androidx.lifecycle:lifecycle-compiler:2.2.0-alpha01",
+                    extensions: "androidx.lifecycle:lifecycle-extensions:2.2.0-beta01",
+                    viewmodel : "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0-beta01",
+                    compiler  : "androidx.lifecycle:lifecycle-compiler:2.2.0-beta01",
             ],
             room            : [
-                    runtime : "androidx.room:room-runtime:2.1.0",
-                    compiler: "androidx.room:room-compiler:2.1.0",
-                    testing : "androidx.room:room-testing:2.1.0"
+                    runtime : "androidx.room:room-runtime:2.2.0",
+                    compiler: "androidx.room:room-compiler:2.2.0",
+                    testing : "androidx.room:room-testing:2.2.0"
             ],
-            appcompat       : "androidx.appcompat:appcompat:1.1.0-alpha05",
+            appcompat       : "androidx.appcompat:appcompat:1.1.0",
             cardview        : "androidx.cardview:cardview:1.0.0 ",
             constraintlayout: "androidx.constraintlayout:constraintlayout:1.1.3",
             vector          : [
-                    drawable: "androidx.vectordrawable:vectordrawable:1.0.1",
-                    animated: "androidx.vectordrawable:vectordrawable-animated:1.0.0"
+                    drawable: "androidx.vectordrawable:vectordrawable:1.1.0",
+                    animated: "androidx.vectordrawable:vectordrawable-animated:1.1.0"
             ],
             test            : [
                     instrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
@@ -65,6 +65,6 @@ ext {
     ]
 
     json = [
-            core: "org.json:json:20140107"
+            core: "org.json:json:20190722"
     ]
 }
