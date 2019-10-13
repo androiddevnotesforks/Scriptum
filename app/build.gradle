@@ -14,7 +14,7 @@ android {
         applicationId "sgtmelon.scriptum"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 6
+        versionCode 7
         versionName git.version.windows.execute().text.trim()
 
         testInstrumentationRunner androidx.test.instrumentationRunner
@@ -67,7 +67,7 @@ android {
 
 dependencies {
     implementation project(":iconanim")
-    implementation project(":idling")
+    debugImplementation project(":idling")
     implementation project(":safedialog")
     implementation project(":extension")
 
