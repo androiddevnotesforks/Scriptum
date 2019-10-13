@@ -1,6 +1,6 @@
 package sgtmelon.scriptum.basic.extension
 
-import sgtmelon.extension.getDateFormat
+import sgtmelon.extension.getString
 import java.util.*
 
 fun waitBefore(time: Long, func: () -> Unit = {}) {
@@ -13,9 +13,13 @@ fun waitAfter(time: Long, func: () -> Unit) {
     Thread.sleep(time)
 }
 
-fun getFutureTime(): String = getDateFormat().format(
-        Date(Calendar.getInstance().timeInMillis + Random().nextLong())
-)
+fun getFutureTime(): String = Calendar.getInstance().apply {
+    set(Calendar.SECOND, 0)
+
+    add(Calendar.MINUTE, (1..60).random())
+    add(Calendar.HOUR_OF_DAY, (1..12).random())
+    add(Calendar.DAY_OF_YEAR, (10..30).random())
+}.getString()
 
 /**
  * Add minutes for current time

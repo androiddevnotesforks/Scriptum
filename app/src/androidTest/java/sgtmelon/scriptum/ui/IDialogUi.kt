@@ -14,9 +14,12 @@ interface IDialogUi : IPressBack {
 
     fun waitOpen(func: () -> Unit) = waitBefore(TIME_OPEN) { func() }
 
+    fun waitOperation(func: () -> Unit) = waitAfter(TIME_OPERATION) { func() }
+
     private companion object {
         const val TIME_CLOSE = 300L
         const val TIME_OPEN = 100L
+        const val TIME_OPERATION = 500L
     }
 
 }

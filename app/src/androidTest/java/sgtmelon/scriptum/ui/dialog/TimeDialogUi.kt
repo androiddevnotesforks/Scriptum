@@ -27,10 +27,23 @@ class TimeDialogUi(
 
     //endregion
 
-    fun onChangeTime(minute: Int) = apply {
-        calendar.add(Calendar.MINUTE, minute)
+    fun onTime(min: Int) = apply {
+        calendar.add(Calendar.MINUTE, min)
 
         TimeDialog.callback?.updateTime(calendar)
+
+        waitOperation { assert() }
+    }
+
+    fun onTime(calendar: Calendar) = apply {
+        this.calendar.apply {
+            set(Calendar.HOUR_OF_DAY, calendar.get(Calendar.HOUR_OF_DAY))
+            set(Calendar.MINUTE, calendar.get(Calendar.MINUTE))
+        }
+
+        TimeDialog.callback?.updateTime(calendar)
+
+        waitOperation { assert() }
     }
 
     fun onClickCancel() {

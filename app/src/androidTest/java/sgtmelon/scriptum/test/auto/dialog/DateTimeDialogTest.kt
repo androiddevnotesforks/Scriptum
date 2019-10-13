@@ -3,6 +3,7 @@ package sgtmelon.scriptum.test.auto.dialog
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import sgtmelon.extension.getCalendar
 import sgtmelon.scriptum.basic.extension.waitAfter
 import sgtmelon.scriptum.test.ParentUiTest
 
@@ -42,7 +43,7 @@ class DateTimeDialogTest : ParentUiTest() {
                         controlPanel {
                             onNotification {
                                 onClickApply {
-                                    onChangeTime(minute = 2)
+                                    onTime(min = 2)
                                     waitAfter(TOAST_TIME) { onClickApply() }
                                 }
                             }
@@ -60,11 +61,45 @@ class DateTimeDialogTest : ParentUiTest() {
                     openTextNote(it) {
                         controlPanel {
                             onNotification {
-                                onChangeDate(day = 1)
-                                onClickApply {
-                                    onChangeTime(minute = 2)
+                                onDate(day = 1).onClickApply {
+                                    onTime(min = 2)
                                     waitAfter(TOAST_TIME) { onClickApply() }
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    @Test fun timeApplyEnablePast() = data.insertText().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) {
+                        controlPanel {
+                            onNotification { onClickApply { onTime(min = -1).onTime(min = 3) } }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test fun timeApplyEnableList() = data.insertText().let {
+        launch {
+            mainScreen {
+                notesScreen {
+                    openTextNote(it) {
+                        val date = data.insertNotification().alarmEntity.date
+                        val calendar = date.getCalendar()
+                        val dateList = arrayListOf(date)
+
+                        controlPanel {
+                            onNotification {
+                                onDate(calendar).onClickApply(dateList) { onTime(calendar) }
                             }
                         }
                     }

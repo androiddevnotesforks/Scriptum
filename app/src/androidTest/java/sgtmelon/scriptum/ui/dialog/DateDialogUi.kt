@@ -28,12 +28,28 @@ class DateDialogUi(
 
     //endregion
 
-    private val calendar = Calendar.getInstance()
+    private val calendar = Calendar.getInstance().apply {
+        set(Calendar.SECOND, 0)
+    }
 
-    fun onChangeDate(day: Int) = apply {
+    fun onDate(day: Int) = apply {
         calendar.add(Calendar.DAY_OF_YEAR, day)
 
         DateDialog.callback?.updateDate(calendar)
+
+        waitOperation { assert() }
+    }
+
+    fun onDate(calendar: Calendar) = apply {
+        this.calendar.apply {
+            set(Calendar.YEAR, calendar.get(Calendar.YEAR))
+            set(Calendar.MONTH, calendar.get(Calendar.MONTH))
+            set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH))
+        }
+
+        DateDialog.callback?.updateDate(calendar)
+
+        waitOperation { assert() }
     }
 
     fun onClickReset() {
