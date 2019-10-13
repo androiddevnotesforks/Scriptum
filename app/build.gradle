@@ -67,9 +67,10 @@ android {
 
 dependencies {
     implementation project(":iconanim")
-    debugImplementation project(":idling")
     implementation project(":safedialog")
     implementation project(":extension")
+
+    debugImplementation project(":idling")
 
     //region Kotlin
 

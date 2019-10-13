@@ -1,1 +1,1 @@
-include ':app', ':iconanim', ':idling', ':safedialog', ':extension', ':intro'
+include ':app', ':iconanim', ':idling', ':safedialog', ':extension'
