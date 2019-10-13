@@ -15,18 +15,20 @@ import sgtmelon.scriptum.test.ParentUiTest
 @RunWith(AndroidJUnit4::class)
 class AlarmTest : ParentUiTest() {
 
-    // TODO #TEST open note -> close by back press
-
     @Test fun openTextNote() = data.insertText().let {
         launchAlarm(it) { openAlarm(it) { openTextNote() } }
     }
 
     @Test fun backTextNote() = data.insertText().let {
-        launchAlarm(it) { openAlarm(it) { openTextNote {  }} }
+        launchAlarm(it) { openAlarm(it) { openTextNote { onPressClose() }} }
     }
 
     @Test fun openRollNote() = data.insertRoll().let {
         launchAlarm(it) { openAlarm(it) { openRollNote() } }
+    }
+
+    @Test fun backRollNote() = data.insertRoll().let {
+        launchAlarm(it) { openAlarm(it) { openRollNote { onPressClose() }} }
     }
 
     @Test fun clickDisable() = data.insertNote().let {
