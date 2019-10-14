@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,13 +27,13 @@ import sgtmelon.scriptum.listener.ItemListener
 import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
+import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
-import kotlin.concurrent.fixedRateTimer
 
 /**
  * Fragment which displays list of categories - [RankEntity]
  */
-class RankFragment : Fragment(), IRankFragment {
+class RankFragment : ParentFragment(), IRankFragment {
 
     private var binding: FragmentRankBinding? = null
 
@@ -43,7 +42,7 @@ class RankFragment : Fragment(), IRankFragment {
     private val iBindControl: IBindControl by lazy { BindControl(context) }
 
     private val openState = OpenState()
-    private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fragmentManager) }
+    private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fm) }
 
     private val adapter by lazy {
         RankAdapter(object: ItemListener.Click {
@@ -205,8 +204,6 @@ class RankFragment : Fragment(), IRankFragment {
     }
 
     override fun showRenameDialog(p: Int, name: String, nameList: List<String>) {
-        val fm = fragmentManager ?: return
-
         openState.tryInvoke {
             renameDialog.setArguments(p, name, nameList).show(fm, DialogFactory.Main.RENAME)
         }

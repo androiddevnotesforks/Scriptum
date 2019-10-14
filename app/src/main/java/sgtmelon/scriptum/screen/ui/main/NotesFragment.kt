@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +28,7 @@ import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.AlarmReceiver
 import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IMainActivity
 import sgtmelon.scriptum.screen.ui.callback.main.INotesFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
@@ -38,7 +38,7 @@ import sgtmelon.scriptum.screen.ui.preference.PreferenceActivity
 /**
  * Fragment which displays list of notes - [NoteEntity]
  */
-class NotesFragment : Fragment(), INotesFragment {
+class NotesFragment : ParentFragment(), INotesFragment {
 
     private val mainCallback: IMainActivity? by lazy { context as? IMainActivity }
 
@@ -51,7 +51,7 @@ class NotesFragment : Fragment(), INotesFragment {
     private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
-    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
+    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fm) }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
@@ -168,8 +168,6 @@ class NotesFragment : Fragment(), INotesFragment {
     }
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
-        val fm = fragmentManager ?: return
-
         optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
     }
 

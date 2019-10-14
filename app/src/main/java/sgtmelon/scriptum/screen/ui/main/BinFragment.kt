@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,13 +25,14 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.annotation.Theme
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.NoteEntity
+import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.main.IBinFragment
 import sgtmelon.scriptum.screen.ui.note.NoteActivity
 
 /**
  * Fragment which displays list of deleted notes - [NoteEntity]
  */
-class BinFragment : Fragment(), IBinFragment {
+class BinFragment : ParentFragment(), IBinFragment {
 
     private var binding: FragmentBinBinding? = null
 
@@ -41,8 +41,8 @@ class BinFragment : Fragment(), IBinFragment {
     private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
-    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(parentFragmentManager) }
-    private val clearBinDialog by lazy { DialogFactory.Main.getClearBinDialog(context, parentFragmentManager) }
+    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fm) }
+    private val clearBinDialog by lazy { DialogFactory.Main.getClearBinDialog(context, fm) }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
@@ -95,9 +95,7 @@ class BinFragment : Fragment(), IBinFragment {
             title = getString(R.string.title_bin)
             inflateMenu(R.menu.fragment_bin)
             setOnMenuItemClickListener {
-                fragmentManager?.let {
-                    openState.tryInvoke { clearBinDialog.show(it, DialogFactory.Main.CLEAR_BIN) }
-                }
+                openState.tryInvoke { clearBinDialog.show(fm, DialogFactory.Main.CLEAR_BIN) }
                 return@setOnMenuItemClickListener true
             }
         }
@@ -150,8 +148,6 @@ class BinFragment : Fragment(), IBinFragment {
     }
 
     override fun showOptionsDialog(itemArray: Array<String>, p: Int) {
-        val fm = fragmentManager ?: return
-
         optionsDialog.setArguments(itemArray, p).show(fm, DialogFactory.Main.OPTIONS)
     }
 

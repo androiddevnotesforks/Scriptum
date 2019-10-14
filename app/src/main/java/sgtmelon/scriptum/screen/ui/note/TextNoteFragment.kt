@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import sgtmelon.extension.formatFuture
@@ -35,6 +34,7 @@ import sgtmelon.scriptum.model.key.NoteType
 import sgtmelon.scriptum.model.state.NoteState
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.receiver.AlarmReceiver
+import sgtmelon.scriptum.screen.ui.ParentFragment
 import sgtmelon.scriptum.screen.ui.callback.note.text.ITextNoteFragment
 import java.util.*
 
@@ -42,7 +42,7 @@ import java.util.*
 /**
  * Фрагмент для отображения тектовой заметки
  */
-class TextNoteFragment : Fragment(), ITextNoteFragment {
+class TextNoteFragment : ParentFragment(), ITextNoteFragment {
 
     private var binding: FragmentTextNoteBinding? = null
 
@@ -53,7 +53,7 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
     private var menuControl: MenuControl? = null
 
     private val openState = OpenState()
-    private val dialogFactory by lazy { DialogFactory.Note(context, fragmentManager) }
+    private val dialogFactory by lazy { DialogFactory.Note(context, fm) }
 
     private val rankDialog by lazy { dialogFactory.getRankDialog() }
     private val colorDialog by lazy { dialogFactory.getColorDialog() }
@@ -261,39 +261,31 @@ class TextNoteFragment : Fragment(), ITextNoteFragment {
 
     override fun showRankDialog(check: Int) = openState.tryInvoke {
         hideKeyboard()
-        fragmentManager?.let {
-            rankDialog.setArguments(check).show(it, DialogFactory.Note.RANK)
-        }
+        rankDialog.setArguments(check).show(fm, DialogFactory.Note.RANK)
     }
 
     override fun showColorDialog(@Color color: Int) = openState.tryInvoke {
         menuControl?.setColorFrom(color)
 
         hideKeyboard()
-        fragmentManager?.let {
-            colorDialog.setArguments(color).show(it, DialogFactory.Note.COLOR)
-        }
+        colorDialog.setArguments(color).show(fm, DialogFactory.Note.COLOR)
     }
 
     override fun showDateDialog(calendar: Calendar, resetVisible: Boolean) = openState.tryInvoke {
         hideKeyboard()
-        fragmentManager?.let {
-            dateDialog.setArguments(calendar, resetVisible).show(it, DialogFactory.Note.DATE)
-        }
+        dateDialog.setArguments(calendar, resetVisible).show(fm, DialogFactory.Note.DATE)
     }
 
     override fun showTimeDialog(calendar: Calendar, dateList: List<String>) = openState.tryInvoke({
         clear()
     }) {
         hideKeyboard()
-        fragmentManager?.let {
-            timeDialog.setArguments(calendar, dateList).show(it, DialogFactory.Note.TIME)
-        }
+        timeDialog.setArguments(calendar, dateList).show(fm, DialogFactory.Note.TIME)
     }
 
     override fun showConvertDialog() = openState.tryInvoke {
         hideKeyboard()
-        fragmentManager?.let { convertDialog.show(it, DialogFactory.Note.CONVERT) }
+        convertDialog.show(fm, DialogFactory.Note.CONVERT)
     }
 
 
