@@ -92,7 +92,7 @@ class NoteActivity : AppActivity(), INoteActivity, INoteChild {
 
     private fun showFragment(key: String, fragment: Fragment) = supportFragmentManager
             .beginTransaction()
-            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            .setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
             .replace(R.id.note_fragment_container, fragment, key)
             .commit()
 

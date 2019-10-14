@@ -114,7 +114,7 @@ class MainActivity : AppActivity(), IMainActivity {
     override fun showPage(pageFrom: MainPage, pageTo: MainPage) {
         with(supportFragmentManager) {
             beginTransaction().apply {
-                setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                setCustomAnimations(R.anim.fade_in, R.anim.fade_out)
 
                 if (findFragmentByTag(pageFrom.getFragmentTag()) != null) {
                     hide(pageFrom.getFragmentByName())

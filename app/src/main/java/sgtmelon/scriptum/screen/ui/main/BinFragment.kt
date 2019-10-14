@@ -41,8 +41,8 @@ class BinFragment : Fragment(), IBinFragment {
     private val iClipboardCompiler: IClipboardControl by lazy { ClipboardControl(context) }
 
     private val openState = OpenState()
-    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
-    private val clearBinDialog by lazy { DialogFactory.Main.getClearBinDialog(context, fragmentManager) }
+    private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(parentFragmentManager) }
+    private val clearBinDialog by lazy { DialogFactory.Main.getClearBinDialog(context, parentFragmentManager) }
 
     private val adapter: NoteAdapter by lazy {
         NoteAdapter(object : ItemListener.Click {
