@@ -32,6 +32,7 @@ class RankHolder(private val binding: ItemRankBinding,
         clickView.setOnClickListener { v ->
             checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
         }
+
         cancelButton.setOnClickListener { v ->
             checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
         }

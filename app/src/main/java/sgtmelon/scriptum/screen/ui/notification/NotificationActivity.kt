@@ -40,10 +40,14 @@ class NotificationActivity : AppActivity(), INotificationActivity {
     private val openState = OpenState()
 
     private val adapter: NotificationAdapter by lazy {
-        NotificationAdapter(ItemListener.Click { v, p ->
-            when (v.id) {
-                R.id.notification_click_container -> openState.tryInvoke { iViewModel.onClickNote(p) }
-                R.id.notification_cancel_button -> iViewModel.onClickCancel(p)
+        NotificationAdapter(object: ItemListener.Click {
+            override fun onItemClick(view: View, p: Int) {
+                when (view.id) {
+                    R.id.notification_click_container -> openState.tryInvoke {
+                        iViewModel.onClickNote(p)
+                    }
+                    R.id.notification_cancel_button -> iViewModel.onClickCancel(p)
+                }
             }
         })
     }

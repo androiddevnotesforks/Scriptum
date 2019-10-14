@@ -55,7 +55,11 @@ class AlarmActivity : AppActivity(), IAlarmActivity {
     private val openState = OpenState()
 
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(ItemListener.Click { _, _ -> openState.tryInvoke { iViewModel.onClickNote() } })
+        NoteAdapter(object : ItemListener.Click {
+            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
+                iViewModel.onClickNote()
+            }
+        })
     }
 
     //region Views

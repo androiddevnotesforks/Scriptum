@@ -22,7 +22,9 @@ class NoteTextHolder(private val binding: ItemNoteTextBinding,
 
     init {
         clickView.apply {
-            setOnClickListener { v -> checkNoPosition { clickListener.onItemClick(v, adapterPosition) } }
+            setOnClickListener { v ->
+                checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
+            }
 
             if (longClickListener == null) return@apply
 

@@ -22,7 +22,9 @@ class NoteRollHolder(private val binding: ItemNoteRollBinding,
 
     init {
         clickView.apply {
-            setOnClickListener { v -> checkNoPosition { clickListener.onItemClick(v, adapterPosition) } }
+            setOnClickListener { v ->
+                checkNoPosition { clickListener.onItemClick(v, adapterPosition) }
+            }
 
             if (longClickListener == null) return@apply
 

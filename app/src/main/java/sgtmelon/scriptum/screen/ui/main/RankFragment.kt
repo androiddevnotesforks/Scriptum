@@ -29,6 +29,7 @@ import sgtmelon.scriptum.model.NoteModel
 import sgtmelon.scriptum.model.state.OpenState
 import sgtmelon.scriptum.room.entity.RankEntity
 import sgtmelon.scriptum.screen.ui.callback.main.IRankFragment
+import kotlin.concurrent.fixedRateTimer
 
 /**
  * Fragment which displays list of categories - [RankEntity]
@@ -45,13 +46,17 @@ class RankFragment : Fragment(), IRankFragment {
     private val renameDialog by lazy { DialogFactory.Main.getRenameDialog(fragmentManager) }
 
     private val adapter by lazy {
-        RankAdapter(ItemListener.Click { view, p ->
-            when (view.id) {
-                R.id.rank_visible_button -> iViewModel.onClickVisible(p)
-                R.id.rank_click_container -> iViewModel.onShowRenameDialog(p)
-                R.id.rank_cancel_button -> iViewModel.onClickCancel(p)
+        RankAdapter(object: ItemListener.Click {
+            override fun onItemClick(view: View, p: Int) {
+                when (view.id) {
+                    R.id.rank_visible_button -> iViewModel.onClickVisible(p)
+                    R.id.rank_click_container -> iViewModel.onShowRenameDialog(p)
+                    R.id.rank_cancel_button -> iViewModel.onClickCancel(p)
+                }
             }
-        }, ItemListener.LongClick { _, p -> iViewModel.onLongClickVisible(p) })
+        }, object : ItemListener.LongClick {
+            override fun onItemLongClick(view: View, p: Int) = iViewModel.onLongClickVisible(p)
+        })
     }
     private val layoutManager by lazy { LinearLayoutManager(context) }
 

@@ -45,9 +45,11 @@ class ColorDialog : BlankDialog() {
 
             (itemAnimator as? SimpleItemAnimator)?.supportsChangeAnimations = false
 
-            adapter = ColorAdapter(context, ItemListener.Click { _, p ->
-                check = p
-                setEnable()
+            adapter = ColorAdapter(context, object : ItemListener.Click {
+                override fun onItemClick(view: View, p: Int) {
+                    check = p
+                    setEnable()
+                }
             }).setCheck(check)
         }
 

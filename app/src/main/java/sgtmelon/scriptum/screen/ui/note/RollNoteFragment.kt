@@ -73,10 +73,11 @@ class RollNoteFragment : Fragment(), IRollNoteFragment {
     private val convertDialog by lazy { dialogFactory.getConvertDialog(NoteType.ROLL) }
 
     private val adapter: RollAdapter by lazy {
-        RollAdapter(iViewModel,
-                ItemListener.Click { _, p -> iViewModel.onClickItemCheck(p) },
-                ItemListener.LongClick { _, _ -> iViewModel.onLongClickItemCheck() }
-        )
+        RollAdapter(iViewModel, object : ItemListener.Click {
+            override fun onItemClick(view: View, p: Int) = iViewModel.onClickItemCheck(p)
+        }, object : ItemListener.LongClick {
+            override fun onItemLongClick(view: View, p: Int) = iViewModel.onLongClickItemCheck()
+        })
     }
     private val layoutManager by lazy { LinearLayoutManager(activity) }
 

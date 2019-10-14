@@ -54,10 +54,13 @@ class NotesFragment : Fragment(), INotesFragment {
     private val optionsDialog by lazy { DialogFactory.Main.getOptionsDialog(fragmentManager) }
 
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(
-                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
-                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
-        )
+        NoteAdapter(object : ItemListener.Click {
+            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
+                iViewModel.onClickNote(p)
+            }
+        }, object : ItemListener.LongClick {
+            override fun onItemLongClick(view: View, p: Int) = iViewModel.onShowOptionsDialog(p)
+        })
     }
 
     private var parentContainer: ViewGroup? = null

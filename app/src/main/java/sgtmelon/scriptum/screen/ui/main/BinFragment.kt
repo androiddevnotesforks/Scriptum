@@ -45,10 +45,13 @@ class BinFragment : Fragment(), IBinFragment {
     private val clearBinDialog by lazy { DialogFactory.Main.getClearBinDialog(context, fragmentManager) }
 
     private val adapter: NoteAdapter by lazy {
-        NoteAdapter(
-                ItemListener.Click { _, p -> openState.tryInvoke { iViewModel.onClickNote(p) } },
-                ItemListener.LongClick { _, p -> iViewModel.onShowOptionsDialog(p) }
-        )
+        NoteAdapter(object : ItemListener.Click {
+            override fun onItemClick(view: View, p: Int) = openState.tryInvoke {
+                iViewModel.onClickNote(p)
+            }
+        }, object : ItemListener.LongClick {
+            override fun onItemLongClick(view: View, p: Int) = iViewModel.onShowOptionsDialog(p)
+        })
     }
 
     private var toolbar: Toolbar? = null
